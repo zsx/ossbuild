@@ -1,0 +1,185 @@
+This is GStreamer FFmpeg Plug-ins 0.10.7, "Some high ground is not worth taking"
+
+Changes since 0.10.6:
+
+      * Update to ffmpeg 0.5 release
+      * Support channel layouts for multichannel audio
+      * Add mappings for new codecs: Real Video 3.0, EAC3, QCELP, IMC,
+        MLP and more
+      * Support push-based demuxers
+      * Expose preload and maxdelay muxer properties
+
+Bugs fixed since 0.10.6:
+     
+      * 573400 : [gstffmpegdec] crashes with hardware-accelerated decoders.
+      * 575759 : Regression in framerates
+      * 392534 : ffdemux enhancement: push based scheduling
+      * 548002 : libavcodec doesn't provide audio channel mappings
+      * 560644 : ffmpegdec leaks memory when gst_ffmpegdec_open is not called
+      * 563305 : gst-ffmpeg 0.10.6 build from tarball fails
+      * 564867 : Killing the gst-ffmpeg dependency on libbz2
+      * 565269 : GStreamer can't play newset Terminator: Salvation HD 1080...
+      * 566647 : [ffenc_amr_*] wrong number of channels and wrong samplera...
+      * 567336 : Text file detected as VC1 video
+      * 569441 : Use AVCodec.sample_fmts for list of compatible sample for...
+      * 570975 : Enable DVD Muxer
+      * 572863 : ffmpeg requires 128bit-aligned buffers.
+      * 573649 : Buffer overflow in gst gstffmpegaudioresample
+      * 574663 : [gstffcodecmap] Unused codec mapping for ATRAC3 codec
+      * 574746 : Disable external library decoders/encoders
+      * 574814 : Bogus muxer/demuxer/typefind are exposed
+      * 575664 : ffmux_amr disappeared
+      * 566250 : [ffdec_aac] Crash in gst_ffmpegdec_audio_frame
+
+Changes since 0.10.5:
+    
+      * Update ffmpeg and libswscale snapshot
+      * Prefer aspect ratios prescribed by the container over the codec
+      * Improve ffmpeg encoders wrapping
+      * Rewrite ffvideoscale to use libswscale
+      * Improve H.264 wrapping
+
+Bugs fixed since 0.10.5:
+     
+      * 350738 : [ffvideoscale] GStreamer-Critical when pixel-aspects-rati...
+      * 504056 : [ffvideoscale] Switch to using libswscale
+      * 542216 : cross compilation and mingw32 support
+      * 548304 : missing check for bz2 library and header
+      * 551046 : gst-ffmpeg configure complains about libz2, should be libbz2
+      * 556336 : [PATCH] gstffmpegdec.c: prefer demuxer's pixel aspect rat...
+      * 556405 : gst-ffmpeg fails to build against 20081014 ffmpeg snapshot
+      * 560137 : Two build fixes for using system ffmpeg
+      * 560305 : x264enc & ffmux_* doesnt link
+
+Changes since 0.10.4:
+
+      * Updated to upstream ffmpeg revision r15004 (28th Aug 2008)
+
+Bugs fixed since 0.10.4:
+
+      * 371939 : mov/mp4/m4a/3gp/3g2 muxers create wrong durations
+      * 383420 : [ffmpeg] ISO-derivative muxers don't handle audio correctly
+      * 518705 : Can't play streams from Rai.it
+      * 533708 : broken mpeg-ts typefinding?
+      * 534371 : autogen.sh not dist'ed
+      * 534390 : Patch: use av_picture_copy instead of swscale to copy pic...
+      * 534392 : PATCH: never use ffdec_faad
+      * 534783 : Remove FLV demuxer
+      * 540401 : Garbled sound instead of music
+      * 549799 : all audio codecs claim to support up to 6 channels
+
+Changes since 0.10.3:
+    
+      * New build system based on direct upstream FFmpeg svn
+      * Much newer FFmpeg with more decoders
+      * New ffaudioresample element
+      * Better timestamp handling
+      * Basic reverse playback
+      * New codecs wrapped
+
+Bugs fixed since 0.10.3:
+
+      * 504056 : [ffvideoscale] Switch to using libswscale
+      * 488913 : Move to a saner ffmpeg checkout system
+      * 321662 : reenable our get_buffer function in gst-ffmpeg
+      * 334707 : ffmpeg reads past the end of data passed to it
+      * 337866 : [ffmpeg] timestamps wrong
+      * 338989 : [ffenc_mjpeg] Creates garbled content
+      * 359965 : ffenc_huffyuv broken
+      * 394208 : Compile Error on Intel Mac OS X
+      * 421068 : ffenc_h263p -- missing options
+      * 427082 : [fixed upstream] totem crashes when trying to play an .AIF
+      * 449420 : [fixed upstream] [FLV] Incorrect FLV frame sizes
+      * 467121 : [fixed upstream] WVC1 codec
+      * 482660 : h264 playback is not smooth
+      * 496127 : [deinterlace/scale/postproc] support for non-I420 colorsp...
+      * 503249 : Add GIF support
+      * 503733 : PATCH: stop gst-inspect --print-all from crashing when gs...
+      * 510745 : Add musepack sv7 support
+      * 510985 : Don't register typefinders for which we have replacements...
+      * 511011 : gst-ffmpeg autogen.sh not checking for subversion presence
+      * 511476 : Missing codec inside gstffmpegcodecmap.c
+      * 515205 : Dubious .flv file crashes totem
+      * 515811 : add debug-mv property to ffdec_*
+      * 518033 : Add Monkey's Audio (APE) support
+      * 519235 : make clean twice produces some error messages
+      * 528082 : [ffmpeg] compile error
+      * 529015 : Port from deprecated img_convert to swscale
+      * 531857 : Can't play WVC1 videos
+      * 532803 : Doesn't build properly with system ffmpeg
+     
+Changes since 0.10.2:
+    
+      * Memory usage fixes
+      * Playback and seeking fixes
+      * Improved QOS support
+      * Parallel installability with 0.8.x series
+      * Threadsafe design and API
+
+Bugs fixed in since 0.10.1:
+     
+      * 331323 : [ffdec_mp3] crashing while playing mp3
+      * 332339 : FFmpeg muxers port to 0.10
+      * 324279 : add build infrastructure for tests
+      * 324366 : gst-ffmpeg doesn't support --disable-encoders
+      * 327257 : playing mpeg video hangs
+      * 338928 : [ffdemux_aac] shouldn't be autoplugged, as it can't work ...
+      * 339042 : expose Apple Quick Draw decoder
+      * 341234 : Totem SIGABRTs when trying to play 3gp
+      * 341715 : 'Element doesn't implement handling of this stream. Pleas...
+      * 341738 : WMV/WMA8 movie stutters, gets audio out of sync
+      * 343604 : [ffmpeg]: Support two passes encoding
+      * 343951 : patch for win32+vs6
+      * 347984 : Internal GStreamer error in ffdec_mpeg4
+      * 348031 : rtpdepay does not add framerate capability
+      * 351437 : [PATCH] ffmpeg postproc ported to 0.10
+      * 351791 : Crashes playing crasher.nsv
+      * 355584 : gst-ffmpeg / ffenc_flv generates unusable files
+      * 359545 : ffdemux_mpegts broken
+      * 361636 : h263 variant not specified with CODEC_ID_H263
+      * 363365 : Please update the ffmpeg snapshot
+      * 364956 : Caps incompatibilities for AMR
+      * 383009 : CVE-2006-4800 4xm buffer overflow
+      * 344583 : [PATCH] ffmpegenc to support/expose more avcodec properties
+      * 351415 : (some) ffenc produce garbled results
+      * 352579 : [avidemux] cane toad movie: sometimes no audio after seek
+      * 378796 : broken ffmux_mov
+
+
+Changes since 0.10.0:
+
+      * ffvideoscale ported
+      * ffdeinterlace ported
+      * demuxer wrapper works pull-based
+      * disabled mpeg2 video and mp3 audio autoplugging
+      * fixes for Indeo3, PNG, smc, H264 HD, H263, FLV1, G2
+
+Bugs fixed since 0.10.0:
+    
+      * 162833 : [ffdemux_mp3] ffmpeg mp3 decoder miss seeking
+      * 311272 : Reading mpeg-ts stream from standard input does not work
+      * 319248 : configure script doesn't accept --with-pkg-config-path ar...
+      * 320238 : Fails to build under powerpc
+      * 322254 : avcodec_open()/close() aren't thread-safe
+      * 323286 : [ffdec_cinepak] chef.avi causes gstreamer to hang in preroll
+      * 326372 : Indeo AVI files do not play with 0.10
+      * 326704 : [ffdec] Memory leak when joining pcache
+      * 327028 : MS Video 1 palettized AVI doesn't work
+      * 327224 : ffdeinterlace port to 0.10
+      * 327861 : [ffmpegenc] FFMpeg audio encoders do not set caps to buffers
+      * 329963 : gstreamer CVS doesn't work with ffmpeg codecs
+      * 330634 : Wrap the ffmpeg demuxers
+      * 331209 : [ffdec_h264] seeking in " IntoTheBlue_Cin_AVC.mp4 " crashes...
+      * 332072 : Too fast playback of h263p encoded file
+      * 332557 : FFmpeg video scale port to 0.10
+      * 332995 : segfault in ffmpeg enc
+      * 333001 : Memory leak in ffmpegenc
+      * 324209 : [CVE-2005-4048] avcodec_default_get_buffer heap overflow
+
+Changes since 0.9.6:
+
+      * Improved pixel aspect ratio handling
+        
+Changes since 0.9.4:
+    
+      * DivX fix
