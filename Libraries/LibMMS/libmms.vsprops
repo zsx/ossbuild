@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="libmms"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		InlineFunctionExpansion="2"
+		FavorSizeOrSpeed="1"
+		AdditionalIncludeDirectories=".;Source;Source\src;&quot;$(IntDir)&quot;"
+		PreprocessorDefinitions="WIN32"
+		RuntimeLibrary="2"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="ws2_32.lib wsock32.lib"
+		OutputFile="$(OutDir)\bin\$(ProjectName).dll"
+		Version="$(LibMmsVersionString)"
+		GenerateManifest="false"
+		ModuleDefinitionFile="libmms.def"
+		ImportLibrary="$(OutDir)\lib\$(TargetName).lib"
+	/>
+</VisualStudioPropertySheet>
