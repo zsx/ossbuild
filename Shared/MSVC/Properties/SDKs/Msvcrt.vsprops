@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Msvcrt"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="$(SolutionDir)Shared\SDKs\MSVCRT\include;$(SolutionDir)Shared\SDKs\MSVCRT\include\atl71"
+		PreprocessorDefinitions="WHISTLER_DDK;_DLL=1;_MT=1;_CRT_NONSTDC_FORCE_DEPRECATE;_CRT_SECURE_FORCE_DEPRECATE"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="oldnames.lib msvcrt.lib msvcrt_upgrade.obj"
+		AdditionalLibraryDirectories="$(SolutionDir)Shared\SDKs\MSVCRT\lib\$(PlatformName)"
+		IgnoreDefaultLibraryNames=""
+		EntryPointSymbol="_DllMainCRTStartup@12"
+	/>
+</VisualStudioPropertySheet>

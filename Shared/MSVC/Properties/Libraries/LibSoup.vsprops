@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibSoup"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\libsoup-$(LibSoupApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\libsoup-$(LibSoupApiVersionString)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="soup-$(LibSoupLibVersionString).lib"
+	/>
+</VisualStudioPropertySheet>

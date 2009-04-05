@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibXml"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\libxml2&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\libxml2&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="xml2.lib"
+	/>
+</VisualStudioPropertySheet>

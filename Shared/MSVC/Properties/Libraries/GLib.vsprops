@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GLib"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\glib-$(GLibApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\glib-$(GLibApiVersionString)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="glib-$(GLibLibVersionString).lib gobject-$(GLibLibVersionString).lib gthread-$(GLibLibVersionString).lib gmodule-$(GLibLibVersionString).lib gio-$(GLibLibVersionString).lib"
+	/>
+</VisualStudioPropertySheet>

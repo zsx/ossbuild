@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Machine"
+	>
+	<UserMacro
+		Name="OAH_DEPS_FILE_NAME"
+		Value="$(RootNamespace)"
+	/>
+	<UserMacro
+		Name="OAH_DEPS_INC_RSP_FILE"
+		Value="@$(IntDir)\$(OAH_DEPS_FILE_NAME).inc"
+	/>
+	<UserMacro
+		Name="OAH_DEPS_LIBS_RSP_FILE"
+		Value="@$(IntDir)\$(OAH_DEPS_FILE_NAME).libs"
+	/>
+</VisualStudioPropertySheet>

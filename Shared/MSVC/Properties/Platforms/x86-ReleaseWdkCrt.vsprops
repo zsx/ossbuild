@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="x86-ReleaseWdkCrt"
+	InheritedPropertySheets="$(SolutionDir)Shared\MSVC\Properties\Platforms\x86-Release.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="$(SolutionDir)Shared\SDKs\wdkcrt\include;$(SolutionDir)Shared\SDKs\wdkcrt\include\atl71"
+		PreprocessorDefinitions="WHISTLER_DDK;_DLL=1;_MT=1;_CRT_NONSTDC_FORCE_DEPRECATE;_CRT_SECURE_FORCE_DEPRECATE"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="libmoldname71.a libmsvcr71.a msvcrt_win2000.obj"
+		AdditionalLibraryDirectories="$(SolutionDir)Shared\SDKs\wdkcrt\lib\i386"
+		IgnoreDefaultLibraryNames=""
+		EntryPointSymbol="_DllMainCRTStartup@12"
+		ResourceOnlyDLL="false"
+	/>
+</VisualStudioPropertySheet>
