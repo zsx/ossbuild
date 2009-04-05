@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="freetype"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		InlineFunctionExpansion="2"
+		FavorSizeOrSpeed="1"
+		AdditionalIncludeDirectories="Source;&quot;$(IntDir)&quot;;Source\include"
+		PreprocessorDefinitions="_LIB;FT2_BUILD_LIBRARY"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies=""
+		OutputFile="$(OutDir)\bin\$(ProjectName)6.dll"
+		Version="$(FreeTypeVersionString)"
+		GenerateManifest="false"
+		ImportLibrary="$(OutDir)\lib\$(ProjectName).lib"
+	/>
+</VisualStudioPropertySheet>
