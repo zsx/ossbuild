@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="libvorbis"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		InlineFunctionExpansion="2"
+		EnableIntrinsicFunctions="true"
+		FavorSizeOrSpeed="1"
+		WholeProgramOptimization="true"
+		AdditionalIncludeDirectories=".;Source;Source\lib;&quot;$(IntDir)&quot;"
+		PreprocessorDefinitions="LIBVORBIS_EXPORTS;WIN32"
+		StringPooling="true"
+		ExceptionHandling="0"
+		BufferSecurityCheck="false"
+		WarningLevel="4"
+		WarnAsError="false"
+		DisableSpecificWarnings="4244;4100;4267;4189;4305;4127;4706"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="libogg.lib"
+		OutputFile="$(OutDir)\bin\$(ProjectName).dll"
+		Version="$(LibVorbisVersionString)"
+		LinkIncremental="1"
+		GenerateManifest="false"
+		ModuleDefinitionFile="Source\win32\vorbis.def"
+		SubSystem="2"
+		OptimizeReferences="2"
+		EnableCOMDATFolding="2"
+		RandomizedBaseAddress="1"
+		DataExecutionPrevention="0"
+		ImportLibrary="$(OutDir)\lib\$(ProjectName).lib"
+		TargetMachine="1"
+	/>
+</VisualStudioPropertySheet>
