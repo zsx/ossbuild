@@ -1,0 +1,1193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="Common Build Tools"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="Header Installer Tool"
+			DisplayName="Headerfile Installation Tool"
+			CommandLine="if not exist $(OutDir)\include\[$ModuleName]\NUL mkdir &quot;$(OutDir)\include\[$ModuleName]&quot;&#x0D;&#x0A;copy /B /Y [AdditionalOptions] &quot;$(InputPath)&quot; &quot;$(OutDir)\include\[$ModuleName]&quot;"
+			Outputs="$(OutDir)\include\[$ModuleName]\$(InputFileName)"
+			FileExtensions="*.insthdr"
+			ExecutionDescription="Installing $(InputFileName) to $(OutDir)\include\[$ModuleName]"
+			>
+			<Properties>
+				<StringProperty
+					Name="ModuleName"
+					DisplayName="Directory prefix with module"
+					Description="Module name, meaning that headerfiles get installed to $(OutDir)\include\[ModuleName]\. Leave blank to install in the toplevel include directory ($(OutDir)\include\)."
+					DefaultValue="."
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="DotIn Generator Tool"
+			DisplayName="DotIn Generator Tool"
+			CommandLine="@echo off&#x0D;&#x0A;&#x0D;&#x0A;set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;if /I &quot;[$UseCustomOutputPath]&quot; == &quot;true&quot; goto doCustom&#x0D;&#x0A;goto doDefault&#x0D;&#x0A;&#x0D;&#x0A;:doDefault&#x0D;&#x0A;if not exist $(IntDir)\[$SubDirOutput]\NUL mkdir &quot;$(IntDir)\[$SubDirOutput]&quot;&#x0D;&#x0A;sed.exe [Substitute] [AdditionalOptions] &quot;$(InputPath)&quot; &gt; &quot;$(IntDir)\[$SubDirOutput]\[$OutputFileName]&quot;&#x0D;&#x0A;goto done&#x0D;&#x0A;&#x0D;&#x0A;:doCustom&#x0D;&#x0A;call ensurePath.bat &quot;[$CustomOutputPath]&quot;&#x0D;&#x0A;sed.exe [Substitute] [AdditionalOptions] &quot;$(InputPath)&quot; &gt; &quot;[$CustomOutputPath]&quot;&#x0D;&#x0A;goto done&#x0D;&#x0A;&#x0D;&#x0A;:done"
+			Outputs="$(IntDir)\[$SubDirOutput]\[$OutputFileName]"
+			FileExtensions="*.in;*.win32;*.x64"
+			ExecutionDescription="Generating [$OutputFileName]"
+			>
+			<Properties>
+				<StringProperty
+					Name="Substitute"
+					DisplayName="Substitute"
+					Description="Substitutes argument 2 for argument 1: format {1}/{2}"
+					Switch="-e &quot;s/[value]/g&quot;"
+					Delimited="true"
+					Inheritable="true"
+				/>
+				<StringProperty
+					Name="SubDirOutput"
+					DisplayName="Sub directory"
+					Description="Optional sub directory output. Output will be directed to $(IntDir)\[SubDirOutput] . Leave blank to output to $(IntDir)"
+					DefaultValue="."
+				/>
+				<StringProperty
+					Name="OutputFileName"
+					DisplayName="Output file name"
+					Description="Optional output file name. Default is $(InputName) (which is input file without extension)"
+					DefaultValue="$(InputName)"
+				/>
+				<BooleanProperty
+					Name="UseCustomOutputPath"
+					DisplayName="Use Custom Output Path"
+					Description="If true, use the custom path defined instead of the default."
+				/>
+				<StringProperty
+					Name="CustomOutputPath"
+					DisplayName="Custom Output Path"
+					Description="The path to save the output to"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="SED Tool"
+			DisplayName="Stream EDitor Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;sed.exe [AllOptions] [AdditionalOptions] $(InputPath) &gt; [$OutputFilePath]"
+			Outputs="[$OutputFilePath]"
+			FileExtensions="*.sedfoo"
+			ExecutionDescription="Generating [$OutputFilePath]"
+			>
+			<Properties>
+				<StringProperty
+					Name="Expression"
+					DisplayName="Expression"
+					Description="Stream EDitor expression"
+					Switch="-e &quot;[value]&quot;"
+					Delimited="true"
+					Delimiters=" "
+					Inheritable="true"
+				/>
+				<StringProperty
+					Name="OutputFilePath"
+					DisplayName="Output"
+					Description="Output file. Use $(OutDir) or similar macro."
+					DefaultValue="$(IntDir)\$(InputFileName)"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Pkg-Config Tool"
+			DisplayName="Pkg-Config Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;pkg-config --requires-only --print-errors &quot;$(IntDir)\$(InputName).pc&quot; &gt; &quot;$(IntDir)\$(InputName).deps&quot;&#x0D;&#x0A;set /P OAH_DEPS=&lt; &quot;$(IntDir)\$(InputName).deps&quot;&#x0D;&#x0A;del /F /Q &quot;$(IntDir)\$(InputName).deps&quot;&#x0D;&#x0A;if /I &quot;[$AdditionalDeps]&quot; NEQ &quot;&quot; set OAH_DEPS=%OAH_DEPS% [$AdditionalDeps]&#x0D;&#x0A;if /I &quot;%OAH_DEPS%&quot; == &quot;&quot; goto empty&#x0D;&#x0A;pkg-config --exists %OAH_DEPS% || exit 1&#x0D;&#x0A;pkg-config --cflags --msvc-syntax %OAH_DEPS% &gt; &quot;$(IntDir)\$(InputName).inc&quot;&#x0D;&#x0A;pkg-config --libs --msvc-syntax %OAH_DEPS% &gt; &quot;$(IntDir)\$(InputName).libs&quot;&#x0D;&#x0A;goto done&#x0D;&#x0A;:empty&#x0D;&#x0A;echo. &gt; &quot;$(IntDir)\$(InputName).inc&quot;&#x0D;&#x0A;echo. &gt; &quot;$(IntDir)\$(InputName).libs&quot;&#x0D;&#x0A;:done&#x0D;&#x0A;copy /B /Y &quot;$(IntDir)\$(InputName).pc&quot; &quot;$(OutDir)\lib\pkgconfig&quot;"
+			Outputs="$(IntDir)\$(InputName).inc;$(IntDir)\$(InputName).libs;$(OutDir)\lib\pkgconfig\$(InputFileName)"
+			FileExtensions="*.pc"
+			ExecutionDescription="Generating pkg-config file and building internal dependencies (&apos;Requires:&apos;) used by the compiler (cl.exe) and linker (link.exe)"
+			>
+			<Properties>
+				<StringProperty
+					Name="AdditionalDeps"
+					DisplayName="Additional dependencies"
+					Description="Should be used for temporary or configuration spesific dependencies."
+					Delimited="true"
+					Delimiters=" "
+					Inheritable="true"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Pkg-Config OAH Dependencies Tool"
+			DisplayName="OAH Dependencies Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;set /P OAH_DEPS=&lt; &quot;$(InputPath)&quot;&#x0D;&#x0A;set OAH_DEPS=%OAH_DEPS% [$AdditionalDeps]&#x0D;&#x0A;&#x0D;&#x0A;if /I &quot;%OAH_DEPS%&quot; == &quot; &quot; goto empty&#x0D;&#x0A;pkg-config --exists %OAH_DEPS% || exit 1&#x0D;&#x0A;pkg-config --cflags --msvc-syntax %OAH_DEPS% &gt; &quot;$(IntDir)\$(InputName).inc&quot;&#x0D;&#x0A;pkg-config --libs --msvc-syntax %OAH_DEPS% &gt; &quot;$(IntDir)\$(InputName).libs&quot;&#x0D;&#x0A;goto end&#x0D;&#x0A;:empty&#x0D;&#x0A;echo. &gt; &quot;$(IntDir)\$(InputName).inc&quot;&#x0D;&#x0A;echo. &gt; &quot;$(IntDir)\$(InputName).libs&quot;&#x0D;&#x0A;exit 0&#x0D;&#x0A;:end"
+			Outputs="$(IntDir)\$(InputName).inc;$(IntDir)\$(InputName).libs"
+			FileExtensions="*.oahdeps"
+			ExecutionDescription="Setting up internal dependencies to be used by the compiler (cl.exe) and linker (link.exe) from $(InputFileName)"
+			>
+			<Properties>
+				<StringProperty
+					Name="AdditionalDeps"
+					DisplayName="Additional dependencies"
+					Description="Should be used for temporary or configuration spesific dependencies."
+					Delimited="true"
+					Delimiters=" "
+					Inheritable="true"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Symbols Generator Tool"
+			DisplayName="Symbols Generator tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;echo EXPORTS &gt; &quot;$(IntDir)\$(InputName).def&quot;&#x0D;&#x0A;&#x0D;&#x0A;if &quot;[$Substitute]&quot; == &quot;&quot; (&#x0D;&#x0A;cl.exe /nologo /EP [PreprocessorDefinitions] &quot;$(InputPath)&quot; &gt;&gt; &quot;$(IntDir)\$(InputName).def&quot;&#x0D;&#x0A;) else (&#x0D;&#x0A;cl.exe /nologo /EP [PreprocessorDefinitions] &quot;$(InputPath)&quot; | sed.exe [Substitute] [AdditionalOptions] &gt;&gt; &quot;$(IntDir)\$(InputName).def&quot;&#x0D;&#x0A;)"
+			Outputs="$(IntDir)\$(InputName).def"
+			FileExtensions="*.symbols"
+			ExecutionDescription="Generating $(InputName).def"
+			>
+			<Properties>
+				<StringProperty
+					Name="PreprocessorDefinitions"
+					DisplayName="Preprocessor Definitions"
+					Description="Defines a text macro with the given name.     (/D[symbol])"
+					HelpURL="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/vcmasm/html/vclrfml.asp"
+					Switch="/D&quot;[value]&quot;"
+					Delimited="true"
+					Inheritable="true"
+				/>
+				<StringProperty
+					Name="Substitute"
+					DisplayName="Substitute"
+					Description="Substitutes argument 2 for argument 1: format {1}/{2}"
+					Switch="-e &quot;s/[value]/g&quot;"
+					Delimited="true"
+					Inheritable="true"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="GObject Marshaller Generation Tool"
+			DisplayName="GObject Marshaller Generation Tool"
+			CommandLine="set OUTBIN=$(OutDir)\bin&#x0D;&#x0A;set SHAREDBIN=$(SolutionDir)Shared\Build\Windows\$(PlatformName)\bin&#x0D;&#x0A;set PATH=%OUTBIN%;%SHAREDBIN%;$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;if not exist $(IntDir)\[$OutputSubdir]\NUL mkdir $(IntDir)\[$OutputSubdir]&#x0D;&#x0A;&#x0D;&#x0A;set GEN_MARSHAL=glib-genmarshal.exe&#x0D;&#x0A;&#x0D;&#x0A;REM if not exist &quot;%GEN_MARSHAL%&quot; goto ERROR&#x0D;&#x0A;&#x0D;&#x0A;&quot;%GEN_MARSHAL%&quot; --header --skip-source [NoStdInc] [FunctionPrefix] [inputs] &gt; &quot;$(IntDir)\[$OutputSubdir]\$(InputName).h.tmp&quot;&#x0D;&#x0A;if %ERRORLEVEL% neq 0 goto ERROR&#x0D;&#x0A;&quot;%GEN_MARSHAL%&quot; --body --skip-source [NoStdInc] [Internal] [FunctionPrefix] [inputs] &gt; &quot;$(IntDir)\[$OutputSubdir]\$(InputName).c.tmp&quot;&#x0D;&#x0A;if %ERRORLEVEL% neq 0 goto ERROR&#x0D;&#x0A;&#x0D;&#x0A;if exist $(IntDir)\[$OutputSubdir]\$(InputName).h del $(IntDir)\[$OutputSubdir]\$(InputName).h&#x0D;&#x0A;if exist $(IntDir)\[$OutputSubdir]\$(InputName).c del $(IntDir)\[$OutputSubdir]\$(InputName).c&#x0D;&#x0A;&#x0D;&#x0A;ren &quot;$(IntDir)\[$OutputSubdir]\$(InputName).h.tmp&quot; &quot;$(InputName).h&quot;&#x0D;&#x0A;if %ERRORLEVEL% neq 0 goto ERROR&#x0D;&#x0A;ren &quot;$(IntDir)\[$OutputSubdir]\$(InputName).c.tmp&quot; &quot;$(InputName).c&quot;&#x0D;&#x0A;if %ERRORLEVEL% neq 0 goto ERROR&#x0D;&#x0A;&#x0D;&#x0A;echo badgers &gt; &quot;$(IntDir)\$(InputFileName).stamp&quot;&#x0D;&#x0A;if %ERRORLEVEL% neq 0 goto ERROR&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$CopyHeaderPath]&quot; == &quot;&quot; copy /y &quot;$(IntDir)\[$OutputSubdir]\$(InputName).h&quot; &quot;[$CopyHeaderPath]&quot;&#x0D;&#x0A;&#x0D;&#x0A;exit 0&#x0D;&#x0A;&#x0D;&#x0A;:ERROR&#x0D;&#x0A;del $(IntDir)\[$OutputSubdir]\$(InputName).h.tmp 2&gt;NUL&#x0D;&#x0A;del $(IntDir)\[$OutputSubdir]\$(InputName).c.tmp 2&gt;NUL&#x0D;&#x0A;del $(IntDir)\[$OutputSubdir]\$(InputName).h 2&gt;NUL&#x0D;&#x0A;del $(IntDir)\[$OutputSubdir]\$(InputName).c 2&gt;NUL&#x0D;&#x0A;del $(IntDir)\$(InputFileName).stamp 2&gt;NUL&#x0D;&#x0A;exit 1&#x0D;&#x0A;"
+			Outputs="$(IntDir)\$(InputFileName).stamp"
+			FileExtensions="*.list"
+			ExecutionDescription="Generating GObject marshaller code"
+			>
+			<Properties>
+				<StringProperty
+					Name="OutputSubdir"
+					DisplayName="OutputSubdir"
+					Description="Subdirectory of output directory. Files are written to $(IntDir)\[OutputSubdir]. Optional; output ends up in $(IntDir) if not set."
+				/>
+				<StringProperty
+					Name="FunctionPrefix"
+					DisplayName="Prefix"
+					Category="GObject"
+					Description="Prefix for marshallers generated"
+					Switch="--prefix=[value]"
+					DefaultValue="foo_marshal"
+				/>
+				<BooleanProperty
+					Name="NoStdInc"
+					DisplayName="NoStdInc"
+					Category="GObject"
+					Description="Disable standard includes."
+					Switch="--nostdinc"
+				/>
+				<BooleanProperty
+					Name="Internal"
+					DisplayName="Internal"
+					Category="GObject"
+					Description="Mark generated functions as internal."
+					Switch="--internal"
+				/>
+				<StringProperty
+					Name="CopyHeaderPath"
+					DisplayName="Copy Header Path"
+					Description="Location to copy the header file to. Leave blank if not copying."
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="GObject Enum Generation Tool"
+			DisplayName="GObject Enum Generation Tool (Template)"
+			CommandLine="set OUTBIN=$(OutDir)\bin&#x0D;&#x0A;set SHAREDBIN=$(SolutionDir)Shared\Build\Windows\$(PlatformName)\bin&#x0D;&#x0A;set PATH=%OUTBIN%;%SHAREDBIN%;$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;pkg-config --variable=prefix glib-2.0 &gt; &quot;$(IntDir)\mkenum.path&quot;&#x0D;&#x0A;set /P GMKE_PATH=&lt;&quot;$(IntDir)\mkenum.path&quot;&#x0D;&#x0A;del /F /Q &quot;$(IntDir)\mkenum.path&quot;&#x0D;&#x0A;&#x0D;&#x0A;set GMKE_PREV_DIR=%CD%&#x0D;&#x0A;cd [$InputHeaderDir]&#x0D;&#x0A;if not exist $(IntDir)\[$OutputSubdir]\NUL mkdir &quot;$(IntDir)\[$OutputSubdir]&quot;&#x0D;&#x0A;set GMKE_INPUT_HEADERS=[$InputHeaders]&#x0D;&#x0A;%GMKE_PATH%\bin\$(GLibMkEnumsPL) --template &quot;$(InputPath)&quot; --flist-env-var GMKE_INPUT_HEADERS &gt; &quot;$(IntDir)\[$OutputSubdir]\$(InputName)&quot;&#x0D;&#x0A;cd %GMKE_PREV_DIR%"
+			Outputs="$(IntDir)\[$OutputSubdir]\$(InputName)"
+			AdditionalDependencies="[$InputFiles]"
+			FileExtensions="*.template"
+			ExecutionDescription="Generating GObject enum code from template $(InputFileName)"
+			>
+			<Properties>
+				<StringProperty
+					Name="InputHeaders"
+					DisplayName="Input Headers"
+					Description="List of absolute paths for input header files, separated by semicolon."
+					Delimited="true"
+					Delimiters=";"
+					Inheritable="true"
+				/>
+				<StringProperty
+					Name="OutputSubdir"
+					DisplayName="Output Subdir"
+					Description="Subdirectory of output directory. Files are written to $(IntDir)\[OutputSubdir]. Optional; output ends up in $(IntDir) if not set."
+				/>
+				<StringProperty
+					Name="InputHeaderDir"
+					DisplayName="Input headers directory"
+					Description="Directory of input header files. Optional; Default: ProjectDir. Hence, could be relative from project directory."
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="SDK VSProps Generation Tool"
+			DisplayName="SDK VSProps Generation Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;if not exist $(OutDir)\vsprops\NUL mkdir $(OutDir)\vsprops&#x0D;&#x0A;&#x0D;&#x0A;$(Sed) -e &quot;s,@GLIB_API_VERSION@,$(GLibApiVersion),g&quot; -e &quot;s,@GSTREAMER_API_VERSION@,$(GStreamerApiVersion),g&quot; &quot;$(InputPath)&quot; &gt; &quot;$(OutDir)\vsprops\[OutputFilenameBase].vsprops.tmp&quot;&#x0D;&#x0A;if %ERRORLEVEL% neq 0 goto ERROR&#x0D;&#x0A;&#x0D;&#x0A;if exist &quot;$(OutDir)\vsprops\[OutputFilenameBase].vsprops&quot; del &quot;$(OutDir)\vsprops\[OutputFilenameBase].vsprops&quot;&#x0D;&#x0A;ren &quot;$(OutDir)\vsprops\[OutputFilenameBase].vsprops.tmp&quot; &quot;[OutputFilenameBase].vsprops&quot;&#x0D;&#x0A;if %ERRORLEVEL% neq 0 goto ERROR&#x0D;&#x0A;&#x0D;&#x0A;echo mushroom &gt; &quot;$(IntDir)\$(InputFileName).stamp&quot;&#x0D;&#x0A;if %ERRORLEVEL% neq 0 goto ERROR&#x0D;&#x0A;exit 0&#x0D;&#x0A;&#x0D;&#x0A;:ERROR&#x0D;&#x0A;del &quot;$(OutDir)\vsprops\[OutputFilenameBase].vsprops.tmp&quot; 2&gt;NUL&#x0D;&#x0A;del &quot;$(OutDir)\vsprops\[OutputFilenameBase].vsprops&quot; 2&gt;NUL&#x0D;&#x0A;del &quot;$(IntDir)\$(InputFileName).stamp&quot; 2&gt;NUL&#x0D;&#x0A;exit 1&#x0D;&#x0A;"
+			Outputs="$(IntDir)\$(InputFileName).stamp"
+			FileExtensions="*.vsprops.in"
+			ExecutionDescription="Generating [OutputFilenameBase].vsprops"
+			>
+			<Properties>
+				<StringProperty
+					Name="OutputFilenameBase"
+					DisplayName="OutputFilenameBase"
+					Description="Base file name of vsprops file output, which get the named [OutputFilenameBase].vsprops."
+					Switch="[value]"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Copy Tool"
+			DisplayName="Copy Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;if /I &quot;[$ForceOverwrite]&quot; == &quot;true&quot; goto doForceCopy&#x0D;&#x0A;if exist &quot;[$DestinationPath]&quot; goto done&#x0D;&#x0A;&#x0D;&#x0A;:doCopy&#x0D;&#x0A;copy [AdditionalOptions] &quot;$(InputPath)&quot; &quot;[$DestinationPath]&quot;&#x0D;&#x0A;goto done&#x0D;&#x0A;&#x0D;&#x0A;:doForceCopy&#x0D;&#x0A;copy /Y [AdditionalOptions] &quot;$(InputPath)&quot; &quot;[$DestinationPath]&quot;&#x0D;&#x0A;goto done&#x0D;&#x0A;&#x0D;&#x0A;:done"
+			Outputs="[$DestinationPath]"
+			FileExtensions="*.h.in"
+			ExecutionDescription="Copying $(InputPath)"
+			>
+			<Properties>
+				<StringProperty
+					Name="DestinationPath"
+					DisplayName="Destination Path"
+					Description="Place to copy file to"
+					DefaultValue="$(InputPath)"
+				/>
+				<BooleanProperty
+					Name="ForceOverwrite"
+					DisplayName="ForceOverwrite"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="C Preprocessor Tool"
+			DisplayName="C Preprocessor Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;cl /EP /nologo [$PreprocessorOptions] &quot;$(InputPath)&quot; &gt; &quot;[$PreprocessorOutputPath]&quot;"
+			Outputs="output.txt"
+			FileExtensions="*.def.src"
+			ExecutionDescription="Runs a file through the C Preprocessor"
+			>
+			<Properties>
+				<StringProperty
+					Name="PreprocessorOptions"
+					DisplayName="Preprocessor Options"
+					DefaultValue="/I ."
+				/>
+				<StringProperty
+					Name="PreprocessorOutputPath"
+					DisplayName="Preprocessor Output Path"
+					Description="The path and filename to save the output to."
+					DefaultValue="output.txt"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Perl Tool"
+			DisplayName="Perl Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;call dir.bat &quot;$(InputPath)&quot;&#x0D;&#x0A;call ensurePath.bat &quot;[$PerlOutputPath]&quot;&#x0D;&#x0A;&#x0D;&#x0A;set RUN_DIR=&quot;[$RunDirectory]&quot;&#x0D;&#x0A;if %RUN_DIR% == &quot;&quot; set RUN_DIR=&quot;%MY_FILE_DIR% &quot;&#x0D;&#x0A;&#x0D;&#x0A;cd /d %RUN_DIR%&#x0D;&#x0A;perl [$PerlOptions] &quot;$(InputPath)&quot; [$InputOptions] &gt; &quot;[$PerlOutputPath]&quot;&#x0D;&#x0A;&#x0D;&#x0A;REM Do moves if we have any defined&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath1]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath1]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath1]&quot; move /Y &quot;[$MoveFileFromPath1]&quot; &quot;[$MoveFileToPath1]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath2]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath2]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath2]&quot; move /Y &quot;[$MoveFileFromPath2]&quot; &quot;[$MoveFileToPath2]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath3]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath3]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath3]&quot; move /Y &quot;[$MoveFileFromPath3]&quot; &quot;[$MoveFileToPath3]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)"
+			Outputs="$(InputName).asm"
+			FileExtensions="*.pl"
+			>
+			<Properties>
+				<StringProperty
+					Name="PerlOptions"
+					DisplayName="PerlOptions"
+				/>
+				<StringProperty
+					Name="PerlOutputPath"
+					DisplayName="Perl Output Path"
+					DefaultValue="$(IntDir)\$(InputName).asm"
+				/>
+				<StringProperty
+					Name="InputOptions"
+					DisplayName="Input Options"
+				/>
+				<StringProperty
+					Name="RunDirectory"
+					DisplayName="Run Directory"
+					Description="The directory you want to call the Perl script from. Default is the directory of the script itself."
+				/>
+				<StringProperty
+					Name="MoveFileFromPath1"
+					DisplayName="Move File From Path (1)"
+					PropertyPageName="Moves"
+					Description="File you need moved"
+				/>
+				<StringProperty
+					Name="MoveFileToPath1"
+					DisplayName="Move File To Path (1)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved to"
+				/>
+				<StringProperty
+					Name="MoveFileFromPath2"
+					DisplayName="Move File From Path (2)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved from"
+				/>
+				<StringProperty
+					Name="MoveFileToPath2"
+					DisplayName="Move File To Path (2)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved to"
+				/>
+				<StringProperty
+					Name="MoveFileFromPath3"
+					DisplayName="Move File From Path (3)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved from"
+				/>
+				<StringProperty
+					Name="MoveFileToPath3"
+					DisplayName="Move File To Path (3)"
+					PropertyPageName="Moves"
+					Description="Where you want to move the file to"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Perl 2 Tool"
+			DisplayName="Perl 2 Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;call dir.bat &quot;$(InputPath)&quot;&#x0D;&#x0A;call ensurePath.bat &quot;[$PerlOutputPath]&quot;&#x0D;&#x0A;&#x0D;&#x0A;set RUN_DIR=&quot;[$RunDirectory]&quot;&#x0D;&#x0A;if %RUN_DIR% == &quot;&quot; set RUN_DIR=&quot;%MY_FILE_DIR% &quot;&#x0D;&#x0A;&#x0D;&#x0A;cd /d %RUN_DIR%&#x0D;&#x0A;perl [$PerlOptions] &quot;$(InputPath)&quot; [$InputOptions] &gt; &quot;[$PerlOutputPath]&quot;&#x0D;&#x0A;&#x0D;&#x0A;REM Do moves if we have any defined&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath1]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath1]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath1]&quot; move /Y &quot;[$MoveFileFromPath1]&quot; &quot;[$MoveFileToPath1]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath2]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath2]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath2]&quot; move /Y &quot;[$MoveFileFromPath2]&quot; &quot;[$MoveFileToPath2]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath3]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath3]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath3]&quot; move /Y &quot;[$MoveFileFromPath3]&quot; &quot;[$MoveFileToPath3]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)"
+			Outputs="$(InputName).asm"
+			FileExtensions="*.pl2"
+			>
+			<Properties>
+				<StringProperty
+					Name="PerlOptions"
+					DisplayName="PerlOptions"
+				/>
+				<StringProperty
+					Name="PerlOutputPath"
+					DisplayName="Perl Output Path"
+					DefaultValue="$(IntDir)\$(InputName).asm"
+				/>
+				<StringProperty
+					Name="InputOptions"
+					DisplayName="Input Options"
+				/>
+				<StringProperty
+					Name="RunDirectory"
+					DisplayName="Run Directory"
+					Description="The directory you want to call the Perl script from. Default is the directory of the script itself."
+				/>
+				<StringProperty
+					Name="MoveFileFromPath1"
+					DisplayName="Move File From Path (1)"
+					PropertyPageName="Moves"
+					Description="File you need moved"
+				/>
+				<StringProperty
+					Name="MoveFileToPath1"
+					DisplayName="Move File To Path (1)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved to"
+				/>
+				<StringProperty
+					Name="MoveFileFromPath2"
+					DisplayName="Move File From Path (2)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved from"
+				/>
+				<StringProperty
+					Name="MoveFileToPath2"
+					DisplayName="Move File To Path (2)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved to"
+				/>
+				<StringProperty
+					Name="MoveFileFromPath3"
+					DisplayName="Move File From Path (3)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved from"
+				/>
+				<StringProperty
+					Name="MoveFileToPath3"
+					DisplayName="Move File To Path (3)"
+					PropertyPageName="Moves"
+					Description="Where you want to move the file to"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Perl 3 Tool"
+			DisplayName="Perl 3 Tool"
+			CommandLine="set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;call dir.bat &quot;$(InputPath)&quot;&#x0D;&#x0A;call ensurePath.bat &quot;[$PerlOutputPath]&quot;&#x0D;&#x0A;&#x0D;&#x0A;set RUN_DIR=&quot;[$RunDirectory]&quot;&#x0D;&#x0A;if %RUN_DIR% == &quot;&quot; set RUN_DIR=&quot;%MY_FILE_DIR% &quot;&#x0D;&#x0A;&#x0D;&#x0A;cd /d %RUN_DIR%&#x0D;&#x0A;perl [$PerlOptions] &quot;$(InputPath)&quot; [$InputOptions] &gt; &quot;[$PerlOutputPath]&quot;&#x0D;&#x0A;&#x0D;&#x0A;REM Do moves if we have any defined&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath1]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath1]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath1]&quot; move /Y &quot;[$MoveFileFromPath1]&quot; &quot;[$MoveFileToPath1]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath2]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath2]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath2]&quot; move /Y &quot;[$MoveFileFromPath2]&quot; &quot;[$MoveFileToPath2]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;if not &quot;[$MoveFileFromPath3]&quot; == &quot;&quot; (&#x0D;&#x0A;    if not &quot;[$MoveFileToPath3]&quot; == &quot;&quot; (&#x0D;&#x0A;        if exist &quot;[$MoveFileFromPath3]&quot; move /Y &quot;[$MoveFileFromPath3]&quot; &quot;[$MoveFileToPath3]&quot;&#x0D;&#x0A;    )&#x0D;&#x0A;)"
+			Outputs="$(InputName).asm"
+			FileExtensions="*.pl3"
+			>
+			<Properties>
+				<StringProperty
+					Name="PerlOptions"
+					DisplayName="PerlOptions"
+				/>
+				<StringProperty
+					Name="PerlOutputPath"
+					DisplayName="Perl Output Path"
+					DefaultValue="$(IntDir)\$(InputName).asm"
+				/>
+				<StringProperty
+					Name="InputOptions"
+					DisplayName="Input Options"
+				/>
+				<StringProperty
+					Name="RunDirectory"
+					DisplayName="Run Directory"
+					Description="The directory you want to call the Perl script from. Default is the directory of the script itself."
+				/>
+				<StringProperty
+					Name="MoveFileFromPath1"
+					DisplayName="Move File From Path (1)"
+					PropertyPageName="Moves"
+					Description="File you need moved"
+				/>
+				<StringProperty
+					Name="MoveFileToPath1"
+					DisplayName="Move File To Path (1)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved to"
+				/>
+				<StringProperty
+					Name="MoveFileFromPath2"
+					DisplayName="Move File From Path (2)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved from"
+				/>
+				<StringProperty
+					Name="MoveFileToPath2"
+					DisplayName="Move File To Path (2)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved to"
+				/>
+				<StringProperty
+					Name="MoveFileFromPath3"
+					DisplayName="Move File From Path (3)"
+					PropertyPageName="Moves"
+					Description="Where you want the file moved from"
+				/>
+				<StringProperty
+					Name="MoveFileToPath3"
+					DisplayName="Move File To Path (3)"
+					PropertyPageName="Moves"
+					Description="Where you want to move the file to"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="CommandLineTool"
+			DisplayName="Command Line Tool"
+			CommandLine="@echo off&#x0D;&#x0A;set PATH=$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;[$Cmd]"
+			Outputs="output.txt"
+			FileExtensions="*.Temp.tmp"
+			>
+			<Properties>
+				<StringProperty
+					Name="Cmd"
+					DisplayName="Command Line Tool"
+					Description="The command you wish to execute"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Bison Tool"
+			DisplayName="Bison Tool"
+			CommandLine="set OUTBIN=$(OutDir)\bin&#x0D;&#x0A;set SHAREDBIN=$(SolutionDir)Shared\Build\Windows\$(PlatformName)\bin&#x0D;&#x0A;set PATH=%OUTBIN%;%SHAREDBIN%;$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;set BISON_PKGDATADIR=$(SolutionDir)Tools\share\bison&#x0D;&#x0A;&#x0D;&#x0A;bison [BisonEmulateYacc] [BisonDefines] [BisonVerbose] [BisonPrefix] &quot;$(InputPath)&quot; [BisonOutputPath]"
+			Outputs="$(InputName).tab.c $(InputName).tab.h"
+			FileExtensions="*.y"
+			>
+			<Properties>
+				<BooleanProperty
+					Name="BisonDefines"
+					DisplayName="Create Header"
+					PropertyPageName="Bison"
+					Switch="-d"
+					DefaultValue="true"
+				/>
+				<BooleanProperty
+					Name="BisonVerbose"
+					DisplayName="Verbose"
+					PropertyPageName="Bison"
+					Switch="-v"
+					DefaultValue="true"
+				/>
+				<StringProperty
+					Name="BisonPrefix"
+					DisplayName="Prefix"
+					PropertyPageName="Bison"
+					Switch="-p[value]"
+				/>
+				<BooleanProperty
+					Name="BisonEmulateYacc"
+					DisplayName="Emulate Yacc"
+					PropertyPageName="Bison"
+					Switch="-y"
+				/>
+				<StringProperty
+					Name="BisonOutputPath"
+					DisplayName="Output Path"
+					PropertyPageName="Bison"
+					Switch="-o &quot;[value]&quot;"
+					DefaultValue="$(IntDir)\$(InputName).tab.c"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Flex Tool"
+			DisplayName="Flex Tool"
+			CommandLine="set OUTBIN=$(OutDir)\bin&#x0D;&#x0A;set SHAREDBIN=$(SolutionDir)Shared\Build\Windows\$(PlatformName)\bin&#x0D;&#x0A;set PATH=%OUTBIN%;%SHAREDBIN%;$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;set BISON_PKGDATADIR=$(SolutionDir)Tools\share\bison&#x0D;&#x0A;set M4PATH=%BISON_PKGDATADIR%&#x0D;&#x0A;&#x0D;&#x0A;flex [FlexCaseInsensitive] [FlexPrefix] [FlexOutputPath] &quot;$(InputPath)&quot;"
+			Outputs="lex.$(InputName).c"
+			FileExtensions="*.l"
+			>
+			<Properties>
+				<BooleanProperty
+					Name="FlexCaseInsensitive"
+					DisplayName="Case Insensitive"
+					PropertyPageName="Flex"
+					Switch="-i"
+				/>
+				<StringProperty
+					Name="FlexPrefix"
+					DisplayName="Prefix"
+					PropertyPageName="Flex"
+					Switch="-P[value]"
+					DefaultValue="yy"
+				/>
+				<StringProperty
+					Name="FlexOutputPath"
+					DisplayName="Output Path"
+					PropertyPageName="Flex"
+					Switch="-o&quot;[value]&quot;"
+					DefaultValue="$(IntDir)\lex.$(InputName).c"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Glib Make Enums Tool"
+			DisplayName="Glib Make Enums Tool"
+			CommandLine="set OUTBIN=$(OutDir)\bin&#x0D;&#x0A;set SHAREDBIN=$(SolutionDir)Shared\Build\Windows\$(PlatformName)\bin&#x0D;&#x0A;set PATH=%OUTBIN%;%SHAREDBIN%;$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;if exist &quot;%OUTBIN%\glib-mkenums.pl&quot; (&#x0D;&#x0A;    set MKENUMS=%OUTBIN%\glib-mkenums.pl&#x0D;&#x0A;)&#x0D;&#x0A;if exist &quot;%OUTBIN%\glib-mkenums&quot; (&#x0D;&#x0A;    set MKENUMS=%OUTBIN%\glib-mkenums&#x0D;&#x0A;)&#x0D;&#x0A;if exist &quot;%SHAREDBIN%\glib-mkenums.pl&quot; (&#x0D;&#x0A;    set MKENUMS=%SHAREDBIN%\glib-mkenums.pl&#x0D;&#x0A;)&#x0D;&#x0A;if exist &quot;%SHAREDBIN%\glib-mkenums&quot; (&#x0D;&#x0A;    set MKENUMS=%SHAREDBIN%\glib-mkenums&#x0D;&#x0A;)&#x0D;&#x0A;if &quot;%MKENUMS%&quot; == &quot;&quot; (&#x0D;&#x0A;    echo Unable to find glib-mkenums perl script&#x0D;&#x0A;    goto error&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;set MKENUMS=perl &quot;%MKENUMS%&quot;&#x0D;&#x0A;set FILES=[inputs]&#x0D;&#x0A;&#x0D;&#x0A;cd /d &quot;[WorkingDir]&quot;&#x0D;&#x0A;&#x0D;&#x0A;rem Create a space-delimited list of every line in the input file&#x0D;&#x0A;if &quot;[$UseFileInputPath]&quot; == &quot;true&quot; (&#x0D;&#x0A;    for /F &quot;tokens=*&quot; %%A in (&apos;sed -n &quot;1h;2,$H;${g;s/\n/ /g;p}&quot; &quot;$(InputPath)&quot;&apos;) do set FILES=%%A&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;if &quot;[OutputFiles]&quot; == &quot;both&quot; goto header&#x0D;&#x0A;if &quot;[OutputFiles]&quot; == &quot;header&quot; goto header&#x0D;&#x0A;goto source&#x0D;&#x0A;&#x0D;&#x0A;:header&#x0D;&#x0A;if &quot;[hOutputPath]&quot; == &quot;&quot; (&#x0D;&#x0A;    echo Missing valid header output path&#x0D;&#x0A;    goto error&#x0D;&#x0A;)&#x0D;&#x0A;if &quot;[hOutputOperation]&quot; == &quot;nothing&quot; goto hNothing&#x0D;&#x0A;if &quot;[hOutputOperation]&quot; == &quot;overwrite&quot; goto hOverwrite&#x0D;&#x0A;if &quot;[hOutputOperation]&quot; == &quot;append&quot; goto hAppend&#x0D;&#x0A;goto hNext&#x0D;&#x0A;&#x0D;&#x0A;:hNothing&#x0D;&#x0A;:hOverwrite&#x0D;&#x0A;%MKENUMS% [hFHead] [hFProd] [hFTail] [hEProd] [hVHead] [hVProd] [hVTail] [hComments] [hTemplate] %FILES% &gt; &quot;[hOutputPath]&quot;&#x0D;&#x0A;goto hNext&#x0D;&#x0A;&#x0D;&#x0A;:hAppend&#x0D;&#x0A;%MKENUMS% [hFHead] [hFProd] [hFTail] [hEProd] [hVHead] [hVProd] [hVTail] [hComments] [hTemplate] %FILES% &gt;&gt; &quot;[hOutputPath]&quot;&#x0D;&#x0A;goto hNext&#x0D;&#x0A;&#x0D;&#x0A;:hNext&#x0D;&#x0A;if not &quot;[$hCopyPath]&quot; == &quot;&quot; (&#x0D;&#x0A;    echo Copying generated header file...&#x0D;&#x0A;    [hCopyPath]&#x0D;&#x0A;)&#x0D;&#x0A;&#x0D;&#x0A;if &quot;[OutputFiles]&quot; == &quot;both&quot; goto source&#x0D;&#x0A;goto end&#x0D;&#x0A;&#x0D;&#x0A;:source&#x0D;&#x0A;if &quot;[sOutputPath]&quot; == &quot;&quot; (&#x0D;&#x0A;    echo Missing valid source output path&#x0D;&#x0A;    goto error&#x0D;&#x0A;)&#x0D;&#x0A;if &quot;[sOutputOperation]&quot; == &quot;nothing&quot; goto sNothing&#x0D;&#x0A;if &quot;[sOutputOperation]&quot; == &quot;overwrite&quot; goto sOverwrite&#x0D;&#x0A;if &quot;[sOutputOperation]&quot; == &quot;append&quot; goto sAppend&#x0D;&#x0A;goto end&#x0D;&#x0A;&#x0D;&#x0A;:sNothing&#x0D;&#x0A;:sOverwrite&#x0D;&#x0A;%MKENUMS% [sFHead] [sFProd] [sFTail] [sEProd] [sVHead] [sVProd] [sVTail] [sComments] [sTemplate] %FILES% &gt; &quot;[sOutputPath]&quot;&#x0D;&#x0A;goto sNext&#x0D;&#x0A;&#x0D;&#x0A;:sAppend&#x0D;&#x0A;%MKENUMS% [sFHead] [sFProd] [sFTail] [sEProd] [sVHead] [sVProd] [sVTail] [sComments] [sTemplate] %FILES% &gt;&gt; &quot;[sOutputPath]&quot;&#x0D;&#x0A;goto sNext&#x0D;&#x0A;&#x0D;&#x0A;:sNext&#x0D;&#x0A;if not &quot;[$sCopyPath]&quot; == &quot;&quot; (&#x0D;&#x0A;    echo Copying generated source file...&#x0D;&#x0A;    [sCopyPath]&#x0D;&#x0A;)&#x0D;&#x0A;goto end&#x0D;&#x0A;&#x0D;&#x0A;:error&#x0D;&#x0A;exit 1&#x0D;&#x0A;goto end&#x0D;&#x0A;&#x0D;&#x0A;:end&#x0D;&#x0A;exit 0"
+			Outputs="$(InputName).tmp.enum"
+			FileExtensions="*.mkenum.lst.txt"
+			SupportsFileBatching="true"
+			>
+			<Properties>
+				<EnumProperty
+					Name="OutputFiles"
+					DisplayName="Output Files"
+					Category="General"
+					Description="Whether to output just a header or just a source file or both."
+					DefaultValue="2"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="header"
+							DisplayName="Header File Only"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="source"
+							DisplayName="Source File Only"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="both"
+							DisplayName="Both Header and Source"
+						/>
+					</Values>
+				</EnumProperty>
+				<StringProperty
+					Name="hFHead"
+					DisplayName="Output File Header"
+					PropertyPageName="Header"
+					Category="Make Enums (Header)"
+					Description="Output file header. (--fhead)"
+					Switch="--fhead &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="hFProd"
+					DisplayName="Per Input File Production"
+					PropertyPageName="Header"
+					Category="Make Enums (Header)"
+					Description="Ran for every file listed. (--fprod)"
+					Switch="--fprod &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="hFTail"
+					DisplayName="Output File Trailer"
+					PropertyPageName="Header"
+					Category="Make Enums (Header)"
+					Description="Output file trailer. (--ftail)"
+					Switch="--ftail &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="hEProd"
+					DisplayName="Per Enum Text"
+					PropertyPageName="Header"
+					Category="Make Enums (Header)"
+					Description="Per enum text (produced prior to value itarations). (--eprod)"
+					Switch="--eprod &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="hVHead"
+					DisplayName="Value Header"
+					PropertyPageName="Header"
+					Category="Make Enums (Header)"
+					Description="Value header, produced before iterating over enum values. (--vhead)"
+					Switch="--vhead &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="hVProd"
+					DisplayName="Value Text"
+					PropertyPageName="Header"
+					Category="Make Enums (Header)"
+					Description="Value text, produced for each enum value. (--vprod)"
+					Switch="--vprod &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="hVTail"
+					DisplayName="Value Tail"
+					PropertyPageName="Header"
+					Category="Make Enums (Header)"
+					Description="Value tail, produced after iterating over enum values. (--vtail)"
+					Switch="--vtail &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="hComments"
+					DisplayName="Comments"
+					PropertyPageName="Header"
+					Category="Miscellaneous (Header)"
+					Description="Comment structure. (--comments)"
+					Switch="--comments &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="hTemplate"
+					DisplayName="Template"
+					PropertyPageName="Header"
+					Category="Miscellaneous (Header)"
+					Description="Template file. (--template)"
+					Switch="--template &quot;[value]&quot;"
+				/>
+				<EnumProperty
+					Name="hOutputOperation"
+					DisplayName="Operation"
+					PropertyPageName="Header"
+					Category="Output (Header)"
+					Description="What to do when the output is generated."
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="nothing"
+							DisplayName="Nothing"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="append"
+							DisplayName="Append"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="overwrite"
+							DisplayName="Overwrite"
+						/>
+					</Values>
+				</EnumProperty>
+				<StringProperty
+					Name="hOutputPath"
+					DisplayName="Output Path"
+					PropertyPageName="Header"
+					Category="Output (Header)"
+					Description="The file to generate as a result of the script&apos;s output."
+					Switch="[value]"
+				/>
+				<StringProperty
+					Name="hCopyPath"
+					DisplayName="Copy Path"
+					PropertyPageName="Header"
+					Category="Output (Header)"
+					Description="The path to copy this file to. Leave blank if you do not want to copy the file anywhere."
+					Switch="copy /y &quot;[hOutputPath]&quot; &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sFHead"
+					DisplayName="Output File Header"
+					PropertyPageName="Source"
+					Category="Make Enums (Source)"
+					Description="Output file header. (--fhead)"
+					Switch="--fhead &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sFProd"
+					DisplayName="Per Input File Production"
+					PropertyPageName="Source"
+					Category="Make Enums (Source)"
+					Description="Ran for every file listed. (--fprod)"
+					Switch="--fprod &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sFTail"
+					DisplayName="Output File Trailer"
+					PropertyPageName="Source"
+					Category="Make Enums (Header)"
+					Description="Output file trailer. (--ftail)"
+					Switch="--ftail &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sEProd"
+					DisplayName="Per Enum Text"
+					PropertyPageName="Source"
+					Category="Make Enums (Source)"
+					Description="Per enum text (produced prior to value itarations). (--eprod)"
+					Switch="--eprod &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sVHead"
+					DisplayName="Value Header"
+					PropertyPageName="Source"
+					Category="Make Enums (Source)"
+					Description="Value header, produced before iterating over enum values. (--vhead)"
+					Switch="--vhead &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sVProd"
+					DisplayName="Value Text"
+					PropertyPageName="Source"
+					Category="Make Enums (Source)"
+					Description="Value text, produced for each enum value. (--vprod)"
+					Switch="--vprod &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sVTail"
+					DisplayName="Value Tail"
+					PropertyPageName="Source"
+					Category="Make Enums (Source)"
+					Description="Value tail, produced after iterating over enum values. (--vtail)"
+					Switch="--vtail &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sComments"
+					DisplayName="Comments"
+					PropertyPageName="Source"
+					Category="Miscellaneous (Source)"
+					Description="Comment structure. (--comments)"
+					Switch="--comments &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="sTemplate"
+					DisplayName="Template"
+					PropertyPageName="Source"
+					Category="Miscellaneous (Source)"
+					Description="Template file. (--template)"
+					Switch="--template &quot;[value]&quot;"
+				/>
+				<EnumProperty
+					Name="sOutputOperation"
+					DisplayName="Operation"
+					PropertyPageName="Source"
+					Category="Output (Source)"
+					Description="What to do when the output is generated."
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="nothing"
+							DisplayName="Nothing"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="append"
+							DisplayName="Append"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="overwrite"
+							DisplayName="Overwrite"
+						/>
+					</Values>
+				</EnumProperty>
+				<StringProperty
+					Name="sOutputPath"
+					DisplayName="Output Path"
+					PropertyPageName="Source"
+					Category="Output (Source)"
+					Description="The file to generate as a result of the script&apos;s output."
+					Switch="[value]"
+				/>
+				<StringProperty
+					Name="sCopyPath"
+					DisplayName="Copy Path"
+					PropertyPageName="Source"
+					Category="Output (Source)"
+					Description="The path to copy this file to. Leave blank if you do not want to copy the file anywhere."
+					Switch="copy /y &quot;[sOutputPath]&quot; &quot;[value]&quot;"
+				/>
+				<BooleanProperty
+					Name="UseFileInputPath"
+					DisplayName="Use File Input Path"
+					Category="General"
+					Description="Use $(InputPath) as the file list instead of a set of batched files."
+					DefaultValue="true"
+				/>
+				<StringProperty
+					Name="WorkingDir"
+					DisplayName="Working Directory"
+					Category="General"
+					Description="The working directory from which to run this script."
+					Switch="[value]"
+					DefaultValue="$(ProjectDir)"
+				/>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Yasm Tool"
+			DisplayName="Yasm Tool"
+			CommandLine="set OUTBIN=$(OutDir)\bin&#x0D;&#x0A;set SHAREDBIN=$(SolutionDir)Shared\Build\Windows\$(PlatformName)\bin&#x0D;&#x0A;set PATH=%OUTBIN%;%SHAREDBIN%;$(SolutionDir)Tools;%PATH%&#x0D;&#x0A;&#x0D;&#x0A;set YASM=yasm&#x0D;&#x0A;&#x0D;&#x0A;cd /d &quot;[WorkingDir]&quot;&#x0D;&#x0A;&#x0D;&#x0A;%YASM% [Architecture] [Parser] [Preprocessor] [ObjectFormat] [DebuggingFormat] [ListFormat] [Machine] [MessageStyle] [ForceStrict] [PreprocessOnly] [ShowWarnings] [WarningsAsErrors] [Prefix] [Suffix] [MacroDefines] [MacroUndefines] [IncludePaths] [PreincludeFile] [AdditionalOptions] [OutputMapFile] [OutputListFile] [OutputObjectFile] [inputs]&#x0D;&#x0A;goto end&#x0D;&#x0A;&#x0D;&#x0A;:error&#x0D;&#x0A;exit 1&#x0D;&#x0A;goto end&#x0D;&#x0A;&#x0D;&#x0A;:end&#x0D;&#x0A;exit 0"
+			Outputs="[$OutputObjectFile]"
+			FileExtensions="*.tmp.asm"
+			>
+			<Properties>
+				<StringProperty
+					Name="WorkingDir"
+					DisplayName="Working Directory"
+					Category="General"
+					Description="The working directory from which to run this script."
+					Switch="[value]"
+					DefaultValue="$(ProjectDir)"
+				/>
+				<EnumProperty
+					Name="Architecture"
+					DisplayName="Architecture"
+					Category="General"
+					Description="Processor&apos;s architecture. (-a)"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="-a x86"
+							DisplayName="x86, x86_64 (AMD64)"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="-a lc3b"
+							DisplayName="LC-3b"
+						/>
+					</Values>
+				</EnumProperty>
+				<EnumProperty
+					Name="Parser"
+					DisplayName="Parser"
+					Category="General"
+					Description="Parse to use. (-p)"
+					DefaultValue="2"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="-p gas"
+							DisplayName="GNU AS (GAS)-compatible"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="-p gnu"
+							DisplayName="GNU AS (GNU)-compatible"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="-p nasm"
+							DisplayName="NASM-compatible"
+						/>
+					</Values>
+				</EnumProperty>
+				<EnumProperty
+					Name="Preprocessor"
+					DisplayName="Preprocessor"
+					Category="General"
+					Description="Preprocessor to use. (-r)"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="-r nasm"
+							DisplayName="Real NASM"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="-r raw"
+							DisplayName="Disabled"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="-r cpp"
+							DisplayName="External C Preprocessor"
+						/>
+					</Values>
+				</EnumProperty>
+				<EnumProperty
+					Name="ObjectFormat"
+					DisplayName="Object Format"
+					Category="General"
+					Description="Object format. (-f)"
+					DefaultValue="1"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="-f dbg"
+							DisplayName="Trace"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="-f bin"
+							DisplayName="Flat Format Binary"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="-f elf"
+							DisplayName="ELF"
+						/>
+						<EnumValue
+							Value="3"
+							Switch="-f elf32"
+							DisplayName="ELF (32-bit)"
+						/>
+						<EnumValue
+							Value="4"
+							Switch="-f elf64"
+							DisplayName="ELF (64-bit)"
+						/>
+						<EnumValue
+							Value="5"
+							Switch="-f coff"
+							DisplayName="COFF (DJGPP)"
+						/>
+						<EnumValue
+							Value="6"
+							Switch="-f macho"
+							DisplayName="Mac OS X ABI Mach-O File Format"
+						/>
+						<EnumValue
+							Value="7"
+							Switch="-f macho32"
+							DisplayName="Mac OS X ABI Mach-O File Format (32-bit)"
+						/>
+						<EnumValue
+							Value="8"
+							Switch="-f macho64"
+							DisplayName="Mac OS X ABI Mach-O File Format (64-bit)"
+						/>
+						<EnumValue
+							Value="9"
+							Switch="-f rdf"
+							DisplayName="Relocatable Dynamic Object File Format (RDOFF) v2.0"
+						/>
+						<EnumValue
+							Value="10"
+							Switch="-f win32"
+							DisplayName="Win32"
+						/>
+						<EnumValue
+							Value="11"
+							Switch="-f win64"
+							DisplayName="Win64"
+						/>
+						<EnumValue
+							Value="12"
+							Switch="-f x64"
+							DisplayName="Win64"
+						/>
+						<EnumValue
+							Value="13"
+							Switch="-f xdf"
+							DisplayName="Extended Dynamic Object"
+						/>
+					</Values>
+				</EnumProperty>
+				<EnumProperty
+					Name="DebuggingFormat"
+					DisplayName="Debugging Format"
+					Category="General"
+					Description="Debugging format. Default depends on the object format. (-g)"
+					DefaultValue="2"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="-g cv8"
+							DisplayName="CodeView for VC8"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="-g dwarf2"
+							DisplayName="DWARF2"
+						/>
+						<EnumValue
+							Value="2"
+							Switch="-g null"
+							DisplayName="None"
+						/>
+						<EnumValue
+							Value="3"
+							Switch="-g stabs"
+							DisplayName="Stabs"
+						/>
+					</Values>
+				</EnumProperty>
+				<EnumProperty
+					Name="ListFormat"
+					DisplayName="List Format"
+					Category="General"
+					Description="List format. (-L)"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="-L nasm"
+							DisplayName="NASM-style"
+						/>
+					</Values>
+				</EnumProperty>
+				<StringProperty
+					Name="OutputListFile"
+					DisplayName="List File"
+					PropertyPageName="Output"
+					Category="Output"
+					Description="Name of list-file output. (-l, --lformat)"
+					Switch="-l &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="OutputObjectFile"
+					DisplayName="Object File"
+					PropertyPageName="Output"
+					Category="Output"
+					Description="Name of object-file output. (-o, --objfile)"
+					Switch="-o &quot;[value]&quot;"
+					DefaultValue="$(IntDir)\$(InputName).obj"
+				/>
+				<StringProperty
+					Name="OutputMapFile"
+					DisplayName="Map File"
+					PropertyPageName="Output"
+					Category="Output"
+					Description="Name of map-file output. (--mapfile)"
+					Switch="--mapfile=&quot;[value]&quot;"
+				/>
+				<EnumProperty
+					Name="Machine"
+					DisplayName="Machine"
+					Category="General"
+					Description="Machine. (-m)"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="-m x86"
+							DisplayName="IA-32 (x86)"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="-m amd64"
+							DisplayName="x86_64 (AMD64)"
+						/>
+					</Values>
+				</EnumProperty>
+				<BooleanProperty
+					Name="ForceStrict"
+					DisplayName="Force Strict"
+					Category="General"
+					Description="Treat all sized operands as if &apos;strict&apos; was used. (--force-strict)"
+					Switch="--force-strict"
+				/>
+				<BooleanProperty
+					Name="ShowWarnings"
+					DisplayName="Show Warnings"
+					Category="General"
+					Description="Inhibit warning messages. (-w)"
+					Switch="-w"
+				/>
+				<EnumProperty
+					Name="MessageStyle"
+					DisplayName="Message Style"
+					Category="General"
+					Description="Error/warning message style (gnu or vc). (-X)"
+					>
+					<Values>
+						<EnumValue
+							Value="0"
+							Switch="-X gnu"
+							DisplayName="GNU"
+						/>
+						<EnumValue
+							Value="1"
+							Switch="-X vc"
+							DisplayName="Visual C/C++"
+						/>
+					</Values>
+				</EnumProperty>
+				<StringProperty
+					Name="IncludePaths"
+					DisplayName="Include Paths"
+					Description="Add include paths. (-i, -I)"
+					Switch="-I&quot;[value]&quot; "
+					Delimited="true"
+					Delimiters=";"
+				/>
+				<StringProperty
+					Name="MacroDefines"
+					DisplayName="Define Macros"
+					Description="Pre-define a macro. (-d, -D)"
+					Switch="-D [value] "
+					Delimited="true"
+					Delimiters=";"
+				/>
+				<StringProperty
+					Name="PreincludeFile"
+					DisplayName="Pre-include File"
+					Description="Pre-include file. (-P)"
+					Switch="-P &quot;[value]&quot;"
+				/>
+				<StringProperty
+					Name="MacroUndefines"
+					DisplayName="Undefine Macros"
+					Description="Undefine macros. (-u, -U)"
+					Switch="-U [value] "
+					Delimited="true"
+					Delimiters=";"
+				/>
+				<StringProperty
+					Name="Prefix"
+					DisplayName="Prefix"
+					Category="General"
+					Description="Prepend argument to name of all external symbols. (--prefix)"
+					Switch="--prefix=[value]"
+				/>
+				<StringProperty
+					Name="Suffix"
+					DisplayName="Suffix"
+					Category="General"
+					Description="Append argument to name of all external symbols. (--suffix, --postfix)"
+					Switch="--suffix=[value]"
+				/>
+				<BooleanProperty
+					Name="WarningsAsErrors"
+					DisplayName="Treat Warnings as Errors"
+					Category="General"
+					Description="All warnings are treated as errors. (-Werror)"
+					Switch="-Werror"
+				/>
+				<BooleanProperty
+					Name="PreprocessOnly"
+					DisplayName="Preprocess Only"
+					Category="General"
+					Description="Stops assembly after the preprocessing stage. (-e, --preproc-only)"
+					Switch="-e"
+				/>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>

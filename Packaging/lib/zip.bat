@@ -1,0 +1,1 @@
+"%TOOLSDIR%\7z.exe" a -tzip "%ZIPFILE%" "%PKGDIR%\*"

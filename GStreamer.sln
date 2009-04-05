@@ -1,0 +1,852 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{9C442D52-5C3A-4139-9774-3E96A52061E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{A0AE4328-2CEE-458D-9B32-5E1A18F82698}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{FB3C7DEF-FBD0-44D4-935E-532D539C5674}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Good", "Good", "{C0372440-7D47-45AF-8DD5-3BC235AE9467}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ugly", "Ugly", "{7E7853F8-06A3-4D7E-BBB4-66F7A7DED12A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bad", "Bad", "{303EB0A8-443F-4593-9EB9-F042E7945EBE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstreamer", "Main\GStreamer\Libraries\libgstreamer.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7} = {6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{62123BE5-8956-48F8-8403-4D4743637899}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "Main\GStreamer\Common\common.vcproj", "{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstbase", "Main\GStreamer\Libraries\libgstbase.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstcoreelements", "Main\GStreamer\Plugins\libgstcoreelements.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E51}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E50} = {F987873B-2B88-4B1B-B627-F70DF4F91E50}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstcontroller", "Main\GStreamer\Libraries\libgstcontroller.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E52}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstdataprotocol", "Main\GStreamer\Libraries\libgstdataprotocol.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E53}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstnet", "Main\GStreamer\Libraries\libgstnet.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E54}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-inspect", "Main\GStreamer\Applications\gst-inspect.vcproj", "{F987873B-2B88-4B1B-B627-E70DF4F91E55}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-launch", "Main\GStreamer\Applications\gst-launch.vcproj", "{F987873B-2B88-4B1B-B627-E70DF4F91E56}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-xmlinspect", "Main\GStreamer\Applications\gst-xmlinspect.vcproj", "{F987873B-2B88-4B1B-B627-E70DF4F91E57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{159F4FF4-7C87-4878-846C-56C347D40788}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstadder", "Main\GStreamer\Plugins\Base\gst\libgstadder.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{651994CA-EA11-4F53-B9B5-91CCF4A4C46D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstaudio", "Main\GStreamer\Plugins\Base\gst-libs\libgstaudio.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {AB87873B-2B88-4B1B-B627-F70DF4F91F02}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstinterfaces", "Main\GStreamer\Plugins\Base\gst-libs\libgstinterfaces.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E50} = {F987873B-2B88-4B1B-B627-F70DF4F91E50}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstapp", "Main\GStreamer\Plugins\Base\gst-libs\libgstapp.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F03}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstcdda", "Main\GStreamer\Plugins\Base\gst-libs\libgstcdda.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F04}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgsttag", "Main\GStreamer\Plugins\Base\gst-libs\libgsttag.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstfft", "Main\GStreamer\Plugins\Base\gst-libs\libgstfft.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F06}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstnetbuffer", "Main\GStreamer\Plugins\Base\gst-libs\libgstnetbuffer.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F07}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstpbutils", "Main\GStreamer\Plugins\Base\gst-libs\libgstpbutils.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F08}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstriff", "Main\GStreamer\Plugins\Base\gst-libs\libgstriff.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F09}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstrtp", "Main\GStreamer\Plugins\Base\gst-libs\libgstrtp.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F10}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {F987873B-2B88-4B1B-B627-F70DF4F91E52}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstrtsp", "Main\GStreamer\Plugins\Base\gst-libs\libgstrtsp.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F11}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstsdp", "Main\GStreamer\Plugins\Base\gst-libs\libgstsdp.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F12}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideo", "Main\GStreamer\Plugins\Base\gst-libs\libgstvideo.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstaudioconvert", "Main\GStreamer\Plugins\Base\gst\libgstaudioconvert.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F15}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstaudiorate", "Main\GStreamer\Plugins\Base\gst\libgstaudiorate.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F16}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstaudiotestsrc", "Main\GStreamer\Plugins\Base\gst\libgstaudiotestsrc.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F17}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstffmpegcolorspace", "Main\GStreamer\Plugins\Base\gst\libgstffmpegcolorspace.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F18}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstgdp", "Main\GStreamer\Plugins\Base\gst\libgstgdp.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F19}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstplayback", "Main\GStreamer\Plugins\Base\gst\libgstplayback.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F20}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgsttypefind", "Main\GStreamer\Plugins\Base\gst\libgsttypefind.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F24}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideorate", "Main\GStreamer\Plugins\Base\gst\libgstvideorate.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F25}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideoscale", "Main\GStreamer\Plugins\Base\gst\libgstvideoscale.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F26}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideotestsrc", "Main\GStreamer\Plugins\Base\gst\libgstvideotestsrc.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F27}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvolume", "Main\GStreamer\Plugins\Base\gst\libgstvolume.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F28}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstappplugin", "Main\GStreamer\Plugins\Base\gst\libgstappplugin.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F14}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F03} = {AB87873B-2B88-4B1B-B627-F70DF4F91F03}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{D1BB4E59-5FD4-4B09-AD6A-28701A507050}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstgio", "Main\GStreamer\Plugins\Base\ext\libgstgio.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F29}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstpango", "Main\GStreamer\Plugins\Base\ext\libgstpango.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F30}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstogg", "Main\GStreamer\Plugins\Base\ext\libgstogg.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A00}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09} = {AB87873B-2B88-4B1B-B627-F70DF4F91F09}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgsttheora", "Main\GStreamer\Plugins\Base\ext\libgsttheora.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A01}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvorbis", "Main\GStreamer\Plugins\Base\ext\libgstvorbis.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A02}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{605D951F-5D22-4AAF-99E7-F5F1AA429520}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{60091039-790A-4D1D-9566-314D62E3AE2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sys", "sys", "{CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstalpha", "Main\GStreamer\Plugins\Good\gst\libgstalpha.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A03}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstapetag", "Main\GStreamer\Plugins\Good\gst\libgstapetag.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A04}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstaudiofx", "Main\GStreamer\Plugins\Good\gst\libgstaudiofx.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A05}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstauparse", "Main\GStreamer\Plugins\Good\gst\libgstauparse.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A06}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstautodetect", "Main\GStreamer\Plugins\Good\gst\libgstautodetect.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A07}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstavi", "Main\GStreamer\Plugins\Good\gst\libgstavi.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A08}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09} = {AB87873B-2B88-4B1B-B627-F70DF4F91F09}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstcutter", "Main\GStreamer\Plugins\Good\gst\libgstcutter.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A09}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstdebug", "Main\GStreamer\Plugins\Good\gst\libgstdebug.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A10}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgsteffectv", "Main\GStreamer\Plugins\Good\gst\libgsteffectv.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A11}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstequalizer", "Main\GStreamer\Plugins\Good\gst\libgstequalizer.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A12}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstflx", "Main\GStreamer\Plugins\Good\gst\libgstflx.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A13}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgsticydemux", "Main\GStreamer\Plugins\Good\gst\libgsticydemux.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A16}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstid3demux", "Main\GStreamer\Plugins\Good\gst\libgstid3demux.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A17}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstinterleave", "Main\GStreamer\Plugins\Good\gst\libgstinterleave.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A18}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstlevel", "Main\GStreamer\Plugins\Good\gst\libgstlevel.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A20}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstmatroska", "Main\GStreamer\Plugins\Good\gst\libgstmatroska.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A21}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09} = {AB87873B-2B88-4B1B-B627-F70DF4F91F09}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstmonoscope", "Main\GStreamer\Plugins\Good\gst\libgstmonoscope.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A22}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstmultifile", "Main\GStreamer\Plugins\Good\gst\libgstmultifile.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A23}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstmultipart", "Main\GStreamer\Plugins\Good\gst\libgstmultipart.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A24}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstqtdemux", "Main\GStreamer\Plugins\Good\gst\libgstqtdemux.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A25}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F03} = {AB87873B-2B88-4B1B-B627-F70DF4F91F03}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F10} = {AB87873B-2B88-4B1B-B627-F70DF4F91F10}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstreplaygain", "Main\GStreamer\Plugins\Good\gst\libgstreplaygain.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A26}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F08} = {AB87873B-2B88-4B1B-B627-F70DF4F91F08}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstrtp_good", "Main\GStreamer\Plugins\Good\gst\libgstrtp_good.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A27}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F10} = {AB87873B-2B88-4B1B-B627-F70DF4F91F10}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstrtsp_good", "Main\GStreamer\Plugins\Good\gst\libgstrtsp_good.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A28}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F10} = {AB87873B-2B88-4B1B-B627-F70DF4F91F10}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F11} = {AB87873B-2B88-4B1B-B627-F70DF4F91F11}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F12} = {AB87873B-2B88-4B1B-B627-F70DF4F91F12}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstsmpte", "Main\GStreamer\Plugins\Good\gst\libgstsmpte.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A29}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstspectrum", "Main\GStreamer\Plugins\Good\gst\libgstspectrum.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A30}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F06} = {AB87873B-2B88-4B1B-B627-F70DF4F91F06}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstudp", "Main\GStreamer\Plugins\Good\gst\libgstudp.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A31}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F07} = {AB87873B-2B88-4B1B-B627-F70DF4F91F07}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideobox", "Main\GStreamer\Plugins\Good\gst\libgstvideobox.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A32}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideocrop", "Main\GStreamer\Plugins\Good\gst\libgstvideocrop.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A33}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideomixer", "Main\GStreamer\Plugins\Good\gst\libgstvideomixer.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A35}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstwaveenc", "Main\GStreamer\Plugins\Good\gst\libgstwaveenc.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A36}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstwavparse", "Main\GStreamer\Plugins\Good\gst\libgstwavparse.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A37}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09} = {AB87873B-2B88-4B1B-B627-F70DF4F91F09}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstalaw", "Main\GStreamer\Plugins\Good\gst\libgstalaw.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A19}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstmulaw", "Main\GStreamer\Plugins\Good\gst\libgstmulaw.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A38}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideofiltergamma", "Main\GStreamer\Plugins\Good\gst\libgstvideofiltergamma.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A34}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideofilterbalance", "Main\GStreamer\Plugins\Good\gst\libgstvideofilterbalance.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A39}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {AB87873B-2B88-4B1B-B627-F70DF4F91F02}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstvideofilterflip", "Main\GStreamer\Plugins\Good\gst\libgstvideofilterflip.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FFmpeg", "FFmpeg", "{4A3588FE-548D-4D01-8BF3-F8CD704AE953}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{257EBB00-F5E5-4296-A6C0-23BB8748639B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstffmpeg", "Main\GStreamer\Plugins\FFmpeg\ext\libgstffmpeg.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92000}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstdirectsound", "Main\GStreamer\Plugins\Good\sys\libgstdirectsound.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92001}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {AB87873B-2B88-4B1B-B627-F70DF4F91F02}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstdirectdraw", "Main\GStreamer\Plugins\Good\sys\libgstdirectdraw.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92002}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {AB87873B-2B88-4B1B-B627-F70DF4F91F02}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstwaveform", "Main\GStreamer\Plugins\Good\sys\libgstwaveform.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92003}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstcairo", "Main\GStreamer\Plugins\Good\ext\libgstcairo.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92004}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstjpeg", "Main\GStreamer\Plugins\Good\ext\libgstjpeg.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92006}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstpng", "Main\GStreamer\Plugins\Good\ext\libgstpng.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92005}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstsoup", "Main\GStreamer\Plugins\Good\ext\libgstsoup.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92008}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GStreamer", "GStreamer", "{2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{E2273E8E-71C8-4604-AA37-355C47543E40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{9FD26CEB-D029-4819-A438-AFF7AB591097}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sys", "sys", "{505E1481-6A3D-4189-B216-9FA83AA9742A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstneon", "Main\GStreamer\Plugins\Bad\ext\libgstneon.vcproj", "{ECA7C701-FB88-4BFE-CE27-F70DF4F90001}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49}.Release|Win32.Build.0 = Release|Win32
+		{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7}.Debug|Win32.Build.0 = Debug|Win32
+		{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7}.Release|Win32.ActiveCfg = Release|Win32
+		{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E50}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E50}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E50}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E50}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E51}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E51}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E51}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E51}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E55}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E55}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E55}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E55}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E56}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E56}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E56}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E56}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E57}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E57}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E57}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-4B1B-B627-E70DF4F91E57}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F00}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F00}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F00}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F00}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F03}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F03}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F03}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F03}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F04}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F04}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F04}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F04}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F06}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F06}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F06}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F06}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F07}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F07}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F07}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F07}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F08}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F08}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F08}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F08}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F10}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F10}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F10}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F10}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F11}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F11}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F11}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F11}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F12}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F12}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F12}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F12}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F15}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F15}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F15}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F15}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F16}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F16}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F16}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F16}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F17}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F17}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F17}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F17}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F18}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F18}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F18}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F19}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F19}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F19}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F19}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F20}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F20}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F20}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F20}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F24}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F24}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F24}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F24}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F25}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F25}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F25}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F25}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F26}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F26}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F26}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F26}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F27}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F27}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F27}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F27}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F28}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F28}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F28}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F28}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F14}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F14}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F14}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F14}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F29}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F29}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F29}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F29}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F30}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F30}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F30}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F30}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A00}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A00}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A00}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A00}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A01}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A01}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A01}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A01}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A02}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A02}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A02}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A02}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A03}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A03}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A03}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A03}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A04}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A04}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A04}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A04}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A05}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A05}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A05}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A05}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A06}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A06}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A06}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A06}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A07}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A07}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A07}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A07}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A08}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A08}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A08}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A08}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A09}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A09}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A09}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A09}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A10}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A10}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A10}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A10}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A11}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A11}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A11}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A11}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A12}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A12}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A12}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A12}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A13}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A13}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A13}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A13}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A16}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A16}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A16}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A16}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A17}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A17}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A17}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A17}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A18}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A18}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A18}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A20}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A20}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A20}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A20}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A21}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A21}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A21}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A21}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A22}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A22}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A22}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A22}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A23}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A23}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A23}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A23}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A24}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A24}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A24}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A24}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A25}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A25}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A25}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A25}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A26}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A26}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A26}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A26}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A27}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A27}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A27}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A27}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A28}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A28}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A28}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A28}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A29}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A29}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A29}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A29}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A30}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A30}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A30}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A30}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A31}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A31}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A31}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A31}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A32}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A32}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A32}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A32}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A33}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A33}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A33}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A33}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A35}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A35}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A35}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A35}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A36}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A36}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A36}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A36}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A37}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A37}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A37}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A37}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A19}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A19}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A19}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A19}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A38}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A38}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A38}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A38}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A34}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A34}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A34}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A34}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A39}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A39}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A39}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A39}.Release|Win32.Build.0 = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A40}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A40}.Debug|Win32.Build.0 = Debug|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A40}.Release|Win32.ActiveCfg = Release|Win32
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A40}.Release|Win32.Build.0 = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Debug|Win32.Build.0 = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release|Win32.Build.0 = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92001}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92001}.Debug|Win32.Build.0 = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92001}.Release|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92001}.Release|Win32.Build.0 = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92002}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92002}.Debug|Win32.Build.0 = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92002}.Release|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92002}.Release|Win32.Build.0 = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92003}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92003}.Debug|Win32.Build.0 = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92003}.Release|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92003}.Release|Win32.Build.0 = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92004}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92004}.Debug|Win32.Build.0 = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92004}.Release|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92004}.Release|Win32.Build.0 = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92006}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92006}.Debug|Win32.Build.0 = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92006}.Release|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92006}.Release|Win32.Build.0 = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92005}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92005}.Debug|Win32.Build.0 = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92005}.Release|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92005}.Release|Win32.Build.0 = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92008}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92008}.Debug|Win32.Build.0 = Debug|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92008}.Release|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92008}.Release|Win32.Build.0 = Release|Win32
+		{ECA7C701-FB88-4BFE-CE27-F70DF4F90001}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECA7C701-FB88-4BFE-CE27-F70DF4F90001}.Debug|Win32.Build.0 = Debug|Win32
+		{ECA7C701-FB88-4BFE-CE27-F70DF4F90001}.Release|Win32.ActiveCfg = Release|Win32
+		{ECA7C701-FB88-4BFE-CE27-F70DF4F90001}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F987873B-2B88-4B1B-B627-E70DF4F91E55} = {9C442D52-5C3A-4139-9774-3E96A52061E9}
+		{F987873B-2B88-4B1B-B627-E70DF4F91E56} = {9C442D52-5C3A-4139-9774-3E96A52061E9}
+		{F987873B-2B88-4B1B-B627-E70DF4F91E57} = {9C442D52-5C3A-4139-9774-3E96A52061E9}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E50} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
+		{FB3C7DEF-FBD0-44D4-935E-532D539C5674} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
+		{C0372440-7D47-45AF-8DD5-3BC235AE9467} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
+		{7E7853F8-06A3-4D7E-BBB4-66F7A7DED12A} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
+		{303EB0A8-443F-4593-9EB9-F042E7945EBE} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
+		{F987873B-2B88-4B1B-B627-F70DF4F91E51} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
+		{4A3588FE-548D-4D01-8BF3-F8CD704AE953} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
+		{159F4FF4-7C87-4878-846C-56C347D40788} = {FB3C7DEF-FBD0-44D4-935E-532D539C5674}
+		{651994CA-EA11-4F53-B9B5-91CCF4A4C46D} = {FB3C7DEF-FBD0-44D4-935E-532D539C5674}
+		{D1BB4E59-5FD4-4B09-AD6A-28701A507050} = {FB3C7DEF-FBD0-44D4-935E-532D539C5674}
+		{605D951F-5D22-4AAF-99E7-F5F1AA429520} = {C0372440-7D47-45AF-8DD5-3BC235AE9467}
+		{60091039-790A-4D1D-9566-314D62E3AE2A} = {C0372440-7D47-45AF-8DD5-3BC235AE9467}
+		{CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF} = {C0372440-7D47-45AF-8DD5-3BC235AE9467}
+		{133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB} = {303EB0A8-443F-4593-9EB9-F042E7945EBE}
+		{E2273E8E-71C8-4604-AA37-355C47543E40} = {303EB0A8-443F-4593-9EB9-F042E7945EBE}
+		{9FD26CEB-D029-4819-A438-AFF7AB591097} = {303EB0A8-443F-4593-9EB9-F042E7945EBE}
+		{505E1481-6A3D-4189-B216-9FA83AA9742A} = {303EB0A8-443F-4593-9EB9-F042E7945EBE}
+		{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7} = {62123BE5-8956-48F8-8403-4D4743637899}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F00} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F15} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F16} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F17} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F18} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F19} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F20} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F24} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F25} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F26} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F27} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F28} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F14} = {159F4FF4-7C87-4878-846C-56C347D40788}
+		{7BE48F86-DEB7-471B-A194-D1CA4F7BC25B} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F03} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F04} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F06} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F07} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F08} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F10} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F11} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F12} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {7BE48F86-DEB7-471B-A194-D1CA4F7BC25B}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F29} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F30} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A00} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A01} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A02} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
+		{BC97873B-2B88-4B1B-C627-F70DF4F92004} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
+		{BC97873B-2B88-4B1B-C627-F70DF4F92006} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
+		{BC97873B-2B88-4B1B-C627-F70DF4F92005} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
+		{BC97873B-2B88-4B1B-C627-F70DF4F92008} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A03} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A04} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A05} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A06} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A07} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A08} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A09} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A10} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A11} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A12} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A13} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A16} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A17} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A18} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A20} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A21} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A22} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A23} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A24} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A25} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A26} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A27} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A28} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A29} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A30} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A31} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A32} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A33} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A35} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A36} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A37} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A19} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A38} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A34} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A39} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{AB87873B-2B88-4B1B-B627-F70DF4F92A40} = {60091039-790A-4D1D-9566-314D62E3AE2A}
+		{BC97873B-2B88-4B1B-C627-F70DF4F92001} = {CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF}
+		{BC97873B-2B88-4B1B-C627-F70DF4F92002} = {CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF}
+		{BC97873B-2B88-4B1B-C627-F70DF4F92003} = {CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF}
+		{257EBB00-F5E5-4296-A6C0-23BB8748639B} = {4A3588FE-548D-4D01-8BF3-F8CD704AE953}
+		{BC97873B-2B88-4B1B-C627-F70DF4F92000} = {257EBB00-F5E5-4296-A6C0-23BB8748639B}
+		{62123BE5-8956-48F8-8403-4D4743637899} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
+		{9C442D52-5C3A-4139-9774-3E96A52061E9} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
+		{AEB96E9E-A85F-42CB-8B93-6B3B530BEA14} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
+		{A0AE4328-2CEE-458D-9B32-5E1A18F82698} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
+		{ECA7C701-FB88-4BFE-CE27-F70DF4F90001} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
+	EndGlobalSection
+EndGlobal
