@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<book xmlns="http://www.devhelp.net/book" title="GStreamer Good Plugins 0.10 Plugins Reference Manual" link="index.html" author="" name="gst-plugins-good-plugins">
+  <chapters>
+    <sub name="gst-plugins-good Elements" link="ch01.html">
+      <sub name="aasink" link="gst-plugins-good-plugins-aasink.html"/>
+      <sub name="alphacolor" link="gst-plugins-good-plugins-alphacolor.html"/>
+      <sub name="alawdec" link="gst-plugins-good-plugins-alawdec.html"/>
+      <sub name="alawenc" link="gst-plugins-good-plugins-alawenc.html"/>
+      <sub name="apedemux" link="gst-plugins-good-plugins-apedemux.html"/>
+      <sub name="apev2mux" link="gst-plugins-good-plugins-apev2mux.html"/>
+      <sub name="aspectratiocrop" link="gst-plugins-good-plugins-aspectratiocrop.html"/>
+      <sub name="audioamplify" link="gst-plugins-good-plugins-audioamplify.html"/>
+      <sub name="audiochebband" link="gst-plugins-good-plugins-audiochebband.html"/>
+      <sub name="audiocheblimit" link="gst-plugins-good-plugins-audiocheblimit.html"/>
+      <sub name="audiofirfilter" link="gst-plugins-good-plugins-audiofirfilter.html"/>
+      <sub name="audioiirfilter" link="gst-plugins-good-plugins-audioiirfilter.html"/>
+      <sub name="audiowsincband" link="gst-plugins-good-plugins-audiowsincband.html"/>
+      <sub name="audiowsinclimit" link="gst-plugins-good-plugins-audiowsinclimit.html"/>
+      <sub name="audioecho" link="gst-plugins-good-plugins-audioecho.html"/>
+      <sub name="audiodynamic" link="gst-plugins-good-plugins-audiodynamic.html"/>
+      <sub name="audioinvert" link="gst-plugins-good-plugins-audioinvert.html"/>
+      <sub name="audiopanorama" link="gst-plugins-good-plugins-audiopanorama.html"/>
+      <sub name="audiokaraoke" link="gst-plugins-good-plugins-audiokaraoke.html"/>
+      <sub name="autoaudiosink" link="gst-plugins-good-plugins-autoaudiosink.html"/>
+      <sub name="autoaudiosrc" link="gst-plugins-good-plugins-autoaudiosrc.html"/>
+      <sub name="autovideosink" link="gst-plugins-good-plugins-autovideosink.html"/>
+      <sub name="autovideosrc" link="gst-plugins-good-plugins-autovideosrc.html"/>
+      <sub name="avidemux" link="gst-plugins-good-plugins-avidemux.html"/>
+      <sub name="avimux" link="gst-plugins-good-plugins-avimux.html"/>
+      <sub name="avisubtitle" link="gst-plugins-good-plugins-avisubtitle.html"/>
+      <sub name="cacasink" link="gst-plugins-good-plugins-cacasink.html"/>
+      <sub name="cairotextoverlay" link="gst-plugins-good-plugins-cairotextoverlay.html"/>
+      <sub name="cairotimeoverlay" link="gst-plugins-good-plugins-cairotimeoverlay.html"/>
+      <sub name="cmmldec" link="gst-plugins-good-plugins-cmmldec.html"/>
+      <sub name="cmmlenc" link="gst-plugins-good-plugins-cmmlenc.html"/>
+      <sub name="cutter" link="gst-plugins-good-plugins-cutter.html"/>
+      <sub name="deinterleave" link="gst-plugins-good-plugins-deinterleave.html"/>
+      <sub name="directdrawsink" link="gst-plugins-good-plugins-directdrawsink.html"/>
+      <sub name="directsoundsink" link="gst-plugins-good-plugins-directsoundsink.html"/>
+      <sub name="dv1394src" link="gst-plugins-good-plugins-dv1394src.html"/>
+      <sub name="dvdec" link="gst-plugins-good-plugins-dvdec.html"/>
+      <sub name="dvdemux" link="gst-plugins-good-plugins-dvdemux.html"/>
+      <sub name="equalizer-10bands" link="gst-plugins-good-plugins-equalizer-10bands.html"/>
+      <sub name="equalizer-3bands" link="gst-plugins-good-plugins-equalizer-3bands.html"/>
+      <sub name="equalizer-nbands" link="gst-plugins-good-plugins-equalizer-nbands.html"/>
+      <sub name="esdsink" link="gst-plugins-good-plugins-esdsink.html"/>
+      <sub name="flacdec" link="gst-plugins-good-plugins-flacdec.html"/>
+      <sub name="flacenc" link="gst-plugins-good-plugins-flacenc.html"/>
+      <sub name="flactag" link="gst-plugins-good-plugins-flactag.html"/>
+      <sub name="gamma" link="gst-plugins-good-plugins-gamma.html"/>
+      <sub name="gconfaudiosrc" link="gst-plugins-good-plugins-gconfaudiosrc.html"/>
+      <sub name="gconfaudiosink" link="gst-plugins-good-plugins-gconfaudiosink.html"/>
+      <sub name="gconfvideosrc" link="gst-plugins-good-plugins-gconfvideosrc.html"/>
+      <sub name="gconfvideosink" link="gst-plugins-good-plugins-gconfvideosink.html"/>
+      <sub name="gdkpixbufsink" link="gst-plugins-good-plugins-gdkpixbufsink.html"/>
+      <sub name="goom" link="gst-plugins-good-plugins-goom.html"/>
+      <sub name="goom2k1" link="gst-plugins-good-plugins-goom2k1.html"/>
+      <sub name="halaudiosink" link="gst-plugins-good-plugins-halaudiosink.html"/>
+      <sub name="halaudiosrc" link="gst-plugins-good-plugins-halaudiosrc.html"/>
+      <sub name="hdv1394src" link="gst-plugins-good-plugins-hdv1394src.html"/>
+      <sub name="icydemux" link="gst-plugins-good-plugins-icydemux.html"/>
+      <sub name="id3demux" link="gst-plugins-good-plugins-id3demux.html"/>
+      <sub name="id3v2mux" link="gst-plugins-good-plugins-id3v2mux.html"/>
+      <sub name="interleave" link="gst-plugins-good-plugins-interleave.html"/>
+      <sub name="jpegdec" link="gst-plugins-good-plugins-jpegdec.html"/>
+      <sub name="jpegenc" link="gst-plugins-good-plugins-jpegenc.html"/>
+      <sub name="level" link="gst-plugins-good-plugins-level.html"/>
+      <sub name="matroskamux" link="gst-plugins-good-plugins-matroskamux.html"/>
+      <sub name="matroskademux" link="gst-plugins-good-plugins-matroskademux.html"/>
+      <sub name="monoscope" link="gst-plugins-good-plugins-monoscope.html"/>
+      <sub name="mulawdec" link="gst-plugins-good-plugins-mulawdec.html"/>
+      <sub name="mulawenc" link="gst-plugins-good-plugins-mulawenc.html"/>
+      <sub name="multifilesink" link="gst-plugins-good-plugins-multifilesink.html"/>
+      <sub name="multifilesrc" link="gst-plugins-good-plugins-multifilesrc.html"/>
+      <sub name="multipartdemux" link="gst-plugins-good-plugins-multipartdemux.html"/>
+      <sub name="multipartmux" link="gst-plugins-good-plugins-multipartmux.html"/>
+      <sub name="multiudpsink" link="gst-plugins-good-plugins-multiudpsink.html"/>
+      <sub name="ossmixer" link="gst-plugins-good-plugins-ossmixer.html"/>
+      <sub name="osssink" link="gst-plugins-good-plugins-osssink.html"/>
+      <sub name="osssrc" link="gst-plugins-good-plugins-osssrc.html"/>
+      <sub name="osxaudiosink" link="gst-plugins-good-plugins-osxaudiosink.html"/>
+      <sub name="osxaudiosrc" link="gst-plugins-good-plugins-osxaudiosrc.html"/>
+      <sub name="osxvideosink" link="gst-plugins-good-plugins-osxvideosink.html"/>
+      <sub name="pngdec" link="gst-plugins-good-plugins-pngdec.html"/>
+      <sub name="pngenc" link="gst-plugins-good-plugins-pngenc.html"/>
+      <sub name="progressreport" link="gst-plugins-good-plugins-progressreport.html"/>
+      <sub name="pulsesink" link="gst-plugins-good-plugins-pulsesink.html"/>
+      <sub name="pulsesrc" link="gst-plugins-good-plugins-pulsesrc.html"/>
+      <sub name="pulsemixer" link="gst-plugins-good-plugins-pulsemixer.html"/>
+      <sub name="qtdemux" link="gst-plugins-good-plugins-qtdemux.html"/>
+      <sub name="rganalysis" link="gst-plugins-good-plugins-rganalysis.html"/>
+      <sub name="rglimiter" link="gst-plugins-good-plugins-rglimiter.html"/>
+      <sub name="rgvolume" link="gst-plugins-good-plugins-rgvolume.html"/>
+      <sub name="rtpdec" link="gst-plugins-good-plugins-rtpdec.html"/>
+      <sub name="rtpjpegpay" link="gst-plugins-good-plugins-rtpjpegpay.html"/>
+      <sub name="rtspsrc" link="gst-plugins-good-plugins-rtspsrc.html"/>
+      <sub name="smokedec" link="gst-plugins-good-plugins-smokedec.html"/>
+      <sub name="smokeenc" link="gst-plugins-good-plugins-smokeenc.html"/>
+      <sub name="smpte" link="gst-plugins-good-plugins-smpte.html"/>
+      <sub name="smptealpha" link="gst-plugins-good-plugins-smptealpha.html"/>
+      <sub name="souphttpsrc" link="gst-plugins-good-plugins-souphttpsrc.html"/>
+      <sub name="spectrum" link="gst-plugins-good-plugins-spectrum.html"/>
+      <sub name="speexenc" link="gst-plugins-good-plugins-speexenc.html"/>
+      <sub name="speexdec" link="gst-plugins-good-plugins-speexdec.html"/>
+      <sub name="taginject" link="gst-plugins-good-plugins-taginject.html"/>
+      <sub name="udpsrc" link="gst-plugins-good-plugins-udpsrc.html"/>
+      <sub name="udpsink" link="gst-plugins-good-plugins-udpsink.html"/>
+      <sub name="v4l2src" link="gst-plugins-good-plugins-v4l2src.html"/>
+      <sub name="videobalance" link="gst-plugins-good-plugins-videobalance.html"/>
+      <sub name="videobox" link="gst-plugins-good-plugins-videobox.html"/>
+      <sub name="videocrop" link="gst-plugins-good-plugins-videocrop.html"/>
+      <sub name="videoflip" link="gst-plugins-good-plugins-videoflip.html"/>
+      <sub name="videomixer" link="gst-plugins-good-plugins-videomixer.html"/>
+      <sub name="wavenc" link="gst-plugins-good-plugins-wavenc.html"/>
+      <sub name="waveformsink" link="gst-plugins-good-plugins-waveformsink.html"/>
+      <sub name="wavpackdec" link="gst-plugins-good-plugins-wavpackdec.html"/>
+      <sub name="wavpackenc" link="gst-plugins-good-plugins-wavpackenc.html"/>
+      <sub name="wavpackparse" link="gst-plugins-good-plugins-wavpackparse.html"/>
+      <sub name="wavparse" link="gst-plugins-good-plugins-wavparse.html"/>
+      <sub name="ximagesrc" link="gst-plugins-good-plugins-ximagesrc.html"/>
+    </sub>
+    <sub name="gst-plugins-good Plugins" link="ch02.html">
+      <sub name="1394" link="gst-plugins-good-plugins-plugin-1394.html"/>
+      <sub name="aasink" link="gst-plugins-good-plugins-plugin-aasink.html"/>
+      <sub name="alaw" link="gst-plugins-good-plugins-plugin-alaw.html"/>
+      <sub name="alpha" link="gst-plugins-good-plugins-plugin-alpha.html"/>
+      <sub name="alphacolor" link="gst-plugins-good-plugins-plugin-alphacolor.html"/>
+      <sub name="annodex" link="gst-plugins-good-plugins-plugin-annodex.html"/>
+      <sub name="apetag" link="gst-plugins-good-plugins-plugin-apetag.html"/>
+      <sub name="audiofx" link="gst-plugins-good-plugins-plugin-audiofx.html"/>
+      <sub name="auparse" link="gst-plugins-good-plugins-plugin-auparse.html"/>
+      <sub name="autodetect" link="gst-plugins-good-plugins-plugin-autodetect.html"/>
+      <sub name="avi" link="gst-plugins-good-plugins-plugin-avi.html"/>
+      <sub name="cacasink" link="gst-plugins-good-plugins-plugin-cacasink.html"/>
+      <sub name="cairo" link="gst-plugins-good-plugins-plugin-cairo.html"/>
+      <sub name="cutter" link="gst-plugins-good-plugins-plugin-cutter.html"/>
+      <sub name="debug" link="gst-plugins-good-plugins-plugin-debug.html"/>
+      <sub name="directdraw" link="gst-plugins-good-plugins-plugin-directdraw.html"/>
+      <sub name="directsound" link="gst-plugins-good-plugins-plugin-directsound.html"/>
+      <sub name="dv" link="gst-plugins-good-plugins-plugin-dv.html"/>
+      <sub name="efence" link="gst-plugins-good-plugins-plugin-efence.html"/>
+      <sub name="equalizer" link="gst-plugins-good-plugins-plugin-equalizer.html"/>
+      <sub name="effectv" link="gst-plugins-good-plugins-plugin-effectv.html"/>
+      <sub name="esdsink" link="gst-plugins-good-plugins-plugin-esdsink.html"/>
+      <sub name="flac" link="gst-plugins-good-plugins-plugin-flac.html"/>
+      <sub name="flxdec" link="gst-plugins-good-plugins-plugin-flxdec.html"/>
+      <sub name="gamma" link="gst-plugins-good-plugins-plugin-gamma.html"/>
+      <sub name="gconfelements" link="gst-plugins-good-plugins-plugin-gconfelements.html"/>
+      <sub name="gdkpixbuf" link="gst-plugins-good-plugins-plugin-gdkpixbuf.html"/>
+      <sub name="goom" link="gst-plugins-good-plugins-plugin-goom.html"/>
+      <sub name="goom2k1" link="gst-plugins-good-plugins-plugin-goom2k1.html"/>
+      <sub name="halelements" link="gst-plugins-good-plugins-plugin-halelements.html"/>
+      <sub name="icydemux" link="gst-plugins-good-plugins-plugin-icydemux.html"/>
+      <sub name="id3demux" link="gst-plugins-good-plugins-plugin-id3demux.html"/>
+      <sub name="interleave" link="gst-plugins-good-plugins-plugin-interleave.html"/>
+      <sub name="jpeg" link="gst-plugins-good-plugins-plugin-jpeg.html"/>
+      <sub name="level" link="gst-plugins-good-plugins-plugin-level.html"/>
+      <sub name="matroska" link="gst-plugins-good-plugins-plugin-matroska.html"/>
+      <sub name="monoscope" link="gst-plugins-good-plugins-plugin-monoscope.html"/>
+      <sub name="mulaw" link="gst-plugins-good-plugins-plugin-mulaw.html"/>
+      <sub name="multifile" link="gst-plugins-good-plugins-plugin-multifile.html"/>
+      <sub name="multipart" link="gst-plugins-good-plugins-plugin-multipart.html"/>
+      <sub name="navigationtest" link="gst-plugins-good-plugins-plugin-navigationtest.html"/>
+      <sub name="ossaudio" link="gst-plugins-good-plugins-plugin-ossaudio.html"/>
+      <sub name="osxaudio" link="gst-plugins-good-plugins-plugin-osxaudio.html"/>
+      <sub name="osxvideo" link="gst-plugins-good-plugins-plugin-osxvideo.html"/>
+      <sub name="png" link="gst-plugins-good-plugins-plugin-png.html"/>
+      <sub name="pulseaudio" link="gst-plugins-good-plugins-plugin-pulseaudio.html"/>
+      <sub name="quicktime" link="gst-plugins-good-plugins-plugin-quicktime.html"/>
+      <sub name="replaygain" link="gst-plugins-good-plugins-plugin-replaygain.html"/>
+      <sub name="rtp" link="gst-plugins-good-plugins-plugin-rtp.html"/>
+      <sub name="rtsp" link="gst-plugins-good-plugins-plugin-rtsp.html"/>
+      <sub name="shout2send" link="gst-plugins-good-plugins-plugin-shout2send.html"/>
+      <sub name="smpte" link="gst-plugins-good-plugins-plugin-smpte.html"/>
+      <sub name="soup" link="gst-plugins-good-plugins-plugin-soup.html"/>
+      <sub name="spectrum" link="gst-plugins-good-plugins-plugin-spectrum.html"/>
+      <sub name="speex" link="gst-plugins-good-plugins-plugin-speex.html"/>
+      <sub name="taglib" link="gst-plugins-good-plugins-plugin-taglib.html"/>
+      <sub name="udp" link="gst-plugins-good-plugins-plugin-udp.html"/>
+      <sub name="video4linux2" link="gst-plugins-good-plugins-plugin-video4linux2.html"/>
+      <sub name="videobalance" link="gst-plugins-good-plugins-plugin-videobalance.html"/>
+      <sub name="videobox" link="gst-plugins-good-plugins-plugin-videobox.html"/>
+      <sub name="videocrop" link="gst-plugins-good-plugins-plugin-videocrop.html"/>
+      <sub name="videoflip" link="gst-plugins-good-plugins-plugin-videoflip.html"/>
+      <sub name="videomixer" link="gst-plugins-good-plugins-plugin-videomixer.html"/>
+      <sub name="waveform" link="gst-plugins-good-plugins-plugin-waveform.html"/>
+      <sub name="wavenc" link="gst-plugins-good-plugins-plugin-wavenc.html"/>
+      <sub name="wavpack" link="gst-plugins-good-plugins-plugin-wavpack.html"/>
+      <sub name="wavparse" link="gst-plugins-good-plugins-plugin-wavparse.html"/>
+      <sub name="ximagesrc" link="gst-plugins-good-plugins-plugin-ximagesrc.html"/>
+    </sub>
+    <sub name="gst-plugins-good Base Classes" link="ch03.html">
+      <sub name="GstIirEqualizer" link="GstIirEqualizer.html"/>
+      <sub name="GstVideoMixerPad" link="GstVideoMixerPad.html"/>
+    </sub>
+  </chapters>
+  <functions>
+    <function name="Example launch line" link="gst-plugins-good-plugins-aasink.html#id2885874"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-aasink.html#id2881596"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-aasink.html#id2893789"/>
+    <function name="GstAASink" link="gst-plugins-good-plugins-aasink.html#GstAASink-struct"/>
+    <function name="The &quot;brightness&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--brightness"/>
+    <function name="The &quot;contrast&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--contrast"/>
+    <function name="The &quot;dither&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--dither"/>
+    <function name="The &quot;driver&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--driver"/>
+    <function name="The &quot;frame-time&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--frame-time"/>
+    <function name="The &quot;frames-displayed&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--frames-displayed"/>
+    <function name="The &quot;gamma&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--gamma"/>
+    <function name="The &quot;height&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--height"/>
+    <function name="The &quot;inversion&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--inversion"/>
+    <function name="The &quot;randomval&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--randomval"/>
+    <function name="The &quot;width&quot; property" link="gst-plugins-good-plugins-aasink.html#GstAASink--width"/>
+    <function name="The &quot;frame-displayed&quot; signal" link="gst-plugins-good-plugins-aasink.html#GstAASink-frame-displayed"/>
+    <function name="The &quot;have-size&quot; signal" link="gst-plugins-good-plugins-aasink.html#GstAASink-have-size"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-alphacolor.html#id2888803"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-alphacolor.html#id2894721"/>
+    <function name="GstAlphaColor" link="gst-plugins-good-plugins-alphacolor.html#GstAlphaColor-struct"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-alawdec.html#id2872301"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-alawdec.html#id2879028"/>
+    <function name="GstALawDec" link="gst-plugins-good-plugins-alawdec.html#GstALawDec-struct"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-alawenc.html#id2873836"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-alawenc.html#id2865565"/>
+    <function name="GstALawDec" link="gst-plugins-good-plugins-alawenc.html#GstALawDec-struct"/>
+    <function name="GstALawEnc" link="gst-plugins-good-plugins-alawenc.html#GstALawEnc"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-apedemux.html#id2883054"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-apedemux.html#id2884998"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-apedemux.html#id2890857"/>
+    <function name="GstApeDemux" link="gst-plugins-good-plugins-apedemux.html#GstApeDemux-struct"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-apev2mux.html#id2864045"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-apev2mux.html#id2888526"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-apev2mux.html#id2890276"/>
+    <function name="GstApev2Mux" link="gst-plugins-good-plugins-apev2mux.html#GstApev2Mux-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-aspectratiocrop.html#id2900232"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-aspectratiocrop.html#id2900212"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-aspectratiocrop.html#id2900143"/>
+    <function name="GstAspectRatioCrop" link="gst-plugins-good-plugins-aspectratiocrop.html#GstAspectRatioCrop-struct"/>
+    <function name="The &quot;aspect-ratio&quot; property" link="gst-plugins-good-plugins-aspectratiocrop.html#GstAspectRatioCrop--aspect-ratio"/>
+    <function name="" link="gst-plugins-good-plugins-audioamplify.html#id2896154"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audioamplify.html#id2875887"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audioamplify.html#id2894930"/>
+    <function name="GstAudioAmplify" link="gst-plugins-good-plugins-audioamplify.html#GstAudioAmplify-struct"/>
+    <function name="The &quot;amplification&quot; property" link="gst-plugins-good-plugins-audioamplify.html#GstAudioAmplify--amplification"/>
+    <function name="The &quot;clipping-method&quot; property" link="gst-plugins-good-plugins-audioamplify.html#GstAudioAmplify--clipping-method"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audiochebband.html#id2885531"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audiochebband.html#id2893973"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audiochebband.html#id2893718"/>
+    <function name="GstAudioChebBand" link="gst-plugins-good-plugins-audiochebband.html#GstAudioChebBand-struct"/>
+    <function name="The &quot;lower-frequency&quot; property" link="gst-plugins-good-plugins-audiochebband.html#GstAudioChebBand--lower-frequency"/>
+    <function name="The &quot;mode&quot; property" link="gst-plugins-good-plugins-audiochebband.html#GstAudioChebBand--mode"/>
+    <function name="The &quot;poles&quot; property" link="gst-plugins-good-plugins-audiochebband.html#GstAudioChebBand--poles"/>
+    <function name="The &quot;ripple&quot; property" link="gst-plugins-good-plugins-audiochebband.html#GstAudioChebBand--ripple"/>
+    <function name="The &quot;type&quot; property" link="gst-plugins-good-plugins-audiochebband.html#GstAudioChebBand--type"/>
+    <function name="The &quot;upper-frequency&quot; property" link="gst-plugins-good-plugins-audiochebband.html#GstAudioChebBand--upper-frequency"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audiocheblimit.html#id2894042"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audiocheblimit.html#id2903010"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audiocheblimit.html#id2903073"/>
+    <function name="GstAudioChebLimit" link="gst-plugins-good-plugins-audiocheblimit.html#GstAudioChebLimit-struct"/>
+    <function name="The &quot;cutoff&quot; property" link="gst-plugins-good-plugins-audiocheblimit.html#GstAudioChebLimit--cutoff"/>
+    <function name="The &quot;mode&quot; property" link="gst-plugins-good-plugins-audiocheblimit.html#GstAudioChebLimit--mode"/>
+    <function name="The &quot;poles&quot; property" link="gst-plugins-good-plugins-audiocheblimit.html#GstAudioChebLimit--poles"/>
+    <function name="The &quot;ripple&quot; property" link="gst-plugins-good-plugins-audiocheblimit.html#GstAudioChebLimit--ripple"/>
+    <function name="The &quot;type&quot; property" link="gst-plugins-good-plugins-audiocheblimit.html#GstAudioChebLimit--type"/>
+    <function name="Example application" link="gst-plugins-good-plugins-audiofirfilter.html#id2874739"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audiofirfilter.html#id2873342"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audiofirfilter.html#id2873699"/>
+    <function name="GstAudioFIRFilter" link="gst-plugins-good-plugins-audiofirfilter.html#GstAudioFIRFilter-struct"/>
+    <function name="The &quot;kernel&quot; property" link="gst-plugins-good-plugins-audiofirfilter.html#GstAudioFIRFilter--kernel"/>
+    <function name="The &quot;latency&quot; property" link="gst-plugins-good-plugins-audiofirfilter.html#GstAudioFIRFilter--latency"/>
+    <function name="The &quot;rate-changed&quot; signal" link="gst-plugins-good-plugins-audiofirfilter.html#GstAudioFIRFilter-rate-changed"/>
+    <function name="Example application" link="gst-plugins-good-plugins-audioiirfilter.html#id2876021"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audioiirfilter.html#id2893048"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audioiirfilter.html#id2867387"/>
+    <function name="GstAudioIIRFilter" link="gst-plugins-good-plugins-audioiirfilter.html#GstAudioIIRFilter-struct"/>
+    <function name="The &quot;a&quot; property" link="gst-plugins-good-plugins-audioiirfilter.html#GstAudioIIRFilter--a"/>
+    <function name="The &quot;b&quot; property" link="gst-plugins-good-plugins-audioiirfilter.html#GstAudioIIRFilter--b"/>
+    <function name="The &quot;rate-changed&quot; signal" link="gst-plugins-good-plugins-audioiirfilter.html#GstAudioIIRFilter-rate-changed"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audiowsincband.html#id2882676"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audiowsincband.html#id2887573"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audiowsincband.html#id2870094"/>
+    <function name="GstAudioWSincBand" link="gst-plugins-good-plugins-audiowsincband.html#GstAudioWSincBand-struct"/>
+    <function name="The &quot;lower-frequency&quot; property" link="gst-plugins-good-plugins-audiowsincband.html#GstAudioWSincBand--lower-frequency"/>
+    <function name="The &quot;upper-frequency&quot; property" link="gst-plugins-good-plugins-audiowsincband.html#GstAudioWSincBand--upper-frequency"/>
+    <function name="The &quot;mode&quot; property" link="gst-plugins-good-plugins-audiowsincband.html#GstAudioWSincBand--mode"/>
+    <function name="The &quot;window&quot; property" link="gst-plugins-good-plugins-audiowsincband.html#GstAudioWSincBand--window"/>
+    <function name="The &quot;length&quot; property" link="gst-plugins-good-plugins-audiowsincband.html#GstAudioWSincBand--length"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audiowsinclimit.html#id2857821"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audiowsinclimit.html#id2857389"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audiowsinclimit.html#id2857453"/>
+    <function name="GstAudioWSincLimit" link="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit-struct"/>
+    <function name="The &quot;frequency&quot; property" link="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--frequency"/>
+    <function name="The &quot;length&quot; property" link="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--length"/>
+    <function name="The &quot;mode&quot; property" link="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--mode"/>
+    <function name="The &quot;window&quot; property" link="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--window"/>
+    <function name="The &quot;cutoff&quot; property" link="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--cutoff"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audioecho.html#id2887652"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audioecho.html#id2879613"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audioecho.html#id2895704"/>
+    <function name="GstAudioEcho" link="gst-plugins-good-plugins-audioecho.html#GstAudioEcho-struct"/>
+    <function name="The &quot;delay&quot; property" link="gst-plugins-good-plugins-audioecho.html#GstAudioEcho--delay"/>
+    <function name="The &quot;feedback&quot; property" link="gst-plugins-good-plugins-audioecho.html#GstAudioEcho--feedback"/>
+    <function name="The &quot;intensity&quot; property" link="gst-plugins-good-plugins-audioecho.html#GstAudioEcho--intensity"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audiodynamic.html#id2894560"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audiodynamic.html#id2864865"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audiodynamic.html#id2858961"/>
+    <function name="GstAudioDynamic" link="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic-struct"/>
+    <function name="The &quot;characteristics&quot; property" link="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic--characteristics"/>
+    <function name="The &quot;mode&quot; property" link="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic--mode"/>
+    <function name="The &quot;ratio&quot; property" link="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic--ratio"/>
+    <function name="The &quot;threshold&quot; property" link="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic--threshold"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audioinvert.html#id2856224"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audioinvert.html#id2865762"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audioinvert.html#id2877469"/>
+    <function name="GstAudioInvert" link="gst-plugins-good-plugins-audioinvert.html#GstAudioInvert-struct"/>
+    <function name="The &quot;degree&quot; property" link="gst-plugins-good-plugins-audioinvert.html#GstAudioInvert--degree"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audiopanorama.html#id2895451"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audiopanorama.html#id2908260"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audiopanorama.html#id2870905"/>
+    <function name="GstAudioPanorama" link="gst-plugins-good-plugins-audiopanorama.html#GstAudioPanorama-struct"/>
+    <function name="The &quot;panorama&quot; property" link="gst-plugins-good-plugins-audiopanorama.html#GstAudioPanorama--panorama"/>
+    <function name="The &quot;method&quot; property" link="gst-plugins-good-plugins-audiopanorama.html#GstAudioPanorama--method"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-audiokaraoke.html#id2895243"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-audiokaraoke.html#id2863144"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-audiokaraoke.html#id2883207"/>
+    <function name="GstAudioKaraoke" link="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke-struct"/>
+    <function name="The &quot;filter-band&quot; property" link="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke--filter-band"/>
+    <function name="The &quot;filter-width&quot; property" link="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke--filter-width"/>
+    <function name="The &quot;level&quot; property" link="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke--level"/>
+    <function name="The &quot;mono-level&quot; property" link="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke--mono-level"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-autoaudiosink.html#id2867129"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-autoaudiosink.html#id2872473"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-autoaudiosink.html#id2879279"/>
+    <function name="GstAutoAudioSink" link="gst-plugins-good-plugins-autoaudiosink.html#GstAutoAudioSink-struct"/>
+    <function name="The &quot;filter-caps&quot; property" link="gst-plugins-good-plugins-autoaudiosink.html#GstAutoAudioSink--filter-caps"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-autoaudiosrc.html#id2887102"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-autoaudiosrc.html#id2864717"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-autoaudiosrc.html#id2889407"/>
+    <function name="GstAutoAudioSrc" link="gst-plugins-good-plugins-autoaudiosrc.html#GstAutoAudioSrc-struct"/>
+    <function name="The &quot;filter-caps&quot; property" link="gst-plugins-good-plugins-autoaudiosrc.html#GstAutoAudioSrc--filter-caps"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-autovideosink.html#id2912503"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-autovideosink.html#id2859336"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-autovideosink.html#id2859778"/>
+    <function name="GstAutoVideoSink" link="gst-plugins-good-plugins-autovideosink.html#GstAutoVideoSink-struct"/>
+    <function name="The &quot;filter-caps&quot; property" link="gst-plugins-good-plugins-autovideosink.html#GstAutoVideoSink--filter-caps"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-autovideosrc.html#id2890230"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-autovideosrc.html#id2893413"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-autovideosrc.html#id2858920"/>
+    <function name="GstAutoVideoSrc" link="gst-plugins-good-plugins-autovideosrc.html#GstAutoVideoSrc-struct"/>
+    <function name="The &quot;filter-caps&quot; property" link="gst-plugins-good-plugins-autovideosrc.html#GstAutoVideoSrc--filter-caps"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-avidemux.html#id2868405"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-avidemux.html#id2868384"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-avidemux.html#id2868321"/>
+    <function name="GstAviDemux" link="gst-plugins-good-plugins-avidemux.html#GstAviDemux-struct"/>
+    <function name="Example launch lines" link="gst-plugins-good-plugins-avimux.html#id2905584"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-avimux.html#id2831418"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-avimux.html#id2863904"/>
+    <function name="GstAviMux" link="gst-plugins-good-plugins-avimux.html#GstAviMux-struct"/>
+    <function name="The &quot;bigfile&quot; property" link="gst-plugins-good-plugins-avimux.html#GstAviMux--bigfile"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-avisubtitle.html#id2861154"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-avisubtitle.html#id2897619"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-avisubtitle.html#id2883310"/>
+    <function name="GstAviSubtitle" link="gst-plugins-good-plugins-avisubtitle.html#GstAviSubtitle-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-cacasink.html#id2863784"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-cacasink.html#id2896676"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-cacasink.html#id2872373"/>
+    <function name="GstCACASink" link="gst-plugins-good-plugins-cacasink.html#GstCACASink-struct"/>
+    <function name="The &quot;anti-aliasing&quot; property" link="gst-plugins-good-plugins-cacasink.html#GstCACASink--anti-aliasing"/>
+    <function name="The &quot;dither&quot; property" link="gst-plugins-good-plugins-cacasink.html#GstCACASink--dither"/>
+    <function name="The &quot;screen-height&quot; property" link="gst-plugins-good-plugins-cacasink.html#GstCACASink--screen-height"/>
+    <function name="The &quot;screen-width&quot; property" link="gst-plugins-good-plugins-cacasink.html#GstCACASink--screen-width"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-cairotextoverlay.html#id2877879"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-cairotextoverlay.html#id2831694"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-cairotextoverlay.html#id2906748"/>
+    <function name="GstCairoTextOverlay" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay-struct"/>
+    <function name="The &quot;deltax&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--deltax"/>
+    <function name="The &quot;deltay&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--deltay"/>
+    <function name="The &quot;font-desc&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--font-desc"/>
+    <function name="The &quot;halign&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--halign"/>
+    <function name="The &quot;shaded-background&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--shaded-background"/>
+    <function name="The &quot;text&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--text"/>
+    <function name="The &quot;valign&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--valign"/>
+    <function name="The &quot;xpad&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--xpad"/>
+    <function name="The &quot;ypad&quot; property" link="gst-plugins-good-plugins-cairotextoverlay.html#GstCairoTextOverlay--ypad"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-cairotimeoverlay.html#id2888014"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-cairotimeoverlay.html#id2872811"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-cairotimeoverlay.html#id2830605"/>
+    <function name="GstCairoTimeOverlay" link="gst-plugins-good-plugins-cairotimeoverlay.html#GstCairoTimeOverlay-struct"/>
+    <function name="Example pipeline" link="gst-plugins-good-plugins-cmmldec.html#id2859535"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-cmmldec.html#id2897240"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-cmmldec.html#id2857321"/>
+    <function name="GstCmmlDec" link="gst-plugins-good-plugins-cmmldec.html#GstCmmlDec-struct"/>
+    <function name="The &quot;wait-clip-end-time&quot; property" link="gst-plugins-good-plugins-cmmldec.html#GstCmmlDec--wait-clip-end-time"/>
+    <function name="Example pipeline" link="gst-plugins-good-plugins-cmmlenc.html#id2889456"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-cmmlenc.html#id2863926"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-cmmlenc.html#id2871051"/>
+    <function name="GstCmmlEnc" link="gst-plugins-good-plugins-cmmlenc.html#GstCmmlEnc-struct"/>
+    <function name="The &quot;granule-rate-denominator&quot; property" link="gst-plugins-good-plugins-cmmlenc.html#GstCmmlEnc--granule-rate-denominator"/>
+    <function name="The &quot;granule-rate-numerator&quot; property" link="gst-plugins-good-plugins-cmmlenc.html#GstCmmlEnc--granule-rate-numerator"/>
+    <function name="The &quot;granule-shift&quot; property" link="gst-plugins-good-plugins-cmmlenc.html#GstCmmlEnc--granule-shift"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-cutter.html#id2883239"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-cutter.html#id2861618"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-cutter.html#id2867054"/>
+    <function name="GstCutter" link="gst-plugins-good-plugins-cutter.html#GstCutter-struct"/>
+    <function name="The &quot;leaky&quot; property" link="gst-plugins-good-plugins-cutter.html#GstCutter--leaky"/>
+    <function name="The &quot;pre-length&quot; property" link="gst-plugins-good-plugins-cutter.html#GstCutter--pre-length"/>
+    <function name="The &quot;run-length&quot; property" link="gst-plugins-good-plugins-cutter.html#GstCutter--run-length"/>
+    <function name="The &quot;threshold&quot; property" link="gst-plugins-good-plugins-cutter.html#GstCutter--threshold"/>
+    <function name="The &quot;threshold-dB&quot; property" link="gst-plugins-good-plugins-cutter.html#GstCutter--threshold-dB"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-deinterleave.html#id2878918"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-deinterleave.html#id2921287"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-deinterleave.html#id2859743"/>
+    <function name="GstDeinterleave" link="gst-plugins-good-plugins-deinterleave.html#GstDeinterleave-struct"/>
+    <function name="The &quot;keep-positions&quot; property" link="gst-plugins-good-plugins-deinterleave.html#GstDeinterleave--keep-positions"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-directdrawsink.html#id2875481"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-directdrawsink.html#id2917951"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-directdrawsink.html#id2886586"/>
+    <function name="GstDirectDrawSink" link="gst-plugins-good-plugins-directdrawsink.html#GstDirectDrawSink"/>
+    <function name="The &quot;force-aspect-ratio&quot; property" link="gst-plugins-good-plugins-directdrawsink.html#GstDirectDrawSink--force-aspect-ratio"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-directsoundsink.html#id2890720"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-directsoundsink.html#id2858572"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-directsoundsink.html#id2908016"/>
+    <function name="GstDirectSoundSink" link="gst-plugins-good-plugins-directsoundsink.html#GstDirectSoundSink"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-dv1394src.html#id2893614"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-dv1394src.html#id2859660"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-dv1394src.html#id2883888"/>
+    <function name="GstDV1394Src" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src"/>
+    <function name="The &quot;channel&quot; property" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src--channel"/>
+    <function name="The &quot;consecutive&quot; property" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src--consecutive"/>
+    <function name="The &quot;drop-incomplete&quot; property" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src--drop-incomplete"/>
+    <function name="The &quot;guid&quot; property" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src--guid"/>
+    <function name="The &quot;port&quot; property" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src--port"/>
+    <function name="The &quot;skip&quot; property" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src--skip"/>
+    <function name="The &quot;use-avc&quot; property" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src--use-avc"/>
+    <function name="The &quot;device-name&quot; property" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src--device-name"/>
+    <function name="The &quot;frame-dropped&quot; signal" link="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src-frame-dropped"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-dvdec.html#id2889325"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-dvdec.html#id2893917"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-dvdec.html#id2917809"/>
+    <function name="GstDVDec" link="gst-plugins-good-plugins-dvdec.html#GstDVDec-struct"/>
+    <function name="The &quot;clamp-chroma&quot; property" link="gst-plugins-good-plugins-dvdec.html#GstDVDec--clamp-chroma"/>
+    <function name="The &quot;clamp-luma&quot; property" link="gst-plugins-good-plugins-dvdec.html#GstDVDec--clamp-luma"/>
+    <function name="The &quot;drop-factor&quot; property" link="gst-plugins-good-plugins-dvdec.html#GstDVDec--drop-factor"/>
+    <function name="The &quot;quality&quot; property" link="gst-plugins-good-plugins-dvdec.html#GstDVDec--quality"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-dvdemux.html#id2926478"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-dvdemux.html#id2881067"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-dvdemux.html#id2886409"/>
+    <function name="GstDVDemux" link="gst-plugins-good-plugins-dvdemux.html#GstDVDemux-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-equalizer-10bands.html#id2881351"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-equalizer-10bands.html#id2928258"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-equalizer-10bands.html#id2869911"/>
+    <function name="GstIirEqualizer10Bands" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands-struct"/>
+    <function name="The &quot;band0&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band0"/>
+    <function name="The &quot;band1&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band1"/>
+    <function name="The &quot;band2&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band2"/>
+    <function name="The &quot;band3&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band3"/>
+    <function name="The &quot;band4&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band4"/>
+    <function name="The &quot;band5&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band5"/>
+    <function name="The &quot;band6&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band6"/>
+    <function name="The &quot;band7&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band7"/>
+    <function name="The &quot;band8&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band8"/>
+    <function name="The &quot;band9&quot; property" link="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band9"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-equalizer-3bands.html#id2875769"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-equalizer-3bands.html#id2899817"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-equalizer-3bands.html#id2922147"/>
+    <function name="GstIirEqualizer3Bands" link="gst-plugins-good-plugins-equalizer-3bands.html#GstIirEqualizer3Bands-struct"/>
+    <function name="The &quot;band0&quot; property" link="gst-plugins-good-plugins-equalizer-3bands.html#GstIirEqualizer3Bands--band0"/>
+    <function name="The &quot;band1&quot; property" link="gst-plugins-good-plugins-equalizer-3bands.html#GstIirEqualizer3Bands--band1"/>
+    <function name="The &quot;band2&quot; property" link="gst-plugins-good-plugins-equalizer-3bands.html#GstIirEqualizer3Bands--band2"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-equalizer-nbands.html#id2902617"/>
+    <function name="Example code" link="gst-plugins-good-plugins-equalizer-nbands.html#id2881646"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-equalizer-nbands.html#id2906637"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-equalizer-nbands.html#id2910228"/>
+    <function name="GstIirEqualizerNBands" link="gst-plugins-good-plugins-equalizer-nbands.html#GstIirEqualizerNBands-struct"/>
+    <function name="The &quot;num-bands&quot; property" link="gst-plugins-good-plugins-equalizer-nbands.html#GstIirEqualizerNBands--num-bands"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-esdsink.html#id2911971"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-esdsink.html#id2921799"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-esdsink.html#id2900437"/>
+    <function name="GstEsdSink" link="gst-plugins-good-plugins-esdsink.html#GstEsdSink-struct"/>
+    <function name="The &quot;host&quot; property" link="gst-plugins-good-plugins-esdsink.html#GstEsdSink--host"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-flacdec.html#id2883466"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-flacdec.html#id2879526"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-flacdec.html#id2912888"/>
+    <function name="GstFlacDec" link="gst-plugins-good-plugins-flacdec.html#GstFlacDec-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-flacenc.html#id2914328"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-flacenc.html#id2912909"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-flacenc.html#id2927305"/>
+    <function name="GstFlacEnc" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc-struct"/>
+    <function name="The &quot;blocksize&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--blocksize"/>
+    <function name="The &quot;escape-coding&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--escape-coding"/>
+    <function name="The &quot;exhaustive-model-search&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--exhaustive-model-search"/>
+    <function name="The &quot;loose-mid-side-stereo&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--loose-mid-side-stereo"/>
+    <function name="The &quot;max-lpc-order&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--max-lpc-order"/>
+    <function name="The &quot;max-residual-partition-order&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--max-residual-partition-order"/>
+    <function name="The &quot;mid-side-stereo&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--mid-side-stereo"/>
+    <function name="The &quot;min-residual-partition-order&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--min-residual-partition-order"/>
+    <function name="The &quot;qlp-coeff-prec-search&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--qlp-coeff-prec-search"/>
+    <function name="The &quot;qlp-coeff-precision&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--qlp-coeff-precision"/>
+    <function name="The &quot;quality&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--quality"/>
+    <function name="The &quot;rice-parameter-search-dist&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--rice-parameter-search-dist"/>
+    <function name="The &quot;streamable-subset&quot; property" link="gst-plugins-good-plugins-flacenc.html#GstFlacEnc--streamable-subset"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-flactag.html#id2858126"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-flactag.html#id2869235"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-flactag.html#id2874496"/>
+    <function name="GstFlacTag" link="gst-plugins-good-plugins-flactag.html#GstFlacTag-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-gamma.html#id2906605"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-gamma.html#id2921766"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-gamma.html#id2874291"/>
+    <function name="GstGamma" link="gst-plugins-good-plugins-gamma.html#GstGamma-struct"/>
+    <function name="The &quot;gamma&quot; property" link="gst-plugins-good-plugins-gamma.html#GstGamma--gamma"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-gconfaudiosrc.html#id2818459"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-gconfaudiosrc.html#id2871557"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-gconfaudiosrc.html#id2930942"/>
+    <function name="GstGConfAudioSrc" link="gst-plugins-good-plugins-gconfaudiosrc.html#GstGConfAudioSrc-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-gconfaudiosink.html#id2917418"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-gconfaudiosink.html#id2917924"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-gconfaudiosink.html#id2827142"/>
+    <function name="GstGConfAudioSink" link="gst-plugins-good-plugins-gconfaudiosink.html#GstGConfAudioSink-struct"/>
+    <function name="The &quot;profile&quot; property" link="gst-plugins-good-plugins-gconfaudiosink.html#GstGConfAudioSink--profile"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-gconfvideosrc.html#id2881302"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-gconfvideosrc.html#id2858076"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-gconfvideosrc.html#id2858273"/>
+    <function name="GstGConfVideoSrc" link="gst-plugins-good-plugins-gconfvideosrc.html#GstGConfVideoSrc-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-gconfvideosink.html#id2878744"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-gconfvideosink.html#id2862919"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-gconfvideosink.html#id2885193"/>
+    <function name="GstGConfVideoSink" link="gst-plugins-good-plugins-gconfvideosink.html#GstGConfVideoSink-struct"/>
+    <function name="Message details" link="gst-plugins-good-plugins-gdkpixbufsink.html#id2882027"/>
+    <function name="Example pipeline" link="gst-plugins-good-plugins-gdkpixbufsink.html#id2927318"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-gdkpixbufsink.html#id2925044"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-gdkpixbufsink.html#id2925105"/>
+    <function name="GstGdkPixbufSink" link="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink-struct"/>
+    <function name="The &quot;last-pixbuf&quot; property" link="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink--last-pixbuf"/>
+    <function name="The &quot;send-messages&quot; property" link="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink--send-messages"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-goom.html#id2920855"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-goom.html#id2893074"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-goom.html#id2896398"/>
+    <function name="GstGoom" link="gst-plugins-good-plugins-goom.html#GstGoom-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-goom2k1.html#id2831574"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-goom2k1.html#id2895912"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-goom2k1.html#id2830563"/>
+    <function name="GstGoom" link="gst-plugins-good-plugins-goom2k1.html#GstGoom-struct"/>
+    <function name="Examples" link="gst-plugins-good-plugins-halaudiosink.html#id2913713"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-halaudiosink.html#id2915751"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-halaudiosink.html#id2885870"/>
+    <function name="GstHalAudioSink" link="gst-plugins-good-plugins-halaudiosink.html#GstHalAudioSink-struct"/>
+    <function name="The &quot;udi&quot; property" link="gst-plugins-good-plugins-halaudiosink.html#GstHalAudioSink--udi"/>
+    <function name="Examples" link="gst-plugins-good-plugins-halaudiosrc.html#id2858866"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-halaudiosrc.html#id2872879"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-halaudiosrc.html#id2921653"/>
+    <function name="GstHalAudioSrc" link="gst-plugins-good-plugins-halaudiosrc.html#GstHalAudioSrc-struct"/>
+    <function name="The &quot;udi&quot; property" link="gst-plugins-good-plugins-halaudiosrc.html#GstHalAudioSrc--udi"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-hdv1394src.html#id2909228"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-hdv1394src.html#id2934304"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-hdv1394src.html#id2910190"/>
+    <function name="GstHDV1394Src" link="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src"/>
+    <function name="The &quot;channel&quot; property" link="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--channel"/>
+    <function name="The &quot;device-name&quot; property" link="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--device-name"/>
+    <function name="The &quot;guid&quot; property" link="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--guid"/>
+    <function name="The &quot;port&quot; property" link="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--port"/>
+    <function name="The &quot;use-avc&quot; property" link="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--use-avc"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-icydemux.html#id2884575"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-icydemux.html#id2891841"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-icydemux.html#id2868515"/>
+    <function name="GstICYDemux" link="gst-plugins-good-plugins-icydemux.html#GstICYDemux-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-id3demux.html#id2830662"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-id3demux.html#id2830222"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-id3demux.html#id2914497"/>
+    <function name="GstID3Demux" link="gst-plugins-good-plugins-id3demux.html#GstID3Demux-struct"/>
+    <function name="The &quot;prefer-v1&quot; property" link="gst-plugins-good-plugins-id3demux.html#GstID3Demux--prefer-v1"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-id3v2mux.html#id2909923"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-id3v2mux.html#id2912884"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-id3v2mux.html#id2924891"/>
+    <function name="GstId3v2Mux" link="gst-plugins-good-plugins-id3v2mux.html#GstId3v2Mux-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-interleave.html#id2895974"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-interleave.html#id2855709"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-interleave.html#id2929758"/>
+    <function name="GstInterleave" link="gst-plugins-good-plugins-interleave.html#GstInterleave-struct"/>
+    <function name="The &quot;channel-positions&quot; property" link="gst-plugins-good-plugins-interleave.html#GstInterleave--channel-positions"/>
+    <function name="The &quot;channel-positions-from-input&quot; property" link="gst-plugins-good-plugins-interleave.html#GstInterleave--channel-positions-from-input"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-jpegdec.html#id2929288"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-jpegdec.html#id2860969"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-jpegdec.html#id2910724"/>
+    <function name="GstJpegDec" link="gst-plugins-good-plugins-jpegdec.html#GstJpegDec-struct"/>
+    <function name="The &quot;idct-method&quot; property" link="gst-plugins-good-plugins-jpegdec.html#GstJpegDec--idct-method"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-jpegenc.html#id2857855"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-jpegenc.html#id2863438"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-jpegenc.html#id2861944"/>
+    <function name="GstJpegEnc" link="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc-struct"/>
+    <function name="The &quot;quality&quot; property" link="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc--quality"/>
+    <function name="The &quot;frame-encoded&quot; signal" link="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc-frame-encoded"/>
+    <function name="Example application" link="gst-plugins-good-plugins-level.html#id2934639"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-level.html#id2922375"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-level.html#id2915160"/>
+    <function name="GstLevel" link="gst-plugins-good-plugins-level.html#GstLevel-struct"/>
+    <function name="The &quot;interval&quot; property" link="gst-plugins-good-plugins-level.html#GstLevel--interval"/>
+    <function name="The &quot;message&quot; property" link="gst-plugins-good-plugins-level.html#GstLevel--message"/>
+    <function name="The &quot;peak-falloff&quot; property" link="gst-plugins-good-plugins-level.html#GstLevel--peak-falloff"/>
+    <function name="The &quot;peak-ttl&quot; property" link="gst-plugins-good-plugins-level.html#GstLevel--peak-ttl"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-matroskamux.html#id2932161"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-matroskamux.html#id2936931"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-matroskamux.html#id2938960"/>
+    <function name="GstMatroskaMux" link="gst-plugins-good-plugins-matroskamux.html#GstMatroskaMux-struct"/>
+    <function name="The &quot;writing-app&quot; property" link="gst-plugins-good-plugins-matroskamux.html#GstMatroskaMux--writing-app"/>
+    <function name="The &quot;version&quot; property" link="gst-plugins-good-plugins-matroskamux.html#GstMatroskaMux--version"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-matroskademux.html#id2879522"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-matroskademux.html#id2917633"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-matroskademux.html#id2862303"/>
+    <function name="GstMatroskaDemux" link="gst-plugins-good-plugins-matroskademux.html#GstMatroskaDemux-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-monoscope.html#id2882643"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-monoscope.html#id2858025"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-monoscope.html#id2912337"/>
+    <function name="GstMonoscope" link="gst-plugins-good-plugins-monoscope.html#GstMonoscope-struct"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-mulawdec.html#id2886421"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-mulawdec.html#id2869261"/>
+    <function name="GstMuLawDec" link="gst-plugins-good-plugins-mulawdec.html#GstMuLawDec-struct"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-mulawenc.html#id2912263"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-mulawenc.html#id2908506"/>
+    <function name="GstMuLawDec" link="gst-plugins-good-plugins-mulawenc.html#GstMuLawDec-struct"/>
+    <function name="GstMuLawEnc" link="gst-plugins-good-plugins-mulawenc.html#GstMuLawEnc"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-multifilesink.html#id2914044"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-multifilesink.html#id2858152"/>
+    <function name="GstMultiFileSink" link="gst-plugins-good-plugins-multifilesink.html#GstMultiFileSink-struct"/>
+    <function name="The &quot;location&quot; property" link="gst-plugins-good-plugins-multifilesink.html#GstMultiFileSink--location"/>
+    <function name="The &quot;index&quot; property" link="gst-plugins-good-plugins-multifilesink.html#GstMultiFileSink--index"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-multifilesrc.html#id2891168"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-multifilesrc.html#id2885348"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-multifilesrc.html#id2893393"/>
+    <function name="GstMultiFileSrc" link="gst-plugins-good-plugins-multifilesrc.html#GstMultiFileSrc-struct"/>
+    <function name="The &quot;caps&quot; property" link="gst-plugins-good-plugins-multifilesrc.html#GstMultiFileSrc--caps"/>
+    <function name="The &quot;index&quot; property" link="gst-plugins-good-plugins-multifilesrc.html#GstMultiFileSrc--index"/>
+    <function name="The &quot;location&quot; property" link="gst-plugins-good-plugins-multifilesrc.html#GstMultiFileSrc--location"/>
+    <function name="Sample pipelines" link="gst-plugins-good-plugins-multipartdemux.html#id2911703"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-multipartdemux.html#id2919452"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-multipartdemux.html#id2865400"/>
+    <function name="GstMultipartDemux" link="gst-plugins-good-plugins-multipartdemux.html#GstMultipartDemux-struct"/>
+    <function name="The &quot;autoscan&quot; property" link="gst-plugins-good-plugins-multipartdemux.html#GstMultipartDemux--autoscan"/>
+    <function name="The &quot;boundary&quot; property" link="gst-plugins-good-plugins-multipartdemux.html#GstMultipartDemux--boundary"/>
+    <function name="Sample pipelines" link="gst-plugins-good-plugins-multipartmux.html#id2910001"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-multipartmux.html#id2910842"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-multipartmux.html#id2922394"/>
+    <function name="GstMultipartMux" link="gst-plugins-good-plugins-multipartmux.html#GstMultipartMux-struct"/>
+    <function name="The &quot;boundary&quot; property" link="gst-plugins-good-plugins-multipartmux.html#GstMultipartMux--boundary"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-multiudpsink.html#id2950042"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-multiudpsink.html#id2862654"/>
+    <function name="GstMultiUDPSink" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink-struct"/>
+    <function name="The &quot;bytes-served&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--bytes-served"/>
+    <function name="The &quot;bytes-to-serve&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--bytes-to-serve"/>
+    <function name="The &quot;clients&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--clients"/>
+    <function name="The &quot;closefd&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--closefd"/>
+    <function name="The &quot;sock&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--sock"/>
+    <function name="The &quot;sockfd&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--sockfd"/>
+    <function name="The &quot;auto-multicast&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--auto-multicast"/>
+    <function name="The &quot;loop&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--loop"/>
+    <function name="The &quot;qos-dscp&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--qos-dscp"/>
+    <function name="The &quot;ttl&quot; property" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink--ttl"/>
+    <function name="The &quot;add&quot; signal" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink-add"/>
+    <function name="The &quot;clear&quot; signal" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink-clear"/>
+    <function name="The &quot;client-added&quot; signal" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink-client-added"/>
+    <function name="The &quot;client-removed&quot; signal" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink-client-removed"/>
+    <function name="The &quot;get-stats&quot; signal" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink-get-stats"/>
+    <function name="The &quot;remove&quot; signal" link="gst-plugins-good-plugins-multiudpsink.html#GstMultiUDPSink-remove"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-ossmixer.html#id2949258"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-ossmixer.html#id2943490"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-ossmixer.html#id2936928"/>
+    <function name="GstOssMixerElement" link="gst-plugins-good-plugins-ossmixer.html#GstOssMixerElement-struct"/>
+    <function name="The &quot;device-name&quot; property" link="gst-plugins-good-plugins-ossmixer.html#GstOssMixerElement--device-name"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-ossmixer.html#GstOssMixerElement--device"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-osssink.html#id2927169"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-osssink.html#id2927231"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-osssink.html#id2897647"/>
+    <function name="GstOssSink" link="gst-plugins-good-plugins-osssink.html#GstOssSink-struct"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-osssink.html#GstOssSink--device"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-osssrc.html#id2919933"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-osssrc.html#id2922361"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-osssrc.html#id2921781"/>
+    <function name="GstOssSrc" link="gst-plugins-good-plugins-osssrc.html#GstOssSrc-struct"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-osssrc.html#GstOssSrc--device"/>
+    <function name="The &quot;device-name&quot; property" link="gst-plugins-good-plugins-osssrc.html#GstOssSrc--device-name"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-osxaudiosink.html#id2900105"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-osxaudiosink.html#id2891565"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-osxaudiosink.html#id2933945"/>
+    <function name="GstOsxAudioSink" link="gst-plugins-good-plugins-osxaudiosink.html#GstOsxAudioSink"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-osxaudiosink.html#GstOsxAudioSink--device"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-osxaudiosrc.html#id2870330"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-osxaudiosrc.html#id2930435"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-osxaudiosrc.html#id2886892"/>
+    <function name="GstOsxAudioSrc" link="gst-plugins-good-plugins-osxaudiosrc.html#GstOsxAudioSrc"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-osxaudiosrc.html#GstOsxAudioSrc--device"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-osxvideosink.html#id2868551"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-osxvideosink.html#id2893890"/>
+    <function name="GstOSXVideoSink" link="gst-plugins-good-plugins-osxvideosink.html#GstOSXVideoSink"/>
+    <function name="The &quot;embed&quot; property" link="gst-plugins-good-plugins-osxvideosink.html#GstOSXVideoSink--embed"/>
+    <function name="The &quot;fullscreen&quot; property" link="gst-plugins-good-plugins-osxvideosink.html#GstOSXVideoSink--fullscreen"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-pngdec.html#id2932998"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-pngdec.html#id2901112"/>
+    <function name="GstPngDec" link="gst-plugins-good-plugins-pngdec.html#GstPngDec-struct"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-pngenc.html#id2939493"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-pngenc.html#id2879682"/>
+    <function name="GstPngEnc" link="gst-plugins-good-plugins-pngenc.html#GstPngEnc-struct"/>
+    <function name="The &quot;compression-level&quot; property" link="gst-plugins-good-plugins-pngenc.html#GstPngEnc--compression-level"/>
+    <function name="The &quot;snapshot&quot; property" link="gst-plugins-good-plugins-pngenc.html#GstPngEnc--snapshot"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-progressreport.html#id2886855"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-progressreport.html#id2943245"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-progressreport.html#id2911914"/>
+    <function name="GstProgressReport" link="gst-plugins-good-plugins-progressreport.html#GstProgressReport-struct"/>
+    <function name="The &quot;silent&quot; property" link="gst-plugins-good-plugins-progressreport.html#GstProgressReport--silent"/>
+    <function name="The &quot;update-freq&quot; property" link="gst-plugins-good-plugins-progressreport.html#GstProgressReport--update-freq"/>
+    <function name="The &quot;format&quot; property" link="gst-plugins-good-plugins-progressreport.html#GstProgressReport--format"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-pulsesink.html#id2880185"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-pulsesink.html#id2911071"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-pulsesink.html#id2940686"/>
+    <function name="GstPulseSink" link="gst-plugins-good-plugins-pulsesink.html#GstPulseSink-struct"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-pulsesink.html#GstPulseSink--device"/>
+    <function name="The &quot;server&quot; property" link="gst-plugins-good-plugins-pulsesink.html#GstPulseSink--server"/>
+    <function name="The &quot;device-name&quot; property" link="gst-plugins-good-plugins-pulsesink.html#GstPulseSink--device-name"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-pulsesrc.html#id2948570"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-pulsesrc.html#id2931171"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-pulsesrc.html#id2949802"/>
+    <function name="GstPulseSrc" link="gst-plugins-good-plugins-pulsesrc.html#GstPulseSrc-struct"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-pulsesrc.html#GstPulseSrc--device"/>
+    <function name="The &quot;server&quot; property" link="gst-plugins-good-plugins-pulsesrc.html#GstPulseSrc--server"/>
+    <function name="The &quot;device-name&quot; property" link="gst-plugins-good-plugins-pulsesrc.html#GstPulseSrc--device-name"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-pulsemixer.html#id2945800"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-pulsemixer.html#id2874747"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-pulsemixer.html#id2923698"/>
+    <function name="GstPulseMixer" link="gst-plugins-good-plugins-pulsemixer.html#GstPulseMixer-struct"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-pulsemixer.html#GstPulseMixer--device"/>
+    <function name="The &quot;device-name&quot; property" link="gst-plugins-good-plugins-pulsemixer.html#GstPulseMixer--device-name"/>
+    <function name="The &quot;server&quot; property" link="gst-plugins-good-plugins-pulsemixer.html#GstPulseMixer--server"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-qtdemux.html#id2903148"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-qtdemux.html#id2869929"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-qtdemux.html#id2864020"/>
+    <function name="GstQTDemux" link="gst-plugins-good-plugins-qtdemux.html#GstQTDemux-struct"/>
+    <function name="The &quot;got-redirect&quot; signal" link="gst-plugins-good-plugins-qtdemux.html#GstQTDemux-got-redirect"/>
+    <function name="Example launch lines" link="gst-plugins-good-plugins-rganalysis.html#id2922317"/>
+    <function name="Acknowledgements" link="gst-plugins-good-plugins-rganalysis.html#id2915241"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-rganalysis.html#id2952601"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-rganalysis.html#id2949203"/>
+    <function name="GstRgAnalysis" link="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis-struct"/>
+    <function name="The &quot;forced&quot; property" link="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--forced"/>
+    <function name="The &quot;num-tracks&quot; property" link="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--num-tracks"/>
+    <function name="The &quot;reference-level&quot; property" link="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--reference-level"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-rglimiter.html#id2882034"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-rglimiter.html#id2939402"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-rglimiter.html#id2952552"/>
+    <function name="GstRgLimiter" link="gst-plugins-good-plugins-rglimiter.html#GstRgLimiter-struct"/>
+    <function name="The &quot;enabled&quot; property" link="gst-plugins-good-plugins-rglimiter.html#GstRgLimiter--enabled"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-rgvolume.html#id2949075"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-rgvolume.html#id2949160"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-rgvolume.html#id2941809"/>
+    <function name="GstRgVolume" link="gst-plugins-good-plugins-rgvolume.html#GstRgVolume-struct"/>
+    <function name="The &quot;album-mode&quot; property" link="gst-plugins-good-plugins-rgvolume.html#GstRgVolume--album-mode"/>
+    <function name="The &quot;fallback-gain&quot; property" link="gst-plugins-good-plugins-rgvolume.html#GstRgVolume--fallback-gain"/>
+    <function name="The &quot;headroom&quot; property" link="gst-plugins-good-plugins-rgvolume.html#GstRgVolume--headroom"/>
+    <function name="The &quot;pre-amp&quot; property" link="gst-plugins-good-plugins-rgvolume.html#GstRgVolume--pre-amp"/>
+    <function name="The &quot;result-gain&quot; property" link="gst-plugins-good-plugins-rgvolume.html#GstRgVolume--result-gain"/>
+    <function name="The &quot;target-gain&quot; property" link="gst-plugins-good-plugins-rgvolume.html#GstRgVolume--target-gain"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-rtpdec.html#id2875849"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-rtpdec.html#id2906741"/>
+    <function name="GstRTPDec" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-struct"/>
+    <function name="The &quot;skip&quot; property" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec--skip"/>
+    <function name="The &quot;latency&quot; property" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec--latency"/>
+    <function name="The &quot;clear-pt-map&quot; signal" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-clear-pt-map"/>
+    <function name="The &quot;request-pt-map&quot; signal" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-request-pt-map"/>
+    <function name="The &quot;on-bye-ssrc&quot; signal" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-on-bye-ssrc"/>
+    <function name="The &quot;on-bye-timeout&quot; signal" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-on-bye-timeout"/>
+    <function name="The &quot;on-new-ssrc&quot; signal" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-on-new-ssrc"/>
+    <function name="The &quot;on-ssrc-collision&quot; signal" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-on-ssrc-collision"/>
+    <function name="The &quot;on-ssrc-validated&quot; signal" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-on-ssrc-validated"/>
+    <function name="The &quot;on-timeout&quot; signal" link="gst-plugins-good-plugins-rtpdec.html#GstRTPDec-on-timeout"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-rtpjpegpay.html#id2938176"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-rtpjpegpay.html#id2957652"/>
+    <function name="GstRtpJPEGPay" link="gst-plugins-good-plugins-rtpjpegpay.html#GstRtpJPEGPay-struct"/>
+    <function name="The &quot;quality&quot; property" link="gst-plugins-good-plugins-rtpjpegpay.html#GstRtpJPEGPay--quality"/>
+    <function name="The &quot;type&quot; property" link="gst-plugins-good-plugins-rtpjpegpay.html#GstRtpJPEGPay--type"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-rtspsrc.html#id2950794"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-rtspsrc.html#id2906873"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-rtspsrc.html#id2943725"/>
+    <function name="GstRTSPSrc" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc-struct"/>
+    <function name="The &quot;debug&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--debug"/>
+    <function name="The &quot;location&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--location"/>
+    <function name="The &quot;protocols&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--protocols"/>
+    <function name="The &quot;retry&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--retry"/>
+    <function name="The &quot;timeout&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--timeout"/>
+    <function name="The &quot;latency&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--latency"/>
+    <function name="The &quot;tcp-timeout&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--tcp-timeout"/>
+    <function name="The &quot;connection-speed&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--connection-speed"/>
+    <function name="The &quot;nat-method&quot; property" link="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--nat-method"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-smokedec.html#id2929289"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-smokedec.html#id2865750"/>
+    <function name="GstSmokeDec" link="gst-plugins-good-plugins-smokedec.html#GstSmokeDec-struct"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-smokeenc.html#id2858883"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-smokeenc.html#id2942708"/>
+    <function name="GstSmokeEnc" link="gst-plugins-good-plugins-smokeenc.html#GstSmokeEnc-struct"/>
+    <function name="The &quot;keyframe&quot; property" link="gst-plugins-good-plugins-smokeenc.html#GstSmokeEnc--keyframe"/>
+    <function name="The &quot;qmax&quot; property" link="gst-plugins-good-plugins-smokeenc.html#GstSmokeEnc--qmax"/>
+    <function name="The &quot;qmin&quot; property" link="gst-plugins-good-plugins-smokeenc.html#GstSmokeEnc--qmin"/>
+    <function name="The &quot;threshold&quot; property" link="gst-plugins-good-plugins-smokeenc.html#GstSmokeEnc--threshold"/>
+    <function name="Sample pipelines" link="gst-plugins-good-plugins-smpte.html#id2943253"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-smpte.html#id2893306"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-smpte.html#id2965336"/>
+    <function name="GstSMPTE" link="gst-plugins-good-plugins-smpte.html#GstSMPTE-struct"/>
+    <function name="The &quot;border&quot; property" link="gst-plugins-good-plugins-smpte.html#GstSMPTE--border"/>
+    <function name="The &quot;depth&quot; property" link="gst-plugins-good-plugins-smpte.html#GstSMPTE--depth"/>
+    <function name="The &quot;fps&quot; property" link="gst-plugins-good-plugins-smpte.html#GstSMPTE--fps"/>
+    <function name="The &quot;type&quot; property" link="gst-plugins-good-plugins-smpte.html#GstSMPTE--type"/>
+    <function name="The &quot;duration&quot; property" link="gst-plugins-good-plugins-smpte.html#GstSMPTE--duration"/>
+    <function name="Sample pipelines" link="gst-plugins-good-plugins-smptealpha.html#id2882927"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-smptealpha.html#id2940587"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-smptealpha.html#id2887454"/>
+    <function name="GstSMPTEAlpha" link="gst-plugins-good-plugins-smptealpha.html#GstSMPTEAlpha-struct"/>
+    <function name="The &quot;border&quot; property" link="gst-plugins-good-plugins-smptealpha.html#GstSMPTEAlpha--border"/>
+    <function name="The &quot;depth&quot; property" link="gst-plugins-good-plugins-smptealpha.html#GstSMPTEAlpha--depth"/>
+    <function name="The &quot;position&quot; property" link="gst-plugins-good-plugins-smptealpha.html#GstSMPTEAlpha--position"/>
+    <function name="The &quot;type&quot; property" link="gst-plugins-good-plugins-smptealpha.html#GstSMPTEAlpha--type"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-souphttpsrc.html#id2952680"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-souphttpsrc.html#id2953949"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-souphttpsrc.html#id2947457"/>
+    <function name="GstSoupHTTPSrc" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc-struct"/>
+    <function name="The &quot;automatic-redirect&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--automatic-redirect"/>
+    <function name="The &quot;cookies&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--cookies"/>
+    <function name="The &quot;iradio-genre&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--iradio-genre"/>
+    <function name="The &quot;iradio-mode&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--iradio-mode"/>
+    <function name="The &quot;iradio-name&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--iradio-name"/>
+    <function name="The &quot;iradio-title&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--iradio-title"/>
+    <function name="The &quot;iradio-url&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--iradio-url"/>
+    <function name="The &quot;location&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--location"/>
+    <function name="The &quot;proxy&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--proxy"/>
+    <function name="The &quot;user-agent&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--user-agent"/>
+    <function name="The &quot;is-live&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--is-live"/>
+    <function name="The &quot;proxy-id&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--proxy-id"/>
+    <function name="The &quot;proxy-pw&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--proxy-pw"/>
+    <function name="The &quot;user-id&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--user-id"/>
+    <function name="The &quot;user-pw&quot; property" link="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--user-pw"/>
+    <function name="Example application" link="gst-plugins-good-plugins-spectrum.html#id2950843"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-spectrum.html#id2964253"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-spectrum.html#id2955764"/>
+    <function name="GstSpectrum" link="gst-plugins-good-plugins-spectrum.html#GstSpectrum-struct"/>
+    <function name="The &quot;bands&quot; property" link="gst-plugins-good-plugins-spectrum.html#GstSpectrum--bands"/>
+    <function name="The &quot;interval&quot; property" link="gst-plugins-good-plugins-spectrum.html#GstSpectrum--interval"/>
+    <function name="The &quot;message&quot; property" link="gst-plugins-good-plugins-spectrum.html#GstSpectrum--message"/>
+    <function name="The &quot;threshold&quot; property" link="gst-plugins-good-plugins-spectrum.html#GstSpectrum--threshold"/>
+    <function name="The &quot;message-magnitude&quot; property" link="gst-plugins-good-plugins-spectrum.html#GstSpectrum--message-magnitude"/>
+    <function name="The &quot;message-phase&quot; property" link="gst-plugins-good-plugins-spectrum.html#GstSpectrum--message-phase"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-speexenc.html#id2941826"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-speexenc.html#id2945708"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-speexenc.html#id2952565"/>
+    <function name="GstSpeexEnc" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc-struct"/>
+    <function name="The &quot;abr&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--abr"/>
+    <function name="The &quot;bitrate&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--bitrate"/>
+    <function name="The &quot;complexity&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--complexity"/>
+    <function name="The &quot;dtx&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--dtx"/>
+    <function name="The &quot;last-message&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--last-message"/>
+    <function name="The &quot;nframes&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--nframes"/>
+    <function name="The &quot;quality&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--quality"/>
+    <function name="The &quot;vad&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--vad"/>
+    <function name="The &quot;vbr&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--vbr"/>
+    <function name="The &quot;mode&quot; property" link="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--mode"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-speexdec.html#id2929305"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-speexdec.html#id2947136"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-speexdec.html#id2962524"/>
+    <function name="GstSpeexDec" link="gst-plugins-good-plugins-speexdec.html#GstSpeexDec-struct"/>
+    <function name="The &quot;enh&quot; property" link="gst-plugins-good-plugins-speexdec.html#GstSpeexDec--enh"/>
+    <function name="Example launch lines" link="gst-plugins-good-plugins-taginject.html#id2866732"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-taginject.html#id2947489"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-taginject.html#id2959985"/>
+    <function name="GstTagInject" link="gst-plugins-good-plugins-taginject.html#GstTagInject-struct"/>
+    <function name="The &quot;tags&quot; property" link="gst-plugins-good-plugins-taginject.html#GstTagInject--tags"/>
+    <function name="Examples" link="gst-plugins-good-plugins-udpsrc.html#id2971044"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-udpsrc.html#id2970567"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-udpsrc.html#id2970629"/>
+    <function name="GstUDPSrc" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc-struct"/>
+    <function name="The &quot;caps&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--caps"/>
+    <function name="The &quot;multicast-group&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--multicast-group"/>
+    <function name="The &quot;port&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--port"/>
+    <function name="The &quot;uri&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--uri"/>
+    <function name="The &quot;sockfd&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--sockfd"/>
+    <function name="The &quot;buffer-size&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--buffer-size"/>
+    <function name="The &quot;timeout&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--timeout"/>
+    <function name="The &quot;closefd&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--closefd"/>
+    <function name="The &quot;skip-first-bytes&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--skip-first-bytes"/>
+    <function name="The &quot;sock&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--sock"/>
+    <function name="The &quot;auto-multicast&quot; property" link="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--auto-multicast"/>
+    <function name="Examples" link="gst-plugins-good-plugins-udpsink.html#id2922329"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-udpsink.html#id2952081"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-udpsink.html#id2935238"/>
+    <function name="GstUDPSink" link="gst-plugins-good-plugins-udpsink.html#GstUDPSink-struct"/>
+    <function name="The &quot;host&quot; property" link="gst-plugins-good-plugins-udpsink.html#GstUDPSink--host"/>
+    <function name="The &quot;port&quot; property" link="gst-plugins-good-plugins-udpsink.html#GstUDPSink--port"/>
+    <function name="Example launch lines" link="gst-plugins-good-plugins-v4l2src.html#id2931639"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-v4l2src.html#id2865226"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-v4l2src.html#id2968328"/>
+    <function name="GstV4l2Src" link="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src-struct"/>
+    <function name="The &quot;device&quot; property" link="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src--device"/>
+    <function name="The &quot;device-name&quot; property" link="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src--device-name"/>
+    <function name="The &quot;flags&quot; property" link="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src--flags"/>
+    <function name="The &quot;queue-size&quot; property" link="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src--queue-size"/>
+    <function name="The &quot;always-copy&quot; property" link="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src--always-copy"/>
+    <function name="The &quot;device-fd&quot; property" link="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src--device-fd"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-videobalance.html#id2931522"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-videobalance.html#id2945601"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-videobalance.html#id2973856"/>
+    <function name="GstVideoBalance" link="gst-plugins-good-plugins-videobalance.html#GstVideoBalance-struct"/>
+    <function name="The &quot;brightness&quot; property" link="gst-plugins-good-plugins-videobalance.html#GstVideoBalance--brightness"/>
+    <function name="The &quot;contrast&quot; property" link="gst-plugins-good-plugins-videobalance.html#GstVideoBalance--contrast"/>
+    <function name="The &quot;hue&quot; property" link="gst-plugins-good-plugins-videobalance.html#GstVideoBalance--hue"/>
+    <function name="The &quot;saturation&quot; property" link="gst-plugins-good-plugins-videobalance.html#GstVideoBalance--saturation"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-videobox.html#id2881994"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-videobox.html#id2904392"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-videocrop.html#id2970302"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-videocrop.html#id2970282"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-videocrop.html#id2970213"/>
+    <function name="GstVideoCrop" link="gst-plugins-good-plugins-videocrop.html#GstVideoCrop-struct"/>
+    <function name="The &quot;bottom&quot; property" link="gst-plugins-good-plugins-videocrop.html#GstVideoCrop--bottom"/>
+    <function name="The &quot;left&quot; property" link="gst-plugins-good-plugins-videocrop.html#GstVideoCrop--left"/>
+    <function name="The &quot;right&quot; property" link="gst-plugins-good-plugins-videocrop.html#GstVideoCrop--right"/>
+    <function name="The &quot;top&quot; property" link="gst-plugins-good-plugins-videocrop.html#GstVideoCrop--top"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-videoflip.html#id2920627"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-videoflip.html#id2892994"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-videoflip.html#id2947862"/>
+    <function name="GstVideoFlip" link="gst-plugins-good-plugins-videoflip.html#GstVideoFlip-struct"/>
+    <function name="enum GstVideoFlipMethod" link="gst-plugins-good-plugins-videoflip.html#GstVideoFlipMethod"/>
+    <function name="The &quot;method&quot; property" link="gst-plugins-good-plugins-videoflip.html#GstVideoFlip--method"/>
+    <function name="Sample pipelines" link="gst-plugins-good-plugins-videomixer.html#id2918945"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-videomixer.html#id2972838"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-videomixer.html#id2958034"/>
+    <function name="GstVideoMixer" link="gst-plugins-good-plugins-videomixer.html#GstVideoMixer-struct"/>
+    <function name="enum GstVideoMixerBackground" link="gst-plugins-good-plugins-videomixer.html#GstVideoMixerBackground"/>
+    <function name="The &quot;background&quot; property" link="gst-plugins-good-plugins-videomixer.html#GstVideoMixer--background"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-wavenc.html#id2942109"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-wavenc.html#id2938195"/>
+    <function name="GstWavEnc" link="gst-plugins-good-plugins-wavenc.html#GstWavEnc-struct"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-waveformsink.html#id2861235"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-waveformsink.html#id2931724"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-waveformsink.html#id2944119"/>
+    <function name="GstWaveFormSink" link="gst-plugins-good-plugins-waveformsink.html#GstWaveFormSink"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-wavpackdec.html#id2869575"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-wavpackdec.html#id2939056"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-wavpackdec.html#id2953993"/>
+    <function name="GstWavpackDec" link="gst-plugins-good-plugins-wavpackdec.html#GstWavpackDec-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-wavpackenc.html#id2928238"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-wavpackenc.html#id2931242"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-wavpackenc.html#id2930950"/>
+    <function name="GstWavpackEnc" link="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc-struct"/>
+    <function name="The &quot;bitrate&quot; property" link="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--bitrate"/>
+    <function name="The &quot;bits-per-sample&quot; property" link="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--bits-per-sample"/>
+    <function name="The &quot;correction-mode&quot; property" link="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--correction-mode"/>
+    <function name="The &quot;extra-processing&quot; property" link="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--extra-processing"/>
+    <function name="The &quot;joint-stereo-mode&quot; property" link="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--joint-stereo-mode"/>
+    <function name="The &quot;md5&quot; property" link="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--md5"/>
+    <function name="The &quot;mode&quot; property" link="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--mode"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-wavpackparse.html#id2917784"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-wavpackparse.html#id2958626"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-wavpackparse.html#id2909102"/>
+    <function name="GstWavpackParse" link="gst-plugins-good-plugins-wavpackparse.html#GstWavpackParse-struct"/>
+    <function name="Example launch line" link="gst-plugins-good-plugins-wavparse.html#id2927235"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-wavparse.html#id2975623"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-wavparse.html#id2982427"/>
+    <function name="GstWavParse" link="gst-plugins-good-plugins-wavparse.html#GstWavParse-struct"/>
+    <function name="Example pipelines" link="gst-plugins-good-plugins-ximagesrc.html#id2973961"/>
+    <function name="Element Information" link="gst-plugins-good-plugins-ximagesrc.html#id2925595"/>
+    <function name="Element Pads" link="gst-plugins-good-plugins-ximagesrc.html#id2943844"/>
+    <function name="GstXImageSrc" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc-struct"/>
+    <function name="The &quot;display-name&quot; property" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--display-name"/>
+    <function name="The &quot;screen-num&quot; property" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--screen-num"/>
+    <function name="The &quot;show-pointer&quot; property" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--show-pointer"/>
+    <function name="The &quot;endx&quot; property" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--endx"/>
+    <function name="The &quot;endy&quot; property" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--endy"/>
+    <function name="The &quot;startx&quot; property" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--startx"/>
+    <function name="The &quot;starty&quot; property" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--starty"/>
+    <function name="The &quot;use-damage&quot; property" link="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--use-damage"/>
+    <function name="GstIirEqualizer" link="GstIirEqualizer.html#GstIirEqualizer-struct"/>
+    <function name="GstVideoMixerPad" link="GstVideoMixerPad.html#GstVideoMixerPad-struct"/>
+    <function name="The &quot;alpha&quot; property" link="GstVideoMixerPad.html#GstVideoMixerPad--alpha"/>
+    <function name="The &quot;xpos&quot; property" link="GstVideoMixerPad.html#GstVideoMixerPad--xpos"/>
+    <function name="The &quot;ypos&quot; property" link="GstVideoMixerPad.html#GstVideoMixerPad--ypos"/>
+    <function name="The &quot;zorder&quot; property" link="GstVideoMixerPad.html#GstVideoMixerPad--zorder"/>
+  </functions>
+</book>
