@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="zlib"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCLibrarianTool"
+		OutputFile="$(OutDir)\zdll.lib"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		OutputFile="$(OutDir)\bin\$(ProjectName).dll"
+		GenerateManifest="false"
+		ModuleDefinitionFile="Source\win32\zlib.def"
+		ImportLibrary="$(OutDir)\lib\$(TargetName).lib"
+	/>
+</VisualStudioPropertySheet>
