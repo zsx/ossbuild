@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer Plugins"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\plugins\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(IntDir)\..\..\common\&quot;;&quot;$(SolutionDir)Shared\Windows\$(PlatformName)\$(ConfigurationName)\include\liboil-$(LibOilApiVersionString)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="libgstnet-$(ApiVersionString).lib libgstdataprotocol-$(ApiVersionString).lib libgstcontroller-$(ApiVersionString).lib libgstbase-$(ApiVersionString).lib libgstreamer-$(ApiVersionString).lib"
+		OutputFile="$(OutDir)\bin\gstreamer\plugins\$(ProjectName).dll"
+		AdditionalLibraryDirectories="$(OutDir)\lib\gstreamer\plugins\"
+		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\plugins\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\gstreamer\plugins\$(TargetName).lib"
+	/>
+</VisualStudioPropertySheet>

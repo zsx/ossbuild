@@ -1,0 +1,1 @@
+The dirent code comes from glib/build/win32/dirent/.

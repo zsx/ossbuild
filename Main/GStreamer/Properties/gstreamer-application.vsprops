@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer Applications"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		EntryPointSymbol=""
+	/>
+	<Tool
+		Name="VCManifestTool"
+		EmbedManifest="false"
+	/>
+</VisualStudioPropertySheet>

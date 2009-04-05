@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="common"
+	ProjectGUID="{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7}"
+	RootNamespace="common"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\..\Common.rules"
+		/>
+		<DefaultToolFile
+			FileName="masm.rules"
+		/>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="10"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\Properties\gstreamer.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+			/>
+			<Tool
+				Name="Yasm Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName="gstreamer-$(ApiVersionString)\gst"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="Bison Tool"
+			/>
+			<Tool
+				Name="Flex Tool"
+			/>
+			<Tool
+				Name="MASM"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="10"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\Properties\gstreamer.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+			/>
+			<Tool
+				Name="Yasm Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName="gstreamer-$(ApiVersionString)\gst"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="Bison Tool"
+			/>
+			<Tool
+				Name="Flex Tool"
+			/>
+			<Tool
+				Name="MASM"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="gstreamer"
+			>
+			<File
+				RelativePath=".\common.mkenum.lst.txt"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="Glib Make Enums Tool"
+						hFHead="#ifndef __GST_ENUM_TYPES_H__\n#define __GST_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
+						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
+						hFTail="G_END_DECLS\n\n#endif /* __GST_ENUM_TYPES_H__ */"
+						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
+						hVProd=""
+						hVTail=""
+						hOutputPath="$(IntDir)\gstenumtypes.h"
+						hCopyPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\gstenumtypes.h"
+						sFHead="#include \&quot;gst_private.h\&quot;\n#include &lt;gst/gst.h&gt;\n#define C_ENUM(v) ((gint) v)\n#define C_FLAGS(v) ((guint) v)\n "
+						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
+						sVHead="static void\nregister_@enum_name@ (GType* id)\n{\n  static const G@Type@Value values[] = {"
+						sVProd="    { C_@TYPE@(@VALUENAME@), \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
+						sVTail="    { 0, NULL, NULL }\n  };\n  *id = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n}\nGType\n@enum_name@_get_type (void)\n{\n  static GType id;\n  static GOnce once = G_ONCE_INIT;\n\n  g_once (&amp;once, (GThreadFunc)register_@enum_name@, &amp;id);\n  return id;\n}\n"
+						sOutputPath="$(IntDir)\gstenumtypes.c"
+						WorkingDir="$(ProjectDir)..\Source\gstreamer\gst\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="Glib Make Enums Tool"
+						hFHead="#ifndef __GST_ENUM_TYPES_H__\n#define __GST_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
+						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
+						hFTail="G_END_DECLS\n\n#endif /* __GST_ENUM_TYPES_H__ */"
+						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
+						hVProd=""
+						hVTail=""
+						hOutputPath="$(IntDir)\gstenumtypes.h"
+						hCopyPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\gstenumtypes.h"
+						sFHead="#include \&quot;gst_private.h\&quot;\n#include &lt;gst/gst.h&gt;\n#define C_ENUM(v) ((gint) v)\n#define C_FLAGS(v) ((guint) v)\n "
+						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
+						sVHead="static void\nregister_@enum_name@ (GType* id)\n{\n  static const G@Type@Value values[] = {"
+						sVProd="    { C_@TYPE@(@VALUENAME@), \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
+						sVTail="    { 0, NULL, NULL }\n  };\n  *id = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n}\nGType\n@enum_name@_get_type (void)\n{\n  static GType id;\n  static GOnce once = G_ONCE_INIT;\n\n  g_once (&amp;once, (GThreadFunc)register_@enum_name@, &amp;id);\n  return id;\n}\n"
+						sOutputPath="$(IntDir)\gstenumtypes.c"
+						WorkingDir="$(ProjectDir)..\Source\gstreamer\gst\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\gstreamer\win32\common\config.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="Copy Tool"
+						DestinationPath="$(IntDir)\config.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="Copy Tool"
+						DestinationPath="$(IntDir)\config.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\gstreamer\win32\common\gstconfig.h"
+				>
+				<FileConfiguration					Name="Debug|Win32"					>					<Tool						Name="Header Installer Tool"					/>				</FileConfiguration>				<FileConfiguration					Name="Release|Win32"					>					<Tool						Name="Header Installer Tool"					/>				</FileConfiguration>			</File>
+			<File
+				RelativePath="..\Source\gstreamer\gst\gstmarshal.list"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="GObject Marshaller Generation Tool"
+						FunctionPrefix="gst_marshal"
+						CopyHeaderPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="GObject Marshaller Generation Tool"
+						FunctionPrefix="gst_marshal"
+						CopyHeaderPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\Source\gstreamer\win32\common\gstversion.h"
+				>
+				<FileConfiguration					Name="Debug|Win32"					>					<Tool						Name="Header Installer Tool"					/>				</FileConfiguration>				<FileConfiguration					Name="Release|Win32"					>					<Tool						Name="Header Installer Tool"					/>				</FileConfiguration>			</File>
+			<File
+				RelativePath="..\Source\gstreamer\win32\common\gtchar.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="Copy Tool"
+						DestinationPath="$(IntDir)\gtchar.h"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="Copy Tool"
+						DestinationPath="$(IntDir)\gtchar.h"
+					/>
+				</FileConfiguration>
+			</File>
+			<Filter
+				Name="gst"
+				>
+				<File
+					RelativePath="..\Source\gstreamer\gst\parse\grammar.y"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Bison Tool"
+							BisonPrefix="_gst_parse_yy"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Bison Tool"
+							BisonPrefix="_gst_parse_yy"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\Source\gstreamer\gst\parse\parse.l"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Flex Tool"
+							FlexPrefix="_gst_parse_yy"
+							FlexOutputPath="$(IntDir)\parse.c"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Flex Tool"
+							FlexPrefix="_gst_parse_yy"
+							FlexOutputPath="$(IntDir)\parse.c"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="gst-plugins-base"
+			>
+			<Filter
+				Name="gst"
+				>
+				<Filter
+					Name="playback"
+					>
+					<File
+						RelativePath="..\Source\gst-plugins-base\gst\playback\gstplay-marshal.list"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="GObject Marshaller Generation Tool"
+								FunctionPrefix="gst_play_marshal"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="GObject Marshaller Generation Tool"
+								FunctionPrefix="gst_play_marshal"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="tcp"
+					>
+					<File
+						RelativePath="..\Source\gst-plugins-base\gst\tcp\gsttcp-marshal.list"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="GObject Marshaller Generation Tool"
+								FunctionPrefix="gst_tcp_marshal"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="GObject Marshaller Generation Tool"
+								FunctionPrefix="gst_tcp_marshal"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
