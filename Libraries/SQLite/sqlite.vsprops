@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="sqlite"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		InlineFunctionExpansion="2"
+		FavorSizeOrSpeed="1"
+		AdditionalIncludeDirectories=".;Source;&quot;$(IntDir)&quot;"
+		PreprocessorDefinitions="SQLITE_ENABLE_COLUMN_METADATA;HAVE_STDINT_H;HAVE_INTTYPES_H;WIN32"
+		RuntimeLibrary="2"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		OutputFile="$(OutDir)\bin\sqlite$(SqliteLibVersionString).dll"
+		Version="$(SqliteVersionString)"
+		GenerateManifest="false"
+		ModuleDefinitionFile="sqlite3.def"
+		ImportLibrary="$(OutDir)\lib\$(TargetName).lib"
+	/>
+</VisualStudioPropertySheet>
