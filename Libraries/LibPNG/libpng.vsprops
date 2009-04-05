@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="libpng"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		InlineFunctionExpansion="2"
+		FavorSizeOrSpeed="1"
+		AdditionalIncludeDirectories="Source"
+	/>
+	<Tool
+		Name="VCLibrarianTool"
+		ModuleDefinitionFile="Source\pngw32.def"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="zdll.lib"
+		OutputFile="$(OutDir)\bin\$(ProjectName).dll"
+		Version="$(LibPngVersionString)"
+		GenerateManifest="false"
+		ModuleDefinitionFile="Source\scripts\pngw32.def"
+		ImportLibrary="$(OutDir)\lib\$(TargetName).lib"
+	/>
+</VisualStudioPropertySheet>
