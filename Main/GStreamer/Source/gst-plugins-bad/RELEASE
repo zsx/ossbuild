@@ -1,0 +1,185 @@
+
+Release notes for GStreamer Bad Plug-ins 0.10.10 "keep them dogies rollin"
+        
+
+
+The GStreamer team is proud to announce a new release
+in the 0.10.x stable series of the
+GStreamer Bad Plug-ins.
+
+
+The 0.10.x series is a stable series targeted at end users.
+It is not API or ABI compatible with the stable 0.8.x series.
+It is, however, parallel installable with the 0.8.x series.
+
+
+
+"That an accusation?"
+
+
+No perfectly groomed moustache or any amount of fine clothing is going to
+cover up the truth - these plug-ins are Bad with a capital B.
+They look fine on the outside, and might even appear to get the job done, but
+at the end of the day they're a black sheep. Without a golden-haired angel
+to watch over them, they'll probably land in an unmarked grave at the final
+showdown.
+
+
+Don't bug us about their quality - exercise your Free Software rights,
+patch up the offender and send us the patch on the fastest steed you can
+steal from the Confederates. Because you see, in this world, there's two
+kinds of people, my friend: those with loaded guns and those who dig.
+You dig.
+
+
+This module contains a set of plug-ins that aren't up to par compared to the
+rest.  They might be close to being good quality, but they're missing something
+- be it a good code review, some documentation, a set of tests, a real live
+maintainer, or some actual wide use.  If the blanks are filled in they might be
+upgraded to become part of either gst-plugins-good or gst-plugins-ugly,
+depending on the other factors.
+If the plug-ins break, you can't complain - instead, you can fix the
+problem and send us a patch, or bribe someone into fixing them for you.
+New contributors can start here for things to work on.
+
+
+Other modules containing plug-ins are:
+
+
+gst-plugins-base
+contains a basic set of well-supported plug-ins
+gst-plugins-good
+contains a set of well-supported plug-ins under our preferred license
+gst-plugins-ugly
+contains a set of well-supported plug-ins, but might pose problems for
+    distributors
+
+
+
+  
+
+Features of this release
+    
+      * Require gettext 0.17
+      * ACM mp3 decoder element for win32
+      * New MXF demuxer added
+      * JPEG-2000 encoder - jp2enc added
+      * RTP support
+      * Fixes for RTP support
+      * Add parsers for AAC and AMR
+      * Move libgstapp and elements to -base
+      * Add Quicktime muxer element qtmux
+      * Enhance RFB capture
+      * Improve MPEG-TS and MPEG-PS demuxing
+      * Don't install static libs for plugins
+      * Introduce audioringbuffer element
+      * Improve DVD playback of ResinDVD components
+      * Move old audioresample from -base as legacyaudioresample
+      * Improve speexresampler, and then move it to -base
+      * Improve FLV demuxing and parsing
+      * Various DVB input fixes
+      * Add support for frequency list descriptors for DVB
+      * Improve MPEG-TS muxer
+      * Various other bug-fixes
+
+Bugs fixed in this release
+     
+      * 127574 : replaygain support
+      * 480543 : [spc] crashes when not given any input data
+      * 546319 : [resindvd] Stuck on first menu (language selection)
+      * 549222 : Totem using resindvd element as DVD navigation module doe...
+      * 550280 : Move qtmux to gst-plugins-bad
+      * 550454 : FLV demuxer screws up in Pitivi
+      * 550613 : [mpegtsmux] Add support for ac3/dts/lpcm
+      * 553823 : CodeStyle improvements and minor fixes to the DCCP plugin.
+      * 555238 : Recent changes in x264 breaks compilation of x264 plugin.
+      * 557161 : Wrong time displayed and no seeking with MPEG PS cut from...
+      * 557763 : [mpegtsmux] DeadlockEOS due to interleaving mechanism
+      * 557814 : [mpegdemux] frequency list descriptor support
+      * 558639 : cross-configuring interrupts due to a failing check for " ...
+      * 560841 : Provide access to packet loss
+      * 561992 : debug format warning during compilation of resindvdsrc.c ...
+      * 562312 : Lip-sync generates wrong `ts-offset' in GstRtpBin
+      * 562319 : [rtpsession] memory corruption
+      * 562802 : [appsrc] lockup in pad_push() if previous flow was wrong-...
+      * 563006 : mxf mpeg422 file stops playing
+      * 563147 : input-selector doesn't notify of active-pad changing when...
+      * 564232 : Dual Licensing qtmux
+      * 565439 : Make pcapparse compile with (mingw32) gcc
+      * 565509 : rtpsource on receiver side can't get clock-rate for h264,...
+      * 565614 : [mpegtsdemux] Fix memory leak
+      * 565910 : allow forcing the ssrc on a rtpsession
+      * 566356 : [dvbbasebin] Couple of memleaks
+      * 566613 : bayer2rgb calculates wrong color offset
+      * 566878 : [ladspa] Add dependencies for ladspa modules
+      * 566957 : Add time based seeking to ResinDVD
+      * 566958 : fix dirac support in qtmux/mp4mux
+      * 566959 : Fix duration query on mpegtsdemux
+      * 508029 : [speexresample] pops/glitches in some cases
+      * 558416 : [PATCH] realvideodec: use pixel aspect ratio of container
+      * 564482 : [appsrc] semantics of push-buffer signal awkward for bind...
+      * 565319 : rtpjitterbuffer: bursty reception can cause time to be re...
+      * 565613 : [mpegtsdemux] Add scrambled field to service structure
+      * 567004 : ladspa plugin crashes on Solaris
+
+Download
+
+You can find source releases of gst-plugins-bad in the download directory:
+http://gstreamer.freedesktop.org/src/gst-plugins-bad/
+
+GStreamer Homepage
+
+More details can be found on the project's website:
+http://gstreamer.freedesktop.org/
+
+Support and Bugs
+
+We use GNOME's bugzilla for bug reports and feature requests:
+http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer
+
+Developers
+
+CVS is hosted on cvs.freedesktop.org.
+All code is in CVS and can be checked out from there.
+Interested developers of the core library, plug-ins, and applications should
+subscribe to the gstreamer-devel list. If there is sufficient interest we
+will create more lists as necessary.
+
+        
+Applications
+  
+Contributors to this release
+    
+      * Alessandro Decina
+      * Arnout Vandecappelle
+      * Brian Cameron
+      * Christian Schaller
+      * Cygwin Ports maintainer
+      * Damien Lespiau
+      * David Härdeman
+      * David Schleef
+      * Edward Hervey
+      * Jan Schmidt
+      * Jonathan Matthew
+      * Josep Torra
+      * Julien Moutte
+      * Leandro Melo de Sales
+      * Luotao Fu
+      * Mark Nauwelaerts
+      * Michael Smith
+      * Olivier Crete
+      * Robin Stocker
+      * Sascha Hauer
+      * Sebastian Dröge
+      * Sebastian Pölsterl
+      * Stefan Kost
+      * Tal Shalif
+      * Thiago Sousa Santos
+      * Thijs Vermeir
+      * Thomas Vander Stichele
+      * Tim-Philipp Müller
+      * Wim Taymans
+      * Zaheer Abbas Merali
+      * vanista
+      * 이문형
+ 
