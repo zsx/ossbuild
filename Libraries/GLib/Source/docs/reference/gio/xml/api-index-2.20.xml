@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE indexdiv PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<indexdiv>
+<indexdiv><title>A</title>
+<indexentry><primaryie linkends="g-app-info-can-delete"><link linkend="g-app-info-can-delete">g_app_info_can_delete</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-app-info-delete"><link linkend="g-app-info-delete">g_app_info_delete</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-app-info-get-commandline"><link linkend="g-app-info-get-commandline">g_app_info_get_commandline</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-app-info-reset-type-associations"><link linkend="g-app-info-reset-type-associations">g_app_info_reset_type_associations</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>D</title>
+<indexentry><primaryie linkends="g-data-input-stream-read-line-async"><link linkend="g-data-input-stream-read-line-async">g_data_input_stream_read_line_async</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-data-input-stream-read-until-async"><link linkend="g-data-input-stream-read-until-async">g_data_input_stream_read_until_async</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-data-input-stream-read-until-finish"><link linkend="g-data-input-stream-read-until-finish">g_data_input_stream_read_until_finish</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>F</title>
+<indexentry><primaryie linkends="G-FILE-ATTRIBUTE-PREVIEW-ICON--CAPS"><link linkend="G-FILE-ATTRIBUTE-PREVIEW-ICON--CAPS">G_FILE_ATTRIBUTE_PREVIEW_ICON</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>I</title>
+<indexentry><primaryie linkends="g-icon-new-for-string"><link linkend="g-icon-new-for-string">g_icon_new_for_string</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-icon-to-string"><link linkend="g-icon-to-string">g_icon_to_string</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>M</title>
+<indexentry><primaryie linkends="GMountOperation-aborted"><link linkend="GMountOperation-aborted">GMountOperation::aborted</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mount-is-shadowed"><link linkend="g-mount-is-shadowed">g_mount_is_shadowed</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mount-shadow"><link linkend="g-mount-shadow">g_mount_shadow</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mount-unshadow"><link linkend="g-mount-unshadow">g_mount_unshadow</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>U</title>
+<indexentry><primaryie linkends="GUnixInputStream--close-fd"><link linkend="GUnixInputStream--close-fd">GUnixInputStream:close-fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="GUnixInputStream--fd"><link linkend="GUnixInputStream--fd">GUnixInputStream:fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="GUnixOutputStream--close-fd"><link linkend="GUnixOutputStream--close-fd">GUnixOutputStream:close-fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="GUnixOutputStream--fd"><link linkend="GUnixOutputStream--fd">GUnixOutputStream:fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-unix-input-stream-get-close-fd"><link linkend="g-unix-input-stream-get-close-fd">g_unix_input_stream_get_close_fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-unix-input-stream-get-fd"><link linkend="g-unix-input-stream-get-fd">g_unix_input_stream_get_fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-unix-input-stream-set-close-fd"><link linkend="g-unix-input-stream-set-close-fd">g_unix_input_stream_set_close_fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-unix-output-stream-get-close-fd"><link linkend="g-unix-output-stream-get-close-fd">g_unix_output_stream_get_close_fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-unix-output-stream-get-fd"><link linkend="g-unix-output-stream-get-fd">g_unix_output_stream_get_fd</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-unix-output-stream-set-close-fd"><link linkend="g-unix-output-stream-set-close-fd">g_unix_output_stream_set_close_fd</link></primaryie></indexentry>
+</indexdiv>
+</indexdiv>

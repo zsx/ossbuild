@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<refentry id="GFilterInputStream">
+<refmeta>
+<refentrytitle role="top_of_page" id="GFilterInputStream.top_of_page">GFilterInputStream</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>GIO Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>GFilterInputStream</refname>
+<refpurpose>Filter Input Stream</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="GFilterInputStream.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+#include &lt;gio/gio.h&gt;
+
+                    <link linkend="GFilterInputStream-struct">GFilterInputStream</link>;
+<link linkend="GInputStream">GInputStream</link> *      <link linkend="g-filter-input-stream-get-base-stream">g_filter_input_stream_get_base_stream</link>
+                                                        (<link linkend="GFilterInputStream">GFilterInputStream</link> *stream);
+<link linkend="gboolean">gboolean</link>            <link linkend="g-filter-input-stream-get-close-base-stream">g_filter_input_stream_get_close_base_stream</link>
+                                                        (<link linkend="GFilterInputStream">GFilterInputStream</link> *stream);
+<link linkend="void">void</link>                <link linkend="g-filter-input-stream-set-close-base-stream">g_filter_input_stream_set_close_base_stream</link>
+                                                        (<link linkend="GFilterInputStream">GFilterInputStream</link> *stream,
+                                                         <link linkend="gboolean">gboolean</link> close_base);
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 id="GFilterInputStream.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="GInputStream">GInputStream</link>
+         +----GFilterInputStream
+               +----<link linkend="GBufferedInputStream">GBufferedInputStream</link>
+</synopsis>
+</refsect1>
+
+
+
+
+
+<refsect1 id="GFilterInputStream.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="GFilterInputStream--base-stream">base-stream</link>&quot;              <link linkend="GInputStream">GInputStream</link>*         : Read / Write / Construct Only
+  &quot;<link linkend="GFilterInputStream--close-base-stream">close-base-stream</link>&quot;        <link linkend="gboolean">gboolean</link>              : Read / Write / Construct Only
+</synopsis>
+</refsect1>
+
+
+
+<refsect1 id="GFilterInputStream.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="GFilterInputStream.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="GFilterInputStream-struct" role="struct">
+<title>GFilterInputStream</title>
+<indexterm zone="GFilterInputStream-struct"><primary sortas="FilterInputStream">GFilterInputStream</primary></indexterm><programlisting>typedef struct _GFilterInputStream GFilterInputStream;</programlisting>
+<para>
+A base class for all input streams that work on an underlying stream.</para>
+<para>
+</para></refsect2>
+<refsect2 id="g-filter-input-stream-get-base-stream" role="function">
+<title>g_filter_input_stream_get_base_stream ()</title>
+<indexterm zone="g-filter-input-stream-get-base-stream"><primary sortas="filter_input_stream_get_base_stream">g_filter_input_stream_get_base_stream</primary></indexterm><programlisting><link linkend="GInputStream">GInputStream</link> *      g_filter_input_stream_get_base_stream
+                                                        (<link linkend="GFilterInputStream">GFilterInputStream</link> *stream);</programlisting>
+<para>
+Gets the base stream for the filter stream.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="GFilterInputStream"><type>GFilterInputStream</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a <link linkend="GInputStream"><type>GInputStream</type></link>.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="g-filter-input-stream-get-close-base-stream" role="function">
+<title>g_filter_input_stream_get_close_base_stream ()</title>
+<indexterm zone="g-filter-input-stream-get-close-base-stream"><primary sortas="filter_input_stream_get_close_base_stream">g_filter_input_stream_get_close_base_stream</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            g_filter_input_stream_get_close_base_stream
+                                                        (<link linkend="GFilterInputStream">GFilterInputStream</link> *stream);</programlisting>
+<para>
+Returns whether the base stream will be closed when <parameter>stream</parameter> is
+closed.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="GFilterInputStream"><type>GFilterInputStream</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the base stream will be closed.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="g-filter-input-stream-set-close-base-stream" role="function">
+<title>g_filter_input_stream_set_close_base_stream ()</title>
+<indexterm zone="g-filter-input-stream-set-close-base-stream"><primary sortas="filter_input_stream_set_close_base_stream">g_filter_input_stream_set_close_base_stream</primary></indexterm><programlisting><link linkend="void">void</link>                g_filter_input_stream_set_close_base_stream
+                                                        (<link linkend="GFilterInputStream">GFilterInputStream</link> *stream,
+                                                         <link linkend="gboolean">gboolean</link> close_base);</programlisting>
+<para>
+Sets whether the base stream will be closed when <parameter>stream</parameter> is closed.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="GFilterInputStream"><type>GFilterInputStream</type></link>.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>close_base</parameter>&#160;:</term>
+<listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> to close the base stream.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 id="GFilterInputStream.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="GFilterInputStream--base-stream" role="property"><title>The <literal>&quot;base-stream&quot;</literal> property</title>
+<indexterm zone="GFilterInputStream--base-stream"><primary sortas="FilterInputStream:base-stream">GFilterInputStream:base-stream</primary></indexterm><programlisting>  &quot;base-stream&quot;              <link linkend="GInputStream">GInputStream</link>*         : Read / Write / Construct Only</programlisting>
+<para>The underlying base stream on which the io ops will be done.</para></refsect2>
+<refsect2 id="GFilterInputStream--close-base-stream" role="property"><title>The <literal>&quot;close-base-stream&quot;</literal> property</title>
+<indexterm zone="GFilterInputStream--close-base-stream"><primary sortas="FilterInputStream:close-base-stream">GFilterInputStream:close-base-stream</primary></indexterm><programlisting>  &quot;close-base-stream&quot;        <link linkend="gboolean">gboolean</link>              : Read / Write / Construct Only</programlisting>
+<para>If the base stream should be closed when the filter stream is closed.</para><para>Default value: TRUE</para>
+</refsect2>
+</refsect1>
+
+
+
+
+</refentry>

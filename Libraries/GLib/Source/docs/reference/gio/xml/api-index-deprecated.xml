@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE indexdiv PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<indexdiv>
+<indexdiv><title>V</title>
+<indexentry><primaryie linkends="g-volume-monitor-adopt-orphan-mount"><link linkend="g-volume-monitor-adopt-orphan-mount">g_volume_monitor_adopt_orphan_mount</link></primaryie></indexentry>
+</indexdiv>
+</indexdiv>

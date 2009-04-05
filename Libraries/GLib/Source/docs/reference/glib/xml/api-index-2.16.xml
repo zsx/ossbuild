@@ -1,0 +1,98 @@
+<indexdiv>
+<indexdiv><title>A</title>
+<indexentry><primaryie linkends="g-assert-cmpfloat"><link linkend="g-assert-cmpfloat">g_assert_cmpfloat</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-assert-cmphex"><link linkend="g-assert-cmphex">g_assert_cmphex</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-assert-cmpint"><link linkend="g-assert-cmpint">g_assert_cmpint</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-assert-cmpstr"><link linkend="g-assert-cmpstr">g_assert_cmpstr</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-assert-cmpuint"><link linkend="g-assert-cmpuint">g_assert_cmpuint</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-async-queue-new-full"><link linkend="g-async-queue-new-full">g_async_queue_new_full</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>C</title>
+<indexentry><primaryie linkends="GChecksum"><link linkend="GChecksum">GChecksum</link></primaryie></indexentry>
+<indexentry><primaryie linkends="GChecksumType"><link linkend="GChecksumType">GChecksumType</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-checksum-copy"><link linkend="g-checksum-copy">g_checksum_copy</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-checksum-free"><link linkend="g-checksum-free">g_checksum_free</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-checksum-get-digest"><link linkend="g-checksum-get-digest">g_checksum_get_digest</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-checksum-get-string"><link linkend="g-checksum-get-string">g_checksum_get_string</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-checksum-new"><link linkend="g-checksum-new">g_checksum_new</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-checksum-type-get-length"><link linkend="g-checksum-type-get-length">g_checksum_type_get_length</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-checksum-update"><link linkend="g-checksum-update">g_checksum_update</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-compute-checksum-for-data"><link linkend="g-compute-checksum-for-data">g_compute_checksum_for_data</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-compute-checksum-for-string"><link linkend="g-compute-checksum-for-string">g_compute_checksum_for_string</link></primaryie></indexentry>
+<indexentry><primaryie linkends="C---CAPS"><link linkend="C---CAPS">C_</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>D</title>
+<indexentry><primaryie linkends="g-dpgettext"><link linkend="g-dpgettext">g_dpgettext</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>F</title>
+<indexentry><primaryie linkends="g-format-size-for-display"><link linkend="g-format-size-for-display">g_format_size_for_display</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>H</title>
+<indexentry><primaryie linkends="g-hash-table-iter-get-hash-table"><link linkend="g-hash-table-iter-get-hash-table">g_hash_table_iter_get_hash_table</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-hash-table-iter-init"><link linkend="g-hash-table-iter-init">g_hash_table_iter_init</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-hash-table-iter-next"><link linkend="g-hash-table-iter-next">g_hash_table_iter_next</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-hash-table-iter-remove"><link linkend="g-hash-table-iter-remove">g_hash_table_iter_remove</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-hash-table-iter-steal"><link linkend="g-hash-table-iter-steal">g_hash_table_iter_steal</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>M</title>
+<indexentry><primaryie linkends="g-markup-collect-attributes"><link linkend="g-markup-collect-attributes">g_markup_collect_attributes</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-markup-parse-context-get-element-stack"><link linkend="g-markup-parse-context-get-element-stack">g_markup_parse_context_get_element_stack</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>P</title>
+<indexentry><primaryie linkends="g-prefix-error"><link linkend="g-prefix-error">g_prefix_error</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-propagate-prefixed-error"><link linkend="g-propagate-prefixed-error">g_propagate_prefixed_error</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>S</title>
+<indexentry><primaryie linkends="g-strcmp0"><link linkend="g-strcmp0">g_strcmp0</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-string-append-uri-escaped"><link linkend="g-string-append-uri-escaped">g_string_append_uri_escaped</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>T</title>
+<indexentry><primaryie linkends="g-test-add"><link linkend="g-test-add">g_test_add</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-add-data-func"><link linkend="g-test-add-data-func">g_test_add_data_func</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-add-func"><link linkend="g-test-add-func">g_test_add_func</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-bug"><link linkend="g-test-bug">g_test_bug</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-bug-base"><link linkend="g-test-bug-base">g_test_bug_base</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-create-case"><link linkend="g-test-create-case">g_test_create_case</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-create-suite"><link linkend="g-test-create-suite">g_test_create_suite</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-get-root"><link linkend="g-test-get-root">g_test_get_root</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-init"><link linkend="g-test-init">g_test_init</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-maximized-result"><link linkend="g-test-maximized-result">g_test_maximized_result</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-message"><link linkend="g-test-message">g_test_message</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-minimized-result"><link linkend="g-test-minimized-result">g_test_minimized_result</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-queue-destroy"><link linkend="g-test-queue-destroy">g_test_queue_destroy</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-queue-free"><link linkend="g-test-queue-free">g_test_queue_free</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-queue-unref"><link linkend="g-test-queue-unref">g_test_queue_unref</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-rand-bit"><link linkend="g-test-rand-bit">g_test_rand_bit</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-rand-double"><link linkend="g-test-rand-double">g_test_rand_double</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-rand-double-range"><link linkend="g-test-rand-double-range">g_test_rand_double_range</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-rand-int"><link linkend="g-test-rand-int">g_test_rand_int</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-rand-int-range"><link linkend="g-test-rand-int-range">g_test_rand_int_range</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-run"><link linkend="g-test-run">g_test_run</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-run-suite"><link linkend="g-test-run-suite">g_test_run_suite</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-suite-add"><link linkend="g-test-suite-add">g_test_suite_add</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-suite-add-suite"><link linkend="g-test-suite-add-suite">g_test_suite_add_suite</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-timer-elapsed"><link linkend="g-test-timer-elapsed">g_test_timer_elapsed</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-timer-last"><link linkend="g-test-timer-last">g_test_timer_last</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-timer-start"><link linkend="g-test-timer-start">g_test_timer_start</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-assert-failed"><link linkend="g-test-trap-assert-failed">g_test_trap_assert_failed</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-assert-passed"><link linkend="g-test-trap-assert-passed">g_test_trap_assert_passed</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-assert-stderr"><link linkend="g-test-trap-assert-stderr">g_test_trap_assert_stderr</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-assert-stderr-unmatched"><link linkend="g-test-trap-assert-stderr-unmatched">g_test_trap_assert_stderr_unmatched</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-assert-stdout"><link linkend="g-test-trap-assert-stdout">g_test_trap_assert_stdout</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-assert-stdout-unmatched"><link linkend="g-test-trap-assert-stdout-unmatched">g_test_trap_assert_stdout_unmatched</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-fork"><link linkend="g-test-trap-fork">g_test_trap_fork</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-has-passed"><link linkend="g-test-trap-has-passed">g_test_trap_has_passed</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-test-trap-reached-timeout"><link linkend="g-test-trap-reached-timeout">g_test_trap_reached_timeout</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>U</title>
+<indexentry><primaryie linkends="g-uri-escape-string"><link linkend="g-uri-escape-string">g_uri_escape_string</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-uri-parse-scheme"><link linkend="g-uri-parse-scheme">g_uri_parse_scheme</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-uri-unescape-segment"><link linkend="g-uri-unescape-segment">g_uri_unescape_segment</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-uri-unescape-string"><link linkend="g-uri-unescape-string">g_uri_unescape_string</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>W</title>
+<indexentry><primaryie linkends="g-warn-if-fail"><link linkend="g-warn-if-fail">g_warn_if_fail</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-warn-if-reached"><link linkend="g-warn-if-reached">g_warn_if_reached</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-win32-get-package-installation-directory-of-module"><link linkend="g-win32-get-package-installation-directory-of-module">g_win32_get_package_installation_directory_of_module</link></primaryie></indexentry>
+</indexdiv>
+</indexdiv>

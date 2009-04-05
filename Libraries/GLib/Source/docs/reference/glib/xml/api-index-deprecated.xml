@@ -1,0 +1,94 @@
+<indexdiv>
+<indexdiv><title>A</title>
+<indexentry><primaryie linkends="GAllocator"><link linkend="GAllocator">GAllocator</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-allocator-free"><link linkend="g-allocator-free">g_allocator_free</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-allocator-new"><link linkend="g-allocator-new">g_allocator_new</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-ALLOC-AND-FREE--CAPS"><link linkend="G-ALLOC-AND-FREE--CAPS">G_ALLOC_AND_FREE</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-ALLOC-ONLY--CAPS"><link linkend="G-ALLOC-ONLY--CAPS">G_ALLOC_ONLY</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-async-queue-ref-unlocked"><link linkend="g-async-queue-ref-unlocked">g_async_queue_ref_unlocked</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-async-queue-unref-and-unlock"><link linkend="g-async-queue-unref-and-unlock">g_async_queue_unref_and_unlock</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>B</title>
+<indexentry><primaryie linkends="g-basename"><link linkend="g-basename">g_basename</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-blow-chunks"><link linkend="g-blow-chunks">g_blow_chunks</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>C</title>
+<indexentry><primaryie linkends="g-cache-value-foreach"><link linkend="g-cache-value-foreach">g_cache_value_foreach</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-chunk-free"><link linkend="g-chunk-free">g_chunk_free</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-chunk-new"><link linkend="g-chunk-new">g_chunk_new</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-chunk-new0"><link linkend="g-chunk-new0">g_chunk_new0</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>D</title>
+<indexentry><primaryie linkends="g-date-set-time"><link linkend="g-date-set-time">g_date_set_time</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-dirname"><link linkend="g-dirname">g_dirname</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>G</title>
+<indexentry><primaryie linkends="G-GNUC-FUNCTION--CAPS"><link linkend="G-GNUC-FUNCTION--CAPS">G_GNUC_FUNCTION</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-GNUC-PRETTY-FUNCTION--CAPS"><link linkend="G-GNUC-PRETTY-FUNCTION--CAPS">G_GNUC_PRETTY_FUNCTION</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>H</title>
+<indexentry><primaryie linkends="g-hash-table-freeze"><link linkend="g-hash-table-freeze">g_hash_table_freeze</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-hash-table-thaw"><link linkend="g-hash-table-thaw">g_hash_table_thaw</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-HAVE-GINT64--CAPS"><link linkend="G-HAVE-GINT64--CAPS">G_HAVE_GINT64</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>I</title>
+<indexentry><primaryie linkends="g-io-channel-close"><link linkend="g-io-channel-close">g_io_channel_close</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-io-channel-read"><link linkend="g-io-channel-read">g_io_channel_read</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-io-channel-seek"><link linkend="g-io-channel-seek">g_io_channel_seek</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-io-channel-write"><link linkend="g-io-channel-write">g_io_channel_write</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>L</title>
+<indexentry><primaryie linkends="g-list-pop-allocator"><link linkend="g-list-pop-allocator">g_list_pop_allocator</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-list-push-allocator"><link linkend="g-list-push-allocator">g_list_push_allocator</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>M</title>
+<indexentry><primaryie linkends="g-main-destroy"><link linkend="g-main-destroy">g_main_destroy</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-main-is-running"><link linkend="g-main-is-running">g_main_is_running</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-main-iteration"><link linkend="g-main-iteration">g_main_iteration</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-main-new"><link linkend="g-main-new">g_main_new</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-main-pending"><link linkend="g-main-pending">g_main_pending</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-main-quit"><link linkend="g-main-quit">g_main_quit</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-main-run"><link linkend="g-main-run">g_main_run</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-main-set-poll-func"><link linkend="g-main-set-poll-func">g_main_set_poll_func</link></primaryie></indexentry>
+<indexentry><primaryie linkends="GMemChunk"><link linkend="GMemChunk">GMemChunk</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-alloc"><link linkend="g-mem-chunk-alloc">g_mem_chunk_alloc</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-alloc0"><link linkend="g-mem-chunk-alloc0">g_mem_chunk_alloc0</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-clean"><link linkend="g-mem-chunk-clean">g_mem_chunk_clean</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-create"><link linkend="g-mem-chunk-create">g_mem_chunk_create</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-destroy"><link linkend="g-mem-chunk-destroy">g_mem_chunk_destroy</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-free"><link linkend="g-mem-chunk-free">g_mem_chunk_free</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-info"><link linkend="g-mem-chunk-info">g_mem_chunk_info</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-new"><link linkend="g-mem-chunk-new">g_mem_chunk_new</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-print"><link linkend="g-mem-chunk-print">g_mem_chunk_print</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mem-chunk-reset"><link linkend="g-mem-chunk-reset">g_mem_chunk_reset</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>N</title>
+<indexentry><primaryie linkends="g-node-pop-allocator"><link linkend="g-node-pop-allocator">g_node_pop_allocator</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-node-push-allocator"><link linkend="g-node-push-allocator">g_node_push_allocator</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>S</title>
+<indexentry><primaryie linkends="g-scanner-add-symbol"><link linkend="g-scanner-add-symbol">g_scanner_add_symbol</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-scanner-foreach-symbol"><link linkend="g-scanner-foreach-symbol">g_scanner_foreach_symbol</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-scanner-freeze-symbol-table"><link linkend="g-scanner-freeze-symbol-table">g_scanner_freeze_symbol_table</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-scanner-remove-symbol"><link linkend="g-scanner-remove-symbol">g_scanner_remove_symbol</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-scanner-thaw-symbol-table"><link linkend="g-scanner-thaw-symbol-table">g_scanner_thaw_symbol_table</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-slist-pop-allocator"><link linkend="g-slist-pop-allocator">g_slist_pop_allocator</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-slist-push-allocator"><link linkend="g-slist-push-allocator">g_slist_push_allocator</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-strcasecmp"><link linkend="g-strcasecmp">g_strcasecmp</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-strdown"><link linkend="g-strdown">g_strdown</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-string-down"><link linkend="g-string-down">g_string_down</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-string-sprintf"><link linkend="g-string-sprintf">g_string_sprintf</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-string-sprintfa"><link linkend="g-string-sprintfa">g_string_sprintfa</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-string-up"><link linkend="g-string-up">g_string_up</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-strncasecmp"><link linkend="g-strncasecmp">g_strncasecmp</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-strup"><link linkend="g-strup">g_strup</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>T</title>
+<indexentry><primaryie linkends="g-tree-traverse"><link linkend="g-tree-traverse">g_tree_traverse</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>W</title>
+<indexentry><primaryie linkends="G-WIN32-DLLMAIN-FOR-DLL-NAME--CAPS"><link linkend="G-WIN32-DLLMAIN-FOR-DLL-NAME--CAPS">G_WIN32_DLLMAIN_FOR_DLL_NAME</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-win32-get-package-installation-directory"><link linkend="g-win32-get-package-installation-directory">g_win32_get_package_installation_directory</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-win32-get-package-installation-subdirectory"><link linkend="g-win32-get-package-installation-subdirectory">g_win32_get_package_installation_subdirectory</link></primaryie></indexentry>
+</indexdiv>
+</indexdiv>

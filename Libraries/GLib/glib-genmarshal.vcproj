@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="glib-genmarshal"
+	ProjectGUID="{E4B4ADF6-81A7-46E2-80AF-4D16EAA12C32}"
+	RootNamespace="glib_genmarshal"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\Common.rules"
+		/>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="1"
+			InheritedPropertySheets="..\..\Properties\x86-Debug.vsprops;.\glib.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(GLibVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="Source\build\win32\dirent"
+				DebugInformationFormat="3"
+				UndefinePreprocessorDefinitions="EBCDIC"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libglib-$(GLibApiVersion)-$(GLibInterfaceAge).lib"
+				OutputFile="$(OutDir)\bin\$(ProjectName).exe"
+				GenerateManifest="true"
+				IgnoreAllDefaultLibraries="false"
+				SubSystem="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="1"
+			InheritedPropertySheets="..\..\Properties\x86_64-Debug.vsprops;.\glib.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(GLibVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="Source\build\win32\dirent"
+				DebugInformationFormat="3"
+				UndefinePreprocessorDefinitions="EBCDIC"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libglib-$(GLibApiVersion)-$(GLibInterfaceAge).lib"
+				OutputFile="$(OutDir)\bin\$(ProjectName).exe"
+				GenerateManifest="true"
+				IgnoreAllDefaultLibraries="false"
+				SubSystem="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="1"
+			InheritedPropertySheets="..\..\Properties\x86-Release.vsprops;.\glib.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(GLibVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="Source\build\win32\dirent"
+				UndefinePreprocessorDefinitions="EBCDIC"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libglib-$(GLibApiVersion)-$(GLibInterfaceAge).lib"
+				OutputFile="$(OutDir)\bin\$(ProjectName).exe"
+				GenerateManifest="true"
+				IgnoreAllDefaultLibraries="false"
+				SubSystem="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="1"
+			InheritedPropertySheets="..\..\Properties\x86_64-Release.vsprops;.\glib.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(GLibVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="Source\build\win32\dirent"
+				UndefinePreprocessorDefinitions="EBCDIC"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libglib-$(GLibApiVersion)-$(GLibInterfaceAge).lib"
+				OutputFile="$(OutDir)\bin\$(ProjectName).exe"
+				GenerateManifest="true"
+				IgnoreAllDefaultLibraries="false"
+				SubSystem="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseWdkCrt|Win32"
+			ConfigurationType="1"
+			InheritedPropertySheets="..\..\Properties\x86-ReleaseWdkCrt.vsprops;.\glib.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(GLibVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="Source\build\win32\dirent"
+				UndefinePreprocessorDefinitions="EBCDIC"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libglib-$(GLibApiVersion)-$(GLibInterfaceAge).lib"
+				OutputFile="$(OutDir)\bin\$(ProjectName).exe"
+				GenerateManifest="false"
+				IgnoreAllDefaultLibraries="false"
+				SubSystem="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseWdkCrt|x64"
+			ConfigurationType="1"
+			InheritedPropertySheets="..\..\Properties\x86_64-ReleaseWdkCrt.vsprops;.\glib.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(GLibVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName=""
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="Source\build\win32\dirent"
+				UndefinePreprocessorDefinitions="EBCDIC"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libglib-$(GLibApiVersion)-$(GLibInterfaceAge).lib"
+				OutputFile="$(OutDir)\bin\$(ProjectName).exe"
+				GenerateManifest="false"
+				IgnoreAllDefaultLibraries="false"
+				SubSystem="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				EmbedManifest="true"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File
+				RelativePath=".\Source\gobject\glib-genmarshal.c"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			>
+			<File
+				RelativePath=".\Source\gobject\gmarshal.list"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="SED Tool"
+						Expression="/^[:space:]*\(#\|$\)/d s/:/__/ s/,/_/g s/^\(.*\)$/\&quot;g_cclosure_marshal_\1\&quot;/"
+						OutputFilePath="$(IntDir)\gmarshal.strings"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="SED Tool"
+						Expression="/^[:space:]*\(#\|$\)/d s/:/__/ s/,/_/g s/^\(.*\)$/\&quot;g_cclosure_marshal_\1\&quot;/"
+						OutputFilePath="$(IntDir)\gmarshal.strings"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="SED Tool"
+						Expression="/^[:space:]*\(#\|$\)/d s/:/__/ s/,/_/g s/^\(.*\)$/\&quot;g_cclosure_marshal_\1\&quot;/"
+						OutputFilePath="$(IntDir)\gmarshal.strings"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="SED Tool"
+						Expression="/^[:space:]*\(#\|$\)/d s/:/__/ s/,/_/g s/^\(.*\)$/\&quot;g_cclosure_marshal_\1\&quot;/"
+						OutputFilePath="$(IntDir)\gmarshal.strings"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseWdkCrt|Win32"
+					>
+					<Tool
+						Name="SED Tool"
+						Expression="/^[:space:]*\(#\|$\)/d s/:/__/ s/,/_/g s/^\(.*\)$/\&quot;g_cclosure_marshal_\1\&quot;/"
+						OutputFilePath="$(IntDir)\gmarshal.strings"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="ReleaseWdkCrt|x64"
+					>
+					<Tool
+						Name="SED Tool"
+						Expression="/^[:space:]*\(#\|$\)/d s/:/__/ s/,/_/g s/^\(.*\)$/\&quot;g_cclosure_marshal_\1\&quot;/"
+						OutputFilePath="$(IntDir)\gmarshal.strings"
+					/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

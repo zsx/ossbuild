@@ -1,0 +1,111 @@
+<indexdiv>
+<indexdiv><title>A</title>
+<indexentry><primaryie linkends="g-array-remove-range"><link linkend="g-array-remove-range">g_array_remove_range</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-atomic-int-add"><link linkend="g-atomic-int-add">g_atomic_int_add</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-atomic-int-compare-and-exchange"><link linkend="g-atomic-int-compare-and-exchange">g_atomic_int_compare_and_exchange</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-atomic-int-dec-and-test"><link linkend="g-atomic-int-dec-and-test">g_atomic_int_dec_and_test</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-atomic-int-exchange-and-add"><link linkend="g-atomic-int-exchange-and-add">g_atomic_int_exchange_and_add</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-atomic-int-get"><link linkend="g-atomic-int-get">g_atomic_int_get</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-atomic-int-inc"><link linkend="g-atomic-int-inc">g_atomic_int_inc</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-atomic-pointer-compare-and-exchange"><link linkend="g-atomic-pointer-compare-and-exchange">g_atomic_pointer_compare_and_exchange</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-atomic-pointer-get"><link linkend="g-atomic-pointer-get">g_atomic_pointer_get</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>B</title>
+<indexentry><primaryie linkends="g-byte-array-remove-range"><link linkend="g-byte-array-remove-range">g_byte_array_remove_range</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>C</title>
+<indexentry><primaryie linkends="g-child-watch-add"><link linkend="g-child-watch-add">g_child_watch_add</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-child-watch-add-full"><link linkend="g-child-watch-add-full">g_child_watch_add_full</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-child-watch-source-new"><link linkend="g-child-watch-source-new">g_child_watch_source_new</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-completion-complete-utf8"><link linkend="g-completion-complete-utf8">g_completion_complete_utf8</link></primaryie></indexentry>
+<indexentry><primaryie linkends="GCopyFunc"><link linkend="GCopyFunc">GCopyFunc</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>F</title>
+<indexentry><primaryie linkends="g-file-read-link"><link linkend="g-file-read-link">g_file_read_link</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>G</title>
+<indexentry><primaryie linkends="G-GINT16-MODIFIER--CAPS"><link linkend="G-GINT16-MODIFIER--CAPS">G_GINT16_MODIFIER</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-GINT32-MODIFIER--CAPS"><link linkend="G-GINT32-MODIFIER--CAPS">G_GINT32_MODIFIER</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-GINT64-MODIFIER--CAPS"><link linkend="G-GINT64-MODIFIER--CAPS">G_GINT64_MODIFIER</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>H</title>
+<indexentry><primaryie linkends="g-hash-table-find"><link linkend="g-hash-table-find">g_hash_table_find</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>M</title>
+<indexentry><primaryie linkends="g-markup-printf-escaped"><link linkend="g-markup-printf-escaped">g_markup_printf_escaped</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-markup-vprintf-escaped"><link linkend="g-markup-vprintf-escaped">g_markup_vprintf_escaped</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MAXINT16--CAPS"><link linkend="G-MAXINT16--CAPS">G_MAXINT16</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MAXINT32--CAPS"><link linkend="G-MAXINT32--CAPS">G_MAXINT32</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MAXINT8--CAPS"><link linkend="G-MAXINT8--CAPS">G_MAXINT8</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MAXSIZE--CAPS"><link linkend="G-MAXSIZE--CAPS">G_MAXSIZE</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MAXUINT16--CAPS"><link linkend="G-MAXUINT16--CAPS">G_MAXUINT16</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MAXUINT32--CAPS"><link linkend="G-MAXUINT32--CAPS">G_MAXUINT32</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MAXUINT8--CAPS"><link linkend="G-MAXUINT8--CAPS">G_MAXUINT8</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MININT16--CAPS"><link linkend="G-MININT16--CAPS">G_MININT16</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MININT32--CAPS"><link linkend="G-MININT32--CAPS">G_MININT32</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-MININT8--CAPS"><link linkend="G-MININT8--CAPS">G_MININT8</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>N</title>
+<indexentry><primaryie linkends="g-node-copy-deep"><link linkend="g-node-copy-deep">g_node_copy_deep</link></primaryie></indexentry>
+<indexentry><primaryie linkends="N---CAPS"><link linkend="N---CAPS">N_</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>O</title>
+<indexentry><primaryie linkends="GOnce"><link linkend="GOnce">GOnce</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-once"><link linkend="g-once">g_once</link></primaryie></indexentry>
+<indexentry><primaryie linkends="GOnceStatus"><link linkend="GOnceStatus">GOnceStatus</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-ONCE-INIT--CAPS"><link linkend="G-ONCE-INIT--CAPS">G_ONCE_INIT</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>P</title>
+<indexentry><primaryie linkends="g-ptr-array-foreach"><link linkend="g-ptr-array-foreach">g_ptr_array_foreach</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-ptr-array-remove-range"><link linkend="g-ptr-array-remove-range">g_ptr_array_remove_range</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>Q</title>
+<indexentry><primaryie linkends="g-queue-copy"><link linkend="g-queue-copy">g_queue_copy</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-delete-link"><link linkend="g-queue-delete-link">g_queue_delete_link</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-find"><link linkend="g-queue-find">g_queue_find</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-find-custom"><link linkend="g-queue-find-custom">g_queue_find_custom</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-foreach"><link linkend="g-queue-foreach">g_queue_foreach</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-get-length"><link linkend="g-queue-get-length">g_queue_get_length</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-index"><link linkend="g-queue-index">g_queue_index</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-insert-after"><link linkend="g-queue-insert-after">g_queue_insert_after</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-insert-before"><link linkend="g-queue-insert-before">g_queue_insert_before</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-insert-sorted"><link linkend="g-queue-insert-sorted">g_queue_insert_sorted</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-link-index"><link linkend="g-queue-link-index">g_queue_link_index</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-peek-head-link"><link linkend="g-queue-peek-head-link">g_queue_peek_head_link</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-peek-nth"><link linkend="g-queue-peek-nth">g_queue_peek_nth</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-peek-nth-link"><link linkend="g-queue-peek-nth-link">g_queue_peek_nth_link</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-peek-tail-link"><link linkend="g-queue-peek-tail-link">g_queue_peek_tail_link</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-pop-nth"><link linkend="g-queue-pop-nth">g_queue_pop_nth</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-pop-nth-link"><link linkend="g-queue-pop-nth-link">g_queue_pop_nth_link</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-push-nth"><link linkend="g-queue-push-nth">g_queue_push_nth</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-push-nth-link"><link linkend="g-queue-push-nth-link">g_queue_push_nth_link</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-remove"><link linkend="g-queue-remove">g_queue_remove</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-remove-all"><link linkend="g-queue-remove-all">g_queue_remove_all</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-reverse"><link linkend="g-queue-reverse">g_queue_reverse</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-sort"><link linkend="g-queue-sort">g_queue_sort</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-queue-unlink"><link linkend="g-queue-unlink">g_queue_unlink</link></primaryie></indexentry>
+<indexentry><primaryie linkends="Q---CAPS"><link linkend="Q---CAPS">Q_</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>R</title>
+<indexentry><primaryie linkends="g-rand-copy"><link linkend="g-rand-copy">g_rand_copy</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-rand-new-with-seed-array"><link linkend="g-rand-new-with-seed-array">g_rand_new_with_seed_array</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-rand-set-seed-array"><link linkend="g-rand-set-seed-array">g_rand_set_seed_array</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>S</title>
+<indexentry><primaryie linkends="g-setenv"><link linkend="g-setenv">g_setenv</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-STRFUNC--CAPS"><link linkend="G-STRFUNC--CAPS">G_STRFUNC</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-string-chunk-insert-len"><link linkend="g-string-chunk-insert-len">g_string_chunk_insert_len</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-strip-context"><link linkend="g-strip-context">g_strip_context</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-strsplit-set"><link linkend="g-strsplit-set">g_strsplit_set</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>T</title>
+<indexentry><primaryie linkends="g-timer-continue"><link linkend="g-timer-continue">g_timer_continue</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>U</title>
+<indexentry><primaryie linkends="g-unichar-get-mirror-char"><link linkend="g-unichar-get-mirror-char">g_unichar_get_mirror_char</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-unsetenv"><link linkend="g-unsetenv">g_unsetenv</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>V</title>
+<indexentry><primaryie linkends="g-vasprintf"><link linkend="g-vasprintf">g_vasprintf</link></primaryie></indexentry>
+</indexdiv>
+</indexdiv>

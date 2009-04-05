@@ -1,0 +1,47 @@
+<indexdiv>
+<indexdiv><title>D</title>
+<indexentry><primaryie linkends="G-DEFINE-ABSTRACT-TYPE--CAPS"><link linkend="G-DEFINE-ABSTRACT-TYPE--CAPS">G_DEFINE_ABSTRACT_TYPE</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-DEFINE-ABSTRACT-TYPE-WITH-CODE--CAPS"><link linkend="G-DEFINE-ABSTRACT-TYPE-WITH-CODE--CAPS">G_DEFINE_ABSTRACT_TYPE_WITH_CODE</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-DEFINE-TYPE--CAPS"><link linkend="G-DEFINE-TYPE--CAPS">G_DEFINE_TYPE</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-DEFINE-TYPE-EXTENDED--CAPS"><link linkend="G-DEFINE-TYPE-EXTENDED--CAPS">G_DEFINE_TYPE_EXTENDED</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-DEFINE-TYPE-WITH-CODE--CAPS"><link linkend="G-DEFINE-TYPE-WITH-CODE--CAPS">G_DEFINE_TYPE_WITH_CODE</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>I</title>
+<indexentry><primaryie linkends="G-IMPLEMENT-INTERFACE--CAPS"><link linkend="G-IMPLEMENT-INTERFACE--CAPS">G_IMPLEMENT_INTERFACE</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-IS-PARAM-SPEC-OVERRIDE--CAPS"><link linkend="G-IS-PARAM-SPEC-OVERRIDE--CAPS">G_IS_PARAM_SPEC_OVERRIDE</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>O</title>
+<indexentry><primaryie linkends="g-object-class-override-property"><link linkend="g-object-class-override-property">g_object_class_override_property</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-object-interface-find-property"><link linkend="g-object-interface-find-property">g_object_interface_find_property</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-object-interface-install-property"><link linkend="g-object-interface-install-property">g_object_interface_install_property</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-object-interface-list-properties"><link linkend="g-object-interface-list-properties">g_object_interface_list_properties</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>P</title>
+<indexentry><primaryie linkends="GParamSpecOverride"><link linkend="GParamSpecOverride">GParamSpecOverride</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-param-spec-get-redirect-target"><link linkend="g-param-spec-get-redirect-target">g_param_spec_get_redirect_target</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-param-spec-override"><link linkend="g-param-spec-override">g_param_spec_override</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-PARAM-SPEC-OVERRIDE--CAPS"><link linkend="G-PARAM-SPEC-OVERRIDE--CAPS">G_PARAM_SPEC_OVERRIDE</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>S</title>
+<indexentry><primaryie linkends="g-signal-accumulator-true-handled"><link linkend="g-signal-accumulator-true-handled">g_signal_accumulator_true_handled</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>T</title>
+<indexentry><primaryie linkends="GTypeInterfaceCheckFunc"><link linkend="GTypeInterfaceCheckFunc">GTypeInterfaceCheckFunc</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-type-add-interface-check"><link linkend="g-type-add-interface-check">g_type_add_interface_check</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-type-class-add-private"><link linkend="g-type-class-add-private">g_type_class_add_private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-type-class-peek-static"><link linkend="g-type-class-peek-static">g_type_class_peek_static</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-type-default-interface-peek"><link linkend="g-type-default-interface-peek">g_type_default_interface_peek</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-type-default-interface-ref"><link linkend="g-type-default-interface-ref">g_type_default_interface_ref</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-type-default-interface-unref"><link linkend="g-type-default-interface-unref">g_type_default_interface_unref</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-TYPE-INSTANCE-GET-PRIVATE--CAPS"><link linkend="G-TYPE-INSTANCE-GET-PRIVATE--CAPS">G_TYPE_INSTANCE_GET_PRIVATE</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-TYPE-PARAM-OVERRIDE--CAPS"><link linkend="G-TYPE-PARAM-OVERRIDE--CAPS">G_TYPE_PARAM_OVERRIDE</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-type-remove-interface-check"><link linkend="g-type-remove-interface-check">g_type_remove_interface_check</link></primaryie></indexentry>
+<indexentry><primaryie linkends="G-TYPE-STRV--CAPS"><link linkend="G-TYPE-STRV--CAPS">G_TYPE_STRV</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>V</title>
+<indexentry><primaryie linkends="g-value-take-boxed"><link linkend="g-value-take-boxed">g_value_take_boxed</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-value-take-object"><link linkend="g-value-take-object">g_value_take_object</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-value-take-param"><link linkend="g-value-take-param">g_value_take_param</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-value-take-string"><link linkend="g-value-take-string">g_value_take_string</link></primaryie></indexentry>
+</indexdiv>
+</indexdiv>

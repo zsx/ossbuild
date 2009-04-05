@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE indexdiv PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY version SYSTEM "version.xml">
+]>
+<indexdiv>
+<indexdiv><title>C</title>
+<indexentry><primaryie linkends="g-content-type-from-mime-type"><link linkend="g-content-type-from-mime-type">g_content_type_from_mime_type</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-content-type-guess-for-tree"><link linkend="g-content-type-guess-for-tree">g_content_type_guess_for_tree</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>D</title>
+<indexentry><primaryie linkends="g-desktop-app-info-new-from-keyfile"><link linkend="g-desktop-app-info-new-from-keyfile">g_desktop_app_info_new_from_keyfile</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>E</title>
+<indexentry><primaryie linkends="g-emblemed-icon-add-emblem"><link linkend="g-emblemed-icon-add-emblem">g_emblemed_icon_add_emblem</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-emblemed-icon-get-emblems"><link linkend="g-emblemed-icon-get-emblems">g_emblemed_icon_get_emblems</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-emblemed-icon-get-icon"><link linkend="g-emblemed-icon-get-icon">g_emblemed_icon_get_icon</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-emblemed-icon-new"><link linkend="g-emblemed-icon-new">g_emblemed_icon_new</link></primaryie></indexentry>
+<indexentry><primaryie linkends="GEmblemOrigin"><link linkend="GEmblemOrigin">GEmblemOrigin</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-emblem-get-icon"><link linkend="g-emblem-get-icon">g_emblem_get_icon</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-emblem-get-origin"><link linkend="g-emblem-get-origin">g_emblem_get_origin</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-emblem-new"><link linkend="g-emblem-new">g_emblem_new</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-emblem-new-with-origin"><link linkend="g-emblem-new-with-origin">g_emblem_new_with_origin</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>F</title>
+<indexentry><primaryie linkends="g-file-make-directory-with-parents"><link linkend="g-file-make-directory-with-parents">g_file_make_directory_with_parents</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-file-monitor"><link linkend="g-file-monitor">g_file_monitor</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-file-query-file-type"><link linkend="g-file-query-file-type">g_file_query_file_type</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>M</title>
+<indexentry><primaryie linkends="g-memory-output-stream-get-data-size"><link linkend="g-memory-output-stream-get-data-size">g_memory_output_stream_get_data_size</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mount-guess-content-type"><link linkend="g-mount-guess-content-type">g_mount_guess_content_type</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mount-guess-content-type-finish"><link linkend="g-mount-guess-content-type-finish">g_mount_guess_content_type_finish</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-mount-guess-content-type-sync"><link linkend="g-mount-guess-content-type-sync">g_mount_guess_content_type_sync</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>T</title>
+<indexentry><primaryie linkends="g-themed-icon-prepend-name"><link linkend="g-themed-icon-prepend-name">g_themed_icon_prepend_name</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>U</title>
+<indexentry><primaryie linkends="g-unix-mount-monitor-set-rate-limit"><link linkend="g-unix-mount-monitor-set-rate-limit">g_unix_mount_monitor_set_rate_limit</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>V</title>
+<indexentry><primaryie linkends="GVolumeMonitor-drive-eject-button"><link linkend="GVolumeMonitor-drive-eject-button">GVolumeMonitor::drive-eject-button</link></primaryie></indexentry>
+<indexentry><primaryie linkends="g-volume-get-activation-root"><link linkend="g-volume-get-activation-root">g_volume_get_activation_root</link></primaryie></indexentry>
+</indexdiv>
+</indexdiv>
