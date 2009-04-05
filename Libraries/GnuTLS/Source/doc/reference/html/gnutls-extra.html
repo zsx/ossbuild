@@ -1,0 +1,811 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>extra</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="GNU TLS API Reference Manual">
+<link rel="up" href="ch01.html" title="GNU TLS API Reference Manual">
+<link rel="prev" href="gnutls-gnutls.html" title="gnutls">
+<link rel="next" href="gnutls-x509.html" title="x509">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="GNU TLS API Reference Manual">
+<link rel="index" href="ix01.html" title="Index">
+<link rel="index" href="ix02.html" title="Index of deprecated symbols">
+<link rel="index" href="ix03.html" title="Index of new symbols in 2.4.0">
+<link rel="index" href="ix04.html" title="Index of new symbols in 2.6.0">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gnutls-gnutls.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GNU TLS API Reference Manual</th>
+<td><a accesskey="n" href="gnutls-x509.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#gnutls-extra.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gnutls-extra.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="gnutls-extra"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gnutls-extra.top_of_page"></a>extra</span></h2>
+<p>extra</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="gnutls-extra.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#define             <a class="link" href="gnutls-extra.html#LIBGNUTLS-EXTRA-VERSION:CAPS" title="LIBGNUTLS_EXTRA_VERSION">LIBGNUTLS_EXTRA_VERSION</a>
+enum                <a class="link" href="gnutls-extra.html#gnutls-ia-apptype-t" title="enum gnutls_ia_apptype_t">gnutls_ia_apptype_t</a>;
+int                 (<a class="link" href="gnutls-extra.html#gnutls-ia-avp-func" title="gnutls_ia_avp_func ()">*gnutls_ia_avp_func</a>)               (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *ptr,
+                                                         const char *last,
+                                                         size_t lastlen,
+                                                         char **next,
+                                                         size_t *nextlen);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-extra.html#gnutls-ia-free-client-credentials" title="gnutls_ia_free_client_credentials ()">gnutls_ia_free_client_credentials</a>   (gnutls_ia_client_credentials_t sc);
+int                 <a class="link" href="gnutls-extra.html#gnutls-ia-allocate-client-credentials" title="gnutls_ia_allocate_client_credentials ()">gnutls_ia_allocate_client_credentials</a>
+                                                        (gnutls_ia_client_credentials_t *sc);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-extra.html#gnutls-ia-free-server-credentials" title="gnutls_ia_free_server_credentials ()">gnutls_ia_free_server_credentials</a>   (gnutls_ia_server_credentials_t sc);
+int                 <a class="link" href="gnutls-extra.html#gnutls-ia-allocate-server-credentials" title="gnutls_ia_allocate_server_credentials ()">gnutls_ia_allocate_server_credentials</a>
+                                                        (gnutls_ia_server_credentials_t *sc);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-extra.html#gnutls-ia-set-client-avp-function" title="gnutls_ia_set_client_avp_function ()">gnutls_ia_set_client_avp_function</a>   (gnutls_ia_client_credentials_t cred,
+                                                         <a class="link" href="gnutls-extra.html#gnutls-ia-avp-func" title="gnutls_ia_avp_func ()">gnutls_ia_avp_func</a> avp_func);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-extra.html#gnutls-ia-set-client-avp-ptr" title="gnutls_ia_set_client_avp_ptr ()">gnutls_ia_set_client_avp_ptr</a>        (gnutls_ia_client_credentials_t cred,
+                                                         <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *ptr);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>*               <a class="link" href="gnutls-extra.html#gnutls-ia-get-client-avp-ptr" title="gnutls_ia_get_client_avp_ptr ()">gnutls_ia_get_client_avp_ptr</a>        (gnutls_ia_client_credentials_tcred );
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-extra.html#gnutls-ia-set-server-avp-function" title="gnutls_ia_set_server_avp_function ()">gnutls_ia_set_server_avp_function</a>   (gnutls_ia_server_credentials_t cred,
+                                                         <a class="link" href="gnutls-extra.html#gnutls-ia-avp-func" title="gnutls_ia_avp_func ()">gnutls_ia_avp_func</a> avp_func);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-extra.html#gnutls-ia-set-server-avp-ptr" title="gnutls_ia_set_server_avp_ptr ()">gnutls_ia_set_server_avp_ptr</a>        (gnutls_ia_server_credentials_t cred,
+                                                         <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *ptr);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>*               <a class="link" href="gnutls-extra.html#gnutls-ia-get-server-avp-ptr" title="gnutls_ia_get_server_avp_ptr ()">gnutls_ia_get_server_avp_ptr</a>        (gnutls_ia_server_credentials_tcred );
+int                 <a class="link" href="gnutls-extra.html#gnutls-ia-handshake-p" title="gnutls_ia_handshake_p ()">gnutls_ia_handshake_p</a>               (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session);
+int                 <a class="link" href="gnutls-extra.html#gnutls-ia-handshake" title="gnutls_ia_handshake ()">gnutls_ia_handshake</a>                 (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session);
+int                 <a class="link" href="gnutls-extra.html#gnutls-ia-permute-inner-secret" title="gnutls_ia_permute_inner_secret ()">gnutls_ia_permute_inner_secret</a>      (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         size_t session_keys_size,
+                                                         const char *session_keys);
+int                 <a class="link" href="gnutls-extra.html#gnutls-ia-endphase-send" title="gnutls_ia_endphase_send ()">gnutls_ia_endphase_send</a>             (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         int final_p);
+int                 <a class="link" href="gnutls-extra.html#gnutls-ia-verify-endphase" title="gnutls_ia_verify_endphase ()">gnutls_ia_verify_endphase</a>           (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         const char *checksum);
+ssize_t             <a class="link" href="gnutls-extra.html#gnutls-ia-send" title="gnutls_ia_send ()">gnutls_ia_send</a>                      (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         const char *data,
+                                                         size_t sizeofdata);
+ssize_t             <a class="link" href="gnutls-extra.html#gnutls-ia-recv" title="gnutls_ia_recv ()">gnutls_ia_recv</a>                      (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         char *data,
+                                                         size_t sizeofdata);
+int                 <a class="link" href="gnutls-extra.html#gnutls-ia-generate-challenge" title="gnutls_ia_generate_challenge ()">gnutls_ia_generate_challenge</a>        (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         size_t buffer_size,
+                                                         char *buffer);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-extra.html#gnutls-ia-extract-inner-secret" title="gnutls_ia_extract_inner_secret ()">gnutls_ia_extract_inner_secret</a>      (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         char *buffer);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-extra.html#gnutls-ia-enable" title="gnutls_ia_enable ()">gnutls_ia_enable</a>                    (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         int allow_skip_on_resume);
+int                 <a class="link" href="gnutls-extra.html#gnutls-global-init-extra" title="gnutls_global_init_extra ()">gnutls_global_init_extra</a>            (void);
+int                 <a class="link" href="gnutls-extra.html#gnutls-register-md5-handler" title="gnutls_register_md5_handler ()">gnutls_register_md5_handler</a>         (void);
+const char*         <a class="link" href="gnutls-extra.html#gnutls-extra-check-version" title="gnutls_extra_check_version ()">gnutls_extra_check_version</a>          (const char *req_version);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gnutls-extra.description"></a><h2>Description</h2>
+<p>
+A longer description goes here.
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="gnutls-extra.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="LIBGNUTLS-EXTRA-VERSION:CAPS"></a><h3>LIBGNUTLS_EXTRA_VERSION</h3>
+<pre class="programlisting">#define LIBGNUTLS_EXTRA_VERSION LIBGNUTLS_VERSION
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-apptype-t"></a><h3>enum gnutls_ia_apptype_t</h3>
+<pre class="programlisting">  typedef enum
+  {
+    GNUTLS_IA_APPLICATION_PAYLOAD = 0,
+    GNUTLS_IA_INTERMEDIATE_PHASE_FINISHED = 1,
+    GNUTLS_IA_FINAL_PHASE_FINISHED = 2
+  } gnutls_ia_apptype_t;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-avp-func"></a><h3>gnutls_ia_avp_func ()</h3>
+<pre class="programlisting">int                 (*gnutls_ia_avp_func)               (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *ptr,
+                                                         const char *last,
+                                                         size_t lastlen,
+                                                         char **next,
+                                                         size_t *nextlen);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-free-client-credentials"></a><h3>gnutls_ia_free_client_credentials ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_ia_free_client_credentials   (gnutls_ia_client_credentials_t sc);</pre>
+<p>
+This structure is complex enough to manipulate directly thus this
+helper function is provided in order to free (deallocate) it.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>sc</code></em> :</span></p></td>
+<td> is an <span class="type">gnutls_ia_client_credentials_t</span> structure.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-allocate-client-credentials"></a><h3>gnutls_ia_allocate_client_credentials ()</h3>
+<pre class="programlisting">int                 gnutls_ia_allocate_client_credentials
+                                                        (gnutls_ia_client_credentials_t *sc);</pre>
+<p>
+This structure is complex enough to manipulate directly thus this
+helper function is provided in order to allocate it.
+</p>
+<p>
+Adding this credential to a session will enable TLS/IA, and will
+require an Application Phase after the TLS handshake (if the server
+support TLS/IA).  Use <code class="function">gnutls_ia_require_inner_phase()</code> to toggle the
+TLS/IA mode.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sc</code></em> :</span></p></td>
+<td> is a pointer to an <span class="type">gnutls_ia_server_credentials_t</span> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> On success, <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> (0) is returned, otherwise
+  an error code is returned.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-free-server-credentials"></a><h3>gnutls_ia_free_server_credentials ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_ia_free_server_credentials   (gnutls_ia_server_credentials_t sc);</pre>
+<p>
+This structure is complex enough to manipulate directly thus this
+helper function is provided in order to free (deallocate) it.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>sc</code></em> :</span></p></td>
+<td> is an <span class="type">gnutls_ia_server_credentials_t</span> structure.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-allocate-server-credentials"></a><h3>gnutls_ia_allocate_server_credentials ()</h3>
+<pre class="programlisting">int                 gnutls_ia_allocate_server_credentials
+                                                        (gnutls_ia_server_credentials_t *sc);</pre>
+<p>
+This structure is complex enough to manipulate directly thus this
+helper function is provided in order to allocate it.
+</p>
+<p>
+Adding this credential to a session will enable TLS/IA, and will
+require an Application Phase after the TLS handshake (if the client
+support TLS/IA).  Use <code class="function">gnutls_ia_require_inner_phase()</code> to toggle the
+TLS/IA mode.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sc</code></em> :</span></p></td>
+<td> is a pointer to an <span class="type">gnutls_ia_server_credentials_t</span> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> On success, <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> (0) is returned, otherwise
+  an error code is returned.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-set-client-avp-function"></a><h3>gnutls_ia_set_client_avp_function ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_ia_set_client_avp_function   (gnutls_ia_client_credentials_t cred,
+                                                         <a class="link" href="gnutls-extra.html#gnutls-ia-avp-func" title="gnutls_ia_avp_func ()">gnutls_ia_avp_func</a> avp_func);</pre>
+<p>
+Set the TLS/IA AVP callback handler used for the session.
+</p>
+<p>
+The AVP callback is called to process AVPs received from the
+server, and to get a new AVP to send to the server.
+</p>
+<p>
+The callback's function form is:
+int (*avp_func) (gnutls_session_t session, void *ptr,
+                 const char *last, size_t lastlen,
+                 char **next, size_t *nextlen);
+</p>
+<p>
+The <em class="parameter"><code>session</code></em> parameter is the <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure
+corresponding to the current session.  The <em class="parameter"><code>ptr</code></em> parameter is the
+application hook pointer, set through
+<a class="link" href="gnutls-extra.html#gnutls-ia-set-client-avp-ptr" title="gnutls_ia_set_client_avp_ptr ()"><code class="function">gnutls_ia_set_client_avp_ptr()</code></a>.  The AVP received from the server
+is present in <em class="parameter"><code>last</code></em> of <em class="parameter"><code>lastlen</code></em> size, which will be <code class="literal">NULL</code> on the
+first invocation.  The newly allocated output AVP to send to the
+server should be placed in *<em class="parameter"><code>next</code></em> of *<em class="parameter"><code>nextlen</code></em> size.
+</p>
+<p>
+The callback may invoke <a class="link" href="gnutls-extra.html#gnutls-ia-permute-inner-secret" title="gnutls_ia_permute_inner_secret ()"><code class="function">gnutls_ia_permute_inner_secret()</code></a> to mix any
+generated session keys with the TLS/IA inner secret.
+</p>
+<p>
+Return 0 (<code class="literal">GNUTLS_IA_APPLICATION_PAYLOAD</code>) on success, or a negative
+error code to abort the TLS/IA handshake.
+</p>
+<p>
+Note that the callback must use allocate the <em class="parameter"><code>next</code></em> parameter using
+<a class="link" href="gnutls-gnutls.html#gnutls-malloc" title="gnutls_malloc"><code class="function">gnutls_malloc()</code></a>, because it is released via <a class="link" href="gnutls-gnutls.html#gnutls-free" title="gnutls_free"><code class="function">gnutls_free()</code></a> by the
+TLS/IA handshake function.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cred</code></em> :</span></p></td>
+<td> is a <span class="type">gnutls_ia_client_credentials_t</span> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>avp_func</code></em> :</span></p></td>
+<td> is the callback function
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-set-client-avp-ptr"></a><h3>gnutls_ia_set_client_avp_ptr ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_ia_set_client_avp_ptr        (gnutls_ia_client_credentials_t cred,
+                                                         <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *ptr);</pre>
+<p>
+Sets the pointer that will be provided to the TLS/IA callback
+function as the first argument.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cred</code></em> :</span></p></td>
+<td> is a <span class="type">gnutls_ia_client_credentials_t</span> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ptr</code></em> :</span></p></td>
+<td> is the pointer
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-get-client-avp-ptr"></a><h3>gnutls_ia_get_client_avp_ptr ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>*               gnutls_ia_get_client_avp_ptr        (gnutls_ia_client_credentials_tcred );</pre>
+<p>
+Returns the pointer that will be provided to the TLS/IA callback
+function as the first argument.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cred</code></em> :</span></p></td>
+<td> is a <span class="type">gnutls_ia_client_credentials_t</span> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The client callback data pointer.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-set-server-avp-function"></a><h3>gnutls_ia_set_server_avp_function ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_ia_set_server_avp_function   (gnutls_ia_server_credentials_t cred,
+                                                         <a class="link" href="gnutls-extra.html#gnutls-ia-avp-func" title="gnutls_ia_avp_func ()">gnutls_ia_avp_func</a> avp_func);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-set-server-avp-ptr"></a><h3>gnutls_ia_set_server_avp_ptr ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_ia_set_server_avp_ptr        (gnutls_ia_server_credentials_t cred,
+                                                         <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *ptr);</pre>
+<p>
+Sets the pointer that will be provided to the TLS/IA callback
+function as the first argument.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cred</code></em> :</span></p></td>
+<td> is a <span class="type">gnutls_ia_client_credentials_t</span> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ptr</code></em> :</span></p></td>
+<td> is the pointer
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-get-server-avp-ptr"></a><h3>gnutls_ia_get_server_avp_ptr ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>*               gnutls_ia_get_server_avp_ptr        (gnutls_ia_server_credentials_tcred );</pre>
+<p>
+Returns the pointer that will be provided to the TLS/IA callback
+function as the first argument.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cred</code></em> :</span></p></td>
+<td> is a <span class="type">gnutls_ia_client_credentials_t</span> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The server callback data pointer.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-handshake-p"></a><h3>gnutls_ia_handshake_p ()</h3>
+<pre class="programlisting">int                 gnutls_ia_handshake_p               (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session);</pre>
+<p>
+Predicate to be used after <a class="link" href="gnutls-gnutls.html#gnutls-handshake" title="gnutls_handshake ()"><code class="function">gnutls_handshake()</code></a> to decide whether to
+invoke <a class="link" href="gnutls-extra.html#gnutls-ia-handshake" title="gnutls_ia_handshake ()"><code class="function">gnutls_ia_handshake()</code></a>.  Usable by both clients and servers.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> non-zero if TLS/IA handshake is expected, zero
+  otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-handshake"></a><h3>gnutls_ia_handshake ()</h3>
+<pre class="programlisting">int                 gnutls_ia_handshake                 (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session);</pre>
+<p>
+Perform a TLS/IA handshake.  This should be called after
+<a class="link" href="gnutls-gnutls.html#gnutls-handshake" title="gnutls_handshake ()"><code class="function">gnutls_handshake()</code></a> iff <a class="link" href="gnutls-extra.html#gnutls-ia-handshake-p" title="gnutls_ia_handshake_p ()"><code class="function">gnutls_ia_handshake_p()</code></a>.
+</p>
+<p>
+Return 0 on success, or an error code.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-permute-inner-secret"></a><h3>gnutls_ia_permute_inner_secret ()</h3>
+<pre class="programlisting">int                 gnutls_ia_permute_inner_secret      (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         size_t session_keys_size,
+                                                         const char *session_keys);</pre>
+<p>
+Permute the inner secret using the generated session keys.
+</p>
+<p>
+This can be called in the TLS/IA AVP callback to mix any generated
+session keys with the TLS/IA inner secret.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session_keys_size</code></em> :</span></p></td>
+<td> Size of generated session keys (0 if none).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session_keys</code></em> :</span></p></td>
+<td> Generated session keys, used to permute inner secret
+               (NULL if none).
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Return zero on success, or a negative error code.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-endphase-send"></a><h3>gnutls_ia_endphase_send ()</h3>
+<pre class="programlisting">int                 gnutls_ia_endphase_send             (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         int final_p);</pre>
+<p>
+Send a TLS/IA end phase message.
+</p>
+<p>
+In the client, this should only be used to acknowledge an end phase
+message sent by the server.
+</p>
+<p>
+In the server, this can be called instead of <a class="link" href="gnutls-extra.html#gnutls-ia-send" title="gnutls_ia_send ()"><code class="function">gnutls_ia_send()</code></a> if
+the server wishes to end an application phase.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>final_p</code></em> :</span></p></td>
+<td> Set iff this should signal the final phase.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Return 0 on success, or an error code.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-verify-endphase"></a><h3>gnutls_ia_verify_endphase ()</h3>
+<pre class="programlisting">int                 gnutls_ia_verify_endphase           (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         const char *checksum);</pre>
+<p>
+Verify TLS/IA end phase checksum data.  If verification fails, the
+<code class="literal">GNUTLS_A_INNER_APPLICATION_VERIFICATION</code> alert is sent to the other
+sie.
+</p>
+<p>
+This function is called when <a class="link" href="gnutls-extra.html#gnutls-ia-recv" title="gnutls_ia_recv ()"><code class="function">gnutls_ia_recv()</code></a> return
+<a class="link" href="gnutls-gnutls.html#GNUTLS-E-WARNING-IA-IPHF-RECEIVED:CAPS" title="GNUTLS_E_WARNING_IA_IPHF_RECEIVED"><code class="literal">GNUTLS_E_WARNING_IA_IPHF_RECEIVED</code></a> or
+<a class="link" href="gnutls-gnutls.html#GNUTLS-E-WARNING-IA-FPHF-RECEIVED:CAPS" title="GNUTLS_E_WARNING_IA_FPHF_RECEIVED"><code class="literal">GNUTLS_E_WARNING_IA_FPHF_RECEIVED</code></a>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>checksum</code></em> :</span></p></td>
+<td> 12-byte checksum data, received from <a class="link" href="gnutls-extra.html#gnutls-ia-recv" title="gnutls_ia_recv ()"><code class="function">gnutls_ia_recv()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Return 0 on successful verification, or an error
+code.  If the checksum verification of the end phase message fails,
+<a class="link" href="gnutls-gnutls.html#GNUTLS-E-IA-VERIFY-FAILED:CAPS" title="GNUTLS_E_IA_VERIFY_FAILED"><code class="literal">GNUTLS_E_IA_VERIFY_FAILED</code></a> is returned.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-send"></a><h3>gnutls_ia_send ()</h3>
+<pre class="programlisting">ssize_t             gnutls_ia_send                      (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         const char *data,
+                                                         size_t sizeofdata);</pre>
+<p>
+Send TLS/IA application payload data.  This function has the
+similar semantics with <code class="function">send()</code>. The only difference is that is
+accepts a GNUTLS session, and uses different error codes.
+</p>
+<p>
+The TLS/IA protocol is synchronous, so you cannot send more than
+one packet at a time.  The client always send the first packet.
+</p>
+<p>
+To finish an application phase in the server, use
+<a class="link" href="gnutls-extra.html#gnutls-ia-endphase-send" title="gnutls_ia_endphase_send ()"><code class="function">gnutls_ia_endphase_send()</code></a>.  The client cannot end an application
+phase unilaterally; rather, a client is required to respond with an
+endphase of its own if gnutls_ia_recv indicates that the server has
+sent one.
+</p>
+<p>
+If the EINTR is returned by the internal push function (the default
+is <code class="function">send()</code>} then <a class="link" href="gnutls-gnutls.html#GNUTLS-E-INTERRUPTED:CAPS" title="GNUTLS_E_INTERRUPTED"><code class="literal">GNUTLS_E_INTERRUPTED</code></a> will be returned.  If
+<a class="link" href="gnutls-gnutls.html#GNUTLS-E-INTERRUPTED:CAPS" title="GNUTLS_E_INTERRUPTED"><code class="literal">GNUTLS_E_INTERRUPTED</code></a> or <a class="link" href="gnutls-gnutls.html#GNUTLS-E-AGAIN:CAPS" title="GNUTLS_E_AGAIN"><code class="literal">GNUTLS_E_AGAIN</code></a> is returned, you must call
+this function again, with the same parameters; alternatively you
+could provide a <code class="literal">NULL</code> pointer for data, and 0 for size.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> contains the data to send
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sizeofdata</code></em> :</span></p></td>
+<td> is the length of the data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The number of bytes sent, or a negative error code.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-recv"></a><h3>gnutls_ia_recv ()</h3>
+<pre class="programlisting">ssize_t             gnutls_ia_recv                      (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         char *data,
+                                                         size_t sizeofdata);</pre>
+<p>
+Receive TLS/IA data.  This function has the similar semantics with
+<code class="function">recv()</code>. The only difference is that is accepts a GNUTLS session,
+and uses different error codes.
+</p>
+<p>
+If the server attempt to finish an application phase, this function
+will return <a class="link" href="gnutls-gnutls.html#GNUTLS-E-WARNING-IA-IPHF-RECEIVED:CAPS" title="GNUTLS_E_WARNING_IA_IPHF_RECEIVED"><code class="literal">GNUTLS_E_WARNING_IA_IPHF_RECEIVED</code></a> or
+<a class="link" href="gnutls-gnutls.html#GNUTLS-E-WARNING-IA-FPHF-RECEIVED:CAPS" title="GNUTLS_E_WARNING_IA_FPHF_RECEIVED"><code class="literal">GNUTLS_E_WARNING_IA_FPHF_RECEIVED</code></a>.  The caller should then invoke
+<a class="link" href="gnutls-extra.html#gnutls-ia-verify-endphase" title="gnutls_ia_verify_endphase ()"><code class="function">gnutls_ia_verify_endphase()</code></a>, and if it runs the client side, also
+send an endphase message of its own using gnutls_ia_endphase_send.
+</p>
+<p>
+If EINTR is returned by the internal push function (the default is
+<em class="parameter"><code>code</code></em>{<code class="function">recv()</code>}) then GNUTLS_E_INTERRUPTED will be returned.  If
+GNUTLS_E_INTERRUPTED or GNUTLS_E_AGAIN is returned, you must call
+this function again, with the same parameters; alternatively you
+could provide a NULL pointer for data, and 0 for size.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> the buffer that the data will be read into, must hold &gt;= 12 bytes.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sizeofdata</code></em> :</span></p></td>
+<td> the number of requested bytes, must be &gt;= 12.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The number of bytes received.  A negative error code is
+returned in case of an error.  The
+<a class="link" href="gnutls-gnutls.html#GNUTLS-E-WARNING-IA-IPHF-RECEIVED:CAPS" title="GNUTLS_E_WARNING_IA_IPHF_RECEIVED"><code class="literal">GNUTLS_E_WARNING_IA_IPHF_RECEIVED</code></a> and
+<a class="link" href="gnutls-gnutls.html#GNUTLS-E-WARNING-IA-FPHF-RECEIVED:CAPS" title="GNUTLS_E_WARNING_IA_FPHF_RECEIVED"><code class="literal">GNUTLS_E_WARNING_IA_FPHF_RECEIVED</code></a> errors are returned when an
+application phase finished message has been sent by the server.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-generate-challenge"></a><h3>gnutls_ia_generate_challenge ()</h3>
+<pre class="programlisting">int                 gnutls_ia_generate_challenge        (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         size_t buffer_size,
+                                                         char *buffer);</pre>
+<p>
+Generate an application challenge that the client cannot control or
+predict, based on the TLS/IA inner secret.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer_size</code></em> :</span></p></td>
+<td> size of output buffer.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td> pre-allocated buffer to contain <em class="parameter"><code>buffer_size</code></em> bytes of output.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Returns 0 on success, or an negative error code.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-extract-inner-secret"></a><h3>gnutls_ia_extract_inner_secret ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_ia_extract_inner_secret      (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         char *buffer);</pre>
+<p>
+Copy the 48 bytes large inner secret into the specified buffer
+</p>
+<p>
+This function is typically used after the TLS/IA handshake has
+concluded.  The TLS/IA inner secret can be used as input to a PRF
+to derive session keys.  Do not use the inner secret directly as a
+session key, because for a resumed session that does not include an
+application phase, the inner secret will be identical to the inner
+secret in the original session.  It is important to include, for
+example, the client and server randomness when deriving a sesssion
+key from the inner secret.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td> pre-allocated buffer to hold 48 bytes of inner secret.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-ia-enable"></a><h3>gnutls_ia_enable ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_ia_enable                    (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> session,
+                                                         int allow_skip_on_resume);</pre>
+<p>
+Specify whether we must advertise support for the TLS/IA extension
+during the handshake.
+</p>
+<p>
+At the client side, we always advertise TLS/IA if gnutls_ia_enable
+was called before the handshake; at the server side, we also
+require that the client has advertised that it wants to run TLS/IA
+before including the advertisement, as required by the protocol.
+</p>
+<p>
+Similarly, at the client side we always advertise that we allow
+TLS/IA to be skipped for resumed sessions if <em class="parameter"><code>allow_skip_on_resume</code></em>
+is non-zero; at the server side, we also require that the session
+is indeed resumable and that the client has also advertised that it
+allows TLS/IA to be skipped for resumed sessions.
+</p>
+<p>
+After the TLS handshake, call <a class="link" href="gnutls-extra.html#gnutls-ia-handshake-p" title="gnutls_ia_handshake_p ()"><code class="function">gnutls_ia_handshake_p()</code></a> to find out
+whether both parties agreed to do a TLS/IA handshake, before
+calling <a class="link" href="gnutls-extra.html#gnutls-ia-handshake" title="gnutls_ia_handshake ()"><code class="function">gnutls_ia_handshake()</code></a> or one of the lower level gnutls_ia_*
+functions.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> is a <a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t"><span class="type">gnutls_session_t</span></a> structure.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>allow_skip_on_resume</code></em> :</span></p></td>
+<td> non-zero if local party allows to skip the
+		  TLS/IA application phases for a resumed session.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-global-init-extra"></a><h3>gnutls_global_init_extra ()</h3>
+<pre class="programlisting">int                 gnutls_global_init_extra            (void);</pre>
+<p>
+This function initializes the global state of gnutls-extra library
+to defaults.  Returns zero on success.
+</p>
+<p>
+Note that <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a> has to be called before this
+function.  If this function is not called then the gnutls-extra
+library will not be usable.</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-register-md5-handler"></a><h3>gnutls_register_md5_handler ()</h3>
+<pre class="programlisting">int                 gnutls_register_md5_handler         (void);</pre>
+<p>
+Register a non-libgcrypt based MD5 and HMAC-MD5 handler.  This is
+useful if you run Libgcrypt in FIPS-mode.  Normally TLS requires
+use of MD5, so without this you cannot use GnuTLS with libgcrypt in
+FIPS mode.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-extra-check-version"></a><h3>gnutls_extra_check_version ()</h3>
+<pre class="programlisting">const char*         gnutls_extra_check_version          (const char *req_version);</pre>
+<p>
+Check that the version of the gnutls-extra library is at minimum
+the requested one and return the version string; return NULL if the
+condition is not satisfied.  If a NULL is passed to this function,
+no check is done, but the version string is simply returned.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>req_version</code></em> :</span></p></td>
+<td> the version to check
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

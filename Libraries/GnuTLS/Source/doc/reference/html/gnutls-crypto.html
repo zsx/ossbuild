@@ -1,0 +1,876 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>crypto</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="GNU TLS API Reference Manual">
+<link rel="up" href="ch01.html" title="GNU TLS API Reference Manual">
+<link rel="prev" href="gnutls-openpgp.html" title="openpgp">
+<link rel="next" href="gnutls-openssl.html" title="openssl">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="GNU TLS API Reference Manual">
+<link rel="index" href="ix01.html" title="Index">
+<link rel="index" href="ix02.html" title="Index of deprecated symbols">
+<link rel="index" href="ix03.html" title="Index of new symbols in 2.4.0">
+<link rel="index" href="ix04.html" title="Index of new symbols in 2.6.0">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gnutls-openpgp.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GNU TLS API Reference Manual</th>
+<td><a accesskey="n" href="gnutls-openssl.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#gnutls-crypto.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gnutls-crypto.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="gnutls-crypto"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gnutls-crypto.top_of_page"></a>crypto</span></h2>
+<p>crypto</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="gnutls-crypto.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#define             <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION">GNUTLS_CRYPTO_API_VERSION</a>
+                    <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-cipher-st" title="gnutls_crypto_single_cipher_st">gnutls_crypto_single_cipher_st</a>;
+                    <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-mac-st" title="gnutls_crypto_single_mac_st">gnutls_crypto_single_mac_st</a>;
+                    <a class="link" href="gnutls-crypto.html#gnutls-crypto-cipher-st" title="gnutls_crypto_cipher_st">gnutls_crypto_cipher_st</a>;
+                    <a class="link" href="gnutls-crypto.html#gnutls-crypto-mac-st" title="gnutls_crypto_mac_st">gnutls_crypto_mac_st</a>;
+typedef             <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-digest-st" title="gnutls_crypto_single_digest_st">gnutls_crypto_single_digest_st</a>;
+typedef             <a class="link" href="gnutls-crypto.html#gnutls-crypto-digest-st" title="gnutls_crypto_digest_st">gnutls_crypto_digest_st</a>;
+enum                <a class="link" href="gnutls-crypto.html#gnutls-rnd-level-t" title="enum gnutls_rnd_level_t">gnutls_rnd_level_t</a>;
+enum                <a class="link" href="gnutls-crypto.html#gnutls-pk-flag-t" title="enum gnutls_pk_flag_t">gnutls_pk_flag_t</a>;
+                    <a class="link" href="gnutls-crypto.html#gnutls-crypto-rnd-st" title="gnutls_crypto_rnd_st">gnutls_crypto_rnd_st</a>;
+typedef             <a class="link" href="gnutls-crypto.html#bigint-t" title="bigint_t">bigint_t</a>;
+enum                <a class="link" href="gnutls-crypto.html#gnutls-bigint-format-t" title="enum gnutls_bigint_format_t">gnutls_bigint_format_t</a>;
+                    <a class="link" href="gnutls-crypto.html#gnutls-crypto-bigint-st" title="gnutls_crypto_bigint_st">gnutls_crypto_bigint_st</a>;
+#define             <a class="link" href="gnutls-crypto.html#GNUTLS-MAX-PK-PARAMS:CAPS" title="GNUTLS_MAX_PK_PARAMS">GNUTLS_MAX_PK_PARAMS</a>
+                    <a class="link" href="gnutls-crypto.html#gnutls-pk-params-st" title="gnutls_pk_params_st">gnutls_pk_params_st</a>;
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-crypto.html#gnutls-pk-params-release" title="gnutls_pk_params_release ()">gnutls_pk_params_release</a>            (<a class="link" href="gnutls-crypto.html#gnutls-pk-params-st" title="gnutls_pk_params_st">gnutls_pk_params_st</a> *p);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-crypto.html#gnutls-pk-params-init" title="gnutls_pk_params_init ()">gnutls_pk_params_init</a>               (<a class="link" href="gnutls-crypto.html#gnutls-pk-params-st" title="gnutls_pk_params_st">gnutls_pk_params_st</a> *p);
+enum                <a class="link" href="gnutls-crypto.html#gnutls-direction-t" title="enum gnutls_direction_t">gnutls_direction_t</a>;
+                    <a class="link" href="gnutls-crypto.html#gnutls-crypto-pk-st" title="gnutls_crypto_pk_st">gnutls_crypto_pk_st</a>;
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-cipher-register" title="gnutls_crypto_single_cipher_register()">gnutls_crypto_single_cipher_register</a>(algo, prio, st)
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-mac-register" title="gnutls_crypto_single_mac_register()">gnutls_crypto_single_mac_register</a>   (algo, prio, st)
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-digest-register" title="gnutls_crypto_single_digest_register()">gnutls_crypto_single_digest_register</a>(algo, prio, st)
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-cipher-register2" title="gnutls_crypto_single_cipher_register2 ()">gnutls_crypto_single_cipher_register2</a>
+                                                        (<a class="link" href="gnutls-gnutls.html#gnutls-cipher-algorithm-t" title="enum gnutls_cipher_algorithm_t">gnutls_cipher_algorithm_t</a> algorithm,
+                                                         int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-cipher-st" title="gnutls_crypto_single_cipher_st">gnutls_crypto_single_cipher_st</a> *s);
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-mac-register2" title="gnutls_crypto_single_mac_register2 ()">gnutls_crypto_single_mac_register2</a>  (<a class="link" href="gnutls-gnutls.html#gnutls-mac-algorithm-t" title="enum gnutls_mac_algorithm_t">gnutls_mac_algorithm_t</a> algorithm,
+                                                         int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-mac-st" title="gnutls_crypto_single_mac_st">gnutls_crypto_single_mac_st</a> *s);
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-digest-register2" title="gnutls_crypto_single_digest_register2 ()">gnutls_crypto_single_digest_register2</a>
+                                                        (<a class="link" href="gnutls-gnutls.html#gnutls-digest-algorithm-t" title="enum gnutls_digest_algorithm_t">gnutls_digest_algorithm_t</a> algorithm,
+                                                         int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-digest-st" title="gnutls_crypto_single_digest_st">gnutls_crypto_single_digest_st</a> *s);
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-cipher-register" title="gnutls_crypto_cipher_register()">gnutls_crypto_cipher_register</a>       (prio, st)
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-mac-register" title="gnutls_crypto_mac_register()">gnutls_crypto_mac_register</a>          (prio, st)
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-digest-register" title="gnutls_crypto_digest_register()">gnutls_crypto_digest_register</a>       (prio, st)
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-cipher-register2" title="gnutls_crypto_cipher_register2 ()">gnutls_crypto_cipher_register2</a>      (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-cipher-st" title="gnutls_crypto_cipher_st">gnutls_crypto_cipher_st</a> *s);
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-mac-register2" title="gnutls_crypto_mac_register2 ()">gnutls_crypto_mac_register2</a>         (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-mac-st" title="gnutls_crypto_mac_st">gnutls_crypto_mac_st</a> *s);
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-digest-register2" title="gnutls_crypto_digest_register2 ()">gnutls_crypto_digest_register2</a>      (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-digest-st" title="gnutls_crypto_digest_st">gnutls_crypto_digest_st</a> *s);
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-rnd-register" title="gnutls_crypto_rnd_register()">gnutls_crypto_rnd_register</a>          (prio, st)
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-pk-register" title="gnutls_crypto_pk_register()">gnutls_crypto_pk_register</a>           (prio, st)
+#define             <a class="link" href="gnutls-crypto.html#gnutls-crypto-bigint-register" title="gnutls_crypto_bigint_register()">gnutls_crypto_bigint_register</a>       (prio, st)
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-rnd-register2" title="gnutls_crypto_rnd_register2 ()">gnutls_crypto_rnd_register2</a>         (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-rnd-st" title="gnutls_crypto_rnd_st">gnutls_crypto_rnd_st</a> *s);
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-pk-register2" title="gnutls_crypto_pk_register2 ()">gnutls_crypto_pk_register2</a>          (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-pk-st" title="gnutls_crypto_pk_st">gnutls_crypto_pk_st</a> *s);
+int                 <a class="link" href="gnutls-crypto.html#gnutls-crypto-bigint-register2" title="gnutls_crypto_bigint_register2 ()">gnutls_crypto_bigint_register2</a>      (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-bigint-st" title="gnutls_crypto_bigint_st">gnutls_crypto_bigint_st</a> *s);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gnutls-crypto.description"></a><h2>Description</h2>
+<p>
+A longer description goes here.
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="gnutls-crypto.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-CRYPTO-API-VERSION:CAPS"></a><h3>GNUTLS_CRYPTO_API_VERSION</h3>
+<pre class="programlisting">#define GNUTLS_CRYPTO_API_VERSION 0x01
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-cipher-st"></a><h3>gnutls_crypto_single_cipher_st</h3>
+<pre class="programlisting">typedef struct {
+  int (*init) (void** ctx);
+  int (*setkey) (void* ctx, const void * key, size_t keysize);
+  int (*setiv) (void* ctx, const void* iv, size_t ivsize);
+  int (*encrypt) (void* ctx, const void* plain, size_t plainsize,
+		  void* encr, size_t encrsize);
+  int (*decrypt) (void* ctx, const void* encr, size_t encrsize,
+		  void* plain, size_t plainsize);
+  void (*deinit) (void* ctx);
+} gnutls_crypto_single_cipher_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-mac-st"></a><h3>gnutls_crypto_single_mac_st</h3>
+<pre class="programlisting">typedef struct {
+  int (*init) (void** ctx);
+  int (*setkey) (void* ctx, const void * key, size_t keysize);
+  int (*hash) (void* ctx, const void * text, size_t textsize);
+  int (*copy) (void** dst_ctx, void* src_ctx);
+  int (*output) (void* src_ctx, void* digest, size_t digestsize);
+  void (*deinit)(void* ctx);
+} gnutls_crypto_single_mac_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-cipher-st"></a><h3>gnutls_crypto_cipher_st</h3>
+<pre class="programlisting">typedef struct {
+  int (*init) (gnutls_cipher_algorithm_t, void** ctx);
+  int (*setkey) (void* ctx, const void * key, size_t keysize);
+  int (*setiv) (void* ctx, const void* iv, size_t ivsize);
+  int (*encrypt) (void* ctx, const void* plain, size_t plainsize,
+		  void* encr, size_t encrsize);
+  int (*decrypt) (void* ctx, const void* encr, size_t encrsize,
+		  void* plain, size_t plainsize);
+  void (*deinit) (void* ctx);
+} gnutls_crypto_cipher_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-mac-st"></a><h3>gnutls_crypto_mac_st</h3>
+<pre class="programlisting">typedef struct {
+  int (*init) (gnutls_mac_algorithm_t, void** ctx);
+  int (*setkey) (void* ctx, const void * key, size_t keysize);
+  int (*hash) (void* ctx, const void * text, size_t textsize);
+  int (*copy) (void** dst_ctx, void* src_ctx);
+  int (*output) (void* src_ctx, void* digest, size_t digestsize);
+  void (*deinit)(void* ctx);
+} gnutls_crypto_mac_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-digest-st"></a><h3>gnutls_crypto_single_digest_st</h3>
+<pre class="programlisting">typedef gnutls_crypto_single_mac_st gnutls_crypto_single_digest_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-digest-st"></a><h3>gnutls_crypto_digest_st</h3>
+<pre class="programlisting">typedef gnutls_crypto_mac_st gnutls_crypto_digest_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-rnd-level-t"></a><h3>enum gnutls_rnd_level_t</h3>
+<pre class="programlisting">typedef enum gnutls_rnd_level
+  {
+    /* fatal in parts of session if broken, i.e., vulnerable to
+       statistical analysis */
+    GNUTLS_RND_NONCE = 0,
+    /* fatal in session if broken */
+    GNUTLS_RND_RANDOM = 1,
+    /* fatal in many sessions if broken */
+    GNUTLS_RND_KEY = 2
+  } gnutls_rnd_level_t;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-pk-flag-t"></a><h3>enum gnutls_pk_flag_t</h3>
+<pre class="programlisting">typedef enum
+  {
+    GNUTLS_PK_FLAG_NONE = 0
+  } gnutls_pk_flag_t;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-rnd-st"></a><h3>gnutls_crypto_rnd_st</h3>
+<pre class="programlisting">typedef struct {
+  int (*init)( void** ctx);
+  int (*rnd) ( void* ctx, int /* gnutls_rnd_level_t */ level,
+	       void* data, size_t datasize);
+  void (*deinit)( void* ctx);
+} gnutls_crypto_rnd_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="bigint-t"></a><h3>bigint_t</h3>
+<pre class="programlisting">typedef void* bigint_t;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-bigint-format-t"></a><h3>enum gnutls_bigint_format_t</h3>
+<pre class="programlisting">typedef enum
+  {
+    /* raw unsigned integer format */
+    GNUTLS_MPI_FORMAT_USG = 0,
+    /* raw signed integer format - always a leading zero when positive */
+    GNUTLS_MPI_FORMAT_STD = 1,
+    /* the pgp integer format */
+    GNUTLS_MPI_FORMAT_PGP = 2
+  } gnutls_bigint_format_t;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-bigint-st"></a><h3>gnutls_crypto_bigint_st</h3>
+<pre class="programlisting">typedef struct {
+  bigint_t (*bigint_new)( int nbits);
+  void (*bigint_release)( bigint_t n);
+  /* 0 for equality, &gt; 0 for m1&gt;m2, &lt; 0 for m1&lt;m2 */
+  int (*bigint_cmp)(const bigint_t m1, const bigint_t m2);
+  /* as bigint_cmp */
+  int (*bigint_cmp_ui)(const bigint_t m1, unsigned long m2);
+  /* ret = a % b */
+  bigint_t (*bigint_mod) (const bigint_t a, const bigint_t b);
+  /* a = b -&gt; ret == a */
+  bigint_t (*bigint_set) (bigint_t a, const bigint_t b);
+  /* a = b -&gt; ret == a */
+  bigint_t (*bigint_set_ui) (bigint_t a, unsigned long b);
+  unsigned int (*bigint_get_nbits)(const bigint_t a);
+  /* w = b ^ e mod m */
+  bigint_t (*bigint_powm) (bigint_t w, const bigint_t b,
+			   const bigint_t e, const bigint_t m);
+  /* w = a + b mod m */
+  bigint_t (*bigint_addm) (bigint_t w, const bigint_t a,
+			   const bigint_t b, const bigint_t m);
+  /* w = a - b mod m */
+  bigint_t (*bigint_subm) (bigint_t w, const bigint_t a, const bigint_t b,
+			   const bigint_t m);
+  /* w = a * b mod m */
+  bigint_t (*bigint_mulm) (bigint_t w, const bigint_t a, const bigint_t b,
+			   const bigint_t m);
+  /* w = a + b */bigint_t (*bigint_add) (bigint_t w, const bigint_t a,
+					 const bigint_t b);
+  /* w = a - b */bigint_t (*bigint_sub) (bigint_t w, const bigint_t a,
+					 const bigint_t b);
+  /* w = a * b */
+  bigint_t (*bigint_mul) (bigint_t w, const bigint_t a, const bigint_t b);
+  /* w = a + b */
+  bigint_t (*bigint_add_ui) (bigint_t w, const bigint_t a, unsigned long b);
+  /* w = a - b */
+  bigint_t (*bigint_sub_ui) (bigint_t w, const bigint_t a, unsigned long b);
+  /* w = a * b */
+  bigint_t (*bigint_mul_ui) (bigint_t w, const bigint_t a, unsigned long b);
+  /* q = a / b */
+  bigint_t (*bigint_div) (bigint_t q, const bigint_t a, const bigint_t b);
+  /* 0 if prime */
+  int (*bigint_prime_check) (const bigint_t pp);
+  int (*bigint_generate_group) (gnutls_group_st* gg, unsigned int bits);
+
+  /* reads an bigint from a buffer */
+  /* stores an bigint into the buffer.  returns
+   * GNUTLS_E_SHORT_MEMORY_BUFFER if buf_size is not sufficient to
+   * store this integer, and updates the buf_size;
+   */
+  bigint_t (*bigint_scan) (const void* buf, size_t buf_size,
+			   gnutls_bigint_format_t format);
+  int (*bigint_print) (const bigint_t a, void* buf, size_t* buf_size,
+		       gnutls_bigint_format_t format);
+} gnutls_crypto_bigint_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-MAX-PK-PARAMS:CAPS"></a><h3>GNUTLS_MAX_PK_PARAMS</h3>
+<pre class="programlisting">#define GNUTLS_MAX_PK_PARAMS 6
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-pk-params-st"></a><h3>gnutls_pk_params_st</h3>
+<pre class="programlisting">typedef struct {
+  bigint_t params[GNUTLS_MAX_PK_PARAMS];
+  unsigned int params_nr; /* the number of parameters */
+  unsigned int flags;
+} gnutls_pk_params_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-pk-params-release"></a><h3>gnutls_pk_params_release ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_pk_params_release            (<a class="link" href="gnutls-crypto.html#gnutls-pk-params-st" title="gnutls_pk_params_st">gnutls_pk_params_st</a> *p);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-pk-params-init"></a><h3>gnutls_pk_params_init ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                gnutls_pk_params_init               (<a class="link" href="gnutls-crypto.html#gnutls-pk-params-st" title="gnutls_pk_params_st">gnutls_pk_params_st</a> *p);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-direction-t"></a><h3>enum gnutls_direction_t</h3>
+<pre class="programlisting">typedef enum
+{
+  GNUTLS_IMPORT,
+  GNUTLS_EXPORT
+} gnutls_direction_t;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-pk-st"></a><h3>gnutls_crypto_pk_st</h3>
+<pre class="programlisting">typedef struct {
+  /* The params structure should contain the private or public key
+   * parameters, depending on the operation */
+  int (*encrypt)( gnutls_pk_algorithm_t, gnutls_datum_t* ciphertext,
+    const gnutls_datum_t* plaintext, const gnutls_pk_params_st* /* public */);
+  int (*decrypt)( gnutls_pk_algorithm_t, gnutls_datum_t* plaintext,
+		  const gnutls_datum_t* ciphertext,
+		  const gnutls_pk_params_st* /* private */);
+
+  int (*sign)( gnutls_pk_algorithm_t, gnutls_datum_t* signature,
+	       const gnutls_datum_t* data,
+	       const gnutls_pk_params_st* /* private */);
+  int (*verify)( gnutls_pk_algorithm_t, const gnutls_datum_t* data,
+		 const gnutls_datum_t* signature,
+		 const gnutls_pk_params_st* /* public */);
+
+  int (*generate)( gnutls_pk_algorithm_t, unsigned int level /*bits*/,
+		   gnutls_pk_params_st*);
+  /* this function should convert params to ones suitable
+   * for the above functions
+   */
+  int (*pk_fixup_private_params)( gnutls_pk_algorithm_t, gnutls_direction_t,
+				  gnutls_pk_params_st*);
+} gnutls_crypto_pk_st;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-cipher-register"></a><h3>gnutls_crypto_single_cipher_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_single_cipher_register(algo, prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-mac-register"></a><h3>gnutls_crypto_single_mac_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_single_mac_register(algo, prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-digest-register"></a><h3>gnutls_crypto_single_digest_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_single_digest_register(algo, prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-cipher-register2"></a><h3>gnutls_crypto_single_cipher_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_single_cipher_register2
+                                                        (<a class="link" href="gnutls-gnutls.html#gnutls-cipher-algorithm-t" title="enum gnutls_cipher_algorithm_t">gnutls_cipher_algorithm_t</a> algorithm,
+                                                         int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-cipher-st" title="gnutls_crypto_single_cipher_st">gnutls_crypto_single_cipher_st</a> *s);</pre>
+<p>
+This function will register a cipher algorithm to be used by
+gnutls.  Any algorithm registered will override the included
+algorithms and by convention kernel implemented algorithms have
+priority of 90.  The algorithm with the lowest priority will be
+used by gnutls.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-single-cipher-register" title="gnutls_crypto_single_cipher_register()"><code class="function">gnutls_crypto_single_cipher_register()</code></a> macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>algorithm</code></em> :</span></p></td>
+<td> is the gnutls algorithm identifier
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the algorithm
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new cipher's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-mac-register2"></a><h3>gnutls_crypto_single_mac_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_single_mac_register2  (<a class="link" href="gnutls-gnutls.html#gnutls-mac-algorithm-t" title="enum gnutls_mac_algorithm_t">gnutls_mac_algorithm_t</a> algorithm,
+                                                         int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-mac-st" title="gnutls_crypto_single_mac_st">gnutls_crypto_single_mac_st</a> *s);</pre>
+<p>
+This function will register a MAC algorithm to be used by gnutls.
+Any algorithm registered will override the included algorithms and
+by convention kernel implemented algorithms have priority of 90.
+The algorithm with the lowest priority will be used by gnutls.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-single-mac-register" title="gnutls_crypto_single_mac_register()"><code class="function">gnutls_crypto_single_mac_register()</code></a> macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>algorithm</code></em> :</span></p></td>
+<td> is the gnutls algorithm identifier
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the algorithm
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new algorithms's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-single-digest-register2"></a><h3>gnutls_crypto_single_digest_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_single_digest_register2
+                                                        (<a class="link" href="gnutls-gnutls.html#gnutls-digest-algorithm-t" title="enum gnutls_digest_algorithm_t">gnutls_digest_algorithm_t</a> algorithm,
+                                                         int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-single-digest-st" title="gnutls_crypto_single_digest_st">gnutls_crypto_single_digest_st</a> *s);</pre>
+<p>
+This function will register a digest (hash) algorithm to be used by
+gnutls.  Any algorithm registered will override the included
+algorithms and by convention kernel implemented algorithms have
+priority of 90.  The algorithm with the lowest priority will be
+used by gnutls.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-single-digest-register" title="gnutls_crypto_single_digest_register()"><code class="function">gnutls_crypto_single_digest_register()</code></a> macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>algorithm</code></em> :</span></p></td>
+<td> is the gnutls algorithm identifier
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the algorithm
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new algorithms's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-cipher-register"></a><h3>gnutls_crypto_cipher_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_cipher_register(prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-mac-register"></a><h3>gnutls_crypto_mac_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_mac_register(prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-digest-register"></a><h3>gnutls_crypto_digest_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_digest_register(prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-cipher-register2"></a><h3>gnutls_crypto_cipher_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_cipher_register2      (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-cipher-st" title="gnutls_crypto_cipher_st">gnutls_crypto_cipher_st</a> *s);</pre>
+<p>
+This function will register a cipher interface to be used by
+gnutls. Any interface registered will override the included engine
+and by convention kernel implemented interfaces should have
+priority of 90. The interface with the lowest priority will be used
+by gnutls.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-cipher-register" title="gnutls_crypto_cipher_register()"><code class="function">gnutls_crypto_cipher_register()</code></a> macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the cipher interface
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new interface's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-mac-register2"></a><h3>gnutls_crypto_mac_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_mac_register2         (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-mac-st" title="gnutls_crypto_mac_st">gnutls_crypto_mac_st</a> *s);</pre>
+<p>
+This function will register a mac interface to be used by
+gnutls. Any interface registered will override the included engine
+and by convention kernel implemented interfaces should have
+priority of 90. The interface with the lowest priority will be used
+by gnutls.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-mac-register" title="gnutls_crypto_mac_register()"><code class="function">gnutls_crypto_mac_register()</code></a> macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the mac interface
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new interface's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-digest-register2"></a><h3>gnutls_crypto_digest_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_digest_register2      (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-digest-st" title="gnutls_crypto_digest_st">gnutls_crypto_digest_st</a> *s);</pre>
+<p>
+This function will register a digest interface to be used by
+gnutls. Any interface registered will override the included engine
+and by convention kernel implemented interfaces should have
+priority of 90. The interface with the lowest priority will be used
+by gnutls.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-digest-register" title="gnutls_crypto_digest_register()"><code class="function">gnutls_crypto_digest_register()</code></a> macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the digest interface
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new interface's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-rnd-register"></a><h3>gnutls_crypto_rnd_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_rnd_register(prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-pk-register"></a><h3>gnutls_crypto_pk_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_pk_register(prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-bigint-register"></a><h3>gnutls_crypto_bigint_register()</h3>
+<pre class="programlisting">#define             gnutls_crypto_bigint_register(prio, st)</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-rnd-register2"></a><h3>gnutls_crypto_rnd_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_rnd_register2         (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-rnd-st" title="gnutls_crypto_rnd_st">gnutls_crypto_rnd_st</a> *s);</pre>
+<p>
+This function will register a random generator to be used by
+gnutls.  Any generator registered will override the included
+generator and by convention kernel implemented generators have
+priority of 90.  The generator with the lowest priority will be
+used by gnutls.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-rnd-register" title="gnutls_crypto_rnd_register()"><code class="function">gnutls_crypto_rnd_register()</code></a> macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the generator
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new generator's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-pk-register2"></a><h3>gnutls_crypto_pk_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_pk_register2          (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-pk-st" title="gnutls_crypto_pk_st">gnutls_crypto_pk_st</a> *s);</pre>
+<p>
+This function will register an interface for gnutls to operate
+on public key operations. Any interface registered will override
+the included interface. The interface with the lowest
+priority will be used by gnutls.
+</p>
+<p>
+Note that the bigint interface must interoperate with the bigint
+interface. Thus if this interface is updated the
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-bigint-register" title="gnutls_crypto_bigint_register()"><code class="function">gnutls_crypto_bigint_register()</code></a> should also be used.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience <a class="link" href="gnutls-crypto.html#gnutls-crypto-pk-register" title="gnutls_crypto_pk_register()"><code class="function">gnutls_crypto_pk_register()</code></a>
+macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the interface
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new interface's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gnutls-crypto-bigint-register2"></a><h3>gnutls_crypto_bigint_register2 ()</h3>
+<pre class="programlisting">int                 gnutls_crypto_bigint_register2      (int priority,
+                                                         int version,
+                                                         <a class="link" href="gnutls-crypto.html#gnutls-crypto-bigint-st" title="gnutls_crypto_bigint_st">gnutls_crypto_bigint_st</a> *s);</pre>
+<p>
+This function will register an interface for gnutls to operate
+on big integers. Any interface registered will override
+the included interface. The interface with the lowest
+priority will be used by gnutls.
+</p>
+<p>
+Note that the bigint interface must interoperate with the public
+key interface. Thus if this interface is updated the
+<a class="link" href="gnutls-crypto.html#gnutls-crypto-pk-register" title="gnutls_crypto_pk_register()"><code class="function">gnutls_crypto_pk_register()</code></a> should also be used.
+</p>
+<p>
+This function should be called before <a class="link" href="gnutls-gnutls.html#gnutls-global-init" title="gnutls_global_init ()"><code class="function">gnutls_global_init()</code></a>.
+</p>
+<p>
+For simplicity you can use the convenience <a class="link" href="gnutls-crypto.html#gnutls-crypto-bigint-register" title="gnutls_crypto_bigint_register()"><code class="function">gnutls_crypto_bigint_register()</code></a>
+macro.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>priority</code></em> :</span></p></td>
+<td> is the priority of the interface
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td> should be set to <a class="link" href="gnutls-crypto.html#GNUTLS-CRYPTO-API-VERSION:CAPS" title="GNUTLS_CRYPTO_API_VERSION"><code class="literal">GNUTLS_CRYPTO_API_VERSION</code></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td> is a structure holding new interface's data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a class="link" href="gnutls-gnutls.html#GNUTLS-E-SUCCESS:CAPS" title="GNUTLS_E_SUCCESS"><code class="literal">GNUTLS_E_SUCCESS</code></a> on success, otherwise an error.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  2.6.0
+</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

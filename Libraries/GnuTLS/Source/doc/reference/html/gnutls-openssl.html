@@ -1,0 +1,1005 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>openssl</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="GNU TLS API Reference Manual">
+<link rel="up" href="ch01.html" title="GNU TLS API Reference Manual">
+<link rel="prev" href="gnutls-crypto.html" title="crypto">
+<link rel="next" href="gnutls-libtasn1.html" title="libtasn1">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="GNU TLS API Reference Manual">
+<link rel="index" href="ix01.html" title="Index">
+<link rel="index" href="ix02.html" title="Index of deprecated symbols">
+<link rel="index" href="ix03.html" title="Index of new symbols in 2.4.0">
+<link rel="index" href="ix04.html" title="Index of new symbols in 2.6.0">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gnutls-crypto.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GNU TLS API Reference Manual</th>
+<td><a accesskey="n" href="gnutls-libtasn1.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#gnutls-openssl.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gnutls-openssl.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="gnutls-openssl"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gnutls-openssl.top_of_page"></a>openssl</span></h2>
+<p>openssl</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="gnutls-openssl.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#define             <a class="link" href="gnutls-openssl.html#GNUTLS-X509-CN-SIZE:CAPS" title="GNUTLS_X509_CN_SIZE">GNUTLS_X509_CN_SIZE</a>
+#define             <a class="link" href="gnutls-openssl.html#GNUTLS-X509-C-SIZE:CAPS" title="GNUTLS_X509_C_SIZE">GNUTLS_X509_C_SIZE</a>
+#define             <a class="link" href="gnutls-openssl.html#GNUTLS-X509-O-SIZE:CAPS" title="GNUTLS_X509_O_SIZE">GNUTLS_X509_O_SIZE</a>
+#define             <a class="link" href="gnutls-openssl.html#GNUTLS-X509-OU-SIZE:CAPS" title="GNUTLS_X509_OU_SIZE">GNUTLS_X509_OU_SIZE</a>
+#define             <a class="link" href="gnutls-openssl.html#GNUTLS-X509-L-SIZE:CAPS" title="GNUTLS_X509_L_SIZE">GNUTLS_X509_L_SIZE</a>
+#define             <a class="link" href="gnutls-openssl.html#GNUTLS-X509-S-SIZE:CAPS" title="GNUTLS_X509_S_SIZE">GNUTLS_X509_S_SIZE</a>
+#define             <a class="link" href="gnutls-openssl.html#GNUTLS-X509-EMAIL-SIZE:CAPS" title="GNUTLS_X509_EMAIL_SIZE">GNUTLS_X509_EMAIL_SIZE</a>
+#define             <a class="link" href="gnutls-openssl.html#OPENSSL-VERSION-NUMBER:CAPS" title="OPENSSL_VERSION_NUMBER">OPENSSL_VERSION_NUMBER</a>
+#define             <a class="link" href="gnutls-openssl.html#SSLEAY-VERSION-NUMBER:CAPS" title="SSLEAY_VERSION_NUMBER">SSLEAY_VERSION_NUMBER</a>
+#define             <a class="link" href="gnutls-openssl.html#OPENSSL-VERSION-TEXT:CAPS" title="OPENSSL_VERSION_TEXT">OPENSSL_VERSION_TEXT</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-ERROR-NONE:CAPS" title="SSL_ERROR_NONE">SSL_ERROR_NONE</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-ERROR-SSL:CAPS" title="SSL_ERROR_SSL">SSL_ERROR_SSL</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-ERROR-WANT-READ:CAPS" title="SSL_ERROR_WANT_READ">SSL_ERROR_WANT_READ</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-ERROR-WANT-WRITE:CAPS" title="SSL_ERROR_WANT_WRITE">SSL_ERROR_WANT_WRITE</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-ERROR-SYSCALL:CAPS" title="SSL_ERROR_SYSCALL">SSL_ERROR_SYSCALL</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-ERROR-ZERO-RETURN:CAPS" title="SSL_ERROR_ZERO_RETURN">SSL_ERROR_ZERO_RETURN</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-FILETYPE-PEM:CAPS" title="SSL_FILETYPE_PEM">SSL_FILETYPE_PEM</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-VERIFY-NONE:CAPS" title="SSL_VERIFY_NONE">SSL_VERIFY_NONE</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-ST-OK:CAPS" title="SSL_ST_OK">SSL_ST_OK</a>
+#define             <a class="link" href="gnutls-openssl.html#X509-V-ERR-CERT-NOT-YET-VALID:CAPS" title="X509_V_ERR_CERT_NOT_YET_VALID">X509_V_ERR_CERT_NOT_YET_VALID</a>
+#define             <a class="link" href="gnutls-openssl.html#X509-V-ERR-CERT-HAS-EXPIRED:CAPS" title="X509_V_ERR_CERT_HAS_EXPIRED">X509_V_ERR_CERT_HAS_EXPIRED</a>
+#define             <a class="link" href="gnutls-openssl.html#X509-V-ERR-DEPTH-ZERO-SELF-SIGNED-CERT:CAPS" title="X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT">X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-OP-ALL:CAPS" title="SSL_OP_ALL">SSL_OP_ALL</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-OP-NO-TLSv1" title="SSL_OP_NO_TLSv1">SSL_OP_NO_TLSv1</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-MODE-ENABLE-PARTIAL-WRITE:CAPS" title="SSL_MODE_ENABLE_PARTIAL_WRITE">SSL_MODE_ENABLE_PARTIAL_WRITE</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-MODE-ACCEPT-MOVING-WRITE-BUFFER:CAPS" title="SSL_MODE_ACCEPT_MOVING_WRITE_BUFFER">SSL_MODE_ACCEPT_MOVING_WRITE_BUFFER</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-MODE-AUTO-RETRY:CAPS" title="SSL_MODE_AUTO_RETRY">SSL_MODE_AUTO_RETRY</a>
+typedef             <a class="link" href="gnutls-openssl.html#X509-NAME:CAPS" title="X509_NAME">X509_NAME</a>;
+typedef             <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a>;
+                    <a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a>;
+#define             <a class="link" href="gnutls-openssl.html#current-cert" title="current_cert">current_cert</a>
+#define             <a class="link" href="gnutls-openssl.html#X509-STORE-CTX-get-current-cert" title="X509_STORE_CTX_get_current_cert()">X509_STORE_CTX_get_current_cert</a>     (ctx)
+int                 <a class="link" href="gnutls-openssl.html#verify-callback" title="verify_callback ()">verify_callback</a>                     (...,
+                                                         X509_STORE_CTX *);
+#define             <a class="link" href="gnutls-openssl.html#rbio" title="rbio">rbio</a>
+                    <a class="link" href="gnutls-openssl.html#MD-CTX:CAPS" title="MD_CTX">MD_CTX</a>;
+struct              <a class="link" href="gnutls-openssl.html#rsa-st" title="struct rsa_st">rsa_st</a>;
+typedef             <a class="link" href="gnutls-openssl.html#RSA:CAPS" title="RSA">RSA</a>;
+#define             <a class="link" href="gnutls-openssl.html#MD5-CTX:CAPS" title="MD5_CTX">MD5_CTX</a>
+#define             <a class="link" href="gnutls-openssl.html#RIPEMD160-CTX:CAPS" title="RIPEMD160_CTX">RIPEMD160_CTX</a>
+#define             <a class="link" href="gnutls-openssl.html#OpenSSL-add-ssl-algorithms" title="OpenSSL_add_ssl_algorithms()">OpenSSL_add_ssl_algorithms</a>          ()
+#define             <a class="link" href="gnutls-openssl.html#SSLeay-add-ssl-algorithms" title="SSLeay_add_ssl_algorithms()">SSLeay_add_ssl_algorithms</a>           ()
+#define             <a class="link" href="gnutls-openssl.html#SSLeay-add-all-algorithms" title="SSLeay_add_all_algorithms()">SSLeay_add_all_algorithms</a>           ()
+#define             <a class="link" href="gnutls-openssl.html#SSL-get-cipher-name" title="SSL_get_cipher_name()">SSL_get_cipher_name</a>                 (ssl)
+#define             <a class="link" href="gnutls-openssl.html#SSL-get-cipher" title="SSL_get_cipher()">SSL_get_cipher</a>                      (ssl)
+#define             <a class="link" href="gnutls-openssl.html#SSL-get-cipher-bits" title="SSL_get_cipher_bits()">SSL_get_cipher_bits</a>                 (ssl,bp)
+#define             <a class="link" href="gnutls-openssl.html#SSL-get-cipher-version" title="SSL_get_cipher_version()">SSL_get_cipher_version</a>              (ssl)
+int                 <a class="link" href="gnutls-openssl.html#SSL-library-init" title="SSL_library_init ()">SSL_library_init</a>                    (void);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#OpenSSL-add-all-algorithms" title="OpenSSL_add_all_algorithms ()">OpenSSL_add_all_algorithms</a>          (void);
+SSL_CTX*            <a class="link" href="gnutls-openssl.html#SSL-CTX-new" title="SSL_CTX_new ()">SSL_CTX_new</a>                         (SSL_METHOD *method);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#SSL-CTX-free" title="SSL_CTX_free ()">SSL_CTX_free</a>                        (SSL_CTX *ctx);
+int                 <a class="link" href="gnutls-openssl.html#SSL-CTX-set-default-verify-paths" title="SSL_CTX_set_default_verify_paths ()">SSL_CTX_set_default_verify_paths</a>    (SSL_CTX *ctx);
+int                 <a class="link" href="gnutls-openssl.html#SSL-CTX-use-certificate-file" title="SSL_CTX_use_certificate_file ()">SSL_CTX_use_certificate_file</a>        (SSL_CTX *ctx,
+                                                         const char *certfile,
+                                                         int type);
+int                 <a class="link" href="gnutls-openssl.html#SSL-CTX-use-PrivateKey-file" title="SSL_CTX_use_PrivateKey_file ()">SSL_CTX_use_PrivateKey_file</a>         (SSL_CTX *ctx,
+                                                         const char *keyfile,
+                                                         int type);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#SSL-CTX-set-verify" title="SSL_CTX_set_verify ()">SSL_CTX_set_verify</a>                  (SSL_CTX *ctx,
+                                                         int verify_mode,
+                                                         int (verify_callbackint, X509_STORE_CTX *) ());
+unsigned long       <a class="link" href="gnutls-openssl.html#SSL-CTX-set-options" title="SSL_CTX_set_options ()">SSL_CTX_set_options</a>                 (SSL_CTX *ctx,
+                                                         unsigned long  options);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-set-mode" title="SSL_CTX_set_mode ()">SSL_CTX_set_mode</a>                    (SSL_CTX *ctx,
+                                                         long mode );
+int                 <a class="link" href="gnutls-openssl.html#SSL-CTX-set-cipher-list" title="SSL_CTX_set_cipher_list ()">SSL_CTX_set_cipher_list</a>             (SSL_CTX *ctx,
+                                                         const char *list);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-number" title="SSL_CTX_sess_number ()">SSL_CTX_sess_number</a>                 (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-connect" title="SSL_CTX_sess_connect ()">SSL_CTX_sess_connect</a>                (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-connect-good" title="SSL_CTX_sess_connect_good ()">SSL_CTX_sess_connect_good</a>           (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-connect-renegotiate" title="SSL_CTX_sess_connect_renegotiate ()">SSL_CTX_sess_connect_renegotiate</a>    (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-accept" title="SSL_CTX_sess_accept ()">SSL_CTX_sess_accept</a>                 (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-accept-good" title="SSL_CTX_sess_accept_good ()">SSL_CTX_sess_accept_good</a>            (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-accept-renegotiate" title="SSL_CTX_sess_accept_renegotiate ()">SSL_CTX_sess_accept_renegotiate</a>     (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-hits" title="SSL_CTX_sess_hits ()">SSL_CTX_sess_hits</a>                   (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-misses" title="SSL_CTX_sess_misses ()">SSL_CTX_sess_misses</a>                 (SSL_CTX *ctx);
+long                <a class="link" href="gnutls-openssl.html#SSL-CTX-sess-timeouts" title="SSL_CTX_sess_timeouts ()">SSL_CTX_sess_timeouts</a>               (SSL_CTX *ctx);
+<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a>*                <a class="link" href="gnutls-openssl.html#SSL-new" title="SSL_new ()">SSL_new</a>                             (SSL_CTX *ctx);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#SSL-free" title="SSL_free ()">SSL_free</a>                            (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#SSL-load-error-strings" title="SSL_load_error_strings ()">SSL_load_error_strings</a>              (void);
+int                 <a class="link" href="gnutls-openssl.html#SSL-get-error" title="SSL_get_error ()">SSL_get_error</a>                       (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int ret);
+int                 <a class="link" href="gnutls-openssl.html#SSL-set-fd" title="SSL_set_fd ()">SSL_set_fd</a>                          (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int fd);
+int                 <a class="link" href="gnutls-openssl.html#SSL-set-rfd" title="SSL_set_rfd ()">SSL_set_rfd</a>                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int fd);
+int                 <a class="link" href="gnutls-openssl.html#SSL-set-wfd" title="SSL_set_wfd ()">SSL_set_wfd</a>                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int fd);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#SSL-set-bio" title="SSL_set_bio ()">SSL_set_bio</a>                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         BIO *rbio,
+                                                         BIO *wbio);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#SSL-set-connect-state" title="SSL_set_connect_state ()">SSL_set_connect_state</a>               (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+int                 <a class="link" href="gnutls-openssl.html#SSL-pending" title="SSL_pending ()">SSL_pending</a>                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#SSL-set-verify" title="SSL_set_verify ()">SSL_set_verify</a>                      (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int verify_mode,
+                                                         int (verify_callbackint, X509_STORE_CTX *) ());
+const <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a>*         <a class="link" href="gnutls-openssl.html#SSL-get-peer-certificate" title="SSL_get_peer_certificate ()">SSL_get_peer_certificate</a>            (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+int                 <a class="link" href="gnutls-openssl.html#SSL-connect" title="SSL_connect ()">SSL_connect</a>                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+int                 <a class="link" href="gnutls-openssl.html#SSL-accept" title="SSL_accept ()">SSL_accept</a>                          (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+int                 <a class="link" href="gnutls-openssl.html#SSL-shutdown" title="SSL_shutdown ()">SSL_shutdown</a>                        (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+int                 <a class="link" href="gnutls-openssl.html#SSL-read" title="SSL_read ()">SSL_read</a>                            (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int len);
+int                 <a class="link" href="gnutls-openssl.html#SSL-write" title="SSL_write ()">SSL_write</a>                           (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         const <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int len);
+int                 <a class="link" href="gnutls-openssl.html#SSL-want" title="SSL_want ()">SSL_want</a>                            (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+#define             <a class="link" href="gnutls-openssl.html#SSL-NOTHING:CAPS" title="SSL_NOTHING">SSL_NOTHING</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-WRITING:CAPS" title="SSL_WRITING">SSL_WRITING</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-READING:CAPS" title="SSL_READING">SSL_READING</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-X509-LOOKUP:CAPS" title="SSL_X509_LOOKUP">SSL_X509_LOOKUP</a>
+#define             <a class="link" href="gnutls-openssl.html#SSL-want-nothing" title="SSL_want_nothing()">SSL_want_nothing</a>                    (s)
+#define             <a class="link" href="gnutls-openssl.html#SSL-want-read" title="SSL_want_read()">SSL_want_read</a>                       (s)
+#define             <a class="link" href="gnutls-openssl.html#SSL-want-write" title="SSL_want_write()">SSL_want_write</a>                      (s)
+#define             <a class="link" href="gnutls-openssl.html#SSL-want-x509-lookup" title="SSL_want_x509_lookup()">SSL_want_x509_lookup</a>                (s)
+SSL_METHOD*         <a class="link" href="gnutls-openssl.html#SSLv23-client-method" title="SSLv23_client_method ()">SSLv23_client_method</a>                (void);
+SSL_METHOD*         <a class="link" href="gnutls-openssl.html#SSLv23-server-method" title="SSLv23_server_method ()">SSLv23_server_method</a>                (void);
+SSL_METHOD*         <a class="link" href="gnutls-openssl.html#SSLv3-client-method" title="SSLv3_client_method ()">SSLv3_client_method</a>                 (void);
+SSL_METHOD*         <a class="link" href="gnutls-openssl.html#SSLv3-server-method" title="SSLv3_server_method ()">SSLv3_server_method</a>                 (void);
+SSL_METHOD*         <a class="link" href="gnutls-openssl.html#TLSv1-client-method" title="TLSv1_client_method ()">TLSv1_client_method</a>                 (void);
+SSL_METHOD*         <a class="link" href="gnutls-openssl.html#TLSv1-server-method" title="TLSv1_server_method ()">TLSv1_server_method</a>                 (void);
+SSL_CIPHER*         <a class="link" href="gnutls-openssl.html#SSL-get-current-cipher" title="SSL_get_current_cipher ()">SSL_get_current_cipher</a>              (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);
+const char*         <a class="link" href="gnutls-openssl.html#SSL-CIPHER-get-name" title="SSL_CIPHER_get_name ()">SSL_CIPHER_get_name</a>                 (SSL_CIPHER *cipher);
+int                 <a class="link" href="gnutls-openssl.html#SSL-CIPHER-get-bits" title="SSL_CIPHER_get_bits ()">SSL_CIPHER_get_bits</a>                 (SSL_CIPHER *cipher,
+                                                         int *bits);
+const char*         <a class="link" href="gnutls-openssl.html#SSL-CIPHER-get-version" title="SSL_CIPHER_get_version ()">SSL_CIPHER_get_version</a>              (SSL_CIPHER *cipher);
+char*               <a class="link" href="gnutls-openssl.html#SSL-CIPHER-description" title="SSL_CIPHER_description ()">SSL_CIPHER_description</a>              (SSL_CIPHER *cipher,
+                                                         char *buf,
+                                                         int size);
+<a class="link" href="gnutls-openssl.html#X509-NAME:CAPS" title="X509_NAME">X509_NAME</a>*          <a class="link" href="gnutls-openssl.html#X509-get-subject-name" title="X509_get_subject_name ()">X509_get_subject_name</a>               (const <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a> *cert);
+<a class="link" href="gnutls-openssl.html#X509-NAME:CAPS" title="X509_NAME">X509_NAME</a>*          <a class="link" href="gnutls-openssl.html#X509-get-issuer-name" title="X509_get_issuer_name ()">X509_get_issuer_name</a>                (const <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a> *cert);
+char*               <a class="link" href="gnutls-openssl.html#X509-NAME-oneline" title="X509_NAME_oneline ()">X509_NAME_oneline</a>                   (gnutls_x509_dn *name,
+                                                         char *buf,
+                                                         int len);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#X509-free" title="X509_free ()">X509_free</a>                           (const <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a> *cert);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#BIO-get-fd" title="BIO_get_fd ()">BIO_get_fd</a>                          (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> gnutls_state,
+                                                         int *fd);
+BIO*                <a class="link" href="gnutls-openssl.html#BIO-new-socket" title="BIO_new_socket ()">BIO_new_socket</a>                      (int sock,
+                                                         int close_flag);
+unsigned long       <a class="link" href="gnutls-openssl.html#ERR-get-error" title="ERR_get_error ()">ERR_get_error</a>                       (void);
+const char*         <a class="link" href="gnutls-openssl.html#ERR-error-string" title="ERR_error_string ()">ERR_error_string</a>                    (unsigned long  e,
+                                                         char *buf);
+int                 <a class="link" href="gnutls-openssl.html#RAND-status" title="RAND_status ()">RAND_status</a>                         (void);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#RAND-seed" title="RAND_seed ()">RAND_seed</a>                           (const <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int num);
+int                 <a class="link" href="gnutls-openssl.html#RAND-bytes" title="RAND_bytes ()">RAND_bytes</a>                          (unsigned char *buf,
+                                                         int num);
+int                 <a class="link" href="gnutls-openssl.html#RAND-pseudo-bytes" title="RAND_pseudo_bytes ()">RAND_pseudo_bytes</a>                   (unsigned char *buf,
+                                                         int num);
+const char*         <a class="link" href="gnutls-openssl.html#RAND-file-name" title="RAND_file_name ()">RAND_file_name</a>                      (char *buf,
+                                                         size_t len);
+int                 <a class="link" href="gnutls-openssl.html#RAND-load-file" title="RAND_load_file ()">RAND_load_file</a>                      (const char *name,
+                                                         long maxbytes );
+int                 <a class="link" href="gnutls-openssl.html#RAND-write-file" title="RAND_write_file ()">RAND_write_file</a>                     (const char *name);
+int                 <a class="link" href="gnutls-openssl.html#RAND-egd-bytes" title="RAND_egd_bytes ()">RAND_egd_bytes</a>                      (const char *path,
+                                                         int bytes);
+#define             <a class="link" href="gnutls-openssl.html#RAND-egd" title="RAND_egd()">RAND_egd</a>                            (p)
+#define             <a class="link" href="gnutls-openssl.html#MD5-DIGEST-LENGTH:CAPS" title="MD5_DIGEST_LENGTH">MD5_DIGEST_LENGTH</a>
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#MD5-Init" title="MD5_Init ()">MD5_Init</a>                            (<a class="link" href="gnutls-openssl.html#MD5-CTX:CAPS" title="MD5_CTX">MD5_CTX</a> *ctx);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#MD5-Update" title="MD5_Update ()">MD5_Update</a>                          (<a class="link" href="gnutls-openssl.html#MD5-CTX:CAPS" title="MD5_CTX">MD5_CTX</a> *ctx,
+                                                         const <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int len);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#MD5-Final" title="MD5_Final ()">MD5_Final</a>                           (unsigned char *md,
+                                                         <a class="link" href="gnutls-openssl.html#MD5-CTX:CAPS" title="MD5_CTX">MD5_CTX</a> *ctx);
+unsigned char*      <a class="link" href="gnutls-openssl.html#MD5:CAPS" title="MD5 ()">MD5</a>                                 (unsigned char *buf,
+                                                         unsigned long  len,
+                                                         unsigned char *md);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#RIPEMD160-Init" title="RIPEMD160_Init ()">RIPEMD160_Init</a>                      (<a class="link" href="gnutls-openssl.html#RIPEMD160-CTX:CAPS" title="RIPEMD160_CTX">RIPEMD160_CTX</a> *ctx);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#RIPEMD160-Update" title="RIPEMD160_Update ()">RIPEMD160_Update</a>                    (<a class="link" href="gnutls-openssl.html#RIPEMD160-CTX:CAPS" title="RIPEMD160_CTX">RIPEMD160_CTX</a> *ctx,
+                                                         const <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int len);
+<a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                <a class="link" href="gnutls-openssl.html#RIPEMD160-Final" title="RIPEMD160_Final ()">RIPEMD160_Final</a>                     (unsigned char *md,
+                                                         <a class="link" href="gnutls-openssl.html#RIPEMD160-CTX:CAPS" title="RIPEMD160_CTX">RIPEMD160_CTX</a> *ctx);
+unsigned char*      <a class="link" href="gnutls-openssl.html#RIPEMD160:CAPS" title="RIPEMD160 ()">RIPEMD160</a>                           (unsigned char *buf,
+                                                         unsigned long  len,
+                                                         unsigned char *md);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gnutls-openssl.description"></a><h2>Description</h2>
+<p>
+A longer description goes here.
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="gnutls-openssl.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-X509-CN-SIZE:CAPS"></a><h3>GNUTLS_X509_CN_SIZE</h3>
+<pre class="programlisting">#define GNUTLS_X509_CN_SIZE 256
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-X509-C-SIZE:CAPS"></a><h3>GNUTLS_X509_C_SIZE</h3>
+<pre class="programlisting">#define GNUTLS_X509_C_SIZE 3
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-X509-O-SIZE:CAPS"></a><h3>GNUTLS_X509_O_SIZE</h3>
+<pre class="programlisting">#define GNUTLS_X509_O_SIZE 256
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-X509-OU-SIZE:CAPS"></a><h3>GNUTLS_X509_OU_SIZE</h3>
+<pre class="programlisting">#define GNUTLS_X509_OU_SIZE 256
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-X509-L-SIZE:CAPS"></a><h3>GNUTLS_X509_L_SIZE</h3>
+<pre class="programlisting">#define GNUTLS_X509_L_SIZE 256
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-X509-S-SIZE:CAPS"></a><h3>GNUTLS_X509_S_SIZE</h3>
+<pre class="programlisting">#define GNUTLS_X509_S_SIZE 256
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GNUTLS-X509-EMAIL-SIZE:CAPS"></a><h3>GNUTLS_X509_EMAIL_SIZE</h3>
+<pre class="programlisting">#define GNUTLS_X509_EMAIL_SIZE 256
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="OPENSSL-VERSION-NUMBER:CAPS"></a><h3>OPENSSL_VERSION_NUMBER</h3>
+<pre class="programlisting">#define OPENSSL_VERSION_NUMBER (0x0090604F)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSLEAY-VERSION-NUMBER:CAPS"></a><h3>SSLEAY_VERSION_NUMBER</h3>
+<pre class="programlisting">#define SSLEAY_VERSION_NUMBER OPENSSL_VERSION_NUMBER
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="OPENSSL-VERSION-TEXT:CAPS"></a><h3>OPENSSL_VERSION_TEXT</h3>
+<pre class="programlisting">#define OPENSSL_VERSION_TEXT ("GNUTLS " LIBGNUTLS_VERSION " ")
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-ERROR-NONE:CAPS"></a><h3>SSL_ERROR_NONE</h3>
+<pre class="programlisting">#define SSL_ERROR_NONE        (0)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-ERROR-SSL:CAPS"></a><h3>SSL_ERROR_SSL</h3>
+<pre class="programlisting">#define SSL_ERROR_SSL         (1)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-ERROR-WANT-READ:CAPS"></a><h3>SSL_ERROR_WANT_READ</h3>
+<pre class="programlisting">#define SSL_ERROR_WANT_READ   (2)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-ERROR-WANT-WRITE:CAPS"></a><h3>SSL_ERROR_WANT_WRITE</h3>
+<pre class="programlisting">#define SSL_ERROR_WANT_WRITE  (3)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-ERROR-SYSCALL:CAPS"></a><h3>SSL_ERROR_SYSCALL</h3>
+<pre class="programlisting">#define SSL_ERROR_SYSCALL     (5)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-ERROR-ZERO-RETURN:CAPS"></a><h3>SSL_ERROR_ZERO_RETURN</h3>
+<pre class="programlisting">#define SSL_ERROR_ZERO_RETURN (6)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-FILETYPE-PEM:CAPS"></a><h3>SSL_FILETYPE_PEM</h3>
+<pre class="programlisting">#define SSL_FILETYPE_PEM (GNUTLS_X509_FMT_PEM)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-VERIFY-NONE:CAPS"></a><h3>SSL_VERIFY_NONE</h3>
+<pre class="programlisting">#define SSL_VERIFY_NONE (0)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-ST-OK:CAPS"></a><h3>SSL_ST_OK</h3>
+<pre class="programlisting">#define SSL_ST_OK (1)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-V-ERR-CERT-NOT-YET-VALID:CAPS"></a><h3>X509_V_ERR_CERT_NOT_YET_VALID</h3>
+<pre class="programlisting">#define X509_V_ERR_CERT_NOT_YET_VALID          (1)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-V-ERR-CERT-HAS-EXPIRED:CAPS"></a><h3>X509_V_ERR_CERT_HAS_EXPIRED</h3>
+<pre class="programlisting">#define X509_V_ERR_CERT_HAS_EXPIRED            (2)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-V-ERR-DEPTH-ZERO-SELF-SIGNED-CERT:CAPS"></a><h3>X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT</h3>
+<pre class="programlisting">#define X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT (3)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-OP-ALL:CAPS"></a><h3>SSL_OP_ALL</h3>
+<pre class="programlisting">#define SSL_OP_ALL (0x000FFFFF)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-OP-NO-TLSv1"></a><h3>SSL_OP_NO_TLSv1</h3>
+<pre class="programlisting">#define SSL_OP_NO_TLSv1 (0x0400000)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-MODE-ENABLE-PARTIAL-WRITE:CAPS"></a><h3>SSL_MODE_ENABLE_PARTIAL_WRITE</h3>
+<pre class="programlisting">#define SSL_MODE_ENABLE_PARTIAL_WRITE (0x1)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-MODE-ACCEPT-MOVING-WRITE-BUFFER:CAPS"></a><h3>SSL_MODE_ACCEPT_MOVING_WRITE_BUFFER</h3>
+<pre class="programlisting">#define SSL_MODE_ACCEPT_MOVING_WRITE_BUFFER (0x2)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-MODE-AUTO-RETRY:CAPS"></a><h3>SSL_MODE_AUTO_RETRY</h3>
+<pre class="programlisting">#define SSL_MODE_AUTO_RETRY (0x4)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-NAME:CAPS"></a><h3>X509_NAME</h3>
+<pre class="programlisting">  typedef gnutls_x509_dn X509_NAME;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509:CAPS"></a><h3>X509</h3>
+<pre class="programlisting">  typedef gnutls_datum_t X509;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL:CAPS"></a><h3>SSL</h3>
+<pre class="programlisting">typedef struct {
+    gnutls_session_t gnutls_state;
+
+    gnutls_certificate_client_credentials gnutls_cred;
+
+    SSL_CTX *ctx;
+    SSL_CIPHER ciphersuite;
+
+    int last_error;
+    int shutdown;
+    int state;
+    unsigned long options;
+
+    int (*verify_callback) (int, X509_STORE_CTX *);
+    int verify_mode;
+
+    gnutls_transport_ptr_t rfd;
+    gnutls_transport_ptr_t wfd;
+} SSL;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="current-cert"></a><h3>current_cert</h3>
+<pre class="programlisting">#define current_cert cert_list
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-STORE-CTX-get-current-cert"></a><h3>X509_STORE_CTX_get_current_cert()</h3>
+<pre class="programlisting">#define X509_STORE_CTX_get_current_cert(ctx) ((ctx)-&gt;current_cert)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="verify-callback"></a><h3>verify_callback ()</h3>
+<pre class="programlisting">int                 verify_callback                     (...,
+                                                         X509_STORE_CTX *);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="rbio"></a><h3>rbio</h3>
+<pre class="programlisting">#define rbio gnutls_state
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="MD-CTX:CAPS"></a><h3>MD_CTX</h3>
+<pre class="programlisting">typedef struct {
+    void* handle;
+} MD_CTX;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="rsa-st"></a><h3>struct rsa_st</h3>
+<pre class="programlisting">struct rsa_st;</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RSA:CAPS"></a><h3>RSA</h3>
+<pre class="programlisting">  typedef struct rsa_st RSA;
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="MD5-CTX:CAPS"></a><h3>MD5_CTX</h3>
+<pre class="programlisting">#define MD5_CTX MD_CTX
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RIPEMD160-CTX:CAPS"></a><h3>RIPEMD160_CTX</h3>
+<pre class="programlisting">#define RIPEMD160_CTX MD_CTX
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="OpenSSL-add-ssl-algorithms"></a><h3>OpenSSL_add_ssl_algorithms()</h3>
+<pre class="programlisting">#define OpenSSL_add_ssl_algorithms()  SSL_library_init()
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSLeay-add-ssl-algorithms"></a><h3>SSLeay_add_ssl_algorithms()</h3>
+<pre class="programlisting">#define SSLeay_add_ssl_algorithms()   SSL_library_init()
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSLeay-add-all-algorithms"></a><h3>SSLeay_add_all_algorithms()</h3>
+<pre class="programlisting">#define SSLeay_add_all_algorithms()   OpenSSL_add_all_algorithms()
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-get-cipher-name"></a><h3>SSL_get_cipher_name()</h3>
+<pre class="programlisting">#define SSL_get_cipher_name(ssl) SSL_CIPHER_get_name(SSL_get_current_cipher(ssl))
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-get-cipher"></a><h3>SSL_get_cipher()</h3>
+<pre class="programlisting">#define SSL_get_cipher(ssl) SSL_get_cipher_name(ssl)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-get-cipher-bits"></a><h3>SSL_get_cipher_bits()</h3>
+<pre class="programlisting">#define SSL_get_cipher_bits(ssl,bp) SSL_CIPHER_get_bits(SSL_get_current_cipher(ssl),(bp))
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-get-cipher-version"></a><h3>SSL_get_cipher_version()</h3>
+<pre class="programlisting">#define SSL_get_cipher_version(ssl) SSL_CIPHER_get_version(SSL_get_current_cipher(ssl))
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-library-init"></a><h3>SSL_library_init ()</h3>
+<pre class="programlisting">int                 SSL_library_init                    (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="OpenSSL-add-all-algorithms"></a><h3>OpenSSL_add_all_algorithms ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                OpenSSL_add_all_algorithms          (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-new"></a><h3>SSL_CTX_new ()</h3>
+<pre class="programlisting">SSL_CTX*            SSL_CTX_new                         (SSL_METHOD *method);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-free"></a><h3>SSL_CTX_free ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                SSL_CTX_free                        (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-set-default-verify-paths"></a><h3>SSL_CTX_set_default_verify_paths ()</h3>
+<pre class="programlisting">int                 SSL_CTX_set_default_verify_paths    (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-use-certificate-file"></a><h3>SSL_CTX_use_certificate_file ()</h3>
+<pre class="programlisting">int                 SSL_CTX_use_certificate_file        (SSL_CTX *ctx,
+                                                         const char *certfile,
+                                                         int type);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-use-PrivateKey-file"></a><h3>SSL_CTX_use_PrivateKey_file ()</h3>
+<pre class="programlisting">int                 SSL_CTX_use_PrivateKey_file         (SSL_CTX *ctx,
+                                                         const char *keyfile,
+                                                         int type);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-set-verify"></a><h3>SSL_CTX_set_verify ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                SSL_CTX_set_verify                  (SSL_CTX *ctx,
+                                                         int verify_mode,
+                                                         int (verify_callbackint, X509_STORE_CTX *) ());</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-set-options"></a><h3>SSL_CTX_set_options ()</h3>
+<pre class="programlisting">unsigned long       SSL_CTX_set_options                 (SSL_CTX *ctx,
+                                                         unsigned long  options);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-set-mode"></a><h3>SSL_CTX_set_mode ()</h3>
+<pre class="programlisting">long                SSL_CTX_set_mode                    (SSL_CTX *ctx,
+                                                         long mode );</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-set-cipher-list"></a><h3>SSL_CTX_set_cipher_list ()</h3>
+<pre class="programlisting">int                 SSL_CTX_set_cipher_list             (SSL_CTX *ctx,
+                                                         const char *list);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-number"></a><h3>SSL_CTX_sess_number ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_number                 (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-connect"></a><h3>SSL_CTX_sess_connect ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_connect                (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-connect-good"></a><h3>SSL_CTX_sess_connect_good ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_connect_good           (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-connect-renegotiate"></a><h3>SSL_CTX_sess_connect_renegotiate ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_connect_renegotiate    (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-accept"></a><h3>SSL_CTX_sess_accept ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_accept                 (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-accept-good"></a><h3>SSL_CTX_sess_accept_good ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_accept_good            (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-accept-renegotiate"></a><h3>SSL_CTX_sess_accept_renegotiate ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_accept_renegotiate     (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-hits"></a><h3>SSL_CTX_sess_hits ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_hits                   (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-misses"></a><h3>SSL_CTX_sess_misses ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_misses                 (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CTX-sess-timeouts"></a><h3>SSL_CTX_sess_timeouts ()</h3>
+<pre class="programlisting">long                SSL_CTX_sess_timeouts               (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-new"></a><h3>SSL_new ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a>*                SSL_new                             (SSL_CTX *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-free"></a><h3>SSL_free ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                SSL_free                            (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-load-error-strings"></a><h3>SSL_load_error_strings ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                SSL_load_error_strings              (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-get-error"></a><h3>SSL_get_error ()</h3>
+<pre class="programlisting">int                 SSL_get_error                       (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int ret);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-set-fd"></a><h3>SSL_set_fd ()</h3>
+<pre class="programlisting">int                 SSL_set_fd                          (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int fd);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-set-rfd"></a><h3>SSL_set_rfd ()</h3>
+<pre class="programlisting">int                 SSL_set_rfd                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int fd);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-set-wfd"></a><h3>SSL_set_wfd ()</h3>
+<pre class="programlisting">int                 SSL_set_wfd                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int fd);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-set-bio"></a><h3>SSL_set_bio ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                SSL_set_bio                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         BIO *rbio,
+                                                         BIO *wbio);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-set-connect-state"></a><h3>SSL_set_connect_state ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                SSL_set_connect_state               (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-pending"></a><h3>SSL_pending ()</h3>
+<pre class="programlisting">int                 SSL_pending                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-set-verify"></a><h3>SSL_set_verify ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                SSL_set_verify                      (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         int verify_mode,
+                                                         int (verify_callbackint, X509_STORE_CTX *) ());</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-get-peer-certificate"></a><h3>SSL_get_peer_certificate ()</h3>
+<pre class="programlisting">const <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a>*         SSL_get_peer_certificate            (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-connect"></a><h3>SSL_connect ()</h3>
+<pre class="programlisting">int                 SSL_connect                         (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-accept"></a><h3>SSL_accept ()</h3>
+<pre class="programlisting">int                 SSL_accept                          (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-shutdown"></a><h3>SSL_shutdown ()</h3>
+<pre class="programlisting">int                 SSL_shutdown                        (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-read"></a><h3>SSL_read ()</h3>
+<pre class="programlisting">int                 SSL_read                            (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int len);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-write"></a><h3>SSL_write ()</h3>
+<pre class="programlisting">int                 SSL_write                           (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl,
+                                                         const <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int len);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-want"></a><h3>SSL_want ()</h3>
+<pre class="programlisting">int                 SSL_want                            (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-NOTHING:CAPS"></a><h3>SSL_NOTHING</h3>
+<pre class="programlisting">#define SSL_NOTHING (1)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-WRITING:CAPS"></a><h3>SSL_WRITING</h3>
+<pre class="programlisting">#define SSL_WRITING (2)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-READING:CAPS"></a><h3>SSL_READING</h3>
+<pre class="programlisting">#define SSL_READING (3)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-X509-LOOKUP:CAPS"></a><h3>SSL_X509_LOOKUP</h3>
+<pre class="programlisting">#define SSL_X509_LOOKUP (4)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-want-nothing"></a><h3>SSL_want_nothing()</h3>
+<pre class="programlisting">#define SSL_want_nothing(s) (SSL_want(s) == SSL_NOTHING)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-want-read"></a><h3>SSL_want_read()</h3>
+<pre class="programlisting">#define SSL_want_read(s) (SSL_want(s) == SSL_READING)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-want-write"></a><h3>SSL_want_write()</h3>
+<pre class="programlisting">#define SSL_want_write(s) (SSL_want(s) == SSL_WRITING)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-want-x509-lookup"></a><h3>SSL_want_x509_lookup()</h3>
+<pre class="programlisting">#define SSL_want_x509_lookup(s) (SSL_want(s) == SSL_X509_LOOKUP)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSLv23-client-method"></a><h3>SSLv23_client_method ()</h3>
+<pre class="programlisting">SSL_METHOD*         SSLv23_client_method                (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSLv23-server-method"></a><h3>SSLv23_server_method ()</h3>
+<pre class="programlisting">SSL_METHOD*         SSLv23_server_method                (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSLv3-client-method"></a><h3>SSLv3_client_method ()</h3>
+<pre class="programlisting">SSL_METHOD*         SSLv3_client_method                 (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSLv3-server-method"></a><h3>SSLv3_server_method ()</h3>
+<pre class="programlisting">SSL_METHOD*         SSLv3_server_method                 (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="TLSv1-client-method"></a><h3>TLSv1_client_method ()</h3>
+<pre class="programlisting">SSL_METHOD*         TLSv1_client_method                 (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="TLSv1-server-method"></a><h3>TLSv1_server_method ()</h3>
+<pre class="programlisting">SSL_METHOD*         TLSv1_server_method                 (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-get-current-cipher"></a><h3>SSL_get_current_cipher ()</h3>
+<pre class="programlisting">SSL_CIPHER*         SSL_get_current_cipher              (<a class="link" href="gnutls-openssl.html#SSL:CAPS" title="SSL">SSL</a> *ssl);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CIPHER-get-name"></a><h3>SSL_CIPHER_get_name ()</h3>
+<pre class="programlisting">const char*         SSL_CIPHER_get_name                 (SSL_CIPHER *cipher);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CIPHER-get-bits"></a><h3>SSL_CIPHER_get_bits ()</h3>
+<pre class="programlisting">int                 SSL_CIPHER_get_bits                 (SSL_CIPHER *cipher,
+                                                         int *bits);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CIPHER-get-version"></a><h3>SSL_CIPHER_get_version ()</h3>
+<pre class="programlisting">const char*         SSL_CIPHER_get_version              (SSL_CIPHER *cipher);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SSL-CIPHER-description"></a><h3>SSL_CIPHER_description ()</h3>
+<pre class="programlisting">char*               SSL_CIPHER_description              (SSL_CIPHER *cipher,
+                                                         char *buf,
+                                                         int size);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-get-subject-name"></a><h3>X509_get_subject_name ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-openssl.html#X509-NAME:CAPS" title="X509_NAME">X509_NAME</a>*          X509_get_subject_name               (const <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a> *cert);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-get-issuer-name"></a><h3>X509_get_issuer_name ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-openssl.html#X509-NAME:CAPS" title="X509_NAME">X509_NAME</a>*          X509_get_issuer_name                (const <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a> *cert);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-NAME-oneline"></a><h3>X509_NAME_oneline ()</h3>
+<pre class="programlisting">char*               X509_NAME_oneline                   (gnutls_x509_dn *name,
+                                                         char *buf,
+                                                         int len);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="X509-free"></a><h3>X509_free ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                X509_free                           (const <a class="link" href="gnutls-openssl.html#X509:CAPS" title="X509">X509</a> *cert);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="BIO-get-fd"></a><h3>BIO_get_fd ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                BIO_get_fd                          (<a class="link" href="gnutls-gnutls.html#gnutls-session-t" title="gnutls_session_t">gnutls_session_t</a> gnutls_state,
+                                                         int *fd);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="BIO-new-socket"></a><h3>BIO_new_socket ()</h3>
+<pre class="programlisting">BIO*                BIO_new_socket                      (int sock,
+                                                         int close_flag);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="ERR-get-error"></a><h3>ERR_get_error ()</h3>
+<pre class="programlisting">unsigned long       ERR_get_error                       (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="ERR-error-string"></a><h3>ERR_error_string ()</h3>
+<pre class="programlisting">const char*         ERR_error_string                    (unsigned long  e,
+                                                         char *buf);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-status"></a><h3>RAND_status ()</h3>
+<pre class="programlisting">int                 RAND_status                         (void);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-seed"></a><h3>RAND_seed ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                RAND_seed                           (const <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int num);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-bytes"></a><h3>RAND_bytes ()</h3>
+<pre class="programlisting">int                 RAND_bytes                          (unsigned char *buf,
+                                                         int num);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-pseudo-bytes"></a><h3>RAND_pseudo_bytes ()</h3>
+<pre class="programlisting">int                 RAND_pseudo_bytes                   (unsigned char *buf,
+                                                         int num);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-file-name"></a><h3>RAND_file_name ()</h3>
+<pre class="programlisting">const char*         RAND_file_name                      (char *buf,
+                                                         size_t len);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-load-file"></a><h3>RAND_load_file ()</h3>
+<pre class="programlisting">int                 RAND_load_file                      (const char *name,
+                                                         long maxbytes );</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-write-file"></a><h3>RAND_write_file ()</h3>
+<pre class="programlisting">int                 RAND_write_file                     (const char *name);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-egd-bytes"></a><h3>RAND_egd_bytes ()</h3>
+<pre class="programlisting">int                 RAND_egd_bytes                      (const char *path,
+                                                         int bytes);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RAND-egd"></a><h3>RAND_egd()</h3>
+<pre class="programlisting">#define RAND_egd(p) RAND_egd_bytes((p), 255)
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="MD5-DIGEST-LENGTH:CAPS"></a><h3>MD5_DIGEST_LENGTH</h3>
+<pre class="programlisting">#define MD5_DIGEST_LENGTH 16
+</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="MD5-Init"></a><h3>MD5_Init ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                MD5_Init                            (<a class="link" href="gnutls-openssl.html#MD5-CTX:CAPS" title="MD5_CTX">MD5_CTX</a> *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="MD5-Update"></a><h3>MD5_Update ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                MD5_Update                          (<a class="link" href="gnutls-openssl.html#MD5-CTX:CAPS" title="MD5_CTX">MD5_CTX</a> *ctx,
+                                                         const <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int len);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="MD5-Final"></a><h3>MD5_Final ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                MD5_Final                           (unsigned char *md,
+                                                         <a class="link" href="gnutls-openssl.html#MD5-CTX:CAPS" title="MD5_CTX">MD5_CTX</a> *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="MD5:CAPS"></a><h3>MD5 ()</h3>
+<pre class="programlisting">unsigned char*      MD5                                 (unsigned char *buf,
+                                                         unsigned long  len,
+                                                         unsigned char *md);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RIPEMD160-Init"></a><h3>RIPEMD160_Init ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                RIPEMD160_Init                      (<a class="link" href="gnutls-openssl.html#RIPEMD160-CTX:CAPS" title="RIPEMD160_CTX">RIPEMD160_CTX</a> *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RIPEMD160-Update"></a><h3>RIPEMD160_Update ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                RIPEMD160_Update                    (<a class="link" href="gnutls-openssl.html#RIPEMD160-CTX:CAPS" title="RIPEMD160_CTX">RIPEMD160_CTX</a> *ctx,
+                                                         const <a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a> *buf,
+                                                         int len);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RIPEMD160-Final"></a><h3>RIPEMD160_Final ()</h3>
+<pre class="programlisting"><a class="link" href="gnutls-gnutls.html#void" title="void ()">void</a>                RIPEMD160_Final                     (unsigned char *md,
+                                                         <a class="link" href="gnutls-openssl.html#RIPEMD160-CTX:CAPS" title="RIPEMD160_CTX">RIPEMD160_CTX</a> *ctx);</pre>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="RIPEMD160:CAPS"></a><h3>RIPEMD160 ()</h3>
+<pre class="programlisting">unsigned char*      RIPEMD160                           (unsigned char *buf,
+                                                         unsigned long  len,
+                                                         unsigned char *md);</pre>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>
