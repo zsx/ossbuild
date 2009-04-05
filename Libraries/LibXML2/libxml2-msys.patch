@@ -1,0 +1,114 @@
+Index: Source/win32/Makefile.mingw
+===================================================================
+--- Source/win32/Makefile.mingw	(revision 166)
++++ Source/win32/Makefile.mingw	(working copy)
+@@ -237,33 +237,33 @@
+ utils : $(UTILS)
+ 
+ clean :
+-	cmd.exe /C "if exist $(XML_INTDIR) rmdir /S /Q $(XML_INTDIR)"
+-	cmd.exe /C "if exist $(XML_INTDIR_A) rmdir /S /Q $(XML_INTDIR_A)"
+-	cmd.exe /C "if exist $(UTILS_INTDIR) rmdir /S /Q $(UTILS_INTDIR)"
+-	cmd.exe /C "if exist $(BINDIR) rmdir /S /Q $(BINDIR)"
+-	cmd.exe /C "if exist depends.mingw del depends.mingw"
++	rm -rf $(XML_INTDIR)
++	rm -rf $(XML_INTDIR_A)
++	rm -rf $(UTILS_INTDIR)
++	rm -rf $(BINDIR)
++	rm -f depends.mingw
+ 
+ distclean : clean
+-	cmd.exe /C "if exist config.* del config.*"
+-	cmd.exe /C "if exist Makefile del Makefile"
++	rm -f config.*
++	rm -f Makefile
+ 
+ rebuild : clean all
+ 
+ install-libs : all
+-	cmd.exe /C "if not exist $(INCPREFIX)\libxml mkdir $(INCPREFIX)\libxml"
+-	cmd.exe /C "if not exist $(BINPREFIX) mkdir $(BINPREFIX)"
+-	cmd.exe /C "if not exist $(LIBPREFIX) mkdir $(LIBPREFIX)"
+-	cmd.exe /C "copy $(XML_SRCDIR)\include\libxml\*.h $(INCPREFIX)\libxml"
+-	cmd.exe /C "copy $(BINDIR)\$(XML_SO) $(SOPREFIX)"
+-	cmd.exe /C "copy $(BINDIR)\$(XML_A) $(LIBPREFIX)"
+-	cmd.exe /C "copy $(BINDIR)\$(XML_IMP) $(LIBPREFIX)"
+-	cmd.exe /C "copy $(BINDIR)\xml*.exe $(BINPREFIX)"
++	if [ ! -d $(INCPREFIX)/libxml ]; then mkdir -p $(INCPREFIX)/libxml; fi
++	if [ ! -d $(BINPREFIX) ]; then mkdir -p $(BINPREFIX); fi
++	if [ ! -d $(LIBPREFIX) ]; then mkdir -p $(LIBPREFIX); fi
++	cp $(XML_SRCDIR)/include/libxml/*.h $(INCPREFIX)/libxml
++	cp $(BINDIR)/$(XML_SO) $(SOPREFIX)
++	cp $(BINDIR)/$(XML_A) $(LIBPREFIX)
++	cp $(BINDIR)/$(XML_IMP) $(LIBPREFIX)
++	cp $(BINDIR)/xml*.exe $(BINPREFIX)
+ 
+ install : install-libs
+-	cmd.exe /C "copy $(BINDIR)\*.exe $(BINPREFIX)"
++	cp $(BINDIR)/*.exe $(BINPREFIX)
+ 
+ install-dist : install-libs
+-	cmd.exe /C "copy $(BINDIR)\xml*.exe $(BINPREFIX)"
++	cp $(BINDIR)/xml*.exe $(BINPREFIX)
+ 
+ # This is a target for me, to make a binary distribution. Not for the public use,
+ # keep your hands off :-)
+@@ -281,16 +281,16 @@
+ 
+ # Makes the output directory.
+ $(BINDIR) :
+-	cmd.exe /C if not exist $(BINDIR) mkdir $(BINDIR)
++	if [ ! -d $(BINDIR) ]; then mkdir $(BINDIR); fi
+ 
+ 
+ # Makes the libxml intermediate directory.
+ $(XML_INTDIR) :
+-	cmd.exe /C if not exist $(XML_INTDIR) mkdir $(XML_INTDIR)
++	if [ ! -d $(XML_INTDIR) ]; then mkdir $(XML_INTDIR); fi
+ 
+ # Makes the static libxml intermediate directory.
+ $(XML_INTDIR_A) :
+-	cmd.exe /C if not exist $(XML_INTDIR_A) mkdir $(XML_INTDIR_A)
++	if [ ! -d $(XML_INTDIR_A) ]; then mkdir $(XML_INTDIR_A); fi
+ 
+ # An implicit rule for libxml compilation.
+ $(XML_INTDIR)/%.o : $(XML_SRCDIR)/%.c
+@@ -314,12 +314,12 @@
+ 
+ # Creates the libxml archive.
+ $(BINDIR)/$(XML_A) : $(BINDIR) $(XML_OBJS_A)
+-	$(AR) $(ARFLAGS) $(BINDIR)\$(XML_A) $(XML_OBJS_A)
++	$(AR) $(ARFLAGS) $(BINDIR)/$(XML_A) $(XML_OBJS_A)
+ 
+ 
+ # Makes the utils intermediate directory.
+ $(UTILS_INTDIR) :
+-	cmd.exe /C if not exist $(UTILS_INTDIR) mkdir $(UTILS_INTDIR)
++	if [ ! -d $(UTILS_INTDIR) ]; then mkdir $(UTILS_INTDIR); fi
+ 
+ # An implicit rule for xmllint and friends.
+ ifeq ($(STATIC),1)
+Index: Source/win32/configure.js
+===================================================================
+--- Source/win32/configure.js	(revision 166)
++++ Source/win32/configure.js	(working copy)
+@@ -266,8 +266,8 @@
+ 		vf.WriteLine("CRUNTIME=" + cruntime);
+ 		vf.WriteLine("VCMANIFEST=" + (vcmanifest? "1" : "0"));
+ 	} else if (compiler == "mingw") {
+-		vf.WriteLine("INCLUDE+=;" + buildInclude);
+-		vf.WriteLine("LIB+=;" + buildLib);
++		vf.WriteLine("INCLUDE+=" + buildInclude);
++		vf.WriteLine("LIB+=" + buildLib);
+ 	} else if (compiler == "bcb") {
+ 		vf.WriteLine("INCLUDE=" + buildInclude);
+ 		vf.WriteLine("LIB=" + buildLib);
+@@ -564,7 +564,7 @@
+ 	buildStatic = 1;
+ }
+ 
+-dirSep = "\\";
++dirSep = "/";
+ if (buildBinPrefix == "")
+ 	buildBinPrefix = "$(PREFIX)" + dirSep + "bin";
+ if (buildIncPrefix == "")
