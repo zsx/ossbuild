@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="libjpeg"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		InlineFunctionExpansion="2"
+		FavorSizeOrSpeed="1"
+		AdditionalIncludeDirectories="Source"
+	/>
+	<Tool
+		Name="VCLibrarianTool"
+		ModuleDefinitionFile="Source\libjpeg.def"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		OutputFile="$(OutDir)\bin\$(ProjectName).dll"
+		Version="$(LibJpegVersionString)"
+		GenerateManifest="false"
+		ModuleDefinitionFile="Source\libjpeg.def"
+		ImportLibrary="$(OutDir)\lib\$(TargetName).lib"
+	/>
+</VisualStudioPropertySheet>
