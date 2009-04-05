@@ -1,0 +1,1 @@
+Must be built by MSys/MinGW for now.
