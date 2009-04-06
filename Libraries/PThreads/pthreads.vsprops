@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="pthreads"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="Source"
+		PreprocessorDefinitions="PTW32_BUILD_INLINED;HAVE_CONFIG_H"
+		WarningLevel="3"
+	/>
+	<Tool
+		Name="VCLibrarianTool"
+		AdditionalDependencies="wsock32.lib"
+		OutputFile="$(OutDir)\lib\pthreadVC.lib"
+		IgnoreDefaultLibraryNames="libcmt"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="wsock32.lib"
+		OutputFile="$(OutDir)\bin\pthreadVC.dll"
+		Version="$(PThreadsVersionString)"
+		LinkIncremental="1"
+		GenerateManifest="false"
+		IgnoreDefaultLibraryNames="libcmt"
+		ModuleDefinitionFile=""
+		SubSystem="0"
+		ImportLibrary="$(OutDir)\lib\pthreadVC.lib"
+	/>
+</VisualStudioPropertySheet>
