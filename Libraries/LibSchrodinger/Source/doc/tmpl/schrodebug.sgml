@@ -1,0 +1,123 @@
+<!-- ##### SECTION Title ##### -->
+schrodebug
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO SCHRO_ERROR ##### -->
+<para>
+
+</para>
+
+@...: 
+
+
+<!-- ##### MACRO SCHRO_WARNING ##### -->
+<para>
+
+</para>
+
+@...: 
+
+
+<!-- ##### MACRO SCHRO_INFO ##### -->
+<para>
+
+</para>
+
+@...: 
+
+
+<!-- ##### MACRO SCHRO_DEBUG ##### -->
+<para>
+
+</para>
+
+@...: 
+
+
+<!-- ##### MACRO SCHRO_LOG ##### -->
+<para>
+
+</para>
+
+@...: 
+
+
+<!-- ##### MACRO SCHRO_DEBUG_LEVEL ##### -->
+<para>
+
+</para>
+
+@level: 
+@...: 
+
+
+<!-- ##### MACRO SCHRO_MILD_ASSERT ##### -->
+<para>
+
+</para>
+
+@test: 
+
+
+<!-- ##### MACRO SCHRO_ASSERT ##### -->
+<para>
+
+</para>
+
+@test: 
+
+
+<!-- ##### FUNCTION schro_debug_log ##### -->
+<para>
+
+</para>
+
+@level: 
+@file: 
+@function: 
+@line: 
+@format: 
+@Varargs: 
+
+
+<!-- ##### FUNCTION schro_debug_set_level ##### -->
+<para>
+
+</para>
+
+@level: 
+
+
+<!-- ##### FUNCTION schro_debug_get_level ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_dump ##### -->
+<para>
+
+</para>
+
+@type: 
+@format: 
+@Varargs: 
+
+

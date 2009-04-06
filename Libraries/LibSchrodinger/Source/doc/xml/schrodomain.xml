@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrodomain">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrodomain.top_of_page">schrodomain</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrodomain</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrodomain.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+typedef             <link linkend="SchroExecDomain">SchroExecDomain</link>;
+                    <link linkend="SchroMemoryDomain">SchroMemoryDomain</link>;
+#define             <link linkend="SCHRO-EXEC-DOMAIN-CPU:CAPS">SCHRO_EXEC_DOMAIN_CPU</link>
+#define             <link linkend="SCHRO-EXEC-DOMAIN-CUDA:CAPS">SCHRO_EXEC_DOMAIN_CUDA</link>
+#define             <link linkend="SCHRO-EXEC-DOMAIN-OPENGL:CAPS">SCHRO_EXEC_DOMAIN_OPENGL</link>
+#define             <link linkend="SCHRO-MEMORY-DOMAIN-CPU:CAPS">SCHRO_MEMORY_DOMAIN_CPU</link>
+#define             <link linkend="SCHRO-MEMORY-DOMAIN-CUDA:CAPS">SCHRO_MEMORY_DOMAIN_CUDA</link>
+#define             <link linkend="SCHRO-MEMORY-DOMAIN-OPENGL:CAPS">SCHRO_MEMORY_DOMAIN_OPENGL</link>
+#define             <link linkend="SCHRO-MEMORY-DOMAIN-SLOTS:CAPS">SCHRO_MEMORY_DOMAIN_SLOTS</link>
+#define             <link linkend="SCHRO-MEMORY-DOMAIN-SLOT-ALLOCATED:CAPS">SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED</link>
+#define             <link linkend="SCHRO-MEMORY-DOMAIN-SLOT-IN-USE:CAPS">SCHRO_MEMORY_DOMAIN_SLOT_IN_USE</link>
+<link linkend="void">void</link>*               <link linkend="schro-memory-domain-alloc">schro_memory_domain_alloc</link>           (<link linkend="SchroMemoryDomain">SchroMemoryDomain</link> *domain,
+                                                         <link linkend="int">int</link> size);
+<link linkend="void">void</link>*               <link linkend="schro-memory-domain-alloc-2d">schro_memory_domain_alloc_2d</link>        (<link linkend="SchroMemoryDomain">SchroMemoryDomain</link> *domain,
+                                                         <link linkend="int">int</link> depth,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="void">void</link>                <link linkend="schro-memory-domain-free">schro_memory_domain_free</link>            (<link linkend="SchroMemoryDomain">SchroMemoryDomain</link> *domain);
+<link linkend="void">void</link>                <link linkend="schro-memory-domain-memfree">schro_memory_domain_memfree</link>         (<link linkend="SchroMemoryDomain">SchroMemoryDomain</link> *domain,
+                                                         <link linkend="void">void</link> *ptr);
+<link linkend="SchroMemoryDomain">SchroMemoryDomain</link>*  <link linkend="schro-memory-domain-new">schro_memory_domain_new</link>             (void);
+<link linkend="SchroMemoryDomain">SchroMemoryDomain</link>*  <link linkend="schro-memory-domain-new-cuda">schro_memory_domain_new_cuda</link>        (void);
+<link linkend="SchroMemoryDomain">SchroMemoryDomain</link>*  <link linkend="schro-memory-domain-new-local">schro_memory_domain_new_local</link>       (void);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrodomain.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrodomain.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SchroExecDomain" role="typedef">
+<title>SchroExecDomain</title>
+<indexterm zone="SchroExecDomain"><primary>SchroExecDomain</primary></indexterm><programlisting>typedef int SchroExecDomain;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroMemoryDomain" role="struct">
+<title>SchroMemoryDomain</title>
+<indexterm zone="SchroMemoryDomain"><primary>SchroMemoryDomain</primary></indexterm><programlisting>typedef struct {
+  SchroMutex * mutex;
+
+  unsigned int flags;
+
+  void *(*alloc) (int size);
+  void *(*alloc_2d) (int depth, int width, int height);
+  void (*free) (void *ptr, int size);
+
+  struct {
+    unsigned int flags;
+    void *ptr;
+    int size;
+    void *priv;
+  } slots[SCHRO_MEMORY_DOMAIN_SLOTS];
+} SchroMemoryDomain;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-EXEC-DOMAIN-CPU:CAPS" role="macro">
+<title>SCHRO_EXEC_DOMAIN_CPU</title>
+<indexterm zone="SCHRO-EXEC-DOMAIN-CPU:CAPS"><primary>SCHRO_EXEC_DOMAIN_CPU</primary></indexterm><programlisting>#define SCHRO_EXEC_DOMAIN_CPU 0x0001
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-EXEC-DOMAIN-CUDA:CAPS" role="macro">
+<title>SCHRO_EXEC_DOMAIN_CUDA</title>
+<indexterm zone="SCHRO-EXEC-DOMAIN-CUDA:CAPS"><primary>SCHRO_EXEC_DOMAIN_CUDA</primary></indexterm><programlisting>#define SCHRO_EXEC_DOMAIN_CUDA 0x0002
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-EXEC-DOMAIN-OPENGL:CAPS" role="macro">
+<title>SCHRO_EXEC_DOMAIN_OPENGL</title>
+<indexterm zone="SCHRO-EXEC-DOMAIN-OPENGL:CAPS"><primary>SCHRO_EXEC_DOMAIN_OPENGL</primary></indexterm><programlisting>#define SCHRO_EXEC_DOMAIN_OPENGL 0x0003
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-MEMORY-DOMAIN-CPU:CAPS" role="macro">
+<title>SCHRO_MEMORY_DOMAIN_CPU</title>
+<indexterm zone="SCHRO-MEMORY-DOMAIN-CPU:CAPS"><primary>SCHRO_MEMORY_DOMAIN_CPU</primary></indexterm><programlisting>#define SCHRO_MEMORY_DOMAIN_CPU 0x0001
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-MEMORY-DOMAIN-CUDA:CAPS" role="macro">
+<title>SCHRO_MEMORY_DOMAIN_CUDA</title>
+<indexterm zone="SCHRO-MEMORY-DOMAIN-CUDA:CAPS"><primary>SCHRO_MEMORY_DOMAIN_CUDA</primary></indexterm><programlisting>#define SCHRO_MEMORY_DOMAIN_CUDA 0x0002
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-MEMORY-DOMAIN-OPENGL:CAPS" role="macro">
+<title>SCHRO_MEMORY_DOMAIN_OPENGL</title>
+<indexterm zone="SCHRO-MEMORY-DOMAIN-OPENGL:CAPS"><primary>SCHRO_MEMORY_DOMAIN_OPENGL</primary></indexterm><programlisting>#define SCHRO_MEMORY_DOMAIN_OPENGL 0x0004
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-MEMORY-DOMAIN-SLOTS:CAPS" role="macro">
+<title>SCHRO_MEMORY_DOMAIN_SLOTS</title>
+<indexterm zone="SCHRO-MEMORY-DOMAIN-SLOTS:CAPS"><primary>SCHRO_MEMORY_DOMAIN_SLOTS</primary></indexterm><programlisting>#define SCHRO_MEMORY_DOMAIN_SLOTS 1000
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-MEMORY-DOMAIN-SLOT-ALLOCATED:CAPS" role="macro">
+<title>SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED</title>
+<indexterm zone="SCHRO-MEMORY-DOMAIN-SLOT-ALLOCATED:CAPS"><primary>SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED</primary></indexterm><programlisting>#define SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED 0x0001
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-MEMORY-DOMAIN-SLOT-IN-USE:CAPS" role="macro">
+<title>SCHRO_MEMORY_DOMAIN_SLOT_IN_USE</title>
+<indexterm zone="SCHRO-MEMORY-DOMAIN-SLOT-IN-USE:CAPS"><primary>SCHRO_MEMORY_DOMAIN_SLOT_IN_USE</primary></indexterm><programlisting>#define SCHRO_MEMORY_DOMAIN_SLOT_IN_USE 0x0002
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="schro-memory-domain-alloc" role="function">
+<title>schro_memory_domain_alloc ()</title>
+<indexterm zone="schro-memory-domain-alloc"><primary>schro_memory_domain_alloc</primary></indexterm><programlisting><link linkend="void">void</link>*               schro_memory_domain_alloc           (<link linkend="SchroMemoryDomain">SchroMemoryDomain</link> *domain,
+                                                         <link linkend="int">int</link> size);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>domain</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>size</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-memory-domain-alloc-2d" role="function">
+<title>schro_memory_domain_alloc_2d ()</title>
+<indexterm zone="schro-memory-domain-alloc-2d"><primary>schro_memory_domain_alloc_2d</primary></indexterm><programlisting><link linkend="void">void</link>*               schro_memory_domain_alloc_2d        (<link linkend="SchroMemoryDomain">SchroMemoryDomain</link> *domain,
+                                                         <link linkend="int">int</link> depth,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>domain</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>depth</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-memory-domain-free" role="function">
+<title>schro_memory_domain_free ()</title>
+<indexterm zone="schro-memory-domain-free"><primary>schro_memory_domain_free</primary></indexterm><programlisting><link linkend="void">void</link>                schro_memory_domain_free            (<link linkend="SchroMemoryDomain">SchroMemoryDomain</link> *domain);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>domain</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-memory-domain-memfree" role="function">
+<title>schro_memory_domain_memfree ()</title>
+<indexterm zone="schro-memory-domain-memfree"><primary>schro_memory_domain_memfree</primary></indexterm><programlisting><link linkend="void">void</link>                schro_memory_domain_memfree         (<link linkend="SchroMemoryDomain">SchroMemoryDomain</link> *domain,
+                                                         <link linkend="void">void</link> *ptr);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>domain</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ptr</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-memory-domain-new" role="function">
+<title>schro_memory_domain_new ()</title>
+<indexterm zone="schro-memory-domain-new"><primary>schro_memory_domain_new</primary></indexterm><programlisting><link linkend="SchroMemoryDomain">SchroMemoryDomain</link>*  schro_memory_domain_new             (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-memory-domain-new-cuda" role="function">
+<title>schro_memory_domain_new_cuda ()</title>
+<indexterm zone="schro-memory-domain-new-cuda"><primary>schro_memory_domain_new_cuda</primary></indexterm><programlisting><link linkend="SchroMemoryDomain">SchroMemoryDomain</link>*  schro_memory_domain_new_cuda        (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-memory-domain-new-local" role="function">
+<title>schro_memory_domain_new_local ()</title>
+<indexterm zone="schro-memory-domain-new-local"><primary>schro_memory_domain_new_local</primary></indexterm><programlisting><link linkend="SchroMemoryDomain">SchroMemoryDomain</link>*  schro_memory_domain_new_local       (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

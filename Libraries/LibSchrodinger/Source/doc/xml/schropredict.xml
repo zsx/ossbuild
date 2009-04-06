@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-10-schropredict">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-10-schropredict.top_of_page">schropredict</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER-1.0 Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schropredict</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-10-schropredict.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+<link linkend="void">void</link>                <link linkend="schro-encoder-motion-predict">schro_encoder_motion_predict</link>        (<link linkend="SchroEncoderFrame">SchroEncoderFrame</link> *frame);
+<link linkend="SchroMotionField">SchroMotionField</link>*   <link linkend="schro-motion-field-new">schro_motion_field_new</link>              (<link linkend="int">int</link> x_num_blocks,
+                                                         <link linkend="int">int</link> y_num_blocks);
+<link linkend="void">void</link>                <link linkend="schro-motion-field-free">schro_motion_field_free</link>             (<link linkend="SchroMotionField">SchroMotionField</link> *field);
+<link linkend="void">void</link>                <link linkend="schro-motion-field-scan">schro_motion_field_scan</link>             (<link linkend="SchroMotionField">SchroMotionField</link> *field,
+                                                         <link linkend="SchroParams">SchroParams</link> *params,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *ref,
+                                                         <link linkend="int">int</link> dist);
+<link linkend="void">void</link>                <link linkend="schro-motion-field-inherit">schro_motion_field_inherit</link>          (<link linkend="SchroMotionField">SchroMotionField</link> *field,
+                                                         <link linkend="SchroMotionField">SchroMotionField</link> *parent);
+<link linkend="void">void</link>                <link linkend="schro-motion-field-copy">schro_motion_field_copy</link>             (<link linkend="SchroMotionField">SchroMotionField</link> *field,
+                                                         <link linkend="SchroMotionField">SchroMotionField</link> *parent);
+<link linkend="int">int</link>                 <link linkend="schro-motion-verify">schro_motion_verify</link>                 (<link linkend="SchroMotion">SchroMotion</link> *mf);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-10-schropredict.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-10-schropredict.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="schro-encoder-motion-predict" role="function">
+<title>schro_encoder_motion_predict ()</title>
+<indexterm zone="schro-encoder-motion-predict"><primary>schro_encoder_motion_predict</primary></indexterm><programlisting><link linkend="void">void</link>                schro_encoder_motion_predict        (<link linkend="SchroEncoderFrame">SchroEncoderFrame</link> *frame);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-motion-field-new" role="function">
+<title>schro_motion_field_new ()</title>
+<indexterm zone="schro-motion-field-new"><primary>schro_motion_field_new</primary></indexterm><programlisting><link linkend="SchroMotionField">SchroMotionField</link>*   schro_motion_field_new              (<link linkend="int">int</link> x_num_blocks,
+                                                         <link linkend="int">int</link> y_num_blocks);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x_num_blocks</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y_num_blocks</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-motion-field-free" role="function">
+<title>schro_motion_field_free ()</title>
+<indexterm zone="schro-motion-field-free"><primary>schro_motion_field_free</primary></indexterm><programlisting><link linkend="void">void</link>                schro_motion_field_free             (<link linkend="SchroMotionField">SchroMotionField</link> *field);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>field</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-motion-field-scan" role="function">
+<title>schro_motion_field_scan ()</title>
+<indexterm zone="schro-motion-field-scan"><primary>schro_motion_field_scan</primary></indexterm><programlisting><link linkend="void">void</link>                schro_motion_field_scan             (<link linkend="SchroMotionField">SchroMotionField</link> *field,
+                                                         <link linkend="SchroParams">SchroParams</link> *params,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *ref,
+                                                         <link linkend="int">int</link> dist);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>field</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ref</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dist</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-motion-field-inherit" role="function">
+<title>schro_motion_field_inherit ()</title>
+<indexterm zone="schro-motion-field-inherit"><primary>schro_motion_field_inherit</primary></indexterm><programlisting><link linkend="void">void</link>                schro_motion_field_inherit          (<link linkend="SchroMotionField">SchroMotionField</link> *field,
+                                                         <link linkend="SchroMotionField">SchroMotionField</link> *parent);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>field</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>parent</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-motion-field-copy" role="function">
+<title>schro_motion_field_copy ()</title>
+<indexterm zone="schro-motion-field-copy"><primary>schro_motion_field_copy</primary></indexterm><programlisting><link linkend="void">void</link>                schro_motion_field_copy             (<link linkend="SchroMotionField">SchroMotionField</link> *field,
+                                                         <link linkend="SchroMotionField">SchroMotionField</link> *parent);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>field</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>parent</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-motion-verify" role="function">
+<title>schro_motion_verify ()</title>
+<indexterm zone="schro-motion-verify"><primary>schro_motion_verify</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_motion_verify                 (<link linkend="SchroMotion">SchroMotion</link> *mf);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>mf</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

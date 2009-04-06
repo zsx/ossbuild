@@ -1,0 +1,121 @@
+Name:           libschroedinger
+Version:        @VERSION@
+Release:        gst.1
+Summary:        Library for decoding and encoding video in the Dirac format
+
+Group:          Applications/Multimedia
+License:        LGPL/MIT/MPL
+URL:            http://schrodinger.sourceforge.net/
+Source:         http://schrodinger.sourceforge.net/schroedinger-%{version}.tar.gz
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:  gtk-doc
+BuildRequires:  liboil-devel >= 0.3.13
+BuildRequires:  gstreamer-devel
+BuildRequires:  gstreamer-plugins-base-devel
+
+%description
+Library for decoding and encoding video in the Dirac format. It is implemented
+in ANSI C and optimized through the us of liboil. libschro is written as a
+collaboration between the BBC Research and Development, David Schleef and
+Fluendo.
+
+%package devel
+Summary:	Development files and static libraries for libschroedinger
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description devel
+libschroedinger-devel contains the files needed to build packages that depend
+on libschroedinger.
+
+%prep
+%setup -q -n schroedinger-%{version}
+
+%build
+%configure
+
+# parallel build does not work
+# make %{?_smp_mflags}
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+
+%makeinstall
+# Clean out files that should not be part of the rpm.
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.{a,la}
+rm -f $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/*.{a,la}
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(-,root,root)
+%doc COPYING COPYING.MIT COPYING.GPL COPYING.LGPL COPYING.MPL
+%{_libdir}/libschroedinger-1.0.so.*
+%{_libdir}/gstreamer-0.10/libgstschro.so
+
+%files devel
+%defattr(-,root,root)
+%{_libdir}/pkgconfig/schroedinger-1.0.pc
+%{_libdir}/libschroedinger-1.0.so
+%{_includedir}/schroedinger-1.0/schroedinger/schroanalysis.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroarith.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroasync.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrobitstream.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrobuffer.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrodebug.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrodecoder.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroencoder.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroengine.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrofft.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrofilter.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroframe.h
+%{_includedir}/schroedinger-1.0/schroedinger/schro.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrohistogram.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrometric.h
+%{_includedir}/schroedinger-1.0/schroedinger/schromotion.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroparams.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrophasecorrelation.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroqueue.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrossim.h
+%{_includedir}/schroedinger-1.0/schroedinger/schro-stdint.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrotables.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrounpack.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroutils.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrowavelet.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrocog.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrodomain.h
+%{_includedir}/schroedinger-1.0/schroedinger/schromotionest.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrolimits.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrolist.h
+%{_includedir}/schroedinger-1.0/schroedinger/schropack.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrovideoformat.h
+%{_includedir}/schroedinger-1.0/schroedinger/schrovirtframe.h
+%{_includedir}/schroedinger-1.0/schroedinger/schroparse.h
+%{_datadir}/gtk-doc/html/schroedinger
+
+%changelog
+* Wed May 7 2008 Christian Schaller <christian.schaller@collabora.co.uk>
+- Added Schrovirtframe.h
+
+* Fri Feb 22 2008 David Schleef <ds@schleef.org>
+- Update for 1.0
+
+* Fri Feb 1 2008 Christian F.K. Schaller <christian.schaller@collabora.co.uk>
+- add schromotionest.h
+- remove schropredict.h
+
+* Tue Jan 22 2008 Christian F.K. Schaller <christian.schaller@collabora.co.uk>
+- Update for latest changes
+
+* Thu Apr 05 2007 Thomas Vander Stichele <thomas at apestaart dot org>
+- Further updates.
+
+* Thu Apr 27 2006 Christian F.K. Schaller <christian@fluendo.com>
+- Updates for carid -> schroedinger change

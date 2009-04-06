@@ -1,0 +1,162 @@
+<!-- ##### SECTION Title ##### -->
+schrodomain
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### TYPEDEF SchroExecDomain ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT SchroMemoryDomain ##### -->
+<para>
+
+</para>
+
+@mutex: 
+@flags: 
+@alloc: 
+@alloc_2d: 
+@free: 
+
+<!-- ##### MACRO SCHRO_EXEC_DOMAIN_CPU ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO SCHRO_EXEC_DOMAIN_CUDA ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO SCHRO_EXEC_DOMAIN_OPENGL ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO SCHRO_MEMORY_DOMAIN_CPU ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO SCHRO_MEMORY_DOMAIN_CUDA ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO SCHRO_MEMORY_DOMAIN_OPENGL ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO SCHRO_MEMORY_DOMAIN_SLOTS ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO SCHRO_MEMORY_DOMAIN_SLOT_IN_USE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION schro_memory_domain_alloc ##### -->
+<para>
+
+</para>
+
+@domain: 
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_memory_domain_alloc_2d ##### -->
+<para>
+
+</para>
+
+@domain: 
+@depth: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_memory_domain_free ##### -->
+<para>
+
+</para>
+
+@domain: 
+
+
+<!-- ##### FUNCTION schro_memory_domain_memfree ##### -->
+<para>
+
+</para>
+
+@domain: 
+@ptr: 
+
+
+<!-- ##### FUNCTION schro_memory_domain_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_memory_domain_new_cuda ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_memory_domain_new_local ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+

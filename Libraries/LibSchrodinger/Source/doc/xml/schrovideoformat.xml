@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrovideoformat">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrovideoformat.top_of_page">schrovideoformat</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrovideoformat</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrovideoformat.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+<link linkend="int">int</link>                 <link linkend="schro-video-format-validate">schro_video_format_validate</link>         (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);
+<link linkend="void">void</link>                <link linkend="schro-video-format-set-std-video-format">schro_video_format_set_std_video_format</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="SchroVideoFormatEnum">SchroVideoFormatEnum</link> index);
+<link linkend="SchroVideoFormatEnum">SchroVideoFormatEnum</link> <link linkend="schro-video-format-get-std-video-format">schro_video_format_get_std_video_format</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);
+<link linkend="void">void</link>                <link linkend="schro-video-format-set-std-frame-rate">schro_video_format_set_std_frame_rate</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="int">int</link> index);
+<link linkend="int">int</link>                 <link linkend="schro-video-format-get-std-frame-rate">schro_video_format_get_std_frame_rate</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);
+<link linkend="void">void</link>                <link linkend="schro-video-format-set-std-aspect-ratio">schro_video_format_set_std_aspect_ratio</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="int">int</link> index);
+<link linkend="int">int</link>                 <link linkend="schro-video-format-get-std-aspect-ratio">schro_video_format_get_std_aspect_ratio</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);
+<link linkend="void">void</link>                <link linkend="schro-video-format-set-std-signal-range">schro_video_format_set_std_signal_range</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="SchroSignalRange">SchroSignalRange</link> index);
+<link linkend="SchroSignalRange">SchroSignalRange</link>    <link linkend="schro-video-format-get-std-signal-range">schro_video_format_get_std_signal_range</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);
+<link linkend="void">void</link>                <link linkend="schro-video-format-set-std-colour-spec">schro_video_format_set_std_colour_spec</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="SchroColourSpec">SchroColourSpec</link> index);
+<link linkend="SchroColourSpec">SchroColourSpec</link>     <link linkend="schro-video-format-get-std-colour-spec">schro_video_format_get_std_colour_spec</link>
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrovideoformat.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrovideoformat.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="schro-video-format-validate" role="function">
+<title>schro_video_format_validate ()</title>
+<indexterm zone="schro-video-format-validate"><primary>schro_video_format_validate</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_video_format_validate         (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-set-std-video-format" role="function">
+<title>schro_video_format_set_std_video_format ()</title>
+<indexterm zone="schro-video-format-set-std-video-format"><primary>schro_video_format_set_std_video_format</primary></indexterm><programlisting><link linkend="void">void</link>                schro_video_format_set_std_video_format
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="SchroVideoFormatEnum">SchroVideoFormatEnum</link> index);</programlisting>
+<para>
+Initializes the video format structure pointed to by <parameter>format</parameter> to
+the standard Dirac video formats specified by <parameter>index</parameter>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>index</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-get-std-video-format" role="function">
+<title>schro_video_format_get_std_video_format ()</title>
+<indexterm zone="schro-video-format-get-std-video-format"><primary>schro_video_format_get_std_video_format</primary></indexterm><programlisting><link linkend="SchroVideoFormatEnum">SchroVideoFormatEnum</link> schro_video_format_get_std_video_format
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);</programlisting>
+<para>
+In Dirac streams, video formats are encoded by specifying a standard
+format, and then modifying that to get the desired video format.  This
+function guesses a standard format to use as a starting point for
+encoding the video format pointed to by <parameter>format</parameter>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to SchroVideoFormat structure
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> an index to the optimal standard format
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-set-std-frame-rate" role="function">
+<title>schro_video_format_set_std_frame_rate ()</title>
+<indexterm zone="schro-video-format-set-std-frame-rate"><primary>schro_video_format_set_std_frame_rate</primary></indexterm><programlisting><link linkend="void">void</link>                schro_video_format_set_std_frame_rate
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="int">int</link> index);</programlisting>
+<para>
+Sets the frame rate of the video format structure pointed to by
+<parameter>format</parameter> to the Dirac standard frame specified by <parameter>index</parameter>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>index</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-get-std-frame-rate" role="function">
+<title>schro_video_format_get_std_frame_rate ()</title>
+<indexterm zone="schro-video-format-get-std-frame-rate"><primary>schro_video_format_get_std_frame_rate</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_video_format_get_std_frame_rate
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);</programlisting>
+<para>
+In Dirac bitstreams, frame rates can be one of several standard
+frame rates, encoded as an index, or the numerator and denominator
+of the framerate can be encoded directly.  This function looks up
+the frame rate contained in the video format structure <parameter>format</parameter> in
+the list of standard frame rates.  If the frame rate is a standard
+frame rate, the corresponding index is returned, otherwise 0 is
+returned.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> index to a standard Dirac frame rate, or 0 if the frame rate
+is custom.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-set-std-aspect-ratio" role="function">
+<title>schro_video_format_set_std_aspect_ratio ()</title>
+<indexterm zone="schro-video-format-set-std-aspect-ratio"><primary>schro_video_format_set_std_aspect_ratio</primary></indexterm><programlisting><link linkend="void">void</link>                schro_video_format_set_std_aspect_ratio
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="int">int</link> index);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>index</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-get-std-aspect-ratio" role="function">
+<title>schro_video_format_get_std_aspect_ratio ()</title>
+<indexterm zone="schro-video-format-get-std-aspect-ratio"><primary>schro_video_format_get_std_aspect_ratio</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_video_format_get_std_aspect_ratio
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-set-std-signal-range" role="function">
+<title>schro_video_format_set_std_signal_range ()</title>
+<indexterm zone="schro-video-format-set-std-signal-range"><primary>schro_video_format_set_std_signal_range</primary></indexterm><programlisting><link linkend="void">void</link>                schro_video_format_set_std_signal_range
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="SchroSignalRange">SchroSignalRange</link> index);</programlisting>
+<para>
+Sets the signal range of the video format structure to one of the
+standard values indicated by <parameter>index</parameter>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>index</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-get-std-signal-range" role="function">
+<title>schro_video_format_get_std_signal_range ()</title>
+<indexterm zone="schro-video-format-get-std-signal-range"><primary>schro_video_format_get_std_signal_range</primary></indexterm><programlisting><link linkend="SchroSignalRange">SchroSignalRange</link>    schro_video_format_get_std_signal_range
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);</programlisting>
+<para>
+In Dirac bitstreams, signal ranges can be one of several standard
+signal ranges, encoded as an index, or the extents of the signal
+range can be encoded directly.  This function looks up
+the signal range contained in the video format structure <parameter>format</parameter> in
+the list of standard signal ranges.  If the signal range is
+a standard signal range, the corresponding index is returned,
+otherwise 0 is returned.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to SchroVideoFormat structure
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> index to standard signal range, or 0 if there is no
+corresponding standard signal range.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-set-std-colour-spec" role="function">
+<title>schro_video_format_set_std_colour_spec ()</title>
+<indexterm zone="schro-video-format-set-std-colour-spec"><primary>schro_video_format_set_std_colour_spec</primary></indexterm><programlisting><link linkend="void">void</link>                schro_video_format_set_std_colour_spec
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format,
+                                                         <link linkend="SchroColourSpec">SchroColourSpec</link> index);</programlisting>
+<para>
+Sets the colour specification of the video format structure to one of the
+standard values indicated by <parameter>index</parameter>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to SchroVideoFormat structure
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>index</parameter>&nbsp;:</term>
+<listitem><simpara> index to standard colour specification
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-video-format-get-std-colour-spec" role="function">
+<title>schro_video_format_get_std_colour_spec ()</title>
+<indexterm zone="schro-video-format-get-std-colour-spec"><primary>schro_video_format_get_std_colour_spec</primary></indexterm><programlisting><link linkend="SchroColourSpec">SchroColourSpec</link>     schro_video_format_get_std_colour_spec
+                                                        (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *format);</programlisting>
+<para>
+In Dirac bitstreams, colour specifications can be one of several standard
+colour specifications, encoded as an index, or the individual parts of
+the colour specication can be encoded.  This function looks up
+the colour specification contained in the video format structure <parameter>format</parameter> in
+the list of standard colour specifications.  If the colour specification is
+a standard colour specification, the corresponding index is returned,
+otherwise 0 is returned.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to SchroVideoFormat structure
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> index to standard colour specification, or 0 if there is no
+corresponding standard colour specification.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

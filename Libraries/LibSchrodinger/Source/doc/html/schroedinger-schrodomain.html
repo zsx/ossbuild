@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>schrodomain</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Schroedinger Reference Manual">
+<link rel="up" href="schropublic.html" title="Schroedinger Public API">
+<link rel="prev" href="schroedinger-schrodecoder.html" title="schrodecoder">
+<link rel="next" href="schroedinger-schroencoder.html" title="schroencoder">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="schropublic.html" title="Schroedinger Public API">
+<link rel="chapter" href="schrointernal.html" title="Schroedinger Internal API">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="schroedinger-schrodecoder.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="schropublic.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Schroedinger Reference Manual</th>
+<td><a accesskey="n" href="schroedinger-schroencoder.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#schroedinger-schrodomain.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#schroedinger-schrodomain.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="schroedinger-schrodomain"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="schroedinger-schrodomain.top_of_page"></a>schrodomain</span></h2>
+<p>schrodomain</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="schroedinger-schrodomain.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+typedef             <a class="link" href="schroedinger-schrodomain.html#SchroExecDomain" title="SchroExecDomain">SchroExecDomain</a>;
+                    <a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a>;
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-EXEC-DOMAIN-CPU:CAPS" title="SCHRO_EXEC_DOMAIN_CPU">SCHRO_EXEC_DOMAIN_CPU</a>
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-EXEC-DOMAIN-CUDA:CAPS" title="SCHRO_EXEC_DOMAIN_CUDA">SCHRO_EXEC_DOMAIN_CUDA</a>
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-EXEC-DOMAIN-OPENGL:CAPS" title="SCHRO_EXEC_DOMAIN_OPENGL">SCHRO_EXEC_DOMAIN_OPENGL</a>
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-MEMORY-DOMAIN-CPU:CAPS" title="SCHRO_MEMORY_DOMAIN_CPU">SCHRO_MEMORY_DOMAIN_CPU</a>
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-MEMORY-DOMAIN-CUDA:CAPS" title="SCHRO_MEMORY_DOMAIN_CUDA">SCHRO_MEMORY_DOMAIN_CUDA</a>
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-MEMORY-DOMAIN-OPENGL:CAPS" title="SCHRO_MEMORY_DOMAIN_OPENGL">SCHRO_MEMORY_DOMAIN_OPENGL</a>
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-MEMORY-DOMAIN-SLOTS:CAPS" title="SCHRO_MEMORY_DOMAIN_SLOTS">SCHRO_MEMORY_DOMAIN_SLOTS</a>
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-MEMORY-DOMAIN-SLOT-ALLOCATED:CAPS" title="SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED">SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED</a>
+#define             <a class="link" href="schroedinger-schrodomain.html#SCHRO-MEMORY-DOMAIN-SLOT-IN-USE:CAPS" title="SCHRO_MEMORY_DOMAIN_SLOT_IN_USE">SCHRO_MEMORY_DOMAIN_SLOT_IN_USE</a>
+void*               <a class="link" href="schroedinger-schrodomain.html#schro-memory-domain-alloc" title="schro_memory_domain_alloc ()">schro_memory_domain_alloc</a>           (<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a> *domain,
+                                                         int size);
+void*               <a class="link" href="schroedinger-schrodomain.html#schro-memory-domain-alloc-2d" title="schro_memory_domain_alloc_2d ()">schro_memory_domain_alloc_2d</a>        (<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a> *domain,
+                                                         int depth,
+                                                         int width,
+                                                         int height);
+void                <a class="link" href="schroedinger-schrodomain.html#schro-memory-domain-free" title="schro_memory_domain_free ()">schro_memory_domain_free</a>            (<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a> *domain);
+void                <a class="link" href="schroedinger-schrodomain.html#schro-memory-domain-memfree" title="schro_memory_domain_memfree ()">schro_memory_domain_memfree</a>         (<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a> *domain,
+                                                         void *ptr);
+<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a>*  <a class="link" href="schroedinger-schrodomain.html#schro-memory-domain-new" title="schro_memory_domain_new ()">schro_memory_domain_new</a>             (void);
+<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a>*  <a class="link" href="schroedinger-schrodomain.html#schro-memory-domain-new-cuda" title="schro_memory_domain_new_cuda ()">schro_memory_domain_new_cuda</a>        (void);
+<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a>*  <a class="link" href="schroedinger-schrodomain.html#schro-memory-domain-new-local" title="schro_memory_domain_new_local ()">schro_memory_domain_new_local</a>       (void);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schrodomain.description"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schrodomain.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="SchroExecDomain"></a><h3>SchroExecDomain</h3>
+<pre class="programlisting">typedef int SchroExecDomain;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SchroMemoryDomain"></a><h3>SchroMemoryDomain</h3>
+<pre class="programlisting">typedef struct {
+  SchroMutex * mutex;
+
+  unsigned int flags;
+
+  void *(*alloc) (int size);
+  void *(*alloc_2d) (int depth, int width, int height);
+  void (*free) (void *ptr, int size);
+
+  struct {
+    unsigned int flags;
+    void *ptr;
+    int size;
+    void *priv;
+  } slots[SCHRO_MEMORY_DOMAIN_SLOTS];
+} SchroMemoryDomain;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-EXEC-DOMAIN-CPU:CAPS"></a><h3>SCHRO_EXEC_DOMAIN_CPU</h3>
+<pre class="programlisting">#define SCHRO_EXEC_DOMAIN_CPU 0x0001
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-EXEC-DOMAIN-CUDA:CAPS"></a><h3>SCHRO_EXEC_DOMAIN_CUDA</h3>
+<pre class="programlisting">#define SCHRO_EXEC_DOMAIN_CUDA 0x0002
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-EXEC-DOMAIN-OPENGL:CAPS"></a><h3>SCHRO_EXEC_DOMAIN_OPENGL</h3>
+<pre class="programlisting">#define SCHRO_EXEC_DOMAIN_OPENGL 0x0003
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-MEMORY-DOMAIN-CPU:CAPS"></a><h3>SCHRO_MEMORY_DOMAIN_CPU</h3>
+<pre class="programlisting">#define SCHRO_MEMORY_DOMAIN_CPU 0x0001
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-MEMORY-DOMAIN-CUDA:CAPS"></a><h3>SCHRO_MEMORY_DOMAIN_CUDA</h3>
+<pre class="programlisting">#define SCHRO_MEMORY_DOMAIN_CUDA 0x0002
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-MEMORY-DOMAIN-OPENGL:CAPS"></a><h3>SCHRO_MEMORY_DOMAIN_OPENGL</h3>
+<pre class="programlisting">#define SCHRO_MEMORY_DOMAIN_OPENGL 0x0004
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-MEMORY-DOMAIN-SLOTS:CAPS"></a><h3>SCHRO_MEMORY_DOMAIN_SLOTS</h3>
+<pre class="programlisting">#define SCHRO_MEMORY_DOMAIN_SLOTS 1000
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-MEMORY-DOMAIN-SLOT-ALLOCATED:CAPS"></a><h3>SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED</h3>
+<pre class="programlisting">#define SCHRO_MEMORY_DOMAIN_SLOT_ALLOCATED 0x0001
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-MEMORY-DOMAIN-SLOT-IN-USE:CAPS"></a><h3>SCHRO_MEMORY_DOMAIN_SLOT_IN_USE</h3>
+<pre class="programlisting">#define SCHRO_MEMORY_DOMAIN_SLOT_IN_USE 0x0002
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-memory-domain-alloc"></a><h3>schro_memory_domain_alloc ()</h3>
+<pre class="programlisting">void*               schro_memory_domain_alloc           (<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a> *domain,
+                                                         int size);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-memory-domain-alloc-2d"></a><h3>schro_memory_domain_alloc_2d ()</h3>
+<pre class="programlisting">void*               schro_memory_domain_alloc_2d        (<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a> *domain,
+                                                         int depth,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>depth</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-memory-domain-free"></a><h3>schro_memory_domain_free ()</h3>
+<pre class="programlisting">void                schro_memory_domain_free            (<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a> *domain);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-memory-domain-memfree"></a><h3>schro_memory_domain_memfree ()</h3>
+<pre class="programlisting">void                schro_memory_domain_memfree         (<a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a> *domain,
+                                                         void *ptr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>domain</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ptr</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-memory-domain-new"></a><h3>schro_memory_domain_new ()</h3>
+<pre class="programlisting"><a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a>*  schro_memory_domain_new             (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-memory-domain-new-cuda"></a><h3>schro_memory_domain_new_cuda ()</h3>
+<pre class="programlisting"><a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a>*  schro_memory_domain_new_cuda        (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-memory-domain-new-local"></a><h3>schro_memory_domain_new_local ()</h3>
+<pre class="programlisting"><a class="link" href="schroedinger-schrodomain.html#SchroMemoryDomain" title="SchroMemoryDomain">SchroMemoryDomain</a>*  schro_memory_domain_new_local       (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>schrometric</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Schroedinger Reference Manual">
+<link rel="up" href="schrointernal.html" title="Schroedinger Internal API">
+<link rel="prev" href="schroedinger-schrolist.html" title="schrolist">
+<link rel="next" href="schroedinger-schromotion.html" title="schromotion">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="schropublic.html" title="Schroedinger Public API">
+<link rel="chapter" href="schrointernal.html" title="Schroedinger Internal API">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="schroedinger-schrolist.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="schrointernal.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Schroedinger Reference Manual</th>
+<td><a accesskey="n" href="schroedinger-schromotion.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#schroedinger-schrometric.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#schroedinger-schrometric.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="schroedinger-schrometric"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="schroedinger-schrometric.top_of_page"></a>schrometric</span></h2>
+<p>schrometric</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="schroedinger-schrometric.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="schroedinger-schrometric.html#SchroMetricScan" title="SchroMetricScan">SchroMetricScan</a>;
+#define             <a class="link" href="schroedinger-schrometric.html#SCHRO-METRIC-INVALID:CAPS" title="SCHRO_METRIC_INVALID">SCHRO_METRIC_INVALID</a>
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-absdiff-u8" title="schro_metric_absdiff_u8 ()">schro_metric_absdiff_u8</a>             (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *a,
+                                                         int a_stride,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *b,
+                                                         int b_stride,
+                                                         int width,
+                                                         int height);
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-haar" title="schro_metric_haar ()">schro_metric_haar</a>                   (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *src1,
+                                                         int stride1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *src2,
+                                                         int stride2,
+                                                         int width,
+                                                         int height);
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-haar-const" title="schro_metric_haar_const ()">schro_metric_haar_const</a>             (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *data,
+                                                         int stride,
+                                                         int dc_value,
+                                                         int width,
+                                                         int height);
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-abssum-s16" title="schro_metric_abssum_s16 ()">schro_metric_abssum_s16</a>             (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *data,
+                                                         int stride,
+                                                         int width,
+                                                         int height);
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-sum-u8" title="schro_metric_sum_u8 ()">schro_metric_sum_u8</a>                 (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *data,
+                                                         int stride,
+                                                         int width,
+                                                         int height);
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-get" title="schro_metric_get ()">schro_metric_get</a>                    (<a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src1,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src2,
+                                                         int width,
+                                                         int height);
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-get-biref" title="schro_metric_get_biref ()">schro_metric_get_biref</a>              (<a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *fd,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src1,
+                                                         int weight1,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src2,
+                                                         int weight2,
+                                                         int shift,
+                                                         int width,
+                                                         int height);
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-get-dc" title="schro_metric_get_dc ()">schro_metric_get_dc</a>                 (<a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src,
+                                                         int value,
+                                                         int width,
+                                                         int height);
+void                <a class="link" href="schroedinger-schrometric.html#schro-metric-scan-do-scan" title="schro_metric_scan_do_scan ()">schro_metric_scan_do_scan</a>           (<a class="link" href="schroedinger-schrometric.html#SchroMetricScan" title="SchroMetricScan">SchroMetricScan</a> *scan);
+int                 <a class="link" href="schroedinger-schrometric.html#schro-metric-scan-get-min" title="schro_metric_scan_get_min ()">schro_metric_scan_get_min</a>           (<a class="link" href="schroedinger-schrometric.html#SchroMetricScan" title="SchroMetricScan">SchroMetricScan</a> *scan,
+                                                         int *dx,
+                                                         int *dy);
+void                <a class="link" href="schroedinger-schrometric.html#schro-metric-scan-setup" title="schro_metric_scan_setup ()">schro_metric_scan_setup</a>             (<a class="link" href="schroedinger-schrometric.html#SchroMetricScan" title="SchroMetricScan">SchroMetricScan</a> *scan,
+                                                         int dx,
+                                                         int dy,
+                                                         int dist);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schrometric.description"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schrometric.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="SchroMetricScan"></a><h3>SchroMetricScan</h3>
+<pre class="programlisting">typedef struct {
+  SchroFrame *frame;
+  SchroFrame *ref_frame;
+  int block_width;
+  int block_height;
+  int x, y;
+  int ref_x, ref_y;
+  int scan_width;
+  int scan_height;
+  int gravity_scale;
+  int gravity_x, gravity_y;
+  /* output */
+  uint32_t metrics[SCHRO_LIMIT_METRIC_SCAN*SCHRO_LIMIT_METRIC_SCAN];
+} SchroMetricScan;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-METRIC-INVALID:CAPS"></a><h3>SCHRO_METRIC_INVALID</h3>
+<pre class="programlisting">#define SCHRO_METRIC_INVALID 0x7fff
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-absdiff-u8"></a><h3>schro_metric_absdiff_u8 ()</h3>
+<pre class="programlisting">int                 schro_metric_absdiff_u8             (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *a,
+                                                         int a_stride,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *b,
+                                                         int b_stride,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>a_stride</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b_stride</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-haar"></a><h3>schro_metric_haar ()</h3>
+<pre class="programlisting">int                 schro_metric_haar                   (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *src1,
+                                                         int stride1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *src2,
+                                                         int stride2,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>stride1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>stride2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-haar-const"></a><h3>schro_metric_haar_const ()</h3>
+<pre class="programlisting">int                 schro_metric_haar_const             (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *data,
+                                                         int stride,
+                                                         int dc_value,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>stride</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dc_value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-abssum-s16"></a><h3>schro_metric_abssum_s16 ()</h3>
+<pre class="programlisting">int                 schro_metric_abssum_s16             (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *data,
+                                                         int stride,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>stride</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-sum-u8"></a><h3>schro_metric_sum_u8 ()</h3>
+<pre class="programlisting">int                 schro_metric_sum_u8                 (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *data,
+                                                         int stride,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>stride</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-get"></a><h3>schro_metric_get ()</h3>
+<pre class="programlisting">int                 schro_metric_get                    (<a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src1,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src2,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-get-biref"></a><h3>schro_metric_get_biref ()</h3>
+<pre class="programlisting">int                 schro_metric_get_biref              (<a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *fd,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src1,
+                                                         int weight1,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src2,
+                                                         int weight2,
+                                                         int shift,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fd</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>weight1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>weight2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>shift</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-get-dc"></a><h3>schro_metric_get_dc ()</h3>
+<pre class="programlisting">int                 schro_metric_get_dc                 (<a class="link" href="schroedinger-schroframe.html#SchroFrameData" title="SchroFrameData">SchroFrameData</a> *src,
+                                                         int value,
+                                                         int width,
+                                                         int height);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-scan-do-scan"></a><h3>schro_metric_scan_do_scan ()</h3>
+<pre class="programlisting">void                schro_metric_scan_do_scan           (<a class="link" href="schroedinger-schrometric.html#SchroMetricScan" title="SchroMetricScan">SchroMetricScan</a> *scan);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>scan</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-scan-get-min"></a><h3>schro_metric_scan_get_min ()</h3>
+<pre class="programlisting">int                 schro_metric_scan_get_min           (<a class="link" href="schroedinger-schrometric.html#SchroMetricScan" title="SchroMetricScan">SchroMetricScan</a> *scan,
+                                                         int *dx,
+                                                         int *dy);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scan</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dy</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-metric-scan-setup"></a><h3>schro_metric_scan_setup ()</h3>
+<pre class="programlisting">void                schro_metric_scan_setup             (<a class="link" href="schroedinger-schrometric.html#SchroMetricScan" title="SchroMetricScan">SchroMetricScan</a> *scan,
+                                                         int dx,
+                                                         int dy,
+                                                         int dist);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scan</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dx</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dy</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dist</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

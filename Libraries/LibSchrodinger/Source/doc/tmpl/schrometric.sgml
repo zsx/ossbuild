@@ -1,0 +1,181 @@
+<!-- ##### SECTION Title ##### -->
+schrometric
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SchroMetricScan ##### -->
+<para>
+
+</para>
+
+@frame: 
+@ref_frame: 
+@block_width: 
+@block_height: 
+@x: 
+@y: 
+@ref_x: 
+@ref_y: 
+@scan_width: 
+@scan_height: 
+@gravity_scale: 
+@gravity_x: 
+@gravity_y: 
+@metrics: 
+
+<!-- ##### MACRO SCHRO_METRIC_INVALID ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION schro_metric_absdiff_u8 ##### -->
+<para>
+
+</para>
+
+@a: 
+@a_stride: 
+@b: 
+@b_stride: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_haar ##### -->
+<para>
+
+</para>
+
+@src1: 
+@stride1: 
+@src2: 
+@stride2: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_haar_const ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@dc_value: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_abssum_s16 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_sum_u8 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_get ##### -->
+<para>
+
+</para>
+
+@src1: 
+@src2: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_get_biref ##### -->
+<para>
+
+</para>
+
+@fd: 
+@src1: 
+@weight1: 
+@src2: 
+@weight2: 
+@shift: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_get_dc ##### -->
+<para>
+
+</para>
+
+@src: 
+@value: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_scan_do_scan ##### -->
+<para>
+
+</para>
+
+@scan: 
+
+
+<!-- ##### FUNCTION schro_metric_scan_get_min ##### -->
+<para>
+
+</para>
+
+@scan: 
+@dx: 
+@dy: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_metric_scan_setup ##### -->
+<para>
+
+</para>
+
+@scan: 
+@dx: 
+@dy: 
+@dist: 
+
+

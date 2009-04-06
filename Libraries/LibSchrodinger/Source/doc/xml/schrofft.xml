@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrofft">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrofft.top_of_page">schrofft</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrofft</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrofft.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+<link linkend="void">void</link>                <link linkend="schro-fft-fwd-f32">schro_fft_fwd_f32</link>                   (<link linkend="float">float</link> *d_real,
+                                                         <link linkend="float">float</link> *d_imag,
+                                                         const <link linkend="float">float</link> *s_real,
+                                                         const <link linkend="float">float</link> *s_imag,
+                                                         const <link linkend="float">float</link> *costable,
+                                                         const <link linkend="float">float</link> *sintable,
+                                                         <link linkend="int">int</link> shift);
+<link linkend="void">void</link>                <link linkend="schro-fft-generate-tables-f32">schro_fft_generate_tables_f32</link>       (<link linkend="float">float</link> *costable,
+                                                         <link linkend="float">float</link> *sintable,
+                                                         <link linkend="int">int</link> shift);
+<link linkend="void">void</link>                <link linkend="schro-fft-rev-f32">schro_fft_rev_f32</link>                   (<link linkend="float">float</link> *d_real,
+                                                         <link linkend="float">float</link> *d_imag,
+                                                         const <link linkend="float">float</link> *s_real,
+                                                         const <link linkend="float">float</link> *s_imag,
+                                                         const <link linkend="float">float</link> *costable,
+                                                         const <link linkend="float">float</link> *sintable,
+                                                         <link linkend="int">int</link> shift);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrofft.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrofft.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="schro-fft-fwd-f32" role="function">
+<title>schro_fft_fwd_f32 ()</title>
+<indexterm zone="schro-fft-fwd-f32"><primary>schro_fft_fwd_f32</primary></indexterm><programlisting><link linkend="void">void</link>                schro_fft_fwd_f32                   (<link linkend="float">float</link> *d_real,
+                                                         <link linkend="float">float</link> *d_imag,
+                                                         const <link linkend="float">float</link> *s_real,
+                                                         const <link linkend="float">float</link> *s_imag,
+                                                         const <link linkend="float">float</link> *costable,
+                                                         const <link linkend="float">float</link> *sintable,
+                                                         <link linkend="int">int</link> shift);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d_real</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>d_imag</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s_real</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s_imag</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>costable</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sintable</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>shift</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-fft-generate-tables-f32" role="function">
+<title>schro_fft_generate_tables_f32 ()</title>
+<indexterm zone="schro-fft-generate-tables-f32"><primary>schro_fft_generate_tables_f32</primary></indexterm><programlisting><link linkend="void">void</link>                schro_fft_generate_tables_f32       (<link linkend="float">float</link> *costable,
+                                                         <link linkend="float">float</link> *sintable,
+                                                         <link linkend="int">int</link> shift);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>costable</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sintable</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>shift</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-fft-rev-f32" role="function">
+<title>schro_fft_rev_f32 ()</title>
+<indexterm zone="schro-fft-rev-f32"><primary>schro_fft_rev_f32</primary></indexterm><programlisting><link linkend="void">void</link>                schro_fft_rev_f32                   (<link linkend="float">float</link> *d_real,
+                                                         <link linkend="float">float</link> *d_imag,
+                                                         const <link linkend="float">float</link> *s_real,
+                                                         const <link linkend="float">float</link> *s_imag,
+                                                         const <link linkend="float">float</link> *costable,
+                                                         const <link linkend="float">float</link> *sintable,
+                                                         <link linkend="int">int</link> shift);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d_real</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>d_imag</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s_real</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s_imag</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>costable</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sintable</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>shift</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

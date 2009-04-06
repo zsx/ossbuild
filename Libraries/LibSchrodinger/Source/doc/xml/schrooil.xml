@@ -1,0 +1,527 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrooil">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrooil.top_of_page">schrooil</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrooil</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrooil.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+<link linkend="void">void</link>                <link linkend="oil-splat-s16-ns">oil_splat_s16_ns</link>                    (<link linkend="int16-t">int16_t</link> *dest,
+                                                         const <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-sum-s32-s16">oil_sum_s32_s16</link>                     (<link linkend="int32-t">int32_t</link> *d_1,
+                                                         <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-sum-s32-u8">oil_sum_s32_u8</link>                      (<link linkend="int32-t">int32_t</link> *d_1,
+                                                         <link linkend="uint8-t">uint8_t</link> *src,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-sum-square-diff-u8">oil_sum_square_diff_u8</link>              (<link linkend="int32-t">int32_t</link> *d_1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s2,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-convert-f64-s16">oil_convert_f64_s16</link>                 (<link linkend="double">double</link> *dest,
+                                                         <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-convert-f64-u8">oil_convert_f64_u8</link>                  (<link linkend="double">double</link> *dest,
+                                                         <link linkend="uint8-t">uint8_t</link> *src,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-iir3-across-s16-f64">oil_iir3_across_s16_f64</link>             (<link linkend="int16-t">int16_t</link> *d,
+                                                         <link linkend="int16-t">int16_t</link> *s,
+                                                         <link linkend="double">double</link> *i1,
+                                                         <link linkend="double">double</link> *i2,
+                                                         <link linkend="double">double</link> *i3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-iir3-across-u8-f64">oil_iir3_across_u8_f64</link>              (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s,
+                                                         <link linkend="double">double</link> *i1,
+                                                         <link linkend="double">double</link> *i2,
+                                                         <link linkend="double">double</link> *i3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-iir3-rev-s16-f64">oil_iir3_rev_s16_f64</link>                (<link linkend="int16-t">int16_t</link> *d,
+                                                         <link linkend="int16-t">int16_t</link> *s,
+                                                         <link linkend="double">double</link> *i_3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-iir3-rev-u8-f64">oil_iir3_rev_u8_f64</link>                 (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s,
+                                                         <link linkend="double">double</link> *i_3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-iir3-s16-f64">oil_iir3_s16_f64</link>                    (<link linkend="int16-t">int16_t</link> *d,
+                                                         <link linkend="int16-t">int16_t</link> *s,
+                                                         <link linkend="double">double</link> *i_3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-iir3-u8-f64">oil_iir3_u8_f64</link>                     (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s,
+                                                         <link linkend="double">double</link> *i_3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="oil-mas10-s16">oil_mas10_s16</link>                       (<link linkend="int16-t">int16_t</link> *d,
+                                                         const <link linkend="int16-t">int16_t</link> *s1_np3,
+                                                         const <link linkend="int32-t">int32_t</link> *s2_4,
+                                                         const <link linkend="int32-t">int32_t</link> *s3_2,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-cog-mas10-u8-edgeextend">schro_cog_mas10_u8_edgeextend</link>       (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         const <link linkend="uint8-t">uint8_t</link> *s,
+                                                         const <link linkend="int16-t">int16_t</link> *taps,
+                                                         <link linkend="int">int</link> offset,
+                                                         <link linkend="int">int</link> shift,
+                                                         <link linkend="int">int</link> index_offset,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-cog-mas8-u8-edgeextend">schro_cog_mas8_u8_edgeextend</link>        (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         const <link linkend="uint8-t">uint8_t</link> *s,
+                                                         const <link linkend="int16-t">int16_t</link> *taps,
+                                                         <link linkend="int">int</link> offset,
+                                                         <link linkend="int">int</link> shift,
+                                                         <link linkend="int">int</link> index_offset,
+                                                         <link linkend="int">int</link> n);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrooil.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrooil.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="oil-splat-s16-ns" role="function">
+<title>oil_splat_s16_ns ()</title>
+<indexterm zone="oil-splat-s16-ns"><primary>oil_splat_s16_ns</primary></indexterm><programlisting><link linkend="void">void</link>                oil_splat_s16_ns                    (<link linkend="int16-t">int16_t</link> *dest,
+                                                         const <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-sum-s32-s16" role="function">
+<title>oil_sum_s32_s16 ()</title>
+<indexterm zone="oil-sum-s32-s16"><primary>oil_sum_s32_s16</primary></indexterm><programlisting><link linkend="void">void</link>                oil_sum_s32_s16                     (<link linkend="int32-t">int32_t</link> *d_1,
+                                                         <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d_1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-sum-s32-u8" role="function">
+<title>oil_sum_s32_u8 ()</title>
+<indexterm zone="oil-sum-s32-u8"><primary>oil_sum_s32_u8</primary></indexterm><programlisting><link linkend="void">void</link>                oil_sum_s32_u8                      (<link linkend="int32-t">int32_t</link> *d_1,
+                                                         <link linkend="uint8-t">uint8_t</link> *src,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d_1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-sum-square-diff-u8" role="function">
+<title>oil_sum_square_diff_u8 ()</title>
+<indexterm zone="oil-sum-square-diff-u8"><primary>oil_sum_square_diff_u8</primary></indexterm><programlisting><link linkend="void">void</link>                oil_sum_square_diff_u8              (<link linkend="int32-t">int32_t</link> *d_1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s2,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d_1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-convert-f64-s16" role="function">
+<title>oil_convert_f64_s16 ()</title>
+<indexterm zone="oil-convert-f64-s16"><primary>oil_convert_f64_s16</primary></indexterm><programlisting><link linkend="void">void</link>                oil_convert_f64_s16                 (<link linkend="double">double</link> *dest,
+                                                         <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-convert-f64-u8" role="function">
+<title>oil_convert_f64_u8 ()</title>
+<indexterm zone="oil-convert-f64-u8"><primary>oil_convert_f64_u8</primary></indexterm><programlisting><link linkend="void">void</link>                oil_convert_f64_u8                  (<link linkend="double">double</link> *dest,
+                                                         <link linkend="uint8-t">uint8_t</link> *src,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-iir3-across-s16-f64" role="function">
+<title>oil_iir3_across_s16_f64 ()</title>
+<indexterm zone="oil-iir3-across-s16-f64"><primary>oil_iir3_across_s16_f64</primary></indexterm><programlisting><link linkend="void">void</link>                oil_iir3_across_s16_f64             (<link linkend="int16-t">int16_t</link> *d,
+                                                         <link linkend="int16-t">int16_t</link> *s,
+                                                         <link linkend="double">double</link> *i1,
+                                                         <link linkend="double">double</link> *i2,
+                                                         <link linkend="double">double</link> *i3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2_4</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-iir3-across-u8-f64" role="function">
+<title>oil_iir3_across_u8_f64 ()</title>
+<indexterm zone="oil-iir3-across-u8-f64"><primary>oil_iir3_across_u8_f64</primary></indexterm><programlisting><link linkend="void">void</link>                oil_iir3_across_u8_f64              (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s,
+                                                         <link linkend="double">double</link> *i1,
+                                                         <link linkend="double">double</link> *i2,
+                                                         <link linkend="double">double</link> *i3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2_4</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-iir3-rev-s16-f64" role="function">
+<title>oil_iir3_rev_s16_f64 ()</title>
+<indexterm zone="oil-iir3-rev-s16-f64"><primary>oil_iir3_rev_s16_f64</primary></indexterm><programlisting><link linkend="void">void</link>                oil_iir3_rev_s16_f64                (<link linkend="int16-t">int16_t</link> *d,
+                                                         <link linkend="int16-t">int16_t</link> *s,
+                                                         <link linkend="double">double</link> *i_3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i_3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2_4</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-iir3-rev-u8-f64" role="function">
+<title>oil_iir3_rev_u8_f64 ()</title>
+<indexterm zone="oil-iir3-rev-u8-f64"><primary>oil_iir3_rev_u8_f64</primary></indexterm><programlisting><link linkend="void">void</link>                oil_iir3_rev_u8_f64                 (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s,
+                                                         <link linkend="double">double</link> *i_3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i_3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2_4</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-iir3-s16-f64" role="function">
+<title>oil_iir3_s16_f64 ()</title>
+<indexterm zone="oil-iir3-s16-f64"><primary>oil_iir3_s16_f64</primary></indexterm><programlisting><link linkend="void">void</link>                oil_iir3_s16_f64                    (<link linkend="int16-t">int16_t</link> *d,
+                                                         <link linkend="int16-t">int16_t</link> *s,
+                                                         <link linkend="double">double</link> *i_3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i_3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2_4</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-iir3-u8-f64" role="function">
+<title>oil_iir3_u8_f64 ()</title>
+<indexterm zone="oil-iir3-u8-f64"><primary>oil_iir3_u8_f64</primary></indexterm><programlisting><link linkend="void">void</link>                oil_iir3_u8_f64                     (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s,
+                                                         <link linkend="double">double</link> *i_3,
+                                                         <link linkend="double">double</link> *s2_4,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>i_3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2_4</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="oil-mas10-s16" role="function">
+<title>oil_mas10_s16 ()</title>
+<indexterm zone="oil-mas10-s16"><primary>oil_mas10_s16</primary></indexterm><programlisting><link linkend="void">void</link>                oil_mas10_s16                       (<link linkend="int16-t">int16_t</link> *d,
+                                                         const <link linkend="int16-t">int16_t</link> *s1_np3,
+                                                         const <link linkend="int32-t">int32_t</link> *s2_4,
+                                                         const <link linkend="int32-t">int32_t</link> *s3_2,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s1_np3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2_4</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s3_2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-cog-mas10-u8-edgeextend" role="function">
+<title>schro_cog_mas10_u8_edgeextend ()</title>
+<indexterm zone="schro-cog-mas10-u8-edgeextend"><primary>schro_cog_mas10_u8_edgeextend</primary></indexterm><programlisting><link linkend="void">void</link>                schro_cog_mas10_u8_edgeextend       (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         const <link linkend="uint8-t">uint8_t</link> *s,
+                                                         const <link linkend="int16-t">int16_t</link> *taps,
+                                                         <link linkend="int">int</link> offset,
+                                                         <link linkend="int">int</link> shift,
+                                                         <link linkend="int">int</link> index_offset,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>taps</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>shift</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>index_offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-cog-mas8-u8-edgeextend" role="function">
+<title>schro_cog_mas8_u8_edgeextend ()</title>
+<indexterm zone="schro-cog-mas8-u8-edgeextend"><primary>schro_cog_mas8_u8_edgeextend</primary></indexterm><programlisting><link linkend="void">void</link>                schro_cog_mas8_u8_edgeextend        (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         const <link linkend="uint8-t">uint8_t</link> *s,
+                                                         const <link linkend="int16-t">int16_t</link> *taps,
+                                                         <link linkend="int">int</link> offset,
+                                                         <link linkend="int">int</link> shift,
+                                                         <link linkend="int">int</link> index_offset,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>taps</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>shift</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>index_offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

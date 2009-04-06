@@ -1,0 +1,293 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrofilter">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrofilter.top_of_page">schrofilter</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrofilter</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrofilter.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-adaptive-lowpass">schro_frame_filter_adaptive_lowpass</link> (<link linkend="SchroFrame">SchroFrame</link> *frame);
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-addnoise">schro_frame_filter_addnoise</link>         (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="double">double</link> sigma);
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-cwm7">schro_frame_filter_cwm7</link>             (<link linkend="SchroFrame">SchroFrame</link> *frame);
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-cwmN">schro_frame_filter_cwmN</link>             (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="int">int</link> weight);
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-cwmN-ref">schro_frame_filter_cwmN_ref</link>         (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="int">int</link> weight);
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-lowpass">schro_frame_filter_lowpass</link>          (<link linkend="SchroFrame">SchroFrame</link> *frame);
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-lowpass2">schro_frame_filter_lowpass2</link>         (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="double">double</link> sigma);
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-lowpass-16">schro_frame_filter_lowpass_16</link>       (<link linkend="SchroFrame">SchroFrame</link> *frame);
+<link linkend="void">void</link>                <link linkend="schro-frame-filter-wavelet">schro_frame_filter_wavelet</link>          (<link linkend="SchroFrame">SchroFrame</link> *frame);
+<link linkend="void">void</link>                <link linkend="schro-filter-cwm7">schro_filter_cwm7</link>                   (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s2,
+                                                         <link linkend="uint8-t">uint8_t</link> *s3,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-filter-cwmN">schro_filter_cwmN</link>                   (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s2,
+                                                         <link linkend="uint8-t">uint8_t</link> *s3,
+                                                         <link linkend="int">int</link> n,
+                                                         <link linkend="int">int</link> weight);
+<link linkend="void">void</link>                <link linkend="schro-filter-cwmN-ref">schro_filter_cwmN_ref</link>               (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s2,
+                                                         <link linkend="uint8-t">uint8_t</link> *s3,
+                                                         <link linkend="int">int</link> n,
+                                                         <link linkend="int">int</link> weight);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrofilter.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrofilter.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="schro-frame-filter-adaptive-lowpass" role="function">
+<title>schro_frame_filter_adaptive_lowpass ()</title>
+<indexterm zone="schro-frame-filter-adaptive-lowpass"><primary>schro_frame_filter_adaptive_lowpass</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_adaptive_lowpass (<link linkend="SchroFrame">SchroFrame</link> *frame);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-filter-addnoise" role="function">
+<title>schro_frame_filter_addnoise ()</title>
+<indexterm zone="schro-frame-filter-addnoise"><primary>schro_frame_filter_addnoise</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_addnoise         (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="double">double</link> sigma);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sigma</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-filter-cwm7" role="function">
+<title>schro_frame_filter_cwm7 ()</title>
+<indexterm zone="schro-frame-filter-cwm7"><primary>schro_frame_filter_cwm7</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_cwm7             (<link linkend="SchroFrame">SchroFrame</link> *frame);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-filter-cwmN" role="function">
+<title>schro_frame_filter_cwmN ()</title>
+<indexterm zone="schro-frame-filter-cwmN"><primary>schro_frame_filter_cwmN</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_cwmN             (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="int">int</link> weight);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>weight</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-filter-cwmN-ref" role="function">
+<title>schro_frame_filter_cwmN_ref ()</title>
+<indexterm zone="schro-frame-filter-cwmN-ref"><primary>schro_frame_filter_cwmN_ref</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_cwmN_ref         (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="int">int</link> weight);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>weight</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-filter-lowpass" role="function">
+<title>schro_frame_filter_lowpass ()</title>
+<indexterm zone="schro-frame-filter-lowpass"><primary>schro_frame_filter_lowpass</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_lowpass          (<link linkend="SchroFrame">SchroFrame</link> *frame);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-filter-lowpass2" role="function">
+<title>schro_frame_filter_lowpass2 ()</title>
+<indexterm zone="schro-frame-filter-lowpass2"><primary>schro_frame_filter_lowpass2</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_lowpass2         (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="double">double</link> sigma);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sigma</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-filter-lowpass-16" role="function">
+<title>schro_frame_filter_lowpass_16 ()</title>
+<indexterm zone="schro-frame-filter-lowpass-16"><primary>schro_frame_filter_lowpass_16</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_lowpass_16       (<link linkend="SchroFrame">SchroFrame</link> *frame);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-filter-wavelet" role="function">
+<title>schro_frame_filter_wavelet ()</title>
+<indexterm zone="schro-frame-filter-wavelet"><primary>schro_frame_filter_wavelet</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_filter_wavelet          (<link linkend="SchroFrame">SchroFrame</link> *frame);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-filter-cwm7" role="function">
+<title>schro_filter_cwm7 ()</title>
+<indexterm zone="schro-filter-cwm7"><primary>schro_filter_cwm7</primary></indexterm><programlisting><link linkend="void">void</link>                schro_filter_cwm7                   (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s2,
+                                                         <link linkend="uint8-t">uint8_t</link> *s3,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-filter-cwmN" role="function">
+<title>schro_filter_cwmN ()</title>
+<indexterm zone="schro-filter-cwmN"><primary>schro_filter_cwmN</primary></indexterm><programlisting><link linkend="void">void</link>                schro_filter_cwmN                   (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s2,
+                                                         <link linkend="uint8-t">uint8_t</link> *s3,
+                                                         <link linkend="int">int</link> n,
+                                                         <link linkend="int">int</link> weight);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>weight</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-filter-cwmN-ref" role="function">
+<title>schro_filter_cwmN_ref ()</title>
+<indexterm zone="schro-filter-cwmN-ref"><primary>schro_filter_cwmN_ref</primary></indexterm><programlisting><link linkend="void">void</link>                schro_filter_cwmN_ref               (<link linkend="uint8-t">uint8_t</link> *d,
+                                                         <link linkend="uint8-t">uint8_t</link> *s1,
+                                                         <link linkend="uint8-t">uint8_t</link> *s2,
+                                                         <link linkend="uint8-t">uint8_t</link> *s3,
+                                                         <link linkend="int">int</link> n,
+                                                         <link linkend="int">int</link> weight);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>s3</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>weight</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

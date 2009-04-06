@@ -1,0 +1,427 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrometric">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrometric.top_of_page">schrometric</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrometric</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrometric.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="SchroMetricScan">SchroMetricScan</link>;
+#define             <link linkend="SCHRO-METRIC-INVALID:CAPS">SCHRO_METRIC_INVALID</link>
+<link linkend="int">int</link>                 <link linkend="schro-metric-absdiff-u8">schro_metric_absdiff_u8</link>             (<link linkend="uint8-t">uint8_t</link> *a,
+                                                         <link linkend="int">int</link> a_stride,
+                                                         <link linkend="uint8-t">uint8_t</link> *b,
+                                                         <link linkend="int">int</link> b_stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="int">int</link>                 <link linkend="schro-metric-haar">schro_metric_haar</link>                   (<link linkend="uint8-t">uint8_t</link> *src1,
+                                                         <link linkend="int">int</link> stride1,
+                                                         <link linkend="uint8-t">uint8_t</link> *src2,
+                                                         <link linkend="int">int</link> stride2,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="int">int</link>                 <link linkend="schro-metric-haar-const">schro_metric_haar_const</link>             (<link linkend="uint8-t">uint8_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> dc_value,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="int">int</link>                 <link linkend="schro-metric-abssum-s16">schro_metric_abssum_s16</link>             (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="int">int</link>                 <link linkend="schro-metric-sum-u8">schro_metric_sum_u8</link>                 (<link linkend="uint8-t">uint8_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="int">int</link>                 <link linkend="schro-metric-get">schro_metric_get</link>                    (<link linkend="SchroFrameData">SchroFrameData</link> *src1,
+                                                         <link linkend="SchroFrameData">SchroFrameData</link> *src2,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="int">int</link>                 <link linkend="schro-metric-get-biref">schro_metric_get_biref</link>              (<link linkend="SchroFrameData">SchroFrameData</link> *fd,
+                                                         <link linkend="SchroFrameData">SchroFrameData</link> *src1,
+                                                         <link linkend="int">int</link> weight1,
+                                                         <link linkend="SchroFrameData">SchroFrameData</link> *src2,
+                                                         <link linkend="int">int</link> weight2,
+                                                         <link linkend="int">int</link> shift,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="int">int</link>                 <link linkend="schro-metric-get-dc">schro_metric_get_dc</link>                 (<link linkend="SchroFrameData">SchroFrameData</link> *src,
+                                                         <link linkend="int">int</link> value,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);
+<link linkend="void">void</link>                <link linkend="schro-metric-scan-do-scan">schro_metric_scan_do_scan</link>           (<link linkend="SchroMetricScan">SchroMetricScan</link> *scan);
+<link linkend="int">int</link>                 <link linkend="schro-metric-scan-get-min">schro_metric_scan_get_min</link>           (<link linkend="SchroMetricScan">SchroMetricScan</link> *scan,
+                                                         <link linkend="int">int</link> *dx,
+                                                         <link linkend="int">int</link> *dy);
+<link linkend="void">void</link>                <link linkend="schro-metric-scan-setup">schro_metric_scan_setup</link>             (<link linkend="SchroMetricScan">SchroMetricScan</link> *scan,
+                                                         <link linkend="int">int</link> dx,
+                                                         <link linkend="int">int</link> dy,
+                                                         <link linkend="int">int</link> dist);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrometric.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrometric.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SchroMetricScan" role="struct">
+<title>SchroMetricScan</title>
+<indexterm zone="SchroMetricScan"><primary>SchroMetricScan</primary></indexterm><programlisting>typedef struct {
+  SchroFrame *frame;
+  SchroFrame *ref_frame;
+  int block_width;
+  int block_height;
+  int x, y;
+  int ref_x, ref_y;
+  int scan_width;
+  int scan_height;
+  int gravity_scale;
+  int gravity_x, gravity_y;
+  /* output */
+  uint32_t metrics[SCHRO_LIMIT_METRIC_SCAN*SCHRO_LIMIT_METRIC_SCAN];
+} SchroMetricScan;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-METRIC-INVALID:CAPS" role="macro">
+<title>SCHRO_METRIC_INVALID</title>
+<indexterm zone="SCHRO-METRIC-INVALID:CAPS"><primary>SCHRO_METRIC_INVALID</primary></indexterm><programlisting>#define SCHRO_METRIC_INVALID 0x7fff
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="schro-metric-absdiff-u8" role="function">
+<title>schro_metric_absdiff_u8 ()</title>
+<indexterm zone="schro-metric-absdiff-u8"><primary>schro_metric_absdiff_u8</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_absdiff_u8             (<link linkend="uint8-t">uint8_t</link> *a,
+                                                         <link linkend="int">int</link> a_stride,
+                                                         <link linkend="uint8-t">uint8_t</link> *b,
+                                                         <link linkend="int">int</link> b_stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>a_stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b_stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-haar" role="function">
+<title>schro_metric_haar ()</title>
+<indexterm zone="schro-metric-haar"><primary>schro_metric_haar</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_haar                   (<link linkend="uint8-t">uint8_t</link> *src1,
+                                                         <link linkend="int">int</link> stride1,
+                                                         <link linkend="uint8-t">uint8_t</link> *src2,
+                                                         <link linkend="int">int</link> stride2,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>src1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-haar-const" role="function">
+<title>schro_metric_haar_const ()</title>
+<indexterm zone="schro-metric-haar-const"><primary>schro_metric_haar_const</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_haar_const             (<link linkend="uint8-t">uint8_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> dc_value,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dc_value</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-abssum-s16" role="function">
+<title>schro_metric_abssum_s16 ()</title>
+<indexterm zone="schro-metric-abssum-s16"><primary>schro_metric_abssum_s16</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_abssum_s16             (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-sum-u8" role="function">
+<title>schro_metric_sum_u8 ()</title>
+<indexterm zone="schro-metric-sum-u8"><primary>schro_metric_sum_u8</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_sum_u8                 (<link linkend="uint8-t">uint8_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-get" role="function">
+<title>schro_metric_get ()</title>
+<indexterm zone="schro-metric-get"><primary>schro_metric_get</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_get                    (<link linkend="SchroFrameData">SchroFrameData</link> *src1,
+                                                         <link linkend="SchroFrameData">SchroFrameData</link> *src2,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>src1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-get-biref" role="function">
+<title>schro_metric_get_biref ()</title>
+<indexterm zone="schro-metric-get-biref"><primary>schro_metric_get_biref</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_get_biref              (<link linkend="SchroFrameData">SchroFrameData</link> *fd,
+                                                         <link linkend="SchroFrameData">SchroFrameData</link> *src1,
+                                                         <link linkend="int">int</link> weight1,
+                                                         <link linkend="SchroFrameData">SchroFrameData</link> *src2,
+                                                         <link linkend="int">int</link> weight2,
+                                                         <link linkend="int">int</link> shift,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fd</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>weight1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>weight2</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>shift</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-get-dc" role="function">
+<title>schro_metric_get_dc ()</title>
+<indexterm zone="schro-metric-get-dc"><primary>schro_metric_get_dc</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_get_dc                 (<link linkend="SchroFrameData">SchroFrameData</link> *src,
+                                                         <link linkend="int">int</link> value,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-scan-do-scan" role="function">
+<title>schro_metric_scan_do_scan ()</title>
+<indexterm zone="schro-metric-scan-do-scan"><primary>schro_metric_scan_do_scan</primary></indexterm><programlisting><link linkend="void">void</link>                schro_metric_scan_do_scan           (<link linkend="SchroMetricScan">SchroMetricScan</link> *scan);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>scan</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-scan-get-min" role="function">
+<title>schro_metric_scan_get_min ()</title>
+<indexterm zone="schro-metric-scan-get-min"><primary>schro_metric_scan_get_min</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_metric_scan_get_min           (<link linkend="SchroMetricScan">SchroMetricScan</link> *scan,
+                                                         <link linkend="int">int</link> *dx,
+                                                         <link linkend="int">int</link> *dy);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>scan</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dy</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-metric-scan-setup" role="function">
+<title>schro_metric_scan_setup ()</title>
+<indexterm zone="schro-metric-scan-setup"><primary>schro_metric_scan_setup</primary></indexterm><programlisting><link linkend="void">void</link>                schro_metric_scan_setup             (<link linkend="SchroMetricScan">SchroMetricScan</link> *scan,
+                                                         <link linkend="int">int</link> dx,
+                                                         <link linkend="int">int</link> dy,
+                                                         <link linkend="int">int</link> dist);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>scan</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dx</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dy</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dist</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

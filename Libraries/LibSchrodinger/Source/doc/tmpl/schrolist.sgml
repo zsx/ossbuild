@@ -1,0 +1,142 @@
+<!-- ##### SECTION Title ##### -->
+schrolist
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SchroList ##### -->
+<para>
+
+</para>
+
+@members: 
+@n: 
+@n_alloc: 
+@free: 
+@priv: 
+
+<!-- ##### USER_FUNCTION SchroListFreeFunc ##### -->
+<para>
+
+</para>
+
+@member: 
+@priv: 
+
+
+<!-- ##### FUNCTION schro_list_append ##### -->
+<para>
+
+</para>
+
+@list: 
+@value: 
+
+
+<!-- ##### FUNCTION schro_list_delete ##### -->
+<para>
+
+</para>
+
+@list: 
+@i: 
+
+
+<!-- ##### FUNCTION schro_list_free ##### -->
+<para>
+
+</para>
+
+@list: 
+
+
+<!-- ##### FUNCTION schro_list_get ##### -->
+<para>
+
+</para>
+
+@list: 
+@i: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_list_get_size ##### -->
+<para>
+
+</para>
+
+@list: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_list_insert ##### -->
+<para>
+
+</para>
+
+@list: 
+@i: 
+@value: 
+
+
+<!-- ##### FUNCTION schro_list_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_list_new_full ##### -->
+<para>
+
+</para>
+
+@freefunc: 
+@priv: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_list_prepend ##### -->
+<para>
+
+</para>
+
+@list: 
+@value: 
+
+
+<!-- ##### FUNCTION schro_list_remove ##### -->
+<para>
+
+</para>
+
+@list: 
+@i: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_list_replace ##### -->
+<para>
+
+</para>
+
+@list: 
+@i: 
+@value: 
+@Returns: 
+
+

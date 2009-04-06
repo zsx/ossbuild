@@ -1,0 +1,55 @@
+
+1.0.6
+=====
+
+ - Requires liboil-0.3.16
+ - New configure flag '--disable-encoder' useful for embedded
+   systems that don't require the encoder.
+ - New constant-quality encoding mode, enabled by setting the encoder
+   setting 'rate-control' to 6, and adjusting 'quality' from 0 to 10.
+   (Interesting range is 3-7).
+ - Various encoder improvements
+ - Speed improvements in decoder
+ - API additions for parsing streams in the decoder
+ - API improvements handling interlaced video
+ - Rewrite of the GStreamer elements, including new base classes
+   for video encoding and decoding
+ - Moved extra GStreamer elements to Cog
+ - Experimental code that uses Orc instead of liboil (--enable-orc)
+
+1.0.5-1.0.2
+===========
+
+ - ...
+
+1.0.1
+=====
+
+ - Add API reference documentation for SchroDecoder.
+ - Restructure API reference documentation, although coverage is very
+   low.
+ - Default GOP structure now uses 3 reference frames.  This gives a
+   very slight improvement in quality.
+ - Fix encode/decode mismatch for low-delay syntax.
+ - Fix brokenness in CBR intra-only encoding
+ - Additional testing and code cleanups
+ - Eliminate artificial width limitation in encoder and decoder.
+ - Fix encoding/decoding of video offset and excursion.
+ - Fix granulepos calculation in GStreamer encoder element
+ - Set DELTA_UNIT correctly in GStreamer encoder element
+ - Update code path used when pthread is disabled.
+
+1.0.0
+=====
+
+ - Major release
+
+0.2.1
+=====
+
+ - Encoder and decoder nearly complete.  The bitstream is nearly
+   compatible with Dirac, except in a few cases for predicted frames.
+   Note that the Dirac bitstream isn't frozen, so that's kind of
+   irrelevant.
+ - Requires liboil-0.3.10.
+

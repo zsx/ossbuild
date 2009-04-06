@@ -1,0 +1,136 @@
+<!-- ##### SECTION Title ##### -->
+schrogpuframe
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION schro_gpuframe_to_cpu ##### -->
+<para>
+
+</para>
+
+@dest: 
+@src: 
+
+
+<!-- ##### FUNCTION schro_frame_to_gpu ##### -->
+<para>
+
+</para>
+
+@dest: 
+@src: 
+
+
+<!-- ##### FUNCTION schro_gpuframe_convert ##### -->
+<para>
+
+</para>
+
+@dest: 
+@src: 
+
+
+<!-- ##### FUNCTION schro_gpuframe_add ##### -->
+<para>
+
+</para>
+
+@dest: 
+@src: 
+
+
+<!-- ##### FUNCTION schro_gpuframe_subtract ##### -->
+<para>
+
+</para>
+
+@dest: 
+@src: 
+
+
+<!-- ##### FUNCTION schro_gpuframe_iwt_transform ##### -->
+<para>
+
+</para>
+
+@frame: 
+@params: 
+
+
+<!-- ##### FUNCTION schro_gpuframe_inverse_iwt_transform ##### -->
+<para>
+
+</para>
+
+@frame: 
+@params: 
+
+
+<!-- ##### FUNCTION schro_gpuframe_compare ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+
+
+<!-- ##### FUNCTION schro_gpuframe_upsample ##### -->
+<para>
+
+</para>
+
+@dst: 
+@src: 
+
+
+<!-- ##### FUNCTION schro_upsampled_gpuframe_new ##### -->
+<para>
+
+</para>
+
+@fmt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_upsampled_gpuframe_upsample ##### -->
+<para>
+
+</para>
+
+@rv: 
+@temp_f: 
+@src: 
+@fmt: 
+
+
+<!-- ##### FUNCTION schro_upsampled_gpuframe_free ##### -->
+<para>
+
+</para>
+
+@x: 
+
+
+<!-- ##### FUNCTION schro_gpuframe_zero ##### -->
+<para>
+
+</para>
+
+@dest: 
+
+

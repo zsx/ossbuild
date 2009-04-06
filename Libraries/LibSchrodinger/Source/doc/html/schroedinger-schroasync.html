@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>schroasync</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Schroedinger Reference Manual">
+<link rel="up" href="schrointernal.html" title="Schroedinger Internal API">
+<link rel="prev" href="schrointernal.html" title="Schroedinger Internal API">
+<link rel="next" href="schroedinger-schroarith.html" title="schroarith">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="schropublic.html" title="Schroedinger Public API">
+<link rel="chapter" href="schrointernal.html" title="Schroedinger Internal API">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="schrointernal.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="schrointernal.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Schroedinger Reference Manual</th>
+<td><a accesskey="n" href="schroedinger-schroarith.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#schroedinger-schroasync.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#schroedinger-schroasync.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="schroedinger-schroasync"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="schroedinger-schroasync.top_of_page"></a>schroasync</span></h2>
+<p>schroasync</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="schroedinger-schroasync.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a>;
+                    <a class="link" href="schroedinger-schroasync.html#SchroAsyncTask" title="SchroAsyncTask">SchroAsyncTask</a>;
+void                (<a class="link" href="schroedinger-schroasync.html#SchroAsyncCompleteFunc" title="SchroAsyncCompleteFunc ()">*SchroAsyncCompleteFunc</a>)           (void *);
+int                 (<a class="link" href="schroedinger-schroasync.html#SchroAsyncScheduleFunc" title="SchroAsyncScheduleFunc ()">*SchroAsyncScheduleFunc</a>)           (void *,
+                                                         <a class="link" href="schroedinger-schrodomain.html#SchroExecDomain" title="SchroExecDomain">SchroExecDomain</a> exec_domain);
+                    <a class="link" href="schroedinger-schroasync.html#SchroThread" title="SchroThread">SchroThread</a>;
+<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a>*         <a class="link" href="schroedinger-schroasync.html#schro-async-new" title="schro_async_new ()">schro_async_new</a>                     (int n_threads,
+                                                         <a class="link" href="schroedinger-schroasync.html#SchroAsyncScheduleFunc" title="SchroAsyncScheduleFunc ()">SchroAsyncScheduleFunc</a> schedule,
+                                                         <a class="link" href="schroedinger-schroasync.html#SchroAsyncCompleteFunc" title="SchroAsyncCompleteFunc ()">SchroAsyncCompleteFunc</a> complete,
+                                                         void *closure);
+void                <a class="link" href="schroedinger-schroasync.html#schro-async-free" title="schro_async_free ()">schro_async_free</a>                    (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+int                 <a class="link" href="schroedinger-schroasync.html#schro-async-get-num-completed" title="schro_async_get_num_completed ()">schro_async_get_num_completed</a>       (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+void                <a class="link" href="schroedinger-schroasync.html#schro-async-lock" title="schro_async_lock ()">schro_async_lock</a>                    (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+void                <a class="link" href="schroedinger-schroasync.html#schro-async-unlock" title="schro_async_unlock ()">schro_async_unlock</a>                  (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+void*               <a class="link" href="schroedinger-schroasync.html#schro-async-pull" title="schro_async_pull ()">schro_async_pull</a>                    (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+void*               <a class="link" href="schroedinger-schroasync.html#schro-async-pull-locked" title="schro_async_pull_locked ()">schro_async_pull_locked</a>             (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+void                <a class="link" href="schroedinger-schroasync.html#schro-async-run-locked" title="schro_async_run_locked ()">schro_async_run_locked</a>              (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async,
+                                                         void (funcvoid *) (),
+                                                         void *ptr);
+void                <a class="link" href="schroedinger-schroasync.html#schro-async-signal-scheduler" title="schro_async_signal_scheduler ()">schro_async_signal_scheduler</a>        (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+int                 <a class="link" href="schroedinger-schroasync.html#schro-async-wait-locked" title="schro_async_wait_locked ()">schro_async_wait_locked</a>             (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+void                <a class="link" href="schroedinger-schroasync.html#schro-async-wait-one" title="schro_async_wait_one ()">schro_async_wait_one</a>                (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);
+<a class="link" href="schroedinger-schrodomain.html#SchroExecDomain" title="SchroExecDomain">SchroExecDomain</a>     <a class="link" href="schroedinger-schroasync.html#schro-async-get-exec-domain" title="schro_async_get_exec_domain ()">schro_async_get_exec_domain</a>         (void);
+void                <a class="link" href="schroedinger-schroasync.html#schro-async-wait" title="schro_async_wait ()">schro_async_wait</a>                    (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async,
+                                                         int min_waiting);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schroasync.description"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schroasync.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="SchroAsync"></a><h3>SchroAsync</h3>
+<pre class="programlisting">typedef struct _SchroAsync SchroAsync;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SchroAsyncTask"></a><h3>SchroAsyncTask</h3>
+<pre class="programlisting">typedef struct {
+  SchroAsyncTaskFunc task_func;
+  void *priv;
+} SchroAsyncTask;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SchroAsyncCompleteFunc"></a><h3>SchroAsyncCompleteFunc ()</h3>
+<pre class="programlisting">void                (*SchroAsyncCompleteFunc)           (void *);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>Param1</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SchroAsyncScheduleFunc"></a><h3>SchroAsyncScheduleFunc ()</h3>
+<pre class="programlisting">int                 (*SchroAsyncScheduleFunc)           (void *,
+                                                         <a class="link" href="schroedinger-schrodomain.html#SchroExecDomain" title="SchroExecDomain">SchroExecDomain</a> exec_domain);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>Param1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>exec_domain</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SchroThread"></a><h3>SchroThread</h3>
+<pre class="programlisting">typedef struct _SchroThread SchroThread;</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-new"></a><h3>schro_async_new ()</h3>
+<pre class="programlisting"><a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a>*         schro_async_new                     (int n_threads,
+                                                         <a class="link" href="schroedinger-schroasync.html#SchroAsyncScheduleFunc" title="SchroAsyncScheduleFunc ()">SchroAsyncScheduleFunc</a> schedule,
+                                                         <a class="link" href="schroedinger-schroasync.html#SchroAsyncCompleteFunc" title="SchroAsyncCompleteFunc ()">SchroAsyncCompleteFunc</a> complete,
+                                                         void *closure);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n_threads</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>schedule</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>complete</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>closure</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-free"></a><h3>schro_async_free ()</h3>
+<pre class="programlisting">void                schro_async_free                    (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-get-num-completed"></a><h3>schro_async_get_num_completed ()</h3>
+<pre class="programlisting">int                 schro_async_get_num_completed       (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-lock"></a><h3>schro_async_lock ()</h3>
+<pre class="programlisting">void                schro_async_lock                    (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-unlock"></a><h3>schro_async_unlock ()</h3>
+<pre class="programlisting">void                schro_async_unlock                  (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-pull"></a><h3>schro_async_pull ()</h3>
+<pre class="programlisting">void*               schro_async_pull                    (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-pull-locked"></a><h3>schro_async_pull_locked ()</h3>
+<pre class="programlisting">void*               schro_async_pull_locked             (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-run-locked"></a><h3>schro_async_run_locked ()</h3>
+<pre class="programlisting">void                schro_async_run_locked              (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async,
+                                                         void (funcvoid *) (),
+                                                         void *ptr);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>func</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ptr</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-signal-scheduler"></a><h3>schro_async_signal_scheduler ()</h3>
+<pre class="programlisting">void                schro_async_signal_scheduler        (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-wait-locked"></a><h3>schro_async_wait_locked ()</h3>
+<pre class="programlisting">int                 schro_async_wait_locked             (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-wait-one"></a><h3>schro_async_wait_one ()</h3>
+<pre class="programlisting">void                schro_async_wait_one                (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-get-exec-domain"></a><h3>schro_async_get_exec_domain ()</h3>
+<pre class="programlisting"><a class="link" href="schroedinger-schrodomain.html#SchroExecDomain" title="SchroExecDomain">SchroExecDomain</a>     schro_async_get_exec_domain         (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-async-wait"></a><h3>schro_async_wait ()</h3>
+<pre class="programlisting">void                schro_async_wait                    (<a class="link" href="schroedinger-schroasync.html#SchroAsync" title="SchroAsync">SchroAsync</a> *async,
+                                                         int min_waiting);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>async</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>min_waiting</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

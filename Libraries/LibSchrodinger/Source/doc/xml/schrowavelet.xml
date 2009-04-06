@@ -1,0 +1,909 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrowavelet">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrowavelet.top_of_page">schrowavelet</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrowavelet</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrowavelet.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+#define             <link linkend="SCHRO-N-WAVELETS:CAPS">SCHRO_N_WAVELETS</link>
+<link linkend="void">void</link>                <link linkend="schro-wavelet-transform-2d">schro_wavelet_transform_2d</link>          (<link linkend="SchroFrameData">SchroFrameData</link> *fd,
+                                                         <link linkend="int">int</link> type,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-wavelet-inverse-transform-2d">schro_wavelet_inverse_transform_2d</link>  (<link linkend="SchroFrameData">SchroFrameData</link> *fd,
+                                                         <link linkend="int">int</link> type,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-split-ext-desl93">schro_split_ext_desl93</link>              (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-split-ext-53">schro_split_ext_53</link>                  (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-split-ext-135">schro_split_ext_135</link>                 (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-split-ext-haar">schro_split_ext_haar</link>                (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-split-ext-fidelity">schro_split_ext_fidelity</link>            (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-split-ext-daub97">schro_split_ext_daub97</link>              (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-synth-ext-desl93">schro_synth_ext_desl93</link>              (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-synth-ext-53">schro_synth_ext_53</link>                  (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-synth-ext-135">schro_synth_ext_135</link>                 (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-synth-ext-haar">schro_synth_ext_haar</link>                (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-synth-ext-fidelity">schro_synth_ext_fidelity</link>            (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-synth-ext-daub97">schro_synth_ext_daub97</link>              (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-iwt-desl-9-3">schro_iwt_desl_9_3</link>                  (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iwt-5-3">schro_iwt_5_3</link>                       (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iwt-13-5">schro_iwt_13_5</link>                      (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iwt-haar0">schro_iwt_haar0</link>                     (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iwt-haar1">schro_iwt_haar1</link>                     (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iwt-haar2">schro_iwt_haar2</link>                     (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iwt-fidelity">schro_iwt_fidelity</link>                  (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iwt-daub-9-7">schro_iwt_daub_9_7</link>                  (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iiwt-desl-9-3">schro_iiwt_desl_9_3</link>                 (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iiwt-5-3">schro_iiwt_5_3</link>                      (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iiwt-13-5">schro_iiwt_13_5</link>                     (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iiwt-haar0">schro_iiwt_haar0</link>                    (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iiwt-haar1">schro_iiwt_haar1</link>                    (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iiwt-haar2">schro_iiwt_haar2</link>                    (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iiwt-fidelity">schro_iiwt_fidelity</link>                 (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+<link linkend="void">void</link>                <link linkend="schro-iiwt-daub-9-7">schro_iiwt_daub_9_7</link>                 (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrowavelet.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrowavelet.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SCHRO-N-WAVELETS:CAPS" role="macro">
+<title>SCHRO_N_WAVELETS</title>
+<indexterm zone="SCHRO-N-WAVELETS:CAPS"><primary>SCHRO_N_WAVELETS</primary></indexterm><programlisting>#define SCHRO_N_WAVELETS 7
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="schro-wavelet-transform-2d" role="function">
+<title>schro_wavelet_transform_2d ()</title>
+<indexterm zone="schro-wavelet-transform-2d"><primary>schro_wavelet_transform_2d</primary></indexterm><programlisting><link linkend="void">void</link>                schro_wavelet_transform_2d          (<link linkend="SchroFrameData">SchroFrameData</link> *fd,
+                                                         <link linkend="int">int</link> type,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fd</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-wavelet-inverse-transform-2d" role="function">
+<title>schro_wavelet_inverse_transform_2d ()</title>
+<indexterm zone="schro-wavelet-inverse-transform-2d"><primary>schro_wavelet_inverse_transform_2d</primary></indexterm><programlisting><link linkend="void">void</link>                schro_wavelet_inverse_transform_2d  (<link linkend="SchroFrameData">SchroFrameData</link> *fd,
+                                                         <link linkend="int">int</link> type,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fd</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-split-ext-desl93" role="function">
+<title>schro_split_ext_desl93 ()</title>
+<indexterm zone="schro-split-ext-desl93"><primary>schro_split_ext_desl93</primary></indexterm><programlisting><link linkend="void">void</link>                schro_split_ext_desl93              (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+Performs an in-place Deslauries 9,3 wavelet transformation on
+the arrays <parameter>hi</parameter> and <parameter>lo</parameter> containing the even and odd components
+of the array to be transformed.  This function reads and writes
+to the memory locations immediately adjacent to the array, in
+order to handle edge extension.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara> array of even components / high subband components
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara> array of odd components / low subband components
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara> number of
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-split-ext-53" role="function">
+<title>schro_split_ext_53 ()</title>
+<indexterm zone="schro-split-ext-53"><primary>schro_split_ext_53</primary></indexterm><programlisting><link linkend="void">void</link>                schro_split_ext_53                  (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-split-ext-135" role="function">
+<title>schro_split_ext_135 ()</title>
+<indexterm zone="schro-split-ext-135"><primary>schro_split_ext_135</primary></indexterm><programlisting><link linkend="void">void</link>                schro_split_ext_135                 (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-split-ext-haar" role="function">
+<title>schro_split_ext_haar ()</title>
+<indexterm zone="schro-split-ext-haar"><primary>schro_split_ext_haar</primary></indexterm><programlisting><link linkend="void">void</link>                schro_split_ext_haar                (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-split-ext-fidelity" role="function">
+<title>schro_split_ext_fidelity ()</title>
+<indexterm zone="schro-split-ext-fidelity"><primary>schro_split_ext_fidelity</primary></indexterm><programlisting><link linkend="void">void</link>                schro_split_ext_fidelity            (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-split-ext-daub97" role="function">
+<title>schro_split_ext_daub97 ()</title>
+<indexterm zone="schro-split-ext-daub97"><primary>schro_split_ext_daub97</primary></indexterm><programlisting><link linkend="void">void</link>                schro_split_ext_daub97              (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-synth-ext-desl93" role="function">
+<title>schro_synth_ext_desl93 ()</title>
+<indexterm zone="schro-synth-ext-desl93"><primary>schro_synth_ext_desl93</primary></indexterm><programlisting><link linkend="void">void</link>                schro_synth_ext_desl93              (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-synth-ext-53" role="function">
+<title>schro_synth_ext_53 ()</title>
+<indexterm zone="schro-synth-ext-53"><primary>schro_synth_ext_53</primary></indexterm><programlisting><link linkend="void">void</link>                schro_synth_ext_53                  (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-synth-ext-135" role="function">
+<title>schro_synth_ext_135 ()</title>
+<indexterm zone="schro-synth-ext-135"><primary>schro_synth_ext_135</primary></indexterm><programlisting><link linkend="void">void</link>                schro_synth_ext_135                 (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-synth-ext-haar" role="function">
+<title>schro_synth_ext_haar ()</title>
+<indexterm zone="schro-synth-ext-haar"><primary>schro_synth_ext_haar</primary></indexterm><programlisting><link linkend="void">void</link>                schro_synth_ext_haar                (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-synth-ext-fidelity" role="function">
+<title>schro_synth_ext_fidelity ()</title>
+<indexterm zone="schro-synth-ext-fidelity"><primary>schro_synth_ext_fidelity</primary></indexterm><programlisting><link linkend="void">void</link>                schro_synth_ext_fidelity            (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-synth-ext-daub97" role="function">
+<title>schro_synth_ext_daub97 ()</title>
+<indexterm zone="schro-synth-ext-daub97"><primary>schro_synth_ext_daub97</primary></indexterm><programlisting><link linkend="void">void</link>                schro_synth_ext_daub97              (<link linkend="int16-t">int16_t</link> *hi,
+                                                         <link linkend="int16-t">int16_t</link> *lo,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>hi</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lo</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iwt-desl-9-3" role="function">
+<title>schro_iwt_desl_9_3 ()</title>
+<indexterm zone="schro-iwt-desl-9-3"><primary>schro_iwt_desl_9_3</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iwt_desl_9_3                  (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iwt-5-3" role="function">
+<title>schro_iwt_5_3 ()</title>
+<indexterm zone="schro-iwt-5-3"><primary>schro_iwt_5_3</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iwt_5_3                       (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iwt-13-5" role="function">
+<title>schro_iwt_13_5 ()</title>
+<indexterm zone="schro-iwt-13-5"><primary>schro_iwt_13_5</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iwt_13_5                      (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iwt-haar0" role="function">
+<title>schro_iwt_haar0 ()</title>
+<indexterm zone="schro-iwt-haar0"><primary>schro_iwt_haar0</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iwt_haar0                     (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iwt-haar1" role="function">
+<title>schro_iwt_haar1 ()</title>
+<indexterm zone="schro-iwt-haar1"><primary>schro_iwt_haar1</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iwt_haar1                     (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iwt-haar2" role="function">
+<title>schro_iwt_haar2 ()</title>
+<indexterm zone="schro-iwt-haar2"><primary>schro_iwt_haar2</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iwt_haar2                     (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iwt-fidelity" role="function">
+<title>schro_iwt_fidelity ()</title>
+<indexterm zone="schro-iwt-fidelity"><primary>schro_iwt_fidelity</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iwt_fidelity                  (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iwt-daub-9-7" role="function">
+<title>schro_iwt_daub_9_7 ()</title>
+<indexterm zone="schro-iwt-daub-9-7"><primary>schro_iwt_daub_9_7</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iwt_daub_9_7                  (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iiwt-desl-9-3" role="function">
+<title>schro_iiwt_desl_9_3 ()</title>
+<indexterm zone="schro-iiwt-desl-9-3"><primary>schro_iiwt_desl_9_3</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iiwt_desl_9_3                 (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iiwt-5-3" role="function">
+<title>schro_iiwt_5_3 ()</title>
+<indexterm zone="schro-iiwt-5-3"><primary>schro_iiwt_5_3</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iiwt_5_3                      (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iiwt-13-5" role="function">
+<title>schro_iiwt_13_5 ()</title>
+<indexterm zone="schro-iiwt-13-5"><primary>schro_iiwt_13_5</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iiwt_13_5                     (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iiwt-haar0" role="function">
+<title>schro_iiwt_haar0 ()</title>
+<indexterm zone="schro-iiwt-haar0"><primary>schro_iiwt_haar0</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iiwt_haar0                    (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iiwt-haar1" role="function">
+<title>schro_iiwt_haar1 ()</title>
+<indexterm zone="schro-iiwt-haar1"><primary>schro_iiwt_haar1</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iiwt_haar1                    (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iiwt-haar2" role="function">
+<title>schro_iiwt_haar2 ()</title>
+<indexterm zone="schro-iiwt-haar2"><primary>schro_iiwt_haar2</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iiwt_haar2                    (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iiwt-fidelity" role="function">
+<title>schro_iiwt_fidelity ()</title>
+<indexterm zone="schro-iiwt-fidelity"><primary>schro_iiwt_fidelity</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iiwt_fidelity                 (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-iiwt-daub-9-7" role="function">
+<title>schro_iiwt_daub_9_7 ()</title>
+<indexterm zone="schro-iiwt-daub-9-7"><primary>schro_iiwt_daub_9_7</primary></indexterm><programlisting><link linkend="void">void</link>                schro_iiwt_daub_9_7                 (<link linkend="int16-t">int16_t</link> *data,
+                                                         <link linkend="int">int</link> stride,
+                                                         <link linkend="int">int</link> width,
+                                                         <link linkend="int">int</link> height,
+                                                         <link linkend="int16-t">int16_t</link> *tmp);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stride</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tmp</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

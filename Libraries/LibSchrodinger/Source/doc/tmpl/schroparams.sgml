@@ -1,0 +1,212 @@
+<!-- ##### SECTION Title ##### -->
+schroparams
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SchroVideoFormat ##### -->
+<para>
+
+</para>
+
+@index: 
+@width: 
+@height: 
+@chroma_format: 
+@interlaced: 
+@top_field_first: 
+@frame_rate_numerator: 
+@frame_rate_denominator: 
+@aspect_ratio_numerator: 
+@aspect_ratio_denominator: 
+@clean_width: 
+@clean_height: 
+@left_offset: 
+@top_offset: 
+@luma_offset: 
+@luma_excursion: 
+@chroma_offset: 
+@chroma_excursion: 
+@colour_primaries: 
+@colour_matrix: 
+@transfer_function: 
+@interlaced_coding: 
+@unused0: 
+@unused1: 
+@unused2: 
+
+<!-- ##### STRUCT SchroParams ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT SchroMotionVector ##### -->
+<para>
+
+</para>
+
+@pred_mode: 
+@using_global: 
+@split: 
+@unused: 
+@scan: 
+@metric: 
+@dx: 
+@dy: 
+
+<!-- ##### STRUCT SchroMotionField ##### -->
+<para>
+
+</para>
+
+@x_num_blocks: 
+@y_num_blocks: 
+@motion_vectors: 
+
+<!-- ##### STRUCT SchroMotionVectorDC ##### -->
+<para>
+
+</para>
+
+@pred_mode: 
+@using_global: 
+@split: 
+@unused: 
+@scan: 
+@metric: 
+@dc: 
+@_padding1: 
+
+<!-- ##### STRUCT SchroGlobalMotion ##### -->
+<para>
+
+</para>
+
+@b0: 
+@b1: 
+@a_exp: 
+@a00: 
+@a01: 
+@a10: 
+@a11: 
+@c_exp: 
+@c0: 
+@c1: 
+
+<!-- ##### TYPEDEF SchroPictureNumber ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION schro_params_calculate_iwt_sizes ##### -->
+<para>
+
+</para>
+
+@params: 
+
+
+<!-- ##### FUNCTION schro_params_calculate_mc_sizes ##### -->
+<para>
+
+</para>
+
+@params: 
+
+
+<!-- ##### FUNCTION schro_params_set_block_params ##### -->
+<para>
+
+</para>
+
+@params: 
+@index: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_params_set_default_codeblock ##### -->
+<para>
+
+</para>
+
+@params: 
+
+
+<!-- ##### FUNCTION schro_params_get_block_params ##### -->
+<para>
+
+</para>
+
+@params: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_params_get_frame_format ##### -->
+<para>
+
+</para>
+
+@depth: 
+@chroma_format: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_params_init ##### -->
+<para>
+
+</para>
+
+@params: 
+@video_format: 
+
+
+<!-- ##### FUNCTION schro_params_is_default_codeblock ##### -->
+<para>
+
+</para>
+
+@params: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_params_is_default_quant_matrix ##### -->
+<para>
+
+</para>
+
+@params: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_params_set_default_quant_matrix ##### -->
+<para>
+
+</para>
+
+@params: 
+
+
+<!-- ##### FUNCTION schro_params_verify_block_params ##### -->
+<para>
+
+</para>
+
+@params: 
+@Returns: 
+
+

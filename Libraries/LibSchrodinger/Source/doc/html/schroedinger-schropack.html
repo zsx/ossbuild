@@ -1,0 +1,498 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>schropack</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Schroedinger Reference Manual">
+<link rel="up" href="schrointernal.html" title="Schroedinger Internal API">
+<link rel="prev" href="schroedinger-schrooil.html" title="schrooil">
+<link rel="next" href="schroedinger-schroparams.html" title="schroparams">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="schropublic.html" title="Schroedinger Public API">
+<link rel="chapter" href="schrointernal.html" title="Schroedinger Internal API">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="schroedinger-schrooil.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="schrointernal.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Schroedinger Reference Manual</th>
+<td><a accesskey="n" href="schroedinger-schroparams.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#schroedinger-schropack.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#schroedinger-schropack.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="schroedinger-schropack"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="schroedinger-schropack.top_of_page"></a>schropack</span></h2>
+<p>schropack</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="schroedinger-schropack.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a>;
+<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a>*          <a class="link" href="schroedinger-schropack.html#schro-pack-new" title="schro_pack_new ()">schro_pack_new</a>                      (void);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-free" title="schro_pack_free ()">schro_pack_free</a>                     (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-encode-init" title="schro_pack_encode_init ()">schro_pack_encode_init</a>              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         <a class="link" href="schroedinger-schrobuffer.html#SchroBuffer" title="SchroBuffer">SchroBuffer</a> *buffer);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-sync" title="schro_pack_sync ()">schro_pack_sync</a>                     (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-append" title="schro_pack_append ()">schro_pack_append</a>                   (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *data,
+                                                         int len);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-encode-bit" title="schro_pack_encode_bit ()">schro_pack_encode_bit</a>               (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int value);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-encode-bits" title="schro_pack_encode_bits ()">schro_pack_encode_bits</a>              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int n,
+                                                         unsigned int value);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-encode-uint" title="schro_pack_encode_uint ()">schro_pack_encode_uint</a>              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int value);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-encode-sint" title="schro_pack_encode_sint ()">schro_pack_encode_sint</a>              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int value);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-copy" title="schro_pack_copy ()">schro_pack_copy</a>                     (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *dest,
+                                                         <a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *src);
+int                 <a class="link" href="schroedinger-schropack.html#schro-pack-estimate-sint" title="schro_pack_estimate_sint ()">schro_pack_estimate_sint</a>            (int value);
+int                 <a class="link" href="schroedinger-schropack.html#schro-pack-estimate-uint" title="schro_pack_estimate_uint ()">schro_pack_estimate_uint</a>            (int value);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-flush" title="schro_pack_flush ()">schro_pack_flush</a>                    (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);
+int                 <a class="link" href="schroedinger-schropack.html#schro-pack-get-bit-offset" title="schro_pack_get_bit_offset ()">schro_pack_get_bit_offset</a>           (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);
+int                 <a class="link" href="schroedinger-schropack.html#schro-pack-get-offset" title="schro_pack_get_offset ()">schro_pack_get_offset</a>               (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);
+void                <a class="link" href="schroedinger-schropack.html#schro-pack-append-zero" title="schro_pack_append_zero ()">schro_pack_append_zero</a>              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int len);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schropack.description"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schropack.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="SchroPack"></a><h3>SchroPack</h3>
+<pre class="programlisting">typedef struct {
+  SchroBuffer *buffer;
+
+  int n;
+  int shift;
+  int n_pack;
+
+  uint32_t value;
+
+  int error;
+} SchroPack;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-new"></a><h3>schro_pack_new ()</h3>
+<pre class="programlisting"><a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a>*          schro_pack_new                      (void);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-free"></a><h3>schro_pack_free ()</h3>
+<pre class="programlisting">void                schro_pack_free                     (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-encode-init"></a><h3>schro_pack_encode_init ()</h3>
+<pre class="programlisting">void                schro_pack_encode_init              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         <a class="link" href="schroedinger-schrobuffer.html#SchroBuffer" title="SchroBuffer">SchroBuffer</a> *buffer);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-sync"></a><h3>schro_pack_sync ()</h3>
+<pre class="programlisting">void                schro_pack_sync                     (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-append"></a><h3>schro_pack_append ()</h3>
+<pre class="programlisting">void                schro_pack_append                   (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *data,
+                                                         int len);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>len</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-encode-bit"></a><h3>schro_pack_encode_bit ()</h3>
+<pre class="programlisting">void                schro_pack_encode_bit               (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int value);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-encode-bits"></a><h3>schro_pack_encode_bits ()</h3>
+<pre class="programlisting">void                schro_pack_encode_bits              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int n,
+                                                         unsigned int value);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-encode-uint"></a><h3>schro_pack_encode_uint ()</h3>
+<pre class="programlisting">void                schro_pack_encode_uint              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int value);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-encode-sint"></a><h3>schro_pack_encode_sint ()</h3>
+<pre class="programlisting">void                schro_pack_encode_sint              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int value);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-copy"></a><h3>schro_pack_copy ()</h3>
+<pre class="programlisting">void                schro_pack_copy                     (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *dest,
+                                                         <a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *src);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-estimate-sint"></a><h3>schro_pack_estimate_sint ()</h3>
+<pre class="programlisting">int                 schro_pack_estimate_sint            (int value);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-estimate-uint"></a><h3>schro_pack_estimate_uint ()</h3>
+<pre class="programlisting">int                 schro_pack_estimate_uint            (int value);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-flush"></a><h3>schro_pack_flush ()</h3>
+<pre class="programlisting">void                schro_pack_flush                    (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-get-bit-offset"></a><h3>schro_pack_get_bit_offset ()</h3>
+<pre class="programlisting">int                 schro_pack_get_bit_offset           (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-get-offset"></a><h3>schro_pack_get_offset ()</h3>
+<pre class="programlisting">int                 schro_pack_get_offset               (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-pack-append-zero"></a><h3>schro_pack_append_zero ()</h3>
+<pre class="programlisting">void                schro_pack_append_zero              (<a class="link" href="schroedinger-schropack.html#SchroPack" title="SchroPack">SchroPack</a> *pack,
+                                                         int len);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pack</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>len</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

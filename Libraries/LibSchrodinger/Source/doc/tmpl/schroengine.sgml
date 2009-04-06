@@ -1,0 +1,93 @@
+<!-- ##### SECTION Title ##### -->
+schroengine
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### ENUM SchroQuantiserEngineEnum ##### -->
+<para>
+
+</para>
+
+@SCHRO_QUANTISER_ENGINE_SIMPLE: 
+@SCHRO_QUANTISER_ENGINE_RATE_DISTORTION: 
+@SCHRO_QUANTISER_ENGINE_LOSSLESS: 
+@SCHRO_QUANTISER_ENGINE_LOWDELAY: 
+@SCHRO_QUANTISER_ENGINE_RATE_DISTORTION_2: 
+
+<!-- ##### FUNCTION schro_encoder_engine_intra_only ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_backref ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_tworef ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_test_intra ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_lossless ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_backtest ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_lowdelay ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+

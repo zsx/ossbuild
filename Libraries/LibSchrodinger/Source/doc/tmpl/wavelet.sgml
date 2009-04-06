@@ -1,0 +1,362 @@
+<!-- ##### SECTION Title ##### -->
+wavelet
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO OFFSET ##### -->
+<para>
+
+</para>
+
+@ptr: 
+@offset: 
+
+
+<!-- ##### FUNCTION schro_split_ext_135 ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_iwt_13_5 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_split_ext_53 ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_iwt_5_3 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_split_ext_desl93 ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_iwt_desl_9_3 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_split_ext_daub97 ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_iwt_daub_9_7 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_split_ext_haar ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_split_ext_fidelity ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_iwt_fidelity ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_synth_ext_desl93 ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_synth_ext_53 ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_synth_ext_135 ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_synth_ext_haar ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_synth_ext_fidelity ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_synth_ext_daub97 ##### -->
+<para>
+
+</para>
+
+@hi: 
+@lo: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_iiwt_desl_9_3 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iiwt_5_3 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iiwt_13_5 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iiwt_haar0 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iiwt_haar1 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iiwt_haar2 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iiwt_fidelity ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iiwt_daub_9_7 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iwt_haar0 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iwt_haar1 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_iwt_haar2 ##### -->
+<para>
+
+</para>
+
+@data: 
+@stride: 
+@width: 
+@height: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_wavelet_inverse_transform_2d ##### -->
+<para>
+
+</para>
+
+@fd: 
+@type: 
+@tmp: 
+
+
+<!-- ##### FUNCTION schro_wavelet_transform_2d ##### -->
+<para>
+
+</para>
+
+@fd: 
+@type: 
+@tmp: 
+
+

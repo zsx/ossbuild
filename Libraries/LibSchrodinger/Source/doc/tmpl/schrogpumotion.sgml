@@ -1,0 +1,70 @@
+<!-- ##### SECTION Title ##### -->
+schrogpumotion
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SchroGPUMotion ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION schro_gpumotion_new ##### -->
+<para>
+
+</para>
+
+@stream: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_gpumotion_free ##### -->
+<para>
+
+</para>
+
+@rv: 
+
+
+<!-- ##### FUNCTION schro_gpumotion_init ##### -->
+<para>
+
+</para>
+
+@self: 
+@motion: 
+
+
+<!-- ##### FUNCTION schro_gpumotion_copy ##### -->
+<para>
+
+</para>
+
+@self: 
+@motion: 
+
+
+<!-- ##### FUNCTION schro_gpumotion_render ##### -->
+<para>
+
+</para>
+
+@self: 
+@motion: 
+@gdest: 
+
+

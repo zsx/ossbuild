@@ -1,0 +1,902 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>schrooil</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Schroedinger Reference Manual">
+<link rel="up" href="schrointernal.html" title="Schroedinger Internal API">
+<link rel="prev" href="schroedinger-schromotionest.html" title="schromotionest">
+<link rel="next" href="schroedinger-schropack.html" title="schropack">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="schropublic.html" title="Schroedinger Public API">
+<link rel="chapter" href="schrointernal.html" title="Schroedinger Internal API">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="schroedinger-schromotionest.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="schrointernal.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Schroedinger Reference Manual</th>
+<td><a accesskey="n" href="schroedinger-schropack.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#schroedinger-schrooil.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#schroedinger-schrooil.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="schroedinger-schrooil"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="schroedinger-schrooil.top_of_page"></a>schrooil</span></h2>
+<p>schrooil</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="schroedinger-schrooil.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+void                <a class="link" href="schroedinger-schrooil.html#oil-splat-s16-ns" title="oil_splat_s16_ns ()">oil_splat_s16_ns</a>                    (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *dest,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *src,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-sum-s32-s16" title="oil_sum_s32_s16 ()">oil_sum_s32_s16</a>                     (<a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *d_1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *src,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-sum-s32-u8" title="oil_sum_s32_u8 ()">oil_sum_s32_u8</a>                      (<a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *d_1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *src,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-sum-square-diff-u8" title="oil_sum_square_diff_u8 ()">oil_sum_square_diff_u8</a>              (<a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *d_1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s2,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-convert-f64-s16" title="oil_convert_f64_s16 ()">oil_convert_f64_s16</a>                 (double *dest,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *src,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-convert-f64-u8" title="oil_convert_f64_u8 ()">oil_convert_f64_u8</a>                  (double *dest,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *src,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-iir3-across-s16-f64" title="oil_iir3_across_s16_f64 ()">oil_iir3_across_s16_f64</a>             (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *s,
+                                                         double *i1,
+                                                         double *i2,
+                                                         double *i3,
+                                                         double *s2_4,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-iir3-across-u8-f64" title="oil_iir3_across_u8_f64 ()">oil_iir3_across_u8_f64</a>              (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         double *i1,
+                                                         double *i2,
+                                                         double *i3,
+                                                         double *s2_4,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-iir3-rev-s16-f64" title="oil_iir3_rev_s16_f64 ()">oil_iir3_rev_s16_f64</a>                (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *s,
+                                                         double *i_3,
+                                                         double *s2_4,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-iir3-rev-u8-f64" title="oil_iir3_rev_u8_f64 ()">oil_iir3_rev_u8_f64</a>                 (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         double *i_3,
+                                                         double *s2_4,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-iir3-s16-f64" title="oil_iir3_s16_f64 ()">oil_iir3_s16_f64</a>                    (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *s,
+                                                         double *i_3,
+                                                         double *s2_4,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-iir3-u8-f64" title="oil_iir3_u8_f64 ()">oil_iir3_u8_f64</a>                     (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         double *i_3,
+                                                         double *s2_4,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#oil-mas10-s16" title="oil_mas10_s16 ()">oil_mas10_s16</a>                       (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *d,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *s1_np3,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *s2_4,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *s3_2,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#schro-cog-mas10-u8-edgeextend" title="schro_cog_mas10_u8_edgeextend ()">schro_cog_mas10_u8_edgeextend</a>       (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *taps,
+                                                         int offset,
+                                                         int shift,
+                                                         int index_offset,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrooil.html#schro-cog-mas8-u8-edgeextend" title="schro_cog_mas8_u8_edgeextend ()">schro_cog_mas8_u8_edgeextend</a>        (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *taps,
+                                                         int offset,
+                                                         int shift,
+                                                         int index_offset,
+                                                         int n);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schrooil.description"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schrooil.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="oil-splat-s16-ns"></a><h3>oil_splat_s16_ns ()</h3>
+<pre class="programlisting">void                oil_splat_s16_ns                    (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *dest,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *src,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-sum-s32-s16"></a><h3>oil_sum_s32_s16 ()</h3>
+<pre class="programlisting">void                oil_sum_s32_s16                     (<a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *d_1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *src,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d_1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-sum-s32-u8"></a><h3>oil_sum_s32_u8 ()</h3>
+<pre class="programlisting">void                oil_sum_s32_u8                      (<a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *d_1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *src,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d_1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-sum-square-diff-u8"></a><h3>oil_sum_square_diff_u8 ()</h3>
+<pre class="programlisting">void                oil_sum_square_diff_u8              (<a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *d_1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s2,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d_1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-convert-f64-s16"></a><h3>oil_convert_f64_s16 ()</h3>
+<pre class="programlisting">void                oil_convert_f64_s16                 (double *dest,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *src,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-convert-f64-u8"></a><h3>oil_convert_f64_u8 ()</h3>
+<pre class="programlisting">void                oil_convert_f64_u8                  (double *dest,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *src,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-iir3-across-s16-f64"></a><h3>oil_iir3_across_s16_f64 ()</h3>
+<pre class="programlisting">void                oil_iir3_across_s16_f64             (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *s,
+                                                         double *i1,
+                                                         double *i2,
+                                                         double *i3,
+                                                         double *s2_4,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2_4</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-iir3-across-u8-f64"></a><h3>oil_iir3_across_u8_f64 ()</h3>
+<pre class="programlisting">void                oil_iir3_across_u8_f64              (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         double *i1,
+                                                         double *i2,
+                                                         double *i3,
+                                                         double *s2_4,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2_4</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-iir3-rev-s16-f64"></a><h3>oil_iir3_rev_s16_f64 ()</h3>
+<pre class="programlisting">void                oil_iir3_rev_s16_f64                (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *s,
+                                                         double *i_3,
+                                                         double *s2_4,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i_3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2_4</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-iir3-rev-u8-f64"></a><h3>oil_iir3_rev_u8_f64 ()</h3>
+<pre class="programlisting">void                oil_iir3_rev_u8_f64                 (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         double *i_3,
+                                                         double *s2_4,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i_3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2_4</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-iir3-s16-f64"></a><h3>oil_iir3_s16_f64 ()</h3>
+<pre class="programlisting">void                oil_iir3_s16_f64                    (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *s,
+                                                         double *i_3,
+                                                         double *s2_4,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i_3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2_4</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-iir3-u8-f64"></a><h3>oil_iir3_u8_f64 ()</h3>
+<pre class="programlisting">void                oil_iir3_u8_f64                     (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         double *i_3,
+                                                         double *s2_4,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i_3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2_4</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="oil-mas10-s16"></a><h3>oil_mas10_s16 ()</h3>
+<pre class="programlisting">void                oil_mas10_s16                       (<a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *d,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *s1_np3,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *s2_4,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int32-t"
+>int32_t</a> *s3_2,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s1_np3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2_4</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s3_2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-cog-mas10-u8-edgeextend"></a><h3>schro_cog_mas10_u8_edgeextend ()</h3>
+<pre class="programlisting">void                schro_cog_mas10_u8_edgeextend       (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *taps,
+                                                         int offset,
+                                                         int shift,
+                                                         int index_offset,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>taps</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>shift</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>index_offset</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-cog-mas8-u8-edgeextend"></a><h3>schro_cog_mas8_u8_edgeextend ()</h3>
+<pre class="programlisting">void                schro_cog_mas8_u8_edgeextend        (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s,
+                                                         const <a
+href="../cog/cog-cog-stdint.html#int16-t"
+>int16_t</a> *taps,
+                                                         int offset,
+                                                         int shift,
+                                                         int index_offset,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>taps</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>shift</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>index_offset</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

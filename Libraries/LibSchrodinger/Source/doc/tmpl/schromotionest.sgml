@@ -1,0 +1,97 @@
+<!-- ##### SECTION Title ##### -->
+schromotionest
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SchroMotionEst ##### -->
+<para>
+
+</para>
+
+@encoder_frame: 
+@params: 
+@lambda: 
+@downsampled_src0: 
+@downsampled_src1: 
+@motion: 
+@sblocks: 
+@badblocks: 
+@hier_score: 
+
+<!-- ##### STRUCT SchroMotionScan ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT SchroBlock ##### -->
+<para>
+
+</para>
+
+@valid: 
+@error: 
+@entropy: 
+@score: 
+@mv: 
+
+<!-- ##### FUNCTION schro_motionest_free ##### -->
+<para>
+
+</para>
+
+@me: 
+
+
+<!-- ##### FUNCTION schro_motionest_new ##### -->
+<para>
+
+</para>
+
+@frame: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_motionest_superblock_get_metric ##### -->
+<para>
+
+</para>
+
+@me: 
+@block: 
+@i: 
+@j: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_block_check ##### -->
+<para>
+
+</para>
+
+@block: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_block_fixup ##### -->
+<para>
+
+</para>
+
+@block: 
+
+

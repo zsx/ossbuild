@@ -1,0 +1,313 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schroasync">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schroasync.top_of_page">schroasync</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schroasync</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schroasync.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="SchroAsync">SchroAsync</link>;
+                    <link linkend="SchroAsyncTask">SchroAsyncTask</link>;
+<link linkend="void">void</link>                (<link linkend="SchroAsyncCompleteFunc">*SchroAsyncCompleteFunc</link>)           (<link linkend="void">void</link> *);
+<link linkend="int">int</link>                 (<link linkend="SchroAsyncScheduleFunc">*SchroAsyncScheduleFunc</link>)           (<link linkend="void">void</link> *,
+                                                         <link linkend="SchroExecDomain">SchroExecDomain</link> exec_domain);
+                    <link linkend="SchroThread">SchroThread</link>;
+<link linkend="SchroAsync">SchroAsync</link>*         <link linkend="schro-async-new">schro_async_new</link>                     (<link linkend="int">int</link> n_threads,
+                                                         <link linkend="SchroAsyncScheduleFunc">SchroAsyncScheduleFunc</link> schedule,
+                                                         <link linkend="SchroAsyncCompleteFunc">SchroAsyncCompleteFunc</link> complete,
+                                                         <link linkend="void">void</link> *closure);
+<link linkend="void">void</link>                <link linkend="schro-async-free">schro_async_free</link>                    (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="int">int</link>                 <link linkend="schro-async-get-num-completed">schro_async_get_num_completed</link>       (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="void">void</link>                <link linkend="schro-async-lock">schro_async_lock</link>                    (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="void">void</link>                <link linkend="schro-async-unlock">schro_async_unlock</link>                  (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="void">void</link>*               <link linkend="schro-async-pull">schro_async_pull</link>                    (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="void">void</link>*               <link linkend="schro-async-pull-locked">schro_async_pull_locked</link>             (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="void">void</link>                <link linkend="schro-async-run-locked">schro_async_run_locked</link>              (<link linkend="SchroAsync">SchroAsync</link> *async,
+                                                         <link linkend="void">void</link> (funcvoid *) (),
+                                                         <link linkend="void">void</link> *ptr);
+<link linkend="void">void</link>                <link linkend="schro-async-signal-scheduler">schro_async_signal_scheduler</link>        (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="int">int</link>                 <link linkend="schro-async-wait-locked">schro_async_wait_locked</link>             (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="void">void</link>                <link linkend="schro-async-wait-one">schro_async_wait_one</link>                (<link linkend="SchroAsync">SchroAsync</link> *async);
+<link linkend="SchroExecDomain">SchroExecDomain</link>     <link linkend="schro-async-get-exec-domain">schro_async_get_exec_domain</link>         (void);
+<link linkend="void">void</link>                <link linkend="schro-async-wait">schro_async_wait</link>                    (<link linkend="SchroAsync">SchroAsync</link> *async,
+                                                         <link linkend="int">int</link> min_waiting);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schroasync.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schroasync.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SchroAsync" role="struct">
+<title>SchroAsync</title>
+<indexterm zone="SchroAsync"><primary>SchroAsync</primary></indexterm><programlisting>typedef struct _SchroAsync SchroAsync;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroAsyncTask" role="struct">
+<title>SchroAsyncTask</title>
+<indexterm zone="SchroAsyncTask"><primary>SchroAsyncTask</primary></indexterm><programlisting>typedef struct {
+  SchroAsyncTaskFunc task_func;
+  void *priv;
+} SchroAsyncTask;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroAsyncCompleteFunc" role="function">
+<title>SchroAsyncCompleteFunc ()</title>
+<indexterm zone="SchroAsyncCompleteFunc"><primary>SchroAsyncCompleteFunc</primary></indexterm><programlisting><link linkend="void">void</link>                (*SchroAsyncCompleteFunc)           (<link linkend="void">void</link> *);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>Param1</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SchroAsyncScheduleFunc" role="function">
+<title>SchroAsyncScheduleFunc ()</title>
+<indexterm zone="SchroAsyncScheduleFunc"><primary>SchroAsyncScheduleFunc</primary></indexterm><programlisting><link linkend="int">int</link>                 (*SchroAsyncScheduleFunc)           (<link linkend="void">void</link> *,
+                                                         <link linkend="SchroExecDomain">SchroExecDomain</link> exec_domain);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>Param1</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>exec_domain</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SchroThread" role="struct">
+<title>SchroThread</title>
+<indexterm zone="SchroThread"><primary>SchroThread</primary></indexterm><programlisting>typedef struct _SchroThread SchroThread;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="schro-async-new" role="function">
+<title>schro_async_new ()</title>
+<indexterm zone="schro-async-new"><primary>schro_async_new</primary></indexterm><programlisting><link linkend="SchroAsync">SchroAsync</link>*         schro_async_new                     (<link linkend="int">int</link> n_threads,
+                                                         <link linkend="SchroAsyncScheduleFunc">SchroAsyncScheduleFunc</link> schedule,
+                                                         <link linkend="SchroAsyncCompleteFunc">SchroAsyncCompleteFunc</link> complete,
+                                                         <link linkend="void">void</link> *closure);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>n_threads</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>schedule</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>complete</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>closure</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-free" role="function">
+<title>schro_async_free ()</title>
+<indexterm zone="schro-async-free"><primary>schro_async_free</primary></indexterm><programlisting><link linkend="void">void</link>                schro_async_free                    (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-get-num-completed" role="function">
+<title>schro_async_get_num_completed ()</title>
+<indexterm zone="schro-async-get-num-completed"><primary>schro_async_get_num_completed</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_async_get_num_completed       (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-lock" role="function">
+<title>schro_async_lock ()</title>
+<indexterm zone="schro-async-lock"><primary>schro_async_lock</primary></indexterm><programlisting><link linkend="void">void</link>                schro_async_lock                    (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-unlock" role="function">
+<title>schro_async_unlock ()</title>
+<indexterm zone="schro-async-unlock"><primary>schro_async_unlock</primary></indexterm><programlisting><link linkend="void">void</link>                schro_async_unlock                  (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-pull" role="function">
+<title>schro_async_pull ()</title>
+<indexterm zone="schro-async-pull"><primary>schro_async_pull</primary></indexterm><programlisting><link linkend="void">void</link>*               schro_async_pull                    (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-pull-locked" role="function">
+<title>schro_async_pull_locked ()</title>
+<indexterm zone="schro-async-pull-locked"><primary>schro_async_pull_locked</primary></indexterm><programlisting><link linkend="void">void</link>*               schro_async_pull_locked             (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-run-locked" role="function">
+<title>schro_async_run_locked ()</title>
+<indexterm zone="schro-async-run-locked"><primary>schro_async_run_locked</primary></indexterm><programlisting><link linkend="void">void</link>                schro_async_run_locked              (<link linkend="SchroAsync">SchroAsync</link> *async,
+                                                         <link linkend="void">void</link> (funcvoid *) (),
+                                                         <link linkend="void">void</link> *ptr);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>func</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ptr</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-signal-scheduler" role="function">
+<title>schro_async_signal_scheduler ()</title>
+<indexterm zone="schro-async-signal-scheduler"><primary>schro_async_signal_scheduler</primary></indexterm><programlisting><link linkend="void">void</link>                schro_async_signal_scheduler        (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-wait-locked" role="function">
+<title>schro_async_wait_locked ()</title>
+<indexterm zone="schro-async-wait-locked"><primary>schro_async_wait_locked</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_async_wait_locked             (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-wait-one" role="function">
+<title>schro_async_wait_one ()</title>
+<indexterm zone="schro-async-wait-one"><primary>schro_async_wait_one</primary></indexterm><programlisting><link linkend="void">void</link>                schro_async_wait_one                (<link linkend="SchroAsync">SchroAsync</link> *async);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-get-exec-domain" role="function">
+<title>schro_async_get_exec_domain ()</title>
+<indexterm zone="schro-async-get-exec-domain"><primary>schro_async_get_exec_domain</primary></indexterm><programlisting><link linkend="SchroExecDomain">SchroExecDomain</link>     schro_async_get_exec_domain         (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-async-wait" role="function">
+<title>schro_async_wait ()</title>
+<indexterm zone="schro-async-wait"><primary>schro_async_wait</primary></indexterm><programlisting><link linkend="void">void</link>                schro_async_wait                    (<link linkend="SchroAsync">SchroAsync</link> *async,
+                                                         <link linkend="int">int</link> min_waiting);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>async</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>min_waiting</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

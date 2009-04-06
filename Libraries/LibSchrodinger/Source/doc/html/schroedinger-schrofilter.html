@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>schrofilter</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Schroedinger Reference Manual">
+<link rel="up" href="schrointernal.html" title="Schroedinger Internal API">
+<link rel="prev" href="schroedinger-schrodebug.html" title="schrodebug">
+<link rel="next" href="schroedinger-schrofft.html" title="schrofft">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="schropublic.html" title="Schroedinger Public API">
+<link rel="chapter" href="schrointernal.html" title="Schroedinger Internal API">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="schroedinger-schrodebug.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="schrointernal.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Schroedinger Reference Manual</th>
+<td><a accesskey="n" href="schroedinger-schrofft.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#schroedinger-schrofilter.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#schroedinger-schrofilter.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="schroedinger-schrofilter"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="schroedinger-schrofilter.top_of_page"></a>schrofilter</span></h2>
+<p>schrofilter</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="schroedinger-schrofilter.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-adaptive-lowpass" title="schro_frame_filter_adaptive_lowpass ()">schro_frame_filter_adaptive_lowpass</a> (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-addnoise" title="schro_frame_filter_addnoise ()">schro_frame_filter_addnoise</a>         (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         double sigma);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-cwm7" title="schro_frame_filter_cwm7 ()">schro_frame_filter_cwm7</a>             (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-cwmN" title="schro_frame_filter_cwmN ()">schro_frame_filter_cwmN</a>             (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         int weight);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-cwmN-ref" title="schro_frame_filter_cwmN_ref ()">schro_frame_filter_cwmN_ref</a>         (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         int weight);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-lowpass" title="schro_frame_filter_lowpass ()">schro_frame_filter_lowpass</a>          (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-lowpass2" title="schro_frame_filter_lowpass2 ()">schro_frame_filter_lowpass2</a>         (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         double sigma);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-lowpass-16" title="schro_frame_filter_lowpass_16 ()">schro_frame_filter_lowpass_16</a>       (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-frame-filter-wavelet" title="schro_frame_filter_wavelet ()">schro_frame_filter_wavelet</a>          (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-filter-cwm7" title="schro_filter_cwm7 ()">schro_filter_cwm7</a>                   (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s2,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s3,
+                                                         int n);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-filter-cwmN" title="schro_filter_cwmN ()">schro_filter_cwmN</a>                   (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s2,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s3,
+                                                         int n,
+                                                         int weight);
+void                <a class="link" href="schroedinger-schrofilter.html#schro-filter-cwmN-ref" title="schro_filter_cwmN_ref ()">schro_filter_cwmN_ref</a>               (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s2,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s3,
+                                                         int n,
+                                                         int weight);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schrofilter.description"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schrofilter.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-adaptive-lowpass"></a><h3>schro_frame_filter_adaptive_lowpass ()</h3>
+<pre class="programlisting">void                schro_frame_filter_adaptive_lowpass (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-addnoise"></a><h3>schro_frame_filter_addnoise ()</h3>
+<pre class="programlisting">void                schro_frame_filter_addnoise         (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         double sigma);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sigma</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-cwm7"></a><h3>schro_frame_filter_cwm7 ()</h3>
+<pre class="programlisting">void                schro_frame_filter_cwm7             (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-cwmN"></a><h3>schro_frame_filter_cwmN ()</h3>
+<pre class="programlisting">void                schro_frame_filter_cwmN             (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         int weight);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>weight</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-cwmN-ref"></a><h3>schro_frame_filter_cwmN_ref ()</h3>
+<pre class="programlisting">void                schro_frame_filter_cwmN_ref         (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         int weight);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>weight</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-lowpass"></a><h3>schro_frame_filter_lowpass ()</h3>
+<pre class="programlisting">void                schro_frame_filter_lowpass          (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-lowpass2"></a><h3>schro_frame_filter_lowpass2 ()</h3>
+<pre class="programlisting">void                schro_frame_filter_lowpass2         (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         double sigma);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>sigma</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-lowpass-16"></a><h3>schro_frame_filter_lowpass_16 ()</h3>
+<pre class="programlisting">void                schro_frame_filter_lowpass_16       (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-frame-filter-wavelet"></a><h3>schro_frame_filter_wavelet ()</h3>
+<pre class="programlisting">void                schro_frame_filter_wavelet          (<a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-filter-cwm7"></a><h3>schro_filter_cwm7 ()</h3>
+<pre class="programlisting">void                schro_filter_cwm7                   (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s2,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s3,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-filter-cwmN"></a><h3>schro_filter_cwmN ()</h3>
+<pre class="programlisting">void                schro_filter_cwmN                   (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s2,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s3,
+                                                         int n,
+                                                         int weight);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>weight</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-filter-cwmN-ref"></a><h3>schro_filter_cwmN_ref ()</h3>
+<pre class="programlisting">void                schro_filter_cwmN_ref               (<a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *d,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s1,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s2,
+                                                         <a
+href="../cog/cog-cog-stdint.html#uint8-t"
+>uint8_t</a> *s3,
+                                                         int n,
+                                                         int weight);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>d</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>s3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>weight</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

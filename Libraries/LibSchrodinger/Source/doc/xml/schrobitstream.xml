@@ -1,0 +1,425 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrobitstream">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrobitstream.top_of_page">schrobitstream</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrobitstream</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrobitstream.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+enum                <link linkend="SchroAuxiliaryDataID">SchroAuxiliaryDataID</link>;
+enum                <link linkend="SchroParseCode">SchroParseCode</link>;
+enum                <link linkend="SchroVideoFormatEnum">SchroVideoFormatEnum</link>;
+enum                <link linkend="SchroChromaFormat">SchroChromaFormat</link>;
+enum                <link linkend="SchroColourMatrix">SchroColourMatrix</link>;
+enum                <link linkend="SchroColourSpec">SchroColourSpec</link>;
+enum                <link linkend="SchroColourPrimaries">SchroColourPrimaries</link>;
+enum                <link linkend="SchroWaveletIndex">SchroWaveletIndex</link>;
+enum                <link linkend="SchroSignalRange">SchroSignalRange</link>;
+enum                <link linkend="SchroTransferFunction">SchroTransferFunction</link>;
+#define             <link linkend="SCHRO-PARSE-HEADER-SIZE:CAPS">SCHRO_PARSE_HEADER_SIZE</link>
+#define             <link linkend="SCHRO-PARSE-CODE-PICTURE:CAPS">SCHRO_PARSE_CODE_PICTURE</link>            (is_ref,n_refs,is_lowdelay,is_noarith)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-INTER:CAPS">SCHRO_PARSE_CODE_IS_INTER</link>           (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-INTRA:CAPS">SCHRO_PARSE_CODE_IS_INTRA</link>           (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-NON-REFERENCE:CAPS">SCHRO_PARSE_CODE_IS_NON_REFERENCE</link>   (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-REFERENCE:CAPS">SCHRO_PARSE_CODE_IS_REFERENCE</link>       (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-LOW-DELAY:CAPS">SCHRO_PARSE_CODE_IS_LOW_DELAY</link>       (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-PICTURE:CAPS">SCHRO_PARSE_CODE_IS_PICTURE</link>         (x)
+#define             <link linkend="SCHRO-PARSE-CODE-NUM-REFS:CAPS">SCHRO_PARSE_CODE_NUM_REFS</link>           (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-AUXILIARY-DATA:CAPS">SCHRO_PARSE_CODE_IS_AUXILIARY_DATA</link>  (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-CORE-SYNTAX:CAPS">SCHRO_PARSE_CODE_IS_CORE_SYNTAX</link>     (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-END-OF-SEQUENCE:CAPS">SCHRO_PARSE_CODE_IS_END_OF_SEQUENCE</link> (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-PADDING:CAPS">SCHRO_PARSE_CODE_IS_PADDING</link>         (x)
+#define             <link linkend="SCHRO-PARSE-CODE-IS-SEQ-HEADER:CAPS">SCHRO_PARSE_CODE_IS_SEQ_HEADER</link>      (x)
+#define             <link linkend="SCHRO-PARSE-CODE-USING-AC:CAPS">SCHRO_PARSE_CODE_USING_AC</link>           (x)
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrobitstream.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrobitstream.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SchroAuxiliaryDataID" role="enum">
+<title>enum SchroAuxiliaryDataID</title>
+<indexterm zone="SchroAuxiliaryDataID"><primary>SchroAuxiliaryDataID</primary></indexterm><programlisting>typedef enum _SchroAuxiliaryDataID {
+  SCHRO_AUX_DATA_INVALID,
+  SCHRO_AUX_DATA_ENCODER_STRING,
+  SCHRO_AUX_DATA_SMPTE_12M_TIMECODE,
+  SCHRO_AUX_DATA_MD5_CHECKSUM,
+  SCHRO_AUX_DATA_BITRATE,
+  SCHRO_AUX_DATA_USER = 0x80
+}SchroAuxiliaryDataID;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroParseCode" role="enum">
+<title>enum SchroParseCode</title>
+<indexterm zone="SchroParseCode"><primary>SchroParseCode</primary></indexterm><programlisting>typedef enum _SchroParseCode {
+  SCHRO_PARSE_CODE_SEQUENCE_HEADER = 0x00,
+  SCHRO_PARSE_CODE_END_OF_SEQUENCE = 0x10,
+  SCHRO_PARSE_CODE_AUXILIARY_DATA = 0x20,
+  SCHRO_PARSE_CODE_PADDING = 0x30,
+
+  SCHRO_PARSE_CODE_INTRA_REF = 0x0c,
+  SCHRO_PARSE_CODE_INTRA_NON_REF = 0x08,
+  SCHRO_PARSE_CODE_INTRA_REF_NOARITH = 0x4c,
+  SCHRO_PARSE_CODE_INTRA_NON_REF_NOARITH = 0x48,
+
+  SCHRO_PARSE_CODE_INTER_REF_1 = 0x0d,
+  SCHRO_PARSE_CODE_INTER_REF_1_NOARITH = 0x4d,
+  SCHRO_PARSE_CODE_INTER_REF_2 = 0x0e,
+  SCHRO_PARSE_CODE_INTER_REF_2_NOARITH = 0x4e,
+
+  SCHRO_PARSE_CODE_INTER_NON_REF_1 = 0x09,
+  SCHRO_PARSE_CODE_INTER_NON_REF_1_NOARITH = 0x49,
+  SCHRO_PARSE_CODE_INTER_NON_REF_2 = 0x0a,
+  SCHRO_PARSE_CODE_INTER_NON_REF_2_NOARITH = 0x4a,
+
+  SCHRO_PARSE_CODE_LD_INTRA_REF = 0xcc,
+  SCHRO_PARSE_CODE_LD_INTRA_NON_REF = 0xc8
+} SchroParseCode;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroVideoFormatEnum" role="enum">
+<title>enum SchroVideoFormatEnum</title>
+<indexterm zone="SchroVideoFormatEnum"><primary>SchroVideoFormatEnum</primary></indexterm><programlisting>typedef enum _SchroVideoFormatEnum {
+  SCHRO_VIDEO_FORMAT_CUSTOM = 0,
+  SCHRO_VIDEO_FORMAT_QSIF,
+  SCHRO_VIDEO_FORMAT_QCIF,
+  SCHRO_VIDEO_FORMAT_SIF,
+  SCHRO_VIDEO_FORMAT_CIF,
+  SCHRO_VIDEO_FORMAT_4SIF,
+  SCHRO_VIDEO_FORMAT_4CIF,
+  SCHRO_VIDEO_FORMAT_SD480I_60,
+  SCHRO_VIDEO_FORMAT_SD576I_50,
+  SCHRO_VIDEO_FORMAT_HD720P_60,
+  SCHRO_VIDEO_FORMAT_HD720P_50,
+  SCHRO_VIDEO_FORMAT_HD1080I_60,
+  SCHRO_VIDEO_FORMAT_HD1080I_50,
+  SCHRO_VIDEO_FORMAT_HD1080P_60,
+  SCHRO_VIDEO_FORMAT_HD1080P_50,
+  SCHRO_VIDEO_FORMAT_DC2K_24,
+  SCHRO_VIDEO_FORMAT_DC4K_24
+} SchroVideoFormatEnum;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroChromaFormat" role="enum">
+<title>enum SchroChromaFormat</title>
+<indexterm zone="SchroChromaFormat"><primary>SchroChromaFormat</primary></indexterm><programlisting>typedef enum _SchroChromaFormat {
+  SCHRO_CHROMA_444 = 0,
+  SCHRO_CHROMA_422,
+  SCHRO_CHROMA_420
+} SchroChromaFormat;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroColourMatrix" role="enum">
+<title>enum SchroColourMatrix</title>
+<indexterm zone="SchroColourMatrix"><primary>SchroColourMatrix</primary></indexterm><programlisting>typedef enum _SchroColourMatrix {
+  SCHRO_COLOUR_MATRIX_HDTV = 0,
+  SCHRO_COLOUR_MATRIX_SDTV = 1,
+  SCHRO_COLOUR_MATRIX_REVERSIBLE = 2
+}SchroColourMatrix;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroColourSpec" role="enum">
+<title>enum SchroColourSpec</title>
+<indexterm zone="SchroColourSpec"><primary>SchroColourSpec</primary></indexterm><programlisting>typedef enum _SchroColourSpec {
+  SCHRO_COLOUR_SPEC_CUSTOM = 0,
+  SCHRO_COLOUR_SPEC_SDTV_525 = 1,
+  SCHRO_COLOUR_SPEC_SDTV_625 = 2,
+  SCHRO_COLOUR_SPEC_HDTV = 3,
+  SCHRO_COLOUR_SPEC_CINEMA = 4
+} SchroColourSpec;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroColourPrimaries" role="enum">
+<title>enum SchroColourPrimaries</title>
+<indexterm zone="SchroColourPrimaries"><primary>SchroColourPrimaries</primary></indexterm><programlisting>typedef enum _SchroColourPrimaries {
+  SCHRO_COLOUR_PRIMARY_HDTV = 0,
+  SCHRO_COLOUR_PRIMARY_SDTV_525 = 1,
+  SCHRO_COLOUR_PRIMARY_SDTV_625 = 2,
+  SCHRO_COLOUR_PRIMARY_CINEMA = 3
+} SchroColourPrimaries;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroWaveletIndex" role="enum">
+<title>enum SchroWaveletIndex</title>
+<indexterm zone="SchroWaveletIndex"><primary>SchroWaveletIndex</primary></indexterm><programlisting>typedef enum _SchroWaveletIndex {
+  SCHRO_WAVELET_DESLAURIERS_DUBUC_9_7,
+  SCHRO_WAVELET_LE_GALL_5_3,
+  SCHRO_WAVELET_DESLAURIERS_DUBUC_13_7,
+  SCHRO_WAVELET_HAAR_0,
+  SCHRO_WAVELET_HAAR_1,
+  SCHRO_WAVELET_FIDELITY,
+  SCHRO_WAVELET_DAUBECHIES_9_7
+} SchroWaveletIndex;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroSignalRange" role="enum">
+<title>enum SchroSignalRange</title>
+<indexterm zone="SchroSignalRange"><primary>SchroSignalRange</primary></indexterm><programlisting>typedef enum _SchroSignalRange {
+  SCHRO_SIGNAL_RANGE_CUSTOM = 0,
+  SCHRO_SIGNAL_RANGE_8BIT_FULL = 1,
+  SCHRO_SIGNAL_RANGE_8BIT_VIDEO = 2,
+  SCHRO_SIGNAL_RANGE_10BIT_VIDEO = 3,
+  SCHRO_SIGNAL_RANGE_12BIT_VIDEO = 4
+} SchroSignalRange;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroTransferFunction" role="enum">
+<title>enum SchroTransferFunction</title>
+<indexterm zone="SchroTransferFunction"><primary>SchroTransferFunction</primary></indexterm><programlisting>typedef enum _SchroTransferFunction {
+  SCHRO_TRANSFER_CHAR_TV_GAMMA = 0,
+  SCHRO_TRANSFER_CHAR_EXTENDED_GAMUT = 1,
+  SCHRO_TRANSFER_CHAR_LINEAR = 2,
+  SCHRO_TRANSFER_CHAR_DCI_GAMMA = 3
+} SchroTransferFunction;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-PARSE-HEADER-SIZE:CAPS" role="macro">
+<title>SCHRO_PARSE_HEADER_SIZE</title>
+<indexterm zone="SCHRO-PARSE-HEADER-SIZE:CAPS"><primary>SCHRO_PARSE_HEADER_SIZE</primary></indexterm><programlisting>#define SCHRO_PARSE_HEADER_SIZE (4+1+4+4)
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-PICTURE:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_PICTURE()</title>
+<indexterm zone="SCHRO-PARSE-CODE-PICTURE:CAPS"><primary>SCHRO_PARSE_CODE_PICTURE</primary></indexterm><programlisting>#define             SCHRO_PARSE_CODE_PICTURE(is_ref,n_refs,is_lowdelay,is_noarith)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>is_ref</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n_refs</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>is_lowdelay</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>is_noarith</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-INTER:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_INTER()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-INTER:CAPS"><primary>SCHRO_PARSE_CODE_IS_INTER</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_INTER(x) (SCHRO_PARSE_CODE_IS_PICTURE(x) &amp;&amp; SCHRO_PARSE_CODE_NUM_REFS(x) &gt; 0)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-INTRA:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_INTRA()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-INTRA:CAPS"><primary>SCHRO_PARSE_CODE_IS_INTRA</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_INTRA(x) (SCHRO_PARSE_CODE_IS_PICTURE(x) &amp;&amp; SCHRO_PARSE_CODE_NUM_REFS(x) == 0)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-NON-REFERENCE:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_NON_REFERENCE()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-NON-REFERENCE:CAPS"><primary>SCHRO_PARSE_CODE_IS_NON_REFERENCE</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_NON_REFERENCE(x) (((x) &amp; 0xc) == 0x08)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-REFERENCE:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_REFERENCE()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-REFERENCE:CAPS"><primary>SCHRO_PARSE_CODE_IS_REFERENCE</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_REFERENCE(x) (((x) &amp; 0xc) == 0x0c)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-LOW-DELAY:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_LOW_DELAY()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-LOW-DELAY:CAPS"><primary>SCHRO_PARSE_CODE_IS_LOW_DELAY</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_LOW_DELAY(x) (((x) &amp; 0x88) == 0x88)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-PICTURE:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_PICTURE()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-PICTURE:CAPS"><primary>SCHRO_PARSE_CODE_IS_PICTURE</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_PICTURE(x) ((x) &amp; 0x8)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-NUM-REFS:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_NUM_REFS()</title>
+<indexterm zone="SCHRO-PARSE-CODE-NUM-REFS:CAPS"><primary>SCHRO_PARSE_CODE_NUM_REFS</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_NUM_REFS(x) ((x) &amp; 0x3)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-AUXILIARY-DATA:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_AUXILIARY_DATA()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-AUXILIARY-DATA:CAPS"><primary>SCHRO_PARSE_CODE_IS_AUXILIARY_DATA</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_AUXILIARY_DATA(x) ((x) == SCHRO_PARSE_CODE_AUXILIARY_DATA)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-CORE-SYNTAX:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_CORE_SYNTAX()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-CORE-SYNTAX:CAPS"><primary>SCHRO_PARSE_CODE_IS_CORE_SYNTAX</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_CORE_SYNTAX(x) (((x) &amp; 0x88) == 0x08)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-END-OF-SEQUENCE:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_END_OF_SEQUENCE()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-END-OF-SEQUENCE:CAPS"><primary>SCHRO_PARSE_CODE_IS_END_OF_SEQUENCE</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_END_OF_SEQUENCE(x) ((x) == SCHRO_PARSE_CODE_END_OF_SEQUENCE)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-PADDING:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_PADDING()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-PADDING:CAPS"><primary>SCHRO_PARSE_CODE_IS_PADDING</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_PADDING(x) ((x) == SCHRO_PARSE_CODE_PADDING)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-IS-SEQ-HEADER:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_IS_SEQ_HEADER()</title>
+<indexterm zone="SCHRO-PARSE-CODE-IS-SEQ-HEADER:CAPS"><primary>SCHRO_PARSE_CODE_IS_SEQ_HEADER</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_IS_SEQ_HEADER(x) ((x) == SCHRO_PARSE_CODE_SEQUENCE_HEADER)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-PARSE-CODE-USING-AC:CAPS" role="macro">
+<title>SCHRO_PARSE_CODE_USING_AC()</title>
+<indexterm zone="SCHRO-PARSE-CODE-USING-AC:CAPS"><primary>SCHRO_PARSE_CODE_USING_AC</primary></indexterm><programlisting>#define SCHRO_PARSE_CODE_USING_AC(x) (((x) &amp; 0x48) == 0x08)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

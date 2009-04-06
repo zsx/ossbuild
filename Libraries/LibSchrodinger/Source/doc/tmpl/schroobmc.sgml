@@ -1,0 +1,69 @@
+<!-- ##### SECTION Title ##### -->
+schroobmc
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SchroObmc ##### -->
+<para>
+
+</para>
+
+@regions: 
+@region_data: 
+@horiz_ramp: 
+@vert_ramp: 
+@x_ramp: 
+@y_ramp: 
+@x_len: 
+@y_len: 
+@x_sep: 
+@y_sep: 
+
+<!-- ##### STRUCT SchroObmcRegion ##### -->
+<para>
+
+</para>
+
+@weights: 
+@start_x: 
+@start_y: 
+@end_x: 
+@end_y: 
+
+<!-- ##### FUNCTION schro_obmc_init ##### -->
+<para>
+
+</para>
+
+@obmc: 
+@x_len: 
+@y_len: 
+@x_sep: 
+@y_sep: 
+@ref1_weight: 
+@ref2_weight: 
+@ref_shift: 
+
+
+<!-- ##### FUNCTION schro_obmc_cleanup ##### -->
+<para>
+
+</para>
+
+@obmc: 
+
+

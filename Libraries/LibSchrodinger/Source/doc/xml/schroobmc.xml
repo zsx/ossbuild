@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-10-schroobmc">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-10-schroobmc.top_of_page">schroobmc</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER-1.0 Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schroobmc</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-10-schroobmc.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="SchroObmc">SchroObmc</link>;
+                    <link linkend="SchroObmcRegion">SchroObmcRegion</link>;
+<link linkend="void">void</link>                <link linkend="schro-obmc-init">schro_obmc_init</link>                     (<link linkend="SchroObmc">SchroObmc</link> *obmc,
+                                                         <link linkend="int">int</link> x_len,
+                                                         <link linkend="int">int</link> y_len,
+                                                         <link linkend="int">int</link> x_sep,
+                                                         <link linkend="int">int</link> y_sep,
+                                                         <link linkend="int">int</link> ref1_weight,
+                                                         <link linkend="int">int</link> ref2_weight,
+                                                         <link linkend="int">int</link> ref_shift);
+<link linkend="void">void</link>                <link linkend="schro-obmc-cleanup">schro_obmc_cleanup</link>                  (<link linkend="SchroObmc">SchroObmc</link> *obmc);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-10-schroobmc.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-10-schroobmc.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SchroObmc" role="struct">
+<title>SchroObmc</title>
+<indexterm zone="SchroObmc"><primary>SchroObmc</primary></indexterm><programlisting>typedef struct {
+  SchroObmcRegion regions[9];
+  int16_t *region_data;
+  int16_t *horiz_ramp;
+  int16_t *vert_ramp;
+  int x_ramp;
+  int y_ramp;
+  int x_len;
+  int y_len;
+  int x_sep;
+  int y_sep;
+} SchroObmc;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroObmcRegion" role="struct">
+<title>SchroObmcRegion</title>
+<indexterm zone="SchroObmcRegion"><primary>SchroObmcRegion</primary></indexterm><programlisting>typedef struct {
+  int16_t *weights[3];
+  int start_x;
+  int start_y;
+  int end_x;
+  int end_y;
+} SchroObmcRegion;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="schro-obmc-init" role="function">
+<title>schro_obmc_init ()</title>
+<indexterm zone="schro-obmc-init"><primary>schro_obmc_init</primary></indexterm><programlisting><link linkend="void">void</link>                schro_obmc_init                     (<link linkend="SchroObmc">SchroObmc</link> *obmc,
+                                                         <link linkend="int">int</link> x_len,
+                                                         <link linkend="int">int</link> y_len,
+                                                         <link linkend="int">int</link> x_sep,
+                                                         <link linkend="int">int</link> y_sep,
+                                                         <link linkend="int">int</link> ref1_weight,
+                                                         <link linkend="int">int</link> ref2_weight,
+                                                         <link linkend="int">int</link> ref_shift);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>obmc</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>x_len</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y_len</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>x_sep</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y_sep</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ref1_weight</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ref2_weight</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ref_shift</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-obmc-cleanup" role="function">
+<title>schro_obmc_cleanup ()</title>
+<indexterm zone="schro-obmc-cleanup"><primary>schro_obmc_cleanup</primary></indexterm><programlisting><link linkend="void">void</link>                schro_obmc_cleanup                  (<link linkend="SchroObmc">SchroObmc</link> *obmc);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>obmc</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

@@ -1,0 +1,313 @@
+<!-- ##### SECTION Title ##### -->
+schroutils
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### TYPEDEF schro_bool ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO SCHRO_GET ##### -->
+<para>
+
+</para>
+
+@ptr: 
+@offset: 
+@type: 
+
+
+<!-- ##### MACRO OFFSET ##### -->
+<para>
+
+</para>
+
+@ptr: 
+@offset: 
+
+
+<!-- ##### MACRO SCHRO_INTERNAL ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### MACRO ARRAY_SIZE ##### -->
+<para>
+
+</para>
+
+@x: 
+
+
+<!-- ##### MACRO MIN ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+
+
+<!-- ##### MACRO MAX ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+
+
+<!-- ##### MACRO CLAMP ##### -->
+<para>
+
+</para>
+
+@x: 
+@a: 
+@b: 
+
+
+<!-- ##### MACRO DIVIDE_ROUND_UP ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+
+
+<!-- ##### MACRO ROUND_UP_SHIFT ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+
+
+<!-- ##### MACRO ROUND_UP_POW2 ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+
+
+<!-- ##### MACRO ROUND_UP_2 ##### -->
+<para>
+
+</para>
+
+@x: 
+
+
+<!-- ##### MACRO ROUND_UP_4 ##### -->
+<para>
+
+</para>
+
+@x: 
+
+
+<!-- ##### MACRO ROUND_UP_8 ##### -->
+<para>
+
+</para>
+
+@x: 
+
+
+<!-- ##### MACRO ROUND_UP_64 ##### -->
+<para>
+
+</para>
+
+@x: 
+
+
+<!-- ##### MACRO ROUND_SHIFT ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+
+
+<!-- ##### MACRO NEED_CLAMP ##### -->
+<para>
+
+</para>
+
+@x: 
+@y: 
+@a: 
+@b: 
+
+
+<!-- ##### MACRO schro_divide ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+
+
+<!-- ##### FUNCTION schro_utils_entropy ##### -->
+<para>
+
+</para>
+
+@a: 
+@total: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_utils_multiplier_to_quant_index ##### -->
+<para>
+
+</para>
+
+@x: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_utils_probability_to_entropy ##### -->
+<para>
+
+</para>
+
+@x: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_utils_reduce_fraction ##### -->
+<para>
+
+</para>
+
+@n: 
+@d: 
+
+
+<!-- ##### FUNCTION schro_dequantise ##### -->
+<para>
+
+</para>
+
+@q: 
+@quant_factor: 
+@quant_offset: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_quantise ##### -->
+<para>
+
+</para>
+
+@value: 
+@quant_factor: 
+@quant_offset: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_dequantise_s16 ##### -->
+<para>
+
+</para>
+
+@dest: 
+@src: 
+@quant_factor: 
+@quant_offset: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_quantise_s16 ##### -->
+<para>
+
+</para>
+
+@dest: 
+@src: 
+@quant_factor: 
+@quant_offset: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_malloc ##### -->
+<para>
+
+</para>
+
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_malloc0 ##### -->
+<para>
+
+</para>
+
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_realloc ##### -->
+<para>
+
+</para>
+
+@ptr: 
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_free ##### -->
+<para>
+
+</para>
+
+@ptr: 
+
+
+<!-- ##### FUNCTION schro_utils_get_time ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION muldiv64 ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
+@c: 
+@Returns: 
+
+

@@ -1,0 +1,1006 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>schromotion</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Schroedinger Reference Manual">
+<link rel="up" href="schrointernal.html" title="Schroedinger Internal API">
+<link rel="prev" href="schroedinger-schrometric.html" title="schrometric">
+<link rel="next" href="schroedinger-schromotionest.html" title="schromotionest">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="schropublic.html" title="Schroedinger Public API">
+<link rel="chapter" href="schrointernal.html" title="Schroedinger Internal API">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="schroedinger-schrometric.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="schrointernal.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Schroedinger Reference Manual</th>
+<td><a accesskey="n" href="schroedinger-schromotionest.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#schroedinger-schromotion.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#schroedinger-schromotion.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="schroedinger-schromotion"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="schroedinger-schromotion.top_of_page"></a>schromotion</span></h2>
+<p>schromotion</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="schroedinger-schromotion.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a>;
+#define             <a class="link" href="schroedinger-schromotion.html#SCHRO-MOTION-GET-BLOCK:CAPS" title="SCHRO_MOTION_GET_BLOCK()">SCHRO_MOTION_GET_BLOCK</a>              (motion,x,y)
+#define             <a class="link" href="schroedinger-schromotion.html#SCHRO-MOTION-GET-DC-BLOCK:CAPS" title="SCHRO_MOTION_GET_DC_BLOCK()">SCHRO_MOTION_GET_DC_BLOCK</a>           (motion,x,y)
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-dc-prediction" title="schro_motion_dc_prediction ()">schro_motion_dc_prediction</a>          (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y,
+                                                         int *pred);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-vector-prediction" title="schro_motion_vector_prediction ()">schro_motion_vector_prediction</a>      (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y,
+                                                         int *pred_x,
+                                                         int *pred_y,
+                                                         int mode);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-split-prediction" title="schro_motion_split_prediction ()">schro_motion_split_prediction</a>       (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-get-mode-prediction" title="schro_motion_get_mode_prediction ()">schro_motion_get_mode_prediction</a>    (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-block-estimate-entropy" title="schro_motion_block_estimate_entropy ()">schro_motion_block_estimate_entropy</a> (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-copy-from" title="schro_motion_copy_from ()">schro_motion_copy_from</a>              (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j,
+                                                         <a class="link" href="schroedinger-schromotionest.html#SchroBlock" title="SchroBlock">SchroBlock</a> *block);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-copy-to" title="schro_motion_copy_to ()">schro_motion_copy_to</a>                (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j,
+                                                         <a class="link" href="schroedinger-schromotionest.html#SchroBlock" title="SchroBlock">SchroBlock</a> *block);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-estimate-entropy" title="schro_motion_estimate_entropy ()">schro_motion_estimate_entropy</a>       (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-field-lshift" title="schro_motion_field_lshift ()">schro_motion_field_lshift</a>           (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *mf,
+                                                         int n);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-free" title="schro_motion_free ()">schro_motion_free</a>                   (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-get-global-prediction" title="schro_motion_get_global_prediction ()">schro_motion_get_global_prediction</a>  (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y);
+<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a>*        <a class="link" href="schroedinger-schromotion.html#schro-motion-new" title="schro_motion_new ()">schro_motion_new</a>                    (<a class="link" href="schroedinger-schroparams.html#SchroParams" title="SchroParams">SchroParams</a> *params,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroUpsampledFrame" title="SchroUpsampledFrame">SchroUpsampledFrame</a> *ref1,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroUpsampledFrame" title="SchroUpsampledFrame">SchroUpsampledFrame</a> *ref2);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-render" title="schro_motion_render ()">schro_motion_render</a>                 (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *dest);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-render-cuda" title="schro_motion_render_cuda ()">schro_motion_render_cuda</a>            (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *dest);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-render-ref" title="schro_motion_render_ref ()">schro_motion_render_ref</a>             (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *dest);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-superblock-estimate-entropy" title="schro_motion_superblock_estimate_entropy ()">schro_motion_superblock_estimate_entropy</a>
+                                                        (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-superblock-try-estimate-entropy" title="schro_motion_superblock_try_estimate_entropy ()">schro_motion_superblock_try_estimate_entropy</a>
+                                                        (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j,
+                                                         <a class="link" href="schroedinger-schromotionest.html#SchroBlock" title="SchroBlock">SchroBlock</a> *block);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-vector-is-equal" title="schro_motion_vector_is_equal ()">schro_motion_vector_is_equal</a>        (<a class="link" href="schroedinger-schroparams.html#SchroMotionVector" title="SchroMotionVector">SchroMotionVector</a> *mv1,
+                                                         <a class="link" href="schroedinger-schroparams.html#SchroMotionVector" title="SchroMotionVector">SchroMotionVector</a> *mv2);
+<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a>*   <a class="link" href="schroedinger-schromotion.html#schro-motion-field-new" title="schro_motion_field_new ()">schro_motion_field_new</a>              (int x_num_blocks,
+                                                         int y_num_blocks);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-field-free" title="schro_motion_field_free ()">schro_motion_field_free</a>             (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *field);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-field-scan" title="schro_motion_field_scan ()">schro_motion_field_scan</a>             (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *field,
+                                                         <a class="link" href="schroedinger-schroparams.html#SchroParams" title="SchroParams">SchroParams</a> *params,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *ref,
+                                                         int dist);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-field-inherit" title="schro_motion_field_inherit ()">schro_motion_field_inherit</a>          (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *field,
+                                                         <a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *parent);
+void                <a class="link" href="schroedinger-schromotion.html#schro-motion-field-copy" title="schro_motion_field_copy ()">schro_motion_field_copy</a>             (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *field,
+                                                         <a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *parent);
+int                 <a class="link" href="schroedinger-schromotion.html#schro-motion-verify" title="schro_motion_verify ()">schro_motion_verify</a>                 (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *mf);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schromotion.description"></a><h2>Description</h2>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="schroedinger-schromotion.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="SchroMotion"></a><h3>SchroMotion</h3>
+<pre class="programlisting">typedef struct {
+  SchroUpsampledFrame *src1;
+  SchroUpsampledFrame *src2;
+  SchroMotionVector *motion_vectors;
+  SchroParams *params;
+
+  uint8_t *tmpdata;
+
+  int ref_weight_precision;
+  int ref1_weight;
+  int ref2_weight;
+  int mv_precision;
+  int xoffset;
+  int yoffset;
+  int xbsep;
+  int ybsep;
+  int xblen;
+  int yblen;
+
+  SchroFrameData block;
+  SchroFrameData alloc_block;
+  SchroFrameData obmc_weight;
+
+  SchroFrameData alloc_block_ref[2];
+  SchroFrameData block_ref[2];
+
+  int weight_x[SCHRO_LIMIT_BLOCK_SIZE];
+  int weight_y[SCHRO_LIMIT_BLOCK_SIZE];
+  int width;
+  int height;
+  int max_fast_x;
+  int max_fast_y;
+} SchroMotion;
+</pre>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-MOTION-GET-BLOCK:CAPS"></a><h3>SCHRO_MOTION_GET_BLOCK()</h3>
+<pre class="programlisting">#define             SCHRO_MOTION_GET_BLOCK(motion,x,y)</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="SCHRO-MOTION-GET-DC-BLOCK:CAPS"></a><h3>SCHRO_MOTION_GET_DC_BLOCK()</h3>
+<pre class="programlisting">#define             SCHRO_MOTION_GET_DC_BLOCK(motion,x,y)</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-dc-prediction"></a><h3>schro_motion_dc_prediction ()</h3>
+<pre class="programlisting">void                schro_motion_dc_prediction          (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y,
+                                                         int *pred);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pred</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-vector-prediction"></a><h3>schro_motion_vector_prediction ()</h3>
+<pre class="programlisting">void                schro_motion_vector_prediction      (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y,
+                                                         int *pred_x,
+                                                         int *pred_y,
+                                                         int mode);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pred_x</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pred_y</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mode</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-split-prediction"></a><h3>schro_motion_split_prediction ()</h3>
+<pre class="programlisting">int                 schro_motion_split_prediction       (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-get-mode-prediction"></a><h3>schro_motion_get_mode_prediction ()</h3>
+<pre class="programlisting">int                 schro_motion_get_mode_prediction    (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-block-estimate-entropy"></a><h3>schro_motion_block_estimate_entropy ()</h3>
+<pre class="programlisting">int                 schro_motion_block_estimate_entropy (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>j</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-copy-from"></a><h3>schro_motion_copy_from ()</h3>
+<pre class="programlisting">void                schro_motion_copy_from              (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j,
+                                                         <a class="link" href="schroedinger-schromotionest.html#SchroBlock" title="SchroBlock">SchroBlock</a> *block);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>j</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>block</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-copy-to"></a><h3>schro_motion_copy_to ()</h3>
+<pre class="programlisting">void                schro_motion_copy_to                (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j,
+                                                         <a class="link" href="schroedinger-schromotionest.html#SchroBlock" title="SchroBlock">SchroBlock</a> *block);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>j</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>block</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-estimate-entropy"></a><h3>schro_motion_estimate_entropy ()</h3>
+<pre class="programlisting">int                 schro_motion_estimate_entropy       (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-field-lshift"></a><h3>schro_motion_field_lshift ()</h3>
+<pre class="programlisting">void                schro_motion_field_lshift           (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *mf,
+                                                         int n);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mf</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>n</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-free"></a><h3>schro_motion_free ()</h3>
+<pre class="programlisting">void                schro_motion_free                   (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-get-global-prediction"></a><h3>schro_motion_get_global_prediction ()</h3>
+<pre class="programlisting">int                 schro_motion_get_global_prediction  (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int x,
+                                                         int y);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-new"></a><h3>schro_motion_new ()</h3>
+<pre class="programlisting"><a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a>*        schro_motion_new                    (<a class="link" href="schroedinger-schroparams.html#SchroParams" title="SchroParams">SchroParams</a> *params,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroUpsampledFrame" title="SchroUpsampledFrame">SchroUpsampledFrame</a> *ref1,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroUpsampledFrame" title="SchroUpsampledFrame">SchroUpsampledFrame</a> *ref2);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>params</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ref1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ref2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-render"></a><h3>schro_motion_render ()</h3>
+<pre class="programlisting">void                schro_motion_render                 (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *dest);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-render-cuda"></a><h3>schro_motion_render_cuda ()</h3>
+<pre class="programlisting">void                schro_motion_render_cuda            (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *dest);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-render-ref"></a><h3>schro_motion_render_ref ()</h3>
+<pre class="programlisting">void                schro_motion_render_ref             (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *dest);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-superblock-estimate-entropy"></a><h3>schro_motion_superblock_estimate_entropy ()</h3>
+<pre class="programlisting">int                 schro_motion_superblock_estimate_entropy
+                                                        (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>j</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-superblock-try-estimate-entropy"></a><h3>schro_motion_superblock_try_estimate_entropy ()</h3>
+<pre class="programlisting">int                 schro_motion_superblock_try_estimate_entropy
+                                                        (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *motion,
+                                                         int i,
+                                                         int j,
+                                                         <a class="link" href="schroedinger-schromotionest.html#SchroBlock" title="SchroBlock">SchroBlock</a> *block);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>motion</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>i</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>j</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>block</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-vector-is-equal"></a><h3>schro_motion_vector_is_equal ()</h3>
+<pre class="programlisting">int                 schro_motion_vector_is_equal        (<a class="link" href="schroedinger-schroparams.html#SchroMotionVector" title="SchroMotionVector">SchroMotionVector</a> *mv1,
+                                                         <a class="link" href="schroedinger-schroparams.html#SchroMotionVector" title="SchroMotionVector">SchroMotionVector</a> *mv2);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mv1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mv2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-field-new"></a><h3>schro_motion_field_new ()</h3>
+<pre class="programlisting"><a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a>*   schro_motion_field_new              (int x_num_blocks,
+                                                         int y_num_blocks);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>x_num_blocks</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>y_num_blocks</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-field-free"></a><h3>schro_motion_field_free ()</h3>
+<pre class="programlisting">void                schro_motion_field_free             (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *field);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>field</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-field-scan"></a><h3>schro_motion_field_scan ()</h3>
+<pre class="programlisting">void                schro_motion_field_scan             (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *field,
+                                                         <a class="link" href="schroedinger-schroparams.html#SchroParams" title="SchroParams">SchroParams</a> *params,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *frame,
+                                                         <a class="link" href="schroedinger-schroframe.html#SchroFrame" title="SchroFrame">SchroFrame</a> *ref,
+                                                         int dist);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>field</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>params</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>frame</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ref</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dist</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-field-inherit"></a><h3>schro_motion_field_inherit ()</h3>
+<pre class="programlisting">void                schro_motion_field_inherit          (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *field,
+                                                         <a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *parent);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>field</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-field-copy"></a><h3>schro_motion_field_copy ()</h3>
+<pre class="programlisting">void                schro_motion_field_copy             (<a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *field,
+                                                         <a class="link" href="schroedinger-schroparams.html#SchroMotionField" title="SchroMotionField">SchroMotionField</a> *parent);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>field</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>parent</code></em> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="schro-motion-verify"></a><h3>schro_motion_verify ()</h3>
+<pre class="programlisting">int                 schro_motion_verify                 (<a class="link" href="schroedinger-schromotion.html#SchroMotion" title="SchroMotion">SchroMotion</a> *mf);</pre>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>mf</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+
+
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

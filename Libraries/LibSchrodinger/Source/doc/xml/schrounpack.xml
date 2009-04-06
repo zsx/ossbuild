@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrounpack">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrounpack.top_of_page">schrounpack</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrounpack</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrounpack.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="SchroUnpack">SchroUnpack</link>;
+<link linkend="void">void</link>                <link linkend="schro-unpack-byte-sync">schro_unpack_byte_sync</link>              (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);
+<link linkend="void">void</link>                <link linkend="schro-unpack-copy">schro_unpack_copy</link>                   (<link linkend="SchroUnpack">SchroUnpack</link> *dest,
+                                                         <link linkend="SchroUnpack">SchroUnpack</link> *src);
+unsigned <link linkend="int">int</link>        <link linkend="schro-unpack-decode-bit">schro_unpack_decode_bit</link>             (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);
+unsigned <link linkend="int">int</link>        <link linkend="schro-unpack-decode-bits">schro_unpack_decode_bits</link>            (<link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="int">int</link> n);
+<link linkend="int">int</link>                 <link linkend="schro-unpack-decode-sint">schro_unpack_decode_sint</link>            (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);
+<link linkend="void">void</link>                <link linkend="schro-unpack-decode-sint-s16">schro_unpack_decode_sint_s16</link>        (<link linkend="int16-t">int16_t</link> *dest,
+                                                         <link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="int">int</link> n);
+<link linkend="int">int</link>                 <link linkend="schro-unpack-decode-sint-slow">schro_unpack_decode_sint_slow</link>       (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);
+unsigned <link linkend="int">int</link>        <link linkend="schro-unpack-decode-uint">schro_unpack_decode_uint</link>            (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);
+<link linkend="int">int</link>                 <link linkend="schro-unpack-get-bits-read">schro_unpack_get_bits_read</link>          (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);
+<link linkend="int">int</link>                 <link linkend="schro-unpack-get-bits-remaining">schro_unpack_get_bits_remaining</link>     (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);
+<link linkend="void">void</link>                <link linkend="schro-unpack-init-with-data">schro_unpack_init_with_data</link>         (<link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="uint8-t">uint8_t</link> *data,
+                                                         <link linkend="int">int</link> n_bytes,
+                                                         unsigned <link linkend="int">int</link> guard_bit);
+<link linkend="void">void</link>                <link linkend="schro-unpack-limit-bits-remaining">schro_unpack_limit_bits_remaining</link>   (<link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="int">int</link> n_bits);
+<link linkend="void">void</link>                <link linkend="schro-unpack-skip-bits">schro_unpack_skip_bits</link>              (<link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="int">int</link> n_bits);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrounpack.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrounpack.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SchroUnpack" role="struct">
+<title>SchroUnpack</title>
+<indexterm zone="SchroUnpack"><primary>SchroUnpack</primary></indexterm><programlisting>typedef struct {
+  /* pointer to data that haven't been shifted into the shift register */
+  uint8_t *data;
+
+  /* number of bits remaining that haven't been shifted into the shift
+   * register */
+  int n_bits_left;
+
+  /* number of bits read by reader */
+  int n_bits_read;
+
+  /* chunk of bits we're currently frobbing, aligned to (1&lt;&lt;31) */
+  uint32_t shift_register;
+  int n_bits_in_shift_register;
+
+  /* bit pattern used after an error */
+  unsigned int guard_bit;
+
+  /* unpacking has overrun the end of the buffer */
+  int overrun;
+} SchroUnpack;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="schro-unpack-byte-sync" role="function">
+<title>schro_unpack_byte_sync ()</title>
+<indexterm zone="schro-unpack-byte-sync"><primary>schro_unpack_byte_sync</primary></indexterm><programlisting><link linkend="void">void</link>                schro_unpack_byte_sync              (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-copy" role="function">
+<title>schro_unpack_copy ()</title>
+<indexterm zone="schro-unpack-copy"><primary>schro_unpack_copy</primary></indexterm><programlisting><link linkend="void">void</link>                schro_unpack_copy                   (<link linkend="SchroUnpack">SchroUnpack</link> *dest,
+                                                         <link linkend="SchroUnpack">SchroUnpack</link> *src);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-decode-bit" role="function">
+<title>schro_unpack_decode_bit ()</title>
+<indexterm zone="schro-unpack-decode-bit"><primary>schro_unpack_decode_bit</primary></indexterm><programlisting>unsigned <link linkend="int">int</link>        schro_unpack_decode_bit             (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-decode-bits" role="function">
+<title>schro_unpack_decode_bits ()</title>
+<indexterm zone="schro-unpack-decode-bits"><primary>schro_unpack_decode_bits</primary></indexterm><programlisting>unsigned <link linkend="int">int</link>        schro_unpack_decode_bits            (<link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-decode-sint" role="function">
+<title>schro_unpack_decode_sint ()</title>
+<indexterm zone="schro-unpack-decode-sint"><primary>schro_unpack_decode_sint</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_unpack_decode_sint            (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-decode-sint-s16" role="function">
+<title>schro_unpack_decode_sint_s16 ()</title>
+<indexterm zone="schro-unpack-decode-sint-s16"><primary>schro_unpack_decode_sint_s16</primary></indexterm><programlisting><link linkend="void">void</link>                schro_unpack_decode_sint_s16        (<link linkend="int16-t">int16_t</link> *dest,
+                                                         <link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-decode-sint-slow" role="function">
+<title>schro_unpack_decode_sint_slow ()</title>
+<indexterm zone="schro-unpack-decode-sint-slow"><primary>schro_unpack_decode_sint_slow</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_unpack_decode_sint_slow       (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-decode-uint" role="function">
+<title>schro_unpack_decode_uint ()</title>
+<indexterm zone="schro-unpack-decode-uint"><primary>schro_unpack_decode_uint</primary></indexterm><programlisting>unsigned <link linkend="int">int</link>        schro_unpack_decode_uint            (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-get-bits-read" role="function">
+<title>schro_unpack_get_bits_read ()</title>
+<indexterm zone="schro-unpack-get-bits-read"><primary>schro_unpack_get_bits_read</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_unpack_get_bits_read          (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-get-bits-remaining" role="function">
+<title>schro_unpack_get_bits_remaining ()</title>
+<indexterm zone="schro-unpack-get-bits-remaining"><primary>schro_unpack_get_bits_remaining</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_unpack_get_bits_remaining     (<link linkend="SchroUnpack">SchroUnpack</link> *unpack);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-init-with-data" role="function">
+<title>schro_unpack_init_with_data ()</title>
+<indexterm zone="schro-unpack-init-with-data"><primary>schro_unpack_init_with_data</primary></indexterm><programlisting><link linkend="void">void</link>                schro_unpack_init_with_data         (<link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="uint8-t">uint8_t</link> *data,
+                                                         <link linkend="int">int</link> n_bytes,
+                                                         unsigned <link linkend="int">int</link> guard_bit);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>data</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n_bytes</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>guard_bit</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-limit-bits-remaining" role="function">
+<title>schro_unpack_limit_bits_remaining ()</title>
+<indexterm zone="schro-unpack-limit-bits-remaining"><primary>schro_unpack_limit_bits_remaining</primary></indexterm><programlisting><link linkend="void">void</link>                schro_unpack_limit_bits_remaining   (<link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="int">int</link> n_bits);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n_bits</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-unpack-skip-bits" role="function">
+<title>schro_unpack_skip_bits ()</title>
+<indexterm zone="schro-unpack-skip-bits"><primary>schro_unpack_skip_bits</primary></indexterm><programlisting><link linkend="void">void</link>                schro_unpack_skip_bits              (<link linkend="SchroUnpack">SchroUnpack</link> *unpack,
+                                                         <link linkend="int">int</link> n_bits);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>unpack</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n_bits</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

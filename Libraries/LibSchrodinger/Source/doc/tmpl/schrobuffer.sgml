@@ -1,0 +1,89 @@
+<!-- ##### SECTION Title ##### -->
+schrobuffer
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SchroBuffer ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION schro_buffer_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_buffer_new_and_alloc ##### -->
+<para>
+
+</para>
+
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_buffer_new_with_data ##### -->
+<para>
+
+</para>
+
+@data: 
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_buffer_new_subbuffer ##### -->
+<para>
+
+</para>
+
+@buffer: 
+@offset: 
+@length: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_buffer_ref ##### -->
+<para>
+
+</para>
+
+@buffer: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_buffer_unref ##### -->
+<para>
+
+</para>
+
+@buffer: 
+
+
+<!-- ##### FUNCTION schro_buffer_dup ##### -->
+<para>
+
+</para>
+
+@buffer: 
+@Returns: 
+
+

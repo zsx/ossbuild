@@ -1,0 +1,364 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schroparams">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schroparams.top_of_page">schroparams</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schroparams</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schroparams.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="SchroVideoFormat">SchroVideoFormat</link>;
+                    <link linkend="SchroParams">SchroParams</link>;
+                    <link linkend="SchroMotionVector">SchroMotionVector</link>;
+                    <link linkend="SchroMotionField">SchroMotionField</link>;
+                    <link linkend="SchroMotionVectorDC">SchroMotionVectorDC</link>;
+                    <link linkend="SchroGlobalMotion">SchroGlobalMotion</link>;
+typedef             <link linkend="SchroPictureNumber">SchroPictureNumber</link>;
+<link linkend="void">void</link>                <link linkend="schro-params-calculate-iwt-sizes">schro_params_calculate_iwt_sizes</link>    (<link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="void">void</link>                <link linkend="schro-params-calculate-mc-sizes">schro_params_calculate_mc_sizes</link>     (<link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="int">int</link>                 <link linkend="schro-params-set-block-params">schro_params_set_block_params</link>       (<link linkend="SchroParams">SchroParams</link> *params,
+                                                         <link linkend="int">int</link> index);
+<link linkend="void">void</link>                <link linkend="schro-params-set-default-codeblock">schro_params_set_default_codeblock</link>  (<link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="int">int</link>                 <link linkend="schro-params-get-block-params">schro_params_get_block_params</link>       (<link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="int">int</link>                 <link linkend="schro-params-get-frame-format">schro_params_get_frame_format</link>       (<link linkend="int">int</link> depth,
+                                                         <link linkend="SchroChromaFormat">SchroChromaFormat</link> chroma_format);
+<link linkend="void">void</link>                <link linkend="schro-params-init">schro_params_init</link>                   (<link linkend="SchroParams">SchroParams</link> *params,
+                                                         <link linkend="int">int</link> video_format);
+<link linkend="schro-bool">schro_bool</link>          <link linkend="schro-params-is-default-codeblock">schro_params_is_default_codeblock</link>   (<link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="schro-bool">schro_bool</link>          <link linkend="schro-params-is-default-quant-matrix">schro_params_is_default_quant_matrix</link>
+                                                        (<link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="void">void</link>                <link linkend="schro-params-set-default-quant-matrix">schro_params_set_default_quant_matrix</link>
+                                                        (<link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="int">int</link>                 <link linkend="schro-params-verify-block-params">schro_params_verify_block_params</link>    (<link linkend="SchroParams">SchroParams</link> *params);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schroparams.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schroparams.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SchroVideoFormat" role="struct">
+<title>SchroVideoFormat</title>
+<indexterm zone="SchroVideoFormat"><primary>SchroVideoFormat</primary></indexterm><programlisting>typedef struct {
+  SchroVideoFormatEnum index;
+  int width;
+  int height;
+  SchroChromaFormat chroma_format;
+
+  schro_bool interlaced;
+  schro_bool top_field_first;
+
+  int frame_rate_numerator;
+  int frame_rate_denominator;
+  int aspect_ratio_numerator;
+  int aspect_ratio_denominator;
+
+  int clean_width;
+  int clean_height;
+  int left_offset;
+  int top_offset;
+
+  int luma_offset;
+  int luma_excursion;
+  int chroma_offset;
+  int chroma_excursion;
+
+  SchroColourPrimaries colour_primaries;
+  SchroColourMatrix colour_matrix;
+  SchroTransferFunction transfer_function;
+
+  int interlaced_coding;
+
+  int unused0;
+  int unused1;
+  int unused2;
+} SchroVideoFormat;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroParams" role="struct">
+<title>SchroParams</title>
+<indexterm zone="SchroParams"><primary>SchroParams</primary></indexterm><programlisting>typedef struct {
+} SchroParams;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroMotionVector" role="struct">
+<title>SchroMotionVector</title>
+<indexterm zone="SchroMotionVector"><primary>SchroMotionVector</primary></indexterm><programlisting>typedef struct {
+  unsigned int pred_mode : 2;
+  unsigned int using_global : 1;
+  unsigned int split : 2;
+  unsigned int unused : 3;
+  unsigned int scan : 8;
+  unsigned int metric : 16;
+  int16_t dx[2];
+  int16_t dy[2];
+} SchroMotionVector;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroMotionField" role="struct">
+<title>SchroMotionField</title>
+<indexterm zone="SchroMotionField"><primary>SchroMotionField</primary></indexterm><programlisting>typedef struct {
+  int x_num_blocks;
+  int y_num_blocks;
+  SchroMotionVector *motion_vectors;
+} SchroMotionField;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroMotionVectorDC" role="struct">
+<title>SchroMotionVectorDC</title>
+<indexterm zone="SchroMotionVectorDC"><primary>SchroMotionVectorDC</primary></indexterm><programlisting>typedef struct {
+  unsigned int pred_mode : 2;
+  unsigned int using_global : 1;
+  unsigned int split : 2;
+  unsigned int unused : 3;
+  unsigned int scan : 8;
+  unsigned int metric : 16;
+  int16_t dc[3];
+  uint16_t _padding1;
+} SchroMotionVectorDC;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroGlobalMotion" role="struct">
+<title>SchroGlobalMotion</title>
+<indexterm zone="SchroGlobalMotion"><primary>SchroGlobalMotion</primary></indexterm><programlisting>typedef struct {
+  int b0;
+  int b1;
+  int a_exp;
+  int a00;
+  int a01;
+  int a10;
+  int a11;
+  int c_exp;
+  int c0;
+  int c1;
+} SchroGlobalMotion;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroPictureNumber" role="typedef">
+<title>SchroPictureNumber</title>
+<indexterm zone="SchroPictureNumber"><primary>SchroPictureNumber</primary></indexterm><programlisting>typedef uint32_t SchroPictureNumber;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="schro-params-calculate-iwt-sizes" role="function">
+<title>schro_params_calculate_iwt_sizes ()</title>
+<indexterm zone="schro-params-calculate-iwt-sizes"><primary>schro_params_calculate_iwt_sizes</primary></indexterm><programlisting><link linkend="void">void</link>                schro_params_calculate_iwt_sizes    (<link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+Calculates the size of the array used for wavelet transformation
+using the current video format and transformation depth in the
+<parameter>params</parameter> structure.  The <parameter>params</parameter> structure is updated with the new
+values.
+</para>
+<para>
+The structure fields changed are: iwt_chroma_width, iwt_chroma_height,
+iwt_luma_width, iwt_luma_height.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to <parameter>SchroParams</parameter> structure
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-calculate-mc-sizes" role="function">
+<title>schro_params_calculate_mc_sizes ()</title>
+<indexterm zone="schro-params-calculate-mc-sizes"><primary>schro_params_calculate_mc_sizes</primary></indexterm><programlisting><link linkend="void">void</link>                schro_params_calculate_mc_sizes     (<link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+Calculates the size of the array used for motion compensation
+using the current video format and motion compensation paramters
+in the <parameter>params</parameter> structure.  The <parameter>params</parameter> structure is updated with
+the new values.
+</para>
+<para>
+The structure fields changed are: x_num_blocks, y_num_blocks,
+mc_luma_width, mc_luma_height, mc_chroma_width, mc_chroma_height,
+x_offset, y_offset.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to <parameter>SchroParams</parameter> structure
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-set-block-params" role="function">
+<title>schro_params_set_block_params ()</title>
+<indexterm zone="schro-params-set-block-params"><primary>schro_params_set_block_params</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_params_set_block_params       (<link linkend="SchroParams">SchroParams</link> *params,
+                                                         <link linkend="int">int</link> index);</programlisting>
+<para>
+Sets the block parameters for motion compensation in the parameters
+structure pointed to by <parameter>params</parameter> to the
+standard block parameters given by <parameter>index</parameter>.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to SchroParams structure
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>index</parameter>&nbsp;:</term>
+<listitem><simpara> index to standard block parameters
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-set-default-codeblock" role="function">
+<title>schro_params_set_default_codeblock ()</title>
+<indexterm zone="schro-params-set-default-codeblock"><primary>schro_params_set_default_codeblock</primary></indexterm><programlisting><link linkend="void">void</link>                schro_params_set_default_codeblock  (<link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+Sets the codeblock parameters in the parameters structure pointed to
+by <parameter>params</parameter> to the defaults.</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to SchroParams structure
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-get-block-params" role="function">
+<title>schro_params_get_block_params ()</title>
+<indexterm zone="schro-params-get-block-params"><primary>schro_params_get_block_params</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_params_get_block_params       (<link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-get-frame-format" role="function">
+<title>schro_params_get_frame_format ()</title>
+<indexterm zone="schro-params-get-frame-format"><primary>schro_params_get_frame_format</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_params_get_frame_format       (<link linkend="int">int</link> depth,
+                                                         <link linkend="SchroChromaFormat">SchroChromaFormat</link> chroma_format);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>depth</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>chroma_format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-init" role="function">
+<title>schro_params_init ()</title>
+<indexterm zone="schro-params-init"><primary>schro_params_init</primary></indexterm><programlisting><link linkend="void">void</link>                schro_params_init                   (<link linkend="SchroParams">SchroParams</link> *params,
+                                                         <link linkend="int">int</link> video_format);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>video_format</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-is-default-codeblock" role="function">
+<title>schro_params_is_default_codeblock ()</title>
+<indexterm zone="schro-params-is-default-codeblock"><primary>schro_params_is_default_codeblock</primary></indexterm><programlisting><link linkend="schro-bool">schro_bool</link>          schro_params_is_default_codeblock   (<link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+</para>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara> pointer to SchroParams structure
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara> True if the codeblocks in <parameter>params</parameter> are the default codeblocks.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-is-default-quant-matrix" role="function">
+<title>schro_params_is_default_quant_matrix ()</title>
+<indexterm zone="schro-params-is-default-quant-matrix"><primary>schro_params_is_default_quant_matrix</primary></indexterm><programlisting><link linkend="schro-bool">schro_bool</link>          schro_params_is_default_quant_matrix
+                                                        (<link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-set-default-quant-matrix" role="function">
+<title>schro_params_set_default_quant_matrix ()</title>
+<indexterm zone="schro-params-set-default-quant-matrix"><primary>schro_params_set_default_quant_matrix</primary></indexterm><programlisting><link linkend="void">void</link>                schro_params_set_default_quant_matrix
+                                                        (<link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-params-verify-block-params" role="function">
+<title>schro_params_verify_block_params ()</title>
+<indexterm zone="schro-params-verify-block-params"><primary>schro_params_verify_block_params</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_params_verify_block_params    (<link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

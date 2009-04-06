@@ -1,0 +1,617 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schroutils">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schroutils.top_of_page">schroutils</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schroutils</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schroutils.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+typedef             <link linkend="schro-bool">schro_bool</link>;
+#define             <link linkend="SCHRO-GET:CAPS">SCHRO_GET</link>                           (ptr, offset, type)
+#define             <link linkend="OFFSET:CAPS">OFFSET</link>                              (ptr,offset)
+#define             <link linkend="SCHRO-INTERNAL:CAPS">SCHRO_INTERNAL</link>
+#define             <link linkend="ARRAY-SIZE:CAPS">ARRAY_SIZE</link>                          (x)
+#define             <link linkend="MIN:CAPS">MIN</link>                                 (a,b)
+#define             <link linkend="MAX:CAPS">MAX</link>                                 (a,b)
+#define             <link linkend="CLAMP:CAPS">CLAMP</link>                               (x,a,b)
+#define             <link linkend="DIVIDE-ROUND-UP:CAPS">DIVIDE_ROUND_UP</link>                     (a,b)
+#define             <link linkend="ROUND-UP-SHIFT:CAPS">ROUND_UP_SHIFT</link>                      (x,y)
+#define             <link linkend="ROUND-UP-POW2:CAPS">ROUND_UP_POW2</link>                       (x,y)
+#define             <link linkend="ROUND-UP-2:CAPS">ROUND_UP_2</link>                          (x)
+#define             <link linkend="ROUND-UP-4:CAPS">ROUND_UP_4</link>                          (x)
+#define             <link linkend="ROUND-UP-8:CAPS">ROUND_UP_8</link>                          (x)
+#define             <link linkend="ROUND-UP-64:CAPS">ROUND_UP_64</link>                         (x)
+#define             <link linkend="ROUND-SHIFT:CAPS">ROUND_SHIFT</link>                         (x,y)
+#define             <link linkend="NEED-CLAMP:CAPS">NEED_CLAMP</link>                          (x,y,a,b)
+#define             <link linkend="schro-divide">schro_divide</link>                        (a,b)
+<link linkend="double">double</link>              <link linkend="schro-utils-entropy">schro_utils_entropy</link>                 (<link linkend="double">double</link> a,
+                                                         <link linkend="double">double</link> total);
+<link linkend="int">int</link>                 <link linkend="schro-utils-multiplier-to-quant-index">schro_utils_multiplier_to_quant_index</link>
+                                                        (<link linkend="double">double</link> x);
+<link linkend="double">double</link>              <link linkend="schro-utils-probability-to-entropy">schro_utils_probability_to_entropy</link>  (<link linkend="double">double</link> x);
+<link linkend="void">void</link>                <link linkend="schro-utils-reduce-fraction">schro_utils_reduce_fraction</link>         (<link linkend="int">int</link> *n,
+                                                         <link linkend="int">int</link> *d);
+<link linkend="int">int</link>                 <link linkend="schro-dequantise">schro_dequantise</link>                    (<link linkend="int">int</link> q,
+                                                         <link linkend="int">int</link> quant_factor,
+                                                         <link linkend="int">int</link> quant_offset);
+<link linkend="int">int</link>                 <link linkend="schro-quantise">schro_quantise</link>                      (<link linkend="int">int</link> value,
+                                                         <link linkend="int">int</link> quant_factor,
+                                                         <link linkend="int">int</link> quant_offset);
+<link linkend="void">void</link>                <link linkend="schro-dequantise-s16">schro_dequantise_s16</link>                (<link linkend="int16-t">int16_t</link> *dest,
+                                                         <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> quant_factor,
+                                                         <link linkend="int">int</link> quant_offset,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>                <link linkend="schro-quantise-s16">schro_quantise_s16</link>                  (<link linkend="int16-t">int16_t</link> *dest,
+                                                         <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> quant_factor,
+                                                         <link linkend="int">int</link> quant_offset,
+                                                         <link linkend="int">int</link> n);
+<link linkend="void">void</link>*               <link linkend="schro-malloc">schro_malloc</link>                        (<link linkend="int">int</link> size);
+<link linkend="void">void</link>*               <link linkend="schro-malloc0">schro_malloc0</link>                       (<link linkend="int">int</link> size);
+<link linkend="void">void</link>*               <link linkend="schro-realloc">schro_realloc</link>                       (<link linkend="void">void</link> *ptr,
+                                                         <link linkend="int">int</link> size);
+<link linkend="void">void</link>                <link linkend="schro-free">schro_free</link>                          (<link linkend="void">void</link> *ptr);
+<link linkend="double">double</link>              <link linkend="schro-utils-get-time">schro_utils_get_time</link>                (void);
+<link linkend="int">int</link>                 <link linkend="muldiv64">muldiv64</link>                            (<link linkend="int">int</link> a,
+                                                         <link linkend="int">int</link> b,
+                                                         <link linkend="int">int</link> c);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schroutils.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schroutils.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="schro-bool" role="typedef">
+<title>schro_bool</title>
+<indexterm zone="schro-bool"><primary>schro_bool</primary></indexterm><programlisting>typedef unsigned int schro_bool;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-GET:CAPS" role="macro">
+<title>SCHRO_GET()</title>
+<indexterm zone="SCHRO-GET:CAPS"><primary>SCHRO_GET</primary></indexterm><programlisting>#define SCHRO_GET(ptr, offset, type) (*(type *)((uint8_t *)(ptr) + (offset)) )
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ptr</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="OFFSET:CAPS" role="macro">
+<title>OFFSET()</title>
+<indexterm zone="OFFSET:CAPS"><primary>OFFSET</primary></indexterm><programlisting>#define OFFSET(ptr,offset) ((void *)(((uint8_t *)(ptr)) + (offset)))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ptr</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-INTERNAL:CAPS" role="macro">
+<title>SCHRO_INTERNAL</title>
+<indexterm zone="SCHRO-INTERNAL:CAPS"><primary>SCHRO_INTERNAL</primary></indexterm><programlisting>#define             SCHRO_INTERNAL</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="ARRAY-SIZE:CAPS" role="macro">
+<title>ARRAY_SIZE()</title>
+<indexterm zone="ARRAY-SIZE:CAPS"><primary>ARRAY_SIZE</primary></indexterm><programlisting>#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="MIN:CAPS" role="macro">
+<title>MIN()</title>
+<indexterm zone="MIN:CAPS"><primary>MIN</primary></indexterm><programlisting>#define MIN(a,b) ((a)&lt;(b) ? (a) : (b))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="MAX:CAPS" role="macro">
+<title>MAX()</title>
+<indexterm zone="MAX:CAPS"><primary>MAX</primary></indexterm><programlisting>#define MAX(a,b) ((a)&gt;(b) ? (a) : (b))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="CLAMP:CAPS" role="macro">
+<title>CLAMP()</title>
+<indexterm zone="CLAMP:CAPS"><primary>CLAMP</primary></indexterm><programlisting>#define CLAMP(x,a,b) ((x)&lt;(a) ? (a) : ((x)&gt;(b) ? (b) : (x)))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="DIVIDE-ROUND-UP:CAPS" role="macro">
+<title>DIVIDE_ROUND_UP()</title>
+<indexterm zone="DIVIDE-ROUND-UP:CAPS"><primary>DIVIDE_ROUND_UP</primary></indexterm><programlisting>#define DIVIDE_ROUND_UP(a,b) (((a) + (b) - 1)/(b))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="ROUND-UP-SHIFT:CAPS" role="macro">
+<title>ROUND_UP_SHIFT()</title>
+<indexterm zone="ROUND-UP-SHIFT:CAPS"><primary>ROUND_UP_SHIFT</primary></indexterm><programlisting>#define ROUND_UP_SHIFT(x,y) (((x) + (1&lt;&lt;(y)) - 1)&gt;&gt;(y))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="ROUND-UP-POW2:CAPS" role="macro">
+<title>ROUND_UP_POW2()</title>
+<indexterm zone="ROUND-UP-POW2:CAPS"><primary>ROUND_UP_POW2</primary></indexterm><programlisting>#define ROUND_UP_POW2(x,y) (((x) + (1&lt;&lt;(y)) - 1)&amp;((~0)&lt;&lt;(y)))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="ROUND-UP-2:CAPS" role="macro">
+<title>ROUND_UP_2()</title>
+<indexterm zone="ROUND-UP-2:CAPS"><primary>ROUND_UP_2</primary></indexterm><programlisting>#define ROUND_UP_2(x) ROUND_UP_POW2(x,1)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="ROUND-UP-4:CAPS" role="macro">
+<title>ROUND_UP_4()</title>
+<indexterm zone="ROUND-UP-4:CAPS"><primary>ROUND_UP_4</primary></indexterm><programlisting>#define ROUND_UP_4(x) ROUND_UP_POW2(x,2)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="ROUND-UP-8:CAPS" role="macro">
+<title>ROUND_UP_8()</title>
+<indexterm zone="ROUND-UP-8:CAPS"><primary>ROUND_UP_8</primary></indexterm><programlisting>#define ROUND_UP_8(x) ROUND_UP_POW2(x,3)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="ROUND-UP-64:CAPS" role="macro">
+<title>ROUND_UP_64()</title>
+<indexterm zone="ROUND-UP-64:CAPS"><primary>ROUND_UP_64</primary></indexterm><programlisting>#define ROUND_UP_64(x) ROUND_UP_POW2(x,6)
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="ROUND-SHIFT:CAPS" role="macro">
+<title>ROUND_SHIFT()</title>
+<indexterm zone="ROUND-SHIFT:CAPS"><primary>ROUND_SHIFT</primary></indexterm><programlisting>#define ROUND_SHIFT(x,y) (((x) + (1&lt;&lt;((y)-1)))&gt;&gt;(y))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NEED-CLAMP:CAPS" role="macro">
+<title>NEED_CLAMP()</title>
+<indexterm zone="NEED-CLAMP:CAPS"><primary>NEED_CLAMP</primary></indexterm><programlisting>#define NEED_CLAMP(x,y,a,b) ((x) &lt; (a) || (y) &gt; (b))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>y</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-divide" role="macro">
+<title>schro_divide()</title>
+<indexterm zone="schro-divide"><primary>schro_divide</primary></indexterm><programlisting>#define schro_divide(a,b) (((a)&lt;0)?(((a) - (b) + 1)/(b)):((a)/(b)))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-utils-entropy" role="function">
+<title>schro_utils_entropy ()</title>
+<indexterm zone="schro-utils-entropy"><primary>schro_utils_entropy</primary></indexterm><programlisting><link linkend="double">double</link>              schro_utils_entropy                 (<link linkend="double">double</link> a,
+                                                         <link linkend="double">double</link> total);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>total</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-utils-multiplier-to-quant-index" role="function">
+<title>schro_utils_multiplier_to_quant_index ()</title>
+<indexterm zone="schro-utils-multiplier-to-quant-index"><primary>schro_utils_multiplier_to_quant_index</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_utils_multiplier_to_quant_index
+                                                        (<link linkend="double">double</link> x);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-utils-probability-to-entropy" role="function">
+<title>schro_utils_probability_to_entropy ()</title>
+<indexterm zone="schro-utils-probability-to-entropy"><primary>schro_utils_probability_to_entropy</primary></indexterm><programlisting><link linkend="double">double</link>              schro_utils_probability_to_entropy  (<link linkend="double">double</link> x);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-utils-reduce-fraction" role="function">
+<title>schro_utils_reduce_fraction ()</title>
+<indexterm zone="schro-utils-reduce-fraction"><primary>schro_utils_reduce_fraction</primary></indexterm><programlisting><link linkend="void">void</link>                schro_utils_reduce_fraction         (<link linkend="int">int</link> *n,
+                                                         <link linkend="int">int</link> *d);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>d</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-dequantise" role="function">
+<title>schro_dequantise ()</title>
+<indexterm zone="schro-dequantise"><primary>schro_dequantise</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_dequantise                    (<link linkend="int">int</link> q,
+                                                         <link linkend="int">int</link> quant_factor,
+                                                         <link linkend="int">int</link> quant_offset);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>q</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>quant_factor</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>quant_offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-quantise" role="function">
+<title>schro_quantise ()</title>
+<indexterm zone="schro-quantise"><primary>schro_quantise</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_quantise                      (<link linkend="int">int</link> value,
+                                                         <link linkend="int">int</link> quant_factor,
+                                                         <link linkend="int">int</link> quant_offset);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>value</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>quant_factor</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>quant_offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-dequantise-s16" role="function">
+<title>schro_dequantise_s16 ()</title>
+<indexterm zone="schro-dequantise-s16"><primary>schro_dequantise_s16</primary></indexterm><programlisting><link linkend="void">void</link>                schro_dequantise_s16                (<link linkend="int16-t">int16_t</link> *dest,
+                                                         <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> quant_factor,
+                                                         <link linkend="int">int</link> quant_offset,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>quant_factor</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>quant_offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-quantise-s16" role="function">
+<title>schro_quantise_s16 ()</title>
+<indexterm zone="schro-quantise-s16"><primary>schro_quantise_s16</primary></indexterm><programlisting><link linkend="void">void</link>                schro_quantise_s16                  (<link linkend="int16-t">int16_t</link> *dest,
+                                                         <link linkend="int16-t">int16_t</link> *src,
+                                                         <link linkend="int">int</link> quant_factor,
+                                                         <link linkend="int">int</link> quant_offset,
+                                                         <link linkend="int">int</link> n);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>quant_factor</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>quant_offset</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-malloc" role="function">
+<title>schro_malloc ()</title>
+<indexterm zone="schro-malloc"><primary>schro_malloc</primary></indexterm><programlisting><link linkend="void">void</link>*               schro_malloc                        (<link linkend="int">int</link> size);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>size</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-malloc0" role="function">
+<title>schro_malloc0 ()</title>
+<indexterm zone="schro-malloc0"><primary>schro_malloc0</primary></indexterm><programlisting><link linkend="void">void</link>*               schro_malloc0                       (<link linkend="int">int</link> size);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>size</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-realloc" role="function">
+<title>schro_realloc ()</title>
+<indexterm zone="schro-realloc"><primary>schro_realloc</primary></indexterm><programlisting><link linkend="void">void</link>*               schro_realloc                       (<link linkend="void">void</link> *ptr,
+                                                         <link linkend="int">int</link> size);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ptr</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>size</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-free" role="function">
+<title>schro_free ()</title>
+<indexterm zone="schro-free"><primary>schro_free</primary></indexterm><programlisting><link linkend="void">void</link>                schro_free                          (<link linkend="void">void</link> *ptr);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>ptr</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-utils-get-time" role="function">
+<title>schro_utils_get_time ()</title>
+<indexterm zone="schro-utils-get-time"><primary>schro_utils_get_time</primary></indexterm><programlisting><link linkend="double">double</link>              schro_utils_get_time                (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="muldiv64" role="function">
+<title>muldiv64 ()</title>
+<indexterm zone="muldiv64"><primary>muldiv64</primary></indexterm><programlisting><link linkend="int">int</link>                 muldiv64                            (<link linkend="int">int</link> a,
+                                                         <link linkend="int">int</link> b,
+                                                         <link linkend="int">int</link> c);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>c</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

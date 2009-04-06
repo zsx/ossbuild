@@ -1,0 +1,133 @@
+<!-- ##### SECTION Title ##### -->
+schrofilter
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### FUNCTION schro_frame_filter_adaptive_lowpass ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_frame_filter_addnoise ##### -->
+<para>
+
+</para>
+
+@frame: 
+@sigma: 
+
+
+<!-- ##### FUNCTION schro_frame_filter_cwm7 ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_frame_filter_cwmN ##### -->
+<para>
+
+</para>
+
+@frame: 
+@weight: 
+
+
+<!-- ##### FUNCTION schro_frame_filter_cwmN_ref ##### -->
+<para>
+
+</para>
+
+@frame: 
+@weight: 
+
+
+<!-- ##### FUNCTION schro_frame_filter_lowpass ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_frame_filter_lowpass2 ##### -->
+<para>
+
+</para>
+
+@frame: 
+@sigma: 
+
+
+<!-- ##### FUNCTION schro_frame_filter_lowpass_16 ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_frame_filter_wavelet ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_filter_cwm7 ##### -->
+<para>
+
+</para>
+
+@d: 
+@s1: 
+@s2: 
+@s3: 
+@n: 
+
+
+<!-- ##### FUNCTION schro_filter_cwmN ##### -->
+<para>
+
+</para>
+
+@d: 
+@s1: 
+@s2: 
+@s3: 
+@n: 
+@weight: 
+
+
+<!-- ##### FUNCTION schro_filter_cwmN_ref ##### -->
+<para>
+
+</para>
+
+@d: 
+@s1: 
+@s2: 
+@s3: 
+@n: 
+@weight: 
+
+

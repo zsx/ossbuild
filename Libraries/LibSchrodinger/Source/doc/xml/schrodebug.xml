@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrodebug">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrodebug.top_of_page">schrodebug</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrodebug</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrodebug.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+#define             <link linkend="SCHRO-ERROR:CAPS">SCHRO_ERROR</link>                         (...)
+#define             <link linkend="SCHRO-WARNING:CAPS">SCHRO_WARNING</link>                       (...)
+#define             <link linkend="SCHRO-INFO:CAPS">SCHRO_INFO</link>                          (...)
+#define             <link linkend="SCHRO-DEBUG:CAPS">SCHRO_DEBUG</link>                         (...)
+#define             <link linkend="SCHRO-LOG:CAPS">SCHRO_LOG</link>                           (...)
+#define             <link linkend="SCHRO-DEBUG-LEVEL:CAPS">SCHRO_DEBUG_LEVEL</link>                   (level,...)
+#define             <link linkend="SCHRO-MILD-ASSERT:CAPS">SCHRO_MILD_ASSERT</link>                   (test)
+#define             <link linkend="SCHRO-ASSERT:CAPS">SCHRO_ASSERT</link>                        (test)
+<link linkend="void">void</link>                <link linkend="schro-debug-log">schro_debug_log</link>                     (<link linkend="int">int</link> level,
+                                                         const <link linkend="char">char</link> *file,
+                                                         const <link linkend="char">char</link> *function,
+                                                         <link linkend="int">int</link> line,
+                                                         const <link linkend="char">char</link> *format,
+                                                         ...);
+<link linkend="void">void</link>                <link linkend="schro-debug-set-level">schro_debug_set_level</link>               (<link linkend="int">int</link> level);
+<link linkend="int">int</link>                 <link linkend="schro-debug-get-level">schro_debug_get_level</link>               (void);
+<link linkend="void">void</link>                <link linkend="schro-dump">schro_dump</link>                          (<link linkend="int">int</link> type,
+                                                         const <link linkend="char">char</link> *format,
+                                                         ...);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrodebug.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrodebug.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SCHRO-ERROR:CAPS" role="macro">
+<title>SCHRO_ERROR()</title>
+<indexterm zone="SCHRO-ERROR:CAPS"><primary>SCHRO_ERROR</primary></indexterm><programlisting>#define             SCHRO_ERROR(...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-WARNING:CAPS" role="macro">
+<title>SCHRO_WARNING()</title>
+<indexterm zone="SCHRO-WARNING:CAPS"><primary>SCHRO_WARNING</primary></indexterm><programlisting>#define             SCHRO_WARNING(...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-INFO:CAPS" role="macro">
+<title>SCHRO_INFO()</title>
+<indexterm zone="SCHRO-INFO:CAPS"><primary>SCHRO_INFO</primary></indexterm><programlisting>#define             SCHRO_INFO(...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-DEBUG:CAPS" role="macro">
+<title>SCHRO_DEBUG()</title>
+<indexterm zone="SCHRO-DEBUG:CAPS"><primary>SCHRO_DEBUG</primary></indexterm><programlisting>#define             SCHRO_DEBUG(...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-LOG:CAPS" role="macro">
+<title>SCHRO_LOG()</title>
+<indexterm zone="SCHRO-LOG:CAPS"><primary>SCHRO_LOG</primary></indexterm><programlisting>#define             SCHRO_LOG(...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-DEBUG-LEVEL:CAPS" role="macro">
+<title>SCHRO_DEBUG_LEVEL()</title>
+<indexterm zone="SCHRO-DEBUG-LEVEL:CAPS"><primary>SCHRO_DEBUG_LEVEL</primary></indexterm><programlisting>#define             SCHRO_DEBUG_LEVEL(level,...)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>level</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-MILD-ASSERT:CAPS" role="macro">
+<title>SCHRO_MILD_ASSERT()</title>
+<indexterm zone="SCHRO-MILD-ASSERT:CAPS"><primary>SCHRO_MILD_ASSERT</primary></indexterm><programlisting>#define             SCHRO_MILD_ASSERT(test)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>test</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="SCHRO-ASSERT:CAPS" role="macro">
+<title>SCHRO_ASSERT()</title>
+<indexterm zone="SCHRO-ASSERT:CAPS"><primary>SCHRO_ASSERT</primary></indexterm><programlisting>#define             SCHRO_ASSERT(test)</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>test</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-debug-log" role="function">
+<title>schro_debug_log ()</title>
+<indexterm zone="schro-debug-log"><primary>schro_debug_log</primary></indexterm><programlisting><link linkend="void">void</link>                schro_debug_log                     (<link linkend="int">int</link> level,
+                                                         const <link linkend="char">char</link> *file,
+                                                         const <link linkend="char">char</link> *function,
+                                                         <link linkend="int">int</link> line,
+                                                         const <link linkend="char">char</link> *format,
+                                                         ...);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>level</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>file</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>function</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>line</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-debug-set-level" role="function">
+<title>schro_debug_set_level ()</title>
+<indexterm zone="schro-debug-set-level"><primary>schro_debug_set_level</primary></indexterm><programlisting><link linkend="void">void</link>                schro_debug_set_level               (<link linkend="int">int</link> level);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>level</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-debug-get-level" role="function">
+<title>schro_debug_get_level ()</title>
+<indexterm zone="schro-debug-get-level"><primary>schro_debug_get_level</primary></indexterm><programlisting><link linkend="int">int</link>                 schro_debug_get_level               (void);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-dump" role="function">
+<title>schro_dump ()</title>
+<indexterm zone="schro-dump"><primary>schro_dump</primary></indexterm><programlisting><link linkend="void">void</link>                schro_dump                          (<link linkend="int">int</link> type,
+                                                         const <link linkend="char">char</link> *format,
+                                                         ...);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>type</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>format</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>...</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

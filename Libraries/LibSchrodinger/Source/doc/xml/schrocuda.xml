@@ -1,0 +1,388 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="schroedinger-schrocuda">
+<refmeta>
+<refentrytitle role="top_of_page" id="schroedinger-schrocuda.top_of_page">schrocuda</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>SCHROEDINGER Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>schrocuda</refname>
+<refpurpose></refpurpose>
+<!--[<xref linkend="desc" endterm="desc.title"/>]-->
+</refnamediv>
+
+<refsynopsisdiv id="schroedinger-schrocuda.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+typedef             <link linkend="SchroCUDAStream">SchroCUDAStream</link>;
+                    <link linkend="SchroGPUMotion">SchroGPUMotion</link>;
+#define             <link linkend="SCHRO-FRAME-IS-CUDA:CAPS">SCHRO_FRAME_IS_CUDA</link>                 (frame)
+<link linkend="void">void</link>                <link linkend="schro-cuda-init">schro_cuda_init</link>                     (void);
+<link linkend="void">void</link>                <link linkend="schro-gpumotion-copy">schro_gpumotion_copy</link>                (<link linkend="SchroGPUMotion">SchroGPUMotion</link> *self,
+                                                         <link linkend="SchroMotion">SchroMotion</link> *motion);
+<link linkend="void">void</link>                <link linkend="schro-gpumotion-free">schro_gpumotion_free</link>                (<link linkend="SchroGPUMotion">SchroGPUMotion</link> *rv);
+<link linkend="void">void</link>                <link linkend="schro-gpumotion-init">schro_gpumotion_init</link>                (<link linkend="SchroGPUMotion">SchroGPUMotion</link> *self,
+                                                         <link linkend="SchroMotion">SchroMotion</link> *motion);
+<link linkend="SchroGPUMotion">SchroGPUMotion</link>*     <link linkend="schro-gpumotion-new">schro_gpumotion_new</link>                 (<link linkend="SchroCUDAStream">SchroCUDAStream</link> stream);
+<link linkend="void">void</link>                <link linkend="schro-gpumotion-render">schro_gpumotion_render</link>              (<link linkend="SchroGPUMotion">SchroGPUMotion</link> *self,
+                                                         <link linkend="SchroMotion">SchroMotion</link> *motion,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *gdest);
+<link linkend="void">void</link>                <link linkend="schro-frame-to-gpu">schro_frame_to_gpu</link>                  (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-add">schro_gpuframe_add</link>                  (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-compare">schro_gpuframe_compare</link>              (<link linkend="SchroFrame">SchroFrame</link> *a,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *b);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-convert">schro_gpuframe_convert</link>              (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-inverse-iwt-transform">schro_gpuframe_inverse_iwt_transform</link>
+                                                        (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-iwt-transform">schro_gpuframe_iwt_transform</link>        (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="SchroParams">SchroParams</link> *params);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-subtract">schro_gpuframe_subtract</link>             (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-to-cpu">schro_gpuframe_to_cpu</link>               (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-upsample">schro_gpuframe_upsample</link>             (<link linkend="SchroFrame">SchroFrame</link> *dst,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);
+<link linkend="void">void</link>                <link linkend="schro-gpuframe-zero">schro_gpuframe_zero</link>                 (<link linkend="SchroFrame">SchroFrame</link> *dest);
+<link linkend="void">void</link>                <link linkend="schro-upsampled-gpuframe-free">schro_upsampled_gpuframe_free</link>       (<link linkend="SchroUpsampledFrame">SchroUpsampledFrame</link> *x);
+<link linkend="SchroUpsampledFrame">SchroUpsampledFrame</link>* <link linkend="schro-upsampled-gpuframe-new">schro_upsampled_gpuframe_new</link>       (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *fmt);
+<link linkend="void">void</link>                <link linkend="schro-upsampled-gpuframe-upsample">schro_upsampled_gpuframe_upsample</link>   (<link linkend="SchroUpsampledFrame">SchroUpsampledFrame</link> *rv);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="schroedinger-schrocuda.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+
+</para>
+</refsect1>
+
+<refsect1 id="schroedinger-schrocuda.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="SchroCUDAStream" role="typedef">
+<title>SchroCUDAStream</title>
+<indexterm zone="SchroCUDAStream"><primary>SchroCUDAStream</primary></indexterm><programlisting>typedef int SchroCUDAStream;
+</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SchroGPUMotion" role="struct">
+<title>SchroGPUMotion</title>
+<indexterm zone="SchroGPUMotion"><primary>SchroGPUMotion</primary></indexterm><programlisting>typedef struct _SchroGPUMotion SchroGPUMotion;</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="SCHRO-FRAME-IS-CUDA:CAPS" role="macro">
+<title>SCHRO_FRAME_IS_CUDA()</title>
+<indexterm zone="SCHRO-FRAME-IS-CUDA:CAPS"><primary>SCHRO_FRAME_IS_CUDA</primary></indexterm><programlisting>#define SCHRO_FRAME_IS_CUDA(frame) ((frame)-&gt;domain &amp;&amp; ((frame)-&gt;domain-&gt;flags &amp; SCHRO_MEMORY_DOMAIN_CUDA))
+</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-cuda-init" role="function">
+<title>schro_cuda_init ()</title>
+<indexterm zone="schro-cuda-init"><primary>schro_cuda_init</primary></indexterm><programlisting><link linkend="void">void</link>                schro_cuda_init                     (void);</programlisting>
+<para>
+
+</para></refsect2>
+<refsect2 id="schro-gpumotion-copy" role="function">
+<title>schro_gpumotion_copy ()</title>
+<indexterm zone="schro-gpumotion-copy"><primary>schro_gpumotion_copy</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpumotion_copy                (<link linkend="SchroGPUMotion">SchroGPUMotion</link> *self,
+                                                         <link linkend="SchroMotion">SchroMotion</link> *motion);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>motion</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpumotion-free" role="function">
+<title>schro_gpumotion_free ()</title>
+<indexterm zone="schro-gpumotion-free"><primary>schro_gpumotion_free</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpumotion_free                (<link linkend="SchroGPUMotion">SchroGPUMotion</link> *rv);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>rv</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpumotion-init" role="function">
+<title>schro_gpumotion_init ()</title>
+<indexterm zone="schro-gpumotion-init"><primary>schro_gpumotion_init</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpumotion_init                (<link linkend="SchroGPUMotion">SchroGPUMotion</link> *self,
+                                                         <link linkend="SchroMotion">SchroMotion</link> *motion);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>motion</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpumotion-new" role="function">
+<title>schro_gpumotion_new ()</title>
+<indexterm zone="schro-gpumotion-new"><primary>schro_gpumotion_new</primary></indexterm><programlisting><link linkend="SchroGPUMotion">SchroGPUMotion</link>*     schro_gpumotion_new                 (<link linkend="SchroCUDAStream">SchroCUDAStream</link> stream);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpumotion-render" role="function">
+<title>schro_gpumotion_render ()</title>
+<indexterm zone="schro-gpumotion-render"><primary>schro_gpumotion_render</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpumotion_render              (<link linkend="SchroGPUMotion">SchroGPUMotion</link> *self,
+                                                         <link linkend="SchroMotion">SchroMotion</link> *motion,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *gdest);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>motion</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>gdest</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-frame-to-gpu" role="function">
+<title>schro_frame_to_gpu ()</title>
+<indexterm zone="schro-frame-to-gpu"><primary>schro_frame_to_gpu</primary></indexterm><programlisting><link linkend="void">void</link>                schro_frame_to_gpu                  (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-add" role="function">
+<title>schro_gpuframe_add ()</title>
+<indexterm zone="schro-gpuframe-add"><primary>schro_gpuframe_add</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_add                  (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-compare" role="function">
+<title>schro_gpuframe_compare ()</title>
+<indexterm zone="schro-gpuframe-compare"><primary>schro_gpuframe_compare</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_compare              (<link linkend="SchroFrame">SchroFrame</link> *a,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *b);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-convert" role="function">
+<title>schro_gpuframe_convert ()</title>
+<indexterm zone="schro-gpuframe-convert"><primary>schro_gpuframe_convert</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_convert              (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-inverse-iwt-transform" role="function">
+<title>schro_gpuframe_inverse_iwt_transform ()</title>
+<indexterm zone="schro-gpuframe-inverse-iwt-transform"><primary>schro_gpuframe_inverse_iwt_transform</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_inverse_iwt_transform
+                                                        (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-iwt-transform" role="function">
+<title>schro_gpuframe_iwt_transform ()</title>
+<indexterm zone="schro-gpuframe-iwt-transform"><primary>schro_gpuframe_iwt_transform</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_iwt_transform        (<link linkend="SchroFrame">SchroFrame</link> *frame,
+                                                         <link linkend="SchroParams">SchroParams</link> *params);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>frame</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>params</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-subtract" role="function">
+<title>schro_gpuframe_subtract ()</title>
+<indexterm zone="schro-gpuframe-subtract"><primary>schro_gpuframe_subtract</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_subtract             (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-to-cpu" role="function">
+<title>schro_gpuframe_to_cpu ()</title>
+<indexterm zone="schro-gpuframe-to-cpu"><primary>schro_gpuframe_to_cpu</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_to_cpu               (<link linkend="SchroFrame">SchroFrame</link> *dest,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-upsample" role="function">
+<title>schro_gpuframe_upsample ()</title>
+<indexterm zone="schro-gpuframe-upsample"><primary>schro_gpuframe_upsample</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_upsample             (<link linkend="SchroFrame">SchroFrame</link> *dst,
+                                                         <link linkend="SchroFrame">SchroFrame</link> *src);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dst</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>src</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-gpuframe-zero" role="function">
+<title>schro_gpuframe_zero ()</title>
+<indexterm zone="schro-gpuframe-zero"><primary>schro_gpuframe_zero</primary></indexterm><programlisting><link linkend="void">void</link>                schro_gpuframe_zero                 (<link linkend="SchroFrame">SchroFrame</link> *dest);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>dest</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-upsampled-gpuframe-free" role="function">
+<title>schro_upsampled_gpuframe_free ()</title>
+<indexterm zone="schro-upsampled-gpuframe-free"><primary>schro_upsampled_gpuframe_free</primary></indexterm><programlisting><link linkend="void">void</link>                schro_upsampled_gpuframe_free       (<link linkend="SchroUpsampledFrame">SchroUpsampledFrame</link> *x);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>x</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-upsampled-gpuframe-new" role="function">
+<title>schro_upsampled_gpuframe_new ()</title>
+<indexterm zone="schro-upsampled-gpuframe-new"><primary>schro_upsampled_gpuframe_new</primary></indexterm><programlisting><link linkend="SchroUpsampledFrame">SchroUpsampledFrame</link>* schro_upsampled_gpuframe_new       (<link linkend="SchroVideoFormat">SchroVideoFormat</link> *fmt);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>fmt</parameter>&nbsp;:</term>
+<listitem><simpara>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&nbsp;:</term><listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="schro-upsampled-gpuframe-upsample" role="function">
+<title>schro_upsampled_gpuframe_upsample ()</title>
+<indexterm zone="schro-upsampled-gpuframe-upsample"><primary>schro_upsampled_gpuframe_upsample</primary></indexterm><programlisting><link linkend="void">void</link>                schro_upsampled_gpuframe_upsample   (<link linkend="SchroUpsampledFrame">SchroUpsampledFrame</link> *rv);</programlisting>
+<para>
+
+</para><variablelist role="params">
+<varlistentry><term><parameter>rv</parameter>&nbsp;:</term>
+<listitem><simpara>
+
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

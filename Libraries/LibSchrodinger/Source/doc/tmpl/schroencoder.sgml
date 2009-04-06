@@ -1,0 +1,622 @@
+<!-- ##### SECTION Title ##### -->
+schroencoder
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SchroEncoder ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT SchroEncoderFrame ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM SchroEncoderFrameStateEnum ##### -->
+<para>
+
+</para>
+
+@SCHRO_ENCODER_FRAME_STAGE_NEW: 
+@SCHRO_ENCODER_FRAME_STAGE_ANALYSE: 
+@SCHRO_ENCODER_FRAME_STAGE_HAVE_GOP: 
+@SCHRO_ENCODER_FRAME_STAGE_HAVE_PARAMS: 
+@SCHRO_ENCODER_FRAME_STAGE_PREDICT_ROUGH: 
+@SCHRO_ENCODER_FRAME_STAGE_PREDICT_PEL: 
+@SCHRO_ENCODER_FRAME_STAGE_PREDICT_SUBPEL: 
+@SCHRO_ENCODER_FRAME_STAGE_MODE_DECISION: 
+@SCHRO_ENCODER_FRAME_STAGE_HAVE_REFS: 
+@SCHRO_ENCODER_FRAME_STAGE_HAVE_QUANTS: 
+@SCHRO_ENCODER_FRAME_STAGE_ENCODING: 
+@SCHRO_ENCODER_FRAME_STAGE_RECONSTRUCT: 
+@SCHRO_ENCODER_FRAME_STAGE_POSTANALYSE: 
+@SCHRO_ENCODER_FRAME_STAGE_DONE: 
+@SCHRO_ENCODER_FRAME_STAGE_FREE: 
+@SCHRO_ENCODER_FRAME_STAGE_LAST: 
+
+<!-- ##### ENUM SchroEncoderPerceptualEnum ##### -->
+<para>
+
+</para>
+
+@SCHRO_ENCODER_PERCEPTUAL_CONSTANT: 
+@SCHRO_ENCODER_PERCEPTUAL_CCIR959: 
+@SCHRO_ENCODER_PERCEPTUAL_MOO: 
+@SCHRO_ENCODER_PERCEPTUAL_MANOS_SAKRISON: 
+
+<!-- ##### ENUM SchroQuantiserEngineEnum ##### -->
+<para>
+
+</para>
+
+@SCHRO_QUANTISER_ENGINE_SIMPLE: 
+@SCHRO_QUANTISER_ENGINE_RATE_DISTORTION: 
+@SCHRO_QUANTISER_ENGINE_LOSSLESS: 
+@SCHRO_QUANTISER_ENGINE_LOWDELAY: 
+@SCHRO_QUANTISER_ENGINE_CONSTANT_LAMBDA: 
+@SCHRO_QUANTISER_ENGINE_CONSTANT_ERROR: 
+
+<!-- ##### ENUM SchroStateEnum ##### -->
+<para>
+
+</para>
+
+@SCHRO_STATE_NEED_FRAME: 
+@SCHRO_STATE_HAVE_BUFFER: 
+@SCHRO_STATE_AGAIN: 
+@SCHRO_STATE_END_OF_STREAM: 
+
+<!-- ##### ENUM SchroEncoderGOPEnum ##### -->
+<para>
+
+</para>
+
+@SCHRO_ENCODER_GOP_ADAPTIVE: 
+@SCHRO_ENCODER_GOP_INTRA_ONLY: 
+@SCHRO_ENCODER_GOP_BACKREF: 
+@SCHRO_ENCODER_GOP_CHAINED_BACKREF: 
+@SCHRO_ENCODER_GOP_BIREF: 
+@SCHRO_ENCODER_GOP_CHAINED_BIREF: 
+
+<!-- ##### ENUM SchroEncoderRateControlEnum ##### -->
+<para>
+
+</para>
+
+@SCHRO_ENCODER_RATE_CONTROL_CONSTANT_NOISE_THRESHOLD: 
+@SCHRO_ENCODER_RATE_CONTROL_CONSTANT_BITRATE: 
+@SCHRO_ENCODER_RATE_CONTROL_LOW_DELAY: 
+@SCHRO_ENCODER_RATE_CONTROL_LOSSLESS: 
+@SCHRO_ENCODER_RATE_CONTROL_CONSTANT_LAMBDA: 
+@SCHRO_ENCODER_RATE_CONTROL_CONSTANT_ERROR: 
+@SCHRO_ENCODER_RATE_CONTROL_CONSTANT_QUALITY: 
+
+<!-- ##### STRUCT SchroEncoderSetting ##### -->
+<para>
+
+</para>
+
+@name: 
+@type: 
+@min: 
+@max: 
+@default_value: 
+@enum_list: 
+
+<!-- ##### USER_FUNCTION SchroEngineIterateFunc ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_free ##### -->
+<para>
+
+</para>
+
+@encoder: 
+
+
+<!-- ##### FUNCTION schro_encoder_get_video_format ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_set_video_format ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@video_format: 
+
+
+<!-- ##### FUNCTION schro_encoder_end_of_stream ##### -->
+<para>
+
+</para>
+
+@encoder: 
+
+
+<!-- ##### FUNCTION schro_encoder_push_frame ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_encode_parse_info ##### -->
+<para>
+
+</para>
+
+@bits: 
+@parse_code: 
+
+
+<!-- ##### FUNCTION schro_encoder_pull ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@n_decodable_frames: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_analyse_picture ##### -->
+<para>
+
+</para>
+
+@stage: 
+
+
+<!-- ##### FUNCTION schro_encoder_calculate_subband_weights ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@perceptual_weight: 
+
+
+<!-- ##### FUNCTION schro_encoder_calculate_test_info ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_choose_quantisers ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_clean_up_transform ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_encode_auxiliary_data ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@id: 
+@data: 
+@size: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_encode_end_of_stream ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_encode_lowdelay_transform_data ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_encode_picture ##### -->
+<para>
+
+</para>
+
+@stage: 
+
+
+<!-- ##### FUNCTION schro_encoder_encode_picture_header ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_encode_subband ##### -->
+<para>
+
+</para>
+
+@frame: 
+@component: 
+@index: 
+
+
+<!-- ##### FUNCTION schro_encoder_encode_subband_noarith ##### -->
+<para>
+
+</para>
+
+@frame: 
+@component: 
+@index: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_backref ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_backtest ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_intra_only ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_lossless ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_lowdelay ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_engine_test_intra ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_estimate_entropy ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_frame_analyse ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_frame_downsample ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_frame_insert_buffer ##### -->
+<para>
+
+</para>
+
+@frame: 
+@buffer: 
+
+
+<!-- ##### FUNCTION schro_encoder_frame_new ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_frame_queue_get ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@frame_number: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_frame_queue_remove ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@frame_number: 
+
+
+<!-- ##### FUNCTION schro_encoder_frame_ref ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_frame_unref ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_init_subbands ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_insert_buffer ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@buffer: 
+
+
+<!-- ##### FUNCTION schro_encoder_output_push ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@buffer: 
+@slot: 
+@presentation_frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_perceptual_weight_ccir959 ##### -->
+<para>
+
+</para>
+
+@cpd: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_perceptual_weight_constant ##### -->
+<para>
+
+</para>
+
+@cpd: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_perceptual_weight_moo ##### -->
+<para>
+
+</para>
+
+@cpd: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_postanalyse_picture ##### -->
+<para>
+
+</para>
+
+@stage: 
+
+
+<!-- ##### FUNCTION schro_encoder_push_ready ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_recalculate_allocations ##### -->
+<para>
+
+</para>
+
+@encoder: 
+
+
+<!-- ##### FUNCTION schro_encoder_reconstruct_picture ##### -->
+<para>
+
+</para>
+
+@stage: 
+
+
+<!-- ##### FUNCTION schro_encoder_reference_get ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@frame_number: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_set_default_subband_weights ##### -->
+<para>
+
+</para>
+
+@encoder: 
+
+
+<!-- ##### FUNCTION schro_encoder_start ##### -->
+<para>
+
+</para>
+
+@encoder: 
+
+
+<!-- ##### FUNCTION schro_encoder_wait ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_get_n_settings ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_get_setting_info ##### -->
+<para>
+
+</para>
+
+@i: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_global_estimation ##### -->
+<para>
+
+</para>
+
+@frame: 
+
+
+<!-- ##### FUNCTION schro_encoder_init_error_tables ##### -->
+<para>
+
+</para>
+
+@encoder: 
+
+
+<!-- ##### FUNCTION schro_encoder_phasecorr_estimation ##### -->
+<para>
+
+</para>
+
+@pc: 
+
+
+<!-- ##### FUNCTION schro_encoder_setting_get_double ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION schro_encoder_setting_set_double ##### -->
+<para>
+
+</para>
+
+@encoder: 
+@name: 
+@d: 
+
+
