@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="libeay32"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="Source;Source/crypto"
+		PreprocessorDefinitions="ZLIB_SHARED;ZLIB;ENGINESDIR=\&quot;$(OpenSslEnginesDir)\&quot;;OPENSSLDIR=\&quot;$(OpenSslDir)\&quot;;_WINDLL;WINDOWS;OPENSSL_SYSNAME_WIN32;WIN32_LEAN_AND_MEAN;L_ENDIAN;DSO_WIN32;OPENSSL_CPUID_OBJ;OPENSSL_IA32_SSE2;AES_ASM;BN_ASM;OPENSSL_BN_ASM_PART_WORDS;OPENSSL_BN_ASM_MONT;MD5_ASM;SHA1_ASM;RMD160_ASM;OPENSSL_USE_APPLINK;OPENSSL_NO_CAMELLIA;OPENSSL_NO_SEED;OPENSSL_NO_RC5;OPENSSL_NO_MDC2;OPENSSL_NO_CMS;OPENSSL_NO_JPAKE;OPENSSL_NO_CAPIENG;OPENSSL_NO_KRB5;OPENSSL_NO_DYNAMIC_ENGINE"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="zdll.lib wsock32.lib gdi32.lib crypt32.lib advapi32.lib user32.lib"
+		OutputFile="$(OutDir)\bin\$(ProjectName).dll"
+		Version="$(OpenSslVersionString)"
+		LinkIncremental="1"
+		GenerateManifest="false"
+		ModuleDefinitionFile="$(IntDir)\libeay32.def"
+		SubSystem="1"
+		OptimizeReferences="2"
+		ImportLibrary="$(OutDir)\lib\$(TargetName).lib"
+	/>
+</VisualStudioPropertySheet>
