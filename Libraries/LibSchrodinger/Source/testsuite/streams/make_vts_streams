@@ -1,0 +1,212 @@
+#!/bin/dash
+
+set -e
+
+#export SCHRO_DUMP=1
+#export SCHRO_DEBUG=5
+#export G_SLICE=always_malloc
+export SCHRO_MOTION_REF=1
+
+encode() {
+  echo "ENCODING $testname with $schroopts"
+  gst-launch-0.10 \
+    videotestsrc num-buffers=15 ! \
+    timeoverlay ! \
+    cairotextoverlay text=$testname halign=left deltay=-100 ! \
+    ffmpegcolorspace ! \
+    video/x-raw-yuv,format=\(fourcc\)"$format",width=$width,height=$height,framerate=30/1 ! \
+    schroenc enable-md5=1 au_distance=30 $schroopts ! \
+    filesink location=vts.$testname.drc
+}
+
+width=320
+height=240
+format=I420
+
+#testname="test"
+#schroopts="rate-control=4 magic-lambda=0.01 enable-phasecorr-estimation=1"
+#encode
+#exit 0
+
+testname="default"
+schroopts=""
+encode
+
+
+# for testing java decoder
+#testname="java"
+#schroopts="noise-threshold=40 gop-structure=1 intra-wavelet=1 enable-noarith=1 transform-depth=4"
+#encode
+
+# gop structure
+
+testname="intra-only"
+schroopts="gop-structure=1"
+encode
+
+testname="backref"
+schroopts="gop-structure=2"
+encode
+
+testname="biref"
+schroopts="gop-structure=4"
+encode
+
+# noarith
+
+testname="noarith"
+schroopts="gop-structure=1 enable-noarith=1"
+encode
+
+# rate control
+
+testname="CBR-250kb"
+schroopts="rate-control=1 bitrate=250000"
+encode
+
+testname="CBR-500kb"
+schroopts="rate-control=1 bitrate=500000"
+encode
+
+testname="CBR-1Mb"
+schroopts="rate-control=1 bitrate=1000000"
+encode
+
+testname="CBR-2Mb"
+schroopts="rate-control=1 bitrate=2000000"
+encode
+
+testname="LD-2Mb"
+schroopts="rate-control=2 bitrate=2000000"
+encode
+
+testname="LD-4Mb"
+schroopts="rate-control=2 bitrate=4000000"
+encode
+
+testname="LD-8Mb"
+schroopts="rate-control=2 bitrate=8000000"
+encode
+
+testname="lossless"
+schroopts="rate-control=3"
+encode
+
+testname="constant-lambda"
+schroopts="rate-control=4"
+encode
+
+testname="constant-error"
+schroopts="rate-control=5"
+encode
+
+# noise threshold
+
+testname="10dB"
+schroopts="noise-threshold=10"
+encode
+
+testname="20dB"
+schroopts="noise-threshold=20"
+encode
+
+testname="30dB"
+schroopts="noise-threshold=30"
+encode
+
+testname="40dB"
+schroopts="noise-threshold=40"
+encode
+
+# perceptual weighting
+
+testname="percep-none"
+schroopts="perceptual-weighting=1"
+encode
+
+testname="percep-ccir959"
+schroopts="perceptual-weighting=1"
+encode
+
+testname="percep-moo"
+schroopts="perceptual-weighting=2"
+encode
+
+testname="percep-manos-sakrison"
+schroopts="perceptual-weighting=3"
+encode
+
+# filtering
+
+testname="cwm"
+schroopts="filtering=1 filter-value=4"
+encode
+
+testname="gaussian"
+schroopts="filtering=2 filter-value=5"
+encode
+
+testname="add-noise"
+schroopts="filtering=3 filter-value=10"
+encode
+
+testname="adaptive-gaussian"
+schroopts="filtering=4"
+encode
+
+# transform depth
+
+testname="transform-0"
+schroopts="transform-depth=0"
+encode
+
+testname="transform-1"
+schroopts="transform-depth=1"
+encode
+
+testname="transform-2"
+schroopts="transform-depth=2"
+encode
+
+testname="transform-3"
+schroopts="transform-depth=3"
+encode
+
+testname="transform-4"
+schroopts="transform-depth=4"
+encode
+
+# intra wavelet
+
+for i in 0 1 2 3 4 5 6 ; do
+  testname="intra-wavelet-$i"
+  schroopts="gop-structure=1 intra-wavelet=$i"
+  encode
+done
+
+for i in 0 1 2 3 4 5 6 ; do
+  testname="inter-wavelet-$i"
+  schroopts="inter-wavelet=$i"
+  encode
+done
+ 
+for i in 0 1 2 3 ; do
+  testname="mv-precision-$i"
+  schroopts="mv-precision=$i"
+  encode
+done
+
+for i in 1 2 3 ; do
+  for j in 1 2 3 ; do
+    testname="MB-size-$i-overlap-$j"
+    schroopts="motion-block-size=$i motion-block-overlap=$j"
+    encode
+  done
+done
+
+# codeblocks
+
+testname="dc-multiquant"
+schroopts="enable-dc-multiquant=TRUE"
+encode
+
