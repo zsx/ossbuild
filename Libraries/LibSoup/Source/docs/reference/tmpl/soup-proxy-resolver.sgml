@@ -1,0 +1,64 @@
+<!-- ##### SECTION Title ##### -->
+SoupProxyResolver
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT SoupProxyResolver ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION SoupProxyResolverCallback ##### -->
+<para>
+
+</para>
+
+@Param1: 
+@Param2: 
+@Param3: 
+@Param4: 
+@Param5: 
+
+
+<!-- ##### FUNCTION soup_proxy_resolver_get_proxy_async ##### -->
+<para>
+
+</para>
+
+@proxy_resolver: 
+@msg: 
+@async_context: 
+@cancellable: 
+@callback: 
+@user_data: 
+
+
+<!-- ##### FUNCTION soup_proxy_resolver_get_proxy_sync ##### -->
+<para>
+
+</para>
+
+@proxy_resolver: 
+@msg: 
+@cancellable: 
+@addr: 
+@Returns: 
+
+
