@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="pango"
+	InheritedPropertySheets="$(SolutionDir)Properties\Machine.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		InlineFunctionExpansion="2"
+		FavorSizeOrSpeed="1"
+		AdditionalIncludeDirectories="Source;&quot;$(IntDir)\..\pango\&quot;;&quot;$(OutDir)\include\pango-$(PangoApiVersionString)\pango&quot;;&quot;$(SolutionDir)Shared\Windows\$(PlatformName)\$(ConfigurationName)\include\glib-$(GLibApiVersionString)&quot;"
+		PreprocessorDefinitions="HAVE_CAIRO_WIN32;HAVE_CONFIG_H;G_LOG_DOMAIN=\&quot;Pango\&quot;;PANGO_ENABLE_BACKEND;PANGO_ENABLE_ENGINE;SYSCONFDIR=\&quot;c:/pango/etc\&quot;;LIBDIR=\&quot;c:/pango/lib\&quot;;MODULE_VERSION=\&quot;$(PangoModuleVersion)\&quot;;PANGO_BINARY_AGE=0"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="libglib-$(GLibLibVersionString).lib libgobject-$(GLibLibVersionString).lib libgthread-$(GLibLibVersionString).lib libgmodule-$(GLibLibVersionString).lib"
+		OutputFile="$(OutDir)\bin\lib$(ProjectName)-$(PangoLibVersionString).dll"
+		Version="$(PangoVersionString)"
+		GenerateManifest="false"
+		ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(PangoLibVersionString).lib"
+	/>
+</VisualStudioPropertySheet>

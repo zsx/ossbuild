@@ -1,0 +1,1033 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="pangowin32"
+	ProjectGUID="{E4B4ADF6-81A7-46E2-80AF-4D16EBB12CA2}"
+	RootNamespace="libpangowin32"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\Common.rules"
+		/>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\Properties\x86-Debug.vsprops;.\pango.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="1"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="2"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="7"
+				ModuleName="pango-$(PangoApiVersionString)\pango"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="10"
+				Substitute="@PANGO_VERSION_MAJOR@/$(PangoMajorVersion);@PANGO_VERSION_MINOR@/$(PangoMinorVersion);@PANGO_VERSION_MICRO@/$(PangoMicroVersion);@PANGO_API_VERSION@/$(PangoApiVersionString);@PANGO_INTERFACE_AGE@/$(PangoInterfaceAge);@PANGO_BINARY_AGE@/$(PangoVersionNumber);@VERSION@/$(PangoVersionString);@MODULE_VERSION@/$(PangoModuleVersion);@PKGCONFIG_MATH_LIBS@/;@PANGO_MODULE_VERSION@/$(PangoModuleVersion);@prefix@/\$\(OutDir\);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPreBuildEventTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="23"
+				AdditionalIncludeDirectories="Source\pango"
+				PreprocessorDefinitions="PANGO_MODULE_PREFIX=_pango_basic_win32"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="24"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="27"
+				ModuleDefinitionFile="Source\pango\pango.def"
+				ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(PangoApiVersionString).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="28"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				ExecutionBucket="33"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\Properties\x86_64-Debug.vsprops;.\pango.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="1"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="2"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="7"
+				ModuleName="pango-$(PangoApiVersionString)\pango"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="10"
+				Substitute="@PANGO_VERSION_MAJOR@/$(PangoMajorVersion);@PANGO_VERSION_MINOR@/$(PangoMinorVersion);@PANGO_VERSION_MICRO@/$(PangoMicroVersion);@PANGO_API_VERSION@/$(PangoApiVersionString);@PANGO_INTERFACE_AGE@/$(PangoInterfaceAge);@PANGO_BINARY_AGE@/$(PangoVersionNumber);@VERSION@/$(PangoVersionString);@MODULE_VERSION@/$(PangoModuleVersion);@PKGCONFIG_MATH_LIBS@/;@PANGO_MODULE_VERSION@/$(PangoModuleVersion);@prefix@/\$\(OutDir\);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPreBuildEventTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="23"
+				AdditionalIncludeDirectories="Source\pango"
+				PreprocessorDefinitions="PANGO_MODULE_PREFIX=_pango_basic_win32"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="24"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="27"
+				ModuleDefinitionFile="Source\pango\pango.def"
+				ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(PangoApiVersionString).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="28"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				ExecutionBucket="33"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\Properties\x86-Release.vsprops;.\pango.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="1"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="2"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="7"
+				ModuleName="pango-$(PangoApiVersionString)\pango"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="10"
+				Substitute="@PANGO_VERSION_MAJOR@/$(PangoMajorVersion);@PANGO_VERSION_MINOR@/$(PangoMinorVersion);@PANGO_VERSION_MICRO@/$(PangoMicroVersion);@PANGO_API_VERSION@/$(PangoApiVersionString);@PANGO_INTERFACE_AGE@/$(PangoInterfaceAge);@PANGO_BINARY_AGE@/$(PangoVersionNumber);@VERSION@/$(PangoVersionString);@MODULE_VERSION@/$(PangoModuleVersion);@PKGCONFIG_MATH_LIBS@/;@PANGO_MODULE_VERSION@/$(PangoModuleVersion);@prefix@/\$\(OutDir\);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPreBuildEventTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="23"
+				AdditionalIncludeDirectories="Source\pango"
+				PreprocessorDefinitions="PANGO_MODULE_PREFIX=_pango_basic_win32"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="24"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="27"
+				ModuleDefinitionFile="Source\pango\pango.def"
+				ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(PangoApiVersionString).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="28"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				ExecutionBucket="33"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\Properties\x86_64-Release.vsprops;.\pango.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="1"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="2"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="7"
+				ModuleName="pango-$(PangoApiVersionString)\pango"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="10"
+				Substitute="@PANGO_VERSION_MAJOR@/$(PangoMajorVersion);@PANGO_VERSION_MINOR@/$(PangoMinorVersion);@PANGO_VERSION_MICRO@/$(PangoMicroVersion);@PANGO_API_VERSION@/$(PangoApiVersionString);@PANGO_INTERFACE_AGE@/$(PangoInterfaceAge);@PANGO_BINARY_AGE@/$(PangoVersionNumber);@VERSION@/$(PangoVersionString);@MODULE_VERSION@/$(PangoModuleVersion);@PKGCONFIG_MATH_LIBS@/;@PANGO_MODULE_VERSION@/$(PangoModuleVersion);@prefix@/\$\(OutDir\);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPreBuildEventTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="23"
+				AdditionalIncludeDirectories="Source\pango"
+				PreprocessorDefinitions="PANGO_MODULE_PREFIX=_pango_basic_win32"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="24"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="27"
+				ModuleDefinitionFile="Source\pango\pango.def"
+				ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(PangoApiVersionString).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="28"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				ExecutionBucket="33"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseWdkCrt|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\Properties\x86-ReleaseWdkCrt.vsprops;.\pango.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="1"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="2"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="7"
+				ModuleName="pango-$(PangoApiVersionString)\pango"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="10"
+				Substitute="@PANGO_VERSION_MAJOR@/$(PangoMajorVersion);@PANGO_VERSION_MINOR@/$(PangoMinorVersion);@PANGO_VERSION_MICRO@/$(PangoMicroVersion);@PANGO_API_VERSION@/$(PangoApiVersionString);@PANGO_INTERFACE_AGE@/$(PangoInterfaceAge);@PANGO_BINARY_AGE@/$(PangoVersionNumber);@VERSION@/$(PangoVersionString);@MODULE_VERSION@/$(PangoModuleVersion);@PKGCONFIG_MATH_LIBS@/;@PANGO_MODULE_VERSION@/$(PangoModuleVersion);@prefix@/\$\(OutDir\);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPreBuildEventTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="23"
+				AdditionalIncludeDirectories="Source\pango"
+				PreprocessorDefinitions="PANGO_MODULE_PREFIX=_pango_basic_win32"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="24"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="27"
+				IgnoreDefaultLibraryNames=""
+				ModuleDefinitionFile="Source\pango\pango.def"
+				ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(PangoApiVersionString).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="28"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				ExecutionBucket="33"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseWdkCrt|x64"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\Properties\x86_64-ReleaseWdkCrt.vsprops;.\pango.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="1"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="2"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="7"
+				ModuleName="pango-$(PangoApiVersionString)\pango"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="10"
+				Substitute="@PANGO_VERSION_MAJOR@/$(PangoMajorVersion);@PANGO_VERSION_MINOR@/$(PangoMinorVersion);@PANGO_VERSION_MICRO@/$(PangoMicroVersion);@PANGO_API_VERSION@/$(PangoApiVersionString);@PANGO_INTERFACE_AGE@/$(PangoInterfaceAge);@PANGO_BINARY_AGE@/$(PangoVersionNumber);@VERSION@/$(PangoVersionString);@MODULE_VERSION@/$(PangoModuleVersion);@PKGCONFIG_MATH_LIBS@/;@PANGO_MODULE_VERSION@/$(PangoModuleVersion);@prefix@/\$\(OutDir\);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPreBuildEventTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="23"
+				AdditionalIncludeDirectories="Source\pango"
+				PreprocessorDefinitions="PANGO_MODULE_PREFIX=_pango_basic_win32"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="24"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="27"
+				ModuleDefinitionFile="Source\pango\pango.def"
+				ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(PangoApiVersionString).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="28"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				ExecutionBucket="33"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File
+				RelativePath=".\Source\modules\basic\basic-win32.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\pango\pangowin32-fontcache.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\pango\pangowin32-fontmap.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\pango\pangowin32.c"
+				>
+			</File>
+			<Filter
+				Name="Generated"
+				>
+				<File
+					RelativePath="$(IntDir)\..\pango\module-defs-win32.c"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+			<File
+				RelativePath=".\Source\pango\pangowin32.def"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			>
+			<Filter
+				Name="Public"
+				>
+				<File
+					RelativePath=".\Source\pango\pangowin32.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseWdkCrt|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseWdkCrt|x64"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
