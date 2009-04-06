@@ -1,0 +1,277 @@
+.\"     Title: ne_sock_init
+.\"    Author: 
+.\" Generator: DocBook XSL Stylesheets v1.74.0 <http://docbook.sf.net/>
+.\"      Date: 25 February 2009
+.\"    Manual: neon API reference
+.\"    Source: neon 0.28.4
+.\"  Language: English
+.\"
+.TH "NE_SOCK_INIT" "3" "25 February 2009" "neon 0.28.4" "neon API reference"
+.\" -----------------------------------------------------------------
+.\" * (re)Define some macros
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" toupper - uppercase a string (locale-aware)
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de toupper
+.tr aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+\\$*
+.tr aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SH-xref - format a cross-reference to an SH section
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de SH-xref
+.ie n \{\
+.\}
+.toupper \\$*
+.el \{\
+\\$*
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SH - level-one heading that works better for non-TTY output
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de1 SH
+.\" put an extra blank line of space above the head in non-TTY output
+.if t \{\
+.sp 1
+.\}
+.sp \\n[PD]u
+.nr an-level 1
+.set-an-margin
+.nr an-prevailing-indent \\n[IN]
+.fi
+.in \\n[an-margin]u
+.ti 0
+.HTML-TAG ".NH \\n[an-level]"
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+\." make the size of the head bigger
+.ps +3
+.ft B
+.ne (2v + 1u)
+.ie n \{\
+.\" if n (TTY output), use uppercase
+.toupper \\$*
+.\}
+.el \{\
+.nr an-break-flag 0
+.\" if not n (not TTY), use normal case (not uppercase)
+\\$1
+.in \\n[an-margin]u
+.ti 0
+.\" if not n (not TTY), put a border/line under subheading
+.sp -.6
+\l'\n(.lu'
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SS - level-two heading that works better for non-TTY output
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de1 SS
+.sp \\n[PD]u
+.nr an-level 1
+.set-an-margin
+.nr an-prevailing-indent \\n[IN]
+.fi
+.in \\n[IN]u
+.ti \\n[SN]u
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.ps \\n[PS-SS]u
+\." make the size of the head bigger
+.ps +2
+.ft B
+.ne (2v + 1u)
+.if \\n[.$] \&\\$*
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" BB/BE - put background/screen (filled box) around block of text
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de BB
+.if t \{\
+.sp -.5
+.br
+.in +2n
+.ll -2n
+.gcolor red
+.di BX
+.\}
+..
+.de EB
+.if t \{\
+.if "\\$2"adjust-for-leading-newline" \{\
+.sp -1
+.\}
+.br
+.di
+.in
+.ll
+.gcolor
+.nr BW \\n(.lu-\\n(.i
+.nr BH \\n(dn+.5v
+.ne \\n(BHu+.5v
+.ie "\\$2"adjust-for-leading-newline" \{\
+\M[\\$1]\h'1n'\v'+.5v'\D'P \\n(BWu 0 0 \\n(BHu -\\n(BWu 0 0 -\\n(BHu'\M[]
+.\}
+.el \{\
+\M[\\$1]\h'1n'\v'-.5v'\D'P \\n(BWu 0 0 \\n(BHu -\\n(BWu 0 0 -\\n(BHu'\M[]
+.\}
+.in 0
+.sp -.5v
+.nf
+.BX
+.in
+.sp .5v
+.fi
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" BM/EM - put colored marker in margin next to block of text
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de BM
+.if t \{\
+.br
+.ll -2n
+.gcolor red
+.di BX
+.\}
+..
+.de EM
+.if t \{\
+.br
+.di
+.ll
+.gcolor
+.nr BH \\n(dn
+.ne \\n(BHu
+\M[\\$1]\D'P -.75n 0 0 \\n(BHu -(\\n[.i]u - \\n(INu - .75n) 0 0 -\\n(BHu'\M[]
+.in 0
+.nf
+.BX
+.in
+.fi
+.\}
+..
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "Name"
+ne_sock_init, ne_sock_exit \- perform library initialization
+.SH "Synopsis"
+.sp
+.ft B
+.fam C
+.ps -1
+.nf
+#include <ne_socket\&.h>
+.fi
+.fam
+.ps +1
+.ft
+.fam C
+.HP \w'int\ ne_sock_init('u
+.BI "int ne_sock_init(void);"
+.fam
+.fam C
+.HP \w'void\ ne_sock_exit('u
+.BI "void ne_sock_exit(void);"
+.fam
+.SH "Description"
+.PP
+In some platforms and configurations, neon may be using some socket or SSL libraries which require global initialization before use\&. To perform this initialization, the
+\fBne_sock_init\fR
+function must be called before any other library functions are used\&.
+.PP
+Once all use of neon is complete,
+\fBne_sock_exit\fR
+can be called to perform de\-initialization of socket or SSL libraries, if necessary\&. Uses of
+\fBne_sock_init\fR
+and
+\fBne_sock_exit\fR
+are "reference counted"; if N calls to
+\fBne_sock_init\fR
+are made, only the Nth call to
+\fBne_sock_exit\fR
+will have effect\&.
+.PP
+\fBne_sock_init\fR
+will set the disposition of the
+\FCSIGPIPE\F[]
+signal to
+\fIignored\fR\&. No change is made to the
+\FCSIGPIPE\F[]
+disposition by
+\fBne_sock_exit\fR\&.
+.PP
+Both the SSL libraries supported by neon \(em OpenSSL and GnuTLS \(em require callbacks to be registered to allow thread\-safe use of SSL\&. These callbacks are stored as global variables and so their state persists for as long as the library in question is loaded into the process\&. If multiple users of the SSL library exist within the process, this can be problematic, particularly if one is dynamically loaded (and may subsequently be unloaded)\&.
+.PP
+If neon is configured using the
+\FC\-\-enable\-threadsafe\-ssl\F[]
+flag, thread\-safe SSL support will be enabled automatically, as covered in the following section\&. Otherwise, it is not safe to use neon with SSL in a multi\-threaded process\&. The
+ne_has_support
+function can be used to determine whether neon is built to enable thread\-safety support in the SSL library\&.
+.SS "Thread\-safe SSL with OpenSSL"
+.PP
+neon follows two simple rules when dealing with the OpenSSL locking callbacks:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBne_sock_init\fR
+will set thread\-safety locking callbacks if and only if no locking callbacks are already registered\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBne_sock_exit\fR
+will unset the thread\-safety locking callbacks if and only if the locking callbacks registered are those registered by
+\fBne_sock_init\fR\&.
+.RE
+.sp
+.RE
+Applications and libraries should be able to co\-operate to ensure that SSL use is always thread\-safe if similar rules are always followed\&.
+.SS "Thread\-safe SSL with GnuTLS"
+.PP
+The cryptography library used by GnuTLS, libgcrypt, only supports an initialization operation to register thread\-safety callbacks\&.
+\fBne_sock_init\fR
+will register the thread\-safe locking callbacks on first use;
+\fBne_sock_exit\fR
+cannot unregister them\&. If multiple users of GnuTLS are present within the process, it is unsafe to dynamically unload neon from the process if neon is configured with thread\-safe SSL support enabled (since the callbacks would be left pointing at unmapped memory once neon is unloaded)\&.
+.SH "Return value"
+.PP
+\fBne_sock_init\fR
+returns zero on success, or non\-zero on error\&. If an error occurs, no further use of the neon library should be attempted\&.
+.SH "See also"
+.PP
+neon(3),
+ne_has_support(3)
+.SH "Author"
+.PP
+\fBJoe Orton\fR <\&neon@lists.manyfish.co.uk\&>
+.RS 4
+Author.
+.RE
+.SH "Copyright"
+.br

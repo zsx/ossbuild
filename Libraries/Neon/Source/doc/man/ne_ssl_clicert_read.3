@@ -1,0 +1,308 @@
+.\"     Title: ne_ssl_client_cert
+.\"    Author: 
+.\" Generator: DocBook XSL Stylesheets v1.74.0 <http://docbook.sf.net/>
+.\"      Date: 25 February 2009
+.\"    Manual: neon API reference
+.\"    Source: neon 0.28.4
+.\"  Language: English
+.\"
+.TH "NE_SSL_CLIENT_CERT" "3" "25 February 2009" "neon 0.28.4" "neon API reference"
+.\" -----------------------------------------------------------------
+.\" * (re)Define some macros
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" toupper - uppercase a string (locale-aware)
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de toupper
+.tr aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+\\$*
+.tr aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SH-xref - format a cross-reference to an SH section
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de SH-xref
+.ie n \{\
+.\}
+.toupper \\$*
+.el \{\
+\\$*
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SH - level-one heading that works better for non-TTY output
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de1 SH
+.\" put an extra blank line of space above the head in non-TTY output
+.if t \{\
+.sp 1
+.\}
+.sp \\n[PD]u
+.nr an-level 1
+.set-an-margin
+.nr an-prevailing-indent \\n[IN]
+.fi
+.in \\n[an-margin]u
+.ti 0
+.HTML-TAG ".NH \\n[an-level]"
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+\." make the size of the head bigger
+.ps +3
+.ft B
+.ne (2v + 1u)
+.ie n \{\
+.\" if n (TTY output), use uppercase
+.toupper \\$*
+.\}
+.el \{\
+.nr an-break-flag 0
+.\" if not n (not TTY), use normal case (not uppercase)
+\\$1
+.in \\n[an-margin]u
+.ti 0
+.\" if not n (not TTY), put a border/line under subheading
+.sp -.6
+\l'\n(.lu'
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" SS - level-two heading that works better for non-TTY output
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de1 SS
+.sp \\n[PD]u
+.nr an-level 1
+.set-an-margin
+.nr an-prevailing-indent \\n[IN]
+.fi
+.in \\n[IN]u
+.ti \\n[SN]u
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.ps \\n[PS-SS]u
+\." make the size of the head bigger
+.ps +2
+.ft B
+.ne (2v + 1u)
+.if \\n[.$] \&\\$*
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" BB/BE - put background/screen (filled box) around block of text
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de BB
+.if t \{\
+.sp -.5
+.br
+.in +2n
+.ll -2n
+.gcolor red
+.di BX
+.\}
+..
+.de EB
+.if t \{\
+.if "\\$2"adjust-for-leading-newline" \{\
+.sp -1
+.\}
+.br
+.di
+.in
+.ll
+.gcolor
+.nr BW \\n(.lu-\\n(.i
+.nr BH \\n(dn+.5v
+.ne \\n(BHu+.5v
+.ie "\\$2"adjust-for-leading-newline" \{\
+\M[\\$1]\h'1n'\v'+.5v'\D'P \\n(BWu 0 0 \\n(BHu -\\n(BWu 0 0 -\\n(BHu'\M[]
+.\}
+.el \{\
+\M[\\$1]\h'1n'\v'-.5v'\D'P \\n(BWu 0 0 \\n(BHu -\\n(BWu 0 0 -\\n(BHu'\M[]
+.\}
+.in 0
+.sp -.5v
+.nf
+.BX
+.in
+.sp .5v
+.fi
+.\}
+..
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" BM/EM - put colored marker in margin next to block of text
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.de BM
+.if t \{\
+.br
+.ll -2n
+.gcolor red
+.di BX
+.\}
+..
+.de EM
+.if t \{\
+.br
+.di
+.ll
+.gcolor
+.nr BH \\n(dn
+.ne \\n(BHu
+\M[\\$1]\D'P -.75n 0 0 \\n(BHu -(\\n[.i]u - \\n(INu - .75n) 0 0 -\\n(BHu'\M[]
+.in 0
+.nf
+.BX
+.in
+.fi
+.\}
+..
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "Name"
+ne_ssl_clicert_read, ne_ssl_clicert_name, ne_ssl_clicert_encrypted, ne_ssl_clicert_decrypt, ne_ssl_clicert_owner, ne_ssl_clicert_free \- SSL client certificate handling
+.SH "Synopsis"
+.sp
+.ft B
+.fam C
+.ps -1
+.nf
+#include <ne_ssl\&.h>
+.fi
+.fam
+.ps +1
+.ft
+.fam C
+.HP \w'ne_ssl_client_cert\ *ne_ssl_clicert_read('u
+.BI "ne_ssl_client_cert *ne_ssl_clicert_read(const\ char\ *" "filename" ");"
+.fam
+.fam C
+.HP \w'const\ char\ *ne_ssl_clicert_name('u
+.BI "const char *ne_ssl_clicert_name(const\ ne_ssl_client_cert\ *" "ccert" ");"
+.fam
+.fam C
+.HP \w'int\ ne_ssl_clicert_encrypted('u
+.BI "int ne_ssl_clicert_encrypted(const\ ne_ssl_client_cert\ *" "ccert" ");"
+.fam
+.fam C
+.HP \w'int\ ne_ssl_clicert_decrypt('u
+.BI "int ne_ssl_clicert_decrypt(ne_ssl_client_cert\ *" "ccert" ", const\ char\ *" "password" ");"
+.fam
+.fam C
+.HP \w'const\ ne_ssl_certificate\ *ne_ssl_clicert_owner('u
+.BI "const ne_ssl_certificate *ne_ssl_clicert_owner(const\ ne_ssl_client_cert\ *" "ccert" ");"
+.fam
+.fam C
+.HP \w'void\ ne_ssl_clicert_free('u
+.BI "void ne_ssl_clicert_free(ne_ssl_client_cert\ *" "ccert" ");"
+.fam
+.SH "Description"
+.PP
+The
+\fBne_ssl_clicert_read\fR
+function reads a
+client certificate
+from a PKCS#12\-formatted file, and returns an
+\fBne_ssl_client_cert\fR
+object\&. If the client certificate is encrypted, it must be decrypted before it is used\&. An
+\fBne_ssl_client_cert\fR
+object holds a client certificate and the associated private key, not just a certificate; the term "client certificate" will used to refer to this pair\&.
+.PP
+A client certificate can be in one of two states:
+\fIencrypted\fR
+or
+\fIdecrypted\fR\&. The
+\fBne_ssl_clicert_encrypted\fR
+function will return non\-zero if the client certificate is in the
+\fIencrypted\fR
+state\&. A client certificate object returned by
+\fBne_ssl_clicert_read\fR
+may be initially in either state, depending on whether the file was encrypted or not\&.
+.PP
+\fBne_ssl_clicert_decrypt\fR
+can be used to decrypt a client certificate using the appropriate password\&. This function must only be called if the object is in the
+\fIencrypted\fR
+state; if decryption fails, the certificate state does not change, so decryption can be attempted more than once using different passwords\&.
+.PP
+A client certificate can be given a "friendly name" when it is created;
+\fBne_ssl_clicert_name\fR
+will return this name (or
+\FCNULL\F[]
+if no friendly name was specified)\&.
+\fBne_ssl_clicert_name\fR
+can be used when the client certificate is in either the encrypted or decrypted state, and will return the same string for the lifetime of the object\&.
+.PP
+The function
+\fBne_ssl_clicert_owner\fR
+returns the certificate part of the client certificate; it must only be called if the client certificate is in the
+\fIdecrypted\fR
+state\&.
+.PP
+When the client certificate is no longer needed, the
+\fBne_ssl_clicert_free\fR
+function should be used to destroy the object\&.
+.SH "Return value"
+.PP
+\fBne_ssl_clicert_read\fR
+returns a client certificate object, or
+\FCNULL\F[]
+if the file could not be read\&.
+\fBne_ssl_clicert_encrypted\fR
+returns zero if the object is in the decrypted state, or non\-zero if it is in the encrypted state\&.
+\fBne_ssl_clicert_name\fR
+returns a
+\FCNUL\F[]\-terminated friendly name string, or
+\FCNULL\F[]\&.
+\fBne_ssl_clicert_owner\fR
+returns a certificate object\&.
+.SH "Examples"
+.PP
+The following code reads a client certificate and decrypts it if necessary, then loads it into an HTTP session\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.fam C
+.ps -1
+.nf
+.BB lightgray
+ne_ssl_client_cert *ccert;
+
+ccert = ne_ssl_clicert_read("/path/to/client\&.p12");
+
+if (ccert == NULL) {
+   /* handle error\&.\&.\&. */
+} else if (ne_ssl_clicert_encrypted(ccert)) {
+   char *password = prompt_for_password();
+
+   if (ne_ssl_clicert_decrypt(ccert, password)) {
+      /* could not decrypt! handle error\&.\&.\&. */
+   }
+}
+
+ne_ssl_set_clicert(sess, ccert);
+.EB lightgray
+.fi
+.fam
+.ps +1
+.if n \{\
+.RE
+.\}
+.SH "See also"
+.PP
+ne_ssl_cert_read
+.SH "Author"
+.PP
+\fBJoe Orton\fR <\&neon@lists.manyfish.co.uk\&>
+.RS 4
+Author.
+.RE
+.SH "Copyright"
+.br

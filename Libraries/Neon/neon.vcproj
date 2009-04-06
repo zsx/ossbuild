@@ -1,0 +1,1897 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="neon"
+	ProjectGUID="{E4B4ADF6-81A7-46E2-80AF-4D16EAA12B22}"
+	RootNamespace="neon"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
+		/>
+	</Platforms>
+	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\Common.rules"
+		/>
+		<DefaultToolFile
+			FileName="masm.rules"
+		/>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\..\Properties\x86-Debug.vsprops;.\neon.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName="neon"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="MASM"
+				AdditionalOptions="/coff"
+				PreserveIdentifierCase="3"
+				GenerateDebugInformation="false"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(NeonVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\libneon.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\..\Properties\x86_64-Debug.vsprops;.\neon.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName="neon"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="MASM"
+				AdditionalOptions="/coff"
+				PreserveIdentifierCase="3"
+				GenerateDebugInformation="false"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(NeonVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\libneon.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\..\Properties\x86-Release.vsprops;.\neon.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName="neon"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="MASM"
+				AdditionalOptions="/coff"
+				PreserveIdentifierCase="3"
+				GenerateDebugInformation="false"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(NeonVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\libneon.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\..\Properties\x86_64-Release.vsprops;.\neon.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName="neon"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="MASM"
+				AdditionalOptions="/coff"
+				PreserveIdentifierCase="3"
+				GenerateDebugInformation="false"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(NeonVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\libneon.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseWdkCrt|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\..\Properties\x86-ReleaseWdkCrt.vsprops;.\neon.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName="neon"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="MASM"
+				AdditionalOptions="/coff"
+				PreserveIdentifierCase="3"
+				GenerateDebugInformation="false"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(NeonVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\libneon.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="ReleaseWdkCrt|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\..\Properties\x86_64-ReleaseWdkCrt.vsprops;.\neon.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				PreprocessorOptions="/I &quot;$(OutDir)\include&quot; /I Source /I Source\include /D HAVE_ZLIB_H /D _MBCS /D _REENTRANT /D HAVE_WIN32_THREADS /D HAVE_COMPILER_TLS /D LIBXML_STATIC /D LIBXML_STATIC_FOR_DLL"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ModuleName="neon"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="MASM"
+				AdditionalOptions="/coff"
+				PreserveIdentifierCase="3"
+				GenerateDebugInformation="false"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				Substitute="@VERSION@/$(NeonVersionString);@prefix@/$(OutDir);@exec_prefix@/${prefix};@libdir@/${prefix}\/lib;@includedir@/${prefix}\/include"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\libneon.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<Filter
+				Name="Public"
+				>
+				<Filter
+					Name="neon"
+					>
+					<File
+						RelativePath=".\Source\src\ne_207.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_acl.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_alloc.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_auth.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_basic.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_compress.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_dates.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_defs.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_i18n.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_locks.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_md5.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_pkcs11.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_props.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_redirect.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_request.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_session.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_socket.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_ssl.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_string.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_uri.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_utils.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_xml.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\Source\src\ne_xmlreq.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseWdkCrt|x64"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+			<Filter
+				Name="x86"
+				>
+				<File
+					RelativePath=".\Source\config.hw"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Copy Tool"
+							DestinationPath="$(IntDir)\config.h"
+							ForceOverwrite="true"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|x64"
+						>
+						<Tool
+							Name="Copy Tool"
+							DestinationPath="$(IntDir)\config.h"
+							ForceOverwrite="true"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Copy Tool"
+							DestinationPath="$(IntDir)\config.h"
+							ForceOverwrite="true"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|x64"
+						>
+						<Tool
+							Name="Copy Tool"
+							DestinationPath="$(IntDir)\config.h"
+							ForceOverwrite="true"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseWdkCrt|Win32"
+						>
+						<Tool
+							Name="Copy Tool"
+							DestinationPath="$(IntDir)\config.h"
+							ForceOverwrite="true"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseWdkCrt|x64"
+						>
+						<Tool
+							Name="Copy Tool"
+							DestinationPath="$(IntDir)\config.h"
+							ForceOverwrite="true"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="x86_64"
+				>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			>
+			<File
+				RelativePath=".\Source\src\ne_alloc.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_auth.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_basic.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_compress.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_dates.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_i18n.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_md5.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_openssl.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_pkcs11.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_redirect.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_request.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_session.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_socket.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_sspi.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_string.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_uri.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_utils.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_xml.c"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\src\ne_xmlreq.c"
+				>
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
