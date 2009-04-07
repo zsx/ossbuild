@@ -202,12 +202,16 @@ if [ ! -f "$BinDir/libglib-2.0-0.dll" ]; then
 	#Add in MS build tools again
 	setup_ms_build_env_path
 	
-	cd "$LibDir"
-	$MSLIB /name:libgio-2.0-0.dll /out:gio-2.0.lib /machine:$MSLibMachine /def:gio-2.0.def
-	$MSLIB /name:libglib-2.0-0.dll /out:glib-2.0.lib /machine:$MSLibMachine /def:glib-2.0.def
-	$MSLIB /name:libgmodule-2.0-0.dll /out:gmodule-2.0.lib /machine:$MSLibMachine /def:gmodule-2.0.def
-	$MSLIB /name:libgobject-2.0-0.dll /out:gobject-2.0.lib /machine:$MSLibMachine /def:gobject-2.0.def
-	$MSLIB /name:libgthread-2.0-0.dll /out:gthread-2.0.lib /machine:$MSLibMachine /def:gthread-2.0.def
+	cd "$IntDir/glib/gio/.libs"
+	$MSLIB /name:libgio-2.0-0.dll /out:gio-2.0.lib /machine:$MSLibMachine /def:libgio-2.0-0.dll.def
+	cd "../../glib/.libs"
+	$MSLIB /name:libglib-2.0-0.dll /out:glib-2.0.lib /machine:$MSLibMachine /def:libglib-2.0-0.dll.def
+	cd "../../gmodule/.libs"
+	$MSLIB /name:libgmodule-2.0-0.dll /out:gmodule-2.0.lib /machine:$MSLibMachine /def:libgmodule-2.0-0.dll.def
+	cd "../../gobject/.libs"
+	$MSLIB /name:libgobject-2.0-0.dll /out:gobject-2.0.lib /machine:$MSLibMachine /def:libgobject-2.0-0.dll.def
+	cd "../../gthread/.libs"
+	$MSLIB /name:libgthread-2.0-0.dll /out:gthread-2.0.lib /machine:$MSLibMachine /def:libgthread-2.0-0.dll.def
 fi
 
 #openssl
@@ -516,6 +520,20 @@ fi
 #	#move_files_to_dir "*.exp *.lib" "$LibDir/"
 #fi
 
+#openjpeg
+if [ ! -f "$BinDir/libopenjpeg-2.dll" ]; then 
+	mkdir_and_move "$IntDir/openjpeg"
+	
+	cd "$LIBRARIES_DIR/OpenJPEG"
+	make install LDFLAGS="-lm" CFLAGS="-D WIN32 -D NDEBUG -D _WINDOWS -D _USRDLL -D OPJ_EXPORTS -D _CRT_SECURE_NO_DEPRECATE" PREFIX=$InstallDir
+	make clean
+	
+	cd "$IntDir/openjpeg"
+	pexports "$BinDir/libopenjpeg-2.dll" | sed "s/^_//" > in.def
+	$MSLIB /name:libopenjpeg-2.dll /out:openjpeg.lib /machine:$MSLibMachine /def:in.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+fi
+
 #ffmpeg
 if [ ! -f "$BinDir/avcodec-52.dll" ]; then 
 	mkdir_and_move "$IntDir/ffmpeg"
@@ -525,7 +543,7 @@ if [ ! -f "$BinDir/avcodec-52.dll" ]; then
 	
 	#LGPL-compatible version
 	#$LIBRARIES_DIR/FFmpeg/Source/configure --extra-ldflags="-no-undefined" --extra-cflags="-mno-cygwin -mms-bitfields -fno-common" --enable-avisynth --enable-memalign-hack --target-os=mingw32 --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-zlib --enable-w32threads --enable-ipv6 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
-	$LIBRARIES_DIR/FFmpeg/Source/configure --enable-memalign-hack --disable-vhook --enable-zlib --enable-w32threads --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
+	$LIBRARIES_DIR/FFmpeg/Source/configure --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-pthreads --enable-libvorbis --enable-libmp3lame --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-libx264 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
 	
 	reset_flags
 	
