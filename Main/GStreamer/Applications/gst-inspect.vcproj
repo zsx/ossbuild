@@ -266,7 +266,7 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
+				DataExecutionPrevention="1"
 				TargetMachine="1"
 			/>
 			<Tool

@@ -184,7 +184,7 @@ DECLARE_INTERFACE_(IDirect3D8, IUnknown)
     STDMETHOD_(HMONITOR, GetAdapterMonitor)(THIS_ UINT Adapter) PURE;
     STDMETHOD(CreateDevice)(THIS_ UINT Adapter,D3DDEVTYPE DeviceType,HWND hFocusWindow,DWORD BehaviorFlags,D3DPRESENT_PARAMETERS* pPresentationParameters,IDirect3DDevice8** ppReturnedDeviceInterface) PURE;
 };
-
+    
 typedef struct IDirect3D8 *LPDIRECT3D8, *PDIRECT3D8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -347,7 +347,7 @@ DECLARE_INTERFACE_(IDirect3DDevice8, IUnknown)
     STDMETHOD(DrawTriPatch)(THIS_ UINT Handle,CONST float* pNumSegs,CONST D3DTRIPATCH_INFO* pTriPatchInfo) PURE;
     STDMETHOD(DeletePatch)(THIS_ UINT Handle) PURE;
 };
-
+    
 typedef struct IDirect3DDevice8 *LPDIRECT3DDEVICE8, *PDIRECT3DDEVICE8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -564,7 +564,7 @@ DECLARE_INTERFACE_(IDirect3DSwapChain8, IUnknown)
     STDMETHOD(Present)(THIS_ CONST RECT* pSourceRect,CONST RECT* pDestRect,HWND hDestWindowOverride,CONST RGNDATA* pDirtyRegion) PURE;
     STDMETHOD(GetBackBuffer)(THIS_ UINT BackBuffer,D3DBACKBUFFER_TYPE Type,IDirect3DSurface8** ppBackBuffer) PURE;
 };
-
+    
 typedef struct IDirect3DSwapChain8 *LPDIRECT3DSWAPCHAIN8, *PDIRECT3DSWAPCHAIN8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -603,7 +603,7 @@ DECLARE_INTERFACE_(IDirect3DResource8, IUnknown)
     STDMETHOD_(void, PreLoad)(THIS) PURE;
     STDMETHOD_(D3DRESOURCETYPE, GetType)(THIS) PURE;
 };
-
+    
 typedef struct IDirect3DResource8 *LPDIRECT3DRESOURCE8, *PDIRECT3DRESOURCE8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -658,7 +658,7 @@ DECLARE_INTERFACE_(IDirect3DBaseTexture8, IDirect3DResource8)
     STDMETHOD_(DWORD, GetLOD)(THIS) PURE;
     STDMETHOD_(DWORD, GetLevelCount)(THIS) PURE;
 };
-
+    
 typedef struct IDirect3DBaseTexture8 *LPDIRECT3DBASETEXTURE8, *PDIRECT3DBASETEXTURE8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -725,7 +725,7 @@ DECLARE_INTERFACE_(IDirect3DTexture8, IDirect3DBaseTexture8)
     STDMETHOD(UnlockRect)(THIS_ UINT Level) PURE;
     STDMETHOD(AddDirtyRect)(THIS_ CONST RECT* pDirtyRect) PURE;
 };
-
+    
 typedef struct IDirect3DTexture8 *LPDIRECT3DTEXTURE8, *PDIRECT3DTEXTURE8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -802,7 +802,7 @@ DECLARE_INTERFACE_(IDirect3DVolumeTexture8, IDirect3DBaseTexture8)
     STDMETHOD(UnlockBox)(THIS_ UINT Level) PURE;
     STDMETHOD(AddDirtyBox)(THIS_ CONST D3DBOX* pDirtyBox) PURE;
 };
-
+    
 typedef struct IDirect3DVolumeTexture8 *LPDIRECT3DVOLUMETEXTURE8, *PDIRECT3DVOLUMETEXTURE8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -879,7 +879,7 @@ DECLARE_INTERFACE_(IDirect3DCubeTexture8, IDirect3DBaseTexture8)
     STDMETHOD(UnlockRect)(THIS_ D3DCUBEMAP_FACES FaceType,UINT Level) PURE;
     STDMETHOD(AddDirtyRect)(THIS_ D3DCUBEMAP_FACES FaceType,CONST RECT* pDirtyRect) PURE;
 };
-
+    
 typedef struct IDirect3DCubeTexture8 *LPDIRECT3DCUBETEXTURE8, *PDIRECT3DCUBETEXTURE8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -950,7 +950,7 @@ DECLARE_INTERFACE_(IDirect3DVertexBuffer8, IDirect3DResource8)
     STDMETHOD(Unlock)(THIS) PURE;
     STDMETHOD(GetDesc)(THIS_ D3DVERTEXBUFFER_DESC *pDesc) PURE;
 };
-
+    
 typedef struct IDirect3DVertexBuffer8 *LPDIRECT3DVERTEXBUFFER8, *PDIRECT3DVERTEXBUFFER8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -1011,7 +1011,7 @@ DECLARE_INTERFACE_(IDirect3DIndexBuffer8, IDirect3DResource8)
     STDMETHOD(Unlock)(THIS) PURE;
     STDMETHOD(GetDesc)(THIS_ D3DINDEXBUFFER_DESC *pDesc) PURE;
 };
-
+    
 typedef struct IDirect3DIndexBuffer8 *LPDIRECT3DINDEXBUFFER8, *PDIRECT3DINDEXBUFFER8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -1069,7 +1069,7 @@ DECLARE_INTERFACE_(IDirect3DSurface8, IUnknown)
     STDMETHOD(LockRect)(THIS_ D3DLOCKED_RECT* pLockedRect,CONST RECT* pRect,DWORD Flags) PURE;
     STDMETHOD(UnlockRect)(THIS) PURE;
 };
-
+    
 typedef struct IDirect3DSurface8 *LPDIRECT3DSURFACE8, *PDIRECT3DSURFACE8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -1121,7 +1121,7 @@ DECLARE_INTERFACE_(IDirect3DVolume8, IUnknown)
     STDMETHOD(LockBox)(THIS_ D3DLOCKED_BOX * pLockedVolume,CONST D3DBOX* pBox,DWORD Flags) PURE;
     STDMETHOD(UnlockBox)(THIS) PURE;
 };
-
+    
 typedef struct IDirect3DVolume8 *LPDIRECT3DVOLUME8, *PDIRECT3DVOLUME8;
 
 #if !defined(__cplusplus) || defined(CINTERFACE)
@@ -1276,4 +1276,5 @@ typedef struct IDirect3DVolume8 *LPDIRECT3DVOLUME8, *PDIRECT3DVOLUME8;
 
 #endif /* (DIRECT3D_VERSION >= 0x0800) */
 #endif /* _D3D_H_ */
+
 

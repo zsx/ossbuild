@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *  Copyright (C) 1996-2000 Microsoft Corporation.  All Rights Reserved.
+ *  Copyright (C) 1996-2002 Microsoft Corporation.  All Rights Reserved.
  *
  *  File:       dinput.h
  *  Content:    DirectInput include file
@@ -592,9 +592,6 @@ typedef struct DIDEVCAPS {
 #define DIDFT_VENDORDEFINED     0x04000000
 #define DIDFT_ALIAS             0x08000000
 #endif /* DIRECTINPUT_VERSION >= 0x050a */
-#ifndef DIDFT_OPTIONAL
-#define DIDFT_OPTIONAL          0x80000000
-#endif
 
 #define DIDFT_ENUMCOLLECTION(n) ((WORD)(n) << 8)
 #define DIDFT_NOCOLLECTION      0x00FFFF00
@@ -4333,8 +4330,7 @@ WINMMAPI MMRESULT WINAPI joyConfigChanged( DWORD dwFlags );
  */
 void WINAPI ShowJoyCPL( HWND hWnd );
 typedef void (WINAPI* LPFNSHOWJOYCPL)( HWND hWnd );
-#endif /* DIJ_RINGZERO */
-
+#endif
 
 /*
  * Hardware Setting indicating that the device is a headtracker
@@ -4414,4 +4410,5 @@ typedef void (WINAPI* LPFNSHOWJOYCPL)( HWND hWnd );
 #endif  /* _INC_MMDDK */
 
 #endif /* DIJ_RINGZERO */
+
 

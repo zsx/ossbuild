@@ -599,3 +599,4 @@ typedef struct _D3DDEVINFO_TEXTURING {
 
 #endif /* _D3DCAPS_H_ */
 
+

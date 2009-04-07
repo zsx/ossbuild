@@ -22,24 +22,27 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-base.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-base-lib.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="GObject Marshaller Generation Tool"
-			/>
-			<Tool
 				Name="GObject Enum Generation Tool"
 			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Yasm Tool"
 			/>
 			<Tool
 				Name="SDK VSProps Generation Tool"
 				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
 				Name="Symbols Generator Tool"
@@ -184,7 +187,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-base.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-base-lib.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -192,17 +195,20 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="GObject Marshaller Generation Tool"
-			/>
-			<Tool
 				Name="GObject Enum Generation Tool"
 			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Yasm Tool"
 			/>
 			<Tool
 				Name="SDK VSProps Generation Tool"
 				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
 				Name="Symbols Generator Tool"

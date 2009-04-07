@@ -1,3 +1,17 @@
+//$TAG BIZDEV
+//  $IPCategory:     
+//  $DealPointID:    109444
+//  $AgreementName:  public license
+//  $AgreementType:  oss license
+//  $ExternalOrigin: sonic foundry
+//$ENDTAG
+
+//$TAG ENGR 
+//  $Owner:    duganp
+//  $Module:   mm_published_directx
+//
+//$ENDTAG
+
 /*==========================================================================;
 //
 //  dls1.h
@@ -264,4 +278,5 @@ typedef struct _rloop {
 } WLOOP, FAR *LPWLOOP;
 
 #endif /*_INC_DLS1 */
+
 

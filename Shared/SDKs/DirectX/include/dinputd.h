@@ -753,3 +753,4 @@ typedef struct IDirectInputJoyConfig8 *LPDIRECTINPUTJOYCONFIG8;
 #endif
 
 #endif  /* __DINPUTD_INCLUDED__ */
+

@@ -12,8 +12,16 @@
 #include <float.h>
 
 #ifndef DIRECTSOUND_VERSION
+
+#if (NTDDI_VERSION < NTDDI_WINXP) /* Windows 2000 */
+#define DIRECTSOUND_VERSION 0x0700  /* Version 7.0 */
+#elif (NTDDI_VERSION < NTDDI_WINXPSP2 || NTDDI_VERSION == NTDDI_WS03) /* Windows XP and SP1, or Windows Server 2003 */
+#define DIRECTSOUND_VERSION 0x0800  /* Version 8.0 */
+#else /* Windows XP SP2 and higher, Windows Server 2003 SP1 and higher, Longhorn, or higher */
 #define DIRECTSOUND_VERSION 0x0900  /* Version 9.0 */
 #endif
+
+#endif // DIRECTSOUND_VERSION
 
 #ifdef __cplusplus
 extern "C" {
@@ -102,7 +110,6 @@ struct IDirectSoundCaptureBuffer;
 struct IDirectSoundNotify;
 #endif // __cplusplus
 
-
 //
 // DirectSound 8.0 interfaces.
 //
@@ -157,7 +164,6 @@ typedef struct IDirectSound3DBuffer         *LPDIRECTSOUND3DBUFFER;
 typedef struct IDirectSoundCapture          *LPDIRECTSOUNDCAPTURE;
 typedef struct IDirectSoundCaptureBuffer    *LPDIRECTSOUNDCAPTUREBUFFER;
 typedef struct IDirectSoundNotify           *LPDIRECTSOUNDNOTIFY;
-
 
 #if DIRECTSOUND_VERSION >= 0x0800
 
@@ -1073,7 +1079,6 @@ DECLARE_INTERFACE_(IDirectSoundCaptureBuffer, IUnknown)
 #define IDirectSoundCaptureBuffer_Stop(p)                       (p)->Stop()
 #define IDirectSoundCaptureBuffer_Unlock(p,a,b,c,d)             (p)->Unlock(a,b,c,d)
 #endif // !defined(__cplusplus) || defined(CINTERFACE)
-
 
 #if DIRECTSOUND_VERSION >= 0x0800
 
@@ -2038,8 +2043,12 @@ DECLARE_INTERFACE_(IDirectSoundFullDuplex, IUnknown)
 #define DSSPEAKER_QUAD              0x00000003
 #define DSSPEAKER_STEREO            0x00000004
 #define DSSPEAKER_SURROUND          0x00000005
-#define DSSPEAKER_5POINT1           0x00000006
-#define DSSPEAKER_7POINT1           0x00000007
+#define DSSPEAKER_5POINT1           0x00000006  // obsolete 5.1 setting
+#define DSSPEAKER_7POINT1           0x00000007  // obsolete 7.1 setting
+#define DSSPEAKER_7POINT1_SURROUND  0x00000008  // correct 7.1 Home Theater setting
+#define DSSPEAKER_5POINT1_SURROUND  0x00000009  // correct 5.1 setting
+#define DSSPEAKER_7POINT1_WIDE      DSSPEAKER_7POINT1
+#define DSSPEAKER_5POINT1_BACK      DSSPEAKER_5POINT1
 
 #define DSSPEAKER_GEOMETRY_MIN      0x00000005  //   5 degrees
 #define DSSPEAKER_GEOMETRY_NARROW   0x0000000A  //  10 degrees
@@ -2065,6 +2074,7 @@ DECLARE_INTERFACE_(IDirectSoundFullDuplex, IUnknown)
 #define DSBCAPS_GETCURRENTPOSITION2 0x00010000
 #define DSBCAPS_MUTE3DATMAXDISTANCE 0x00020000
 #define DSBCAPS_LOCDEFER            0x00040000
+#define DSBCAPS_TRUEPLAYPOSITION    0x00080000
 
 #define DSBPLAY_LOOPING             0x00000001
 #define DSBPLAY_LOCHARDWARE         0x00000002
@@ -2101,6 +2111,8 @@ DECLARE_INTERFACE_(IDirectSoundFullDuplex, IUnknown)
 #define DSBSIZE_MIN                 4
 #define DSBSIZE_MAX                 0x0FFFFFFF
 #define DSBSIZE_FX_MIN              150  // NOTE: Milliseconds, not bytes
+
+#define DSBNOTIFICATIONS_MAX        100000UL
 
 #define DS3DMODE_NORMAL             0x00000000
 #define DS3DMODE_HEADRELATIVE       0x00000001
@@ -2139,11 +2151,9 @@ DECLARE_INTERFACE_(IDirectSoundFullDuplex, IUnknown)
 // IDirectSoundCaptureBuffer attributes
 
 #define DSCBCAPS_WAVEMAPPED         0x80000000
-
 #if DIRECTSOUND_VERSION >= 0x0800
 #define DSCBCAPS_CTRLFX             0x00000200
 #endif
-
 
 #define DSCBLOCK_ENTIREBUFFER       0x00000001
 
@@ -2156,7 +2166,6 @@ DECLARE_INTERFACE_(IDirectSoundFullDuplex, IUnknown)
 
 #define DS_CERTIFIED                0x00000000
 #define DS_UNCERTIFIED              0x00000001
-
 
 //
 // Flags for the I3DL2 effects

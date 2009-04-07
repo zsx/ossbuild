@@ -129,7 +129,7 @@
 				AdditionalIncludeDirectories="..\Source\gstreamer\gst\;..\Source\gstreamer\gst\parse\;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\&quot;"
 				PreprocessorDefinitions="_DEBUG;LIBGSTREAMER_EXPORTS"
 				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -152,7 +152,7 @@
 				ExecutionBucket="27"
 				OutputFile="$(OutDir)\bin\gstreamer\$(ProjectName)-$(ApiVersionString).dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
+				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile="..\Source\gstreamer\win32\common\libgstreamer.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -294,7 +294,7 @@
 				ExecutionBucket="23"
 				AdditionalIncludeDirectories="..\Source\gstreamer\gst\;..\Source\gstreamer\gst\parse\;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\&quot;"
 				PreprocessorDefinitions="NDEBUG;LIBGSTREAMER_EXPORTS"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
@@ -318,7 +318,6 @@
 				LinkIncremental="1"
 				ModuleDefinitionFile="..\Source\gstreamer\win32\common\libgstreamer.def"
 				GenerateDebugInformation="true"
-				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				RandomizedBaseAddress="1"
@@ -507,20 +506,6 @@
 			<File
 				RelativePath="..\Source\gstreamer\gst\gstregistryxml.c"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\Source\gstreamer\gst\gstsegment.c"
