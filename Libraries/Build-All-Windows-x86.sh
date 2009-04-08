@@ -483,8 +483,19 @@ if [ ! -f "$BinDir/libspeex-1.dll" ]; then
 	make && make install
 	
 	copy_files_to_dir "$LIBRARIES_DIR/LibSpeex/Source/win32/*.def" .
-	$MSLIB /name:libspeex-1.dll /out:speex.lib /machine:$MSLibMachine /def:libspeex.def
-	$MSLIB /name:libspeexdsp-1.dll /out:speexdsp.lib /machine:$MSLibMachine /def:libspeexdsp.def
+	
+	#Remove the explicit library declaration since it overrides our commandline one
+	sed '/LIBRARY libspeex/d' libspeex.def > libspeex-mod.def
+	sed '/LIBRARY libspeexdsp/d' libspeexdsp.def > libspeexdsp-mod.def
+	
+	#Add some missing functions from our lib to the def file
+	echo speex_nb_mode >> libspeex-mod.def
+	echo speex_uwb_mode >> libspeex-mod.def
+	echo speex_wb_mode >> libspeex-mod.def
+	echo speex_header_free >> libspeex-mod.def
+	
+	$MSLIB /name:libspeex-1.dll /out:speex.lib /machine:$MSLibMachine /def:libspeex-mod.def
+	$MSLIB /name:libspeexdsp-1.dll /out:speexdsp.lib /machine:$MSLibMachine /def:libspeexdsp-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 fi
 
@@ -525,7 +536,7 @@ if [ ! -f "$BinDir/libopenjpeg-2.dll" ]; then
 	mkdir_and_move "$IntDir/openjpeg"
 	
 	cd "$LIBRARIES_DIR/OpenJPEG"
-	make install LDFLAGS="-lm" CFLAGS="-D WIN32 -D NDEBUG -D _WINDOWS -D _USRDLL -D OPJ_EXPORTS -D _CRT_SECURE_NO_DEPRECATE" PREFIX=$InstallDir
+	make install LDFLAGS="-lm" PREFIX=$InstallDir
 	make clean
 	
 	cd "$IntDir/openjpeg"
@@ -535,58 +546,66 @@ if [ ! -f "$BinDir/libopenjpeg-2.dll" ]; then
 fi
 
 #ffmpeg
-if [ ! -f "$BinDir/avcodec-52.dll" ]; then 
+if [ ! -f "$LibDir/libavcodec.a" ]; then 
 	mkdir_and_move "$IntDir/ffmpeg"
 	
-	CFLAGS=$ORIG_CFLAGS
-	CPPFLAGS=$ORIG_CPPFLAGS
+	#CFLAGS=$ORIG_CFLAGS
+	#CPPFLAGS=$ORIG_CPPFLAGS
 	
 	#LGPL-compatible version
+	#On Windows, you have to link against the static lib
 	#$LIBRARIES_DIR/FFmpeg/Source/configure --extra-ldflags="-no-undefined" --extra-cflags="-mno-cygwin -mms-bitfields -fno-common" --enable-avisynth --enable-memalign-hack --target-os=mingw32 --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-zlib --enable-w32threads --enable-ipv6 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
-	$LIBRARIES_DIR/FFmpeg/Source/configure --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-pthreads --enable-libvorbis --enable-libmp3lame --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-libx264 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
+	#$LIBRARIES_DIR/FFmpeg/Source/configure --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-pthreads --enable-libvorbis --enable-libmp3lame --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-libx264 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
+	$LIBRARIES_DIR/FFmpeg/Source/configure --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-w32threads --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --disable-ffmpeg --disable-ffplay --disable-ffserver --enable-static --disable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
 	
 	reset_flags
 	
 	make && make install
 	
-	#If it built successfully, then the .lib and .dll files are all in the lib/ folder with 
-	#sym links. We want to take out the sym links and keep just the .lib and .dll files we need 
-	#for development and execution.
+	strip -x "$LibDir/libavutil.a"
+	strip -x "$LibDir/libavfilter.a"
+	strip -x "$LibDir/libavdevice.a"
+	strip -x "$LibDir/libavformat.a"
+	strip -x "$LibDir/libavcodec.a"
 	
-	mkdir -p "$LibDir/tmp/"
-	
-	remove_files_from_dir "$LibDir/av*-*.*.dll"
-	move_files_to_dir "$LibDir/av*-*.dll" "$LibDir/tmp/"
-	remove_files_from_dir "$LibDir/av*.dll"
-	move_files_to_dir "$LibDir/tmp/av*-*.dll" "$BinDir/"
-	
-	remove_files_from_dir "$LibDir/av*-*.*.lib"
-	move_files_to_dir "$LibDir/av*-*.lib" "$LibDir/tmp/"
-	remove_files_from_dir "$LibDir/av*.lib"
-	move_files_to_dir "$LibDir/tmp/av*-*.lib" "$LibDir/"
-	
-	rm -rf "$LibDir/tmp/"
-	
-	#Create .dll.a versions of the libs
-	cd "$IntDir/ffmpeg"
-	pexports "$BinDir/avutil-49.dll" | sed "s/^_//" > avutil.def
-	pexports "$BinDir/avcodec-52.dll" | sed "s/^_//" > avcodec.def
-	pexports "$BinDir/avdevice-52.dll" | sed "s/^_//" > avdevice.def
-	#pexports "$BinDir/avfilter-0.dll" | sed "s/^_//" > avfilter.def
-	pexports "$BinDir/avformat-52.dll" | sed "s/^_//" > avformat.def
-	dlltool -U -d avutil.def -l libavutil.dll.a
-	dlltool -U -d avcodec.def -l libavcodec.dll.a
-	dlltool -U -d avdevice.def -l libavdevice.dll.a
-	#dlltool -U -d avfilter.def -l libavfilter.dll.a
-	dlltool -U -d avformat.def -l libavformat.dll.a
-	move_files_to_dir "*.dll.a" "$LibDir/"
-	
-	cd "$LibDir"
-	mv avcodec-52.lib avcodec.lib
-	mv avdevice-52.lib avdevice.lib
-	#mv avfilter-0.lib avfilter.lib
-	mv avformat-52.lib avformat.lib
-	mv avutil-49.lib avutil.lib
+	##If it built successfully, then the .lib and .dll files are all in the lib/ folder with 
+	##sym links. We want to take out the sym links and keep just the .lib and .dll files we need 
+	##for development and execution.
+	#
+	#mkdir -p "$LibDir/tmp/"
+	#
+	#remove_files_from_dir "$LibDir/av*-*.*.dll"
+	#move_files_to_dir "$LibDir/av*-*.dll" "$LibDir/tmp/"
+	#remove_files_from_dir "$LibDir/av*.dll"
+	#move_files_to_dir "$LibDir/tmp/av*-*.dll" "$BinDir/"
+	#
+	#remove_files_from_dir "$LibDir/av*-*.*.lib"
+	#move_files_to_dir "$LibDir/av*-*.lib" "$LibDir/tmp/"
+	#remove_files_from_dir "$LibDir/av*.lib"
+	#move_files_to_dir "$LibDir/tmp/av*-*.lib" "$LibDir/"
+	#
+	#rm -rf "$LibDir/tmp/"
+	#
+	##Create .dll.a versions of the libs
+	#cd "$IntDir/ffmpeg"
+	#pexports "$BinDir/avutil-49.dll" | sed "s/^_//" > avutil.def
+	#pexports "$BinDir/avcodec-52.dll" | sed "s/^_//" > avcodec.def
+	#pexports "$BinDir/avdevice-52.dll" | sed "s/^_//" > avdevice.def
+	##pexports "$BinDir/avfilter-0.dll" | sed "s/^_//" > avfilter.def
+	#pexports "$BinDir/avformat-52.dll" | sed "s/^_//" > avformat.def
+	#dlltool -U -d avutil.def -l libavutil.dll.a
+	#dlltool -U -d avcodec.def -l libavcodec.dll.a
+	#dlltool -U -d avdevice.def -l libavdevice.dll.a
+	##dlltool -U -d avfilter.def -l libavfilter.dll.a
+	#dlltool -U -d avformat.def -l libavformat.dll.a
+	#move_files_to_dir "*.dll.a" "$LibDir/"
+	#
+	#cd "$LibDir"
+	#mv avcodec-52.lib avcodec.lib
+	#mv avdevice-52.lib avdevice.lib
+	##mv avfilter-0.lib avfilter.lib
+	#mv avformat-52.lib avformat.lib
+	#mv avutil-49.lib avutil.lib
 fi
 
 reset_flags

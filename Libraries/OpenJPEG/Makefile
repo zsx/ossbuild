@@ -56,7 +56,7 @@ OpenJPEG: $(SHAREDLIB)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(SHAREDLIB): $(MODULES)
-	$(CC) -shared -o $@ -Wl,--out-implib,$(IMPLIB) $(MODULES) $(LIBRARIES)
+	$(CC) -shared -o $@ -Wl,--kill-at -Wl,--out-implib,$(IMPLIB) $(MODULES) $(LIBRARIES)
 
 install: OpenJPEG
 	install -d '$(DESTDIR)$(INSTALL_LIBDIR)' '$(DESTDIR)$(INSTALL_INCLUDE)'

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="BZip2"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="bz2.lib libbz2.a"
+	/>
+</VisualStudioPropertySheet>

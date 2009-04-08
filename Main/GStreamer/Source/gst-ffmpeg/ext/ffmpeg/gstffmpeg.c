@@ -128,30 +128,21 @@ gboolean _shut_up_I_am_probing = FALSE;
 static gboolean
 plugin_init (GstPlugin * plugin)
 {
-printf("GOT HERE 0");
   GST_DEBUG_CATEGORY_INIT (ffmpeg_debug, "ffmpeg", 0, "FFmpeg elements");
-  printf("GOT HERE 1");
-  
 #ifndef GST_DISABLE_GST_DEBUG
 
   av_log_set_callback (gst_ffmpeg_log_callback);
 #endif
 
-  printf("GOT HERE 2");
   gst_ffmpeg_init_pix_fmt_info ();
-printf("GOT HERE 3");
+
   av_register_all ();
-printf("GOT HERE 4");
+
   gst_ffmpegenc_register (plugin);
-  printf("GOT HERE 5");
   gst_ffmpegdec_register (plugin);
-  printf("GOT HERE 6");
   gst_ffmpegdemux_register (plugin);
-  printf("GOT HERE 7");
   gst_ffmpegmux_register (plugin);
-  printf("GOT HERE 8");
   gst_ffmpegdeinterlace_register (plugin);
-  printf("GOT HERE 9");
 #if 0
   gst_ffmpegscale_register (plugin);
 #endif
@@ -159,12 +150,9 @@ printf("GOT HERE 4");
   gst_ffmpegcsp_register (plugin);
 #endif
   gst_ffmpegaudioresample_register (plugin);
-  printf("GOT HERE 10");
 
   register_protocol (&gstreamer_protocol);
-  printf("GOT HERE 11");
   register_protocol (&gstpipe_protocol);
-  printf("GOT HERE 12");
 
   /* Now we can return the pointer to the newly created Plugin object. */
   return TRUE;

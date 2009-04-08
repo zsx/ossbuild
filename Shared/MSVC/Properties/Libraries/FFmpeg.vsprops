@@ -3,9 +3,10 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="FFmpeg"
+	InheritedPropertySheets=".\LibSchroedinger.vsprops;.\OpenJPEG.vsprops;.\LibSpeex.vsprops;..\SDKs\MinGW.vsprops;.\BZip2.vsprops;.\ZLib.vsprops;.\LibTheora.vsprops;.\LibVorbis.vsprops"
 	>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="avutil.lib avdevice.lib avcodec.lib avformat.lib"
+		AdditionalDependencies="libavutil.a libavfilter.a libavdevice.a libavformat.a libavcodec.a vfw32.lib wsock32.lib"
 	/>
 </VisualStudioPropertySheet>

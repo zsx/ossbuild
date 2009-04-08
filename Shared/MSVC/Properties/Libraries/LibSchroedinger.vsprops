@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibSchrodinger"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="schroedinger-$(LibSchroedingerLibVersionString).lib"
+	/>
+	<UserMacro
+		Name="LibSchroedingerMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibSchroedingerMinorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibSchroedingerMicroVersion"
+		Value="6"
+	/>
+	<UserMacro
+		Name="LibSchroedingerVersionString"
+		Value="$(LibSchroedingerMajorVersion).$(LibSchroedingerMinorVersion).$(LibSchroedingerMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibSchroedingerApiVersionString"
+		Value="$(LibSchroedingerMajorVersion).$(LibSchroedingerMinorVersion)"
+	/>
+	<UserMacro
+		Name="LibSchroedingerLibVersionString"
+		Value="$(LibSchroedingerMajorVersion).$(LibSchroedingerMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

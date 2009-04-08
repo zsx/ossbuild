@@ -10,7 +10,7 @@
 	/>
 	<Tool
 		Name="VCLibrarianTool"
-		AdditionalLibraryDirectories="&quot;$(SolutionDir)\SDKs\DirectX\lib\$(PlatformName)&quot;"
+		AdditionalLibraryDirectories="&quot;$(SolutionDir)\Shared\SDKs\DirectX\lib\$(PlatformName)&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"
