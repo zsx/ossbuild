@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstaudioresample"
+	Name="libgstautoconvert"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0022}"
-	RootNamespace="libgstaudioresample"
+	RootNamespace="libgstautoconvert"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -289,51 +289,11 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\buffer.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\autoconvert\gstautoconvert.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\buffer.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\debug.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\functable.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\functable.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\gstaudioresample.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\gstaudioresample.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\resample.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\resample.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\resample_chunk.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\resample_functable.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\audioresample\resample_ref.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\autoconvert\gstautoconvert.h"
 			>
 		</File>
 	</Files>

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgsttwolame"
-	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1035}"
-	RootNamespace="libgsttwolame"
+	Name="libgstliveadder"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0061}"
+	RootNamespace="libgstliveadder"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstaudio.lib Winmm.lib"
+				AdditionalDependencies="libgstaudio.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -251,6 +251,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="libgstaudio.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -288,6 +289,14 @@
 	<References>
 	</References>
 	<Files>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\liveadder\liveadder.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\liveadder\liveadder.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
