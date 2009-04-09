@@ -54,7 +54,7 @@ if [ ! -f "$BinDir/pthreadGC2.dll" ]; then
 	$MSLIB /name:pthreadGC2.dll /out:pthreadGC2.lib /machine:$MSLibMachine /def:pthread.def
 	move_files_to_dir "*.exp *.lib *.a" "$LibDir"
 	move_files_to_dir "*.dll" "$BinDir"
-	copy_files_to_dir "pthread.h" "$IncludeDir"
+	copy_files_to_dir "pthread.h sched.h" "$IncludeDir"
 	make clean
 fi
 
@@ -545,6 +545,19 @@ if [ ! -f "$BinDir/libopenjpeg-2.dll" ]; then
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 fi
 
+#mp3lame
+if [ ! -f "$BinDir/libmp3lame-0.dll" ]; then 
+	mkdir_and_move "$IntDir/mp3lame"
+	
+	$LIBRARIES_DIR/MP3Lame/Source/configure --enable-expopt=no --enable-debug=no --disable-brhist -disable-frontend --enable-nasm --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	make && make install
+	
+	pexports "$BinDir/libmp3lame-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY libmp3lame-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:libmp3lame-0.dll /out:mp3lame.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+fi
+
 #ffmpeg
 if [ ! -f "$LibDir/libavcodec.a" ]; then 
 	mkdir_and_move "$IntDir/ffmpeg"
@@ -556,7 +569,7 @@ if [ ! -f "$LibDir/libavcodec.a" ]; then
 	#On Windows, you have to link against the static lib
 	#$LIBRARIES_DIR/FFmpeg/Source/configure --extra-ldflags="-no-undefined" --extra-cflags="-mno-cygwin -mms-bitfields -fno-common" --enable-avisynth --enable-memalign-hack --target-os=mingw32 --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-zlib --enable-w32threads --enable-ipv6 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
 	#$LIBRARIES_DIR/FFmpeg/Source/configure --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-pthreads --enable-libvorbis --enable-libmp3lame --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-libx264 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
-	$LIBRARIES_DIR/FFmpeg/Source/configure --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-w32threads --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --disable-ffmpeg --disable-ffplay --disable-ffserver --enable-static --disable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
+	$LIBRARIES_DIR/FFmpeg/Source/configure --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-w32threads --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --disable-ffmpeg --disable-ffplay --disable-ffserver --enable-static --disable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
 	
 	reset_flags
 	

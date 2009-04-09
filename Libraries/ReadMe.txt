@@ -29,6 +29,7 @@ libgcrypt 	- 		1.4.4 		- 	ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.4.4.t
 gnutls 		- 		2.6.4 		- 	http://ftp.gnu.org/pub/gnu/gnutls/gnutls-2.6.4.tar.bz2
 libspeex 	- 		1.2rc1 		- 	http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
 libschrodinger 	- 		1.0.6 		- 	http://diracvideo.org/download/schroedinger/schroedinger-1.0.6.tar.gz
+mp3lame 	- 		3.98.2 		- 	http://sourceforge.net/project/downloading.php?group_id=290&use_mirror=superb-west&filename=lame-398-2.tar.gz&a=60930405
 
 libjpeg.def was added to libjpeg to define exported functions. I preferred not to redefine the "GLOBAL" macro as per the instructions in the documentation.
 

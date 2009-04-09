@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="MP3Lame"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="mp3lame.lib"
+	/>
+	<UserMacro
+		Name="MP3LameMajorVersion"
+		Value="3"
+	/>
+	<UserMacro
+		Name="MP3LameMinorVersion"
+		Value="98"
+	/>
+	<UserMacro
+		Name="MP3LameMicroVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="MP3LameVersionString"
+		Value="$(MP3LameMajorVersion).$(MP3LameMinorVersion).$(MP3LameMicroVersion)"
+	/>
+</VisualStudioPropertySheet>

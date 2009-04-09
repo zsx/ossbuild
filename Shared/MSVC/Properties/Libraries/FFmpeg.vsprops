@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="FFmpeg"
-	InheritedPropertySheets=".\LibSchroedinger.vsprops;.\OpenJPEG.vsprops;.\LibSpeex.vsprops;..\SDKs\MinGW.vsprops;.\BZip2.vsprops;.\ZLib.vsprops;.\LibTheora.vsprops;.\LibVorbis.vsprops"
+	InheritedPropertySheets=".\LibSchroedinger.vsprops;.\OpenJPEG.vsprops;.\MP3Lame.vsprops;.\LibSpeex.vsprops;..\SDKs\MinGW.vsprops;.\LibTheora.vsprops;.\LibVorbis.vsprops;.\BZip2.vsprops;.\ZLib.vsprops"
 	>
 	<Tool
 		Name="VCLinkerTool"
