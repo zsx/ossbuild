@@ -2,7 +2,11 @@
 <VisualStudioPropertySheet
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="gstreamer-plugin-bad"
+	Name="GStreamer Bad Plugins"
 	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
 	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-bad\gst-libs"
+	/>
 </VisualStudioPropertySheet>
