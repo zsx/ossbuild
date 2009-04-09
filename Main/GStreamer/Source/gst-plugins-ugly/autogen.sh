@@ -5,16 +5,13 @@ DIE=0
 package=gst-plugins-ugly
 srcfile=ext/mad/gstmad.c
 
-# a quick cvs co to ease the transition
-if test ! -d common;
+# Make sure we have common
+if test ! -f common/gst-autogen.sh;
 then
-  echo "+ getting common/ from cvs"
-  if test -e CVS/Tag
-  then
-    TAG="-r `tail -c +2 CVS/Tag`"
-  fi
-  cvs co $TAG common
+  echo "+ Setting up common submodule"
+  git submodule init
 fi
+git submodule update
 
 # source helper functions
 if test ! -f common/gst-autogen.sh;
@@ -24,6 +21,14 @@ then
   exit 1
 fi
 . common/gst-autogen.sh
+
+# install pre-commit hook for doing clean commits
+if test ! \( -x .git/hooks/pre-commit -a -L .git/hooks/pre-commit \);
+then
+    rm -f .git/hooks/pre-commit
+    ln -s ../../common/hooks/pre-commit.hook .git/hooks/pre-commit
+fi
+
 
 CONFIGURE_DEF_OPT='--enable-maintainer-mode --enable-gtk-doc'
 
@@ -36,7 +41,7 @@ version_check "autoconf" "$AUTOCONF autoconf autoconf-2.54 autoconf-2.53 autocon
 version_check "automake" "$AUTOMAKE automake automake-1.9 automake-1.7 automake-1.6 automake-1.5" \
               "ftp://ftp.gnu.org/pub/gnu/automake/" 1 7 || DIE=1
 version_check "autopoint" "autopoint" \
-              "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 11 5 || DIE=1
+              "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 17 || DIE=1
 version_check "libtoolize" "$LIBTOOLIZE libtoolize glibtoolize" \
               "ftp://ftp.gnu.org/pub/gnu/libtool/" 1 5 0 || DIE=1
 version_check "pkg-config" "" \

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-ugly-0.10.9.3\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-11 23:34+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
+"POT-Creation-Date: 2009-03-21 00:28+0000\n"
 "PO-Revision-Date: 2008-11-13 18:18+0100\n"
 "Last-Translator: Michel Bugeja <michelbugeja@rabatmalta.com>\n"
 "Language-Team: Maltese <translation-team-mt@lists.sourceforge.net>\n"
@@ -76,7 +76,7 @@ msgid "Failed to configure LAME encoder. Check your encoding parameters."
 msgstr ""
 "Problema biex nissetja LAME encoder. Iċċekkja l-parametri tal-encoding."
 
-#: ext/lame/gstlame.c:718
+#: ext/lame/gstlame.c:718 ext/twolame/gsttwolame.c:502
 #, c-format
 msgid ""
 "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
@@ -85,10 +85,16 @@ msgstr ""
 "Mhux permess il-bitrate %d kbit/s rikjesta għal '%s'. Għalhekk il-bitrate "
 "ġiet mibdula għal %d kbit/s."
 
-#: gst/asfdemux/gstasfdemux.c:325
+#: ext/twolame/gsttwolame.c:427
+#, fuzzy
+msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
+msgstr ""
+"Problema biex nissetja LAME encoder. Iċċekkja l-parametri tal-encoding."
+
+#: gst/asfdemux/gstasfdemux.c:329
 msgid "This stream contains no data."
 msgstr "L-istream ma fiha l-ebda data."
 
-#: gst/asfdemux/gstasfdemux.c:1371
+#: gst/asfdemux/gstasfdemux.c:1302
 msgid "Internal data stream error."
 msgstr "Problema interna fid-data stream."

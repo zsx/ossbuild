@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-ugly-0.10.7.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-11 23:34+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
+"POT-Creation-Date: 2009-03-21 00:28+0000\n"
 "PO-Revision-Date: 2008-05-14 02:52+0300\n"
 "Last-Translator: Gintautas Miliauskas <gintas@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -78,7 +78,7 @@ msgstr ""
 "Nepavyko sukonfigūruoti LAME kodavimo programos. Patikrinkite kodavimo "
 "parametrus."
 
-#: ext/lame/gstlame.c:718
+#: ext/lame/gstlame.c:718 ext/twolame/gsttwolame.c:502
 #, c-format
 msgid ""
 "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
@@ -87,11 +87,18 @@ msgstr ""
 "Pageidautas bitų dažnis %d kbit/s savybei „%s“ neleidžiamas. Bitų dažnis "
 "pakeistas į %d kbit/s."
 
-#: gst/asfdemux/gstasfdemux.c:325
+#: ext/twolame/gsttwolame.c:427
+#, fuzzy
+msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
+msgstr ""
+"Nepavyko sukonfigūruoti LAME kodavimo programos. Patikrinkite kodavimo "
+"parametrus."
+
+#: gst/asfdemux/gstasfdemux.c:329
 msgid "This stream contains no data."
 msgstr "Šiame sraute nėra duomenų."
 
-#: gst/asfdemux/gstasfdemux.c:1371
+#: gst/asfdemux/gstasfdemux.c:1302
 msgid "Internal data stream error."
 msgstr ""
 

@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-ugly 0.10.7.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-11 23:34+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
+"POT-Creation-Date: 2009-03-21 00:28+0000\n"
 "PO-Revision-Date: 2008-05-12 03:28+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
@@ -78,7 +78,7 @@ msgid "Failed to configure LAME encoder. Check your encoding parameters."
 msgstr ""
 "A LAME kódoló beállítása meghiúsult. Ellenőrizze a kódolás beállításait."
 
-#: ext/lame/gstlame.c:718
+#: ext/lame/gstlame.c:718 ext/twolame/gsttwolame.c:502
 #, c-format
 msgid ""
 "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
@@ -87,11 +87,17 @@ msgstr ""
 "A kért %d kbit/s bitsebesség nem engedélyezett a(z) „%s” tulajdonsághoz. A "
 "bitsebesség módosítva %d kbit/s-re."
 
-#: gst/asfdemux/gstasfdemux.c:325
+#: ext/twolame/gsttwolame.c:427
+#, fuzzy
+msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
+msgstr ""
+"A LAME kódoló beállítása meghiúsult. Ellenőrizze a kódolás beállításait."
+
+#: gst/asfdemux/gstasfdemux.c:329
 msgid "This stream contains no data."
 msgstr "Ez az adatfolyam nem tartalmaz adatokat."
 
-#: gst/asfdemux/gstasfdemux.c:1371
+#: gst/asfdemux/gstasfdemux.c:1302
 msgid "Internal data stream error."
 msgstr ""
 

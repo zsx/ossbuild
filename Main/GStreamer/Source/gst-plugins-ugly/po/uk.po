@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-ugly 0.10.6\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-11 23:34+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
+"POT-Creation-Date: 2009-03-21 00:28+0000\n"
 "PO-Revision-Date: 2007-07-05 11:16+0300\n"
 "Last-Translator: Maxim V. Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Failed to configure LAME encoder. Check your encoding parameters."
 msgstr "Помилка при налаштовуванні кодера LAME. Перевірте параметри кодування."
 
-#: ext/lame/gstlame.c:718
+#: ext/lame/gstlame.c:718 ext/twolame/gsttwolame.c:502
 #, c-format
 msgid ""
 "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
@@ -86,11 +86,16 @@ msgstr ""
 "Запитайа швидкість потоку бітів %d кбіт/с для властивості '%s' є "
 "неприпустимою. Швидкість потоку бітів змінено на %d кбіт/с."
 
-#: gst/asfdemux/gstasfdemux.c:325
+#: ext/twolame/gsttwolame.c:427
+#, fuzzy
+msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
+msgstr "Помилка при налаштовуванні кодера LAME. Перевірте параметри кодування."
+
+#: gst/asfdemux/gstasfdemux.c:329
 msgid "This stream contains no data."
 msgstr "Потік не містить даних."
 
-#: gst/asfdemux/gstasfdemux.c:1371
+#: gst/asfdemux/gstasfdemux.c:1302
 msgid "Internal data stream error."
 msgstr ""
 

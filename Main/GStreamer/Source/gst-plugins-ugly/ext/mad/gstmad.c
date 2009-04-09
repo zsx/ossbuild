@@ -1408,6 +1408,9 @@ gst_mad_chain (GstPad * pad, GstBuffer * buffer)
             GST_LOG ("sync error, flushing unneeded data");
             goto next_no_samples;
           }
+        } else if (mad->stream.error == MAD_ERROR_BADDATAPTR) {
+          /* Flush data */
+          goto next_no_samples;
         }
         /* we are in an error state */
         mad->in_error = TRUE;

@@ -4,7 +4,7 @@ dnl autostars m4 macro for detection of compiler flavor
 
 dnl Thomas Vander Stichele <thomas at apestaart dot org>
 
-dnl $Id: as-compiler.m4,v 1.4 2004/06/01 09:33:45 thomasvs Exp $
+dnl $Id: as-compiler.m4,v 1.4 2004/06/01 09:44:19 thomasvs Exp $
                                                                                 
 dnl AS_COMPILER(COMPILER)
 dnl will set variable COMPILER to

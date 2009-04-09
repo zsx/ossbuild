@@ -102,26 +102,19 @@ enum
 
 
 static void gst_mp3parse_class_init (GstMPEGAudioParseClass * klass);
-
 static void gst_mp3parse_base_init (gpointer klass);
-
 static void gst_mp3parse_init (GstMPEGAudioParse * mp3parse,
     GstMPEGAudioParseClass * klass);
 
 static gboolean gst_mp3parse_sink_event (GstPad * pad, GstEvent * event);
-
 static GstFlowReturn gst_mp3parse_chain (GstPad * pad, GstBuffer * buffer);
-
 static gboolean mp3parse_src_query (GstPad * pad, GstQuery * query);
-
 static const GstQueryType *mp3parse_get_query_types (GstPad * pad);
-
 static gboolean mp3parse_src_event (GstPad * pad, GstEvent * event);
 
 static int head_check (GstMPEGAudioParse * mp3parse, unsigned long head);
 
 static void gst_mp3parse_dispose (GObject * object);
-
 static void gst_mp3parse_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec);
 static void gst_mp3parse_get_property (GObject * object, guint prop_id,
@@ -136,16 +129,13 @@ mp3parse_total_bytes (GstMPEGAudioParse * mp3parse, gint64 * total);
 static gboolean
 mp3parse_total_time (GstMPEGAudioParse * mp3parse, GstClockTime * total);
 
-/* static guint gst_mp3parse_signals[LAST_SIGNAL] = { 0 }; */
-
 GST_BOILERPLATE (GstMPEGAudioParse, gst_mp3parse, GstElement, GST_TYPE_ELEMENT);
 
 #define GST_TYPE_MP3_CHANNEL_MODE (gst_mp3_channel_mode_get_type())
-G_GNUC_UNUSED static GType
+static GType
 gst_mp3_channel_mode_get_type (void)
 {
   static GType mp3_channel_mode_type = 0;
-
   static GEnumValue mp3_channel_mode[] = {
     {MP3_CHANNEL_MODE_UNKNOWN, "Unknown", "unknown"},
     {MP3_CHANNEL_MODE_MONO, "Mono", "mono"},
@@ -190,7 +180,6 @@ mp3_type_frame_length_from_header (GstMPEGAudioParse * mp3parse, guint32 header,
   gulong mode, samplerate, bitrate, layer, channels, padding, crc;
   gulong version;
   gint lsf, mpg25;
-
   GEnumValue *mode_enum;
 
   if (header & (1 << 20)) {
@@ -234,7 +223,7 @@ mp3_type_frame_length_from_header (GstMPEGAudioParse * mp3parse, guint32 header,
   }
 
   mode_enum =
-      g_enum_get_value (g_type_class_ref (GST_TYPE_MP3_CHANNEL_MODE), mode);
+      g_enum_get_value (g_type_class_peek (GST_TYPE_MP3_CHANNEL_MODE), mode);
 
   GST_DEBUG_OBJECT (mp3parse, "Calculated mp3 frame length of %u bytes",
       length);
@@ -299,7 +288,6 @@ static void
 gst_mp3parse_class_init (GstMPEGAudioParseClass * klass)
 {
   GObjectClass *gobject_class;
-
   GstElementClass *gstelement_class;
 
   gobject_class = (GObjectClass *) klass;
@@ -328,6 +316,8 @@ gst_mp3parse_class_init (GstMPEGAudioParseClass * klass)
       "has crc", "Using CRC", NULL);
   gst_tag_register (GST_TAG_MODE, GST_TAG_FLAG_ENCODED, G_TYPE_STRING,
       "channel mode", "MPEG audio channel mode", NULL);
+
+  g_type_class_ref (GST_TYPE_MP3_CHANNEL_MODE);
 }
 
 static void
@@ -448,9 +438,7 @@ static gboolean
 gst_mp3parse_sink_event (GstPad * pad, GstEvent * event)
 {
   gboolean res = TRUE;
-
   GstMPEGAudioParse *mp3parse;
-
   GstEvent **eventp;
 
   mp3parse = GST_MP3PARSE (gst_pad_get_parent (pad));
@@ -459,11 +447,8 @@ gst_mp3parse_sink_event (GstPad * pad, GstEvent * event)
     case GST_EVENT_NEWSEGMENT:
     {
       gdouble rate, applied_rate;
-
       GstFormat format;
-
       gint64 start, stop, pos;
-
       gboolean update;
 
       gst_event_parse_new_segment_full (event, &update, &rate, &applied_rate,
@@ -472,7 +457,6 @@ gst_mp3parse_sink_event (GstPad * pad, GstEvent * event)
       g_mutex_lock (mp3parse->pending_accurate_seeks_lock);
       if (format == GST_FORMAT_BYTES && mp3parse->pending_accurate_seeks) {
         MPEGAudioPendingAccurateSeek *seek = NULL;
-
         GSList *node;
 
         for (node = mp3parse->pending_accurate_seeks; node; node = node->next) {
@@ -623,13 +607,9 @@ gst_mp3parse_emit_frame (GstMPEGAudioParse * mp3parse, guint size,
     guint mode, guint crc)
 {
   GstBuffer *outbuf;
-
   guint bitrate;
-
   GstFlowReturn ret = GST_FLOW_OK;
-
   GstClockTime push_start;
-
   GstTagList *taglist;
 
   outbuf = gst_adapter_take_buffer (mp3parse->adapter, size);
@@ -643,24 +623,20 @@ gst_mp3parse_emit_frame (GstMPEGAudioParse * mp3parse, guint size,
    * here */
   if (GST_CLOCK_TIME_IS_VALID (mp3parse->pending_ts)) {
     if (mp3parse->tracked_offset >= mp3parse->pending_offset) {
-      /* If the incoming timestamp differs from our expected by more than 2
-       * 90khz MPEG ticks, then take it and, if needed, set the discont flag. 
+      /* If the incoming timestamp differs from our expected by more than 
+       * half a frame, then take it instead of our calculated timestamp.
        * This avoids creating imperfect streams just because of 
-       * quantization in the MPEG clock sampling */
+       * quantization in the container timestamping */
       GstClockTimeDiff diff = mp3parse->next_ts - mp3parse->pending_ts;
+      GstClockTimeDiff thresh = GST_BUFFER_DURATION (outbuf) / 2;
 
-      if (diff < -2 * (GST_SECOND / 90000) || diff > 2 * (GST_SECOND / 90000)) {
+      if (diff < -thresh || diff > thresh) {
         GST_DEBUG_OBJECT (mp3parse, "Updating next_ts from %" GST_TIME_FORMAT
             " to pending ts %" GST_TIME_FORMAT
             " at offset %lld (pending offset was %lld)",
             GST_TIME_ARGS (mp3parse->next_ts),
             GST_TIME_ARGS (mp3parse->pending_ts), mp3parse->tracked_offset,
             mp3parse->pending_offset);
-
-        /* Only set discont if we sent out some timestamps already and we're
-         * adjusting */
-        if (GST_CLOCK_TIME_IS_VALID (mp3parse->next_ts))
-          GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DISCONT);
         mp3parse->next_ts = mp3parse->pending_ts;
       }
       mp3parse->pending_ts = GST_CLOCK_TIME_NONE;
@@ -766,8 +742,8 @@ gst_mp3parse_emit_frame (GstMPEGAudioParse * mp3parse, guint size,
     }
     mp3parse->last_posted_channel_mode = mode;
 
-    mode_enum = g_enum_get_value (g_type_class_ref (GST_TYPE_MP3_CHANNEL_MODE),
-        mp3parse->last_posted_channel_mode);
+    mode_enum =
+        g_enum_get_value (g_type_class_peek (GST_TYPE_MP3_CHANNEL_MODE), mode);
 
     gst_tag_list_add (taglist, GST_TAG_MERGE_REPLACE, GST_TAG_MODE,
         mode_enum->value_nick, NULL);
@@ -849,6 +825,13 @@ gst_mp3parse_emit_frame (GstMPEGAudioParse * mp3parse, guint size,
       g_list_free (mp3parse->pending_events);
       mp3parse->pending_events = NULL;
     }
+
+    /* set discont if needed */
+    if (mp3parse->discont) {
+      GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DISCONT);
+      mp3parse->discont = FALSE;
+    }
+
     ret = gst_pad_push (mp3parse->srcpad, outbuf);
   }
 
@@ -859,21 +842,15 @@ static void
 gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
 {
   GstTagList *taglist;
-
   gchar *codec;
-
   const guint32 xing_id = 0x58696e67;   /* 'Xing' in hex */
-
   const guint32 info_id = 0x496e666f;   /* 'Info' in hex - found in LAME CBR files */
-
   const guint32 vbri_id = 0x56425249;   /* 'VBRI' in hex */
 
   gint offset;
 
   guint64 avail;
-
   guint32 read_id;
-
   const guint8 *data;
 
   /* Output codec tag */
@@ -927,11 +904,8 @@ gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
   read_id = GST_READ_UINT32_BE (data);
   if (read_id == xing_id || read_id == info_id) {
     guint32 xing_flags;
-
     guint bytes_needed = offset + 8;
-
     gint64 total_bytes;
-
     GstClockTime total_time;
 
     GST_DEBUG_OBJECT (mp3parse, "Found Xing header marker 0x%x", xing_id);
@@ -999,9 +973,7 @@ gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
 
     if (xing_flags & XING_TOC_FLAG) {
       int i, percent = 0;
-
       guchar *table = mp3parse->xing_seek_table;
-
       guchar old = 0;
 
       if (data[0] != 0) {
@@ -1029,7 +1001,6 @@ gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
           mp3parse->xing_seek_table_inverse[i] = percent * 100;
         } else if (table[percent] < i && percent < 99) {
           gdouble fa, fb, fx;
-
           gint a = percent, b = percent + 1;
 
           fa = table[a];
@@ -1038,7 +1009,6 @@ gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
           mp3parse->xing_seek_table_inverse[i] = (guint16) (fx * 100);
         } else if (percent == 98 && table[percent + 1] <= i) {
           gdouble fa, fb, fx;
-
           gint a = percent + 1, b = 100;
 
           fa = table[a];
@@ -1066,9 +1036,7 @@ gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
         mp3parse->xing_vbr_scale);
   } else if (read_id == vbri_id) {
     gint64 total_bytes, total_frames;
-
     GstClockTime total_time;
-
     guint16 nseek_points;
 
     GST_DEBUG_OBJECT (mp3parse, "Found VBRI header marker 0x%x", vbri_id);
@@ -1123,7 +1091,6 @@ gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
 
     if (nseek_points > 0) {
       guint scale, seek_bytes, seek_frames;
-
       gint i;
 
       mp3parse->vbri_seek_points = nseek_points;
@@ -1197,17 +1164,11 @@ static GstFlowReturn
 gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
 {
   GstFlowReturn flow = GST_FLOW_OK;
-
   GstMPEGAudioParse *mp3parse;
-
   const guchar *data;
-
   guint32 header;
-
   int bpf;
-
   guint available;
-
   GstClockTime timestamp;
 
   mp3parse = GST_MP3PARSE (GST_PAD_PARENT (pad));
@@ -1215,6 +1176,8 @@ gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
   GST_LOG_OBJECT (mp3parse, "buffer of %d bytes", GST_BUFFER_SIZE (buf));
 
   timestamp = GST_BUFFER_TIMESTAMP (buf);
+
+  mp3parse->discont |= GST_BUFFER_IS_DISCONT (buf);
 
   /* If we don't yet have a next timestamp, save it and the incoming offset
    * so we can apply it to the right outgoing buffer */
@@ -1267,15 +1230,22 @@ gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
     if (head_check (mp3parse, header)) {
       guint bitrate = 0, layer = 0, rate = 0, channels = 0, version = 0, mode =
           0, crc = 0;
+      gboolean caps_change = FALSE;
 
       if (!(bpf = mp3_type_frame_length_from_header (mp3parse, header,
                   &version, &layer, &channels, &bitrate, &rate, &mode, &crc)))
         goto header_error;
 
+      if (channels != mp3parse->channels ||
+          rate != mp3parse->rate || layer != mp3parse->layer ||
+          version != mp3parse->version)
+        caps_change = TRUE;
+
       /*************************************************************************
       * robust seek support
       * - This performs additional frame validation if the resyncing flag is set
-      *   (indicating a discontinuous stream).
+      *   (indicating a discontinuous stream), or if the caps are changing 
+      *   (different sample rate, channels, layer, version)
       * - The current frame header is not accepted as valid unless the NEXT 
       *   frame header has the same values for most fields.  This significantly
       *   increases the probability that we aren't processing random data.
@@ -1284,9 +1254,8 @@ gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
       *   bitrate from previous frames.  In this case, seeking may be more 
       *   complicated because the frames are not independently coded.
       *************************************************************************/
-      if (mp3parse->resyncing) {
+      if (mp3parse->resyncing || caps_change) {
         guint32 header2;
-
         const guint8 *data2;
 
         /* wait until we have the the entire current frame as well as the next 
@@ -1327,9 +1296,7 @@ gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
         break;
       }
 
-      if (channels != mp3parse->channels ||
-          rate != mp3parse->rate || layer != mp3parse->layer ||
-          version != mp3parse->version) {
+      if (caps_change) {
         GstCaps *caps;
 
         caps = mp3_caps_create (version, layer, channels, rate);
@@ -1499,7 +1466,6 @@ static GstStateChangeReturn
 gst_mp3parse_change_state (GstElement * element, GstStateChange transition)
 {
   GstMPEGAudioParse *mp3parse;
-
   GstStateChangeReturn result;
 
   mp3parse = GST_MP3PARSE (element);
@@ -1574,7 +1540,6 @@ mp3parse_time_to_bytepos (GstMPEGAudioParse * mp3parse, GstClockTime ts,
     gint64 * bytepos)
 {
   gint64 total_bytes;
-
   GstClockTime total_time;
 
   /* -1 always maps to -1 */
@@ -1588,7 +1553,6 @@ mp3parse_time_to_bytepos (GstMPEGAudioParse * mp3parse, GstClockTime ts,
       mp3parse_total_bytes (mp3parse, &total_bytes) &&
       mp3parse_total_time (mp3parse, &total_time)) {
     gdouble fa, fb, fx;
-
     gdouble percent =
         CLAMP ((100.0 * gst_util_guint64_to_gdouble (ts)) /
         gst_util_guint64_to_gdouble (total_time), 0.0, 100.0);
@@ -1611,7 +1575,6 @@ mp3parse_time_to_bytepos (GstMPEGAudioParse * mp3parse, GstClockTime ts,
       mp3parse_total_bytes (mp3parse, &total_bytes) &&
       mp3parse_total_time (mp3parse, &total_time)) {
     gint i, j;
-
     gdouble a, b, fa, fb;
 
     i = gst_util_uint64_scale (ts, mp3parse->vbri_seek_points - 1, total_time);
@@ -1653,7 +1616,6 @@ mp3parse_bytepos_to_time (GstMPEGAudioParse * mp3parse,
     gint64 bytepos, GstClockTime * ts, gboolean from_total_time)
 {
   gint64 total_bytes;
-
   GstClockTime total_time;
 
   if (bytepos == -1) {
@@ -1671,9 +1633,7 @@ mp3parse_bytepos_to_time (GstMPEGAudioParse * mp3parse,
       mp3parse_total_bytes (mp3parse, &total_bytes) &&
       mp3parse_total_time (mp3parse, &total_time)) {
     gdouble fa, fb, fx;
-
     gdouble pos = CLAMP ((bytepos * 256.0) / total_bytes, 0.0, 256.0);
-
     gint index = CLAMP (pos, 0, 255);
 
     fa = mp3parse->xing_seek_table_inverse[index];
@@ -1693,9 +1653,7 @@ mp3parse_bytepos_to_time (GstMPEGAudioParse * mp3parse,
       mp3parse_total_bytes (mp3parse, &total_bytes) &&
       mp3parse_total_time (mp3parse, &total_time)) {
     gint i = 0;
-
     guint64 sum = 0;
-
     gdouble a, b, fa, fb;
 
 
@@ -1737,15 +1695,10 @@ static gboolean
 mp3parse_handle_seek (GstMPEGAudioParse * mp3parse, GstEvent * event)
 {
   GstFormat format;
-
   gdouble rate;
-
   GstSeekFlags flags;
-
   GstSeekType cur_type, stop_type;
-
   gint64 cur, stop;
-
   gint64 byte_cur, byte_stop;
 
   gst_event_parse_seek (event, &rate, &format, &flags, &cur_type, &cur,
@@ -1792,14 +1745,15 @@ mp3parse_handle_seek (GstMPEGAudioParse * mp3parse, GstEvent * event)
       start = 0;
     } else {
       MPEGAudioSeekEntry *entry = NULL, *start_entry = NULL, *stop_entry = NULL;
-
       GList *start_node, *stop_node;
+      gint64 seek_ts = (cur > mp3parse->max_bitreservoir) ?
+          (cur - mp3parse->max_bitreservoir) : 0;
 
       for (start_node = mp3parse->seek_table; start_node;
           start_node = start_node->next) {
         entry = start_node->data;
 
-        if (cur - mp3parse->max_bitreservoir >= entry->timestamp) {
+        if (seek_ts >= entry->timestamp) {
           start_entry = entry;
           break;
         }
@@ -1832,20 +1786,23 @@ mp3parse_handle_seek (GstMPEGAudioParse * mp3parse, GstEvent * event)
       }
 
     }
-    g_mutex_lock (mp3parse->pending_accurate_seeks_lock);
     event = gst_event_new_seek (rate, GST_FORMAT_BYTES, flags, cur_type,
         byte_cur, stop_type, byte_stop);
+    g_mutex_lock (mp3parse->pending_accurate_seeks_lock);
+    seek->upstream_start = byte_cur;
+    seek->timestamp_start = start;
+    mp3parse->pending_accurate_seeks =
+        g_slist_prepend (mp3parse->pending_accurate_seeks, seek);
+    g_mutex_unlock (mp3parse->pending_accurate_seeks_lock);
     if (gst_pad_push_event (mp3parse->sinkpad, event)) {
       mp3parse->exact_position = TRUE;
-      seek->upstream_start = byte_cur;
-      seek->timestamp_start = start;
-      mp3parse->pending_accurate_seeks =
-          g_slist_prepend (mp3parse->pending_accurate_seeks, seek);
-      g_mutex_unlock (mp3parse->pending_accurate_seeks_lock);
       return TRUE;
     } else {
-      g_mutex_unlock (mp3parse->pending_accurate_seeks_lock);
       mp3parse->exact_position = TRUE;
+      g_mutex_lock (mp3parse->pending_accurate_seeks_lock);
+      mp3parse->pending_accurate_seeks =
+          g_slist_remove (mp3parse->pending_accurate_seeks, seek);
+      g_mutex_unlock (mp3parse->pending_accurate_seeks_lock);
       g_free (seek);
       return TRUE;
     }
@@ -1878,7 +1835,6 @@ static gboolean
 mp3parse_src_event (GstPad * pad, GstEvent * event)
 {
   GstMPEGAudioParse *mp3parse = GST_MP3PARSE (gst_pad_get_parent (pad));
-
   gboolean res = FALSE;
 
   g_return_val_if_fail (mp3parse != NULL, FALSE);
@@ -1901,16 +1857,14 @@ static gboolean
 mp3parse_src_query (GstPad * pad, GstQuery * query)
 {
   GstFormat format;
-
   GstClockTime total;
-
   GstMPEGAudioParse *mp3parse = GST_MP3PARSE (gst_pad_get_parent (pad));
-
   gboolean res = FALSE;
-
   GstPad *peer;
 
   g_return_val_if_fail (mp3parse != NULL, FALSE);
+
+  GST_LOG_OBJECT (pad, "%s query", GST_QUERY_TYPE_NAME (query));
 
   switch (GST_QUERY_TYPE (query)) {
     case GST_QUERY_POSITION:
@@ -1957,6 +1911,44 @@ mp3parse_src_query (GstPad * pad, GstQuery * query)
         res = TRUE;
       }
       break;
+    case GST_QUERY_SEEKING:
+      gst_query_parse_seeking (query, &format, NULL, NULL, NULL);
+
+      /* does upstream handle ? */
+      if ((peer = gst_pad_get_peer (mp3parse->sinkpad)) != NULL) {
+        res = gst_pad_query (peer, query);
+        gst_object_unref (peer);
+      }
+      /* we may be able to help if in TIME */
+      if (format == GST_FORMAT_TIME) {
+        gboolean seekable;
+
+        gst_query_parse_seeking (query, &format, &seekable, NULL, NULL);
+        /* already OK if upstream takes care */
+        if (res && !seekable) {
+          gint64 pos;
+
+          seekable = TRUE;
+          if (!mp3parse_total_time (mp3parse, &total) || total == -1) {
+            seekable = FALSE;
+          } else if (!mp3parse_time_to_bytepos (mp3parse, 0, &pos)) {
+            seekable = FALSE;
+          } else {
+            GstQuery *q;
+
+            q = gst_query_new_seeking (GST_FORMAT_BYTES);
+            if (!gst_pad_peer_query (mp3parse->sinkpad, q)) {
+              seekable = FALSE;
+            } else {
+              gst_query_parse_seeking (q, &format, &seekable, NULL, NULL);
+            }
+            gst_query_unref (q);
+          }
+          gst_query_set_seeking (query, GST_FORMAT_TIME, seekable, 0, total);
+          res = TRUE;
+        }
+      }
+      break;
     default:
       res = gst_pad_query_default (pad, query);
       break;
@@ -1968,7 +1960,7 @@ out:
 }
 
 static const GstQueryType *
-mp3parse_get_query_types (GstPad * pad ATTR_UNUSED)
+mp3parse_get_query_types (GstPad * pad G_GNUC_UNUSED)
 {
   static const GstQueryType query_types[] = {
     GST_QUERY_POSITION,

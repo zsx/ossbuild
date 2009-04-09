@@ -5,7 +5,7 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, cvs and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for cvs/prerelease
-AC_INIT(GStreamer Ugly Plug-ins, 0.10.10,
+AC_INIT(GStreamer Ugly Plug-ins, 0.10.11,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-ugly)
 
@@ -60,7 +60,7 @@ AC_SUBST(ACLOCAL_AMFLAGS, "-I m4 -I common/m4")
 
 dnl set up gettext
 dnl the version check needs to stay here because autopoint greps for it
-AM_GNU_GETTEXT_VERSION(0.11.5)
+AM_GNU_GETTEXT_VERSION(0.17)
 AM_GNU_GETTEXT([external])
 AG_GST_GETTEXT([gst-plugins-ugly-$GST_MAJORMINOR])
 
@@ -352,6 +352,18 @@ AG_GST_CHECK_FEATURE(SIDPLAY, [libsidplay], sid, [
   GST_PATH_SIDPLAY()
 ])
 
+dnl *** twolame ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_TWOLAME, true)
+AG_GST_CHECK_FEATURE(TWOLAME, [twolame], twolame, [
+  PKG_CHECK_MODULES(TWOLAME, twolame >= 0.3.0, [
+      HAVE_TWOLAME="yes"], [
+      HAVE_TWOLAME="no"
+      AC_MSG_RESULT(no)
+  ])
+  AC_SUBST(TWOLAME_CFLAGS)
+  AC_SUBST(TWOLAME_LIBS)
+])
+
 else
 
 dnl not building plugins with external dependencies,
@@ -367,6 +379,7 @@ AM_CONDITIONAL(USE_ID3TAG, false)
 AM_CONDITIONAL(USE_MAD, false)
 AM_CONDITIONAL(USE_MPEG2DEC, false)
 AM_CONDITIONAL(USE_SIDPLAY, false)
+AM_CONDITIONAL(USE_TWOLAME, false)
 
 fi dnl of EXT plugins
 
@@ -421,10 +434,16 @@ dnl whatevertarget_LIBS and -L flags here affect the rest of the linking
 GST_PLUGIN_LDFLAGS="-module -avoid-version -export-symbols-regex '^[_]*gst_plugin_desc\$\$' $GST_ALL_LDFLAGS"
 AC_SUBST(GST_PLUGIN_LDFLAGS)
 
+SHAVE_INIT([common],[enable])
+
 dnl *** output files ***
 
 AC_CONFIG_FILES(
 Makefile
+common/Makefile
+common/m4/Makefile
+common/shave
+common/shave-libtool
 gst-libs/Makefile
 gst-libs/gst/Makefile
 gst/Makefile
@@ -446,13 +465,12 @@ ext/lame/Makefile
 ext/mad/Makefile
 ext/mpeg2dec/Makefile
 ext/sidplay/Makefile
+ext/twolame/Makefile
 docs/Makefile
 docs/plugins/Makefile
 docs/version.entities
 tests/Makefile
 tests/check/Makefile
-common/Makefile
-common/m4/Makefile
 m4/Makefile
 po/Makefile.in
 win32/common/config.h

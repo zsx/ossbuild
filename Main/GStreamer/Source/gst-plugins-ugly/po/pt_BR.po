@@ -1,15 +1,15 @@
 # Brazilian Portuguese translation of gst-plugins-ugly.
-# Copyright (C) 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gst-plugins-ugly package.
+# Copyright (C) 2007-2009 Free Software Foundation, Inc.
 # Raphael Higino <In memoriam>, 2007.
-# Fabrício Godoy <skarllot@gmail.com>, 2008
+# Fabrício Godoy <skarllot@gmail.com>, 2008-2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gst-plugins-ugly-0.10.8.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-11 23:34+0100\n"
-"PO-Revision-Date: 2008-08-12 21:53-0300\n"
+"Project-Id-Version: gst-plugins-ugly-0.10.10.2\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
+"POT-Creation-Date: 2009-03-21 00:28+0000\n"
+"PO-Revision-Date: 2009-03-11 02:18-0300\n"
 "Last-Translator: Fabrício Godoy <skarllot@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -68,8 +68,8 @@ msgid ""
 "Could not open DVD title %d. Interactive titles are not supported by this "
 "element"
 msgstr ""
-"Não foi possível abrir o título %d do DVD. Títulos interativos não são "
-"suportados por este elemento"
+"Não foi possível abrir o título %d do DVD. Não há suporte a títulos "
+"interativos por este elemento"
 
 #: ext/lame/gstlame.c:624
 msgid "Failed to configure LAME encoder. Check your encoding parameters."
@@ -77,7 +77,7 @@ msgstr ""
 "Falha ao configurar o codificador LAME. Verifique seus parâmetros de "
 "codificação."
 
-#: ext/lame/gstlame.c:718
+#: ext/lame/gstlame.c:718 ext/twolame/gsttwolame.c:502
 #, c-format
 msgid ""
 "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
@@ -86,11 +86,17 @@ msgstr ""
 "A taxa de bits, %d kbits/s, requisitada pela propriedade \"%s\" não é "
 "permitida. A taxa de bits foi alterada para %d kbits/s."
 
-#: gst/asfdemux/gstasfdemux.c:325
+#: ext/twolame/gsttwolame.c:427
+msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
+msgstr ""
+"Falha ao configurar o codificador TwoLAME. Verifique seus parâmetros de "
+"codificação."
+
+#: gst/asfdemux/gstasfdemux.c:329
 msgid "This stream contains no data."
 msgstr "Este fluxo não contém dados."
 
-#: gst/asfdemux/gstasfdemux.c:1371
+#: gst/asfdemux/gstasfdemux.c:1302
 msgid "Internal data stream error."
 msgstr "Erro interno no fluxo de dados."
 

@@ -7,7 +7,7 @@
 <link rel="start" href="index.html" title="GStreamer Ugly Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-ugly Elements">
 <link rel="prev" href="gst-plugins-ugly-plugins-rtspwms.html" title="rtspwms">
-<link rel="next" href="gst-plugins-ugly-plugins-synaesthesia.html" title="synaesthesia">
+<link rel="next" href="gst-plugins-ugly-plugins-twolame.html" title="twolame">
 <meta name="generator" content="GTK-Doc V1.10 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-ugly Elements">
@@ -20,7 +20,7 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Ugly Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-ugly-plugins-synaesthesia.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-ugly-plugins-twolame.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-ugly-plugins-siddec.synopsis" class="shortcut">Top</a>
                    | 
@@ -48,7 +48,9 @@
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-siddec.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
    +----GstObject
          +----GstElement
                +----GstSidDec
@@ -57,15 +59,27 @@
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-siddec.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--blocksize" title='The "blocksize" property'>blocksize</a>"                gulong                : Read / Write
+  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--blocksize" title='The "blocksize" property'>blocksize</a>"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gulong"
+>gulong</a>                : Read / Write
   "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--clock" title='The "clock" property'>clock</a>"                    GstSidClock           : Read / Write
-  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--filter" title='The "filter" property'>filter</a>"                   gboolean              : Read / Write
-  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--force-speed" title='The "force-speed" property'>force-speed</a>"              gboolean              : Read / Write
-  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--measured-volume" title='The "measured-volume" property'>measured-volume</a>"          gboolean              : Read / Write
+  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--filter" title='The "filter" property'>filter</a>"                   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--force-speed" title='The "force-speed" property'>force-speed</a>"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--measured-volume" title='The "measured-volume" property'>measured-volume</a>"          <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--memory" title='The "memory" property'>memory</a>"                   GstSidMemory          : Read / Write
   "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--metadata" title='The "metadata" property'>metadata</a>"                 GstCaps*              : Read
-  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--mos8580" title='The "mos8580" property'>mos8580</a>"                  gboolean              : Read / Write
-  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--tune" title='The "tune" property'>tune</a>"                     gint                  : Read / Write
+  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--mos8580" title='The "mos8580" property'>mos8580</a>"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-ugly-plugins-siddec.html#GstSidDec--tune" title='The "tune" property'>tune</a>"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -85,7 +99,7 @@ Seeking is not (and cannot be) implemented.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2568428"></a><h3>Example pipelines</h3>
+<a name="id3050096"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=Hawkeye.sid ! siddec ! audioconvert ! alsasink
 </pre></div> Decode a sid file and play back the audio using alsasink.
@@ -97,7 +111,7 @@ Last reviewed on 2006-12-30 (0.10.5)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2568453"></a><h3>Element Information</h3>
+<a name="id3050121"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -120,7 +134,7 @@ Last reviewed on 2006-12-30 (0.10.5)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2591439"></a><h3>Element Pads</h3>
+<a name="id3080587"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -183,7 +197,9 @@ Last reviewed on 2006-12-30 (0.10.5)</p>
 <a name="gst-plugins-ugly-plugins-siddec.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
 <a name="GstSidDec--blocksize"></a><h3>The <code class="literal">"blocksize"</code> property</h3>
-<pre class="programlisting">  "blocksize"                gulong                : Read / Write</pre>
+<pre class="programlisting">  "blocksize"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gulong"
+>gulong</a>                : Read / Write</pre>
 <p>Size in bytes to output per buffer.</p>
 <p>Allowed values: &gt;= 1</p>
 </div>
@@ -197,21 +213,27 @@ Last reviewed on 2006-12-30 (0.10.5)</p>
 <hr>
 <div class="refsect2" lang="en">
 <a name="GstSidDec--filter"></a><h3>The <code class="literal">"filter"</code> property</h3>
-<pre class="programlisting">  "filter"                   gboolean              : Read / Write</pre>
+<pre class="programlisting">  "filter"                   <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
 <p>filter.</p>
 <p>Default value: TRUE</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
 <a name="GstSidDec--force-speed"></a><h3>The <code class="literal">"force-speed"</code> property</h3>
-<pre class="programlisting">  "force-speed"              gboolean              : Read / Write</pre>
+<pre class="programlisting">  "force-speed"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
 <p>force_speed.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
 <a name="GstSidDec--measured-volume"></a><h3>The <code class="literal">"measured-volume"</code> property</h3>
-<pre class="programlisting">  "measured-volume"          gboolean              : Read / Write</pre>
+<pre class="programlisting">  "measured-volume"          <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
 <p>measured_volume.</p>
 <p>Default value: TRUE</p>
 </div>
@@ -231,14 +253,18 @@ Last reviewed on 2006-12-30 (0.10.5)</p>
 <hr>
 <div class="refsect2" lang="en">
 <a name="GstSidDec--mos8580"></a><h3>The <code class="literal">"mos8580"</code> property</h3>
-<pre class="programlisting">  "mos8580"                  gboolean              : Read / Write</pre>
+<pre class="programlisting">  "mos8580"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
 <p>mos8580.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
 <a name="GstSidDec--tune"></a><h3>The <code class="literal">"tune"</code> property</h3>
-<pre class="programlisting">  "tune"                     gint                  : Read / Write</pre>
+<pre class="programlisting">  "tune"                     <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write</pre>
 <p>tune.</p>
 <p>Allowed values: [0,100]</p>
 <p>Default value: 0</p>

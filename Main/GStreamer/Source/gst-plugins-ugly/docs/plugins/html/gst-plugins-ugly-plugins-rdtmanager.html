@@ -50,7 +50,9 @@
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-rdtmanager.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  GObject
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
    +----GstObject
          +----GstElement
                +----GstRDTManager
@@ -59,7 +61,9 @@
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-rdtmanager.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-ugly-plugins-rdtmanager.html#GstRDTManager--latency" title='The "latency" property'>latency</a>"                  guint                 : Read / Write
+  "<a class="link" href="gst-plugins-ugly-plugins-rdtmanager.html#GstRDTManager--latency" title='The "latency" property'>latency</a>"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -82,7 +86,7 @@ Last reviewed on 2006-06-20 (0.10.4)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2592489"></a><h3>Element Information</h3>
+<a name="id3080772"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -105,7 +109,7 @@ Last reviewed on 2006-06-20 (0.10.4)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2555778"></a><h3>Element Pads</h3>
+<a name="id3064783"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -210,7 +214,9 @@ Last reviewed on 2006-06-20 (0.10.4)</p>
 <a name="gst-plugins-ugly-plugins-rdtmanager.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
 <a name="GstRDTManager--latency"></a><h3>The <code class="literal">"latency"</code> property</h3>
-<pre class="programlisting">  "latency"                  guint                 : Read / Write</pre>
+<pre class="programlisting">  "latency"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write</pre>
 <p>Amount of ms to buffer.</p>
 <p>Default value: 200</p>
 </div>
@@ -220,7 +226,9 @@ Last reviewed on 2006-06-20 (0.10.4)</p>
 <div class="refsect2" lang="en">
 <a name="GstRDTManager-clear-pt-map"></a><h3>The <code class="literal">"clear-pt-map"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-ugly-plugins-rdtmanager.html#GstRDTManager">GstRDTManager</a> *rtpbin,
-                                                        gpointer       user_data)      : Run Last</pre>
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>       user_data)      : Run Last</pre>
 <p>
 Clear all previously cached pt-mapping obtained with
 GstRDTManager::request-pt-map.</p>
@@ -246,9 +254,15 @@ GstRDTManager::request-pt-map.</p>
 <div class="refsect2" lang="en">
 <a name="GstRDTManager-on-bye-ssrc"></a><h3>The <code class="literal">"on-bye-ssrc"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-ugly-plugins-rdtmanager.html#GstRDTManager">GstRDTManager</a> *rtpbin,
-                                                        guint          session,
-                                                        guint          ssrc,
-                                                        gpointer       user_data)      : Run Last</pre>
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>          session,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>          ssrc,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>       user_data)      : Run Last</pre>
 <p>
 Notify of an SSRC that became inactive because of a BYE packet.</p>
 <p>
@@ -283,9 +297,15 @@ Notify of an SSRC that became inactive because of a BYE packet.</p>
 <div class="refsect2" lang="en">
 <a name="GstRDTManager-on-bye-timeout"></a><h3>The <code class="literal">"on-bye-timeout"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-ugly-plugins-rdtmanager.html#GstRDTManager">GstRDTManager</a> *rtpbin,
-                                                        guint          session,
-                                                        guint          ssrc,
-                                                        gpointer       user_data)      : Run Last</pre>
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>          session,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>          ssrc,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>       user_data)      : Run Last</pre>
 <p>
 Notify of an SSRC that has timed out because of BYE</p>
 <p>
@@ -320,9 +340,15 @@ Notify of an SSRC that has timed out because of BYE</p>
 <div class="refsect2" lang="en">
 <a name="GstRDTManager-on-timeout"></a><h3>The <code class="literal">"on-timeout"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-ugly-plugins-rdtmanager.html#GstRDTManager">GstRDTManager</a> *rtpbin,
-                                                        guint          session,
-                                                        guint          ssrc,
-                                                        gpointer       user_data)      : Run Last</pre>
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>          session,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>          ssrc,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>       user_data)      : Run Last</pre>
 <p>
 Notify of an SSRC that has timed out</p>
 <p>
@@ -357,9 +383,15 @@ Notify of an SSRC that has timed out</p>
 <div class="refsect2" lang="en">
 <a name="GstRDTManager-request-pt-map"></a><h3>The <code class="literal">"request-pt-map"</code> signal</h3>
 <pre class="programlisting">GstCaps*            user_function                      (<a class="link" href="gst-plugins-ugly-plugins-rdtmanager.html#GstRDTManager">GstRDTManager</a> *rdtmanager,
-                                                        guint          session,
-                                                        guint          pt,
-                                                        gpointer       user_data)       : Run Last</pre>
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>          session,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>          pt,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>       user_data)       : Run Last</pre>
 <p>
 Request the payload type as <span class="type">GstCaps</span> for <em class="parameter"><code>pt</code></em> in <em class="parameter"><code>session</code></em>.</p>
 <p>

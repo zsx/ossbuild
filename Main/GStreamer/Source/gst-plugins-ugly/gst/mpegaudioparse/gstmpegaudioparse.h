@@ -62,6 +62,7 @@ struct _GstMPEGAudioParse {
 
   GstSegment segment;
   GstClockTime next_ts;
+  gboolean discont;
 
   /* Offset as supplied by incoming buffers */
   gint64 cur_offset;
@@ -130,12 +131,6 @@ struct _GstMPEGAudioParseClass {
 };
 
 GType gst_mp3parse_get_type(void);
-
-#ifdef __GCC__
-#define ATTR_UNUSED __attribute__ ((unused)
-#else
-#define ATTR_UNUSED 
-#endif
 
 G_END_DECLS
 

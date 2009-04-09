@@ -29,11 +29,7 @@
 #endif
 
 #include "rmdemux.h"
-#include "rdtdepay.h"
-#include "rdtmanager.h"
-#include "rtspreal.h"
 #include "rmutils.h"
-#include "rademux.h"
 
 #include <string.h>
 #include <ctype.h>
@@ -2522,19 +2518,16 @@ gst_rmdemux_parse_packet (GstRMDemux * rmdemux, GstBuffer * in, guint16 version)
   data += (2 + 4);
   size -= (2 + 4);
 
-  /* skip other stuff */
-  if (version == 0) {
-    /* uint8 packet_group */
-    /* uint8 flags        */
-    flags = GST_READ_UINT8 (data + 1);
-    data += 2;
-    size -= 2;
-  } else {
-    /* uint16 asm_rule */
-    /* uint8 asm_flags */
-    flags = GST_READ_UINT8 (data + 2);
-    data += 3;
-    size -= 3;
+  /* get flags */
+  flags = GST_READ_UINT8 (data + 1);
+
+  data += 2;
+  size -= 2;
+
+  /* version 1 has an extra byte */
+  if (version == 1) {
+    data += 1;
+    size -= 1;
   }
   key = (flags & 0x02) != 0;
   GST_DEBUG_OBJECT (rmdemux, "flags %d, Keyframe %d", flags, key);
@@ -2594,36 +2587,9 @@ unknown_stream:
   }
 }
 
-static gboolean
+gboolean
 gst_rmdemux_plugin_init (GstPlugin * plugin)
 {
   return gst_element_register (plugin, "rmdemux",
-      GST_RANK_PRIMARY, GST_TYPE_RMDEMUX) &&
-      gst_element_register (plugin, "rademux",
-      GST_RANK_SECONDARY, GST_TYPE_REAL_AUDIO_DEMUX);
+      GST_RANK_PRIMARY, GST_TYPE_RMDEMUX);
 }
-
-
-static gboolean
-plugin_init (GstPlugin * plugin)
-{
-  if (!gst_rmdemux_plugin_init (plugin))
-    return FALSE;
-
-  if (!gst_rdt_depay_plugin_init (plugin))
-    return FALSE;
-
-  if (!gst_rdt_manager_plugin_init (plugin))
-    return FALSE;
-
-  if (!gst_rtsp_real_plugin_init (plugin))
-    return FALSE;
-
-  return TRUE;
-}
-
-GST_PLUGIN_DEFINE (GST_VERSION_MAJOR,
-    GST_VERSION_MINOR,
-    "realmedia",
-    "RealMedia demuxer and depayloader",
-    plugin_init, VERSION, "LGPL", GST_PACKAGE_NAME, GST_PACKAGE_ORIGIN);
