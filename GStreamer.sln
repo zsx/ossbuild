@@ -391,6 +391,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{CDB27022-AD35-4D8F-99FE-B13AE3564346}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstasfdemux", "Main\GStreamer\Plugins\Ugly\gst\libgstasfdemux.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0002}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F09} = {AB87873B-2B88-4B1B-B627-F70DF4F91F09}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F11} = {AB87873B-2B88-4B1B-B627-F70DF4F91F11}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F12} = {AB87873B-2B88-4B1B-B627-F70DF4F91F12}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstdvdlpcmdec", "Main\GStreamer\Plugins\Ugly\gst\libgstdvdlpcmdec.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0003}"
 EndProject
@@ -403,6 +408,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstmpegstream", "Main\GStreamer\Plugins\Ugly\gst\libgstmpegstream.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0009}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstrealmedia", "Main\GStreamer\Plugins\Ugly\gst\libgstrealmedia.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0010}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F11} = {AB87873B-2B88-4B1B-B627-F70DF4F91F11}
+		{AB87873B-2B88-4B1B-B627-F70DF4F91F12} = {AB87873B-2B88-4B1B-B627-F70DF4F91F12}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstsynaesthesia", "Main\GStreamer\Plugins\Ugly\gst\libgstsynaesthesia.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0011}"
 EndProject
