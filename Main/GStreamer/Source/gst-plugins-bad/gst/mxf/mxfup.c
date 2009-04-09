@@ -1,5 +1,5 @@
 /* GStreamer
- * Copyright (C) 2008 Sebastian Dröge <sebastian.droege@collabora.co.uk>
+ * Copyright (C) 2008-2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -27,6 +27,7 @@
  *   - Correctly transform for the GStreamer strides
  *   - Handle all the dimensions and other properties in the picture
  *     essence descriptors correctly according to S377M Annex E
+ *   - Handle interlaced correctly, i.e. weave until we support one-field-per-buffer
  */
 
 #ifdef HAVE_CONFIG_H
@@ -80,8 +81,7 @@ static GstFlowReturn
 mxf_up_handle_essence_element (const MXFUL * key, GstBuffer * buffer,
     GstCaps * caps,
     MXFMetadataTimelineTrack * track,
-    MXFMetadataSourceClip * component, gpointer mapping_data,
-    GstBuffer ** outbuf)
+    gpointer mapping_data, GstBuffer ** outbuf)
 {
   MXFUPMappingData *data = mapping_data;
 

@@ -27,6 +27,8 @@
                    | 
                   <a href="#gst-plugins-bad-plugins-mpeg2enc.description" class="shortcut">Description</a>
                    | 
+                  <a href="#gst-plugins-bad-plugins-mpeg2enc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
                   <a href="#gst-plugins-bad-plugins-mpeg2enc.properties" class="shortcut">Properties</a></nobr></td></tr>
 </table>
 <div class="refentry" lang="en">
@@ -40,8 +42,19 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="gst-plugins-bad-plugins-mpeg2enc.synopsis"></a><h2>Synopsis</h2>
+<a name="GstMpeg2enc"></a><pre class="synopsis">
+                    <a class="link" href="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc-struct" title="GstMpeg2enc">GstMpeg2enc</a>;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-bad-plugins-mpeg2enc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-                    <a class="link" href="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc" title="GstMpeg2enc">GstMpeg2enc</a>;
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----GstObject
+         +----GstElement
+               +----GstMpeg2enc
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -150,7 +163,7 @@ of the mpeg2enc tool in particular, which shares options with this element.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2901954"></a><h3>Example pipeline</h3>
+<a name="id3210829"></a><h3>Example pipeline</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch-0.10 videotestsrc num-buffers=1000 ! mpeg2enc ! filesink location=videotestsrc.m1v
 </pre></div> This example pipeline will encode a test video source to a an MPEG1
@@ -172,7 +185,7 @@ for PAL <a class="link" href="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc-
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2902012"></a><h3>Element Information</h3>
+<a name="id3210887"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -196,7 +209,7 @@ for PAL <a class="link" href="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc-
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2902076"></a><h3>Element Pads</h3>
+<a name="id3210951"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -248,35 +261,8 @@ for PAL <a class="link" href="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc-
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-mpeg2enc.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="GstMpeg2enc"></a><h3>GstMpeg2enc</h3>
-<pre class="programlisting">typedef struct {
-  GstElement parent;
-
-  /* pads */
-  GstPad *sinkpad, *srcpad;
-
-  /* options wrapper */
-  GstMpeg2EncOptions *options;
-
-  /* general encoding object (contains rest) */
-  GstMpeg2Encoder *encoder;
-
-  /* lock for syncing with encoding task */
-  GMutex *tlock;
-  /* with TLOCK */
-  /* signals counterpart thread that something changed;
-   * buffer ready for task or buffer has been processed */
-  GCond *cond;
-  /* seen eos */
-  gboolean eos;
-  /* flowreturn obtained by encoding task */
-  GstFlowReturn srcresult;
-  /* buffer for encoding task */
-  GstBuffer *buffer;
-  /* timestamps for output */
-  GQueue *time;
-} GstMpeg2enc;
-</pre>
+<a name="GstMpeg2enc-struct"></a><h3>GstMpeg2enc</h3>
+<pre class="programlisting">typedef struct _GstMpeg2enc GstMpeg2enc;</pre>
 <p>
 
 </p>

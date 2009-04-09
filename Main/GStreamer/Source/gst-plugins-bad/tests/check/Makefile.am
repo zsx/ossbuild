@@ -13,7 +13,7 @@ TESTS_ENVIRONMENT = \
         $(REGISTRY_ENVIRONMENT)                                 \
         GST_PLUGIN_SYSTEM_PATH=					\
         GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(GSTPB_PLUGINS_DIR):$(GST_PLUGINS_DIR) \
-        STATE_IGNORE_ELEMENTS="alsaspdifsink apexsink cdaudio dc1394src dvbsrc dvbbasebin dfbvideosink festival nassink sdlaudiosink sdlvideosink vcdsrc rfbsrc"
+        STATE_IGNORE_ELEMENTS="alsaspdifsink apexsink cdaudio dc1394src dccpclientsrc dccpclientsink dccpserversrc dccpserversink dvbsrc dvbbasebin dfbvideosink festival nassink sdlaudiosink sdlvideosink vcdsrc rfbsrc"
 
 plugindir = $(libdir)/gstreamer-@GST_MAJORMINOR@
 
@@ -27,11 +27,12 @@ SUPPRESSIONS = $(top_srcdir)/common/gst.supp $(srcdir)/gst-plugins-bad.supp
 
 clean-local: clean-local-check
 
-if USE_METADATA
-check_metadata = pipelines/metadata
-else
+# disabling metadata test until #574401 is fixed
+#if USE_METADATA
+#check_metadata = pipelines/metadata
+#else
 check_metadata =
-endif
+#endif
 
 if USE_MPEG2ENC
 check_mpeg2enc = elements/mpeg2enc
@@ -89,7 +90,8 @@ check_PROGRAMS = \
 	$(check_x264enc)   \
 	elements/aacparse \
 	elements/amrparse \
-	elements/audioresample \
+	elements/camerabin \
+	elements/legacyresample \
 	elements/qtmux \
 	elements/selector \
 	elements/mxfdemux \
@@ -103,6 +105,13 @@ TESTS = $(check_PROGRAMS)
 AM_CFLAGS = $(GST_OBJ_CFLAGS) $(GST_CHECK_CFLAGS) $(CHECK_CFLAGS)  $(GST_OPTION_CFLAGS)
 LDADD = $(GST_OBJ_LIBS) $(GST_CHECK_LIBS) $(CHECK_LIBS)
 
+elements_camerabin_CFLAGS = $(GST_CFLAGS) $(GST_BASE_CFLAGS) $(GST_CHECK_CFLAGS)
+elements_camerabin_LDADD = $(GST_LIBS) $(GST_BASE_LIBS) $(GST_CHECK_LIBS) \
+         -lgstinterfaces-@GST_MAJORMINOR@ \
+        $(top_builddir)/gst-libs/gst/interfaces/libgstphotography-@GST_MAJORMINOR@.la
+elements_camerabin_SOURCES = elements/camerabin.c
+
 elements_timidity_CFLAGS = $(GST_BASE_CFLAGS) $(AM_CFLAGS)
 elements_timidity_LDADD = $(GST_BASE_LIBS) $(LDADD)
 
+EXTRA_DIST = gst-plugins-bad.supp

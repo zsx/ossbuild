@@ -4,3 +4,5 @@ GstColorBalance GstObject GstImplementsInterface GstElement
 GstXOverlay GstObject GstImplementsInterface GstElement
 GstTagSetter GstObject GstElement
 GstMixer GstObject GstImplementsInterface GstElement
+MXFDescriptiveMetadataFrameworkInterface MXFDescriptiveMetadata
+GstPhotography GstObject GstImplementsInterface GstElement

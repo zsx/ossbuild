@@ -59,7 +59,8 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst-x11.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
-	$(top_srcdir)/common/m4/pkg.m4 $(top_srcdir)/m4/gettext.m4 \
+	$(top_srcdir)/common/m4/pkg.m4 \
+	$(top_srcdir)/common/m4/shave.m4 $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/gst-alsa.m4 $(top_srcdir)/m4/gst-fionread.m4 \
 	$(top_srcdir)/m4/gst-sdl.m4 $(top_srcdir)/m4/iconv.m4 \
 	$(top_srcdir)/m4/intlmacosx.m4 $(top_srcdir)/m4/lib-ld.m4 \
@@ -86,13 +87,13 @@ LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libgstmxf_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am_libgstmxf_la_OBJECTS = libgstmxf_la-mxf.lo libgstmxf_la-mxfdemux.lo \
-	libgstmxf_la-mxfparse.lo libgstmxf_la-mxfaes-bwf.lo \
-	libgstmxf_la-mxfmpeg.lo libgstmxf_la-mxfdv-dif.lo \
-	libgstmxf_la-mxfalaw.lo libgstmxf_la-mxfjpeg2000.lo \
-	libgstmxf_la-mxfd10.lo libgstmxf_la-mxfup.lo \
-	libgstmxf_la-mxfvc3.lo libgstmxf_la-mxfmetadata.lo \
-	libgstmxf_la-mxfdms1.lo
+am_libgstmxf_la_OBJECTS = libgstmxf_la-mxf.lo libgstmxf_la-mxfquark.lo \
+	libgstmxf_la-mxfdemux.lo libgstmxf_la-mxfparse.lo \
+	libgstmxf_la-mxfaes-bwf.lo libgstmxf_la-mxfmpeg.lo \
+	libgstmxf_la-mxfdv-dif.lo libgstmxf_la-mxfalaw.lo \
+	libgstmxf_la-mxfjpeg2000.lo libgstmxf_la-mxfd10.lo \
+	libgstmxf_la-mxfup.lo libgstmxf_la-mxfvc3.lo \
+	libgstmxf_la-mxfmetadata.lo libgstmxf_la-mxfdms1.lo
 libgstmxf_la_OBJECTS = $(am_libgstmxf_la_OBJECTS)
 libgstmxf_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libgstmxf_la_CFLAGS) \
@@ -121,10 +122,13 @@ ALSA_CFLAGS = @ALSA_CFLAGS@
 ALSA_LIBS = @ALSA_LIBS@
 AMRWB_LIBS = @AMRWB_LIBS@
 AMTAR = @AMTAR@
+AM_MAKEFLAGS = @AM_MAKEFLAGS@
 APEXSINK_CFLAGS = @APEXSINK_CFLAGS@
 APEXSINK_LIBS = @APEXSINK_LIBS@
 AR = @AR@
 AS = @AS@
+ASSRENDER_CFLAGS = @ASSRENDER_CFLAGS@
+ASSRENDER_LIBS = @ASSRENDER_LIBS@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -171,9 +175,11 @@ ERROR_CXXFLAGS = @ERROR_CXXFLAGS@
 EXEEXT = @EXEEXT@
 EXIF_CFLAGS = @EXIF_CFLAGS@
 EXIF_LIBS = @EXIF_LIBS@
+F77 = @F77@
 FAAC_LIBS = @FAAC_LIBS@
 FAAD_IS_NEAAC = @FAAD_IS_NEAAC@
 FAAD_LIBS = @FAAD_LIBS@
+FC = @FC@
 FFLAGS = @FFLAGS@
 FGREP = @FGREP@
 GCOV = @GCOV@
@@ -253,11 +259,11 @@ IVORBIS_LIBS = @IVORBIS_LIBS@
 JACK_CFLAGS = @JACK_CFLAGS@
 JACK_LIBS = @JACK_LIBS@
 JP2K_LIBS = @JP2K_LIBS@
-LADSPA_LIBS = @LADSPA_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDC1394_CFLAGS = @LIBDC1394_CFLAGS@
 LIBDC1394_LIBS = @LIBDC1394_LIBS@
+LIBDIR = @LIBDIR@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBM = @LIBM@
@@ -271,16 +277,23 @@ LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LOCALEDIR = @LOCALEDIR@
+LRDF_CFLAGS = @LRDF_CFLAGS@
+LRDF_LIBS = @LRDF_LIBS@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
+MAKEFLAGS = @MAKEFLAGS@
 MAKEINFO = @MAKEINFO@
 METADATA_CFLAGS = @METADATA_CFLAGS@
 METADATA_LIBS = @METADATA_LIBS@
+MIMIC_CFLAGS = @MIMIC_CFLAGS@
+MIMIC_LIBS = @MIMIC_LIBS@
 MJPEG_CFLAGS = @MJPEG_CFLAGS@
 MJPEG_LIBS = @MJPEG_LIBS@
 MKDIR_P = @MKDIR_P@
+MODPLUG_CFLAGS = @MODPLUG_CFLAGS@
+MODPLUG_LIBS = @MODPLUG_LIBS@
 MPEG2ENC_CFLAGS = @MPEG2ENC_CFLAGS@
 MPEG2ENC_LIBS = @MPEG2ENC_LIBS@
 MPLEX_CFLAGS = @MPLEX_CFLAGS@
@@ -327,6 +340,7 @@ PYTHON_EXEC_PREFIX = @PYTHON_EXEC_PREFIX@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
+Q = @Q@
 RANLIB = @RANLIB@
 SDL_CFLAGS = @SDL_CFLAGS@
 SDL_CONFIG = @SDL_CONFIG@
@@ -346,9 +360,8 @@ THEORADEC_CFLAGS = @THEORADEC_CFLAGS@
 THEORADEC_LIBS = @THEORADEC_LIBS@
 TIMIDITY_CFLAGS = @TIMIDITY_CFLAGS@
 TIMIDITY_LIBS = @TIMIDITY_LIBS@
-TWOLAME_CFLAGS = @TWOLAME_CFLAGS@
-TWOLAME_LIBS = @TWOLAME_LIBS@
 USE_NLS = @USE_NLS@
+V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
@@ -425,14 +438,17 @@ pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+shavedir = @shavedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
+top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 plugin_LTLIBRARIES = libgstmxf.la
 libgstmxf_la_SOURCES = \
 	mxf.c \
+	mxfquark.c \
 	mxfdemux.c \
 	mxfparse.c \
 	mxfaes-bwf.c \
@@ -452,6 +468,7 @@ libgstmxf_la_LIBADD = $(GST_LIBS) $(GST_BASE_LIBS) $(GST_PLUGINS_BASE_LIBS) \
 
 libgstmxf_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 noinst_HEADERS = \
+	mxfquark.h \
 	mxfdemux.h \
 	mxfparse.h \
 	mxfaes-bwf.h \
@@ -546,6 +563,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstmxf_la-mxfmetadata.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstmxf_la-mxfmpeg.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstmxf_la-mxfparse.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstmxf_la-mxfquark.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstmxf_la-mxfup.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstmxf_la-mxfvc3.Plo@am__quote@
 
@@ -576,6 +594,13 @@ libgstmxf_la-mxf.lo: mxf.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mxf.c' object='libgstmxf_la-mxf.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstmxf_la_CFLAGS) $(CFLAGS) -c -o libgstmxf_la-mxf.lo `test -f 'mxf.c' || echo '$(srcdir)/'`mxf.c
+
+libgstmxf_la-mxfquark.lo: mxfquark.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstmxf_la_CFLAGS) $(CFLAGS) -MT libgstmxf_la-mxfquark.lo -MD -MP -MF $(DEPDIR)/libgstmxf_la-mxfquark.Tpo -c -o libgstmxf_la-mxfquark.lo `test -f 'mxfquark.c' || echo '$(srcdir)/'`mxfquark.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgstmxf_la-mxfquark.Tpo $(DEPDIR)/libgstmxf_la-mxfquark.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mxfquark.c' object='libgstmxf_la-mxfquark.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstmxf_la_CFLAGS) $(CFLAGS) -c -o libgstmxf_la-mxfquark.lo `test -f 'mxfquark.c' || echo '$(srcdir)/'`mxfquark.c
 
 libgstmxf_la-mxfdemux.lo: mxfdemux.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstmxf_la_CFLAGS) $(CFLAGS) -MT libgstmxf_la-mxfdemux.lo -MD -MP -MF $(DEPDIR)/libgstmxf_la-mxfdemux.Tpo -c -o libgstmxf_la-mxfdemux.lo `test -f 'mxfdemux.c' || echo '$(srcdir)/'`mxfdemux.c

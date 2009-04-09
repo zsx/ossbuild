@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-bad-0.10.6.3\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-01-19 22:32+0000\n"
+"POT-Creation-Date: 2009-03-20 23:36+0000\n"
 "PO-Revision-Date: 2008-05-14 02:13+0300\n"
 "Last-Translator: Gintautas Miliauskas <gintas@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -60,33 +60,22 @@ msgstr "Vidinė duomenų srauto klaida."
 msgid "Could not write to file \"%s\"."
 msgstr "Nepavyko rašyti į failą „%s“."
 
-#: ext/twolame/gsttwolame.c:427
-msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
-msgstr ""
-
-#: ext/twolame/gsttwolame.c:502
-#, c-format
-msgid ""
-"The requested bitrate %d kbit/s for property '%s' is not allowed. The "
-"bitrate was changed to %d kbit/s."
-msgstr ""
-
-#: sys/dvb/gstdvbsrc.c:700 sys/dvb/gstdvbsrc.c:793
+#: sys/dvb/gstdvbsrc.c:699 sys/dvb/gstdvbsrc.c:792
 #, c-format
 msgid "Device \"%s\" does not exist."
 msgstr "Įrenginys „%s“ neegzistuoja."
 
-#: sys/dvb/gstdvbsrc.c:704
+#: sys/dvb/gstdvbsrc.c:703
 #, c-format
 msgid "Could not open frontend device \"%s\"."
 msgstr "Nepavyko atverti išorinės pusės įrenginio „%s“."
 
-#: sys/dvb/gstdvbsrc.c:716
+#: sys/dvb/gstdvbsrc.c:715
 #, c-format
 msgid "Could not get settings from frontend device \"%s\"."
 msgstr "Nepavyko gauti nustatymų iš išorinės pusės įrenginio „%s“."
 
-#: sys/dvb/gstdvbsrc.c:797
+#: sys/dvb/gstdvbsrc.c:796
 #, c-format
 msgid "Could not open file \"%s\" for reading."
 msgstr "Nepavyko atverti failo „%s“ skaitymui."

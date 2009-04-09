@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gst-plugins-bad 0.10.8.3\n"
+"Project-Id-Version: gst-plugins-bad 0.10.9.3\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-01-19 22:32+0000\n"
-"PO-Revision-Date: 2008-10-17 18:56中国标准时间\n"
+"POT-Creation-Date: 2009-03-20 23:36+0000\n"
+"PO-Revision-Date: 2009-01-14 12:04+0800\n"
 "Last-Translator: Ji ZhengYu <zhengyuji@gmail.com>\n"
 "Language-Team: Chinese (simplified) <translation-team-zh-cn@lists."
 "sourceforge.net>\n"
@@ -29,7 +29,7 @@ msgstr "无法打开 DVD 设备“%s”。"
 
 #: ext/resindvd/resindvdsrc.c:345
 msgid "Failed to set PGC based seeking."
-msgstr ""
+msgstr "无法设置基于 PGC 的检索。"
 
 #: ext/resindvd/rsnbasesrc.c:1659
 msgid "Internal clock error."
@@ -58,33 +58,22 @@ msgstr "内部数据流错误。"
 msgid "Could not write to file \"%s\"."
 msgstr "无法写入文件“%s”。"
 
-#: ext/twolame/gsttwolame.c:427
-msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
-msgstr "无法配置 TwoLAME 编码器。请检查您的编码参数。"
-
-#: ext/twolame/gsttwolame.c:502
-#, c-format
-msgid ""
-"The requested bitrate %d kbit/s for property '%s' is not allowed. The "
-"bitrate was changed to %d kbit/s."
-msgstr "不允许使用“%2$s”所请求的码率 %1$d kbit/s。码率改为 %3$d kbit/s。"
-
-#: sys/dvb/gstdvbsrc.c:700 sys/dvb/gstdvbsrc.c:793
+#: sys/dvb/gstdvbsrc.c:699 sys/dvb/gstdvbsrc.c:792
 #, c-format
 msgid "Device \"%s\" does not exist."
 msgstr "不存在设备“%s”。"
 
-#: sys/dvb/gstdvbsrc.c:704
+#: sys/dvb/gstdvbsrc.c:703
 #, c-format
 msgid "Could not open frontend device \"%s\"."
 msgstr "无法打开前端设备“%s”。"
 
-#: sys/dvb/gstdvbsrc.c:716
+#: sys/dvb/gstdvbsrc.c:715
 #, c-format
 msgid "Could not get settings from frontend device \"%s\"."
 msgstr "无法从前端设备“%s”获取设置。"
 
-#: sys/dvb/gstdvbsrc.c:797
+#: sys/dvb/gstdvbsrc.c:796
 #, c-format
 msgid "Could not open file \"%s\" for reading."
 msgstr "无法以读方式打开文件“%s”。"
@@ -405,3 +394,11 @@ msgstr "此音频设备不支持录音。"
 #: sys/oss4/oss4-source.c:527
 msgid "Error recording from audio device."
 msgstr "从音频设备录音时发生错误。"
+
+#~ msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
+#~ msgstr "无法配置 TwoLAME 编码器。请检查您的编码参数。"
+
+#~ msgid ""
+#~ "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
+#~ "bitrate was changed to %d kbit/s."
+#~ msgstr "不允许使用“%2$s”所请求的码率 %1$d kbit/s。码率改为 %3$d kbit/s。"

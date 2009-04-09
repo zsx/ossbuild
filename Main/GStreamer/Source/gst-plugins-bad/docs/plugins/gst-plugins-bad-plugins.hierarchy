@@ -10,14 +10,16 @@ GObject
     GstElement
       GstBin
         GstPipeline
+          GstCameraBin
         RsnDvdBin
         DvbBaseBin
-        GstRgVolume
+        GstAutoConvert
         GstRtpBin
         GstRtpClient
         GstSDPDemux
       GstBz2enc
       GstBz2dec
+      GstModPlug
       GstBaseSrc
         GstPushSrc
           GstNeonhttpSrc
@@ -34,6 +36,8 @@ GObject
           GstDCCPServerSrc
           GstRfbSrc
         GstSFSrc
+        GstDTMFSrc
+        GstRTPDTMFSrc
       GstCDAudio
       GstBaseSink
         GstVideoSink
@@ -62,9 +66,7 @@ GObject
           GstBPMDetect
           GstStereo
         GstBayer2RGB
-        GstRgAnalysis
-        GstRgLimiter
-        GstAudioresample
+        GstLegacyresample
         GstScaletempo
         GstDeinterlace
         GstVideoFilter
@@ -86,7 +88,6 @@ GObject
       GstXvidEnc
       GstXvidDec
       GstPitch
-      GstTwoLame
       GstMusepackDec
       GstMpeg2enc
       GstGSMEnc
@@ -103,7 +104,6 @@ GObject
       GstAmrBaseParse
         GstAmrParse
       GstFestival
-      GstModPlug
       GstMveDemux
       GstMveMux
       GstSrtEnc
@@ -111,9 +111,13 @@ GObject
       GstCDXAParse
       GstVcdParse
       GstNsfDec
+      GstSirenDec
+      GstSirenEnc
       MpegTsMux
       GstRealVideoDec
       GstRealAudioDec
+      GstRTPMux
+        GstRTPDTMFMux
       GstRawParse
         GstVideoParse
         GstAudioParse
@@ -136,13 +140,15 @@ GObject
       GstMXFDemux
       GstY4mEncode
       GstSpeed
-      GstInterleave
-      GstDeinterleave
       GstFreeze
       GstDVDSpu
       AIFFParse
       GstTtaParse
       GstTtaDec
+      GstLiveAdder
+      GstValve
+      GstBaseRTPDepayload
+        GstRtpDTMFDepay
       GstNuvDemux
       GstFLVDemux
       GstFlvMux
@@ -162,11 +168,9 @@ GObject
       GstJackAudioSinkRingBuffer
   GstSignalObject
   GstColorBalanceChannel
-  GstMixerTrack
-    GstMixerOptions
   RTPSession
-  FluTsPatInfo
-  FluTsPmtInfo
+  MpegTsPatInfo
+  MpegTsPmtInfo
 GInterface
   GTypePlugin
   GstChildProxy
@@ -178,3 +182,5 @@ GInterface
   GstTagSetter
   GstMixer
   GstPropertyProbe
+  MXFDescriptiveMetadataFrameworkInterface
+  GstPhotography

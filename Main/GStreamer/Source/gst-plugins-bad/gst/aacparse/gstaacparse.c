@@ -272,6 +272,9 @@ gst_aacparse_sink_setcaps (GstBaseParse * parse, GstCaps * caps)
       aacparse->channels = (buffer[1] & 0x78) >> 3;
       aacparse->header_type = DSPAAC_HEADER_NONE;
       aacparse->mpegversion = 4;
+
+      GST_DEBUG ("codec_data: object_type=%d, sample_rate=%d, channels=%d",
+          aacparse->object_type, aacparse->sample_rate, aacparse->channels);
     } else
       return FALSE;
   }
@@ -853,5 +856,4 @@ GST_PLUGIN_DEFINE (GST_VERSION_MAJOR,
     GST_VERSION_MINOR,
     "aacparse",
     "Advanced Audio Coding Parser",
-    plugin_init, VERSION, GST_LICENSE_UNKNOWN, GST_PACKAGE_NAME,
-    GST_PACKAGE_ORIGIN);
+    plugin_init, VERSION, "LGPL", GST_PACKAGE_NAME, GST_PACKAGE_ORIGIN);

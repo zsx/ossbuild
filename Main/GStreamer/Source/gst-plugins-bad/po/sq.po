@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-bad 0.10.7.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-01-19 22:32+0000\n"
+"POT-Creation-Date: 2009-03-20 23:36+0000\n"
 "PO-Revision-Date: 2008-08-15 16:07+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <translation-team-sq@lists.sourceforge.net>\n"
@@ -57,33 +57,22 @@ msgstr "Gabim i brendshëm tek stream i të dhënave."
 msgid "Could not write to file \"%s\"."
 msgstr "I pamundur shkrimi tek file \"%s\"."
 
-#: ext/twolame/gsttwolame.c:427
-msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
-msgstr ""
-
-#: ext/twolame/gsttwolame.c:502
-#, c-format
-msgid ""
-"The requested bitrate %d kbit/s for property '%s' is not allowed. The "
-"bitrate was changed to %d kbit/s."
-msgstr ""
-
-#: sys/dvb/gstdvbsrc.c:700 sys/dvb/gstdvbsrc.c:793
+#: sys/dvb/gstdvbsrc.c:699 sys/dvb/gstdvbsrc.c:792
 #, c-format
 msgid "Device \"%s\" does not exist."
 msgstr "Dispozitivi \"%s\" nuk ekziston."
 
-#: sys/dvb/gstdvbsrc.c:704
+#: sys/dvb/gstdvbsrc.c:703
 #, c-format
 msgid "Could not open frontend device \"%s\"."
 msgstr "E pamundur hapja e dispozitivit frontend \"%s\"."
 
-#: sys/dvb/gstdvbsrc.c:716
+#: sys/dvb/gstdvbsrc.c:715
 #, c-format
 msgid "Could not get settings from frontend device \"%s\"."
 msgstr "E pamundur marrja e rregullimeve nga dispozitivi frontend \"%s\"."
 
-#: sys/dvb/gstdvbsrc.c:797
+#: sys/dvb/gstdvbsrc.c:796
 #, c-format
 msgid "Could not open file \"%s\" for reading."
 msgstr "E pamundur hapja e file \"%s\" për lexim."

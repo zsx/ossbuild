@@ -98,7 +98,7 @@ Converts a byte stream into video frames.</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2913957"></a><h3>Element Information</h3>
+<a name="id3222510"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -121,7 +121,7 @@ Converts a byte stream into video frames.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2914021"></a><h3>Element Pads</h3>
+<a name="id3222573"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -139,7 +139,7 @@ Converts a byte stream into video frames.</p>
 </tr>
 <tr>
 <td><p><span class="term">details</span></p></td>
-<td>video/x-raw-yuv, format=(fourcc){ I420, YV12, YUY2, UYVY }, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
+<td>video/x-raw-yuv, format=(fourcc){ I420, YV12, YUY2, UYVY, v210 }, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
 </tr>
 <tr>
 <td><p><span class="term"></span></p></td>
@@ -196,7 +196,6 @@ Converts a byte stream into video frames.</p>
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Alpha mask of images in raw stream.</p>
-<p>Allowed values: &gt;= 0</p>
 <p>Default value: 0</p>
 </div>
 <hr>
@@ -206,7 +205,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Blue mask of images in raw stream.</p>
-<p>Allowed values: &gt;= 0</p>
 <p>Default value: 255</p>
 </div>
 <hr>
@@ -256,7 +254,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Green mask of images in raw stream.</p>
-<p>Allowed values: &gt;= 0</p>
 <p>Default value: 65280</p>
 </div>
 <hr>
@@ -282,7 +279,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Red mask of images in raw stream.</p>
-<p>Allowed values: &gt;= 0</p>
 <p>Default value: 16711680</p>
 </div>
 <hr>

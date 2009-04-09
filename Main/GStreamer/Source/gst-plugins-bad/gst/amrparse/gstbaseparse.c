@@ -272,7 +272,7 @@ static void gst_base_parse_loop (GstPad * pad);
 static gboolean gst_base_parse_check_frame (GstBaseParse * parse,
     GstBuffer * buffer, guint * framesize, gint * skipsize);
 
-static gboolean gst_base_parse_parse_frame (GstBaseParse * parse,
+static GstFlowReturn gst_base_parse_parse_frame (GstBaseParse * parse,
     GstBuffer * buffer);
 
 static gboolean gst_base_parse_sink_eventfunc (GstBaseParse * parse,
@@ -443,13 +443,13 @@ gst_base_parse_check_frame (GstBaseParse * parse,
  *
  * Default callback for parse_frame.
  */
-static gboolean
+static GstFlowReturn
 gst_base_parse_parse_frame (GstBaseParse * parse, GstBuffer * buffer)
 {
   /* FIXME: Could we even _try_ to do something clever here? */
   GST_BUFFER_TIMESTAMP (buffer) = GST_CLOCK_TIME_NONE;
   GST_BUFFER_DURATION (buffer) = GST_CLOCK_TIME_NONE;
-  return TRUE;
+  return GST_FLOW_OK;
 }
 
 
@@ -838,7 +838,7 @@ gst_base_parse_chain (GstPad * pad, GstBuffer * buffer)
   parse = GST_BASE_PARSE (GST_OBJECT_PARENT (pad));
   bclass = GST_BASE_PARSE_GET_CLASS (parse);
 
-  if (parse->pending_segment) {
+  if (G_UNLIKELY (parse->pending_segment)) {
     GST_DEBUG_OBJECT (parse, "chain pushing a pending segment");
     gst_pad_push_event (parse->srcpad, parse->pending_segment);
     parse->pending_segment = NULL;
@@ -854,7 +854,7 @@ gst_base_parse_chain (GstPad * pad, GstBuffer * buffer)
     gst_adapter_clear (parse->adapter);
   }
 
-  if (parse->priv->pending_events) {
+  if (G_UNLIKELY (parse->priv->pending_events)) {
     GList *l;
 
     for (l = parse->priv->pending_events; l != NULL; l = l->next) {
@@ -864,11 +864,9 @@ gst_base_parse_chain (GstPad * pad, GstBuffer * buffer)
     parse->priv->pending_events = NULL;
   }
 
-  if (buffer) {
+  if (G_LIKELY (buffer)) {
     GST_LOG_OBJECT (parse, "buffer size: %d, offset = %lld",
         GST_BUFFER_SIZE (buffer), GST_BUFFER_OFFSET (buffer));
-
-
     gst_adapter_push (parse->adapter, buffer);
   }
 
@@ -899,7 +897,7 @@ gst_base_parse_chain (GstPad * pad, GstBuffer * buffer)
 
       if (parse->priv->discont) {
         GST_DEBUG_OBJECT (parse, "marking DISCONT");
-        GST_BUFFER_FLAG_SET (buffer, GST_BUFFER_FLAG_DISCONT);
+        GST_BUFFER_FLAG_SET (tmpbuf, GST_BUFFER_FLAG_DISCONT);
       }
 
       skip = -1;

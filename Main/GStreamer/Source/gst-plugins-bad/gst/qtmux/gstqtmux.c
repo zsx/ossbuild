@@ -1269,6 +1269,13 @@ gst_qt_mux_audio_sink_set_caps (GstPad * pad, GstCaps * caps)
     entry.sample_size = 16;
     entry.samples_per_packet = 160;
     entry.bytes_per_sample = 2;
+    ext_atom = build_amr_extension ();
+  } else if (strcmp (mimetype, "audio/AMR-WB") == 0) {
+    entry.fourcc = FOURCC_sawb;
+    entry.sample_size = 16;
+    entry.samples_per_packet = 320;
+    entry.bytes_per_sample = 2;
+    ext_atom = build_amr_extension ();
   } else if (strcmp (mimetype, "audio/x-raw-int") == 0) {
     gint width;
     gint depth;
@@ -1472,6 +1479,7 @@ gst_qt_mux_video_sink_set_caps (GstPad * pad, GstCaps * caps)
     }
   } else if (strcmp (mimetype, "video/x-h263") == 0) {
     entry.fourcc = FOURCC_h263;
+    ext_atom = build_h263_extension ();
   } else if (strcmp (mimetype, "video/x-divx") == 0 ||
       strcmp (mimetype, "video/mpeg") == 0) {
     gint version = 0;
@@ -1579,8 +1587,8 @@ refuse_caps:
 refuse_renegotiation:
   {
     GST_WARNING_OBJECT (qtmux,
-        "pad %s refused renegotiation to %" GST_PTR_FORMAT,
-        GST_PAD_NAME (pad), caps);
+        "pad %s refused renegotiation to %" GST_PTR_FORMAT " from %"
+        GST_PTR_FORMAT, GST_PAD_NAME (pad), caps, GST_PAD_CAPS (pad));
     gst_object_unref (qtmux);
     return FALSE;
   }

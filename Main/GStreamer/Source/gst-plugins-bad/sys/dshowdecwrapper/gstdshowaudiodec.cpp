@@ -726,13 +726,6 @@ dshowaudiodec_set_input_format (GstDshowAudioDec *adec, GstCaps *caps)
       mp3format->nBlockSize = 1;
       mp3format->nFramesPerBlock = 1;
       mp3format->nCodecDelay = 0;
-
-      /* The XP decoder also has problems with some MP3 frames. If it tries
-       * to decode one, then forever after it outputs silence.
-       * If we recognise such a frame, just skip decoding it.
-       */
-     if (adec->decoder_is_xp_mp3)
-        adec->check_mp3_frames = TRUE;
     }
     else {
       format = (WAVEFORMATEX *)g_malloc0 (size);
@@ -1124,7 +1117,7 @@ dshow_adec_register (GstPlugin * plugin)
       type = g_type_register_static (GST_TYPE_ELEMENT,
           audio_dec_codecs[i].element_name, &info, (GTypeFlags)0);
       if (!gst_element_register (plugin, audio_dec_codecs[i].element_name,
-              GST_RANK_PRIMARY, type)) {
+              GST_RANK_SECONDARY, type)) {
         return FALSE;
       }
       GST_CAT_DEBUG (dshowaudiodec_debug, "Registered %s",

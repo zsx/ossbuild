@@ -1,8 +1,9 @@
 GstBin GstChildProxy
 GstPipeline GstChildProxy
+GstCameraBin GstChildProxy GstImplementsInterface GstColorBalance GstXOverlay GstTagSetter GstPhotography
 RsnDvdBin GstChildProxy GstURIHandler
 DvbBaseBin GstChildProxy GstURIHandler
-GstRgVolume GstChildProxy
+GstAutoConvert GstChildProxy
 GstRtpBin GstChildProxy
 GstRtpClient GstChildProxy
 GstSDPDemux GstChildProxy

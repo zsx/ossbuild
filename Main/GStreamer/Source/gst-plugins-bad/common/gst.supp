@@ -2008,19 +2008,19 @@
    fun:FcPatternObjectAddWithBinding
    fun:FcPatternAppend
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
    fun:FcConfigParseAndLoad
    fun:FcParseInclude
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
 }
@@ -2030,19 +2030,19 @@
    fun:malloc
    fun:FcStrCopy
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
    fun:FcConfigParseAndLoad
    fun:FcParseInclude
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
    fun:FcInitLoadConfig
@@ -2541,6 +2541,20 @@
 }
 
 {
+   <Leak in videotestsrc>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:gst_caps_new_empty
+   fun:gst_caps_copy
+   fun:gst_video_test_src_getcaps
+   fun:gst_video_test_src_base_init
+   fun:g_type_class_ref
+   fun:gst_element_register
+}
+
+{
    <Leak in ffmpegcolorspace>
    Memcheck:Leak
    fun:malloc
@@ -2633,6 +2647,47 @@
    fun:gst_caps_copy
    fun:gst_audio_filter_class_add_pad_templates
 }
+{
+   <Leak in GstAudioFilter subclasses, variant3>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:g_array_maybe_expand
+   fun:g_array_sized_new
+   fun:*
+   fun:*
+   fun:*
+   fun:gst_value_init_and_copy
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_audio_filter_class_add_pad_templates
+}
+{
+   <Leak in GstAudioFilter subclasses, variant4>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:g_array_maybe_expand
+   fun:g_array_sized_new
+   fun:*
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_audio_filter_class_add_pad_templates
+}
+{
+   <Leak in GstAudioFilter subclasses, variant5>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_array_sized_new
+   fun:*
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_audio_filter_class_add_pad_templates
+}
 
 {
    <Leak in riff-media>
@@ -2641,6 +2696,33 @@
    fun:g_malloc
    fun:g_slice_alloc
    fun:gst_caps_new_empty
+   fun:gst_riff_create_*_template_caps
+}
+{
+   <Leak in riff-media>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:*
+   fun:*
+   fun:*
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_caps_append
+   fun:gst_riff_create_*_template_caps
+}
+{
+   <Leak in riff-media>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_array_sized_new
+   fun:*
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_caps_append
    fun:gst_riff_create_*_template_caps
 }
 
@@ -2685,6 +2767,63 @@
    fun:pango_language_from_string
 }
 
+# some more pango leaks (Debian/unstable x86)
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:FcPatternObjectInsertElt
+   fun:FcPatternObjectAddWithBinding
+   fun:FcPatternAppend
+   fun:FcEndElement
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcConfigParseAndLoad
+   fun:FcEndElement
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcInitLoadConfig
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:FcPatternObjectAddWithBinding
+   fun:FcPatternObjectAdd
+   fun:FcFontRenderPrepare
+   fun:pango_fc_font_map_load_fontset
+   fun:pango_font_map_load_fontset
+   fun:itemize_state_process_run
+   fun:pango_itemize_with_base_dir
+   fun:pango_layout_check_lines
+   fun:pango_layout_get_extents_internal
+   fun:pango_layout_get_pixel_extents
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:realloc
+   fun:FcPatternObjectInsertElt
+   fun:FcPatternObjectAddWithBinding
+   fun:FcPatternObjectAdd
+   fun:FcFontRenderPrepare
+   fun:pango_fc_font_map_load_fontset
+   fun:pango_font_map_load_fontset
+   fun:itemize_state_process_run
+   fun:pango_itemize_with_base_dir
+   fun:pango_layout_check_lines
+   fun:pango_layout_get_extents_internal
+   fun:pango_layout_get_pixel_extents
+}
+
 ## Leak of property_list in gstffmpegcfg.c
 ## This list is created in gst_ffmpegcsp_init(), called from 
 ## gst_ffmpegenc_register.
@@ -2695,6 +2834,18 @@
    fun:g_malloc
    fun:g_slice_alloc
    fun:g_datalist_id_set_data_full
+   fun:gst_ffmpeg_cfg_init
+   fun:gst_ffmpegenc_register
+   fun:plugin_init
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_datalist_id_set_data_full
+   fun:g_param_spec_set_qdata_full
    fun:gst_ffmpeg_cfg_init
    fun:gst_ffmpegenc_register
    fun:plugin_init

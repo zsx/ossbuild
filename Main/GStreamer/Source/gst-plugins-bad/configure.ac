@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, cvs and prerelease does Werror too
-AC_INIT(GStreamer Bad Plug-ins, 0.10.10,
+AC_INIT(GStreamer Bad Plug-ins, 0.10.11,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-bad)
 
@@ -45,8 +45,8 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.21.1
-GSTPB_REQ=0.10.20
+GST_REQ=0.10.22
+GSTPB_REQ=0.10.22
 
 dnl *** autotools stuff ****
 
@@ -124,6 +124,9 @@ dnl check for libm, for sin() etc.
 AC_CHECK_LIBM
 AC_SUBST(LIBM)
 
+dnl needed for gst/xdgmime
+AC_FUNC_MMAP
+
 dnl *** checks for header files ***
 
 AC_CHECK_HEADERS([unistd.h], HAVE_UNISTD_H=yes)
@@ -132,6 +135,9 @@ AM_CONDITIONAL(HAVE_UNISTD_H, test "x$HAVE_UNISTD_H" = "xyes")
 if test "x$HAVE_UNISTD_H" != "xyes"; then
   GST_PLUGINS_SELECTED=`echo $GST_PLUGINS_SELECTED | $SED -e s/festival//`
 fi
+
+dnl used by camerabin
+AC_CHECK_HEADERS([sys/time.h])
 
 dnl used by ext/dts
 AX_CREATE_STDINT_H
@@ -156,6 +162,10 @@ AM_CONDITIONAL(HAVE_GCC_ASM, test "x$HAVE_GCC_ASM" = "xyes")
 dnl *** checks for library functions ***
 
 dnl *** checks for dependency libraries ***
+
+dnl *** checks for socket and nsl libraries ***
+AC_CHECK_FUNC(socket,,[AC_CHECK_LIB(socket,socket)])
+AC_CHECK_FUNC(gethostbyname,,[AC_CHECK_LIB(nsl,gethostbyname)])
 
 dnl GLib is required
 AG_GST_GLIB_CHECK([2.6])
@@ -217,6 +227,10 @@ GST_LICENSE="LGPL"
 AC_DEFINE_UNQUOTED(GST_LICENSE, "$GST_LICENSE", [GStreamer license])
 AC_SUBST(GST_LICENSE)
 
+dnl define LIBDIR so we can inform people where we live
+AS_AC_EXPAND(LIBDIR, $libdir)
+AC_DEFINE_UNQUOTED(LIBDIR, "$LIBDIR", [library dir])
+
 dnl set location of plugin directory
 AG_GST_SET_PLUGINDIR
 
@@ -235,20 +249,22 @@ dnl these are all the gst plug-ins, compilable without additional libs
 AG_GST_CHECK_PLUGIN(aacparse)
 AG_GST_CHECK_PLUGIN(aiffparse)
 AG_GST_CHECK_PLUGIN(amrparse)
-AG_GST_CHECK_PLUGIN(audioresample)
+AG_GST_CHECK_PLUGIN(autoconvert)
+AG_GST_CHECK_PLUGIN(camerabin)
+AG_GST_CHECK_PLUGIN(legacyresample)
 AG_GST_CHECK_PLUGIN(bayer)
 AG_GST_CHECK_PLUGIN(cdxaparse)
 AG_GST_CHECK_PLUGIN(dccp)
 AG_GST_CHECK_PLUGIN(deinterlace)
 AG_GST_CHECK_PLUGIN(deinterlace2)
+AG_GST_CHECK_PLUGIN(dtmf)
 AG_GST_CHECK_PLUGIN(dvdspu)
 AG_GST_CHECK_PLUGIN(festival)
-AG_GST_CHECK_PLUGIN(filter)
 AG_GST_CHECK_PLUGIN(flv)
 AG_GST_CHECK_PLUGIN(freeze)
 AG_GST_CHECK_PLUGIN(h264parse)
 AG_GST_CHECK_PLUGIN(librfb)
-AG_GST_CHECK_PLUGIN(modplug)
+AG_GST_CHECK_PLUGIN(liveadder)
 AG_GST_CHECK_PLUGIN(mpegdemux)
 AG_GST_CHECK_PLUGIN(mpegtsmux)
 AG_GST_CHECK_PLUGIN(mpeg4videoparse)
@@ -262,24 +278,22 @@ AG_GST_CHECK_PLUGIN(qtmux)
 AG_GST_CHECK_PLUGIN(rawparse)
 AG_GST_CHECK_PLUGIN(real)
 AG_GST_CHECK_PLUGIN(rtpmanager)
+AG_GST_CHECK_PLUGIN(rtpmux)
 AG_GST_CHECK_PLUGIN(scaletempo)
 AG_GST_CHECK_PLUGIN(sdp)
 AG_GST_CHECK_PLUGIN(selector)
+AG_GST_CHECK_PLUGIN(siren)
 AG_GST_CHECK_PLUGIN(speed)
 AG_GST_CHECK_PLUGIN(subenc)
 AG_GST_CHECK_PLUGIN(stereo)
 AG_GST_CHECK_PLUGIN(tta)
+AG_GST_CHECK_PLUGIN(valve)
 AG_GST_CHECK_PLUGIN(videosignal)
 AG_GST_CHECK_PLUGIN(vmnc)
+AG_GST_CHECK_PLUGIN(xdgmime)
 AG_GST_CHECK_PLUGIN(y4m)
 
 dnl *** plug-ins to exclude ***
-
-dnl see if we can build C++ plug-ins
-if test "x$HAVE_CXX" != "xyes"; then
-  AC_MSG_WARN([Not compiling plug-ins requiring C++ compiler])
-  AG_GST_DISABLE_PLUGIN(modplug)
-fi
 
 dnl real plugin only works on i386 and x86_64 for the time being.
 if test "x$HAVE_CPU_I386" != "xyes" && test "x$HAVE_CPU_X86_64" != "xyes"; then
@@ -334,6 +348,17 @@ AG_GST_CHECK_FEATURE(ALSA, [alsa plug-ins], gstalsa, [
     AM_PATH_ALSA(0.9.1, HAVE_ALSA="yes", HAVE_ALSA="no")
   ])
 ])
+
+dnl *** assrender ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_ASSRENDER, true)
+AG_GST_CHECK_FEATURE(ASSRENDER, [ASS/SSA renderer], assrender, [
+  PKG_CHECK_MODULES(ASSRENDER, libass >= 0.9.4, HAVE_ASSRENDER="yes", [
+    HAVE_ASSRENDER="no"
+    AC_MSG_RESULT(no)
+  ])
+])
+AC_SUBST(ASSRENDER_CFLAGS)
+AC_SUBST(ASSRENDER_LIBS)
 
 dnl *** amrwb ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_AMRWB, true)
@@ -552,11 +577,13 @@ dnl *** DTS ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_DTS, true)
 AG_GST_CHECK_FEATURE(DTS, [dts library], dtsdec, [
   HAVE_DTS="yes"
-  AG_GST_CHECK_LIBHEADER(DTS, dts_pic, dts_init, -lm, dts.h,
-    DTS_LIBS="-ldts_pic -lm", HAVE_DTS="no")
+  AG_GST_CHECK_LIBHEADER(DTS, dca, dca_init, -lm, dca.h,
+    DTS_LIBS="-ldca -lm", HAVE_DTS="no")
   if test $HAVE_DTS = "no"; then
-    AG_GST_CHECK_LIBHEADER(DTS, dca, dca_init, -lm, dts.h,
-      DTS_LIBS="-ldca -lm")
+    AG_GST_CHECK_LIBHEADER(DTS, dts_pic, dts_init, -lm, dts.h,
+      [ DTS_LIBS="-ldts_pic -lm"
+        AC_DEFINE(DTS_OLD, 1, [Define if an old libdts is used])
+      ])
   fi
   AC_SUBST(DTS_LIBS)
 ])
@@ -691,9 +718,9 @@ AG_GST_CHECK_FEATURE(METADATA, [METADATA muxer and demuxer], metadata, [
   fi
   if test x$HAVE_METADATA = xno; then
     AC_MSG_WARN(no of metadata libraries (exif, iptc or xmp) found)
+  else
+    HAVE_METADATA="yes"
   fi
-  dnl metadata plugin will parse whole chunks anyway
-  HAVE_METADATA="yes"
   AC_SUBST(METADATA_CFLAGS)
   AC_SUBST(METADATA_LIBS)
 ])
@@ -711,14 +738,19 @@ dnl **** Free AAC Decoder (FAAD) ****
 translit(dnm, m, l) AM_CONDITIONAL(USE_FAAD, true)
 AG_GST_CHECK_FEATURE(FAAD, [AAC decoder plug-in], faad, [
   HAVE_FAAD="yes"
+  faad_hdr=""
   AG_GST_CHECK_LIBHEADER(FAAD, faad, faacDecOpen, -lm, faad.h,
     FAAD_LIBS="-lfaad -lm", HAVE_FAAD="no")
   if test $HAVE_FAAD = "no"; then
     AG_GST_CHECK_LIBHEADER(FAAD, faad, NeAACDecOpen, -lm, neaacdec.h,
       [ FAAD_LIBS="-lfaad -lm"
-	  	AC_DEFINE(FAAD_IS_NEAAC, 1, [Define if AAC is using new api prefix])
-	  ],
-	  HAVE_FAAD="no",)
+        AC_DEFINE(FAAD_IS_NEAAC, 1, [Define if AAC is using new api prefix])
+        faad_hdr="neaacdec.h"
+      ], [
+        HAVE_FAAD="no"
+      ],)
+  else
+    faad_hdr="faad.h"
   fi
   if test $HAVE_FAAD = "yes"; then
     AC_MSG_CHECKING([Checking for FAAD >= 2.0])
@@ -733,6 +765,24 @@ AG_GST_CHECK_FEATURE(FAAD, [AAC decoder plug-in], faad, [
     ], [
       HAVE_FAAD="yes"
       AC_MSG_RESULT(yes)
+
+      AC_MSG_CHECKING([Checking FAAD2 version in $faad_hdr])
+      for minor in 10 9 8 7 6 5 0; do
+        if test x$faad2_minor_version = "x"; then
+          AC_EGREP_CPP([2.$minor], [
+              #include <$faad_hdr>
+              FAAD2_VERSION
+            ], [
+              faad2_minor_version=$minor
+            ])
+        fi
+      done
+      if test x$faad2_minor_version = "x"; then
+        AC_MSG_RESULT([no idea])
+      else
+        AC_MSG_RESULT([2.$faad2_minor_version])
+        AC_DEFINE_UNQUOTED([FAAD2_MINOR_VERSION], [$faad2_minor_version], [The x in 2.x])
+      fi
     ], [
       HAVE_FAAD="no"
       AC_MSG_RESULT(no)
@@ -803,26 +853,48 @@ dnl *** ladspa ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_LADSPA, true)
 AG_GST_CHECK_FEATURE(LADSPA, [ladspa], ladspa, [
   AC_CHECK_HEADER(ladspa.h, HAVE_LADSPA="yes", HAVE_LADSPA="no")
-  save_cflags="$CFLAGS"
-  CFLAGS="$CFLAGS -D_GNU_SOURCE"
   
-  AC_CHECK_LIB(dl, dlopen,
-    LADSPA_LIBS="-ldl",
-    HAVE_LADSPA="no")
-  CFLAGS="$save_cflags"
+  PKG_CHECK_MODULES(LRDF, lrdf, HAVE_LRDF=yes, HAVE_LRDF=no)
+  if test $HAVE_LRDF = "yes"; then
+    AC_DEFINE(HAVE_LRDF, 1, [Define if we have liblrdf])
+  fi
+  AC_SUBST(LRDF_LIBS)
+  AC_SUBST(LRDF_CFLAGS)
 ])
-AC_SUBST(LADSPA_LIBS)
 
 dnl *** libmms ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_LIBMMS, true)
 AG_GST_CHECK_FEATURE(LIBMMS, [mms protocol library], libmms, [
   dnl check with pkg-config first
-  PKG_CHECK_MODULES(LIBMMS, libmms >= 0.2, HAVE_LIBMMS="yes", [
+  PKG_CHECK_MODULES(LIBMMS, libmms >= 0.4, HAVE_LIBMMS="yes", [
     HAVE_LIBMMS="no"
     AC_MSG_RESULT(no)
   ])
 ])
 AC_SUBST(LIBMMS_LIBS)
+
+dnl *** modplug ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_MODPLUG, true)
+AG_GST_CHECK_FEATURE(MODPLUG, modplug, modplug, [
+  if test "x$HAVE_CXX" != "xyes"; then
+    AC_MSG_WARN([Not compiling modplug plugin as it requires a C++ compiler])
+    HAVE_MODPLUG="no"
+  else
+    PKG_CHECK_MODULES(MODPLUG, libmodplug, HAVE_MODPLUG="yes", HAVE_MODPLUG="no")
+  fi
+  AC_SUBST(MODPLUG_CFLAGS)
+  AC_SUBST(MODPLUG_LIBS)
+])
+
+dnl check for libmimic
+translit(dnm, m, l) AM_CONDITIONAL(USE_MIMIC, true)
+AG_GST_CHECK_FEATURE(MIMIC, [libmimic library], mimic, [
+  MIMDEC_REQUIRED=1.0
+  PKG_CHECK_MODULES(MIMIC, libmimic >= $MIMDEC_REQUIRED,
+      HAVE_MIMIC=yes, HAVE_MIMIC=no)
+  AC_SUBST(MIMIC_CFLAGS)
+  AC_SUBST(MIMIC_LIBS)
+])
 
 dnl *** mjpegtools version info ***
 dnl some may prefer older version (given quirks above)
@@ -1109,18 +1181,6 @@ AG_GST_CHECK_FEATURE(WILDMIDI, [wildmidi midi soft synth plugin], wildmidi, [
   AC_SUBST(WILDMIDI_LIBS)
 ])
 
-dnl *** twolame ***
-translit(dnm, m, l) AM_CONDITIONAL(USE_TWOLAME, true)
-AG_GST_CHECK_FEATURE(TWOLAME, [twolame], twolame, [
-  PKG_CHECK_MODULES(TWOLAME, twolame >= 0.3.0, [
-      HAVE_TWOLAME="yes"], [
-      HAVE_TWOLAME="no"
-      AC_MSG_RESULT(no)
-  ])
-  AC_SUBST(TWOLAME_CFLAGS)
-  AC_SUBST(TWOLAME_LIBS)
-])
-
 dnl *** SDL ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_SDL, true)
 AG_GST_CHECK_FEATURE(SDL, [SDL plug-in], sdlvideosink sdlaudiosink, [
@@ -1143,6 +1203,11 @@ AG_GST_CHECK_FEATURE(SOUNDTOUCH, [soundtouch plug-in], soundtouch, [
     [PKG_CHECK_MODULES(SOUNDTOUCH, libSoundTouch,
       HAVE_SOUNDTOUCH=yes,
       HAVE_SOUNDTOUCH=no)])
+  dnl We only need -lBPM on soundtouch < 1.4
+  PKG_CHECK_EXISTS(libSoundTouch >= 1.4,
+      AC_DEFINE([HAVE_SOUNDTOUCH_1_4], [1],
+          [Defined if the available libSoundTouch is >= 1.4]),
+      SOUNDTOUCH_LIBS="$SOUNDTOUCH_LIBS -lBPM")
   AC_SUBST(SOUNDTOUCH_CFLAGS)
   AC_SUBST(SOUNDTOUCH_LIBS)
   if test "x$HAVE_CXX" != "xyes"; then
@@ -1279,6 +1344,7 @@ dnl but we still need to set the conditionals
 AM_CONDITIONAL(USE_QUICKTIME, false)
 AM_CONDITIONAL(USE_VCD, false)
 AM_CONDITIONAL(USE_ALSA, false)
+AM_CONDITIONAL(USE_ASSRENDER, false)
 AM_CONDITIONAL(USE_AMRWB, false)
 AM_CONDITIONAL(USE_APEXSINK, false)
 AM_CONDITIONAL(USE_BZ2, false)
@@ -1299,8 +1365,10 @@ AM_CONDITIONAL(USE_JACK, false)
 AM_CONDITIONAL(USE_JP2K, false)
 AM_CONDITIONAL(USE_LADSPA, false)
 AM_CONDITIONAL(USE_LIBMMS, false)
+AM_CONDITIONAL(USE_MODPLUG, false)
 AM_CONDITIONAL(USE_METADATA, false)
 AM_CONDITIONAL(USE_MPEG2ENC, false)
+AM_CONDITIONAL(USE_MIMIC, false)
 AM_CONDITIONAL(USE_MPLEX, false)
 AM_CONDITIONAL(USE_MUSEPACK, false)
 AM_CONDITIONAL(USE_MUSICBRAINZ, false)
@@ -1309,7 +1377,6 @@ AM_CONDITIONAL(USE_NAS, false)
 AM_CONDITIONAL(USE_NEON, false)
 AM_CONDITIONAL(USE_OFA, false)
 AM_CONDITIONAL(USE_OSS4, false)
-AM_CONDITIONAL(USE_TWOLAME, false)
 AM_CONDITIONAL(USE_SDL, false)
 AM_CONDITIONAL(USE_SNDFILE, false)
 AM_CONDITIONAL(USE_SOUNDTOUCH, false)
@@ -1376,33 +1443,37 @@ dnl whatevertarget_LIBS and -L flags here affect the rest of the linking
 GST_PLUGIN_LDFLAGS="-module -avoid-version -export-symbols-regex '^[_]*gst_plugin_desc\$\$' $GST_ALL_LDFLAGS"
 AC_SUBST(GST_PLUGIN_LDFLAGS)
 
+SHAVE_INIT([common],[enable])
+
 dnl *** output files ***
 
 dnl po/Makefile.in
 
-
 AC_CONFIG_FILES(
 Makefile
+common/shave
+common/shave-libtool
 gst-plugins-bad.spec
 gst/Makefile
 gst/aacparse/Makefile
 gst/aiffparse/Makefile
 gst/amrparse/Makefile
-gst/audioresample/Makefile
+gst/autoconvert/Makefile
+gst/legacyresample/Makefile
+gst/liveadder/Makefile
 gst/bayer/Makefile
+gst/camerabin/Makefile
 gst/cdxaparse/Makefile
 gst/dccp/Makefile
 gst/deinterlace/Makefile
 gst/deinterlace2/Makefile
+gst/dtmf/Makefile
 gst/dvdspu/Makefile
 gst/festival/Makefile
-gst/filter/Makefile
 gst/flv/Makefile
 gst/freeze/Makefile
 gst/h264parse/Makefile
 gst/librfb/Makefile
-gst/modplug/Makefile
-gst/modplug/libmodplug/Makefile
 gst/mpegdemux/Makefile
 gst/mpegtsmux/Makefile
 gst/mpegtsmux/tsmux/Makefile
@@ -1416,20 +1487,25 @@ gst/pcapparse/Makefile
 gst/qtmux/Makefile
 gst/rawparse/Makefile
 gst/rtpmanager/Makefile
+gst/rtpmux/Makefile
 gst/scaletempo/Makefile
 gst/sdp/Makefile
 gst/selector/Makefile
+gst/siren/Makefile
 gst/speed/Makefile
 gst/subenc/Makefile
 gst/stereo/Makefile
 gst/tta/Makefile
+gst/valve/Makefile
 gst/videosignal/Makefile
 gst/vmnc/Makefile
 gst/real/Makefile
+gst/xdgmime/Makefile
 gst/y4m/Makefile
 gst-libs/Makefile
 gst-libs/gst/Makefile
 gst-libs/gst/dshow/Makefile
+gst-libs/gst/interfaces/Makefile
 sys/Makefile
 sys/dshowdecwrapper/Makefile
 sys/acmenc/Makefile
@@ -1445,12 +1521,14 @@ sys/wasapi/Makefile
 sys/wininet/Makefile
 sys/winks/Makefile
 sys/winscreencap/Makefile
-examples/Makefile
-examples/directfb/Makefile
-examples/scaletempo/Makefile
-examples/switch/Makefile
+tests/examples/Makefile
+tests/examples/directfb/Makefile
+tests/examples/mxf/Makefile
+tests/examples/scaletempo/Makefile
+tests/examples/switch/Makefile
 ext/amrwb/Makefile
 ext/alsaspdif/Makefile
+ext/assrender/Makefile
 ext/apexsink/Makefile
 ext/bz2/Makefile
 ext/cdaudio/Makefile
@@ -1471,7 +1549,9 @@ ext/ladspa/Makefile
 ext/libmms/Makefile
 ext/Makefile
 ext/nas/Makefile
+ext/modplug/Makefile
 ext/mpeg2enc/Makefile
+ext/mimic/Makefile
 ext/mplex/Makefile
 ext/musepack/Makefile
 ext/musicbrainz/Makefile
@@ -1479,7 +1559,6 @@ ext/mythtv/Makefile
 ext/neon/Makefile
 ext/ofa/Makefile
 ext/resindvd/Makefile
-ext/twolame/Makefile
 ext/sdl/Makefile
 ext/sndfile/Makefile
 ext/soundtouch/Makefile
@@ -1492,6 +1571,7 @@ ext/xvid/Makefile
 po/Makefile.in
 docs/Makefile
 docs/plugins/Makefile
+docs/plugins/figures/Makefile
 docs/version.entities
 common/Makefile
 common/m4/Makefile

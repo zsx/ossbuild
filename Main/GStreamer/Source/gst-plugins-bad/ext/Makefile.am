@@ -4,6 +4,12 @@ else
 ALSASPDIF_DIR =
 endif
 
+if USE_ASSRENDER
+ASSRENDER_DIR = assrender
+else
+ASSRENDER_DIR =
+endif
+
 if USE_AMRWB
 AMRWB_DIR = amrwb
 else
@@ -166,6 +172,12 @@ else
 LIBMMS_DIR=
 endif
 
+if USE_MODPLUG
+MODPLUG_DIR=modplug
+else
+MODPLUG_DIR=
+endif
+
 if USE_MPEG2ENC
 MPEG2ENC_DIR=mpeg2enc
 else
@@ -176,6 +188,12 @@ if USE_METADATA
 METADATA_DIR=metadata
 else
 METADATA_DIR=
+endif
+
+if USE_MIMIC
+MIMIC_DIR=mimic
+else
+MIMIC_DIR=
 endif
 
 if USE_MPLEX
@@ -232,12 +250,6 @@ if !USE_WILDMIDI
 if !USE_TIMIDITY
 TIMIDITY_DIR=
 endif
-endif
-
-if USE_TWOLAME
-TWOLAME_DIR=twolame
-else
-TWOLAME_DIR=
 endif
 
 # if USE_POLYP
@@ -320,6 +332,7 @@ endif
 
 SUBDIRS=\
 	$(ALSASPDIF_DIR) \
+	$(ASSRENDER_DIR) \
 	$(AMRWB_DIR) \
 	$(APEXSINK_DIR) \
 	$(ARTS_DIR) \
@@ -347,8 +360,10 @@ SUBDIRS=\
 	$(LCS_DIR) \
 	$(LIBFAME_DIR) \
 	$(LIBMMS_DIR) \
+	$(MODPLUG_DIR) \
 	$(MPEG2ENC_DIR) \
 	$(METADATA_DIR) \
+	$(MIMIC_DIR) \
 	$(MPLEX_DIR) \
 	$(MUSEPACK_DIR) \
 	$(MUSICBRAINZ_DIR) \
@@ -367,7 +382,6 @@ SUBDIRS=\
 	$(TARKIN_DIR) \
 	$(THEORA_DIR) \
 	$(TIMIDITY_DIR) \
-	$(TWOLAME_DIR) \
 	$(X264_DIR) \
 	$(XINE_DIR) \
 	$(XVID_DIR)
@@ -375,6 +389,7 @@ SUBDIRS=\
 DIST_SUBDIRS = \
 	alsaspdif \
 	amrwb \
+	assrender \
 	apexsink \
 	bz2 \
 	cdaudio \
@@ -392,7 +407,9 @@ DIST_SUBDIRS = \
 	libmms \
 	dts \
 	divx \
+	modplug \
 	metadata \
+	mimic \
 	mpeg2enc \
 	mplex \
 	musepack \
@@ -409,6 +426,5 @@ DIST_SUBDIRS = \
 	swfdec \
 	theora \
 	timidity \
-	twolame \
 	x264 \
 	xvid

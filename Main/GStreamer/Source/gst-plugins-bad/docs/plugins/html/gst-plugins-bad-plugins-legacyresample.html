@@ -7,7 +7,7 @@
 <link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-jackaudiosink.html" title="jackaudiosink">
-<link rel="next" href="gst-plugins-bad-plugins-metadatademux.html" title="metadatademux">
+<link rel="next" href="gst-plugins-bad-plugins-liveadder.html" title="liveadder">
 <meta name="generator" content="GTK-Doc V1.10 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-bad Elements">
@@ -21,7 +21,7 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Bad Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-bad-plugins-metadatademux.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-bad-plugins-liveadder.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-bad-plugins-legacyresample.synopsis" class="shortcut">Top</a>
                    | 
@@ -42,8 +42,8 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="gst-plugins-bad-plugins-legacyresample.synopsis"></a><h2>Synopsis</h2>
-<a name="GstAudioresample"></a><pre class="synopsis">
-                    <a class="link" href="gst-plugins-bad-plugins-legacyresample.html#GstAudioresample-struct" title="GstAudioresample">GstAudioresample</a>;
+<a name="GstLegacyresample"></a><pre class="synopsis">
+                    <a class="link" href="gst-plugins-bad-plugins-legacyresample.html#GstLegacyresample-struct" title="GstLegacyresample">GstLegacyresample</a>;
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -55,13 +55,13 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
    +----GstObject
          +----GstElement
                +----GstBaseTransform
-                     +----GstAudioresample
+                     +----GstLegacyresample
 </pre>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-legacyresample.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-bad-plugins-legacyresample.html#GstAudioresample--filter-length" title='The "filter-length" property'>filter-length</a>"            <a
+  "<a class="link" href="gst-plugins-bad-plugins-legacyresample.html#GstLegacyresample--filter-length" title='The "filter-length" property'>filter-length</a>"            <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write / Construct
 </pre>
@@ -75,7 +75,7 @@ a configurable windowing function to enhance quality.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2894920"></a><h3>Example launch line</h3>
+<a name="id3204889"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=sine.ogg ! oggdemux ! vorbisdec ! audioconvert ! legacyresample ! audio/x-raw-int, rate=8000 ! alsasink
 </pre></div> Decode an Ogg/Vorbis downsample to 8Khz and play sound through alsa. 
@@ -88,7 +88,7 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2896695"></a><h3>Element Information</h3>
+<a name="id3204863"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -111,7 +111,7 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2860746"></a><h3>Element Pads</h3>
+<a name="id3172780"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -187,8 +187,8 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-legacyresample.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="GstAudioresample-struct"></a><h3>GstAudioresample</h3>
-<pre class="programlisting">typedef struct _GstAudioresample GstAudioresample;</pre>
+<a name="GstLegacyresample-struct"></a><h3>GstLegacyresample</h3>
+<pre class="programlisting">typedef struct _GstLegacyresample GstLegacyresample;</pre>
 <p>
 Opaque data structure.</p>
 <p>
@@ -199,7 +199,7 @@ Opaque data structure.</p>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-legacyresample.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="GstAudioresample--filter-length"></a><h3>The <code class="literal">"filter-length"</code> property</h3>
+<a name="GstLegacyresample--filter-length"></a><h3>The <code class="literal">"filter-length"</code> property</h3>
 <pre class="programlisting">  "filter-length"            <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write / Construct</pre>

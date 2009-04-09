@@ -27,6 +27,8 @@
                    | 
                   <a href="#gst-plugins-bad-plugins-x264enc.description" class="shortcut">Description</a>
                    | 
+                  <a href="#gst-plugins-bad-plugins-x264enc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
                   <a href="#gst-plugins-bad-plugins-x264enc.properties" class="shortcut">Properties</a></nobr></td></tr>
 </table>
 <div class="refentry" lang="en">
@@ -40,8 +42,19 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="gst-plugins-bad-plugins-x264enc.synopsis"></a><h2>Synopsis</h2>
+<a name="GstX264Enc"></a><pre class="synopsis">
+                    <a class="link" href="gst-plugins-bad-plugins-x264enc.html#GstX264Enc-struct" title="GstX264Enc">GstX264Enc</a>;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-bad-plugins-x264enc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-                    <a class="link" href="gst-plugins-bad-plugins-x264enc.html#GstX264Enc" title="GstX264Enc">GstX264Enc</a>;
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----GstObject
+         +----GstElement
+               +----GstX264Enc
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -141,7 +154,7 @@ in which case the <a class="link" href="gst-plugins-bad-plugins-x264enc.html#Gst
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2916480"></a><h3>Example pipeline</h3>
+<a name="id3235021"></a><h3>Example pipeline</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v videotestsrc num-buffers=1000 ! x264enc qp-min=18 ! \
   avimux ! filesink location=videotestsrc.avi
@@ -157,7 +170,7 @@ quantization, and muxes it in a Matroska container.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2918854"></a><h3>Element Information</h3>
+<a name="id3235055"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -180,7 +193,7 @@ quantization, and muxes it in a Matroska container.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2918918"></a><h3>Element Pads</h3>
+<a name="id3235119"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -232,11 +245,8 @@ quantization, and muxes it in a Matroska container.
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-x264enc.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="GstX264Enc"></a><h3>GstX264Enc</h3>
-<pre class="programlisting">typedef struct {
-  GstElement element;
-} GstX264Enc;
-</pre>
+<a name="GstX264Enc-struct"></a><h3>GstX264Enc</h3>
+<pre class="programlisting">typedef struct _GstX264Enc GstX264Enc;</pre>
 <p>
 
 </p>

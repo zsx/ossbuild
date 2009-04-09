@@ -1,5 +1,5 @@
 /* GStreamer
- * Copyright (C) 2008 Sebastian Dröge <sebastian.droege@collabora.co.uk>
+ * Copyright (C) 2008-2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -42,7 +42,7 @@ typedef struct {
   guint8 hour;
   guint8 minute;
   guint8 second;
-  guint8 quarter_msecond;
+  guint16 msecond;
 } MXFTimestamp;
 
 /* SMPTE 377M 3.3 */
@@ -81,8 +81,6 @@ typedef enum {
 
 /* SMPTE 377M 6.1, Table 1 and 2 */
 typedef struct {
-  gboolean valid;
-
   MXFPartitionPackType type;
 
   gboolean closed;
@@ -114,8 +112,7 @@ typedef struct {
 
 /* SMPTE 377M 8.1 */
 typedef struct {
-  gboolean valid;
-
+  guint64 offset;
   GHashTable *mappings;
 } MXFPrimerPack;
 
@@ -156,5 +153,9 @@ typedef struct {
 
   GHashTable *other_tags;
 } MXFIndexTableSegment;
+
+#define GST_TAG_MXF_UMID "mxf-umid"
+#define GST_TAG_MXF_STRUCTURE "mxf-structure"
+#define GST_TAG_MXF_DESCRIPTIVE_METADATA_FRAMEWORK "mxf-descriptive-metadata-framework"
 
 #endif /* __MXF_TYPES_H__ */

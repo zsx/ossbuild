@@ -20,7 +20,7 @@
 ** nes6502.c
 **
 ** NES custom 6502 (2A03) CPU implementation
-** $Id: nes6502.c,v 1.3 2008-03-25 15:56:11 slomo Exp $
+** $Id$
 */
 
 
@@ -2558,8 +2558,8 @@ nes6502_chk_mem_access (uint8 * access, int flags)
 #endif
 
 /*
-** $Log: nes6502.c,v $
-** Revision 1.3  2008-03-25 15:56:11  slomo
+** $Log$
+** Revision 1.3  2008/03/25 15:56:11  slomo
 ** Patch by: Andreas Henriksson <andreas at fatal dot set>
 ** * gst/nsf/Makefile.am:
 ** * gst/nsf/dis6502.h:

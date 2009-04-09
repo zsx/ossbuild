@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins 0.7.6\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-01-19 22:32+0000\n"
+"POT-Creation-Date: 2009-03-20 23:36+0000\n"
 "PO-Revision-Date: 2004-03-18 14:16+0200\n"
 "Last-Translator: Petri Jooste <rkwjpj@puk.ac.za>\n"
 "Language-Team: Afrikaans <i18n@af.org.za>\n"
@@ -57,33 +57,22 @@ msgstr ""
 msgid "Could not write to file \"%s\"."
 msgstr "Kon nie skryf na lêer \"%s\" nie."
 
-#: ext/twolame/gsttwolame.c:427
-msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
-msgstr ""
-
-#: ext/twolame/gsttwolame.c:502
-#, c-format
-msgid ""
-"The requested bitrate %d kbit/s for property '%s' is not allowed. The "
-"bitrate was changed to %d kbit/s."
-msgstr ""
-
-#: sys/dvb/gstdvbsrc.c:700 sys/dvb/gstdvbsrc.c:793
+#: sys/dvb/gstdvbsrc.c:699 sys/dvb/gstdvbsrc.c:792
 #, c-format
 msgid "Device \"%s\" does not exist."
 msgstr "Toestel \"%s\" bestaan nie."
 
-#: sys/dvb/gstdvbsrc.c:704
+#: sys/dvb/gstdvbsrc.c:703
 #, fuzzy, c-format
 msgid "Could not open frontend device \"%s\"."
 msgstr "Kon nie beheertoestel \"%s\" toemaak nie."
 
-#: sys/dvb/gstdvbsrc.c:716
+#: sys/dvb/gstdvbsrc.c:715
 #, fuzzy, c-format
 msgid "Could not get settings from frontend device \"%s\"."
 msgstr "Kon nie genoeg buffers vanaf toestel \"%s\" kry nie."
 
-#: sys/dvb/gstdvbsrc.c:797
+#: sys/dvb/gstdvbsrc.c:796
 #, c-format
 msgid "Could not open file \"%s\" for reading."
 msgstr "Kon nie lêer \"%s\" oopmaak om te lees nie."

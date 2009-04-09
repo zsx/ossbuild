@@ -13,8 +13,8 @@
 
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
-m4_if(AC_AUTOCONF_VERSION, [2.61],,
-[m4_warning([this file was generated for autoconf 2.61.
+m4_if(AC_AUTOCONF_VERSION, [2.63],,
+[m4_warning([this file was generated for autoconf 2.63.
 You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically `autoreconf'.])])
@@ -964,6 +964,7 @@ m4_include([common/m4/gst-x11.m4])
 m4_include([common/m4/gst.m4])
 m4_include([common/m4/gtk-doc.m4])
 m4_include([common/m4/pkg.m4])
+m4_include([common/m4/shave.m4])
 m4_include([m4/gettext.m4])
 m4_include([m4/gst-alsa.m4])
 m4_include([m4/gst-fionread.m4])

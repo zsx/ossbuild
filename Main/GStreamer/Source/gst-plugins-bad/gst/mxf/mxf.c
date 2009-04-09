@@ -22,6 +22,7 @@
 
 #include <gst/gst.h>
 
+#include "mxfquark.h"
 #include "mxfdemux.h"
 #include "mxfaes-bwf.h"
 #include "mxfmpeg.h"
@@ -31,13 +32,29 @@
 #include "mxfd10.h"
 #include "mxfup.h"
 #include "mxfvc3.h"
+#include "mxfdms1.h"
 
 GST_DEBUG_CATEGORY (mxf_debug);
 #define GST_CAT_DEFAULT mxf_debug
 
+static void
+mxf_init (void)
+{
+  gst_tag_register (GST_TAG_MXF_UMID, GST_TAG_FLAG_META,
+      G_TYPE_STRING, "UMID", "Unique Material Identifier", NULL);
+  gst_tag_register (GST_TAG_MXF_STRUCTURE, GST_TAG_FLAG_META,
+      GST_TYPE_STRUCTURE, "Structure", "Structural metadata of "
+      "the MXF file", NULL);
+  gst_tag_register (GST_TAG_MXF_DESCRIPTIVE_METADATA_FRAMEWORK,
+      GST_TAG_FLAG_META, GST_TYPE_STRUCTURE, "DM Framework",
+      "Descriptive metadata framework", NULL);
+}
+
 static gboolean
 plugin_init (GstPlugin * plugin)
 {
+  mxf_init ();
+  mxf_quark_initialize ();
   mxf_metadata_init_types ();
   mxf_aes_bwf_init ();
   mxf_mpeg_init ();
@@ -47,6 +64,7 @@ plugin_init (GstPlugin * plugin)
   mxf_d10_init ();
   mxf_up_init ();
   mxf_vc3_init ();
+  mxf_dms1_initialize ();
 
   if (!gst_element_register (plugin, "mxfdemux", GST_RANK_PRIMARY,
           GST_TYPE_MXF_DEMUX))

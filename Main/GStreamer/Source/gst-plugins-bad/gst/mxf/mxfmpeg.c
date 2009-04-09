@@ -1,5 +1,5 @@
 /* GStreamer
- * Copyright (C) 2008 Sebastian Dröge <sebastian.droege@collabora.co.uk>
+ * Copyright (C) 2008-2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -36,6 +36,9 @@
 #include <string.h>
 
 #include "mxfmpeg.h"
+#include "mxfquark.h"
+
+#include <gst/base/gstbytereader.h>
 
 GST_DEBUG_CATEGORY_EXTERN (mxf_debug);
 #define GST_CAT_DEFAULT mxf_debug
@@ -99,7 +102,7 @@ static const guint8 _profile_and_level_ul[] = {
 #define MXF_IS_METADATA_MPEG_VIDEO_DESCRIPTOR(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),MXF_TYPE_METADATA_MPEG_VIDEO_DESCRIPTOR))
 typedef struct _MXFMetadataMPEGVideoDescriptor MXFMetadataMPEGVideoDescriptor;
-typedef MXFMetadataBaseClass MXFMetadataMPEGVideoDescriptorClass;
+typedef MXFMetadataClass MXFMetadataMPEGVideoDescriptorClass;
 GType mxf_metadata_mpeg_video_descriptor_get_type (void);
 
 struct _MXFMetadataMPEGVideoDescriptor
@@ -208,6 +211,38 @@ error:
   return FALSE;
 }
 
+static GstStructure *
+mxf_metadata_mpeg_video_descriptor_to_structure (MXFMetadataBase * m)
+{
+  GstStructure *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_mpeg_video_descriptor_parent_class)->to_structure (m);
+  MXFMetadataMPEGVideoDescriptor *self = MXF_METADATA_MPEG_VIDEO_DESCRIPTOR (m);
+
+  gst_structure_id_set (ret, MXF_QUARK (SINGLE_SEQUENCE), G_TYPE_BOOLEAN,
+      self->single_sequence, MXF_QUARK (CONST_B_FRAMES), G_TYPE_BOOLEAN,
+      self->const_b_frames, MXF_QUARK (CODED_CONTENT_TYPE), G_TYPE_UCHAR,
+      self->coded_content_type, MXF_QUARK (LOW_DELAY), G_TYPE_BOOLEAN,
+      self->low_delay, MXF_QUARK (CLOSED_GOP), G_TYPE_BOOLEAN, self->closed_gop,
+      MXF_QUARK (IDENTICAL_GOP), G_TYPE_BOOLEAN, self->identical_gop,
+      MXF_QUARK (PROFILE_AND_LEVEL), G_TYPE_UCHAR, self->profile_and_level,
+      NULL);
+
+  if (self->max_gop)
+    gst_structure_id_set (ret, MXF_QUARK (MAX_GOP), G_TYPE_UINT, self->max_gop,
+        NULL);
+
+  if (self->b_picture_count)
+    gst_structure_id_set (ret, MXF_QUARK (B_PICTURE_COUNT), G_TYPE_UINT,
+        self->b_picture_count, NULL);
+
+  if (self->bitrate)
+    gst_structure_id_set (ret, MXF_QUARK (BITRATE), G_TYPE_UINT, self->bitrate,
+        NULL);
+
+  return ret;
+}
+
 static void
 mxf_metadata_mpeg_video_descriptor_init (MXFMetadataMPEGVideoDescriptor * self)
 {
@@ -219,10 +254,24 @@ static void
     (MXFMetadataMPEGVideoDescriptorClass * klass)
 {
   MXFMetadataBaseClass *metadata_base_class = (MXFMetadataBaseClass *) klass;
+  MXFMetadataClass *metadata_class = (MXFMetadataClass *) klass;
 
   metadata_base_class->handle_tag =
       mxf_metadata_mpeg_video_descriptor_handle_tag;
+  metadata_base_class->name_quark = MXF_QUARK (MPEG_VIDEO_DESCRIPTOR);
+  metadata_base_class->to_structure =
+      mxf_metadata_mpeg_video_descriptor_to_structure;
+
+  metadata_class->type = 0x0151;
 }
+
+typedef enum
+{
+  MXF_MPEG_ESSENCE_TYPE_OTHER = 0,
+  MXF_MPEG_ESSENCE_TYPE_VIDEO_MPEG2,
+  MXF_MPEG_ESSENCE_TYPE_VIDEO_MPEG4,
+  MXF_MPEG_ESSENCE_TYPE_VIDEO_AVC
+} MXFMPEGEssenceType;
 
 static gboolean
 mxf_is_mpeg_essence_track (const MXFMetadataTimelineTrack * track)
@@ -253,12 +302,96 @@ mxf_is_mpeg_essence_track (const MXFMetadataTimelineTrack * track)
   return FALSE;
 }
 
+/* See ISO/IEC 13818-2 for MPEG ES format */
+gboolean
+mxf_mpeg_is_mpeg2_keyframe (GstBuffer * buffer)
+{
+  GstByteReader reader = GST_BYTE_READER_INIT_FROM_BUFFER (buffer);
+  guint32 tmp;
+
+  while (gst_byte_reader_get_remaining (&reader) > 3) {
+    if (gst_byte_reader_peek_uint24_be (&reader, &tmp) && tmp == 0x000001) {
+      guint8 type;
+
+      /* Found sync code */
+      gst_byte_reader_skip (&reader, 3);
+
+      if (!gst_byte_reader_get_uint8 (&reader, &type))
+        break;
+
+      /* GOP packets are meant as random access markers */
+      if (type == 0xb8) {
+        return TRUE;
+      } else if (type == 0x00) {
+        guint8 pic_type;
+
+        if (!gst_byte_reader_skip (&reader, 5))
+          break;
+
+        if (!gst_byte_reader_get_uint8 (&reader, &pic_type))
+          break;
+
+        pic_type = (pic_type >> 3) & 0x07;
+        if (pic_type == 0x01) {
+          return TRUE;
+        } else {
+          return FALSE;
+        }
+      }
+    } else {
+      gst_byte_reader_skip (&reader, 1);
+    }
+  }
+
+  return FALSE;
+}
+
+static gboolean
+mxf_mpeg_is_mpeg4_keyframe (GstBuffer * buffer)
+{
+  GstByteReader reader = GST_BYTE_READER_INIT_FROM_BUFFER (buffer);
+  guint32 tmp;
+
+  while (gst_byte_reader_get_remaining (&reader) > 3) {
+    if (gst_byte_reader_peek_uint24_be (&reader, &tmp) && tmp == 0x000001) {
+      guint8 type;
+
+      /* Found sync code */
+      gst_byte_reader_skip (&reader, 3);
+
+      if (!gst_byte_reader_get_uint8 (&reader, &type))
+        break;
+
+      if (type == 0xb6) {
+        guint8 pic_type;
+
+        if (!gst_byte_reader_get_uint8 (&reader, &pic_type))
+          break;
+
+        pic_type = (pic_type >> 6) & 0x03;
+        if (pic_type == 0) {
+          return TRUE;
+        } else {
+          return FALSE;
+        }
+      }
+    } else {
+      gst_byte_reader_skip (&reader, 1);
+    }
+  }
+
+  g_assert_not_reached ();
+
+  return FALSE;
+}
+
 static GstFlowReturn
 mxf_mpeg_video_handle_essence_element (const MXFUL * key, GstBuffer * buffer,
     GstCaps * caps, MXFMetadataTimelineTrack * track,
-    MXFMetadataSourceClip * component, gpointer mapping_data,
-    GstBuffer ** outbuf)
+    gpointer mapping_data, GstBuffer ** outbuf)
 {
+  MXFMPEGEssenceType type = *((MXFMPEGEssenceType *) mapping_data);
+
   *outbuf = buffer;
 
   /* SMPTE 381M 6.1 */
@@ -268,14 +401,31 @@ mxf_mpeg_video_handle_essence_element (const MXFUL * key, GstBuffer * buffer,
     return GST_FLOW_ERROR;
   }
 
+  switch (type) {
+    case MXF_MPEG_ESSENCE_TYPE_VIDEO_MPEG2:
+      if (mxf_mpeg_is_mpeg2_keyframe (buffer))
+        GST_BUFFER_FLAG_UNSET (buffer, GST_BUFFER_FLAG_DELTA_UNIT);
+      else
+        GST_BUFFER_FLAG_SET (buffer, GST_BUFFER_FLAG_DELTA_UNIT);
+      break;
+    case MXF_MPEG_ESSENCE_TYPE_VIDEO_MPEG4:
+      if (mxf_mpeg_is_mpeg4_keyframe (buffer))
+        GST_BUFFER_FLAG_UNSET (buffer, GST_BUFFER_FLAG_DELTA_UNIT);
+      else
+        GST_BUFFER_FLAG_SET (buffer, GST_BUFFER_FLAG_DELTA_UNIT);
+      break;
+
+    default:
+      break;
+  }
+
   return GST_FLOW_OK;
 }
 
 static GstFlowReturn
 mxf_mpeg_audio_handle_essence_element (const MXFUL * key, GstBuffer * buffer,
     GstCaps * caps, MXFMetadataTimelineTrack * track,
-    MXFMetadataSourceClip * component, gpointer mapping_data,
-    GstBuffer ** outbuf)
+    gpointer mapping_data, GstBuffer ** outbuf)
 {
   *outbuf = buffer;
 
@@ -319,13 +469,18 @@ static const MXFUL sound_essence_compression_mpeg1_layer2 = { {
 };
 
 static const MXFUL sound_essence_compression_mpeg2_layer1 = { {
-        0x06, 0x0E, 0x2B, 0x34, 0x04, 0x01, 0x01, 0x08, 0x04, 0x02, 0x02, 0x02,
+        0x06, 0x0E, 0x2B, 0x34, 0x04, 0x01, 0x01, 0x01, 0x04, 0x02, 0x02, 0x02,
     0x03, 0x02, 0x06, 0x00}
 };
 
 static const MXFUL sound_essence_compression_dts = { {
-        0x06, 0x0E, 0x2B, 0x34, 0x04, 0x01, 0x01, 0x08, 0x04, 0x02, 0x02, 0x02,
+        0x06, 0x0E, 0x2B, 0x34, 0x04, 0x01, 0x01, 0x01, 0x04, 0x02, 0x02, 0x02,
     0x03, 0x02, 0x1c, 0x00}
+};
+
+static const MXFUL sound_essence_compression_aac = { {
+        0x06, 0x0E, 0x2B, 0x34, 0x04, 0x01, 0x01, 0x03, 0x04, 0x02, 0x02, 0x02,
+    0x03, 0x03, 0x01, 0x00}
 };
 
 static GstCaps *
@@ -336,6 +491,10 @@ mxf_mpeg_es_create_caps (MXFMetadataTimelineTrack * track, GstTagList ** tags,
 {
   GstCaps *caps = NULL;
   const gchar *codec_name = NULL;
+  MXFMPEGEssenceType t, *mdata;
+
+  *mapping_data = g_malloc (sizeof (MXFMPEGEssenceType));
+  mdata = (MXFMPEGEssenceType *) * mapping_data;
 
   /* SMPTE RP224 */
   if (p) {
@@ -345,6 +504,8 @@ mxf_mpeg_es_create_caps (MXFMetadataTimelineTrack * track, GstTagList ** tags,
           gst_caps_new_simple ("video/mpeg", "mpegversion", G_TYPE_INT, 2,
           "systemstream", G_TYPE_BOOLEAN, FALSE, NULL);
       codec_name = "MPEG-2 Video";
+      t = MXF_MPEG_ESSENCE_TYPE_VIDEO_MPEG2;
+      memcpy (mdata, &t, sizeof (MXFMPEGEssenceType));
     } else if (p->picture_essence_coding.u[0] != 0x06
         || p->picture_essence_coding.u[1] != 0x0e
         || p->picture_essence_coding.u[2] != 0x2b
@@ -364,10 +525,14 @@ mxf_mpeg_es_create_caps (MXFMetadataTimelineTrack * track, GstTagList ** tags,
       caps = gst_caps_new_simple ("video/mpeg", "mpegversion", G_TYPE_INT, 2,
           "systemstream", G_TYPE_BOOLEAN, FALSE, NULL);
       codec_name = "MPEG-2 Video";
+      t = MXF_MPEG_ESSENCE_TYPE_VIDEO_MPEG2;
+      memcpy (mdata, &t, sizeof (MXFMPEGEssenceType));
     } else if (p->picture_essence_coding.u[13] == 0x10) {
       caps = gst_caps_new_simple ("video/mpeg", "mpegversion", G_TYPE_INT, 1,
           "systemstream", G_TYPE_BOOLEAN, FALSE, NULL);
       codec_name = "MPEG-1 Video";
+      t = MXF_MPEG_ESSENCE_TYPE_VIDEO_MPEG2;
+      memcpy (mdata, &t, sizeof (MXFMPEGEssenceType));
     } else if (p->picture_essence_coding.u[13] == 0x20) {
       MXFLocalTag *local_tag =
           (((MXFMetadataBase *) p)->other_tags) ?
@@ -386,12 +551,16 @@ mxf_mpeg_es_create_caps (MXFMetadataTimelineTrack * track, GstTagList ** tags,
         gst_buffer_unref (codec_data);
       }
       codec_name = "MPEG-4 Video";
+      t = MXF_MPEG_ESSENCE_TYPE_VIDEO_MPEG4;
+      memcpy (mdata, &t, sizeof (MXFMPEGEssenceType));
     } else if ((p->picture_essence_coding.u[13] >> 4) == 0x03) {
       /* RP 2008 */
 
       /* TODO: What about codec_data for AVC1 streams? */
       caps = gst_caps_new_simple ("video/x-h264", NULL);
       codec_name = "h.264 Video";
+      t = MXF_MPEG_ESSENCE_TYPE_VIDEO_AVC;
+      memcpy (mdata, &t, sizeof (MXFMPEGEssenceType));
     } else {
       GST_ERROR ("Unsupported MPEG picture essence coding 0x%02x",
           p->picture_essence_coding.u[13]);
@@ -438,6 +607,11 @@ mxf_mpeg_es_create_caps (MXFMetadataTimelineTrack * track, GstTagList ** tags,
             &sound_essence_compression_dts)) {
       caps = gst_caps_new_simple ("audio/x-dts", NULL);
       codec_name = "Dolby DTS Audio";
+    } else if (mxf_ul_is_equal (&s->sound_essence_compression,
+            &sound_essence_compression_aac)) {
+      caps = gst_caps_new_simple ("audio/mpeg", "mpegversion", G_TYPE_INT,
+          2, NULL);
+      codec_name = "MPEG-2 AAC Audio";
     }
 
     if (caps) {
@@ -452,6 +626,12 @@ mxf_mpeg_es_create_caps (MXFMetadataTimelineTrack * track, GstTagList ** tags,
     if (codec_name)
       gst_tag_list_add (*tags, GST_TAG_MERGE_APPEND, GST_TAG_VIDEO_CODEC,
           codec_name, NULL);
+
+    if (p && MXF_IS_METADATA_MPEG_VIDEO_DESCRIPTOR (p)
+        && MXF_METADATA_MPEG_VIDEO_DESCRIPTOR (p)->bitrate) {
+      gst_tag_list_add (*tags, GST_TAG_MERGE_APPEND, GST_TAG_BITRATE,
+          MXF_METADATA_MPEG_VIDEO_DESCRIPTOR (p)->bitrate, NULL);
+    }
   }
 
   return caps;
@@ -559,6 +739,6 @@ static const MXFEssenceElementHandler mxf_mpeg_essence_element_handler = {
 void
 mxf_mpeg_init (void)
 {
-  mxf_metadata_register (0x0151, MXF_TYPE_METADATA_MPEG_VIDEO_DESCRIPTOR);
+  mxf_metadata_register (MXF_TYPE_METADATA_MPEG_VIDEO_DESCRIPTOR);
   mxf_essence_element_handler_register (&mxf_mpeg_essence_element_handler);
 }

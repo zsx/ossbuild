@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-bad 0.10.8.3\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-01-19 22:32+0000\n"
+"POT-Creation-Date: 2009-03-20 23:36+0000\n"
 "PO-Revision-Date: 2008-10-18 17:06+0200\n"
 "Last-Translator: Jorge González González <aloriel@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -57,37 +57,22 @@ msgstr "Error en el flujo de datos interno."
 msgid "Could not write to file \"%s\"."
 msgstr "No se pudo escribir en el archivo «%s»."
 
-#: ext/twolame/gsttwolame.c:427
-msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
-msgstr ""
-"Falló al configurar el codificador TwoLAME. Compruebe sus parámetros de "
-"codificación."
-
-#: ext/twolame/gsttwolame.c:502
-#, c-format
-msgid ""
-"The requested bitrate %d kbit/s for property '%s' is not allowed. The "
-"bitrate was changed to %d kbit/s."
-msgstr ""
-"La tasa de bits %d kbps solicitada para la propiedad «%s» no está permitida. "
-"La tasa de bits se cambió a %d kbps."
-
-#: sys/dvb/gstdvbsrc.c:700 sys/dvb/gstdvbsrc.c:793
+#: sys/dvb/gstdvbsrc.c:699 sys/dvb/gstdvbsrc.c:792
 #, c-format
 msgid "Device \"%s\" does not exist."
 msgstr "El dispositivo «%s» no existe."
 
-#: sys/dvb/gstdvbsrc.c:704
+#: sys/dvb/gstdvbsrc.c:703
 #, c-format
 msgid "Could not open frontend device \"%s\"."
 msgstr "No se pudo abrir el dispositivo frontend «%s»."
 
-#: sys/dvb/gstdvbsrc.c:716
+#: sys/dvb/gstdvbsrc.c:715
 #, c-format
 msgid "Could not get settings from frontend device \"%s\"."
 msgstr "No se pudieron obtener los ajustes del dispositivo frontend «%s»."
 
-#: sys/dvb/gstdvbsrc.c:797
+#: sys/dvb/gstdvbsrc.c:796
 #, c-format
 msgid "Could not open file \"%s\" for reading."
 msgstr "No se pudo abrir el archivo «%s» para leer."
@@ -413,3 +398,15 @@ msgstr "Este dispositivo de sonido no soporta grabación."
 #: sys/oss4/oss4-source.c:527
 msgid "Error recording from audio device."
 msgstr "Error al grabar desde el dispositivo de sonido."
+
+#~ msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
+#~ msgstr ""
+#~ "Falló al configurar el codificador TwoLAME. Compruebe sus parámetros de "
+#~ "codificación."
+
+#~ msgid ""
+#~ "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
+#~ "bitrate was changed to %d kbit/s."
+#~ msgstr ""
+#~ "La tasa de bits %d kbps solicitada para la propiedad «%s» no está "
+#~ "permitida. La tasa de bits se cambió a %d kbps."

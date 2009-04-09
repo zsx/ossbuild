@@ -4,7 +4,7 @@ dnl autostars m4 macro for versioning
 
 dnl Thomas Vander Stichele <thomas at apestaart dot org>
 
-dnl $Id: as-version.m4,v 1.4 2004/06/01 09:40:05 thomasvs Exp $
+dnl $Id: as-version.m4,v 1.15 2006/04/01 09:40:24 thomasvs Exp $
 
 dnl AS_VERSION
 

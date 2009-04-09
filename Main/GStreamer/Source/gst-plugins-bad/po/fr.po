@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-bad 0.10.8.3\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-01-19 22:32+0000\n"
+"POT-Creation-Date: 2009-03-20 23:36+0000\n"
 "PO-Revision-Date: 2008-10-21 09:59+0200\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -56,37 +56,22 @@ msgstr "Erreur interne de flux de données."
 msgid "Could not write to file \"%s\"."
 msgstr "Impossible d'écrire dans le fichier « %s »."
 
-#: ext/twolame/gsttwolame.c:427
-msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
-msgstr ""
-"La configuration du codeur TwoLAME a échoué. Vérifiez vos paramètres de "
-"codage."
-
-#: ext/twolame/gsttwolame.c:502
-#, c-format
-msgid ""
-"The requested bitrate %d kbit/s for property '%s' is not allowed. The "
-"bitrate was changed to %d kbit/s."
-msgstr ""
-"Le débit binaire demandé de %d kbit/s pour la propriété « %s » n'est pas "
-"autorisé. Le débit binaire a été défini à %d kbits/s."
-
-#: sys/dvb/gstdvbsrc.c:700 sys/dvb/gstdvbsrc.c:793
+#: sys/dvb/gstdvbsrc.c:699 sys/dvb/gstdvbsrc.c:792
 #, c-format
 msgid "Device \"%s\" does not exist."
 msgstr "Le périphérique « %s » n'existe pas."
 
-#: sys/dvb/gstdvbsrc.c:704
+#: sys/dvb/gstdvbsrc.c:703
 #, c-format
 msgid "Could not open frontend device \"%s\"."
 msgstr "Impossible d'ouvrir le périphérique frontal « %s »."
 
-#: sys/dvb/gstdvbsrc.c:716
+#: sys/dvb/gstdvbsrc.c:715
 #, c-format
 msgid "Could not get settings from frontend device \"%s\"."
 msgstr "Impossible d'obtenir les paramètres du périphérique frontal « %s »."
 
-#: sys/dvb/gstdvbsrc.c:797
+#: sys/dvb/gstdvbsrc.c:796
 #, c-format
 msgid "Could not open file \"%s\" for reading."
 msgstr "Impossible d'ouvrir le fichier « %s » en lecture."
@@ -413,3 +398,15 @@ msgstr "L'enregistrement n'est pas pris en charge par ce périphérique audio."
 #: sys/oss4/oss4-source.c:527
 msgid "Error recording from audio device."
 msgstr "Erreur lors de l'enregistrement à partir du périphérique audio."
+
+#~ msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
+#~ msgstr ""
+#~ "La configuration du codeur TwoLAME a échoué. Vérifiez vos paramètres de "
+#~ "codage."
+
+#~ msgid ""
+#~ "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
+#~ "bitrate was changed to %d kbit/s."
+#~ msgstr ""
+#~ "Le débit binaire demandé de %d kbit/s pour la propriété « %s » n'est pas "
+#~ "autorisé. Le débit binaire a été défini à %d kbits/s."
