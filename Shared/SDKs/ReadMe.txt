@@ -4,3 +4,5 @@ MSVCRT		- 	April 2009, WDK SP1	- https://connect.microsoft.com/site/sitehome.asp
 The DirectX SDK was downloaded and the include/lib files pulled after installation. "audiomediatype.h" was taken from the Windows Driver Kit.
 
 The MSVCRT SDK was downloaded from the MS Connect website for the Windows Driver Kit and the include/lib files pulled after installation. "oldnames.lib" was pulled from MSys/MinGW.
+
+The DirectShow files were pulled and separated from the Windows Driver Kit.

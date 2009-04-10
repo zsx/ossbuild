@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="DirectShow"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="$(SolutionDir)\Shared\SDKs\DirectShow\include"
+	/>
+	<Tool
+		Name="VCLibrarianTool"
+		AdditionalLibraryDirectories="&quot;$(SolutionDir)\Shared\SDKs\DirectShow\lib\$(PlatformName)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="strmbase.lib winmm.lib dmoguids.lib wmcodecdspuuid.lib rpcrt4.lib"
+		AdditionalLibraryDirectories="&quot;$(SolutionDir)\Shared\SDKs\DirectShow\lib\$(PlatformName)&quot;"
+	/>
+	<UserMacro
+		Name="DirectShowApiMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="DirectShowApiMinorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="DirectShowApiMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="DirectShowVersionString"
+		Value="$(DirectShowApiMajorVersion).$(DirectShowApiMinorVersion).$(DirectShowApiMicroVersion)"
+	/>
+</VisualStudioPropertySheet>
