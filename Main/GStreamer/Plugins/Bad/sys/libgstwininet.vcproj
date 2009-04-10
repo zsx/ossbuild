@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstcoreelements"
-	ProjectGUID="{F987873B-2B88-4B1B-B627-F70DF4F91E51}"
-	RootNamespace="libgstcoreelements"
+	Name="libgstwininet"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2013}"
+	RootNamespace="libgstwininet"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -15,14 +15,14 @@
 	</Platforms>
 	<ToolFiles>
 		<ToolFile
-			RelativePath="..\..\..\Common.rules"
+			RelativePath="..\..\..\..\..\Common.rules"
 		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -78,7 +78,6 @@
 			/>
 			<Tool
 				Name="Header Installer Tool"
-				ModuleName="gstreamer-$(ApiVersionString)\gst\base"
 			/>
 			<Tool
 				Name="Yasm Tool"
@@ -102,8 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\Source\gstreamer\plugins\elements\;&quot;..\Libraries\ Source\&quot;"
-				PreprocessorDefinitions="_DEBUG;LIBGSTBASE_EXPORTS"
+				AdditionalIncludeDirectories=""
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -122,8 +120,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="wininet.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -156,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -213,7 +212,6 @@
 			/>
 			<Tool
 				Name="Header Installer Tool"
-				ModuleName="gstreamer-$(ApiVersionString)\gst\base"
 			/>
 			<Tool
 				Name="Yasm Tool"
@@ -236,8 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\Source\gstreamer\plugins\elements\;&quot;..\Libraries\ Source\&quot;"
-				PreprocessorDefinitions="LIBGSTELEMENTS_EXPORTS"
+				AdditionalIncludeDirectories=""
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -254,7 +251,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="wininet.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -290,102 +289,14 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\wininet\gstwininetsrc.c"
 			>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstcapsfilter.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstelements.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstfakesink.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstfakesrc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstfilesink.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstfilesrc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstidentity.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstmultiqueue.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstqueue.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gsttee.c"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gsttypefindelement.c"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\wininet\gstwininetsrc.h"
 			>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstcapsfilter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstfakesink.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstfakesrc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstfilesink.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstfilesrc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstidentity.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstmultiqueue.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gstqueue.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gsttee.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Source\gstreamer\plugins\elements\gsttypefindelement.h"
-				>
-			</File>
-		</Filter>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

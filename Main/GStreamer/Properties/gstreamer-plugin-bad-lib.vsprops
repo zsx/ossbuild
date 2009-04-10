@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer Bad Plugin Libs"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin-bad.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-bad\gst-libs"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		OutputFile="$(OutDir)\bin\gstreamer\$(ProjectName).dll"
+		ImportLibrary="$(OutDir)\lib\gstreamer\$(TargetName).lib"
+	/>
+</VisualStudioPropertySheet>

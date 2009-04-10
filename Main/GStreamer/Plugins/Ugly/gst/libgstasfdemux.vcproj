@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstriff.lib libgstsdp.lib libgstrtsp.lib"
+				AdditionalDependencies="libgstriff.lib libgstsdp.lib libgstrtsp.lib libgstrtp.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -251,7 +251,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstriff.lib libgstsdp.lib libgstrtsp.lib"
+				AdditionalDependencies="libgstriff.lib libgstsdp.lib libgstrtsp.lib libgstrtp.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -319,6 +319,14 @@
 		</File>
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-ugly\gst\asfdemux\gstasfmux.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-ugly\gst\asfdemux\gstrtpasfdepay.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-ugly\gst\asfdemux\gstrtpasfdepay.h"
 			>
 		</File>
 		<File

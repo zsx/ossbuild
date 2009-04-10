@@ -45,31 +45,31 @@ extern "C" {
 #endif
 
 /* register fake filters as COM object and as Direct Show filters in the registry */
-BOOL gst_dshow_register_fakefilters ();
+DSHOW_API BOOL gst_dshow_register_fakefilters ();
 
 /* free memory of the input pin mediatype */
-void gst_dshow_free_pin_mediatype (gpointer pt);
+DSHOW_API void gst_dshow_free_pin_mediatype (gpointer pt);
 
 /* free memory of the input dshow mediatype */
-void gst_dshow_free_mediatype (AM_MEDIA_TYPE *pmt);
+DSHOW_API void gst_dshow_free_mediatype (AM_MEDIA_TYPE *pmt);
 
 /* free the memory of all mediatypes of the input list if pin mediatype */
-void gst_dshow_free_pins_mediatypes (GList *mediatypes);
+DSHOW_API void gst_dshow_free_pins_mediatypes (GList *mediatypes);
 
 /* get a pin from directshow filter */
-gboolean gst_dshow_get_pin_from_filter (IBaseFilter *filter, PIN_DIRECTION pindir, IPin **pin);
+DSHOW_API gboolean gst_dshow_get_pin_from_filter (IBaseFilter *filter, PIN_DIRECTION pindir, IPin **pin);
 
 /* find and return a filter according to the input and output types */
-gboolean gst_dshow_find_filter(CLSID input_majortype, CLSID input_subtype, 
+DSHOW_API gboolean gst_dshow_find_filter(CLSID input_majortype, CLSID input_subtype, 
                                CLSID output_majortype, CLSID output_subtype,
                                gchar * prefered_filter_name, IBaseFilter **filter);
 
 /* get the dshow device path from device friendly name. 
 If friendly name is not set, it will return the first available device */
-gchar *gst_dshow_getdevice_from_devicename (GUID *device_category, gchar **device_name);
+DSHOW_API gchar *gst_dshow_getdevice_from_devicename (GUID *device_category, gchar **device_name);
 
 /* show the capture filter property page (generally used to setup the device). the page is modal*/
-gboolean gst_dshow_show_propertypage (IBaseFilter *base_filter);
+DSHOW_API gboolean gst_dshow_show_propertypage (IBaseFilter *base_filter);
 
 
 #ifdef  __cplusplus

@@ -360,11 +360,12 @@ gst_dshowaudiodec_class_init (GstDshowAudioDecClass * klass)
 
   if (!parent_class)
     parent_class = (GstElementClass *)g_type_class_ref (GST_TYPE_ELEMENT);
-
+#ifndef GST_DISABLE_GST_DEBUG
   if (!dshowaudiodec_debug) {
     GST_DEBUG_CATEGORY_INIT (dshowaudiodec_debug, "dshowaudiodec", 0,
         "Directshow filter audio decoder");
   }
+#endif
 }
 
 static void

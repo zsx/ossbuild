@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstcamerabin"
-	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0058}"
-	RootNamespace="libgstcamerabin"
+	Name="libgstdvb"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2007}"
+	RootNamespace="libgstdvb"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -102,7 +102,6 @@
 				Optimization="0"
 				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="GST_USE_UNSTABLE_API"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -236,7 +235,6 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="GST_USE_UNSTABLE_API"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -290,114 +288,114 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Source Files"
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\cam.c"
 			>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\camerabingeneral.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\camerabingeneral.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\camerabinimage.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\camerabinimage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\camerabinvideo.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\camerabinvideo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabin.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabin.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabincolorbalance.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabincolorbalance.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabinphotography.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabinphotography.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabinxoverlay.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabinxoverlay.h"
-				>
-			</File>
-			<Filter
-				Name="Generated Files"
-				>
-				<File
-					RelativePath="$(IntDir)\gstcamerabin-marshal.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\gstcamerabin-marshal.h"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\gstcamerabin-marshal.h"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Resource Files"
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\cam.h"
 			>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\camerabin\gstcamerabin-marshal.list"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="GObject Marshaller Generation Tool"
-						FunctionPrefix="gst_camerabin"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="GObject Marshaller Generation Tool"
-						FunctionPrefix="gst_camerabin"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camapplication.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camapplication.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camapplicationinfo.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camapplicationinfo.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camconditionalaccess.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camconditionalaccess.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camdevice.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camdevice.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camresourcemanager.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camresourcemanager.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camsession.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camsession.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camswclient.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camswclient.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camtransport.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camtransport.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camutils.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\camutils.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\dvbbasebin.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\dvbbasebin.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\gstdvb.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\gstdvbsrc.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\gstdvbsrc.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\parsechannels.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dvb\parsechannels.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
