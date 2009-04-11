@@ -7,13 +7,13 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="$(SolutionDir)Shared\SDKs\MSVCRT\include;$(SolutionDir)Shared\SDKs\MSVCRT\include\atl71"
-		PreprocessorDefinitions="WIN32_LEAN_AND_MEAN=1;MBCS =1;_MBCS=1;WHISTLER_DDK=1;_DLL=1;_MT=1;_CRT_NONSTDC_FORCE_DEPRECATE;_CRT_SECURE_FORCE_DEPRECATE"
+		PreprocessorDefinitions="WIN32_LEAN_AND_MEAN=1;MBCS =1;_MBCS=1;WHISTLER_DDK=1;_DLL=1;_MT=1;__NO_MINGW_LFS;__MSVCRT_VERSION__=0x0601;__MSVCRT__;_CRT_NONSTDC_FORCE_DEPRECATE;_CRT_SECURE_FORCE_DEPRECATE"
 	/>
 	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="oldnames.lib msvcrt.lib msvcrt_upgrade.obj runtmchk.lib"
 		AdditionalLibraryDirectories="$(SolutionDir)Shared\SDKs\MSVCRT\lib\$(PlatformName)"
 		IgnoreDefaultLibraryNames=""
-		EntryPointSymbol="_DllMainCRTStartup@12"
+		EntryPointSymbol=""
 	/>
 </VisualStudioPropertySheet>

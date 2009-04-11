@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -102,7 +102,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\Source\gstreamer\plugins\elements\;&quot;..\Libraries\ Source\&quot;"
+				AdditionalIncludeDirectories="..\Source\gstreamer\plugins\elements\;..\Libraries\Source\"
 				PreprocessorDefinitions="_DEBUG;LIBGSTBASE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -156,7 +156,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -236,7 +236,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\Source\gstreamer\plugins\elements\;&quot;..\Libraries\ Source\&quot;"
+				AdditionalIncludeDirectories="..\Source\gstreamer\plugins\elements\;..\Libraries\Source\"
 				PreprocessorDefinitions="LIBGSTELEMENTS_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
