@@ -274,9 +274,9 @@ fi
 if [ ! -f "$BinDir/libgnutls-26.dll" ]; then 
 	mkdir_and_move "$IntDir/gnutls"
 	
-	CFLAGS=
-	CPPFLAGS=
-	LDFLAGS=
+	#CFLAGS=
+	#CPPFLAGS=
+	#LDFLAGS=
 	
 	$LIBRARIES_DIR/GnuTLS/Source/configure --with-included-libtasn1 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	
@@ -298,8 +298,10 @@ if [ ! -f "$BinDir/libsoup-2.4-1.dll" ]; then
 	$LIBRARIES_DIR/LibSoup/Source/configure --disable-glibtest --enable-ssl --enable-debug=no --disable-more-warnings --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install
 
-	cd "$LIBRARIES_DIR/LibSoup"
-	$MSLIB /name:libsoup-2.4-1.dll /out:soup-2.4.lib /machine:$MSLibMachine /def:libsoup.def
+	cd "libsoup/.libs"
+	pexports "$BinDir/libsoup-2.4-1.dll" > in.def
+	sed '/LIBRARY libsoup/d' in.def > in-mod.def
+	$MSLIB /name:libsoup-2.4-1.dll /out:soup-2.4.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 fi
 

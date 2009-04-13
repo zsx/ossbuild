@@ -48,27 +48,27 @@
     <sub name="Index" link="ix01.html"/>
   </chapters>
   <functions>
-    <keyword type="" name="Using pkg-config" link="libsoup-build-howto.html#id2759617"/>
-    <keyword type="" name="Headers" link="libsoup-build-howto.html#id3034984"/>
-    <keyword type="" name="Creating a SoupSession" link="libsoup-client-howto.html#id3059190"/>
+    <keyword type="" name="Using pkg-config" link="libsoup-build-howto.html#id563246"/>
+    <keyword type="" name="Headers" link="libsoup-build-howto.html#id548638"/>
+    <keyword type="" name="Creating a SoupSession" link="libsoup-client-howto.html#id575158"/>
     <keyword type="" name="Session features" link="libsoup-client-howto.html#session-features"/>
-    <keyword type="" name="Creating and Sending SoupMessages" link="libsoup-client-howto.html#id3014895"/>
-    <keyword type="" name="Processing the Response" link="libsoup-client-howto.html#id3062523"/>
-    <keyword type="" name="Intermediate/Automatic Processing" link="libsoup-client-howto.html#id3062639"/>
-    <keyword type="" name="Handling Authentication" link="libsoup-client-howto.html#id3062726"/>
-    <keyword type="" name="Multi-threaded usage" link="libsoup-client-howto.html#id3062871"/>
-    <keyword type="" name="Sample Programs" link="libsoup-client-howto.html#id3062940"/>
-    <keyword type="" name="Creating a SoupSession" link="libsoup-server-howto.html#id3041939"/>
-    <keyword type="" name="Adding Handlers" link="libsoup-server-howto.html#id3093077"/>
-    <keyword type="" name="Responding to Requests" link="libsoup-server-howto.html#id3075140"/>
-    <keyword type="" name="Handling Authentication" link="libsoup-server-howto.html#id3096729"/>
-    <keyword type="" name="Overview" link="libsoup-porting-2.2-2.4.html#id3093993"/>
-    <keyword type="" name="SoupMessage" link="libsoup-porting-2.2-2.4.html#id3087790"/>
-    <keyword type="" name="SoupSession" link="libsoup-porting-2.2-2.4.html#id3100193"/>
-    <keyword type="" name="SoupURI" link="libsoup-porting-2.2-2.4.html#id3100404"/>
-    <keyword type="" name="XML-RPC and SOAP" link="libsoup-porting-2.2-2.4.html#id3100709"/>
-    <keyword type="" name="SoupServer" link="libsoup-porting-2.2-2.4.html#id3101130"/>
-    <keyword type="" name="Miscellaneous" link="libsoup-porting-2.2-2.4.html#id3101536"/>
+    <keyword type="" name="Creating and Sending SoupMessages" link="libsoup-client-howto.html#id581580"/>
+    <keyword type="" name="Processing the Response" link="libsoup-client-howto.html#id581857"/>
+    <keyword type="" name="Intermediate/Automatic Processing" link="libsoup-client-howto.html#id581966"/>
+    <keyword type="" name="Handling Authentication" link="libsoup-client-howto.html#id582048"/>
+    <keyword type="" name="Multi-threaded usage" link="libsoup-client-howto.html#id582183"/>
+    <keyword type="" name="Sample Programs" link="libsoup-client-howto.html#id582273"/>
+    <keyword type="" name="Creating a SoupSession" link="libsoup-server-howto.html#id557862"/>
+    <keyword type="" name="Adding Handlers" link="libsoup-server-howto.html#id562610"/>
+    <keyword type="" name="Responding to Requests" link="libsoup-server-howto.html#id556942"/>
+    <keyword type="" name="Handling Authentication" link="libsoup-server-howto.html#id586530"/>
+    <keyword type="" name="Overview" link="libsoup-porting-2.2-2.4.html#id582672"/>
+    <keyword type="" name="SoupMessage" link="libsoup-porting-2.2-2.4.html#id575912"/>
+    <keyword type="" name="SoupSession" link="libsoup-porting-2.2-2.4.html#id587327"/>
+    <keyword type="" name="SoupURI" link="libsoup-porting-2.2-2.4.html#id587529"/>
+    <keyword type="" name="XML-RPC and SOAP" link="libsoup-porting-2.2-2.4.html#id587818"/>
+    <keyword type="" name="SoupServer" link="libsoup-porting-2.2-2.4.html#id588231"/>
+    <keyword type="" name="Miscellaneous" link="libsoup-porting-2.2-2.4.html#id588622"/>
     <keyword type="struct" name="SoupAuth" link="SoupAuth.html#SoupAuth-struct"/>
     <keyword type="function" name="soup_auth_new ()" link="SoupAuth.html#soup-auth-new"/>
     <keyword type="function" name="soup_auth_update ()" link="SoupAuth.html#soup-auth-update"/>
@@ -243,7 +243,9 @@
     <keyword type="function" name="soup_message_headers_replace ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-replace"/>
     <keyword type="function" name="soup_message_headers_remove ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-remove"/>
     <keyword type="function" name="soup_message_headers_clear ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-clear"/>
-    <keyword type="function" name="soup_message_headers_get ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get"/>
+    <keyword type="function" name="soup_message_headers_get_one ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-one" since="2.26.1"/>
+    <keyword type="function" name="soup_message_headers_get_list ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-list" since="2.26.1"/>
+    <keyword type="function" name="soup_message_headers_get ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get" deprecated=""/>
     <keyword type="function" name="SoupMessageHeadersForeachFunc ()" link="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersForeachFunc"/>
     <keyword type="function" name="soup_message_headers_foreach ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-foreach"/>
     <keyword type="struct" name="SoupMessageHeadersIter" link="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersIter"/>

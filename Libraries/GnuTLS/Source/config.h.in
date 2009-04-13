@@ -244,6 +244,9 @@
 /* Define to 1 if you have the `efence' library (-lefence). */
 #undef HAVE_LIBEFENCE
 
+/* Define if you have the tasn1 library. */
+#undef HAVE_LIBTASN1
+
 /* Define if you have the z library. */
 #undef HAVE_LIBZ
 
@@ -455,6 +458,9 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION

@@ -31,6 +31,10 @@ enum                <link linkend="SoupMessageHeadersType">SoupMessageHeadersTyp
 <link linkend="void">void</link>                <link linkend="soup-message-headers-remove">soup_message_headers_remove</link>         (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs,
                                                          const <link linkend="char">char</link> *name);
 <link linkend="void">void</link>                <link linkend="soup-message-headers-clear">soup_message_headers_clear</link>          (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs);
+const <link linkend="char">char</link> *        <link linkend="soup-message-headers-get-one">soup_message_headers_get_one</link>        (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs,
+                                                         const <link linkend="char">char</link> *name);
+const <link linkend="char">char</link> *        <link linkend="soup-message-headers-get-list">soup_message_headers_get_list</link>       (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs,
+                                                         const <link linkend="char">char</link> *name);
 const <link linkend="char">char</link> *        <link linkend="soup-message-headers-get">soup_message_headers_get</link>            (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs,
                                                          const <link linkend="char">char</link> *name);
 
@@ -194,7 +198,14 @@ Frees <parameter>hdrs</parameter>.</para>
                                                          const <link linkend="char">char</link> *name,
                                                          const <link linkend="char">char</link> *value);</programlisting>
 <para>
-Appends a new header with name <parameter>name</parameter> and value <parameter>value</parameter> to <parameter>hdrs</parameter>.</para>
+Appends a new header with name <parameter>name</parameter> and value <parameter>value</parameter> to <parameter>hdrs</parameter>. (If
+there is an existing header with name <parameter>name</parameter>, then this creates a
+second one, which is only allowed for list-valued headers; see also
+<link linkend="soup-message-headers-replace"><function>soup_message_headers_replace()</function></link>.)
+</para>
+<para>
+The caller is expected to make sure that <parameter>name</parameter> and <parameter>value</parameter> are
+syntactically correct.</para>
 <para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>hdrs</parameter>&#160;:</term>
@@ -213,7 +224,12 @@ Appends a new header with name <parameter>name</parameter> and value <parameter>
                                                          const <link linkend="char">char</link> *name,
                                                          const <link linkend="char">char</link> *value);</programlisting>
 <para>
-Replaces the value of the header <parameter>name</parameter> in <parameter>hdrs</parameter> with <parameter>value</parameter>.</para>
+Replaces the value of the header <parameter>name</parameter> in <parameter>hdrs</parameter> with <parameter>value</parameter>. (See
+also <link linkend="soup-message-headers-append"><function>soup_message_headers_append()</function></link>.)
+</para>
+<para>
+The caller is expected to make sure that <parameter>name</parameter> and <parameter>value</parameter> are
+syntactically correct.</para>
 <para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>hdrs</parameter>&#160;:</term>
@@ -253,19 +269,21 @@ Clears <parameter>hdrs</parameter>.</para>
 <listitem><simpara> a <link linkend="SoupMessageHeaders"><type>SoupMessageHeaders</type></link>
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
-<refsect2 id="soup-message-headers-get" role="function">
-<title>soup_message_headers_get ()</title>
-<indexterm zone="soup-message-headers-get"><primary sortas="soup_message_headers_get">soup_message_headers_get</primary></indexterm><programlisting>const <link linkend="char">char</link> *        soup_message_headers_get            (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs,
+<refsect2 id="soup-message-headers-get-one" role="function" condition="since:2.26.1">
+<title>soup_message_headers_get_one ()</title>
+<indexterm zone="soup-message-headers-get-one" role="2.26.1"><primary sortas="soup_message_headers_get_one">soup_message_headers_get_one</primary></indexterm><programlisting>const <link linkend="char">char</link> *        soup_message_headers_get_one        (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs,
                                                          const <link linkend="char">char</link> *name);</programlisting>
 <para>
-Gets the value of header <parameter>name</parameter> in <parameter>hdrs</parameter>.
+Gets the value of header <parameter>name</parameter> in <parameter>hdrs</parameter>. Use this for headers whose
+values are <emphasis>not</emphasis> comma-delimited lists, and
+which therefore can only appear at most once in the headers. For
+list-valued headers, use <link linkend="soup-message-headers-get-list"><function>soup_message_headers_get_list()</function></link>.
 </para>
 <para>
-If <parameter>name</parameter> has multiple values in <parameter>hdrs</parameter>, <link linkend="soup-message-headers-get"><function>soup_message_headers_get()</function></link>
-will concatenate all of the values together, separated by commas.
-This is sometimes awkward to parse (eg, WWW-Authenticate,
-Set-Cookie), but you have to be able to deal with it anyway,
-because an upstream proxy could do the same thing.</para>
+If <parameter>hdrs</parameter> does erroneously contain multiple copies of the header, it
+is not defined which one will be returned. (Ideally, it will return
+whichever one makes libsoup most compatible with other HTTP
+implementations.)</para>
 <para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>hdrs</parameter>&#160;:</term>
@@ -275,6 +293,66 @@ because an upstream proxy could do the same thing.</para>
 <listitem><simpara> header name
 </simpara></listitem></varlistentry>
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the header's value or <link linkend="NULL--CAPS"><literal>NULL</literal></link> if not found.
+
+</simpara></listitem></varlistentry>
+</variablelist><para role="since">Since 2.26.1</para></refsect2>
+<refsect2 id="soup-message-headers-get-list" role="function" condition="since:2.26.1">
+<title>soup_message_headers_get_list ()</title>
+<indexterm zone="soup-message-headers-get-list" role="2.26.1"><primary sortas="soup_message_headers_get_list">soup_message_headers_get_list</primary></indexterm><programlisting>const <link linkend="char">char</link> *        soup_message_headers_get_list       (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs,
+                                                         const <link linkend="char">char</link> *name);</programlisting>
+<para>
+Gets the value of header <parameter>name</parameter> in <parameter>hdrs</parameter>. Use this for headers whose
+values are comma-delimited lists, and which are therefore allowed
+to appear multiple times in the headers. For non-list-valued
+headers, use <link linkend="soup-message-headers-get-one"><function>soup_message_headers_get_one()</function></link>.
+</para>
+<para>
+If <parameter>name</parameter> appears multiple times in <parameter>hdrs</parameter>,
+<link linkend="soup-message-headers-get-list"><function>soup_message_headers_get_list()</function></link> will concatenate all of the values
+together, separated by commas. This is sometimes awkward to parse
+(eg, WWW-Authenticate, Set-Cookie), but you have to be able to deal
+with it anyway, because the HTTP spec explicitly states that this
+transformation is allowed, and so an upstream proxy could do the
+same thing.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>hdrs</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="SoupMessageHeaders"><type>SoupMessageHeaders</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>name</parameter>&#160;:</term>
+<listitem><simpara> header name
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> the header's value or <link linkend="NULL--CAPS"><literal>NULL</literal></link> if not found.
+
+</simpara></listitem></varlistentry>
+</variablelist><para role="since">Since 2.26.1</para></refsect2>
+<refsect2 id="soup-message-headers-get" role="function" condition="deprecated">
+<title>soup_message_headers_get ()</title>
+<indexterm zone="soup-message-headers-get" role="deprecated"><primary sortas="soup_message_headers_get">soup_message_headers_get</primary></indexterm><programlisting>const <link linkend="char">char</link> *        soup_message_headers_get            (<link linkend="SoupMessageHeaders">SoupMessageHeaders</link> *hdrs,
+                                                         const <link linkend="char">char</link> *name);</programlisting>
+<warning><para><literal>soup_message_headers_get</literal> is deprecated and should not be used in newly-written code. Use <link linkend="soup-message-headers-get-one"><function>soup_message_headers_get_one()</function></link> or
+<link linkend="soup-message-headers-get-list"><function>soup_message_headers_get_list()</function></link> instead.</para></warning>
+<para>
+Gets the value of header <parameter>name</parameter> in <parameter>hdrs</parameter>.
+</para>
+<para>
+This method was supposed to work correctly for both single-valued
+and list-valued headers, but because some HTTP clients/servers
+mistakenly send multiple copies of headers that are supposed to be
+single-valued, it sometimes returns incorrect results. To fix this,
+the methods <link linkend="soup-message-headers-get-one"><function>soup_message_headers_get_one()</function></link> and
+<link linkend="soup-message-headers-get-list"><function>soup_message_headers_get_list()</function></link> were introduced, so callers can
+explicitly state which behavior they are expecting.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>hdrs</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="SoupMessageHeaders"><type>SoupMessageHeaders</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>name</parameter>&#160;:</term>
+<listitem><simpara> header name
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> as with <link linkend="soup-message-headers-get-list"><function>soup_message_headers_get_list()</function></link>.
+
 </simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="SoupMessageHeadersForeachFunc" role="function">
@@ -594,8 +672,8 @@ are only interested in the content type itself.</para>
 "charset"), or <link linkend="NULL--CAPS"><literal>NULL</literal></link>
 </simpara></listitem></varlistentry>
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a string with the value of the "Content-Type" header
-or NULL if <parameter>hdrs</parameter> does not contain that header (in which case
-*<parameter>params</parameter> will be * unchanged, is it has been given).
+or NULL if <parameter>hdrs</parameter> does not contain that header or it cannot be
+parsed (in which case *<parameter>params</parameter> will be unchanged).
 
 </simpara></listitem></varlistentry>
 </variablelist><para role="since">Since 2.26</para></refsect2>

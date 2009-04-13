@@ -793,7 +793,7 @@ A longer description goes here.
 <a name="gnutls-gnutls.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
 <a name="LIBGNUTLS-VERSION:CAPS"></a><h3>LIBGNUTLS_VERSION</h3>
-<pre class="programlisting">#define LIBGNUTLS_VERSION "2.6.4"
+<pre class="programlisting">#define LIBGNUTLS_VERSION "2.6.5"
 </pre>
 </div>
 <hr>
@@ -811,13 +811,13 @@ A longer description goes here.
 <hr>
 <div class="refsect2" lang="en">
 <a name="LIBGNUTLS-VERSION-PATCH:CAPS"></a><h3>LIBGNUTLS_VERSION_PATCH</h3>
-<pre class="programlisting">#define LIBGNUTLS_VERSION_PATCH 4
+<pre class="programlisting">#define LIBGNUTLS_VERSION_PATCH 5
 </pre>
 </div>
 <hr>
 <div class="refsect2" lang="en">
 <a name="LIBGNUTLS-VERSION-NUMBER:CAPS"></a><h3>LIBGNUTLS_VERSION_NUMBER</h3>
-<pre class="programlisting">#define LIBGNUTLS_VERSION_NUMBER 0x020604
+<pre class="programlisting">#define LIBGNUTLS_VERSION_NUMBER 0x020605
 </pre>
 </div>
 <hr>
@@ -3555,9 +3555,10 @@ compression methods.
 </p>
 <p>
 Special keywords:
-'!' or '-' appended with an algorithm will remove this algorithm.
-'+' appended with an algorithm will add this algorithm.
-'<code class="literal">COMPAT</code>' will enable compatibility features for a server.
+"!" or "-" appended with an algorithm will remove this algorithm.
+"+" appended with an algorithm will add this algorithm.
+"<code class="literal">COMPAT</code>" will enable compatibility features for a server.
+"<code class="literal">SSL3_RECORD_VERSION</code>" will use SSL3.0 record version in client hello.
 </p>
 <p>
 To avoid collisions in order to specify a compression algorithm in

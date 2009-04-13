@@ -90,14 +90,12 @@ libsoup_2_4_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 @BUILD_LIBSOUP_GNOME_TRUE@	$(am__DEPENDENCIES_1) \
 @BUILD_LIBSOUP_GNOME_TRUE@	$(am__DEPENDENCIES_1)
 am__libsoup_gnome_2_4_la_SOURCES_DIST = soup-cookie-jar-sqlite.c \
-	soup-gnome-features.c soup-proxy-resolver-gconf.h \
-	soup-proxy-resolver-gconf.c soup-proxy-resolver-libproxy.h \
-	soup-proxy-resolver-libproxy.c
+	soup-gnome-features.c soup-proxy-resolver-gnome.h \
+	soup-proxy-resolver-gnome.c
 @BUILD_LIBSOUP_GNOME_TRUE@am_libsoup_gnome_2_4_la_OBJECTS =  \
 @BUILD_LIBSOUP_GNOME_TRUE@	soup-cookie-jar-sqlite.lo \
 @BUILD_LIBSOUP_GNOME_TRUE@	soup-gnome-features.lo \
-@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-gconf.lo \
-@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-libproxy.lo
+@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-gnome.lo
 libsoup_gnome_2_4_la_OBJECTS = $(am_libsoup_gnome_2_4_la_OBJECTS)
 libsoup_gnome_2_4_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
@@ -424,10 +422,8 @@ libsoup_2_4_la_SOURCES = \
 @BUILD_LIBSOUP_GNOME_TRUE@libsoup_gnome_2_4_la_SOURCES = \
 @BUILD_LIBSOUP_GNOME_TRUE@	soup-cookie-jar-sqlite.c	\
 @BUILD_LIBSOUP_GNOME_TRUE@	soup-gnome-features.c		\
-@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-gconf.h	\
-@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-gconf.c	\
-@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-libproxy.h	\
-@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-libproxy.c
+@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-gnome.h	\
+@BUILD_LIBSOUP_GNOME_TRUE@	soup-proxy-resolver-gnome.c
 
 EXTRA_DIST = \
 	soup-marshal.list		\
@@ -542,8 +538,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-multipart.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-nossl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-path-map.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-proxy-resolver-gconf.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-proxy-resolver-libproxy.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-proxy-resolver-gnome.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-proxy-resolver-static.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-proxy-resolver.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-server.Plo@am__quote@

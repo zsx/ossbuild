@@ -327,6 +327,8 @@
 <indexentry><primaryie linkends="soup-message-headers-get-content-type"><link linkend="soup-message-headers-get-content-type">soup_message_headers_get_content_type</link></primaryie></indexentry>
 <indexentry><primaryie linkends="soup-message-headers-get-encoding"><link linkend="soup-message-headers-get-encoding">soup_message_headers_get_encoding</link></primaryie></indexentry>
 <indexentry><primaryie linkends="soup-message-headers-get-expectations"><link linkend="soup-message-headers-get-expectations">soup_message_headers_get_expectations</link></primaryie></indexentry>
+<indexentry><primaryie linkends="soup-message-headers-get-list"><link linkend="soup-message-headers-get-list">soup_message_headers_get_list</link></primaryie></indexentry>
+<indexentry><primaryie linkends="soup-message-headers-get-one"><link linkend="soup-message-headers-get-one">soup_message_headers_get_one</link></primaryie></indexentry>
 <indexentry><primaryie linkends="soup-message-headers-get-ranges"><link linkend="soup-message-headers-get-ranges">soup_message_headers_get_ranges</link></primaryie></indexentry>
 <indexentry><primaryie linkends="soup-message-headers-iter-init"><link linkend="soup-message-headers-iter-init">soup_message_headers_iter_init</link></primaryie></indexentry>
 <indexentry><primaryie linkends="soup-message-headers-iter-next"><link linkend="soup-message-headers-iter-next">soup_message_headers_iter_next</link></primaryie></indexentry>

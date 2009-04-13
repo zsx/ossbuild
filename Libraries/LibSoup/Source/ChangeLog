@@ -1,3 +1,161 @@
+2009-04-08  Dan Winship  <danw@gnome.org>
+
+	* configure.in: 2.26.0.9, aka "I can't believe it's not 2.26.1!",
+	a pre-release to give the proxy resolver fix a bit of extra
+	testing before next week.
+
+	* NEWS: Update
+
+2009-04-08  Dan Winship  <danw@gnome.org>
+
+	Re-fix GNOME proxy resolution (qv bug 571527)
+
+	* libsoup/soup-proxy-resolver-gnome.c: New and improved GNOME
+	proxy resolver; gets information out of GConf in a thread-safe
+	manner, and then passes it on to libproxy via environment
+	variables, so that libproxy won't try to access GConf itself, but
+	we still can use it for PAC, WPAD, and ignore_hosts.
+
+	* libsoup/soup-proxy-resolver-gconf.c:
+	* libsoup/soup-proxy-resolver-libproxy.c: gone now
+
+	* libsoup/soup-gnome-features.c: update for the fact that
+	SoupProxyResolverGNOME is actually a real type now, not
+	compile-time-defined alias
+
+2009-04-08  Dan Winship  <danw@gnome.org>
+
+	Fix ISO 8601 parsing to accept either "." or ","
+
+	* libsoup/soup-date.c (parse_iso8601_date): accept either "." or
+	"," as decimal separator, per the spec. qv glib bug 578369.
+
+2009-04-05  Dan Winship  <danw@gnome.org>
+
+	Don't allow CR/LF in header names or values
+
+	* libsoup/soup-message-headers.c (soup_message_headers_append):
+	Don't let the caller create a header with whitespace or ":" in its
+	name, or with CR or LF in its value, since that would result in us
+	generating syntactically invalid headers.
+
+2009-04-03  Dan Winship  <danw@gnome.org>
+
+	Bug 577386 – Fails to handle HTTPS redirect from a certain site.
+
+	* libsoup/soup-gnutls.c (soup_gnutls_read): Treat abnormal
+	EOFs as though they were normal, rather than as errors. Shrug.
+
+	Reported by Diego Escalante Urrelo.
+
+2009-04-03  Dan Winship  <danw@gnome.org>
+
+	Bug 577360 – handle cookies with same name but different path
+
+	* libsoup/soup-cookie-jar.c (soup_cookie_jar_add_cookie): check
+	both name and path when matching cookies; "foo=one; path=/bar"
+	should not replace "foo=two; path=/". They are separate cookies.
+
+	Reported by Alexander V. Butenko.
+
+2009-04-02  Dan Winship  <danw@gnome.org>
+
+	Bug 577630 – libsoup should ignore broken Content-Type headers
+
+	* libsoup/soup-message-headers.c (content_type_setter): Ignore
+	Content-Type if it's not at least minimally syntactically correct.
+	(soup_message_headers_get_content_type): Document that.
+
+	* tests/header-parsing.c (do_content_type_tests): test it.
+
+2009-04-02  Dan Winship  <danw@gnome.org>
+
+	Bug 577728 – soup_header_g_string_append_param should handle NULL values
+
+	* libsoup/soup-headers.c (soup_header_g_string_append_param):
+	allow @value to be %NULL.
+
+	* tests/header-parsing.c (do_append_param_tests): test
+	soup_header_g_string_append_param()
+
+2009-04-02  Dan Winship  <danw@gnome.org>
+
+	Bug 576760 – soup_message_headers_get_content_type returns bad headers
+
+	* libsoup/soup-message-headers.c (soup_message_headers_get_one)
+	(soup_message_headers_get_list): New replacements for
+	soup_message_headers_get(), indicating explicitly whether the
+	caller expects the header to be a list or not; for non-list-type
+	headers, if there's more than one, the second one should be
+	ignored rather than concatenated to the first.
+	(soup_message_headers_get): deprecate this.
+
+	* libsoup/*.c:
+	* tests/*.c: Update to use soup_message_headers_get_one() or
+	_get_list() as appropriate.
+
+	* tests/header-parsing.c (do_content_type_tests): Add some tests
+	of Content-Type parsing/setting, including making sure that
+	duplicate Content-Type headers are ignored.
+
+	* docs/reference/libsoup-2.4-sections.txt: update
+
+2009-03-27  Dan Winship  <danw@gnome.org>
+
+	Bug 576583 – Tests fail if "localhost" resolves to ::1
+
+	* tests/*.c: Use "127.0.0.1" in URIs rather than "localhost",
+	since the default SoupServer config only listen on IPv4 (qv bug
+	522519), and tests/httpd.conf.in only configures apache to listen
+	on IPv4, and we don't handle multiple IP addresses (qv bug 526321)
+	but the machine might be configured to return "::1" rather than
+	"127.0.0.1" first for "localhost". Patch from Andreas Rottmann.
+
+2009-03-27  Dan Winship  <danw@gnome.org>
+
+	* libsoup/soup-cookie.c (soup_cookie_new): Fix docs to not claim
+	that the cookie domain can be %NULL. Add some g_return_if_fail()s.
+
+2009-03-27  Dan Winship  <danw@gnome.org>
+
+	* docs/reference/client-howto.xml: clarify that SoupSessionAsync
+	is not thread-safe, and that setting a non-default GMainContext on
+	a non-threadsafe object means you can only use that object from
+	that GMainContext's thread.
+
+2009-03-26  Milan Crha  <mcrha@redhat.com>
+
+	Bug 574957 - soup-session-sync doesn't unlock mutex on proxy error
+
+	* libsoup/soup-session-sync.c: (wait_for_connection):
+	Unlock private lock also on proxy error.
+
+2009-03-24  Dan Winship  <danw@gnome.org>
+
+	Bug 571283 - Allow LF LF instead of CRLF CRLF as header/body separator
+
+	* libsoup/soup-message-io.c (read_metadata): Change how this
+	works; instead of taking a boundary string, just always pass "\n"
+	as the boundary to soup_socket_read_until(), but call it multiple
+	times if the caller wants us to read until a blank line.
+	(io_read): update to deal with the fact that the headers might be
+	terminated by LF LF rather than CRLF CRLF.
+
+2009-03-23  Dan Winship  <danw@gnome.org>
+
+	Bug 566530 - Handle (illegal) unencoded spaces in URIs
+
+	* libsoup/soup-uri.c (uri_normalized_copy): optionally fix up
+	parts with unencoded spaces in them.
+	(soup_uri_new_with_base): tell uri_normalized_copy() to fix up
+	spaces in the path and query components
+
+	* tests/uri-parsing.c (abs_tests): test parsing and unparsing a
+	URI with an unencoded space in it.
+
+	* tests/redirect-test.c (tests, server_callback): add a test of
+	redirecting to a URI with an unencoded space in it.
+
 2009-03-15  Dan Winship  <danw@gnome.org>
 
 	* configure.in: 2.26.0

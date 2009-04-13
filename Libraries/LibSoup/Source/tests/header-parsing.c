@@ -599,7 +599,7 @@ check_headers (Header *headers, SoupMessageHeaders *hdrs)
 			ok = FALSE;
 			break;
 		}
-		value = soup_message_headers_get (hdrs, headers[i].name);
+		value = soup_message_headers_get_list (hdrs, headers[i].name);
 		if (strcmp (value, headers[i].value) != 0) {
 			ok = FALSE;
 			break;
@@ -839,7 +839,7 @@ do_rfc2231_tests (void)
 	soup_message_headers_set_content_disposition (hdrs, "attachment", params);
 	g_hash_table_destroy (params);
 
-	header = soup_message_headers_get (hdrs, "Content-Disposition");
+	header = soup_message_headers_get_one (hdrs, "Content-Disposition");
 	if (!strcmp (header, RFC2231_TEST_HEADER))
 		debug_printf (1, "  encoded OK\n");
 	else {
@@ -873,6 +873,119 @@ do_rfc2231_tests (void)
 
 	g_hash_table_destroy (params);
 	soup_message_headers_free (hdrs);
+
+	debug_printf (1, "\n");
+}
+
+#define CONTENT_TYPE_TEST_MIME_TYPE "text/plain"
+#define CONTENT_TYPE_TEST_ATTRIBUTE "charset"
+#define CONTENT_TYPE_TEST_VALUE     "US-ASCII"
+#define CONTENT_TYPE_TEST_HEADER    "text/plain; charset=\"US-ASCII\""
+
+#define CONTENT_TYPE_BAD_HEADER     "plain text, not text/html"
+
+static void
+do_content_type_tests (void)
+{
+	SoupMessageHeaders *hdrs;
+	GHashTable *params;
+	const char *header, *mime_type;
+
+	debug_printf (1, "Content-Type tests\n");
+
+	hdrs = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
+	params = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (params, CONTENT_TYPE_TEST_ATTRIBUTE,
+			     CONTENT_TYPE_TEST_VALUE);
+	soup_message_headers_set_content_type (hdrs, CONTENT_TYPE_TEST_MIME_TYPE, params);
+	g_hash_table_destroy (params);
+
+	header = soup_message_headers_get_one (hdrs, "Content-Type");
+	if (!strcmp (header, CONTENT_TYPE_TEST_HEADER))
+		debug_printf (1, "  encoded OK\n");
+	else {
+		debug_printf (1, "  encoding FAILED!\n    expected: %s\n    got:      %s\n",
+			      CONTENT_TYPE_TEST_HEADER, header);
+		errors++;
+	}
+
+	soup_message_headers_clear (hdrs);
+	soup_message_headers_append (hdrs, "Content-Type",
+				     CONTENT_TYPE_TEST_MIME_TYPE);
+	/* Add a second Content-Type header: should be ignored */
+	soup_message_headers_append (hdrs, "Content-Type",
+				     CONTENT_TYPE_TEST_MIME_TYPE);
+
+	mime_type = soup_message_headers_get_content_type (hdrs, &params);
+	if (!mime_type) {
+		debug_printf (1, "  decoding FAILED!\n    could not parse\n");
+		errors++;
+	}
+
+	if (mime_type && strcmp (mime_type, CONTENT_TYPE_TEST_MIME_TYPE) != 0) {
+		debug_printf (1, "  decoding FAILED!\n    bad returned MIME type: %s\n",
+			      mime_type);
+		errors++;
+	} else if (params && g_hash_table_size (params) != 0) {
+		debug_printf (1, "  decoding FAILED!\n    params contained %d params (should be 0)\n",
+			      g_hash_table_size (params));
+		errors++;
+	} else
+		debug_printf (1, "  decoded OK\n");
+
+	if (params)
+		g_hash_table_destroy (params);
+
+	soup_message_headers_clear (hdrs);
+	soup_message_headers_append (hdrs, "Content-Type",
+				     CONTENT_TYPE_BAD_HEADER);
+	mime_type = soup_message_headers_get_content_type (hdrs, &params);
+	if (mime_type) {
+		debug_printf (1, "  Bad content rejection FAILED!\n");
+		errors++;
+	} else
+		debug_printf (1, "  Bad content rejection OK\n");
+
+	soup_message_headers_free (hdrs);
+
+	debug_printf (1, "\n");
+}
+
+struct {
+	const char *name, *value;
+} test_params[] = {
+	{ "one", "foo" },
+	{ "two", "test with spaces" },
+	{ "three", "test with \"quotes\" and \\s" },
+	{ "four", NULL },
+	{ "five", "test with \xC3\xA1\xC3\xA7\xC4\x89\xC3\xA8\xC3\xB1\xC5\xA3\xC5\xA1" }
+};
+
+#define TEST_PARAMS_RESULT "one=\"foo\", two=\"test with spaces\", three=\"test with \\\"quotes\\\" and \\\\s\", four, five*=UTF-8''test%20with%20%C3%A1%C3%A7%C4%89%C3%A8%C3%B1%C5%A3%C5%A1"
+
+static void
+do_append_param_tests (void)
+{
+	GString *params;
+	int i;
+
+	debug_printf (1, "soup_header_g_string_append_param() tests\n");
+
+	params = g_string_new (NULL);
+	for (i = 0; i < G_N_ELEMENTS (test_params); i++) {
+		if (i > 0)
+			g_string_append (params, ", ");
+		soup_header_g_string_append_param (params,
+						   test_params[i].name,
+						   test_params[i].value);
+	}
+	if (strcmp (params->str, TEST_PARAMS_RESULT) != 0) {
+		debug_printf (1, "  FAILED!\n    expected: %s\n    got: %s\n",
+			      TEST_PARAMS_RESULT, params->str);
+		errors++;
+	} else
+		debug_printf (1, "  OK\n");
+	g_string_free (params, TRUE);
 }
 
 int
@@ -884,6 +997,8 @@ main (int argc, char **argv)
 	do_response_tests ();
 	do_qvalue_tests ();
 	do_rfc2231_tests ();
+	do_content_type_tests ();
+	do_append_param_tests ();
 
 	test_cleanup ();
 	return errors != 0;

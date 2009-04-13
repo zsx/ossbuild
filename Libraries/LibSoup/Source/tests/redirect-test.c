@@ -93,6 +93,12 @@ static struct {
 	    { "GET", "/", 200 },
 	    { NULL } } },
 	{ { { "POST", "/307", 307 },
+	    { NULL } } },
+
+	/* Test behavior with recoverably-bad Location header
+	 */
+	{ { { "GET", "/bad", 302 },
+	    { "GET", "/bad%20with%20spaces", 200 },
 	    { NULL } } }
 };
 static const int n_tests = G_N_ELEMENTS (tests);
@@ -105,7 +111,8 @@ got_headers (SoupMessage *msg, gpointer user_data)
 
 	debug_printf (2, "    -> %d %s\n", msg->status_code,
 		      msg->reason_phrase);
-	location = soup_message_headers_get (msg->response_headers, "Location");
+	location = soup_message_headers_get_one (msg->response_headers,
+						 "Location");
 	if (location)
 		debug_printf (2, "       Location: %s\n", location);
 
@@ -206,6 +213,19 @@ server_callback (SoupServer *server, SoupMessage *msg,
 	char *remainder;
 	guint status_code;
 
+	if (g_str_has_prefix (path, "/bad")) {
+		if (!strcmp (path, "/bad")) {
+			soup_message_set_status (msg, SOUP_STATUS_FOUND);
+			soup_message_headers_replace (msg->response_headers,
+						      "Location",
+						      "/bad with spaces");
+		} else if (!strcmp (path, "/bad with spaces"))
+			soup_message_set_status (msg, SOUP_STATUS_OK);
+		else
+			soup_message_set_status (msg, SOUP_STATUS_NOT_FOUND);
+		return;
+	}
+
 	if (!strcmp (path, "/")) {
 		if (msg->method != SOUP_METHOD_GET &&
 		    msg->method != SOUP_METHOD_HEAD) {
@@ -289,7 +309,7 @@ main (int argc, char **argv)
 	loop = g_main_loop_new (NULL, TRUE);
 
 	if (run_tests) {
-		base_uri = soup_uri_new ("http://localhost");
+		base_uri = soup_uri_new ("http://127.0.0.1");
 		soup_uri_set_port (base_uri, port);
 		do_redirect_tests (base_uri);
 		soup_uri_free (base_uri);

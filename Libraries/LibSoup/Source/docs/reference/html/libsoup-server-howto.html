@@ -35,7 +35,7 @@
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsect2" lang="en">
-<a name="id3041939"></a><h3>Creating a SoupSession</h3>
+<a name="id557862"></a><h3>Creating a SoupSession</h3>
 <p>
 As with the client API, there is a single object that will encapsulate
 most of your interactions with libsoup. In this case, <a class="link" href="SoupServer.html" title="SoupServer"><span class="type">SoupServer</span></a>.
@@ -85,7 +85,7 @@ various additional options:
 <td><p><span class="term"><a class="link" href="SoupServer.html#SOUP-SERVER-ASYNC-CONTEXT--CAPS" title="SOUP_SERVER_ASYNC_CONTEXT"><code class="literal">SOUP_SERVER_ASYNC_CONTEXT</code></a></span></p></td>
 <td><p>
 	    A <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 ><span class="type">GMainContext</span></a> which
 	    the server will use for asynchronous operations. This can
 	    be set if you want to use a SoupServer in a thread
@@ -107,7 +107,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContex
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3093077"></a><h3>Adding Handlers</h3>
+<a name="id562610"></a><h3>Adding Handlers</h3>
 <p>
 By default, <a class="link" href="SoupServer.html" title="SoupServer"><span class="type">SoupServer</span></a>
 returns "404 Not Found" in response to all requests (except ones that
@@ -137,7 +137,7 @@ match any other handler.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3075140"></a><h3>Responding to Requests</h3>
+<a name="id556942"></a><h3>Responding to Requests</h3>
 <p>
 A handler callback looks something like this:
 </p>
@@ -183,7 +183,7 @@ If the response requires a body, you must decide whether to use
 <code class="literal">chunked</code> encoding.
 </p>
 <div class="refsect3" lang="en">
-<a name="id3061098"></a><h4>Responding with <code class="literal">Content-Length</code>
+<a name="id586342"></a><h4>Responding with <code class="literal">Content-Length</code>
 Encoding</h4>
 <p>
 This is the simpler way to set a response body, if you have all of the
@@ -224,7 +224,7 @@ server_callback (SoupServer        *server,
 </pre></div>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3061138"></a><h4>Responding with <code class="literal">chunked</code> Encoding</h4>
+<a name="id586374"></a><h4>Responding with <code class="literal">chunked</code> Encoding</h4>
 <p>
 If you want to supply the response body in chunks as it becomes
 available, use <code class="literal">chunked</code> encoding instead. In this
@@ -258,7 +258,7 @@ using <code class="literal">chunked</code> encoding.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3096729"></a><h3>Handling Authentication</h3>
+<a name="id586530"></a><h3>Handling Authentication</h3>
 <p>
 To have <a class="link" href="SoupServer.html" title="SoupServer"><span class="type">SoupServer</span></a>
 handle HTTP authentication for you, create a <a class="link" href="SoupAuthDomainBasic.html" title="SoupAuthDomainBasic"><span class="type">SoupAuthDomainBasic</span></a>

@@ -1,7 +1,6 @@
 This is gnutls.info, produced by makeinfo version 4.13 from gnutls.texi.
 
-This manual is last updated 6 February 2009 for version 2.6.4 of GNU
-TLS.
+This manual is last updated 11 April 2009 for version 2.6.5 of GNU TLS.
 
 Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free
 Software Foundation, Inc.
@@ -35,8 +34,7 @@ File: gnutls.info,  Node: Top,  Next: Preface,  Up: (dir)
 GNU TLS
 *******
 
-This manual is last updated 6 February 2009 for version 2.6.4 of GNU
-TLS.
+This manual is last updated 11 April 2009 for version 2.6.5 of GNU TLS.
 
 Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free
 Software Foundation, Inc.
@@ -164,8 +162,8 @@ GnuTLS is available for download from the following URL:
 
 `http://www.gnutls.org/download.html'
 
-The latest version is stored in a file, e.g., `gnutls-2.6.4.tar.gz'
-where the `2.6.4' value is the highest version number in the directory.
+The latest version is stored in a file, e.g., `gnutls-2.6.5.tar.gz'
+where the `2.6.5' value is the highest version number in the directory.
 
 GnuTLS uses a Linux-like development cycle: even minor version numbers
 indicate a stable release and a odd minor version number indicates a
@@ -9189,10 +9187,11 @@ gnutls_priority_init
      "NONE" nothing is enabled. This disables even protocols and
      compression methods.
 
-     *Special keywords:* '!' or '-' appended with an algorithm will
-     remove this algorithm.  '+' appended with an algorithm will add
-     this algorithm.  '`COMPAT'' will enable compatibility features for
-     a server.
+     *Special keywords:* "!" or "-" appended with an algorithm will
+     remove this algorithm.  "+" appended with an algorithm will add
+     this algorithm.  "`COMPAT'" will enable compatibility features for
+     a server.  "`SSL3_RECORD_VERSION'" will use SSL3.0 record version
+     in client hello.
 
      To avoid collisions in order to specify a compression algorithm in
      this string you have to prefix it with "COMP-", protocol versions

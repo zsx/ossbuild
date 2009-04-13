@@ -22,11 +22,11 @@ cairo 		- 		1.8.6 		- 	http://cairographics.org/releases/cairo-1.8.6.tar.gz
 x264 		- 	   r2245 (build 67)	- 	http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20090310-2245.tar.bz2
 ffmpeg 		- 		0.5.0 		- 	http://www.ffmpeg.org/releases/ffmpeg-0.5.tar.bz2
 liboil 		- 		0.3.16 		- 	http://liboil.freedesktop.org/download/liboil-0.3.16.tar.gz
-libsoup 	- 		2.26.0 		- 	http://ftp.gnome.org/pub/GNOME/sources/libsoup/2.26/libsoup-2.26.0.tar.gz
+libsoup 	- 		2.26.0.9	- 	http://ftp.gnome.org/pub/GNOME/sources/libsoup/2.26/libsoup-2.26.0.9.tar.gz
 sqlite 		- 		3.6.11 		- 	http://www.sqlite.org/sqlite-amalgamation-3.6.11.tar.gz
 libgpg-error 	- 		1.7.0 		- 	ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.7.tar.gz
 libgcrypt 	- 		1.4.4 		- 	ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.4.4.tar.gz
-gnutls 		- 		2.6.4 		- 	http://ftp.gnu.org/pub/gnu/gnutls/gnutls-2.6.4.tar.bz2
+gnutls 		- 		2.6.5 		- 	http://ftp.gnu.org/pub/gnu/gnutls/gnutls-2.6.5.tar.bz2
 libspeex 	- 		1.2rc1 		- 	http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
 libschrodinger 	- 		1.0.6 		- 	http://diracvideo.org/download/schroedinger/schroedinger-1.0.6.tar.gz
 mp3lame 	- 		3.98.2 		- 	http://sourceforge.net/project/downloading.php?group_id=290&use_mirror=superb-west&filename=lame-398-2.tar.gz&a=60930405

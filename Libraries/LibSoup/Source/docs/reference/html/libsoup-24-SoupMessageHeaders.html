@@ -58,25 +58,29 @@ void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#sou
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-remove" title="soup_message_headers_remove ()">soup_message_headers_remove</a>         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          const char *name);
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-clear" title="soup_message_headers_clear ()">soup_message_headers_clear</a>          (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs);
+const char *        <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-one" title="soup_message_headers_get_one ()">soup_message_headers_get_one</a>        (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
+                                                         const char *name);
+const char *        <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-list" title="soup_message_headers_get_list ()">soup_message_headers_get_list</a>       (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
+                                                         const char *name);
 const char *        <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get" title="soup_message_headers_get ()">soup_message_headers_get</a>            (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          const char *name);
 
 void                (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersForeachFunc" title="SoupMessageHeadersForeachFunc ()">*SoupMessageHeadersForeachFunc</a>)    (const char *name,
                                                          const char *value,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-foreach" title="soup_message_headers_foreach ()">soup_message_headers_foreach</a>        (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersForeachFunc" title="SoupMessageHeadersForeachFunc ()">SoupMessageHeadersForeachFunc</a> func,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 
                     <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersIter" title="SoupMessageHeadersIter">SoupMessageHeadersIter</a>;
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-iter-init" title="soup_message_headers_iter_init ()">soup_message_headers_iter_init</a>      (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersIter" title="SoupMessageHeadersIter">SoupMessageHeadersIter</a> *iter,
                                                          <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-iter-next" title="soup_message_headers_iter_next ()">soup_message_headers_iter_next</a>      (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersIter" title="SoupMessageHeadersIter">SoupMessageHeadersIter</a> *iter,
                                                          const char **name,
                                                          const char **value);
@@ -86,13 +90,13 @@ enum                <a class="link" href="libsoup-24-SoupMessageHeaders.html#Sou
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-set-encoding" title="soup_message_headers_set_encoding ()">soup_message_headers_set_encoding</a>   (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupEncoding" title="enum SoupEncoding">SoupEncoding</a> encoding);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a>             <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-content-length" title="soup_message_headers_get_content_length ()">soup_message_headers_get_content_length</a>
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs);
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-set-content-length" title="soup_message_headers_set_content_length ()">soup_message_headers_set_content_length</a>
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> content_length);
 
 enum                <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupExpectation" title="enum SoupExpectation">SoupExpectation</a>;
@@ -105,36 +109,36 @@ void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#sou
 const char *        <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-content-type" title="soup_message_headers_get_content_type ()">soup_message_headers_get_content_type</a>
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> **params);
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-set-content-type" title="soup_message_headers_set_content_type ()">soup_message_headers_set_content_type</a>
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          const char *content_type,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *params);
 
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-content-disposition" title="soup_message_headers_get_content_disposition ()">soup_message_headers_get_content_disposition</a>
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          char **disposition,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> **params);
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-set-content-disposition" title="soup_message_headers_set_content_disposition ()">soup_message_headers_set_content_disposition</a>
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          const char *disposition,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *params);
 
                     <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupRange" title="SoupRange">SoupRange</a>;
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-ranges" title="soup_message_headers_get_ranges ()">soup_message_headers_get_ranges</a>     (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> total_length,
                                                          <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupRange" title="SoupRange">SoupRange</a> **ranges,
                                                          int *length);
@@ -143,36 +147,36 @@ void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#sou
                                                          int length);
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-set-range" title="soup_message_headers_set_range ()">soup_message_headers_set_range</a>      (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> start,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> end);
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-free-ranges" title="soup_message_headers_free_ranges ()">soup_message_headers_free_ranges</a>    (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupRange" title="SoupRange">SoupRange</a> *ranges);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-content-range" title="soup_message_headers_get_content_range ()">soup_message_headers_get_content_range</a>
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> *start,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> *end,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> *total_length);
 void                <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-set-content-range" title="soup_message_headers_set_content_range ()">soup_message_headers_set_content_range</a>
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> start,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> end,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> total_length);
 </pre>
 </div>
@@ -278,7 +282,14 @@ Frees <em class="parameter"><code>hdrs</code></em>.</p>
                                                          const char *name,
                                                          const char *value);</pre>
 <p>
-Appends a new header with name <em class="parameter"><code>name</code></em> and value <em class="parameter"><code>value</code></em> to <em class="parameter"><code>hdrs</code></em>.</p>
+Appends a new header with name <em class="parameter"><code>name</code></em> and value <em class="parameter"><code>value</code></em> to <em class="parameter"><code>hdrs</code></em>. (If
+there is an existing header with name <em class="parameter"><code>name</code></em>, then this creates a
+second one, which is only allowed for list-valued headers; see also
+<a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-replace" title="soup_message_headers_replace ()"><code class="function">soup_message_headers_replace()</code></a>.)
+</p>
+<p>
+The caller is expected to make sure that <em class="parameter"><code>name</code></em> and <em class="parameter"><code>value</code></em> are
+syntactically correct.</p>
 <p>
 </p>
 <div class="variablelist"><table border="0">
@@ -309,7 +320,12 @@ Appends a new header with name <em class="parameter"><code>name</code></em> and 
                                                          const char *name,
                                                          const char *value);</pre>
 <p>
-Replaces the value of the header <em class="parameter"><code>name</code></em> in <em class="parameter"><code>hdrs</code></em> with <em class="parameter"><code>value</code></em>.</p>
+Replaces the value of the header <em class="parameter"><code>name</code></em> in <em class="parameter"><code>hdrs</code></em> with <em class="parameter"><code>value</code></em>. (See
+also <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-append" title="soup_message_headers_append ()"><code class="function">soup_message_headers_append()</code></a>.)
+</p>
+<p>
+The caller is expected to make sure that <em class="parameter"><code>name</code></em> and <em class="parameter"><code>value</code></em> are
+syntactically correct.</p>
 <p>
 </p>
 <div class="variablelist"><table border="0">
@@ -378,18 +394,20 @@ Clears <em class="parameter"><code>hdrs</code></em>.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="soup-message-headers-get"></a><h3>soup_message_headers_get ()</h3>
-<pre class="programlisting">const char *        soup_message_headers_get            (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
+<a name="soup-message-headers-get-one"></a><h3>soup_message_headers_get_one ()</h3>
+<pre class="programlisting">const char *        soup_message_headers_get_one        (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          const char *name);</pre>
 <p>
-Gets the value of header <em class="parameter"><code>name</code></em> in <em class="parameter"><code>hdrs</code></em>.
+Gets the value of header <em class="parameter"><code>name</code></em> in <em class="parameter"><code>hdrs</code></em>. Use this for headers whose
+values are <span class="emphasis"><em>not</em></span> comma-delimited lists, and
+which therefore can only appear at most once in the headers. For
+list-valued headers, use <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-list" title="soup_message_headers_get_list ()"><code class="function">soup_message_headers_get_list()</code></a>.
 </p>
 <p>
-If <em class="parameter"><code>name</code></em> has multiple values in <em class="parameter"><code>hdrs</code></em>, <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get" title="soup_message_headers_get ()"><code class="function">soup_message_headers_get()</code></a>
-will concatenate all of the values together, separated by commas.
-This is sometimes awkward to parse (eg, WWW-Authenticate,
-Set-Cookie), but you have to be able to deal with it anyway,
-because an upstream proxy could do the same thing.</p>
+If <em class="parameter"><code>hdrs</code></em> does erroneously contain multiple copies of the header, it
+is not defined which one will be returned. (Ideally, it will return
+whichever one makes libsoup most compatible with other HTTP
+implementations.)</p>
 <p>
 </p>
 <div class="variablelist"><table border="0">
@@ -408,8 +426,101 @@ because an upstream proxy could do the same thing.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the header's value or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if not found.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.26.1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="soup-message-headers-get-list"></a><h3>soup_message_headers_get_list ()</h3>
+<pre class="programlisting">const char *        soup_message_headers_get_list       (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
+                                                         const char *name);</pre>
+<p>
+Gets the value of header <em class="parameter"><code>name</code></em> in <em class="parameter"><code>hdrs</code></em>. Use this for headers whose
+values are comma-delimited lists, and which are therefore allowed
+to appear multiple times in the headers. For non-list-valued
+headers, use <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-one" title="soup_message_headers_get_one ()"><code class="function">soup_message_headers_get_one()</code></a>.
+</p>
+<p>
+If <em class="parameter"><code>name</code></em> appears multiple times in <em class="parameter"><code>hdrs</code></em>,
+<a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-list" title="soup_message_headers_get_list ()"><code class="function">soup_message_headers_get_list()</code></a> will concatenate all of the values
+together, separated by commas. This is sometimes awkward to parse
+(eg, WWW-Authenticate, Set-Cookie), but you have to be able to deal
+with it anyway, because the HTTP spec explicitly states that this
+transformation is allowed, and so an upstream proxy could do the
+same thing.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>hdrs</code></em> :</span></p></td>
+<td> a <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders"><span class="type">SoupMessageHeaders</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td> header name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the header's value or <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+><code class="literal">NULL</code></a> if not found.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.26.1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="soup-message-headers-get"></a><h3>soup_message_headers_get ()</h3>
+<pre class="programlisting">const char *        soup_message_headers_get            (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
+                                                         const char *name);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">soup_message_headers_get</code> is deprecated and should not be used in newly-written code. Use <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-one" title="soup_message_headers_get_one ()"><code class="function">soup_message_headers_get_one()</code></a> or
+<a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-list" title="soup_message_headers_get_list ()"><code class="function">soup_message_headers_get_list()</code></a> instead.</p>
+</div>
+<p>
+Gets the value of header <em class="parameter"><code>name</code></em> in <em class="parameter"><code>hdrs</code></em>.
+</p>
+<p>
+This method was supposed to work correctly for both single-valued
+and list-valued headers, but because some HTTP clients/servers
+mistakenly send multiple copies of headers that are supposed to be
+single-valued, it sometimes returns incorrect results. To fix this,
+the methods <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-one" title="soup_message_headers_get_one ()"><code class="function">soup_message_headers_get_one()</code></a> and
+<a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-list" title="soup_message_headers_get_list ()"><code class="function">soup_message_headers_get_list()</code></a> were introduced, so callers can
+explicitly state which behavior they are expecting.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>hdrs</code></em> :</span></p></td>
+<td> a <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders"><span class="type">SoupMessageHeaders</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td> header name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> as with <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-list" title="soup_message_headers_get_list ()"><code class="function">soup_message_headers_get_list()</code></a>.
+
 </td>
 </tr>
 </tbody>
@@ -421,7 +532,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <pre class="programlisting">void                (*SoupMessageHeadersForeachFunc)    (const char *name,
                                                          const char *value,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 The callback passed to <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-foreach" title="soup_message_headers_foreach ()"><code class="function">soup_message_headers_foreach()</code></a>.</p>
@@ -454,7 +565,7 @@ The callback passed to <a class="link" href="libsoup-24-SoupMessageHeaders.html#
 <pre class="programlisting">void                soup_message_headers_foreach        (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersForeachFunc" title="SoupMessageHeadersForeachFunc ()">SoupMessageHeadersForeachFunc</a> func,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 Calls <em class="parameter"><code>func</code></em> once for each header value in <em class="parameter"><code>hdrs</code></em>.
@@ -543,7 +654,7 @@ Initializes <em class="parameter"><code>iter</code></em> for iterating <em class
 <div class="refsect2" lang="en">
 <a name="soup-message-headers-iter-next"></a><h3>soup_message_headers_iter_next ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_message_headers_iter_next      (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersIter" title="SoupMessageHeadersIter">SoupMessageHeadersIter</a> *iter,
                                                          const char **name,
                                                          const char **value);</pre>
@@ -551,7 +662,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 Yields the next name/value pair in the <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders"><code class="literal">SoupMessageHeaders</code></a> being
 iterated by <em class="parameter"><code>iter</code></em>. If <em class="parameter"><code>iter</code></em> has already yielded the last header,
 then <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-message-headers-iter-next" title="soup_message_headers_iter_next ()"><code class="function">soup_message_headers_iter_next()</code></a> will return <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a> and <em class="parameter"><code>name</code></em>
 and <em class="parameter"><code>value</code></em> will be unchanged.</p>
 <p>
@@ -577,9 +688,9 @@ and <em class="parameter"><code>value</code></em> will be unchanged.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if another name and value were returned, <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a>
 if the end of the headers has been reached.
 </td>
@@ -700,7 +811,7 @@ chunked encoding.</p>
 <div class="refsect2" lang="en">
 <a name="soup-message-headers-get-content-length"></a><h3>soup_message_headers_get_content_length ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a>             soup_message_headers_get_content_length
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs);</pre>
 <p>
@@ -731,7 +842,7 @@ be non-0 if <a class="link" href="libsoup-24-SoupMessageHeaders.html#soup-messag
 <pre class="programlisting">void                soup_message_headers_set_content_length
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> content_length);</pre>
 <p>
 Sets the message body length that <em class="parameter"><code>hdrs</code></em> will declare, and sets
@@ -861,12 +972,12 @@ server is just going to ignore it anyway.</p>
 <pre class="programlisting">const char *        soup_message_headers_get_content_type
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> **params);</pre>
 <p>
 Looks up the "Content-Type" header in <em class="parameter"><code>hdrs</code></em>, parses it, and returns
 its value in *<em class="parameter"><code>content_type</code></em> and *<em class="parameter"><code>params</code></em>. <em class="parameter"><code>params</code></em> can be <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if you
 are only interested in the content type itself.</p>
 <p>
@@ -883,15 +994,15 @@ are only interested in the content type itself.</p>
 <td><p><span class="term"><em class="parameter"><code>params</code></em> :</span></p></td>
 <td> return location for the Content-Type parameters (eg,
 "charset"), or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> a string with the value of the "Content-Type" header
-or NULL if <em class="parameter"><code>hdrs</code></em> does not contain that header (in which case
-*<em class="parameter"><code>params</code></em> will be * unchanged, is it has been given).
+or NULL if <em class="parameter"><code>hdrs</code></em> does not contain that header or it cannot be
+parsed (in which case *<em class="parameter"><code>params</code></em> will be unchanged).
 
 </td>
 </tr>
@@ -906,7 +1017,7 @@ or NULL if <em class="parameter"><code>hdrs</code></em> does not contain that he
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          const char *content_type,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *params);</pre>
 <p>
 Sets the "Content-Type" header in <em class="parameter"><code>hdrs</code></em> to <em class="parameter"><code>content_type</code></em>,
@@ -929,7 +1040,7 @@ optionally with additional parameters specified in <em class="parameter"><code>p
 <tr>
 <td><p><span class="term"><em class="parameter"><code>params</code></em> :</span></p></td>
 <td> additional parameters, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -941,18 +1052,18 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <div class="refsect2" lang="en">
 <a name="soup-message-headers-get-content-disposition"></a><h3>soup_message_headers_get_content_disposition ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_message_headers_get_content_disposition
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          char **disposition,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> **params);</pre>
 <p>
 Looks up the "Content-Disposition" header in <em class="parameter"><code>hdrs</code></em>, parses it, and
 returns its value in *<em class="parameter"><code>disposition</code></em> and *<em class="parameter"><code>params</code></em>. <em class="parameter"><code>params</code></em> can be
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if you are only interested in the disposition-type.
 </p>
 <p>
@@ -982,7 +1093,7 @@ form methods.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>disposition</code></em> :</span></p></td>
 <td> return location for the disposition-type, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -990,17 +1101,17 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <td><p><span class="term"><em class="parameter"><code>params</code></em> :</span></p></td>
 <td> return location for the Content-Disposition parameters, or
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if <em class="parameter"><code>hdrs</code></em> contains a "Content-Disposition"
 header, <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a> if not (in which case *<em class="parameter"><code>disposition</code></em> and *<em class="parameter"><code>params</code></em>
 will be unchanged).
 
@@ -1017,7 +1128,7 @@ will be unchanged).
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          const char *disposition,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *params);</pre>
 <p>
 Sets the "Content-Disposition" header in <em class="parameter"><code>hdrs</code></em> to <em class="parameter"><code>disposition</code></em>,
@@ -1044,7 +1155,7 @@ of how Content-Disposition is used in HTTP.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>params</code></em> :</span></p></td>
 <td> additional parameters, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -1085,14 +1196,14 @@ range", referring to the last -<em class="parameter"><code>start</code></em> byt
 <tbody>
 <tr>
 <td><p><span class="term"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> <em class="structfield"><code>start</code></em>;</span></p></td>
 <td> the start of the range
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> <em class="structfield"><code>end</code></em>;</span></p></td>
 <td> the end of the range
 </td>
@@ -1105,10 +1216,10 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 <div class="refsect2" lang="en">
 <a name="soup-message-headers-get-ranges"></a><h3>soup_message_headers_get_ranges ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_message_headers_get_ranges     (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> total_length,
                                                          <a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupRange" title="SoupRange">SoupRange</a> **ranges,
                                                          int *length);</pre>
@@ -1152,10 +1263,10 @@ redundant.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if <em class="parameter"><code>hdrs</code></em> contained a "Range" header containing
 byte ranges which could be parsed, <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a> otherwise (in which case
 <em class="parameter"><code>range</code></em> and <em class="parameter"><code>length</code></em> will not be set).
 
@@ -1204,10 +1315,10 @@ only want to request a single range, you can use
 <a name="soup-message-headers-set-range"></a><h3>soup_message_headers_set_range ()</h3>
 <pre class="programlisting">void                soup_message_headers_set_range      (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> start,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> end);</pre>
 <p>
 Sets <em class="parameter"><code>hdrs</code></em>'s Range header to request the indicated range.
@@ -1270,17 +1381,17 @@ Frees the array of ranges returned from <a class="link" href="libsoup-24-SoupMes
 <div class="refsect2" lang="en">
 <a name="soup-message-headers-get-content-range"></a><h3>soup_message_headers_get_content_range ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_message_headers_get_content_range
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> *start,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> *end,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> *total_length);</pre>
 <p>
 Parses <em class="parameter"><code>hdrs</code></em>'s Content-Range header and returns it in <em class="parameter"><code>start</code></em>,
@@ -1310,17 +1421,17 @@ was specified as "*", then <em class="parameter"><code>total_length</code></em> 
 <td><p><span class="term"><em class="parameter"><code>total_length</code></em> :</span></p></td>
 <td> return value for the total length of the resource,
 or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if you don't care.
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if <em class="parameter"><code>hdrs</code></em> contained a "Content-Range" header
 containing a byte range which could be parsed, <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a> otherwise.
 
 </td>
@@ -1335,13 +1446,13 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 <pre class="programlisting">void                soup_message_headers_set_content_range
                                                         (<a class="link" href="libsoup-24-SoupMessageHeaders.html#SoupMessageHeaders" title="SoupMessageHeaders">SoupMessageHeaders</a> *hdrs,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> start,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> end,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> total_length);</pre>
 <p>
 Sets <em class="parameter"><code>hdrs</code></em>'s Content-Range header according to the given values.

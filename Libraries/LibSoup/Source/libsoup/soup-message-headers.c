@@ -146,7 +146,13 @@ soup_message_headers_clear (SoupMessageHeaders *hdrs)
  * @name: the header name to add
  * @value: the new value of @name
  *
- * Appends a new header with name @name and value @value to @hdrs.
+ * Appends a new header with name @name and value @value to @hdrs. (If
+ * there is an existing header with name @name, then this creates a
+ * second one, which is only allowed for list-valued headers; see also
+ * soup_message_headers_replace().)
+ *
+ * The caller is expected to make sure that @name and @value are
+ * syntactically correct.
  **/
 void
 soup_message_headers_append (SoupMessageHeaders *hdrs,
@@ -157,6 +163,25 @@ soup_message_headers_append (SoupMessageHeaders *hdrs,
 
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (value != NULL);
+
+	/* Setting a syntactically invalid header name or value is
+	 * considered to be a programming error. However, it can also
+	 * be a security hole, so we want to fail here even if
+	 * compiled with G_DISABLE_CHECKS.
+	 */
+#ifndef G_DISABLE_CHECKS
+	g_return_if_fail (strpbrk (name, " \t\r\n:") == NULL);
+	g_return_if_fail (strpbrk (value, "\r\n") == NULL);
+#else
+	if (strpbrk (name, " \t\r\n:")) {
+		g_warning ("soup_message_headers_append: Ignoring bad name '%s'", name);
+		return;
+	}
+	if (strpbrk (value, "\r\n")) {
+		g_warning ("soup_message_headers_append: Ignoring bad value '%s'", value);
+		return;
+	}
+#endif
 
 	header.name = intern_header_name (name, &setter);
 	header.value = g_strdup (value);
@@ -173,7 +198,11 @@ soup_message_headers_append (SoupMessageHeaders *hdrs,
  * @name: the header name to replace
  * @value: the new value of @name
  *
- * Replaces the value of the header @name in @hdrs with @value.
+ * Replaces the value of the header @name in @hdrs with @value. (See
+ * also soup_message_headers_append().)
+ *
+ * The caller is expected to make sure that @name and @value are
+ * syntactically correct.
  **/
 void
 soup_message_headers_replace (SoupMessageHeaders *hdrs,
@@ -226,22 +255,61 @@ soup_message_headers_remove (SoupMessageHeaders *hdrs, const char *name)
 }
 
 /**
- * soup_message_headers_get:
+ * soup_message_headers_get_one:
  * @hdrs: a #SoupMessageHeaders
  * @name: header name
  * 
- * Gets the value of header @name in @hdrs.
+ * Gets the value of header @name in @hdrs. Use this for headers whose
+ * values are <emphasis>not</emphasis> comma-delimited lists, and
+ * which therefore can only appear at most once in the headers. For
+ * list-valued headers, use soup_message_headers_get_list().
  *
- * If @name has multiple values in @hdrs, soup_message_headers_get()
- * will concatenate all of the values together, separated by commas.
- * This is sometimes awkward to parse (eg, WWW-Authenticate,
- * Set-Cookie), but you have to be able to deal with it anyway,
- * because an upstream proxy could do the same thing.
- * 
+ * If @hdrs does erroneously contain multiple copies of the header, it
+ * is not defined which one will be returned. (Ideally, it will return
+ * whichever one makes libsoup most compatible with other HTTP
+ * implementations.)
+ *
  * Return value: the header's value or %NULL if not found.
+ *
+ * Since: 2.26.1
  **/
 const char *
-soup_message_headers_get (SoupMessageHeaders *hdrs, const char *name)
+soup_message_headers_get_one (SoupMessageHeaders *hdrs, const char *name)
+{
+	SoupHeader *hdr_array = (SoupHeader *)(hdrs->array->data);
+	int index;
+
+	g_return_val_if_fail (name != NULL, NULL);
+
+	name = intern_header_name (name, NULL);
+	index = find_header (hdr_array, name, 0);
+	return (index == -1) ? NULL : hdr_array[index].value;
+}
+
+/**
+ * soup_message_headers_get_list:
+ * @hdrs: a #SoupMessageHeaders
+ * @name: header name
+ * 
+ * Gets the value of header @name in @hdrs. Use this for headers whose
+ * values are comma-delimited lists, and which are therefore allowed
+ * to appear multiple times in the headers. For non-list-valued
+ * headers, use soup_message_headers_get_one().
+ *
+ * If @name appears multiple times in @hdrs,
+ * soup_message_headers_get_list() will concatenate all of the values
+ * together, separated by commas. This is sometimes awkward to parse
+ * (eg, WWW-Authenticate, Set-Cookie), but you have to be able to deal
+ * with it anyway, because the HTTP spec explicitly states that this
+ * transformation is allowed, and so an upstream proxy could do the
+ * same thing.
+ * 
+ * Return value: the header's value or %NULL if not found.
+ *
+ * Since: 2.26.1
+ **/
+const char *
+soup_message_headers_get_list (SoupMessageHeaders *hdrs, const char *name)
 {
 	SoupHeader *hdr_array = (SoupHeader *)(hdrs->array->data);
 	GString *concat;
@@ -275,6 +343,32 @@ soup_message_headers_get (SoupMessageHeaders *hdrs, const char *name)
 		hdrs->concat = g_hash_table_new_full (NULL, NULL, NULL, g_free);
 	g_hash_table_insert (hdrs->concat, (gpointer)name, value);
 	return value;
+}
+
+/**
+ * soup_message_headers_get:
+ * @hdrs: a #SoupMessageHeaders
+ * @name: header name
+ * 
+ * Gets the value of header @name in @hdrs.
+ *
+ * This method was supposed to work correctly for both single-valued
+ * and list-valued headers, but because some HTTP clients/servers
+ * mistakenly send multiple copies of headers that are supposed to be
+ * single-valued, it sometimes returns incorrect results. To fix this,
+ * the methods soup_message_headers_get_one() and
+ * soup_message_headers_get_list() were introduced, so callers can
+ * explicitly state which behavior they are expecting.
+ *
+ * Return value: as with soup_message_headers_get_list().
+ * 
+ * Deprecated: Use soup_message_headers_get_one() or
+ * soup_message_headers_get_list() instead.
+ **/
+const char *
+soup_message_headers_get (SoupMessageHeaders *hdrs, const char *name)
+{
+	return soup_message_headers_get_list (hdrs, name);
 }
 
 /**
@@ -508,7 +602,7 @@ soup_message_headers_get_encoding (SoupMessageHeaders *hdrs)
 	/* If Transfer-Encoding was set, hdrs->encoding would already
 	 * be set. So we don't need to check that possibility.
 	 */
-	header = soup_message_headers_get (hdrs, "Content-Length");
+	header = soup_message_headers_get_one (hdrs, "Content-Length");
 	if (header) {
 		content_length_setter (hdrs, header);
 		if (hdrs->encoding != -1)
@@ -738,7 +832,7 @@ soup_message_headers_get_ranges (SoupMessageHeaders  *hdrs,
 				 SoupRange          **ranges,
 				 int                 *length)
 {
-	const char *range = soup_message_headers_get (hdrs, "Range");
+	const char *range = soup_message_headers_get_one (hdrs, "Range");
 	GSList *range_list, *r;
 	GArray *array;
 	char *spec, *end;
@@ -912,7 +1006,7 @@ soup_message_headers_get_content_range (SoupMessageHeaders  *hdrs,
 					goffset             *end,
 					goffset             *total_length)
 {
-	const char *header = soup_message_headers_get (hdrs, "Content-Range");
+	const char *header = soup_message_headers_get_one (hdrs, "Content-Range");
 	goffset length;
 	char *p;
 
@@ -983,7 +1077,7 @@ parse_content_foo (SoupMessageHeaders *hdrs, const char *header_name,
 	const char *header;
 	char *semi;
 
-	header = soup_message_headers_get (hdrs, header_name);
+	header = soup_message_headers_get_one (hdrs, header_name);
 	if (!header)
 		return FALSE;
 
@@ -1041,8 +1135,15 @@ content_type_setter (SoupMessageHeaders *hdrs, const char *value)
 {
 	g_free (hdrs->content_type);
 	if (value) {
-		parse_content_foo (hdrs, "Content-Type",
-				   &hdrs->content_type, NULL);
+		char *content_type, *p;
+
+		parse_content_foo (hdrs, "Content-Type", &content_type, NULL);
+		p = strpbrk (content_type, " /");
+		if (!p || *p != '/' || strpbrk (p + 1, " /")) {
+			g_free (content_type);
+			hdrs->content_type = NULL;
+		} else
+			hdrs->content_type = content_type;
 	} else
 		hdrs->content_type = NULL;
 }
@@ -1058,8 +1159,8 @@ content_type_setter (SoupMessageHeaders *hdrs, const char *value)
  * are only interested in the content type itself.
  *
  * Return value: a string with the value of the "Content-Type" header
- * or NULL if @hdrs does not contain that header (in which case
- * *@params will be * unchanged, is it has been given).
+ * or NULL if @hdrs does not contain that header or it cannot be
+ * parsed (in which case *@params will be unchanged).
  *
  * Since: 2.26
  **/

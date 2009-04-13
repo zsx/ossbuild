@@ -53,41 +53,41 @@ enum                <a class="link" href="SoupAddress.html#SoupAddressFamily" ti
 #define             <a class="link" href="SoupAddress.html#SOUP-ADDRESS-ANY-PORT--CAPS" title="SOUP_ADDRESS_ANY_PORT">SOUP_ADDRESS_ANY_PORT</a>
 <a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *       <a class="link" href="SoupAddress.html#soup-address-new" title="soup_address_new ()">soup_address_new</a>                    (const char *name,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> port);
 <a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *       <a class="link" href="SoupAddress.html#soup-address-new-from-sockaddr" title="soup_address_new_from_sockaddr ()">soup_address_new_from_sockaddr</a>      (struct sockaddr *sa,
                                                          int len);
 <a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *       <a class="link" href="SoupAddress.html#soup-address-new-any" title="soup_address_new_any ()">soup_address_new_any</a>                (<a class="link" href="SoupAddress.html#SoupAddressFamily" title="enum SoupAddressFamily">SoupAddressFamily</a> family,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> port);
 
 void                (<a class="link" href="SoupAddress.html#SoupAddressCallback" title="SoupAddressCallback ()">*SoupAddressCallback</a>)              (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> status,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> data);
 void                <a class="link" href="SoupAddress.html#soup-address-resolve-async" title="soup_address_resolve_async ()">soup_address_resolve_async</a>          (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 >GMainContext</a> *async_context,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/gio/GCancellable.html"
+href="/usr/share/gtk-doc/html/gio/GCancellable.html"
 >GCancellable</a> *cancellable,
                                                          <a class="link" href="SoupAddress.html#SoupAddressCallback" title="SoupAddressCallback ()">SoupAddressCallback</a> callback,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="SoupAddress.html#soup-address-resolve-sync" title="soup_address_resolve_sync ()">soup_address_resolve_sync</a>           (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/gio/GCancellable.html"
+href="/usr/share/gtk-doc/html/gio/GCancellable.html"
 >GCancellable</a> *cancellable);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="SoupAddress.html#soup-address-is-resolved" title="soup_address_is_resolved ()">soup_address_is_resolved</a>            (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr);
 
 const char *        <a class="link" href="SoupAddress.html#soup-address-get-name" title="soup_address_get_name ()">soup_address_get_name</a>               (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr);
@@ -95,34 +95,34 @@ struct sockaddr *   <a class="link" href="SoupAddress.html#soup-address-get-sock
                                                          int *len);
 const char *        <a class="link" href="SoupAddress.html#soup-address-get-physical" title="soup_address_get_physical ()">soup_address_get_physical</a>           (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="SoupAddress.html#soup-address-get-port" title="soup_address_get_port ()">soup_address_get_port</a>               (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr);
 
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="SoupAddress.html#soup-address-equal-by-name" title="soup_address_equal_by_name ()">soup_address_equal_by_name</a>          (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr1,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr2);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="SoupAddress.html#soup-address-hash-by-name" title="soup_address_hash_by_name ()">soup_address_hash_by_name</a>           (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="SoupAddress.html#soup-address-equal-by-ip" title="soup_address_equal_by_ip ()">soup_address_equal_by_ip</a>            (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr1,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr2);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="SoupAddress.html#soup-address-hash-by-ip" title="soup_address_hash_by_ip ()">soup_address_hash_by_ip</a>             (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr);
 
 #define             <a class="link" href="SoupAddress.html#SOUP-ADDRESS-FAMILY--CAPS" title="SOUP_ADDRESS_FAMILY">SOUP_ADDRESS_FAMILY</a>
@@ -136,7 +136,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 <a name="SoupAddress.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----SoupAddress
 </pre>
@@ -146,16 +146,16 @@ href="/opt/foo/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObj
 <pre class="synopsis">
   "<a class="link" href="SoupAddress.html#SoupAddress--family" title='The "family" property'>family</a>"                   <a class="link" href="SoupAddress.html#SoupAddressFamily" title="enum SoupAddressFamily">SoupAddressFamily</a>     : Read / Write / Construct Only
   "<a class="link" href="SoupAddress.html#SoupAddress--name" title='The "name" property'>name</a>"                     <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only
   "<a class="link" href="SoupAddress.html#SoupAddress--physical" title='The "physical" property'>physical</a>"                 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read
   "<a class="link" href="SoupAddress.html#SoupAddress--port" title='The "port" property'>port</a>"                     <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write / Construct Only
   "<a class="link" href="SoupAddress.html#SoupAddress--sockaddr" title='The "sockaddr" property'>sockaddr</a>"                 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>              : Read / Write / Construct Only
 </pre>
 </div>
@@ -234,7 +234,7 @@ to indicate that you don't care what port is used.</p>
 <a name="soup-address-new"></a><h3>soup_address_new ()</h3>
 <pre class="programlisting"><a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *       soup_address_new                    (const char *name,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> port);</pre>
 <p>
 Creates a <a class="link" href="SoupAddress.html" title="SoupAddress"><span class="type">SoupAddress</span></a> from <em class="parameter"><code>name</code></em> and <em class="parameter"><code>port</code></em>. The <a class="link" href="SoupAddress.html" title="SoupAddress"><span class="type">SoupAddress</span></a>'s IP
@@ -271,7 +271,7 @@ force a DNS resolution.</p>
                                                          int len);</pre>
 <p>
 Returns a <a class="link" href="SoupAddress.html" title="SoupAddress"><span class="type">SoupAddress</span></a> equivalent to <em class="parameter"><code>sa</code></em> (or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if <em class="parameter"><code>sa</code></em>'s
 address family isn't supported)</p>
 <p>
@@ -302,12 +302,12 @@ address family isn't supported)</p>
 <a name="soup-address-new-any"></a><h3>soup_address_new_any ()</h3>
 <pre class="programlisting"><a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *       soup_address_new_any                (<a class="link" href="SoupAddress.html#SoupAddressFamily" title="enum SoupAddressFamily">SoupAddressFamily</a> family,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> port);</pre>
 <p>
 Returns a <a class="link" href="SoupAddress.html" title="SoupAddress"><span class="type">SoupAddress</span></a> corresponding to the "any" address
 for <em class="parameter"><code>family</code></em> (or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if <em class="parameter"><code>family</code></em> isn't supported), suitable for
 passing to <code class="function">soup_socket_server_new()</code>.</p>
 <p>
@@ -338,10 +338,10 @@ passing to <code class="function">soup_socket_server_new()</code>.</p>
 <a name="SoupAddressCallback"></a><h3>SoupAddressCallback ()</h3>
 <pre class="programlisting">void                (*SoupAddressCallback)              (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> status,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> data);</pre>
 <p>
 The callback function passed to <a class="link" href="SoupAddress.html#soup-address-resolve-async" title="soup_address_resolve_async ()"><code class="function">soup_address_resolve_async()</code></a>.</p>
@@ -375,14 +375,14 @@ The callback function passed to <a class="link" href="SoupAddress.html#soup-addr
 <a name="soup-address-resolve-async"></a><h3>soup_address_resolve_async ()</h3>
 <pre class="programlisting">void                soup_address_resolve_async          (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 >GMainContext</a> *async_context,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/gio/GCancellable.html"
+href="/usr/share/gtk-doc/html/gio/GCancellable.html"
 >GCancellable</a> *cancellable,
                                                          <a class="link" href="SoupAddress.html#SoupAddressCallback" title="SoupAddressCallback ()">SoupAddressCallback</a> callback,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 Asynchronously resolves the missing half of <em class="parameter"><code>addr</code></em> (its IP address
@@ -392,7 +392,7 @@ was created with <a class="link" href="SoupAddress.html#soup-address-new-from-so
 </p>
 <p>
 If <em class="parameter"><code>cancellable</code></em> is non-<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>, it can be used to cancel the
 resolution. <em class="parameter"><code>callback</code></em> will still be invoked in this case, with a
 status of <a class="link" href="libsoup-24-soup-status.html#SOUP-STATUS-CANCELLED--CAPS"><code class="literal">SOUP_STATUS_CANCELLED</code></a>.</p>
@@ -409,16 +409,16 @@ status of <a class="link" href="libsoup-24-soup-status.html#SOUP-STATUS-CANCELLE
 <tr>
 <td><p><span class="term"><em class="parameter"><code>async_context</code></em> :</span></p></td>
 <td> the <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 ><span class="type">GMainContext</span></a> to call <em class="parameter"><code>callback</code></em> from
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
 <td> a <a
-href="/opt/foo/share/gtk-doc/html/gio/GCancellable.html"
+href="/usr/share/gtk-doc/html/gio/GCancellable.html"
 ><span class="type">GCancellable</span></a> object, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -439,10 +439,10 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <div class="refsect2" lang="en">
 <a name="soup-address-resolve-sync"></a><h3>soup_address_resolve_sync ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               soup_address_resolve_sync           (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/gio/GCancellable.html"
+href="/usr/share/gtk-doc/html/gio/GCancellable.html"
 >GCancellable</a> *cancellable);</pre>
 <p>
 Synchronously resolves the missing half of <em class="parameter"><code>addr</code></em>, as with
@@ -450,7 +450,7 @@ Synchronously resolves the missing half of <em class="parameter"><code>addr</cod
 </p>
 <p>
 If <em class="parameter"><code>cancellable</code></em> is non-<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>, it can be used to cancel the
 resolution. <a class="link" href="SoupAddress.html#soup-address-resolve-sync" title="soup_address_resolve_sync ()"><code class="function">soup_address_resolve_sync()</code></a> will then return a status
 of <a class="link" href="libsoup-24-soup-status.html#SOUP-STATUS-CANCELLED--CAPS"><code class="literal">SOUP_STATUS_CANCELLED</code></a>.</p>
@@ -467,9 +467,9 @@ of <a class="link" href="libsoup-24-soup-status.html#SOUP-STATUS-CANCELLED--CAPS
 <tr>
 <td><p><span class="term"><em class="parameter"><code>cancellable</code></em> :</span></p></td>
 <td> a <a
-href="/opt/foo/share/gtk-doc/html/gio/GCancellable.html"
+href="/usr/share/gtk-doc/html/gio/GCancellable.html"
 ><span class="type">GCancellable</span></a> object, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -486,7 +486,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <div class="refsect2" lang="en">
 <a name="soup-address-is-resolved"></a><h3>soup_address_is_resolved ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_address_is_resolved            (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr);</pre>
 <p>
 Tests if <em class="parameter"><code>addr</code></em> has already been resolved.</p>
@@ -503,7 +503,7 @@ Tests if <em class="parameter"><code>addr</code></em> has already been resolved.
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if <em class="parameter"><code>addr</code></em> has been resolved.
 </td>
 </tr>
@@ -529,7 +529,7 @@ Returns the hostname associated with <em class="parameter"><code>addr</code></em
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the hostname, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if it is not known.
 </td>
 </tr>
@@ -544,7 +544,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <p>
 Returns the sockaddr associated with <em class="parameter"><code>addr</code></em>, with its length in
 *<em class="parameter"><code>len</code></em>. If the sockaddr is not yet known, returns <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>.</p>
 <p>
 </p>
@@ -564,7 +564,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the sockaddr, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -578,7 +578,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <p>
 Returns the physical address associated with <em class="parameter"><code>addr</code></em> as a string.
 (Eg, "127.0.0.1"). If the address is not yet known, returns <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>.</p>
 <p>
 </p>
@@ -593,7 +593,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the physical address, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -604,7 +604,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <div class="refsect2" lang="en">
 <a name="soup-address-get-port"></a><h3>soup_address_get_port ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               soup_address_get_port               (<a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a> *addr);</pre>
 <p>
 Returns the port associated with <em class="parameter"><code>addr</code></em>.</p>
@@ -630,17 +630,17 @@ Returns the port associated with <em class="parameter"><code>addr</code></em>.</
 <div class="refsect2" lang="en">
 <a name="soup-address-equal-by-name"></a><h3>soup_address_equal_by_name ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_address_equal_by_name          (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr1,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr2);</pre>
 <p>
 Tests if <em class="parameter"><code>addr1</code></em> and <em class="parameter"><code>addr2</code></em> have the same "name". This method can be
 used with <a class="link" href="SoupAddress.html#soup-address-hash-by-name" title="soup_address_hash_by_name ()"><code class="function">soup_address_hash_by_name()</code></a> to create a <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 ><span class="type">GHashTable</span></a> that
 hashes on address "names".
 </p>
@@ -694,13 +694,13 @@ rather than by name.</p>
 <div class="refsect2" lang="en">
 <a name="soup-address-hash-by-name"></a><h3>soup_address_hash_by_name ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               soup_address_hash_by_name           (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr);</pre>
 <p>
 A hash function (for <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 ><span class="type">GHashTable</span></a>) that corresponds to
 <a class="link" href="SoupAddress.html#soup-address-equal-by-name" title="soup_address_equal_by_name ()"><code class="function">soup_address_equal_by_name()</code></a>, qv</p>
 <p>
@@ -727,18 +727,18 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 <div class="refsect2" lang="en">
 <a name="soup-address-equal-by-ip"></a><h3>soup_address_equal_by_ip ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_address_equal_by_ip            (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr1,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr2);</pre>
 <p>
 Tests if <em class="parameter"><code>addr1</code></em> and <em class="parameter"><code>addr2</code></em> have the same IP address. This method
 can be used with <a class="link" href="SoupAddress.html#soup-address-hash-by-ip" title="soup_address_hash_by_ip ()"><code class="function">soup_address_hash_by_ip()</code></a> to create a
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 ><span class="type">GHashTable</span></a> that hashes on IP address.
 </p>
 <p>
@@ -781,13 +781,13 @@ address.
 <div class="refsect2" lang="en">
 <a name="soup-address-hash-by-ip"></a><h3>soup_address_hash_by_ip ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               soup_address_hash_by_ip             (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> addr);</pre>
 <p>
 A hash function (for <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 ><span class="type">GHashTable</span></a>) that corresponds to
 <a class="link" href="SoupAddress.html#soup-address-equal-by-ip" title="soup_address_equal_by_ip ()"><code class="function">soup_address_equal_by_ip()</code></a>, qv</p>
 <p>
@@ -878,7 +878,7 @@ to the struct sockaddr for this address.)</p>
 <div class="refsect2" lang="en">
 <a name="SoupAddress--name"></a><h3>The <code class="literal">"name"</code> property</h3>
 <pre class="programlisting">  "name"                     <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only</pre>
 <p>Hostname for this address.</p>
 <p>Default value: NULL</p>
@@ -887,7 +887,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="SoupAddress--physical"></a><h3>The <code class="literal">"physical"</code> property</h3>
 <pre class="programlisting">  "physical"                 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read</pre>
 <p>IP address for this address.</p>
 <p>Default value: NULL</p>
@@ -896,17 +896,17 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="SoupAddress--port"></a><h3>The <code class="literal">"port"</code> property</h3>
 <pre class="programlisting">  "port"                     <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write / Construct Only</pre>
 <p>Port for this address.</p>
-<p>Allowed values: [-1,65535]</p>
+<p>Allowed values: [G_MAXULONG,65535]</p>
 <p>Default value: -1</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
 <a name="SoupAddress--sockaddr"></a><h3>The <code class="literal">"sockaddr"</code> property</h3>
 <pre class="programlisting">  "sockaddr"                 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>              : Read / Write / Construct Only</pre>
 <p>struct sockaddr for this address.</p>
 </div>

@@ -183,7 +183,8 @@ get_url (const char *url)
 	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
 		if (recurse)
 			unlink (name);
-		header = soup_message_headers_get (msg->response_headers, "Location");
+		header = soup_message_headers_get_one (msg->response_headers,
+						       "Location");
 		if (header) {
 			if (!debug)
 				printf ("  -> %s\n", header);
@@ -292,7 +293,6 @@ main (int argc, char **argv)
 	if (synchronous) {
 		session = soup_session_sync_new_with_options (
 			SOUP_SESSION_SSL_CA_FILE, cafile,
-			SOUP_SESSION_PROXY_URI, proxy,
 #ifdef HAVE_GNOME
 			SOUP_SESSION_ADD_FEATURE_BY_TYPE, SOUP_TYPE_GNOME_FEATURES_2_26,
 #endif
@@ -301,12 +301,21 @@ main (int argc, char **argv)
 	} else {
 		session = soup_session_async_new_with_options (
 			SOUP_SESSION_SSL_CA_FILE, cafile,
-			SOUP_SESSION_PROXY_URI, proxy,
 #ifdef HAVE_GNOME
 			SOUP_SESSION_ADD_FEATURE_BY_TYPE, SOUP_TYPE_GNOME_FEATURES_2_26,
 #endif
 			SOUP_SESSION_USER_AGENT, "get ",
 			NULL);
+	}
+
+	/* Need to do this after creating the session, since adding
+	 * SOUP_TYPE_GNOME_FEATURE_2_26 will add a proxy resolver, thereby
+	 * bashing over the manually-set proxy.
+	 */
+	if (proxy) {
+		g_object_set (G_OBJECT (session), 
+			      SOUP_SESSION_PROXY_URI, proxy,
+			      NULL);
 	}
 
 	if (recurse) {

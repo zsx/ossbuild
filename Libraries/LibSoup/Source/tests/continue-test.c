@@ -76,7 +76,7 @@ do_message (const char *path, gboolean long_body,
 		      expect_continue ? "" : "no ",
 		      auth ? "with" : "without");
 
-	uri = g_strdup_printf ("http://%slocalhost:%d/%s",
+	uri = g_strdup_printf ("http://%s127.0.0.1:%d/%s",
 			       auth ? "user:pass@" : "",
 			       port, path);
 	msg = soup_message_new ("POST", uri);
@@ -359,8 +359,8 @@ server_got_headers (SoupMessage *msg, gpointer server)
 	    SOUP_EXPECTATION_CONTINUE) {
 		const char *length;
 
-		length = soup_message_headers_get (msg->request_headers,
-						    "Content-Length");
+		length = soup_message_headers_get_one (msg->request_headers,
+						       "Content-Length");
 		if (length && atoi (length) > MAX_POST_LENGTH) {
 			soup_message_set_status (msg, SOUP_STATUS_REQUEST_ENTITY_TOO_LARGE);
 			soup_message_headers_append (msg->response_headers, "Connection", "close");

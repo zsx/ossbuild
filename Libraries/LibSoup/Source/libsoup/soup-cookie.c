@@ -43,7 +43,8 @@
  * SoupCookie:
  * @name: the cookie name
  * @value: the cookie value
- * @domain: the "domain" attribute, or %NULL
+ * @domain: the "domain" attribute, or else the hostname that the
+ * cookie came from.
  * @path: the "path" attribute, or %NULL
  * @expires: the cookie expiration time, or %NULL for a session cookie
  * @secure: %TRUE if the cookie should only be tranferred over SSL
@@ -401,7 +402,7 @@ parse_one_cookie (const char **header_p, SoupURI *origin)
  * soup_cookie_new:
  * @name: cookie name
  * @value: cookie value
- * @domain: cookie domain, or %NULL
+ * @domain: cookie domain or hostname
  * @path: cookie path, or %NULL
  * @max_age: max age of the cookie, or -1 for a session cookie
  *
@@ -429,6 +430,18 @@ soup_cookie_new (const char *name, const char *value,
 		 int max_age)
 {
 	SoupCookie *cookie;	
+
+	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (value != NULL, NULL);
+
+	/* We ought to return if domain is NULL too, but this used to
+	 * do be incorrectly documented as legal, and it wouldn't
+	 * break anything as long as you called
+	 * soup_cookie_set_domain() immediately after. So we warn but
+	 * don't return, to discourage that behavior but not actually
+	 * break anyone doing it.
+	 */
+	g_warn_if_fail (domain != NULL);
 
 	cookie = g_slice_new0 (SoupCookie);
 	cookie->name = g_strdup (name);
@@ -828,8 +841,13 @@ soup_cookies_from_request (SoupMessage *msg)
 	GHashTable *params;
 	GHashTableIter iter;
 	gpointer name, value;
+	const char *header;
 
-	params = soup_header_parse_semi_param_list (soup_message_headers_get (msg->request_headers, "Cookie"));
+	header = soup_message_headers_get_one (msg->request_headers, "Cookie");
+	if (!header)
+		return NULL;
+
+	params = soup_header_parse_semi_param_list (header);
 	g_hash_table_iter_init (&iter, params);
 	while (g_hash_table_iter_next (&iter, &name, &value)) {
 		cookie = soup_cookie_new (name, value, NULL, NULL, 0);
@@ -885,8 +903,8 @@ soup_cookies_to_request (GSList *cookies, SoupMessage *msg)
 {
 	GString *header;
 
-	header = g_string_new (soup_message_headers_get (msg->request_headers,
-							 "Cookie"));
+	header = g_string_new (soup_message_headers_get_one (msg->request_headers,
+							     "Cookie"));
 	while (cookies) {
 		serialize_cookie (cookies->data, header, FALSE);
 		cookies = cookies->next;

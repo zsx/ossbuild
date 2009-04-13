@@ -48,27 +48,27 @@
     <sub name="Index" link="ix01.html"/>
   </chapters>
   <functions>
-    <function name="Using pkg-config" link="libsoup-build-howto.html#id2759617"/>
-    <function name="Headers" link="libsoup-build-howto.html#id3034984"/>
-    <function name="Creating a SoupSession" link="libsoup-client-howto.html#id3059190"/>
+    <function name="Using pkg-config" link="libsoup-build-howto.html#id563246"/>
+    <function name="Headers" link="libsoup-build-howto.html#id548638"/>
+    <function name="Creating a SoupSession" link="libsoup-client-howto.html#id575158"/>
     <function name="Session features" link="libsoup-client-howto.html#session-features"/>
-    <function name="Creating and Sending SoupMessages" link="libsoup-client-howto.html#id3014895"/>
-    <function name="Processing the Response" link="libsoup-client-howto.html#id3062523"/>
-    <function name="Intermediate/Automatic Processing" link="libsoup-client-howto.html#id3062639"/>
-    <function name="Handling Authentication" link="libsoup-client-howto.html#id3062726"/>
-    <function name="Multi-threaded usage" link="libsoup-client-howto.html#id3062871"/>
-    <function name="Sample Programs" link="libsoup-client-howto.html#id3062940"/>
-    <function name="Creating a SoupSession" link="libsoup-server-howto.html#id3041939"/>
-    <function name="Adding Handlers" link="libsoup-server-howto.html#id3093077"/>
-    <function name="Responding to Requests" link="libsoup-server-howto.html#id3075140"/>
-    <function name="Handling Authentication" link="libsoup-server-howto.html#id3096729"/>
-    <function name="Overview" link="libsoup-porting-2.2-2.4.html#id3093993"/>
-    <function name="SoupMessage" link="libsoup-porting-2.2-2.4.html#id3087790"/>
-    <function name="SoupSession" link="libsoup-porting-2.2-2.4.html#id3100193"/>
-    <function name="SoupURI" link="libsoup-porting-2.2-2.4.html#id3100404"/>
-    <function name="XML-RPC and SOAP" link="libsoup-porting-2.2-2.4.html#id3100709"/>
-    <function name="SoupServer" link="libsoup-porting-2.2-2.4.html#id3101130"/>
-    <function name="Miscellaneous" link="libsoup-porting-2.2-2.4.html#id3101536"/>
+    <function name="Creating and Sending SoupMessages" link="libsoup-client-howto.html#id581580"/>
+    <function name="Processing the Response" link="libsoup-client-howto.html#id581857"/>
+    <function name="Intermediate/Automatic Processing" link="libsoup-client-howto.html#id581966"/>
+    <function name="Handling Authentication" link="libsoup-client-howto.html#id582048"/>
+    <function name="Multi-threaded usage" link="libsoup-client-howto.html#id582183"/>
+    <function name="Sample Programs" link="libsoup-client-howto.html#id582273"/>
+    <function name="Creating a SoupSession" link="libsoup-server-howto.html#id557862"/>
+    <function name="Adding Handlers" link="libsoup-server-howto.html#id562610"/>
+    <function name="Responding to Requests" link="libsoup-server-howto.html#id556942"/>
+    <function name="Handling Authentication" link="libsoup-server-howto.html#id586530"/>
+    <function name="Overview" link="libsoup-porting-2.2-2.4.html#id582672"/>
+    <function name="SoupMessage" link="libsoup-porting-2.2-2.4.html#id575912"/>
+    <function name="SoupSession" link="libsoup-porting-2.2-2.4.html#id587327"/>
+    <function name="SoupURI" link="libsoup-porting-2.2-2.4.html#id587529"/>
+    <function name="XML-RPC and SOAP" link="libsoup-porting-2.2-2.4.html#id587818"/>
+    <function name="SoupServer" link="libsoup-porting-2.2-2.4.html#id588231"/>
+    <function name="Miscellaneous" link="libsoup-porting-2.2-2.4.html#id588622"/>
     <function name="SoupAuth" link="SoupAuth.html#SoupAuth-struct"/>
     <function name="soup_auth_new ()" link="SoupAuth.html#soup-auth-new"/>
     <function name="soup_auth_update ()" link="SoupAuth.html#soup-auth-update"/>
@@ -243,6 +243,8 @@
     <function name="soup_message_headers_replace ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-replace"/>
     <function name="soup_message_headers_remove ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-remove"/>
     <function name="soup_message_headers_clear ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-clear"/>
+    <function name="soup_message_headers_get_one ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-one"/>
+    <function name="soup_message_headers_get_list ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get-list"/>
     <function name="soup_message_headers_get ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-get"/>
     <function name="SoupMessageHeadersForeachFunc ()" link="libsoup-24-SoupMessageHeaders.html#SoupMessageHeadersForeachFunc"/>
     <function name="soup_message_headers_foreach ()" link="libsoup-24-SoupMessageHeaders.html#soup-message-headers-foreach"/>

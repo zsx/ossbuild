@@ -61,7 +61,7 @@
 </pre>
 <p>
 This returns the <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 ><span class="type">GType</span></a> of a <a class="link" href="SoupSessionFeature.html" title="SoupSessionFeature"><span class="type">SoupSessionFeature</span></a> that automatically
 adds all of the GNOME features defined for libsoup 2.26 (which is
 just <a class="link" href="libsoup-24-soup-gnome-features.html#SOUP-TYPE-PROXY-RESOLVER-GNOME--CAPS" title="SOUP_TYPE_PROXY_RESOLVER_GNOME"><code class="literal">SOUP_TYPE_PROXY_RESOLVER_GNOME</code></a>).
@@ -77,10 +77,11 @@ You can add this to a session using
 <hr>
 <div class="refsect2" lang="en">
 <a name="SOUP-TYPE-PROXY-RESOLVER-GNOME--CAPS"></a><h3>SOUP_TYPE_PROXY_RESOLVER_GNOME</h3>
-<pre class="programlisting">#define             SOUP_TYPE_PROXY_RESOLVER_GNOME</pre>
+<pre class="programlisting">#define SOUP_TYPE_PROXY_RESOLVER_GNOME (soup_proxy_resolver_gnome_get_type ())
+</pre>
 <p>
 This returns the <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
 ><span class="type">GType</span></a> of a <a class="link" href="SoupProxyResolver.html" title="SoupProxyResolver"><span class="type">SoupProxyResolver</span></a> that can be used to
 resolve HTTP proxies for GNOME applications. You can add this to
 a session using <a class="link" href="SoupSession.html#soup-session-add-feature-by-type" title="soup_session_add_feature_by_type ()"><code class="function">soup_session_add_feature_by_type()</code></a> or by using the

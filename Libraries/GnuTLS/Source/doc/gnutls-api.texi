@@ -2551,9 +2551,10 @@ low-security 40 bit ciphers.
 "NONE" nothing is enabled. This disables even protocols and
 compression methods.
 
-@strong{Special keywords:} '!' or '-' appended with an algorithm will remove this algorithm.
-'+' appended with an algorithm will add this algorithm.
-'@code{COMPAT}' will enable compatibility features for a server.
+@strong{Special keywords:} "!" or "-" appended with an algorithm will remove this algorithm.
+"+" appended with an algorithm will add this algorithm.
+"@code{COMPAT}" will enable compatibility features for a server.
+"@code{SSL3_RECORD_VERSION}" will use SSL3.0 record version in client hello.
 
 To avoid collisions in order to specify a compression algorithm in
 this string you have to prefix it with "COMP-", protocol versions

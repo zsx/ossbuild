@@ -53,7 +53,7 @@
                     <a class="link" href="SoupCookieJarSqlite.html#SoupCookieJarSqlite-struct" title="SoupCookieJarSqlite">SoupCookieJarSqlite</a>;
 <a class="link" href="SoupCookieJar.html" title="SoupCookieJar">SoupCookieJar</a> *     <a class="link" href="SoupCookieJarSqlite.html#soup-cookie-jar-sqlite-new" title="soup_cookie_jar_sqlite_new ()">soup_cookie_jar_sqlite_new</a>          (const char *filename,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> read_only);
 
 #define             <a class="link" href="SoupCookieJarSqlite.html#SOUP-COOKIE-JAR-SQLITE-FILENAME--CAPS" title="SOUP_COOKIE_JAR_SQLITE_FILENAME">SOUP_COOKIE_JAR_SQLITE_FILENAME</a>
@@ -63,7 +63,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <a name="SoupCookieJarSqlite.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a class="link" href="SoupCookieJar.html" title="SoupCookieJar">SoupCookieJar</a>
          +----SoupCookieJarSqlite
@@ -79,7 +79,7 @@ SoupCookieJarSqlite implements
 <a name="SoupCookieJarSqlite.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="SoupCookieJarSqlite.html#SoupCookieJarSqlite--filename" title='The "filename" property'>filename</a>"                 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only
 </pre>
 </div>
@@ -104,7 +104,7 @@ writes them to an SQLite file in the new Mozilla format.</p>
 <a name="soup-cookie-jar-sqlite-new"></a><h3>soup_cookie_jar_sqlite_new ()</h3>
 <pre class="programlisting"><a class="link" href="SoupCookieJar.html" title="SoupCookieJar">SoupCookieJar</a> *     soup_cookie_jar_sqlite_new          (const char *filename,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> read_only);</pre>
 <p>
 Creates a <a class="link" href="SoupCookieJarSqlite.html" title="SoupCookieJarSqlite"><span class="type">SoupCookieJarSqlite</span></a>.
@@ -112,11 +112,11 @@ Creates a <a class="link" href="SoupCookieJarSqlite.html" title="SoupCookieJarSq
 <p>
 <em class="parameter"><code>filename</code></em> will be read in at startup to create an initial set of
 cookies. If <em class="parameter"><code>read_only</code></em> is <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a>, then the non-session cookies will
 be written to <em class="parameter"><code>filename</code></em> when the 'changed' signal is emitted from
 the jar. (If <em class="parameter"><code>read_only</code></em> is <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a>, then the cookie jar will only be
 used for this session, and changes made to it will be lost when the
 jar is destroyed.)</p>
@@ -128,14 +128,14 @@ jar is destroyed.)</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>filename</code></em> :</span></p></td>
 <td> the filename to read to/write from, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>read_only</code></em> :</span></p></td>
 <td> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if <em class="parameter"><code>filename</code></em> is read-only
 </td>
 </tr>
@@ -166,7 +166,7 @@ cookie-storage filename.)</p>
 <div class="refsect2" lang="en">
 <a name="SoupCookieJarSqlite--filename"></a><h3>The <code class="literal">"filename"</code> property</h3>
 <pre class="programlisting">  "filename"                 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only</pre>
 <p>Cookie-storage filename.</p>
 <p>Default value: NULL</p>

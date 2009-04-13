@@ -522,7 +522,7 @@ to the struct sockaddr for this address.)</para>
 </refsect2>
 <refsect2 id="SoupAddress--port" role="property"><title>The <literal>&quot;port&quot;</literal> property</title>
 <indexterm zone="SoupAddress--port"><primary sortas="SoupAddress:port">SoupAddress:port</primary></indexterm><programlisting>  &quot;port&quot;                     <link linkend="gint">gint</link>                  : Read / Write / Construct Only</programlisting>
-<para>Port for this address.</para><para>Allowed values: [-1,65535]</para>
+<para>Port for this address.</para><para>Allowed values: [G_MAXULONG,65535]</para>
 <para>Default value: -1</para>
 </refsect2>
 <refsect2 id="SoupAddress--sockaddr" role="property"><title>The <literal>&quot;sockaddr&quot;</literal> property</title>

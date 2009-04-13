@@ -1,14 +1,14 @@
 <html lang="en">
 <head>
-<title>GNU TLS 2.6.4</title>
+<title>GNU TLS 2.6.5</title>
 <meta http-equiv="Content-Type" content="text/html">
-<meta name="description" content="GNU TLS 2.6.4">
+<meta name="description" content="GNU TLS 2.6.5">
 <meta name="generator" content="makeinfo 4.13">
 <link title="Top" rel="top" href="#Top">
 <link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
 <!--
-This manual is last updated 6 February 2009 for version
-2.6.4 of GNU TLS.
+This manual is last updated 11 April 2009 for version
+2.6.5 of GNU TLS.
 
 Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
@@ -77,7 +77,7 @@ dd, li {
 --></style>
 </head>
 <body>
-<h1 class="settitle">GNU TLS 2.6.4</h1>
+<h1 class="settitle">GNU TLS 2.6.5</h1>
 <div class="contents">
 <h2>Table of Contents</h2>
 <ul>
@@ -293,8 +293,8 @@ Up:&nbsp;<a rel="up" accesskey="u" href="#dir">(dir)</a>
 
 <h2 class="unnumbered">GNU TLS</h2>
 
-<p>This manual is last updated 6 February 2009 for version
-2.6.4 of GNU TLS.
+<p>This manual is last updated 11 April 2009 for version
+2.6.5 of GNU TLS.
 
 <p>Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
@@ -450,7 +450,7 @@ GnuTLS is available for download from the following URL:
 <p><a href="http://www.gnutls.org/download.html">http://www.gnutls.org/download.html</a>
 
 <p>The latest version is stored in a file, e.g.,
-&lsquo;<samp><span class="samp">gnutls-2.6.4.tar.gz</span></samp>&rsquo; where the &lsquo;<samp><span class="samp">2.6.4</span></samp>&rsquo;
+&lsquo;<samp><span class="samp">gnutls-2.6.5.tar.gz</span></samp>&rsquo; where the &lsquo;<samp><span class="samp">2.6.5</span></samp>&rsquo;
 value is the highest version number in the directory.
 
 <p>GnuTLS uses a Linux-like development cycle: even minor version numbers
@@ -10223,9 +10223,10 @@ low-security 40 bit ciphers.
      <p>"NONE" nothing is enabled. This disables even protocols and
 compression methods.
 
-     <p><strong>Special keywords:</strong> '!' or '-' appended with an algorithm will remove this algorithm. 
-'+' appended with an algorithm will add this algorithm. 
-'<code>COMPAT</code>' will enable compatibility features for a server.
+     <p><strong>Special keywords:</strong> "!" or "-" appended with an algorithm will remove this algorithm. 
+"+" appended with an algorithm will add this algorithm. 
+"<code>COMPAT</code>" will enable compatibility features for a server. 
+"<code>SSL3_RECORD_VERSION</code>" will use SSL3.0 record version in client hello.
 
      <p>To avoid collisions in order to specify a compression algorithm in
 this string you have to prefix it with "COMP-", protocol versions

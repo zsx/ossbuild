@@ -47,10 +47,10 @@
 #define             <a class="link" href="libsoup-24-HTML-Form-Support.html#SOUP-FORM-MIME-TYPE-MULTIPART--CAPS" title="SOUP_FORM_MIME_TYPE_MULTIPART">SOUP_FORM_MIME_TYPE_MULTIPART</a>
 #define             <a class="link" href="libsoup-24-HTML-Form-Support.html#SOUP-FORM-MIME-TYPE-URLENCODED--CAPS" title="SOUP_FORM_MIME_TYPE_URLENCODED">SOUP_FORM_MIME_TYPE_URLENCODED</a>
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *        <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-decode" title="soup_form_decode ()">soup_form_decode</a>                    (const char *encoded_form);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *        <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-decode-multipart" title="soup_form_decode_multipart ()">soup_form_decode_multipart</a>          (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *file_control_name,
                                                          char **filename,
@@ -59,10 +59,10 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 char *              <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-encode" title="soup_form_encode ()">soup_form_encode</a>                    (const char *first_field,
                                                          ...);
 char *              <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-encode-datalist" title="soup_form_encode_datalist ()">soup_form_encode_datalist</a>           (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Keyed-Data-Lists.html#GData"
+href="/usr/share/gtk-doc/html/glib/glib-Keyed-Data-Lists.html#GData"
 >GData</a> **form_data_set);
 char *              <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-encode-hash" title="soup_form_encode_hash ()">soup_form_encode_hash</a>               (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *form_data_set);
 char *              <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-encode-valist" title="soup_form_encode_valist ()">soup_form_encode_valist</a>             (const char *first_field,
                                                          va_list args);
@@ -73,12 +73,12 @@ char *              <a class="link" href="libsoup-24-HTML-Form-Support.html#soup
 <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *       <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-request-new-from-datalist" title="soup_form_request_new_from_datalist ()">soup_form_request_new_from_datalist</a> (const char *method,
                                                          const char *uri,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Keyed-Data-Lists.html#GData"
+href="/usr/share/gtk-doc/html/glib/glib-Keyed-Data-Lists.html#GData"
 >GData</a> **form_data_set);
 <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *       <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-request-new-from-hash" title="soup_form_request_new_from_hash ()">soup_form_request_new_from_hash</a>     (const char *method,
                                                          const char *uri,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *form_data_set);
 <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *       <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-request-new-from-multipart" title="soup_form_request_new_from_multipart ()">soup_form_request_new_from_multipart</a>
                                                         (const char *uri,
@@ -121,7 +121,7 @@ MIME type for POSTing HTML form data.</p>
 <div class="refsect2" lang="en">
 <a name="soup-form-decode"></a><h3>soup_form_decode ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *        soup_form_decode                    (const char *encoded_form);</pre>
 <p>
 Decodes <em class="parameter"><code>form</code></em>, which is an urlencoded dataset as defined in the
@@ -140,7 +140,7 @@ HTML 4.01 spec.</p>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> a hash table containing the name/value pairs from
 <em class="parameter"><code>encoded_form</code></em>, which you can free with <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#g-hash-table-destroy"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#g-hash-table-destroy"
 ><code class="function">g_hash_table_destroy()</code></a>.
 </td>
 </tr>
@@ -151,7 +151,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#g-hash-table-destro
 <div class="refsect2" lang="en">
 <a name="soup-form-decode-multipart"></a><h3>soup_form_decode_multipart ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *        soup_form_decode_multipart          (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *file_control_name,
                                                          char **filename,
@@ -167,20 +167,20 @@ the name of the file upload control in <em class="parameter"><code>file_control_
 into <em class="parameter"><code>filename</code></em>, <em class="parameter"><code>content_type</code></em>, and <em class="parameter"><code>file</code></em>. All of the other form
 control data will be returned (as strings, as with
 <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-decode" title="soup_form_decode ()"><code class="function">soup_form_decode()</code></a>) in the returned <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 ><span class="type">GHashTable</span></a>.
 </p>
 <p>
 You may pass <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> for <em class="parameter"><code>filename</code></em> and/or <em class="parameter"><code>content_type</code></em> if you do not
 care about those fields. <a class="link" href="libsoup-24-HTML-Form-Support.html#soup-form-decode-multipart" title="soup_form_decode_multipart ()"><code class="function">soup_form_decode_multipart()</code></a> may also
 return <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> in those fields if the client did not provide that
 information. You must free the returned filename and content-type
 with <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"
+href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"
 ><code class="function">g_free()</code></a>, and the returned file data with <a class="link" href="libsoup-24-SoupMessageBody.html#soup-buffer-free" title="soup_buffer_free ()"><code class="function">soup_buffer_free()</code></a>.
 </p>
 <p>
@@ -200,7 +200,7 @@ and <a class="link" href="libsoup-24-SoupMultipart.html#soup-multipart-get-part"
 <tr>
 <td><p><span class="term"><em class="parameter"><code>file_control_name</code></em> :</span></p></td>
 <td> the name of the HTML file upload control, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -224,9 +224,9 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <td> a hash table containing the name/value pairs (other
 than <em class="parameter"><code>file_control_name</code></em>) from <em class="parameter"><code>msg</code></em>, which you can free with
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#g-hash-table-destroy"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#g-hash-table-destroy"
 ><code class="function">g_hash_table_destroy()</code></a>. On error, it will return <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>.
 
 </td>
@@ -264,7 +264,7 @@ working with dynamic forms, use <a class="link" href="libsoup-24-HTML-Form-Suppo
 <td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
 <td> value of <em class="parameter"><code>first_field</code></em>, followed by additional field names
 and values, terminated by <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>.
 </td>
 </tr>
@@ -280,7 +280,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <div class="refsect2" lang="en">
 <a name="soup-form-encode-datalist"></a><h3>soup_form_encode_datalist ()</h3>
 <pre class="programlisting">char *              soup_form_encode_datalist           (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Keyed-Data-Lists.html#GData"
+href="/usr/share/gtk-doc/html/glib/glib-Keyed-Data-Lists.html#GData"
 >GData</a> **form_data_set);</pre>
 <p>
 Encodes <em class="parameter"><code>form_data_set</code></em> into a value of type
@@ -309,7 +309,7 @@ of the form elements, which may be required in some situations.</p>
 <div class="refsect2" lang="en">
 <a name="soup-form-encode-hash"></a><h3>soup_form_encode_hash ()</h3>
 <pre class="programlisting">char *              soup_form_encode_hash               (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *form_data_set);</pre>
 <p>
 Encodes <em class="parameter"><code>form_data_set</code></em> into a value of type
@@ -407,7 +407,7 @@ will encode it into the <a class="link" href="SoupMessage.html" title="SoupMessa
 <td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
 <td> value of <em class="parameter"><code>first_field</code></em>, followed by additional field names
 and values, terminated by <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>.
 </td>
 </tr>
@@ -425,7 +425,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <pre class="programlisting"><a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *       soup_form_request_new_from_datalist (const char *method,
                                                          const char *uri,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Keyed-Data-Lists.html#GData"
+href="/usr/share/gtk-doc/html/glib/glib-Keyed-Data-Lists.html#GData"
 >GData</a> **form_data_set);</pre>
 <p>
 Creates a new <a class="link" href="SoupMessage.html" title="SoupMessage"><code class="literal">SoupMessage</code></a> and sets it up to send <em class="parameter"><code>form_data_set</code></em> to
@@ -464,7 +464,7 @@ Creates a new <a class="link" href="SoupMessage.html" title="SoupMessage"><code 
 <pre class="programlisting"><a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *       soup_form_request_new_from_hash     (const char *method,
                                                          const char *uri,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *form_data_set);</pre>
 <p>
 Creates a new <a class="link" href="SoupMessage.html" title="SoupMessage"><code class="literal">SoupMessage</code></a> and sets it up to send <em class="parameter"><code>form_data_set</code></em> to

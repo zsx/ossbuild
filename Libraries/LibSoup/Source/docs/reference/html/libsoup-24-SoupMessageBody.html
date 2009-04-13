@@ -48,32 +48,32 @@
 enum                <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a>;
 <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        <a class="link" href="libsoup-24-SoupMessageBody.html#soup-buffer-new" title="soup_buffer_new ()">soup_buffer_new</a>                     (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a> use,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> length);
 <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        <a class="link" href="libsoup-24-SoupMessageBody.html#soup-buffer-new-subbuffer" title="soup_buffer_new_subbuffer ()">soup_buffer_new_subbuffer</a>           (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *parent,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> offset,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> length);
 <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        <a class="link" href="libsoup-24-SoupMessageBody.html#soup-buffer-new-with-owner" title="soup_buffer_new_with_owner ()">soup_buffer_new_with_owner</a>          (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> length,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> owner,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
+href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
 >GDestroyNotify</a> owner_dnotify);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>            <a class="link" href="libsoup-24-SoupMessageBody.html#soup-buffer-get-owner" title="soup_buffer_get_owner ()">soup_buffer_get_owner</a>               (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *buffer);
 <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        <a class="link" href="libsoup-24-SoupMessageBody.html#soup-buffer-copy" title="soup_buffer_copy ()">soup_buffer_copy</a>                    (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *buffer);
 void                <a class="link" href="libsoup-24-SoupMessageBody.html#soup-buffer-free" title="soup_buffer_free ()">soup_buffer_free</a>                    (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *buffer);
@@ -84,19 +84,19 @@ void                <a class="link" href="libsoup-24-SoupMessageBody.html#soup-m
 
 void                <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-set-accumulate" title="soup_message_body_set_accumulate ()">soup_message_body_set_accumulate</a>    (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> accumulate);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-get-accumulate" title="soup_message_body_get_accumulate ()">soup_message_body_get_accumulate</a>    (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body);
 
 void                <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-append" title="soup_message_body_append ()">soup_message_body_append</a>            (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body,
                                                          <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a> use,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> length);
 void                <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-append-buffer" title="soup_message_body_append_buffer ()">soup_message_body_append_buffer</a>     (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body,
                                                          <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *buffer);
@@ -105,7 +105,7 @@ void                <a class="link" href="libsoup-24-SoupMessageBody.html#soup-m
 <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-flatten" title="soup_message_body_flatten ()">soup_message_body_flatten</a>           (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body);
 <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-get-chunk" title="soup_message_body_get_chunk ()">soup_message_body_get_chunk</a>         (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> offset);
 
 void                <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-got-chunk" title="soup_message_body_got_chunk ()">soup_message_body_got_chunk</a>         (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body,
@@ -145,7 +145,7 @@ A data buffer, generally used to represent a chunk of a
 <p>
 <em class="parameter"><code>data</code></em> is a <span class="type">char</span> because that's generally convenient; in some
 situations you may need to cast it to <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guchar"
 ><span class="type">guchar</span></a> or another type.</p>
 <p>
 </p>
@@ -159,7 +159,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guchar"
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> <em class="structfield"><code>length</code></em>;</span></p></td>
 <td> length of <em class="parameter"><code>data</code></em>
 </td>
@@ -201,7 +201,7 @@ need to worry about it being modified or freed.
 <td> The caller has allocated the memory for the
 <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer"><span class="type">SoupBuffer</span></a>'s use; libsoup will assume ownership of it and free it
 (with <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"
+href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"
 ><code class="function">g_free()</code></a>) when it is done with it.
 </td>
 </tr>
@@ -229,10 +229,10 @@ as well, rather than reusing the original memory.
 <a name="soup-buffer-new"></a><h3>soup_buffer_new ()</h3>
 <pre class="programlisting"><a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        soup_buffer_new                     (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a> use,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> length);</pre>
 <p>
 Creates a new <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer"><span class="type">SoupBuffer</span></a> containing <em class="parameter"><code>length</code></em> bytes from <em class="parameter"><code>data</code></em>.</p>
@@ -269,10 +269,10 @@ Creates a new <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" 
 <a name="soup-buffer-new-subbuffer"></a><h3>soup_buffer_new_subbuffer ()</h3>
 <pre class="programlisting"><a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        soup_buffer_new_subbuffer           (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *parent,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> offset,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> length);</pre>
 <p>
 Creates a new <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer"><span class="type">SoupBuffer</span></a> containing <em class="parameter"><code>length</code></em> bytes "copied" from
@@ -311,16 +311,16 @@ any data, but will instead simply reference the same data as
 <div class="refsect2" lang="en">
 <a name="soup-buffer-new-with-owner"></a><h3>soup_buffer_new_with_owner ()</h3>
 <pre class="programlisting"><a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        soup_buffer_new_with_owner          (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> length,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> owner,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
+href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
 >GDestroyNotify</a> owner_dnotify);</pre>
 <p>
 Creates a new <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer"><span class="type">SoupBuffer</span></a> containing <em class="parameter"><code>length</code></em> bytes from <em class="parameter"><code>data</code></em>. When
@@ -383,7 +383,7 @@ freed
 <div class="refsect2" lang="en">
 <a name="soup-buffer-get-owner"></a><h3>soup_buffer_get_owner ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>            soup_buffer_get_owner               (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *buffer);</pre>
 <p>
 Gets the "owner" object for a buffer created with
@@ -468,7 +468,7 @@ A <a class="link" href="SoupMessage.html" title="SoupMessage"><span class="type"
 <p>
 Note that while <em class="parameter"><code>length</code></em> always reflects the full length of the
 message body, <em class="parameter"><code>data</code></em> is normally <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>, and will only be filled in
 after <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-flatten" title="soup_message_body_flatten ()"><code class="function">soup_message_body_flatten()</code></a> is called. For client-side
 messages, this automatically happens for the response body after it
@@ -492,7 +492,7 @@ with a '\0' byte (which is not reflected in <em class="parameter"><code>length</
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> <em class="structfield"><code>length</code></em>;</span></p></td>
 <td> length of <em class="parameter"><code>data</code></em>
 </td>
@@ -541,17 +541,17 @@ Frees <em class="parameter"><code>body</code></em>. You will not normally need t
 <a name="soup-message-body-set-accumulate"></a><h3>soup_message_body_set_accumulate ()</h3>
 <pre class="programlisting">void                soup_message_body_set_accumulate    (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> accumulate);</pre>
 <p>
 Sets or clears the accumulate flag on <em class="parameter"><code>body</code></em>. (The default value
 is <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a>.)
 </p>
 <p>
 If you set this flag to <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a> on an "incoming" message body (that
 is, the <code class="literal">response_body</code> of a client-side message, or <code class="literal">request_body</code>
 of a server-side message), this will cause each chunk of the body
@@ -561,7 +561,7 @@ signal is emitted. (This is equivalent to setting the deprecated
 </p>
 <p>
 If you set this flag to <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a> on an "outgoing" message body (the
 <code class="literal">request_body</code> of a client-side message, or <code class="literal">response_body</code> of a
 server-side message), it will cause each chunk of the body to be
@@ -595,7 +595,7 @@ available</p>
 <div class="refsect2" lang="en">
 <a name="soup-message-body-get-accumulate"></a><h3>soup_message_body_get_accumulate ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_message_body_get_accumulate    (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body);</pre>
 <p>
 Gets the accumulate flag on <em class="parameter"><code>body</code></em>; see
@@ -626,10 +626,10 @@ Gets the accumulate flag on <em class="parameter"><code>body</code></em>; see
 <pre class="programlisting">void                soup_message_body_append            (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body,
                                                          <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a> use,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gconstpointer"
 >gconstpointer</a> data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> length);</pre>
 <p>
 Appends <em class="parameter"><code>length</code></em> bytes from <em class="parameter"><code>data</code></em> to <em class="parameter"><code>body</code></em> according to <em class="parameter"><code>use</code></em>.</p>
@@ -756,7 +756,7 @@ length field).</p>
 <a name="soup-message-body-get-chunk"></a><h3>soup_message_body_get_chunk ()</h3>
 <pre class="programlisting"><a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        soup_message_body_get_chunk         (<a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody">SoupMessageBody</a> *body,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#goffset"
 >goffset</a> offset);</pre>
 <p>
 Gets a <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer"><span class="type">SoupBuffer</span></a> containing data from <em class="parameter"><code>body</code></em> starting at <em class="parameter"><code>offset</code></em>.
@@ -773,7 +773,7 @@ then the return value depends on whether or not
 then <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-get-chunk" title="soup_message_body_get_chunk ()"><code class="function">soup_message_body_get_chunk()</code></a> will return a 0-length chunk
 (indicating the end of <em class="parameter"><code>body</code></em>). If it has not, then
 <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-get-chunk" title="soup_message_body_get_chunk ()"><code class="function">soup_message_body_get_chunk()</code></a> will return <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> (indicating that
 <em class="parameter"><code>body</code></em> may still potentially have more data, but that data is not
 currently available).</p>
@@ -795,7 +795,7 @@ currently available).</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> a <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer"><span class="type">SoupBuffer</span></a>, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>.
 </td>
 </tr>
@@ -812,7 +812,7 @@ Handles the <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBod
 the network. Normally this means appending <em class="parameter"><code>chunk</code></em> to <em class="parameter"><code>body</code></em>, exactly
 as with <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-append-buffer" title="soup_message_body_append_buffer ()"><code class="function">soup_message_body_append_buffer()</code></a>, but if you have set
 <em class="parameter"><code>body</code></em>'s accumulate flag to <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a>, then that will not happen.
 </p>
 <p>
@@ -846,7 +846,7 @@ use.</p>
 Handles the <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMessageBody" title="SoupMessageBody"><span class="type">SoupMessageBody</span></a> part of writing a chunk of data to the
 network. Normally this is a no-op, but if you have set <em class="parameter"><code>body</code></em>'s
 accumulate flag to <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a>, then this will cause <em class="parameter"><code>chunk</code></em> to be
 discarded to free up memory.
 </p>

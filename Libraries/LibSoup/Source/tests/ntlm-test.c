@@ -87,7 +87,8 @@ server_callback (SoupServer *server, SoupMessage *msg,
 
 	socket = soup_client_context_get_socket (client);
 	state = GPOINTER_TO_INT (g_hash_table_lookup (connections, socket));
-	auth = soup_message_headers_get (msg->request_headers, "Authorization");
+	auth = soup_message_headers_get_one (msg->request_headers,
+					     "Authorization");
 
 	if (auth) {
 		if (!strncmp (auth, "NTLM ", 5)) {
@@ -175,8 +176,8 @@ prompt_check (SoupMessage *msg, gpointer user_data)
 	NTLMState *state = user_data;
 	const char *header;
 
-	header = soup_message_headers_get (msg->response_headers,
-					   "WWW-Authenticate");
+	header = soup_message_headers_get_list (msg->response_headers,
+						"WWW-Authenticate");
 	if (header && strstr (header, "Basic "))
 		state->got_basic_prompt = TRUE;
 	if (!state->sent_ntlm_request) {
@@ -192,8 +193,8 @@ challenge_check (SoupMessage *msg, gpointer user_data)
 	NTLMState *state = user_data;
 	const char *header;
 
-	header = soup_message_headers_get (msg->response_headers,
-					    "WWW-Authenticate");
+	header = soup_message_headers_get_list (msg->response_headers,
+						"WWW-Authenticate");
 	if (header && !strncmp (header, "NTLM ", 5))
 		state->got_ntlm_challenge = TRUE;
 }
@@ -204,8 +205,8 @@ request_check (SoupMessage *msg, gpointer user_data)
 	NTLMState *state = user_data;
 	const char *header;
 
-	header = soup_message_headers_get (msg->request_headers,
-					   "Authorization");
+	header = soup_message_headers_get_one (msg->request_headers,
+					       "Authorization");
 	if (header && !strncmp (header, "NTLM " NTLM_REQUEST_START,
 				strlen ("NTLM " NTLM_REQUEST_START)))
 		state->sent_ntlm_request = TRUE;
@@ -217,8 +218,8 @@ response_check (SoupMessage *msg, gpointer user_data)
 	NTLMState *state = user_data;
 	const char *header;
 
-	header = soup_message_headers_get (msg->request_headers,
-					   "Authorization");
+	header = soup_message_headers_get_one (msg->request_headers,
+					       "Authorization");
 	if (header && !strncmp (header, "NTLM " NTLM_RESPONSE_START,
 				strlen ("NTLM " NTLM_RESPONSE_START)))
 		state->sent_ntlm_response = TRUE;
@@ -419,7 +420,7 @@ main (int argc, char **argv)
 
 	loop = g_main_loop_new (NULL, TRUE);
 
-	uri = soup_uri_new ("http://localhost/");
+	uri = soup_uri_new ("http://127.0.0.1/");
 	soup_uri_set_port (uri, soup_server_get_port (server));
 	do_ntlm_tests (uri);
 	soup_uri_free (uri);

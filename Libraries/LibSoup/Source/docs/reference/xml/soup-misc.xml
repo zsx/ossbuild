@@ -670,15 +670,19 @@ or <link linkend="soup-header-parse-semi-param-list"><function>soup_header_parse
                                                          const <link linkend="char">char</link> *name,
                                                          const <link linkend="char">char</link> *value);</programlisting>
 <para>
-Appends something like <literal><parameter>name</parameter>="<parameter>value</parameter>"</literal> to <parameter>string</parameter>,
-taking care to appropriately escape any quotes or backslashes in <parameter>value</parameter>.
+Appends something like <literal><parameter>name</parameter>="<parameter>value</parameter>"</literal> to
+<parameter>string</parameter>, taking care to appropriately escape any quotes or
+backslashes in <parameter>value</parameter>.
 </para>
 <para>
 Alternatively, if <parameter>value</parameter> is a non-ASCII UTF-8 string, it will be
 appended using RFC2231 syntax. Although in theory this is supposed
 to work anywhere in HTTP that uses this style of parameter, in
 reality, it can only be used portably with the Content-Disposition
-"filename" parameter.</para>
+"filename" parameter.
+</para>
+<para>
+If <parameter>value</parameter> is <link linkend="NULL--CAPS"><literal>NULL</literal></link>, this will just append <parameter>name</parameter> to <parameter>string</parameter>.</para>
 <para>
 </para><variablelist role="params">
 <varlistentry><term><parameter>string</parameter>&#160;:</term>
@@ -688,7 +692,7 @@ reality, it can only be used portably with the Content-Disposition
 <listitem><simpara> a parameter name
 </simpara></listitem></varlistentry>
 <varlistentry><term><parameter>value</parameter>&#160;:</term>
-<listitem><simpara> a parameter value
+<listitem><simpara> a parameter value, or <link linkend="NULL--CAPS"><literal>NULL</literal></link>
 </simpara></listitem></varlistentry>
 </variablelist><para role="since">Since 2.26</para></refsect2>
 <refsect2 id="soup-str-case-equal" role="function">

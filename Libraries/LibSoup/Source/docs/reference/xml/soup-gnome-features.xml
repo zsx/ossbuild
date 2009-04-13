@@ -55,7 +55,8 @@ You can add this to a session using
 </para><para role="since">Since 2.26</para></refsect2>
 <refsect2 id="SOUP-TYPE-PROXY-RESOLVER-GNOME--CAPS" role="macro" condition="since:2.26">
 <title>SOUP_TYPE_PROXY_RESOLVER_GNOME</title>
-<indexterm zone="SOUP-TYPE-PROXY-RESOLVER-GNOME--CAPS" role="2.26"><primary sortas="SOUP_TYPE_PROXY_RESOLVER_GNOME">SOUP_TYPE_PROXY_RESOLVER_GNOME</primary></indexterm><programlisting>#define             SOUP_TYPE_PROXY_RESOLVER_GNOME</programlisting>
+<indexterm zone="SOUP-TYPE-PROXY-RESOLVER-GNOME--CAPS" role="2.26"><primary sortas="SOUP_TYPE_PROXY_RESOLVER_GNOME">SOUP_TYPE_PROXY_RESOLVER_GNOME</primary></indexterm><programlisting>#define SOUP_TYPE_PROXY_RESOLVER_GNOME (soup_proxy_resolver_gnome_get_type ())
+</programlisting>
 <para>
 This returns the <link linkend="GType"><type>GType</type></link> of a <link linkend="SoupProxyResolver"><type>SoupProxyResolver</type></link> that can be used to
 resolve HTTP proxies for GNOME applications. You can add this to

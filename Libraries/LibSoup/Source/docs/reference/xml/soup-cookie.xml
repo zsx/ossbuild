@@ -150,7 +150,8 @@ cross-site scripting attacks.</para>
 </varlistentry>
 <varlistentry>
 <term><link linkend="char">char</link>&#160;*<structfield>domain</structfield>;</term>
-<listitem><simpara> the "domain" attribute, or <link linkend="NULL--CAPS"><literal>NULL</literal></link>
+<listitem><simpara> the "domain" attribute, or else the hostname that the
+cookie came from.
 </simpara></listitem>
 </varlistentry>
 <varlistentry>
@@ -205,7 +206,7 @@ about setting the exact time that the cookie will expire, use
 <listitem><simpara> cookie value
 </simpara></listitem></varlistentry>
 <varlistentry><term><parameter>domain</parameter>&#160;:</term>
-<listitem><simpara> cookie domain, or <link linkend="NULL--CAPS"><literal>NULL</literal></link>
+<listitem><simpara> cookie domain or hostname
 </simpara></listitem></varlistentry>
 <varlistentry><term><parameter>path</parameter>&#160;:</term>
 <listitem><simpara> cookie path, or <link linkend="NULL--CAPS"><literal>NULL</literal></link>

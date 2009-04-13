@@ -54,37 +54,37 @@
 <a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *        <a class="link" href="SoupServer.html#soup-server-new" title="soup_server_new ()">soup_server_new</a>                     (const char *optname1,
                                                          ...);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="SoupServer.html#soup-server-is-https" title="soup_server_is_https ()">soup_server_is_https</a>                (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="SoupServer.html#soup-server-get-port" title="soup_server_get_port ()">soup_server_get_port</a>                (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);
 <a class="link" href="SoupSocket.html" title="SoupSocket">SoupSocket</a> *        <a class="link" href="SoupServer.html#soup-server-get-listener" title="soup_server_get_listener ()">soup_server_get_listener</a>            (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);
 void                <a class="link" href="SoupServer.html#soup-server-run" title="soup_server_run ()">soup_server_run</a>                     (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);
 void                <a class="link" href="SoupServer.html#soup-server-run-async" title="soup_server_run_async ()">soup_server_run_async</a>               (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);
 void                <a class="link" href="SoupServer.html#soup-server-quit" title="soup_server_quit ()">soup_server_quit</a>                    (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 >GMainContext</a> *      <a class="link" href="SoupServer.html#soup-server-get-async-context" title="soup_server_get_async_context ()">soup_server_get_async_context</a>       (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);
 
 void                (<a class="link" href="SoupServer.html#SoupServerCallback" title="SoupServerCallback ()">*SoupServerCallback</a>)               (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server,
                                                          <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *path,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *query,
                                                          <a class="link" href="SoupServer.html#SoupClientContext" title="SoupClientContext">SoupClientContext</a> *client,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 void                <a class="link" href="SoupServer.html#soup-server-add-handler" title="soup_server_add_handler ()">soup_server_add_handler</a>             (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server,
                                                          const char *path,
                                                          <a class="link" href="SoupServer.html#SoupServerCallback" title="SoupServerCallback ()">SoupServerCallback</a> callback,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
+href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
 >GDestroyNotify</a> destroy);
 void                <a class="link" href="SoupServer.html#soup-server-remove-handler" title="soup_server_remove_handler ()">soup_server_remove_handler</a>          (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server,
                                                          const char *path);
@@ -119,7 +119,7 @@ void                <a class="link" href="SoupServer.html#soup-server-unpause-me
 <a name="SoupServer.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----SoupServer
 </pre>
@@ -128,23 +128,23 @@ href="/opt/foo/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObj
 <a name="SoupServer.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="SoupServer.html#SoupServer--async-context" title='The "async-context" property'>async-context</a>"            <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>              : Read / Write / Construct Only
   "<a class="link" href="SoupServer.html#SoupServer--interface" title='The "interface" property'>interface</a>"                <a class="link" href="SoupAddress.html" title="SoupAddress">SoupAddress</a>*          : Read / Write / Construct Only
   "<a class="link" href="SoupServer.html#SoupServer--port" title='The "port" property'>port</a>"                     <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct Only
   "<a class="link" href="SoupServer.html#SoupServer--raw-paths" title='The "raw-paths" property'>raw-paths</a>"                <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct Only
   "<a class="link" href="SoupServer.html#SoupServer--server-header" title='The "server-header" property'>server-header</a>"            <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct
   "<a class="link" href="SoupServer.html#SoupServer--ssl-cert-file" title='The "ssl-cert-file" property'>ssl-cert-file</a>"            <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only
   "<a class="link" href="SoupServer.html#SoupServer--ssl-key-file" title='The "ssl-key-file" property'>ssl-key-file</a>"             <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only
 </pre>
 </div>
@@ -168,7 +168,7 @@ handler by calling <a class="link" href="SoupServer.html#soup-server-add-handler
 called to process any requests underneath the path passed to
 <a class="link" href="SoupServer.html#soup-server-add-handler" title="soup_server_add_handler ()"><code class="function">soup_server_add_handler()</code></a>. (If you want all requests to go to the
 same handler, just pass "/" (or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>) for the path.) Any request
 that does not match any handler will automatically be returned to
 the client with a 404 (Not Found) status.
@@ -191,7 +191,7 @@ calling <a class="link" href="SoupServer.html#soup-server-run-async" title="soup
 runs via the glib main loop; if you need to have a server that runs
 in another thread (or merely isn't bound to the default main loop),
 create a <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 ><span class="type">GMainContext</span></a> for it to use, and set that via the
 <a class="link" href="SoupServer.html#SOUP-SERVER-ASYNC-CONTEXT--CAPS" title="SOUP_SERVER_ASYNC_CONTEXT"><span class="type">SOUP_SERVER_ASYNC_CONTEXT</span></a> property.</p>
 <p>
@@ -239,7 +239,7 @@ Creates a new <a class="link" href="SoupServer.html" title="SoupServer"><span cl
 <div class="refsect2" lang="en">
 <a name="soup-server-is-https"></a><h3>soup_server_is_https ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_server_is_https                (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);</pre>
 <p>
 Checks whether <em class="parameter"><code>server</code></em> is running plain http or https.
@@ -261,7 +261,7 @@ to provide it with an SSL certificate to use.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if <em class="parameter"><code>server</code></em> is serving https.
 </td>
 </tr>
@@ -272,7 +272,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 <div class="refsect2" lang="en">
 <a name="soup-server-get-port"></a><h3>soup_server_get_port ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               soup_server_get_port                (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);</pre>
 <p>
 Gets the TCP port that <em class="parameter"><code>server</code></em> is listening on. This is most useful
@@ -330,7 +330,7 @@ malfunction.</p>
 Starts <em class="parameter"><code>server</code></em>, causing it to listen for and process incoming
 connections. Unlike <a class="link" href="SoupServer.html#soup-server-run-async" title="soup_server_run_async ()"><code class="function">soup_server_run_async()</code></a>, this creates a
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainLoop"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainLoop"
 ><span class="type">GMainLoop</span></a> and runs it, and it will not return until someone calls
 <a class="link" href="SoupServer.html#soup-server-quit" title="soup_server_quit ()"><code class="function">soup_server_quit()</code></a> to stop the server.</p>
 <p>
@@ -354,7 +354,7 @@ connections.
 </p>
 <p>
 The server actually runs in <em class="parameter"><code>server</code></em>'s <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 ><span class="type">GMainContext</span></a>. It will not
 actually perform any processing unless the appropriate main loop is
 running. In the simple case where you did not set the server's
@@ -397,7 +397,7 @@ and stop a server as many times as you want.</p>
 <div class="refsect2" lang="en">
 <a name="soup-server-get-async-context"></a><h3>soup_server_get_async_context ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 >GMainContext</a> *      soup_server_get_async_context       (<a class="link" href="SoupServer.html" title="SoupServer">SoupServer</a> *server);</pre>
 <p>
 Gets <em class="parameter"><code>server</code></em>'s async_context. This does not add a ref to the
@@ -416,9 +416,9 @@ outlive its server.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <em class="parameter"><code>server</code></em>'s <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 ><span class="type">GMainContext</span></a>, which may be <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>
 </td>
 </tr>
@@ -432,11 +432,11 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
                                                          <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *path,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
+href="/usr/share/gtk-doc/html/glib/glib-Hash-Tables.html#GHashTable"
 >GHashTable</a> *query,
                                                          <a class="link" href="SoupServer.html#SoupClientContext" title="SoupClientContext">SoupClientContext</a> *client,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 A callback used to handle requests to a <a class="link" href="SoupServer.html" title="SoupServer"><span class="type">SoupServer</span></a>. The callback
@@ -535,10 +535,10 @@ coming.</p>
                                                          const char *path,
                                                          <a class="link" href="SoupServer.html#SoupServerCallback" title="SoupServerCallback ()">SoupServerCallback</a> callback,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
+href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
 >GDestroyNotify</a> destroy);</pre>
 <p>
 Adds a handler to <em class="parameter"><code>server</code></em> for requests under <em class="parameter"><code>path</code></em>. See the
@@ -731,7 +731,7 @@ authenticated it.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> a <a class="link" href="SoupAuthDomain.html" title="SoupAuthDomain"><span class="type">SoupAuthDomain</span></a>, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if the request was not
 authenticated.
 </td>
@@ -760,7 +760,7 @@ authenticated as.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the authenticated-as user, or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if the request
 was not authenticated.
 </td>
@@ -937,7 +937,7 @@ containing the SSL certificate key for the server.)</p>
 <p>
 Alias for the <a class="link" href="SoupServer.html#SoupServer--async-context" title='The "async-context" property'><span class="type">"async-context"</span></a> property. (The
 server's <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 ><span class="type">GMainContext</span></a>.)</p>
 <p>
 </p>
@@ -949,7 +949,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContex
 </pre>
 <p>
 Alias for the <a class="link" href="SoupServer.html#SoupServer--raw-paths" title='The "raw-paths" property'><span class="type">"raw-paths"</span></a> property. (If <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a>,
 percent-encoding in the Request-URI path will not be
 automatically decoded.)</p>
@@ -972,7 +972,7 @@ Alias for the <a class="link" href="SoupServer.html#SoupServer--server-header" t
 <div class="refsect2" lang="en">
 <a name="SoupServer--async-context"></a><h3>The <code class="literal">"async-context"</code> property</h3>
 <pre class="programlisting">  "async-context"            <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>              : Read / Write / Construct Only</pre>
 <p>The GMainContext to dispatch async I/O in.</p>
 </div>
@@ -986,7 +986,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <div class="refsect2" lang="en">
 <a name="SoupServer--port"></a><h3>The <code class="literal">"port"</code> property</h3>
 <pre class="programlisting">  "port"                     <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct Only</pre>
 <p>Port to listen on.</p>
 <p>Allowed values: &lt;= 65536</p>
@@ -996,7 +996,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <div class="refsect2" lang="en">
 <a name="SoupServer--raw-paths"></a><h3>The <code class="literal">"raw-paths"</code> property</h3>
 <pre class="programlisting">  "raw-paths"                <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct Only</pre>
 <p>If %TRUE, percent-encoding in the Request-URI path will not be automatically decoded.</p>
 <p>Default value: FALSE</p>
@@ -1005,11 +1005,11 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" lang="en">
 <a name="SoupServer--server-header"></a><h3>The <code class="literal">"server-header"</code> property</h3>
 <pre class="programlisting">  "server-header"            <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct</pre>
 <p>
 If non-<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>, the value to use for the "Server" header on
 <a class="link" href="SoupMessage.html" title="SoupMessage"><span class="type">SoupMessage</span></a>s processed by this server.
 </p>
@@ -1045,7 +1045,7 @@ header for you.</p>
 <div class="refsect2" lang="en">
 <a name="SoupServer--ssl-cert-file"></a><h3>The <code class="literal">"ssl-cert-file"</code> property</h3>
 <pre class="programlisting">  "ssl-cert-file"            <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only</pre>
 <p>File containing server SSL certificate.</p>
 <p>Default value: NULL</p>
@@ -1054,7 +1054,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="SoupServer--ssl-key-file"></a><h3>The <code class="literal">"ssl-key-file"</code> property</h3>
 <pre class="programlisting">  "ssl-key-file"             <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only</pre>
 <p>File containing server SSL key.</p>
 <p>Default value: NULL</p>
@@ -1068,7 +1068,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
                                                         <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a>       *message,
                                                         <a class="link" href="SoupServer.html#SoupClientContext" title="SoupClientContext">SoupClientContext</a> *client,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>           user_data)      : Run First</pre>
 <p>
 Emitted when processing has failed for a message; this
@@ -1117,7 +1117,7 @@ free any state that it may have allocated in
                                                         <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a>       *message,
                                                         <a class="link" href="SoupServer.html#SoupClientContext" title="SoupClientContext">SoupClientContext</a> *client,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>           user_data)      : Run First</pre>
 <p>
 Emitted when the server has finished writing a response to
@@ -1156,7 +1156,7 @@ a request.</p>
                                                         <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a>       *message,
                                                         <a class="link" href="SoupServer.html#SoupClientContext" title="SoupClientContext">SoupClientContext</a> *client,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>           user_data)      : Run First</pre>
 <p>
 Emitted when the server has successfully read a request.
@@ -1200,7 +1200,7 @@ processing will be skipped.</p>
                                                         <a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a>       *message,
                                                         <a class="link" href="SoupServer.html#SoupClientContext" title="SoupClientContext">SoupClientContext</a> *client,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>           user_data)      : Run First</pre>
 <p>
 Emitted when the server has started reading a new request.

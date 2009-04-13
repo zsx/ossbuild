@@ -61,14 +61,14 @@ void                <a class="link" href="SoupMessage.html#soup-message-set-requ
                                                          <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a> req_use,
                                                          const char *req_body,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> req_length);
 void                <a class="link" href="SoupMessage.html#soup-message-set-response" title="soup_message_set_response ()">soup_message_set_response</a>           (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *content_type,
                                                          <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a> resp_use,
                                                          const char *resp_body,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> resp_length);
 
 enum                <a class="link" href="SoupMessage.html#SoupHTTPVersion" title="enum SoupHTTPVersion">SoupHTTPVersion</a>;
@@ -82,41 +82,41 @@ void                <a class="link" href="SoupMessage.html#soup-message-set-uri"
 
 void                <a class="link" href="SoupMessage.html#soup-message-set-status" title="soup_message_set_status ()">soup_message_set_status</a>             (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> status_code);
 void                <a class="link" href="SoupMessage.html#soup-message-set-status-full" title="soup_message_set_status_full ()">soup_message_set_status_full</a>        (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> status_code,
                                                          const char *reason_phrase);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="SoupMessage.html#soup-message-is-keepalive" title="soup_message_is_keepalive ()">soup_message_is_keepalive</a>           (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg);
 
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="SoupMessage.html#soup-message-add-header-handler" title="soup_message_add_header_handler ()">soup_message_add_header_handler</a>     (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *signal,
                                                          const char *header,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Closures.html#GCallback"
+href="/usr/share/gtk-doc/html/gobject/gobject-Closures.html#GCallback"
 >GCallback</a> callback,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="SoupMessage.html#soup-message-add-status-code-handler" title="soup_message_add_status_code_handler ()">soup_message_add_status_code_handler</a>
                                                         (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *signal,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> status_code,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Closures.html#GCallback"
+href="/usr/share/gtk-doc/html/gobject/gobject-Closures.html#GCallback"
 >GCallback</a> callback,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 
 enum                <a class="link" href="SoupMessage.html#SoupMessageFlags" title="enum SoupMessageFlags">SoupMessageFlags</a>;
@@ -125,18 +125,18 @@ void                <a class="link" href="SoupMessage.html#soup-message-set-flag
 <a class="link" href="SoupMessage.html#SoupMessageFlags" title="enum SoupMessageFlags">SoupMessageFlags</a>    <a class="link" href="SoupMessage.html#soup-message-get-flags" title="soup_message_get_flags ()">soup_message_get_flags</a>              (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg);
 <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        (<a class="link" href="SoupMessage.html#SoupChunkAllocator" title="SoupChunkAllocator ()">*SoupChunkAllocator</a>)               (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> max_len,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 void                <a class="link" href="SoupMessage.html#soup-message-set-chunk-allocator" title="soup_message_set_chunk_allocator ()">soup_message_set_chunk_allocator</a>    (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          <a class="link" href="SoupMessage.html#SoupChunkAllocator" title="SoupChunkAllocator ()">SoupChunkAllocator</a> allocator,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
+href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
 >GDestroyNotify</a> destroy_notify);
 
 #define             <a class="link" href="SoupMessage.html#SOUP-MESSAGE-METHOD--CAPS" title="SOUP_MESSAGE_METHOD">SOUP_MESSAGE_METHOD</a>
@@ -152,7 +152,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
 <a name="SoupMessage.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----SoupMessage
 </pre>
@@ -163,16 +163,16 @@ href="/opt/foo/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObj
   "<a class="link" href="SoupMessage.html#SoupMessage--flags" title='The "flags" property'>flags</a>"                    <a class="link" href="SoupMessage.html#SoupMessageFlags" title="enum SoupMessageFlags">SoupMessageFlags</a>      : Read / Write
   "<a class="link" href="SoupMessage.html#SoupMessage--http-version" title='The "http-version" property'>http-version</a>"             <a class="link" href="SoupMessage.html#SoupHTTPVersion" title="enum SoupHTTPVersion">SoupHTTPVersion</a>       : Read / Write
   "<a class="link" href="SoupMessage.html#SoupMessage--method" title='The "method" property'>method</a>"                   <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="SoupMessage.html#SoupMessage--reason-phrase" title='The "reason-phrase" property'>reason-phrase</a>"            <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="SoupMessage.html#SoupMessage--server-side" title='The "server-side" property'>server-side</a>"              <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct Only
   "<a class="link" href="SoupMessage.html#SoupMessage--status-code" title='The "status-code" property'>status-code</a>"              <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="SoupMessage.html#SoupMessage--uri" title='The "uri" property'>uri</a>"                      <a class="link" href="libsoup-24-SoupURI.html#SoupURI" title="SoupURI">SoupURI</a>*              : Read / Write
 </pre>
@@ -274,7 +274,7 @@ are handling the data from a <a class="link" href="SoupMessage.html#SoupMessage-
 need to see it all at the end), call
 <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-set-accumulate" title="soup_message_body_set_accumulate ()"><code class="function">soup_message_body_set_accumulate()</code></a> on <em class="parameter"><code>response_body</code></em> or
 <em class="parameter"><code>request_body</code></em> as appropriate, passing <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a>.</p>
 <p>
 </p>
@@ -288,7 +288,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> <em class="structfield"><code>status_code</code></em>;</span></p></td>
 <td> the HTTP status code
 </td>
@@ -346,7 +346,7 @@ Creates a new empty <a class="link" href="SoupMessage.html" title="SoupMessage">
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the new <a class="link" href="SoupMessage.html" title="SoupMessage"><span class="type">SoupMessage</span></a> (or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a> if <em class="parameter"><code>uri</code></em> could not
 be parsed).
 </td>
@@ -392,12 +392,12 @@ Creates a new empty <a class="link" href="SoupMessage.html" title="SoupMessage">
                                                          <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a> req_use,
                                                          const char *req_body,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> req_length);</pre>
 <p>
 Convenience function to set the request body of a <a class="link" href="SoupMessage.html" title="SoupMessage"><span class="type">SoupMessage</span></a>. If
 <em class="parameter"><code>content_type</code></em> is <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>, the request body must be empty as well.</p>
 <p>
 </p>
@@ -440,12 +440,12 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
                                                          <a class="link" href="libsoup-24-SoupMessageBody.html#SoupMemoryUse" title="enum SoupMemoryUse">SoupMemoryUse</a> resp_use,
                                                          const char *resp_body,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> resp_length);</pre>
 <p>
 Convenience function to set the response body of a <a class="link" href="SoupMessage.html" title="SoupMessage"><span class="type">SoupMessage</span></a>. If
 <em class="parameter"><code>content_type</code></em> is <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>, the response body must be empty as well.</p>
 <p>
 </p>
@@ -644,7 +644,7 @@ session will resolve it before sending the message.</p>
 <a name="soup-message-set-status"></a><h3>soup_message_set_status ()</h3>
 <pre class="programlisting">void                soup_message_set_status             (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> status_code);</pre>
 <p>
 Sets <em class="parameter"><code>msg</code></em>'s status code to <em class="parameter"><code>status_code</code></em>. If <em class="parameter"><code>status_code</code></em> is a
@@ -672,7 +672,7 @@ known value, it will also set <em class="parameter"><code>msg</code></em>'s reas
 <a name="soup-message-set-status-full"></a><h3>soup_message_set_status_full ()</h3>
 <pre class="programlisting">void                soup_message_set_status_full        (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> status_code,
                                                          const char *reason_phrase);</pre>
 <p>
@@ -704,7 +704,7 @@ Sets <em class="parameter"><code>msg</code></em>'s status code and reason phrase
 <div class="refsect2" lang="en">
 <a name="soup-message-is-keepalive"></a><h3>soup_message_is_keepalive ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            soup_message_is_keepalive           (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg);</pre>
 <p>
 Determines whether or not <em class="parameter"><code>msg</code></em>'s connection can be kept alive for
@@ -723,9 +723,9 @@ Connection header, etc.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a>.
 </td>
 </tr>
@@ -736,20 +736,20 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 <div class="refsect2" lang="en">
 <a name="soup-message-add-header-handler"></a><h3>soup_message_add_header_handler ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               soup_message_add_header_handler     (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *signal,
                                                          const char *header,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Closures.html#GCallback"
+href="/usr/share/gtk-doc/html/gobject/gobject-Closures.html#GCallback"
 >GCallback</a> callback,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 Adds a signal handler to <em class="parameter"><code>msg</code></em> for <em class="parameter"><code>signal</code></em>, as with
 <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
+href="/usr/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
 ><code class="function">g_signal_connect()</code></a>, but with two differences: the <em class="parameter"><code>callback</code></em> will
 only be run if <em class="parameter"><code>msg</code></em> has a header named <em class="parameter"><code>header</code></em>, and it will only be
 run if no earlier handler cancelled or requeued the message.
@@ -794,7 +794,7 @@ client <a class="link" href="SoupMessage.html" title="SoupMessage"><span class="
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the handler ID from <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
+href="/usr/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
 ><code class="function">g_signal_connect()</code></a>
 </td>
 </tr>
@@ -805,23 +805,23 @@ href="/opt/foo/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
 <div class="refsect2" lang="en">
 <a name="soup-message-add-status-code-handler"></a><h3>soup_message_add_status_code_handler ()</h3>
 <pre class="programlisting"><a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               soup_message_add_status_code_handler
                                                         (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          const char *signal,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a> status_code,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Closures.html#GCallback"
+href="/usr/share/gtk-doc/html/gobject/gobject-Closures.html#GCallback"
 >GCallback</a> callback,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 Adds a signal handler to <em class="parameter"><code>msg</code></em> for <em class="parameter"><code>signal</code></em>, as with
 <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
+href="/usr/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
 ><code class="function">g_signal_connect()</code></a> but with two differences: the <em class="parameter"><code>callback</code></em> will
 only be run if <em class="parameter"><code>msg</code></em> has the status <em class="parameter"><code>status_code</code></em>, and it will only
 be run if no earlier handler cancelled or requeued the message.
@@ -864,7 +864,7 @@ signal.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the handler ID from <a
-href="/opt/foo/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
+href="/usr/share/gtk-doc/html/gobject/gobject-Signals.html#g-signal-connect"
 ><code class="function">g_signal_connect()</code></a>
 </td>
 </tr>
@@ -894,7 +894,7 @@ behavior.</p>
 <td> Deprecated: equivalent to calling
 <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-set-accumulate" title="soup_message_body_set_accumulate ()"><code class="function">soup_message_body_set_accumulate()</code></a> on the incoming message body
 (ie, <code class="literal">response_body</code> for a client-side request), passing <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a>.
 </td>
 </tr>
@@ -961,10 +961,10 @@ Gets the flags on <em class="parameter"><code>msg</code></em></p>
 <a name="SoupChunkAllocator"></a><h3>SoupChunkAllocator ()</h3>
 <pre class="programlisting"><a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a> *        (*SoupChunkAllocator)               (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
 >gsize</a> max_len,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 The prototype for a chunk allocation callback. This should allocate
@@ -982,7 +982,7 @@ convenient.
 </p>
 <p>
 If the allocator returns <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>, the message will be paused. It is
 up to the application to make sure that it gets unpaused when it
 becomes possible to allocate a new buffer.</p>
@@ -1009,7 +1009,7 @@ becomes possible to allocate a new buffer.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> the new buffer (or <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 ><code class="literal">NULL</code></a>)
 </td>
 </tr>
@@ -1022,10 +1022,10 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 <pre class="programlisting">void                soup_message_set_chunk_allocator    (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                          <a class="link" href="SoupMessage.html#SoupChunkAllocator" title="SoupChunkAllocator ()">SoupChunkAllocator</a> allocator,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data,
                                                          <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
+href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
 >GDestroyNotify</a> destroy_notify);</pre>
 <p>
 Sets an alternate chunk-allocation function to use when reading
@@ -1038,7 +1038,7 @@ data from the network into that buffer, and update the buffer's
 <p>
 Generally, a custom chunk allocator would be used in conjunction
 with <a class="link" href="libsoup-24-SoupMessageBody.html#soup-message-body-set-accumulate" title="soup_message_body_set_accumulate ()"><code class="function">soup_message_body_set_accumulate()</code></a> <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a> and
 <a class="link" href="SoupMessage.html#SoupMessage-got-chunk" title='The "got-chunk" signal'><span class="type">"got_chunk"</span></a>, as part of a strategy to avoid unnecessary
 copying of data. However, you cannot assume that every call to the
@@ -1158,7 +1158,7 @@ message's HTTP response reason phrase.)</p>
 </pre>
 <p>
 Alias for the <a class="link" href="SoupMessage.html#SoupMessage--server-side" title='The "server-side" property'><span class="type">"server-side"</span></a> property. (<a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if
 the message was created by <a class="link" href="SoupServer.html" title="SoupServer"><span class="type">SoupServer</span></a>.)</p>
 <p>
@@ -1183,7 +1183,7 @@ the message was created by <a class="link" href="SoupServer.html" title="SoupSer
 <div class="refsect2" lang="en">
 <a name="SoupMessage--method"></a><h3>The <code class="literal">"method"</code> property</h3>
 <pre class="programlisting">  "method"                   <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>The message's HTTP method.</p>
 <p>Default value: "GET"</p>
@@ -1192,7 +1192,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="SoupMessage--reason-phrase"></a><h3>The <code class="literal">"reason-phrase"</code> property</h3>
 <pre class="programlisting">  "reason-phrase"            <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>The HTTP response reason phrase.</p>
 <p>Default value: NULL</p>
@@ -1201,7 +1201,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="SoupMessage--server-side"></a><h3>The <code class="literal">"server-side"</code> property</h3>
 <pre class="programlisting">  "server-side"              <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct Only</pre>
 <p>Whether or not the message is server-side rather than client-side.</p>
 <p>Default value: FALSE</p>
@@ -1210,7 +1210,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" lang="en">
 <a name="SoupMessage--status-code"></a><h3>The <code class="literal">"status-code"</code> property</h3>
 <pre class="programlisting">  "status-code"              <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>The HTTP response status code.</p>
 <p>Allowed values: &lt;= 599</p>
@@ -1229,7 +1229,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <a name="SoupMessage-finished"></a><h3>The <code class="literal">"finished"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted when all HTTP processing is finished for a message.
@@ -1257,7 +1257,7 @@ after <a class="link" href="SoupMessage.html#SoupMessage-wrote-body" title='The 
 <a name="SoupMessage-got-body"></a><h3>The <code class="literal">"got-body"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted after receiving the complete message body. (For a
@@ -1292,7 +1292,7 @@ to connect to a subset of emissions of this signal.</p>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a>  *chunk,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted after receiving a chunk of a message body. Note
@@ -1331,7 +1331,7 @@ emission finished, and <em class="parameter"><code>msg</code></em>'s connection 
 <a name="SoupMessage-got-headers"></a><h3>The <code class="literal">"got-headers"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted after receiving all message headers for a message.
@@ -1376,7 +1376,7 @@ existing HTTP connection can be reused.)</p>
 <a name="SoupMessage-got-informational"></a><h3>The <code class="literal">"got-informational"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted after receiving a 1xx (Informational) response for
@@ -1411,7 +1411,7 @@ emission finished, and <em class="parameter"><code>msg</code></em>'s connection 
 <a name="SoupMessage-restarted"></a><h3>The <code class="literal">"restarted"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted when a request that was already sent once is now
@@ -1440,7 +1440,7 @@ authentication).</p>
 <a name="SoupMessage-wrote-body"></a><h3>The <code class="literal">"wrote-body"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted immediately after writing the complete body for a
@@ -1472,7 +1472,7 @@ done with the message.)</p>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a class="link" href="libsoup-24-SoupMessageBody.html#SoupBuffer" title="SoupBuffer">SoupBuffer</a>  *chunk,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted immediately after writing a portion of the message
@@ -1510,7 +1510,7 @@ complete "chunk".</p>
 <a name="SoupMessage-wrote-chunk"></a><h3>The <code class="literal">"wrote-chunk"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted immediately after writing a body chunk for a message.
@@ -1544,7 +1544,7 @@ more useful continuous progress information, use
 <a name="SoupMessage-wrote-headers"></a><h3>The <code class="literal">"wrote-headers"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted immediately after writing the headers for a
@@ -1573,7 +1573,7 @@ writing the response headers.)</p>
 <a name="SoupMessage-wrote-informational"></a><h3>The <code class="literal">"wrote-informational"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="SoupMessage.html" title="SoupMessage">SoupMessage</a> *msg,
                                                         <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run First</pre>
 <p>
 Emitted immediately after writing a 1xx (Informational)

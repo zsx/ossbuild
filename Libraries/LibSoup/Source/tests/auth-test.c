@@ -166,8 +166,8 @@ identify_auth (SoupMessage *msg)
 	const char *header;
 	int num;
 
-	header = soup_message_headers_get (msg->request_headers,
-					    "Authorization");
+	header = soup_message_headers_get_one (msg->request_headers,
+					       "Authorization");
 	if (!header)
 		return 0;
 
@@ -559,7 +559,8 @@ select_auth_authenticate (SoupSession *session, SoupMessage *msg,
 	const char *header, *basic, *digest;
 	int round = retrying ? 1 : 0;
 
-	header = soup_message_headers_get (msg->response_headers, "WWW-Authenticate");
+	header = soup_message_headers_get_list (msg->response_headers,
+						"WWW-Authenticate");
 	basic = strstr (header, "Basic");
 	digest = strstr (header, "Digest");
 	if (basic && digest) {
@@ -684,7 +685,7 @@ do_select_auth_test (void)
 	soup_server_add_handler (server, NULL,
 				 server_callback, NULL, NULL);
 
-	uri = soup_uri_new ("http://localhost/");
+	uri = soup_uri_new ("http://127.0.0.1/");
 	soup_uri_set_port (uri, soup_server_get_port (server));
 
 	basic_auth_domain = soup_auth_domain_basic_new (
@@ -765,7 +766,7 @@ main (int argc, char **argv)
 	test_init (argc, argv, NULL);
 	apache_init ();
 
-	base_uri = "http://localhost:47524/";
+	base_uri = "http://127.0.0.1:47524/";
 
 	session = soup_test_session_new (SOUP_TYPE_SESSION_ASYNC, NULL);
 	g_signal_connect (session, "authenticate",

@@ -142,7 +142,8 @@ do_request_test (SoupSession *session, SoupURI *base_uri)
 		errors++;
 	}
 
-	server_md5 = soup_message_headers_get (msg->response_headers, "Content-MD5");
+	server_md5 = soup_message_headers_get_one (msg->response_headers,
+						   "Content-MD5");
 	if (!server_md5 || strcmp (client_md5, server_md5) != 0) {
 		debug_printf (1, "  client/server data mismatch: %s vs %s\n",
 			      client_md5, server_md5 ? server_md5 : "(null)");
@@ -229,7 +230,8 @@ do_response_test (SoupSession *session, SoupURI *base_uri)
 	}
 
 	client_md5 = g_checksum_get_string (gtd.check);
-	server_md5 = soup_message_headers_get (msg->response_headers, "Content-MD5");
+	server_md5 = soup_message_headers_get_one (msg->response_headers,
+						   "Content-MD5");
 	if (!server_md5 || strcmp (client_md5, server_md5) != 0) {
 		debug_printf (1, "  client/server data mismatch: %s vs %s\n",
 			      client_md5, server_md5 ? server_md5 : "(null)");
@@ -290,7 +292,8 @@ do_temporary_test (SoupSession *session, SoupURI *base_uri)
 		errors++;
 	}
 
-	server_md5 = soup_message_headers_get (msg->response_headers, "Content-MD5");
+	server_md5 = soup_message_headers_get_one (msg->response_headers,
+						   "Content-MD5");
 	if (!server_md5 || strcmp (client_md5, server_md5) != 0) {
 		debug_printf (1, "  client/server data mismatch: %s vs %s\n",
 			      client_md5, server_md5 ? server_md5 : "(null)");
@@ -363,7 +366,7 @@ main (int argc, char **argv)
 
 	loop = g_main_loop_new (NULL, TRUE);
 
-	base_uri = soup_uri_new ("http://localhost");
+	base_uri = soup_uri_new ("http://127.0.0.1");
 	soup_uri_set_port (base_uri, port);
 	do_chunk_tests (base_uri);
 	soup_uri_free (base_uri);

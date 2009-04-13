@@ -35,7 +35,7 @@
 <td valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsect2" lang="en">
-<a name="id3093993"></a><h3>Overview</h3>
+<a name="id582672"></a><h3>Overview</h3>
 <p>
 After many API-compatible releases in the 2.2 series,
 <span class="application">libsoup</span> has now changed its API and bumped
@@ -59,14 +59,14 @@ its version number to 2.4. Changes were made for a variety of reasons:
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3087790"></a><h3>SoupMessage</h3>
+<a name="id575912"></a><h3>SoupMessage</h3>
 <p>
 <a class="link" href="SoupMessage.html" title="SoupMessage"><span class="type">SoupMessage</span></a> has had a
 number of API changes made, mostly to increase its
 language-bindability.
 </p>
 <div class="refsect3" lang="en">
-<a name="id3088835"></a><h4>SoupMessageHeaders</h4>
+<a name="id573980"></a><h4>SoupMessageHeaders</h4>
 <p>
     <span class="type">SoupMessage</span>'s
     <em class="structfield"><code>request_headers</code></em> and
@@ -141,7 +141,7 @@ language-bindability.
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3092004"></a><h4>SoupMessageBody</h4>
+<a name="id570503"></a><h4>SoupMessageBody</h4>
 <p>
     Similarly, the <em class="structfield"><code>request_body</code></em> and
     <em class="structfield"><code>response</code></em> fields (renamed from
@@ -157,13 +157,17 @@ language-bindability.
 <tr>
 <td><p><span class="term"><code class="literal">SOUP_BUFFER_STATIC</code></span></p></td>
 <td><p>
-	    → <code class="literal">SOUP_MEMORY_STATIC</code>
+	    → <a
+href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-SoupMessageBody.html#SOUP-MEMORY-STATIC:CAPS"
+><code class="literal">SOUP_MEMORY_STATIC</code></a>
 	</p></td>
 </tr>
 <tr>
 <td><p><span class="term"><code class="literal">SOUP_BUFFER_SYSTEM_OWNED</code></span></p></td>
 <td><p>
-	    → <code class="literal">SOUP_MEMORY_TAKE</code>
+	    → <a
+href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-SoupMessageBody.html#SOUP-MEMORY-TAKE:CAPS"
+><code class="literal">SOUP_MEMORY_TAKE</code></a>
 	    (meaning <span class="application">libsoup</span>
 	    should take ownership of the memory from your).
 	</p></td>
@@ -171,7 +175,9 @@ language-bindability.
 <tr>
 <td><p><span class="term"><code class="literal">SOUP_BUFFER_USER_OWNED</code></span></p></td>
 <td><p>
-	    → <code class="literal">SOUP_MEMORY_COPY</code>
+	    → <a
+href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-SoupMessageBody.html#SOUP-MEMORY-COPY:CAPS"
+><code class="literal">SOUP_MEMORY_COPY</code></a>
 	    (meaning <span class="application">libsoup</span>
 	    should make a copy of the memory, because you
 	    can't make any guarantees about how long it will
@@ -181,7 +187,9 @@ language-bindability.
 </tbody>
 </table></div>
 <p>
-    A fourth <span class="type">SoupMemoryUse</span> value is also available: <code class="literal">SOUP_MEMORY_TEMPORARY</code>,
+    A fourth <span class="type">SoupMemoryUse</span> value is also available: <a
+href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-SoupMessageBody.html#SOUP-MEMORY-TEMPORARY:CAPS"
+><code class="literal">SOUP_MEMORY_TEMPORARY</code></a>,
     which helps to avoid extra copies in some cases.
     <code class="literal">SOUP_MEMORY_TEMPORARY</code> means that the memory
     will last at least as long as the object you are handing it to (a
@@ -221,7 +229,7 @@ language-bindability.
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3059414"></a><h4>Chunked encoding</h4>
+<a name="id586907"></a><h4>Chunked encoding</h4>
 <p>
     The prototype of the <a class="link" href="SoupMessage.html#SoupMessage-got-chunk" title='The "got-chunk" signal'><code class="literal">SoupMessage::got_chunk</code></a>
     signal has been changed; it now includes the chunk as a
@@ -271,7 +279,7 @@ language-bindability.
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3099922"></a><h4>Methods</h4>
+<a name="id587064"></a><h4>Methods</h4>
 <p>
     <span class="type">SoupMessage</span>'s
     <em class="structfield"><code>method</code></em> field is now an interned
@@ -285,7 +293,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-soup-method.html#SOUP-METHO
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3099967"></a><h4>Handlers</h4>
+<a name="id587109"></a><h4>Handlers</h4>
 <p>
     <a class="link" href="SoupMessage.html#soup-message-add-header-handler" title="soup_message_add_header_handler ()"><code class="function">soup_message_add_header_handler</code></a>
     and <a class="link" href="SoupMessage.html#soup-message-add-status-code-handler" title="soup_message_add_status_code_handler ()"><code class="function">soup_message_add_status_code_handler</code></a>
@@ -301,7 +309,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-soup-method.html#SOUP-METHO
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3100020"></a><h4>I/O-related <span class="type">SoupMessage</span> methods</h4>
+<a name="id587158"></a><h4>I/O-related <span class="type">SoupMessage</span> methods</h4>
 <p>
     <code class="function">soup_message_io_pause</code> and
     <code class="function">soup_message_io_unpause</code> have been moved to
@@ -338,7 +346,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-soup-method.html#SOUP-METHO
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3100169"></a><h4>HTTP-Version</h4>
+<a name="id587304"></a><h4>HTTP-Version</h4>
 <p>
     <span class="type">SoupHttpVersion</span> is now <a class="link" href="SoupMessage.html#SoupHTTPVersion" title="enum SoupHTTPVersion"><span class="type">SoupHTTPVersion</span></a>
 </p>
@@ -346,9 +354,9 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-soup-method.html#SOUP-METHO
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3100193"></a><h3>SoupSession</h3>
+<a name="id587327"></a><h3>SoupSession</h3>
 <div class="refsect3" lang="en">
-<a name="id3100199"></a><h4>
+<a name="id587333"></a><h4>
 <code class="function">soup_session_queue_message</code> callback</h4>
 <p>
     <a class="link" href="SoupSession.html#soup-session-queue-message" title="soup_session_queue_message ()"><code class="function">soup_session_queue_message</code></a>'s
@@ -360,7 +368,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-soup-method.html#SOUP-METHO
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3100247"></a><h4>Authentication</h4>
+<a name="id587381"></a><h4>Authentication</h4>
 <p>
     <span class="type">SoupSession</span>'s <code class="literal">authenticate</code> and
     <code class="literal">reauthenticate</code> signals have been merged into a
@@ -374,7 +382,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/libsoup-24-soup-method.html#SOUP-METHO
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3100310"></a><h4><span class="type">SoupLogger</span></h4>
+<a name="id587440"></a><h4><span class="type">SoupLogger</span></h4>
 <p>
 <span class="type">SoupLogger</span> is a
 new object that copies the behavior of
@@ -385,7 +393,7 @@ traffic to stdout, for debugging purposes.
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3100347"></a><h4><span class="type">SoupMessageFilter</span></h4>
+<a name="id587475"></a><h4><span class="type">SoupMessageFilter</span></h4>
 <p>
     <span class="type">SoupMessageFilter</span> is gone; code that used to use it
     can now connect to the <a class="link" href="SoupSession.html#SoupSession-request-started" title='The "request-started" signal'><code class="literal">SoupSession::request-started</code></a>
@@ -394,7 +402,7 @@ traffic to stdout, for debugging purposes.
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3100379"></a><h4>Internal types</h4>
+<a name="id587505"></a><h4>Internal types</h4>
 <p>
     The <span class="type">SoupConnection</span> and <span class="type">SoupMessageQueue</span>
     types (which should always have been internal to
@@ -404,7 +412,7 @@ traffic to stdout, for debugging purposes.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3100404"></a><h3>SoupURI</h3>
+<a name="id587529"></a><h3>SoupURI</h3>
 <span class="type">SoupUri</span> has been renamed <a class="link" href="libsoup-24-SoupURI.html#SoupURI" title="SoupURI"><span class="type">SoupURI</span></a>, and its behavior has
 changed in a few ways:
 
@@ -477,7 +485,7 @@ which removes some, but not all, %-encoding, behaves similarly.
 Finally, <span class="type">SoupURI</span> (as well as most other struct types in
 <span class="application">libsoup</span>) now uses the glib "slice"
 allocator, so any code that uses <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-new"
+href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-new"
 ><code class="function">g_new</code></a> to create
 <span class="type">SoupURI</span>s is wrong. If you want to create a URI "by hand",
 you can call <a class="link" href="libsoup-24-SoupURI.html#soup-uri-new" title="soup_uri_new ()"><code class="function">soup_uri_new</code></a>,
@@ -488,7 +496,7 @@ set its fields (eg, <a class="link" href="libsoup-24-SoupURI.html#soup-uri-set-s
 etc) rather than mucking with the fields directly.
 </p>
 <div class="refsect3" lang="en">
-<a name="id3100646"></a><h4>Forms</h4>
+<a name="id587756"></a><h4>Forms</h4>
 <p>
 Related to <span class="type">SoupURI</span>, there are some new helper methods for
 dealing with HTML forms. soup_form_decode_urlencoded
@@ -504,9 +512,9 @@ to help with this.)
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3100709"></a><h3>XML-RPC and SOAP</h3>
+<a name="id587818"></a><h3>XML-RPC and SOAP</h3>
 <div class="refsect3" lang="en">
-<a name="id3100716"></a><h4>SOAP</h4>
+<a name="id587824"></a><h4>SOAP</h4>
 <p>
 SOAP support has been removed; the existing methods covered only a
 teeny tiny subset of SOAP, which was really only useful to a single
@@ -517,7 +525,7 @@ svn.
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3100732"></a><h4>XML-RPC</h4>
+<a name="id587838"></a><h4>XML-RPC</h4>
 <p>
 The XML-RPC code has been completely rewritten to make it simpler to
 implement XML-RPC clients and servers. (Note: the server-side code has
@@ -609,9 +617,9 @@ complicated because of the way it sends all calls through a single
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3101130"></a><h3>SoupServer</h3>
+<a name="id588231"></a><h3>SoupServer</h3>
 <div class="refsect3" lang="en">
-<a name="id3101136"></a><h4>SoupServer handlers</h4>
+<a name="id588238"></a><h4>SoupServer handlers</h4>
 <p>
     The prototypes for <a class="link" href="SoupServer.html#soup-server-add-handler" title="soup_server_add_handler ()"><code class="function">soup_server_add_handler</code></a>,
     and for the <a class="link" href="SoupServer.html#SoupServerCallback" title="SoupServerCallback ()"><span class="type">SoupServer</span>
@@ -669,7 +677,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/SoupServer.html#SOUP-SERVER-RAW-PATHS:
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3101305"></a><h4>Server-side authentication</h4>
+<a name="id588397"></a><h4>Server-side authentication</h4>
 <p>
     <span class="type">SoupServer</span> authentication has been completely
     rewritten, with <span class="type">SoupServerAuthContext</span> being replaced
@@ -681,7 +689,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/SoupServer.html#SOUP-SERVER-RAW-PATHS:
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3101348"></a><h4>
+<a name="id588440"></a><h4>
 <code class="literal">Expect: 100-continue</code> and other early <span class="type">SoupMessage</span> processing</h4>
 <p>
     <span class="type">SoupServer</span> now handles
@@ -700,7 +708,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/SoupServer.html#SOUP-SERVER-RAW-PATHS:
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3101419"></a><h4>Date header</h4>
+<a name="id588506"></a><h4>Date header</h4>
 <p>
     <span class="type">SoupServer</span> now automatically sets the
     <code class="literal">Date</code> header on all responses, as required by
@@ -708,7 +716,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/SoupServer.html#SOUP-SERVER-RAW-PATHS:
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3101441"></a><h4>SoupServerMessage</h4>
+<a name="id588527"></a><h4>SoupServerMessage</h4>
 <p>
     <span class="type">SoupServerMessage</span> is now merged into
     <span class="type">SoupMessage</span>.
@@ -718,7 +726,7 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/SoupServer.html#SOUP-SERVER-RAW-PATHS:
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3101480"></a><h4>
+<a name="id588566"></a><h4>
 <code class="function">soup_server_run</code> / <code class="function">soup_server_quit</code>
 </h4>
 <p>
@@ -732,9 +740,9 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/SoupServer.html#SOUP-SERVER-RAW-PATHS:
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3101536"></a><h3>Miscellaneous</h3>
+<a name="id588622"></a><h3>Miscellaneous</h3>
 <div class="refsect3" lang="en">
-<a name="id3101542"></a><h4>SoupDate</h4>
+<a name="id588628"></a><h4>SoupDate</h4>
 <p>
     The new <a class="link" href="libsoup-24-Soup-Miscellaneous-Utilities.html#SoupDate" title="SoupDate"><span class="type">SoupDate</span></a> type
     replaces the old <code class="function">soup_date_*</code> methods, and has
@@ -742,14 +750,14 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/SoupServer.html#SOUP-SERVER-RAW-PATHS:
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3101567"></a><h4>Header parsing</h4>
+<a name="id588653"></a><h4>Header parsing</h4>
 <p>
     <code class="literal">soup-headers.h</code> now has a few additional methods
     for parsing list-type headers.
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3101586"></a><h4>SoupAddress, SoupSocket</h4>
+<a name="id588670"></a><h4>SoupAddress, SoupSocket</h4>
 <p>
     <span class="type">SoupSocket</span> has had various simplifications made to
     reflect the fact that this is specifically libsoup's socket
@@ -758,12 +766,12 @@ href="/usr/share/gtk-doc/html/libsoup-2.4/SoupServer.html#SOUP-SERVER-RAW-PATHS:
 <p>
     Various <span class="type">SoupAddress</span> and <span class="type">SoupSocket</span>
     methods now take arguments of the new <a
-href="/opt/foo/share/gtk-doc/html/gio/GCancellable.html"
+href="/usr/share/gtk-doc/html/gio/GCancellable.html"
 ><span class="type">GCancellable</span></a> type, from
     libgio. When porting old code, you can just pass
     <code class="literal">NULL</code> for these. (<a class="link" href="SoupAddress.html#soup-address-resolve-async" title="soup_address_resolve_async ()"><code class="function">soup_address_resolve_async</code></a>
     also takes another new argument, a <a
-href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
+href="/usr/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContext"
 ><span class="type">GMainContext</span></a> that
     you'll want to pass <code class="literal">NULL</code> for.) If you pass a
     <span class="type">GCancellable</span>, you can use it to cleanly cancel the
@@ -771,7 +779,7 @@ href="/opt/foo/share/gtk-doc/html/glib/glib-The-Main-Event-Loop.html#GMainContex
 </p>
 </div>
 <div class="refsect3" lang="en">
-<a name="id3101657"></a><h4>Base64 methods</h4>
+<a name="id590956"></a><h4>Base64 methods</h4>
 <p>
     The deprecated base64 methods are now gone; use glib's base64
     methods instead.
