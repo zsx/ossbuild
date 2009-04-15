@@ -1,0 +1,10 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: x264
+Description: H.264 (MPEG4 AVC) encoder library
+Version: 0.67.x
+Libs: -L@SHARED_BUILD_DIR@/lib -lx264 -lpthread
+Cflags: -I@SHARED_BUILD_DIR@/include

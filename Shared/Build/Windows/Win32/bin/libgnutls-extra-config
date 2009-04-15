@@ -1,12 +1,12 @@
 #!/bin/sh
 
-prefix=/c/Work/Dependencies/Build/Windows/Win32/Release
+prefix=/c/Work/OSSBuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
 exec_prefix_set=no
 
-gnutls_libs="-L/c/Work/Dependencies/Build/Windows/Win32/Release/lib -lgnutls-extra  -L/c/Work/Dependencies/Build/Windows/Win32/Release/lib -lgnutls  -L/c/Work/Dependencies/Build/Windows/Win32/Release/lib -lgcrypt -lgpg-error  -lws2_32 -lws2_32"
-gnutls_cflags="-I/c/Work/Dependencies/Build/Windows/Win32/Release/include"
-gnutls_la_file="/c/Work/Dependencies/Build/Windows/Win32/Release/lib/libgnutls-extra.la"
+gnutls_libs="-L/c/Work/OSSBuild/Build/Windows/Win32/Release/lib -lgnutls-extra  -L/c/Work/OSSBuild/Build/Windows/Win32/Release/lib -lgnutls -L/c/Work/OSSBuild/Build/Windows/Win32/Release/lib -lgcrypt -lgpg-error  -lws2_32 -lws2_32"
+gnutls_cflags="-I/c/Work/OSSBuild/Build/Windows/Win32/Release/include"
+gnutls_la_file="/c/Work/OSSBuild/Build/Windows/Win32/Release/lib/libgnutls-extra.la"
 
 usage()
 {
@@ -50,7 +50,7 @@ while test $# -gt 0; do
       echo_exec_prefix=yes
       ;;
     --version)
-      echo "2.6.4"
+      echo "2.6.5"
       exit 0
       ;;
     --cflags)
@@ -81,10 +81,10 @@ if test "$echo_exec_prefix" = "yes"; then
 fi
 
 if test "$echo_cflags" = "yes"; then
-    if test "/c/Work/Dependencies/Build/Windows/Win32/Release/include" != "/usr/include" ; then
-      includes="-I/c/Work/Dependencies/Build/Windows/Win32/Release/include"
+    if test "/c/Work/OSSBuild/Build/Windows/Win32/Release/include" != "/usr/include" ; then
+      includes="-I/c/Work/OSSBuild/Build/Windows/Win32/Release/include"
       for i in $gnutls_cflags ; do
-	if test "$i" = "-I/c/Work/Dependencies/Build/Windows/Win32/Release/include" ; then
+	if test "$i" = "-I/c/Work/OSSBuild/Build/Windows/Win32/Release/include" ; then
 	  includes=""
 	fi
       done

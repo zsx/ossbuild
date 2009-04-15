@@ -12,13 +12,13 @@
 # File: src/libgcrypt-config.  Generated from libgcrypt-config.in by configure.
 
 # General.
-prefix="/c/Work/Dependencies/Build/Windows/Win32/Release"
+prefix="/c/Work/OSSBuild/Build/Windows/Win32/Release"
 exec_prefix="${prefix}"
 version="1.4.4"
-includedir="/c/Work/Dependencies/Build/Windows/Win32/Release/include"
-libdir="/c/Work/Dependencies/Build/Windows/Win32/Release/lib"
-gpg_error_libs="-L/c/Work/Dependencies/Build/Windows/Win32/Release/lib -lgpg-error"
-gpg_error_cflags="-I/c/Work/Dependencies/Build/Windows/Win32/Release/include"
+includedir="/c/Work/OSSBuild/Build/Windows/Win32/Release/include"
+libdir="/c/Work/OSSBuild/Build/Windows/Win32/Release/lib"
+gpg_error_libs="-L/c/Work/OSSBuild/Build/Windows/Win32/Release/lib -lgpg-error"
+gpg_error_cflags="-I/c/Work/OSSBuild/Build/Windows/Win32/Release/include"
 
 # libgcrypt values.
 libs="-lgcrypt"

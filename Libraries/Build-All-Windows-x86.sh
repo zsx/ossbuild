@@ -204,14 +204,19 @@ if [ ! -f "$BinDir/libglib-2.0-0.dll" ]; then
 	
 	cd "$IntDir/glib/gio/.libs"
 	$MSLIB /name:libgio-2.0-0.dll /out:gio-2.0.lib /machine:$MSLibMachine /def:libgio-2.0-0.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
 	cd "../../glib/.libs"
 	$MSLIB /name:libglib-2.0-0.dll /out:glib-2.0.lib /machine:$MSLibMachine /def:libglib-2.0-0.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
 	cd "../../gmodule/.libs"
 	$MSLIB /name:libgmodule-2.0-0.dll /out:gmodule-2.0.lib /machine:$MSLibMachine /def:libgmodule-2.0-0.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
 	cd "../../gobject/.libs"
 	$MSLIB /name:libgobject-2.0-0.dll /out:gobject-2.0.lib /machine:$MSLibMachine /def:libgobject-2.0-0.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
 	cd "../../gthread/.libs"
 	$MSLIB /name:libgthread-2.0-0.dll /out:gthread-2.0.lib /machine:$MSLibMachine /def:libgthread-2.0-0.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
 fi
 
 #openssl
@@ -376,7 +381,7 @@ if [ ! -f "$BinDir/libpango-1.0-0.dll" ]; then
 	#Need to get rid of MS build tools b/c the makefile call is incorrectly passing it msys-style paths.
 	reset_path
 	
-	$LIBRARIES_DIR/Pango/Source/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$LIBRARIES_DIR/Pango/Source/configure --with-included-modules --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install
 	
 	#Add in MS build tools again
@@ -389,8 +394,8 @@ if [ ! -f "$BinDir/libpango-1.0-0.dll" ]; then
 	$MSLIB /name:libpangocairo-1.0-0.dll /out:pangocairo-1.0.lib /machine:$MSLibMachine /def:libpangocairo-1.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
-	mkdir -p "$BinDir/pango/1.6.0/modules"
-	move_files_to_dir "$LibDir/pango/1.6.0/modules/*.dll" "$BinDir/pango/1.6.0/modules"
+	#mkdir -p "$BinDir/pango/1.6.0/modules"
+	#move_files_to_dir "$LibDir/pango/1.6.0/modules/*.dll" "$BinDir/pango/1.6.0/modules"
 fi
 
 #libogg
@@ -624,6 +629,9 @@ if [ ! -f "$LibDir/libavcodec.a" ]; then
 fi
 
 reset_flags
+
+#Make sure the shared directory has all our updates
+create_shared
 
 #Cleanup CRT
 crt_shutdown

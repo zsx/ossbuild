@@ -9,10 +9,10 @@
 # Modeled after libxml-config.
 
 version="1.2.35"
-prefix="/c/Work/Dependencies/Build/Windows/Win32/Release"
+prefix="/c/Work/OSSBuild/Build/Windows/Win32/Release"
 exec_prefix="${prefix}"
-libdir="/c/Work/Dependencies/Build/Windows/Win32/Release/lib"
-includedir="/c/Work/Dependencies/Build/Windows/Win32/Release/include/libpng12"
+libdir="/c/Work/OSSBuild/Build/Windows/Win32/Release/lib"
+includedir="/c/Work/OSSBuild/Build/Windows/Win32/Release/include/libpng12"
 libs="-lpng12"
 all_libs="-lpng12 -lz "
 I_opts="-I${includedir}"

@@ -9,11 +9,11 @@
 # indicate that you have read the license and understand and accept it
 # fully.
 
-prefix=/c/Work/Dependencies/Build/Windows/Win32/Release
+prefix=/c/Work/OSSBuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
 exec_prefix_set=no
-includedir=/c/Work/Dependencies/Build/Windows/Win32/Release/include
-libdir=/c/Work/Dependencies/Build/Windows/Win32/Release/lib
+includedir=/c/Work/OSSBuild/Build/Windows/Win32/Release/include
+libdir=/c/Work/OSSBuild/Build/Windows/Win32/Release/lib
 enable_shared=
 wl=-Wl,
 hardcode_libdir_flag_spec='-L$libdir'
@@ -76,13 +76,13 @@ while test $# -gt 0 ; do
     exit 0
     ;;
   --ftversion)
-    major=`grep define /c/Work/Dependencies/Build/Windows/Win32/Release/include/freetype2/freetype/freetype.h \
+    major=`grep define /c/Work/OSSBuild/Build/Windows/Win32/Release/include/freetype2/freetype/freetype.h \
            | grep FREETYPE_MAJOR \
            | sed 's/.*[ 	]\([0-9][0-9]*\).*/\1/'`
-    minor=`grep define /c/Work/Dependencies/Build/Windows/Win32/Release/include/freetype2/freetype/freetype.h \
+    minor=`grep define /c/Work/OSSBuild/Build/Windows/Win32/Release/include/freetype2/freetype/freetype.h \
            | grep FREETYPE_MINOR \
            | sed 's/.*[ 	]\([0-9][0-9]*\).*/\1/'`
-    patch=`grep define /c/Work/Dependencies/Build/Windows/Win32/Release/include/freetype2/freetype/freetype.h \
+    patch=`grep define /c/Work/OSSBuild/Build/Windows/Win32/Release/include/freetype2/freetype/freetype.h \
            | grep FREETYPE_PATCH \
            | sed 's/.*[ 	]\([0-9][0-9]*\).*/\1/'`
     echo $major.$minor.$patch

@@ -1,0 +1,11 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include/
+
+Name: libmms
+Description: Library implementing the MMS protocol 
+Requires: glib-2.0
+Version: 0.4
+Libs: -L${libdir} -lmms -lm
+Cflags: -I${includedir}

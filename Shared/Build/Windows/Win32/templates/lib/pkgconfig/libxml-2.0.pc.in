@@ -1,0 +1,13 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+modules=0
+
+Name: libXML
+Version: 2.7.3
+Description: libXML library version2.
+Requires:
+Libs: -L${libdir} -lxml2
+Libs.private: -lpthread -lz  -liconv  
+Cflags: -I${includedir}/libxml2 

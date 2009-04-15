@@ -2,10 +2,10 @@
 # Originally from libxml, Copyright (C) Daniel Veillard
 # Modifications for neon Copyright (C) 2000-2006 Joe Orton.
 
-prefix=/c/Work/Dependencies/Build/Windows/Win32/Release
+prefix=/c/Work/OSSBuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
-includedir=/c/Work/Dependencies/Build/Windows/Win32/Release/include
-libdir=/c/Work/Dependencies/Build/Windows/Win32/Release/lib
+includedir=/c/Work/OSSBuild/Build/Windows/Win32/Release/include
+libdir=/c/Work/OSSBuild/Build/Windows/Win32/Release/lib
 
 usage()
 {
@@ -73,12 +73,12 @@ while test $# -gt 0; do
        	;;
 
     --libs)
-        LIBS="-lneon -lintl -lws2_32 -lws2_32  -lz -L/c/Work/Dependencies/Build/Windows/Win32/Release/lib -lgnutls  "
+        LIBS="-lneon -lintl -lws2_32 -lws2_32  -lz -L/c/Work/OSSBuild/Build/Windows/Win32/Release/lib -lgnutls  "
 	# Don't add standard library paths
         if test "$prefix" != "/usr"; then
            LIBS="-L${libdir} ${LIBS}"
         fi
-	echo  -Wl,--exclude-libs=libintl.a -L/c/Work/Dependencies/Build/Windows/Win32/Release/lib -L/c/Work/Dependencies/Shared/Build/Windows/Win32/lib ${LIBS}
+	echo  -Wl,--exclude-libs=libintl.a -L/c/Work/OSSBuild/Build/Windows/Win32/Release/lib -L/c/Work/OSSBuild/Shared/Build/Windows/Win32/lib ${LIBS}
 	;;
 
     --la-file)

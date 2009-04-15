@@ -9,6 +9,7 @@ output_startup() {
 	export LibDir=$OutDir/lib
 	export BinDir=$OutDir/bin
 	export IncludeDir=$OutDir/include
+	export TemplateDir=$OutDir/templates
 	export PkgConfigDir=$LibDir/pkgconfig
 	export InstallDir=$OutDir
 
@@ -16,8 +17,14 @@ output_startup() {
 	export SharedLibDir=$SharedOutDir/lib
 	export SharedBinDir=$SharedOutDir/bin
 	export SharedIncludeDir=$SharedOutDir/include
+	export SharedTemplateDir=$SharedOutDir/templates
 	export SharedPkgConfigDir=$SharedLibDir/pkgconfig
 	export SharedInstallDir=$SharedOutDir
+	
+	export TemplateLibDir=$TemplateDir/lib
+	export TemplatePkgConfigDir=$TemplateLibDir/pkgconfig
+	export SharedTemplateLibDir=$SharedTemplateDir/lib
+	export SharedTemplatePkgConfigDir=$SharedTemplateLibDir/pkgconfig
 
 	#Setup compile/link flags (includes, search directories, etc.)
 	export LibFlags="-L$LibDir -L$SharedLibDir"
@@ -43,6 +50,11 @@ output_startup() {
 	mkdir -p "$BinDir"
 	mkdir -p "$IncludeDir"
 	mkdir -p "$InstallDir"
+	
+	#Create templates if we must
+	if [ ! -f "$SharedLibDir/libpng.la" ]; then
+		expand_templates
+	fi
 }
 
 output_shutdown() {
@@ -160,4 +172,88 @@ setup_ms_build_env_path() {
 	MSVCTOOLS=`cd "$VSCOMNTOOLS" && cd "../../VC/bin/" && pwd`
 	PATH=$PATH:$MSVCIDE:$MSVCTOOLS
 	MSLIB=lib.exe
+}
+
+create_templates() {
+	echo "Creating templates..."
+	
+	mkdir -p "$TemplateDir"
+	mkdir -p "$TemplateLibDir"
+	mkdir -p "$TemplatePkgConfigDir"
+	
+	cd "$LibDir"
+	for f in `find *.la`; do create_template_libtool_la "$f"; done
+	
+	cd "$PkgConfigDir"
+	for f in `find *.pc`; do create_template_pkgconfig_pc "$f"; done
+}
+
+create_template_libtool_la() {
+	myla=$1
+	sedInstallDir=${InstallDir//\//\\\/}
+	sedSharedLibDir=${SharedLibDir//\//\\\/}
+	
+	sed "s/$sedInstallDir/@SHARED_BUILD_DIR@/g" "$myla" > "$TemplateLibDir/tmp.la"
+	sed "s/ -L$sedSharedLibDir//g" "$TemplateLibDir/tmp.la" > "$TemplateLibDir/$myla.in"
+	rm -f "$TemplateLibDir/tmp.la"
+}
+
+create_template_pkgconfig_pc() {
+	mypc=$1
+	sedInstallDir=${InstallDir//\//\\\/}
+	
+	sed "s/$sedInstallDir/@SHARED_BUILD_DIR@/g" "$mypc" > "$TemplatePkgConfigDir/$mypc.in"
+}
+
+expand_templates() {
+	if [ -d "$SharedTemplateDir" ]; then
+		echo "Expanding templates..."
+		
+		mkdir -p "$SharedPkgConfigDir"
+		
+		cd "$SharedTemplateLibDir"
+		for f in `find *.la.in`; do expand_template_libtool_la "$f"; done
+		
+		cd "$SharedTemplatePkgConfigDir"
+		for f in `find *.pc.in`; do expand_template_pkgconfig_pc "$f"; done
+	fi
+}
+
+expand_template_libtool_la() {
+	myla=$1
+	mydestla=${myla%.*}
+	sedSharedInstallDir=${SharedInstallDir//\//\\\/}
+	
+	sed "s/@SHARED_BUILD_DIR@/$sedSharedInstallDir/g" "$myla" > "$SharedLibDir/$mydestla"
+}
+
+expand_template_pkgconfig_pc() {
+	mypc=$1
+	mydestpc=${mypc%.*}
+	sedSharedInstallDir=${SharedInstallDir//\//\\\/}
+	
+	sed "s/@SHARED_BUILD_DIR@/$sedSharedInstallDir/g" "$mypc" > "$SharedPkgConfigDir/$mydestpc"
+}
+
+create_shared() {
+	if [ "$DISABLE_SHARED_COPY" = "1" ]; then 
+		echo "Skipping copy to shared directory..."
+		return
+	fi
+	
+	echo "Copying to shared directory..."
+	
+	#Bin
+	cd "$BinDir" && copy_files_to_dir "*" "$SharedBinDir"
+	cd "$SharedBinDir" && remove_files_from_dir "*.def"
+	
+	#Lib
+	cd "$LibDir" && copy_files_to_dir "*.a *.lib *.sh" "$SharedLibDir"
+	test -d "glib-2.0" && cp -ru "glib-2.0" "SharedLibDir"
+	
+	#Include
+	cd "$IncludeDir" && cp -ru * "$SharedIncludeDir"
+	
+	#Create pkgconfig/libtool templates
+	create_templates
 }
