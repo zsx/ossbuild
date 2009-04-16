@@ -11,6 +11,9 @@
 #  define fdopen _fdopen
 #  define dup _dup
 #  define strupr _strupr
+
+/* See msvcrt-compat.def for more details on these functions */
+#  define getpid _getpid
 #endif
 
 #endif /* __MSVCRT_COMPAT_H__ */

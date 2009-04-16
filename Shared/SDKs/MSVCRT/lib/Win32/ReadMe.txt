@@ -10,6 +10,10 @@ oldnames.lib:		Pulled from MSys/MinGW. The WDDK version does not allow
 			you to correctly link! Make SURE you pull from MSys. 
 			It's original filename is "libmoldname.a"
 
+msvcrt_compat.lib: 	Contains export definitions that prevented proper linking.
+			See ../../msvcrt-compat.h, ../../msvcrt-compat.def, and 
+			../../msvcrt-compat.bat for details.
+
 msvcrt_upgrade.obj: 	Just a copy of (wdk_)msvcrt_winxp.obj that provides a 
 			way to use just one MSVC property file to reference 
 			both Win32 and x64 platforms.

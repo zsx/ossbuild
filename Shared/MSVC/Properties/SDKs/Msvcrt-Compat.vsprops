@@ -8,4 +8,8 @@
 		Name="VCCLCompilerTool"
 		ForcedIncludeFiles="$(SolutionDir)Shared\SDKs\MSVCRT\msvcrt-compat.h"
 	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="msvcrt_compat.lib"
+	/>
 </VisualStudioPropertySheet>

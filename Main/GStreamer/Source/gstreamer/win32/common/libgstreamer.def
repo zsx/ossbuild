@@ -1,42 +1,42 @@
 EXPORTS
-;	GST_CAT_AUTOPLUG DATA
-;	GST_CAT_AUTOPLUG_ATTEMPT DATA
-;	GST_CAT_BUFFER DATA
-;	GST_CAT_BUS DATA
-;	GST_CAT_CALL_TRACE DATA
-;	GST_CAT_CAPS DATA
-;	GST_CAT_CLOCK DATA
-;	GST_CAT_DEFAULT DATA
-;	GST_CAT_ELEMENT_PADS DATA
-;	GST_CAT_ERROR_SYSTEM DATA
-;	GST_CAT_EVENT DATA
-;	GST_CAT_GST_INIT DATA
-;	GST_CAT_MESSAGE DATA
-;	GST_CAT_NEGOTIATION DATA
-;	GST_CAT_PADS DATA
-;	GST_CAT_PARAMS DATA
-;	GST_CAT_PARENTAGE DATA
-;	GST_CAT_PIPELINE DATA
-;	GST_CAT_PLUGIN_INFO DATA
-;	GST_CAT_PLUGIN_LOADING DATA
-;	GST_CAT_PROBE DATA
-;	GST_CAT_PROPERTIES DATA
-;	GST_CAT_QOS DATA
-;	GST_CAT_REFCOUNTING DATA
-;	GST_CAT_REGISTRY DATA
-;	GST_CAT_SCHEDULING DATA
-;	GST_CAT_SIGNAL DATA
-;	GST_CAT_STATES DATA
-;	GST_CAT_TYPES DATA
-;	GST_CAT_XML DATA
-;	__gst_debug_enabled DATA
-;	__gst_debug_min DATA
-;	_gst_alloc_trace_register
-;	_gst_debug_bin_to_dot_file
-;	_gst_debug_bin_to_dot_file_with_ts
-;	_gst_debug_category_new
-;	_gst_debug_nameof_funcptr
-;	_gst_debug_register_funcptr
+	GST_CAT_AUTOPLUG DATA
+	GST_CAT_AUTOPLUG_ATTEMPT DATA
+	GST_CAT_BUFFER DATA
+	GST_CAT_BUS DATA
+	GST_CAT_CALL_TRACE DATA
+	GST_CAT_CAPS DATA
+	GST_CAT_CLOCK DATA
+	GST_CAT_DEFAULT DATA
+	GST_CAT_ELEMENT_PADS DATA
+	GST_CAT_ERROR_SYSTEM DATA
+	GST_CAT_EVENT DATA
+	GST_CAT_GST_INIT DATA
+	GST_CAT_MESSAGE DATA
+	GST_CAT_NEGOTIATION DATA
+	GST_CAT_PADS DATA
+	GST_CAT_PARAMS DATA
+	GST_CAT_PARENTAGE DATA
+	GST_CAT_PIPELINE DATA
+	GST_CAT_PLUGIN_INFO DATA
+	GST_CAT_PLUGIN_LOADING DATA
+	GST_CAT_PROBE DATA
+	GST_CAT_PROPERTIES DATA
+	GST_CAT_QOS DATA
+	GST_CAT_REFCOUNTING DATA
+	GST_CAT_REGISTRY DATA
+	GST_CAT_SCHEDULING DATA
+	GST_CAT_SIGNAL DATA
+	GST_CAT_STATES DATA
+	GST_CAT_TYPES DATA
+	GST_CAT_XML DATA
+	__gst_debug_enabled DATA
+	__gst_debug_min DATA
+	_gst_alloc_trace_register
+	_gst_debug_bin_to_dot_file
+	_gst_debug_bin_to_dot_file_with_ts
+	_gst_debug_category_new
+	_gst_debug_nameof_funcptr
+	_gst_debug_register_funcptr
 	_gst_element_error_printf
 	_gst_plugin_register_static
 	_gst_trace_add_entry
@@ -197,35 +197,35 @@ EXPORTS
 	gst_core_error_get_type
 	gst_core_error_quark
 	gst_date_get_type
-;	gst_debug_add_log_function
-;	gst_debug_category_free
-;	gst_debug_category_get_color
-;	gst_debug_category_get_description
-;	gst_debug_category_get_name
-;	gst_debug_category_get_threshold
-;	gst_debug_category_reset_threshold
-;	gst_debug_category_set_threshold
-;	gst_debug_color_flags_get_type
-;	gst_debug_construct_term_color
-;	gst_debug_get_all_categories
-;	gst_debug_get_default_threshold
-;	gst_debug_graph_details_get_type
-;	gst_debug_is_active
-;	gst_debug_is_colored
-;	gst_debug_level_get_name
-;	gst_debug_level_get_type
-;	gst_debug_log
-;	gst_debug_log_default
-;	gst_debug_log_valist
-;	gst_debug_message_get
-;	gst_debug_print_stack_trace
-;	gst_debug_remove_log_function
-;	gst_debug_remove_log_function_by_data
-;	gst_debug_set_active
-;	gst_debug_set_colored
-;	gst_debug_set_default_threshold
-;	gst_debug_set_threshold_for_name
-;	gst_debug_unset_threshold_for_name
+	gst_debug_add_log_function
+	gst_debug_category_free
+	gst_debug_category_get_color
+	gst_debug_category_get_description
+	gst_debug_category_get_name
+	gst_debug_category_get_threshold
+	gst_debug_category_reset_threshold
+	gst_debug_category_set_threshold
+	gst_debug_color_flags_get_type
+	gst_debug_construct_term_color
+	gst_debug_get_all_categories
+	gst_debug_get_default_threshold
+	gst_debug_graph_details_get_type
+	gst_debug_is_active
+	gst_debug_is_colored
+	gst_debug_level_get_name
+	gst_debug_level_get_type
+	gst_debug_log
+	gst_debug_log_default
+	gst_debug_log_valist
+	gst_debug_message_get
+	gst_debug_print_stack_trace
+	gst_debug_remove_log_function
+	gst_debug_remove_log_function_by_data
+	gst_debug_set_active
+	gst_debug_set_colored
+	gst_debug_set_default_threshold
+	gst_debug_set_threshold_for_name
+	gst_debug_unset_threshold_for_name
 	gst_default_registry_check_feature_version
 	gst_deinit
 	gst_double_range_get_type

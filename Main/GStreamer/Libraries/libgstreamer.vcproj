@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\Properties\gstreamer.vsprops"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -189,7 +189,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\Properties\gstreamer.vsprops"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>

@@ -1,0 +1,5 @@
+
+;Thank you ReactOS for the idea:
+;	http://svn.reactos.org/svn/reactos/trunk/reactos/dll/win32/msvcrt/msvcrt.def?view=markup
+EXPORTS
+	_getpid=msvcrt.getpid
