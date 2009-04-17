@@ -1,1 +1,0 @@
-In windows, you have to compile using msys/mingw and then copy to the Shared/ folder.
