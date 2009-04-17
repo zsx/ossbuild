@@ -25,6 +25,10 @@ common_startup() {
 	export PACKAGING_DIR=$ROOT/Packaging
 	export DEPLOYMENT_DIR=$ROOT/Deployment
 	
+	export LIBRARIES_PATCH_DIR=$LIBRARIES_DIR/Patches
+	export LIBRARIES_UNPACK_DIR=$LIBRARIES_DIR/Source
+	export LIBRARIES_PACKAGE_DIR=$LIBRARIES_DIR/Packages
+	
 	export SHARED_SDK_DIR=$SHARED_DIR/SDKs
 	
 	export SHARED_BUILD_DIR=$SHARED_DIR/Build
@@ -39,6 +43,8 @@ common_startup() {
 	export SHARED_MSVC_INCLUDE_DIR=$SHARED_MSVC_DIR/Include
 	export SHARED_MSVC_MANIFESTS_DIR=$SHARED_MSVC_DIR/Manifests
 	export SHARED_MSVC_PROPERTIES_DIR=$SHARED_MSVC_DIR/Properties
+	
+	export PATH=$PATH:$TOOLS_DIR
 
 	#If we called this function with arguments, then be sure to use those
 	if [ "$1" != "" ]; then
@@ -121,4 +127,57 @@ translate_path_to_windows() {
 	retpath=${mypath:1:1}:\\${tmppath//\//\\}
 	
 	echo $retpath
+}
+
+init_unpack_and_move() {
+	myfile=$1
+	mymovedir=$2
+	mycreatesubdir=$3
+	mycreatedir=$LIBRARIES_UNPACK_DIR
+	mydir=$LIBRARIES_UNPACK_DIR/$mymovedir
+	if [ "$mycreatesubdir" != "" ]; then
+		mycreatedir=$mycreatedir/$mycreatesubdir
+	fi
+	export PKG_DIR=$mydir
+	if [ -d "$mydir" ]; then
+		cd "$mycreatedir"
+		return 1
+	fi
+	mkdir -p "$mydir"
+	mkdir -p "$mycreatedir"
+	cd "$mycreatedir"
+	return 0
+}
+
+unpack_bzip2_and_move() {
+	init_unpack_and_move "$1" "$2" "$3"
+	if [ "$?" -eq "1" ]; then
+		cd "$PKG_DIR"
+		return
+	fi
+	echo Extracting $1...
+	tar xjvf "$LIBRARIES_PACKAGE_DIR/$1" > NUL
+	cd "$PKG_DIR"
+}
+
+unpack_gzip_and_move() {
+	init_unpack_and_move "$1" "$2" "$3"
+	if [ "$?" -eq "1" ]; then
+		cd "$PKG_DIR"
+		return
+	fi
+	echo Extracting $1...
+	tar xzvf "$LIBRARIES_PACKAGE_DIR/$1" > NUL
+	cd "$PKG_DIR"
+}
+
+unpack_zip_and_move_windows() {
+	init_unpack_and_move "$1" "$2" "$3"
+	if [ "$?" -eq "1" ]; then
+		cd "$PKG_DIR"
+		return
+	fi
+	echo Extracting $1...
+	7z x "$LIBRARIES_PACKAGE_DIR/$1" > NUL
+	cd "$PKG_DIR"
 }
