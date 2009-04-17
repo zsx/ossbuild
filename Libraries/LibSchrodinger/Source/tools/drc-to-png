@@ -1,9 +1,0 @@
-#!/bin/sh
-
-gst-launch-0.10 \
-  filesrc location=$1 ! \
-  schrodec ! \
-  ffmpegcolorspace ! \
-  pngenc snapshot=false ! \
-  multifilesink location="output-%05d.png"
-
