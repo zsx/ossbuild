@@ -8,14 +8,14 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;$(IntDir)\..\..\common\&quot;;&quot;$(SolutionDir)Shared\Windows\$(PlatformName)\$(ConfigurationName)\include\liboil-$(LibOilApiVersionString)&quot;"
+		AdditionalIncludeDirectories="&quot;$(IntDir)\..\..\common\&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="libgstnet-$(ApiVersionString).lib libgstdataprotocol-$(ApiVersionString).lib libgstcontroller-$(ApiVersionString).lib libgstbase-$(ApiVersionString).lib libgstreamer-$(ApiVersionString).lib"
-		OutputFile="$(OutDir)\bin\gstreamer\plugins\$(ProjectName).dll"
+		AdditionalDependencies="gstnet.lib gstdataprotocol.lib gstcontroller.lib gstbase.lib gstreamer.lib"
+		OutputFile="$(OutDir)\bin\gstreamer\plugins\lib$(ProjectName).dll"
 		AdditionalLibraryDirectories="$(OutDir)\lib\gstreamer\plugins\"
 		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\plugins\$(TargetName).pdb"
-		ImportLibrary="$(OutDir)\lib\gstreamer\plugins\$(TargetName).lib"
+		ImportLibrary="$(OutDir)\lib\gstreamer\plugins\$(ProjectName).lib"
 	/>
 </VisualStudioPropertySheet>

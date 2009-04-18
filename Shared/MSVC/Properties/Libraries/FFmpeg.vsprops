@@ -9,4 +9,52 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="libavutil.a libavfilter.a libavdevice.a libavformat.a libavcodec.a vfw32.lib wsock32.lib"
 	/>
+	<UserMacro
+		Name="FFmpegMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FFmpegMinorVersion"
+		Value="5"
+	/>
+	<UserMacro
+		Name="FFmpegMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FFmpegApiInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvCodecBuildNumber"
+		Value="52"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvDeviceBuildNumber"
+		Value="52"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvFilterBuildNumber"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvFormatBuildNumber"
+		Value="52"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvUtilBuildNumber"
+		Value="49"
+	/>
+	<UserMacro
+		Name="FFmpegVersionString"
+		Value="$(FFmpegMajorVersion).$(FFmpegMinorVersion).$(FFmpegMicroVersion)"
+	/>
+	<UserMacro
+		Name="FFmpegApiVersionString"
+		Value="$(FFmpegMajorVersion).$(FFmpegMinorVersion)"
+	/>
+	<UserMacro
+		Name="FFmpegLibVersionString"
+		Value="$(FFmpegApiVersionString)-$(FFmpegApiInterfaceAge)"
+	/>
 </VisualStudioPropertySheet>

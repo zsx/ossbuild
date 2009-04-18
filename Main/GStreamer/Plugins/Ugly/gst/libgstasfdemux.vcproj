@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstasfdemux"
+	Name="gstasfdemux"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0002}"
 	RootNamespace="libgstasfdemux"
 	Keyword="Win32Proj"
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstriff.lib libgstsdp.lib libgstrtsp.lib libgstrtp.lib"
+				AdditionalDependencies="gstriff.lib gstsdp.lib gstrtsp.lib gstrtp.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -251,7 +251,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstriff.lib libgstsdp.lib libgstrtsp.lib libgstrtp.lib"
+				AdditionalDependencies="gstriff.lib gstsdp.lib gstrtsp.lib gstrtp.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

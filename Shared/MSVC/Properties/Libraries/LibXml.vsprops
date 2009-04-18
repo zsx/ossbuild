@@ -12,4 +12,24 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="xml2.lib"
 	/>
+	<UserMacro
+		Name="LibXml2MajorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibXml2MinorVersion"
+		Value="7"
+	/>
+	<UserMacro
+		Name="LibXml2MicroVersion"
+		Value="3"
+	/>
+	<UserMacro
+		Name="LibXml2VersionNumber"
+		Value="20703"
+	/>
+	<UserMacro
+		Name="LibXml2VersionString"
+		Value="$(LibXml2MajorVersion).$(LibXml2MinorVersion).$(LibXml2MicroVersion)"
+	/>
 </VisualStudioPropertySheet>

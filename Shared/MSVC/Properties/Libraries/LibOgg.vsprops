@@ -8,4 +8,32 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="ogg.lib"
 	/>
+	<UserMacro
+		Name="LibOggMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibOggMinorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibOggMicroVersion"
+		Value="3"
+	/>
+	<UserMacro
+		Name="LibOggApiInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibOggVersionString"
+		Value="$(LibOggMajorVersion).$(LibOggMinorVersion).$(LibOggMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibOggApiVersionString"
+		Value="$(LibOggMajorVersion).$(LibOggMinorVersion)"
+	/>
+	<UserMacro
+		Name="LibOggLibVersionString"
+		Value="$(LibOggApiVersionString)-$(LibOggApiInterfaceAge)"
+	/>
 </VisualStudioPropertySheet>

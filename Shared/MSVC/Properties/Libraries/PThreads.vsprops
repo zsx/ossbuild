@@ -8,4 +8,24 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="pthreadGC2.lib"
 	/>
+	<UserMacro
+		Name="PThreadsMajorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="PThreadsMinorVersion"
+		Value="8"
+	/>
+	<UserMacro
+		Name="PThreadsMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="PThreadsVersionNumber"
+		Value="020800"
+	/>
+	<UserMacro
+		Name="PThreadsVersionString"
+		Value="$(PThreadsMajorVersion).$(PThreadsMinorVersion).$(PThreadsMicroVersion)"
+	/>
 </VisualStudioPropertySheet>

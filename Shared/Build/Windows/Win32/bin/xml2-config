@@ -86,12 +86,12 @@ while test $# -gt 0; do
 	then
 	    if [ "-L${libdir}" = "-L/usr/lib" -o "-L${libdir}" = "-L/usr/lib64" ]
 	    then
-		echo -lxml2 -lz -lpthread  -liconv   
+		echo -lxml2 -lz -lpthread    
 	    else
-		echo -L${libdir} -lxml2 -lz -lpthread  -liconv   
+		echo -L${libdir} -lxml2 -lz -lpthread    
 	    fi
 	else
-	    echo -L${libdir} -lxml2 -lz -lpthread  -liconv   -lws2_32
+	    echo -L${libdir} -lxml2 -lz -lpthread    -lws2_32
 	fi
        	;;
 

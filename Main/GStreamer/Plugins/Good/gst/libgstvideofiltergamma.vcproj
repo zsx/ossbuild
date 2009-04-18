@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstvideofiltergamma"
+	Name="gstvideofiltergamma"
 	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A34}"
 	RootNamespace="libgstvideofiltergamma"
 	Keyword="Win32Proj"
@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstvideo.lib"
+				AdditionalDependencies="gstvideo.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
@@ -253,7 +253,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstvideo.lib"
+				AdditionalDependencies="gstvideo.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"

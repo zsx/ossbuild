@@ -12,4 +12,32 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="oil-$(LibOilLibVersionString).lib"
 	/>
+	<UserMacro
+		Name="LibOilMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibOilMinorVersion"
+		Value="3"
+	/>
+	<UserMacro
+		Name="LibOilMicroVersion"
+		Value="16"
+	/>
+	<UserMacro
+		Name="LibOilApiInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibOilVersionString"
+		Value="$(LibOilMajorVersion).$(LibOilMinorVersion).$(LibOilMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibOilApiVersionString"
+		Value="$(LibOilMajorVersion).$(LibOilMinorVersion)"
+	/>
+	<UserMacro
+		Name="LibOilLibVersionString"
+		Value="$(LibOilApiVersionString)"
+	/>
 </VisualStudioPropertySheet>

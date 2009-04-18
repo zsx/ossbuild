@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Cairo"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="cairo.lib"
+	/>
+	<UserMacro
+		Name="CairoMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="CairoMinorVersion"
+		Value="8"
+	/>
+	<UserMacro
+		Name="CairoMicroVersion"
+		Value="6"
+	/>
+	<UserMacro
+		Name="CairoApiInterfaceAge"
+		Value="2"
+	/>
+	<UserMacro
+		Name="CairoVersionString"
+		Value="$(CairoMajorVersion).$(CairoMinorVersion).$(CairoMicroVersion)"
+	/>
+	<UserMacro
+		Name="CairoApiVersionString"
+		Value="$(CairoMajorVersion).$(CairoMinorVersion)"
+	/>
+	<UserMacro
+		Name="CairoLibVersionString"
+		Value="$(CairoApiInterfaceAge)"
+	/>
+</VisualStudioPropertySheet>

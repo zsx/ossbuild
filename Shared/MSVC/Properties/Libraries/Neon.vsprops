@@ -12,4 +12,24 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="neon.lib"
 	/>
+	<UserMacro
+		Name="NeonMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="NeonMinorVersion"
+		Value="28"
+	/>
+	<UserMacro
+		Name="NeonMicroVersion"
+		Value="4"
+	/>
+	<UserMacro
+		Name="NeonVersionNumber"
+		Value="002804"
+	/>
+	<UserMacro
+		Name="NeonVersionString"
+		Value="$(NeonMajorVersion).$(NeonMinorVersion).$(NeonMicroVersion)"
+	/>
 </VisualStudioPropertySheet>

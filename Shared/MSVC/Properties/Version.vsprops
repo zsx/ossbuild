@@ -5,22 +5,6 @@
 	Name="Version"
 	>
 	<UserMacro
-		Name="ZLibMajorVersion"
-		Value="1"
-	/>
-	<UserMacro
-		Name="ZLibMinorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="ZLibMicroVersion"
-		Value="3"
-	/>
-	<UserMacro
-		Name="ZLibVersion"
-		Value="$(ZLibMajorVersion).$(ZLibMinorVersion).$(ZLibMicroVersion)"
-	/>
-	<UserMacro
 		Name="SqliteMajorVersion"
 		Value="3"
 	/>
@@ -39,26 +23,6 @@
 	<UserMacro
 		Name="SqliteLibVersionString"
 		Value="$(SqliteMajorVersion)"
-	/>
-	<UserMacro
-		Name="LibXml2MajorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="LibXml2MinorVersion"
-		Value="7"
-	/>
-	<UserMacro
-		Name="LibXml2MicroVersion"
-		Value="3"
-	/>
-	<UserMacro
-		Name="LibXml2VersionNumber"
-		Value="20703"
-	/>
-	<UserMacro
-		Name="LibXml2VersionString"
-		Value="$(LibXml2MajorVersion).$(LibXml2MinorVersion).$(LibXml2MicroVersion)"
 	/>
 	<UserMacro
 		Name="LibGpgErrorMajorVersion"
@@ -133,66 +97,6 @@
 		Value="$(GnuTlsApiInterfaceAge)"
 	/>
 	<UserMacro
-		Name="LibJpegMajorVersion"
-		Value="6"
-	/>
-	<UserMacro
-		Name="LibJpegMinorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="LibJpegMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibJpegVersionNumber"
-		Value="60200"
-	/>
-	<UserMacro
-		Name="LibJpegVersionString"
-		Value="$(LibJpegMajorVersion).$(LibJpegMinorVersion).$(LibJpegMicroVersion)"
-	/>
-	<UserMacro
-		Name="LibPngMajorVersion"
-		Value="1"
-	/>
-	<UserMacro
-		Name="LibPngMinorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="LibPngMicroVersion"
-		Value="35"
-	/>
-	<UserMacro
-		Name="LibPngVersionNumber"
-		Value="10235"
-	/>
-	<UserMacro
-		Name="LibPngVersionString"
-		Value="$(LibPngMajorVersion).$(LibPngMinorVersion).$(LibPngMicroVersion)"
-	/>
-	<UserMacro
-		Name="PThreadsMajorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="PThreadsMinorVersion"
-		Value="8"
-	/>
-	<UserMacro
-		Name="PThreadsMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="PThreadsVersionNumber"
-		Value="020800"
-	/>
-	<UserMacro
-		Name="PThreadsVersionString"
-		Value="$(PThreadsMajorVersion).$(PThreadsMinorVersion).$(PThreadsMicroVersion)"
-	/>
-	<UserMacro
 		Name="OpenSslMajorVersion"
 		Value="0"
 	/>
@@ -221,236 +125,16 @@
 		Value="C:/openssl/lib/engines"
 	/>
 	<UserMacro
-		Name="NeonMajorVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="NeonMinorVersion"
-		Value="28"
-	/>
-	<UserMacro
-		Name="NeonMicroVersion"
-		Value="4"
-	/>
-	<UserMacro
-		Name="NeonVersionNumber"
-		Value="002804"
-	/>
-	<UserMacro
-		Name="NeonVersionString"
-		Value="$(NeonMajorVersion).$(NeonMinorVersion).$(NeonMicroVersion)"
-	/>
-	<UserMacro
-		Name="LibSoupMajorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="LibSoupMinorVersion"
-		Value="26"
-	/>
-	<UserMacro
-		Name="LibSoupMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibSoupApiInterfaceAge"
-		Value="1"
-	/>
-	<UserMacro
-		Name="LibSoupVersionString"
-		Value="$(LibSoupMajorVersion).$(LibSoupMinorVersion).$(LibSoupMicroVersion)"
-	/>
-	<UserMacro
-		Name="LibSoupApiVersionString"
-		Value="2.4"
-	/>
-	<UserMacro
-		Name="LibSoupLibVersionString"
-		Value="$(LibSoupApiVersionString)"
-	/>
-	<UserMacro
-		Name="FreeTypeMajorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="FreeTypeMinorVersion"
-		Value="3"
-	/>
-	<UserMacro
-		Name="FreeTypeMicroVersion"
-		Value="8"
-	/>
-	<UserMacro
-		Name="FreeTypeInterfaceAge"
-		Value="6"
-	/>
-	<UserMacro
-		Name="FreeTypeVersionNumber"
-		Value="020308"
-	/>
-	<UserMacro
-		Name="FreeTypeVersionString"
-		Value="$(FreeTypeMajorVersion).$(FreeTypeMinorVersion).$(FreeTypeMicroVersion)"
-	/>
-	<UserMacro
-		Name="PangoMajorVersion"
-		Value="1"
-	/>
-	<UserMacro
-		Name="PangoMinorVersion"
-		Value="23"
-	/>
-	<UserMacro
-		Name="PangoMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="PangoVersionNumber"
-		Value="012300"
-	/>
-	<UserMacro
-		Name="PangoInterfaceAge"
-		Value="0"
-	/>
-	<UserMacro
-		Name="PangoModuleVersion"
-		Value="1.6.0"
-	/>
-	<UserMacro
-		Name="PangoVersionString"
-		Value="$(PangoMajorVersion).$(PangoMinorVersion).$(PangoMicroVersion)"
-	/>
-	<UserMacro
-		Name="PangoApiVersionString"
-		Value="$(PangoMajorVersion).$(PangoInterfaceAge)"
-	/>
-	<UserMacro
-		Name="PangoLibVersionString"
-		Value="$(PangoApiVersionString)"
-	/>
-	<UserMacro
-		Name="LibOilMajorVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibOilMinorVersion"
-		Value="3"
-	/>
-	<UserMacro
-		Name="LibOilMicroVersion"
-		Value="15"
-	/>
-	<UserMacro
-		Name="LibOilApiInterfaceAge"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibOilVersionString"
-		Value="$(LibOilMajorVersion).$(LibOilMinorVersion).$(LibOilMicroVersion)"
-	/>
-	<UserMacro
-		Name="LibOilApiVersionString"
-		Value="$(LibOilMajorVersion).$(LibOilMinorVersion)"
-	/>
-	<UserMacro
-		Name="LibOilLibVersionString"
-		Value="$(LibOilApiVersionString)"
-	/>
-	<UserMacro
-		Name="LibVorbisMajorVersion"
-		Value="1"
-	/>
-	<UserMacro
-		Name="LibVorbisMinorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="LibVorbisMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibVorbisApiInterfaceAge"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibVorbisVersionString"
-		Value="$(LibVorbisMajorVersion).$(LibVorbisMinorVersion).$(LibVorbisMicroVersion)"
-	/>
-	<UserMacro
-		Name="LibVorbisApiVersionString"
-		Value="$(LibVorbisMajorVersion).$(LibVorbisMinorVersion)"
-	/>
-	<UserMacro
-		Name="LibVorbisLibVersionString"
-		Value="$(LibVorbisApiVersionString)-$(LibVorbisApiInterfaceAge)"
-	/>
-	<UserMacro
-		Name="LibTheoraMajorVersion"
-		Value="1"
-	/>
-	<UserMacro
-		Name="LibTheoraMinorVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibTheoraMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibTheoraApiInterfaceAge"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibTheoraVersionString"
-		Value="$(LibTheoraMajorVersion).$(LibTheoraMinorVersion).$(LibTheoraMicroVersion)"
-	/>
-	<UserMacro
-		Name="LibTheoraApiVersionString"
-		Value="$(LibTheoraMajorVersion).$(LibTheoraMinorVersion)"
-	/>
-	<UserMacro
-		Name="LibTheoraLibVersionString"
-		Value="$(LibTheoraApiVersionString)-$(LibTheoraApiInterfaceAge)"
-	/>
-	<UserMacro
-		Name="LibOggMajorVersion"
-		Value="1"
-	/>
-	<UserMacro
-		Name="LibOggMinorVersion"
-		Value="1"
-	/>
-	<UserMacro
-		Name="LibOggMicroVersion"
-		Value="3"
-	/>
-	<UserMacro
-		Name="LibOggApiInterfaceAge"
-		Value="0"
-	/>
-	<UserMacro
-		Name="LibOggVersionString"
-		Value="$(LibOggMajorVersion).$(LibOggMinorVersion).$(LibOggMicroVersion)"
-	/>
-	<UserMacro
-		Name="LibOggApiVersionString"
-		Value="$(LibOggMajorVersion).$(LibOggMinorVersion)"
-	/>
-	<UserMacro
-		Name="LibOggLibVersionString"
-		Value="$(LibOggApiVersionString)-$(LibOggApiInterfaceAge)"
-	/>
-	<UserMacro
 		Name="PixmanMajorVersion"
 		Value="0"
 	/>
 	<UserMacro
 		Name="PixmanMinorVersion"
-		Value="14"
+		Value="15"
 	/>
 	<UserMacro
 		Name="PixmanMicroVersion"
-		Value="0"
+		Value="2"
 	/>
 	<UserMacro
 		Name="PixmanApiInterfaceAge"
@@ -467,34 +151,6 @@
 	<UserMacro
 		Name="PixmanLibVersionString"
 		Value="$(PixmanApiInterfaceAge)"
-	/>
-	<UserMacro
-		Name="CairoMajorVersion"
-		Value="1"
-	/>
-	<UserMacro
-		Name="CairoMinorVersion"
-		Value="8"
-	/>
-	<UserMacro
-		Name="CairoMicroVersion"
-		Value="6"
-	/>
-	<UserMacro
-		Name="CairoApiInterfaceAge"
-		Value="2"
-	/>
-	<UserMacro
-		Name="CairoVersionString"
-		Value="$(CairoMajorVersion).$(CairoMinorVersion).$(CairoMicroVersion)"
-	/>
-	<UserMacro
-		Name="CairoApiVersionString"
-		Value="$(CairoMajorVersion).$(CairoMinorVersion)"
-	/>
-	<UserMacro
-		Name="CairoLibVersionString"
-		Value="$(CairoApiInterfaceAge)"
 	/>
 	<UserMacro
 		Name="LibMmsMajorVersion"
@@ -543,105 +199,5 @@
 	<UserMacro
 		Name="X264VersionString"
 		Value="$(X264MajorVersion).$(X264MinorVersion).$(X264MicroVersion)"
-	/>
-	<UserMacro
-		Name="FFmpegMajorVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="FFmpegMinorVersion"
-		Value="5"
-	/>
-	<UserMacro
-		Name="FFmpegMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="FFmpegApiInterfaceAge"
-		Value="0"
-	/>
-	<UserMacro
-		Name="FFmpegLibAvCodecBuildNumber"
-		Value="52"
-	/>
-	<UserMacro
-		Name="FFmpegLibAvDeviceBuildNumber"
-		Value="52"
-	/>
-	<UserMacro
-		Name="FFmpegLibAvFilterBuildNumber"
-		Value="0"
-	/>
-	<UserMacro
-		Name="FFmpegLibAvFormatBuildNumber"
-		Value="52"
-	/>
-	<UserMacro
-		Name="FFmpegLibAvUtilBuildNumber"
-		Value="49"
-	/>
-	<UserMacro
-		Name="FFmpegVersionString"
-		Value="$(FFmpegMajorVersion).$(FFmpegMinorVersion).$(FFmpegMicroVersion)"
-	/>
-	<UserMacro
-		Name="FFmpegApiVersionString"
-		Value="$(FFmpegMajorVersion).$(FFmpegMinorVersion)"
-	/>
-	<UserMacro
-		Name="FFmpegLibVersionString"
-		Value="$(FFmpegApiVersionString)-$(FFmpegApiInterfaceAge)"
-	/>
-	<UserMacro
-		Name="GLibMajorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="GLibMinorVersion"
-		Value="20"
-	/>
-	<UserMacro
-		Name="GLibMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="GLibInterfaceAge"
-		Value="0"
-	/>
-	<UserMacro
-		Name="GLibApiVersion"
-		Value="$(GLibMajorVersion).0"
-	/>
-	<UserMacro
-		Name="GLibVersionString"
-		Value="$(GLibMajorVersion).$(GLibMinorVersion).$(GLibMicroVersion)"
-	/>
-	<UserMacro
-		Name="GLibBinaryAge"
-		Value="$(GLibMinorVersion)0$(GLibMicroVersion)"
-	/>
-	<UserMacro
-		Name="GLibApiMajorVersion"
-		Value="2"
-	/>
-	<UserMacro
-		Name="GLibApiMinorVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="GLibApiMicroVersion"
-		Value="0"
-	/>
-	<UserMacro
-		Name="GLibApiInterfaceAge"
-		Value="0"
-	/>
-	<UserMacro
-		Name="GLibApiVersionString"
-		Value="$(GLibApiMajorVersion).$(GLibApiMinorVersion)"
-	/>
-	<UserMacro
-		Name="GLibLibVersionString"
-		Value="$(GLibApiVersionString)"
 	/>
 </VisualStudioPropertySheet>

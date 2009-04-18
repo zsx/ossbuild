@@ -11,7 +11,7 @@ common_startup "Windows" "Win32" "Release" "x86"
 crt_startup
 
 #Setup library versions
-. $CURR_DIR/Version.sh
+. $ROOT/Shared/Scripts/Version.sh
 
 #Move to intermediate directory
 cd "$IntDir"
@@ -155,7 +155,7 @@ if [ ! -f "$BinDir/libxml2-2.dll" ]; then
 	#Preprocess-only the .def.src file
 	#The preprocessor generates some odd "# 1" statements so we want to eliminate those
 	CFLAGS="$CFLAGS -I$IncludeDir/libxml2 -I$SharedIncludeDir/libxml2"
-	gcc $CFLAGS -x c -E -D _REENTRANT $LIBRARIES_DIR/LibXML2/Source/win32/libxml2.def.src > tmp1.txt
+	gcc $CFLAGS -x c -E -D _REENTRANT $PKG_DIR/win32/libxml2.def.src > tmp1.txt
 	sed '/# /d' tmp1.txt > tmp2.txt
 	sed '/LIBRARY libxml2/d' tmp2.txt > libxml2.def
 	reset_flags
@@ -466,6 +466,7 @@ if [ ! -f "$BinDir/libtheora-0.dll" ]; then
 	
 	copy_files_to_dir "$PKG_DIR/win32/*.def" .
 	copy_files_to_dir "lib/.libs/*.def" .
+	flip -d libtheora.def
 	sed '/LIBRARY	libtheora/d' libtheora.def > libtheora-mod.def
 	$MSLIB /name:libtheora-0.dll /out:theora.lib /machine:$MSLibMachine /def:libtheora-mod.def
 	$MSLIB /name:libtheoradec-1.dll /out:theoradec.lib /machine:$MSLibMachine /def:libtheoradec-1.dll.def

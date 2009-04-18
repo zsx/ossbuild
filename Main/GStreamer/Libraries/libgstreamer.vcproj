@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstreamer"
+	Name="gstreamer"
 	ProjectGUID="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
 	RootNamespace="libgstreamer"
 	Keyword="Win32Proj"
@@ -150,7 +150,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				ExecutionBucket="27"
-				OutputFile="$(OutDir)\bin\gstreamer\$(ProjectName)-$(ApiVersionString).dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				ModuleDefinitionFile="..\Source\gstreamer\win32\common\libgstreamer.def"
@@ -314,7 +313,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				ExecutionBucket="27"
-				OutputFile="$(OutDir)\bin\gstreamer\$(ProjectName)-$(ApiVersionString).dll"
 				LinkIncremental="1"
 				ModuleDefinitionFile="..\Source\gstreamer\win32\common\libgstreamer.def"
 				GenerateDebugInformation="true"

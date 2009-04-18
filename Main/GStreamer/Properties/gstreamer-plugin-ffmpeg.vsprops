@@ -11,6 +11,6 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="libgstaudio.lib"
+		AdditionalDependencies="gstaudio.lib"
 	/>
 </VisualStudioPropertySheet>

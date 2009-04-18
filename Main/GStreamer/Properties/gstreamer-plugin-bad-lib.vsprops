@@ -12,7 +12,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		OutputFile="$(OutDir)\bin\gstreamer\$(ProjectName).dll"
-		ImportLibrary="$(OutDir)\lib\gstreamer\$(TargetName).lib"
+		OutputFile="$(OutDir)\bin\gstreamer\lib$(ProjectName).dll"
+		ImportLibrary="$(OutDir)\lib\gstreamer\$(ProjectName).lib"
 	/>
 </VisualStudioPropertySheet>

@@ -12,4 +12,32 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="soup-$(LibSoupLibVersionString).lib"
 	/>
+	<UserMacro
+		Name="LibSoupMajorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibSoupMinorVersion"
+		Value="26"
+	/>
+	<UserMacro
+		Name="LibSoupMicroVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibSoupApiInterfaceAge"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibSoupVersionString"
+		Value="$(LibSoupMajorVersion).$(LibSoupMinorVersion).$(LibSoupMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibSoupApiVersionString"
+		Value="2.4"
+	/>
+	<UserMacro
+		Name="LibSoupLibVersionString"
+		Value="$(LibSoupApiVersionString)"
+	/>
 </VisualStudioPropertySheet>

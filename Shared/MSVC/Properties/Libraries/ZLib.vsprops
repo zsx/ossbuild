@@ -8,4 +8,20 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="z.lib"
 	/>
+	<UserMacro
+		Name="ZLibMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="ZLibMinorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="ZLibMicroVersion"
+		Value="3"
+	/>
+	<UserMacro
+		Name="ZLibVersion"
+		Value="$(ZLibMajorVersion).$(ZLibMinorVersion).$(ZLibMicroVersion)"
+	/>
 </VisualStudioPropertySheet>

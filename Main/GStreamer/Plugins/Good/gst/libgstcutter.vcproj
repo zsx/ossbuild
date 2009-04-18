@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstcutter"
+	Name="gstcutter"
 	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A09}"
 	RootNamespace="libgstcutter"
 	Keyword="Win32Proj"
@@ -29,10 +29,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="Bison Tool"
+				Name="Flex Tool"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Bison Tool"
 			/>
 			<Tool
 				Name="CommandLineTool"
@@ -41,13 +44,13 @@
 				Name="Perl 3 Tool"
 			/>
 			<Tool
+				Name="Glib Make Enums Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+			/>
+			<Tool
 				Name="Perl 2 Tool"
-			/>
-			<Tool
-				Name="Flex Tool"
-			/>
-			<Tool
-				Name="Header Installer Tool"
 			/>
 			<Tool
 				Name="Perl Tool"
@@ -74,16 +77,16 @@
 				Name="Pkg-Config OAH Dependencies Tool"
 			/>
 			<Tool
-				Name="Pkg-Config Tool"
+				Name="Header Installer Tool"
 			/>
 			<Tool
-				Name="Glib Make Enums Tool"
-			/>
-			<Tool
-				Name="DotIn Generator Tool"
+				Name="Yasm Tool"
 			/>
 			<Tool
 				Name="SED Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -117,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstaudio.lib"
+				AdditionalDependencies="gstaudio.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
@@ -160,10 +163,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="Bison Tool"
+				Name="Flex Tool"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Bison Tool"
 			/>
 			<Tool
 				Name="CommandLineTool"
@@ -172,13 +178,13 @@
 				Name="Perl 3 Tool"
 			/>
 			<Tool
+				Name="Glib Make Enums Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+			/>
+			<Tool
 				Name="Perl 2 Tool"
-			/>
-			<Tool
-				Name="Flex Tool"
-			/>
-			<Tool
-				Name="Header Installer Tool"
 			/>
 			<Tool
 				Name="Perl Tool"
@@ -205,16 +211,16 @@
 				Name="Pkg-Config OAH Dependencies Tool"
 			/>
 			<Tool
-				Name="Pkg-Config Tool"
+				Name="Header Installer Tool"
 			/>
 			<Tool
-				Name="Glib Make Enums Tool"
-			/>
-			<Tool
-				Name="DotIn Generator Tool"
+				Name="Yasm Tool"
 			/>
 			<Tool
 				Name="SED Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -245,7 +251,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstaudio.lib"
+				AdditionalDependencies="gstaudio.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"

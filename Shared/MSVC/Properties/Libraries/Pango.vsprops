@@ -12,4 +12,40 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="pango-$(PangoLibVersionString).lib pangocairo-$(PangoLibVersionString).lib pangoft2-$(PangoLibVersionString).lib pangowin32-$(PangoLibVersionString).lib"
 	/>
+	<UserMacro
+		Name="PangoMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="PangoMinorVersion"
+		Value="24"
+	/>
+	<UserMacro
+		Name="PangoMicroVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="PangoVersionNumber"
+		Value="012401"
+	/>
+	<UserMacro
+		Name="PangoInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="PangoModuleVersion"
+		Value="1.6.0"
+	/>
+	<UserMacro
+		Name="PangoVersionString"
+		Value="$(PangoMajorVersion).$(PangoMinorVersion).$(PangoMicroVersion)"
+	/>
+	<UserMacro
+		Name="PangoApiVersionString"
+		Value="$(PangoMajorVersion).$(PangoInterfaceAge)"
+	/>
+	<UserMacro
+		Name="PangoLibVersionString"
+		Value="$(PangoApiVersionString)"
+	/>
 </VisualStudioPropertySheet>

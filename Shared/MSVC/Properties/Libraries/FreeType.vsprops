@@ -12,4 +12,28 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="freetype.lib"
 	/>
+	<UserMacro
+		Name="FreeTypeMajorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="FreeTypeMinorVersion"
+		Value="3"
+	/>
+	<UserMacro
+		Name="FreeTypeMicroVersion"
+		Value="9"
+	/>
+	<UserMacro
+		Name="FreeTypeInterfaceAge"
+		Value="6"
+	/>
+	<UserMacro
+		Name="FreeTypeVersionNumber"
+		Value="020309"
+	/>
+	<UserMacro
+		Name="FreeTypeVersionString"
+		Value="$(FreeTypeMajorVersion).$(FreeTypeMinorVersion).$(FreeTypeMicroVersion)"
+	/>
 </VisualStudioPropertySheet>

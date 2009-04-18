@@ -12,4 +12,24 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="png12.lib"
 	/>
+	<UserMacro
+		Name="LibPngMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibPngMinorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibPngMicroVersion"
+		Value="35"
+	/>
+	<UserMacro
+		Name="LibPngVersionNumber"
+		Value="10235"
+	/>
+	<UserMacro
+		Name="LibPngVersionString"
+		Value="$(LibPngMajorVersion).$(LibPngMinorVersion).$(LibPngMicroVersion)"
+	/>
 </VisualStudioPropertySheet>

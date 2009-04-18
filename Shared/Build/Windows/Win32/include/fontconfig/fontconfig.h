@@ -27,9 +27,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifndef _MSC_VER
 #include <unistd.h>
-#endif
 #include <stdarg.h>
 
 #if defined(__GNUC__) && (__GNUC__ >= 4)

@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstpango"
+	Name="gstpango"
 	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F91F30}"
 	RootNamespace="libgstpango"
 	Keyword="Win32Proj"
@@ -101,8 +101,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\ext\pango&quot;;&quot;$(OutDir)\include\pango-$(PangoApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Windows\$(PlatformName)\$(ConfigurationName)\include\pango-$(PangoApiVersionString)&quot;"
-				PreprocessorDefinitions="LIBGSTADDER_EXPORTS"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\ext\pango&quot;"
+				PreprocessorDefinitions="LIBGSTPANGO_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pango-$(PangoApiVersionString).lib pangoft2-$(PangoApiVersionString).lib libgstaudio.lib libgstinterfaces.lib libgstvideo.lib"
+				AdditionalDependencies="pango-$(PangoApiVersionString).lib pangoft2-$(PangoApiVersionString).lib gstaudio.lib gstinterfaces.lib gstvideo.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
@@ -235,8 +235,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\ext\pango&quot;;&quot;$(OutDir)\include\pango-$(PangoApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Windows\$(PlatformName)\$(ConfigurationName)\include\pango-$(PangoApiVersionString)&quot;"
-				PreprocessorDefinitions="LIBGSTADDER_EXPORTS"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\ext\pango&quot;"
+				PreprocessorDefinitions="LIBGSTPANGO_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -253,7 +253,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="pango-$(PangoApiVersionString).lib pangoft2-$(PangoApiVersionString).lib libgstaudio.lib libgstinterfaces.lib libgstvideo.lib"
+				AdditionalDependencies="pango-$(PangoApiVersionString).lib pangoft2-$(PangoApiVersionString).lib gstaudio.lib gstinterfaces.lib gstvideo.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"

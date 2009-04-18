@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstjpeg"
+	Name="gstjpeg"
 	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92006}"
 	RootNamespace="libgstjpeg"
 	Keyword="Win32Proj"
@@ -120,7 +120,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jpeg.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -251,7 +250,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jpeg.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

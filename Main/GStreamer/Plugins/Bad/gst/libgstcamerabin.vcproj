@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstcamerabin"
+	Name="gstcamerabin"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0058}"
 	RootNamespace="libgstcamerabin"
 	Keyword="Win32Proj"
@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstinterfaces.lib libgstphotography.lib"
+				AdditionalDependencies="gstinterfaces.lib gstphotography.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -253,7 +253,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstinterfaces.lib libgstphotography.lib"
+				AdditionalDependencies="gstinterfaces.lib gstphotography.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

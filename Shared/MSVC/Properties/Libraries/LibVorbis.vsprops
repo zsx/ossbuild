@@ -8,4 +8,32 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="vorbis.lib vorbisenc.lib vorbisfile.lib"
 	/>
+	<UserMacro
+		Name="LibVorbisMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibVorbisMinorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibVorbisMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibVorbisApiInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibVorbisVersionString"
+		Value="$(LibVorbisMajorVersion).$(LibVorbisMinorVersion).$(LibVorbisMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibVorbisApiVersionString"
+		Value="$(LibVorbisMajorVersion).$(LibVorbisMinorVersion)"
+	/>
+	<UserMacro
+		Name="LibVorbisLibVersionString"
+		Value="$(LibVorbisApiVersionString)-$(LibVorbisApiInterfaceAge)"
+	/>
 </VisualStudioPropertySheet>

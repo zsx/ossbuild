@@ -249,7 +249,7 @@ create_shared() {
 	
 	#Lib
 	cd "$LibDir" && copy_files_to_dir "*.a *.lib *.sh" "$SharedLibDir"
-	test -d "glib-2.0" && cp -ru "glib-2.0" "SharedLibDir"
+	test -d "glib-2.0" && cp -ru "glib-2.0" "$SharedLibDir"
 	
 	#Include
 	cd "$IncludeDir" && cp -ru * "$SharedIncludeDir"

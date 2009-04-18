@@ -8,4 +8,32 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="theora.lib"
 	/>
+	<UserMacro
+		Name="LibTheoraMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibTheoraMinorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibTheoraMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibTheoraApiInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibTheoraVersionString"
+		Value="$(LibTheoraMajorVersion).$(LibTheoraMinorVersion).$(LibTheoraMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibTheoraApiVersionString"
+		Value="$(LibTheoraMajorVersion).$(LibTheoraMinorVersion)"
+	/>
+	<UserMacro
+		Name="LibTheoraLibVersionString"
+		Value="$(LibTheoraApiVersionString)-$(LibTheoraApiInterfaceAge)"
+	/>
 </VisualStudioPropertySheet>

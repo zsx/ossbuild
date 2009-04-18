@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libgstsdpplugin"
+	Name="gstsdpplugin"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0050}"
 	RootNamespace="libgstsdpplugin"
 	Keyword="Win32Proj"
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstsdp.lib libgstrtp.lib"
+				AdditionalDependencies="gstsdp.lib gstrtp.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -251,7 +251,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstsdp.lib libgstrtp.lib"
+				AdditionalDependencies="gstsdp.lib gstrtp.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

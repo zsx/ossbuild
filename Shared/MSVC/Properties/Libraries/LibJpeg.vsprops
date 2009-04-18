@@ -8,4 +8,24 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="jpeg.lib"
 	/>
+	<UserMacro
+		Name="LibJpegMajorVersion"
+		Value="6"
+	/>
+	<UserMacro
+		Name="LibJpegMinorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibJpegMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibJpegVersionNumber"
+		Value="60200"
+	/>
+	<UserMacro
+		Name="LibJpegVersionString"
+		Value="$(LibJpegMajorVersion).$(LibJpegMinorVersion).$(LibJpegMicroVersion)"
+	/>
 </VisualStudioPropertySheet>

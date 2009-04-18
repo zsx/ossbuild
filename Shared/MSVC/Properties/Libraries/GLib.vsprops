@@ -12,4 +12,56 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="glib-$(GLibLibVersionString).lib gobject-$(GLibLibVersionString).lib gthread-$(GLibLibVersionString).lib gmodule-$(GLibLibVersionString).lib gio-$(GLibLibVersionString).lib"
 	/>
+	<UserMacro
+		Name="GLibMajorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="GLibMinorVersion"
+		Value="20"
+	/>
+	<UserMacro
+		Name="GLibMicroVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="GLibInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="GLibApiVersion"
+		Value="$(GLibMajorVersion).0"
+	/>
+	<UserMacro
+		Name="GLibVersionString"
+		Value="$(GLibMajorVersion).$(GLibMinorVersion).$(GLibMicroVersion)"
+	/>
+	<UserMacro
+		Name="GLibBinaryAge"
+		Value="$(GLibMinorVersion)0$(GLibMicroVersion)"
+	/>
+	<UserMacro
+		Name="GLibApiMajorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="GLibApiMinorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="GLibApiMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="GLibApiInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="GLibApiVersionString"
+		Value="$(GLibApiMajorVersion).$(GLibApiMinorVersion)"
+	/>
+	<UserMacro
+		Name="GLibLibVersionString"
+		Value="$(GLibApiVersionString)"
+	/>
 </VisualStudioPropertySheet>
