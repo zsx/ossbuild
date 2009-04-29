@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="common"
 	ProjectGUID="{6D7EB3D4-7E91-4D98-80EA-28A8F2E365F7}"
 	RootNamespace="common"
@@ -260,7 +260,21 @@
 			<File
 				RelativePath="..\Source\gstreamer\win32\common\gstconfig.h"
 				>
-				<FileConfiguration					Name="Debug|Win32"					>					<Tool						Name="Header Installer Tool"					/>				</FileConfiguration>				<FileConfiguration					Name="Release|Win32"					>					<Tool						Name="Header Installer Tool"					/>				</FileConfiguration>			</File>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="Header Installer Tool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="Header Installer Tool"
+					/>
+				</FileConfiguration>
+			</File>
 			<File
 				RelativePath="..\Source\gstreamer\gst\gstmarshal.list"
 				>
@@ -286,7 +300,21 @@
 			<File
 				RelativePath="..\Source\gstreamer\win32\common\gstversion.h"
 				>
-				<FileConfiguration					Name="Debug|Win32"					>					<Tool						Name="Header Installer Tool"					/>				</FileConfiguration>				<FileConfiguration					Name="Release|Win32"					>					<Tool						Name="Header Installer Tool"					/>				</FileConfiguration>			</File>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="Header Installer Tool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="Header Installer Tool"
+					/>
+				</FileConfiguration>
+			</File>
 			<File
 				RelativePath="..\Source\gstreamer\win32\common\gtchar.h"
 				>
@@ -404,6 +432,62 @@
 							<Tool
 								Name="GObject Marshaller Generation Tool"
 								FunctionPrefix="gst_tcp_marshal"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="gst-plugins-farsight"
+			>
+			<Filter
+				Name="gst"
+				>
+				<Filter
+					Name="rtpdemux"
+					>
+					<File
+						RelativePath="..\Source\gst-plugins-farsight\gst\rtpdemux\gstrtpdemux-marshal.list"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="GObject Marshaller Generation Tool"
+								FunctionPrefix="gst_rtp_demux_marshal"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="GObject Marshaller Generation Tool"
+								FunctionPrefix="gst_rtp_demux_marshal"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+				<Filter
+					Name="rtpjitterbuffer"
+					>
+					<File
+						RelativePath="..\Source\gst-plugins-farsight\gst\rtpjitterbuffer\gstrtpjitterbuffer-marshal.list"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="GObject Marshaller Generation Tool"
+								FunctionPrefix="gstrtpjitterbuffer_marshal"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="GObject Marshaller Generation Tool"
+								FunctionPrefix="gstrtpjitterbuffer_marshal"
 							/>
 						</FileConfiguration>
 					</File>
