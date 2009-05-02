@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="gstfarsight"
+	ProjectGUID="{EB5D7598-7014-42D3-886C-9B9EC38167C3}"
+	RootNamespace="libgstfarsight"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\..\..\..\Common.rules"
+		/>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\farsight2-plugin-lib.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="2"
+				ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="7"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="10"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="Yasm Tool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="23"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="24"
+				Optimization="0"
+				InlineFunctionExpansion="0"
+				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst&quot;"
+				PreprocessorDefinitions="HAVE_CONFIG_H"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="27"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="28"
+				AdditionalDependencies="ws2_32.lib iphlpapi.lib"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="libgstfarsight.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="33"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+				ExecutionBucket="34"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\farsight2-plugin-lib.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="2"
+				ModuleName="gstreamer-$(ApiVersionString)\gst\interfaces"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="7"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="10"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="Yasm Tool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="23"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="24"
+				Optimization="2"
+				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst&quot;"
+				PreprocessorDefinitions="HAVE_CONFIG_H"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="27"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="28"
+				AdditionalDependencies="ws2_32.lib iphlpapi.lib"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="libgstfarsight.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="33"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+				ExecutionBucket="34"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-base-conference.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-candidate.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-codec.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-conference-iface.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-element-added-notifier.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-interfaces.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-participant.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-plugin.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-session.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-stream-transmitter.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-stream.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-transmitter.c"
+				>
+			</File>
+			<Filter
+				Name="Generated"
+				>
+				<File
+					RelativePath="$(IntDir)\..\common\fs-enum-types.c"
+					>
+				</File>
+				<File
+					RelativePath="$(IntDir)\..\common\fs-marshal.c"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			>
+			<Filter
+				Name="Public"
+				>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-base-conference.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-candidate.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-codec.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-conference-iface.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-element-added-notifier.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-interfaces.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-participant.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-plugin.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-private.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-session.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-stream-transmitter.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-stream.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Farsight2\gst-libs\gst\farsight\fs-transmitter.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="generated"
+				>
+				<File
+					RelativePath="$(IntDir)\..\common\fs-enum-types.h"
+					>
+				</File>
+				<File
+					RelativePath="$(IntDir)\..\common\fs-marshal.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			>
+			<File
+				RelativePath=".\libgstfarsight.def"
+				>
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

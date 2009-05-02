@@ -1,0 +1,260 @@
+<ARG>
+<NAME>FsRtpConference::sdes-cname</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Canonical name</NICK>
+<BLURB>The CNAME for the RTP sessions.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpConference::sdes-email</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>SDES EMAIL</NICK>
+<BLURB>The EMAIL to put in SDES messages of this session.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpConference::sdes-location</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>SDES LOCATION</NICK>
+<BLURB>The LOCATION to put in SDES messages of this session.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpConference::sdes-name</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>SDES NAME</NICK>
+<BLURB>The NAME to put in SDES messages of this session.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpConference::sdes-note</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>SDES NOTE</NICK>
+<BLURB>The NOTE to put in SDES messages of this session.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpConference::sdes-phone</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>SDES PHONE</NICK>
+<BLURB>The PHONE to put in SDES messages of this session.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpConference::sdes-tool</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>SDES TOOL</NICK>
+<BLURB>The TOOL to put in SDES messages of this session.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpSession::no-rtcp-timeout</NAME>
+<TYPE>gint</TYPE>
+<RANGE>>= -1</RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>The timeout (in ms) before no RTCP is assumed</NICK>
+<BLURB>This is the time (in ms) after which data received without RTCP is attached the FsStream, this only works if there is only one FsStream. -1 will wait forever. 0 will not wait for RTCP and attach it immediataly to the FsStream and prohibit the creation of a second FsStream.</BLURB>
+<DEFAULT>7000</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpSession::conference</NAME>
+<TYPE>FsRtpConference*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>The Conference this stream refers to</NICK>
+<BLURB>This is a convience pointer for the Conference.</BLURB>
+<DEFAULT></DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRawUdpStreamTransmitter::stun-ip</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>The IP address of the STUN server</NICK>
+<BLURB>The IPv4 address of the STUN server as a x.x.x.x string.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRawUdpStreamTransmitter::stun-port</NAME>
+<TYPE>guint</TYPE>
+<RANGE>[1,65535]</RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>The port of the STUN server</NICK>
+<BLURB>The IPv4 UDP port of the STUN server as a .</BLURB>
+<DEFAULT>3478</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRawUdpStreamTransmitter::stun-timeout</NAME>
+<TYPE>guint</TYPE>
+<RANGE>>= 1</RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>The timeout for the STUN reply</NICK>
+<BLURB>How long to wait for for the STUN reply (in seconds) before giving up.</BLURB>
+<DEFAULT>30</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRawUdpStreamTransmitter::upnp-discovery</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>Try to use UPnP to find the external IP address</NICK>
+<BLURB>Tries to discovery the external IP with UPnP if stun fails.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRawUdpStreamTransmitter::upnp-discovery-timeout</NAME>
+<TYPE>guint</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>Timeout after which UPnP discovery fails</NICK>
+<BLURB>After this period, UPnP discovery is considered to have failed and the local IP is returned.</BLURB>
+<DEFAULT>10</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRawUdpStreamTransmitter::upnp-mapping</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>Try to map ports using UPnP</NICK>
+<BLURB>Tries to map ports using UPnP if enabled.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRawUdpStreamTransmitter::upnp-mapping-timeout</NAME>
+<TYPE>guint</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>Timeout after which UPnP mappings expire</NICK>
+<BLURB>The UPnP port mappings expire after this period if the app has crashed (in seconds).</BLURB>
+<DEFAULT>600</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRawUdpStreamTransmitter::upnp-request-timeout</NAME>
+<TYPE>guint</TYPE>
+<RANGE>[1,600]</RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>Timeout after which UPnP requests timeout</NICK>
+<BLURB>After this delay, UPnP requests fails.</BLURB>
+<DEFAULT>10</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsMsnConference::local-address</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Msn Address</NICK>
+<BLURB>The local contact address for the MSN sessions.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsNiceStreamTransmitter::compatibility-mode</NAME>
+<TYPE>guint</TYPE>
+<RANGE><= 3</RANGE>
+<FLAGS>wX</FLAGS>
+<NICK>The compability-mode</NICK>
+<BLURB>The id of the stream according to libnice.</BLURB>
+<DEFAULT>0</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsNiceStreamTransmitter::controlling-mode</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwx</FLAGS>
+<NICK>ICE controlling mode</NICK>
+<BLURB>Whether the agent is in controlling mode.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsNiceStreamTransmitter::debug</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>w</FLAGS>
+<NICK>Enable debug messages</NICK>
+<BLURB>Whether the agent should enable libnice and stun debug messages.</BLURB>
+<DEFAULT>FALSE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsNiceStreamTransmitter::relay-info</NAME>
+<TYPE>GValueArray*</TYPE>
+<RANGE></RANGE>
+<FLAGS>wX</FLAGS>
+<NICK>Information for the TURN server</NICK>
+<BLURB>ip/port/username/password/component of the TURN servers in a GValueArray of GstStructures .</BLURB>
+<DEFAULT></DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsNiceStreamTransmitter::stream-id</NAME>
+<TYPE>guint</TYPE>
+<RANGE><= G_MAXINT</RANGE>
+<FLAGS>r</FLAGS>
+<NICK>The id of the stream</NICK>
+<BLURB>The id of the stream according to libnice.</BLURB>
+<DEFAULT>0</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsNiceStreamTransmitter::stun-ip</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>STUN server</NICK>
+<BLURB>The STUN server used to obtain server-reflexive candidates.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsNiceStreamTransmitter::stun-port</NAME>
+<TYPE>guint</TYPE>
+<RANGE>[1,65536]</RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>STUN server port</NICK>
+<BLURB>The STUN server used to obtain server-reflexive candidates.</BLURB>
+<DEFAULT>3478</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtcpFilter::sending</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Sending RTP?</NICK>
+<BLURB>If set to FALSE, it assumes that all RTP has been dropped.</BLURB>
+<DEFAULT>FALSE</DEFAULT>
+</ARG>
+

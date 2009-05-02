@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<book xmlns="http://www.devhelp.net/book" title="Farsight2 Reference Manual" link="index.html" author="" name="farsight2-libs" version="2">
+  <chapters>
+    <sub name="User-oriented classes, interfaces and functions" link="pt01.html">
+      <sub name="Farsight GStreamer Interfaces" link="ch01.html">
+        <sub name="FsConference" link="FsConference.html"/>
+      </sub>
+      <sub name="Farsight Core Library" link="ch02.html">
+        <sub name="FsParticipant" link="FsParticipant.html"/>
+        <sub name="FsSession" link="FsSession.html"/>
+        <sub name="FsStream" link="FsStream.html"/>
+        <sub name="FsCandidate" link="farsight2-libs-FsCandidate.html"/>
+        <sub name="FsCodec" link="farsight2-libs-FsCodec.html"/>
+      </sub>
+      <sub name="Farsight Utility Functions and Objects" link="ch03.html">
+        <sub name="FsElementAddedNotifier" link="FsElementAddedNotifier.html"/>
+        <sub name="Network interfaces discovery" link="farsight2-libs-Network-interfaces-discovery.html"/>
+      </sub>
+    </sub>
+    <sub name="Classes used to implement Farsight plugins" link="pt02.html">
+      <sub name="Farsight Classes Base Implementations" link="ch04.html">
+        <sub name="FsBaseConference" link="FsBaseConference.html"/>
+      </sub>
+      <sub name="Farsight Transmitter Classes" link="ch05.html">
+        <sub name="FsTransmitter" link="FsTransmitter.html"/>
+        <sub name="FsStreamTransmitter" link="FsStreamTransmitter.html"/>
+      </sub>
+      <sub name="Farsight Plugins Infrastructure" link="ch06.html">
+        <sub name="FsPlugin" link="farsight2-libs-FsPlugin.html"/>
+      </sub>
+    </sub>
+  </chapters>
+  <functions>
+    <keyword type="" name="The &quot;farsight-error&quot; message" link="FsConference.html#id2576999"/>
+    <keyword type="struct" name="FsConference" link="FsConference.html#FsConference-struct"/>
+    <keyword type="function" name="fs_conference_new_session ()" link="FsConference.html#fs-conference-new-session"/>
+    <keyword type="function" name="fs_conference_new_participant ()" link="FsConference.html#fs-conference-new-participant"/>
+    <keyword type="macro" name="FS_ERROR" link="FsConference.html#FS-ERROR:CAPS"/>
+    <keyword type="enum" name="enum FsError" link="FsConference.html#FsError"/>
+    <keyword type="macro" name="FS_ERROR_IS_FATAL()" link="FsConference.html#FS-ERROR-IS-FATAL:CAPS"/>
+    <keyword type="struct" name="FsParticipant" link="FsParticipant.html#FsParticipant-struct"/>
+    <keyword type="struct" name="FsParticipantClass" link="FsParticipant.html#FsParticipantClass"/>
+    <keyword type="macro" name="FS_PARTICIPANT_DATA_LOCK()" link="FsParticipant.html#FS-PARTICIPANT-DATA-LOCK:CAPS"/>
+    <keyword type="macro" name="FS_PARTICIPANT_DATA_UNLOCK()" link="FsParticipant.html#FS-PARTICIPANT-DATA-UNLOCK:CAPS"/>
+    <keyword type="" name="The &quot;cname&quot; property" link="FsParticipant.html#FsParticipant--cname"/>
+    <keyword type="" name="The &quot;error&quot; signal" link="FsParticipant.html#FsParticipant-error"/>
+    <keyword type="" name="The &quot;farsight-send-codec-changed&quot;&#10;  message" link="FsSession.html#id2644079"/>
+    <keyword type="" name="The &quot;farsight-codecs-changed&quot;&#10; message" link="FsSession.html#id2644123"/>
+    <keyword type="enum" name="enum FsDTMFEvent" link="FsSession.html#FsDTMFEvent"/>
+    <keyword type="enum" name="enum FsDTMFMethod" link="FsSession.html#FsDTMFMethod"/>
+    <keyword type="struct" name="FsSession" link="FsSession.html#FsSession-struct"/>
+    <keyword type="struct" name="FsSessionClass" link="FsSession.html#FsSessionClass"/>
+    <keyword type="function" name="fs_session_new_stream ()" link="FsSession.html#fs-session-new-stream"/>
+    <keyword type="function" name="fs_session_start_telephony_event ()" link="FsSession.html#fs-session-start-telephony-event"/>
+    <keyword type="function" name="fs_session_stop_telephony_event ()" link="FsSession.html#fs-session-stop-telephony-event"/>
+    <keyword type="function" name="fs_session_set_send_codec ()" link="FsSession.html#fs-session-set-send-codec"/>
+    <keyword type="function" name="fs_session_set_codec_preferences ()" link="FsSession.html#fs-session-set-codec-preferences"/>
+    <keyword type="function" name="fs_session_list_transmitters ()" link="FsSession.html#fs-session-list-transmitters"/>
+    <keyword type="function" name="fs_session_emit_error ()" link="FsSession.html#fs-session-emit-error"/>
+    <keyword type="" name="The &quot;codec-preferences&quot; property" link="FsSession.html#FsSession--codec-preferences"/>
+    <keyword type="" name="The &quot;codecs&quot; property" link="FsSession.html#FsSession--codecs"/>
+    <keyword type="" name="The &quot;codecs-ready&quot; property" link="FsSession.html#FsSession--codecs-ready"/>
+    <keyword type="" name="The &quot;codecs-without-config&quot; property" link="FsSession.html#FsSession--codecs-without-config"/>
+    <keyword type="" name="The &quot;current-send-codec&quot; property" link="FsSession.html#FsSession--current-send-codec"/>
+    <keyword type="" name="The &quot;id&quot; property" link="FsSession.html#FsSession--id"/>
+    <keyword type="" name="The &quot;media-type&quot; property" link="FsSession.html#FsSession--media-type"/>
+    <keyword type="" name="The &quot;sink-pad&quot; property" link="FsSession.html#FsSession--sink-pad"/>
+    <keyword type="" name="The &quot;error&quot; signal" link="FsSession.html#FsSession-error"/>
+    <keyword type="" name="The &quot;farsight-new-local-candidate&quot; message" link="FsStream.html#id2662807"/>
+    <keyword type="" name="The &quot;farsight-local-candidates-prepared&quot; message" link="FsStream.html#id2662843"/>
+    <keyword type="" name="The &quot;farsight-new-active-candidate-pair&quot; message" link="FsStream.html#id2662875"/>
+    <keyword type="" name="The &quot;farsight-recv-codecs-changed&quot; message" link="FsStream.html#id2662924"/>
+    <keyword type="" name="The &quot;farsight-component-state-changed&quot; message" link="FsStream.html#id2662992"/>
+    <keyword type="struct" name="FsStream" link="FsStream.html#FsStream-struct"/>
+    <keyword type="struct" name="FsStreamClass" link="FsStream.html#FsStreamClass"/>
+    <keyword type="enum" name="enum FsStreamDirection" link="FsStream.html#FsStreamDirection"/>
+    <keyword type="enum" name="enum FsStreamState" link="FsStream.html#FsStreamState"/>
+    <keyword type="function" name="fs_stream_set_remote_candidates ()" link="FsStream.html#fs-stream-set-remote-candidates"/>
+    <keyword type="function" name="fs_stream_set_remote_codecs ()" link="FsStream.html#fs-stream-set-remote-codecs"/>
+    <keyword type="function" name="fs_stream_force_remote_candidates ()" link="FsStream.html#fs-stream-force-remote-candidates"/>
+    <keyword type="function" name="fs_stream_emit_error ()" link="FsStream.html#fs-stream-emit-error"/>
+    <keyword type="function" name="fs_stream_emit_src_pad_added ()" link="FsStream.html#fs-stream-emit-src-pad-added"/>
+    <keyword type="" name="The &quot;current-recv-codecs&quot; property" link="FsStream.html#FsStream--current-recv-codecs"/>
+    <keyword type="" name="The &quot;direction&quot; property" link="FsStream.html#FsStream--direction"/>
+    <keyword type="" name="The &quot;negotiated-codecs&quot; property" link="FsStream.html#FsStream--negotiated-codecs"/>
+    <keyword type="" name="The &quot;participant&quot; property" link="FsStream.html#FsStream--participant"/>
+    <keyword type="" name="The &quot;remote-codecs&quot; property" link="FsStream.html#FsStream--remote-codecs"/>
+    <keyword type="" name="The &quot;session&quot; property" link="FsStream.html#FsStream--session"/>
+    <keyword type="" name="The &quot;stream-transmitter&quot; property" link="FsStream.html#FsStream--stream-transmitter"/>
+    <keyword type="" name="The &quot;error&quot; signal" link="FsStream.html#FsStream-error"/>
+    <keyword type="" name="The &quot;src-pad-added&quot; signal" link="FsStream.html#FsStream-src-pad-added"/>
+    <keyword type="struct" name="FsCandidate" link="farsight2-libs-FsCandidate.html#FsCandidate"/>
+    <keyword type="enum" name="enum FsCandidateType" link="farsight2-libs-FsCandidate.html#FsCandidateType"/>
+    <keyword type="enum" name="enum FsNetworkProtocol" link="farsight2-libs-FsCandidate.html#FsNetworkProtocol"/>
+    <keyword type="enum" name="enum FsComponentType" link="farsight2-libs-FsCandidate.html#FsComponentType"/>
+    <keyword type="function" name="fs_candidate_new ()" link="farsight2-libs-FsCandidate.html#fs-candidate-new"/>
+    <keyword type="function" name="fs_candidate_destroy ()" link="farsight2-libs-FsCandidate.html#fs-candidate-destroy"/>
+    <keyword type="function" name="fs_candidate_copy ()" link="farsight2-libs-FsCandidate.html#fs-candidate-copy"/>
+    <keyword type="function" name="fs_candidate_list_destroy ()" link="farsight2-libs-FsCandidate.html#fs-candidate-list-destroy"/>
+    <keyword type="function" name="fs_candidate_list_copy ()" link="farsight2-libs-FsCandidate.html#fs-candidate-list-copy"/>
+    <keyword type="struct" name="FsCodec" link="farsight2-libs-FsCodec.html#FsCodec"/>
+    <keyword type="enum" name="enum FsMediaType" link="farsight2-libs-FsCodec.html#FsMediaType"/>
+    <keyword type="struct" name="FsCodecParameter" link="farsight2-libs-FsCodec.html#FsCodecParameter"/>
+    <keyword type="macro" name="FS_CODEC_ID_ANY" link="farsight2-libs-FsCodec.html#FS-CODEC-ID-ANY:CAPS"/>
+    <keyword type="macro" name="FS_CODEC_ID_DISABLE" link="farsight2-libs-FsCodec.html#FS-CODEC-ID-DISABLE:CAPS"/>
+    <keyword type="function" name="fs_codec_new ()" link="farsight2-libs-FsCodec.html#fs-codec-new"/>
+    <keyword type="function" name="fs_codec_destroy ()" link="farsight2-libs-FsCodec.html#fs-codec-destroy"/>
+    <keyword type="function" name="fs_codec_copy ()" link="farsight2-libs-FsCodec.html#fs-codec-copy"/>
+    <keyword type="function" name="fs_codec_are_equal ()" link="farsight2-libs-FsCodec.html#fs-codec-are-equal"/>
+    <keyword type="function" name="fs_codec_list_from_keyfile ()" link="farsight2-libs-FsCodec.html#fs-codec-list-from-keyfile"/>
+    <keyword type="function" name="fs_codec_list_destroy ()" link="farsight2-libs-FsCodec.html#fs-codec-list-destroy"/>
+    <keyword type="function" name="fs_codec_list_copy ()" link="farsight2-libs-FsCodec.html#fs-codec-list-copy"/>
+    <keyword type="function" name="fs_codec_list_are_equal ()" link="farsight2-libs-FsCodec.html#fs-codec-list-are-equal"/>
+    <keyword type="function" name="fs_codec_to_string ()" link="farsight2-libs-FsCodec.html#fs-codec-to-string"/>
+    <keyword type="function" name="fs_codec_add_optional_parameter ()" link="farsight2-libs-FsCodec.html#fs-codec-add-optional-parameter"/>
+    <keyword type="function" name="fs_codec_remove_optional_parameter ()" link="farsight2-libs-FsCodec.html#fs-codec-remove-optional-parameter"/>
+    <keyword type="function" name="fs_codec_get_optional_parameter ()" link="farsight2-libs-FsCodec.html#fs-codec-get-optional-parameter"/>
+    <keyword type="macro" name="FS_CODEC_FORMAT" link="farsight2-libs-FsCodec.html#FS-CODEC-FORMAT:CAPS"/>
+    <keyword type="macro" name="FS_CODEC_ARGS()" link="farsight2-libs-FsCodec.html#FS-CODEC-ARGS:CAPS"/>
+    <keyword type="function" name="fs_media_type_to_string ()" link="farsight2-libs-FsCodec.html#fs-media-type-to-string"/>
+    <keyword type="struct" name="FsElementAddedNotifier" link="FsElementAddedNotifier.html#FsElementAddedNotifier-struct"/>
+    <keyword type="function" name="fs_element_added_notifier_new ()" link="FsElementAddedNotifier.html#fs-element-added-notifier-new"/>
+    <keyword type="function" name="fs_element_added_notifier_add ()" link="FsElementAddedNotifier.html#fs-element-added-notifier-add"/>
+    <keyword type="function" name="fs_element_added_notifier_remove ()" link="FsElementAddedNotifier.html#fs-element-added-notifier-remove"/>
+    <keyword type="function" name="fs_element_added_notifier_set_properties_from_keyfile ()" link="FsElementAddedNotifier.html#fs-element-added-notifier-set-properties-from-keyfile"/>
+    <keyword type="" name="The &quot;element-added&quot; signal" link="FsElementAddedNotifier.html#FsElementAddedNotifier-element-added"/>
+    <keyword type="function" name="fs_interfaces_get_ip_for_interface ()" link="farsight2-libs-Network-interfaces-discovery.html#fs-interfaces-get-ip-for-interface"/>
+    <keyword type="function" name="fs_interfaces_get_local_interfaces ()" link="farsight2-libs-Network-interfaces-discovery.html#fs-interfaces-get-local-interfaces"/>
+    <keyword type="function" name="fs_interfaces_get_local_ips ()" link="farsight2-libs-Network-interfaces-discovery.html#fs-interfaces-get-local-ips"/>
+    <keyword type="struct" name="FsBaseConference" link="FsBaseConference.html#FsBaseConference-struct"/>
+    <keyword type="struct" name="FsBaseConferenceClass" link="FsBaseConference.html#FsBaseConferenceClass"/>
+    <keyword type="struct" name="FsTransmitter" link="FsTransmitter.html#FsTransmitter-struct"/>
+    <keyword type="struct" name="FsTransmitterClass" link="FsTransmitter.html#FsTransmitterClass"/>
+    <keyword type="function" name="fs_transmitter_new ()" link="FsTransmitter.html#fs-transmitter-new"/>
+    <keyword type="function" name="fs_transmitter_new_stream_transmitter ()" link="FsTransmitter.html#fs-transmitter-new-stream-transmitter"/>
+    <keyword type="function" name="fs_transmitter_get_stream_transmitter_type ()" link="FsTransmitter.html#fs-transmitter-get-stream-transmitter-type"/>
+    <keyword type="function" name="fs_transmitter_emit_error ()" link="FsTransmitter.html#fs-transmitter-emit-error"/>
+    <keyword type="function" name="fs_transmitter_get_recvonly_filter ()" link="FsTransmitter.html#fs-transmitter-get-recvonly-filter"/>
+    <keyword type="function" name="fs_transmitter_list_available ()" link="FsTransmitter.html#fs-transmitter-list-available"/>
+    <keyword type="" name="The &quot;components&quot; property" link="FsTransmitter.html#FsTransmitter--components"/>
+    <keyword type="" name="The &quot;gst-sink&quot; property" link="FsTransmitter.html#FsTransmitter--gst-sink"/>
+    <keyword type="" name="The &quot;gst-src&quot; property" link="FsTransmitter.html#FsTransmitter--gst-src"/>
+    <keyword type="" name="The &quot;error&quot; signal" link="FsTransmitter.html#FsTransmitter-error"/>
+    <keyword type="" name="The &quot;get-recvonly-filter&quot; signal" link="FsTransmitter.html#FsTransmitter-get-recvonly-filter"/>
+    <keyword type="struct" name="FsStreamTransmitter" link="FsStreamTransmitter.html#FsStreamTransmitter-struct"/>
+    <keyword type="struct" name="FsStreamTransmitterClass" link="FsStreamTransmitter.html#FsStreamTransmitterClass"/>
+    <keyword type="function" name="fs_stream_transmitter_set_remote_candidates ()" link="FsStreamTransmitter.html#fs-stream-transmitter-set-remote-candidates"/>
+    <keyword type="function" name="fs_stream_transmitter_gather_local_candidates ()" link="FsStreamTransmitter.html#fs-stream-transmitter-gather-local-candidates"/>
+    <keyword type="function" name="fs_stream_transmitter_force_remote_candidates ()" link="FsStreamTransmitter.html#fs-stream-transmitter-force-remote-candidates"/>
+    <keyword type="function" name="fs_stream_transmitter_stop ()" link="FsStreamTransmitter.html#fs-stream-transmitter-stop"/>
+    <keyword type="function" name="fs_stream_transmitter_emit_error ()" link="FsStreamTransmitter.html#fs-stream-transmitter-emit-error"/>
+    <keyword type="" name="The &quot;associate-on-source&quot; property" link="FsStreamTransmitter.html#FsStreamTransmitter--associate-on-source"/>
+    <keyword type="" name="The &quot;preferred-local-candidates&quot; property" link="FsStreamTransmitter.html#FsStreamTransmitter--preferred-local-candidates"/>
+    <keyword type="" name="The &quot;sending&quot; property" link="FsStreamTransmitter.html#FsStreamTransmitter--sending"/>
+    <keyword type="" name="The &quot;error&quot; signal" link="FsStreamTransmitter.html#FsStreamTransmitter-error"/>
+    <keyword type="" name="The &quot;known-source-packet-received&quot; signal" link="FsStreamTransmitter.html#FsStreamTransmitter-known-source-packet-received"/>
+    <keyword type="" name="The &quot;local-candidates-prepared&quot; signal" link="FsStreamTransmitter.html#FsStreamTransmitter-local-candidates-prepared"/>
+    <keyword type="" name="The &quot;new-active-candidate-pair&quot; signal" link="FsStreamTransmitter.html#FsStreamTransmitter-new-active-candidate-pair"/>
+    <keyword type="" name="The &quot;new-local-candidate&quot; signal" link="FsStreamTransmitter.html#FsStreamTransmitter-new-local-candidate"/>
+    <keyword type="" name="The &quot;state-changed&quot; signal" link="FsStreamTransmitter.html#FsStreamTransmitter-state-changed"/>
+    <keyword type="struct" name="FsPlugin" link="farsight2-libs-FsPlugin.html#FsPlugin"/>
+    <keyword type="function" name="fs_plugin_create_valist ()" link="farsight2-libs-FsPlugin.html#fs-plugin-create-valist"/>
+    <keyword type="function" name="fs_plugin_create ()" link="farsight2-libs-FsPlugin.html#fs-plugin-create"/>
+    <keyword type="macro" name="FS_INIT_PLUGIN()" link="farsight2-libs-FsPlugin.html#FS-INIT-PLUGIN:CAPS"/>
+    <keyword type="function" name="fs_plugin_list_available ()" link="farsight2-libs-FsPlugin.html#fs-plugin-list-available"/>
+  </functions>
+</book>

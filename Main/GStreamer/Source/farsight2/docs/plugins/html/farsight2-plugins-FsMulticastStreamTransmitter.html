@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FsMulticastStreamTransmitter</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Farsight2 Plugins Manual">
+<link rel="up" href="ch02.html" title="Transmitters">
+<link rel="prev" href="farsight2-plugins-FsRawUdpStreamTransmitter.html" title="FsRawUdpStreamTransmitter">
+<link rel="next" href="farsight2-plugins-FsNiceStreamTransmitter.html" title="FsNiceStreamTransmitter">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="part" href="pt01.html" title="Part I. RTP Plugin">
+<link rel="chapter" href="ch01.html" title="Core interface classes">
+<link rel="chapter" href="ch02.html" title="Transmitters">
+<link rel="part" href="pt02.html" title="Part II. Utility elements">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="farsight2-plugins-FsRawUdpStreamTransmitter.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch02.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Farsight2 Plugins Manual</th>
+<td><a accesskey="n" href="farsight2-plugins-FsNiceStreamTransmitter.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#farsight2-plugins-FsMulticastStreamTransmitter.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#farsight2-plugins-FsMulticastStreamTransmitter.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="farsight2-plugins-FsMulticastStreamTransmitter"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="farsight2-plugins-FsMulticastStreamTransmitter.top_of_page"></a>FsMulticastStreamTransmitter</span></h2>
+<p>FsMulticastStreamTransmitter — A stream transmitter object for Multicast UDP</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="farsight2-plugins-FsMulticastStreamTransmitter.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="farsight2-plugins-FsMulticastStreamTransmitter.html#FsMulticastStreamTransmitter" title="FsMulticastStreamTransmitter">FsMulticastStreamTransmitter</a>;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsMulticastStreamTransmitter.description"></a><h2>Description</h2>
+<p>
+The multicast transmitter allows data to be sent over and received from
+multicasted UDP on IPv4.
+</p>
+<p>
+This stream transmitter never emits local candidates. It will listen
+to the port specified in the remote candidate. And will also send to that
+port. It accepts only a single remote candidate per component, if a new one
+is given, it will replace the previous one for that component.
+</p>
+<p>
+The transmitter will only stop sending to a multicast group when all of its
+StreamTransmitters that have this multicast group as destination have their
+"sending" property set to false. Multiple stream transmitters can point to
+the same multicast groups from the same Transmitter (session), and only one
+copy of each packet will be received.
+</p>
+<p>
+It will only listen to and send from the IP specified in the
+prefered-local-candidates. There can be only one preferred candidate per
+component. Only the component_id and the ip will be used from the preferred
+local candidates, everything else is ignored.
+</p>
+<p>
+Packets sent will be looped back (so that other clients on the same session
+can be on the same machine.
+</p>
+<p>
+The name of this transmitter is "multicast".</p>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsMulticastStreamTransmitter.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsMulticastStreamTransmitter"></a><h3>FsMulticastStreamTransmitter</h3>
+<pre class="programlisting">typedef struct {
+  FsStreamTransmitter parent;
+} FsMulticastStreamTransmitter;
+</pre>
+<p>
+All members are private, access them using methods and properties</p>
+<p>
+
+</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsMulticastStreamTransmitter.see-also"></a><h2>See Also</h2>
+<a class="link" href="farsight2-plugins-FsRawUdpStreamTransmitter.html#FsRawUdpStreamTransmitter" title="FsRawUdpStreamTransmitter"><span class="type">FsRawUdpStreamTransmitter</span></a>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

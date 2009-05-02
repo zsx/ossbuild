@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY % version-entities SYSTEM "version.entities">
+%version-entities;
+]>
+<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <bookinfo>
+    <title>Farsight2 Reference Manual</title>
+    <releaseinfo>
+      for version &FS2_VERSION;.
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="http://farsight.freedesktop.org/apidoc/farsight2/">http://farsight.freedesktop.org/apidoc/farsight2/</ulink>.
+    </releaseinfo>
+  </bookinfo>
+
+  <part>
+    <title>User-oriented classes, interfaces and functions</title>
+    <chapter>
+      <title>Farsight GStreamer Interfaces</title>
+      <xi:include href="xml/fs-conference-iface.xml"/>
+    </chapter>
+    <chapter>
+      <title>Farsight Core Library</title>
+      <xi:include href="xml/fs-participant.xml"/>
+      <xi:include href="xml/fs-session.xml"/>
+      <xi:include href="xml/fs-stream.xml"/>
+      <xi:include href="xml/fs-candidate.xml"/>
+      <xi:include href="xml/fs-codec.xml"/>
+    </chapter>
+    <chapter>
+      <title>Farsight Utility Functions and Objects</title>
+      <xi:include href="xml/fs-element-added-notifier.xml"/>
+      <xi:include href="xml/fs-interfaces.xml"/>
+    </chapter>
+  </part>
+  <part>
+    <title>Classes used to implement Farsight plugins</title>
+    <chapter>
+      <title>Farsight Classes Base Implementations</title>
+      <xi:include href="xml/fs-base-conference.xml"/>
+    </chapter>
+    <chapter>
+      <title>Farsight Transmitter Classes</title> 
+      <xi:include href="xml/fs-transmitter.xml"/>
+      <xi:include href="xml/fs-stream-transmitter.xml"/>
+    </chapter>
+    <chapter>
+      <title>Farsight Plugins Infrastructure</title>
+      <xi:include href="xml/fs-plugin.xml"/>
+    </chapter>
+  </part>
+</book>

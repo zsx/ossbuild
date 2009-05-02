@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FsParticipant</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<link rel="up" href="ch02.html" title="Farsight Core Library">
+<link rel="prev" href="ch02.html" title="Farsight Core Library">
+<link rel="next" href="FsSession.html" title="FsSession">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="part" href="pt01.html" title="Part I. User-oriented classes, interfaces and functions">
+<link rel="chapter" href="ch01.html" title="Farsight GStreamer Interfaces">
+<link rel="chapter" href="ch02.html" title="Farsight Core Library">
+<link rel="chapter" href="ch03.html" title="Farsight Utility Functions and Objects">
+<link rel="part" href="pt02.html" title="Part II. Classes used to implement Farsight plugins">
+<link rel="chapter" href="ch04.html" title="Farsight Classes Base Implementations">
+<link rel="chapter" href="ch05.html" title="Farsight Transmitter Classes">
+<link rel="chapter" href="ch06.html" title="Farsight Plugins Infrastructure">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch02.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch02.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Farsight2 Reference Manual</th>
+<td><a accesskey="n" href="FsSession.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#FsParticipant.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#FsParticipant.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#FsParticipant.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#FsParticipant.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#FsParticipant.signals" class="shortcut">Signals</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="FsParticipant"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="FsParticipant.top_of_page"></a>FsParticipant</span></h2>
+<p>FsParticipant — A participant in a conference</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="FsParticipant.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+
+#include &lt;gst/farsight/fs-conference-iface.h&gt;
+
+                    <a class="link" href="FsParticipant.html#FsParticipant-struct" title="FsParticipant">FsParticipant</a>;
+                    <a class="link" href="FsParticipant.html#FsParticipantClass" title="FsParticipantClass">FsParticipantClass</a>;
+#define             <a class="link" href="FsParticipant.html#FS-PARTICIPANT-DATA-LOCK:CAPS" title="FS_PARTICIPANT_DATA_LOCK()">FS_PARTICIPANT_DATA_LOCK</a>            (participant)
+#define             <a class="link" href="FsParticipant.html#FS-PARTICIPANT-DATA-UNLOCK:CAPS" title="FS_PARTICIPANT_DATA_UNLOCK()">FS_PARTICIPANT_DATA_UNLOCK</a>          (participant)
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsParticipant.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----FsParticipant
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsParticipant.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="FsParticipant.html#FsParticipant--cname" title='The "cname" property'>cname</a>"                    <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write / Construct Only
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsParticipant.signals"></a><h2>Signals</h2>
+<pre class="synopsis">
+  "<a class="link" href="FsParticipant.html#FsParticipant-error" title='The "error" signal'>error</a>"                                          : Run Last
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsParticipant.description"></a><h2>Description</h2>
+<p>
+This object is the base implementation of a Farsight Participant. It needs to be
+derived and implemented by a farsight conference gstreamer element. A
+participant represents any source of media in a conference. This could be a
+human-participant or an automaton.</p>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsParticipant.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsParticipant-struct"></a><h3>FsParticipant</h3>
+<pre class="programlisting">typedef struct _FsParticipant FsParticipant;</pre>
+<p>
+All members are private (access them using the properties)</p>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FsParticipantClass"></a><h3>FsParticipantClass</h3>
+<pre class="programlisting">typedef struct {
+  GObjectClass parent_class;
+
+  /* virtual functions */
+} FsParticipantClass;
+</pre>
+<p>
+The FsParticipant class has no virtual methods to implement,
+but you may want to override the properties or attach more date to it</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObjectClass"
+>GObjectClass</a> <em class="structfield"><code>parent_class</code></em>;</span></p></td>
+<td> Our parent
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FS-PARTICIPANT-DATA-LOCK:CAPS"></a><h3>FS_PARTICIPANT_DATA_LOCK()</h3>
+<pre class="programlisting">#define             FS_PARTICIPANT_DATA_LOCK(participant)</pre>
+<p>
+Locks the participant for data set with <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-set-data"
+><code class="function">g_object_set_data()</code></a> or
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-set-qdata"
+><code class="function">g_object_set_qdata()</code></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>participant</code></em> :</span></p></td>
+<td> A <a class="link" href="FsParticipant.html" title="FsParticipant"><span class="type">FsParticipant</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FS-PARTICIPANT-DATA-UNLOCK:CAPS"></a><h3>FS_PARTICIPANT_DATA_UNLOCK()</h3>
+<pre class="programlisting">#define             FS_PARTICIPANT_DATA_UNLOCK(participant)</pre>
+<p>
+Unlocks the participant for data set with <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-set-data"
+><code class="function">g_object_set_data()</code></a> or
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-set-qdata"
+><code class="function">g_object_set_qdata()</code></a>.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>participant</code></em> :</span></p></td>
+<td> A <a class="link" href="FsParticipant.html" title="FsParticipant"><span class="type">FsParticipant</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsParticipant.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsParticipant--cname"></a><h3>The <code class="literal">"cname"</code> property</h3>
+<pre class="programlisting">  "cname"                    <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write / Construct Only</pre>
+<p>
+A string representing the cname of the current participant. This is a
+constructor parameter that cannot be changed afterwards. User must free the
+string after getting it.</p>
+<p>
+
+</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsParticipant.signal-details"></a><h2>Signal Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsParticipant-error"></a><h3>The <code class="literal">"error"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="FsParticipant.html" title="FsParticipant">FsParticipant</a> *self,
+                                                        <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>       *object,
+                                                        <a class="link" href="FsConference.html#FsError" title="enum FsError">FsError</a>        errorno,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>         *error_msg,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>         *dbg_msg,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>       user_data)      : Run Last</pre>
+<p>
+This signal is emitted in any error condition</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td> <a class="link" href="FsParticipant.html" title="FsParticipant"><span class="type">FsParticipant</span></a> that emitted the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>object</code></em> :</span></p></td>
+<td> The <span class="type">Gobject</span> that emitted the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>errorno</code></em> :</span></p></td>
+<td> The number of the error
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error_msg</code></em> :</span></p></td>
+<td> Error message to be displayed to user
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dbg_msg</code></em> :</span></p></td>
+<td> Debugging error message
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

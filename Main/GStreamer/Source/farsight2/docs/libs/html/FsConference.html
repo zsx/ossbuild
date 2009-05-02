@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FsConference</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<link rel="up" href="ch01.html" title="Farsight GStreamer Interfaces">
+<link rel="prev" href="ch01.html" title="Farsight GStreamer Interfaces">
+<link rel="next" href="ch02.html" title="Farsight Core Library">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="part" href="pt01.html" title="Part I. User-oriented classes, interfaces and functions">
+<link rel="chapter" href="ch01.html" title="Farsight GStreamer Interfaces">
+<link rel="chapter" href="ch02.html" title="Farsight Core Library">
+<link rel="chapter" href="ch03.html" title="Farsight Utility Functions and Objects">
+<link rel="part" href="pt02.html" title="Part II. Classes used to implement Farsight plugins">
+<link rel="chapter" href="ch04.html" title="Farsight Classes Base Implementations">
+<link rel="chapter" href="ch05.html" title="Farsight Transmitter Classes">
+<link rel="chapter" href="ch06.html" title="Farsight Plugins Infrastructure">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch01.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Farsight2 Reference Manual</th>
+<td><a accesskey="n" href="ch02.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#FsConference.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#FsConference.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#FsConference.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#FsConference.prerequisites" class="shortcut">Prerequisites</a>
+                   | 
+                  <a href="#FsConference.implementations" class="shortcut">Known Implementations</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="FsConference"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="FsConference.top_of_page"></a>FsConference</span></h2>
+<p>FsConference — Interface for farsight conference elements</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="FsConference.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+
+#include &lt;gst/farsight/fs-conference-iface.h&gt;
+
+                    <a class="link" href="FsConference.html#FsConference-struct" title="FsConference">FsConference</a>;
+<a class="link" href="FsSession.html" title="FsSession">FsSession</a>*          <a class="link" href="FsConference.html#fs-conference-new-session" title="fs_conference_new_session ()">fs_conference_new_session</a>           (<a class="link" href="FsConference.html" title="FsConference">FsConference</a> *conference,
+                                                         <a class="link" href="farsight2-libs-FsCodec.html#FsMediaType" title="enum FsMediaType">FsMediaType</a> media_type,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);
+<a class="link" href="FsParticipant.html" title="FsParticipant">FsParticipant</a>*      <a class="link" href="FsConference.html#fs-conference-new-participant" title="fs_conference_new_participant ()">fs_conference_new_participant</a>       (<a class="link" href="FsConference.html" title="FsConference">FsConference</a> *conference,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *cname,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);
+#define             <a class="link" href="FsConference.html#FS-ERROR:CAPS" title="FS_ERROR">FS_ERROR</a>
+enum                <a class="link" href="FsConference.html#FsError" title="enum FsError">FsError</a>;
+#define             <a class="link" href="FsConference.html#FS-ERROR-IS-FATAL:CAPS" title="FS_ERROR_IS_FATAL()">FS_ERROR_IS_FATAL</a>                   (error)
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsConference.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  GInterface
+   +----FsConference
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsConference.prerequisites"></a><h2>Prerequisites</h2>
+<p>
+FsConference requires
+ <a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>,  <a
+href="../gstreamer-0.10/GstImplementsInterface.html"
+>GstImplementsInterface</a> and  <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>.</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsConference.implementations"></a><h2>Known Implementations</h2>
+<p>
+FsConference is implemented by
+ <a class="link" href="FsBaseConference.html" title="FsBaseConference">FsBaseConference</a>.</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsConference.description"></a><h2>Description</h2>
+<p>
+This interface is implemented by the FsBaseConference base class element. A
+Farsight conference is a conversation space that takes place between 2 or
+more participants. Each conference must have one or more Farsight sessions
+that are associated to the conference participants. Different protocols
+simply need to derive from the FsBaseConference class and don't need to
+implement this interface directly.
+</p>
+<p>
+This will communicate asynchronous events to the user through <a
+href="../gstreamer-0.10/gstreamer-GstMessage.html#GstMessage"
+><span class="type">GstMessage</span></a>
+of type <span class="type">GST_MESSAGE_ELEMENT</span> sent over the <a
+href="../gstreamer-0.10/GstBus.html"
+><span class="type">GstBus</span></a>.
+</p>
+<div class="refsect2" lang="en">
+<a name="id2576999"></a><h3>The "<code class="literal">farsight-error</code>" message</h3>
+<div class="informalexample"><pre class="programlisting">
+"src-object"       <a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>           The object (<a class="link" href="FsConference.html" title="FsConference">FsConference</a>, <a class="link" href="FsSession.html" title="FsSession">FsSession</a> or <a class="link" href="FsStream.html" title="FsStream">FsStream</a>) that emitted the error
+"error-no"         <a class="link" href="FsConference.html#FsError" title="enum FsError">FsError</a>           The Error number
+"error-msg"        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*            The error message
+"debug-msg"        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*            The debug string
+</pre></div>
+<p>
+The message is sent on asynchronous errors.
+</p>
+</div>
+<p></p>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="FsConference.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsConference-struct"></a><h3>FsConference</h3>
+<pre class="programlisting">typedef struct _FsConference FsConference;</pre>
+<p>
+Opaque <a class="link" href="FsConference.html" title="FsConference"><span class="type">FsConference</span></a> data structure.</p>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="fs-conference-new-session"></a><h3>fs_conference_new_session ()</h3>
+<pre class="programlisting"><a class="link" href="FsSession.html" title="FsSession">FsSession</a>*          fs_conference_new_session           (<a class="link" href="FsConference.html" title="FsConference">FsConference</a> *conference,
+                                                         <a class="link" href="farsight2-libs-FsCodec.html#FsMediaType" title="enum FsMediaType">FsMediaType</a> media_type,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);</pre>
+<p>
+Create a new Farsight session for the given conference.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conference</code></em> :</span></p></td>
+<td> <a class="link" href="FsConference.html" title="FsConference"><span class="type">FsConference</span></a> interface of a <a
+href="../gstreamer-0.10/GstElement.html"
+><span class="type">GstElement</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>media_type</code></em> :</span></p></td>
+<td> <a class="link" href="farsight2-libs-FsCodec.html#FsMediaType" title="enum FsMediaType"><span class="type">FsMediaType</span></a> of the new session
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td> location of a <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+><span class="type">GError</span></a>, or <a
+href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
+><code class="literal">NULL</code></a> if no error occured
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the new <a class="link" href="FsSession.html" title="FsSession"><span class="type">FsSession</span></a> that has been created. The <a class="link" href="FsSession.html" title="FsSession"><span class="type">FsSession</span></a> must be
+unref'd by the user when closing the session.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="fs-conference-new-participant"></a><h3>fs_conference_new_participant ()</h3>
+<pre class="programlisting"><a class="link" href="FsParticipant.html" title="FsParticipant">FsParticipant</a>*      fs_conference_new_participant       (<a class="link" href="FsConference.html" title="FsConference">FsConference</a> *conference,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *cname,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error);</pre>
+<p>
+Create a new Farsight Participant for the type of the given conference.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>conference</code></em> :</span></p></td>
+<td> <a class="link" href="FsConference.html" title="FsConference"><span class="type">FsConference</span></a> interface of a <a
+href="../gstreamer-0.10/GstElement.html"
+><span class="type">GstElement</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>cname</code></em> :</span></p></td>
+<td> The cname of the participant
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td> location of a <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+><span class="type">GError</span></a>, or <a
+href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
+><code class="literal">NULL</code></a> if no error occured
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the new <a class="link" href="FsParticipant.html" title="FsParticipant"><span class="type">FsParticipant</span></a> that has been created. The <a class="link" href="FsParticipant.html" title="FsParticipant"><span class="type">FsParticipant</span></a>
+is owned by the user and he must unref it when he is done with it.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FS-ERROR:CAPS"></a><h3>FS_ERROR</h3>
+<pre class="programlisting">#define FS_ERROR (fs_error_quark ())
+</pre>
+<p>
+This quark is used to denote errors coming from Farsight objects</p>
+<p>
+
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FsError"></a><h3>enum FsError</h3>
+<pre class="programlisting">typedef enum {
+  FS_ERROR_CONSTRUCTION = 1,
+  FS_ERROR_INTERNAL,
+  FS_ERROR_INVALID_ARGUMENTS = 100,
+  FS_ERROR_NETWORK,
+  FS_ERROR_NOT_IMPLEMENTED,
+  FS_ERROR_NEGOTIATION_FAILED,
+  FS_ERROR_UNKNOWN_CODEC,
+  FS_ERROR_UNKNOWN_CNAME,
+  FS_ERROR_NO_CODECS,
+  FS_ERROR_NO_CODECS_LEFT,
+  FS_ERROR_CONNECTION_FAILED,
+  FS_ERROR_DISPOSED,
+} FsError;
+</pre>
+<p>
+This is the enum of error numbers that will come either on the "error"
+signal, from the Gst Bus or for error in the FS_ERROR domain in GErrors</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="FS-ERROR-CONSTRUCTION:CAPS"></a><span class="term"><code class="literal">FS_ERROR_CONSTRUCTION</code></span></p></td>
+<td> Error constructing some of the sub-elements, this
+probably denotes an error in the installation of the gstreamer elements.
+It is a fatal error.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-INTERNAL:CAPS"></a><span class="term"><code class="literal">FS_ERROR_INTERNAL</code></span></p></td>
+<td> An internal error happened in Farsight, it may be in
+an inconsistent state. The object from which this error comes should be
+discarded.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-INVALID-ARGUMENTS:CAPS"></a><span class="term"><code class="literal">FS_ERROR_INVALID_ARGUMENTS</code></span></p></td>
+<td> Invalid arguments to the function, this
+is a programming error and should not be reported to the user
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-NETWORK:CAPS"></a><span class="term"><code class="literal">FS_ERROR_NETWORK</code></span></p></td>
+<td> A network related error, this should probably be
+ reported to the user.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-NOT-IMPLEMENTED:CAPS"></a><span class="term"><code class="literal">FS_ERROR_NOT_IMPLEMENTED</code></span></p></td>
+<td> The optional functionality is not implemented by
+this plugin.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-NEGOTIATION-FAILED:CAPS"></a><span class="term"><code class="literal">FS_ERROR_NEGOTIATION_FAILED</code></span></p></td>
+<td> The codec negotiation has failed, this means
+that there are no common codecs between the local and remote codecs.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-UNKNOWN-CODEC:CAPS"></a><span class="term"><code class="literal">FS_ERROR_UNKNOWN_CODEC</code></span></p></td>
+<td> Data is received on an unknown codec, this most
+likely denotes an error on the remote side, the buffers will be ignored.
+It can safely be ignored in most cases (but may result in a call with no
+media received).
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-UNKNOWN-CNAME:CAPS"></a><span class="term"><code class="literal">FS_ERROR_UNKNOWN_CNAME</code></span></p></td>
+<td> Data was received for an unknown cname.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-NO-CODECS:CAPS"></a><span class="term"><code class="literal">FS_ERROR_NO_CODECS</code></span></p></td>
+<td> There are no codecs detected for that media type.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-NO-CODECS-LEFT:CAPS"></a><span class="term"><code class="literal">FS_ERROR_NO_CODECS_LEFT</code></span></p></td>
+<td> All of the codecs have been disabled by the
+codec preferences, one should try less strict codec preferences.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-CONNECTION-FAILED:CAPS"></a><span class="term"><code class="literal">FS_ERROR_CONNECTION_FAILED</code></span></p></td>
+<td> Could not connect to the to remote party.
+</td>
+</tr>
+<tr>
+<td><p><a name="FS-ERROR-DISPOSED:CAPS"></a><span class="term"><code class="literal">FS_ERROR_DISPOSED</code></span></p></td>
+<td> The object has been disposed.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FS-ERROR-IS-FATAL:CAPS"></a><h3>FS_ERROR_IS_FATAL()</h3>
+<pre class="programlisting">#define             FS_ERROR_IS_FATAL(error)</pre>
+<p>
+Tells the programmer if an error if fatal or not, if it returns <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+><code class="literal">TRUE</code></a>,
+the error is fatal, and the object that created it should
+be discarded. It returns <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+><code class="literal">FALSE</code></a> otherwise.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td> a <a class="link" href="FsConference.html#FsError" title="enum FsError"><span class="type">FsError</span></a>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

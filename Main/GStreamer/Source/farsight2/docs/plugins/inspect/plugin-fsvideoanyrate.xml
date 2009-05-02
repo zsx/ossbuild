@@ -1,0 +1,34 @@
+<plugin>
+  <name>fsvideoanyrate</name>
+  <description>Videoanyrate</description>
+  <filename>../../gst/videoanyrate/.libs/libfsvideoanyrate.so</filename>
+  <basename>libfsvideoanyrate.so</basename>
+  <version>0.0.3.1</version>
+  <license>LGPL</license>
+  <source>farsight2</source>
+  <package>Farsight</package>
+  <origin>http://farsight.sf.net</origin>
+  <elements>
+    <element>
+      <name>fsvideoanyrate</name>
+      <longname>Videoanyrate element</longname>
+      <class>Filter</class>
+      <description>This element removes the framerate from caps</description>
+      <author>Olivier Crete &lt;olivier.crete@collabora.co.uk&gt;</author>
+      <pads>
+        <caps>
+          <name>sink</name>
+          <direction>sink</direction>
+          <presence>always</presence>
+          <details>ANY</details>
+        </caps>
+        <caps>
+          <name>src</name>
+          <direction>source</direction>
+          <presence>always</presence>
+          <details>ANY</details>
+        </caps>
+      </pads>
+    </element>
+  </elements>
+</plugin>

@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FsRtpConference</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Farsight2 Plugins Manual">
+<link rel="up" href="ch01.html" title="Core interface classes">
+<link rel="prev" href="ch01.html" title="Core interface classes">
+<link rel="next" href="farsight2-plugins-FsRtpParticipant.html" title="FsRtpParticipant">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="part" href="pt01.html" title="Part I. RTP Plugin">
+<link rel="chapter" href="ch01.html" title="Core interface classes">
+<link rel="chapter" href="ch02.html" title="Transmitters">
+<link rel="part" href="pt02.html" title="Part II. Utility elements">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch01.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Farsight2 Plugins Manual</th>
+<td><a accesskey="n" href="farsight2-plugins-FsRtpParticipant.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#farsight2-plugins-FsRtpConference.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#farsight2-plugins-FsRtpConference.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#farsight2-plugins-FsRtpConference.properties" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="farsight2-plugins-FsRtpConference"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="farsight2-plugins-FsRtpConference.top_of_page"></a>FsRtpConference</span></h2>
+<p>FsRtpConference — Farsight RTP Conference Gstreamer Elements</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="farsight2-plugins-FsRtpConference.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="farsight2-plugins-FsRtpConference.html#FsRtpConference" title="FsRtpConference">FsRtpConference</a>;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsRtpConference.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="farsight2-plugins-FsRtpConference.html#FsRtpConference--sdes-cname" title='The "sdes-cname" property'>sdes-cname</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="farsight2-plugins-FsRtpConference.html#FsRtpConference--sdes-email" title='The "sdes-email" property'>sdes-email</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="farsight2-plugins-FsRtpConference.html#FsRtpConference--sdes-location" title='The "sdes-location" property'>sdes-location</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="farsight2-plugins-FsRtpConference.html#FsRtpConference--sdes-name" title='The "sdes-name" property'>sdes-name</a>"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="farsight2-plugins-FsRtpConference.html#FsRtpConference--sdes-note" title='The "sdes-note" property'>sdes-note</a>"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="farsight2-plugins-FsRtpConference.html#FsRtpConference--sdes-phone" title='The "sdes-phone" property'>sdes-phone</a>"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+  "<a class="link" href="farsight2-plugins-FsRtpConference.html#FsRtpConference--sdes-tool" title='The "sdes-tool" property'>sdes-tool</a>"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsRtpConference.description"></a><h2>Description</h2>
+<p>
+This is the core gstreamer element for a RTP conference. It must be added
+to your pipeline before anything else is done. Then you create the session,
+participants and streams according to the <a
+href="../farsight-libs/FsConference.html"
+><span class="type">FsConference</span></a> interface.
+</p>
+<p>
+The various sdes-* properties allow you to set the content of the SDES packet
+in the sent RTCP reports.</p>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2643642"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            fsrtpconference
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Olivier Crete &lt;olivier.crete@collabora.co.uk&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Generic/Bin/RTP</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2575466"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src_%d_%d_%d</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>sometimes</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink_%d</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>sometimes</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsRtpConference.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsRtpConference"></a><h3>FsRtpConference</h3>
+<pre class="programlisting">typedef struct {
+  FsBaseConference parent;
+} FsRtpConference;
+</pre>
+<p>
+
+</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsRtpConference.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsRtpConference--sdes-cname"></a><h3>The <code class="literal">"sdes-cname"</code> property</h3>
+<pre class="programlisting">  "sdes-cname"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>The CNAME for the RTP sessions.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FsRtpConference--sdes-email"></a><h3>The <code class="literal">"sdes-email"</code> property</h3>
+<pre class="programlisting">  "sdes-email"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>The EMAIL to put in SDES messages of this session.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FsRtpConference--sdes-location"></a><h3>The <code class="literal">"sdes-location"</code> property</h3>
+<pre class="programlisting">  "sdes-location"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>The LOCATION to put in SDES messages of this session.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FsRtpConference--sdes-name"></a><h3>The <code class="literal">"sdes-name"</code> property</h3>
+<pre class="programlisting">  "sdes-name"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>The NAME to put in SDES messages of this session.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FsRtpConference--sdes-note"></a><h3>The <code class="literal">"sdes-note"</code> property</h3>
+<pre class="programlisting">  "sdes-note"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>The NOTE to put in SDES messages of this session.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FsRtpConference--sdes-phone"></a><h3>The <code class="literal">"sdes-phone"</code> property</h3>
+<pre class="programlisting">  "sdes-phone"               <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>The PHONE to put in SDES messages of this session.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FsRtpConference--sdes-tool"></a><h3>The <code class="literal">"sdes-tool"</code> property</h3>
+<pre class="programlisting">  "sdes-tool"                <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>The TOOL to put in SDES messages of this session.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

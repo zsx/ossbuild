@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY % version-entities SYSTEM "version.entities">
+%version-entities;
+]>
+<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <bookinfo>
+    <title>Farsight2 Plugins Manual</title>
+    <releaseinfo>
+      for version &FS2_VERSION;.
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="http://farsight.freedesktop.org/apidoc/farsight2-plugins/">http://farsight.freedesktop.org/apidoc/farsight2-plugins/</ulink>.
+    </releaseinfo>
+  </bookinfo>
+
+  <part>
+    <title>RTP Plugin</title>
+    <chapter>
+      <title>Core interface classes</title>
+      <xi:include href="xml/element-fsrtpconference.xml"/>
+      <xi:include href="xml/fs-rtp-participant.xml"/>
+      <xi:include href="xml/fs-rtp-session.xml"/>
+      <xi:include href="xml/fs-rtp-stream.xml"/>
+    </chapter>
+    <chapter>
+      <title>Transmitters</title>
+      <xi:include href="xml/fs-rawudp-stream-transmitter.xml"/>
+      <xi:include href="xml/fs-multicast-stream-transmitter.xml"/>
+      <xi:include href="xml/fs-nice-stream-transmitter.xml"/>
+    </chapter>
+  </part>
+
+  <part>
+    <title>Utility elements</title>
+    <xi:include href="xml/element-fsfunnel.xml"/>
+    <xi:include href="xml/element-fsvideoanyrate.xml"/>
+  </part>
+</book>

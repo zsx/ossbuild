@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FsPlugin</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<link rel="up" href="ch06.html" title="Farsight Plugins Infrastructure">
+<link rel="prev" href="ch06.html" title="Farsight Plugins Infrastructure">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="part" href="pt01.html" title="Part I. User-oriented classes, interfaces and functions">
+<link rel="chapter" href="ch01.html" title="Farsight GStreamer Interfaces">
+<link rel="chapter" href="ch02.html" title="Farsight Core Library">
+<link rel="chapter" href="ch03.html" title="Farsight Utility Functions and Objects">
+<link rel="part" href="pt02.html" title="Part II. Classes used to implement Farsight plugins">
+<link rel="chapter" href="ch04.html" title="Farsight Classes Base Implementations">
+<link rel="chapter" href="ch05.html" title="Farsight Transmitter Classes">
+<link rel="chapter" href="ch06.html" title="Farsight Plugins Infrastructure">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch06.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch06.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Farsight2 Reference Manual</th>
+<td> </td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#farsight2-libs-FsPlugin.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#farsight2-libs-FsPlugin.description" class="shortcut">Description</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="farsight2-libs-FsPlugin"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="farsight2-libs-FsPlugin.top_of_page"></a>FsPlugin</span></h2>
+<p>FsPlugin — A class for defining Farsight plugins</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="farsight2-libs-FsPlugin.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+
+#include &lt;gst/farsight/fs-plugin.h&gt;
+
+                    <a class="link" href="farsight2-libs-FsPlugin.html#FsPlugin" title="FsPlugin">FsPlugin</a>;
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>*            <a class="link" href="farsight2-libs-FsPlugin.html#fs-plugin-create-valist" title="fs_plugin_create_valist ()">fs_plugin_create_valist</a>             (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *name,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *type_suffix,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *first_property_name,
+                                                         va_list var_args);
+<a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>*            <a class="link" href="farsight2-libs-FsPlugin.html#fs-plugin-create" title="fs_plugin_create ()">fs_plugin_create</a>                    (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *name,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *type_suffix,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *first_property_name,
+                                                         ...);
+#define             <a class="link" href="farsight2-libs-FsPlugin.html#FS-INIT-PLUGIN:CAPS" title="FS_INIT_PLUGIN()">FS_INIT_PLUGIN</a>                      (type_register_func)
+<a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>**             <a class="link" href="farsight2-libs-FsPlugin.html#fs-plugin-list-available" title="fs_plugin_list_available ()">fs_plugin_list_available</a>            (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *type_suffix);
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-libs-FsPlugin.description"></a><h2>Description</h2>
+<p>
+This class is a generic class to load GType plugins based on their name.
+With this simple class, you can only have one type per plugin.</p>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-libs-FsPlugin.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsPlugin"></a><h3>FsPlugin</h3>
+<pre class="programlisting">typedef struct {
+  GTypeModule parent;
+} FsPlugin;
+</pre>
+<p>
+This structure represents a plugin, it is opaque.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><a
+href="/usr/share/gtk-doc/html/gobject/GTypeModule.html"
+>GTypeModule</a> <em class="structfield"><code>parent</code></em>;</span></p></td>
+<td> the parent object
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="fs-plugin-create-valist"></a><h3>fs_plugin_create_valist ()</h3>
+<pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>*            fs_plugin_create_valist             (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *name,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *type_suffix,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *first_property_name,
+                                                         va_list var_args);</pre>
+<p>
+Loads the appropriate plugin if necessary and creates a GObject of
+the requested type</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td> The name of the plugin to load
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type_suffix</code></em> :</span></p></td>
+<td> The type of plugin to load (normally "transmitter")
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td> location of a <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+><span class="type">GError</span></a>, or NULL if no error occured
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>first_property_name</code></em> :</span></p></td>
+<td> The name of the first property to be set on the
+  object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>var_args</code></em> :</span></p></td>
+<td> The rest of the arguments
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The object created (or NULL if there is an error)
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="fs-plugin-create"></a><h3>fs_plugin_create ()</h3>
+<pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>*            fs_plugin_create                    (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *name,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *type_suffix,
+                                                         <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+>GError</a> **error,
+                                                         const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *first_property_name,
+                                                         ...);</pre>
+<p>
+Loads the appropriate plugin if necessary and creates a GObject of
+the requested type</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>name</code></em> :</span></p></td>
+<td> The name of the plugin to load
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type_suffix</code></em> :</span></p></td>
+<td> The type of plugin to load (normally "transmitter")
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td> location of a <a
+href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"
+><span class="type">GError</span></a>, or NULL if no error occured
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>first_property_name</code></em> :</span></p></td>
+<td> The name of the first property to be set on the
+  object
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>...</code></em> :</span></p></td>
+<td> The NULL-terminated list of properties to set on the transmitter
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The object created (or NULL if there is an error)
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="FS-INIT-PLUGIN:CAPS"></a><h3>FS_INIT_PLUGIN()</h3>
+<pre class="programlisting">#define             FS_INIT_PLUGIN(type_register_func)</pre>
+<p>
+This macro is used to declare Farsight plugins and must be used once
+in any farsight plugin.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>type_register_func</code></em> :</span></p></td>
+<td> A function that register a <a
+href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"
+><span class="type">GType</span></a> and returns it
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="fs-plugin-list-available"></a><h3>fs_plugin_list_available ()</h3>
+<pre class="programlisting"><a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a>**             fs_plugin_list_available            (const <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+>gchar</a> *type_suffix);</pre>
+<p>
+Gets the list of all available plugins of a certain type</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type_suffix</code></em> :</span></p></td>
+<td> Get list of plugins with this type suffix
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a newly allocated NULL terminated array of strings or <a
+href="/usr/share/gtk-doc/html/liboil/liboil-liboiljunk.html#NULL:CAPS"
+><code class="literal">NULL</code></a> if no
+strings were found. It should be freed with <a
+href="/usr/share/gtk-doc/html/glib/glib-String-Utility-Functions.html#g-strfreev"
+><code class="function">g_strfreev()</code></a>.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>
