@@ -7,6 +7,7 @@ set MY_TOOLSDIR=%MY_TOPDIR%\Tools
 set MY_BISON=bison.exe
 set PATH=%MY_TOOLSDIR%;%PATH%
 
+set M4=%MY_TOOLSDIR%\m4.exe
 set BISON_PKGDATADIR=%MY_TOOLSDIR%\share\bison
 
 set MY_PREFIX=%1
