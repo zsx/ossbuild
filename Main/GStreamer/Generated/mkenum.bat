@@ -14,9 +14,9 @@ set MY_H_OUTPUT=%4
 set MY_S_OUTPUT=%5
 set MY_H_OUTPUT_FILE=%~nx4
 
-set MY_H_FHEAD=--fhead "#ifndef __GST_%NAME%_ENUM_TYPES_H__\n#define __GST_%NAME%_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n"
+set MY_H_FHEAD=--fhead "#ifndef __GST_%MY_NAME%_ENUM_TYPES_H__\n#define __GST_%MY_NAME%_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n"
 set MY_H_FPROD=--fprod "\n/* enumerations from \"@filename@\" */\n"
-set MY_H_FTAIL=--ftail "G_END_DECLS\n\n#endif /* __GST_%NAME%_ENUM_TYPES_H__ */"
+set MY_H_FTAIL=--ftail "G_END_DECLS\n\n#endif /* __GST_%MY_NAME%_ENUM_TYPES_H__ */"
 set MY_H_EPROD=--eprod ""
 set MY_H_VHEAD=--vhead "GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
 set MY_H_VPROD=--vprod ""
@@ -29,7 +29,7 @@ setlocal enabledelayedexpansion
 for /F %%A in ('type %MY_INPUT%') do set MY_HEADERS=!MY_HEADERS!\n#include \"%%A\"
 setlocal disabledelayedexpansion
 
-set MY_S_FHEAD=--fhead "#include \"%H_OUTPUT_FILE%\"\n%HEADERS%"
+set MY_S_FHEAD=--fhead "#include \"%MY_H_OUTPUT_FILE%\"\n%HEADERS%"
 set MY_S_FPROD=--fprod "\n/* enumerations from \"@filename@\" */"
 set MY_S_FTAIL=--ftail ""
 set MY_S_EPROD=--eprod ""
