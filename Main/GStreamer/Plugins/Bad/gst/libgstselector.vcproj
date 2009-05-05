@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="$(IntDir)"
+				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;&quot;..\..\..\Generated\gst-plugins-bad\gst\selector&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(IntDir)"
+				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;&quot;..\..\..\Generated\gst-plugins-bad\gst\selector&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -286,32 +286,17 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+		/>
 	</References>
 	<Files>
-		<Filter
-			Name="Resource Files"
-			>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-bad\gst\selector\gstselector-marshal.list"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="GObject Marshaller Generation Tool"
-						FunctionPrefix="gst_selector_marshal"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="GObject Marshaller Generation Tool"
-						FunctionPrefix="gst_selector_marshal"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
 		<Filter
 			Name="Source Files"
 			>
@@ -339,24 +324,8 @@
 				Name="Generated Files"
 				>
 				<File
-					RelativePath="$(IntDir)\gstselector-marshal.c"
+					RelativePath="..\..\..\Generated\gst-plugins-bad\gst\selector\gstselector-marshal.c"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\gstselector-marshal.h"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\gstselector-marshal.h"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>

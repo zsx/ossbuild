@@ -3,6 +3,19 @@
 
 #include "interfaces-enumtypes.h"
 
+#include "colorbalance.h"
+#include "colorbalancechannel.h"
+#include "mixer.h"
+#include "mixeroptions.h"
+#include "mixertrack.h"
+#include "navigation.h"
+#include "propertyprobe.h"
+#include "tuner.h"
+#include "tunernorm.h"
+#include "tunerchannel.h"
+#include "videoorientation.h"
+#include "xoverlay.h"
+
 /* enumerations from "colorbalance.h" */
 GType
 gst_color_balance_type_get_type (void)

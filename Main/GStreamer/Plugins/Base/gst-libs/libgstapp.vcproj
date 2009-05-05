@@ -127,7 +127,7 @@
 				ExecutionBucket="23"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-base\gst-libs\gst\app"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\gst-libs\gst\app&quot;;&quot;..\..\..\Generated\gst-plugins-base\gst-libs\gst\app&quot;"
 				PreprocessorDefinitions="LIBGSTAPP_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -294,7 +294,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="23"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-base\gst-libs\gst\app"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\gst-libs\gst\app&quot;;&quot;..\..\..\Generated\gst-plugins-base\gst-libs\gst\app&quot;"
 				PreprocessorDefinitions="LIBGSTAPP_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -354,6 +354,42 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E52}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstcontroller.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E53}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstdataprotocol.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E54}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstnet.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -437,34 +473,14 @@
 				Name="Generated"
 				>
 				<File
-					RelativePath="$(IntDir)\gstapp-marshal.c"
+					RelativePath="..\..\..\Generated\gst-plugins-base\gst-libs\gst\app\gstapp-marshal.c"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\gstapp-marshal.h"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\gstapp-marshal.h"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-base\gst-libs\gst\app\gstapp-marshal.list"
-				>
-			</File>
 			<File
 				RelativePath="..\..\..\Source\gst-plugins-base\win32\common\libgstapp.def"
 				>

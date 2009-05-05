@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-good\gst\udp"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-good\gst\udp&quot;;&quot;..\..\..\Generated\gst-plugins-good\gst\udp&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-good\gst\udp"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-good\gst\udp&quot;;&quot;..\..\..\Generated\gst-plugins-good\gst\udp&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -288,72 +288,6 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Resource Files"
-			>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-good\gst\udp\gstudp-marshal.list"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="GObject Marshaller Generation Tool"
-						FunctionPrefix="gst_udp_marshal"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="GObject Marshaller Generation Tool"
-						FunctionPrefix="gst_udp_marshal"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\udp.mkenum.lst.txt"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="Glib Make Enums Tool"
-						hFHead="#ifndef __GST_UDP_ENUM_TYPES_H__\n#define __GST_UDP_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
-						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
-						hFTail="G_END_DECLS\n\n#endif /* __GST_UDP_ENUM_TYPES_H__ */"
-						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
-						hOutputPath="$(IntDir)\gstudp-enumtypes.h"
-						sFHead="#include \&quot;gstudp-enumtypes.h\&quot;\n\n#include \&quot;gstudp.h\&quot;"
-						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
-						sVHead="GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"
-						sVProd="      { @VALUENAME@, \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
-						sVTail="      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n  }\n  return etype;\n}\n"
-						sOutputPath="$(IntDir)\gstudp-enumtypes.c"
-						WorkingDir="$(ProjectDir)..\..\..\Source\gst-plugins-good\gst\udp\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="Glib Make Enums Tool"
-						hFHead="#ifndef __GST_UDP_ENUM_TYPES_H__\n#define __GST_UDP_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
-						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
-						hFTail="G_END_DECLS\n\n#endif /* __GST_UDP_ENUM_TYPES_H__ */"
-						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
-						hOutputPath="$(IntDir)\gstudp-enumtypes.h"
-						sFHead="#include \&quot;gstudp-enumtypes.h\&quot;\n\n#include \&quot;gstudp.h\&quot;"
-						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
-						sVHead="GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"
-						sVProd="      { @VALUENAME@, \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
-						sVTail="      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n  }\n  return etype;\n}\n"
-						sOutputPath="$(IntDir)\gstudp-enumtypes.c"
-						WorkingDir="$(ProjectDir)..\..\..\Source\gst-plugins-good\gst\udp\"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
 		<Filter
 			Name="Source Files"
 			>
@@ -409,28 +343,12 @@
 				Name="Generated"
 				>
 				<File
-					RelativePath="$(IntDir)\gstudp-enumtypes.c"
+					RelativePath="..\..\..\Generated\gst-plugins-good\gst\udp\gstudp-enumtypes.c"
 					>
 				</File>
 				<File
-					RelativePath="$(IntDir)\gstudp-marshal.c"
+					RelativePath="..\..\..\Generated\gst-plugins-good\gst\udp\gstudp-marshal.c"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\gstudp-marshal.h"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\gstudp-marshal.h"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>

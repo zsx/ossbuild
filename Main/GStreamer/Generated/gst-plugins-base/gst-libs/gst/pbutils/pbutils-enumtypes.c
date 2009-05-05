@@ -3,6 +3,11 @@
 
 #include "pbutils-enumtypes.h"
 
+#include "pbutils.h"
+#include "descriptions.h"
+#include "install-plugins.h"
+#include "missing-plugins.h"
+
 /* enumerations from "install-plugins.h" */
 GType
 gst_install_plugins_return_get_type (void)

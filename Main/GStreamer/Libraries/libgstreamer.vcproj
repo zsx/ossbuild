@@ -561,35 +561,19 @@
 				Name="Generated"
 				>
 				<File
-					RelativePath="$(IntDir)\..\common\grammar.tab.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="$(IntDir)\..\common\gstenumtypes.c"
+					RelativePath="..\Generated\gstreamer\gst\parse\grammar.tab.c"
 					>
 				</File>
 				<File
-					RelativePath="$(IntDir)\..\common\gstmarshal.c"
+					RelativePath="..\Generated\gstreamer\gst\gstenumtypes.c"
 					>
 				</File>
 				<File
-					RelativePath="$(IntDir)\..\common\parse.c"
+					RelativePath="..\Generated\gstreamer\gst\gstmarshal.c"
+					>
+				</File>
+				<File
+					RelativePath="..\Generated\gstreamer\gst\parse\parse.c"
 					>
 				</File>
 			</Filter>
@@ -1604,30 +1588,154 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<Filter
+					Name="Generated"
+					>
+					<Filter
+						Name="gstreamer"
+						>
+						<Filter
+							Name="win32"
+							>
+							<Filter
+								Name="common"
+								>
+								<File
+									RelativePath="..\Source\gstreamer\win32\common\gstconfig.h"
+									>
+									<FileConfiguration
+										Name="Debug|Win32"
+										>
+										<Tool
+											Name="Header Installer Tool"
+										/>
+									</FileConfiguration>
+									<FileConfiguration
+										Name="Release|Win32"
+										>
+										<Tool
+											Name="Header Installer Tool"
+										/>
+									</FileConfiguration>
+								</File>
+								<File
+									RelativePath="..\Source\gstreamer\win32\common\gstversion.h"
+									>
+									<FileConfiguration
+										Name="Debug|Win32"
+										>
+										<Tool
+											Name="Header Installer Tool"
+										/>
+									</FileConfiguration>
+									<FileConfiguration
+										Name="Release|Win32"
+										>
+										<Tool
+											Name="Header Installer Tool"
+										/>
+									</FileConfiguration>
+								</File>
+							</Filter>
+						</Filter>
+						<Filter
+							Name="gst"
+							>
+							<File
+								RelativePath="..\Generated\gstreamer\gst\gstenumtypes.h"
+								>
+								<FileConfiguration
+									Name="Debug|Win32"
+									>
+									<Tool
+										Name="Header Installer Tool"
+									/>
+								</FileConfiguration>
+								<FileConfiguration
+									Name="Release|Win32"
+									>
+									<Tool
+										Name="Header Installer Tool"
+									/>
+								</FileConfiguration>
+							</File>
+							<File
+								RelativePath="..\Generated\gstreamer\gst\gstmarshal.h"
+								>
+								<FileConfiguration
+									Name="Debug|Win32"
+									>
+									<Tool
+										Name="Header Installer Tool"
+									/>
+								</FileConfiguration>
+								<FileConfiguration
+									Name="Release|Win32"
+									>
+									<Tool
+										Name="Header Installer Tool"
+									/>
+								</FileConfiguration>
+							</File>
+						</Filter>
+					</Filter>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Generated"
 				>
-				<File
-					RelativePath="..\Source\gstreamer\win32\common\gstconfig.h"
+				<Filter
+					Name="gstreamer"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
+					<Filter
+						Name="win32"
 						>
-						<Tool
-							Name="Copy Tool"
-							DestinationPath="$(ProjectDir)..\Source\gstreamer\gst\gstconfig.h"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Copy Tool"
-							DestinationPath="$(ProjectDir)..\Source\gstreamer\gst\gstconfig.h"
-						/>
-					</FileConfiguration>
-				</File>
+						<Filter
+							Name="common"
+							>
+							<File
+								RelativePath="..\Source\gstreamer\win32\common\config.h"
+								>
+								<FileConfiguration
+									Name="Debug|Win32"
+									>
+									<Tool
+										Name="Copy Tool"
+										DestinationPath="$(IntDir)\..\common\$(InputFileName)"
+									/>
+								</FileConfiguration>
+								<FileConfiguration
+									Name="Release|Win32"
+									>
+									<Tool
+										Name="Copy Tool"
+										DestinationPath="$(IntDir)\..\common\$(InputFileName)"
+									/>
+								</FileConfiguration>
+							</File>
+							<File
+								RelativePath="..\Source\gstreamer\win32\common\gtchar.h"
+								>
+								<FileConfiguration
+									Name="Debug|Win32"
+									>
+									<Tool
+										Name="Copy Tool"
+										DestinationPath="$(IntDir)\..\common\$(InputFileName)"
+									/>
+								</FileConfiguration>
+								<FileConfiguration
+									Name="Release|Win32"
+									>
+									<Tool
+										Name="Copy Tool"
+										DestinationPath="$(IntDir)\..\common\$(InputFileName)"
+									/>
+								</FileConfiguration>
+							</File>
+						</Filter>
+					</Filter>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

@@ -350,6 +350,15 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -412,6 +421,28 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<Filter
+					Name="Generated"
+					>
+					<File
+						RelativePath="..\..\..\Generated\gst-plugins-base\gst-libs\gst\video\video-enumtypes.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -433,7 +464,7 @@
 				Name="Generated"
 				>
 				<File
-					RelativePath="$(IntDir)\video-enumtypes.c"
+					RelativePath="..\..\..\Generated\gst-plugins-base\gst-libs\gst\video\video-enumtypes.c"
 					>
 				</File>
 			</Filter>
@@ -444,50 +475,6 @@
 			<File
 				RelativePath="..\..\..\Source\gst-plugins-base\win32\common\libgstvideo.def"
 				>
-			</File>
-			<File
-				RelativePath=".\video.mkenum.lst.txt"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="Glib Make Enums Tool"
-						hFHead="#ifndef __GST_VIDEO_ENUM_TYPES_H__\n#define __GST_VIDEO_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
-						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
-						hFTail="G_END_DECLS\n\n#endif /* __GST_VIDEO_ENUM_TYPES_H__ */"
-						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
-						hOutputPath="$(IntDir)\video-enumtypes.h"
-						hCopyPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\video\video-enumtypes.h"
-						sFHead="#include \&quot;video-enumtypes.h\&quot;\n\n#include \&quot;video.h\&quot;"
-						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
-						sVHead="GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"
-						sVProd="      { @VALUENAME@, \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
-						sVTail="      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n  }\n  return etype;\n}\n"
-						sOutputPath="$(IntDir)\video-enumtypes.c"
-						WorkingDir="$(ProjectDir)..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="Glib Make Enums Tool"
-						hFHead="#ifndef __GST_VIDEO_ENUM_TYPES_H__\n#define __GST_VIDEO_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
-						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
-						hFTail="G_END_DECLS\n\n#endif /* __GST_VIDEO_ENUM_TYPES_H__ */"
-						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
-						hOutputPath="$(IntDir)\video-enumtypes.h"
-						hCopyPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\video\video-enumtypes.h"
-						sFHead="#include \&quot;video-enumtypes.h\&quot;\n\n#include \&quot;video.h\&quot;"
-						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
-						sVHead="GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"
-						sVProd="      { @VALUENAME@, \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
-						sVTail="      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n  }\n  return etype;\n}\n"
-						sOutputPath="$(IntDir)\video-enumtypes.c"
-						WorkingDir="$(ProjectDir)..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>

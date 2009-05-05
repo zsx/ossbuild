@@ -3,6 +3,9 @@
 
 #include "audio-enumtypes.h"
 
+#include "multichannel.h"
+#include "gstringbuffer.h"
+
 /* enumerations from "multichannel.h" */
 GType
 gst_audio_channel_position_get_type (void)

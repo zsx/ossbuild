@@ -3,6 +3,8 @@
 
 #include "gstudp-enumtypes.h"
 
+#include "gstudp.h"
+
 /* enumerations from "gstudp.h" */
 GType
 gst_udp_control_get_type (void)

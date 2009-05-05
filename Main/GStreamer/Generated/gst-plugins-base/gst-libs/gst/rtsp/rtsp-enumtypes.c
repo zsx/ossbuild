@@ -3,6 +3,8 @@
 
 #include "rtsp-enumtypes.h"
 
+#include "gstrtspdefs.h"
+
 /* enumerations from "gstrtspdefs.h" */
 GType
 gst_rtsp_result_get_type (void)

@@ -51,7 +51,7 @@ cd /d "%DIR%"
 
 
 rem gstreamer/gst
-%GEN_MARSHAL_BAT% gst_marshal "%SRC_GSTREAMER_DIR%\gst\gstmarshal.list" "%GEN_GSTREAMER_DIR%\gstmarshal.h" "%GEN_GSTREAMER_DIR%\gstmarshal.c"
+%GEN_MARSHAL_BAT% gst_marshal "%SRC_GSTREAMER_DIR%\gst\gstmarshal.list" "%GEN_GSTREAMER_DIR%\gst\gstmarshal.h" "%GEN_GSTREAMER_DIR%\gst\gstmarshal.c"
 %MK_ENUMS_CUSTOM_BAT% "%SRC_GSTREAMER_DIR%\gst" "%GSTDIR%\Common\common.mkenum.lst.txt" "%GEN_GSTREAMER_DIR%\gst\gstenumtypes.h" "%GEN_GSTREAMER_DIR%\gst\gstenumtypes.c" "#ifndef __GST_ENUM_TYPES_H__\n#define __GST_ENUM_TYPES_H__\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" "\n/* enumerations from \"@filename@\" */\n" "G_END_DECLS\n\n#endif /* __GST_ENUM_TYPES_H__ */" "" "GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" "" "" "" "#include \"gst_private.h\"\n#include <gst/gst.h>\n#define C_ENUM(v) ((gint) v)\n#define C_FLAGS(v) ((guint) v)\n " "\n/* enumerations from \"@filename@\" */" "" "" "static void\nregister_@enum_name@ (GType* id)\n{\n  static const G@Type@Value values[] = {" "    { C_@TYPE@(@VALUENAME@), \"@VALUENAME@\", \"@valuenick@\" }," "    { 0, NULL, NULL }\n  };\n  *id = g_@type@_register_static (\"@EnumName@\", values);\n}\nGType\n@enum_name@_get_type (void)\n{\n  static GType id;\n  static GOnce once = G_ONCE_INIT;\n\n  g_once (&once, (GThreadFunc)register_@enum_name@, &id);\n  return id;\n}\n" ""
 
 rem gstreamer/gst/parse

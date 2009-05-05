@@ -3,6 +3,8 @@
 
 #include "photography-enumtypes.h"
 
+#include "photography.h"
+
 /* enumerations from "photography.h" */
 GType
 gst_white_balance_mode_get_type (void)

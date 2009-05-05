@@ -352,6 +352,42 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E52}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstcontroller.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E53}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstdataprotocol.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E54}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstnet.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstinterfaces.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -558,6 +594,28 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<Filter
+					Name="Generated"
+					>
+					<File
+						RelativePath="..\..\..\Generated\gst-plugins-base\gst-libs\gst\audio\audio-enumtypes.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -607,58 +665,10 @@
 				Name="Generated"
 				>
 				<File
-					RelativePath="$(IntDir)\audio-enumtypes.c"
+					RelativePath="..\..\..\Generated\gst-plugins-base\gst-libs\gst\audio\audio-enumtypes.c"
 					>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			>
-			<File
-				RelativePath=".\audio.mkenum.lst.txt"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="Glib Make Enums Tool"
-						hFHead="#ifndef __GST_AUDIO_ENUM_TYPES_H__\n#define __GST_AUDIO_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
-						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
-						hFTail="G_END_DECLS\n\n#endif /* __GST_AUDIO_ENUM_TYPES_H__ */"
-						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
-						hOutputPath="$(IntDir)\audio-enumtypes.h"
-						hCopyPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\audio\audio-enumtypes.h"
-						sFHead="#include \&quot;audio-enumtypes.h\&quot;\n\n#include \&quot;multichannel.h\&quot;\n#include \&quot;gstringbuffer.h\&quot;"
-						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
-						sVHead="GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"
-						sVProd="      { @VALUENAME@, \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
-						sVTail="      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n  }\n  return etype;\n}\n"
-						sOutputPath="$(IntDir)\audio-enumtypes.c"
-						WorkingDir="$(ProjectDir)..\..\..\Source\gst-plugins-base\gst-libs\gst\audio"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="Glib Make Enums Tool"
-						hFHead="#ifndef __GST_AUDIO_ENUM_TYPES_H__\n#define __GST_AUDIO_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
-						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
-						hFTail="G_END_DECLS\n\n#endif /* __GST_AUDIO_ENUM_TYPES_H__ */"
-						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
-						hOutputPath="$(IntDir)\audio-enumtypes.h"
-						hCopyPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\audio\audio-enumtypes.h"
-						sFHead="#include \&quot;audio-enumtypes.h\&quot;\n\n#include \&quot;multichannel.h\&quot;\n#include \&quot;gstringbuffer.h\&quot;"
-						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
-						sVHead="GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"
-						sVProd="      { @VALUENAME@, \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
-						sVTail="      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n  }\n  return etype;\n}\n"
-						sOutputPath="$(IntDir)\audio-enumtypes.c"
-						WorkingDir="$(ProjectDir)..\..\..\Source\gst-plugins-base\gst-libs\gst\audio"
-					/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

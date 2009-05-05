@@ -3,6 +3,8 @@
 
 #include "video-enumtypes.h"
 
+#include "video.h"
+
 /* enumerations from "video.h" */
 GType
 gst_video_format_get_type (void)

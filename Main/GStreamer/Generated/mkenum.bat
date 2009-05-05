@@ -29,7 +29,7 @@ setlocal enabledelayedexpansion
 for /F %%A in ('type %MY_INPUT%') do set MY_HEADERS=!MY_HEADERS!\n#include \"%%A\"
 setlocal disabledelayedexpansion
 
-set MY_S_FHEAD=--fhead "#include \"%MY_H_OUTPUT_FILE%\"\n%HEADERS%"
+set MY_S_FHEAD=--fhead "#include \"%MY_H_OUTPUT_FILE%\"\n%MY_HEADERS%"
 set MY_S_FPROD=--fprod "\n/* enumerations from \"@filename@\" */"
 set MY_S_FTAIL=--ftail ""
 set MY_S_EPROD=--eprod ""

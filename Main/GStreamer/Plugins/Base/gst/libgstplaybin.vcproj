@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\Source\gst-plugins-base\gst\app\"
+				AdditionalIncludeDirectories="&quot;..\Source\gst-plugins-base\gst\app\&quot;;&quot;..\..\..\Generated\gst-plugins-base\gst\playback&quot;"
 				PreprocessorDefinitions="LIBGSTADDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -235,7 +235,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\Source\gst-plugins-base\gst\app\"
+				AdditionalIncludeDirectories="&quot;..\Source\gst-plugins-base\gst\app\&quot;;&quot;..\..\..\Generated\gst-plugins-base\gst\playback&quot;"
 				PreprocessorDefinitions="LIBGSTADDER_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -288,6 +288,15 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F08}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstpbutils.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -361,7 +370,7 @@
 				Name="Generated"
 				>
 				<File
-					RelativePath="$(IntDir)\..\..\common\gstplay-marshal.c"
+					RelativePath="..\..\..\Generated\gst-plugins-base\gst\playback\gstplay-marshal.c"
 					>
 				</File>
 			</Filter>

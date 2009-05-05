@@ -127,7 +127,7 @@
 				ExecutionBucket="23"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-base\gst-libs\gst\interfaces"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\gst-libs\gst\interfaces&quot;;&quot;..\..\..\Generated\gst-plugins-base\gst-libs\gst\interfaces&quot;"
 				PreprocessorDefinitions="LIBGSTINTERFACES_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -294,7 +294,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="23"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-base\gst-libs\gst\interfaces"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\gst-libs\gst\interfaces&quot;;&quot;..\..\..\Generated\gst-plugins-base\gst-libs\gst\interfaces&quot;"
 				PreprocessorDefinitions="LIBGSTINTERFACES_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -354,6 +354,42 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E52}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstcontroller.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E53}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstdataprotocol.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E54}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstnet.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -578,6 +614,28 @@
 						/>
 					</FileConfiguration>
 				</File>
+				<Filter
+					Name="Generated"
+					>
+					<File
+						RelativePath="..\..\..\Generated\gst-plugins-base\gst-libs\gst\interfaces\interfaces-enumtypes.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -635,82 +693,18 @@
 				Name="Generated"
 				>
 				<File
-					RelativePath="$(IntDir)\interfaces-enumtypes.c"
+					RelativePath="..\..\..\Generated\gst-plugins-base\gst-libs\gst\interfaces\interfaces-enumtypes.c"
 					>
 				</File>
 				<File
-					RelativePath="$(IntDir)\interfaces-marshal.c"
+					RelativePath="..\..\..\Generated\gst-plugins-base\gst-libs\gst\interfaces\interfaces-marshal.c"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\interfaces-marshal.h"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ForcedIncludeFiles="$(IntDir)\interfaces-marshal.h"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			>
-			<File
-				RelativePath="..\..\..\Source\gst-plugins-base\gst-libs\gst\interfaces\interfaces-marshal.list"
-				>
-			</File>
-			<File
-				RelativePath=".\interfaces.mkenum.lst.txt"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="Glib Make Enums Tool"
-						hFHead="#ifndef __GST_INTERFACES_ENUM_TYPES_H__\n#define __GST_INTERFACES_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
-						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
-						hFTail="G_END_DECLS\n\n#endif /* __GST_INTERFACES_ENUM_TYPES_H__ */"
-						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
-						hOutputPath="$(IntDir)\interfaces-enumtypes.h"
-						hCopyPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\interfaces\interfaces-enumtypes.h"
-						sFHead="#include \&quot;interfaces-enumtypes.h\&quot;\n\n#include \&quot;colorbalance.h\&quot;\n#include \&quot;colorbalancechannel.h\&quot;\n#include \&quot;mixer.h\&quot;\n#include \&quot;mixeroptions.h\&quot;\n#include \&quot;mixertrack.h\&quot;\n#include \&quot;navigation.h\&quot;\n#include \&quot;propertyprobe.h\&quot;\n#include \&quot;tuner.h\&quot;\n#include \&quot;tunernorm.h\&quot;\n#include \&quot;tunerchannel.h\&quot;\n#include \&quot;videoorientation.h\&quot;\n#include \&quot;xoverlay.h\&quot;"
-						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
-						sVHead="GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"
-						sVProd="      { @VALUENAME@, \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
-						sVTail="      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n  }\n  return etype;\n}\n"
-						sOutputPath="$(IntDir)\interfaces-enumtypes.c"
-						WorkingDir="$(ProjectDir)..\..\..\Source\gst-plugins-base\gst-libs\gst\interfaces"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="Glib Make Enums Tool"
-						hFHead="#ifndef __GST_INTERFACES_ENUM_TYPES_H__\n#define __GST_INTERFACES_ENUM_TYPES_H__\n\n#include &lt;glib-object.h&gt;\n\nG_BEGIN_DECLS\n"
-						hFProd="\n/* enumerations from \&quot;@filename@\&quot; */\n"
-						hFTail="G_END_DECLS\n\n#endif /* __GST_INTERFACES_ENUM_TYPES_H__ */"
-						hVHead="GType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"
-						hOutputPath="$(IntDir)\interfaces-enumtypes.h"
-						hCopyPath="$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\interfaces\interfaces-enumtypes.h"
-						sFHead="#include \&quot;interfaces-enumtypes.h\&quot;\n\n#include \&quot;colorbalance.h\&quot;\n#include \&quot;colorbalancechannel.h\&quot;\n#include \&quot;mixer.h\&quot;\n#include \&quot;mixeroptions.h\&quot;\n#include \&quot;mixertrack.h\&quot;\n#include \&quot;navigation.h\&quot;\n#include \&quot;propertyprobe.h\&quot;\n#include \&quot;tuner.h\&quot;\n#include \&quot;tunernorm.h\&quot;\n#include \&quot;tunerchannel.h\&quot;\n#include \&quot;videoorientation.h\&quot;\n#include \&quot;xoverlay.h\&quot;"
-						sFProd="\n/* enumerations from \&quot;@filename@\&quot; */"
-						sVHead="GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"
-						sVProd="      { @VALUENAME@, \&quot;@VALUENAME@\&quot;, \&quot;@valuenick@\&quot; },"
-						sVTail="      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\&quot;@EnumName@\&quot;, values);\n  }\n  return etype;\n}\n"
-						sOutputPath="$(IntDir)\interfaces-enumtypes.c"
-						WorkingDir="$(ProjectDir)..\..\..\Source\gst-plugins-base\gst-libs\gst\interfaces"
-					/>
-				</FileConfiguration>
-			</File>
 			<File
 				RelativePath="..\..\..\Source\gst-plugins-base\win32\common\libgstinterfaces.def"
 				>
