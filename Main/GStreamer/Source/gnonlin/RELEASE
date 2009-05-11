@@ -1,0 +1,72 @@
+
+Release notes for GNonLin Non-Linear Editing Plug-ins 0.10.10 "All Good Things..."
+        
+
+
+The GStreamer team is proud to announce a new release
+in the 0.10.x stable series of GNonLin.
+
+
+
+This module contains a set of plug-ins for GStreamer to ease the
+creation of multimedia editors, or any other application where a
+timeline-oriented use of GStreamer makes sense.
+
+
+These elements include:
+
+gnlsource
+An element for using source elements/bins in a GnlComposition
+gnlfilesource
+A higher-level element for using a uri in a GnlComposition
+gnlcomposition
+A container element that handles GNonLin objects
+gnloperation
+An element for using filters in a GnlComposition
+
+
+  
+
+Features of this release
+    
+      * Documentation in gtk-doc format
+      * Smarter handling of modifications while playing.
+      * Can handle more complicated combinations/types of operations
+There were no bugs fixed in this release
+    
+
+Download
+
+You can find source releases of gnonlin in the download directory:
+http://gstreamer.freedesktop.org/src/gnonlin/
+
+GStreamer Homepage
+
+More details can be found on the project's website:
+http://gstreamer.freedesktop.org/
+
+Support and Bugs
+
+We use GNOME's bugzilla for bug reports and feature requests:
+http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer
+
+Developers
+
+CVS is hosted on cvs.freedesktop.org.
+All code is in CVS and can be checked out from there.
+Interested developers of the core library, plug-ins, and applications should
+subscribe to the gstreamer-devel list. If there is sufficient interest we
+will create more lists as necessary.
+
+        
+Applications
+GNonLin is primarily used by PiTiVi (http://www.pitivi.org/) and Jokosher (http://www.jokosher.org/).
+  
+Contributors to this release
+    
+      * 
+      * Damien Lespiau
+      * Edward Hervey
+      * Jan Schmidt
+      * Sebastian Dröge
+ 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<book xmlns="http://www.devhelp.net/book" title="GNonLin 0.10.9.1 Reference Manual" link="index.html" author="" name="gnonlin">
+  <chapters>
+    <sub name="GNonLin Elements" link="ch01.html">
+      <sub name="GnlComposition" link="GnlComposition.html"/>
+      <sub name="GnlFileSource" link="GnlFileSource.html"/>
+      <sub name="GnlOperation" link="GnlOperation.html"/>
+      <sub name="GnlSource" link="GnlSource.html"/>
+    </sub>
+    <sub name="Base Classes" link="ch02.html">
+      <sub name="GnlObject" link="GnlObject.html"/>
+    </sub>
+  </chapters>
+  <functions>
+    <function name="Element Information" link="GnlComposition.html#id277685"/>
+    <function name="GnlComposition" link="GnlComposition.html#GnlComposition-struct"/>
+    <function name="Element Information" link="GnlFileSource.html#id340428"/>
+    <function name="GnlFileSource" link="GnlFileSource.html#GnlFileSource-struct"/>
+    <function name="The &quot;location&quot; property" link="GnlFileSource.html#GnlFileSource--location"/>
+    <function name="" link="GnlOperation.html#id328154"/>
+    <function name="Element Information" link="GnlOperation.html#id328170"/>
+    <function name="GnlOperation" link="GnlOperation.html#GnlOperation-struct"/>
+    <function name="The &quot;sinks&quot; property" link="GnlOperation.html#GnlOperation--sinks"/>
+    <function name="Element Information" link="GnlSource.html#id331588"/>
+    <function name="GnlSource" link="GnlSource.html#GnlSource-struct"/>
+    <function name="" link="GnlObject.html#id334806"/>
+    <function name="GnlObject" link="GnlObject.html#GnlObject-struct"/>
+    <function name="The &quot;active&quot; property" link="GnlObject.html#GnlObject--active"/>
+    <function name="The &quot;caps&quot; property" link="GnlObject.html#GnlObject--caps"/>
+    <function name="The &quot;duration&quot; property" link="GnlObject.html#GnlObject--duration"/>
+    <function name="The &quot;media-duration&quot; property" link="GnlObject.html#GnlObject--media-duration"/>
+    <function name="The &quot;media-start&quot; property" link="GnlObject.html#GnlObject--media-start"/>
+    <function name="The &quot;media-stop&quot; property" link="GnlObject.html#GnlObject--media-stop"/>
+    <function name="The &quot;priority&quot; property" link="GnlObject.html#GnlObject--priority"/>
+    <function name="The &quot;rate&quot; property" link="GnlObject.html#GnlObject--rate"/>
+    <function name="The &quot;start&quot; property" link="GnlObject.html#GnlObject--start"/>
+    <function name="The &quot;stop&quot; property" link="GnlObject.html#GnlObject--stop"/>
+  </functions>
+</book>

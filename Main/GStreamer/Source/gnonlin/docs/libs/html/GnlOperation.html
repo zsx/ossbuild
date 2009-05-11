@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GnlOperation</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="GNonLin 0.10.9.1 Reference Manual">
+<link rel="up" href="ch01.html" title="GNonLin Elements">
+<link rel="prev" href="GnlFileSource.html" title="GnlFileSource">
+<link rel="next" href="GnlSource.html" title="GnlSource">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="GNonLin Elements">
+<link rel="chapter" href="ch02.html" title="Base Classes">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="GnlFileSource.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GNonLin 0.10.9.1 Reference Manual</th>
+<td><a accesskey="n" href="GnlSource.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#GnlOperation.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#GnlOperation.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#GnlOperation.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#GnlOperation.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#GnlOperation.properties" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="GnlOperation"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="GnlOperation.top_of_page"></a>GnlOperation</span></h2>
+<p>GnlOperation — Encapsulates filters/effects for use with GnlObjects</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="GnlOperation.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="GnlOperation.html#GnlOperation-struct" title="GnlOperation">GnlOperation</a>;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlOperation.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-0.10/GstBin.html"
+>GstBin</a>
+                     +----<a class="link" href="GnlObject.html" title="GnlObject">GnlObject</a>
+                           +----GnlOperation
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlOperation.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+GnlOperation implements
+ <a
+href="../gstreamer-0.10/GstChildProxy.html"
+>GstChildProxy</a>.</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlOperation.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="GnlOperation.html#GnlOperation--sinks" title='The "sinks" property'>sinks</a>"                    <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlOperation.description"></a><h2>Description</h2>
+<p>
+</p>
+<div class="refsect2" lang="en">
+<a name="id328154"></a><p>
+A GnlOperation performs a transformation or mixing operation on the
+data from one or more <span class="type">GnlSources</span>, which is used to implement filters or 
+effects.
+</p>
+</div>
+<div class="refsect2" lang="en">
+<a name="id328170"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+          gnonlin
+        </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Wim Taymans &lt;wim.taymans@gmail.com&gt;, Edward Hervey &lt;bilboed@bilboed.com&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Filter/Editor</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink%d</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>request</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>sometimes</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlOperation.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="GnlOperation-struct"></a><h3>GnlOperation</h3>
+<pre class="programlisting">typedef struct _GnlOperation GnlOperation;</pre>
+<p>
+
+</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlOperation.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="GnlOperation--sinks"></a><h3>The <code class="literal">"sinks"</code> property</h3>
+<pre class="programlisting">  "sinks"                    <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write</pre>
+<p>
+Specifies the number of sink pads the operation should provide.
+If the sinks property is -1 (the default) pads are only created as
+demanded via <code class="function">get_request_pad()</code> calls on the element.</p>
+<p>
+
+</p>
+<p>Allowed values: &gt;= -1</p>
+<p>Default value: -1</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

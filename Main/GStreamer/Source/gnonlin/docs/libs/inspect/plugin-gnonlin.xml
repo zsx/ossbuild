@@ -1,0 +1,79 @@
+<plugin>
+  <name>gnonlin</name>
+  <description>Standard elements for non-linear multimedia editing</description>
+  <filename>../../gnl/.libs/libgnl.so</filename>
+  <basename>libgnl.so</basename>
+  <version>0.10.9.1</version>
+  <license>LGPL</license>
+  <source>gnonlin</source>
+  <package>GNonLin CVS/prerelease</package>
+  <origin>Unknown package origin</origin>
+  <elements>
+    <element>
+      <name>gnlcomposition</name>
+      <longname>GNonLin Composition</longname>
+      <class>Filter/Editor</class>
+      <description>Combines GNL objects</description>
+      <author>Wim Taymans &lt;wim.taymans@gmail.com&gt;, Edward Hervey &lt;bilboed@bilboed.com&gt;</author>
+      <pads>
+        <caps>
+          <name>src</name>
+          <direction>source</direction>
+          <presence>sometimes</presence>
+          <details>ANY</details>
+        </caps>
+      </pads>
+    </element>
+    <element>
+      <name>gnlfilesource</name>
+      <longname>GNonLin File Source</longname>
+      <class>Filter/Editor</class>
+      <description>High-level File Source element</description>
+      <author>Edward Hervey &lt;bilboed@bilboed.com&gt;</author>
+      <pads>
+        <caps>
+          <name>src</name>
+          <direction>source</direction>
+          <presence>sometimes</presence>
+          <details>ANY</details>
+        </caps>
+      </pads>
+    </element>
+    <element>
+      <name>gnloperation</name>
+      <longname>GNonLin Operation</longname>
+      <class>Filter/Editor</class>
+      <description>Encapsulates filters/effects for use with GNL Objects</description>
+      <author>Wim Taymans &lt;wim.taymans@gmail.com&gt;, Edward Hervey &lt;bilboed@bilboed.com&gt;</author>
+      <pads>
+        <caps>
+          <name>sink%d</name>
+          <direction>sink</direction>
+          <presence>request</presence>
+          <details>ANY</details>
+        </caps>
+        <caps>
+          <name>src</name>
+          <direction>source</direction>
+          <presence>sometimes</presence>
+          <details>ANY</details>
+        </caps>
+      </pads>
+    </element>
+    <element>
+      <name>gnlsource</name>
+      <longname>GNonLin Source</longname>
+      <class>Filter/Editor</class>
+      <description>Manages source elements</description>
+      <author>Wim Taymans &lt;wim.taymans@gmail.com&gt;, Edward Hervey &lt;bilboed@bilboed.com&gt;</author>
+      <pads>
+        <caps>
+          <name>src</name>
+          <direction>source</direction>
+          <presence>sometimes</presence>
+          <details>ANY</details>
+        </caps>
+      </pads>
+    </element>
+  </elements>
+</plugin>

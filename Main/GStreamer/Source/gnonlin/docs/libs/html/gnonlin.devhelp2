@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<book xmlns="http://www.devhelp.net/book" title="GNonLin 0.10.9.1 Reference Manual" link="index.html" author="" name="gnonlin" version="2">
+  <chapters>
+    <sub name="GNonLin Elements" link="ch01.html">
+      <sub name="GnlComposition" link="GnlComposition.html"/>
+      <sub name="GnlFileSource" link="GnlFileSource.html"/>
+      <sub name="GnlOperation" link="GnlOperation.html"/>
+      <sub name="GnlSource" link="GnlSource.html"/>
+    </sub>
+    <sub name="Base Classes" link="ch02.html">
+      <sub name="GnlObject" link="GnlObject.html"/>
+    </sub>
+  </chapters>
+  <functions>
+    <keyword type="" name="Element Information" link="GnlComposition.html#id277685"/>
+    <keyword type="struct" name="GnlComposition" link="GnlComposition.html#GnlComposition-struct"/>
+    <keyword type="" name="Element Information" link="GnlFileSource.html#id340428"/>
+    <keyword type="struct" name="GnlFileSource" link="GnlFileSource.html#GnlFileSource-struct"/>
+    <keyword type="" name="The &quot;location&quot; property" link="GnlFileSource.html#GnlFileSource--location"/>
+    <keyword type="" name="" link="GnlOperation.html#id328154"/>
+    <keyword type="" name="Element Information" link="GnlOperation.html#id328170"/>
+    <keyword type="struct" name="GnlOperation" link="GnlOperation.html#GnlOperation-struct"/>
+    <keyword type="" name="The &quot;sinks&quot; property" link="GnlOperation.html#GnlOperation--sinks"/>
+    <keyword type="" name="Element Information" link="GnlSource.html#id331588"/>
+    <keyword type="struct" name="GnlSource" link="GnlSource.html#GnlSource-struct"/>
+    <keyword type="" name="" link="GnlObject.html#id334806"/>
+    <keyword type="struct" name="GnlObject" link="GnlObject.html#GnlObject-struct"/>
+    <keyword type="" name="The &quot;active&quot; property" link="GnlObject.html#GnlObject--active"/>
+    <keyword type="" name="The &quot;caps&quot; property" link="GnlObject.html#GnlObject--caps"/>
+    <keyword type="" name="The &quot;duration&quot; property" link="GnlObject.html#GnlObject--duration"/>
+    <keyword type="" name="The &quot;media-duration&quot; property" link="GnlObject.html#GnlObject--media-duration"/>
+    <keyword type="" name="The &quot;media-start&quot; property" link="GnlObject.html#GnlObject--media-start"/>
+    <keyword type="" name="The &quot;media-stop&quot; property" link="GnlObject.html#GnlObject--media-stop"/>
+    <keyword type="" name="The &quot;priority&quot; property" link="GnlObject.html#GnlObject--priority"/>
+    <keyword type="" name="The &quot;rate&quot; property" link="GnlObject.html#GnlObject--rate"/>
+    <keyword type="" name="The &quot;start&quot; property" link="GnlObject.html#GnlObject--start"/>
+    <keyword type="" name="The &quot;stop&quot; property" link="GnlObject.html#GnlObject--stop"/>
+  </functions>
+</book>

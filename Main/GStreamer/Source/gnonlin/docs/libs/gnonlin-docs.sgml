@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY % version-entities SYSTEM "version.entities">
+%version-entities;
+]>
+
+<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <bookinfo>
+    <title>GNonLin &GNL_VERSION; Reference Manual</title>
+  </bookinfo>
+
+  <chapter>
+    <title>GNonLin Elements</title>
+    <xi:include href="xml/element-gnlcomposition.xml"/>
+    <xi:include href="xml/element-gnlfilesource.xml"/>
+    <xi:include href="xml/element-gnloperation.xml"/>
+    <xi:include href="xml/element-gnlsource.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Base Classes</title>
+    <xi:include href="xml/gnlobject.xml"/>
+  </chapter>
+
+</book>

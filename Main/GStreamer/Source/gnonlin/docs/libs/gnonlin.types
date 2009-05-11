@@ -1,0 +1,8 @@
+#include <gst/gst.h>
+
+% base classes
+
+#include <gnl/gnlobject.h>
+
+% type: clause provides implicitly created GType names to be scanned
+type:GnlObject

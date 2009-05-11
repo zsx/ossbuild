@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GnlObject</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="GNonLin 0.10.9.1 Reference Manual">
+<link rel="up" href="ch02.html" title="Base Classes">
+<link rel="prev" href="ch02.html" title="Base Classes">
+<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="GNonLin Elements">
+<link rel="chapter" href="ch02.html" title="Base Classes">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch02.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch02.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GNonLin 0.10.9.1 Reference Manual</th>
+<td> </td>
+</tr>
+<tr><td colspan="5" class="shortcuts"><nobr><a href="#GnlObject.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#GnlObject.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#GnlObject.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#GnlObject.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#GnlObject.properties" class="shortcut">Properties</a></nobr></td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="GnlObject"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="GnlObject.top_of_page"></a>GnlObject</span></h2>
+<p>GnlObject — Base class for GNonLin elements</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="GnlObject.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="GnlObject.html#GnlObject-struct" title="GnlObject">GnlObject</a>;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlObject.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-0.10/GstBin.html"
+>GstBin</a>
+                     +----GnlObject
+                           +----<a class="link" href="GnlSource.html" title="GnlSource">GnlSource</a>
+                           +----<a class="link" href="GnlComposition.html" title="GnlComposition">GnlComposition</a>
+                           +----<a class="link" href="GnlOperation.html" title="GnlOperation">GnlOperation</a>
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlObject.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+GnlObject implements
+ <a
+href="../gstreamer-0.10/GstChildProxy.html"
+>GstChildProxy</a>.</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlObject.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="GnlObject.html#GnlObject--active" title='The "active" property'>active</a>"                   <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="GnlObject.html#GnlObject--caps" title='The "caps" property'>caps</a>"                     <a
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+>GstCaps</a>*              : Read / Write
+  "<a class="link" href="GnlObject.html#GnlObject--duration" title='The "duration" property'>duration</a>"                 <a
+href="../glib/glib-Basic-Types.html#gint64"
+>gint64</a>                : Read / Write
+  "<a class="link" href="GnlObject.html#GnlObject--media-duration" title='The "media-duration" property'>media-duration</a>"           <a
+href="../glib/glib-Basic-Types.html#gint64"
+>gint64</a>                : Read / Write
+  "<a class="link" href="GnlObject.html#GnlObject--media-start" title='The "media-start" property'>media-start</a>"              <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read / Write
+  "<a class="link" href="GnlObject.html#GnlObject--media-stop" title='The "media-stop" property'>media-stop</a>"               <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read
+  "<a class="link" href="GnlObject.html#GnlObject--priority" title='The "priority" property'>priority</a>"                 <a
+href="../glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write
+  "<a class="link" href="GnlObject.html#GnlObject--rate" title='The "rate" property'>rate</a>"                     <a
+href="../glib/glib-Basic-Types.html#gdouble"
+>gdouble</a>               : Read
+  "<a class="link" href="GnlObject.html#GnlObject--start" title='The "start" property'>start</a>"                    <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read / Write
+  "<a class="link" href="GnlObject.html#GnlObject--stop" title='The "stop" property'>stop</a>"                     <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlObject.description"></a><h2>Description</h2>
+<p>
+</p>
+<div class="refsect2" lang="en">
+<a name="id334806"></a><p>
+GnlObject encapsulates default behaviour and implements standard
+properties provided by all the GNonLin elements.
+</p>
+</div>
+<p>
+
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlObject.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="GnlObject-struct"></a><h3>GnlObject</h3>
+<pre class="programlisting">typedef struct _GnlObject GnlObject;</pre>
+<p>
+
+</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlObject.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="GnlObject--active"></a><h3>The <code class="literal">"active"</code> property</h3>
+<pre class="programlisting">  "active"                   <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Render this object.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--caps"></a><h3>The <code class="literal">"caps"</code> property</h3>
+<pre class="programlisting">  "caps"                     <a
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+>GstCaps</a>*              : Read / Write</pre>
+<p>Caps used to filter/choose the output stream.</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--duration"></a><h3>The <code class="literal">"duration"</code> property</h3>
+<pre class="programlisting">  "duration"                 <a
+href="../glib/glib-Basic-Types.html#gint64"
+>gint64</a>                : Read / Write</pre>
+<p>Outgoing duration.</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--media-duration"></a><h3>The <code class="literal">"media-duration"</code> property</h3>
+<pre class="programlisting">  "media-duration"           <a
+href="../glib/glib-Basic-Types.html#gint64"
+>gint64</a>                : Read / Write</pre>
+<p>Duration of the media, can be negative.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--media-start"></a><h3>The <code class="literal">"media-start"</code> property</h3>
+<pre class="programlisting">  "media-start"              <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read / Write</pre>
+<p>The media start position.</p>
+<p>Default value: 18446744073709551615</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--media-stop"></a><h3>The <code class="literal">"media-stop"</code> property</h3>
+<pre class="programlisting">  "media-stop"               <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read</pre>
+<p>The media stop position.</p>
+<p>Default value: 18446744073709551615</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--priority"></a><h3>The <code class="literal">"priority"</code> property</h3>
+<pre class="programlisting">  "priority"                 <a
+href="../glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write</pre>
+<p>The priority of the object (0 = highest priority).</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--rate"></a><h3>The <code class="literal">"rate"</code> property</h3>
+<pre class="programlisting">  "rate"                     <a
+href="../glib/glib-Basic-Types.html#gdouble"
+>gdouble</a>               : Read</pre>
+<p>Playback rate of the media.</p>
+<p>Default value: 1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--start"></a><h3>The <code class="literal">"start"</code> property</h3>
+<pre class="programlisting">  "start"                    <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read / Write</pre>
+<p>
+</p>
+<p>
+
+</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GnlObject--stop"></a><h3>The <code class="literal">"stop"</code> property</h3>
+<pre class="programlisting">  "stop"                     <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read</pre>
+<p>The stop position relative to the parent.</p>
+<p>Default value: 0</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.10</div>
+</body>
+</html>

@@ -1,0 +1,2193 @@
+=== release 0.10.10 ===
+
+2008-11-03   Edward Hervey <edward.hervey@collabora.co.uk>
+
+	* NEWS:
+    * RELEASE:
+	* configure.ac:
+	  releasing 0.10.10, "All Good Things..."
+
+2008-11-03  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnlobject.c: (control_internal_pad):
+	Small protection for when we get invalid ghostpads. Doesn't change
+	behaviour, but reduces fatal warnings.
+
+2008-10-27  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* configure.ac:
+	0.10.9.2 pre-release.
+	
+2008-09-25  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* tests/check/gnloperation.c: (GST_START_TEST):
+	Adapt test to 'fixed' behaviour of videomixer fixed by #537361
+
+2008-07-29  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnlcomposition.c: (get_current_position),
+	(object_start_changed), (object_stop_changed),
+	(object_priority_changed), (object_active_changed),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	When calculating current position, request it downstream since it has a
+	much better chance of knowing the exact position (because of queues, ..).
+	If that fails, then revert to upstream (in sources) as before.
+	Also, use the current position when stop/start/active/priority child
+	properties change.
+
+2008-07-17  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnlcomposition.c: (gnl_composition_handle_message),
+	(no_more_pads_object_cb), (update_pipeline):
+	Fix race-issue when unblocking top-level pad because the update_pipeline
+	method isn't atomic (the objects lock is released in the middle).
+	Also ignore ERROR/WARNING coming from elements which aren't in the
+	currently configured stack. This is mostly related to a big issue with
+	reverse negotiation in dynamic pipelines.
+
+2008-05-31  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* docs/libs/inspect/plugin-gnonlin.xml:
+	Plugin info as changed (email addresses).
+
+2008-05-31  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnlcomposition.c: (gnl_composition_init),
+	(gnl_composition_finalize), (gnl_composition_handle_message),
+	(update_pipeline):
+	Don't use the objects_lock to protect the message handling, instead
+	use a new lock (messages_lock). Avoids a stupid deadlock.
+
+2008-05-30  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnlfilesource.c:
+	* gnl/gnlfilesource.h:
+	* gnl/gnlobject.c:
+	* gnl/gnlobject.h:
+	* gnl/gnloperation.c:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	Update email adresses of wim and edward to working adresses.
+	Use less GNL_* casting macros that actually also do typechecking for
+	all parts where it is not needed, and instead use simple casting.
+
+2008-05-27  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnlcomposition.c: (add_message), (flush_messages),
+	(replace_message), (has_message), (dump_messages),
+	(gnl_composition_handle_message), (no_more_pads_object_cb),
+	(update_pipeline):
+	Properly accumulate segment_start/segment_done messages so that we only
+	switch segment when all segment_done have been emitted.
+	Inspired by the logic in gstbin.
+	* gnl/gnloperation.c: (get_unlinked_sink_ghost_pad),
+	(remove_sink_pad), (synchronize_sinks),
+	(gnl_operation_request_new_pad), (gnl_operation_release_pad):
+	Methods to properly remove request pads.
+	* tests/check/common.h:
+	Remove a leak
+
+2008-05-26  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnlcomposition.c: (unblock_child_pads), (get_new_seek_event),
+	(get_current_position),
+	(refine_start_stop_in_region_above_priority),
+	(convert_list_to_tree), (get_stack_list),
+	(get_clean_toplevel_stack), (gnl_composition_change_state),
+	(compare_relink_single_node), (are_same_stacks), (update_pipeline),
+	(object_start_changed), (object_stop_changed),
+	(object_priority_changed), (object_active_changed),
+	(object_pad_removed), (object_pad_added),
+	(gnl_composition_remove_object):
+	* gnl/gnloperation.c: (element_is_valid_filter),
+	(get_nb_static_sinks), (gnl_operation_add_element),
+	(get_unused_static_sink_pad), (get_request_sink_pad),
+	(add_sink_pad), (synchronize_sinks):
+	* gnl/gnloperation.h:
+	Fix more issues with dynamic-sinkpads operations.
+	Gst-indent the code.
+
+2008-05-26  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnlfilesource.c: (gnl_filesource_init):
+	* gnl/gnlobject.c: (translate_incoming_seek),
+	(ghostpad_event_function):
+	* gnl/gnlsource.c: (gnl_source_init):
+	Round of gst-indent
+
+2008-05-26  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* tests/check/common.h:
+	* tests/check/complex.c: (GST_START_TEST):
+	* tests/check/gnlsource.c: (GST_START_TEST):
+	* tests/check/simple.c: (GST_START_TEST):
+	Round of gst-indent and more utilities
+	* tests/check/gnloperation.c: (GST_START_TEST), (gnonlin_suite):
+	New test for multiple-input-pad operations. Needs more work
+
+2008-05-26  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnlcomposition.c: (no_more_pads_object_cb):
+	Exit properly if stack is empty.
+	
+2008-05-18  Jan Schmidt  <jan.schmidt@sun.com>
+
+	* docs/libs/.cvsignore:
+	Ignore a couple more generated files.
+
+2008-05-16  Jan Schmidt  <jan.schmidt@sun.com>
+
+	* configure.ac:
+	* docs/Makefile.am:
+	* docs/libs/.cvsignore:
+	* docs/libs/Makefile.am:
+	* docs/libs/gnonlin-docs.sgml:
+	* docs/libs/gnonlin-sections.txt:
+	* docs/libs/gnonlin.args:
+	* docs/libs/gnonlin.hierarchy:
+	* docs/libs/gnonlin.interfaces:
+	* docs/libs/gnonlin.prerequisites:
+	* docs/libs/gnonlin.signals:
+	* docs/libs/gnonlin.types:
+	* docs/libs/inspect-build.stamp:
+	* docs/libs/inspect.stamp:
+	* docs/libs/inspect/plugin-gnonlin.xml:
+	* docs/libs/scanobj-build.stamp:
+	* docs/libs/tmpl/gnl.sgml:
+	* docs/libs/tmpl/gnlcomposition.sgml:
+	* docs/libs/tmpl/gnlobject.sgml:
+	* docs/libs/tmpl/gnloperation.sgml:
+	* docs/libs/tmpl/gnlsource.sgml:
+	* docs/libs/tmpl/gnltimeline.sgml:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnlfilesource.c:
+	* gnl/gnlfilesource.h:
+	* gnl/gnlobject.c:
+	* gnl/gnloperation.c:
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.c:
+	* gnl/gnltypes.h:
+	Add some docs. The structure is based on the GStreamer plugin docs
+	build, with an enhancement to allow having GnlObject (a plugin-private
+	base class) documented too.
+
+	Actual docs contents needs fleshing out.
+
+2008-04-21  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gnl/gnloperation.c: (gnl_operation_add_element): 
+	Fix small bug in debugging.
+
+2008-04-06  Sebastian Dröge  <slomo@circular-chaos.org>
+
+        Patch by: Damien Lespiau <damien dot lespiau at gmail dot com>
+
+        * configure.ac:
+        Actually build dlls when cross-compiling with mingw32.
+        Fixes bug #526247.
+
+2008-01-10  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* autogen.sh:
+	  Add -Wno-portability to the automake parameters to stop warnings
+	  about GNU make extensions being used. We require GNU make in almost
+	  every Makefile anyway.
+	  
+	* configure.ac:
+	  Use AM_PROG_CC_C_O as a compiler that accepts both -c and -o
+	  at the same time is required for per target flags.
+
+2007-12-09  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* configure.ac:
+	  Don't define GST_DISABLE_DEPRECATED for releases. Fixes #498181.
+
+2007-08-08  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development cycle.
+
+=== release 0.10.9 ===
+
+2007-08-08  Edward Hervey  <bilboed@bilboed.com>
+
+	* configure.ac:
+	  releasing 0.10.9, "Cheese and Wine"
+
+2007-07-30  Edward Hervey  <bilboed@bilboed.com>
+
+	* configure.ac:
+	0.10.8.2 pre-release
+
+2007-07-30  Edward Hervey  <bilboed@bilboed.com>
+
+	* tests/check/common.h:
+	Add a bigger function for creating a video source with specific
+	media-start and media-duration.
+	* tests/check/simple.c: (GST_START_TEST):
+	Let's check with non-obvious media-start/duration sources.
+
+2007-07-23  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	(get_new_seek_event): Added debugging
+	(seek_handling): comments on a race issue to fix.
+	(gnl_composition_event_handler): protect call to get_new_seek_event.
+	(update_pipeline): Update seek events need to be flushing if not in
+	PLAYING, else we will encounter deadlocks.
+	(object_start_changed), (object_stop_changed),
+	(object_priority_changed), (object_active_changed): If composition
+	has changed, we set segment->start to segment_start in the same way
+	we do when a segment has finished.
+
+2007-07-02  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlobject.c: (ghostpad_event_function):
+	Don't forward QoS event upstreams until we properly implement the
+	time-shifting.
+	See bug #398453
+
+2007-06-16  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (unblock_child_pads), (unblock_childs),
+	(unlock_child_state), (lock_child_state),
+	(gnl_composition_change_state), (object_pad_removed),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	Unblock child source pads when the pads OR the elements are being
+	removed.
+	Also unblock those pads when going to READY/NULL.
+	Lock the state of gnlobjects being added, else it screws up state
+	changes of the composition.
+	Properly unref items when using GstIterators.
+	* gnl/gnloperation.c: (gnl_operation_class_init),
+	(gnl_operation_finalize), (get_unused_static_sink_pad),
+	(add_sink_pad):
+	memleak fixes.
+	* tests/check/common.h:
+	* tests/check/simple.c: (GST_START_TEST):
+	memleak fixes.
+
+2007-06-15  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlsource.c: (ghost_seek_pad), (pad_blocked_cb):
+	Let's stop using the main thread for other-thread processing and
+	instead go the proper way and use yet-another-thread through
+	g_thread_create().
+	* gnl/gnlcomposition.c: (gnl_composition_handle_message):
+	Add a FIXME/WARNING related to switching to g_thread_create regarding
+	SEGMENT_DONE message handling. This requires a better look at than I
+	can give right now.
+
+2007-05-22  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlsource.c: (gnl_source_init):
+	Use 'async-handling' property if available so our state change happens
+	correctly with latest core modifications.
+
+2007-05-22  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (get_new_seek_event),
+	(get_current_position), (gnl_composition_event_handler),
+	(refine_start_stop_in_region_above_priority),
+	(convert_list_to_tree), (get_stack_list),
+	(get_clean_toplevel_stack), (are_same_stacks), (update_pipeline),
+	(gnl_composition_add_object):
+	* gnl/gnlobject.c: (translate_incoming_seek):
+	* gnl/gnlobject.h:
+	Allow adding objects in a composition WHILE playing.
+	Fixes #437105
+
+2007-05-05  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development cycle.
+
+=== release 0.10.8 ===
+
+2007-05-05  Edward Hervey <edward@fluendo.com>
+
+	* configure.ac:
+	* NEWS:
+	* RELEASE:
+	  releasing 0.10.8, "Half a kilo of power points"
+
+2007-05-03  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	0.10.7.2 pre-release
+
+2007-05-02  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.h:
+	priority is a guint32 !
+	* gnl/gnlcomposition.c: (priority_comp), (objects_start_compare),
+	(objects_stop_compare), (object_start_changed),
+	(object_stop_changed), (object_priority_changed),
+	(object_active_changed):
+	Fix major stupidity in GCompareFunc, the difference between 2 guint32
+	is not guaranteed to be correct within a gint :)
+	Fixes #435215
+
+2007-04-12  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.c: (gnl_object_remove_ghost_pad):
+	Don't forget to unset the target when removing a ghost pad, else the
+	target will still be linked to the no-longer-present-ghostpad internal
+	pad.
+	This is the "+500 power points" Jokosher bugfix.
+
+2007-02-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	  adapt to new AG_GST
+
+2007-02-19  Wim Taymans  <wim@fluendo.com>
+
+	* gnl/gnlcomposition.c: (no_more_pads_object_cb),
+	(compare_relink_single_node), (update_pipeline):
+	* gnl/gnlobject.c: (control_internal_pad),
+	(gnl_object_ghost_pad_full):
+	* gnl/gnlsource.c: (ghost_seek_pad):
+	Fix some leaks.
+
+2007-01-26  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development cycle.
+
+=== release 0.10.7 ===
+
+2007-01-26   <>
+
+	* configure.ac:
+	* NEWS:
+	* RELEASE:
+	  releasing 0.10.7, "Anything better ?"
+
+2007-01-24  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Bump requirement to GStreamer core 0.10.9
+	pre-releasing gnonlin 0.10.6.2
+
+2007-01-22  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c: (gnl_filesource_init):
+	Use decodebin2 if the USE_DECODEBIN2 env variable is set.
+
+2007-01-10  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_reset),
+	(segment_done_main_thread), (seek_handling), (handle_seek_event),
+	(gnl_composition_event_handler),
+	(gnl_composition_ghost_pad_set_target), (convert_list_to_tree),
+	(get_stack_list), (get_clean_toplevel_stack),
+	(gnl_composition_change_state), (update_start_stop_duration),
+	(no_more_pads_object_cb), (compare_relink_single_node),
+	(compare_deactivate_single_node), (compare_relink_stack),
+	(update_pipeline), (object_start_changed), (object_stop_changed),
+	(object_priority_changed), (object_active_changed),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	Add 'modify' boolean parameter to update_pipeline(). This is needed
+	for cases where the timeline is being updated because of modifications
+	in the timeline. In that case, flush events need to be sent downstream
+	so that the streaming threads are properly released and no longer
+	blocking on downstream elements/pads.
+	Add more debugging statements a bit everywhere.
+	Re-indent all code.
+
+2006-11-27  Edward Hervey  <edward@fluendo.com>
+
+	* RELEASE:
+	Ouch, forgot to update the release file.
+	Personal note : REMEMBER IT'S HERE !!!
+
+2006-11-27  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development cycle.
+
+=== release 0.10.6 ===
+
+2006-11-27  Edward Hervey <edward@fluendo.com>
+
+	* configure.ac:
+	* NEWS:
+	  releasing 0.10.6, "Who stole my beard ?"
+
+2006-11-23  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	0.10.5.2 pre-release
+
+2006-11-03  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_add_object):
+	Recalculate start/stop/duration of composition when adding a default
+	source.
+	* tests/check/complex.c: (GST_START_TEST):
+	Modify test so it also test for the case where the composition starts
+	with a default source.
+
+2006-11-03  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (handle_seek_event),
+	(gnl_composition_event_handler), (update_start_stop_duration):
+	If we have a default source, the composition start value is always 0.
+	Don't rely on incoming seek event, create a new one from calculated
+	values.
+
+2006-11-02  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (convert_list_to_tree):
+	Take into account the priority of default sources when calculating the
+	highest priority. This fixes #362399
+	* tests/check/gnloperation.c: (GST_START_TEST), (gnonlin_suite):
+	Unit test for fixed behaviour.
+
+2006-11-02  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_ghost_pad_set_target),
+	(next_stop_in_region_above_priority), (convert_list_to_tree),
+	(get_stack_list), (get_clean_toplevel_stack),
+	(gnl_composition_remove_object):
+	Better check for the 'next stop' of a stack. It will now look at all
+	objects under the highest priority (and not the lowest as previously).
+	Fixes #356380.
+	Set new pads as active.
+	Add some debug.
+	* gnl/gnlobject.c: (gnl_object_ghost_pad_full):
+	* gnl/gnloperation.c: (gnl_operation_add_element), (add_sink_pad):
+	Activate new pads.
+	* tests/check/gnloperation.c: (GST_START_TEST), (gnonlin_suite):
+	Added new test (test_pyramid_operations) to test issues fixed for
+	#356380.
+	* tests/check/simple.c: (GST_START_TEST):
+	Unref sinkpads before testing some issues.
+
+2006-09-16  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/common.h:
+	* tests/check/complex.c: (GST_START_TEST):
+	gst_element_link_filtered() does not take the refcount on the caps.
+	Therefore we unref the caps after use.
+
+2006-09-16  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/common.h:
+	Added convenience function to create a int/float audiotest gnlsource.
+	* tests/check/complex.c: (GST_START_TEST), (gnonlin_suite):
+	Added test_renegotiation to test re-negotiation error seen in #352827
+
+2006-09-16  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/.cvsignore:
+	add gnloperation
+
+2006-09-16  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/Makefile.am:
+	add common.h
+
+2006-09-16  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/Makefile.am:
+	* tests/check/common.h:
+	Single header file that contains all the common functions and structures
+	for the gnonlin tests.
+	* tests/check/complex.c:
+	* tests/check/gnlsource.c: (GST_START_TEST):
+	* tests/check/simple.c:
+	Switch to using common.h , makes test files smaller.
+	* tests/check/gnloperation.c: (GST_START_TEST), (gnonlin_suite),
+	(main):
+	Created new test for gnloperations, starting with one that tests adding
+	and removing operations, and checking that the outputted segments are
+	correct.
+
+2006-09-07  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c: (gnl_filesource_class_init):
+	Add pad templates to GnlFileSource so we can use it properly
+	with gst-launch.
+
+2006-08-31  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_add_object):
+	Set all properties of default sources in one g_object_set().
+
+2006-08-30  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c:
+	(compare_deactivate_single_node):
+	When unlinking source/operations , flush the parent's sink pad, so any
+	stream locks are released.
+	* gnl/gnloperation.c:
+	(element_is_valid_filter): Scan pads AND templates to figure out if the
+	element is a valid filter, and properly establish if it has dynamic
+	pads,
+	(get_unused_static_sink_pad):
+	comments,
+	(get_request_sink_pad):
+	New function for getting request sink pads.
+	(add_sink_pad):
+	Add support for request sink pads,
+	(synchronize_sinks):
+	Don't try to add pads if it fails.
+	* gnl/gnlsource.c:
+	(ghost_seek_pad):
+	Emit 'no-more-pads' after unblocking the controlled source pad. Not
+	doing this would cause deadlocks in compositions with operations.
+
+2006-08-25  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (update_pipeline):
+	Remove the ghostpad if the composition becomes empty.
+
+2006-08-24  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_init),
+	(gnl_composition_reset), (gnl_composition_event_handler),
+	(no_more_pads_object_cb), (compare_relink_single_node),
+	(compare_relink_stack), (update_pipeline):
+	Only set ghostpad target and/or send seek event once all the objects of
+	the stack are linked.
+	Fixes #352389
+	This is done through the use of comp->private->waitingpads.
+	Simplified update_pipeline accordingly.
+	Added more comments.
+
+2006-08-23  Wim Taymans  <wim@fluendo.com>
+
+	* gnl/gnlobject.c: (gnl_object_class_init), (control_internal_pad),
+	(gnl_object_ghost_pad_no_target):
+	Add extra explanation for priority property, Fixes #352382.
+
+2006-08-23  Wim Taymans  <wim@fluendo.com>
+
+	* gnl/gnloperation.c: (gnl_operation_class_init),
+	(element_is_valid_filter), (gnl_operation_add_element),
+	(gnl_operation_set_sinks), (get_unused_static_sink_pad),
+	(add_sink_pad), (gnl_operation_request_new_pad):
+	Fix leaks in iterators.
+	Correctly resync iterators too.
+
+2006-08-18  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.c: (internal_pad_finalizing),
+	(control_internal_pad):
+	Free internal pad private data when the pad is being finalized, else
+	we leak that structure.
+
+2006-08-18  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c:
+	(gnl_composition_ghost_pad_set_target):
+	Properly handle ghostpads without targets.
+	(convert_list_to_tree), (compare_relink_single_node),
+	(compare_deactivate_single_node), (update_pipeline):
+	First integration of support for GnlOperations.
+	(gnl_composition_add_object):
+	If composition was empty and initialized, update pipeline.
+
+
+2006-08-09  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.c:
+	Remove useless linkfunc/unlinkfunc from GnlPadPrivate structure.
+	(control_internal_pad),
+	Remove call to useless functions. 
+	(gnl_object_ghost_pad_no_target),
+	(gnl_object_ghost_pad_set_target):
+	* gnl/gnloperation.c: (gnl_operation_class_init),
+	(element_is_valid_filter), (gnl_operation_add_element),
+	(gnl_operation_set_sinks), (get_unused_static_sink_pad),
+	(add_sink_pad), (gnl_operation_request_new_pad),
+	(gnl_operation_release_pad):
+	Implemented GstElement::request_new_pad virtual method.
+	Improved sink ghost pads synchronisation with the nbsinks property.
+	* gnl/gnloperation.h:
+	Added comments.
+
+2006-07-27  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnl.c:
+	Let's welcome GnlOperation back in the game.
+	* gnl/gnlcomposition.c: (gnl_composition_init),
+	(gnl_composition_dispose), (gnl_composition_finalize),
+	(gnl_composition_reset), (segment_done_main_thread),
+	(gnl_composition_handle_message), (get_new_seek_event),
+	(seek_handling), (pad_blocked),
+	(gnl_composition_ghost_pad_set_target),
+	(next_stop_in_region_above_priority), (convert_list_to_tree),
+	(get_stack_list), (get_clean_toplevel_stack),
+	(gnl_composition_change_state), (update_start_stop_duration),
+	(no_more_pads_object_cb), (compare_relink_single_node),
+	(compare_deactivate_single_node), (compare_relink_stack),
+	(unlock_activate_stack), (update_pipeline), (object_pad_added),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	* gnl/gnloperation.h:
+	Switch to using a tree of GNode for the current stack.
+	It's faster (since it does more checks in one go) and has more
+	potential for speed improvements when updating the
+	pipeline.
+	* gnl/gnloperation.c: (gnl_operation_class_init),
+	(gnl_operation_reset), (gnl_operation_init),
+	(element_is_valid_filter), (get_src_pad),
+	(gnl_operation_add_element), (gnl_operation_remove_element),
+	(gnl_operation_set_property), (gnl_operation_get_property),
+	(add_sink_pad), (remove_sink_pad), (synchronize_sinks):
+	Added more comments and fixme's.
+	* gnl/gnlobject.c: (internalpad_event_function),
+	(ghostpad_event_function), (gnl_object_ghost_pad_full),
+	(gnl_object_change_state):
+	* gnl/gnlsource.c: (gnl_source_prepare), (element_pad_added_cb),
+	(element_pad_removed_cb), (ghost_seek_pad),
+	(gnl_source_change_state):
+	gst-indent fixups.
+
+2006-07-25  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c: (gnl_filesource_init): 
+	Typo error. There's no filesource element, it's filesrc.
+	Patch from cascardo at holoscopio dot com
+
+2006-07-20  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development cycle
+
+=== release 0.10.5 ===
+
+2006-07-20   <>
+
+	* configure.ac:
+	  releasing 0.10.5, "Beavis and Zidane"
+
+2006-07-20  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c:
+	Fix typo in debug statement.
+
+2006-07-19  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (update_pipeline):
+	* tests/check/complex.c: (sinkpad_event_probe), (GST_START_TEST):
+	* tests/check/gnlsource.c: (sinkpad_event_probe), (GST_START_TEST):
+	* tests/check/simple.c: (sinkpad_event_probe), (GST_START_TEST):
+	Memleak fixes in composition and tests.
+
+2006-07-19  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlsource.c: (ghost_seek_pad):
+	Try to send pending event before emitting no-more-pads and unblocking
+	controlled src pad.
+
+2006-07-19  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_class_init),
+	(hash_value_destroy), (gnl_composition_init), (get_stack_list),
+	(update_start_stop_duration), (object_start_changed),
+	(object_stop_changed), (object_priority_changed),
+	(object_active_changed), (gnl_composition_add_object),
+	(gnl_composition_remove_object):
+	Add default sources properly (sources with prioriy of G_MAXUINT32).
+	Update pipeline when:
+	_ object is added/removed within current playing segment
+	_ object within current playing segment whose start/stop/priority/active
+	property changes.
+	* tests/check/complex.c: (GST_START_TEST):
+	* tests/check/gnlsource.c: (GST_START_TEST):
+	Fixed tests to test more behaviours, including new ones.
+
+2006-07-16  Edward Hervey  <edward@fluendo.com>
+
+	* gnonlin.pc.in: removing file from CVS.
+	* configure.ac: pre-release 0.10.4.3
+
+2006-07-11  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Require core >= 0.10.8.1 (for ghostpad and blocking fixes).
+	* gnl/gnlcomposition.c: (hash_value_destroy), (unlock_childs),
+	(gnl_composition_reset), (segment_done_main_thread),
+	(get_new_seek_event), (handle_seek_event),
+	(gnl_composition_ghost_pad_set_target),
+	(gnl_composition_change_state), (no_more_pads_object_cb),
+	(update_pipeline), (object_start_changed), (object_stop_changed),
+	(object_priority_changed), (object_active_changed),
+	(object_pad_added), (gnl_composition_add_object),
+	(gnl_composition_remove_object):
+	All source pads created are now blocked by default.
+	Don't lock the state of sources in READY. Let them all reach paused.
+	Remove cruft now fixed in GStreamer core.
+	* gnl/gnlobject.c: (internalpad_event_function),
+	(ghostpad_event_function), (control_internal_pad),
+	(ghostpad_link_function), (gnl_object_ghost_pad_full),
+	(gnl_object_ghost_pad_no_target),
+	(gnl_object_ghost_pad_set_target):
+	* gnl/gnlobject.h:
+	Remove all the cruft which is now fixed in GStreamer core.
+	* gnl/gnlsource.c: (gnl_source_prepare), (element_pad_added_cb),
+	(element_pad_removed_cb), (ghost_seek_pad), (pad_blocked_cb),
+	(gnl_source_change_state):
+	Remove all the pad blocking on events with ghostpad cruft which is
+	now fixed in GStreamer core.
+
+2006-07-03  Edward Hervey  <edward@fluendo.com>
+
+	* Makefile.am:
+	* configure.ac:
+	Make gnonlin build properly on CygWin.
+	Fixes #341492
+
+2006-06-18  Edward Hervey  <edward@fluendo.com>
+
+	* docs/random/design:
+	Precision about gnloperation sinks property.
+	* gnl/gnlcomposition.c: (gnl_composition_init),
+	(gnl_composition_finalize), (lock_child_state),
+	(gnl_composition_reset), (segment_done_main_thread),
+	(gnl_composition_handle_message), (seek_handling),
+	(handle_seek_event), (pad_blocked),
+	(gnl_composition_ghost_pad_set_target),
+	(update_start_stop_duration), (compare_relink_stack),
+	(update_pipeline), (object_start_changed), (object_stop_changed):
+	Non-racy seeking handling. All seeks are put in the main thread.
+	A lock-protected value takes care of discarding previous seeks. This
+	avoids freeze situations when scrubbing/seeking a lot.
+	Use of pad blocks for non-used sources.
+	* gnl/gnlobject.c: (internalpad_event_function),
+	(gnl_pad_set_blocked_async), (gnl_pad_add_event_probe),
+	(gnl_pad_remove_event_probe):
+	* gnl/gnlobject.h:
+	Emit 'segment-start' message when we receive a newsegment event. This
+	allows the composition to know when a seek is really starting and
+	therefore stop all pending seeks.
+	Added functions (hacks) for recursive ghostpad handling. Should go
+	away once the issue is fixed in core (See #341029).
+	* gnl/gnlsource.c: (element_pad_added_cb),
+	(element_pad_removed_cb), (ghost_seek_pad),
+	(gnl_source_change_state):
+	Use gnl_pad_* recursive ghostpads hack functions.
+	* tests/check/simple.c: (GST_START_TEST):
+	Fix comment
+
+2006-06-12  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac: pre-release 0.10.4.2
+
+2006-06-12  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/complex.c: (GST_START_TEST), (gnonlin_suite):
+	Added unit-test for the previous fixes to gnlcomposition with default
+	sources.
+
+2006-06-12  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (next_stop_in_region_above_priority),
+	(get_stack_list):
+	Fixed wrong get_stack_list(), stop at the correct place.
+	Stop iterating as soon as possible in next_stop_in_region..().
+
+2006-06-11  Edward Hervey  <edward@fluendo.com>
+
+	* docs/random/design:
+	Fleshed up design doc a bit more.
+
+2006-06-08  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (next_stop_in_region_above_priority),
+	(get_clean_toplevel_stack):
+	Composition now looks for anything hiding the configured segment, in
+	order to properly adjust the end of the configured segment.
+	This should make default sources work.
+	* gnl/gnloperation.c: (gnl_operation_class_init),
+	(gnl_operation_init), (element_is_valid_filter),
+	(gnl_operation_add_element), (gnl_operation_remove_element),
+	(gnl_operation_set_sinks), (gnl_operation_set_property),
+	(gnl_operation_get_property), (add_sink_pad), (remove_sink_pad),
+	(synchronize_sinks), (gnl_operation_prepare):
+	* gnl/gnloperation.h:
+	First big update. Still some more work to do though.
+	* tests/check/complex.c: (gnonlin_suite):
+	Re-activated testsuite to check for 'hiding' situations.
+
+2006-06-06  Edward Hervey  <edward@fluendo.com>
+
+	* docs/random/design:
+	Updated to real 0.10 behaviour + added details.
+
+2006-05-31  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlsource.c: (gnl_source_prepare):
+	initial seek event is in object time realm.
+
+2006-05-23  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_dispose),
+	(gnl_composition_ghost_pad_set_target), (update_pipeline),
+	(gnl_composition_event_handler):
+	Protect critical part with comp_objects_lock.
+	Don't unref pad given to gnl_composition_ghost_pad_set_target().
+	* tests/check/complex.c: (GST_START_TEST):
+	* tests/check/gnlsource.c: (GST_START_TEST):
+	* tests/check/simple.c: (GST_START_TEST):
+	memleak fixes in tests.
+
+2006-05-22  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (no_more_pads_object_cb),
+	(update_pipeline):
+	Change the composition's ghostpad target at the same time as we send the
+	seek event. This avoids the case where we check for the pad availability
+	too early (not present) and then never switch the ghostpad target.
+	* gnl/gnlsource.c: (gnl_source_change_state):
+	if we don't have a controlled element, don't even care about calling
+	parent's _change_state()
+
+2006-05-21  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlsource.c: (element_pad_added_cb), (ghost_seek_pad),
+	(gnl_source_change_state):
+	Handle the case where more than one pads of the controlled element is
+	a valid src pad (intersects with the caps).
+
+2006-05-11  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development cycle.
+
+=== release 0.10.4 ===
+
+2006-05-11   <>
+
+	* configure.ac:
+	* NEWS:
+	  releasing 0.10.4, "Solomillo de Ternera"
+
+2006-05-10  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (get_clean_toplevel_stack),
+	(update_pipeline):
+	Fix for correctly playing compositions with gaps between objects.
+	* tests/check/Makefile.am:
+	* tests/check/complex.c: (gst_element_factory_make_or_warn),
+	(composition_pad_added_cb), (compare_segments),
+	(sinkpad_event_probe), (sinkpad_buffer_probe), (videotest_gnl_src),
+	(videotest_in_bin_gnl_src), (segment_new), (GST_START_TEST),
+	(gnonlin_suite), (main):
+	Added new unittests for compositions with gaps between objects.
+	* tests/check/simple.c: (gnonlin_suite):
+	Moved de-activated test_one_above_another to complex
+
+2006-05-10  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	0.10.3.2 pre-release
+
+2006-05-08  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlsource.c: (pad_event_probe):
+	Don't call ghost_seek_pad() in the event probe and only discard
+	the events. The buffer probe will eventually take care of that.
+	This guarantees that upstream elements are initialized and ready to
+	handle seek events.
+
+2006-05-08  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_finalize),
+	(gnl_composition_handle_message),
+	(gnl_composition_ghost_pad_set_target),
+	(gnl_composition_change_state), (no_more_pads_object_cb),
+	(update_pipeline):
+	* gnl/gnlfilesource.c: (gnl_filesource_init):
+	* gnl/gnlobject.c: (translate_incoming_seek),
+	(gnl_object_ghost_pad_full), (gnl_object_remove_ghost_pad),
+	(gnl_object_change_state):
+	* gnl/gnlsource.c: (gnl_source_class_init), (gnl_source_prepare),
+	(element_pad_added_cb), (element_pad_removed_cb), (ghost_seek_pad),
+	(pad_event_probe), (has_dynamic_srcpads),
+	(gnl_source_control_element_func), (gnl_source_add_element),
+	(gnl_source_remove_element), (gnl_source_change_state):
+	* gnl/gnlsource.h:
+	Indent properly using gstreamer/tools/gst-indent
+
+2006-05-08  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_ghost_pad_set_target),
+	(get_src_pad), (update_pipeline):
+	Convert non-fatal GST_WARNING to GST_DEBUG.
+
+2006-05-08  Edward Hervey  <edward@fluendo.com>
+
+	* autogen.sh:
+	Update dependency checking
+
+2006-05-08  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c: (gnl_filesource_class_init),
+	(gnl_filesource_init):
+	No more redundant bin containing filesrc and decodebin.
+	We use the GnlSource controls_one and control_element() class properties
+	to inform GnlSource it should control decodebin but still accept
+	filesrc.
+	* gnl/gnlsource.c: (gnl_source_class_init),
+	(gnl_source_control_element_func), (gnl_source_add_element),
+	(gnl_source_remove_element):
+	* gnl/gnlsource.h:
+	Added two class properties:
+	_ controls_one which tells whether the class controls only one object
+	_ control_element() virtual_method which should be called by subclasses
+	that have several elements to specify which element should be checked
+	for pad-added/pad-removed.
+
+2006-05-05  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c: (gnl_filesource_class_init),
+	(decodebin_pad_added_cb), (find_ghost_pad),
+	(decodebin_pad_removed_cb), (gnl_filesource_init):
+	* gnl/gnlfilesource.h:
+	Simplify GnlFileSource to be a subclass of GnlSource.	
+	* gnl/gnlsource.c: (element_pad_added_cb),
+	(gnl_source_change_state):
+	Add event probe for dynamic pads too.
+	Don't error out in state_change.
+
+2006-05-05  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/Makefile.am:
+	* gnl/gnlfilesource.c:
+	* gnl/gnlmarshal.list:
+	* gnl/gnlobject.c:
+	* gnl/gnloperation.c:
+	* gnl/gnlsource.c:
+	Remove gnlmarshal cruft that dates from... well....
+	Ok, fine, that was here since 0.8 era and not used since :)
+
+2006-05-05  Edward Hervey  <edward@fluendo.com>
+
+	* common/check.mak:
+	* configure.ac:
+	* gnl/Makefile.am:
+	* gnl/gnlfilesource.c: (hack_fakesink_new), (hack_fakesink_free),
+	(find_hack_fakesink), (decodebin_new_pad_cb),
+	(decodebin_pad_removed_cb), (gnl_filesource_dispose),
+	(gnl_filesource_prepare), (gnl_filesource_send_event):
+	* gnl/gnlmarshal.list:
+	* tests/Makefile.am:
+
+2006-05-05  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_dispose),
+	(lock_child_state), (gnl_composition_reset), (get_new_seek_event),
+	(gnl_composition_change_state), (no_more_pads_object_cb),
+	(update_pipeline):
+	If srcpad of top gnlobject is not available, store pending child seek so
+	we can send it when the pad appears.
+	Lock all childs in READY. They will be automatically (un)locked in
+	update_pipeline()
+	Add GST_SEEK_FLAG_ACCURATE to the seek event.
+	* gnl/gnlobject.c: (translate_incoming_seek),
+	(gnl_object_change_state):
+	Add GST_SEEK_FLAG_ACCURATE to incoming seek events if it wasn't already
+	there.
+	GnlObject::update() virtual method is called in READY->PAUSED before
+	calling the parent _change_state()
+	* gnl/gnlsource.c: (gnl_source_class_init), (gnl_source_prepare),
+	(element_pad_removed_cb), (ghost_seek_pad), (pad_blocked_cb),
+	(pad_event_probe), (gnl_source_add_element),
+	(gnl_source_change_state):
+	We need to block on events. Added an event_probe for that.
+	Implement GnlObject::prepare() so we can create a seek event if the
+	GnlSource is used stand-alone (not in composition).
+	* tests/check/Makefile.am:
+	* tests/check/gnlsource.c: (gst_element_factory_make_or_warn),
+	(gnlsource_pad_added_cb), (compare_segments),
+	(sinkpad_event_probe), (sinkpad_buffer_probe), (videotest_gnl_src),
+	(videotest_in_bin_gnl_src), (segment_new), (GST_START_TEST),
+	(gnonlin_suite), (main):
+	New unit test for testing standalone GnlSource behaviour
+	* tests/check/simple.c: (composition_pad_added_cb),
+	(sinkpad_event_probe), (sinkpad_buffer_probe),
+	(videotest_in_bin_gnl_src), (GST_START_TEST), (gnonlin_suite):
+	I have to admit the tests were... really borked.
+	Now they're much more sensitive.
+
+2006-04-25  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development cycle
+
+=== release 0.10.3 ===
+
+2006-04-25   <>
+
+	* configure.ac:
+	  releasing 0.10.3, "Birthday Cake"
+
+2006-04-25  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c: (gnl_filesource_prepare),
+	(gnl_filesource_send_event):
+	First event sent in _prepare() should have the flush flag.
+	Smells like a second paperbag release...
+
+2006-04-21  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development cycle
+
+=== release 0.10.2 ===
+
+2006-04-21   <>
+
+	* configure.ac:
+	  releasing 0.10.2, "... Y un cafe solo"
+
+2006-04-10  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.c: (gnl_object_change_state):
+	'really' wrong state_change handling
+
+2006-04-07  Edward Hervey  <edward@fluendo.com>
+
+	* COPYING:
+	Convert all remaining files to be coherent with the change to LGPL
+	licensing.
+
+2006-04-07  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to development (for good)
+
+=== release 0.10.1 ===
+
+2006-04-06  Thomas Vander Stichele <thomas at apestaart dot org>
+
+	* configure.ac:
+	  releasing 0.10.1, "Jamon Serrano"
+
+2006-04-06  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	back to development
+
+2006-04-06  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	0.10.1 release
+
+2006-04-05  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	0.10.0.11 pre-release
+
+2006-04-05  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_finalize),
+	(gnl_composition_handle_message), (gnl_composition_change_state),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	more memleak fixes.
+	* gnl/gnlsource.c: (gnl_source_dispose), (gnl_source_finalize):
+	more debug.
+	* tests/check/simple.c: (GST_START_TEST), (gnonlin_suite):
+	Add more debug and refcount checks.
+
+2006-04-05  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/Makefile.am:
+	Increasing timeout for tests since we're asking a lot
+
+2006-04-05  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (ready_and_lock_child_state),
+	(gnl_composition_handle_message), (handle_seek_event),
+	(gnl_composition_change_state), (update_pipeline),
+	(object_start_changed), (object_stop_changed),
+	(object_priority_changed), (object_active_changed),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	Only force state change in (update_pipeline) when not being called from
+	state_change().
+	Properly emit EOS/SEGMENT_DONE at the end, but don't emit SEGMENT_DONE
+	for intermediate steps.
+	* gnl/gnlfilesource.c:
+	cleanup
+	* gnl/gnlobject.c: (gnl_object_ghost_pad_full),
+	(gnl_object_remove_ghost_pad):
+	more debug statements
+	* gnl/gnlsource.c: (gnl_source_class_init), (gnl_source_dispose),
+	(gnl_source_finalize), (element_pad_added_cb),
+	(element_pad_removed_cb), (ghost_seek_pad), (pad_blocked_cb),
+	(has_dynamic_srcpads), (gnl_source_add_element),
+	(gnl_source_remove_element), (gnl_source_send_event),
+	(gnl_source_change_state):
+	Make GnlSource more generic.
+	It now works with dynamic and non-dynamic source pads.
+	Eventually we'll be able to subclass GnlFileSource from GnlSource and
+	remove most of the duplicated code.
+	* tests/check/simple.c: (GST_START_TEST):
+	Removed wrong newsegment checks
+	Added lots more assertions
+
+2006-04-05  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/Makefile.am:
+	Remove buildbot debug craziness since I now know what the problem is.
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/simple.c: (composition_pad_added_cb):
+	Let's do a simple link.
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/Makefile.am:
+	GST_DEBUG=*:4
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/Makefile.am:
+	Higher debug level :(
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_ghost_pad_set_target):
+	If new target and previous target are the same, don't retarget.
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/Makefile.am:
+	Forcing GST_DEBUG to figure out what's going wrong with the buildbots.
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.c: (gnl_media_to_object_time):
+	Bug in converting media time over media_stop
+	
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/simple.c: (GST_START_TEST), (gnonlin_suite):
+	Added new test to check start/duration/stop correctness for
+	sources and compositions.
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.c: (gnl_object_remove_ghost_pad):
+	Free the GnlPadPrivate once we have removed the pad.
+
+2006-04-04  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (update_pipeline):
+	update_pipeline was returning the wrong information.
+	It now returns FALSE only if there was an error updating the pipeline.
+	* tests/check/simple.c: (GST_START_TEST):
+	The test fails if the state_change() DOES return FAILURE.
+
+2006-04-03  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	New pre-release (0.10.0.10).
+	Required version of gstreamer core/-base is 0.10.4.
+	* tests/check/simple.c: (gnonlin_suite):
+	Only run the tests with core > 0.10.4.0
+
+2006-04-03  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/simple.c: (GST_START_TEST):
+	When the pipeline is set to NULL, on slow/loaded systems the pipeline
+	might not have reached that state yet when checking for the refcount
+	of the pipeline/bus. We now check that refcount is between 1 and 2 now.
+
+2006-04-03  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnl.c: (plugin_init):
+	* gnl/gnlcomposition.c: (gnl_composition_class_init),
+	(hash_value_destroy), (gnl_composition_init),
+	(gnl_composition_dispose), (gnl_composition_finalize),
+	(unlock_child_state), (ready_and_lock_child_state),
+	(gnl_composition_reset), (gnl_composition_handle_message),
+	(priority_comp), (have_to_update_pipeline), (get_new_seek_event),
+	(handle_seek_event), (gnl_composition_event_handler),
+	(gnl_composition_ghost_pad_set_target), (get_stack_list),
+	(get_clean_toplevel_stack), (get_src_pad),
+	(gnl_composition_prepare), (gnl_composition_change_state),
+	(objects_start_compare), (objects_stop_compare),
+	(update_start_stop_duration), (no_more_pads_object_cb),
+	(compare_relink_stack), (update_pipeline), (object_start_changed),
+	(object_stop_changed), (object_priority_changed),
+	(object_active_changed), (object_pad_removed),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	* gnl/gnlcomposition.h:
+	* gnl/gnlfilesource.c: (gnl_filesource_class_init),
+	(compare_src_pad), (get_valid_src_pad), (ghost_seek_pad),
+	(pad_blocked_cb), (decodebin_new_pad_cb),
+	(decodebin_pad_removed_cb), (gnl_filesource_init),
+	(gnl_filesource_dispose), (gnl_filesource_finalize),
+	(gnl_filesource_prepare), (gnl_filesource_send_event),
+	(gnl_filesource_set_property), (gnl_filesource_get_property):
+	* gnl/gnlfilesource.h:
+	* gnl/gnlobject.c: (gnl_object_dispose), (ghostpad_event_function),
+	(control_internal_pad), (ghostpad_link_function),
+	(ghostpad_unlink_function), (gnl_object_change_state):
+	* gnl/gnlobject.h:
+	* gnl/gnloperation.c: (gnl_operation_class_init),
+	(gnl_operation_init):
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.c: (gnl_source_class_init), (gnl_source_init),
+	(gnl_source_dispose), (gnl_source_finalize), (compare_src_pad),
+	(get_valid_src_pad), (no_more_pads_in_child),
+	(gnl_source_add_element), (gnl_source_remove_element):
+	* gnl/gnlsource.h:
+	Indent the source code using gstreamer/tools/gst-indent
+
+2006-04-03  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	  clean up like the other modules
+
+2006-03-31  Edward Hervey  <edward@fluendo.com>
+
+	* tests/check/simple.c: (GST_START_TEST):
+	more checking.
+
+2006-03-31  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Add debug, valgrind and gcov. Remove c++/malloc cruft
+	* gnl/gnlcomposition.c: (hash_value_destroy),
+	(gnl_composition_dispose), (gnl_composition_finalize),
+	(unlock_child_state), (ready_and_lock_child_state),
+	(gnl_composition_reset), (gnl_composition_handle_message),
+	(gnl_composition_change_state), (update_pipeline),
+	(object_pad_removed), (gnl_composition_add_object):
+	Handle pads being removed on controlled objects, and remove the
+	composition ghostpad if the object is the top-level one.
+	Memleak fixes.
+	Properly lock/unlock the state of the childs between READY and PAUSED.
+	Properly return success or not in update_pipeline()
+	* gnl/gnlfilesource.c: (decodebin_pad_removed_cb):
+	Use gnl_object_remove_ghost_pad ()
+	* gnl/gnlobject.c: (gnl_object_class_init), (gnl_object_dispose),
+	(translate_incoming_seek), (translate_outgoing_new_segment),
+	(internalpad_event_function), (control_internal_pad),
+	(ghostpad_link_function), (ghostpad_unlink_function),
+	(gnl_object_remove_ghost_pad), (gnl_object_change_state):
+	* gnl/gnlobject.h:
+	Add gnl_object_remove_ghost_pad() to properly remove the GnlPadPrivate
+	data from the ghostpads used in GnlObjects.
+	Memleak fixes.
+	* gnl/gnlsource.c: (gnl_source_remove_element):
+	* tests/check/Makefile.am:
+	* tests/check/simple.c: (composition_pad_added_cb),
+	(GST_START_TEST):
+
+2006-03-30  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* configure.ac:
+	* tests/check/Makefile.am:
+	  use pluginsdir exposed by core and base .pc files to find
+	  elements like videotestsrc and fakesink
+
+2006-03-30  Edward Hervey  <edward@fluendo.com>
+
+	* autogen.sh:
+	Fix up autogen.sh for common/ since we're now in gstreamer cvs.
+
+2006-03-30  Edward Hervey  <edward@fluendo.com>
+
+	* Makefile.am:
+	test/directory is gone
+
+2006-03-30  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	* po/Makefile.in.in:
+	* tests/check/Makefile.am:
+	* tests/check/simple.c: (composition_pad_added_cb),
+	(compare_segments), (sinkpad_event_probe), (videotest_gnl_src),
+	(segment_new), (GST_START_TEST), (gnonlin_suite), (main):
+	  make similar to the other gstreamer modules
+	  remove gettext stuff
+
+2006-03-29  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	pre-release
+	* gnl/gnl.c:
+	Remove gnloperation for (pre-)release
+	* test/Makefile.am:
+	Fix for GST_PLUGIN_PATH since the tests use videotestsrc.
+	* test/simple.c: (gst_element_factory_make_or_warn),
+	(videotest_gnl_src), (GST_START_TEST), (gnonlin_suite):
+	Makes checks for element_factory_make()
+	Make sure we are looking for the proper values.
+	Comment out known broken test for (pre-)release
+
+2006-03-29  Edward Hervey  <edward@fluendo.com>
+
+	* Makefile.am:
+	whoops, trailing back-slash
+
+2006-03-29  Edward Hervey  <edward@fluendo.com>
+
+	* Makefile.am:
+	* configure.ac:
+	* pkgconfig/Makefile.am:
+	* pkgconfig/gnonlin.pc.in:
+	Removing pkgconfig file generation. It's no longer needed since GNonLin
+	are GStreamer plugins and check should be done using the existing tools,
+	and/or at runtime.
+
+2006-03-29  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	* test/Makefile.am:
+	* test/simple.c: (composition_pad_added_cb), (compare_segments),
+	(sinkpad_event_probe), (videotest_gnl_src), (segment_new),
+	(GST_START_TEST), (gnonlin_suite), (main):
+	Added testsuite system.
+	Added first batch of test to test:
+	_ proper start/stop/duration settings/update on sources and compositions
+	_ proper data flow in various source combination
+
+2006-03-28  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_class_init),
+	(gnl_composition_reset), (gnl_composition_event_handler),
+	(gnl_composition_ghost_pad_set_target), (get_clean_toplevel_stack),
+	(no_more_pads_object_cb), (update_pipeline):
+	Add pad template.
+	More debug.
+	* gnl/gnlfilesource.c: (decodebin_pad_removed_cb),
+	(gnl_filesource_init):
+	Add pad template
+	Reset the ghostpad if the decodebin pad gets removed.
+	* gnl/gnlobject.c: (gnl_object_class_init),
+	(gnl_object_cleanup_func), (gnl_object_cleanup),
+	(gnl_object_change_state):
+	Call GnlObject::prepare AFTER calling parent change_state, otherwise
+	pads won't have been re-activated, flushing flash won't have been
+	removed and seek on the pads will definitely not work.
+	Essential for re-using gnlobjects.
+	* gnl/gnlobject.h:
+	* gnl/gnlsource.c: (gnl_source_class_init):
+	Add pad template
+
+2006-03-24  Wim Taymans  <wim@fluendo.com>
+
+	* gnl/gnlobject.c: (gnl_object_class_init), (gnl_object_init),
+	(gnl_object_to_media_time), (gnl_media_to_object_time),
+	(gnl_object_covers_func), (gnl_object_covers),
+	(gnl_object_prepare_func), (gnl_object_prepare),
+	(gnl_object_release_pad), (translate_incoming_seek),
+	(translate_outgoing_seek), (translate_outgoing_new_segment),
+	(internalpad_event_function), (translate_incoming_position_query),
+	(internalpad_query_function), (internalpad_unlink_function),
+	(flush_hack_check), (ghostpad_event_function),
+	(ghostpad_query_function), (control_internal_pad),
+	(ghostpad_link_function), (ghostpad_unlink_function),
+	(gnl_object_ghost_pad_full), (gnl_object_ghost_pad),
+	(gnl_object_ghost_pad_no_target),
+	(gnl_object_ghost_pad_set_target),
+	(translate_message_segment_start),
+	(translate_message_segment_done), (gnl_object_handle_message),
+	(gnl_object_set_caps), (update_values), (gnl_object_set_property),
+	(gnl_object_get_property), (gnl_object_change_state):
+	* gnl/gnlobject.h:
+	Re-indent, move uncommon code out of the main flow.
+
+	* gnl/gnlsource.c: (gnl_source_init), (gnl_source_dispose),
+	(gnl_source_finalize), (no_more_pads_in_child),
+	(gnl_source_add_element), (gnl_source_remove_element):
+	* gnl/gnlsource.h:
+	cleanups.
+
+2006-02-20  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_handle_message),
+	(get_new_seek_event), (get_stack_list), (get_clean_toplevel_stack),
+	(update_pipeline):
+	Fix proper pipeline update when going from one segment to another (as
+	opposed to seek changes).
+	More efficient _update_pipeline()
+	Lots of debug cleanups.
+	* gnl/gnlobject.c: (translate_incoming_position_query),
+	(ghostpad_query_function), (translate_message_segment_done):
+	Implement position query time-shifting.
+
+2006-01-27  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac: 
+	Added requirement for explicit --prefix setting, so that GNonLin
+	doesn't get installed in a path that isn't checked by the GStreamer
+	registry.
+
+2006-01-18  Edward Hervey  <edward@fluendo.com>
+
+	0.10.0.5 release "Doner con patatas"
+
+	* RELEASE:
+	* configure.ac:
+
+2006-01-07  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Remove useless checks
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	Remove gnltimeline.[ch]
+
+2006-01-07  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_handle_message):
+	I got mix up with >= vs > and <= vs <
+	* gnl/gnlobject.c: (translate_message_segment_done):
+	Handle the case where media_stop is GST_CLOCK_TIME_NONE
+
+2006-01-06  Edward Hervey  <edward@fluendo.com>
+
+	Releasing 0.10.0.4 beta release
+	
+	* configure.ac:
+	Remove useless checks
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	Remove gnltimeline.[ch]
+
+2005-12-23  Edward Hervey  <edward@fluendo.com>
+
+	* Makefile.am:
+	* configure.ac:
+	* pkgconfig/Makefile.am:
+	* pkgconfig/gnonlin.pc.in:
+	Add gnonlin.pc for programs depending on gnonlin.
+
+2005-12-21  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Back to devel cycle
+
+2005-12-21  Edward Hervey  <edward@fluendo.com>
+
+	Releasing 0.10.0.2 beta release
+	
+	* RELEASE:
+	* configure.ac:
+
+2005-12-21  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Ignore po/ for the time being
+	* gnl/Makefile.am:
+	Add gnltypes.h to the list of headers
+	Simplify the whole process
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnlcomposition.h:
+	* gnl/gnlfilesource.h:
+	* gnl/gnlobject.h:
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.h:
+	Use local include headers (<gnl/*.h> ==> "*.h")
+
+2005-12-20  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c:
+	Cleanup
+	* gnl/gnlobject.c: (translate_message_segment_done):
+	Handle cases where the GST_SEGMENT_DONE has a format different from
+	GST_FORMAT_TIME. In those situations, bump the segment-done value to
+	object->media_start.
+
+2005-12-20  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_class_init),
+	(gnl_composition_init), (gnl_composition_handle_message),
+	(objects_stop_compare):
+	Update to use GstBin::handle_message virtual method.
+	Fix **stupid** bug in stop_compare GCompareFunc.
+	* gnl/gnlobject.c: (gnl_object_class_init), (gnl_object_init),
+	(gnl_object_handle_message):
+	* gnl/gnlobject.h:
+	Update to use GstBin::handle_message virtual method
+
+2005-12-14  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (objects_start_compare),
+	(objects_stop_compare):
+	Returning the difference of 2 unsigned int, expecting the result
+	to be negative is... somewhat idiotic :)
+
+	* gnl/gnlcomposition.c: (gnl_composition_class_init),
+	(gnl_composition_add_object):
+	* gnl/gnlfilesource.c: (gnl_filesource_class_init):
+	* gnl/gnlobject.c: (gnl_object_class_init),
+	(gnl_object_covers_func), (translate_message_segment_start),
+	(translate_message_segment_done), (update_values):
+	* gnl/gnloperation.c: (gnl_operation_class_init):
+	* gnl/gnlsource.c: (gnl_source_class_init):
+	GNonLin debugging category is now BOLD BLUE.
+	Updated debugging statements with GST_TIME_FORMAT.
+
+2005-12-12  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (compare_relink_stack):
+	Whoops, don't unref too much.
+
+2005-12-10  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_init),
+	(gnl_composition_reset), (gnl_composition_sync_handler),
+	(have_to_update_pipeline), (get_new_seek_event),
+	(handle_seek_event), (gnl_composition_event_handler),
+	(gnl_composition_ghost_pad_set_target), (objects_start_compare),
+	(objects_stop_compare), (no_more_pads_object_cb),
+	(compare_relink_stack), (update_pipeline),
+	(gnl_composition_add_object):
+	Implement better event handling and fix memory leaks.
+	* gnl/gnlfilesource.c: (gnl_filesource_prepare):
+	* gnl/gnlobject.c: (gnl_object_to_media_time),
+	(gnl_media_to_object_time), (translate_incoming_seek),
+	(translate_outgoing_seek), (translate_outgoing_new_segment),
+	(internalpad_event_function), (internalpad_query_function),
+	(internalpad_unlink_function), (ghostpad_event_function),
+	(control_internal_pad), (ghostpad_unlink_function),
+	(gnl_object_ghost_pad_set_target):
+	Implement better event handling
+
+2005-12-08  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c: (pad_blocked_cb):
+	Do this hack from another thread.
+
+2005-12-02  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Preparation for oh ten oh
+
+2005-12-01  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_sync_handler),
+	(objects_start_compare), (objects_stop_compare),
+	(update_start_stop_duration), (update_pipeline),
+	(object_start_changed), (object_stop_changed),
+	(gnl_composition_add_object):
+	Wow, that was some stupid error :)
+	* gnl/gnlobject.c: (translate_incoming_seek),
+	(internalpad_event_function), (flush_hack_check),
+	(ghostpad_event_function), (control_internal_pad),
+	(gnl_object_ghost_pad_full), (gnl_object_ghost_pad_no_target):
+	Better flush handling.
+
+2005-11-26  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_put_sync_handler),
+	(gnl_composition_ghost_pad_set_target):
+	* gnl/gnlobject.c: (gnl_object_put_sync_handler),
+	(translate_outgoing_new_segment), (internalpad_event_function),
+	(gnl_object_ghost_pad_full), (gnl_object_ghost_pad_no_target):
+	* gnl/gnlobject.h:
+	Update for latest API changes
+
+2005-11-18  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlfilesource.c: (gnl_filesource_class_init),
+	(pad_blocked_cb), (gnl_filesource_prepare):
+	Better behaviour as standalone element
+	* gnl/gnlobject.c: (translate_incoming_seek):
+	Added debug
+
+2005-11-04  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_sync_handler),
+	(get_stack_list), (send_initial_seek),
+	(gnl_composition_change_state), (compare_relink_stack),
+	(update_pipeline), (object_start_changed), (object_stop_changed),
+	(object_priority_changed), (object_active_changed),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	Fixed problem in stack traversal
+	Better State-Lock handling of elements
+	
+	* gnl/gnlfilesource.c: (ghost_seek_pad):
+	* gnl/gnlobject.c: (gnl_object_init), (internalpad_event_function),
+	(flush_hack_check), (ghostpad_event_function),
+	(control_internal_pad), (gnl_object_ghost_pad_full),
+	(gnl_object_ghost_pad):
+	* gnl/gnlobject.h:
+	Added fields for segment seeking at the base GnlObject class level
+	Added hack for a flushing seek issue, we get deadlocks otherwise
+
+2005-11-03  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_put_sync_handler),
+	(gnl_composition_init), (gnl_composition_dispose),
+	(gnl_composition_sync_handler),
+	(gnl_composition_ghost_pad_set_target), (get_stack_list),
+	(update_start_stop_duration), (compare_relink_stack):
+	Override bin sync-bus, first step to rebuilding pipeline after
+	segment-done
+	
+	* gnl/gnlfilesource.c: (ghost_seek_pad), (pad_blocked_cb),
+	(decodebin_new_pad_cb), (gnl_filesource_init):
+	Use 'new-pad' signal from decodebin instead of 'no-more-pads'
+
+	* gnl/gnlobject.c: (gnl_object_put_sync_handler),
+	(gnl_object_init), (translate_incoming_seek),
+	(translate_outgoing_newsegment), (translate_message_segment_start),
+	(translate_message_segment_done), (gnl_object_sync_handler),
+	(update_values):
+	* gnl/gnlobject.h:
+	Added sync bus override, with functions to time-shift segment-start
+	and segment-done messages
+
+2005-11-02  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_init),
+	(gnl_composition_finalize), (gnl_composition_reset),
+	(gnl_composition_ghost_pad_set_target),
+	(gnl_composition_find_object_full), (send_initial_seek),
+	(gnl_composition_change_state), (no_more_pads_object_cb),
+	(compare_relink_stack), (update_pipeline),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	* gnl/gnlfilesource.c: (gnl_filesource_class_init),
+	(ghost_seek_pad), (pad_blocked_cb), (decodebin_no_more_pads_cb),
+	(gnl_filesource_init), (gnl_filesource_send_event):
+	* gnl/gnlobject.c: (internalpad_event_function),
+	(internalpad_query_function), (ghostpad_event_function),
+	(ghostpad_query_function), (ghostpad_link_function):
+	* gnl/gnlsource.c: (no_more_pads_in_child),
+	(gnl_source_add_element):
+	Second part of using dynamic pads. Solves deadlocks.
+	Most of the work is down in sources.
+	
+2005-11-02  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	up to 0.9.4.1
+	* gnl/gnl.c:
+	gnonlin and not GNonLin for plugin name
+	* gnl/gnlcomposition.c: (hash_value_destroy),
+	(gnl_composition_init), (gnl_composition_finalize),
+	(gnl_composition_find_object_full), (update_pipeline),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	Use a GMutex instead of a GStaticMutex
+	First step to using dynamic pads : don't add ghostpad at startup
+	* gnl/gnlfilesource.c: (gnl_filesource_class_init):
+	beautification
+
+2005-10-31  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnltypes.h:
+	* gnl/gnlfilesource.c: (gnl_filesource_base_init),
+	(gnl_filesource_class_init), (compare_src_pad),
+	(get_valid_src_pad), (decodebin_no_more_pads_cb),
+	(gnl_filesource_init), (gnl_filesource_dispose),
+	(gnl_filesource_finalize), (gnl_filesource_set_property),
+	(gnl_filesource_get_property):
+	* gnl/gnlfilesource.h:
+	Added GnlFileSource, a higher-level decodebin-based source
+
+	* gnl/gnlcomposition.c: (gnl_composition_class_init),
+	(gnl_composition_init), (gnl_composition_dispose),
+	(gnl_composition_reset), (gnl_composition_bus_watch),
+	(priority_comp), (get_stack_list), (get_clean_toplevel_stack),
+	(gnl_composition_find_object_full), (gnl_composition_find_object),
+	(get_src_pad), (gnl_composition_prepare),
+	(gnl_composition_change_state), (compare_relink_stack),
+	(update_pipeline), (object_start_changed), (object_stop_changed),
+	(object_priority_changed), (object_active_changed),
+	(gnl_composition_add_object), (gnl_composition_remove_object):
+	* gnl/gnlcomposition.h:
+	Added the supa-doopa traversal-with-stack functionnality for figuring out
+	quickly what should be played at any given moment. Why didn't I come up
+	with this before ??
+	Removed deprecated pieces of code
+	
+	* gnl/gnlobject.c: (gnl_object_class_init),
+	(gnl_object_to_media_time), (gnl_media_to_object_time),
+	(gnl_object_covers), (gnl_object_prepare_func),
+	(translate_incoming_seek), (translate_outgoing_seek),
+	(control_internal_pad), (ghostpad_link_function),
+	(ghostpad_unlink_function), (gnl_object_ghost_pad),
+	(gnl_object_ghost_pad_notarget), (gnl_object_ghost_pad_set_target),
+	(update_values), (gnl_object_change_state):
+	* gnl/gnlobject.h:
+	Fixes to the GhostPad system
+	Indentation beautification
+	
+	* gnl/gnlsource.c: (gnl_source_class_init),
+	(no_more_pads_in_child), (gnl_source_remove_element):
+	* gnl/gnlsource.h:
+	Removed unused/useless code
+
+	* gnl/gnlelements.c:
+	bye bye
+
+2005-10-27  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.c: (translate_incoming_seek),
+	(ghostpad_unlink_function), (gnl_object_ghost_pad),
+	(gnl_object_ghost_pad_notarget), (gnl_object_ghost_pad_set_target):
+	* gnl/gnlobject.h:
+	Added two functions to be able to create GnlGhostPad without a target,
+	and be able to set it later on.
+	
+2005-10-27  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlcomposition.c: (gnl_composition_class_init),
+	(hash_value_destroy), (gnl_composition_init),
+	(gnl_composition_dispose), (gnl_composition_finalize),
+	(objects_start_compare), (objects_stop_compare),
+	(update_start_stop_duration), (object_start_changed),
+	(object_stop_changed), (object_priority_changed),
+	(object_active_changed), (gnl_composition_add_object),
+	(gnl_composition_remove_object):
+	* gnl/gnlcomposition.h:
+	Initial Cleanup
+	Added new threadsafe way of handling objects
+
+	* gnl/gnlobject.c: (gnl_object_base_init), (gnl_object_class_init),
+	(gnl_object_init), (gnl_object_prepare_func), (gnl_object_prepare),
+	(gnl_object_release_pad), (translate_incoming_seek),
+	(translate_outgoing_newsegment), (update_values),
+	(gnl_object_set_property), (gnl_object_get_property),
+	(gnl_object_change_state):
+	* gnl/gnlobject.h:
+	stop position for object and media are now read-only
+	Added read/write duration for object and media
+	Saner event time modifications
+	Added GstObjectFlags for GnlObject for figuring out if the object is a
+	source or an operation
+	Re-added prepare virtual method, still have to see if it's useful, I'd
+	prefer to avoid using it...
+	* gnl/gnlsource.c: (gnl_source_class_init), (gnl_source_init),
+	(gnl_source_dispose), (gnl_source_finalize),
+	(no_more_pads_in_child), (gnl_source_remove_element):
+	* gnl/gnlsource.h:
+	Cleanups and proper finalize
+
+2005-10-25  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnlobject.c: (gnl_object_base_init), (gnl_object_class_init),
+	(gnl_object_init), (gnl_object_to_media_time),
+	(gnl_media_to_object_time), (gnl_object_covers_func),
+	(gnl_object_covers), (gnl_object_release_pad),
+	(translate_incoming_seek), (translate_outgoing_seek),
+	(translate_outgoing_newsegment), (internalpad_event_function),
+	(internalpad_query_function), (ghostpad_event_function),
+	(ghostpad_query_function), (control_internal_pad),
+	(ghostpad_link_function), (ghostpad_unlink_function),
+	(gnl_object_ghost_pad), (gnl_object_set_caps),
+	(gnl_object_set_property), (gnl_object_get_property):
+	* gnl/gnlobject.h:
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.c: (gnl_source_base_init), (gnl_source_class_init),
+	(gnl_source_init), (compare_src_pad), (get_valid_src_pad),
+	(no_more_pads_in_child), (gnl_source_add_element),
+	(gnl_source_remove_element), (gnl_source_set_property),
+	(gnl_source_get_property):
+	* gnl/gnlsource.h:
+	* test/Makefile.am:
+	Object and Source are now useable and do proper time-shifting
+	
+2005-10-20  Edward Hervey  <edward@fluendo.com>
+
+	Part II of non-linear world domination.
+
+	* Makefile.am:
+	* docs/Makefile.am:
+	* gnl/Makefile.am:
+	* gnl/gnl.c: (plugin_init):
+	* gnl/gnl.h:
+	* gnl/gnlcomposition.c: (gnl_composition_class_init),
+	(gnl_composition_init):
+	* gnl/gnlcomposition.h:
+	* gnl/gnlobject.c: (gnl_object_base_init), (gnl_object_class_init),
+	(gnl_object_init), (gnl_object_get_property):
+	* gnl/gnlobject.h:
+	* gnl/gnloperation.c: (gnl_operation_class_init),
+	(gnl_operation_init):
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.c: (gnl_source_class_init), (gnl_source_init),
+	(gnl_source_set_element), (gnl_source_get_property):
+	* gnl/gnlsource.h:
+	* gnl/gnltimeline.c: (gnl_timeline_base_init),
+	(gnl_timeline_class_init), (gnl_timeline_init):
+	* gnl/gnltimeline.h:
+	Plugin and ElementFactory are now 0.9 compatible and installable
+	Commented out almost everything, gradually adding features
+
+2005-10-20  Edward Hervey  <edward@fluendo.com>
+
+	* .cvsignore:
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	* docs/Makefile.am:
+	* m4/Makefile.am:
+	* m4/codeset.m4:
+	* m4/gettext.m4:
+	* m4/glibc21.m4:
+	* m4/iconv.m4:
+	* m4/intdiv0.m4:
+	* m4/inttypes-pri.m4:
+	* m4/inttypes.m4:
+	* m4/inttypes_h.m4:
+	* m4/isc-posix.m4:
+	* m4/lcmessage.m4:
+	* m4/lib-ld.m4:
+	* m4/lib-link.m4:
+	* m4/lib-prefix.m4:
+	* m4/progtest.m4:
+	* m4/stdint_h.m4:
+	* m4/uintmax_t.m4:
+	* m4/ulonglong.m4:
+	* makeconfigure:
+	* po/Makefile.in.in:
+	* po/Rules-quot:
+	* po/boldquot.sed:
+	* po/en@boldquot.header:
+	* po/en@quot.header:
+	* po/insert-header.sin:
+	* po/quot.sed:
+	* po/remove-potcdate.sin:
+	* test/Makefile.am:
+	Make gnonlin more gst-0.9 friendly
+
+2005-07-14  Edward Hervey  <edward@fluendo.com>
+
+	* Makefile.am: 
+	* configure.ac:
+	* gnonlin-config.1:
+	* gnonlin-config.in:
+	* gnonlin.spec.in: (Group): 
+	* gnonlin.pc.in: (Cflags): 
+	Updated to 0.9 dependency,
+	removed gnonlin-config
+
+2005-06-21  Edward Hervey  <edward@fluendo.com>
+
+	* gnl/gnltimeline.c: (gnl_timeline_new): 
+	* gnl/gnlcomposition.c: (gnl_composition_new): 
+	* gnl/gnloperation.c: (gnl_operation_new): 
+	* gnl/gnlsource.c: (gnl_source_new): 
+	
+	Removed buggy GST_INFO
+
+2005-06-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* acconfig.h:
+	* acinclude.m4:
+	  remove
+	* common/m4/as-compiler-flag.m4:
+	* common/m4/as-compiler.m4:
+	* common/m4/as-libtool.m4:
+	* common/m4/as-scrub-include.m4:
+	* common/m4/as-version.m4:
+	* common/m4/ax_create_stdint_h.m4:
+	  sync with upstream
+	* configure.ac:
+	* gnonlin-uninstalled.pc.in:
+	  fix up in sync with the installed copy
+	* gnonlin.pc.in:
+	  typos
+
+2005-06-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* docs/libs/Makefile.am:
+	  comment out the DOC_OVERRIDES
+
+2005-06-08  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnltimeline.c: (gnl_timeline_timer_loop):
+	avoid outputting 2 EOS events if there's only one composition
+
+2005-06-03  Edward Hervey  <bilboed@bilboed.com>
+
+	* configure.ac:
+	* Makefile.am:
+	* common/Makefile.am:
+	Forgot to add some files to the dist
+
+2005-05-26  Edward Hervey  <bilboed@bilboed.com>
+
+	* configure.ac:	Releasing 0.2.2
+
+2005-05-26  Edward Hervey  <bilboed@bilboed.com>
+
+	* Makefile.am: (EXTRA_DIST):
+	added normal equivalent of .in files
+
+2005-05-25  Christian Schaller  <cschalle@wildsrc.fluendo.lan>
+
+	* gnl/gnltimeline.c:
+	* gnl/gnlsource.c:
+	* gnl/gnlcomposition.c:
+	GCC4 fixes
+
+2005-05-25  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlsource.c:
+	Handle case where the seek is delayed (using pending_seek)
+
+	* docs/libs/gnonlin-sections.txt:
+	* gnl/gnltimeline.h:
+	* gnl/gnlsource.h:
+	* gnl/gnloperation.h:
+	* gnl/gnlcomposition.h:
+	removed extern _details
+
+	* configure.ac : Releasing 0.2.1
+
+2005-05-25  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlsource.c: (source_queue_media): 
+	missing closing parenthisis
+	removed unused 'filled' variable
+
+2005-05-25  Wouter Paesen <wouter@kangaroot.net>
+
+	Reviewed by : Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlsource.c: (source_queue_media):
+	memleak bugfix
+
+2005-05-23  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlsource.c:
+	safer pre-rolling
+	* gnl/gnltimeline.c:
+	add query/event handling to timeline timer's pads
+	fixed bug in request pad handling
+
+2005-05-06  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlsource.c:
+	No more using global "gnonlin" debug category, using element specific categories
+
+2005-05-06  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnltimeline.c:
+	Added "src_%s" PadTemplate so _request_new_pad() works...
+	
+	* gnl/gnl.c: 
+	* gnl/gnl.h:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlobject.c:
+	* gnl/gnloperation.c:
+	* gnl/gnltimeline.c:
+	No more using global "gnonlin" debug category, using element specific categories
+
+	* docs/libs/tmpl/gnloperation.sgml: added "element" property documentation
+
+	* docs/libs/gnonlin-sections.txt: removed GST_CAT_DEFAULT
+
+2005-05-06  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnltimeline.c:
+	Implemented GstElement->request_new_pad() in order to get a pad
+	corresponding to a composition using standard API.
+	Implement GstBin->add_element() in order to add a composition to the
+	timeline using standard API.
+
+	* gnl/gnloperation.c:
+	GstElement of a GnlOperation can now be set/get using the "element" 
+	property
+
+2005-04-19  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c: 
+	gnl_composition_dispose was superfluous, now removed
+
+2005-04-12  Edward Hervey  <bilboed@bilboed.com>
+
+	* configure.ac: releasing 0.2.0 !!
+
+2005-04-06  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnltimeline.c: (gnl_timeline_query):
+	Prevent a segfault when querying position before anything is scheduled.
+	Patch by Wouter Paesen.
+
+	* gnl/gnlcomposition.c: (gnl_composition_schedule_operation): 
+	Fixe scheduling when there's a gap between the operation's priority and
+	the child object's priority. Patch by Wouter Paesen.
+
+2005-04-06  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnonlin-config.in: 
+	forgot to update it with new values
+
+	* gnl/gnlsource.c: (source_getfunction):
+	gcc-2.95.* compilation error
+
+2005-04-04  Edward Hervey  <bilboed@bilboed.com>
+
+	* test/sourcetest2.c:
+	* test/pipelines.c: 
+	updated to new api
+
+	* test/Makefile.am: commenting out extra tests
+
+	* gnl/gnlobject.c: (gnl_object_covers):	
+	added gtk-doc comment
+
+	* docs/libs/Makefile.am: corrections for distcheck
+
+2005-03-31  Edward Hervey  <bilboed@bilboed.com>
+
+	* docs/libs/tmpl/gnlcomposition.sgml: 
+	* docs/libs/tmpl/gnlobject.sgml:
+	Added documentation on GnlFindMethod, GnlCoverType and GnlDirection
+
+2005-03-31  Edward Hervey  <bilboed@bilboed.com>
+
+	* docs/random/design: 
+	Updated explanatory documentation
+
+2005-03-30  Edward Hervey  <bilboed@bilboed.com>
+
+	* docs/libs/tmpl/gnlcomposition.sgml: 
+
+2005-03-30  Edward Hervey  <bilboed@bilboed.com>
+
+ 	* gnl/gnl.h: 
+	* gnl/gnlobject.h:
+	* docs/libs/gnonlin-sections.txt:
+	* docs/libs/tmpl/gnlobject.sgml:
+	typo error in gnlobject.h,
+	removed documentation for gnl_object_nearest_change()
+
+2005-03-30  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/gnlobject.h:
+	* gnl/gnlobject.c:
+	Removed gnl_object_nearest_change() and cleanup of commented code
+
+2005-03-30  Edward Hervey  <bilboed@bilboed.com>
+
+	* gnl/Makefile.am:
+	* gnl/gnl.h:
+	* gnl/gnltypes.h:
+	* gnl/gnlgroup.c:
+	* gnl/gnlgroup.h:
+	* gnl/gnltimeline.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnlelements.c:
+	* docs/libs/gnonlin-docs.sgml:
+	* docs/libs/gnonlin-sections.txt:
+	* docs/libs/gnonlin.types:
+	* docs/libs/tmpl/gnltimeline.sgml:
+	* docs/libs/tmpl/gnlgroup.sgml:
+	Removing GnlGroup
+
+	* docs/libs/gnonlin-docs.sgml:
+	* docs/libs/gnonlin-sections.txt:
+	* docs/libs/tmpl/gnlobject.sgml:
+	* gnl/gnlobject.h:
+	* gnl/gnlobject.c:
+	Removing rate control property for GnlObject
+
+2005-03-29  Edward Hervey  <bilboed@bilboed.com>
+
+	* test/Makefile.am: 
+	added EXTRA_DIST=pipelines.c and -I$(top_srcdir) to build flags
+
+	* gnl/Makefile.am: (gnl_headers): forgot to add gnlobject.h
+
+	* docs/libs/Makefile.am: (GTKDOC_CFLAGS): added -I$(top_srcdir) for build
+
+	* Makefile.am: (EXTRA_DIST): removed gnonlin.m4
+
+2005-03-24  Edward Hervey  <bilboed@bilboed.com>
+
+	* docs/libs/tmpl/gnl.sgml:
+	* docs/libs/tmpl/gnlcomposition.sgml:
+	* docs/libs/tmpl/gnlgroup.sgml:
+	* docs/libs/tmpl/gnlobject.sgml:
+	* docs/libs/tmpl/gnloperation.sgml:
+	* docs/libs/tmpl/gnlsource.sgml:
+	* docs/libs/tmpl/gnltimeline.sgml:
+	Added sgml file templates for documentation
+
+	* docs/libs/gnonlin.types:
+	* docs/libs/gnonlin-sections.txt:
+	* docs/libs/gnonlin-docs.sgml:
+	Added files for better hierarchy of documentation
+
+	* configure.ac:
+	* docs/Makefile.am:
+	* docs/version.entities.in:
+	* docs/libs/Makefile.am: 
+	Added version.entities for documentation
+
+	* docs/libs/Makefile.am: (GTKDOC_LIBS): added libgnl.la dependency
+
+	* gnl/gnlsource.c: (source_getfunction): typo mistake
+
+	* gnonlin.pc.in: more corrections from Wouter Paesen for correct
+	dependency checks
+
+	* configure.ac: (GST_PLUGIN_LDFLAGS), (GST_REQ): 
+	sanity corrections from Wouter Paesen
+
+2005-03-23  Edward Hervey  <bilboed@bilboed.com>
+
+	* docs/Makefile.am: Make doc build depend on ./configure choice
+
+	* gnl/gnl.c, gnl/gnlcomposition.c, gnl/gnlelements.c,
+	gnl/gnlgroup.c, gnl/gnlgroup.h, gnl/gnlobject.c, gnl/gnlobject.h,
+	gnl/gnloperation.c, gnl/gnloperation.h, gnl/gnlsource.c,
+	gnl/gnlsource.h, gnl/gnltimeline.c, gnl/gnltimeline.h:
+	Modifications so that elements are registered as gst-plugins
+
+	* gnl/Makefile.am: (plugin_LTLIBRARIES): 
+	use plugin_ instead of lib_ so that it's installed in the gst-plugins
+	directory
+
+	* Makefile.am: removed useless lines
+	
+	* gnl/gnlobject.c: (gnl_object_get_property):
+	was setting an enum instead of an int
+
+	* configure.ac: No spaces in value assignment !!
+
+	* test/sourcetest1.c: modified datarate of fakesrc
+
+	* gnl/gnl*.[ch]: correction for GST_DEBUG_* functions
+
+	* gnonlin.pc.in: updated file to correct dependencies versions
+
+2005-03-22  Edward Hervey  <bilboed@bilboed.com>
+
+	* configure.ac, Makefile.am, docs/libs/Makefile.am, docs/Makefile.am: 
+	Added gtk-doc API documentation skeleton
+
+	* gnl/gnl*.[ch]: updated all class files for correct *.h dependency.
+
+	* test/sourcetest1.c, test/sourcetest2.c, test/sourcetest3.c, test/sourcetest4.c :
+	converted to new API
+
+	* test/Makefile.am: deactivated most tests
+

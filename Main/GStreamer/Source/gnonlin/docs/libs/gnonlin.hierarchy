@@ -1,0 +1,26 @@
+GObject
+  GstObject
+    GstPad
+    GstPadTemplate
+    GstPluginFeature
+      GstElementFactory
+      GstTypeFindFactory
+      GstIndexFactory
+    GstElement
+      GstBin
+        GstPipeline
+        GnlObject
+          GnlSource
+            GnlFileSource
+          GnlComposition
+          GnlOperation
+    GstBus
+    GstTask
+    GstClock
+    GstPlugin
+    GstRegistry
+  GstSignalObject
+GInterface
+  GTypePlugin
+  GstChildProxy
+  GstURIHandler

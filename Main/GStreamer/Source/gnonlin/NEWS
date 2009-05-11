@@ -1,0 +1,37 @@
+This is GNonLin 0.10.10 "All Good Things..."
+
+Features of this release
+
+      * Documentation in gtk-doc format
+      * Can handle more complicated combinations/types of operations
+
+This is GNonLin 0.10.9 "Cheese and Wine"
+
+Features of this release
+
+      * Improved support for modifying compositions during playback.
+
+This is GNonLin 0.10.8 "Half a kilo of power points"
+
+Features of this release
+
+      * Fix for latest GstGhostPad behaviour
+      * Memory leak fixes
+
+This is GNonLin 0.10.7 "Anything better ?"
+
+Features of this release
+    
+      * GnlFileSource can use decodebin2 if the USE_DECODEBIN2 
+env variable is set
+      * Deadlock fixes for modifying GnlComposition
+
+
+This is GNonLin 0.10.6, "Who stole my beard ?"
+
+New GnlOperation element for using filters/effects in GnlComposition
+Modification of GnlComposition internal structure for faster behaviour
+Lots of fixes for complex compositions
+Fixes for default sources
+Many more unit tests
+Code and documentation cleanups, more memory leaks fixes
