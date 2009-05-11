@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="gstmulticast"
-	ProjectGUID="{07CE7A34-092E-47DD-A37D-5EE3DE7508C0}"
-	RootNamespace="libgstrawudp"
+	Name="gstfsfunnel"
+	ProjectGUID="{6E8D09D7-99A2-4640-AEB5-80EE26FA745A}"
+	RootNamespace="libgstfunel"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -292,11 +292,7 @@
 			Name="Headers Files"
 			>
 			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\multicast\fs-multicast-stream-transmitter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\multicast\fs-multicast-transmitter.h"
+				RelativePath="..\..\..\Source\farsight2\gst\funnel\fs-funnel.h"
 				>
 			</File>
 		</Filter>
@@ -304,11 +300,7 @@
 			Name="Sources Files"
 			>
 			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\multicast\fs-multicast-stream-transmitter.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\multicast\fs-multicast-transmitter.c"
+				RelativePath="..\..\..\Source\farsight2\gst\funnel\fs-funnel.c"
 				>
 			</File>
 		</Filter>

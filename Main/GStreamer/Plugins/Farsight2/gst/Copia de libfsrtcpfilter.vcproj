@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="gstfunnel"
-	ProjectGUID="{6E8D09D7-99A2-4640-AEB5-80EE26FA745A}"
-	RootNamespace="libgstfunel"
+	Name="gstfsrtcpfilter"
+	ProjectGUID="{77950F94-E30D-41AF-9DB5-DD913CE8C479}"
+	RootNamespace="libgstrtcpfilter"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib"
+				AdditionalDependencies="gstfarsight.lib gstrtp.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
@@ -251,7 +251,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib"
+				AdditionalDependencies="gstfarsight.lib gstrtp.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -292,7 +292,7 @@
 			Name="Headers Files"
 			>
 			<File
-				RelativePath="..\..\..\Source\farsight2\gst\funnel\fs-funnel.h"
+				RelativePath="..\..\..\Source\farsight2\gst\rtcpfilter\fs-rtcp-filter.h"
 				>
 			</File>
 		</Filter>
@@ -300,7 +300,7 @@
 			Name="Sources Files"
 			>
 			<File
-				RelativePath="..\..\..\Source\farsight2\gst\funnel\fs-funnel.c"
+				RelativePath="..\..\..\Source\farsight2\gst\rtcpfilter\fs-rtcp-filter.c"
 				>
 			</File>
 		</Filter>

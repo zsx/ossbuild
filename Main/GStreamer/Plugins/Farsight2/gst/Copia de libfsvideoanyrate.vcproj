@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="gstrtcpfilter"
-	ProjectGUID="{77950F94-E30D-41AF-9DB5-DD913CE8C479}"
-	RootNamespace="libgstrtcpfilter"
+	Name="gstfsvideoanyrate"
+	ProjectGUID="{E829CD43-81B4-42CD-BA4D-9676D485DD70}"
+	RootNamespace="libgstvideoanyrate"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib gstrtp.lib"
+				AdditionalDependencies="gstfarsight.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
@@ -251,7 +251,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib gstrtp.lib"
+				AdditionalDependencies="gstfarsight.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -292,7 +292,7 @@
 			Name="Headers Files"
 			>
 			<File
-				RelativePath="..\..\..\Source\farsight2\gst\rtcpfilter\fs-rtcp-filter.h"
+				RelativePath="..\..\..\Source\farsight2\gst\videoanyrate\videoanyrate.h"
 				>
 			</File>
 		</Filter>
@@ -300,7 +300,7 @@
 			Name="Sources Files"
 			>
 			<File
-				RelativePath="..\..\..\Source\farsight2\gst\rtcpfilter\fs-rtcp-filter.c"
+				RelativePath="..\..\..\Source\farsight2\gst\videoanyrate\videoanyrate.c"
 				>
 			</File>
 		</Filter>

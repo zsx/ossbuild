@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="gstrawudp"
-	ProjectGUID="{9DD0D928-DE01-4222-B8FA-D6ACC2EF7314}"
+	Name="gstmulticast-transmitter"
+	ProjectGUID="{07CE7A34-092E-47DD-A37D-5EE3DE7508C0}"
 	RootNamespace="libgstrawudp"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib gstnetbuffer.lib"
+				AdditionalDependencies="gstfarsight.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
@@ -251,7 +251,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib gstnetbuffer.lib"
+				AdditionalDependencies="gstfarsight.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -292,57 +292,25 @@
 			Name="Headers Files"
 			>
 			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\rawudp\fs-rawudp-component.h"
+				RelativePath="..\..\..\Source\farsight2\transmitters\multicast\fs-multicast-stream-transmitter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\rawudp\fs-rawudp-stream-transmitter.h"
+				RelativePath="..\..\..\Source\farsight2\transmitters\multicast\fs-multicast-transmitter.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\rawudp\fs-rawudp-transmitter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\rawudp\stun.h"
-				>
-			</File>
-			<Filter
-				Name="generated"
-				>
-				<File
-					RelativePath="$(IntDir)\..\..\common\fs-rawudp-marshal.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Sources Files"
 			>
 			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\rawudp\fs-rawudp-component.c"
+				RelativePath="..\..\..\Source\farsight2\transmitters\multicast\fs-multicast-stream-transmitter.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\rawudp\fs-rawudp-stream-transmitter.c"
+				RelativePath="..\..\..\Source\farsight2\transmitters\multicast\fs-multicast-transmitter.c"
 				>
 			</File>
-			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\rawudp\fs-rawudp-transmitter.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\Source\farsight2\transmitters\rawudp\stun.c"
-				>
-			</File>
-			<Filter
-				Name="generated"
-				>
-				<File
-					RelativePath="$(IntDir)\..\..\common\fs-rawudp-marshal.c"
-					>
-				</File>
-			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
