@@ -29,18 +29,21 @@ set BISON_BAT=call "%GENERATEDDIR%\bison.bat"
 set MK_ENUMS_BAT=call "%GENERATEDDIR%\mkenum.bat"
 set GEN_MARSHAL_BAT=call "%GENERATEDDIR%\genmarshal.bat"
 set MK_ENUMS_CUSTOM_BAT=call "%GENERATEDDIR%\mkenum-custom.bat"
+set GEN_PYTHON_BAT=call "%GENERATEDDIR%\genpython.bat"
 
 set SRC_GSTREAMER_DIR=%SOURCEDIR%\gstreamer
 set SRC_GST_PLUGINS_BAD_DIR=%SOURCEDIR%\gst-plugins-bad
 set SRC_GST_PLUGINS_BASE_DIR=%SOURCEDIR%\gst-plugins-base
 set SRC_GST_PLUGINS_GOOD_DIR=%SOURCEDIR%\gst-plugins-good
 set SRC_GST_PLUGINS_FARSIGHT_DIR=%SOURCEDIR%\gst-plugins-farsight
+set SRC_GST_PYTHON_DIR=%SOURCEDIR%\gst-python
 
 set GEN_GSTREAMER_DIR=%GENERATEDDIR%\gstreamer
 set GEN_GST_PLUGINS_BAD_DIR=%GENERATEDDIR%\gst-plugins-bad
 set GEN_GST_PLUGINS_BASE_DIR=%GENERATEDDIR%\gst-plugins-base
 set GEN_GST_PLUGINS_GOOD_DIR=%GENERATEDDIR%\gst-plugins-good
 set GEN_GST_PLUGINS_FARSIGHT_DIR=%GENERATEDDIR%\gst-plugins-farsight
+set GEN_GST_PYTHON_DIR=%GENERATEDDIR%\gst-python
 
 
 mkdir "%DESTDIR%" 2> NUL
@@ -109,6 +112,27 @@ rem gst-plugins-bad/gst/rtpmanager
 
 rem gst-plugins-bad/gst/selector
 %GEN_MARSHAL_BAT% gst_selector_marshal "%SRC_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.list" "%GEN_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.h" "%GEN_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.c"
+
+
+rem gst-python/gst/gst
+%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% gst
+
+rem gst-python/gst/audio
+%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% audio
+
+rem gst-python/gst/video
+%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% video
+
+rem gst-python/gst/tag
+%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% tag
+
+rem gst-python/gst/interfaces
+%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% interfaces
+
+rem gst-python/gst/gst
+%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% pbutils
+
+
 
 
 
