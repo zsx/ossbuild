@@ -4,7 +4,7 @@
 
 
 
-#line 22 "gst\tag.override"
+#line 22 "..\\..\\Source\\gst-python\\gst\\tag.override"
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
@@ -26,7 +26,7 @@ GST_DEBUG_CATEGORY_EXTERN (pygst_debug);
 #define Py_ssize_t int
 #endif
 
-#line 30 "gst\tag.c"
+#line 30 "..\\..\\Source\\gst-python\\gst\\tag.c"
 
 
 /* ---------- types from other modules ---------- */
@@ -55,7 +55,7 @@ static PyTypeObject *_PyGstBaseSink_Type;
 /* ---------- forward type declarations ---------- */
 PyTypeObject PyGstTagDemux_Type;
 
-#line 59 "gst\tag.c"
+#line 59 "..\\..\\Source\\gst-python\\gst\\tag.c"
 
 
 
@@ -361,6 +361,6 @@ pytag_register_classes(PyObject *d)
     }
 
 
-#line 365 "gst\tag.c"
+#line 365 "..\\..\\Source\\gst-python\\gst\\tag.c"
     pygobject_register_class(d, "GstTagDemux", GST_TYPE_TAG_DEMUX, &PyGstTagDemux_Type, Py_BuildValue("(O)", &PyGstElement_Type));
 }

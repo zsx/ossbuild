@@ -4,7 +4,7 @@
 
 
 
-#line 22 "gst\pbutils.override"
+#line 22 "..\\..\\Source\\gst-python\\gst\\pbutils.override"
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
@@ -64,7 +64,7 @@ install_plugins_result_handler(GstInstallPluginsReturn result, gpointer user_dat
 
 }
 #endif
-#line 68 "gst\pbutils.c"
+#line 68 "..\\..\\Source\\gst-python\\gst\\pbutils.c"
 
 
 /* ---------- types from other modules ---------- */
@@ -83,7 +83,7 @@ static PyTypeObject *_PyGstMessage_Type;
 /* ---------- forward type declarations ---------- */
 PyTypeObject PyGstInstallPluginsContext_Type;
 
-#line 87 "gst\pbutils.c"
+#line 87 "..\\..\\Source\\gst-python\\gst\\pbutils.c"
 
 
 
@@ -681,5 +681,5 @@ pypbutils_register_classes(PyObject *d)
     }
 
 
-#line 685 "gst\pbutils.c"
+#line 685 "..\\..\\Source\\gst-python\\gst\\pbutils.c"
 }

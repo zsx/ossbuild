@@ -4,7 +4,7 @@
 
 
 
-#line 24 "gst\interfaces.override"
+#line 24 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
@@ -28,7 +28,7 @@
 #line 23 "xoverlay.override"
 
 #include <gst/interfaces/xoverlay.h>
-#line 32 "gst\interfaces.c"
+#line 32 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 /* ---------- types from other modules ---------- */
@@ -58,7 +58,7 @@ PyTypeObject PyGstPropertyProbe_Type;
 PyTypeObject PyGstTuner_Type;
 PyTypeObject PyGstVideoOrientation_Type;
 
-#line 62 "gst\interfaces.c"
+#line 62 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 
@@ -256,7 +256,7 @@ PyTypeObject PyGstMixerTrack_Type = {
 
 /* ----------- GstMixerOptions ----------- */
 
-#line 158 "gst\interfaces.override"
+#line 158 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_mixer_options_get_values (PyGObject *self)
 {
@@ -280,7 +280,7 @@ _wrap_gst_mixer_options_get_values (PyGObject *self)
     return py_list;
 }
 
-#line 284 "gst\interfaces.c"
+#line 284 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static const PyMethodDef _PyGstMixerOptions_methods[] = {
@@ -643,7 +643,7 @@ PyTypeObject PyGstXOverlay_Type = {
 
 /* ----------- GstColorBalance ----------- */
 
-#line 134 "gst\interfaces.override"
+#line 134 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_color_balance_list_channels(PyGObject *self)
 {
@@ -666,7 +666,7 @@ _wrap_gst_color_balance_list_channels(PyGObject *self)
 
     return py_list;
 }
-#line 670 "gst\interfaces.c"
+#line 670 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -995,7 +995,7 @@ static const GInterfaceInfo __GstColorBalance__iinfo = {
 
 /* ----------- GstMixer ----------- */
 
-#line 110 "gst\interfaces.override"
+#line 110 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_mixer_list_tracks(PyGObject *self)
 {
@@ -1018,10 +1018,10 @@ _wrap_gst_mixer_list_tracks(PyGObject *self)
 		
     return py_list;
 }
-#line 1022 "gst\interfaces.c"
+#line 1022 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
-#line 183 "gst\interfaces.override"
+#line 183 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_mixer_set_volume (PyGObject *self, PyObject *args, PyObject *kwargs)
 {
@@ -1068,10 +1068,10 @@ _wrap_gst_mixer_set_volume (PyGObject *self, PyObject *args, PyObject *kwargs)
     return ret;
 }
 
-#line 1072 "gst\interfaces.c"
+#line 1072 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
-#line 231 "gst\interfaces.override"
+#line 231 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_mixer_get_volume (PyGObject *self, PyObject *args, PyObject *kwargs)
 {
@@ -1109,7 +1109,7 @@ _wrap_gst_mixer_get_volume (PyGObject *self, PyObject *args, PyObject *kwargs)
     return py_tuple;
 }
 
-#line 1113 "gst\interfaces.c"
+#line 1113 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -1769,7 +1769,7 @@ static const GInterfaceInfo __GstNavigation__iinfo = {
 
 /* ----------- GstPropertyProbe ----------- */
 
-#line 293 "gst\interfaces.override"
+#line 293 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_property_probe_get_properties (PyGObject *self)
 {
@@ -1792,10 +1792,10 @@ _wrap_gst_property_probe_get_properties (PyGObject *self)
 
     return py_list;
 }
-#line 1796 "gst\interfaces.c"
+#line 1796 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
-#line 270 "gst\interfaces.override"
+#line 270 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_property_probe_get_property (PyGObject *self, PyObject *args)
 {
@@ -1817,7 +1817,7 @@ _wrap_gst_property_probe_get_property (PyGObject *self, PyObject *args)
 
     return pyg_param_spec_new((GParamSpec*)spec);
 }
-#line 1821 "gst\interfaces.c"
+#line 1821 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -1851,7 +1851,7 @@ _wrap_gst_property_probe_needs_probe_name(PyGObject *self, PyObject *args, PyObj
 
 }
 
-#line 317 "gst\interfaces.override"
+#line 317 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_property_probe_get_values_name (PyGObject *self, PyObject *args)
 {
@@ -1885,7 +1885,7 @@ _wrap_gst_property_probe_get_values_name (PyGObject *self, PyObject *args)
     
     return py_list;
 }
-#line 1889 "gst\interfaces.c"
+#line 1889 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static const PyMethodDef _PyGstPropertyProbe_methods[] = {
@@ -1951,7 +1951,7 @@ PyTypeObject PyGstPropertyProbe_Type = {
 
 /* ----------- GstTuner ----------- */
 
-#line 62 "gst\interfaces.override"
+#line 62 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_tuner_list_channels(PyGObject *self)
 {
@@ -1974,7 +1974,7 @@ _wrap_gst_tuner_list_channels(PyGObject *self)
 		
     return py_list;
 }
-#line 1978 "gst\interfaces.c"
+#line 1978 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -2004,7 +2004,7 @@ _wrap_gst_tuner_get_channel(PyGObject *self)
     return pygobject_new((GObject *)ret);
 }
 
-#line 86 "gst\interfaces.override"
+#line 86 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_tuner_list_norms(PyGObject *self)
 {
@@ -2027,7 +2027,7 @@ _wrap_gst_tuner_list_norms(PyGObject *self)
 		
     return py_list;
 }
-#line 2031 "gst\interfaces.c"
+#line 2031 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -2976,7 +2976,7 @@ static const GInterfaceInfo __GstTuner__iinfo = {
 
 /* ----------- GstVideoOrientation ----------- */
 
-#line 434 "gst\interfaces.override"
+#line 434 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_video_orientation_get_hflip (PyGObject * self)
 {
@@ -2988,10 +2988,10 @@ _wrap_gst_video_orientation_get_hflip (PyGObject * self)
 			 PyBool_FromLong(res),
 			 PyBool_FromLong(flip));
 }
-#line 2992 "gst\interfaces.c"
+#line 2992 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
-#line 447 "gst\interfaces.override"
+#line 447 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_video_orientation_get_vflip (PyGObject * self)
 {
@@ -3003,10 +3003,10 @@ _wrap_gst_video_orientation_get_vflip (PyGObject * self)
 			 PyBool_FromLong(res),
 			 PyBool_FromLong(flip));
 }
-#line 3007 "gst\interfaces.c"
+#line 3007 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
-#line 460 "gst\interfaces.override"
+#line 460 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_video_orientation_get_hcenter (PyGObject * self)
 {
@@ -3019,10 +3019,10 @@ _wrap_gst_video_orientation_get_hcenter (PyGObject * self)
 			 PyBool_FromLong(res),
 			 center);
 }
-#line 3023 "gst\interfaces.c"
+#line 3023 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
-#line 474 "gst\interfaces.override"
+#line 474 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
 _wrap_gst_video_orientation_get_vcenter (PyGObject * self)
 {
@@ -3035,7 +3035,7 @@ _wrap_gst_video_orientation_get_vcenter (PyGObject * self)
 			 PyBool_FromLong(res),
 			 center);
 }
-#line 3039 "gst\interfaces.c"
+#line 3039 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -3402,7 +3402,7 @@ pyinterfaces_register_classes(PyObject *d)
     }
 
 
-#line 3406 "gst\interfaces.c"
+#line 3406 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
     pyg_register_interface(d, "XOverlay", GST_TYPE_X_OVERLAY, &PyGstXOverlay_Type);
     pyg_register_interface(d, "ColorBalance", GST_TYPE_COLOR_BALANCE, &PyGstColorBalance_Type);
     pyg_register_interface_info(GST_TYPE_COLOR_BALANCE, &__GstColorBalance__iinfo);

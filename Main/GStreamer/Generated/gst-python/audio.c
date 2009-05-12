@@ -4,7 +4,7 @@
 
 
 
-#line 22 "gst\audio.override"
+#line 22 "..\\..\\Source\\gst-python\\gst\\audio.override"
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
@@ -32,7 +32,7 @@ GST_DEBUG_CATEGORY_EXTERN (pygst_debug);
 #define Py_ssize_t int
 #endif
 
-#line 36 "gst\audio.c"
+#line 36 "..\\..\\Source\\gst-python\\gst\\audio.c"
 
 
 /* ---------- types from other modules ---------- */
@@ -67,7 +67,7 @@ PyTypeObject PyGstBaseAudioSink_Type;
 PyTypeObject PyGstAudioSink_Type;
 PyTypeObject PyGstRingBuffer_Type;
 
-#line 71 "gst\audio.c"
+#line 71 "..\\..\\Source\\gst-python\\gst\\audio.c"
 
 
 
@@ -2470,7 +2470,7 @@ pyaudio_register_classes(PyObject *d)
     }
 
 
-#line 2474 "gst\audio.c"
+#line 2474 "..\\..\\Source\\gst-python\\gst\\audio.c"
     pygobject_register_class(d, "GstAudioClock", GST_TYPE_AUDIO_CLOCK, &PyGstAudioClock_Type, Py_BuildValue("(O)", &PyGstSystemClock_Type));
     pygobject_register_class(d, "GstAudioFilter", GST_TYPE_AUDIO_FILTER, &PyGstAudioFilter_Type, Py_BuildValue("(O)", &PyGstBaseTransform_Type));
     pyg_register_class_init(GST_TYPE_AUDIO_FILTER, __GstAudioFilter_class_init);

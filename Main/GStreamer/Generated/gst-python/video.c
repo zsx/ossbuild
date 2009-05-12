@@ -4,7 +4,7 @@
 
 
 
-#line 22 "gst\video.override"
+#line 22 "..\\..\\Source\\gst-python\\gst\\video.override"
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
@@ -27,7 +27,7 @@ GST_DEBUG_CATEGORY_EXTERN (pygst_debug);
 #define Py_ssize_t int
 #endif
 
-#line 31 "gst\video.c"
+#line 31 "..\\..\\Source\\gst-python\\gst\\video.c"
 
 
 /* ---------- types from other modules ---------- */
@@ -57,7 +57,7 @@ static PyTypeObject *_PyGstBaseSink_Type;
 PyTypeObject PyGstVideoFilter_Type;
 PyTypeObject PyGstVideoSink_Type;
 
-#line 61 "gst\video.c"
+#line 61 "..\\..\\Source\\gst-python\\gst\\video.c"
 
 
 
@@ -278,7 +278,7 @@ pyvideo_register_classes(PyObject *d)
     }
 
 
-#line 282 "gst\video.c"
+#line 282 "..\\..\\Source\\gst-python\\gst\\video.c"
     pygobject_register_class(d, "GstVideoFilter", GST_TYPE_VIDEO_FILTER, &PyGstVideoFilter_Type, Py_BuildValue("(O)", &PyGstBaseTransform_Type));
     pygobject_register_class(d, "GstVideoSink", GST_TYPE_VIDEO_SINK, &PyGstVideoSink_Type, Py_BuildValue("(O)", &PyGstBaseSink_Type));
 }
