@@ -15,17 +15,20 @@ set MY_SED=sed.exe
 set PATH=%MY_SHAREDBINDIR%;%MY_TOOLSDIR%;%PATH%
 
 set GST_PYTHON_SOURCES_DIR=%1
-set OUTPUT_DIR=%2
+set GENERATED_OUTPUT_DIR=%2
 set MY_PREFIX=%3
 
+set MY_GST_PYTHON_SOURCES_DIR=..\..\Source\gst-python
 
-echo %GST_PYTHON_SOURCES_DIR%
-cd %GST_PYTHON_SOURCES_DIR%
+
+cd %GENERATED_OUTPUT_DIR%
+echo %GENERATED_OUTPUT_DIR%
 
 echo Generating %OUTPUT_DIR%\%MY_PREFIX%.c
-%MY_PYTHON% codegen/codegen.py --load-types gst\arg-types.py --register gst\gst-types.defs --extendpath gst\ --override gst\%MY_PREFIX%.override  --prefix py%MY_PREFIX% gst\%MY_PREFIX%.defs > %OUTPUT_DIR%\gen-%MY_PREFIX%.c
-rem %MY_SED% -e "s/..\\..\\gst\\/..\\\\..\\\\gst\\\\/g" %OUTPUT_DIR%\%MY_PREFIX%.c
-move %OUTPUT_DIR%\gen-%MY_PREFIX%.c %OUTPUT_DIR%\%MY_PREFIX%.c 
+%MY_PYTHON% %MY_GST_PYTHON_SOURCES_DIR%\codegen\codegen.py --load-types %MY_GST_PYTHON_SOURCES_DIR%\gst\arg-types.py --register %MY_GST_PYTHON_SOURCES_DIR%\gst\gst-types.defs --extendpath %MY_GST_PYTHON_SOURCES_DIR%\gst --override %MY_GST_PYTHON_SOURCES_DIR%\gst\%MY_PREFIX%.override  --prefix py%MY_PREFIX% %MY_GST_PYTHON_SOURCES_DIR%\gst\%MY_PREFIX%.defs > gen-%MY_PREFIX%.c
+
+%MY_SED% -e "s/..\\..\\Source\\gst-python\\gst\\/..\\\\..\\\\Source\\\\gst-python\\\\gst\\\\/g" gen-%MY_PREFIX%.c > %MY_PREFIX%.c
+
 
 goto end
 
