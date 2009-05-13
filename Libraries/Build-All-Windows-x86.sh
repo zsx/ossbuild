@@ -670,10 +670,43 @@ if [ ! -f "$LibDir/libavcodec.a" ]; then
 	#mv avutil-49.lib avutil.lib
 fi
 
+
+#################
+# GPL Libraries #
+#################
+
+#libnice
+if [ ! -f "$BinDir/libnice-0.dll" ]; then 
+	unpack_gzip_and_move "libnice.tar.gz" "$PKG_DIR_LIBNICE"
+	mkdir_and_move "$IntDir/libnice"
+	
+	#patch -u -N -i "$LIBRARIES_PATCH_DIR/libnice/stun/rand.c.patch"
+	#patch -u -N -i "$LIBRARIES_PATCH_DIR/libnice/stun/usages/bind.c.patch"
+	#patch -u -N -i "$LIBRARIES_PATCH_DIR/libnice/agent/address.h.patch"
+	#cp -f "$LIBRARIES_PATCH_DIR/libnice/stun/win32_common.h" "$PKG_DIR/stun/win32_common.h"
+	
+	#CFLAGS="$CFLAGS -I$LIBRARIES_PATCH_DIR/libnice/stun/"
+	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	make
+	make install
+	
+	reset_flags
+	
+#	cp "$LIBRARIES_PATCH_DIR/openjpeg/Makefile" .
+#	make install LDFLAGS="-lm" PREFIX=$InstallDir
+#	make clean
+#	
+#	cd "$IntDir/openjpeg"
+#	pexports "$BinDir/libopenjpeg-2.dll" | sed "s/^_//" > in.def
+#	$MSLIB /name:libopenjpeg-2.dll /out:openjpeg.lib /machine:$MSLibMachine /def:in.def
+#	move_files_to_dir "*.exp *.lib" "$LibDir/"
+fi
+
+
 reset_flags
 
 #Make sure the shared directory has all our updates
-create_shared
+#create_shared
 
 #Cleanup CRT
 crt_shutdown

@@ -1,0 +1,11 @@
+--- C:\Work\OSSBuild\Libraries\Source\libnice-0.0.6\stun\usages\bind.c	Tue May  5 16:54:50 2009
++++ C:\Work\OSSBuild\Libraries\Source\libnice-0.0.6\stun\usages\bind.c	Tue May  5 16:55:05 2009
+@@ -41,7 +41,7 @@
+ #include <winsock2.h>
+ #include <ws2tcpip.h>
+ #include "win32_common.h"
+-#define close closesocket
++//#define close closesocket
+ #else
+ #include <sys/types.h>
+ #include <sys/socket.h>
