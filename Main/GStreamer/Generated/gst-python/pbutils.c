@@ -87,6 +87,105 @@ PyTypeObject PyGstInstallPluginsContext_Type;
 
 
 
+/* ----------- GstInstallPluginsContext ----------- */
+
+static int
+_wrap_gst_install_plugins_context_new(PyGBoxed *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { NULL };
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,":GstInstallPluginsContext.__init__", kwlist))
+        return -1;
+    self->gtype = GST_TYPE_INSTALL_PLUGINS_CONTEXT;
+    self->free_on_dealloc = FALSE;
+    self->boxed = gst_install_plugins_context_new();
+
+    if (!self->boxed) {
+        PyErr_SetString(PyExc_RuntimeError, "could not create GstInstallPluginsContext object");
+        return -1;
+    }
+    self->free_on_dealloc = TRUE;
+    return 0;
+}
+
+static PyObject *
+_wrap_gst_install_plugins_context_set_xid(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "xid", NULL };
+    PyObject *py_xid = NULL;
+    guint xid = 0;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O:GstInstallPluginsContext.set_xid", kwlist, &py_xid))
+        return NULL;
+    if (py_xid) {
+        if (PyLong_Check(py_xid))
+            xid = PyLong_AsUnsignedLong(py_xid);
+        else if (PyInt_Check(py_xid))
+            xid = PyInt_AsLong(py_xid);
+        else
+            PyErr_SetString(PyExc_TypeError, "Parameter 'xid' must be an int or a long");
+        if (PyErr_Occurred())
+            return NULL;
+    }
+    pyg_begin_allow_threads;
+    gst_install_plugins_context_set_xid(pyg_boxed_get(self, GstInstallPluginsContext), xid);
+    pyg_end_allow_threads;
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static const PyMethodDef _PyGstInstallPluginsContext_methods[] = {
+    { "set_xid", (PyCFunction)_wrap_gst_install_plugins_context_set_xid, METH_VARARGS|METH_KEYWORDS,
+      NULL },
+    { NULL, NULL, 0, NULL }
+};
+
+PyTypeObject PyGstInstallPluginsContext_Type = {
+    PyObject_HEAD_INIT(NULL)
+    0,                                 /* ob_size */
+    "gst.pbutils.InstallPluginsContext",                   /* tp_name */
+    sizeof(PyGBoxed),          /* tp_basicsize */
+    0,                                 /* tp_itemsize */
+    /* methods */
+    (destructor)0,        /* tp_dealloc */
+    (printfunc)0,                      /* tp_print */
+    (getattrfunc)0,       /* tp_getattr */
+    (setattrfunc)0,       /* tp_setattr */
+    (cmpfunc)0,           /* tp_compare */
+    (reprfunc)0,             /* tp_repr */
+    (PyNumberMethods*)0,     /* tp_as_number */
+    (PySequenceMethods*)0, /* tp_as_sequence */
+    (PyMappingMethods*)0,   /* tp_as_mapping */
+    (hashfunc)0,             /* tp_hash */
+    (ternaryfunc)0,          /* tp_call */
+    (reprfunc)0,              /* tp_str */
+    (getattrofunc)0,     /* tp_getattro */
+    (setattrofunc)0,     /* tp_setattro */
+    (PyBufferProcs*)0,  /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,                      /* tp_flags */
+    NULL,                        /* Documentation string */
+    (traverseproc)0,     /* tp_traverse */
+    (inquiry)0,             /* tp_clear */
+    (richcmpfunc)0,   /* tp_richcompare */
+    0,             /* tp_weaklistoffset */
+    (getiterfunc)0,          /* tp_iter */
+    (iternextfunc)0,     /* tp_iternext */
+    (struct PyMethodDef*)_PyGstInstallPluginsContext_methods, /* tp_methods */
+    (struct PyMemberDef*)0,              /* tp_members */
+    (struct PyGetSetDef*)0,  /* tp_getset */
+    NULL,                              /* tp_base */
+    NULL,                              /* tp_dict */
+    (descrgetfunc)0,    /* tp_descr_get */
+    (descrsetfunc)0,    /* tp_descr_set */
+    0,                 /* tp_dictoffset */
+    (initproc)_wrap_gst_install_plugins_context_new,             /* tp_init */
+    (allocfunc)0,           /* tp_alloc */
+    (newfunc)0,               /* tp_new */
+    (freefunc)0,             /* tp_free */
+    (inquiry)0              /* tp_is_gc */
+};
+
+
 
 /* ----------- functions ----------- */
 
@@ -267,6 +366,171 @@ _wrap_gst_pb_utils_get_element_description(PyObject *self, PyObject *args, PyObj
     Py_INCREF(Py_None);
     return Py_None;
 }
+
+#line 166 "..\\..\\Source\\gst-python\\gst\\pbutils.override"
+static PyObject *
+_wrap_gst_install_plugins_async(PyGObject *self, PyObject *args)
+{
+    PyObject *py_ctx, *py_ret, *py_details, *callback, *cbargs, *data;
+    GstInstallPluginsContext *ctx;
+    GstInstallPluginsReturn ret;
+    gchar **details;
+    gint len;
+    Py_ssize_t i;
+
+    if (PyTuple_Size(args) < 3) {
+	PyErr_SetString(PyExc_TypeError, "install_plugins_async requires at least 3 arguments");
+	return NULL;
+    }
+
+    py_ctx = PySequence_GetItem(args, 1);
+
+    if (!pyg_boxed_check(py_ctx, GST_TYPE_INSTALL_PLUGINS_CONTEXT)) {
+	PyErr_SetString(PyExc_TypeError, "Argument 2 must be a gst.pbutils.InstallPluginsContext");
+	Py_DECREF(py_ctx);
+	return NULL;
+    }
+
+    py_details = PySequence_GetItem(args, 0);
+    if ((!PySequence_Check(py_details)) || (PySequence_Size(py_details) < 1)) {
+	PyErr_SetString(PyExc_TypeError, "Details need to be a non-empty list or tuple of strings");
+	Py_DECREF(py_ctx);
+	Py_DECREF(py_details);
+	return NULL;
+    }
+
+    len = PySequence_Size(py_details);
+    details = g_new0(gchar*, len+1);
+
+    /* Check all items in py_details are strings */
+    for (i = 0; i < len; i++) {
+	PyObject *py_str = PySequence_GetItem(py_details, i);
+	gchar *str;
+
+	if (!PyString_Check(py_str)) {
+	    PyErr_SetString(PyExc_TypeError, "Details need to be a non-empty list or tuple of strings");
+	    Py_DECREF(py_str);
+	    Py_DECREF(py_ctx);
+	    Py_DECREF(py_details);
+	    g_strfreev(details);
+	    return NULL;
+	}
+	if (!(str = PyString_AsString(py_str))) {
+	    Py_DECREF(py_str);
+	    Py_DECREF(py_ctx);
+	    Py_DECREF(py_details);
+	    g_strfreev(details);
+	    return NULL;
+	}
+	details[i] = g_strdup(str);
+	Py_DECREF(py_str);
+    }
+
+    callback = PySequence_GetItem(args, 2);
+    if (!PyCallable_Check(callback)) {
+	PyErr_SetString(PyExc_TypeError, "callback is not callable");
+	Py_DECREF(callback);
+	Py_DECREF(py_ctx);
+	Py_DECREF(py_details);
+	g_strfreev(details);
+    }
+    
+    if (!(cbargs = PySequence_GetSlice(args, 3, PyTuple_Size(args)))) {
+	Py_DECREF(callback);
+	Py_DECREF(py_ctx);
+	Py_DECREF(py_details);
+	g_strfreev(details);
+	return NULL;
+    }
+    if (!(data = Py_BuildValue("(ON)", callback, cbargs))) {
+	Py_DECREF(py_details);
+	Py_DECREF(py_ctx);
+	Py_DECREF(callback);
+	Py_DECREF(cbargs);
+    }
+
+    ctx = (GstInstallPluginsContext *) pyg_boxed_get(py_ctx, GstInstallPluginsContext);
+    pyg_begin_allow_threads;
+    ret = gst_install_plugins_async(details, ctx,
+				    (GstInstallPluginsResultFunc) install_plugins_result_handler,
+				    data);
+    pyg_end_allow_threads;
+
+    g_strfreev(details);
+
+    py_ret = pyg_enum_from_gtype(GST_TYPE_INSTALL_PLUGINS_RETURN, ret);
+    return py_ret;
+}
+#line 465 "..\\..\\Source\\gst-python\\gst\\pbutils.c"
+
+
+#line 100 "..\\..\\Source\\gst-python\\gst\\pbutils.override"
+static PyObject *
+_wrap_gst_install_plugins_sync(PyGObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "details", "context", NULL };
+    PyObject *py_ctx;
+    GstInstallPluginsContext *ctx;
+    GstInstallPluginsReturn ret;
+    gchar **details;
+    gint len;
+    PyObject *py_ret;
+    PyObject *py_details;
+    Py_ssize_t i;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "OO:install_plugins_sync",
+				     kwlist, &py_details, &py_ctx))
+	return NULL;
+
+    if (!pyg_boxed_check(py_ctx, GST_TYPE_INSTALL_PLUGINS_CONTEXT)) {
+	PyErr_SetString(PyExc_TypeError, "Argument 2 must be a gst.pbutils.InstallPluginsContext");
+	return NULL;
+    }
+
+    len = PySequence_Size(py_details);
+    if ((!PySequence_Check(py_details)) || (len < 1)) {
+	PyErr_SetString(PyExc_TypeError, "Details need to be a non-empty list or tuple of strings");
+	Py_DECREF(py_details);
+	return NULL;
+    }
+
+    details = g_new0(gchar*, len+1);
+
+    /* Check all items in py_details are strings */
+    for (i = 0; i < len; i++) {
+	PyObject *py_str = PySequence_GetItem(py_details, i);
+	gchar *str;
+
+	if (!PyString_Check(py_str)) {
+	    PyErr_SetString(PyExc_TypeError, "Details need to be a non-empty list or tuple of strings");
+	    Py_DECREF(py_str);
+	    Py_DECREF(py_details);
+	    g_strfreev(details);
+	    return NULL;
+	}
+	if (!(str = PyString_AsString(py_str))) {
+	    Py_DECREF(py_str);
+	    Py_DECREF(py_details);
+	    g_strfreev(details);
+	    return NULL;
+	}
+	details[i] = g_strdup(str);
+	Py_DECREF(py_str);
+    }
+    
+    ctx = (GstInstallPluginsContext *) pyg_boxed_get(py_ctx, GstInstallPluginsContext);
+
+    pyg_begin_allow_threads;
+    ret = gst_install_plugins_sync(details, ctx);
+    pyg_end_allow_threads;
+
+    g_strfreev(details);
+
+    py_ret = pyg_enum_from_gtype(GST_TYPE_INSTALL_PLUGINS_RETURN, ret);
+    return py_ret;
+}
+#line 533 "..\\..\\Source\\gst-python\\gst\\pbutils.c"
+
 
 static PyObject *
 _wrap_gst_install_plugins_installation_in_progress(PyObject *self)
@@ -583,6 +847,10 @@ const PyMethodDef pypbutils_functions[] = {
       NULL },
     { "get_element_description", (PyCFunction)_wrap_gst_pb_utils_get_element_description, METH_VARARGS|METH_KEYWORDS,
       NULL },
+    { "install_plugins_async", (PyCFunction)_wrap_gst_install_plugins_async, METH_VARARGS,
+      NULL },
+    { "install_plugins_sync", (PyCFunction)_wrap_gst_install_plugins_sync, METH_VARARGS|METH_KEYWORDS,
+      NULL },
     { "install_plugins_installation_in_progress", (PyCFunction)_wrap_gst_install_plugins_installation_in_progress, METH_NOARGS,
       NULL },
     { "install_plugins_supported", (PyCFunction)_wrap_gst_install_plugins_supported, METH_NOARGS,
@@ -622,6 +890,7 @@ const PyMethodDef pypbutils_functions[] = {
 void
 pypbutils_add_constants(PyObject *module, const gchar *strip_prefix)
 {
+  pyg_enum_add(module, "InstallPluginsReturn", strip_prefix, GST_TYPE_INSTALL_PLUGINS_RETURN);
 
   if (PyErr_Occurred())
     PyErr_Print();
@@ -681,5 +950,6 @@ pypbutils_register_classes(PyObject *d)
     }
 
 
-#line 685 "..\\..\\Source\\gst-python\\gst\\pbutils.c"
+#line 954 "..\\..\\Source\\gst-python\\gst\\pbutils.c"
+    pyg_register_boxed(d, "InstallPluginsContext", GST_TYPE_INSTALL_PLUGINS_CONTEXT, &PyGstInstallPluginsContext_Type);
 }

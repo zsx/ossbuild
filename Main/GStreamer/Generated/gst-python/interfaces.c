@@ -1227,6 +1227,17 @@ _wrap_gst_mixer_option_changed(PyGObject *self, PyObject *args, PyObject *kwargs
 }
 
 static PyObject *
+_wrap_gst_mixer_get_mixer_flags(PyGObject *self)
+{
+    guint ret;
+
+    pyg_begin_allow_threads;
+    ret = gst_mixer_get_mixer_flags(GST_MIXER(self->obj));
+    pyg_end_allow_threads;
+    return pyg_flags_from_gtype(GST_TYPE_MIXER_FLAGS, ret);
+}
+
+static PyObject *
 _wrap_GstMixer__do_set_mute(PyObject *cls, PyObject *args, PyObject *kwargs)
 {
     GstMixerClass *iface;
@@ -1288,6 +1299,8 @@ static const PyMethodDef _PyGstMixer_methods[] = {
     { "record_toggled", (PyCFunction)_wrap_gst_mixer_record_toggled, METH_VARARGS|METH_KEYWORDS,
       NULL },
     { "option_changed", (PyCFunction)_wrap_gst_mixer_option_changed, METH_VARARGS|METH_KEYWORDS,
+      NULL },
+    { "get_mixer_flags", (PyCFunction)_wrap_gst_mixer_get_mixer_flags, METH_NOARGS,
       NULL },
     { "do_set_mute", (PyCFunction)_wrap_GstMixer__do_set_mute, METH_VARARGS|METH_KEYWORDS|METH_CLASS,
       NULL },
@@ -1575,24 +1588,6 @@ _wrap_gst_navigation_send_mouse_event(PyGObject *self, PyObject *args, PyObject 
 }
 
 static PyObject *
-_wrap_gst_navigation_send_command(PyGObject *self, PyObject *args, PyObject *kwargs)
-{
-    static char *kwlist[] = { "command", NULL };
-    PyObject *py_command = NULL;
-    GstNavigationCommand command;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O:GstNavigation.send_command", kwlist, &py_command))
-        return NULL;
-    if (pyg_enum_get_value(GST_TYPE_NAVIGATION_COMMAND, py_command, (gint *)&command))
-        return NULL;
-    pyg_begin_allow_threads;
-    gst_navigation_send_command(GST_NAVIGATION(self->obj), command);
-    pyg_end_allow_threads;
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject *
 _wrap_GstNavigation__do_send_event(PyObject *cls, PyObject *args, PyObject *kwargs)
 {
     GstNavigationInterface *iface;
@@ -1626,8 +1621,6 @@ static const PyMethodDef _PyGstNavigation_methods[] = {
     { "send_key_event", (PyCFunction)_wrap_gst_navigation_send_key_event, METH_VARARGS|METH_KEYWORDS,
       NULL },
     { "send_mouse_event", (PyCFunction)_wrap_gst_navigation_send_mouse_event, METH_VARARGS|METH_KEYWORDS,
-      NULL },
-    { "send_command", (PyCFunction)_wrap_gst_navigation_send_command, METH_VARARGS|METH_KEYWORDS,
       NULL },
     { "do_send_event", (PyCFunction)_wrap_GstNavigation__do_send_event, METH_VARARGS|METH_KEYWORDS|METH_CLASS,
       NULL },
@@ -1792,7 +1785,7 @@ _wrap_gst_property_probe_get_properties (PyGObject *self)
 
     return py_list;
 }
-#line 1796 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 1789 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 #line 270 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
@@ -1817,7 +1810,7 @@ _wrap_gst_property_probe_get_property (PyGObject *self, PyObject *args)
 
     return pyg_param_spec_new((GParamSpec*)spec);
 }
-#line 1821 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 1814 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -1885,7 +1878,7 @@ _wrap_gst_property_probe_get_values_name (PyGObject *self, PyObject *args)
     
     return py_list;
 }
-#line 1889 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 1882 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static const PyMethodDef _PyGstPropertyProbe_methods[] = {
@@ -1974,7 +1967,7 @@ _wrap_gst_tuner_list_channels(PyGObject *self)
 		
     return py_list;
 }
-#line 1978 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 1971 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -2027,7 +2020,7 @@ _wrap_gst_tuner_list_norms(PyGObject *self)
 		
     return py_list;
 }
-#line 2031 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 2024 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -2988,7 +2981,7 @@ _wrap_gst_video_orientation_get_hflip (PyGObject * self)
 			 PyBool_FromLong(res),
 			 PyBool_FromLong(flip));
 }
-#line 2992 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 2985 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 #line 447 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
@@ -3003,7 +2996,7 @@ _wrap_gst_video_orientation_get_vflip (PyGObject * self)
 			 PyBool_FromLong(res),
 			 PyBool_FromLong(flip));
 }
-#line 3007 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 3000 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 #line 460 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
@@ -3019,7 +3012,7 @@ _wrap_gst_video_orientation_get_hcenter (PyGObject * self)
 			 PyBool_FromLong(res),
 			 center);
 }
-#line 3023 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 3016 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 #line 474 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
@@ -3035,7 +3028,7 @@ _wrap_gst_video_orientation_get_vcenter (PyGObject * self)
 			 PyBool_FromLong(res),
 			 center);
 }
-#line 3039 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 3032 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
 
 
 static PyObject *
@@ -3167,164 +3160,104 @@ PyTypeObject PyGstVideoOrientation_Type = {
 
 /* ----------- functions ----------- */
 
+#line 352 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
-_wrap_gst_navigation_query_new_commands(PyObject *self)
+_wrap_gst_mixer_message_parse_mute_toggled (PyGstMiniObject * self)
 {
-    PyObject *py_ret;
-    GstQuery *ret;
+    GstMixerTrack *track;
+    gboolean mute;
 
-    pyg_begin_allow_threads;
-    ret = gst_navigation_query_new_commands();
-    pyg_end_allow_threads;
-    py_ret = pygstminiobject_new((GstMiniObject *)ret);
-    if (ret != NULL)
-       gst_mini_object_unref((GstMiniObject *)ret);
-    return py_ret;
-}
-
-static PyObject *
-_wrap_gst_navigation_query_new_angles(PyObject *self)
-{
-    PyObject *py_ret;
-    GstQuery *ret;
-
-    pyg_begin_allow_threads;
-    ret = gst_navigation_query_new_angles();
-    pyg_end_allow_threads;
-    py_ret = pygstminiobject_new((GstMiniObject *)ret);
-    if (ret != NULL)
-       gst_mini_object_unref((GstMiniObject *)ret);
-    return py_ret;
-}
-
-static PyObject *
-_wrap_gst_navigation_query_set_angles(PyObject *self, PyObject *args, PyObject *kwargs)
-{
-    static char *kwlist[] = { "query", "cur_angle", "n_angles", NULL };
-    PyObject *py_cur_angle = NULL, *py_n_angles = NULL;
-    guint cur_angle = 0, n_angles = 0;
-    PyGstMiniObject *query;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O!OO:navigation_query_set_angles", kwlist, &PyGstQuery_Type, &query, &py_cur_angle, &py_n_angles))
-        return NULL;
-    if (py_cur_angle) {
-        if (PyLong_Check(py_cur_angle))
-            cur_angle = PyLong_AsUnsignedLong(py_cur_angle);
-        else if (PyInt_Check(py_cur_angle))
-            cur_angle = PyInt_AsLong(py_cur_angle);
-        else
-            PyErr_SetString(PyExc_TypeError, "Parameter 'cur_angle' must be an int or a long");
-        if (PyErr_Occurred())
-            return NULL;
+    if (GST_MESSAGE(self->obj)->type != GST_MIXER_MESSAGE_MUTE_TOGGLED) {
+	PyErr_SetString(PyExc_TypeError, "Message is not a mute-toggled message");
+	return NULL;
     }
-    if (py_n_angles) {
-        if (PyLong_Check(py_n_angles))
-            n_angles = PyLong_AsUnsignedLong(py_n_angles);
-        else if (PyInt_Check(py_n_angles))
-            n_angles = PyInt_AsLong(py_n_angles);
-        else
-            PyErr_SetString(PyExc_TypeError, "Parameter 'n_angles' must be an int or a long");
-        if (PyErr_Occurred())
-            return NULL;
-    }
-    pyg_begin_allow_threads;
-    gst_navigation_query_set_angles(GST_QUERY(query->obj), cur_angle, n_angles);
-    pyg_end_allow_threads;
-    Py_INCREF(Py_None);
-    return Py_None;
-}
+    gst_mixer_message_parse_mute_toggled (GST_MESSAGE(self->obj), &track, &mute);
 
+    return Py_BuildValue("(OO)",
+			 pygobject_new(G_OBJECT (track)),
+			 PyBool_FromLong(mute));
+}
+#line 3181 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+
+
+#line 370 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
 static PyObject *
-_wrap_gst_navigation_message_new_mouse_over(PyObject *self, PyObject *args, PyObject *kwargs)
+_wrap_gst_mixer_message_parse_record_toggled (PyGstMiniObject * self)
 {
-    static char *kwlist[] = { "src", "active", NULL };
-    PyGObject *src;
-    int active;
-    PyObject *py_ret;
-    GstMessage *ret;
+    GstMixerTrack *track;
+    gboolean record;
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O!i:navigation_message_new_mouse_over", kwlist, &PyGstObject_Type, &src, &active))
-        return NULL;
-    pyg_begin_allow_threads;
-    ret = gst_navigation_message_new_mouse_over(GST_OBJECT(src->obj), active);
-    pyg_end_allow_threads;
-    py_ret = pygstminiobject_new((GstMiniObject *)ret);
-    if (ret != NULL)
-       gst_mini_object_unref((GstMiniObject *)ret);
-    return py_ret;
-}
-
-static PyObject *
-_wrap_gst_navigation_message_new_commands_changed(PyObject *self, PyObject *args, PyObject *kwargs)
-{
-    static char *kwlist[] = { "src", NULL };
-    PyGObject *src;
-    GstMessage *ret;
-    PyObject *py_ret;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O!:navigation_message_new_commands_changed", kwlist, &PyGstObject_Type, &src))
-        return NULL;
-    pyg_begin_allow_threads;
-    ret = gst_navigation_message_new_commands_changed(GST_OBJECT(src->obj));
-    pyg_end_allow_threads;
-    py_ret = pygstminiobject_new((GstMiniObject *)ret);
-    if (ret != NULL)
-       gst_mini_object_unref((GstMiniObject *)ret);
-    return py_ret;
-}
-
-static PyObject *
-_wrap_gst_navigation_message_new_angles_changed(PyObject *self, PyObject *args, PyObject *kwargs)
-{
-    static char *kwlist[] = { "src", "cur_angle", "n_angles", NULL };
-    PyGObject *src;
-    PyObject *py_cur_angle = NULL, *py_n_angles = NULL, *py_ret;
-    guint cur_angle = 0, n_angles = 0;
-    GstMessage *ret;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O!OO:navigation_message_new_angles_changed", kwlist, &PyGstObject_Type, &src, &py_cur_angle, &py_n_angles))
-        return NULL;
-    if (py_cur_angle) {
-        if (PyLong_Check(py_cur_angle))
-            cur_angle = PyLong_AsUnsignedLong(py_cur_angle);
-        else if (PyInt_Check(py_cur_angle))
-            cur_angle = PyInt_AsLong(py_cur_angle);
-        else
-            PyErr_SetString(PyExc_TypeError, "Parameter 'cur_angle' must be an int or a long");
-        if (PyErr_Occurred())
-            return NULL;
+    if (GST_MESSAGE(self->obj)->type != GST_MIXER_MESSAGE_RECORD_TOGGLED) {
+	PyErr_SetString(PyExc_TypeError, "Message is not a record-toggled message");
+	return NULL;
     }
-    if (py_n_angles) {
-        if (PyLong_Check(py_n_angles))
-            n_angles = PyLong_AsUnsignedLong(py_n_angles);
-        else if (PyInt_Check(py_n_angles))
-            n_angles = PyInt_AsLong(py_n_angles);
-        else
-            PyErr_SetString(PyExc_TypeError, "Parameter 'n_angles' must be an int or a long");
-        if (PyErr_Occurred())
-            return NULL;
-    }
-    pyg_begin_allow_threads;
-    ret = gst_navigation_message_new_angles_changed(GST_OBJECT(src->obj), cur_angle, n_angles);
-    pyg_end_allow_threads;
-    py_ret = pygstminiobject_new((GstMiniObject *)ret);
-    if (ret != NULL)
-       gst_mini_object_unref((GstMiniObject *)ret);
-    return py_ret;
+    gst_mixer_message_parse_record_toggled (GST_MESSAGE(self->obj), &track, &record);
+
+    return Py_BuildValue("(OO)",
+			 pygobject_new(G_OBJECT (track)),
+			 PyBool_FromLong(record));
 }
+#line 3201 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+
+
+#line 388 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
+static PyObject *
+_wrap_gst_mixer_message_parse_volume_changed (PyGstMiniObject * self)
+{
+    GstMixerTrack *track;
+    gint *volumes;
+    gint num_channels;
+    PyObject *pvolumes;
+    int i;
+
+    if (GST_MESSAGE(self->obj)->type != GST_MIXER_MESSAGE_VOLUME_CHANGED) {
+	PyErr_SetString(PyExc_TypeError, "Message is not a volume-changed message");
+	return NULL;
+    }
+    gst_mixer_message_parse_volume_changed (GST_MESSAGE(self->obj), &track, &volumes, &num_channels);
+
+    pvolumes = PyList_New (num_channels);
+
+    for (i = 0; i < num_channels; ++i) {
+	PyList_SET_ITEM (pvolumes, i, PyInt_FromLong (volumes[i]));
+    }
+    g_free (volumes);
+
+    return Py_BuildValue("(OOi)",
+			 pygobject_new(G_OBJECT (track)),
+			 pvolumes, num_channels);
+}
+#line 3231 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+
+
+#line 416 "..\\..\\Source\\gst-python\\gst\\interfaces.override"
+static PyObject *
+_wrap_gst_mixer_message_parse_option_changed (PyGstMiniObject * self)
+{
+    GstMixerOptions *options;
+    const gchar *value = NULL;
+
+    if (GST_MESSAGE(self->obj)->type != GST_MIXER_MESSAGE_OPTION_CHANGED) {
+	PyErr_SetString(PyExc_TypeError, "Message is not a option-changed message");
+	return NULL;
+    }
+    gst_mixer_message_parse_option_changed (GST_MESSAGE(self->obj), &options, &value);
+
+    return Py_BuildValue("(Os)",
+			 pygobject_new(G_OBJECT (options)),
+			 value);
+}
+#line 3251 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+
 
 const PyMethodDef pyinterfaces_functions[] = {
-    { "navigation_query_new_commands", (PyCFunction)_wrap_gst_navigation_query_new_commands, METH_NOARGS,
+    { "mixer_message_parse_mute_toggled", (PyCFunction)_wrap_gst_mixer_message_parse_mute_toggled, METH_NOARGS,
       NULL },
-    { "navigation_query_new_angles", (PyCFunction)_wrap_gst_navigation_query_new_angles, METH_NOARGS,
+    { "mixer_message_parse_record_toggled", (PyCFunction)_wrap_gst_mixer_message_parse_record_toggled, METH_NOARGS,
       NULL },
-    { "navigation_query_set_angles", (PyCFunction)_wrap_gst_navigation_query_set_angles, METH_VARARGS|METH_KEYWORDS,
+    { "mixer_message_parse_volume_changed", (PyCFunction)_wrap_gst_mixer_message_parse_volume_changed, METH_NOARGS,
       NULL },
-    { "navigation_message_new_mouse_over", (PyCFunction)_wrap_gst_navigation_message_new_mouse_over, METH_VARARGS|METH_KEYWORDS,
-      NULL },
-    { "navigation_message_new_commands_changed", (PyCFunction)_wrap_gst_navigation_message_new_commands_changed, METH_VARARGS|METH_KEYWORDS,
-      NULL },
-    { "navigation_message_new_angles_changed", (PyCFunction)_wrap_gst_navigation_message_new_angles_changed, METH_VARARGS|METH_KEYWORDS,
+    { "mixer_message_parse_option_changed", (PyCFunction)_wrap_gst_mixer_message_parse_option_changed, METH_NOARGS,
       NULL },
     { NULL, NULL, 0, NULL }
 };
@@ -3337,11 +3270,9 @@ pyinterfaces_add_constants(PyObject *module, const gchar *strip_prefix)
 {
   pyg_enum_add(module, "ColorBalanceType", strip_prefix, GST_TYPE_COLOR_BALANCE_TYPE);
   pyg_enum_add(module, "MixerType", strip_prefix, GST_TYPE_MIXER_TYPE);
+  pyg_enum_add(module, "MixerMessageType", strip_prefix, GST_TYPE_MIXER_MESSAGE_TYPE);
+  pyg_flags_add(module, "MixerFlags", strip_prefix, GST_TYPE_MIXER_FLAGS);
   pyg_flags_add(module, "MixerTrackFlags", strip_prefix, GST_TYPE_MIXER_TRACK_FLAGS);
-  pyg_enum_add(module, "NavigationCommand", strip_prefix, GST_TYPE_NAVIGATION_COMMAND);
-  pyg_enum_add(module, "NavigationQueryType", strip_prefix, GST_TYPE_NAVIGATION_QUERY_TYPE);
-  pyg_enum_add(module, "NavigationMessageType", strip_prefix, GST_TYPE_NAVIGATION_MESSAGE_TYPE);
-  pyg_enum_add(module, "NavigationEventType", strip_prefix, GST_TYPE_NAVIGATION_EVENT_TYPE);
   pyg_flags_add(module, "TunerChannelFlags", strip_prefix, GST_TYPE_TUNER_CHANNEL_FLAGS);
 
   if (PyErr_Occurred())
@@ -3402,7 +3333,7 @@ pyinterfaces_register_classes(PyObject *d)
     }
 
 
-#line 3406 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
+#line 3337 "..\\..\\Source\\gst-python\\gst\\interfaces.c"
     pyg_register_interface(d, "XOverlay", GST_TYPE_X_OVERLAY, &PyGstXOverlay_Type);
     pyg_register_interface(d, "ColorBalance", GST_TYPE_COLOR_BALANCE, &PyGstColorBalance_Type);
     pyg_register_interface_info(GST_TYPE_COLOR_BALANCE, &__GstColorBalance__iinfo);
