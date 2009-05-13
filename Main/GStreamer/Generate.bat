@@ -114,6 +114,12 @@ rem gst-plugins-bad/gst/selector
 %GEN_MARSHAL_BAT% gst_selector_marshal "%SRC_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.list" "%GEN_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.h" "%GEN_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.c"
 
 
+rem Copying python generated files
+echo "Copying  %GSTDIR%\Bindings\Python\gst-pb-0.10.23.ignore %SRC_GST_PYTHON_DIR%\gst"
+copy %GSTDIR%\Bindings\Python\gst-pb-0.10.23.ignore %SRC_GST_PYTHON_DIR%\gst
+echo "Copying %GSTDIR%\Bindings\Python\gstversion.override %SRC_GST_PYTHON_DIR%\gst"
+copy %GSTDIR%\Bindings\Python\gstversion.override %SRC_GST_PYTHON_DIR%\gst
+ 
 rem gst-python/gst/gst
 %GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% gst
 
