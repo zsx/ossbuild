@@ -292,11 +292,11 @@
 			Name="generated"
 			>
 			<File
-				RelativePath="$(IntDir)\..\..\common\gstrtpdemux-marshal.c"
+				RelativePath="..\..\..\Generated\gst-plugins-farsight\gst\rtpdemux\gstrtpdemux-marshal.c"
 				>
 			</File>
 			<File
-				RelativePath="$(IntDir)\..\..\common\gstrtpdemux-marshal.h"
+				RelativePath="..\..\..\Generated\gst-plugins-farsight\gst\rtpdemux\gstrtpdemux-marshal.h"
 				>
 			</File>
 		</Filter>
