@@ -311,7 +311,7 @@
 				Name="generated"
 				>
 				<File
-					RelativePath="$(IntDir)\..\..\common\fs-rawudp-marshal.h"
+					RelativePath="..\..\..\Generated\farsight2\transmitters\rawudp\fs-rawudp-marshal.h"
 					>
 				</File>
 			</Filter>
@@ -339,7 +339,7 @@
 				Name="generated"
 				>
 				<File
-					RelativePath="$(IntDir)\..\..\common\fs-rawudp-marshal.c"
+					RelativePath="..\..\..\Generated\farsight2\transmitters\rawudp\fs-rawudp-marshal.c"
 					>
 				</File>
 			</Filter>

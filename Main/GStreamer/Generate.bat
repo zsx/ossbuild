@@ -19,6 +19,7 @@ set TOPDIR=%DIR%\..\..
 set GSTDIR=%DIR%
 set SOURCEDIR=%GSTDIR%\Source
 set GENERATEDDIR=%GSTDIR%\Generated
+set PLUGINSDIR=%GSTDIR%\Plugins
 
 set TOOLSDIR=%TOPDIR%\Tools
 set MAINDIR=%TOPDIR%\Main
@@ -36,8 +37,10 @@ set SRC_GST_PLUGINS_BAD_DIR=%SOURCEDIR%\gst-plugins-bad
 set SRC_GST_PLUGINS_BASE_DIR=%SOURCEDIR%\gst-plugins-base
 set SRC_GST_PLUGINS_GOOD_DIR=%SOURCEDIR%\gst-plugins-good
 set SRC_GST_PLUGINS_FARSIGHT_DIR=%SOURCEDIR%\gst-plugins-farsight
-set SRC_FARSIGHT2_DIR=%SOURCEDIR%\farsght2
+set SRC_FARSIGHT2_DIR=%SOURCEDIR%\farsight2
 set SRC_GST_PYTHON_DIR=%SOURCEDIR%\gst-python
+
+set PLUGINS_FARSIGHT2_DIR=%PLUGINSDIR%\Farsight2
 
 set GEN_GSTREAMER_DIR=%GENERATEDDIR%\gstreamer
 set GEN_GST_PLUGINS_BAD_DIR=%GENERATEDDIR%\gst-plugins-bad
@@ -115,6 +118,18 @@ rem gst-plugins-bad/gst/rtpmanager
 rem gst-plugins-bad/gst/selector
 %GEN_MARSHAL_BAT% gst_selector_marshal "%SRC_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.list" "%GEN_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.h" "%GEN_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.c"
 
+
+rem farsight2/gst/fsrtpconference
+%GEN_MARSHAL_BAT% _fs_rtp_marshal "%PLUGINS_FARSIGHT2_DIR%\gst\fs-rtp-marshal.list" "%GEN_FARSIGHT2_DIR%\gst\fsrtpconference\fs-rtp-marshal.h" "%GEN_FARSIGHT2_DIR%\gst\fsrtpconference\fs-rtp-marshal.c"
+
+
+rem farsight2/gst-libs/farsight
+echo "%PLUGINS_FARSIGHT2_DIR%\gst-libs\farsight-mkenum.list.txt" 
+%MK_ENUMS_BAT% FS "%SRC_FARSIGHT2_DIR%\gst-libs\gst\farsight" "%PLUGINS_FARSIGHT2_DIR%\gst-libs\farsight-mkenum.list.txt" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-enum-types.h" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-enum-types.c"
+%GEN_MARSHAL_BAT% _fs_marshal "%PLUGINS_FARSIGHT2_DIR%\gst-libs\fs-marshal.list" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-marshal.h" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-marshal.c"
+
+rem gst-plugins-bad/transmitters/rawup
+%GEN_MARSHAL_BAT% _fs_rawudp_marshal "%PLUGINS_FARSIGHT2_DIR%\transmitters\fs-rawudp-marshal.list" "%GEN_FARSIGHT2_DIR%\transmitters\rawudp\fs-rawudp-marshal.h" "%GEN_FARSIGHT2_DIR%\transmitters\rawudp\fs-rawudp-marshal.c"
 
 
 rem gst-python/pygst.py.in
