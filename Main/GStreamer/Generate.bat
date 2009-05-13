@@ -36,6 +36,7 @@ set SRC_GST_PLUGINS_BAD_DIR=%SOURCEDIR%\gst-plugins-bad
 set SRC_GST_PLUGINS_BASE_DIR=%SOURCEDIR%\gst-plugins-base
 set SRC_GST_PLUGINS_GOOD_DIR=%SOURCEDIR%\gst-plugins-good
 set SRC_GST_PLUGINS_FARSIGHT_DIR=%SOURCEDIR%\gst-plugins-farsight
+set SRC_FARSIGHT2_DIR=%SOURCEDIR%\farsght2
 set SRC_GST_PYTHON_DIR=%SOURCEDIR%\gst-python
 
 set GEN_GSTREAMER_DIR=%GENERATEDDIR%\gstreamer
@@ -43,6 +44,7 @@ set GEN_GST_PLUGINS_BAD_DIR=%GENERATEDDIR%\gst-plugins-bad
 set GEN_GST_PLUGINS_BASE_DIR=%GENERATEDDIR%\gst-plugins-base
 set GEN_GST_PLUGINS_GOOD_DIR=%GENERATEDDIR%\gst-plugins-good
 set GEN_GST_PLUGINS_FARSIGHT_DIR=%GENERATEDDIR%\gst-plugins-farsight
+set GEN_FARSIGHT2_DIR=%GENERATEDDIR%\farsight2
 set GEN_GST_PYTHON_DIR=%GENERATEDDIR%\gst-python
 
 
@@ -117,31 +119,31 @@ rem gst-plugins-bad/gst/selector
 
 rem gst-python/pygst.py.in
 echo "Generating gst-python/pygst.py.in
-sed.exe -e "s/'@GST_MAJORMINOR@'/\"0.10\"/g" -e "s/_pygst_dir = '@PYGSTDIR@'//g"  %SRC_GST_PYTHON_DIR%\pygst.py.in > %GEN_GST_PYTHON_DIR%\pygst.py.
+sed.exe -e "s/'@GST_MAJORMINOR@'/\"0.10\"/g" -e "s/_pygst_dir = '@PYGSTDIR@'//g"  "%SRC_GST_PYTHON_DIR%\pygst.py.in" > "%GEN_GST_PYTHON_DIR%\pygst.py"
 
 rem Copying python generated files
 echo "Copying  %GSTDIR%\Bindings\Python\gst-pb-0.10.23.ignore %SRC_GST_PYTHON_DIR%\gst"
-copy %GSTDIR%\Bindings\Python\gst-pb-0.10.23.ignore %SRC_GST_PYTHON_DIR%\gst
+copy "%GSTDIR%\Bindings\Python\gst-pb-0.10.23.ignore" "%SRC_GST_PYTHON_DIR%\gst"
 echo "Copying %GSTDIR%\Bindings\Python\gstversion.override %SRC_GST_PYTHON_DIR%\gst"
-copy %GSTDIR%\Bindings\Python\gstversion.override %SRC_GST_PYTHON_DIR%\gst
+copy "%GSTDIR%\Bindings\Python\gstversion.override" "%SRC_GST_PYTHON_DIR%\gst"
  
 rem gst-python/gst/gst
-%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% gst
+%GEN_PYTHON_BAT% "%SRC_GST_PYTHON_DIR%" "%GEN_GST_PYTHON_DIR%" gst
 
 rem gst-python/gst/audio
-%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% audio
+%GEN_PYTHON_BAT% "%SRC_GST_PYTHON_DIR%" "%GEN_GST_PYTHON_DIR%" audio
 
 rem gst-python/gst/video
-%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% video
+%GEN_PYTHON_BAT% "%SRC_GST_PYTHON_DIR%" "%GEN_GST_PYTHON_DIR%" video
 
 rem gst-python/gst/tag
-%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% tag
+%GEN_PYTHON_BAT% "%SRC_GST_PYTHON_DIR%" "%GEN_GST_PYTHON_DIR%" tag
 
 rem gst-python/gst/interfaces
-%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% interfaces
+%GEN_PYTHON_BAT% "%SRC_GST_PYTHON_DIR%" "%GEN_GST_PYTHON_DIR%" interfaces
 
 rem gst-python/gst/gst
-%GEN_PYTHON_BAT% %SRC_GST_PYTHON_DIR% %GEN_GST_PYTHON_DIR% pbutils
+%GEN_PYTHON_BAT% "%SRC_GST_PYTHON_DIR%" "%GEN_GST_PYTHON_DIR%" pbutils
 
 
 
