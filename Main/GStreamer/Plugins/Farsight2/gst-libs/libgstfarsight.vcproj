@@ -127,7 +127,7 @@
 				ExecutionBucket="24"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\Generated\farsight2\gst-libs\farsight&quot;;&quot;$(IntDir)&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst&quot;"
 				PreprocessorDefinitions="HAVE_CONFIG_H"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -295,7 +295,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="24"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\Generated\farsight2\gst-libs\farsight&quot;;&quot;$(IntDir)&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst&quot;"
 				PreprocessorDefinitions="HAVE_CONFIG_H"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -696,6 +696,21 @@
 				<File
 					RelativePath="..\..\..\Generated\farsight2\gst-libs\farsight\fs-enum-types.h"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+							ModuleName="gstreamer-$(ApiVersionString)\gst\farsight"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\..\Generated\farsight2\gst-libs\farsight\fs-marshal.h"

@@ -29,6 +29,7 @@ set FLEX_BAT=call "%GENERATEDDIR%\flex.bat"
 set BISON_BAT=call "%GENERATEDDIR%\bison.bat"
 set MK_ENUMS_BAT=call "%GENERATEDDIR%\mkenum.bat"
 set GEN_MARSHAL_BAT=call "%GENERATEDDIR%\genmarshal.bat"
+set MK_ENUMS_FS_PREFIX_BAT=call "%GENERATEDDIR%\mkenum-fs-prefix.bat"
 set MK_ENUMS_CUSTOM_BAT=call "%GENERATEDDIR%\mkenum-custom.bat"
 set GEN_PYTHON_BAT=call "%GENERATEDDIR%\genpython.bat"
 
@@ -125,7 +126,7 @@ rem farsight2/gst/fsrtpconference
 
 rem farsight2/gst-libs/farsight
 echo "%PLUGINS_FARSIGHT2_DIR%\gst-libs\farsight-mkenum.list.txt" 
-%MK_ENUMS_BAT% FS "%SRC_FARSIGHT2_DIR%\gst-libs\gst\farsight" "%PLUGINS_FARSIGHT2_DIR%\gst-libs\farsight-mkenum.list.txt" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-enum-types.h" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-enum-types.c"
+%MK_ENUMS_FS_PREFIX_BAT% FS "%SRC_FARSIGHT2_DIR%\gst-libs\gst\farsight" "%PLUGINS_FARSIGHT2_DIR%\gst-libs\farsight-mkenum.list.txt" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-enum-types.h" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-enum-types.c"
 %GEN_MARSHAL_BAT% _fs_marshal "%PLUGINS_FARSIGHT2_DIR%\gst-libs\fs-marshal.list" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-marshal.h" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-marshal.c"
 
 
