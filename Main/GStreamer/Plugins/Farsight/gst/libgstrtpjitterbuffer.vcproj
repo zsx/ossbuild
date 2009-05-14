@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="&quot;..\..\..\Generated\gst-plugins-farsight\gst\rtpjitterbuffer&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="&quot;..\..\..\Generated\gst-plugins-farsight\gst\rtpjitterbuffer&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
