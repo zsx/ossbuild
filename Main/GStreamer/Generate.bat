@@ -128,9 +128,12 @@ echo "%PLUGINS_FARSIGHT2_DIR%\gst-libs\farsight-mkenum.list.txt"
 %MK_ENUMS_BAT% FS "%SRC_FARSIGHT2_DIR%\gst-libs\gst\farsight" "%PLUGINS_FARSIGHT2_DIR%\gst-libs\farsight-mkenum.list.txt" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-enum-types.h" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-enum-types.c"
 %GEN_MARSHAL_BAT% _fs_marshal "%PLUGINS_FARSIGHT2_DIR%\gst-libs\fs-marshal.list" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-marshal.h" "%GEN_FARSIGHT2_DIR%\gst-libs\farsight\fs-marshal.c"
 
-rem gst-plugins-bad/transmitters/rawup
+
+rem farsight2/transmitters/rawup
 %GEN_MARSHAL_BAT% _fs_rawudp_marshal "%PLUGINS_FARSIGHT2_DIR%\transmitters\fs-rawudp-marshal.list" "%GEN_FARSIGHT2_DIR%\transmitters\rawudp\fs-rawudp-marshal.h" "%GEN_FARSIGHT2_DIR%\transmitters\rawudp\fs-rawudp-marshal.c"
 
+rem farsight2/config.h.in
+sed.exe -e "s/@GETTEXT_PACKAGE@/farsight2/g" -e "s/@PACKAGE@/farsight2/g" -e "s/@PACKAGE_NAME@/Farsight2/g" -e "s/@VERSION@/0.0.9/g" -e "s/@GST_MAJORMINOR@/0.10/g" -e "s/@HOST_CPU@/x86_32/g"  "%PLUGINS_FARSIGHT2_DIR%\config.h.in" > "%GEN_FARSIGHT2_DIR%\config.h"
 
 rem gst-python/pygst.py.in
 echo "Generating gst-python/pygst.py.in

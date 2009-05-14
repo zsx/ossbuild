@@ -8,7 +8,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;$(IntDir)\..\..\common\&quot;;&quot;..\..\..\Source\farsight2\gst-libs\gst\farsight&quot;"
+		AdditionalIncludeDirectories="&quot;..\..\..\Generated\farsight2\&quot;;&quot;..\..\..\Source\farsight2\gst-libs\gst\farsight&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"

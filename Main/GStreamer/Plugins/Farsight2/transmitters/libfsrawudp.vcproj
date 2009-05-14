@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="..\..\..\Generated\farsight2\transmitters\rawudp"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="..\..\..\Generated\farsight2\transmitters\rawudp"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
