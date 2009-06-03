@@ -1,0 +1,46 @@
+EXPORTS
+
+	gst_gl_display_get_type
+	gst_gl_display_new
+	gst_gl_display_create_context 
+	gst_gl_display_redisplay
+	gst_gl_display_thread_add
+	gst_gl_display_gen_texture
+	gst_gl_display_del_texture
+	gst_gl_display_init_upload
+	gst_gl_display_do_upload
+	gst_gl_display_init_download 
+	gst_gl_display_do_download
+	gst_gl_display_gen_fbo
+	gst_gl_display_use_fbo
+	gst_gl_display_del_fbo
+	gst_gl_display_gen_shader
+	gst_gl_display_del_shader
+	gst_gl_display_set_window_id
+	gst_gl_display_set_client_draw_callback
+	gst_gl_display_set_client_reshape_callback
+
+	gst_gl_buffer_get_type
+	gst_gl_buffer_new
+	gst_gl_buffer_get_size
+	gst_gl_buffer_parse_caps
+
+	gst_gl_filter_get_type
+	gst_gl_filter_render_to_target
+	
+	gst_gl_shader_get_type
+	gst_gl_shader_new
+	gst_gl_shader_set_vertex_source
+	gst_gl_shader_set_fragment_source
+	gst_gl_shader_get_vertex_source
+	gst_gl_shader_get_fragment_source
+	gst_gl_shader_is_compiled
+	gst_gl_shader_compile
+	gst_gl_shader_compile_and_check 
+	gst_gl_shader_release
+	gst_gl_shader_use
+	gst_gl_shader_set_uniform_1i 
+	gst_gl_shader_set_uniform_1f 
+	gst_gl_shader_set_uniform_1fv
+	gst_gl_shader_set_uniform_matrix_4fv 
+	gst_gl_shader_get_attribute_location 

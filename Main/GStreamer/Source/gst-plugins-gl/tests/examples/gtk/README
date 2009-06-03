@@ -1,0 +1,23 @@
+--- Description of the GTK examples ---
+
+- gtkxoverlay:
+Show how to use the xoverlay interface through GTK.
+It's possible to switch bettween GST_STATE through four buttons.
+
+-filternoxoverlay:
+A more complex pipeline is switched bettween the GST states
+without using the xoverlay interface.
+
+-filterxoverlay:
+A more complex pipeline is switched bettween the GST states.
+using the xoverlay interface.
+
+-fxtest:
+(TODO: write a comment)
+
+-pixbufdrop:
+(TODO: write a comment)
+
+--- How to build the GTK examples ---
+
+Using autotools or using tests/examples/gtk/gtk.sln
