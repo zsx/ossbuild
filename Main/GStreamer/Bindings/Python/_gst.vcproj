@@ -121,6 +121,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libgstaudio.lib Winmm.lib"
+				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -251,6 +252,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
