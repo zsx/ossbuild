@@ -58,6 +58,9 @@ mkdir "%DESTDIR%" 2> NUL
 cd /d "%DIR%"
 
 
+rem gstreamer/win32/common/gstconfig.h
+echo "Copying gstconfig.h"
+copy "%SRC_GSTREAMER_DIR%\win32\common\gstconfig.h" "%SRC_GSTREAMER_DIR%\gst\gstconfig.h"
 
 rem gstreamer/gst
 %GEN_MARSHAL_BAT% gst_marshal "%SRC_GSTREAMER_DIR%\gst\gstmarshal.list" "%GEN_GSTREAMER_DIR%\gst\gstmarshal.h" "%GEN_GSTREAMER_DIR%\gst\gstmarshal.c"
