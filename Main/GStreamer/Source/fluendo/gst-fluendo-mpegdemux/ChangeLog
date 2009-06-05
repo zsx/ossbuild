@@ -1,0 +1,1619 @@
+2009-01-07  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_create_stream),
+	(gst_flups_demux_send_data), (gst_flups_demux_mark_discont),
+	(gst_flups_demux_send_event), (gst_flups_demux_sink_event),
+	(gst_flups_demux_src_query), (gst_flups_demux_reset_psm),
+	(gst_flups_demux_parse_pack_start), (gst_flups_demux_data_cb),
+	(gst_flups_demux_resync), (gst_flups_demux_chain),
+	(gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	Added a strategy to produce a convergence on query duration
+	updating the estimated duration in steps of 2 seconds.
+	Syncronized the code with the gst-plugins-bad branch.
+	Some random cleanups and tabs removed in the source code.
+
+2008-12-11  Release Maker <nomail@fluendo.com>
+
+	* configure.ac: Back to TRUNK.
+
+=== release 0.10.22 ===
+
+2008-11-06  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Set caps on private section pads so that they don't try to be
+	auto-linked in parse_launch.
+
+2008-11-06  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_chain):
+	Fixes decoding errors introduced in LOST_SYNC.
+
+2008-10-17  Release Maker <nomail@fluendo.com>
+
+	* configure.ac: Back to TRUNK.
+
+=== release 0.10.21 ===
+
+2008-10-17  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (is_mpegts_sync),
+	(gst_fluts_demux_sync_scan):
+	Implemented an heuristic strategy in the sync point scanner.
+	Fixes some decoding problems spotted with the Ally McBeal clip.
+
+2008-10-16  Release Maker <nomail@fluendo.com>
+
+	* configure.ac: Back to TRUNK.
+
+=== release 0.10.20 ===
+
+2008-10-16  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_parse_pack_start):
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb):
+	Make sure the PS demuxer element creates valid newsegment events.
+	Based on patches commited at gst-plugins-bad by slomo and bilboed.
+
+2008-10-16  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_get_stream_for_PID),
+	(gst_fluts_stream_pes_buffer_flush),
+	(gst_fluts_stream_pes_buffer_push),
+	(gst_fluts_demux_pes_buffer_flush),
+	(gst_fluts_demux_push_fragment), (gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_sync_scan), (gst_fluts_demux_chain):
+	* src/gstmpegtsdemux.h:
+	Properly handle some resync cases in the buffering strategy.
+
+2008-10-15  Sergi Alvarez  <salvarez@fluendo.com>
+
+	* configure.ac: Drop hardcoded noexecstack
+
+2008-10-15  Release Maker <nomail@fluendo.com>
+
+	* configure.ac: Back to TRUNK.
+
+=== release 0.10.19 ===
+
+2008-10-15  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_stream):
+	Fixes a segfault due the adaptation buffer size strategy.
+
+2008-10-13  Julien Moutte  <julien@fluendo.com>
+
+	* configure.ac: back to Trunk.
+
+=== release 0.10.18 ===
+
+2008-10-13  Julien Moutte  <julien@fluendo.com>
+
+	* configure.ac: Make sure we don't set the Exec stack flag and don't
+	build static libraries.
+
+2008-10-03  Josep Torra Valles  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_stream_pes_buffer_flush):
+	Remove a critical wrongly introduced in my previous commits.
+
+2008-09-23  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_stream_pes_buffer_push),
+	(gst_fluts_demux_parse_stream):
+	* src/gstmpegtsdemux.h:
+	Added PES buffer size adaptation strategy and gain some more speed.
+
+2008-09-23  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_stream_pes_buffer_flush),
+	(gst_fluts_stream_pes_buffer_push),
+	(gst_fluts_demux_pes_buffer_flush), (gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_sink_event):
+	* src/gstmpegtsdemux.h:
+	Improved speed on TS demuxer implementing a buffering strategy
+	before the PES filter. It reduces the overhead of create a lot of
+	small GstBuffers for the PES filter.
+
+2008-08-28  Julien Moutte  <julien@fluendo.com>
+
+	* src/gstmpegdemux.c: Add SVCD support as the demuxer is able
+	to find sync code directly inside the data section skipping 
+	28 bytes each time. This makes cdxaparse optional for those
+	files format.
+
+2008-08-27  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Fix clock observations after discont.
+
+2008-08-15  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	patch by: lazyt@gmx.net
+
+	* src/gstmpegtsdemux.c:
+	Add teletext pad when descriptor present.
+
+2008-08-14  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_get_type),
+	(gst_fluts_demux_get_stream_for_PID),
+	(gst_fluts_demux_parse_adaptation_field):
+	* src/gstsectionfilter.c: (gst_section_is_complete),
+	(gst_section_filter_push):
+	* src/gstsectionfilter.h:
+	Inline some more functions.
+
+2008-08-13  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_sink_setcaps),
+	(gst_fluts_demux_parse_transport_packet),
+	(gst_fluts_demux_sync_scan), (gst_fluts_demux_chain),
+	(gst_fluts_demux_change_state):
+	* src/gstmpegtsdemux.h:
+	Speed up some more reducing the number of times that GstAdapter
+	is manipulated.
+
+2008-08-13  Josep Torra  <josep@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_parse_transport_packet), (gst_fluts_demux_resync):
+	Ensure that some code is always inlined.
+
+2008-08-12  Josep Torra  <josep@fluendo.com>
+
+	* configure.ac:
+	* src/Makefile.am:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_init),
+	(gst_fluts_stream_parse_private_section),
+	(gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_parse_transport_packet),
+	(gst_fluts_demux_change_state):
+	* src/gstmpegtsdemux.h:
+	Added liboil for oil_memcpy.
+	Remved temporaly packet from demux and just use peek/flush.
+	Removed supplied gst_adapter_take_buffer for old gstreamer as it's
+	not used anymore.
+
+2008-08-12  Josep Torra  <josep@fluendo.com>
+
+	* configure.ac:
+	updated to deal with ERROR_CFLAGS.
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_parse_transport_packet),
+	(gst_fluts_demux_src_pad_query), (gst_fluts_demux_change_state):
+	* src/gstmpegtsdemux.h:
+	Some stylistic changes as remove tabs and align code.
+	Improved performance avoiding stressing glib doing memory allocations
+	and stressing gstreamer creating thousands of GstBuffers.
+	Added some FIXME comments about how to improve performance some more.
+
+2008-08-01   Julien Moutte  <julien@fluendo.com>
+
+	* configure.ac: back to TRUNK.
+
+=== release 0.10.17 ===
+
+2008-08-01   Julien Moutte  <julien@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_adapter_take_buffer):
+	* src/gstmpegtsdemux.c: (gst_adapter_take_buffer),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_demux_parse_transport_packet),
+	(gst_fluts_demux_send_event): Fix build on FC5.
+
+2008-08-01  Julien Moutte  <julien@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_adapter_take_buffer): Introduce fallback
+	slow adapter_take_buffer function when compiling against old
+	GStreamer.
+
+2008-07-29  Julien Moutte  <julien@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_src_event):
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_demux_init), (gst_fluts_stream_parse_private_section),
+	(gst_fluts_demux_resync), (gst_fluts_demux_src_pad_query),
+	(gst_fluts_demux_set_property), (gst_fluts_demux_get_property):
+	* src/gstmpegtsdemux.h: Fix a bunch of compiler warnings, and 
+	add a property to trigger M2TS demuxing (without typefind).
+
+2008-06-18  Paul Brossier  <piem@fluendo.com>
+
+	* configure.ac: back to TRUNK.
+
+=== release 0.10.16 ===
+
+2008-03-11  Kapil Agrawal <kapil@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_sink_setcaps): newly added
+	  to get the negotiated caps at sinkpad.
+	  (gst_fluts_demux_init): sets the setcaps function on sinkpad.
+	  (gst_fluts_demux_resync): Changed the sync detection logic, instead of
+	  checking 1 byte we check 4 bytes.
+	* src/gstmpegtsdemux.h: IS_MPEGTS_SYNC macro added that detects the packet
+	  sync.
+	  _GstFluTSDemux : Added new element named packetsize.			 
+											 
+2008-03-06  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	s/GST_ERROR_OBJECT/GST_LOG_OBJECT/
+
+2008-02-28  Josep Torra Valles  <josep@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_event),
+	(gst_flups_demux_sink_event):
+	Post an error message when the EOS event can't be pushed downstream.
+	Fixes ticket #40.
+
+2008-02-20  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Make sure we only demux one program.
+
+2008-02-18  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegdefs.h:
+	* src/gstmpegtsdemux.c:
+	Add parsing of private section pids.
+
+2008-02-13  Release Maker <nomail@fluendo.com>
+
+	* configure.ac: Back to TRUNK.
+
+=== release 0.10.15 ===
+
+2008-02-12  Josep Torra Valles  <josep@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_handle_dvd_event):
+	Create a pad for video when the dvd event is handled, fixes
+	dvdreadsrc/playbin pipelines.
+
+2008-02-12  Josep Torra Valles  <josep@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_src_query), (gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_data_cb), (gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	Added base_time to deal with streams that have start time
+	greater than 0.
+	Changed the behaviour to continue demuxing when it's found an
+	stream of unknown type, the other streams could be valid.
+	Emit no more pads signal after two seconds of bitstream.
+	
+2008-02-11  Josep Torra Valles  <josep@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_sink_event),
+	(gst_flups_demux_src_event), (gst_flups_demux_parse_pack_start):
+	Fixes some typos and a memory leak.
+
+2008-02-11  Josep Torra Valles  <josep@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_class_init),
+	(gst_flups_demux_init), (gst_flups_demux_send_data),
+	(gst_flups_demux_sink_event), (gst_flups_demux_src_event),
+	(gst_flups_demux_src_query), (gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_parse_sys_head), (gst_flups_demux_parse_psm),
+	(gst_flups_demux_resync), (gst_flups_demux_chain),
+	(gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_stream_parse_pmt),
+	(gst_fluts_demux_parse_stream):
+	* src/gstpesfilter.c: (gst_pes_filter_init),
+	(gst_pes_filter_uninit), (gst_pes_filter_parse),
+	(gst_pes_filter_process), (gst_pes_filter_flush):
+	* src/gstpesfilter.h:
+	Code cleanup, removed an obsolete hack to resync with DTS.
+	Added more accurate calcultion for position and duration using
+	bytes/SCR interpolation.
+	Added code to track the byte offset in the adapter.
+	Added some comments on the code.
+	Added/changed some GST_DEBUG info.
+
+2008-02-04  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Be more stringent when wildly different pts comes in and
+	drop packet if timestamp is far away from what it should
+	be.
+
+2008-02-02  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Use the correct unref methods!
+
+2008-02-01  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Replace GST_PAD_PEER with gst_pad_get_peer.
+
+2008-02-01  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Do not use gst_pad_peer_query() which was introduced in
+	0.10.15.
+
+2008-01-31  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Run gst-indent.
+	If a pid is PCR for more than one PMT or does not actually belong
+	to a known program, still update when disconts/wraparounds occur.
+
+2008-01-30  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Do not parse pmt if we're not interested, ie if program
+	number is different to the one set by the property.
+
+2008-01-26  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	reviewed by: Zaheer Abbas Merali
+	patch by: Alessandro Decina
+
+	* src/gstmpegtsdemux.c:
+	* src/gstmpegtsdemux.h:
+	Add clocking and latency query handling to flutsdemux.
+
+2008-01-22  Julien Moutte <julien@fluendo.com>
+
+	* configure.ac: back to TRUNK.
+
+= release 0.10.14 ===
+
+2008-01-11  Wim Taymans  <wim.taymans@collabora.co.uk>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_create_stream),
+	(gst_flups_demux_send_data), (gst_flups_demux_mark_discont),
+	(gst_flups_demux_handle_dvd_event), (gst_flups_demux_sink_event),
+	(gst_flups_demux_parse_pack_start), (gst_flups_demux_data_cb),
+	(gst_flups_demux_resync), (gst_flups_demux_is_pes_sync),
+	(gst_flups_demux_chain), (gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	Separate discont handling from newsegment.
+	Add basic support for reverse playback.
+
+2008-01-10  Josep Torra Valles <josep@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_resync):
+	Avoid calling gst_adapter_peek_into/memcpy when the parser is
+	in NEED_MORE_DATA behavior and not all required data is 
+	available. Speed improvement.
+
+2008-01-03  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	If wraparound detected in the PTS before detected in the PCR,
+	then do not update base_time..it will be done when detected in
+	the PCR.
+	If PCR discont has been detected, only update base time of all
+	the ES pids if the pid with the pcr is the actual pcr pid
+	for this program. Encountered a ts that has 2 different ES pids
+	with pcr appearing in adaptation field. This causes craziness
+	as both will detect disconts and cause a double update.
+
+2007-11-22  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Handle AC3 streams in DVB by checking streams with private
+	type if the DVB_AC3 descriptor was found in the PMT table
+	for that stream. Based on patch from: Thomas ( LazyT@gmx.net).
+
+	See #69.
+
+2007-11-21  Julien Moutte <julien@fluendo.com>
+
+	* configure.ac: back to TRUNK.
+
+= release 0.10.13 ===
+
+2007-11-21  Julien MOUTTE  <julien@moutte.net>
+
+	* src/flutspmtstreaminfo.h: missing prototype.
+	* src/gstmpegdemux.c: (gst_flups_demux_create_stream),
+	(gst_flups_demux_parse_psm), (gst_flups_demux_chain): Implement
+	PSM parsing to have complete info about the streams and support
+	more formats than just MPEG2. (tested with H264 PS).
+	* src/gstmpegtsdemux.c: (gst_fluts_activate_pmt),
+	(fluts_demux_build_pmt_info): Fix build with -Werror -Wall.
+
+2007-11-19  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c:
+	Fix discont detection code.
+
+2007-08-20  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstsectionfilter.c (gst_section_is_complete):
+	Fix comparison of unsigned int - 3.
+
+2007-08-20  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	patch by: Alessandro Decina
+
+	* src/gstmpegtsdemux.c:
+	Remove "not meant to be committed" debug code.
+
+2007-08-03  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/flutspmtinfo.c (PROP_DESCRIPTORS, fluts_pmt_info_class_init,
+	  fluts_pmt_info_init, fluts_pmt_info_finalize,
+	  fluts_pmt_info_get_property, fluts_pmt_info_add_descriptor):
+	* src/flutspmtinfo.h (descriptors, streams, FluTsPmtInfo):
+	* src/flutspmtstreaminfo.c (PROP_LANGUAGES, PROP_STREAM_TYPE,
+	  PROP_DESCRIPTORS, fluts_pmt_stream_info_class_init,
+	  fluts_pmt_stream_info_init, fluts_pmt_stream_info_finalize,
+	  fluts_pmt_stream_info_new, fluts_pmt_stream_info_add_language,
+	  fluts_pmt_stream_info_add_descriptor,
+	  fluts_pmt_stream_info_get_property):
+	* src/flutspmtstreaminfo.h (stream_type, descriptors,
+	  FluTsPmtStreamInfo):
+	* src/gstmpegtsdemux.c (private_template, gst_fluts_activate_pmt,
+	  gst_fluts_demux_parse_stream, fluts_demux_build_pmt_info):
+	Patch from: Allesandro Decina
+
+	Adds a descriptors property to the pmt info. Needed for handling
+	CA with dvb outside of the demuxer.
+
+2007-06-26  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegdesc.c (gst_mpeg_descriptor_nth):
+	Fix from: Alessandro Decina
+	Fix obviously incorrect logic.
+
+2007-06-07  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c:
+	* src/gstmpegtsdemux.c:
+	Make the pad templates match the names of the pads produced.
+	Closes: #49 (https://core.fluendo.com/gstreamer/trac/ticket/49)
+
+2007-06-07  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_class_init),
+	(gst_flups_demux_init):
+	Make the default sync method be SCR rather than auto-switching, which
+	seems broken. 
+	Fixes https://core.fluendo.com/gstreamer/trac/ticket/53
+
+= release 0.10.12 ===
+
+2007-05-25  Christian Schaller <christian at fluendo dot com>
+
+	* configure.ac: revery 0.10.10 requirement to 0.10.3
+
+
+2007-04-05  Zaheer Abbas Merali  <<zaheerabbas at merali dot org>>
+
+	* src/gstmpegtsdemux.c (gst_fluts_demux_data_cb):
+	Check for PMT_pid being a valid pid number before using it
+	as an index.
+
+2007-03-30  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_src_query):
+	Fix my inverted logic in the query check.
+	Fix the DTS/SCR sync switch logic so it doesn't switch to DTS if the
+	SCR ends up slightly behind the DTS for whatever reason.
+
+2007-03-30  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_src_query):
+	See if upstream can answer duration queries in the desired
+	format directly.
+
+2007-03-29  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c (gst_fluts_demux_data_cb):
+	Sanity-check the wraparound conditions.
+
+2007-03-28  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb),
+	(gst_fluts_demux_resync_cb), (gst_fluts_demux_is_reserved_PID),
+	(gst_fluts_demux_get_stream_for_PID), (gst_fluts_stream_parse_pmt),
+	(gst_fluts_demux_parse_adaptation_field):
+	* src/gstmpegtsdemux.h:
+	Handle disconts in pcr.
+
+2007-03-22  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_src_query):
+
+	Make sure to pass unknown queries upstream so they can be handled.
+
+2007-02-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	  use new AG_GST
+
+2007-02-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_src_event):
+	Handle the case of setting stop time in a seek to -1, which indicates
+	that playback should continue until the end of file.
+
+=== release 0.10.11 ===
+
+2007-02-16  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdefs.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_is_dirac_stream),
+	(gst_fluts_stream_is_video), (gst_fluts_demux_fill_stream),
+	(gst_fluts_demux_data_cb), (gst_fluts_stream_parse_pmt):
+	* src/gstmpegtsdemux.h:
+	* src/gstpesfilter.c: (gst_pes_filter_init),
+	(gst_pes_filter_is_sync), (gst_pes_filter_parse):
+	* src/gstpesfilter.h:
+	Implement the new Dirac mapping based on a recognising a Registration
+	Descriptor.
+
+	Remove mention of Timecode
+
+2007-01-25  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_transport_packet):
+	Fix compilation on GStreamer < 0.10.6 by not using gst_adapter_take_buffer.
+
+=== release 0.10.10 ===
+
+2006-12-19  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c:
+	Define GST_FLOW_IS_OK locally when not available (on GStreamer core <
+	0.10.7)
+
+2006-12-19  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c:
+	Define GST_BUFFER_IS_DISCONT locally if it's not available (because
+	we're compiling on an older GStreamer for example)
+
+=== release 0.10.9 ===
+
+2006-11-23  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_handle_dvd_event), (gst_flups_demux_sink_event),
+	(gst_flups_demux_parse_pack_start), (gst_flups_demux_data_cb),
+	(gst_flups_demux_is_pes_sync), (gst_flups_demux_chain):
+	Move code to mark streams as DISCONT to a function.
+	Mark streams DISCONT when input buffer is discont and after
+	a flush stop.
+
+2006-11-14  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_activate_pmt):
+	Comment out pad removal.
+
+2006-11-14  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb),
+	Fix bug where packet arriving after wrap around but with pts
+	before wrap around will set last_time.
+	(fluts_demux_build_pmt_info):
+	Use g_strndup instead of a for loop :)
+
+2006-11-13  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/flutspmtstreaminfo.c: (fluts_pmt_stream_info_class_init),
+	(fluts_pmt_stream_info_set_property),
+	(fluts_pmt_stream_info_get_property):
+	* src/flutspmtstreaminfo.h:
+	Add a languages GValueArray to the PMT stream info.  Useful for
+	getting the languages covered by an elementary stream.
+	* src/gstmpegdesc.h:
+	Make macro for getting the language code more useful, a pointer to
+	the first of the 3 characters is more useful than a guint32 of the
+	24 bytes.
+	* src/gstmpegtsdemux.c: (fluts_demux_build_pmt_info):
+	Add languages to the PMT stream info, if they exist.
+
+2006-11-13  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_stream_parse_pmt):
+	Fix typo that made all video streams be output with MPEG-2 caps,
+	and all audio streams become MP3
+
+2006-11-10  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_remove_pads),
+	Send EOS before removing a pad.
+	(gst_fluts_demux_data_cb):
+	Handle case where pts has wrapped around already but we receive
+	packets with pts of before the wrap around.
+
+2006-11-10  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_remove_pads),
+	(gst_fluts_demux_data_cb), (gst_fluts_stream_parse_pmt),
+	(gst_fluts_stream_parse_pat):
+	* src/gstmpegtsdemux.h:
+	Signal no-more-pads before removing pads, to make sure its clear
+	we're starting a new chain.
+
+	Re-activate the current PMT when it changes.
+
+	Don't do wrap-around detection when the pts hasn't been specified in
+	the PES packet.
+
+2006-11-10  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_change_state):
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_reset),
+	(gst_fluts_demux_remove_pads), (gst_fluts_activate_pmt),
+	(gst_fluts_stream_parse_pmt), (gst_fluts_stream_parse_pat),
+	(gst_fluts_demux_parse_stream), (fluts_demux_build_pmt_info):
+	* src/gstpesfilter.c: (gst_pes_filter_init),
+	(gst_pes_filter_uninit):
+	* src/gstpesfilter.h:
+	Simplify PES filter API to remove 'custom_adapter' field.
+	Remove pads when changing to a new PMT. Should work for most cases,
+	but may break when ES PIDS change type.
+	Fix typo uniniting the section_filters.
+	Ignore PMT's and PAT's where current_next_indicator = 0, as this
+	indicates it is for the upcoming program.
+
+2006-11-10  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_reset),
+	Cleanup section filters.
+	(gst_fluts_stream_parse_pmt), (gst_fluts_stream_parse_pat):
+	Create stream for PMT even if program number is different to PMT's
+	program number.
+	If program number is set, only activate the PMT if program number
+	is same as PMT's program number.
+	Still needs work to make sure elementary streams' pads only
+	get created if belonging to active PMT.
+
+2006-11-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_activate_pmt),
+	(gst_fluts_stream_parse_pmt):
+	Make an activate_pmt function to expand shortly.
+
+2006-11-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/flutspmtinfo.c: (fluts_pmt_info_class_init),
+	(fluts_pmt_info_new), (fluts_pmt_info_get_property):
+	* src/flutspmtinfo.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb),
+	(gst_fluts_demux_get_stream_for_PID), (gst_fluts_stream_parse_pmt),
+	(gst_fluts_demux_parse_stream), (fluts_demux_build_pmt_info):
+	* src/gstmpegtsdemux.h:
+	Only issue pmt-info notifications when the PMT for the current
+	program actually changes.
+
+2006-11-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_transport_packet):
+	Need to use gst_adapter_available instead of
+	gst_adapter_available_fast.
+
+2006-11-09  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegdesc.h:
+	Add a way of getting network name details from network name
+	descriptor.
+	* src/gstsectionfilter.c: (gst_section_filter_push):
+	Add fixme for handling pusi correctly in all cases.
+
+2006-11-09  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegdesc.h:
+	Add dvb mpeg descriptor tag definitions.
+
+2006-11-09  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_stream),
+	Fix indentation hell.
+	(fluts_demux_build_pmt_info):
+	Pass PCR pid as the PCR pid when building the pmt info instead of
+	the pmt pid.
+
+2006-11-08  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/Makefile.am:
+	* src/flumpegdemux.c:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_get_stream_for_PID),
+	(gst_fluts_stream_parse_pmt), (gst_fluts_stream_parse_pat),
+	(gst_fluts_demux_parse_stream), (gst_fluts_demux_chain):
+	* src/gstmpegtsdemux.h:
+	* src/gstsectionfilter.c:
+	* src/gstsectionfilter.h:
+	Add section filter, which allows for sections to span across
+	multiple transport stream packets.
+	Make parsing functions use section filter.
+
+2006-11-08  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/flutspmtstreaminfo.c: (fluts_pmt_stream_info_class_init),
+	(fluts_pmt_stream_info_set_property),
+	(fluts_pmt_stream_info_get_property):
+	Actually implement 'pid' property on the FluTsPmtStreamInfo class
+
+2006-11-08  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/Makefile.am:
+	* src/flutspatinfo.c: (fluts_pat_info_class_init):
+	* src/flutspmtinfo.c: (fluts_pmt_info_class_init),
+	(fluts_pmt_info_init), (fluts_pmt_info_new),
+	(fluts_pmt_info_finalize), (fluts_pmt_info_set_property),
+	(fluts_pmt_info_get_property), (fluts_pmt_info_add_stream):
+	* src/flutspmtinfo.h:
+	* src/flutspmtstreaminfo.c: (fluts_pmt_stream_info_base_init),
+	(fluts_pmt_stream_info_class_init), (fluts_pmt_stream_info_init),
+	(fluts_pmt_stream_info_new):
+	* src/flutspmtstreaminfo.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_stream_parse_pmt), (gst_fluts_stream_parse_pat),
+	(fluts_demux_build_pmt_info), (gst_fluts_demux_get_property):
+
+	Add pmt-info property that provides a GObject with 'program-number',
+	'pcr-pid' and 'stream-info' properties. The 'stream-info' property
+	is a GValueArray containing one entry per stream in the program. At
+	the moment the objects provided by the GValueArray only provide a
+	'pid' property.
+
+2006-11-08  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/flutspmtinfo.c: (fluts_pmt_info_new):
+	* src/flutspmtinfo.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_demux_parse_transport_packet),
+	(fluts_demux_build_pat_info), (fluts_demux_build_pmt_info):
+	Fix memory leaks in the pat-info property, and in buffers taken from
+	the adapter. 
+	Disable the pmt-info property until it's implemented properly.
+
+2006-11-07  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/Makefile.am:
+	* src/flutspatinfo.c: (fluts_pat_info_new),
+	(fluts_pat_info_base_init), (fluts_pat_info_class_init),
+	(fluts_pat_info_init), (fluts_pat_info_set_property),
+	(fluts_pat_info_get_property):
+	* src/flutspatinfo.h:
+	* src/flutspmtinfo.c: (fluts_pmt_info_base_init),
+	(fluts_pmt_info_class_init), (fluts_pmt_info_init):
+	* src/flutspmtinfo.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_stream_parse_pat), (fluts_demux_build_pat_info),
+	(fluts_demux_build_pmt_info), (gst_fluts_demux_get_property):
+
+	Implement properties for informing the application about the PAT
+	(Available programs) and PMT (Streams in the program) information,
+	by presenting a GValueArray containing GObjects with readable
+	properties.
+
+	pat-info: GValueArray of objects with "program-no" and "pid"
+	          properties.
+	pmt-info: stubbed out for now. Coming soon.
+
+2006-11-07  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb):
+	Fix wrap around check.
+
+2006-11-07  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_send_new_segment),
+	(gst_fluts_demux_data_cb), (gst_fluts_demux_get_stream_for_PID),
+	(gst_fluts_stream_parse_pmt), (gst_fluts_demux_parse_stream):
+	* src/gstmpegtsdemux.h:
+	Handle pts wraparound in elementary streams by using a base time.
+
+2006-11-07  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_parse_transport_packet):
+	Use gst_adapter_take_buffer to use sub-buffering where possible
+	and avoid copying elementary stream data.
+
+2006-11-07  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_event),
+	(gst_flups_demux_src_event):
+	Fix some -Wextra compiler warnings about signed/unsigned comparisons
+	and ignored values
+
+2006-11-07  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_demux_init), (gst_fluts_demux_data_cb),
+	(gst_fluts_stream_parse_pat), (gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_set_property), (gst_fluts_demux_get_property):
+	* src/gstmpegtsdemux.h:
+	New property: program-number
+	This property allows app to set program number and so make
+	flutsdemux ignore all programs except this one.
+	Change some debug level GST_DEBUG to log level.
+
+2006-11-03  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_stream):
+	Guard against datalen overflow.
+
+2006-11-02  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_get_stream):
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_demux_parse_stream):
+	Small cleanups, improve debugging.
+
+2006-11-02  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb):
+	Add debug on unrecognised startcodes.
+	Fix bug where unknown stream id's cause running streams
+	to fail with a not linked error. Thanks Wim for the fix.
+
+2006-10-19  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data):
+	Missed a usage of applied_rate
+
+2006-10-19  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_sink_event):
+	Oops, fix the check so that _full API is used against 0.10.6
+
+2006-10-19  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_sink_event):
+	Add #if around new segment _full API usage, so that we can still
+	build against GStreamer cores older than 0.10.6
+
+=== release 0.10.8 ===
+
+2006-10-06  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_send_new_segment),
+	(gst_fluts_demux_data_cb), (gst_fluts_demux_parse_stream):
+	* src/gstmpegtsdemux.h:
+	Combine flows instead of ignoring unlinked pads.
+
+2006-10-06  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_init),
+	(gst_fluts_demux_resync):
+	Handle sink events better.
+	Handle DISCONT.
+	Post an error when no streams were found when we receive EOS.
+
+2006-10-06  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdefs.h:
+	* src/gstmpegdemux.c: (gst_flups_demux_create_stream),
+	(gst_flups_demux_reset_psm), (gst_flups_demux_parse_pack_start):
+	* src/gstmpegdemux.h:
+	In the absence of a PSD table to tell us exactly which stream type
+	is available, use a custom stream type value so we can output
+	mpegversion=2 when encountering video in an MPEG-2 Pack, and
+	mpegversion=1 if read from an MPEG-1 pack. This is the same behaviour
+	as the gst-plugins-ugly mpeg demuxer does.
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_data_cb):
+	Add extra debug line.
+
+2006-10-04  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_send_new_segment),
+	(gst_fluts_stream_parse_pmt):
+	Make sure we create a PCR stream so that we can use it to store the
+	base_PCR in.
+
+2006-09-28  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstpesfilter.c: (gst_pes_filter_parse):
+	Fix the handling of bounded packets broken by recent changes.
+
+2006-09-28  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_adaptation_field):
+	Use Gst macros to access integers in byte arrays, rather than throwing
+	a sigbus on architectures that don't support non-aligned access (like
+	Sparc)
+
+2006-09-28  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_data_cb):
+	Add a couple of G_UNLIKELY's
+
+2006-09-28  Zaheer Abbas Merali  <zaheerabbas at merali dot org>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_adaptation_field):
+	Fix potential overflow if private data length is unreasonably
+	large.
+
+2006-09-26  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_base_init),
+	(gst_fluts_demux_class_init), (gst_fluts_demux_init),
+	(gst_fluts_demux_calc_crc32), (gst_fluts_stream_parse_pmt),
+	(gst_fluts_stream_parse_pat), (gst_fluts_demux_set_property),
+	(gst_fluts_demux_get_property):
+	* src/gstmpegtsdemux.h:
+	Added property check_crc to disable CRC checking.
+
+2006-09-25  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_reset),
+	(gst_flups_demux_handle_dvd_event), (gst_flups_demux_sink_event):
+	Aliasing fixes.
+
+2006-09-25  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/flumpegdemux.c: (plugin_init):
+	* src/gstmpegdefs.h:
+	* src/gstmpegdesc.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_fill_stream):
+	* src/gstpesfilter.c:
+
+	Implement Dirac support
+
+2006-09-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/flumpegdemux.c:
+	* src/gstmpegdemux.c: (gst_flups_demux_sync_get_type),
+	(gst_flups_demux_class_init), (gst_flups_demux_init),
+	(gst_flups_demux_reset), (gst_flups_demux_create_stream),
+	(gst_flups_demux_get_stream), (gst_flups_demux_send_data),
+	(gst_flups_demux_send_event), (gst_flups_demux_handle_dvd_event),
+	(gst_flups_demux_sink_event), (gst_flups_demux_src_event),
+	(gst_flups_demux_src_query), (gst_flups_demux_reset_psm),
+	(gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_parse_sys_head), (gst_flups_demux_resync_cb),
+	(gst_flups_demux_data_cb), (gst_flups_demux_resync),
+	(gst_flups_demux_is_pes_sync), (gst_flups_demux_chain),
+	(gst_flups_demux_change_state), (gst_flups_demux_plugin_init):
+	* src/gstmpegdesc.c: (gst_mpeg_descriptor_free),
+	(gst_mpeg_descriptor_parse_1), (gst_mpeg_descriptor_parse),
+	(gst_mpeg_descriptor_n_desc), (gst_mpeg_descriptor_find),
+	(gst_mpeg_descriptor_nth):
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_demux_reset), (gst_fluts_demux_calc_crc32),
+	(gst_fluts_demux_fill_stream), (fluts_is_elem_pid),
+	(gst_fluts_demux_send_new_segment), (gst_fluts_demux_data_cb),
+	(gst_fluts_demux_resync_cb), (gst_fluts_demux_is_reserved_PID),
+	(gst_fluts_demux_get_stream_for_PID), (gst_fluts_stream_parse_cat),
+	(gst_fluts_stream_parse_pmt),
+	(gst_fluts_demux_parse_private_section),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_stream_parse_pat), (gst_fluts_demux_is_PMT),
+	(gst_fluts_demux_parse_stream), (gst_fluts_demux_resync),
+	(gst_fluts_demux_chain), (gst_fluts_demux_change_state),
+	(gst_fluts_demux_set_property), (gst_fluts_demux_get_property),
+	(gst_fluts_demux_plugin_init):
+	* src/gstpesfilter.c: (gst_pes_filter_init),
+	(gst_pes_filter_init_adapter), (gst_pes_filter_uninit),
+	(gst_pes_filter_set_callbacks), (gst_pes_filter_is_sync),
+	(gst_pes_filter_parse), (gst_pes_filter_data_push),
+	(gst_pes_filter_push), (gst_pes_filter_process),
+	(gst_pes_filter_flush), (gst_pes_filter_drain):
+
+	Run gst-indent over .c files. Whitespace changes only.
+
+2006-09-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_demux_set_property):
+	Use strtol to read the numbers from the es-pids property string,
+	so that PIDs in the 0x1234 hex form are interpreted automatically.
+	Modify the property description to indicate this.
+
+2006-09-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_demux_init), (fluts_is_elem_pid),
+	(gst_fluts_demux_send_new_segment), (gst_fluts_demux_data_cb),
+	(gst_fluts_demux_get_stream_for_PID), (gst_fluts_stream_parse_pmt),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_demux_parse_stream), (gst_fluts_demux_set_property),
+	(gst_fluts_demux_get_property):
+	* src/gstmpegtsdemux.h:
+	* src/gstpesfilter.c: (gst_pes_filter_parse),
+	(gst_pes_filter_data_push):
+
+	Merge patch from Zaheer Abbas Merali (<zaheerabbas at merali dot org)
+	with changes to add new 'es-pids' property for handling TS streams
+	that have no PAT or PMT tables.
+
+2006-09-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_init),
+	(gst_fluts_demux_calc_crc32), (gst_fluts_demux_send_new_segment),
+	(gst_fluts_stream_parse_pmt), (gst_fluts_stream_parse_pat),
+	(gst_fluts_demux_parse_stream), (gst_fluts_demux_resync):
+	* src/gstpesfilter.c: (gst_pes_filter_parse),
+	(gst_pes_filter_process):
+	* src/gstpesfilter.h:
+	Pre-allocate the PAT entries table at the size needed.
+	Some whitespace changes.
+	Move some recurring debug messages to LOG level and use *_OBJECT
+	versions of the debug macros.
+	Track unbounded packets using a separate gboolean instead of the
+	pesfilter length field so they are handled correctly in all cases.
+
+2006-08-22  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdefs.h:
+	* src/gstmpegdemux.c: (gst_flups_demux_create_stream),
+	(gst_flups_demux_data_cb):
+	Implement a custom stream type enum for handling raw AC3 private
+	streams as produced by VDR
+
+	* src/gstmpegdemux.h:
+	Shrink the entries in the PSM table to gint16.
+
+2006-08-08  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdefs.h:
+	* src/gstmpegdemux.c: (gst_flups_demux_reset),
+	(gst_flups_demux_create_stream),
+	(gst_flups_demux_handle_dvd_event), (gst_flups_demux_sink_event),
+	(gst_flups_demux_reset_psm):
+	* src/gstmpegdemux.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_fill_stream):
+	
+	Partially implement handling of the language-codes event, 
+	compatible with existing GStreamer elements dvdreadsrc and dvdnavsrc.
+
+	Rename ST_PS_DVD_SUBTITLE to ST_PS_DVD_SUBPICTURE
+
+2006-06-23  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	Bump the nano back to CVS
+
+2006-06-23  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_class_init),
+	(gst_flups_demux_init), (gst_flups_demux_finalize),
+	(gst_flups_demux_reset), (gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_class_init),
+	(gst_fluts_demux_init), (gst_fluts_demux_finalize),
+	(gst_fluts_demux_reset), (gst_fluts_stream_parse_pmt),
+	(gst_fluts_stream_parse_pat), (gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_change_state):
+	* src/gstmpegtsdemux.h:
+
+	Dynamically allocate our stream arrays to avoid object size going
+	over GObject's 64kb limit on 64bit machines.
+
+	Add cleanup of stream objects and pads when returning to READY or
+	finalizing the element.
+
+=== release 0.10.7 ===
+
+2006-05-19  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_data_cb):
+	Ignore data for unknown streams instead of segfaulting.
+
+=== release 0.10.6 ===
+
+2006-05-17  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_resync):
+	Rework the resync code to exit quickly in the common case
+	of immediately finding the sync point.
+
+	* src/gstpesfilter.c: (gst_pes_filter_parse):
+	Unbounded packets are only allowed for Video packets. 
+	In particular, padding streams are often 0 sized.
+
+=== release 0.10.5 ===
+
+2006-05-14  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_data_cb):
+	Make sure to reset the next_pts value so we don't output
+	bogus timestamps remembered from other streams.
+	* src/gstpesfilter.c: (gst_pes_filter_parse):
+	Fix debug output
+
+2006-05-12  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_change_state):
+	* src/gstpesfilter.c: (gst_pes_filter_init),
+	(gst_pes_filter_init_adapter), (gst_pes_filter_parse):
+	* src/gstpesfilter.h:
+	Only collect entire PES packets for Program Streams, 
+	not by default.
+
+2006-05-12  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_data_cb), (gst_flups_demux_resync),
+	(gst_flups_demux_chain):
+	Debug output changes. 
+	Handle return values from gst_pes_filter_process.
+	The first byte of ID_PRIVATE_STREAM_1 is usually a 'frames in this
+	packet count'. It isn't the header length - changed the debug output.
+	
+	* src/gstpesfilter.c: (gst_pes_filter_parse):
+	Add the GATHER_ENTIRE_PACKETS #define which makes PES
+	filter collect an entire PES packet when the length is bounded
+	before pushing it. Unbounded packets are pushed as available,
+	as before.
+
+2006-05-12  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstpesfilter.c: (gst_pes_filter_parse),
+	(gst_pes_filter_push), (gst_pes_filter_process):
+	The pes filter is not a GstObject - don't use the DEBUG_OBJECT
+	macro
+
+2006-05-11  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdefs.h:
+	Use gst_util_uint64_scale function.
+
+	* src/gstmpegdemux.c: (gst_flups_demux_create_stream),
+	(gst_flups_demux_send_data), (gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_parse_sys_head), (gst_flups_demux_data_cb),
+	(gst_flups_demux_chain):
+	* src/gstmpegdemux.h:
+	Fix Bytes-Since-SCR calculation by tracking bytes fed into
+	and removed from the adapter.
+	Use sub-buffering instead of buffer copy for outgoing buffers.
+	Don't bother creating buffers to send to not-linked pads until
+	we're going to handle a discont and send a new-segment again.
+
+2006-05-10  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	Bump core requirement to >= 0.10.5.1 for new NEWSEGMENT api.
+
+	* src/gstmpegdemux.c: (gst_flups_demux_init),
+	(gst_flups_demux_create_stream), (gst_flups_demux_send_data),
+	(gst_flups_demux_sink_event):
+	Copy applied_rate into outgoing newsegment events.
+	Other small cleanups
+
+2006-05-05  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_create_stream),
+	(gst_flups_demux_get_stream), (gst_flups_demux_send_data),
+	(gst_flups_demux_data_cb):
+	Don't put \n in debug statements.
+	Move some debug lines around where they make more sense.
+	parse and debug the private1 header length.
+	
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_send_new_segment):
+	Stream time is 0 in the newsegment.
+
+2006-05-05  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_fill_stream):
+	Add MPEG-4 AAC to the template caps.
+	Add missing break statement that was adding an AAC pad incorrectly.
+
+2006-05-04  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_resync):
+	Turn a DEBUG into a LOG statement.
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_get_type),
+	(gst_fluts_demux_base_init), (gst_fluts_demux_fill_stream),
+	(gst_fluts_stream_parse_pmt):
+	* src/gstmpegtsdemux.h:
+	Add more caps for different stream types.
+	Remove bogus src pad template.
+
+	* src/gstpesfilter.c: (gst_pes_filter_parse):
+	Handle errors in the unbounded PES case better.
+	Add some more debug.
+
+=== release 0.10.4 ===
+
+2006-04-17  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_sink_event), (gst_flups_demux_parse_pack_start):
+	When receiving a new-segment in TIME format, use it as the base_time.
+	Reset scr_adjust on a discont.
+	Massage the automatic sync-method method
+
+2006-04-12  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_chain):
+	Don't flush twice when we did not sync to a PES
+	syncword. Also only flush out 3 bytes as the 4th
+	byte could be the beginning of a new syncword and
+	we don't want to flush that byte.
+
+=== release 0.10.3 ===
+
+2006-03-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_src_event):
+	Allow seeks in formats other than time, if they are acceptable
+	upstream.
+
+2006-03-13  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_fill_stream),
+	(gst_fluts_stream_parse_pat):
+	Name source pads more unique based on stream PID.
+	Mark previously unknown PIDs as PMT when parsing the PAT.
+
+2006-03-13  Wim Taymans  <wim@fluendo.com>
+
+	* TODO:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_send_new_segment),
+	(gst_fluts_demux_get_stream_for_PID), (gst_fluts_stream_parse_pmt):
+	Set version numbers to undefined for PAT and PMT when the
+	stream is created.
+
+2006-03-13  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_get_stream_for_PID),
+	(gst_fluts_demux_is_PMT):
+	* src/gstmpegtsdemux.h:
+	Fix up some trivial crashers
+
+2006-02-21  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdesc.c: (gst_mpeg_descriptor_parse):
+	Implemented some helper functions.
+
+	* src/gstmpegdesc.h:
+	Added more descriptor parsing.
+
+	* src/gstmpegtsdemux.c: (gst_fluts_stream_parse_pmt),
+	(gst_fluts_stream_parse_pat):
+	Don't parse PAT/PMT if the version number did not change.
+
+2006-02-21  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdefs.h:
+	* src/gstmpegdemux.c: (gst_flups_demux_create_stream),
+	(gst_flups_demux_reset_psm):
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_fill_stream),
+	(gst_fluts_demux_send_new_segment):
+	Changed some defines.
+
+2006-02-21  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_send_new_segment),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_parse_transport_packet):
+	Get the correct PCR_PID from the current PMT.
+	Reverse args to newsegment.
+
+	* src/gstmpegtsdemux.h:
+	Add adaptation field values.
+
+2006-02-20  Wim Taymans  <wim@fluendo.com>
+
+	* src/Makefile.am:
+	* src/gstmpegdefs.h:
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data):
+	* src/gstmpegdesc.c:
+	* src/gstmpegdesc.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_init),
+	(gst_fluts_demux_data_cb), (gst_fluts_demux_is_reserved_PID),
+	(gst_fluts_demux_get_stream_for_PID), (gst_fluts_stream_parse_cat),
+	(gst_fluts_stream_parse_pmt),
+	(gst_fluts_demux_parse_private_section),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_stream_parse_pat), (gst_fluts_demux_is_PMT),
+	(gst_fluts_demux_parse_stream),
+	(gst_fluts_demux_parse_transport_packet), (gst_fluts_demux_resync):
+	* src/gstmpegtsdemux.h:
+	Reworked a bit so that PMT/PAT are local to the streams.
+	Create streams when found in the file even when we don't know
+	what they are yet, this allows us to keep PCR for them.
+	First pass at implementing descriptors parsing.
+	Generate correct newsegment for new streams.
+
+2006-02-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegtsdemux.c:
+	  Comment out gst_fluts_demux_parse_private_section to appease
+	  -Werror until the function is actually used anywhere.
+
+=== release 0.10.2 ===
+=== release 0.10.1 ===
+
+2006-02-06  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* src/gstmpegdefs.h:
+	* src/gstmpegdemux.c: (gst_flups_demux_sync_get_type),
+	(gst_flups_demux_class_init), (gst_flups_demux_init),
+	(gst_flups_demux_set_property), (gst_flups_demux_get_property),
+	(gst_flups_demux_send_data), (gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_data_cb), (gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	Implement AUTO sync method that selects SCR or DTS based sync
+	after each seek, and make it the default. 
+
+2006-01-24  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_sync_get_type),
+	(gst_flups_demux_get_type), (gst_flups_demux_base_init),
+	(gst_flups_demux_class_init), (gst_flups_demux_init),
+	(gst_flups_demux_get_property), (gst_flups_demux_create_stream),
+	(gst_flups_demux_get_stream), (gst_flups_demux_send_data),
+	(gst_flups_demux_send_event), (gst_flups_demux_sink_event),
+	(gst_flups_demux_src_event), (gst_flups_demux_src_query),
+	(gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_parse_sys_head), (gst_flups_demux_resync_cb),
+	(gst_flups_demux_data_cb), (gst_flups_demux_resync),
+	(gst_flups_demux_is_pes_sync), (gst_flups_demux_chain),
+	(gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	Added property to sync on SCR or DTS.
+	Reworked discont handling a bit.
+
+2006-01-17  Wim Taymans  <wim@fluendo.com>
+
+	* TODO:
+	Updated.
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_init),
+	(gst_fluts_demux_data_cb), (gst_fluts_demux_get_stream),
+	(gst_fluts_demux_parse_pmt), (gst_fluts_demux_parse_pat),
+	(gst_fluts_demux_find_pmt),
+	(gst_fluts_demux_parse_transport_packet), (gst_fluts_demux_resync),
+	(gst_fluts_demux_change_state):
+	* src/gstmpegtsdemux.h:
+	Use more common names such as PAT/PMT/CAT.
+
+2006-01-17  Wim Taymans  <wim@fluendo.com>
+
+	* TODO:
+	Updated TODO
+
+2006-01-17  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_fill_stream),
+	(gst_fluts_demux_data_cb), (gst_fluts_demux_parse_program_map),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_demux_parse_program_association),
+	(gst_fluts_demux_find_pm), (gst_fluts_demux_find_es),
+	(gst_fluts_demux_parse_transport_packet), (gst_fluts_demux_resync),
+	(gst_fluts_demux_chain):
+	Propagate GstFlowReturn upstream.
+	Check crc32 values before attempting to decode a packet.
+
+2006-01-17  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_parse_pack_start):
+	Check some more marker bits.
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_get_stream),
+	(gst_fluts_demux_parse_transport_packet):
+	Remove some useless function.
+
+2006-01-16  Wim Taymans  <wim@fluendo.com>
+
+	* src/Makefile.am:
+	* src/gstmpegdefs.h:
+	Move some common code to defs.
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_send_newsegment), (gst_flups_demux_reset_psm),
+	(gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_parse_sys_head):
+	* src/gstmpegdemux.h:
+	Use PES filter.
+	Check some more markers.
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_init),
+	(gst_fluts_demux_fill_stream), (gst_fluts_demux_data_cb),
+	(gst_fluts_demux_get_stream), (gst_fluts_demux_push_pes),
+	(gst_fluts_demux_parse_ca_section),
+	(gst_fluts_demux_parse_program_map),
+	(gst_fluts_demux_parse_private_section),
+	(gst_fluts_demux_parse_adaptation_field),
+	(gst_fluts_demux_parse_program_association),
+	(gst_fluts_demux_find_pm), (gst_fluts_demux_find_es),
+	(gst_fluts_demux_is_pes_payload),
+	(gst_fluts_demux_parse_transport_packet):
+	* src/gstmpegtsdemux.h:
+	Parse PAT/PM and use them to map PID to ES streams.
+	
+	* src/gstpesfilter.c:
+	* src/gstpesfilter.h:
+	Separate the PES parser and use it in TS and PS
+	demuxing.
+
+2006-01-13  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdefs.h:
+	* src/gstmpegdemux.c: (gst_flups_demux_parse_pack_start):
+	Move constants to defs.
+	Calculate adjust based on orignal scr, not adjusted one.
+
+2006-01-13  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_sink_event),
+	(gst_flups_demux_src_event), (gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_chain), (gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	Send newsegment based on SCR instead of converted byte position.
+
+2006-01-12  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_adaption_field):
+	Parse some more stuff.
+
+2006-01-12  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_sink_event):
+	And reset byte counter after a flush.
+
+2006-01-12  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_parse_sys_head), (gst_flups_demux_parse_pes):
+	* src/gstmpegdemux.h:
+	Adjust PTS/DTS/SCR instead of pushing out newsegment on
+	discontinuities.
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_init),
+	(gst_fluts_demux_resync), (gst_fluts_demux_chain),
+	(gst_fluts_demux_change_state):
+	* src/gstmpegtsdemux.h:
+	Some cleanups.
+
+2006-01-12  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_parse_program_map),
+	(gst_fluts_demux_parse_private_section),
+	(gst_fluts_demux_parse_adaption_field),
+	(gst_fluts_demux_parse_program_association),
+	(gst_fluts_demux_is_pes_payload),
+	(gst_fluts_demux_parse_transport_packet):
+	PES packets have no pointer.
+
+2006-01-12  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_init),
+	(gst_flups_demux_create_stream), (gst_flups_demux_get_stream),
+	(gst_flups_demux_parse_sys_head), (gst_flups_demux_parse_pes),
+	(gst_flups_demux_resync), (gst_flups_demux_is_pes_sync),
+	(gst_flups_demux_header_parse), (gst_flups_demux_data_push),
+	(gst_flups_demux_chain), (gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	Prepare for PES parser separation.
+
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_init),
+	(gst_fluts_demux_parse_transport_packet):
+	Parse some more stuff.
+
+2006-01-11  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_parse_sys_head), (gst_flups_demux_parse_pes):
+	Parse some more stuff.
+
+2006-01-10  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_parse_pes):
+	Parse but not use some more stuff.
+
+=== release 0.10.0 ===
+
+2005-12-28  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	Bump to 0.10.0
+
+2005-12-09  Andy Wingo  <wingo@pobox.com>
+
+	* src/gstmpegtsdemux.h: 
+	* src/gstmpegtsdemux.c: 
+	* src/gstmpegdemux.h: 
+	* src/gstmpegdemux.c: 
+	* src/gstmpegdefs.h: 
+	* src/flumpegdemux.c: Add copyright headers.
+
+	* COPYING: Use a reflowed version from the mozilla distribution.
+
+	* LEGAL: Reflow.
+
+=== release 0.9.7 ===
+
+2005-12-02  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	Bump for release
+
+2005-12-02  Julien MOUTTE  <julien@moutte.net>
+
+	* configure.ac: Switch to 0.10.
+
+2005-11-22  Wim Taymans  <wim@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_send_data),
+	(gst_flups_demux_sink_event), (gst_flups_demux_send_newsegment):
+	Fix for API changes.
+
+2005-11-21  Michael Smith <msmith@fluendo.com>
+
+	* src/gstmpegdemux.c: (gst_flups_demux_sink_event):
+	  Don't take STREAM_LOCK in sink event handlers any more.
+
+2005-11-18  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	  back to TRUNK
+
+=== release 0.9.5 ===
+
+2005-11-14  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	  releasing 0.9.5, matching GStreamer 0.9.5
+
+2005-10-04  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* gst-fluendo-mpegdemux.spec.in:
+	  releasing 0.1.3, matching GStreamer 0.9.3
+
+2005-09-02  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* src/Makefile.am:
+	* src/flmpegdemux.c:
+	* src/flumpegdemux.c:
+	* src/gstmpegdemux.c: (gst_flups_demux_base_init),
+	(gst_flups_demux_class_init), (gst_flups_demux_create_stream),
+	(gst_flups_demux_send_data), (gst_flups_demux_send_newsegment),
+	(gst_flups_demux_reset_psm), (gst_flups_demux_parse_pack_start),
+	(gst_flups_demux_parse_pes), (gst_flups_demux_resync),
+	(gst_flups_demux_chain), (gst_flups_demux_change_state):
+	* src/gstmpegdemux.h:
+	* src/gstmpegtsdemux.c: (gst_fluts_demux_base_init),
+	(gst_fluts_demux_class_init), (gst_fluts_demux_create_stream),
+	(gst_fluts_demux_parse_pes),
+	(gst_fluts_demux_parse_transport_packet), (gst_fluts_demux_resync),
+	(gst_fluts_demux_chain), (gst_fluts_demux_change_state):
+	* src/gstmpegtsdemux.h:
+	  clean up build and borgify
+
+2005-09-02  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	  put back -Werror
+	* src/gstmpegtsdemux.c: (gst_flts_demux_init),
+	(gst_flts_demux_create_stream), (gst_flts_demux_send_data),
+	(gst_flts_demux_reset_psm), (gst_flts_demux_parse_pes),
+	(gst_flts_demux_push_pes), (gst_flts_demux_parse_transport_packet):
+	  Fix compiler warnings
+
+2005-09-02  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	* gst-fluendo-mpegdemux.spec.in:
+	* src/Makefile.am:
+	fix up build a little
+
+2005-08-29  Wim Taymans  <wim@fluendo.com>
+
+	* Makefile.am:
+	* README:
+	* TODO:
+	* autogen.sh:
+	* configure.ac:
+	* gst-fluendo-mpegdemux.spec.in:
+	* src/Makefile.am:
+	Cleanup and prepare build env.

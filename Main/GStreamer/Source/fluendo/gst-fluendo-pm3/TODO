@@ -1,0 +1,16 @@
+* Read tags
+* profiling and optimisation for C implementation
+* For operation without a demuxer (the common case), do
+  indexing and exact seeking.
+* Support MPEG-2.5 lower sampling rates 8000, 11025, 12000
+* Support 24-bit and multi-channel extensions?
+
+Done bits
+---------
+* Resynchronise after seeking
+* Make gst-launch filesrc location=blah blocksize=1 ! flmp3dec ! alsasink work 
+  by collecting buffers below a minimum size
+* Merge in IPP branch for conditional compilation
+* Fix hanging on seeks and 'no discont' messages in totem.
+* Implement replication of a previous error-free frame
+* xing headers

@@ -1,0 +1,122 @@
+2008-11-28  Josep Torra  <josep@fluendo.com>
+
+	* m4/ipp.m4:
+	Fix IPP version sorting.
+
+2008-11-26  Josep Torra  <josep@fluendo.com>
+
+	* m4/ipp.m4:
+	Added IPP emt64 single architectures.
+
+2008-11-26  Josep Torra  <josep@fluendo.com>
+
+	* m4/gst-cpu-tune.m4:
+	No execstack fixed for solaris. 
+
+2008-10-15  Sergi Alvarez  <salvarez@fluendo.com>
+
+	* m4/Makefile.am: Drop cflags.m4
+	* m4/cflags.m4: Removed file
+	* m4/gst-cpu-tune.m4: Merge cflags.m4 here. Add SunCC check
+
+2008-10-15  Sergi Alvarez  <salvarez@fluendo.com>
+
+	* m4/Makefile.am: Include cflags.m4 for extra-dist
+	* m4/cflags.m4: Initial import of the global cflags/ldflags setup
+
+2008-06-17  Paul Brossier  <piem@fluendo.com>
+
+	* m4/ipp.m4: if --without-ipp is used, define HAVE_IPP to false
+
+2008-06-09  Paul Brossier  <piem@fluendo.com>
+
+	* m4/ipp.m4: add AG_CHECK_IPP macro to check for Intel Integrated
+	Performance Primitives (IPP).
+
+2007-11-14  Christophe Eymard  <ceymard@fluendo.com>
+
+	* m4/gst-cpu-tune.m4:
+	Added support for -xO5 for Solaris (default optimization is not
+	added by the autotools)
+	* m4/gst-error.m4:
+	In solaris, added -features=no%extinl to treat extern inlines
+	as they used to be.
+
+2007-11-07  Josep Torra Valles  <josep@fluendo.com>
+
+	* m4/gst-check.m4:
+	Add POST_10_11 to POST_10_14.
+	Patch provided by Christophe Eymard <ceymard@fluendo.com>
+
+2007-10-24  Josep Torra Valles  <josep@fluendo.com>
+
+	* m4/gst-check.m4:
+	When gstreamer version is checked, check for >= 0.10.10 and set
+	POST_10_10 on config.h
+
+2007-09-03  Josep Torra Valles  <josep@fluendo.com>
+
+	* m4/gst-cpu-tune.m4:
+	Added -fomit-frame-pointer at tunning profile for N800.
+
+2007-08-29  Josep Torra Valles  <josep@fluendo.com>
+
+	* m4/Makefile.am:
+	* m4/gst-cpu-tune.m4:
+	Added to make easier add plataform specific build flags.
+
+2007-05-23  Edward Hervey  <edward@fluendo.com>
+
+	* m4/ax_create_stdint_h.m4:
+	Added from gstreamer common.
+	Needed for gst-fluendo-wmaenc.
+
+2007-05-14  Josep Torra Valles  <josep@fluendo.com>
+
+	* m4/check.m4:
+	  Added to make projects compile under sbox.
+
+2007-04-10  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-check.m4:
+	  Allow pre-setting the GST(PB)_TOOLS/PLUGINS_DIR variables to help
+	  builds against older GStreamer.
+
+2007-02-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/as-ac-expand.m4:
+	* m4/gst-plugindir.m4:
+	* m4/gst-args.m4:
+	* m4/Makefile.am
+	  add these macros
+
+2007-02-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/as-version.m4:
+	  update AS_VERSION.  Needs updating configure.ac in all
+	  Fluendo GStreamer modules too.
+
+2007-02-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* update to new AG_GST style macros
+	* add gst-args, gst-valgrind, gst-check
+
+2007-02-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* add check.mak and gst.supp
+
+2006-10-10  Josep Torra Valles  <josep@fluendo.com>
+
+	* m4/gst-fionread.m4:
+	  adding a copy of the check macro
+
+2006-05-30  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-error.m4:
+	  adding a copy of the error macro
+
+2006-03-30  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* share among modules
+
+

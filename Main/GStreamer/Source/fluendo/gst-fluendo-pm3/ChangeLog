@@ -1,0 +1,883 @@
+2008-11-21  Julien Moutte  <julien@fluendo.com>
+
+	* configure.ac: Use the CPU_TUNE macro.
+	* decoder/Makefile.am: Use CPU_TUNE CFLAGS and LDFLAGS for exec stack.
+	* decoder/flump3dec.c: (flump3dec_flush), (flump3dec_sink_chain),
+	(flump3dec_drain_avail), (flump3dec_sink_event):
+	* decoder/flump3dec.h: Clean up indentation and make sure we set the
+	discont flag on audio buffers when required. This fixes non flushing
+	seek with MP3 dec in the pipeline (looping).
+
+2008-10-13  Release Maker <nomail@fluendo.com>
+
+	* configure.ac: Back to TRUNK.
+
+=== release 0.10.9 ===
+
+2008-10-13  Julien Moutte  <julien@fluendo.com>
+
+	* configure.ac: Make sure we don't set the Exec stack flag and don't
+	build static libraries.
+	* decoder/Makefile.am: Make naming of the LDFLAGS more consistent.
+
+2008-09-15  Sergi Alvarez  <salvarez@fluendo.com>
+
+	* decoder/flump3dec.c: (flump3dec_src_query): Check for format_bytes
+	and format_default like comment above says. Avoid dupped check.
+
+2008-06-18  Paul Brossier  <piem@fluendo.com>
+
+	* configure.ac: back to TRUNK.
+
+=== release 0.10.8 ===
+
+2008-06-09  Paul Brossier  <piem@fluendo.com>
+
+	* configure.ac: update to use AG_CHECK_IPP
+
+2008-06-09  Paul Brossier  <piem@fluendo.com>
+
+	* configure.ac: update IPP lookup
+
+2008-05-25  Julien Moutte  <julien@fluendo.com>
+
+	* COPYING:
+	* README:
+	* decoder/bitstream.c:
+	* decoder/bitstream.h:
+	* decoder/common.c:
+	* decoder/common.h:
+	* decoder/decode.c:
+	* decoder/decode.h:
+	* decoder/flump3dec.c:
+	* decoder/flump3dec.h:
+	* decoder/mp3-c-synth.c:
+	* decoder/mp3-c.c:
+	* decoder/mp3-c.h:
+	* decoder/mp3-cos-tables.h:
+	* decoder/mp3-ipp.c:
+	* decoder/mp3-ipp.h:
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c:
+	* decoder/mp3tl.h:
+	* decoder/table-bitalloc.h:
+	* decoder/table-dewindow.h:
+	* decoder/table-huffdec.h:
+	* decoder/table-powtable-2.h:
+	* decoder/table-powtable.h:
+	* util/gen-pow-table-2.c: (main): Update copyrights.
+
+2008-05-25  Julien Moutte  <julien@fluendo.com>
+
+	Patch by: Yoav Steinberg <yoav at monfort dot co dot il>
+
+	* decoder/bitstream.c: (bs_getbytes):
+	* decoder/bitstream.h:
+	* decoder/common.h:
+	* decoder/decode.c: (II_dequant_and_scale_sample),
+	(I_dequant_and_scale_sample), (init_syn_filter):
+	* decoder/flump3dec.c: (flump3dec_base_init),
+	(gst_flump3dec_update_ts), (flump3dec_drain_avail):
+	* decoder/mp3-c-synth.c: (mp3_SubBandSynthesis), (MPG_DCT_8):
+	* decoder/mp3-c.c: (III_get_side_info), (III_dequantize_sample),
+	(III_stereo), (III_antialias), (inv_mdct_s), (imdct_9pt),
+	(init_mdct), (III_hybrid):
+	* decoder/mp3-cos-tables.h:
+	* decoder/mp3tl.c: (mp3tl_sync), (mp3tl_decode_frame):
+	* decoder/table-dewindow.h:
+	* decoder/table-powtable-2.h:
+	* decoder/table-powtable.h: Fix code to support Win32 build.
+
+2008-03-18  Kapil Agrawal <kapil@fluendo.com>
+
+	* decoder/mp3tl.c: (mp3tl_new): Initializing freebitrate flag to true.
+	  (mp3tl_sync): changed the read_header arguments.
+	* decoder/decode.c: (read_header): changed the first argument to mp3tl,
+	  changes to support free format bitrate and moved parsing of first 21 bits
+	  to a new function read_main_header.Fixes ticket #23. 
+	* decoder/mp3tl-priv.h:	added free format related elements in mp3tl.
+	* decoder/decode.h: included mp3tl-priv.h. 												  
+
+2008-02-25  Release Maker <nomail@fluendo.com>
+
+	* configure.ac: Back to TRUNK.
+
+=== release 0.10.7 ===
+
+2008-02-22  Josep Torra Valles  <josep@fluendo.com>
+
+	* configure.ac:
+	Updated to compile with IPP version 5.3.1.062
+
+2008-02-19  Kapil Agrawal <kapil@fluendo.com>
+
+	* decoder/mp3tl.c: (mp3tl_sync):
+	Fixed ticket #102.
+	header and sync length were not considered while checking minimum 
+	frame size.
+
+2007-12-14  Julien Moutte <julien@fluendo.com>
+
+	* gst-fluendo-mp3.spec.in: Handle SElinux policy in the RPM.
+
+2007-08-23  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	Add IPP 5.2, 5.3 & 5.3_beta to the list of versions to check for.
+
+	* decoder/mp3-ipp.c: (ipp_decode_mp3):
+	Use memmove instead of memcpy, and only copy when there are actually
+	bytes to move.
+
+2007-08-13  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flump3dec.c: (flump3dec_src_event):
+	* decoder/mp3-c-synth.c: (mp3_SubBandSynthesis):
+	* decoder/mp3-c.c: (III_stereo):
+	* decoder/mp3tl.c: (mp3tl_new):
+	Fix some compiler warnings about unused variables.
+
+2007-08-13  Josep Torra Valles  <josep@fluendo.com>
+
+	* decoder/bitstream.c: (h_rewindNbits), (h_rewindNbytes):
+	* decoder/bitstream.h:
+	* decoder/mp3-c.c: (III_huffman_decode):
+	Partial fix for ticket #18.
+	Disabled the optimization until a complete fix. ENABLE_OPT_BS = 0. 
+
+2007-07-26  Josep Torra Valles  <josep@fluendo.com>
+
+	* configure.ac:
+	* decoder/Makefile.am:
+	* decoder/bitstream.c: (h_setbuf):
+	* decoder/bitstream.h:
+	* decoder/decode.c:
+	* decoder/huffman.c: deleted
+	* decoder/huffman.h: deleted
+	* decoder/mp3-c.c: (huffman_decoder): made inline
+	Several optimizations related to huffman decoding.
+
+2007-07-26  Josep Torra Valles  <josep@fluendo.com>
+
+	* decoder/mp3-c.c: (III_hybrid):
+	Fixed a warning related to liboil.
+
+2007-07-26  Josep Torra Valles  <josep@fluendo.com>
+
+	* decoder/Makefile.am:
+	Added table-powtable-2.h to fix 'make dist'.
+
+2007-06-07  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flump3dec.c: (flump3dec_drain_avail):
+	Don't output timestamps from an uninitialised variable
+	when handling corrupted/skipped packets.
+
+2007-06-06  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/common.h:
+	Fix macro for marking unused function arguments.
+
+	* decoder/mp3-c.c: (III_stereo):
+	Guard against overflowing the arrays by limiting the subband
+	iterator to 576.
+
+2007-06-05  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	Add funrolling of the loops to the CFLAGS for a juicy speed boost.
+
+	* decoder/decode.h:
+	* decoder/mp3-c-synth.c: (mp3_SubBandSynthesis):
+	* decoder/mp3-c.c: (III_get_scale_factors),
+	(III_dequantize_sample), (inv_mdct_l), (inv_mdct), (III_hybrid),
+	(c_decode_mp3):
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_new), (mp3tl_decode_frame):
+	Some fixes and optimisations, between that and funrolling loops,
+	things are now 18% faster.
+
+	* decoder/mp3-ipp.c: (decode_mp2), (ipp_decode_mp3),
+	(mp3_SubBandSynthesis), (mp3_ipp_init), (mp3_ipp_flush),
+	(mp3_ipp_close):
+	Re-indent.
+
+2007-06-01  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/mp3-c.c: (III_get_side_info), (III_dequantize_sample):
+	* decoder/table-powtable-2.h:
+	* decoder/table-powtable.h:
+	* util/Makefile.am:
+	* util/gen-pow-table-2.c: (main):
+	Speed the C-only decoder up by 38% by pre-calculating some stuff
+	instead of doing it over and over in an inner loop.
+
+=== release 0.10.6 ===
+
+2007-05-23  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/mp3-c-synth.c: (III_polyphase_matrix), (MPG_DCT_8):
+	Use a temp array to turn 8 additions and 4 subtractions into 6
+	additions and 2 subtractions.
+
+	* decoder/mp3-c.c: (III_huffman_decode):
+	Avoid a false assertion that occurs when we don't have any bigvalues
+	or count1 bits to decode. Fixes #18.
+
+2007-05-18  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flump3dec.c: (flump3dec_init), (flump3dec_reset),
+	(flump3dec_flush), (flump3dec_sink_chain),
+	(gst_flump3dec_update_ts), (flump3dec_drain_avail),
+	(flump3dec_change_state):
+	* decoder/flump3dec.h:
+	* decoder/mp3tl.c: (mp3tl_decode_header):
+	Fix timestamp handling so that incoming timestamps always get
+	applied at the correct time. Add a threshold for accepting
+	incoming timestamps - updates below the threshold are ignored,
+	to avoid problems with the timestamping granularity of container
+	formats.
+
+2007-03-19  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	Make liboil use OFF by default. Enable it with --enable-liboil.
+
+2007-03-12  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flump3dec.c: (flump3dec_src_query),
+	(flump3dec_src_convert), (flump3dec_time_to_bytepos),
+	(flump3dec_src_event):
+	Don't convert all upstream seeks to open-ended ones. Preserve
+	-1 as a valid value for seek start and end instead of converting
+	it blindly to time and bytes.
+
+2007-02-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	  adapt to new AG_GST and pull in new common common
+
+2007-02-18  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/table-powtable.h:
+	Oops, commit the power factors table too.
+
+2007-02-18  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* Makefile.am:
+	* configure.ac:
+	* decoder/Makefile.am:
+	* decoder/bitstream.c: (bs_getbytes), (h_setbuf):
+	* decoder/bitstream.h:
+	* decoder/mp3-c-synth.c:
+	* decoder/mp3-c.c: (III_get_side_info), (III_dequantize_sample),
+	(c_decode_mp3), (mp3_c_init), (mp3_c_flush):
+	* decoder/mp3-c.h:
+	* decoder/mp3-ipp.c: (ipp_decode_mp3), (mp3_ipp_init),
+	(mp3_ipp_flush), (mp3_ipp_close):
+	* decoder/mp3-ipp.h:
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_new), (mp3tl_free),
+	(mp3tl_decode_header), (mp3tl_decode_frame), (mp3tl_flush):
+	Merge back pre-computed power factor table from the rework branch.
+	Re-arrange the decoder backend so that the C implementation is always
+	available, and use it for decoding "MPEG 2.5" even with IPP.
+
+	Do more efficient bitstream operations by copying arrays of bytes 
+	directly into the huffman bitstream instead of a byte at a time.
+
+	Use the simpler 'huffman bitstream' object where we can.
+
+	* util/Makefile.am:
+	* util/gen-pow-table.c: (main):
+	Utility for computing the power factor table.
+
+2007-02-16  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	* decoder/Makefile.am:
+	Add support for using liboil in the C build.
+
+	* decoder/flump3dec.c: (flump3dec_base_init),
+	(flump3dec_drain_avail):
+	Change the reported codec tag string to 
+	'MPEG 1/2 Audio, Layer 1/2/3' so it shows more info.
+	Make the element details show which build (IPP,liboil,C) is in use.
+
+	* decoder/mp3-c-synth.c: (mp3_SubBandSynthesis):
+	* decoder/mp3-c.c: (inv_mdct_s), (mp3_init):
+	* decoder/table-dewindow.h:
+	Use liboil in one place to do an array multiply.
+
+2007-02-13  Mathieu Garcia  <matthieu@fluendo.com>
+
+	* decoder/flump3dec.c (flump3dec_drain_avail): Post less often
+	the bitrate tag (> 10kbps change)
+
+2007-02-12  Mathieu Garcia  <matthieu@fluendo.com>
+
+	* decoder/flump3dec.c (flump3dec_change_state):
+	(flump3dec_drain_avail):
+	* decoder/flump3dec.h (struct FluMp3Dec):
+	Now we post the bitrate tag.
+
+	* decoder/flump3dec.c (flump3dec_drain_avail): Set the
+	GST_TAG_AUDIO_CODEC.
+
+	
+2007-01-31 Christian Schaller <christian@fluendo.com>
+
+	* decoder/flump3dec.c: Fix codec classification
+	Audio/Decoder -> Codec/Decoder/Audio
+
+=== release 0.10.5 ===
+
+2006-12-12  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/common.h:
+	* decoder/flump3dec.c: (flump3dec_get_query_types):
+	* decoder/huffman.c:
+	* decoder/mp3-c-synth.c: (mp3_SubBandSynthesis):
+	* decoder/mp3-c.c: (III_get_side_info), (III_frequency_inversion),
+	(mp3_close):
+	* decoder/mp3tl-priv.h:
+	Fix compilation on the Sun Studio compiler
+
+=== release 0.10.4 ===
+
+2006-11-28  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/bitstream.c: (bs_new):
+	* decoder/decode.c: (set_hdr_data_slots):
+	* decoder/mp3-c.c: (III_get_LSF_scale_factors),
+	(III_huffman_decode), (III_dequantize_sample), (III_reorder),
+	(III_stereo), (decode_mp3):
+	  Implement MPEG-2.5 samplerates.
+
+	* decoder/mp3tl.c: (mp3tl_decode_header):
+	  Ignore the incoming table of frame sizes and pass all data including
+	  possibly auxilliary bits to the decoder for now.
+
+2006-11-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flump3dec.c: (flump3dec_init):
+	Don't leak pad templates.
+
+2006-11-20  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	Merge back revisions 601 thru 605 from the gst-fluendo-mp3-rework
+	branch
+
+2006-11-20  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/mp3-c-synth.c: (III_subband_synthesis),
+	(mp3_SubBandSynthesis):
+	Rearrange things slightly, so Layer 2 and Layer 3 decoding also use
+	the new synthesis function.
+
+2006-11-20  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/Makefile.am:
+	* decoder/mp3-c-synth.c: (III_subband_synthesis),
+	(III_polyphase_matrix), (MPG_DCT_32), (MPG_DCT_16), (MPG_DCT_8),
+	(mp3_SubBandSynthesis):
+	* decoder/mp3-c.c:
+	* decoder/mp3-c.h:
+	* decoder/mp3-cos-tables.h:
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_decode_frame):
+	Move synthesis/dct functions out to a separate file. Fix decoding by
+	using the correct entry from the synth_cos64_table lookup table.
+
+2006-11-20  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/Makefile.am:
+	* decoder/mp3-c.c: (decode_mp3), (III_subband_synthesis),
+	(III_polyphase_matrix), (MPG_DCT_32), (MPG_DCT_16), (MPG_DCT_8),
+	(mp3_SubBandSynthesis):
+	* decoder/mp3-cos-tables.h:
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_decode_frame):
+	Optimise polyphase filter bank by using a partially hand-unrolled
+	32-point DCT.
+
+2006-11-19  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/Makefile.am:
+	* decoder/mp3-c.c: (inv_mdct), (init_mdct),
+	(III_frequency_inversion), (decode_mp3), (mp3_init):
+	Clean up old, slow code branches.
+
+=== release 0.10.3 ===
+
+2006-09-07  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flump3dec.c: (flump3dec_change_state):
+	
+	Patch from Sebastian Moutte to fix setting caps on the src pad
+	when reusing the element (Closes #5)
+
+2006-09-06  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/bitstream.h:
+	* decoder/common.h:
+	* decoder/decode.c: (II_dequant_and_scale_sample):
+	* decoder/flump3dec.c: (flump3dec_get_type), (flump3dec_base_init),
+	(flump3dec_check_for_xing), (flump3dec_drain_avail),
+	(flump3dec_get_query_types):
+	* decoder/huffman.c: (huffman_decoder):
+	* decoder/mp3-c.c: (III_get_side_info), (III_get_scale_factors),
+	(III_get_LSF_scale_data), (III_get_LSF_scale_factors),
+	(III_huffman_decode), (III_dequantize_sample), (III_antialias),
+	(decode_mp3), (mp3_SubBandSynthesis), (mp3_init), (mp3_flush),
+	(mp3_close):
+	* decoder/mp3-c.h:
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_sync), (mp3tl_decode_frame):
+	* decoder/table-huffdec.h:
+	Clean ups and bug fixes. 
+
+	Change the way the main_data buffer is calculate to eliminate a state
+	variable.
+
+	Fix a nasty array index overflow that was resulting in noise in the 
+	left channel for some builds only.
+
+	Fix all -Wextra warnings
+
+2006-08-25  Wim Taymans  <wim@fluendo.com>
+
+	* decoder/flump3dec.c: (flump3dec_drain_avail),
+	(flump3dec_sink_event):
+	Output the first frame before the second frame instead at EOS.
+
+2006-08-18  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	  Build against IPP for x86_64, and support IPP 5.0 & 5.1
+
+	* decoder/mp3-c.c: (mp3_SubBandSynthesis):
+	  Fix the float -> int16 conversion so it doesn't overflow
+
+=== release 0.10.2 ====
+
+2006-04-06  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/mp3-ipp.c: (mp3_SubBandSynthesis):
+	Fix unused variable warning
+
+=== release 0.10.1 ===
+
+2006-02-08  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	  Bump to 0.10.1
+	* decoder/flump3dec.c: (flump3dec_check_for_xing),
+	(flump3dec_drain_avail):
+	Also recognise LAME Info header for Xing data
+
+2006-02-01  Andy Wingo  <wingo@pobox.com>
+
+	* decoder/decode.c (out_fifo): pcm_sample[][][] is already in
+	native endianness, no need to convert. Fixes playback on PPC.
+
+	* configure.ac (GST_ERROR): AC_SUBST this so the makefiles pick it
+	up. Turns on -Wall/-Werror.
+
+	* decoder/flump3dec.c (flump3dec_total_time) 
+	(flump3dec_total_bytes): "control reaches end of non-void
+	function"
+
+	* decoder/decode.c (II_buffer_sample): 
+	* decoder/mp3tl.c (mp3tl_decode_frame): 
+	* decoder/flump3dec.c (flump3dec_total_time):
+	"unused variables"
+
+=== release 0.10.0 ===
+
+2005-12-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/decode.c: (read_header):
+	  Remove bogus comment 
+	* decoder/mp3-c.c: (III_huffman_decode), (III_dequantize_sample),
+	(III_reorder), (III_stereo):
+	  Fix incorrect usage of the hdr version value - it now takes 4
+	  values to recognise MPEG-2.5, instead of a single bit.
+
+2005-12-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/mp3-c.c: (III_get_side_info), (III_stereo), (decode_mp3):
+	  Replace remaining MPEG_PHASE2_LSF uses
+
+2005-12-20  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/bitstream.c: (bs_nextbuf), (bs_seek_sync):
+	* decoder/bitstream.h:
+	  Rewrite sync function to recognise MPEG 2.5 unofficial sync
+	  sequences, and to be more efficient.
+
+	* decoder/common.c: (II_pick_table):
+	* decoder/common.h:
+	* decoder/decode.c: (read_header), (set_hdr_data_slots):
+	* decoder/flump3dec.c: (flump3dec_check_for_xing),
+	(flump3dec_drain_avail), (flump3dec_src_query),
+	(flump3dec_src_convert), (flump3dec_src_event):
+	* decoder/mp3-ipp.c: (decode_mp3):
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_sync), (mp3tl_decode_header),
+	(mp3tl_decode_frame), (mp3tl_skip_frame), (mp3tl_get_err_reason):
+	* decoder/mp3tl.h:
+	  Recognise MPEG 2.5 streams and report that they're currently not
+	  supported.
+	  Implement skip function that tracks timestamps etc when not
+	  decoding unwanted output audio.
+	  Cleanups, more debug output
+	  Use gst_pad_get_parent in query and seek handling functions.
+
+2005-12-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* COPYING:
+	Mention Intel copyright on some files.
+
+	* TODO:
+	Remove todo item
+	* decoder/bitstream.c:
+	* decoder/bitstream.h:
+	* decoder/common.c:
+	* decoder/common.h:
+	* decoder/decode.c:
+	* decoder/decode.h:
+	* decoder/huffman.c:
+	* decoder/huffman.h:
+	* decoder/mp3-c.c:
+	* decoder/mp3-c.h:
+	* decoder/mp3tl.c:
+	* decoder/table-bitalloc.h:
+	* decoder/table-dewindow.h:
+	* decoder/table-huffdec.h:
+	Add copyright header to all files
+
+2005-12-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/mp3-ipp.c:
+	* decoder/mp3-ipp.h:
+	Add Intel copyright header to IPP sample code
+
+2005-12-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flump3dec.c: (flump3dec_sink_chain),
+	(flump3dec_check_for_xing), (flump3dec_drain_avail),
+	(flump3dec_change_state), (flump3_inbytes_to_time),
+	(flump3dec_total_bytes), (flump3dec_total_time),
+	(flump3dec_src_query), (flump3dec_src_convert),
+	(flump3dec_src_event):
+	* decoder/flump3dec.h:
+	* decoder/mp3-ipp.c: (decode_mp3):
+	* decoder/mp3tl.c: (mp3tl_sync):
+	Implement Xing header handling
+
+=== release 0.9.7 ===
+
+2005-12-02  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	Bump for release
+
+2005-12-02  Julien MOUTTE  <julien@moutte.net>
+
+	* configure.ac: Switch to 0.10.
+
+2005-11-28  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/mp3-c.c: (III_dequantize_sample), (III_reorder),
+	(III_i_stereo_k_values), (III_stereo), (III_antialias),
+	(inv_mdct_s), (inv_mdct_l), (imdct_9pt), (inv_mdct), (III_hybrid),
+	(decode_mp3):
+	Fix compilation without IPP. Use gfloats instead of gdoubles 
+	everywhere like the reference code used to.
+
+2005-11-23  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flump3dec.c: (flump3dec_sink_event):
+	  No need to take the stream lock any more for serialised
+	  events
+
+2005-11-18  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	  back to TRUNK
+
+=== release 0.9.5 ===
+
+2005-11-14  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	  releasing 0.9.5, works with GStreamer 0.9.5
+
+2005-11-10  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/mp3-ipp.c: (mp3_SubBandSynthesis):
+	  Remove excess debug.
+
+	* decoder/Makefile.am:
+	* decoder/table-dewindow-ipp.h:
+	  Add new file for IPP dewindowing
+
+2005-11-10  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* configure.ac:
+	  Update library list
+	* decoder/common.c: (II_pick_table), (hdr_to_frps):
+	* decoder/common.h:
+	* decoder/decode.c: (II_decode_bitalloc), (II_decode_scale),
+	(I_buffer_sample), (II_buffer_sample),
+	(II_dequant_and_scale_sample), (I_dequant_and_scale_sample),
+	(init_syn_filter):
+	* decoder/decode.h:
+	* decoder/flump3dec.c: (flump3dec_init), (flump3dec_flush),
+	(flump3dec_sink_chain), (flump3dec_drain_avail),
+	(flump3dec_sink_event), (flump3_inbytes_to_time):
+	* decoder/flump3dec.h:
+	* decoder/mp3-c.c: (decode_mp3), (mp3_SubBandSynthesis),
+	(mp3_init), (mp3_close):
+	* decoder/mp3-ipp.c: (decode_mp2), (mp3_SubBandSynthesis),
+	(mp3_init), (mp3_close):
+	* decoder/mp3-ipp.h:
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_new), (mp3tl_free), (mp3tl_sync),
+	(mp3tl_decode_frame):
+	  Speed improvements for layer 1 and 2 decoding.
+	  Detection of bad CRC
+	  Recover a bad frame by duplicating the previous frame.
+	  New-segment fix.
+	  Output the final frame on EOS.
+	  
+	* TODO:
+          Update todos
+
+2005-10-27  Edward Hervey  <edward@fluendo.com>
+
+	* configure.ac:
+	Package name fixed
+
+2005-10-27  Edward Hervey <edward@fluendo.com>
+
+	* decoder/decode.c:
+	Remove valgrind #include
+	* autogen.sh:
+	* configure.ac:
+	Updated to use standard gst-autogen.sh
+	* common/:
+	* common/m4/:
+	Updated to gstreamer common
+
+2005-10-18  Wim Taymans  <wim@fluendo.com>
+
+	* decoder/flump3dec.c: 
+	We use fixed caps.
+
+2005-10-12  Julien MOUTTE  <julien@moutte.net>
+
+	* decoder/flump3dec.c: (flump3dec_sink_event): Fix for newsegment
+	API changes.
+
+2005-10-04  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* configure.ac:
+	  releasing 0.1.3, works with GStreamer 0.9.3
+
+2005-08-30  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flmp3dec.c: (flmp3dec_drain_avail):
+	  OK - this time for sure :)
+
+2005-08-30  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/bitstream.c: (bs_seek_sync):
+	* decoder/flmp3dec.c: (flmp3dec_sink_chain):
+	  Fixes for timestamp handling. Hopefully correct now.
+
+2005-08-30  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/Makefile.am:
+	  Rename plugin library to flump3.
+
+	* decoder/bitstream.c: (bs_add_buffer), (bs_seek_sync),
+	(bs_buf_time):
+	* decoder/bitstream.h:
+	* decoder/flmp3dec.c: (flmp3dec_base_init), (flmp3dec_init),
+	(flmp3dec_flush), (flmp3dec_sink_chain), (flmp3dec_drain_avail):
+	* decoder/flmp3dec.h:
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_new), (mp3tl_sync), (mp3tl_decode_frame),
+	(mp3tl_flush):
+	* decoder/mp3tl.h:
+	  Add code to handle incoming timestamps as the timestamp of the frame
+	  for the first sync word contained in the buffer, as per mpeg PTS.
+
+2005-08-11  Jan Schmidt  <thaytan@mad.scientist.com>
+	* decoder/decode.c: (set_hdr_data_slots):
+	  Fix slot calculations for LSF mpeg audio.
+
+	* decoder/flmp3dec.c: (flmp3dec_sink_chain), (flmp3dec_sink_event):
+	  Change timestamp handling. Only trust upstream timestamps if we
+	  don't have one of our own.
+
+	* decoder/mp3-ipp.c: (decode_mp3):
+	  Remove debug
+
+2005-08-09  Jan Schmidt  <thaytan@mad.scientist.com>
+	* configure.ac:
+	  Fiddle with IPP detection bits. By default, use IPP if found in
+	  /opt/intel/ipp, or with --with-ipp-path=/foo/bar
+
+	* decoder/bitstream.c: (bs_seek_sync):
+	* decoder/bitstream.h:
+	  Fix irritating bug when skipping over bits that ate 1 byte too much.
+
+	* decoder/common.h:
+	* decoder/decode.c: (set_hdr_data_slots), (recover_CRC_error):
+	* decoder/decode.h:
+	* decoder/mp3-c.h:
+	* decoder/mp3-c.c: (III_get_side_info), (III_get_scale_factors),
+	(III_get_LSF_scale_data), (III_get_LSF_scale_factors),
+	(III_huffman_decode), (III_dequantize_sample), (III_reorder),
+	(III_i_stereo_k_values), (III_stereo), (III_antialias),
+	(inv_mdct_s), (inv_mdct_l), (imdct_9pt), (inv_mdct), (init_hybrid),
+	(III_hybrid), (decode_mp3), (mp3_init), (mp3_flush):
+	* decoder/mp3-ipp.c: (decode_mp3), (mp3_init), (mp3_flush):
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_new), (mp3tl_sync), (mp3tl_decode_frame),
+	(mp3tl_flush):
+	  Better resync algorithm for location frame synchronisation point.
+	  Shift a bunch of C-implementation only stuff into mp3-c.c and
+	  mp3-c.h to make the code cleaner.
+
+2005-08-08  Christian Schaller <christian@fluendo.com>
+	* Add result message for IPP
+
+2005-08-04  Jan Schmidt  <thaytan@mad.scientist.com>
+	* configure.ac:
+	* decoder/Makefile.am:
+	  Rearrange detection of IPP slightly, and add extra libraries
+
+	* decoder/common.h:
+	* decoder/decode.c: (set_hdr_data_slots):
+	* decoder/decode.h:
+	* decoder/mp3-ipp.c: (decode_mp3):
+	* decoder/mp3-ipp.h:
+	* decoder/mp3tl-priv.h:
+	* decoder/mp3tl.c: (mp3tl_sync), (mp3tl_decode_header),
+	(mp3tl_decode_frame):
+	  Merge in IPP branch. Can now selectively build IPP version or C only
+
+2005-08-3   Christian Schaller <christian@fluendo.com>
+
+	* configure.in: add check for IPP
+	* decoder/Makefile.am: add ipp stuff
+
+2005-07-29  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/common.h:
+	* decoder/decode.c: (III_get_side_info), (III_get_scale_factors),
+	(III_get_LSF_scale_data), (III_get_LSF_scale_factors),
+	(III_huffman_decode), (III_dequantize_sample):
+	* decoder/mp3tl.c: (mp3tl_decode_frame):
+          Clean up some of the code a bit for readability.
+	  
+	* decoder/flmp3dec.c: (flmp3dec_sink_event), (flmp3dec_src_event):
+	  Update for new events API.
+
+2005-07-15  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* test/layer3/:
+	Add mp3 compliance test files.
+
+2005-07-15  Jan Schmidt  <thaytan@mad.scientist.com>
+	* TODO:
+	* decoder/common.h:
+	* decoder/decode.c: (III_get_scale_factors),
+	(III_get_LSF_scale_data), (III_get_LSF_scale_factors),
+	(III_huffman_decode), (III_dequantize_sample), (III_reorder),
+	(III_stereo), (III_antialias), (inv_mdct_s), (inv_mdct_l),
+	(imdct_9pt), (inv_mdct), (III_hybrid):
+	* decoder/decoder.h:
+	* decoder/huffman.c: (huffman_decoder):
+	Profiling and optimisation of IMDCT. Valgrind fixes.
+
+	* decoder/flmp3dec.c: (flmp3dec_init), (flmp3dec_sink_chain),
+	(flmp3dec_sink_event), (flmp3dec_src_query), (flmp3dec_src_event):
+	* decoder/flmp3dec.h:
+	* decoder/mp3tl.c: (mp3tl_sync), (mp3tl_decode_frame),
+	(mp3tl_flush):
+	Better re-synchronisation and bad-frame handling. 
+	Seeking/querying fixes.
+
+2005-07-08  Christian Schaller <christian@fluendo.com>
+
+	* Add SPEC file for RPM building
+	* Update COPYING file to use MIT license
+	* Add COPYING_statement which clarifies some issues around the MIT license
+
+2005-06-14  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/flmp3dec.c: (flmp3dec_sink_chain), (flmp3dec_sink_event),
+	(flmp3_inbytes_to_time), (flmp3dec_src_query),
+	(flmp3dec_src_event):
+	* decoder/mp3tl.c: (mp3tl_decode_frame):
+	  Seeking changes. Some temporary debug output. Fixes for API
+	  changes.
+
+2005-06-01  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* decoder/bitstream.c: (bs_new), (bs_free), (bs_flush), (bs_add_buffer),
+	(bs_reset), (bs_eat), (bs_consume), (bs_skipbits), (bs_nextbuf),
+	(bs_seek_sync):
+	* decoder/bitstream.h:
+	* decoder/common.h:
+	* decoder/decode.c: (read_header), (main_data_slots),
+	(III_get_side_info), (III_get_LSF_scale_data),
+	(III_get_LSF_scale_factors), (III_huffman_decode),
+	(III_dequantize_sample), (III_reorder), (III_i_stereo_k_values),
+	(III_stereo), (III_antialias), (inv_mdct):
+	* decoder/decoder.h:
+	* decoder/flmp3dec.c: (flmp3dec_sink_chain), (flmp3dec_sink_event),
+	(flmp3dec_src_query):
+	* decoder/huffman.c:
+	* decoder/mp3tl.c: (mp3tl_new), (mp3tl_sync), (mp3tl_decode_header),
+	(mp3tl_decode_frame), (mp3tl_flush):
+	* decoder/mp3tl.h:
+	* decoder/table-bitalloc.h:
+	* decoder/table-dewindow.h:
+
+	Refactor the bitstream reader so we can peek ahead, allowing better
+	resynching after a seek. Sometimes seeking works now.
+	Remove a few static variables I missed.
+
+2005-05-29  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* TODO:
+	* decoder/Makefile.am:
+	* decoder/bitstream.c: (bs_new), (bs_free), (bs_flush),
+	(bs_set_release_func), (bs_add_buffer), (bs_nextbuf),
+	(bs_seek_sync), (h_init), (h_flush), (h_rewindNbits),
+	(h_rewindNbytes):
+	* decoder/bitstream.h:
+	* decoder/common.c:
+	* decoder/common.h:
+	* decoder/flmp3dec.c: (flmp3dec_init), (flmp3dec_flush),
+	(flmp3dec_sink_chain), (flmp3dec_sink_event),
+	(flmp3dec_change_state), (flmp3dec_get_query_types),
+	(flmp3dec_src_query), (flmp3dec_src_convert), (flmp3dec_src_event):
+	* decoder/flmp3dec.h:
+	* decoder/mp3tl.c: (mp3tl_decode_frame), (mp3tl_flush):
+	* decoder/mp3tl.h:
+	  Move bitstream handling into its own file.
+
+	  Bitrate tracking, querying and seek handling. Currently doesn't
+	  resync after a seek though.
+
+2005-05-26  Jan Schmidt  <thaytan@mad.scientist.com>
+  Initial commit

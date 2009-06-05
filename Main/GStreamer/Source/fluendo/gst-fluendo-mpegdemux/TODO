@@ -1,0 +1,16 @@
+ - mpeg program stream
+   - better bitrate detection for wrong mux_rates
+   - operate in pull mode
+   - index
+   - DVD specific stuff
+   - export clock
+
+ - mpeg transport streams
+   - query/convert/events
+   - check/correct for PCR disconts
+   - reconstruct PAT/PM if not seen in stream
+   - pull mode scheduling?
+   - program selection (with interface?)
+   - use more stuff if relevant (splicing etc...)
+   - merge update PAT/PM correctly based on version
+     numbers etc..
