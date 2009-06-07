@@ -703,6 +703,28 @@ if [ ! -f "$BinDir/libnice-0.dll" ]; then
 fi
 
 
+if [ ! -f "$BinDir/libxvid.dll" ]; then
+	echo "$PKG_DIR_XVIDCORE"
+	unpack_gzip_and_move "xvidcore-1.2.2.tar.gz" "$PKG_DIR_XVIDCORE"
+	mkdir_and_move "$IntDir/xvidcore"
+
+	cd $PKG_DIR/build/generic/
+	./configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	
+	make 
+	make install
+
+	mv $LibDir/xvidcore.dll $BinDir
+	mv $PKG_DIR/build/generic/=build/xvidcore.dll.a $LibDir
+
+	$MSLIB /name:xvidcore.dll /out:xvidcore.lib /machine:$MSLibMachine /def:libxvidcore.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+
+	make clean
+
+	
+fi
+
 reset_flags
 
 #Make sure the shared directory has all our updates

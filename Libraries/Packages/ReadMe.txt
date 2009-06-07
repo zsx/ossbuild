@@ -32,3 +32,4 @@ libspeex 	- 	1.2rc1 		- 	http://downloads.xiph.org/releases/speex/speex-1.2rc1.t
 libschrodinger 	- 	1.0.6 		- 	http://diracvideo.org/download/schroedinger/schroedinger-1.0.6.tar.gz
 mp3lame 	- 	3.98.2 		- 	http://sourceforge.net/project/downloading.php?group_id=290&use_mirror=superb-west&filename=lame-398-2.tar.gz&a=60930405
 openjpeg 	- 	1.3.0		- 	http://www.openjpeg.org/openjpeg_v1_3.tar.gz
+xvidcore	-	1.2.2		-	http://downloads.xvid.org/downloads/xvidcore-1.2.2.tar.gz
