@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstcairo"
 	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92004}"
 	RootNamespace="libgstcairo"
@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-good\ext\cairo"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-good\ext\cairo&quot;;&quot;$(OutDir)\include\cairo&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -233,7 +233,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-good\ext\cairo"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-good\ext\cairo&quot;;&quot;$(OutDir)\include\cairo&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

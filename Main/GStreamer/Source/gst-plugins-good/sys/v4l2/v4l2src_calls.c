@@ -749,6 +749,9 @@ return_data:
      * value */
     gst_structure_set_value (s, "framerate", &rates);
     g_value_unset (&rates);
+  } else {
+    gst_structure_set (s, "framerate", GST_TYPE_FRACTION_RANGE, 0, 1, 100, 1,
+        NULL);
   }
   return s;
 
@@ -771,6 +774,7 @@ unknown_type:
 }
 #endif /* defined VIDIOC_ENUM_FRAMEINTERVALS */
 
+#ifdef VIDIOC_ENUM_FRAMESIZES
 static gint
 sort_by_frame_size (GstStructure * s1, GstStructure * s2)
 {
@@ -784,6 +788,7 @@ sort_by_frame_size (GstStructure * s1, GstStructure * s2)
   /* I think it's safe to assume that this won't overflow for a while */
   return ((w2 * h2) - (w1 * h1));
 }
+#endif
 
 GstCaps *
 gst_v4l2src_probe_caps_for_format (GstV4l2Src * v4l2src, guint32 pixelformat,
@@ -815,11 +820,13 @@ gst_v4l2src_probe_caps_for_format (GstV4l2Src * v4l2src, guint32 pixelformat,
       w = MIN (size.discrete.width, G_MAXINT);
       h = MIN (size.discrete.height, G_MAXINT);
 
-      tmp = gst_v4l2src_probe_caps_for_format_and_size (v4l2src, pixelformat,
-          w, h, template);
+      if (w && h) {
+        tmp = gst_v4l2src_probe_caps_for_format_and_size (v4l2src, pixelformat,
+            w, h, template);
 
-      if (tmp)
-        results = g_list_prepend (results, tmp);
+        if (tmp)
+          results = g_list_prepend (results, tmp);
+      }
 
       size.index++;
     } while (v4l2_ioctl (fd, VIDIOC_ENUM_FRAMESIZES, &size) >= 0);
@@ -974,7 +981,7 @@ default_frame_sizes:
 /******************************************************
  * gst_v4l2src_grab_frame ():
  *   grab a frame for capturing
- * return value: GST_FLOW_OK or GST_FLOW_ERROR
+ * return value: GST_FLOW_OK, GST_FLOW_WRONG_STATE or GST_FLOW_ERROR
  ******************************************************/
 GstFlowReturn
 gst_v4l2src_grab_frame (GstV4l2Src * v4l2src, GstBuffer ** buf)
@@ -985,12 +992,23 @@ gst_v4l2src_grab_frame (GstV4l2Src * v4l2src, GstBuffer ** buf)
   GstBuffer *pool_buffer;
   gboolean need_copy;
   gint index;
+  gint ret;
 
   memset (&buffer, 0x00, sizeof (buffer));
   buffer.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
   buffer.memory = V4L2_MEMORY_MMAP;
 
-  while (v4l2_ioctl (v4l2src->v4l2object->video_fd, VIDIOC_DQBUF, &buffer) < 0) {
+  for (;;) {
+    ret = gst_poll_wait (v4l2src->v4l2object->poll, GST_CLOCK_TIME_NONE);
+    if (G_UNLIKELY (ret < 0)) {
+      if (errno == EBUSY)
+        goto stopped;
+      if (errno != EAGAIN && errno != EINTR)
+        goto select_error;
+    }
+
+    if (v4l2_ioctl (v4l2src->v4l2object->video_fd, VIDIOC_DQBUF, &buffer) >= 0)
+      break;
 
     GST_WARNING_OBJECT (v4l2src,
         "problem grabbing frame %d (ix=%d), trials=%d, pool-ct=%d, buf.flags=%d",
@@ -1047,8 +1065,8 @@ gst_v4l2src_grab_frame (GstV4l2Src * v4l2src, GstBuffer ** buf)
         break;
       default:
         GST_WARNING_OBJECT (v4l2src,
-            "Grabbing frame got interrupted on %s. No expected reason.",
-            v4l2src->v4l2object->videodev);
+            "Grabbing frame got interrupted on %s unexpectedly. %d: %s.",
+            v4l2src->v4l2object->videodev, errno, g_strerror (errno));
         break;
     }
 
@@ -1088,35 +1106,6 @@ gst_v4l2src_grab_frame (GstV4l2Src * v4l2src, GstBuffer ** buf)
   /* this can change at every frame, esp. with jpeg */
   GST_BUFFER_SIZE (pool_buffer) = buffer.bytesused;
 
-  GST_BUFFER_OFFSET (pool_buffer) = v4l2src->offset++;
-  GST_BUFFER_OFFSET_END (pool_buffer) = v4l2src->offset;
-
-  /* timestamps, LOCK to get clock and base time. */
-  {
-    GstClock *clock;
-    GstClockTime timestamp;
-
-    GST_OBJECT_LOCK (v4l2src);
-    if ((clock = GST_ELEMENT_CLOCK (v4l2src))) {
-      /* we have a clock, get base time and ref clock */
-      timestamp = GST_ELEMENT (v4l2src)->base_time;
-      gst_object_ref (clock);
-    } else {
-      /* no clock, can't set timestamps */
-      timestamp = GST_CLOCK_TIME_NONE;
-    }
-    GST_OBJECT_UNLOCK (v4l2src);
-
-    if (clock) {
-      /* the time now is the time of the clock minus the base time */
-      timestamp = gst_clock_get_time (clock) - timestamp;
-      gst_object_unref (clock);
-    }
-
-    /* FIXME: use the timestamp from the buffer itself! */
-    GST_BUFFER_TIMESTAMP (pool_buffer) = timestamp;
-  }
-
   if (G_UNLIKELY (need_copy)) {
     *buf = gst_buffer_copy (pool_buffer);
     GST_BUFFER_FLAG_UNSET (*buf, GST_BUFFER_FLAG_READONLY);
@@ -1125,6 +1114,7 @@ gst_v4l2src_grab_frame (GstV4l2Src * v4l2src, GstBuffer ** buf)
   } else {
     *buf = pool_buffer;
   }
+  /* we set the buffer metadata in gst_v4l2src_create() */
 
   GST_LOG_OBJECT (v4l2src, "grabbed frame %d (ix=%d), flags %08x, pool-ct=%d",
       buffer.sequence, buffer.index, buffer.flags,
@@ -1133,6 +1123,17 @@ gst_v4l2src_grab_frame (GstV4l2Src * v4l2src, GstBuffer ** buf)
   return GST_FLOW_OK;
 
   /* ERRORS */
+select_error:
+  {
+    GST_ELEMENT_ERROR (v4l2src, RESOURCE, READ, (NULL),
+        ("select error %d: %s (%d)", ret, g_strerror (errno), errno));
+    return GST_FLOW_ERROR;
+  }
+stopped:
+  {
+    GST_DEBUG ("stop called");
+    return GST_FLOW_WRONG_STATE;
+  }
 einval:
   {
     GST_ELEMENT_ERROR (v4l2src, RESOURCE, FAILED,

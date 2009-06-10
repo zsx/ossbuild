@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-rtpjpegpay.html" title="rtpjpegpay">
 <link rel="next" href="gst-plugins-good-plugins-smokedec.html" title="smokedec">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-smokedec.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-rtspsrc.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rtspsrc.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rtspsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rtspsrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rtspsrc.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-rtspsrc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rtspsrc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rtspsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rtspsrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rtspsrc.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-rtspsrc"></a><div class="titlepage"></div>
@@ -94,6 +96,12 @@ href="../glib/glib-Basic-Types.html#guint64"
 href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct
   "<a class="link" href="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--nat-method" title='The "nat-method" property'>nat-method</a>"               GstRTSPNatMethod      : Read / Write / Construct
+  "<a class="link" href="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--do-rtcp" title='The "do-rtcp" property'>do-rtcp</a>"                  <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+  "<a class="link" href="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--proxy" title='The "proxy" property'>proxy</a>"                    <a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write / Construct
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -130,7 +138,7 @@ PLAYING state.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2950794"></a><h3>Example launch line</h3>
+<a name="id2831875"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch rtspsrc location=rtsp://some.server/url ! fakesink
 </pre></div> Establish a connection to an RTSP server and send the raw RTP packets to a
@@ -143,7 +151,7 @@ Last reviewed on 2006-08-18 (0.10.5)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2906873"></a><h3>Element Information</h3>
+<a name="id2806732"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -168,7 +176,7 @@ Last reviewed on 2006-08-18 (0.10.5)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2943725"></a><h3>Element Pads</h3>
+<a name="id2806183"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -197,7 +205,6 @@ Last reviewed on 2006-08-18 (0.10.5)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -206,7 +213,6 @@ Last reviewed on 2006-08-18 (0.10.5)</p>
 <a name="GstRTSPSrc-struct"></a><h3>GstRTSPSrc</h3>
 <pre class="programlisting">typedef struct _GstRTSPSrc GstRTSPSrc;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -292,10 +298,28 @@ href="../glib/glib-Basic-Types.html#guint"
 <p>Method to use for traversing firewalls and NAT.</p>
 <p>Default value: Send Dummy packets</p>
 </div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstRTSPSrc--do-rtcp"></a><h3>The <code class="literal">"do-rtcp"</code> property</h3>
+<pre class="programlisting">  "do-rtcp"                  <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Send RTCP packets, disable for old incompatible server.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstRTSPSrc--proxy"></a><h3>The <code class="literal">"proxy"</code> property</h3>
+<pre class="programlisting">  "proxy"                    <a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write / Construct</pre>
+<p>Proxy settings for HTTP tunneling. Format: [http://][user:passwd@]host[:port].</p>
+<p>Default value: NULL</p>
+</div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

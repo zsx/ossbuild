@@ -42,6 +42,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <libavc1394/avc1394.h>
 #include <libavc1394/avc1394_vcr.h>
@@ -1036,7 +1037,6 @@ gst_dv1394src_get_query_types (GstPad * pad)
 static gboolean
 gst_dv1394src_query (GstPad * pad, GstQuery * query)
 {
-  gboolean res = TRUE;
   GstDV1394Src *src;
 
   src = GST_DV1394SRC (gst_pad_get_parent (pad));
@@ -1050,7 +1050,7 @@ gst_dv1394src_query (GstPad * pad, GstQuery * query)
       gst_query_parse_position (query, &format, NULL);
 
       /* bring our current frame to the requested format */
-      res = gst_pad_query_convert (pad,
+      gst_pad_query_convert (pad,
           GST_FORMAT_DEFAULT, src->frame_sequence, &format, &current);
 
       gst_query_set_position (query, format, current);
@@ -1062,8 +1062,7 @@ gst_dv1394src_query (GstPad * pad, GstQuery * query)
       gint64 src_val, dest_val;
 
       gst_query_parse_convert (query, &src_fmt, &src_val, &dest_fmt, &dest_val);
-      if (!(res =
-              gst_dv1394src_convert (pad, src_fmt, src_val, &dest_fmt,
+      if (!(gst_dv1394src_convert (pad, src_fmt, src_val, &dest_fmt,
                   &dest_val)))
         goto not_supported;
       gst_query_set_convert (query, src_fmt, src_val, dest_fmt, dest_val);

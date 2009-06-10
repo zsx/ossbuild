@@ -42,7 +42,7 @@ GST_STATIC_PAD_TEMPLATE ("src",
     GST_PAD_SRC,
     GST_PAD_ALWAYS,
     GST_STATIC_CAPS ("audio/mpeg,"
-        "mpegversion = (int) 4," "framed = (boolean) false")
+        "mpegversion = (int) 4," "framed = (boolean) true")
     );
 
 static GstStaticPadTemplate gst_rtp_mp4a_depay_sink_template =
@@ -156,7 +156,7 @@ gst_rtp_mp4a_depay_setcaps (GstBaseRTPDepayload * depayload, GstCaps * caps)
 
   srccaps = gst_caps_new_simple ("audio/mpeg",
       "mpegversion", G_TYPE_INT, 4,
-      "framed", G_TYPE_BOOLEAN, FALSE, "channels", G_TYPE_INT, channels, NULL);
+      "framed", G_TYPE_BOOLEAN, TRUE, "channels", G_TYPE_INT, channels, NULL);
 
   if ((str = gst_structure_get_string (structure, "config"))) {
     GValue v = { 0 };
@@ -208,9 +208,9 @@ gst_rtp_mp4a_depay_setcaps (GstBaseRTPDepayload * depayload, GstCaps * caps)
       for (i = 0; i < size; i++) {
         data[i] = ((data[i + 1] & 1) << 7) | ((data[i + 2] & 0xfe) >> 1);
       }
-      /* last bit, this is probably not needed. */
-      data[i] = ((data[i + 1] & 1) << 7);
-      GST_BUFFER_SIZE (buffer) = size + 1;
+
+      /* ignore remaining bit, we're only interested in full bytes */
+      GST_BUFFER_SIZE (buffer) = size;
 
       gst_caps_set_simple (srccaps,
           "codec_data", GST_TYPE_BUFFER, buffer, NULL);
@@ -316,6 +316,8 @@ gst_rtp_mp4a_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
           ("Packet invalid"), ("Not all payload consumed: "
               "possible wrongly encoded packet."));
     }
+
+    gst_buffer_unref (outbuf);
   }
   return NULL;
 
@@ -324,6 +326,7 @@ wrong_size:
   {
     GST_ELEMENT_WARNING (rtpmp4adepay, STREAM, DECODE,
         ("Packet did not validate"), ("wrong packet size"));
+    gst_buffer_unref (outbuf);
     return NULL;
   }
 }

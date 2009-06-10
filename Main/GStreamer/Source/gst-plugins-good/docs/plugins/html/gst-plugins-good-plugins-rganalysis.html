@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-qtdemux.html" title="qtdemux">
 <link rel="next" href="gst-plugins-good-plugins-rglimiter.html" title="rglimiter">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-rglimiter.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-rganalysis.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rganalysis.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rganalysis.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rganalysis.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-rganalysis.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rganalysis.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rganalysis.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rganalysis.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-rganalysis"></a><div class="titlepage"></div>
@@ -70,6 +72,9 @@ href="../glib/glib-Basic-Types.html#gint"
   "<a class="link" href="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--reference-level" title='The "reference-level" property'>reference-level</a>"          <a
 href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--message" title='The "message" property'>message</a>"                  <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -98,7 +103,7 @@ an album, not just the last one.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2922317"></a><h3>Example launch lines</h3>
+<a name="id2817124"></a><h3>Example launch lines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -t audiotestsrc wave=sine num-buffers=512 ! rganalysis ! fakesink
 </pre></div> Analyze a simple test waveform
@@ -120,7 +125,7 @@ property documentation for more information.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2915241"></a><h3>Acknowledgements</h3>
+<a name="id2822462"></a><h3>Acknowledgements</h3>
 <p>
 This element is based on code used in the <a class="ulink" href="http://sjeng.org/vorbisgain.html" target="_top">vorbisgain</a> program and many
 others.  The relevant parts are copyrighted by David Robinson, Glen Sawyer
@@ -130,7 +135,7 @@ and Frank Klemm.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2952601"></a><h3>Element Information</h3>
+<a name="id2822484"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -153,7 +158,7 @@ and Frank Klemm.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2949203"></a><h3>Element Pads</h3>
+<a name="id2822544"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -207,7 +212,6 @@ and Frank Klemm.
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -218,7 +222,6 @@ and Frank Klemm.
 <p>
 Opaque data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -238,7 +241,7 @@ skip the processing of streams that already contain the necessary tags.
 Data will flow as usual but the element will not consume CPU time and will
 not generate result tags.  To enable possible skipping, set this property
 to <a
-href="../glib/glib-Standard-Macros.html#FALSE:CAPS"
+href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><span class="type">FALSE</span></a>.
 </p>
 <p>
@@ -249,7 +252,6 @@ track of the album is missing tags, processing cannot start again.  If this
 is undesired, the application has to scan all files beforehand and enable
 forcing of processing if needed.</p>
 <p>
-
 </p>
 <p>Default value: TRUE</p>
 </div>
@@ -292,7 +294,6 @@ If you change your pipeline's state to NULL or READY between tracks, lock
 the element's state using <code class="function">gst_element_set_locked_state()</code> when it is in
 PAUSED or PLAYING.</p>
 <p>
-
 </p>
 <p>Allowed values: &gt;= 0</p>
 <p>Default value: 0</p>
@@ -330,19 +331,27 @@ The problem of the reference level being ambiguous for lack of concise
 standardization is to be solved by adopting the <span class="type">GST_TAG_REFERENCE_LEVEL</span>
 tag, which allows to store the used value alongside the gain values.</p>
 <p>
-
 </p>
 <p>Allowed values: [0,150]</p>
 <p>Default value: 89</p>
 </div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstRgAnalysis--message"></a><h3>The <code class="literal">"message"</code> property</h3>
+<pre class="programlisting">  "message"                  <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>Post statics messages.</p>
+<p>Default value: FALSE</p>
+</div>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-good-plugins-rganalysis.see-also"></a><h2>See Also</h2>
-<a class="link" href="gst-plugins-good-plugins-rgvolume.html#GstRgVolume"><span class="type">GstRgVolume</span></a>
+#GstRgVolume
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

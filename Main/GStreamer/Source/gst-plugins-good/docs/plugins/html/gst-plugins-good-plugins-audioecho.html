@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-audiowsinclimit.html" title="audiowsinclimit">
 <link rel="next" href="gst-plugins-good-plugins-audiodynamic.html" title="audiodynamic">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-audiodynamic.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-audioecho.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-audioecho.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-audioecho.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-audioecho.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-audioecho.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-audioecho.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-audioecho.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-audioecho.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-audioecho"></a><div class="titlepage"></div>
@@ -73,6 +75,9 @@ href="../glib/glib-Basic-Types.html#gfloat"
   "<a class="link" href="gst-plugins-good-plugins-audioecho.html#GstAudioEcho--intensity" title='The "intensity" property'>intensity</a>"                <a
 href="../glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-audioecho.html#GstAudioEcho--max-delay" title='The "max-delay" property'>max-delay</a>"                <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -94,7 +99,7 @@ state and will be set to the current delay by default.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2887652"></a><h3>Example launch line</h3>
+<a name="id2732205"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location="melo1.ogg" ! audioconvert ! audioecho delay=500000000 intensity=0.6 feedback=0.4 ! audioconvert ! autoaudiosink
 gst-launch filesrc location="melo1.ogg" ! decodebin ! audioconvert ! audioecho delay=50000000 intensity=0.6 feedback=0.4 ! audioconvert ! autoaudiosink
@@ -103,7 +108,7 @@ gst-launch filesrc location="melo1.ogg" ! decodebin ! audioconvert ! audioecho d
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2879613"></a><h3>Element Information</h3>
+<a name="id2765659"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -126,7 +131,7 @@ gst-launch filesrc location="melo1.ogg" ! decodebin ! audioconvert ! audioecho d
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2895704"></a><h3>Element Pads</h3>
+<a name="id2756621"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -172,7 +177,6 @@ gst-launch filesrc location="melo1.ogg" ! decodebin ! audioconvert ! audioecho d
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -181,7 +185,6 @@ gst-launch filesrc location="melo1.ogg" ! decodebin ! audioconvert ! audioecho d
 <a name="GstAudioEcho-struct"></a><h3>GstAudioEcho</h3>
 <pre class="programlisting">typedef struct _GstAudioEcho GstAudioEcho;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -192,7 +195,7 @@ gst-launch filesrc location="melo1.ogg" ! decodebin ! audioconvert ! audioecho d
 <pre class="programlisting">  "delay"                    <a
 href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
-<p>Delay of the echo in nanosecondsecho.</p>
+<p>Delay of the echo in nanoseconds.</p>
 <p>Allowed values: &gt;= 1</p>
 <p>Default value: 1</p>
 </div>
@@ -216,10 +219,20 @@ href="../glib/glib-Basic-Types.html#gfloat"
 <p>Allowed values: [0,1]</p>
 <p>Default value: 0</p>
 </div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstAudioEcho--max-delay"></a><h3>The <code class="literal">"max-delay"</code> property</h3>
+<pre class="programlisting">  "max-delay"                <a
+href="../glib/glib-Basic-Types.html#guint64"
+>guint64</a>               : Read / Write</pre>
+<p>Maximum delay of the echo in nanoseconds (can't be changed in PLAYING or PAUSED state).</p>
+<p>Allowed values: &gt;= 1</p>
+<p>Default value: 1</p>
+</div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

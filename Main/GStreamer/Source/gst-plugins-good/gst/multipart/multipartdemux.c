@@ -192,6 +192,12 @@ gst_multipart_demux_init (GstMultipartDemux * multipart,
   multipart->autoscan = DEFAULT_AUTOSCAN;
 }
 
+void
+gst_multipart_pad_free (GstMultipartPad * mppad)
+{
+  g_free (mppad->mime);
+  g_free (mppad);
+}
 
 static void
 gst_multipart_demux_finalize (GObject * object)
@@ -201,6 +207,8 @@ gst_multipart_demux_finalize (GObject * object)
   g_object_unref (demux->adapter);
   g_free (demux->boundary);
   g_free (demux->mime_type);
+  g_slist_foreach (demux->srcpads, (GFunc) gst_multipart_pad_free, NULL);
+  g_slist_free (demux->srcpads);
 
   G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -461,6 +469,7 @@ gst_multipart_demux_chain (GstPad * pad, GstBuffer * buf)
 {
   GstMultipartDemux *multipart;
   GstAdapter *adapter;
+  GstClockTime timestamp;
   gint size = 1;
   GstFlowReturn res;
 
@@ -468,6 +477,8 @@ gst_multipart_demux_chain (GstPad * pad, GstBuffer * buf)
   adapter = multipart->adapter;
 
   res = GST_FLOW_OK;
+
+  timestamp = GST_BUFFER_TIMESTAMP (buf);
 
   if (GST_BUFFER_FLAG_IS_SET (buf, GST_BUFFER_FLAG_DISCONT)) {
     gst_adapter_clear (adapter);
@@ -510,7 +521,7 @@ gst_multipart_demux_chain (GstPad * pad, GstBuffer * buf)
       gst_pad_push_event (srcpad->pad, event);
       GST_BUFFER_TIMESTAMP (outbuf) = 0;
     } else {
-      GST_BUFFER_TIMESTAMP (outbuf) = GST_BUFFER_TIMESTAMP (buf);
+      GST_BUFFER_TIMESTAMP (outbuf) = timestamp;
     }
     GST_DEBUG_OBJECT (multipart,
         "pushing buffer with timestamp %" GST_TIME_FORMAT,

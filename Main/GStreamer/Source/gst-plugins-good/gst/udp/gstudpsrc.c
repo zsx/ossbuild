@@ -142,6 +142,7 @@ GST_ELEMENT_DETAILS ("UDP packet receiver",
 
 #define UDP_DEFAULT_PORT                4951
 #define UDP_DEFAULT_MULTICAST_GROUP     "0.0.0.0"
+#define UDP_DEFAULT_MULTICAST_IFACE     NULL
 #define UDP_DEFAULT_URI                 "udp://"UDP_DEFAULT_MULTICAST_GROUP":"G_STRINGIFY(UDP_DEFAULT_PORT)
 #define UDP_DEFAULT_CAPS                NULL
 #define UDP_DEFAULT_SOCKFD              -1
@@ -158,6 +159,7 @@ enum
 
   PROP_PORT,
   PROP_MULTICAST_GROUP,
+  PROP_MULTICAST_IFACE,
   PROP_URI,
   PROP_CAPS,
   PROP_SOCKFD,
@@ -250,9 +252,13 @@ gst_udpsrc_class_init (GstUDPSrcClass * klass)
           "The port to receive the packets from, 0=allocate", 0, G_MAXUINT16,
           UDP_DEFAULT_PORT, G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_MULTICAST_GROUP,
-      g_param_spec_string ("multicast_group", "Multicast Group",
+      g_param_spec_string ("multicast-group", "Multicast Group",
           "The Address of multicast group to join", UDP_DEFAULT_MULTICAST_GROUP,
           G_PARAM_READWRITE));
+  g_object_class_install_property (gobject_class, PROP_MULTICAST_IFACE,
+      g_param_spec_string ("multicast-iface", "Multicast Interface",
+          "The network interface on which to join the multicast group",
+          UDP_DEFAULT_MULTICAST_IFACE, G_PARAM_READWRITE));
   g_object_class_install_property (gobject_class, PROP_URI,
       g_param_spec_string ("uri", "URI",
           "URI in the form of udp://multicast_group:port", UDP_DEFAULT_URI,
@@ -306,6 +312,7 @@ gst_udpsrc_init (GstUDPSrc * udpsrc, GstUDPSrcClass * g_class)
   udpsrc->port = UDP_DEFAULT_PORT;
   udpsrc->sockfd = UDP_DEFAULT_SOCKFD;
   udpsrc->multi_group = g_strdup (UDP_DEFAULT_MULTICAST_GROUP);
+  udpsrc->multi_iface = g_strdup (UDP_DEFAULT_MULTICAST_IFACE);
   udpsrc->uri = g_strdup (UDP_DEFAULT_URI);
   udpsrc->buffer_size = UDP_DEFAULT_BUFFER_SIZE;
   udpsrc->timeout = UDP_DEFAULT_TIMEOUT;
@@ -334,6 +341,7 @@ gst_udpsrc_finalize (GObject * object)
   if (udpsrc->caps)
     gst_caps_unref (udpsrc->caps);
   g_free (udpsrc->multi_group);
+  g_free (udpsrc->multi_iface);
   g_free (udpsrc->uri);
 
   if (udpsrc->sockfd >= 0 && udpsrc->closefd)
@@ -357,13 +365,50 @@ gst_udpsrc_getcaps (GstBaseSrc * src)
     return gst_caps_new_any ();
 }
 
+/* read a message from the error queue */
+static void
+clear_error (GstUDPSrc * udpsrc)
+{
+#if defined (MSG_ERRQUEUE)
+  struct msghdr cmsg;
+  char cbuf[128];
+  char msgbuf[CMSG_SPACE (128)];
+  struct iovec iov;
+
+  /* Flush ERRORS from fd so next poll will not return at once */
+  /* No need for address : We look for local error */
+  cmsg.msg_name = NULL;
+  cmsg.msg_namelen = 0;
+
+  /* IOV */
+  memset (&cbuf, 0, sizeof (cbuf));
+  iov.iov_base = cbuf;
+  iov.iov_len = sizeof (cbuf);
+  cmsg.msg_iov = &iov;
+  cmsg.msg_iovlen = 1;
+
+  /* msg_control */
+  memset (&msgbuf, 0, sizeof (msgbuf));
+  cmsg.msg_control = &msgbuf;
+  cmsg.msg_controllen = sizeof (msgbuf);
+
+  recvmsg (udpsrc->sock.fd, &cmsg, MSG_ERRQUEUE);
+#endif
+}
+
 static GstFlowReturn
 gst_udpsrc_create (GstPushSrc * psrc, GstBuffer ** buf)
 {
   GstUDPSrc *udpsrc;
   GstNetBuffer *outbuf;
-  struct sockaddr_storage tmpaddr;
-  socklen_t len;
+  union gst_sockaddr
+  {
+    struct sockaddr sa;
+    struct sockaddr_in sa_in;
+    struct sockaddr_in6 sa_in6;
+    struct sockaddr_storage sa_stor;
+  } sa;
+  socklen_t slen;
   guint8 *pktdata;
   gint pktsize;
 #ifdef G_OS_UNIX
@@ -434,8 +479,10 @@ retry:
    * woken up by activity on the socket but it was not a read. We know someone
    * will also do something with the socket so that we don't go into an infinite
    * loop in the select(). */
-  if (G_UNLIKELY (!readsize))
+  if (G_UNLIKELY (!readsize)) {
+    clear_error (udpsrc);
     goto retry;
+  }
 
 no_select:
   GST_LOG_OBJECT (udpsrc, "ioctl says %d bytes available", (int) readsize);
@@ -444,13 +491,13 @@ no_select:
   pktsize = readsize;
 
   while (TRUE) {
-    len = sizeof (struct sockaddr);
+    slen = sizeof (sa);
 #ifdef G_OS_WIN32
-    ret = recvfrom (udpsrc->sock.fd, (char *) pktdata, pktsize,
+    ret = recvfrom (udpsrc->sock.fd, (char *) pktdata, pktsize, 0, &sa.sa,
+        &slen);
 #else
-    ret = recvfrom (udpsrc->sock.fd, pktdata, pktsize,
+    ret = recvfrom (udpsrc->sock.fd, pktdata, pktsize, 0, &sa.sa, &slen);
 #endif
-        0, (struct sockaddr *) &tmpaddr, &len);
     if (G_UNLIKELY (ret < 0)) {
 #ifdef G_OS_WIN32
       /* WSAECONNRESET for a UDP socket means that a packet sent with udpsink
@@ -486,22 +533,19 @@ no_select:
   GST_BUFFER_DATA (outbuf) = pktdata;
   GST_BUFFER_SIZE (outbuf) = ret;
 
-  switch (tmpaddr.ss_family) {
+  switch (sa.sa.sa_family) {
     case AF_INET:
     {
-      gst_netaddress_set_ip4_address (&outbuf->from,
-          ((struct sockaddr_in *) &tmpaddr)->sin_addr.s_addr,
-          ((struct sockaddr_in *) &tmpaddr)->sin_port);
+      gst_netaddress_set_ip4_address (&outbuf->from, sa.sa_in.sin_addr.s_addr,
+          sa.sa_in.sin_port);
     }
       break;
     case AF_INET6:
     {
       guint8 ip6[16];
 
-      memcpy (ip6, &((struct sockaddr_in6 *) &tmpaddr)->sin6_addr,
-          sizeof (ip6));
-      gst_netaddress_set_ip6_address (&outbuf->from, ip6,
-          ((struct sockaddr_in *) &tmpaddr)->sin_port);
+      memcpy (ip6, &sa.sa_in6.sin6_addr, sizeof (ip6));
+      gst_netaddress_set_ip6_address (&outbuf->from, ip6, sa.sa_in6.sin6_port);
     }
       break;
     default:
@@ -601,9 +645,9 @@ gst_udpsrc_set_uri (GstUDPSrc * src, const gchar * uri)
   /* ERRORS */
 wrong_protocol:
   {
-    g_free (protocol);
     GST_ELEMENT_ERROR (src, RESOURCE, READ, (NULL),
         ("error parsing uri %s: wrong protocol (%s != udp)", uri, protocol));
+    g_free (protocol);
     return FALSE;
   }
 }
@@ -630,6 +674,14 @@ gst_udpsrc_set_property (GObject * object, guint prop_id, const GValue * value,
       else
         udpsrc->multi_group = g_value_dup_string (value);
       gst_udpsrc_update_uri (udpsrc);
+      break;
+    case PROP_MULTICAST_IFACE:
+      g_free (udpsrc->multi_iface);
+
+      if (g_value_get_string (value) == NULL)
+        udpsrc->multi_iface = g_strdup (UDP_DEFAULT_MULTICAST_IFACE);
+      else
+        udpsrc->multi_iface = g_value_dup_string (value);
       break;
     case PROP_URI:
       gst_udpsrc_set_uri (udpsrc, g_value_get_string (value));
@@ -695,6 +747,9 @@ gst_udpsrc_get_property (GObject * object, guint prop_id, GValue * value,
     case PROP_MULTICAST_GROUP:
       g_value_set_string (value, udpsrc->multi_group);
       break;
+    case PROP_MULTICAST_IFACE:
+      g_value_set_string (value, udpsrc->multi_iface);
+      break;
     case PROP_URI:
       g_value_set_string (value, udpsrc->uri);
       break;
@@ -730,6 +785,7 @@ static gboolean
 gst_udpsrc_start (GstBaseSrc * bsrc)
 {
   guint bc_val;
+  guint err_val;
   gint reuse;
   int port;
   GstUDPSrc *src;
@@ -821,9 +877,20 @@ gst_udpsrc_start (GstBaseSrc * bsrc)
             g_strerror (errno), errno));
   }
 
+  /* Accept ERRQUEUE to get and flush icmp errors */
+  err_val = 1;
+#if defined (IP_RECVERR)
+  if ((ret = setsockopt (src->sock.fd, IPPROTO_IP, IP_RECVERR, &err_val,
+              sizeof (err_val))) < 0) {
+    GST_ELEMENT_WARNING (src, RESOURCE, SETTINGS, (NULL),
+        ("could not configure socket for IP_RECVERR %d: %s (%d)", ret,
+            g_strerror (errno), errno));
+  }
+#endif
+
   if (src->auto_multicast && gst_udp_is_multicast (&src->myaddr)) {
     GST_DEBUG_OBJECT (src, "joining multicast group %s", src->multi_group);
-    ret = gst_udp_join_group (src->sock.fd, &src->myaddr);
+    ret = gst_udp_join_group (src->sock.fd, &src->myaddr, src->multi_iface);
     if (ret < 0)
       goto membership;
   }
@@ -850,7 +917,7 @@ gst_udpsrc_start (GstBaseSrc * bsrc)
 getaddrinfo_error:
   {
     GST_ELEMENT_ERROR (src, RESOURCE, SETTINGS, (NULL),
-        ("getaddrinfo failed %d: %s (%d)", ret, g_strerror (errno), errno));
+        ("getaddrinfo failed: %s (%d)", gai_strerror (ret), ret));
     return FALSE;
   }
 no_socket:

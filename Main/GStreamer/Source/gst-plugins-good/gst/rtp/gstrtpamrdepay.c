@@ -137,12 +137,8 @@ gst_rtp_amr_depay_base_init (gpointer klass)
 static void
 gst_rtp_amr_depay_class_init (GstRtpAMRDepayClass * klass)
 {
-  GObjectClass *gobject_class;
-  GstElementClass *gstelement_class;
   GstBaseRTPDepayloadClass *gstbasertpdepayload_class;
 
-  gobject_class = (GObjectClass *) klass;
-  gstelement_class = (GstElementClass *) klass;
   gstbasertpdepayload_class = (GstBaseRTPDepayloadClass *) klass;
 
   parent_class = g_type_class_peek_parent (klass);
@@ -303,9 +299,7 @@ gst_rtp_amr_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
     gint i, num_packets, num_nonempty_packets;
     gint amr_len;
     gint ILL, ILP;
-    gboolean marker;
 
-    marker = gst_rtp_buffer_get_marker (buf);
     payload_len = gst_rtp_buffer_get_payload_len (buf);
 
     /* need at least 2 bytes for the header */
@@ -413,11 +407,10 @@ gst_rtp_amr_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
     /* we can set the duration because each packet is 20 milliseconds */
     GST_BUFFER_DURATION (outbuf) = num_packets * 20 * GST_MSECOND;
 
-    if (marker) {
+    if (gst_rtp_buffer_get_marker (buf)) {
       /* marker bit marks a discont buffer after a talkspurt. */
       GST_DEBUG_OBJECT (depayload, "marker bit was set");
       GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DISCONT);
-      marker = FALSE;
     }
 
     GST_DEBUG_OBJECT (depayload, "pushing buffer of size %d",

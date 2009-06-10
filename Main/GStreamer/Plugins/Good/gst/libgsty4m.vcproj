@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gstdeinterlace"
-	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0026}"
-	RootNamespace="libgstdeinterlace"
+	Name="gsty4m"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0019}"
+	RootNamespace="libgsty4m"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstvideo.lib"
+				AdditionalDependencies="libgstaudio.lib Winmm.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -251,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstvideo.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -299,11 +298,11 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\deinterlace\gstdeinterlace.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\y4m\gsty4mencode.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\deinterlace\gstdeinterlace.h"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\y4m\gsty4mencode.h"
 			>
 		</File>
 	</Files>

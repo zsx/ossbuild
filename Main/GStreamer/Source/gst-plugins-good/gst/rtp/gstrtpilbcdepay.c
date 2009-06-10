@@ -114,11 +114,9 @@ static void
 gst_rtp_ilbc_depay_class_init (GstRTPiLBCDepayClass * klass)
 {
   GObjectClass *gobject_class;
-  GstElementClass *gstelement_class;
   GstBaseRTPDepayloadClass *gstbasertpdepayload_class;
 
   gobject_class = (GObjectClass *) klass;
-  gstelement_class = (GstElementClass *) klass;
   gstbasertpdepayload_class = (GstBaseRTPDepayloadClass *) klass;
 
   gobject_class->set_property = gst_ilbc_depay_set_property;
@@ -137,10 +135,6 @@ static void
 gst_rtp_ilbc_depay_init (GstRTPiLBCDepay * rtpilbcdepay,
     GstRTPiLBCDepayClass * klass)
 {
-  GstBaseRTPDepayload *depayload;
-
-  depayload = GST_BASE_RTP_DEPAYLOAD (rtpilbcdepay);
-
   /* Set default mode */
   rtpilbcdepay->mode = DEFAULT_MODE;
 }

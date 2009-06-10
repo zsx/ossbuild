@@ -115,12 +115,17 @@ beach:
 int
 gst_udp_set_loop_ttl (int sockfd, gboolean loop, int ttl)
 {
+  socklen_t socklen;
+  struct sockaddr_storage addr;
   int ret = -1;
-
-#if 0
   int l = (loop == FALSE) ? 0 : 1;
 
-  switch (addr->ss_family) {
+  socklen = sizeof (addr);
+  if ((ret = getsockname (sockfd, (struct sockaddr *) &addr, &socklen)) < 0) {
+    return ret;
+  }
+
+  switch (addr.ss_family) {
     case AF_INET:
     {
       if ((ret =
@@ -149,25 +154,40 @@ gst_udp_set_loop_ttl (int sockfd, gboolean loop, int ttl)
       break;
     }
     default:
+#ifdef G_OS_WIN32
+      WSASetLastError (WSAEAFNOSUPPORT);
+#else
       errno = EAFNOSUPPORT;
-  }
 #endif
+  }
   return ret;
 }
 
+/* FIXME: Add interface selection for windows hosts.  */
 int
-gst_udp_join_group (int sockfd, struct sockaddr_storage *addr)
+gst_udp_join_group (int sockfd, struct sockaddr_storage *addr, gchar * iface)
 {
   int ret = -1;
 
   switch (addr->ss_family) {
     case AF_INET:
     {
+#ifdef HAVE_IP_MREQN
+      struct ip_mreqn mreq4;
+#else
       struct ip_mreq mreq4;
+#endif
 
       mreq4.imr_multiaddr.s_addr =
           ((struct sockaddr_in *) addr)->sin_addr.s_addr;
+#ifdef HAVE_IP_MREQN
+      if (iface)
+        mreq4.imr_ifindex = if_nametoindex (iface);
+      else
+        mreq4.imr_ifindex = 0;  /* Pick any.  */
+#else
       mreq4.imr_interface.s_addr = INADDR_ANY;
+#endif
 
       if ((ret =
               setsockopt (sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP,
@@ -184,6 +204,10 @@ gst_udp_join_group (int sockfd, struct sockaddr_storage *addr)
           &(((struct sockaddr_in6 *) addr)->sin6_addr),
           sizeof (struct in6_addr));
       mreq6.ipv6mr_interface = 0;
+#if !defined(G_OS_WIN32)
+      if (iface)
+        mreq6.ipv6mr_interface = if_nametoindex (iface);
+#endif
 
       if ((ret =
               setsockopt (sockfd, IPPROTO_IPV6, IPV6_JOIN_GROUP,

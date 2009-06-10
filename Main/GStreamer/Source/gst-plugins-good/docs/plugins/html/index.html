@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
 <link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="next" href="ch01.html" title="gst-plugins-good Elements">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -18,7 +18,7 @@
 <div>
 <div><table class="navigation" id="top" width="100%" cellpadding="2" cellspacing="0"><tr><th valign="middle"><p class="title">GStreamer Good Plugins 0.10 Plugins Reference Manual</p></th></tr></table></div>
 <div><p class="releaseinfo">
-      for GStreamer Good Plugins 0.10 (0.10.14)
+      for GStreamer Good Plugins 0.10 (0.10.15)
       The latest version of this documentation can be found on-line at
       <a class="ulink" href="http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-good/html/" target="_top">http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-good/html/</a>.
     </p></div>
@@ -125,10 +125,10 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-cutter.html">cutter</a></span><span class="refpurpose"> — Audio Cutter to split audio into non-silent bits</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-good-plugins-deinterleave.html">deinterleave</a></span><span class="refpurpose"> — Splits one interleaved multichannel audio stream into many mono audio streams</span>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-deinterlace.html">deinterlace</a></span><span class="refpurpose"> — Deinterlace Methods ported from DScaler/TvTime</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-good-plugins-directdrawsink.html">directdrawsink</a></span><span class="refpurpose"> — Direct Draw video sink</span>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-deinterleave.html">deinterleave</a></span><span class="refpurpose"> — Splits one interleaved multichannel audio stream into many mono audio streams</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-directsoundsink.html">directsoundsink</a></span><span class="refpurpose"> — DirectSound audio sink</span>
@@ -162,6 +162,12 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-flactag.html">flactag</a></span><span class="refpurpose"> — Rewrite tags in a FLAC file</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-flvdemux.html">flvdemux</a></span><span class="refpurpose"> — Demux FLV feeds into digital streams</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-flvmux.html">flvmux</a></span><span class="refpurpose"> — Muxes video/audio streams into a FLV stream</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-gamma.html">gamma</a></span><span class="refpurpose"> — Adjusts gamma on a video stream</span>
@@ -376,6 +382,9 @@
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-ximagesrc.html">ximagesrc</a></span><span class="refpurpose"> — Creates a screenshot video stream</span>
 </dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-y4menc.html">y4menc</a></span><span class="refpurpose"> — Encodes a YUV frame into the yuv4mpeg format (mjpegtools)</span>
+</dt>
 </dl></dd>
 <dt><span class="chapter"><a href="ch02.html">gst-plugins-good Plugins</a></span></dt>
 <dd><dl>
@@ -425,7 +434,7 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-debug.html">debug</a></span><span class="refpurpose"> — elements for testing and debugging</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-directdraw.html">directdraw</a></span><span class="refpurpose"> — Direct Draw plugin</span>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-deinterlace.html">deinterlace</a></span><span class="refpurpose"> — Deinterlacer</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-directsound.html">directsound</a></span><span class="refpurpose"> — DirectSound plugin</span>
@@ -447,6 +456,9 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-flac.html">flac</a></span><span class="refpurpose"> — The FLAC Lossless compressor Codec</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-flv.html">flv</a></span><span class="refpurpose"> — FLV muxing and demuxing plugin</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-flxdec.html">flxdec</a></span><span class="refpurpose"> — FLC/FLI/FLX video decoder</span>
@@ -583,6 +595,9 @@
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-ximagesrc.html">ximagesrc</a></span><span class="refpurpose"> — X11 video input plugin using standard Xlib calls</span>
 </dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-plugin-y4menc.html">y4menc</a></span><span class="refpurpose"> — Encodes a YUV frame into the yuv4mpeg format (mjpegtools)</span>
+</dt>
 </dl></dd>
 <dt><span class="chapter"><a href="ch03.html">gst-plugins-good Base Classes</a></span></dt>
 <dd><dl>
@@ -597,6 +612,6 @@
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

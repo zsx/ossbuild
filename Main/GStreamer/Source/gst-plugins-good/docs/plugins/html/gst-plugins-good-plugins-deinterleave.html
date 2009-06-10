@@ -6,9 +6,9 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
 <link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
-<link rel="prev" href="gst-plugins-good-plugins-cutter.html" title="cutter">
-<link rel="next" href="gst-plugins-good-plugins-directdrawsink.html" title="directdrawsink">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="prev" href="gst-plugins-good-plugins-deinterlace.html" title="deinterlace">
+<link rel="next" href="gst-plugins-good-plugins-directsoundsink.html" title="directsoundsink">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -17,19 +17,21 @@
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="gst-plugins-good-plugins-cutter.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="gst-plugins-good-plugins-deinterlace.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-good-plugins-directdrawsink.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-good-plugins-directsoundsink.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-deinterleave.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-deinterleave.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-deinterleave.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-deinterleave.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-deinterleave.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-deinterleave.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-deinterleave.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-deinterleave.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-deinterleave"></a><div class="titlepage"></div>
@@ -83,7 +85,7 @@ before further processing of the audio data.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2878918"></a><h3>Example launch line</h3>
+<a name="id2762215"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=/path/to/file.mp3 ! decodebin ! audioconvert ! "audio/x-raw-int,channels=2 ! deinterleave name=d  d.src0 ! queue ! audioconvert ! vorbisenc ! oggmux ! filesink location=channel1.ogg  d.src1 ! queue ! audioconvert ! vorbisenc ! oggmux ! filesink location=channel2.ogg
 </pre></div> Decodes an MP3 file and encodes the left and right channel into separate
@@ -97,7 +99,7 @@ channels exchanged.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2921287"></a><h3>Element Information</h3>
+<a name="id2753964"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -120,7 +122,7 @@ channels exchanged.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2859743"></a><h3>Element Pads</h3>
+<a name="id2790302"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -174,7 +176,6 @@ channels exchanged.
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -183,7 +184,6 @@ channels exchanged.
 <a name="GstDeinterleave-struct"></a><h3>GstDeinterleave</h3>
 <pre class="programlisting">typedef struct _GstDeinterleave GstDeinterleave;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -200,7 +200,6 @@ contain the original channel positions. This can be used to correctly
 interleave the output again later but can also lead to unwanted effects
 if the output should be handled as Mono.</p>
 <p>
-
 </p>
 <p>Default value: FALSE</p>
 </div>
@@ -212,6 +211,6 @@ interleave
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

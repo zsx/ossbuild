@@ -73,7 +73,6 @@ static GType gst_videomixer_get_type (void);
 
 
 static void gst_videomixer_pad_class_init (GstVideoMixerPadClass * klass);
-
 static void gst_videomixer_pad_init (GstVideoMixerPad * mixerpad);
 
 static void gst_videomixer_pad_get_property (GObject * object, guint prop_id,
@@ -82,9 +81,7 @@ static void gst_videomixer_pad_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec);
 
 static gboolean gst_videomixer_src_event (GstPad * pad, GstEvent * event);
-
 static gboolean gst_videomixer_sink_event (GstPad * pad, GstEvent * event);
-
 
 static void gst_videomixer_sort_pads (GstVideoMixer * mix);
 
@@ -184,7 +181,6 @@ gst_videomixer_pad_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec)
 {
   GstVideoMixerPad *pad;
-
   GstVideoMixer *mix;
 
   pad = GST_VIDEO_MIXER_PAD (object);
@@ -218,9 +214,7 @@ static void
 gst_videomixer_set_master_geometry (GstVideoMixer * mix)
 {
   GSList *walk;
-
   gint width = 0, height = 0, fps_n = 0, fps_d = 0;
-
   GstVideoMixerPad *master = NULL;
 
   walk = mix->sinkpads;
@@ -263,15 +257,10 @@ static gboolean
 gst_videomixer_pad_sink_setcaps (GstPad * pad, GstCaps * vscaps)
 {
   GstVideoMixer *mix;
-
   GstVideoMixerPad *mixpad;
-
   GstStructure *structure;
-
   gint in_width, in_height;
-
   gboolean ret = FALSE;
-
   const GValue *framerate;
 
   mix = GST_VIDEO_MIXER (gst_pad_get_parent (pad));
@@ -401,7 +390,6 @@ static GstStaticPadTemplate sink_factory = GST_STATIC_PAD_TEMPLATE ("sink_%d",
 static void gst_videomixer_finalize (GObject * object);
 
 static GstCaps *gst_videomixer_getcaps (GstPad * pad);
-
 static gboolean gst_videomixer_query (GstPad * pad, GstQuery * query);
 
 static GstFlowReturn gst_videomixer_collected (GstCollectPads * pads,
@@ -444,7 +432,6 @@ gst_videomixer_child_proxy_get_child_by_index (GstChildProxy * child_proxy,
     guint index)
 {
   GstVideoMixer *mix = GST_VIDEO_MIXER (child_proxy);
-
   GstObject *obj;
 
   GST_VIDEO_MIXER_STATE_LOCK (mix);
@@ -458,7 +445,6 @@ static guint
 gst_videomixer_child_proxy_get_children_count (GstChildProxy * child_proxy)
 {
   guint count = 0;
-
   GstVideoMixer *mix = GST_VIDEO_MIXER (child_proxy);
 
   GST_VIDEO_MIXER_STATE_LOCK (mix);
@@ -495,7 +481,6 @@ static void
 gst_videomixer_class_init (GstVideoMixerClass * klass)
 {
   GObjectClass *gobject_class;
-
   GstElementClass *gstelement_class;
 
   gobject_class = (GObjectClass *) klass;
@@ -605,13 +590,9 @@ static gboolean
 gst_videomixer_query_duration (GstVideoMixer * mix, GstQuery * query)
 {
   gint64 max;
-
   gboolean res;
-
   GstFormat format;
-
   GstIterator *it;
-
   gboolean done;
 
   /* parse format */
@@ -625,7 +606,6 @@ gst_videomixer_query_duration (GstVideoMixer * mix, GstQuery * query)
   it = gst_element_iterate_sink_pads (GST_ELEMENT_CAST (mix));
   while (!done) {
     GstIteratorResult ires;
-
     gpointer item;
 
     ires = gst_iterator_next (it, &item);
@@ -636,7 +616,6 @@ gst_videomixer_query_duration (GstVideoMixer * mix, GstQuery * query)
       case GST_ITERATOR_OK:
       {
         GstPad *pad = GST_PAD_CAST (item);
-
         gint64 duration;
 
         /* ask sink peer for duration */
@@ -682,18 +661,13 @@ static gboolean
 gst_videomixer_query_latency (GstVideoMixer * mix, GstQuery * query)
 {
   GstClockTime min, max;
-
   gboolean live;
-
   gboolean res;
-
   GstIterator *it;
-
   gboolean done;
 
   res = TRUE;
   done = FALSE;
-
   live = FALSE;
   min = 0;
   max = GST_CLOCK_TIME_NONE;
@@ -702,7 +676,6 @@ gst_videomixer_query_latency (GstVideoMixer * mix, GstQuery * query)
   it = gst_element_iterate_sink_pads (GST_ELEMENT_CAST (mix));
   while (!done) {
     GstIteratorResult ires;
-
     gpointer item;
 
     ires = gst_iterator_next (it, &item);
@@ -774,7 +747,6 @@ static gboolean
 gst_videomixer_query (GstPad * pad, GstQuery * query)
 {
   GstVideoMixer *mix = GST_VIDEO_MIXER (gst_pad_get_parent (pad));
-
   gboolean res = FALSE;
 
   switch (GST_QUERY_TYPE (query)) {
@@ -816,9 +788,7 @@ static GstCaps *
 gst_videomixer_getcaps (GstPad * pad)
 {
   GstVideoMixer *mix;
-
   GstCaps *caps;
-
   GstStructure *structure;
 
   mix = GST_VIDEO_MIXER (gst_pad_get_parent (pad));
@@ -847,9 +817,7 @@ gst_videomixer_request_new_pad (GstElement * element,
     GstPadTemplate * templ, const gchar * req_name)
 {
   GstVideoMixer *mix = NULL;
-
   GstVideoMixerPad *mixpad = NULL;
-
   GstElementClass *klass = GST_ELEMENT_GET_CLASS (element);
 
   g_return_val_if_fail (templ != NULL, NULL);
@@ -865,9 +833,7 @@ gst_videomixer_request_new_pad (GstElement * element,
 
   if (templ == gst_element_class_get_pad_template (klass, "sink_%d")) {
     gint serial = 0;
-
     gchar *name = NULL;
-
     GstVideoMixerCollect *mixcol = NULL;
 
     if (req_name == NULL || strlen (req_name) < 6) {
@@ -927,7 +893,6 @@ static void
 gst_videomixer_release_pad (GstElement * element, GstPad * pad)
 {
   GstVideoMixer *mix = NULL;
-
   GstVideoMixerPad *mixpad;
 
   mix = GST_VIDEO_MIXER (element);
@@ -1110,13 +1075,9 @@ gst_videomixer_blend_ayuv_ayuv (guint8 * src, gint xpos, gint ypos,
     guint8 * dest, gint dest_width, gint dest_height)
 {
   gint alpha, b_alpha;
-
   gint i, j;
-
   gint src_stride, dest_stride;
-
   gint src_add, dest_add;
-
   gint Y, U, V;
 
   src_stride = src_width * 4;
@@ -1222,7 +1183,6 @@ static gboolean
 gst_videomixer_fill_queues (GstVideoMixer * mix)
 {
   GSList *walk = NULL;
-
   gboolean eos = TRUE;
 
   g_return_val_if_fail (GST_IS_VIDEO_MIXER (mix), FALSE);
@@ -1231,9 +1191,7 @@ gst_videomixer_fill_queues (GstVideoMixer * mix)
   walk = mix->collect->data;
   while (walk) {
     GstCollectData *data = (GstCollectData *) walk->data;
-
     GstVideoMixerCollect *mixcol = (GstVideoMixerCollect *) data;
-
     GstVideoMixerPad *mixpad = mixcol->mixpad;
 
     walk = g_slist_next (walk);
@@ -1271,7 +1229,6 @@ gst_videomixer_fill_queues (GstVideoMixer * mix)
     if (mix->sendseg && (mixpad == mix->master)) {
       GstEvent *event;
       gint64 stop, start;
-
       GstSegment *segment = &data->segment;
 
       /* FIXME, use rate/applied_rate as set on all sinkpads.
@@ -1322,7 +1279,6 @@ gst_videomixer_blend_buffers (GstVideoMixer * mix, GstBuffer * outbuf)
   walk = mix->sinkpads;
   while (walk) {                /* We walk with this list because it's ordered */
     GstVideoMixerPad *pad = GST_VIDEO_MIXER_PAD (walk->data);
-
     GstVideoMixerCollect *mixcol = pad->mixcol;
 
     walk = g_slist_next (walk);
@@ -1372,7 +1328,6 @@ static void
 gst_videomixer_update_queues (GstVideoMixer * mix)
 {
   GSList *walk;
-
   guint64 interval;
 
   interval = mix->master->queued;
@@ -1388,7 +1343,6 @@ gst_videomixer_update_queues (GstVideoMixer * mix)
   walk = mix->sinkpads;
   while (walk) {
     GstVideoMixerPad *pad = GST_VIDEO_MIXER_PAD (walk->data);
-
     GstVideoMixerCollect *mixcol = pad->mixcol;
 
     walk = g_slist_next (walk);
@@ -1409,11 +1363,8 @@ static GstFlowReturn
 gst_videomixer_collected (GstCollectPads * pads, GstVideoMixer * mix)
 {
   GstFlowReturn ret = GST_FLOW_OK;
-
   GstBuffer *outbuf = NULL;
-
   size_t outsize = 0;
-
   gboolean eos = FALSE;
 
   g_return_val_if_fail (GST_IS_VIDEO_MIXER (mix), GST_FLOW_ERROR);
@@ -1523,15 +1474,11 @@ forward_event_func (GstPad * pad, GValue * ret, GstEvent * event)
 static gboolean
 forward_event (GstVideoMixer * mix, GstEvent * event)
 {
-  gboolean ret;
-
   GstIterator *it;
   GValue vret = { 0 };
 
   GST_LOG_OBJECT (mix, "Forwarding event %p (%s)", event,
       GST_EVENT_TYPE_NAME (event));
-
-  ret = TRUE;
 
   g_value_init (&vret, G_TYPE_BOOLEAN);
   g_value_set_boolean (&vret, TRUE);
@@ -1541,16 +1488,13 @@ forward_event (GstVideoMixer * mix, GstEvent * event)
   gst_iterator_free (it);
   gst_event_unref (event);
 
-  ret = g_value_get_boolean (&vret);
-
-  return ret;
+  return g_value_get_boolean (&vret);
 }
 
 static gboolean
 gst_videomixer_src_event (GstPad * pad, GstEvent * event)
 {
   GstVideoMixer *mix;
-
   gboolean result;
 
   mix = GST_VIDEO_MIXER (gst_pad_get_parent (pad));
@@ -1613,7 +1557,6 @@ static gboolean
 gst_videomixer_sink_event (GstPad * pad, GstEvent * event)
 {
   GstVideoMixer *videomixer;
-
   gboolean ret;
 
   videomixer = GST_VIDEO_MIXER (gst_pad_get_parent (pad));
@@ -1682,7 +1625,6 @@ static GstStateChangeReturn
 gst_videomixer_change_state (GstElement * element, GstStateChange transition)
 {
   GstVideoMixer *mix;
-
   GstStateChangeReturn ret;
 
   g_return_val_if_fail (GST_IS_VIDEO_MIXER (element), GST_STATE_CHANGE_FAILURE);

@@ -525,7 +525,6 @@ gst_ximage_src_ximage_get (GstXImageSrc * ximagesrc)
       memcpy (GST_BUFFER_DATA (GST_BUFFER (ximage)),
           GST_BUFFER_DATA (GST_BUFFER (ximagesrc->last_ximage)),
           GST_BUFFER_SIZE (GST_BUFFER (ximage)));
-      have_frame = TRUE;
     }
 #ifdef HAVE_XFIXES
     /* re-get area where last mouse pointer was  but only if in our clipping
@@ -619,7 +618,6 @@ gst_ximage_src_ximage_get (GstXImageSrc * ximagesrc)
     if (ximagesrc->cursor_image != NULL) {
       int cx, cy, i, j, count;
       int startx, starty, iwidth, iheight;
-      gboolean clipped = FALSE;
       gboolean cursor_in_image = TRUE;
 
       cx = ximagesrc->cursor_image->x - ximagesrc->cursor_image->xhot;
@@ -653,7 +651,6 @@ gst_ximage_src_ximage_get (GstXImageSrc * ximagesrc)
           iheight = (cy + ximagesrc->cursor_image->height < ximagesrc->endy) ?
               cy + ximagesrc->cursor_image->height - starty :
               ximagesrc->endy - starty;
-          clipped = TRUE;
         }
       } else {
         startx = cx;
@@ -933,7 +930,7 @@ gst_ximage_src_get_caps (GstBaseSrc * bs)
 {
   GstXImageSrc *s = GST_XIMAGE_SRC (bs);
   GstXContext *xcontext;
-  gint x, y, width, height;
+  gint width, height;
 
   if ((!s->xcontext) && (!gst_ximage_src_open_display (s, s->display_name)))
     return
@@ -947,7 +944,6 @@ gst_ximage_src_get_caps (GstBaseSrc * bs)
 
   xcontext = s->xcontext;
 
-  x = y = 0;
   width = xcontext->width;
   height = xcontext->height;
   if (s->endx > s->startx && s->endy > s->starty) {
@@ -955,8 +951,6 @@ gst_ximage_src_get_caps (GstBaseSrc * bs)
     if (s->startx < xcontext->width && s->endx < xcontext->width &&
         s->starty < xcontext->height && s->endy < xcontext->height) {
       /* values are fine */
-      x = s->startx;
-      y = s->starty;
       s->width = width = s->endx - s->startx;
       s->height = height = s->endy - s->starty;
     } else {

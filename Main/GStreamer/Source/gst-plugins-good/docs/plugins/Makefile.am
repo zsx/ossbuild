@@ -135,12 +135,15 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/avi/gstavimux.h \
 	$(top_srcdir)/gst/avi/gstavisubtitle.h \
 	$(top_srcdir)/gst/cutter/gstcutter.h \
-	$(top_srcdir)/gst/debug/gsttaginject.h \
-	$(top_srcdir)/gst/debug/progressreport.h \
+	$(top_srcdir)/gst/debugutils/gsttaginject.h \
+	$(top_srcdir)/gst/debugutils/progressreport.h \
+	$(top_srcdir)/gst/deinterlace/gstdeinterlace.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer3bands.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer10bands.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizernbands.h \
+	$(top_srcdir)/gst/flv/gstflvdemux.h \
+	$(top_srcdir)/gst/flv/gstflvmux.h \
 	$(top_srcdir)/gst/goom/gstgoom.h \
 	$(top_srcdir)/gst/goom2k1/gstgoom.h \
 	$(top_srcdir)/gst/law/alaw-decode.h \
@@ -182,7 +185,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/videomixer/videomixerpad.h \
 	$(top_srcdir)/gst/wavenc/gstwavenc.h \
 	$(top_srcdir)/gst/wavparse/gstwavparse.h \
-	$(top_srcdir)/sys/directdraw/gstdirectdrawsink.h \
+	$(top_srcdir)/gst/y4m/gsty4mencode.h \
 	$(top_srcdir)/sys/directsound/gstdirectsoundsink.h \
 	$(top_srcdir)/sys/oss/gstossmixerelement.h \
 	$(top_srcdir)/sys/oss/gstosssink.h \
@@ -193,7 +196,6 @@ EXTRA_HFILES = \
 	$(top_srcdir)/sys/v4l2/gstv4l2src.h \
 	$(top_srcdir)/sys/waveform/gstwaveformsink.h \
 	$(top_srcdir)/sys/ximage/gstximagesrc.h
-
 
 # example code that needs to be converted to xml and placed in xml/
 EXAMPLE_CFILES = \
@@ -216,8 +218,8 @@ extra_files =
 GTKDOC_CFLAGS = $(GST_BASE_CFLAGS) -I$(top_builddir)
 GTKDOC_LIBS = $(SCANOBJ_DEPS) $(GST_BASE_LIBS)
 
-GTKDOC_CC=$(LIBTOOL) --mode=compile $(CC)
-GTKDOC_LD=$(LIBTOOL) --mode=link $(CC)
+GTKDOC_CC=$(LIBTOOL) --tag=CC --mode=compile $(CC)
+GTKDOC_LD=$(LIBTOOL) --tag=CC --mode=link $(CC)
 
 # If you need to override some of the declarations, place them in this file
 # and uncomment this line.

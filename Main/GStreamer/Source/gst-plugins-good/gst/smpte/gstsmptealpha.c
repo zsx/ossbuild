@@ -206,11 +206,9 @@ static void
 gst_smpte_alpha_class_init (GstSMPTEAlphaClass * klass)
 {
   GObjectClass *gobject_class;
-  GstElementClass *gstelement_class;
   GstBaseTransformClass *trans_class;
 
   gobject_class = (GObjectClass *) klass;
-  gstelement_class = (GstElementClass *) klass;
   trans_class = (GstBaseTransformClass *) klass;
 
   parent_class = g_type_class_peek_parent (klass);
@@ -348,13 +346,10 @@ static gboolean
 gst_smpte_alpha_get_unit_size (GstBaseTransform * btrans, GstCaps * caps,
     guint * size)
 {
-  GstSMPTEAlpha *smpte;
   GstStructure *structure;
   gboolean ret;
   gint width, height;
   guint32 fourcc;
-
-  smpte = GST_SMPTE_ALPHA (btrans);
 
   structure = gst_caps_get_structure (caps, 0);
 

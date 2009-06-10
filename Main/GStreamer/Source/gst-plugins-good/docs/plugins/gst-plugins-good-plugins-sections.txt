@@ -465,6 +465,20 @@ gst_cutter_get_type
 </SECTION>
 
 <SECTION>
+<FILE>element-deinterlace</FILE>
+<TITLE>deinterlace</TITLE>
+GstDeinterlace
+<SUBSECTION Standard>
+GstDeinterlaceClass
+GST_IS_DEINTERLACE
+GST_IS_DEINTERLACE_CLASS
+GST_DEINTERLACE
+GST_DEINTERLACE_CLASS
+GST_TYPE_DEINTERLACE
+gst_deinterlace_get_type
+</SECTION>
+
+<SECTION>
 <FILE>element-deinterleave</FILE>
 <TITLE>deinterleave</TITLE>
 GstDeinterleave
@@ -478,25 +492,6 @@ GST_TYPE_DEINTERLEAVE
 GstDeinterleaveClass
 GstDeinterleaveFunc
 gst_deinterleave_get_type
-</SECTION>
-
-<SECTION>
-<FILE>element-directdrawsink</FILE>
-<TITLE>directdrawsink</TITLE>
-GstDirectDrawSink
-<SUBSECTION Standard>
-GstDirectDrawSinkClass
-GST_DIRECTDRAW_SINK
-GST_DIRECTDRAW_SINK_CLASS
-GST_IS_DIRECTDRAW_SINK
-GST_IS_DIRECTDRAW_SINK_CLASS
-GST_TYPE_DIRECTDRAW_SINK
-gst_directdraw_sink_get_type
-GstDDrawSurface
-GST_DDRAWSURFACE
-GST_IS_DDRAWSURFACE
-GST_TYPE_DDRAWSURFACE
-DIRECTDRAW_VERSION
 </SECTION>
 
 <SECTION>
@@ -660,7 +655,6 @@ GST_FLAC_DEC_CLASS
 GST_IS_FLAC_DEC
 GST_IS_FLAC_DEC_CLASS
 gst_flac_dec_get_type
-LEGACY_FLAC
 </SECTION>
 
 <SECTION>
@@ -690,6 +684,36 @@ GST_FLAC_TAG_CLASS
 GST_IS_FLAC_TAG
 GST_IS_FLAC_TAG_CLASS
 gst_flac_tag_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-flvdemux</FILE>
+<TITLE>flvdemux</TITLE>
+GstFLVDemux
+<SUBSECTION Standard>
+GstFLVDemuxClass
+GstFLVDemuxFlags
+GST_FLV_DEMUX
+GST_FLV_DEMUX_CLASS
+GST_IS_FLV_DEMUX
+GST_IS_FLV_DEMUX_CLASS
+GST_TYPE_FLV_DEMUX
+gst_flv_demux_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-flvmux</FILE>
+<TITLE>flvmux</TITLE>
+GstFlvMux
+<SUBSECTION Standard>
+GstFlvMuxClass
+GstFlvMuxFlags
+GST_FLV_MUX
+GST_FLV_MUX_CLASS
+GST_IS_FLV_MUX
+GST_IS_FLV_MUX_CLASS
+GST_TYPE_FLV_MUX
+gst_flv_mux_get_type
 </SECTION>
 
 <SECTION>
@@ -1750,3 +1774,19 @@ GST_XIMAGE_SRC_CLASS
 GST_IS_XIMAGE_SRC_CLASS
 gst_ximage_src_get_type
 </SECTION>
+
+<SECTION>
+<FILE>element-y4menc</FILE>
+<TITLE>y4menc</TITLE>
+GstY4mEncode
+<SUBSECTION Standard>
+GstY4mEncodeClass
+GST_Y4M_ENCODE
+GST_Y4M_ENCODE_CLASS
+GST_IS_Y4M_ENCODE
+GST_IS_Y4M_ENCODE_CLASS
+GST_Y4M_ENCODE_GET_CLASS
+GST_TYPE_Y4M_ENCODE
+gst_y4m_encode_get_type
+</SECTION>
+

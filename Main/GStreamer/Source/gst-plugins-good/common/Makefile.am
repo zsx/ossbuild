@@ -1,5 +1,7 @@
 SUBDIRS = m4
 
+CONFIG_CLEAN_FILES = shave shave-libtool
+
 EXTRA_DIST = \
 	ChangeLog \
 	gettext.patch \
@@ -15,4 +17,5 @@ EXTRA_DIST = \
 	coverage/coverage-report.pl \
 	coverage/coverage-report.xsl \
 	coverage/coverage-report-entry.pl \
-	download-translations
+	download-translations \
+        shave.in shave-libtool.in

@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-smptealpha.html" title="smptealpha">
 <link rel="next" href="gst-plugins-good-plugins-spectrum.html" title="spectrum">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-spectrum.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-souphttpsrc.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-souphttpsrc.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-souphttpsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-souphttpsrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-souphttpsrc.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-souphttpsrc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-souphttpsrc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-souphttpsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-souphttpsrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-souphttpsrc.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-souphttpsrc"></a><div class="titlepage"></div>
@@ -115,6 +117,10 @@ href="../glib/glib-Basic-Types.html#gchar"
   "<a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--user-pw" title='The "user-pw" property'>user-pw</a>"                  <a
 href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--extra-headers" title='The "extra-headers" property'>extra-headers</a>"            GstStructure*         : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--timeout" title='The "timeout" property'>timeout</a>"                  <a
+href="../glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -143,7 +149,7 @@ metadata and to determine the underlying media type.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2952680"></a><h3>Example launch line</h3>
+<a name="id2805053"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v souphttpsrc location=https://some.server.org/index.html
     ! filesink location=/home/joe/server.html
@@ -177,7 +183,7 @@ multiplexer to timestamp the frames in the resulting file.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2953949"></a><h3>Element Information</h3>
+<a name="id2769938"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -200,7 +206,7 @@ multiplexer to timestamp the frames in the resulting file.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2947457"></a><h3>Element Pads</h3>
+<a name="id2835682"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -225,7 +231,6 @@ multiplexer to timestamp the frames in the resulting file.
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -234,7 +239,6 @@ multiplexer to timestamp the frames in the resulting file.
 <a name="GstSoupHTTPSrc-struct"></a><h3>GstSoupHTTPSrc</h3>
 <pre class="programlisting">typedef struct _GstSoupHTTPSrc GstSoupHTTPSrc;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -373,10 +377,26 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>HTTP location URI user password for authentication.</p>
 <p>Default value: ""</p>
 </div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstSoupHTTPSrc--extra-headers"></a><h3>The <code class="literal">"extra-headers"</code> property</h3>
+<pre class="programlisting">  "extra-headers"            GstStructure*         : Read / Write</pre>
+<p>Extra headers to append to the HTTP request.</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstSoupHTTPSrc--timeout"></a><h3>The <code class="literal">"timeout"</code> property</h3>
+<pre class="programlisting">  "timeout"                  <a
+href="../glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write</pre>
+<p>Value in seconds to timeout a blocking I/O (0 = No timeout).</p>
+<p>Allowed values: &lt;= 3600</p>
+<p>Default value: 0</p>
+</div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

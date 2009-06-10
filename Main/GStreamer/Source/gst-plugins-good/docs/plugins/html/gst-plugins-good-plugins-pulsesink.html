@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-progressreport.html" title="progressreport">
 <link rel="next" href="gst-plugins-good-plugins-pulsesrc.html" title="pulsesrc">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-pulsesrc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-pulsesink.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-pulsesink.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-pulsesink.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-pulsesink.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-pulsesink.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-pulsesink.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-pulsesink.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-pulsesink.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-pulsesink.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-pulsesink.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-pulsesink"></a><div class="titlepage"></div>
@@ -60,10 +62,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
                      +----<a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink"
 >GstBaseAudioSink</a>
-                           +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiosink.html#GstAudioSink"
->GstAudioSink</a>
-                                 +----GstPulseSink
+                           +----GstPulseSink
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -86,6 +85,9 @@ href="../glib/glib-Basic-Types.html#gchar"
   "<a class="link" href="gst-plugins-good-plugins-pulsesink.html#GstPulseSink--device-name" title='The "device-name" property'>device-name</a>"              <a
 href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read
+  "<a class="link" href="gst-plugins-good-plugins-pulsesink.html#GstPulseSink--volume" title='The "volume" property'>volume</a>"                   <a
+href="../glib/glib-Basic-Types.html#gdouble"
+>gdouble</a>               : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -97,7 +99,7 @@ This element outputs audio to a
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2880185"></a><h3>Example pipelines</h3>
+<a name="id2781572"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=sine.ogg ! oggdemux ! vorbisdec ! audioconvert ! audioresample ! pulsesink
 </pre></div> Play an Ogg/Vorbis file.
@@ -108,7 +110,7 @@ gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.4 ! pulsesink
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2911071"></a><h3>Element Information</h3>
+<a name="id2780444"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -131,7 +133,7 @@ gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.4 ! pulsesink
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2940686"></a><h3>Element Pads</h3>
+<a name="id2790529"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -176,7 +178,6 @@ gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.4 ! pulsesink
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -185,7 +186,6 @@ gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.4 ! pulsesink
 <a name="GstPulseSink-struct"></a><h3>GstPulseSink</h3>
 <pre class="programlisting">typedef struct _GstPulseSink GstPulseSink;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -217,6 +217,16 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Human-readable name of the sound device.</p>
 <p>Default value: NULL</p>
 </div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstPulseSink--volume"></a><h3>The <code class="literal">"volume"</code> property</h3>
+<pre class="programlisting">  "volume"                   <a
+href="../glib/glib-Basic-Types.html#gdouble"
+>gdouble</a>               : Read / Write</pre>
+<p>Volume of this stream.</p>
+<p>Allowed values: [0,1000]</p>
+<p>Default value: 1</p>
+</div>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-good-plugins-pulsesink.see-also"></a><h2>See Also</h2>
@@ -225,6 +235,6 @@ pulsesrc, pulsemixer
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

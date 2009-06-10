@@ -51,6 +51,7 @@ G_BEGIN_DECLS
 #include <gst/rtsp/gstrtspconnection.h>
 #include <gst/rtsp/gstrtspmessage.h>
 #include <gst/rtsp/gstrtspurl.h>
+#include <gst/rtsp/gstrtsprange.h>
 
 #include "gstrtspext.h"
 
@@ -153,6 +154,7 @@ struct _GstRTSPSrc {
   GstSegment       segment;
   gboolean         running;
   gboolean         need_range;
+  gboolean         skip;
   gint             free_channel;
   GstEvent        *close_segment;
   GstEvent        *start_segment;
@@ -186,6 +188,11 @@ struct _GstRTSPSrc {
   guint             latency;
   guint             connection_speed;
   GstRTSPNatMethod  nat_method;
+  gboolean          do_rtcp;
+  gchar            *proxy_host;
+  guint             proxy_port;
+  gchar            *proxy_user;
+  gchar            *proxy_passwd;
 
   /* state */
   GstRTSPState       state;
@@ -194,6 +201,7 @@ struct _GstRTSPSrc {
   gboolean           tried_url_auth;
   gchar             *addr;
   gboolean           need_redirect;
+  GstRTSPTimeRange  *range;
 
   /* supported methods */
   gint               methods;

@@ -5,7 +5,7 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, cvs and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for cvs/pre
-AC_INIT(GStreamer Good Plug-ins, 0.10.14,
+AC_INIT(GStreamer Good Plug-ins, 0.10.15,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-good)
 
@@ -47,8 +47,8 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.22
-GSTPB_REQ=0.10.22
+GST_REQ=0.10.23
+GSTPB_REQ=0.10.23
 
 dnl *** autotools stuff ****
 
@@ -179,6 +179,12 @@ dnl Check for mmap (needed by electricfence plugin)
 AC_FUNC_MMAP
 AM_CONDITIONAL(GST_HAVE_MMAP, test "x$ac_cv_func_mmap_fixed_mapped" == "xyes")
 
+dnl Check for mmap (needed by electricfence plugin)
+
+AC_CHECK_TYPE([struct ip_mreqn], [
+              AC_DEFINE(HAVE_IP_MREQN,, [Define if we have struct ip_mreqn])],,
+              [#include <netinet/in.h>])
+
 dnl *** checks for dependency libraries ***
 
 dnl GLib is required
@@ -219,28 +225,11 @@ AC_SUBST(GST_PREFIX)
 AC_SUBST(GSTPB_PREFIX)
 
 dnl GTK is optional and used in examples
-HAVE_GTK=NO
-PKG_CHECK_MODULES(GTK2, gtk+-2.0 >= 2.2.0, HAVE_GTK_22=yes, HAVE_GTK_22=no)
-if test "x$HAVE_GTK_22" = "xyes"; then
-  HAVE_GTK=yes
-  GTK_VERSION=`$PKG_CONFIG --variable=gtk_binary_version gtk+-2.0`
-  AC_SUBST(GTK_VERSION)
-  GTK_PREFIX=`$PKG_CONFIG --variable=prefix gdk-pixbuf-2.0`
-  AC_SUBST(GTK_BASE_DIR)
-  GDK_PIXBUF_LIBDIR=`$PKG_CONFIG --variable=libdir gdk-pixbuf-2.0`
-  GDK_PIXBUF_PREFIXDIR=`$PKG_CONFIG --variable=prefix gdk-pixbuf-2.0`
-  AC_SUBST(GTK_BASE_DIR)
-else
-  PKG_CHECK_MODULES(GTK2, gtk+-2.0, HAVE_GTK_20=yes, HAVE_GTK_20=no)
+if test "x$BUILD_EXAMPLES" = "xyes"; then
+  PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.8.0, HAVE_GTK=yes, HAVE_GTK=no)
+  AC_SUBST(GTK_LIBS)
+  AC_SUBST(GTK_CFLAGS)
 fi
-if test "x$HAVE_GTK_20" = "xyes"; then
-  HAVE_GTK=yes
-fi
-GTK_CFLAGS=$GTK2_CFLAGS
-GTK_LIBS=$GTK2_LIBS
-AC_SUBST(GTK_LIBS)
-AC_SUBST(GTK_CFLAGS)
-AC_SUBST(HAVE_GTK)
 AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
 
 dnl should we install schemas ?
@@ -290,9 +279,11 @@ AG_GST_CHECK_PLUGIN(auparse)
 AG_GST_CHECK_PLUGIN(autodetect)
 AG_GST_CHECK_PLUGIN(avi)
 AG_GST_CHECK_PLUGIN(cutter)
-AG_GST_CHECK_PLUGIN(debug)
+AG_GST_CHECK_PLUGIN(debugutils)
+AG_GST_CHECK_PLUGIN(deinterlace)
 AG_GST_CHECK_PLUGIN(effectv)
 AG_GST_CHECK_PLUGIN(equalizer)
+AG_GST_CHECK_PLUGIN(flv)
 AG_GST_CHECK_PLUGIN(id3demux)
 AG_GST_CHECK_PLUGIN(icydemux)
 AG_GST_CHECK_PLUGIN(interleave)
@@ -317,6 +308,7 @@ AG_GST_CHECK_PLUGIN(videocrop)
 AG_GST_CHECK_PLUGIN(videomixer)
 AG_GST_CHECK_PLUGIN(wavenc)
 AG_GST_CHECK_PLUGIN(wavparse)
+AG_GST_CHECK_PLUGIN(y4m)
 
 dnl *** checks for socket and nsl libraries ***
 AC_CHECK_FUNC(socket,,[AC_CHECK_LIB(socket,socket)])
@@ -347,46 +339,6 @@ dnl *** sys plug-ins ***
 echo
 AC_MSG_NOTICE([Checking libraries for plugins in sys/])
 echo
-
-dnl DirectDraw
-translit(dnm, m, l) AM_CONDITIONAL(USE_DIRECTDRAW, true)
-AG_GST_CHECK_FEATURE(DIRECTDRAW, [DirectDraw plug-in], directdrawsink, [
-  HAVE_DIRECTDRAW="no"
-  save_CFLAGS="$CFLAGS"
-  save_LDFLAGS="$LDFLAGS"
-  save_LIBS="$LIBS"
-  CFLAGS="$CFLAGS $DIRECTDRAW_CFLAGS"
-  LDFLAGS="$LDFLAGS $DIRECTDRAW_LDFLAGS"
-  LIBS="$LIBS -lddraw -lgdi32"
-  AC_MSG_CHECKING(for DirectDraw LDFLAGS)
-  AC_LINK_IFELSE([
-#include <windows.h>
-#include <ddraw.h>
-
-int main ()
-{
-  GetStockObject(0);
-  DirectDrawCreate(NULL, NULL, NULL);
-
-  return 0;
-}
-],
-    [HAVE_DIRECTDRAW="yes"],
-    [HAVE_DIRECTDRAW="no"])
-  AC_MSG_RESULT($HAVE_DIRECTDRAW)
-  CFLAGS=$save_CFLAGS
-  LDFLAGS=$save_LDFLAGS
-  LIBS=$save_LIBS
-
-  if test "x$HAVE_DIRECTDRAW" = "xyes";  then
-    dnl this is much more than we want
-    DIRECTDRAW_LIBS="-lddraw -ldxguid -lgdi32"
-    AC_SUBST(DIRECTDRAW_CFLAGS)
-    AC_SUBST(DIRECTDRAW_LDFLAGS)
-    AC_SUBST(DIRECTDRAW_LIBS)
-  fi
-  AC_SUBST(HAVE_DIRECTDRAW)
-])
 
 dnl DirectSound
 translit(dnm, m, l) AM_CONDITIONAL(USE_DIRECTSOUND, true)
@@ -697,7 +649,7 @@ AG_GST_CHECK_FEATURE(ESD, [ESounD sound daemon], esdsink, [
 dnl *** FLAC ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_FLAC, true)
 AG_GST_CHECK_FEATURE(FLAC, [FLAC lossless audio], flac, [
-  AG_GST_PKG_CHECK_MODULES(FLAC, flac >= 1.1.3)
+  AG_GST_PKG_CHECK_MODULES(FLAC, flac >= 1.1.4)
 ])
 
 dnl *** GConf ***
@@ -709,7 +661,7 @@ AG_GST_CHECK_FEATURE(GCONF, [GConf libraries], gconfelements, [
 dnl *** GDK pixbuf ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_GDK_PIXBUF, true)
 AG_GST_CHECK_FEATURE(GDK_PIXBUF, [GDK pixbuf], gdkpixbuf, [
-  if test $HAVE_GTK_22 = "yes"; then HAVE_GDK_PIXBUF=yes; fi;
+  AG_GST_PKG_CHECK_MODULES(GDK_PIXBUF, gdk-pixbuf-2.0 >= 2.8.0)
 ])
 
 dnl *** HAL ***
@@ -907,7 +859,7 @@ AG_GST_CHECK_FEATURE(SPEEX, [speex speech codec], speex, [
 dnl *** taglib ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_TAGLIB, true)
 AG_GST_CHECK_FEATURE(TAGLIB, [taglib tagging library], taglib, [
-  AG_GST_PKG_CHECK_MODULES(TAGLIB, taglib >= 1.4)
+  AG_GST_PKG_CHECK_MODULES(TAGLIB, taglib >= 1.5)
   if test "x$HAVE_CXX" != "xyes"; then
     USE_TAGLIB=false
     AC_MSG_NOTICE([Not building taglib plugin: no C++ compiler found])
@@ -964,7 +916,6 @@ AM_CONDITIONAL(USE_AALIB, false)
 AM_CONDITIONAL(USE_ANNODEX, false)
 AM_CONDITIONAL(USE_BZ2, false)
 AM_CONDITIONAL(USE_CAIRO, false)
-AM_CONDITIONAL(USE_DIRECTDRAW, false)
 AM_CONDITIONAL(USE_DIRECTSOUND, false)
 AM_CONDITIONAL(USE_DV1394, false)
 AM_CONDITIONAL(USE_ESD, false)
@@ -1049,11 +1000,14 @@ dnl whatevertarget_LIBS and -L flags here affect the rest of the linking
 GST_PLUGIN_LDFLAGS="-module -avoid-version -export-symbols-regex '^[_]*gst_plugin_desc\$\$' $GST_ALL_LDFLAGS"
 AC_SUBST(GST_PLUGIN_LDFLAGS)
 
+SHAVE_INIT([common],[enable])
 dnl *** output files ***
 
 dnl keep this alphabetic per directory, please
 AC_CONFIG_FILES(
 Makefile
+common/shave
+common/shave-libtool
 gst/Makefile
 gst/alpha/Makefile
 gst/apetag/Makefile
@@ -1062,9 +1016,11 @@ gst/auparse/Makefile
 gst/autodetect/Makefile
 gst/avi/Makefile
 gst/cutter/Makefile
-gst/debug/Makefile
+gst/deinterlace/Makefile
+gst/debugutils/Makefile
 gst/effectv/Makefile
 gst/equalizer/Makefile
+gst/flv/Makefile
 gst/id3demux/Makefile
 gst/icydemux/Makefile
 gst/interleave/Makefile
@@ -1090,6 +1046,7 @@ gst/videomixer/Makefile
 gst/wavenc/Makefile
 gst/wavparse/Makefile
 gst/flx/Makefile
+gst/y4m/Makefile
 ext/jpeg/Makefile
 ext/Makefile
 ext/aalib/Makefile
@@ -1112,7 +1069,6 @@ ext/speex/Makefile
 ext/taglib/Makefile
 ext/wavpack/Makefile
 sys/Makefile
-sys/directdraw/Makefile
 sys/directsound/Makefile
 sys/oss/Makefile
 sys/sunaudio/Makefile
@@ -1140,11 +1096,51 @@ m4/Makefile
 docs/Makefile
 docs/plugins/Makefile
 docs/version.entities
-win32/common/config.h
 pkgconfig/Makefile
 pkgconfig/gstreamer-plugins-good-uninstalled.pc
 gst-plugins-good.spec
 )
+
+dnl Create the config.h file for Visual Studio builds
+dnl Beware of spaces and /'s in some of the shell variable contents.
+sed \
+    -e 's/.*config.h.in.*autoheader.*/\/* Autogenerated config.h created for win32 Visual Studio builds *\/\n\n\/* PREFIX -- specifically added for Windows for easier moving *\/\n#define PREFIX "C:\\\\gstreamer"\n\n#define GST_INSTALL_PLUGINS_HELPER PREFIX "\\\\libexec\\\\gst-install-plugins-helper.exe"/' \
+    -e 's/.* GETTEXT_PACKAGE$/#define GETTEXT_PACKAGE "'$GETTEXT_PACKAGE'"/' \
+    -e 's/.* GST_DATADIR$/#define GST_DATADIR PREFIX "\\\\share"/' \
+    -e 's/.* GST_LEVEL_DEFAULT$/#define GST_LEVEL_DEFAULT GST_LEVEL_ERROR/' \
+    -e 's/.* GST_LICENSE$/#define GST_LICENSE "'$GST_LICENSE'"/' \
+    -e 's/.* GST_MAJORMINOR$/#define GST_MAJORMINOR "'$GST_MAJORMINOR'"/' \
+    -e "s,.* GST_PACKAGE_NAME$,#define GST_PACKAGE_NAME \"${GST_PACKAGE_NAME}\"," \
+    -e 's/.* GST_PACKAGE_ORIGIN$/#define GST_PACKAGE_ORIGIN "Unknown package origin"/' \
+    -e 's/.* HAVE_CPU_I386$/#define HAVE_CPU_I386 1/' \
+    -e 's/.* HAVE_FGETPOS$/#define HAVE_FGETPOS 1/' \
+    -e 's/.* HAVE_FSETPOS$/#define HAVE_FSETPOS 1/' \
+    -e 's/.* HAVE_LIBXML2$/#define HAVE_LIBXML2 1/' \
+    -e 's/.* HAVE_PROCESS_H$/#define HAVE_PROCESS_H 1/' \
+    -e 's/.* HAVE_STDLIB_H$/#define HAVE_STDLIB_H 1/' \
+    -e 's/.* HAVE_STRING_H$/#define HAVE_STRING_H 1/' \
+    -e 's/.* HAVE_SYS_STAT_H$/#define HAVE_SYS_STAT_H 1/' \
+    -e 's/.* HAVE_SYS_TYPES_H$/#define HAVE_SYS_TYPES_H 1/' \
+    -e 's/.* HAVE_WIN32$/#define HAVE_WIN32 1/' \
+    -e 's/.* HAVE_WINSOCK2_H$/#define HAVE_WINSOCK2_H 1/' \
+    -e 's/.* HOST_CPU$/#define HOST_CPU "i686"/' \
+    -e 's/.* LIBDIR$/#ifdef _DEBUG\n#  define LIBDIR PREFIX "\\\\debug\\\\lib"\n#else\n#  define LIBDIR PREFIX "\\\\lib"\n#endif/' \
+    -e 's/.* LOCALEDIR$/#define LOCALEDIR PREFIX "\\\\share\\\\locale"/' \
+    -e "s/.* PACKAGE$/#define PACKAGE \"$PACKAGE\"/" \
+    -e 's/.* PACKAGE_BUGREPORT$/#define PACKAGE_BUGREPORT "http:\/\/bugzilla.gnome.org\/enter_bug.cgi?product=GStreamer"/' \
+    -e "s/.* PACKAGE_NAME$/#define PACKAGE_NAME \"$PACKAGE_NAME\"/" \
+    -e "s/.* PACKAGE_STRING$/#define PACKAGE_STRING \"$PACKAGE_STRING\"/" \
+    -e 's/.* PACKAGE_TARNAME$/#define PACKAGE_TARNAME "'$PACKAGE_TARNAME'"/' \
+    -e 's/.* PACKAGE_VERSION$/#define PACKAGE_VERSION "'$PACKAGE_VERSION'"/' \
+    -e 's/.* PLUGINDIR$/#ifdef _DEBUG\n#  define PLUGINDIR PREFIX "\\\\debug\\\\lib\\\\gstreamer-0.10"\n#else\n#  define PLUGINDIR PREFIX "\\\\lib\\\\gstreamer-0.10"\n#endif/' \
+    -e 's/.* USE_BINARY_REGISTRY$/#define USE_BINARY_REGISTRY/' \
+    -e 's/.* VERSION$/#define VERSION "'$VERSION'"/' \
+    -e "s/.* DEFAULT_AUDIOSINK$/#define DEFAULT_AUDIOSINK \"directaudiosink\"/" \
+    -e "s/.* DEFAULT_AUDIOSRC$/#define DEFAULT_AUDIOSRC \"audiotestsrc\"/" \
+    -e "s/.* DEFAULT_VIDEOSRC$/#define DEFAULT_VIDEOSRC \"videotestsrc\"/" \
+    -e "s/.* DEFAULT_VISUALIZER$/#define DEFAULT_VISUALIZER \"goom\"/" \
+    config.h.in >win32/common/config.h-new
+
 AC_OUTPUT
 
 AG_GST_OUTPUT_PLUGINS

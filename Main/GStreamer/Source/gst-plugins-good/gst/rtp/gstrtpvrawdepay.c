@@ -81,11 +81,9 @@ gst_rtp_vraw_depay_base_init (gpointer klass)
 static void
 gst_rtp_vraw_depay_class_init (GstRtpVRawDepayClass * klass)
 {
-  GObjectClass *gobject_class;
   GstElementClass *gstelement_class;
   GstBaseRTPDepayloadClass *gstbasertpdepayload_class;
 
-  gobject_class = (GObjectClass *) klass;
   gstelement_class = (GstElementClass *) klass;
   gstbasertpdepayload_class = (GstBaseRTPDepayloadClass *) klass;
 
@@ -139,7 +137,12 @@ gst_rtp_vraw_depay_setcaps (GstBaseRTPDepayload * depayload, GstCaps * caps)
     goto no_height;
   height = atoi (str);
 
-  if (!(str = gst_structure_get_string (structure, "sampling")))
+  /* optional interlace value but we don't handle interlaced
+   * formats yet */
+  if (gst_structure_get_string (structure, "interlace"))
+    goto interlaced;
+
+  if (gst_structure_get_string (structure, "sampling"))
     goto no_sampling;
 
   if (!strcmp (str, "RGB")) {
@@ -248,6 +251,11 @@ no_height:
     GST_ERROR_OBJECT (depayload, "no height specified");
     return FALSE;
   }
+interlaced:
+  {
+    GST_ERROR_OBJECT (depayload, "interlaced formats not supported yet");
+    return FALSE;
+  }
 no_sampling:
   {
     GST_ERROR_OBJECT (depayload, "no sampling specified");
@@ -264,14 +272,11 @@ static GstBuffer *
 gst_rtp_vraw_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
 {
   GstRtpVRawDepay *rtpvrawdepay;
-  gint payload_len;
   guint8 *payload, *data, *yp, *up, *vp, *headers;
   guint32 timestamp;
   guint cont, ystride, uvstride, pgroup;
 
   rtpvrawdepay = GST_RTP_VRAW_DEPAY (depayload);
-
-  payload_len = gst_rtp_buffer_get_payload_len (buf);
 
   timestamp = gst_rtp_buffer_get_timestamp (buf);
 

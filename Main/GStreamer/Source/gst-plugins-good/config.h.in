@@ -115,9 +115,6 @@
    */
 #undef HAVE_DCGETTEXT
 
-/* Define to enable DirectDraw plug-in (used by directdrawsink). */
-#undef HAVE_DIRECTDRAW
-
 /* Define to enable DirectSound plug-in (used by directsoundsink). */
 #undef HAVE_DIRECTSOUND
 
@@ -174,6 +171,9 @@
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
+
+/* Define if we have struct ip_mreqn */
+#undef HAVE_IP_MREQN
 
 /* Define to enable jpeg library (used by jpeg). */
 #undef HAVE_JPEG

@@ -27,12 +27,6 @@
 
 #include <FLAC/all.h>
 
-#if !defined(FLAC_API_VERSION_CURRENT) || FLAC_API_VERSION_CURRENT < 8
-#define LEGACY_FLAC
-#else
-#undef LEGACY_FLAC
-#endif 
-
 G_BEGIN_DECLS
 
 #define GST_TYPE_FLAC_DEC gst_flac_dec_get_type()
@@ -74,6 +68,8 @@ struct _GstFlacDec {
                                * samples/audio frames (DEFAULT format) */
   gboolean       running;
   gboolean       discont;
+  GstBuffer     *pending;     /* pending buffer, produced in seek */
+  guint          pending_samples;
   GstEvent      *close_segment;
   GstEvent      *start_segment;
   GstTagList    *tags;

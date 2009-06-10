@@ -479,6 +479,16 @@
 </ARG>
 
 <ARG>
+<NAME>GstUDPSrc::multicast-iface</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Multicast Interface</NICK>
+<BLURB>The network interface on which to join the multicast group.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
 <NAME>GstSMPTE::border</NAME>
 <TYPE>gint</TYPE>
 <RANGE>>= 0</RANGE>
@@ -616,6 +626,26 @@
 <NICK>NAT Method</NICK>
 <BLURB>Method to use for traversing firewalls and NAT.</BLURB>
 <DEFAULT>Send Dummy packets</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstRTSPSrc::do-rtcp</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwx</FLAGS>
+<NICK>Do RTCP</NICK>
+<BLURB>Send RTCP packets, disable for old incompatible server.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstRTSPSrc::proxy</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwx</FLAGS>
+<NICK>Proxy</NICK>
+<BLURB>Proxy settings for HTTP tunneling. Format: [http://][user:passwd@]host[:port].</BLURB>
+<DEFAULT>NULL</DEFAULT>
 </ARG>
 
 <ARG>
@@ -3286,6 +3316,26 @@
 <NICK>user-pw</NICK>
 <BLURB>HTTP location URI user password for authentication.</BLURB>
 <DEFAULT>""</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstSoupHTTPSrc::extra-headers</NAME>
+<TYPE>GstStructure*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Extra Headers</NICK>
+<BLURB>Extra headers to append to the HTTP request.</BLURB>
+<DEFAULT></DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstSoupHTTPSrc::timeout</NAME>
+<TYPE>guint</TYPE>
+<RANGE><= 3600</RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>timeout</NICK>
+<BLURB>Value in seconds to timeout a blocking I/O (0 = No timeout).</BLURB>
+<DEFAULT>0</DEFAULT>
 </ARG>
 
 <ARG>
@@ -19589,6 +19639,16 @@
 </ARG>
 
 <ARG>
+<NAME>GstRgAnalysis::message</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwx</FLAGS>
+<NICK>Message</NICK>
+<BLURB>Post statics messages.</BLURB>
+<DEFAULT>FALSE</DEFAULT>
+</ARG>
+
+<ARG>
 <NAME>GstHDV1394Src::channel</NAME>
 <TYPE>gint</TYPE>
 <RANGE>[0,64]</RANGE>
@@ -19664,7 +19724,7 @@
 <RANGE>[0,255]</RANGE>
 <FLAGS>rw</FLAGS>
 <NICK>Quality</NICK>
-<BLURB>Quality factor on JPEG data.</BLURB>
+<BLURB>Quality factor on JPEG data (unused).</BLURB>
 <DEFAULT>255</DEFAULT>
 </ARG>
 
@@ -19674,7 +19734,7 @@
 <RANGE>[0,255]</RANGE>
 <FLAGS>rw</FLAGS>
 <NICK>Type</NICK>
-<BLURB>JPEG Type.</BLURB>
+<BLURB>Default JPEG Type, overwritten by SOF when present.</BLURB>
 <DEFAULT>1</DEFAULT>
 </ARG>
 
@@ -19826,5 +19886,75 @@
 <NICK>aspect-ratio</NICK>
 <BLURB>Target aspect-ratio of video.</BLURB>
 <DEFAULT></DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstRtpG726Depay::force-aal2</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Force AAL2</NICK>
+<BLURB>Force AAL2 decoding for compatibility with bad payloaders.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstRtpG726Pay::force-aal2</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Force AAL2</NICK>
+<BLURB>Force AAL2 encoding for compatibility with bad depayloaders.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstRtpH263Pay::modea-only</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Fragment packets in mode A Only</NICK>
+<BLURB>Disable packetization modes B and C.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstDeinterlace::fields</NAME>
+<TYPE>GstDeinterlaceFields</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>fields</NICK>
+<BLURB>Fields to use for deinterlacing.</BLURB>
+<DEFAULT>All fields</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstDeinterlace::method</NAME>
+<TYPE>GstDeinterlaceMethods</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Method</NICK>
+<BLURB>Deinterlace Method.</BLURB>
+<DEFAULT>Motion Adaptive: Advanced Detection</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstDeinterlace::mode</NAME>
+<TYPE>GstDeinterlaceModes</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Mode</NICK>
+<BLURB>Deinterlace Mode.</BLURB>
+<DEFAULT>Enfore deinterlacing</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstDeinterlace::tff</NAME>
+<TYPE>GstDeinterlaceFieldLayout</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>tff</NICK>
+<BLURB>Deinterlace top field first.</BLURB>
+<DEFAULT>Auto detection</DEFAULT>
 </ARG>
 

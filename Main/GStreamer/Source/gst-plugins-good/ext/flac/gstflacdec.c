@@ -130,45 +130,6 @@ static void gst_flac_dec_setup_seekable_decoder (GstFlacDec * flacdec);
 
 static void gst_flac_dec_setup_stream_decoder (GstFlacDec * flacdec);
 
-#ifdef LEGACY_FLAC
-static FLAC__SeekableStreamDecoderReadStatus
-gst_flac_dec_read_seekable (const FLAC__SeekableStreamDecoder * decoder,
-    FLAC__byte buffer[], unsigned *bytes, void *client_data);
-static FLAC__SeekableStreamDecoderSeekStatus
-gst_flac_dec_seek (const FLAC__SeekableStreamDecoder * decoder,
-    FLAC__uint64 position, void *client_data);
-static FLAC__SeekableStreamDecoderTellStatus
-gst_flac_dec_tell (const FLAC__SeekableStreamDecoder * decoder,
-    FLAC__uint64 * position, void *client_data);
-static FLAC__SeekableStreamDecoderLengthStatus
-gst_flac_dec_length (const FLAC__SeekableStreamDecoder * decoder,
-    FLAC__uint64 * length, void *client_data);
-static FLAC__bool gst_flac_dec_eof (const FLAC__SeekableStreamDecoder * decoder,
-    void *client_data);
-static FLAC__StreamDecoderReadStatus
-gst_flac_dec_read_stream (const FLAC__StreamDecoder * decoder,
-    FLAC__byte buffer[], unsigned *bytes, void *client_data);
-static FLAC__StreamDecoderWriteStatus
-gst_flac_dec_write_seekable (const FLAC__SeekableStreamDecoder * decoder,
-    const FLAC__Frame * frame,
-    const FLAC__int32 * const buffer[], void *client_data);
-static FLAC__StreamDecoderWriteStatus
-gst_flac_dec_write_stream (const FLAC__StreamDecoder * decoder,
-    const FLAC__Frame * frame,
-    const FLAC__int32 * const buffer[], void *client_data);
-static void gst_flac_dec_metadata_callback_seekable (const
-    FLAC__SeekableStreamDecoder * decoder,
-    const FLAC__StreamMetadata * metadata, void *client_data);
-static void gst_flac_dec_metadata_callback_stream (const FLAC__StreamDecoder *
-    decoder, const FLAC__StreamMetadata * metadata, void *client_data);
-static void gst_flac_dec_metadata_callback (GstFlacDec * flacdec,
-    const FLAC__StreamMetadata * metadata);
-static void gst_flac_dec_error_callback_seekable (const
-    FLAC__SeekableStreamDecoder * decoder,
-    FLAC__StreamDecoderErrorStatus status, void *client_data);
-static void gst_flac_dec_error_callback_stream (const FLAC__StreamDecoder *
-    decoder, FLAC__StreamDecoderErrorStatus status, void *client_data);
-#else
 static FLAC__StreamDecoderReadStatus
 gst_flac_dec_read_seekable (const FLAC__StreamDecoder * decoder,
     FLAC__byte buffer[], size_t * bytes, void *client_data);
@@ -194,7 +155,6 @@ static void gst_flac_dec_metadata_callback_stream (const FLAC__StreamDecoder *
     decoder, const FLAC__StreamMetadata * metadata, void *client_data);
 static void gst_flac_dec_error_callback_stream (const FLAC__StreamDecoder *
     decoder, FLAC__StreamDecoderErrorStatus status, void *client_data);
-#endif
 
 GST_BOILERPLATE (GstFlacDec, gst_flac_dec, GstElement, GST_TYPE_ELEMENT);
 
@@ -299,11 +259,7 @@ static void
 gst_flac_dec_reset_decoders (GstFlacDec * flacdec)
 {
   if (flacdec->seekable_decoder) {
-#ifdef LEGACY_FLAC
-    FLAC__seekable_stream_decoder_delete (flacdec->seekable_decoder);
-#else
     FLAC__stream_decoder_delete (flacdec->seekable_decoder);
-#endif
     flacdec->seekable_decoder = NULL;
   }
 
@@ -331,6 +287,10 @@ gst_flac_dec_reset_decoders (GstFlacDec * flacdec)
     gst_tag_list_free (flacdec->tags);
     flacdec->tags = NULL;
   }
+  if (flacdec->pending) {
+    gst_buffer_unref (flacdec->pending);
+    flacdec->pending = NULL;
+  }
 
   flacdec->segment.last_stop = 0;
   flacdec->offset = 0;
@@ -346,36 +306,12 @@ gst_flac_dec_setup_seekable_decoder (GstFlacDec * dec)
   gst_tag_list_add (dec->tags, GST_TAG_MERGE_REPLACE,
       GST_TAG_AUDIO_CODEC, "FLAC", NULL);
 
-#ifdef LEGACY_FLAC
-  dec->seekable_decoder = FLAC__seekable_stream_decoder_new ();
-
-  FLAC__seekable_stream_decoder_set_read_callback (dec->seekable_decoder,
-      gst_flac_dec_read_seekable);
-  FLAC__seekable_stream_decoder_set_seek_callback (dec->seekable_decoder,
-      gst_flac_dec_seek);
-  FLAC__seekable_stream_decoder_set_tell_callback (dec->seekable_decoder,
-      gst_flac_dec_tell);
-  FLAC__seekable_stream_decoder_set_length_callback (dec->seekable_decoder,
-      gst_flac_dec_length);
-  FLAC__seekable_stream_decoder_set_eof_callback (dec->seekable_decoder,
-      gst_flac_dec_eof);
-  FLAC__seekable_stream_decoder_set_write_callback (dec->seekable_decoder,
-      gst_flac_dec_write_seekable);
-  FLAC__seekable_stream_decoder_set_metadata_respond (dec->seekable_decoder,
-      FLAC__METADATA_TYPE_VORBIS_COMMENT);
-  FLAC__seekable_stream_decoder_set_metadata_callback (dec->seekable_decoder,
-      gst_flac_dec_metadata_callback_seekable);
-  FLAC__seekable_stream_decoder_set_error_callback (dec->seekable_decoder,
-      gst_flac_dec_error_callback_seekable);
-  FLAC__seekable_stream_decoder_set_client_data (dec->seekable_decoder, dec);
-#else
   dec->seekable_decoder = FLAC__stream_decoder_new ();
   FLAC__stream_decoder_set_metadata_respond (dec->seekable_decoder,
       FLAC__METADATA_TYPE_VORBIS_COMMENT);
   FLAC__stream_decoder_set_metadata_respond (dec->seekable_decoder,
       FLAC__METADATA_TYPE_PICTURE);
   FLAC__stream_decoder_set_md5_checking (dec->seekable_decoder, false); /* no point calculating since it's never checked here */
-#endif
 }
 
 static void
@@ -391,25 +327,11 @@ gst_flac_dec_setup_stream_decoder (GstFlacDec * dec)
 
   dec->stream_decoder = FLAC__stream_decoder_new ();
 
-#ifdef LEGACY_FLAC
-  FLAC__stream_decoder_set_read_callback (dec->stream_decoder,
-      gst_flac_dec_read_stream);
-  FLAC__stream_decoder_set_write_callback (dec->stream_decoder,
-      gst_flac_dec_write_stream);
-  FLAC__stream_decoder_set_metadata_respond (dec->stream_decoder,
-      FLAC__METADATA_TYPE_VORBIS_COMMENT);
-  FLAC__stream_decoder_set_metadata_callback (dec->stream_decoder,
-      gst_flac_dec_metadata_callback_stream);
-  FLAC__stream_decoder_set_error_callback (dec->stream_decoder,
-      gst_flac_dec_error_callback_stream);
-  FLAC__stream_decoder_set_client_data (dec->stream_decoder, dec);
-#else
   FLAC__stream_decoder_set_md5_checking (dec->stream_decoder, false);   /* no point calculating since it's never checked here */
   FLAC__stream_decoder_set_metadata_respond (dec->stream_decoder,
       FLAC__METADATA_TYPE_VORBIS_COMMENT);
   FLAC__stream_decoder_set_metadata_respond (dec->stream_decoder,
       FLAC__METADATA_TYPE_PICTURE);
-#endif
 }
 
 static void
@@ -633,8 +555,6 @@ gst_flac_dec_scan_for_last_block (GstFlacDec * flacdec, gint64 * samples)
   }
 }
 
-/* FIXME: remove ifndef once we depend on flac >= 1.2.x */
-#ifndef LEGACY_FLAC
 static void
 gst_flac_extract_picture_buffer (GstFlacDec * dec,
     const FLAC__StreamMetadata * metadata)
@@ -663,7 +583,6 @@ gst_flac_extract_picture_buffer (GstFlacDec * dec,
     gst_tag_list_free (tags);
   }
 }
-#endif /* LEGACY_FLAC */
 
 static void
 gst_flac_dec_metadata_callback (GstFlacDec * flacdec,
@@ -711,14 +630,10 @@ gst_flac_dec_metadata_callback (GstFlacDec * flacdec,
       }
       break;
     }
-
-/* FIXME: remove ifndef once we depend on flac >= 1.2.x */
-#ifndef LEGACY_FLAC
     case FLAC__METADATA_TYPE_PICTURE:{
       gst_flac_extract_picture_buffer (flacdec, metadata);
       break;
     }
-#endif
     case FLAC__METADATA_TYPE_VORBIS_COMMENT:
       gst_flac_dec_update_metadata (flacdec, metadata);
       break;
@@ -726,17 +641,6 @@ gst_flac_dec_metadata_callback (GstFlacDec * flacdec,
       break;
   }
 }
-
-#ifdef LEGACY_FLAC
-static void
-gst_flac_dec_metadata_callback_seekable (const FLAC__SeekableStreamDecoder * d,
-    const FLAC__StreamMetadata * metadata, void *client_data)
-{
-  GstFlacDec *dec = GST_FLAC_DEC (client_data);
-
-  gst_flac_dec_metadata_callback (dec, metadata);
-}
-#endif
 
 static void
 gst_flac_dec_metadata_callback_stream (const FLAC__StreamDecoder * decoder,
@@ -772,15 +676,6 @@ gst_flac_dec_error_callback (GstFlacDec * dec,
   dec->last_flow = GST_FLOW_ERROR;
 }
 
-#ifdef LEGACY_FLAC
-static void
-gst_flac_dec_error_callback_seekable (const FLAC__SeekableStreamDecoder * d,
-    FLAC__StreamDecoderErrorStatus status, void *client_data)
-{
-  gst_flac_dec_error_callback (GST_FLAC_DEC (client_data), status);
-}
-#endif
-
 static void
 gst_flac_dec_error_callback_stream (const FLAC__StreamDecoder * d,
     FLAC__StreamDecoderErrorStatus status, void *client_data)
@@ -788,15 +683,9 @@ gst_flac_dec_error_callback_stream (const FLAC__StreamDecoder * d,
   gst_flac_dec_error_callback (GST_FLAC_DEC (client_data), status);
 }
 
-#ifdef LEGACY_FLAC
-static FLAC__SeekableStreamDecoderSeekStatus
-gst_flac_dec_seek (const FLAC__SeekableStreamDecoder * decoder,
-    FLAC__uint64 position, void *client_data)
-#else
 static FLAC__StreamDecoderSeekStatus
 gst_flac_dec_seek (const FLAC__StreamDecoder * decoder,
     FLAC__uint64 position, void *client_data)
-#endif
 {
   GstFlacDec *flacdec;
 
@@ -805,22 +694,12 @@ gst_flac_dec_seek (const FLAC__StreamDecoder * decoder,
   GST_DEBUG_OBJECT (flacdec, "seek %" G_GINT64_FORMAT, position);
   flacdec->offset = position;
 
-#ifdef LEGACY_FLAC
-  return FLAC__SEEKABLE_STREAM_DECODER_SEEK_STATUS_OK;
-#else
   return FLAC__STREAM_DECODER_SEEK_STATUS_OK;
-#endif
 }
 
-#ifdef LEGACY_FLAC
-static FLAC__SeekableStreamDecoderTellStatus
-gst_flac_dec_tell (const FLAC__SeekableStreamDecoder * decoder,
-    FLAC__uint64 * position, void *client_data)
-#else
 static FLAC__StreamDecoderTellStatus
 gst_flac_dec_tell (const FLAC__StreamDecoder * decoder,
     FLAC__uint64 * position, void *client_data)
-#endif
 {
   GstFlacDec *flacdec;
 
@@ -830,22 +709,12 @@ gst_flac_dec_tell (const FLAC__StreamDecoder * decoder,
 
   GST_DEBUG_OBJECT (flacdec, "tell %" G_GINT64_FORMAT, *position);
 
-#ifdef LEGACY_FLAC
-  return FLAC__SEEKABLE_STREAM_DECODER_TELL_STATUS_OK;
-#else
   return FLAC__STREAM_DECODER_TELL_STATUS_OK;
-#endif
 }
 
-#ifdef LEGACY_FLAC
-static FLAC__SeekableStreamDecoderLengthStatus
-gst_flac_dec_length (const FLAC__SeekableStreamDecoder * decoder,
-    FLAC__uint64 * length, void *client_data)
-#else
 static FLAC__StreamDecoderLengthStatus
 gst_flac_dec_length (const FLAC__StreamDecoder * decoder,
     FLAC__uint64 * length, void *client_data)
-#endif
 {
   GstFlacDec *flacdec;
   GstFormat fmt = GST_FORMAT_BYTES;
@@ -855,39 +724,22 @@ gst_flac_dec_length (const FLAC__StreamDecoder * decoder,
   flacdec = GST_FLAC_DEC (client_data);
 
   if (!(peer = gst_pad_get_peer (flacdec->sinkpad)))
-#ifdef LEGACY_FLAC
-    return FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_ERROR;
-#else
     return FLAC__STREAM_DECODER_LENGTH_STATUS_ERROR;
-#endif
+
   gst_pad_query_duration (peer, &fmt, &len);
   gst_object_unref (peer);
   if (fmt != GST_FORMAT_BYTES || len == -1)
-#ifdef LEGACY_FLAC
-    return FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_ERROR;
-#else
     return FLAC__STREAM_DECODER_LENGTH_STATUS_ERROR;
-#endif
 
   *length = len;
 
-  GST_DEBUG_OBJECT (flacdec, "length %" G_GINT64_FORMAT, *length);
+  GST_DEBUG_OBJECT (flacdec, "encoded byte length %" G_GINT64_FORMAT, *length);
 
-#ifdef LEGACY_FLAC
-  return FLAC__SEEKABLE_STREAM_DECODER_LENGTH_STATUS_OK;
-#else
   return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
-#endif
 }
 
-#ifdef LEGACY_FLAC
-static FLAC__bool
-gst_flac_dec_eof (const FLAC__SeekableStreamDecoder * decoder,
-    void *client_data)
-#else
 static FLAC__bool
 gst_flac_dec_eof (const FLAC__StreamDecoder * decoder, void *client_data)
-#endif
 {
   GstFlacDec *flacdec;
   GstFormat fmt;
@@ -916,15 +768,9 @@ gst_flac_dec_eof (const FLAC__StreamDecoder * decoder, void *client_data)
   return ret;
 }
 
-#ifdef LEGACY_FLAC
-static FLAC__SeekableStreamDecoderReadStatus
-gst_flac_dec_read_seekable (const FLAC__SeekableStreamDecoder * decoder,
-    FLAC__byte buffer[], unsigned *bytes, void *client_data)
-#else
 static FLAC__StreamDecoderReadStatus
 gst_flac_dec_read_seekable (const FLAC__StreamDecoder * decoder,
     FLAC__byte buffer[], size_t * bytes, void *client_data)
-#endif
 {
   GstFlacDec *flacdec;
 
@@ -934,11 +780,7 @@ gst_flac_dec_read_seekable (const FLAC__StreamDecoder * decoder,
 
   if (gst_pad_pull_range (flacdec->sinkpad, flacdec->offset, *bytes,
           &buf) != GST_FLOW_OK)
-#ifdef LEGACY_FLAC
-    return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_ERROR;
-#else
     return FLAC__STREAM_DECODER_READ_STATUS_ABORT;
-#endif
 
   GST_DEBUG_OBJECT (flacdec, "Read %d bytes at %" G_GUINT64_FORMAT,
       GST_BUFFER_SIZE (buf), flacdec->offset);
@@ -947,22 +789,12 @@ gst_flac_dec_read_seekable (const FLAC__StreamDecoder * decoder,
   gst_buffer_unref (buf);
   flacdec->offset += *bytes;
 
-#ifdef LEGACY_FLAC
-  return FLAC__SEEKABLE_STREAM_DECODER_READ_STATUS_OK;
-#else
   return FLAC__STREAM_DECODER_READ_STATUS_CONTINUE;
-#endif
 }
 
-#ifdef LEGACY_FLAC
-static FLAC__StreamDecoderReadStatus
-gst_flac_dec_read_stream (const FLAC__StreamDecoder * decoder,
-    FLAC__byte buffer[], unsigned *bytes, void *client_data)
-#else
 static FLAC__StreamDecoderReadStatus
 gst_flac_dec_read_stream (const FLAC__StreamDecoder * decoder,
     FLAC__byte buffer[], size_t * bytes, void *client_data)
-#endif
 {
   GstFlacDec *dec = GST_FLAC_DEC (client_data);
   guint len;
@@ -996,6 +828,19 @@ gst_flac_dec_write (GstFlacDec * flacdec, const FLAC__Frame * frame,
   guint samples = frame->header.blocksize;
   guint j, i;
   GstClockTime next;
+
+  GST_LOG_OBJECT (flacdec, "samples in frame header: %d", samples);
+
+  /* if a DEFAULT segment is configured, don't send samples past the end
+   * of the segment */
+  if (flacdec->segment.format == GST_FORMAT_DEFAULT &&
+      flacdec->segment.stop != -1 &&
+      flacdec->segment.last_stop >= 0 &&
+      flacdec->segment.last_stop + samples > flacdec->segment.stop) {
+    samples = flacdec->segment.stop - flacdec->segment.last_stop;
+    GST_DEBUG_OBJECT (flacdec,
+        "clipping last buffer to %d samples because of segment", samples);
+  }
 
   switch (depth) {
     case 8:
@@ -1063,10 +908,12 @@ gst_flac_dec_write (GstFlacDec * flacdec, const FLAC__Frame * frame,
   }
 
   if (flacdec->close_segment) {
+    GST_DEBUG_OBJECT (flacdec, "pushing close segment");
     gst_pad_push_event (flacdec->srcpad, flacdec->close_segment);
     flacdec->close_segment = NULL;
   }
   if (flacdec->start_segment) {
+    GST_DEBUG_OBJECT (flacdec, "pushing start segment");
     gst_pad_push_event (flacdec->srcpad, flacdec->start_segment);
     flacdec->start_segment = NULL;
   }
@@ -1077,14 +924,46 @@ gst_flac_dec_write (GstFlacDec * flacdec, const FLAC__Frame * frame,
     flacdec->tags = NULL;
   }
 
-  ret = gst_pad_alloc_buffer_and_set_caps (flacdec->srcpad,
-      flacdec->segment.last_stop, samples * channels * (width / 8),
-      GST_PAD_CAPS (flacdec->srcpad), &outbuf);
+  if (flacdec->pending) {
+    GST_DEBUG_OBJECT (flacdec,
+        "pushing pending samples at offset %" G_GINT64_FORMAT " (%"
+        GST_TIME_FORMAT " + %" GST_TIME_FORMAT ")",
+        GST_BUFFER_OFFSET (flacdec->pending),
+        GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (flacdec->pending)),
+        GST_TIME_ARGS (GST_BUFFER_DURATION (flacdec->pending)));
+    /* Pending buffer was always allocated from the seeking thread,
+     * which means it wasn't gst_buffer_alloc'd. Do so now to let
+     * downstream negotiation work on older basetransform */
+    ret = gst_pad_alloc_buffer_and_set_caps (flacdec->srcpad,
+        GST_BUFFER_OFFSET (flacdec->pending),
+        GST_BUFFER_SIZE (flacdec->pending),
+        GST_BUFFER_CAPS (flacdec->pending), &outbuf);
+    if (ret == GST_FLOW_OK) {
+      gst_pad_push (flacdec->srcpad, flacdec->pending);
+      gst_buffer_unref (outbuf);
+    }
 
-  if (ret != GST_FLOW_OK) {
-    GST_DEBUG_OBJECT (flacdec, "gst_pad_alloc_buffer() returned %s",
-        gst_flow_get_name (ret));
-    goto done;
+    outbuf = flacdec->pending = NULL;
+    flacdec->segment.last_stop += flacdec->pending_samples;
+    flacdec->pending_samples = 0;
+  }
+
+  if (flacdec->seeking) {
+    GST_DEBUG_OBJECT (flacdec, "a pad_alloc would block here, do normal alloc");
+    outbuf = gst_buffer_new_and_alloc (samples * channels * (width / 8));
+    gst_buffer_set_caps (outbuf, GST_PAD_CAPS (flacdec->srcpad));
+    GST_BUFFER_OFFSET (outbuf) = flacdec->segment.last_stop;
+  } else {
+    GST_LOG_OBJECT (flacdec, "alloc_buffer_and_set_caps");
+    ret = gst_pad_alloc_buffer_and_set_caps (flacdec->srcpad,
+        flacdec->segment.last_stop, samples * channels * (width / 8),
+        GST_PAD_CAPS (flacdec->srcpad), &outbuf);
+
+    if (ret != GST_FLOW_OK) {
+      GST_DEBUG_OBJECT (flacdec, "gst_pad_alloc_buffer() returned %s",
+          gst_flow_get_name (ret));
+      goto done;
+    }
   }
 
   if (flacdec->cur_granulepos != GST_BUFFER_OFFSET_NONE) {
@@ -1140,16 +1019,21 @@ gst_flac_dec_write (GstFlacDec * flacdec, const FLAC__Frame * frame,
         GST_TIME_ARGS (GST_BUFFER_DURATION (outbuf)));
 
     if (flacdec->discont) {
+      GST_DEBUG_OBJECT (flacdec, "marking discont");
       outbuf = gst_buffer_make_metadata_writable (outbuf);
       GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DISCONT);
       flacdec->discont = FALSE;
     }
     ret = gst_pad_push (flacdec->srcpad, outbuf);
+    GST_DEBUG_OBJECT (flacdec, "returned %s", gst_flow_get_name (ret));
+    flacdec->segment.last_stop += samples;
   } else {
     GST_DEBUG_OBJECT (flacdec,
         "not pushing %d samples at offset %" G_GINT64_FORMAT
         " (in seek)", samples, GST_BUFFER_OFFSET (outbuf));
+    gst_buffer_replace (&flacdec->pending, outbuf);
     gst_buffer_unref (outbuf);
+    flacdec->pending_samples = samples;
     ret = GST_FLOW_OK;
   }
 
@@ -1160,7 +1044,6 @@ gst_flac_dec_write (GstFlacDec * flacdec, const FLAC__Frame * frame,
 
 done:
 
-  flacdec->segment.last_stop += samples;
 
   /* we act on the flow return value later in the loop function, as we don't
    * want to mess up the internal decoder state by returning ABORT when the
@@ -1170,16 +1053,6 @@ done:
 
   return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
-
-#ifdef LEGACY_FLAC
-static FLAC__StreamDecoderWriteStatus
-gst_flac_dec_write_seekable (const FLAC__SeekableStreamDecoder * decoder,
-    const FLAC__Frame * frame,
-    const FLAC__int32 * const buffer[], void *client_data)
-{
-  return gst_flac_dec_write (GST_FLAC_DEC (client_data), frame, buffer);
-}
-#endif
 
 static FLAC__StreamDecoderWriteStatus
 gst_flac_dec_write_stream (const FLAC__StreamDecoder * decoder,
@@ -1193,24 +1066,14 @@ static void
 gst_flac_dec_loop (GstPad * sinkpad)
 {
   GstFlacDec *flacdec;
-#ifdef LEGACY_FLAC
-  FLAC__SeekableStreamDecoderState s;
-#else
   FLAC__StreamDecoderState s;
   FLAC__StreamDecoderInitStatus is;
-#endif
 
   flacdec = GST_FLAC_DEC (GST_OBJECT_PARENT (sinkpad));
 
   GST_LOG_OBJECT (flacdec, "entering loop");
 
   if (flacdec->init) {
-#ifdef LEGACY_FLAC
-    GST_DEBUG_OBJECT (flacdec, "initializing legacy decoder");
-    s = FLAC__seekable_stream_decoder_init (flacdec->seekable_decoder);
-    if (s != FLAC__SEEKABLE_STREAM_DECODER_OK)
-      goto analyze_state;
-#else
     GST_DEBUG_OBJECT (flacdec, "initializing new decoder");
     is = FLAC__stream_decoder_init_stream (flacdec->seekable_decoder,
         gst_flac_dec_read_seekable, gst_flac_dec_seek, gst_flac_dec_tell,
@@ -1219,7 +1082,7 @@ gst_flac_dec_loop (GstPad * sinkpad)
         gst_flac_dec_error_callback_stream, flacdec);
     if (is != FLAC__STREAM_DECODER_INIT_STATUS_OK)
       goto analyze_state;
-#endif
+
     /*    FLAC__seekable_stream_decoder_process_metadata (flacdec->seekable_decoder); */
     flacdec->init = FALSE;
   }
@@ -1229,29 +1092,17 @@ gst_flac_dec_loop (GstPad * sinkpad)
   flacdec->last_flow = GST_FLOW_OK;
 
   GST_LOG_OBJECT (flacdec, "processing single");
-#ifdef LEGACY_FLAC
-  FLAC__seekable_stream_decoder_process_single (flacdec->seekable_decoder);
-#else
   FLAC__stream_decoder_process_single (flacdec->seekable_decoder);
-#endif
+
 analyze_state:
 
   GST_LOG_OBJECT (flacdec, "done processing, checking encoder state");
-#ifdef LEGACY_FLAC
-  s = FLAC__seekable_stream_decoder_get_state (flacdec->seekable_decoder);
-#else
   s = FLAC__stream_decoder_get_state (flacdec->seekable_decoder);
-#endif
   switch (s) {
-#ifdef LEGACY_FLAC
-    case FLAC__SEEKABLE_STREAM_DECODER_OK:
-    case FLAC__SEEKABLE_STREAM_DECODER_SEEKING:
-#else
     case FLAC__STREAM_DECODER_SEARCH_FOR_METADATA:
     case FLAC__STREAM_DECODER_READ_METADATA:
     case FLAC__STREAM_DECODER_SEARCH_FOR_FRAME_SYNC:
     case FLAC__STREAM_DECODER_READ_FRAME:
-#endif
     {
       GST_DEBUG_OBJECT (flacdec, "everything ok");
 
@@ -1284,17 +1135,9 @@ analyze_state:
       return;
     }
 
-#ifdef LEGACY_FLAC
-    case FLAC__SEEKABLE_STREAM_DECODER_END_OF_STREAM:{
-#else
     case FLAC__STREAM_DECODER_END_OF_STREAM:{
-#endif
       GST_DEBUG_OBJECT (flacdec, "EOS");
-#ifdef LEGACY_FLAC
-      FLAC__seekable_stream_decoder_reset (flacdec->seekable_decoder);
-#else
       FLAC__stream_decoder_reset (flacdec->seekable_decoder);
-#endif
 
       if ((flacdec->segment.flags & GST_SEEK_FLAG_SEGMENT) != 0) {
         if (flacdec->segment.duration > 0) {
@@ -1308,31 +1151,16 @@ analyze_state:
       goto eos_and_pause;
     }
 
-#ifdef LEGACY_FLAC
-    case FLAC__SEEKABLE_STREAM_DECODER_MEMORY_ALLOCATION_ERROR:
-    case FLAC__SEEKABLE_STREAM_DECODER_STREAM_DECODER_ERROR:
-    case FLAC__SEEKABLE_STREAM_DECODER_READ_ERROR:
-    case FLAC__SEEKABLE_STREAM_DECODER_SEEK_ERROR:
-    case FLAC__SEEKABLE_STREAM_DECODER_ALREADY_INITIALIZED:
-    case FLAC__SEEKABLE_STREAM_DECODER_INVALID_CALLBACK:
-    case FLAC__SEEKABLE_STREAM_DECODER_UNINITIALIZED:
-#else
     case FLAC__STREAM_DECODER_OGG_ERROR:
     case FLAC__STREAM_DECODER_SEEK_ERROR:
     case FLAC__STREAM_DECODER_ABORTED:
     case FLAC__STREAM_DECODER_MEMORY_ALLOCATION_ERROR:
     case FLAC__STREAM_DECODER_UNINITIALIZED:
-#endif
     default:{
       /* fixme: this error sucks -- should try to figure out when/if an more
          specific error was already sent via the callback */
-#ifdef LEGACY_FLAC
-      GST_ELEMENT_ERROR (flacdec, STREAM, DECODE, (NULL),
-          ("%s", FLAC__SeekableStreamDecoderStateString[s]));
-#else
       GST_ELEMENT_ERROR (flacdec, STREAM, DECODE, (NULL),
           ("%s", FLAC__StreamDecoderStateString[s]));
-#endif
       goto eos_and_pause;
     }
   }
@@ -1380,7 +1208,7 @@ gst_flac_dec_sink_event (GstPad * pad, GstEvent * event)
 
   switch (GST_EVENT_TYPE (event)) {
     case GST_EVENT_FLUSH_STOP:{
-      if (dec->stream_decoder) {
+      if (dec->init == FALSE) {
         FLAC__stream_decoder_flush (dec->stream_decoder);
         gst_adapter_clear (dec->adapter);
       }
@@ -1429,10 +1257,13 @@ gst_flac_dec_sink_event (GstPad * pad, GstEvent * event)
     case GST_EVENT_EOS:{
       GST_LOG_OBJECT (dec, "EOS, with %u bytes available in adapter",
           gst_adapter_available (dec->adapter));
-      if (gst_adapter_available (dec->adapter) > 0) {
-        FLAC__stream_decoder_process_until_end_of_stream (dec->stream_decoder);
+      if (dec->init == FALSE) {
+        if (gst_adapter_available (dec->adapter) > 0) {
+          FLAC__stream_decoder_process_until_end_of_stream
+              (dec->stream_decoder);
+        }
+        FLAC__stream_decoder_flush (dec->stream_decoder);
       }
-      FLAC__stream_decoder_flush (dec->stream_decoder);
       gst_adapter_clear (dec->adapter);
       res = gst_pad_push_event (dec->srcpad, event);
       break;
@@ -1450,11 +1281,7 @@ gst_flac_dec_sink_event (GstPad * pad, GstEvent * event)
 static GstFlowReturn
 gst_flac_dec_chain (GstPad * pad, GstBuffer * buf)
 {
-#ifdef  LEGACY_FLAC
-  FLAC__StreamDecoderState s;
-#else
   FLAC__StreamDecoderInitStatus s;
-#endif
   GstFlacDec *dec;
   gboolean got_audio_frame;
 
@@ -1466,13 +1293,6 @@ gst_flac_dec_chain (GstPad * pad, GstBuffer * buf)
 
   if (dec->init) {
     GST_DEBUG_OBJECT (dec, "initializing decoder");
-#ifdef  LEGACY_FLAC
-    s = FLAC__stream_decoder_init (dec->stream_decoder);
-    if (s != FLAC__STREAM_DECODER_SEARCH_FOR_METADATA) {
-      GST_ELEMENT_ERROR (GST_ELEMENT (dec), LIBRARY, INIT, (NULL), (NULL));
-      return GST_FLOW_ERROR;
-    }
-#else
     s = FLAC__stream_decoder_init_stream (dec->stream_decoder,
         gst_flac_dec_read_stream, NULL, NULL, NULL, NULL,
         gst_flac_dec_write_stream, gst_flac_dec_metadata_callback_stream,
@@ -1481,7 +1301,6 @@ gst_flac_dec_chain (GstPad * pad, GstBuffer * buf)
       GST_ELEMENT_ERROR (GST_ELEMENT (dec), LIBRARY, INIT, (NULL), (NULL));
       return GST_FLOW_ERROR;
     }
-#endif
     GST_DEBUG_OBJECT (dec, "initialized (framed=%d)", dec->framed);
     dec->init = FALSE;
   }
@@ -1915,6 +1734,7 @@ gst_flac_dec_handle_seek_event (GstFlacDec * flacdec, GstEvent * event)
     /* flushing seek, clear the pipeline of stuff, we need a newsegment after
      * this. */
     GST_DEBUG_OBJECT (flacdec, "flushing");
+    gst_pad_push_event (flacdec->sinkpad, gst_event_new_flush_start ());
     gst_pad_push_event (flacdec->srcpad, gst_event_new_flush_start ());
   } else {
     /* non flushing seek, pause the task */
@@ -1928,45 +1748,53 @@ gst_flac_dec_handle_seek_event (GstFlacDec * flacdec, GstEvent * event)
    * downstream in PAUSED, for example */
   GST_PAD_STREAM_LOCK (flacdec->sinkpad);
 
-  /* operate on segment copy until we know the seek worked. The idea is that
-   * when the seek fails, we want to continue with what we were doing without
-   * having the segment being updated. */
+  /* save a segment copy until we know the seek worked. The idea is that
+   * when the seek fails, we want to restore with what we were doing. */
   segment = flacdec->segment;
 
   /* update the segment with the seek values, last_stop will contain the new
    * position we should seek to */
-  gst_segment_set_seek (&segment, rate, GST_FORMAT_DEFAULT,
+  gst_segment_set_seek (&flacdec->segment, rate, GST_FORMAT_DEFAULT,
       seek_flags, start_type, start, stop_type, stop, &only_update);
 
   GST_DEBUG_OBJECT (flacdec,
       "configured segment: [%" G_GINT64_FORMAT "-%" G_GINT64_FORMAT
       "] = [%" GST_TIME_FORMAT "-%" GST_TIME_FORMAT "]",
-      segment.start, segment.stop,
-      GST_TIME_ARGS (segment.start * GST_SECOND / flacdec->sample_rate),
-      GST_TIME_ARGS (segment.stop * GST_SECOND / flacdec->sample_rate));
+      flacdec->segment.start, flacdec->segment.stop,
+      GST_TIME_ARGS (flacdec->segment.start * GST_SECOND /
+          flacdec->sample_rate),
+      GST_TIME_ARGS (flacdec->segment.stop * GST_SECOND /
+          flacdec->sample_rate));
 
   GST_DEBUG_OBJECT (flacdec, "performing seek to sample %" G_GINT64_FORMAT,
-      segment.last_stop);
+      flacdec->segment.last_stop);
+
+  /* flush sinkpad again because we need to pull and push buffers while doing
+   * the seek */
+  if (flush) {
+    GST_DEBUG_OBJECT (flacdec, "flushing stop");
+    gst_pad_push_event (flacdec->sinkpad, gst_event_new_flush_stop ());
+    gst_pad_push_event (flacdec->srcpad, gst_event_new_flush_stop ());
+  }
 
   /* mark ourselves as seeking because the above lines will trigger some
    * callbacks that need to behave differently when seeking */
   flacdec->seeking = TRUE;
 
-  seek_ok =
-#ifdef  LEGACY_FLAC
-      FLAC__seekable_stream_decoder_seek_absolute (flacdec->seekable_decoder,
-      segment.last_stop);
-#else
-      FLAC__stream_decoder_seek_absolute (flacdec->seekable_decoder,
-      segment.last_stop);
-#endif
+  seek_ok = FLAC__stream_decoder_seek_absolute (flacdec->seekable_decoder,
+      flacdec->segment.last_stop);
 
   flacdec->seeking = FALSE;
 
+  GST_DEBUG_OBJECT (flacdec, "performed seek to sample %" G_GINT64_FORMAT,
+      flacdec->segment.last_stop);
+
+
   if (!seek_ok) {
-    /* seek failed, segment was not updated and we start streaming again with
-     * the previous segment values */
     GST_WARNING_OBJECT (flacdec, "seek failed");
+    /* seek failed, restore the segment and start streaming again with
+     * the previous segment values */
+    flacdec->segment = segment;
   } else if (!flush && flacdec->running) {
     /* we are running the current segment and doing a non-flushing seek, 
      * close the segment first based on the last_stop. */
@@ -1974,10 +1802,10 @@ gst_flac_dec_handle_seek_event (GstFlacDec * flacdec, GstEvent * event)
         " to %" G_GINT64_FORMAT, segment.start, segment.last_stop);
 
     /* convert the old segment values to time to close the old segment */
-    start = gst_util_uint64_scale_int (flacdec->segment.start, GST_SECOND,
+    start = gst_util_uint64_scale_int (segment.start, GST_SECOND,
         flacdec->sample_rate);
     last_stop =
-        gst_util_uint64_scale_int (flacdec->segment.last_stop, GST_SECOND,
+        gst_util_uint64_scale_int (segment.last_stop, GST_SECOND,
         flacdec->sample_rate);
 
     /* queue the segment for sending in the stream thread, start and time are
@@ -1986,13 +1814,12 @@ gst_flac_dec_handle_seek_event (GstFlacDec * flacdec, GstEvent * event)
       gst_event_unref (flacdec->close_segment);
     flacdec->close_segment =
         gst_event_new_new_segment_full (TRUE,
-        flacdec->segment.rate, flacdec->segment.applied_rate, GST_FORMAT_TIME,
+        segment.rate, segment.applied_rate, GST_FORMAT_TIME,
         start, last_stop, start);
   }
 
   if (seek_ok) {
-    /* seek succeeded, copy new segment values */
-    flacdec->segment = segment;
+    /* seek succeeded, flacdec->segment contains the new positions */
     GST_DEBUG_OBJECT (flacdec, "seek successful");
   }
 
@@ -2013,7 +1840,7 @@ gst_flac_dec_handle_seek_event (GstFlacDec * flacdec, GstEvent * event)
         flacdec->sample_rate);
 
   /* notify start of new segment when we were asked to do so. */
-  if (segment.flags & GST_SEEK_FLAG_SEGMENT) {
+  if (flacdec->segment.flags & GST_SEEK_FLAG_SEGMENT) {
     /* last_stop contains the position we start from */
     gst_element_post_message (GST_ELEMENT (flacdec),
         gst_message_new_segment_start (GST_OBJECT (flacdec),
@@ -2024,23 +1851,17 @@ gst_flac_dec_handle_seek_event (GstFlacDec * flacdec, GstEvent * event)
    * a new segment. If we did not flush and the seek failed, we simply do
    * nothing here and continue where we were. */
   if (seek_ok || flush) {
-    GST_DEBUG_OBJECT (flacdec, "Creating newsegment from %" G_GINT64_FORMAT
-        " to %" G_GINT64_FORMAT, segment.last_stop, stop);
+    GST_DEBUG_OBJECT (flacdec, "Creating newsegment from %" GST_TIME_FORMAT
+        " to %" GST_TIME_FORMAT, GST_TIME_ARGS (last_stop),
+        GST_TIME_ARGS (stop));
     /* now replace the old segment so that we send it in the stream thread the
      * next time it is scheduled. */
     if (flacdec->start_segment)
       gst_event_unref (flacdec->start_segment);
     flacdec->start_segment =
         gst_event_new_new_segment_full (FALSE,
-        segment.rate, segment.applied_rate, GST_FORMAT_TIME,
+        flacdec->segment.rate, flacdec->segment.applied_rate, GST_FORMAT_TIME,
         last_stop, stop, last_stop);
-  }
-
-  /* prepare for streaming again, start with a flush stop when we issued a flush
-   * start before. */
-  if (flush) {
-    GST_DEBUG_OBJECT (flacdec, "flushing stop");
-    gst_pad_push_event (flacdec->srcpad, gst_event_new_flush_stop ());
   }
 
   /* we'll generate a discont on the next buffer */
@@ -2064,12 +1885,14 @@ gst_flac_dec_src_event (GstPad * pad, GstEvent * event)
 
   switch (GST_EVENT_TYPE (event)) {
     case GST_EVENT_SEEK:{
+      GST_DEBUG_OBJECT (flacdec, "received seek event %p", event);
       /* first, see if we're before a demuxer that
        * might handle the seek for us */
       gst_event_ref (event);
       res = gst_pad_event_default (pad, event);
       /* if not, try to handle it ourselves */
       if (!res) {
+        GST_DEBUG_OBJECT (flacdec, "default failed, handling ourselves");
         res = gst_flac_dec_handle_seek_event (flacdec, event);
       }
       gst_event_unref (event);

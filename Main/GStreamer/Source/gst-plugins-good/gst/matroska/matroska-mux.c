@@ -142,6 +142,8 @@ static GstStaticPadTemplate audiosink_templ =
         COMMON_AUDIO_CAPS "; "
         "audio/x-flac, "
         COMMON_AUDIO_CAPS "; "
+        "audio/x-speex, "
+        COMMON_AUDIO_CAPS "; "
         "audio/x-raw-int, "
         "width = (int) 8, "
         "depth = (int) 8, "
@@ -223,6 +225,8 @@ static guint64 gst_matroska_mux_create_uid ();
 static gboolean theora_streamheader_to_codecdata (const GValue * streamheader,
     GstMatroskaTrackContext * context);
 static gboolean vorbis_streamheader_to_codecdata (const GValue * streamheader,
+    GstMatroskaTrackContext * context);
+static gboolean speex_streamheader_to_codecdata (const GValue * streamheader,
     GstMatroskaTrackContext * context);
 static gboolean flac_streamheader_to_codecdata (const GValue * streamheader,
     GstMatroskaTrackContext * context);
@@ -493,10 +497,8 @@ gst_matroska_mux_reset (GstElement * element)
 
   for (walk = mux->collect->data; walk; walk = g_slist_next (walk)) {
     GstMatroskaPad *collect_pad;
-    GstPad *thepad;
 
     collect_pad = (GstMatroskaPad *) walk->data;
-    thepad = collect_pad->collect.pad;
 
     /* reset collect pad to pristine state */
     gst_matroska_pad_reset (collect_pad, FALSE);
@@ -650,7 +652,8 @@ gst_matroska_mux_video_pad_setcaps (GstPad * pad, GstCaps * caps)
   gst_structure_get_int (structure, "height", &height);
   videocontext->pixel_width = width;
   videocontext->pixel_height = height;
-  if (gst_structure_get_fraction (structure, "framerate", &fps_n, &fps_d)) {
+  if (gst_structure_get_fraction (structure, "framerate", &fps_n, &fps_d)
+      && fps_n > 0) {
     context->default_duration =
         gst_util_uint64_scale_int (GST_SECOND, fps_d, fps_n);
     GST_LOG_OBJECT (pad, "default duration = %" GST_TIME_FORMAT,
@@ -1139,6 +1142,69 @@ flac_streamheader_to_codecdata (const GValue * streamheader,
   return TRUE;
 }
 
+static gboolean
+speex_streamheader_to_codecdata (const GValue * streamheader,
+    GstMatroskaTrackContext * context)
+{
+  GArray *bufarr;
+  GValue *bufval;
+  GstBuffer *buffer;
+
+  if (streamheader == NULL || G_VALUE_TYPE (streamheader) != GST_TYPE_ARRAY) {
+    GST_WARNING ("No or invalid streamheader field in the caps");
+    return FALSE;
+  }
+
+  bufarr = g_value_peek_pointer (streamheader);
+  if (bufarr->len != 2) {
+    GST_WARNING ("Too few headers in streamheader field");
+    return FALSE;
+  }
+
+  context->xiph_headers_to_skip = bufarr->len + 1;
+
+  bufval = &g_array_index (bufarr, GValue, 0);
+  if (G_VALUE_TYPE (bufval) != GST_TYPE_BUFFER) {
+    GST_WARNING ("streamheaders array does not contain GstBuffers");
+    return FALSE;
+  }
+
+  buffer = g_value_peek_pointer (bufval);
+
+  if (GST_BUFFER_SIZE (buffer) < 80
+      || memcmp (GST_BUFFER_DATA (buffer), "Speex   ", 8) != 0) {
+    GST_WARNING ("Invalid streamheader for Speex");
+    return FALSE;
+  }
+
+  context->codec_priv = g_malloc (GST_BUFFER_SIZE (buffer));
+  context->codec_priv_size = GST_BUFFER_SIZE (buffer);
+  memcpy (context->codec_priv, GST_BUFFER_DATA (buffer),
+      GST_BUFFER_SIZE (buffer));
+
+  bufval = &g_array_index (bufarr, GValue, 1);
+
+  if (G_VALUE_TYPE (bufval) != GST_TYPE_BUFFER) {
+    g_free (context->codec_priv);
+    context->codec_priv = NULL;
+    context->codec_priv_size = 0;
+    GST_WARNING ("streamheaders array does not contain GstBuffers");
+    return FALSE;
+  }
+
+  buffer = g_value_peek_pointer (bufval);
+
+  context->codec_priv =
+      g_realloc (context->codec_priv,
+      context->codec_priv_size + GST_BUFFER_SIZE (buffer));
+  memcpy ((guint8 *) context->codec_priv + context->codec_priv_size,
+      GST_BUFFER_DATA (buffer), GST_BUFFER_SIZE (buffer));
+  context->codec_priv_size =
+      context->codec_priv_size + GST_BUFFER_SIZE (buffer);
+
+  return TRUE;
+}
+
 static gchar *
 aac_codec_data_to_codec_id (const GstBuffer * buf)
 {
@@ -1299,8 +1365,9 @@ gst_matroska_mux_audio_pad_setcaps (GstPad * pad, GstCaps * caps)
 
     return TRUE;
   } else if (!strcmp (mimetype, "audio/x-raw-int")) {
-    gint endianness, width, depth;
-    gboolean signedness = G_LITTLE_ENDIAN;
+    gint width, depth;
+    gint endianness = G_LITTLE_ENDIAN;
+    gboolean signedness = TRUE;
 
     if (!gst_structure_get_int (structure, "width", &width) ||
         !gst_structure_get_int (structure, "depth", &depth) ||
@@ -1377,6 +1444,23 @@ gst_matroska_mux_audio_pad_setcaps (GstPad * pad, GstCaps * caps)
     if (!flac_streamheader_to_codecdata (streamheader, context)) {
       GST_ELEMENT_ERROR (mux, STREAM, MUX, (NULL),
           ("flac stream headers missing or malformed"));
+      return FALSE;
+    }
+    return TRUE;
+  } else if (!strcmp (mimetype, "audio/x-speex")) {
+    const GValue *streamheader;
+
+    context->codec_id = g_strdup (GST_MATROSKA_CODEC_ID_AUDIO_SPEEX);
+    if (context->codec_priv != NULL) {
+      g_free (context->codec_priv);
+      context->codec_priv = NULL;
+      context->codec_priv_size = 0;
+    }
+
+    streamheader = gst_structure_get_value (structure, "streamheader");
+    if (!speex_streamheader_to_codecdata (streamheader, context)) {
+      GST_ELEMENT_ERROR (mux, STREAM, MUX, (NULL),
+          ("speex stream headers missing or malformed"));
       return FALSE;
     }
     return TRUE;
@@ -1844,6 +1928,7 @@ gst_matroska_mux_write_simple_tag (const GstTagList * list, const gchar * tag,
         gst_ebml_write_ascii (ebml, GST_MATROSKA_ID_TAGNAME, tagname_mkv);
         gst_ebml_write_utf8 (ebml, GST_MATROSKA_ID_TAGSTRING, dest);
         gst_ebml_write_master_finish (ebml, simpletag_master);
+        g_free (dest);
       } else {
         GST_WARNING ("Can't transform tag '%s' to string", tagname_mkv);
       }
@@ -2159,7 +2244,7 @@ gst_matroska_mux_write_data (GstMatroskaMux * mux, GstMatroskaPad * collect_pad)
 {
   GstEbmlWrite *ebml = mux->ebml_write;
   GstBuffer *buf, *hdr;
-  guint64 cluster, blockgroup;
+  guint64 blockgroup;
   gboolean write_duration;
   gint16 relative_timestamp;
   gint64 relative_timestamp64;
@@ -2230,7 +2315,6 @@ gst_matroska_mux_write_data (GstMatroskaMux * mux, GstMatroskaPad * collect_pad)
         GST_BUFFER_TIMESTAMP (buf) / mux->time_scale);
     mux->cluster_time = GST_BUFFER_TIMESTAMP (buf);
   }
-  cluster = mux->cluster;
 
   /* update duration of this track */
   if (GST_BUFFER_DURATION_IS_VALID (buf))
@@ -2500,5 +2584,5 @@ gboolean
 gst_matroska_mux_plugin_init (GstPlugin * plugin)
 {
   return gst_element_register (plugin, "matroskamux",
-      GST_RANK_NONE, GST_TYPE_MATROSKA_MUX);
+      GST_RANK_PRIMARY, GST_TYPE_MATROSKA_MUX);
 }

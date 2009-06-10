@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-videoflip.html" title="videoflip">
 <link rel="next" href="gst-plugins-good-plugins-wavenc.html" title="wavenc">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-wavenc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-videomixer.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-videomixer.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-videomixer.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-videomixer.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-videomixer.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-videomixer.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-videomixer.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-videomixer.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-videomixer.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-videomixer.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-videomixer"></a><div class="titlepage"></div>
@@ -87,7 +89,7 @@ Individual parameters for each input stream can be configured on the
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2918945"></a><h3>Sample pipelines</h3>
+<a name="id2795390"></a><h3>Sample pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch videotestsrc pattern=1 ! video/x-raw-yuv, framerate=\(fraction\)10/1, width=100, height=100 ! videobox border-alpha=0 alpha=0.5 top=-70 bottom=-70 right=-220 ! videomixer name=mix ! ffmpegcolorspace ! xvimagesink videotestsrc ! video/x-raw-yuv, framerate=\(fraction\)5/1, width=320, height=240 ! alpha alpha=0.7 ! mix.
 </pre></div> A pipeline to demonstrate videomixer used together with videobox.
@@ -101,7 +103,7 @@ framerate of the output video is 10 frames per second.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2972838"></a><h3>Element Information</h3>
+<a name="id2841880"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -124,7 +126,7 @@ framerate of the output video is 10 frames per second.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2958034"></a><h3>Element Pads</h3>
+<a name="id2787152"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -170,7 +172,6 @@ framerate of the output video is 10 frames per second.
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -181,7 +182,6 @@ framerate of the output video is 10 frames per second.
 <p>
 The opaque <a class="link" href="gst-plugins-good-plugins-videomixer.html#GstVideoMixer"><span class="type">GstVideoMixer</span></a> structure.</p>
 <p>
-
 </p>
 </div>
 <hr>
@@ -198,23 +198,22 @@ GstVideoMixerBackground;
 <p>
 The different backgrounds videomixer can blend over.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="VIDEO-MIXER-BACKGROUND-CHECKER:CAPS"></a><span class="term"><code class="literal">VIDEO_MIXER_BACKGROUND_CHECKER</code></span></p></td>
+<td><p><a name="VIDEO-MIXER-BACKGROUND-CHECKER--CAPS"></a><span class="term"><code class="literal">VIDEO_MIXER_BACKGROUND_CHECKER</code></span></p></td>
 <td> checker pattern background
 </td>
 </tr>
 <tr>
-<td><p><a name="VIDEO-MIXER-BACKGROUND-BLACK:CAPS"></a><span class="term"><code class="literal">VIDEO_MIXER_BACKGROUND_BLACK</code></span></p></td>
+<td><p><a name="VIDEO-MIXER-BACKGROUND-BLACK--CAPS"></a><span class="term"><code class="literal">VIDEO_MIXER_BACKGROUND_BLACK</code></span></p></td>
 <td> solid color black background
 </td>
 </tr>
 <tr>
-<td><p><a name="VIDEO-MIXER-BACKGROUND-WHITE:CAPS"></a><span class="term"><code class="literal">VIDEO_MIXER_BACKGROUND_WHITE</code></span></p></td>
+<td><p><a name="VIDEO-MIXER-BACKGROUND-WHITE--CAPS"></a><span class="term"><code class="literal">VIDEO_MIXER_BACKGROUND_WHITE</code></span></p></td>
 <td> solid color white background
 </td>
 </tr>
@@ -234,6 +233,6 @@ The different backgrounds videomixer can blend over.</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

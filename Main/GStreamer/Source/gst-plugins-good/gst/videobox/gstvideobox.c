@@ -911,7 +911,6 @@ gst_video_box_ayuv_i420 (GstVideoBox * video_box, guint8 * src, guint8 * dest)
 
     /* bottom border */
     if (bb < 0) {
-      a = 0;
       oil_splat_u8_ns (Ydest, (guint8 *) & empty_px_values[0], (-bb) * Ywidth);
       if (sumbuff) {
         for (i = 0; i < Uwidth; i++) {
@@ -926,7 +925,6 @@ gst_video_box_ayuv_i420 (GstVideoBox * video_box, guint8 * src, guint8 * dest)
         Udest += Uwidth;
         Vdest += Vwidth;
         sumbuff = FALSE;
-        a = -1;
       }
       oil_splat_u8_ns (Udest, (guint8 *) & empty_px_values[1],
           (UVfloor ((-bb))) * Uwidth);
@@ -949,7 +947,7 @@ gst_video_box_i420_ayuv (GstVideoBox * video_box, guint8 * src, guint8 * dest)
 {
   guint8 *srcY, *srcU, *srcV;
   gint crop_width, crop_width2, crop_height;
-  gint out_width, out_height;
+  gint out_width;
   gint src_stridey, src_strideu, src_stridev;
   gint br, bl, bt, bb;
   gint colorY, colorU, colorV;
@@ -966,7 +964,6 @@ gst_video_box_i420_ayuv (GstVideoBox * video_box, guint8 * src, guint8 * dest)
   bb = video_box->border_bottom;
 
   out_width = video_box->out_width;
-  out_height = video_box->out_height;
 
   src_stridey = GST_VIDEO_I420_Y_ROWSTRIDE (video_box->in_width);
   src_strideu = GST_VIDEO_I420_U_ROWSTRIDE (video_box->in_width);
@@ -1037,7 +1034,6 @@ gst_video_box_i420_ayuv (GstVideoBox * video_box, guint8 * src, guint8 * dest)
     /* right border */
     if (br) {
       oil_splat_u32_ns (destp, &ayuv, br);
-      destp += br;
     }
     destb += out_width;
   }
@@ -1046,7 +1042,6 @@ gst_video_box_i420_ayuv (GstVideoBox * video_box, guint8 * src, guint8 * dest)
     size_t nb_pixels = bb * out_width;
 
     oil_splat_u32_ns (destb, &ayuv, nb_pixels);
-    destb += nb_pixels;
   }
 }
 
@@ -1089,6 +1084,15 @@ gst_video_box_i420_i420 (GstVideoBox * video_box, guint8 * src, guint8 * dest)
       crop_width, crop_height, src_stride, out_width, dest_stride,
       yuv_colors_Y[video_box->fill_type]);
 
+  br /= 2;
+  bb /= 2;
+  bl /= 2;
+  bt /= 2;
+
+  /* we need to round up to make sure we draw all the U and V lines */
+  crop_width = (crop_width + 1) / 2;
+  crop_height = (crop_height + 1) / 2;
+
   /* U plane */
   src_stride = GST_VIDEO_I420_U_ROWSTRIDE (src_width);
   dest_stride = GST_VIDEO_I420_U_ROWSTRIDE (out_width);
@@ -1098,9 +1102,9 @@ gst_video_box_i420_i420 (GstVideoBox * video_box, guint8 * src, guint8 * dest)
   srcU = src + GST_VIDEO_I420_U_OFFSET (src_width, src_height);
   srcU += src_stride * (video_box->crop_top / 2) + (video_box->crop_left / 2);
 
-  gst_video_box_copy_plane_i420 (video_box, srcU, destU, br / 2, bl / 2, bt / 2,
-      bb / 2, crop_width / 2, crop_height / 2, src_stride, out_width / 2,
-      dest_stride, yuv_colors_U[video_box->fill_type]);
+  gst_video_box_copy_plane_i420 (video_box, srcU, destU, br, bl, bt, bb,
+      crop_width, crop_height, src_stride, out_width / 2, dest_stride,
+      yuv_colors_U[video_box->fill_type]);
 
   /* V plane */
   src_stride = GST_VIDEO_I420_V_ROWSTRIDE (src_width);
@@ -1111,9 +1115,9 @@ gst_video_box_i420_i420 (GstVideoBox * video_box, guint8 * src, guint8 * dest)
   srcV = src + GST_VIDEO_I420_V_OFFSET (src_width, src_height);
   srcV += src_stride * (video_box->crop_top / 2) + (video_box->crop_left / 2);
 
-  gst_video_box_copy_plane_i420 (video_box, srcV, destV, br / 2, bl / 2, bt / 2,
-      bb / 2, crop_width / 2, crop_height / 2, src_stride, out_width / 2,
-      dest_stride, yuv_colors_V[video_box->fill_type]);
+  gst_video_box_copy_plane_i420 (video_box, srcV, destV, br, bl, bt, bb,
+      crop_width, crop_height, src_stride, out_width / 2, dest_stride,
+      yuv_colors_V[video_box->fill_type]);
 }
 
 static GstFlowReturn

@@ -129,6 +129,9 @@ static const guint32 gst_v4l2_formats[] = {
 #ifdef V4L2_PIX_FMT_PWC2
   V4L2_PIX_FMT_PWC2,
 #endif
+#ifdef V4L2_PIX_FMT_YVYU
+  V4L2_PIX_FMT_YVYU,
+#endif
 };
 
 #define GST_V4L2_FORMAT_COUNT (G_N_ELEMENTS (gst_v4l2_formats))
@@ -237,6 +240,10 @@ static void gst_v4l2src_finalize (GstV4l2Src * v4l2src);
 /* basesrc methods */
 static gboolean gst_v4l2src_start (GstBaseSrc * src);
 
+static gboolean gst_v4l2src_unlock (GstBaseSrc * src);
+
+static gboolean gst_v4l2src_unlock_stop (GstBaseSrc * src);
+
 static gboolean gst_v4l2src_stop (GstBaseSrc * src);
 
 static gboolean gst_v4l2src_set_caps (GstBaseSrc * src, GstCaps * caps);
@@ -309,6 +316,8 @@ gst_v4l2src_class_init (GstV4l2SrcClass * klass)
   basesrc_class->get_caps = GST_DEBUG_FUNCPTR (gst_v4l2src_get_caps);
   basesrc_class->set_caps = GST_DEBUG_FUNCPTR (gst_v4l2src_set_caps);
   basesrc_class->start = GST_DEBUG_FUNCPTR (gst_v4l2src_start);
+  basesrc_class->unlock = GST_DEBUG_FUNCPTR (gst_v4l2src_unlock);
+  basesrc_class->unlock_stop = GST_DEBUG_FUNCPTR (gst_v4l2src_unlock_stop);
   basesrc_class->stop = GST_DEBUG_FUNCPTR (gst_v4l2src_stop);
   basesrc_class->query = GST_DEBUG_FUNCPTR (gst_v4l2src_query);
   basesrc_class->fixate = GST_DEBUG_FUNCPTR (gst_v4l2src_fixate);
@@ -688,6 +697,9 @@ gst_v4l2src_v4l2fourcc_to_structure (guint32 fourcc)
     case V4L2_PIX_FMT_UYVY:
     case V4L2_PIX_FMT_Y41P:
     case V4L2_PIX_FMT_YUV422P:
+#ifdef V4L2_PIX_FMT_YVYU
+    case V4L2_PIX_FMT_YVYU:
+#endif
     case V4L2_PIX_FMT_YUV411P:{
       guint32 fcc = 0;
 
@@ -725,6 +737,11 @@ gst_v4l2src_v4l2fourcc_to_structure (guint32 fourcc)
         case V4L2_PIX_FMT_YUV422P:
           fcc = GST_MAKE_FOURCC ('Y', '4', '2', 'B');
           break;
+#ifdef V4L2_PIX_FMT_YVYU
+        case V4L2_PIX_FMT_YVYU:
+          fcc = GST_MAKE_FOURCC ('Y', 'V', 'Y', 'U');
+          break;
+#endif
         default:
           g_assert_not_reached ();
           break;
@@ -969,6 +986,12 @@ gst_v4l2_get_caps_info (GstV4l2Src * v4l2src, GstCaps * caps,
         outsize = GST_ROUND_UP_4 (*w) * GST_ROUND_UP_2 (*h);
         outsize += (GST_ROUND_UP_4 (*w) * *h) / 2;
         break;
+#ifdef V4L2_PIX_FMT_YVYU
+      case GST_MAKE_FOURCC ('Y', 'V', 'Y', 'U'):
+        fourcc = V4L2_PIX_FMT_YVYU;
+        outsize = (GST_ROUND_UP_2 (*w) * 2) * *h;
+        break;
+#endif
     }
   } else if (!strcmp (mimetype, "video/x-raw-rgb")) {
     gint depth, endianness, r_mask;
@@ -1159,6 +1182,29 @@ gst_v4l2src_start (GstBaseSrc * src)
 }
 
 static gboolean
+gst_v4l2src_unlock (GstBaseSrc * src)
+{
+  GstV4l2Src *v4l2src = GST_V4L2SRC (src);
+
+  GST_LOG_OBJECT (src, "Flushing");
+  gst_poll_set_flushing (v4l2src->v4l2object->poll, TRUE);
+
+  return TRUE;
+}
+
+static gboolean
+gst_v4l2src_unlock_stop (GstBaseSrc * src)
+{
+  GstV4l2Src *v4l2src = GST_V4L2SRC (src);
+
+  GST_LOG_OBJECT (src, "No longer flushing");
+  gst_poll_set_flushing (v4l2src->v4l2object->poll, FALSE);
+
+  return TRUE;
+}
+
+
+static gboolean
 gst_v4l2src_stop (GstBaseSrc * src)
 {
   GstV4l2Src *v4l2src = GST_V4L2SRC (src);
@@ -1186,6 +1232,7 @@ static GstFlowReturn
 gst_v4l2src_get_read (GstV4l2Src * v4l2src, GstBuffer ** buf)
 {
   gint amount;
+  gint ret;
 
   gint buffersize;
 
@@ -1194,6 +1241,13 @@ gst_v4l2src_get_read (GstV4l2Src * v4l2src, GstBuffer ** buf)
   *buf = gst_buffer_new_and_alloc (buffersize);
 
   do {
+    ret = gst_poll_wait (v4l2src->v4l2object->poll, GST_CLOCK_TIME_NONE);
+    if (G_UNLIKELY (ret < 0)) {
+      if (errno == EBUSY)
+        goto stopped;
+      if (errno != EAGAIN && errno != EINTR)
+        goto select_error;
+    }
     amount =
         v4l2_read (v4l2src->v4l2object->video_fd, GST_BUFFER_DATA (*buf),
         buffersize);
@@ -1210,49 +1264,22 @@ gst_v4l2src_get_read (GstV4l2Src * v4l2src, GstBuffer ** buf)
     }
   } while (TRUE);
 
-  GST_BUFFER_OFFSET (*buf) = v4l2src->offset++;
-  GST_BUFFER_OFFSET_END (*buf) = v4l2src->offset;
-  /* timestamps, LOCK to get clock and base time. */
-  {
-    GstClock *clock;
-
-    GstClockTime timestamp;
-
-    GST_OBJECT_LOCK (v4l2src);
-    if ((clock = GST_ELEMENT_CLOCK (v4l2src))) {
-      /* we have a clock, get base time and ref clock */
-      timestamp = GST_ELEMENT (v4l2src)->base_time;
-      gst_object_ref (clock);
-    } else {
-      /* no clock, can't set timestamps */
-      timestamp = GST_CLOCK_TIME_NONE;
-    }
-    GST_OBJECT_UNLOCK (v4l2src);
-
-    if (clock) {
-      GstClockTime latency;
-
-      /* the time now is the time of the clock minus the base time */
-      timestamp = gst_clock_get_time (clock) - timestamp;
-      gst_object_unref (clock);
-
-      latency =
-          gst_util_uint64_scale_int (GST_SECOND, v4l2src->fps_d,
-          v4l2src->fps_n);
-
-      if (timestamp > latency)
-        timestamp -= latency;
-      else
-        timestamp = 0;
-    }
-
-    /* FIXME: use the timestamp from the buffer itself! */
-    GST_BUFFER_TIMESTAMP (*buf) = timestamp;
-  }
+  /* we set the buffer metadata in gst_v4l2src_create() */
 
   return GST_FLOW_OK;
 
   /* ERRORS */
+select_error:
+  {
+    GST_ELEMENT_ERROR (v4l2src, RESOURCE, READ, (NULL),
+        ("select error %d: %s (%d)", ret, g_strerror (errno), errno));
+    return GST_FLOW_ERROR;
+  }
+stopped:
+  {
+    GST_DEBUG ("stop called");
+    return GST_FLOW_WRONG_STATE;
+  }
 read_error:
   {
     GST_ELEMENT_ERROR (v4l2src, RESOURCE, READ,
@@ -1322,6 +1349,46 @@ gst_v4l2src_create (GstPushSrc * src, GstBuffer ** buf)
     ret = gst_v4l2src_get_mmap (v4l2src, buf);
   } else {
     ret = gst_v4l2src_get_read (v4l2src, buf);
+  }
+  /* set buffer metadata */
+  if (ret == GST_FLOW_OK && *buf) {
+    GstClock *clock;
+    GstClockTime timestamp;
+
+    GST_BUFFER_OFFSET (*buf) = v4l2src->offset++;
+    GST_BUFFER_OFFSET_END (*buf) = v4l2src->offset;
+
+    /* timestamps, LOCK to get clock and base time. */
+    GST_OBJECT_LOCK (v4l2src);
+    if ((clock = GST_ELEMENT_CLOCK (v4l2src))) {
+      /* we have a clock, get base time and ref clock */
+      timestamp = GST_ELEMENT (v4l2src)->base_time;
+      gst_object_ref (clock);
+    } else {
+      /* no clock, can't set timestamps */
+      timestamp = GST_CLOCK_TIME_NONE;
+    }
+    GST_OBJECT_UNLOCK (v4l2src);
+
+    if (clock) {
+      GstClockTime latency;
+
+      /* the time now is the time of the clock minus the base time */
+      timestamp = gst_clock_get_time (clock) - timestamp;
+      gst_object_unref (clock);
+
+      latency =
+          gst_util_uint64_scale_int (GST_SECOND, v4l2src->fps_d,
+          v4l2src->fps_n);
+
+      if (timestamp > latency)
+        timestamp -= latency;
+      else
+        timestamp = 0;
+    }
+
+    /* FIXME: use the timestamp from the buffer itself! */
+    GST_BUFFER_TIMESTAMP (*buf) = timestamp;
   }
   return ret;
 }

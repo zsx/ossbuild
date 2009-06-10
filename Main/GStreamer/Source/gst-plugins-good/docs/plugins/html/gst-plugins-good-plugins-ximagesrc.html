@@ -7,8 +7,8 @@
 <link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-wavparse.html" title="wavparse">
-<link rel="next" href="ch02.html" title="gst-plugins-good Plugins">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="next" href="gst-plugins-good-plugins-y4menc.html" title="y4menc">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -21,15 +21,17 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="ch02.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-good-plugins-y4menc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-ximagesrc.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-ximagesrc.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-ximagesrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-ximagesrc.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-ximagesrc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-ximagesrc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-ximagesrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-ximagesrc.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-ximagesrc"></a><div class="titlepage"></div>
@@ -100,7 +102,7 @@ available to also capture your mouse pointer.  By default it will fixate to
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2973961"></a><h3>Example pipelines</h3>
+<a name="id2821075"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theoraenc ! oggmux ! filesink location=desktop.ogg
 </pre></div> Encodes your X display to an Ogg theora video at 5 frames per second.
@@ -108,7 +110,7 @@ gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theora
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2925595"></a><h3>Element Information</h3>
+<a name="id2797814"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -131,7 +133,7 @@ gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theora
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2943844"></a><h3>Element Pads</h3>
+<a name="id2843909"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -156,7 +158,6 @@ gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theora
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -165,7 +166,6 @@ gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theora
 <a name="GstXImageSrc-struct"></a><h3>GstXImageSrc</h3>
 <pre class="programlisting">typedef struct _GstXImageSrc GstXImageSrc;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -208,12 +208,10 @@ href="../glib/glib-Basic-Types.html#guint"
 X coordinate of bottom right corner of area to be recorded
 (0 for bottom right of screen)</p>
 <p>
-
 </p>
 <p>Allowed values: &lt;= G_MAXINT</p>
 <p>Default value: 0</p>
-<p>Since  0.10.4
-</p>
+<p>Since 0.10.4</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
@@ -225,12 +223,10 @@ href="../glib/glib-Basic-Types.html#guint"
 Y coordinate of bottom right corner of area to be recorded
 (0 for bottom right of screen)</p>
 <p>
-
 </p>
 <p>Allowed values: &lt;= G_MAXINT</p>
 <p>Default value: 0</p>
-<p>Since  0.10.4
-</p>
+<p>Since 0.10.4</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
@@ -242,12 +238,10 @@ href="../glib/glib-Basic-Types.html#guint"
 X coordinate of top left corner of area to be recorded
 (0 for top left of screen)</p>
 <p>
-
 </p>
 <p>Allowed values: &lt;= G_MAXINT</p>
 <p>Default value: 0</p>
-<p>Since  0.10.4
-</p>
+<p>Since 0.10.4</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
@@ -259,12 +253,10 @@ href="../glib/glib-Basic-Types.html#guint"
 Y coordinate of top left corner of area to be recorded
 (0 for top left of screen)</p>
 <p>
-
 </p>
 <p>Allowed values: &lt;= G_MAXINT</p>
 <p>Default value: 0</p>
-<p>Since  0.10.4
-</p>
+<p>Since 0.10.4</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
@@ -275,16 +267,14 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>
 Use XDamage (if the XDamage extension is enabled)</p>
 <p>
-
 </p>
 <p>Default value: TRUE</p>
-<p>Since  0.10.4
-</p>
+<p>Since 0.10.4</p>
 </div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

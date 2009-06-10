@@ -44,6 +44,7 @@ GST_DEBUG_CATEGORY_EXTERN (qtdemux_debug);
 
 /* qtdemux produces these for atoms it cannot parse */
 #define GST_QT_DEMUX_PRIVATE_TAG "private-qt-tag"
+#define GST_QT_DEMUX_CLASSIFICATION_TAG "classification"
 
 #define GST_QTDEMUX_MAX_STREAMS         8
 
@@ -61,6 +62,7 @@ struct _GstQTDemux {
   gint     n_streams;
   gint     n_video_streams;
   gint     n_audio_streams;
+  gint     n_subp_streams;
 
   guint  major_brand;
   GNode *moov_node;

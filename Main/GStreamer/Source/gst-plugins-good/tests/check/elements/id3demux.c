@@ -59,7 +59,6 @@ read_tags_from_file (const gchar * file, gboolean push_mode)
   GstMessage *msg;
   GstElement *src, *sep, *sink, *id3demux, *pipeline;
   GstBus *bus;
-  const gchar *dir;
   gchar *path;
 
   pipeline = gst_pipeline_new ("pipeline");
@@ -96,10 +95,7 @@ read_tags_from_file (const gchar * file, gboolean push_mode)
   /* can't link id3demux and sink yet, do that later */
   g_signal_connect (id3demux, "pad-added", G_CALLBACK (pad_added_cb), pipeline);
 
-  dir = g_getenv ("GST_TEST_FILES_PATH");
-  fail_unless (dir != NULL, "GST_TEST_FILES_PATH environment variable not set");
-
-  path = g_build_filename (dir, file, NULL);
+  path = g_build_filename (GST_TEST_FILES_PATH, file, NULL);
   GST_LOG ("reading file '%s'", path);
   g_object_set (src, "location", path, NULL);
 
@@ -201,6 +197,36 @@ GST_START_TEST (test_wcop)
 
 GST_END_TEST;
 
+static void
+check_unsync (const GstTagList * tags, const gchar * file)
+{
+  gchar *album = NULL;
+  gchar *title = NULL;
+  gchar *artist = NULL;
+
+  fail_unless (gst_tag_list_get_string (tags, GST_TAG_TITLE, &title));
+  fail_unless (title != NULL);
+  fail_unless_equals_string (title, "ARTIST");  /* sic */
+  g_free (title);
+
+  fail_unless (gst_tag_list_get_string (tags, GST_TAG_ALBUM, &album));
+  fail_unless (album != NULL);
+  fail_unless_equals_string (album, "Album");
+  g_free (album);
+
+  fail_unless (gst_tag_list_get_string (tags, GST_TAG_ARTIST, &artist));
+  fail_unless (artist != NULL);
+  fail_unless_equals_string (artist, "藝人");
+  g_free (artist);
+}
+
+GST_START_TEST (test_unsync)
+{
+  run_check_for_file ("id3-577468-unsynced-tag.tag", check_unsync);
+}
+
+GST_END_TEST;
+
 static Suite *
 id3demux_suite (void)
 {
@@ -210,6 +236,7 @@ id3demux_suite (void)
   suite_add_tcase (s, tc_chain);
   tcase_add_test (tc_chain, test_tdat_tyer);
   tcase_add_test (tc_chain, test_wcop);
+  tcase_add_test (tc_chain, test_unsync);
 
   return s;
 }

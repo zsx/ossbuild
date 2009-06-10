@@ -32,6 +32,8 @@ libgstrtp_la_SOURCES = \
 	gstrtph263pay.c \
 	gstrtph264depay.c \
 	gstrtph264pay.c \
+	gstrtpj2kdepay.c \
+	gstrtpj2kpay.c \
 	gstrtpjpegdepay.c \
 	gstrtpjpegpay.c \
 	gstrtpL16depay.c \
@@ -46,6 +48,8 @@ libgstrtp_la_SOURCES = \
 	gstrtpmp4gpay.c \
 	gstrtpmp4adepay.c \
 	gstrtpmp4apay.c \
+	gstrtpsirenpay.c \
+	gstrtpsirendepay.c \
 	gstrtpspeexdepay.c \
 	gstrtpspeexpay.c \
 	gstrtpsv3vdepay.c \
@@ -55,7 +59,7 @@ libgstrtp_la_SOURCES = \
 	gstrtpvorbispay.c  \
 	gstrtpvrawdepay.c  \
 	gstrtpvrawpay.c 
-	
+
 
 if HAVE_WINSOCK2_H
 WINSOCK2_LIBS = -lws2_32
@@ -67,7 +71,8 @@ libgstrtp_la_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_CFLAGS)
 libgstrtp_la_LIBADD = $(GST_PLUGINS_BASE_LIBS) $(GST_BASE_LIBS) \
 		-lgstaudio-@GST_MAJORMINOR@ \
                 -lgsttag-@GST_MAJORMINOR@ \
-                -lgstrtp-@GST_MAJORMINOR@ $(WINSOCK2_LIBS)
+                -lgstrtp-@GST_MAJORMINOR@ $(WINSOCK2_LIBS) \
+		$(LIBM)
 libgstrtp_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS) 
 libgstrtp_la_LIBTOOLFLAGS = --tag=disable-static
 
@@ -103,6 +108,8 @@ noinst_HEADERS =			\
 		 gstrtph263pay.h 	\
 		 gstrtph264depay.h 	\
 		 gstrtph264pay.h 	\
+		 gstrtpj2kdepay.h 	\
+		 gstrtpj2kpay.h 	\
 		 gstrtpjpegdepay.h 	\
 		 gstrtpjpegpay.h 	\
 		 gstrtpmp1sdepay.h 	\
@@ -116,6 +123,8 @@ noinst_HEADERS =			\
 		 gstrtpmp4apay.h        \
 		 gstrtpdepay.h		\
 		 gstasteriskh263.h	\
+		 gstrtpsirenpay.h 	\
+		 gstrtpsirendepay.h 	\
 		 gstrtpspeexdepay.h	\
 		 gstrtpspeexpay.h	\
 		 gstrtpsv3vdepay.h	\

@@ -133,12 +133,8 @@ static void
 gst_udpsink_class_init (GstUDPSink * klass)
 {
   GObjectClass *gobject_class;
-  GstElementClass *gstelement_class;
-  GstBaseSinkClass *gstbasesink_class;
 
   gobject_class = (GObjectClass *) klass;
-  gstelement_class = (GstElementClass *) klass;
-  gstbasesink_class = (GstBaseSinkClass *) klass;
 
   parent_class = g_type_class_peek_parent (klass);
 
@@ -223,9 +219,9 @@ gst_udpsink_set_uri (GstUDPSink * sink, const gchar * uri)
   /* ERRORS */
 wrong_protocol:
   {
-    g_free (protocol);
     GST_ELEMENT_ERROR (sink, RESOURCE, READ, (NULL),
         ("error parsing uri %s: wrong protocol (%s != udp)", uri, protocol));
+    g_free (protocol);
     return FALSE;
   }
 }

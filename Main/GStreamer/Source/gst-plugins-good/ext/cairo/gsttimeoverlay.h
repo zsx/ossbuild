@@ -22,7 +22,7 @@
 
 #include <gst/gst.h>
 #include <gst/base/gstbasetransform.h>
-#include <cairo/cairo.h>
+#include <cairo.h>
 
 G_BEGIN_DECLS
 

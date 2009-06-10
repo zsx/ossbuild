@@ -29,18 +29,18 @@ GObject
         GstBaseAudioSink
           GstAudioSink
             GstEsdSink
-            GstPulseSink
             GstOssSink
+          GstPulseSink
         GstShout2send
         GstCACASink
         GstVideoSink
           GstGdkPixbufSink
         GstAASink
-        GstTest
         GstMultiUDPSink
           GstUDPSink
         GstDynUDPSink
         GstMultiFileSink
+        GstTest
       GstJpegEnc
       GstJpegDec
       GstSmokeEnc
@@ -82,8 +82,8 @@ GObject
           GstVideoBalance
           GstVideoFlip
           GstGamma
-          GstNavigationtest
           GstSMPTEAlpha
+          GstNavigationtest
         GstRgAnalysis
         GstRgLimiter
         GstAudioFilter
@@ -108,11 +108,11 @@ GObject
         GstAlpha
         GstAlphaColor
         GstAudioPanorama
+        GstVideoBox
         GstBreakMyData
         GstNavSeek
         GstProgressReport
         GstTagInject
-        GstVideoBox
         GstVideoCrop
       GstPngDec
       GstPngEnc
@@ -144,6 +144,7 @@ GObject
         GstRtpH263PDepay
         GstRtpH263Depay
         GstRtpH264Depay
+        GstRtpJ2KDepay
         GstRtpJPEGDepay
         GstRtpL16Depay
         GstRtpMP1SDepay
@@ -151,6 +152,7 @@ GObject
         GstRtpMP4VDepay
         GstRtpMP4ADepay
         GstRtpMP4GDepay
+        GstRTPSirenDepay
         GstRtpSPEEXDepay
         GstRtpSV3VDepay
         GstRtpTheoraDepay
@@ -165,6 +167,7 @@ GObject
           GstRTPG729Pay
           GstRtpPcmuPay
           GstRtpPmcaPay
+          GstRTPSirenPay
         GstRTPGSMPay
         GstRtpAMRPay
         GstRtpMPAPay
@@ -172,6 +175,7 @@ GObject
         GstRtpH263PPay
         GstRtpH263Pay
         GstRtpH264Pay
+        GstRtpJ2KPay
         GstRtpJPEGPay
         GstRtpL16Pay
         GstRTPMP2TPay
@@ -197,12 +201,14 @@ GObject
       GstMultipartDemux
       GstMultipartMux
       GstGoom
-      GstEFence
-      GstRndBufferSize
+      GstY4mEncode
       GstSMPTE
       GstRTPDec
+      GstDeinterlace
       GstInterleave
       GstDeinterleave
+      GstEFence
+      GstRndBufferSize
       GstVideoMixer
       GstAuParse
       GstMonoscope
@@ -211,6 +217,8 @@ GObject
         GstMatroskaDemux
       GstMatroskaMux
       GstGoom2k1
+      GstFLVDemux
+      GstFlvMux
       GstAviDemux
       GstAviMux
       GstAviSubtitle
@@ -240,7 +248,7 @@ GInterface
   GstPropertyProbe
   GstMixer
   GstTagSetter
+  GstPreset
   GstTuner
   GstColorBalance
   GstVideoOrientation
-  GstPreset

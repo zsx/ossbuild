@@ -130,11 +130,9 @@ static void
 gst_rtp_mp4v_pay_class_init (GstRtpMP4VPayClass * klass)
 {
   GObjectClass *gobject_class;
-  GstElementClass *gstelement_class;
   GstBaseRTPPayloadClass *gstbasertppayload_class;
 
   gobject_class = (GObjectClass *) klass;
-  gstelement_class = (GstElementClass *) klass;
   gstbasertppayload_class = (GstBaseRTPPayloadClass *) klass;
 
   parent_class = g_type_class_peek_parent (klass);
@@ -351,20 +349,23 @@ gst_rtp_mp4v_pay_depay_data (GstRtpMP4VPay * enc, guint8 * data, guint size,
 
   switch (code) {
     case VOS_STARTCODE:
+    case 0x00000101:
     {
       gint i;
       guint8 profile;
       gboolean newprofile = FALSE;
       gboolean equal;
 
-      /* profile_and_level_indication */
-      profile = data[4];
+      if (code == VOS_STARTCODE) {
+        /* profile_and_level_indication */
+        profile = data[4];
 
-      GST_DEBUG_OBJECT (enc, "VOS profile 0x%08x", profile);
+        GST_DEBUG_OBJECT (enc, "VOS profile 0x%08x", profile);
 
-      if (profile != enc->profile) {
-        newprofile = TRUE;
-        enc->profile = profile;
+        if (profile != enc->profile) {
+          newprofile = TRUE;
+          enc->profile = profile;
+        }
       }
 
       /* up to the next GOP_STARTCODE or VOP_STARTCODE is
@@ -402,9 +403,14 @@ gst_rtp_mp4v_pay_depay_data (GstRtpMP4VPay * enc, guint8 * data, guint size,
       result = FALSE;
       break;
     default:
-      GST_DEBUG_OBJECT (enc, "other startcode");
-      /* all other startcodes need a flush */
-      result = TRUE;
+      if (code >= 0x20 && code <= 0x2f) {
+        GST_DEBUG_OBJECT (enc, "short header");
+        result = FALSE;
+      } else {
+        GST_DEBUG_OBJECT (enc, "other startcode");
+        /* all other startcodes need a flush */
+        result = TRUE;
+      }
       break;
   }
   return result;
@@ -452,6 +458,9 @@ gst_rtp_mp4v_pay_handle_buffer (GstBaseRTPPayload * basepayload,
     if (!rtpmp4vpay->send_config) {
       GstBuffer *subbuf;
 
+      GST_LOG_OBJECT (rtpmp4vpay, "stripping config at %d, size %d", strip,
+          size - strip);
+
       /* strip off header */
       subbuf = gst_buffer_create_sub (buffer, strip, size - strip);
       GST_BUFFER_TIMESTAMP (subbuf) = timestamp;
@@ -459,7 +468,6 @@ gst_rtp_mp4v_pay_handle_buffer (GstBaseRTPPayload * basepayload,
       buffer = subbuf;
 
       size = GST_BUFFER_SIZE (buffer);
-      data = GST_BUFFER_DATA (buffer);
     }
   }
 

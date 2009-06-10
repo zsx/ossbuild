@@ -441,7 +441,8 @@ souphttpsrc_suite (void)
   TCase *tc_chain, *tc_internet;
 
   g_type_init ();
-  g_thread_init (NULL);
+  if (!g_thread_supported ())
+    g_thread_init (NULL);
 
   s = suite_create ("souphttpsrc");
   tc_chain = tcase_create ("general");
@@ -562,8 +563,8 @@ run_server (guint * http_port, guint * https_port)
   SoupServer *server, *ssl_server;
   guint port = SOUP_ADDRESS_ANY_PORT;
   guint ssl_port = SOUP_ADDRESS_ANY_PORT;
-  const char *ssl_cert_file = G_STRINGIFY (CHECKDATA_DIR) "/test-cert.pem";
-  const char *ssl_key_file = G_STRINGIFY (CHECKDATA_DIR) "/test-key.pem";
+  const char *ssl_cert_file = GST_TEST_FILES_PATH "/test-cert.pem";
+  const char *ssl_key_file = GST_TEST_FILES_PATH "/test-key.pem";
   static int server_running = 0;
 
   SoupAuthDomain *domain = NULL;

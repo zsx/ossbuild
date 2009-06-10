@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-directsoundsink.html" title="directsoundsink">
 <link rel="next" href="gst-plugins-good-plugins-dvdec.html" title="dvdec">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,13 +23,19 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-dvdec.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-dv1394src.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-dv1394src.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-dv1394src.properties" class="shortcut">Properties</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-dv1394src.signals" class="shortcut">Signals</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-dv1394src.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-dv1394src.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-dv1394src.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-dv1394src.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-dv1394src.properties" class="shortcut">Properties</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-dv1394src.signals" class="shortcut">Signals</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-dv1394src"></a><div class="titlepage"></div>
@@ -42,9 +48,30 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="gst-plugins-good-plugins-dv1394src.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">
-                    <a class="link" href="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src" title="GstDV1394Src">GstDV1394Src</a>;
+<a name="GstDV1394Src"></a><pre class="synopsis">
+                    <a class="link" href="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src-struct" title="GstDV1394Src">GstDV1394Src</a>;
 </pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-good-plugins-dv1394src.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----GstObject
+         +----GstElement
+               +----GstBaseSrc
+                     +----GstPushSrc
+                           +----GstDV1394Src
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-good-plugins-dv1394src.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+GstDV1394Src implements
+ GstURIHandler and  <a
+href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
+>GstPropertyProbe</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-good-plugins-dv1394src.properties"></a><h2>Properties</h2>
@@ -89,7 +116,7 @@ Read DV (digital video) data from firewire port.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2893614"></a><h3>Example launch line</h3>
+<a name="id2745111"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch dv1394src ! queue ! dvdemux name=d ! queue ! dvdec ! xvimagesink d. ! queue ! alsasink
 </pre></div> This pipeline captures from the firewire port and displays it (might need
@@ -98,7 +125,7 @@ format converters for audio/video).
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2859660"></a><h3>Element Information</h3>
+<a name="id2758304"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -124,7 +151,7 @@ format converters for audio/video).
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2883888"></a><h3>Element Pads</h3>
+<a name="id2780422"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -149,53 +176,14 @@ format converters for audio/video).
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-good-plugins-dv1394src.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="GstDV1394Src"></a><h3>GstDV1394Src</h3>
-<pre class="programlisting">typedef struct {
-  GstPushSrc element;
-
-  // consecutive=2, skip=4 will skip 4 frames, then let 2 consecutive ones thru
-  gint consecutive;
-  gint skip;
-  gboolean drop_incomplete;
-
-  gint num_ports;
-  gint port;
-  gint channel;
-  octlet_t guid;
-  gint avc_node;
-  gboolean use_avc;
-
-  struct raw1394_portinfo pinfo[16];
-  raw1394handle_t handle;
-
-  GstBuffer *buf;
-  
-  GstBuffer *frame;
-  guint frame_size;
-  guint frame_rate;
-  guint bytes_in_frame;
-  guint frame_sequence;
-
-  int control_sock[2];
-
-  gchar *uri;
-
-  gchar *device_name;
-
-  gboolean connected;
-  #ifdef HAVE_LIBIEC61883
-  iec61883_dv_fb_t iec61883dv;
-  #endif
-} GstDV1394Src;
-</pre>
+<a name="GstDV1394Src-struct"></a><h3>GstDV1394Src</h3>
+<pre class="programlisting">typedef struct _GstDV1394Src GstDV1394Src;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -245,7 +233,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Port number (-1 automatic).</p>
-<p>Allowed values: [G_MAXULONG,16]</p>
+<p>Allowed values: [-1,16]</p>
 <p>Default value: -1</p>
 </div>
 <hr>
@@ -276,23 +264,20 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>
 Descriptive name of the currently opened device</p>
 <p>
-
 </p>
 <p>Default value: "Default"</p>
-<p>Since  0.10.7
-</p>
+<p>Since 0.10.7</p>
 </div>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-good-plugins-dv1394src.signal-details"></a><h2>Signal Details</h2>
 <div class="refsect2" lang="en">
 <a name="GstDV1394Src-frame-dropped"></a><h3>The <code class="literal">"frame-dropped"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src" title="GstDV1394Src">GstDV1394Src</a> *gstdv1394src,
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-dv1394src.html#GstDV1394Src">GstDV1394Src</a> *gstdv1394src,
                                                         <a
 href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>      user_data)         : Run Last</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -300,7 +285,6 @@ href="../glib/glib-Basic-Types.html#gpointer"
 <tr>
 <td><p><span class="term"><em class="parameter"><code>gstdv1394src</code></em> :</span></p></td>
 <td>the object which received the signal.
-
 </td>
 </tr>
 <tr>
@@ -314,6 +298,6 @@ href="../glib/glib-Basic-Types.html#gpointer"
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

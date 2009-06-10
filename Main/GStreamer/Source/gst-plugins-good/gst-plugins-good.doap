@@ -37,6 +37,17 @@ the plug-in code, LGPL or LGPL-compatible for the supporting library).
   <Version>
    <revision>0.10.14</revision>
    <branch>0.10</branch>
+   <name>I've been up all night</name>
+   <created>2009-05-20</created>
+   <file-release rdf:resource="http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.15.tar.bz2" />
+   <file-release rdf:resource="http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.15.tar.gz" />
+  </Version>
+ </release>
+
+ <release>
+  <Version>
+   <revision>0.10.14</revision>
+   <branch>0.10</branch>
    <name>Disaffected Affectation</name>
    <created>2009-02-19</created>
    <file-release rdf:resource="http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.14.tar.bz2" />

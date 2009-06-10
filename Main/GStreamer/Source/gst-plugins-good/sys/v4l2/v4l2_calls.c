@@ -118,10 +118,11 @@ gst_v4l2_fill_lists (GstV4l2Object * v4l2object)
   GST_DEBUG_OBJECT (e, "  channels");
   /* and now, the channels */
   for (n = 0;; n++) {
-    struct v4l2_input input = { 0, };
+    struct v4l2_input input;
     GstV4l2TunerChannel *v4l2channel;
-
     GstTunerChannel *channel;
+
+    memset (&input, 0, sizeof (input));
 
     input.index = n;
     if (v4l2_ioctl (v4l2object->video_fd, VIDIOC_ENUMINPUT, &input) < 0) {
@@ -141,7 +142,7 @@ gst_v4l2_fill_lists (GstV4l2Object * v4l2object)
     GST_LOG_OBJECT (e, "   name:      '%s'", input.name);
     GST_LOG_OBJECT (e, "   type:      %08x", input.type);
     GST_LOG_OBJECT (e, "   audioset:  %08x", input.audioset);
-    GST_LOG_OBJECT (e, "   std:       %016x", input.std);
+    GST_LOG_OBJECT (e, "   std:       %016x", (guint) input.std);
     GST_LOG_OBJECT (e, "   status:    %08x", input.status);
 
     v4l2channel = g_object_new (GST_TYPE_V4L2_TUNER_CHANNEL, NULL);
@@ -181,8 +182,9 @@ gst_v4l2_fill_lists (GstV4l2Object * v4l2object)
     }
 
     v4l2object->channels =
-        g_list_append (v4l2object->channels, (gpointer) channel);
+        g_list_prepend (v4l2object->channels, (gpointer) channel);
   }
+  v4l2object->channels = g_list_reverse (v4l2object->channels);
 
   GST_DEBUG_OBJECT (e, "  norms");
   /* norms... */
@@ -221,8 +223,9 @@ gst_v4l2_fill_lists (GstV4l2Object * v4l2object)
         standard.frameperiod.denominator, standard.frameperiod.numerator);
     v4l2norm->index = standard.id;
 
-    v4l2object->norms = g_list_append (v4l2object->norms, (gpointer) norm);
+    v4l2object->norms = g_list_prepend (v4l2object->norms, (gpointer) norm);
   }
+  v4l2object->norms = g_list_reverse (v4l2object->norms);
 
   GST_DEBUG_OBJECT (e, "  controls+menus");
   /* and lastly, controls+menus (if appropriate) */
@@ -364,8 +367,10 @@ gst_v4l2_fill_lists (GstV4l2Object * v4l2object)
         break;
     }
 
-    v4l2object->colors = g_list_append (v4l2object->colors, (gpointer) channel);
+    v4l2object->colors =
+        g_list_prepend (v4l2object->colors, (gpointer) channel);
   }
+  v4l2object->colors = g_list_reverse (v4l2object->colors);
 
   GST_DEBUG_OBJECT (e, "done");
   return TRUE;
@@ -400,6 +405,7 @@ gst_v4l2_open (GstV4l2Object * v4l2object)
 {
   struct stat st;
   int libv4l2_fd;
+  GstPollFD pollfd = GST_POLL_FD_INIT;
 
   GST_DEBUG_OBJECT (v4l2object->element, "Trying to open device %s",
       v4l2object->videodev);
@@ -452,6 +458,10 @@ gst_v4l2_open (GstV4l2Object * v4l2object)
   GST_INFO_OBJECT (v4l2object->element,
       "Opened device '%s' (%s) successfully",
       v4l2object->vcap.card, v4l2object->videodev);
+
+  pollfd.fd = v4l2object->video_fd;
+  gst_poll_add_fd (v4l2object->poll, &pollfd);
+  gst_poll_fd_ctl_read (v4l2object->poll, &pollfd, TRUE);
 
   return TRUE;
 
@@ -508,6 +518,7 @@ error:
 gboolean
 gst_v4l2_close (GstV4l2Object * v4l2object)
 {
+  GstPollFD pollfd = GST_POLL_FD_INIT;
   GST_DEBUG_OBJECT (v4l2object->element, "Trying to close %s",
       v4l2object->videodev);
 
@@ -516,6 +527,8 @@ gst_v4l2_close (GstV4l2Object * v4l2object)
 
   /* close device */
   v4l2_close (v4l2object->video_fd);
+  pollfd.fd = v4l2object->video_fd;
+  gst_poll_remove_fd (v4l2object->poll, &pollfd);
   v4l2object->video_fd = -1;
 
   /* empty lists */

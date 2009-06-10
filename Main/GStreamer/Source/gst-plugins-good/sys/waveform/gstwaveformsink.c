@@ -45,6 +45,11 @@
 #include "config.h"
 #endif
 
+#ifdef _MSC_VER
+#include <windows.h>
+#define byte BYTE
+#endif
+
 #include "gstwaveformsink.h"
 
 GST_DEBUG_CATEGORY_STATIC (waveformsink_debug);
@@ -500,7 +505,7 @@ gst_waveform_sink_write (GstAudioSink * asink, gpointer data, guint length)
     memcpy (waveheader->lpData + waveheader->dwUser, data, bytes_to_write);
     waveheader->dwUser += bytes_to_write;
     remaining_length -= bytes_to_write;
-    data = (BYTE *) data + bytes_to_write;
+    data = (byte *) data + bytes_to_write;
 
     if (waveheader->dwUser == wfsink->buffer_size) {
       /* we have filled a buffer, let's prepare it and next write it to the device */

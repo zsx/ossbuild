@@ -37,7 +37,7 @@
 #include <gst/video/video.h>
 #include "gsttextoverlay.h"
 
-#include <cairo/cairo.h>
+#include <cairo.h>
 
 /* FIXME:
  *   - calculating the position of the shading rectangle is 

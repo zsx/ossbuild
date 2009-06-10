@@ -339,9 +339,8 @@ gst_jpegenc_setcaps (GstPad * pad, GstCaps * caps)
   ret = gst_pad_set_caps (jpegenc->srcpad, othercaps);
   gst_caps_unref (othercaps);
 
-  if (GST_PAD_LINK_SUCCESSFUL (ret)) {
+  if (ret)
     gst_jpegenc_resync (jpegenc);
-  }
 
   gst_object_unref (jpegenc);
 
@@ -361,11 +360,6 @@ gst_jpegenc_resync (GstJpegEnc * jpegenc)
 
   GST_DEBUG_OBJECT (jpegenc, "width %d, height %d", width, height);
 
-  jpeg_set_defaults (&jpegenc->cinfo);
-  jpegenc->cinfo.dct_method = JDCT_FASTEST;
-  /*jpegenc->cinfo.dct_method = JDCT_DEFAULT; */
-  /*jpegenc->cinfo.smoothing_factor = jpegenc->smoothing; */
-  jpeg_set_quality (&jpegenc->cinfo, jpegenc->quality, TRUE);
 
 #if 0
   switch (jpegenc->format) {
@@ -377,16 +371,18 @@ gst_jpegenc_resync (GstJpegEnc * jpegenc)
       break;
     case GST_COLORSPACE_YUV420P:
 #endif
-      jpegenc->bufsize = I420_SIZE (jpegenc->width, jpegenc->height);
-      jpegenc->cinfo.raw_data_in = TRUE;
-      jpegenc->cinfo.in_color_space = JCS_YCbCr;
       GST_DEBUG_OBJECT (jpegenc, "setting format to YUV420P");
-      jpegenc->cinfo.comp_info[0].h_samp_factor = 2;
-      jpegenc->cinfo.comp_info[0].v_samp_factor = 2;
-      jpegenc->cinfo.comp_info[1].h_samp_factor = 1;
-      jpegenc->cinfo.comp_info[1].v_samp_factor = 1;
-      jpegenc->cinfo.comp_info[2].h_samp_factor = 1;
-      jpegenc->cinfo.comp_info[2].v_samp_factor = 1;
+
+      jpegenc->bufsize = I420_SIZE (jpegenc->width, jpegenc->height);
+      jpegenc->cinfo.in_color_space = JCS_YCbCr;
+
+      jpeg_set_defaults (&jpegenc->cinfo);
+      jpeg_set_quality (&jpegenc->cinfo, jpegenc->quality, TRUE);
+
+      jpegenc->cinfo.raw_data_in = TRUE;
+      jpegenc->cinfo.dct_method = JDCT_FASTEST;
+      /*jpegenc->cinfo.dct_method = JDCT_DEFAULT; */
+      /*jpegenc->cinfo.smoothing_factor = jpegenc->smoothing; */
 
       if (height != -1) {
         jpegenc->line[0] =
@@ -411,7 +407,6 @@ gst_jpegenc_resync (GstJpegEnc * jpegenc)
   jpeg_suppress_tables (&jpegenc->cinfo, TRUE);
   //jpeg_suppress_tables(&jpegenc->cinfo, FALSE);
 
-  jpegenc->buffer = NULL;
   GST_DEBUG_OBJECT (jpegenc, "resync done");
 }
 
@@ -428,6 +423,9 @@ gst_jpegenc_chain (GstPad * pad, GstBuffer * buf)
   gint i, j, k;
 
   jpegenc = GST_JPEGENC (GST_OBJECT_PARENT (pad));
+
+  if (G_UNLIKELY (jpegenc->width <= 0 || jpegenc->height <= 0))
+    goto not_negotiated;
 
   data = GST_BUFFER_DATA (buf);
   size = GST_BUFFER_SIZE (buf);
@@ -497,6 +495,14 @@ done:
   gst_buffer_unref (buf);
 
   return ret;
+
+/* ERRORS */
+not_negotiated:
+  {
+    GST_WARNING_OBJECT (jpegenc, "no input format set (no caps on buffer)");
+    ret = GST_FLOW_NOT_NEGOTIATED;
+    goto done;
+  }
 }
 
 static void
@@ -557,7 +563,6 @@ gst_jpegenc_change_state (GstElement * element, GstStateChange transition)
       filter->line[0] = NULL;
       filter->line[1] = NULL;
       filter->line[2] = NULL;
-      gst_jpegenc_resync (filter);
       break;
     default:
       break;
@@ -575,6 +580,8 @@ gst_jpegenc_change_state (GstElement * element, GstStateChange transition)
       filter->line[0] = NULL;
       filter->line[1] = NULL;
       filter->line[2] = NULL;
+      filter->width = -1;
+      filter->height = -1;
       break;
     default:
       break;

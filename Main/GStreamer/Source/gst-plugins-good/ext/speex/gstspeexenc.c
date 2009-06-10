@@ -158,9 +158,16 @@ static void
 gst_speex_enc_setup_interfaces (GType speexenc_type)
 {
   static const GInterfaceInfo tag_setter_info = { NULL, NULL, NULL };
+  const GInterfaceInfo preset_interface_info = {
+    NULL,                       /* interface_init */
+    NULL,                       /* interface_finalize */
+    NULL                        /* interface_data */
+  };
 
   g_type_add_interface_static (speexenc_type, GST_TYPE_TAG_SETTER,
       &tag_setter_info);
+  g_type_add_interface_static (speexenc_type, GST_TYPE_PRESET,
+      &preset_interface_info);
 
   GST_DEBUG_CATEGORY_INIT (speexenc_debug, "speexenc", 0, "Speex encoder");
 }
@@ -495,8 +502,9 @@ gst_speex_enc_src_query (GstPad * pad, GstQuery * query)
       GstClockTime min_latency, max_latency;
       gint64 latency;
 
-      if ((res = gst_pad_peer_query (pad, query))) {
+      if ((res = gst_pad_peer_query (enc->sinkpad, query))) {
         gst_query_parse_latency (query, &live, &min_latency, &max_latency);
+        GST_LOG_OBJECT (pad, "Upstream latency: %" GST_PTR_FORMAT, query);
 
         latency = gst_speex_enc_get_latency (enc);
 
@@ -506,11 +514,12 @@ gst_speex_enc_src_query (GstPad * pad, GstQuery * query)
           max_latency += latency;
 
         gst_query_set_latency (query, live, min_latency, max_latency);
+        GST_LOG_OBJECT (pad, "Adjusted latency: %" GST_PTR_FORMAT, query);
       }
       break;
     }
     default:
-      res = gst_pad_peer_query (pad, query);
+      res = gst_pad_peer_query (enc->sinkpad, query);
       break;
   }
 
@@ -525,9 +534,6 @@ static gboolean
 gst_speex_enc_sink_query (GstPad * pad, GstQuery * query)
 {
   gboolean res = TRUE;
-  GstSpeexEnc *enc;
-
-  enc = GST_SPEEX_ENC (GST_PAD_PARENT (pad));
 
   switch (GST_QUERY_TYPE (query)) {
     case GST_QUERY_CONVERT:

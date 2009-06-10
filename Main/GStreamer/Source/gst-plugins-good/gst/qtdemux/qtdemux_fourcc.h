@@ -62,6 +62,7 @@ G_BEGIN_DECLS
 #define FOURCC_stco     GST_MAKE_FOURCC('s','t','c','o')
 #define FOURCC_vide     GST_MAKE_FOURCC('v','i','d','e')
 #define FOURCC_soun     GST_MAKE_FOURCC('s','o','u','n')
+#define FOURCC_subp     GST_MAKE_FOURCC('s','u','b','p')
 #define FOURCC_strm     GST_MAKE_FOURCC('s','t','r','m')
 #define FOURCC_rtsp     GST_MAKE_FOURCC('r','t','s','p')
 #define FOURCC_co64     GST_MAKE_FOURCC('c','o','6','4')
@@ -90,6 +91,7 @@ G_BEGIN_DECLS
 #define FOURCC__day     GST_MAKE_FOURCC(0xa9,'d','a','y')
 #define FOURCC__req     GST_MAKE_FOURCC(0xa9,'r','e','q')
 #define FOURCC__enc     GST_MAKE_FOURCC(0xa9,'e','n','c')
+#define FOURCC__inf     GST_MAKE_FOURCC(0xa9,'i','n','f')
 #define FOURCC_cprt     GST_MAKE_FOURCC('c','p','r','t')
 #define FOURCC_gnre     GST_MAKE_FOURCC('g','n','r','e')
 #define FOURCC_disc     GST_MAKE_FOURCC('d','i','s','c')
@@ -138,6 +140,17 @@ G_BEGIN_DECLS
 #define FOURCC_ctts     GST_MAKE_FOURCC('c','t','t','s')
 #define FOURCC_keyw     GST_MAKE_FOURCC('k','e','y','w')
 #define FOURCC_kywd     GST_MAKE_FOURCC('k','y','w','d')
+
+/* 3gpp asset meta data fourcc */
+#define FOURCC_titl     GST_MAKE_FOURCC('t','i','t','l')
+#define FOURCC_dscp     GST_MAKE_FOURCC('d','s','c','p')
+#define FOURCC_perf     GST_MAKE_FOURCC('p','e','r','f')
+#define FOURCC_auth     GST_MAKE_FOURCC('a','u','t','h')
+#define FOURCC_rtng     GST_MAKE_FOURCC('r','t','n','g')
+#define FOURCC_clsf     GST_MAKE_FOURCC('c','l','s','f')
+#define FOURCC_loci     GST_MAKE_FOURCC('l','o','c','i')
+#define FOURCC_albm     GST_MAKE_FOURCC('a','l','b','m')
+#define FOURCC_yrrc     GST_MAKE_FOURCC('y','r','r','c')
 
 /* ISO Motion JPEG 2000 fourcc */
 #define FOURCC_mjp2     GST_MAKE_FOURCC('m','j','p','2')

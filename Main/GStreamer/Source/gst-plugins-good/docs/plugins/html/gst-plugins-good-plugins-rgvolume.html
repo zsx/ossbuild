@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-rglimiter.html" title="rglimiter">
 <link rel="next" href="gst-plugins-good-plugins-rtpdec.html" title="rtpdec">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-rtpdec.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-rgvolume.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rgvolume.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rgvolume.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rgvolume.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-rgvolume.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-rgvolume.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rgvolume.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rgvolume.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rgvolume.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-rgvolume.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-rgvolume"></a><div class="titlepage"></div>
@@ -119,7 +121,7 @@ element applies -6 dB hard limiting as mentioned in the ReplayGain standard.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2949075"></a><h3>Example launch line</h3>
+<a name="id2802974"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=filename.ext ! decodebin ! audioconvert \
     ! rgvolume ! audioconvert ! audioresample ! alsasink
@@ -128,7 +130,7 @@ gst-launch filesrc location=filename.ext ! decodebin ! audioconvert \
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2949160"></a><h3>Element Information</h3>
+<a name="id2799532"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -151,7 +153,7 @@ gst-launch filesrc location=filename.ext ! decodebin ! audioconvert \
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2941809"></a><h3>Element Pads</h3>
+<a name="id2813833"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -205,7 +207,6 @@ gst-launch filesrc location=filename.ext ! decodebin ! audioconvert \
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -216,7 +217,6 @@ gst-launch filesrc location=filename.ext ! decodebin ! audioconvert \
 <p>
 Opaque data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -232,14 +232,14 @@ Whether to prefer album gain over track gain.
 </p>
 <p>
 If set to <a
-href="../glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a>, use album gain instead of track gain if both are
 available.  This keeps the relative loudness levels of tracks from the same
 album intact.
 </p>
 <p>
 If set to <a
-href="../glib/glib-Standard-Macros.html#FALSE:CAPS"
+href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><code class="literal">FALSE</code></a>, track mode is used instead.  This effectively leads to
 more extensive normalization.
 </p>
@@ -249,7 +249,6 @@ the track gain is used instead.  If both gain tags are missing, the value
 of the <a class="link" href="gst-plugins-good-plugins-rgvolume.html#GstRgVolume--fallback-gain" title='The "fallback-gain" property'>fallback-gain</a>
 property is used instead.</p>
 <p>
-
 </p>
 <p>Default value: TRUE</p>
 </div>
@@ -262,7 +261,6 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>
 Fallback gain [dB] for streams missing ReplayGain tags.</p>
 <p>
-
 </p>
 <p>Allowed values: [-60,60]</p>
 <p>Default value: 0</p>
@@ -290,7 +288,6 @@ audio data format is floating point (audio/x-raw-float).  Otherwise,
 clipping distortion might be introduced as part of the volume adjustment
 itself.</p>
 <p>
-
 </p>
 <p>Allowed values: [0,60]</p>
 <p>Default value: 0</p>
@@ -314,7 +311,6 @@ does not reflect this change however.  Where the original proposal states
 that a proper default pre-amp value is +6 dB, this translates to the used 0
 dB.</p>
 <p>
-
 </p>
 <p>Allowed values: [-60,60]</p>
 <p>Default value: 0</p>
@@ -350,7 +346,6 @@ prevent this, the <a class="link" href="gst-plugins-good-plugins-rgvolume.html#G
 to be lowered and/or a limiter has to be used which facilitates the use of
 <a class="link" href="gst-plugins-good-plugins-rgvolume.html#GstRgVolume--headroom" title='The "headroom" property'>headroom</a>.</p>
 <p>
-
 </p>
 <p>Allowed values: [-120,120]</p>
 <p>Default value: 0</p>
@@ -383,7 +378,6 @@ of the stream</li>
 </li>
 </ul></div>
 <p>
-
 </p>
 <p>Allowed values: [-120,120]</p>
 <p>Default value: 0</p>
@@ -391,11 +385,11 @@ of the stream</li>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-good-plugins-rgvolume.see-also"></a><h2>See Also</h2>
-<a class="link" href="gst-plugins-good-plugins-rglimiter.html#GstRgLimiter"><span class="type">GstRgLimiter</span></a>, <a class="link" href="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis"><span class="type">GstRgAnalysis</span></a>
+#GstRgLimiter, <a class="link" href="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis"><span class="type">GstRgAnalysis</span></a>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-taginject.html" title="taginject">
 <link rel="next" href="gst-plugins-good-plugins-udpsink.html" title="udpsink">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-good Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-udpsink.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-good-plugins-udpsrc.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-udpsrc.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-udpsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-udpsrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-good-plugins-udpsrc.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-good-plugins-udpsrc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-udpsrc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-udpsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-udpsrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-good-plugins-udpsrc.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-good-plugins-udpsrc"></a><div class="titlepage"></div>
@@ -101,6 +103,9 @@ href="../glib/glib-Basic-Types.html#gint"
   "<a class="link" href="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--auto-multicast" title='The "auto-multicast" property'>auto-multicast</a>"           <a
 href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-udpsrc.html#GstUDPSrc--multicast-iface" title='The "multicast-iface" property'>multicast-iface</a>"          <a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -180,7 +185,7 @@ is responsible for closing the file descriptor.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2971044"></a><h3>Examples</h3>
+<a name="id2797182"></a><h3>Examples</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v udpsrc ! fakesink dump=1
 </pre></div> A pipeline to read from the default port and dump the udp packets.
@@ -201,7 +206,7 @@ Last reviewed on 2007-09-20 (0.10.7)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2970567"></a><h3>Element Information</h3>
+<a name="id2834797"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -225,7 +230,7 @@ Last reviewed on 2007-09-20 (0.10.7)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2970629"></a><h3>Element Pads</h3>
+<a name="id2834859"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -250,7 +255,6 @@ Last reviewed on 2007-09-20 (0.10.7)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -259,7 +263,6 @@ Last reviewed on 2007-09-20 (0.10.7)</p>
 <a name="GstUDPSrc-struct"></a><h3>GstUDPSrc</h3>
 <pre class="programlisting">typedef struct _GstUDPSrc GstUDPSrc;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -365,6 +368,15 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Automatically join/leave multicast groups.</p>
 <p>Default value: TRUE</p>
 </div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstUDPSrc--multicast-iface"></a><h3>The <code class="literal">"multicast-iface"</code> property</h3>
+<pre class="programlisting">  "multicast-iface"          <a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write</pre>
+<p>The network interface on which to join the multicast group.</p>
+<p>Default value: NULL</p>
+</div>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-good-plugins-udpsrc.see-also"></a><h2>See Also</h2>
@@ -373,6 +385,6 @@ udpsink, multifdsink
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

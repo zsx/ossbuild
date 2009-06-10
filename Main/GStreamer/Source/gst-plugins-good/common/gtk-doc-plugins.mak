@@ -249,7 +249,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	rm -f html/version.entities
 	test "x$(HTML_IMAGES)" = "x" || for i in "" $(HTML_IMAGES) ; do \
 	    if test "$$i" != ""; then cp $(srcdir)/$$i html ; fi; done
-	@echo '-- Fixing Crossreferences' 
+	@echo '-- Fixing Crossreferences'
 	gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
 	touch html-build.stamp
 
@@ -268,7 +268,7 @@ clean-local: clean-local-gtkdoc
 	rm -f *~ *.bak
 	rm -rf .libs
 
-distclean-local: clean
+distclean-local:
 	rm -rf tmpl/*.sgml.bak
 	rm -rf *.o
 
@@ -301,7 +301,7 @@ install-data-local:
 	  fi; \
 	  (which gtkdoc-rebase >/dev/null && \
 	    gtkdoc-rebase --relative --dest-dir=$(DESTDIR) --html-dir=$(DESTDIR)$(TARGET_DIR)) || true ; \
-	fi) 
+	fi)
 uninstall-local:
 	if test -d $(DESTDIR)$(TARGET_DIR); then \
 	  rm -rf $(DESTDIR)$(TARGET_DIR)/*; \
