@@ -314,7 +314,7 @@ if [ ! -f "$BinDir/libgnutls-26.dll" ]; then
 fi
 
 #soup
-if [ ! -f "$BinDir/libsoup-2.4-" ]; then 
+if [ ! -f "$BinDir/libsoup-2.4-1.dll" ]; then 
 	unpack_bzip2_and_move "libsoup.tar.bz2" "$PKG_DIR_LIBSOUP"
 	mkdir_and_move "$IntDir/libsoup"
 	
