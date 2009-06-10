@@ -56,40 +56,40 @@ void                <a class="link" href="GstAdapter.html#gst-adapter-clear" tit
 void                <a class="link" href="GstAdapter.html#gst-adapter-push" title="gst_adapter_push ()">gst_adapter_push</a>                    (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          GstBuffer *buf);
 const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a>*       <a class="link" href="GstAdapter.html#gst-adapter-peek" title="gst_adapter_peek ()">gst_adapter_peek</a>                    (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> size);
 void                <a class="link" href="GstAdapter.html#gst-adapter-copy" title="gst_adapter_copy ()">gst_adapter_copy</a>                    (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *dest,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> offset,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> size);
 void                <a class="link" href="GstAdapter.html#gst-adapter-flush" title="gst_adapter_flush ()">gst_adapter_flush</a>                   (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> flush);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="GstAdapter.html#gst-adapter-available" title="gst_adapter_available ()">gst_adapter_available</a>               (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>               <a class="link" href="GstAdapter.html#gst-adapter-available-fast" title="gst_adapter_available_fast ()">gst_adapter_available_fast</a>          (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a>*             <a class="link" href="GstAdapter.html#gst-adapter-take" title="gst_adapter_take ()">gst_adapter_take</a>                    (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> nbytes);
 GstBuffer*          <a class="link" href="GstAdapter.html#gst-adapter-take-buffer" title="gst_adapter_take_buffer ()">gst_adapter_take_buffer</a>             (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> nbytes);
 </pre>
 </div>
@@ -97,7 +97,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <a name="GstAdapter.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstAdapter
 </pre>
@@ -114,7 +114,7 @@ this object is for you.
 <p>
 An adapter is created with <a class="link" href="GstAdapter.html#gst-adapter-new" title="gst_adapter_new ()"><code class="function">gst_adapter_new()</code></a>. It can be freed again with
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-unref"
+href="../gobject/gobject-The-Base-Object-Type.html#g-object-unref"
 ><code class="function">g_object_unref()</code></a>.
 </p>
 <p>
@@ -212,7 +212,7 @@ The opaque <a class="link" href="GstAdapter.html" title="GstAdapter"><span class
 <pre class="programlisting"><a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a>*         gst_adapter_new                     (void);</pre>
 <p>
 Creates a new <a class="link" href="GstAdapter.html" title="GstAdapter"><span class="type">GstAdapter</span></a>. Free with <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-unref"
+href="../gobject/gobject-The-Base-Object-Type.html#g-object-unref"
 ><code class="function">g_object_unref()</code></a>.</p>
 <p>
 
@@ -251,7 +251,9 @@ Removes all buffers from <em class="parameter"><code>adapter</code></em>.</p>
                                                          GstBuffer *buf);</pre>
 <p>
 Adds the data from <em class="parameter"><code>buf</code></em> to the data stored inside <em class="parameter"><code>adapter</code></em> and takes
-ownership of the buffer.</p>
+ownership of the buffer.
+Empty buffers will be automatically dereferenced and not stored in the
+<em class="parameter"><code>adapter</code></em>.</p>
 <p>
 
 </p>
@@ -275,10 +277,10 @@ ownership of the buffer.</p>
 <div class="refsect2" lang="en">
 <a name="gst-adapter-peek"></a><h3>gst_adapter_peek ()</h3>
 <pre class="programlisting">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a>*       gst_adapter_peek                    (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> size);</pre>
 <p>
 Gets the first <em class="parameter"><code>size</code></em> bytes stored in the <em class="parameter"><code>adapter</code></em>. The returned pointer is
@@ -296,7 +298,7 @@ as <span class="type">GstBuffer</span> malloc_data or the potentially more perfo
 </p>
 <p>
 Returns <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+href="../glib/glib-Standard-Macros.html#NULL:CAPS"
 ><span class="type">NULL</span></a> if <em class="parameter"><code>size</code></em> bytes are not available.</p>
 <p>
 
@@ -327,13 +329,13 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
 <a name="gst-adapter-copy"></a><h3>gst_adapter_copy ()</h3>
 <pre class="programlisting">void                gst_adapter_copy                    (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *dest,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> offset,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> size);</pre>
 <p>
 Copies <em class="parameter"><code>size</code></em> bytes of data starting at <em class="parameter"><code>offset</code></em> out of the buffers
@@ -379,7 +381,7 @@ available before calling this function.</p>
 <a name="gst-adapter-flush"></a><h3>gst_adapter_flush ()</h3>
 <pre class="programlisting">void                gst_adapter_flush                   (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> flush);</pre>
 <p>
 Flushes the first <em class="parameter"><code>flush</code></em> bytes in the <em class="parameter"><code>adapter</code></em>. The caller must ensure that
@@ -410,7 +412,7 @@ See also: <a class="link" href="GstAdapter.html#gst-adapter-peek" title="gst_ada
 <div class="refsect2" lang="en">
 <a name="gst-adapter-available"></a><h3>gst_adapter_available ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>               gst_adapter_available               (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter);</pre>
 <p>
 Gets the maximum amount of bytes available, that is it returns the maximum
@@ -439,7 +441,7 @@ returning NULL.</p>
 <div class="refsect2" lang="en">
 <a name="gst-adapter-available-fast"></a><h3>gst_adapter_available_fast ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>               gst_adapter_available_fast          (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter);</pre>
 <p>
 Gets the maximum number of bytes that are immediately available without
@@ -469,10 +471,10 @@ operations
 <div class="refsect2" lang="en">
 <a name="gst-adapter-take"></a><h3>gst_adapter_take ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a>*             gst_adapter_take                    (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> nbytes);</pre>
 <p>
 Returns a freshly allocated buffer containing the first <em class="parameter"><code>nbytes</code></em> bytes of the
@@ -499,7 +501,7 @@ Caller owns returned value. g_free after usage.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> oven-fresh hot data, or <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+href="../glib/glib-Standard-Macros.html#NULL:CAPS"
 ><span class="type">NULL</span></a> if <em class="parameter"><code>nbytes</code></em> bytes are not available
 </td>
 </tr>
@@ -511,7 +513,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
 <a name="gst-adapter-take-buffer"></a><h3>gst_adapter_take_buffer ()</h3>
 <pre class="programlisting">GstBuffer*          gst_adapter_take_buffer             (<a class="link" href="GstAdapter.html" title="GstAdapter">GstAdapter</a> *adapter,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> nbytes);</pre>
 <p>
 Returns a <span class="type">GstBuffer</span> containing the first <em class="parameter"><code>nbytes</code></em> bytes of the
@@ -542,7 +544,7 @@ Caller owns returned value. <code class="function">gst_buffer_unref()</code> aft
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> a <span class="type">GstBuffer</span> containing the first <em class="parameter"><code>nbytes</code></em> of the adapter, 
 or <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+href="../glib/glib-Standard-Macros.html#NULL:CAPS"
 ><span class="type">NULL</span></a> if <em class="parameter"><code>nbytes</code></em> bytes are not available
 </td>
 </tr>

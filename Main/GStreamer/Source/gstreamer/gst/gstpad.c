@@ -95,8 +95,6 @@ enum
   /* FILL ME */
 };
 
-static void gst_pad_class_init (GstPadClass * klass);
-static void gst_pad_init (GstPad * pad);
 static void gst_pad_dispose (GObject * object);
 static void gst_pad_finalize (GObject * object);
 static void gst_pad_set_property (GObject * object, guint prop_id,
@@ -188,36 +186,22 @@ gst_flow_to_quark (GstFlowReturn ret)
   return 0;
 }
 
-GType
-gst_pad_get_type (void)
-{
-  static GType gst_pad_type = 0;
-
-  if (G_UNLIKELY (gst_pad_type == 0)) {
-    static const GTypeInfo pad_info = {
-      sizeof (GstPadClass), NULL, NULL,
-      (GClassInitFunc) gst_pad_class_init, NULL, NULL,
-      sizeof (GstPad),
-      0,
-      (GInstanceInitFunc) gst_pad_init, NULL
-    };
-    gint i;
-
-    gst_pad_type = g_type_register_static (GST_TYPE_OBJECT, "GstPad",
-        &pad_info, 0);
-
-    buffer_quark = g_quark_from_static_string ("buffer");
-    event_quark = g_quark_from_static_string ("event");
-
-    for (i = 0; flow_quarks[i].name; i++) {
-      flow_quarks[i].quark = g_quark_from_static_string (flow_quarks[i].name);
-    }
-
-    GST_DEBUG_CATEGORY_INIT (debug_dataflow, "GST_DATAFLOW",
-        GST_DEBUG_BOLD | GST_DEBUG_FG_GREEN, "dataflow inside pads");
-  }
-  return gst_pad_type;
+#define _do_init \
+{ \
+  gint i; \
+  \
+  buffer_quark = g_quark_from_static_string ("buffer"); \
+  event_quark = g_quark_from_static_string ("event"); \
+  \
+  for (i = 0; flow_quarks[i].name; i++) { \
+    flow_quarks[i].quark = g_quark_from_static_string (flow_quarks[i].name); \
+  } \
+  \
+  GST_DEBUG_CATEGORY_INIT (debug_dataflow, "GST_DATAFLOW", \
+      GST_DEBUG_BOLD | GST_DEBUG_FG_GREEN, "dataflow inside pads"); \
 }
+
+G_DEFINE_TYPE_WITH_CODE (GstPad, gst_pad, GST_TYPE_OBJECT, _do_init);
 
 static gboolean
 _gst_do_pass_data_accumulator (GSignalInvocationHint * ihint,
@@ -391,6 +375,11 @@ gst_pad_dispose (GObject * object)
   gst_caps_replace (&GST_PAD_CAPS (pad), NULL);
 
   gst_pad_set_pad_template (pad, NULL);
+
+  if (pad->block_destroy_data && pad->block_data) {
+    pad->block_destroy_data (pad->block_data);
+    pad->block_data = NULL;
+  }
 
   G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -762,7 +751,13 @@ gst_pad_activate_pull (GstPad * pad, gboolean active)
         goto peer_failed;
       gst_object_unref (peer);
     } else {
-      goto not_linked;
+      /* there is no peer, this is only fatal when we activate. When we
+       * deactivate, we must assume the application has unlinked the peer and
+       * will deactivate it eventually. */
+      if (active)
+        goto not_linked;
+      else
+        GST_DEBUG_OBJECT (pad, "deactivating unlinked pad");
     }
   } else {
     if (G_UNLIKELY (GST_PAD_GETRANGEFUNC (pad) == NULL))
@@ -957,6 +952,103 @@ gst_pad_is_active (GstPad * pad)
 }
 
 /**
+ * gst_pad_set_blocked_async_full:
+ * @pad: the #GstPad to block or unblock
+ * @blocked: boolean indicating whether the pad should be blocked or unblocked
+ * @callback: #GstPadBlockCallback that will be called when the
+ *            operation succeeds
+ * @user_data: user data passed to the callback
+ * @destroy_data: #GDestroyNotify for user_data
+ *
+ * Blocks or unblocks the dataflow on a pad. The provided callback
+ * is called when the operation succeeds; this happens right before the next
+ * attempt at pushing a buffer on the pad.
+ *
+ * This can take a while as the pad can only become blocked when real dataflow
+ * is happening.
+ * When the pipeline is stalled, for example in PAUSED, this can
+ * take an indeterminate amount of time.
+ * You can pass NULL as the callback to make this call block. Be careful with
+ * this blocking call as it might not return for reasons stated above.
+ *
+ * Returns: TRUE if the pad could be blocked. This function can fail if the
+ * wrong parameters were passed or the pad was already in the requested state.
+ *
+ * MT safe.
+ *
+ * Since: 0.10.23
+ */
+gboolean
+gst_pad_set_blocked_async_full (GstPad * pad, gboolean blocked,
+    GstPadBlockCallback callback, gpointer user_data,
+    GDestroyNotify destroy_data)
+{
+  gboolean was_blocked = FALSE;
+
+  g_return_val_if_fail (GST_IS_PAD (pad), FALSE);
+
+  GST_OBJECT_LOCK (pad);
+
+  was_blocked = GST_PAD_IS_BLOCKED (pad);
+
+  if (G_UNLIKELY (was_blocked == blocked))
+    goto had_right_state;
+
+  if (blocked) {
+    GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "blocking pad");
+
+    GST_OBJECT_FLAG_SET (pad, GST_PAD_BLOCKED);
+
+    if (pad->block_destroy_data && pad->block_data &&
+        pad->block_data != user_data)
+      pad->block_destroy_data (pad->block_data);
+
+    pad->block_callback = callback;
+    pad->block_data = user_data;
+    pad->block_destroy_data = destroy_data;
+    pad->abidata.ABI.block_callback_called = FALSE;
+    if (!callback) {
+      GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "waiting for block");
+      GST_PAD_BLOCK_WAIT (pad);
+      GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "blocked");
+    }
+  } else {
+    GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "unblocking pad");
+
+    GST_OBJECT_FLAG_UNSET (pad, GST_PAD_BLOCKED);
+
+    if (pad->block_destroy_data && pad->block_data &&
+        pad->block_data != user_data)
+      pad->block_destroy_data (pad->block_data);
+
+    pad->block_callback = callback;
+    pad->block_data = user_data;
+    pad->block_destroy_data = destroy_data;
+    pad->abidata.ABI.block_callback_called = FALSE;
+
+    GST_PAD_BLOCK_BROADCAST (pad);
+    if (!callback) {
+      /* no callback, wait for the unblock to happen */
+      GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "waiting for unblock");
+      GST_PAD_BLOCK_WAIT (pad);
+      GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "unblocked");
+    }
+  }
+  GST_OBJECT_UNLOCK (pad);
+
+  return TRUE;
+
+had_right_state:
+  {
+    GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad,
+        "pad was in right state (%d)", was_blocked);
+    GST_OBJECT_UNLOCK (pad);
+
+    return FALSE;
+  }
+}
+
+/**
  * gst_pad_set_blocked_async:
  * @pad: the #GstPad to block or unblock
  * @blocked: boolean indicating whether the pad should be blocked or unblocked
@@ -984,56 +1076,8 @@ gboolean
 gst_pad_set_blocked_async (GstPad * pad, gboolean blocked,
     GstPadBlockCallback callback, gpointer user_data)
 {
-  gboolean was_blocked = FALSE;
-
-  g_return_val_if_fail (GST_IS_PAD (pad), FALSE);
-
-  GST_OBJECT_LOCK (pad);
-
-  was_blocked = GST_PAD_IS_BLOCKED (pad);
-
-  if (G_UNLIKELY (was_blocked == blocked))
-    goto had_right_state;
-
-  if (blocked) {
-    GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "blocking pad");
-
-    GST_OBJECT_FLAG_SET (pad, GST_PAD_BLOCKED);
-    pad->block_callback = callback;
-    pad->block_data = user_data;
-    if (!callback) {
-      GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "waiting for block");
-      GST_PAD_BLOCK_WAIT (pad);
-      GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "blocked");
-    }
-  } else {
-    GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "unblocking pad");
-
-    GST_OBJECT_FLAG_UNSET (pad, GST_PAD_BLOCKED);
-
-    pad->block_callback = callback;
-    pad->block_data = user_data;
-
-    GST_PAD_BLOCK_BROADCAST (pad);
-    if (!callback) {
-      /* no callback, wait for the unblock to happen */
-      GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "waiting for unblock");
-      GST_PAD_BLOCK_WAIT (pad);
-      GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad, "unblocked");
-    }
-  }
-  GST_OBJECT_UNLOCK (pad);
-
-  return TRUE;
-
-had_right_state:
-  {
-    GST_CAT_LOG_OBJECT (GST_CAT_SCHEDULING, pad,
-        "pad was in right state (%d)", was_blocked);
-    GST_OBJECT_UNLOCK (pad);
-
-    return FALSE;
-  }
+  return gst_pad_set_blocked_async_full (pad, blocked,
+      callback, user_data, NULL);
 }
 
 /**
@@ -1862,6 +1906,42 @@ no_format:
     GST_OBJECT_UNLOCK (srcpad);
     return GST_PAD_LINK_NOFORMAT;
   }
+}
+
+/**
+ * gst_pad_can_link:
+ * @srcpad: the source #GstPad.
+ * @sinkpad: the sink #GstPad.
+ *
+ * Checks if the source pad and the sink pad are compatible so they can be
+ * linked. 
+ *
+ * Returns: TRUE if the pads can be linked.
+ */
+gboolean
+gst_pad_can_link (GstPad * srcpad, GstPad * sinkpad)
+{
+  GstPadLinkReturn result;
+
+  /* generic checks */
+  g_return_val_if_fail (GST_IS_PAD (srcpad), FALSE);
+  g_return_val_if_fail (GST_IS_PAD (sinkpad), FALSE);
+
+  GST_CAT_INFO (GST_CAT_PADS, "check if %s:%s can link with %s:%s",
+      GST_DEBUG_PAD_NAME (srcpad), GST_DEBUG_PAD_NAME (sinkpad));
+
+  /* gst_pad_link_prepare does everything for us, we only release the locks
+   * on the pads that it gets us. If this function returns !OK the locks are not
+   * taken anymore. */
+  result = gst_pad_link_prepare (srcpad, sinkpad);
+  if (result != GST_PAD_LINK_OK)
+    goto done;
+
+  GST_OBJECT_UNLOCK (srcpad);
+  GST_OBJECT_UNLOCK (sinkpad);
+
+done:
+  return result == GST_PAD_LINK_OK;
 }
 
 /**
@@ -3728,31 +3808,38 @@ handle_pad_block (GstPad * pad)
    * all taken when calling this function. */
   gst_object_ref (pad);
 
-  /* we either have a callback installed to notify the block or
-   * some other thread is doing a GCond wait. */
-  callback = pad->block_callback;
-  if (callback) {
-    /* there is a callback installed, call it. We release the
-     * lock so that the callback can do something usefull with the
-     * pad */
-    user_data = pad->block_data;
-    GST_OBJECT_UNLOCK (pad);
-    callback (pad, TRUE, user_data);
-    GST_OBJECT_LOCK (pad);
-
-    /* we released the lock, recheck flushing */
-    if (GST_PAD_IS_FLUSHING (pad))
-      goto flushing;
-  } else {
-    /* no callback, signal the thread that is doing a GCond wait
-     * if any. */
-    GST_PAD_BLOCK_BROADCAST (pad);
-  }
-
-  /* OBJECT_LOCK could have been released when we did the callback, which
-   * then could have made the pad unblock so we need to check the blocking
-   * condition again.   */
   while (GST_PAD_IS_BLOCKED (pad)) {
+    do {
+      /* we either have a callback installed to notify the block or
+       * some other thread is doing a GCond wait. */
+      callback = pad->block_callback;
+      pad->abidata.ABI.block_callback_called = TRUE;
+      if (callback) {
+        /* there is a callback installed, call it. We release the
+         * lock so that the callback can do something usefull with the
+         * pad */
+        user_data = pad->block_data;
+        GST_OBJECT_UNLOCK (pad);
+        callback (pad, TRUE, user_data);
+        GST_OBJECT_LOCK (pad);
+
+        /* we released the lock, recheck flushing */
+        if (GST_PAD_IS_FLUSHING (pad))
+          goto flushing;
+      } else {
+        /* no callback, signal the thread that is doing a GCond wait
+         * if any. */
+        GST_PAD_BLOCK_BROADCAST (pad);
+      }
+    } while (pad->abidata.ABI.block_callback_called == FALSE
+        && GST_PAD_IS_BLOCKED (pad));
+
+    /* OBJECT_LOCK could have been released when we did the callback, which
+     * then could have made the pad unblock so we need to check the blocking
+     * condition again.   */
+    if (!GST_PAD_IS_BLOCKED (pad))
+      break;
+
     /* now we block the streaming thread. It can be unlocked when we
      * deactivate the pad (which will also set the FLUSHING flag) or
      * when the pad is unblocked. A flushing event will also unblock

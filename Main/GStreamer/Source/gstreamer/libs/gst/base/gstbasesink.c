@@ -222,6 +222,8 @@ struct _GstBaseSinkPrivate
 
   /* seqnum of the stream */
   guint32 seqnum;
+
+  gboolean call_preroll;
 };
 
 #define DO_RUNNING_AVG(avg,val,size) (((val) + ((size)-1) * (avg)) / (size))
@@ -273,9 +275,10 @@ static void gst_base_sink_finalize (GObject * object);
 GType
 gst_base_sink_get_type (void)
 {
-  static GType base_sink_type = 0;
+  static volatile gsize base_sink_type = 0;
 
-  if (G_UNLIKELY (base_sink_type == 0)) {
+  if (g_once_init_enter (&base_sink_type)) {
+    GType _type;
     static const GTypeInfo base_sink_info = {
       sizeof (GstBaseSinkClass),
       NULL,
@@ -288,8 +291,9 @@ gst_base_sink_get_type (void)
       (GInstanceInitFunc) gst_base_sink_init,
     };
 
-    base_sink_type = g_type_register_static (GST_TYPE_ELEMENT,
+    _type = g_type_register_static (GST_TYPE_ELEMENT,
         "GstBaseSink", &base_sink_info, G_TYPE_FLAG_ABSTRACT);
+    g_once_init_leave (&base_sink_type, _type);
   }
   return base_sink_type;
 }
@@ -335,6 +339,8 @@ static gboolean gst_base_sink_negotiate_pull (GstBaseSink * basesink);
 static gboolean gst_base_sink_is_too_late (GstBaseSink * basesink,
     GstMiniObject * obj, GstClockTime start, GstClockTime stop,
     GstClockReturn status, GstClockTimeDiff jitter);
+static GstFlowReturn gst_base_sink_preroll_object (GstBaseSink * basesink,
+    GstMiniObject * obj);
 
 static void
 gst_base_sink_class_init (GstBaseSinkClass * klass)
@@ -881,15 +887,21 @@ gst_base_sink_set_last_buffer (GstBaseSink * sink, GstBuffer * buffer)
 {
   GstBuffer *old;
 
-  if (buffer)
-    gst_buffer_ref (buffer);
-
   GST_OBJECT_LOCK (sink);
   old = sink->priv->last_buffer;
-  sink->priv->last_buffer = buffer;
+  if (G_LIKELY (old != buffer)) {
+    GST_DEBUG_OBJECT (sink, "setting last buffer to %p", buffer);
+    if (G_LIKELY (buffer))
+      gst_buffer_ref (buffer);
+    sink->priv->last_buffer = buffer;
+  } else {
+    old = NULL;
+  }
   GST_OBJECT_UNLOCK (sink);
 
-  if (old)
+  /* avoid unreffing with the lock because cleanup code might want to take the
+   * lock too */
+  if (G_LIKELY (old))
     gst_buffer_unref (old);
 }
 
@@ -1313,7 +1325,6 @@ gst_base_sink_commit_state (GstBaseSink * basesink)
   gboolean post_paused = FALSE;
   gboolean post_async_done = FALSE;
   gboolean post_playing = FALSE;
-  gboolean sync;
 
   /* we are certainly not playing async anymore now */
   basesink->playing_async = FALSE;
@@ -1323,7 +1334,6 @@ gst_base_sink_commit_state (GstBaseSink * basesink)
   next = GST_STATE_NEXT (basesink);
   pending = GST_STATE_PENDING (basesink);
   post_pending = pending;
-  sync = basesink->sync;
 
   switch (pending) {
     case GST_STATE_PLAYING:
@@ -1471,7 +1481,7 @@ gst_base_sink_get_sync_times (GstBaseSink * basesink, GstMiniObject * obj,
   priv = basesink->priv;
 
   /* start with nothing */
-  start = stop = sstart = sstop = rstart = rstop = -1;
+  start = stop = -1;
 
   if (G_UNLIKELY (GST_IS_EVENT (obj))) {
     GstEvent *event = GST_EVENT_CAST (obj);
@@ -1772,11 +1782,9 @@ gst_base_sink_do_preroll (GstBaseSink * sink, GstMiniObject * obj)
   while (G_UNLIKELY (sink->need_preroll)) {
     GST_DEBUG_OBJECT (sink, "prerolling object %p", obj);
 
-    if (G_LIKELY (sink->playing_async)) {
-      /* commit state */
-      if (G_UNLIKELY (!gst_base_sink_commit_state (sink)))
-        goto stopping;
-    }
+    ret = gst_base_sink_preroll_object (sink, obj);
+    if (ret != GST_FLOW_OK)
+      goto preroll_failed;
 
     /* need to recheck here because the commit state could have
      * made us not need the preroll anymore */
@@ -1784,21 +1792,16 @@ gst_base_sink_do_preroll (GstBaseSink * sink, GstMiniObject * obj)
       /* block until the state changes, or we get a flush, or something */
       ret = gst_base_sink_wait_preroll (sink);
       if (ret != GST_FLOW_OK)
-        goto flushing;
+        goto preroll_failed;
     }
   }
   return GST_FLOW_OK;
 
   /* ERRORS */
-flushing:
+preroll_failed:
   {
-    GST_DEBUG_OBJECT (sink, "we are flushing");
+    GST_DEBUG_OBJECT (sink, "preroll failed %d", ret);
     return ret;
-  }
-stopping:
-  {
-    GST_DEBUG_OBJECT (sink, "stopping while commiting state");
-    return GST_FLOW_WRONG_STATE;
   }
 }
 
@@ -1911,6 +1914,7 @@ gst_base_sink_do_sync (GstBaseSink * basesink, GstPad * pad,
   GstClockTime rstart, rstop, sstart, sstop, stime;
   gboolean do_sync;
   GstBaseSinkPrivate *priv;
+  GstFlowReturn ret;
 
   priv = basesink->priv;
 
@@ -1939,23 +1943,9 @@ again:
    * to PAUSED and can continue to PLAYING. We cannot perform
    * any clock sync in PAUSED because there is no clock. 
    */
-  while (G_UNLIKELY (basesink->need_preroll)) {
-    GST_DEBUG_OBJECT (basesink, "prerolling object %p", obj);
-
-    if (G_LIKELY (basesink->playing_async)) {
-      /* commit state */
-      if (G_UNLIKELY (!gst_base_sink_commit_state (basesink)))
-        goto stopping;
-    }
-
-    /* need to recheck here because the commit state could have
-     * made us not need the preroll anymore */
-    if (G_LIKELY (basesink->need_preroll)) {
-      /* block until the state changes, or we get a flush, or something */
-      if (gst_base_sink_wait_preroll (basesink) != GST_FLOW_OK)
-        goto flushing;
-    }
-  }
+  ret = gst_base_sink_do_preroll (basesink, obj);
+  if (G_UNLIKELY (ret != GST_FLOW_OK))
+    goto preroll_failed;
 
   /* After rendering we store the position of the last buffer so that we can use
    * it to report the position. We need to take the lock here. */
@@ -2001,6 +1991,7 @@ again:
    * we can try to preroll on the current buffer. */
   if (G_UNLIKELY (status == GST_CLOCK_UNSCHEDULED)) {
     GST_DEBUG_OBJECT (basesink, "unscheduled, waiting some more");
+    priv->call_preroll = TRUE;
     goto again;
   }
 
@@ -2025,10 +2016,10 @@ flushing:
     GST_DEBUG_OBJECT (basesink, "we are flushing");
     return GST_FLOW_WRONG_STATE;
   }
-stopping:
+preroll_failed:
   {
-    GST_DEBUG_OBJECT (basesink, "stopping while commiting state");
-    return GST_FLOW_WRONG_STATE;
+    GST_DEBUG_OBJECT (basesink, "preroll failed");
+    return ret;
   }
 }
 
@@ -2241,7 +2232,7 @@ gst_base_sink_is_too_late (GstBaseSink * basesink, GstMiniObject * obj,
         GST_TIME_ARGS (max_lateness));
     /* !!emergency!!, if we did not receive anything valid for more than a 
      * second, render it anyway so the user sees something */
-    if (priv->last_in_time && start - priv->last_in_time > GST_SECOND) {
+    if (priv->last_in_time != -1 && start - priv->last_in_time > GST_SECOND) {
       late = FALSE;
       GST_DEBUG_OBJECT (basesink,
           "**emergency** last buffer at %" GST_TIME_FORMAT " > GST_SECOND",
@@ -2458,15 +2449,14 @@ flushing:
  * function does not take ownership of obj.
  */
 static GstFlowReturn
-gst_base_sink_preroll_object (GstBaseSink * basesink, GstPad * pad,
-    GstMiniObject * obj)
+gst_base_sink_preroll_object (GstBaseSink * basesink, GstMiniObject * obj)
 {
   GstFlowReturn ret;
 
-  GST_DEBUG_OBJECT (basesink, "do preroll %p", obj);
+  GST_DEBUG_OBJECT (basesink, "prerolling object %p", obj);
 
   /* if it's a buffer, we need to call the preroll method */
-  if (G_LIKELY (GST_IS_BUFFER (obj))) {
+  if (G_LIKELY (GST_IS_BUFFER (obj)) && basesink->priv->call_preroll) {
     GstBaseSinkClass *bclass;
     GstBuffer *buf;
     GstClockTime timestamp;
@@ -2483,6 +2473,8 @@ gst_base_sink_preroll_object (GstBaseSink * basesink, GstPad * pad,
     if (bclass->preroll)
       if ((ret = bclass->preroll (basesink, buf)) != GST_FLOW_OK)
         goto preroll_failed;
+
+    basesink->priv->call_preroll = FALSE;
   }
 
   /* commit state */
@@ -2533,7 +2525,7 @@ gst_base_sink_queue_object_unlocked (GstBaseSink * basesink, GstPad * pad,
 
     /* first prerollable item needs to finish the preroll */
     if (length == 1) {
-      ret = gst_base_sink_preroll_object (basesink, pad, obj);
+      ret = gst_base_sink_preroll_object (basesink, obj);
       if (G_UNLIKELY (ret != GST_FLOW_OK))
         goto preroll_failed;
     }
@@ -2673,6 +2665,7 @@ gst_base_sink_flush_stop (GstBaseSink * basesink, GstPad * pad)
   basesink->priv->current_sstart = -1;
   basesink->priv->current_sstop = -1;
   basesink->priv->eos_rtime = -1;
+  basesink->priv->call_preroll = TRUE;
   if (basesink->pad_mode == GST_ACTIVATE_PUSH) {
     /* we need new segment info after the flush. */
     basesink->have_newsegment = FALSE;
@@ -3527,9 +3520,6 @@ gst_base_sink_pad_activate_pull (GstPad * pad, gboolean active)
     if (!result)
       goto activate_failed;
 
-    /* but if starting the thread fails, set it back */
-    if (!result)
-      basesink->pad_mode = GST_ACTIVATE_NONE;
   } else {
     if (G_UNLIKELY (basesink->pad_mode != GST_ACTIVATE_PULL)) {
       g_warning ("Internal GStreamer activation error!!!");
@@ -3552,6 +3542,9 @@ gst_base_sink_pad_activate_pull (GstPad * pad, gboolean active)
   /* ERRORS */
 activate_failed:
   {
+    /* reset, as starting the thread failed */
+    basesink->pad_mode = GST_ACTIVATE_NONE;
+
     GST_ERROR_OBJECT (basesink, "subclass failed to activate in pull mode");
     return FALSE;
   }
@@ -3572,8 +3565,8 @@ gst_base_sink_send_event (GstElement * element, GstEvent * event)
   mode = basesink->pad_mode;
   GST_OBJECT_UNLOCK (element);
 
-  /* only push UPSTREAM events upstream and if we are in push mode */
-  forward = GST_EVENT_IS_UPSTREAM (event) && (mode == GST_ACTIVATE_PUSH);
+  /* only push UPSTREAM events upstream */
+  forward = GST_EVENT_IS_UPSTREAM (event);
 
   switch (GST_EVENT_TYPE (event)) {
     case GST_EVENT_LATENCY:
@@ -3586,6 +3579,8 @@ gst_base_sink_send_event (GstElement * element, GstEvent * event)
        * it to the clock. */
       GST_OBJECT_LOCK (element);
       basesink->priv->latency = latency;
+      if (!basesink->priv->have_latency)
+        forward = FALSE;
       GST_OBJECT_UNLOCK (element);
       GST_DEBUG_OBJECT (basesink, "latency set to %" GST_TIME_FORMAT,
           GST_TIME_ARGS (latency));
@@ -4036,6 +4031,7 @@ gst_base_sink_change_state (GstElement * element, GstStateChange transition)
       priv->received_eos = FALSE;
       gst_base_sink_reset_qos (basesink);
       priv->commited = FALSE;
+      priv->call_preroll = TRUE;
       if (priv->async_enabled) {
         GST_DEBUG_OBJECT (basesink, "doing async state change");
         /* when async enabled, post async-start message and return ASYNC from
@@ -4071,6 +4067,7 @@ gst_base_sink_change_state (GstElement * element, GstStateChange transition)
         GST_DEBUG_OBJECT (basesink, "PAUSED to PLAYING, we are not prerolled");
         basesink->need_preroll = TRUE;
         basesink->playing_async = TRUE;
+        priv->call_preroll = TRUE;
         priv->commited = FALSE;
         if (priv->async_enabled) {
           GST_DEBUG_OBJECT (basesink, "doing async state change");
@@ -4130,6 +4127,7 @@ gst_base_sink_change_state (GstElement * element, GstStateChange transition)
               "PLAYING to PAUSED, we are not prerolled");
           basesink->playing_async = TRUE;
           priv->commited = FALSE;
+          priv->call_preroll = TRUE;
           if (priv->async_enabled) {
             GST_DEBUG_OBJECT (basesink, "doing async state change");
             ret = GST_STATE_CHANGE_ASYNC;
@@ -4158,6 +4156,7 @@ gst_base_sink_change_state (GstElement * element, GstStateChange transition)
       GST_OBJECT_UNLOCK (basesink);
 
       gst_base_sink_set_last_buffer (basesink, NULL);
+      priv->call_preroll = FALSE;
 
       if (!priv->commited) {
         if (priv->async_enabled) {
@@ -4183,6 +4182,7 @@ gst_base_sink_change_state (GstElement * element, GstStateChange transition)
         }
       }
       gst_base_sink_set_last_buffer (basesink, NULL);
+      priv->call_preroll = FALSE;
       break;
     default:
       break;

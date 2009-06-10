@@ -156,6 +156,12 @@ _gst_tag_initialize (void)
       _
       ("Origin of media as a URI (location, where the original of the file or stream is hosted)"),
       gst_tag_merge_strings_with_comma);
+  gst_tag_register (GST_TAG_HOMEPAGE, GST_TAG_FLAG_META,
+      G_TYPE_STRING,
+      _("homepage"),
+      _
+      ("Homepage for this media (i.e. artist or movie homepage)"),
+      gst_tag_merge_strings_with_comma);
   gst_tag_register (GST_TAG_DESCRIPTION, GST_TAG_FLAG_META, G_TYPE_STRING,
       _("description"), _("short text describing the content of the data"),
       gst_tag_merge_strings_with_comma);
@@ -202,6 +208,9 @@ _gst_tag_initialize (void)
   gst_tag_register (GST_TAG_AUDIO_CODEC, GST_TAG_FLAG_ENCODED,
       G_TYPE_STRING,
       _("audio codec"), _("codec the audio data is stored in"), NULL);
+  gst_tag_register (GST_TAG_SUBTITLE_CODEC, GST_TAG_FLAG_ENCODED,
+      G_TYPE_STRING,
+      _("subtitle codec"), _("codec the subtitle data is stored in"), NULL);
   gst_tag_register (GST_TAG_BITRATE, GST_TAG_FLAG_ENCODED,
       G_TYPE_UINT, _("bitrate"), _("exact or average bitrate in bits/s"), NULL);
   gst_tag_register (GST_TAG_NOMINAL_BITRATE, GST_TAG_FLAG_ENCODED,
@@ -864,17 +873,19 @@ void
 gst_tag_list_add_valist_values (GstTagList * list, GstTagMergeMode mode,
     const gchar * tag, va_list var_args)
 {
-  GstTagInfo *info;
   GQuark quark;
 
   g_return_if_fail (GST_IS_TAG_LIST (list));
   g_return_if_fail (GST_TAG_MODE_IS_VALID (mode));
   g_return_if_fail (tag != NULL);
 
+  if (mode == GST_TAG_MERGE_REPLACE_ALL) {
+    gst_structure_remove_all_fields (list);
+  }
+
   while (tag != NULL) {
     quark = g_quark_from_string (tag);
-    info = gst_tag_lookup (quark);
-    g_return_if_fail (info != NULL);
+    g_return_if_fail (gst_tag_lookup (quark) != NULL);
     gst_tag_list_add_value_internal (list, mode, quark, va_arg (var_args,
             GValue *));
     tag = va_arg (var_args, gchar *);
@@ -1007,6 +1018,9 @@ gst_tag_list_copy_value (GValue * dest, const GstTagList * list,
 
   if (G_VALUE_TYPE (src) == GST_TYPE_LIST) {
     GstTagInfo *info = gst_tag_lookup (g_quark_from_string (tag));
+
+    if (!info)
+      return FALSE;
 
     /* must be there or lists aren't allowed */
     g_assert (info->merge_func);
@@ -1423,12 +1437,13 @@ TAG_MERGE_FUNCS (string, gchar *)
  * gst_tag_list_get_date:
  * @list: a #GstTagList to get the tag from
  * @tag: tag to read out
- * @value: location for the result
+ * @value: address of a GDate pointer variable to store the result into
  *
- * Copies the contents for the given tag into the value, merging multiple values
- * into one if multiple values are associated with the tag.
+ * Copies the first date for the given tag in the taglist into the variable
+ * pointed to by @value. Free the date with g_date_free() when it is no longer
+ * needed.
  *
- * Returns: TRUE, if a value was copied, FALSE if the tag didn't exist in the
+ * Returns: TRUE, if a date was copied, FALSE if the tag didn't exist in the
  *              given list or if it was #NULL.
  */
 gboolean
@@ -1455,8 +1470,9 @@ gst_tag_list_get_date (const GstTagList * list, const gchar * tag,
  * @index: number of entry to read out
  * @value: location for the result
  *
- * Gets the value that is at the given index for the given tag in the given
- * list.
+ * Gets the date that is at the given index for the given tag in the given
+ * list and copies it into the variable pointed to by @value. Free the date
+ * with g_date_free() when it is no longer needed.
  *
  * Returns: TRUE, if a value was copied, FALSE if the tag didn't exist in the
  *              given list or if it was #NULL.
@@ -1474,5 +1490,69 @@ gst_tag_list_get_date_index (const GstTagList * list,
   if ((v = gst_tag_list_get_value_index (list, tag, index)) == NULL)
     return FALSE;
   *value = (GDate *) g_value_dup_boxed (v);
+  return (*value != NULL);
+}
+
+/**
+ * gst_tag_list_get_buffer:
+ * @list: a #GstTagList to get the tag from
+ * @tag: tag to read out
+ * @value: address of a GstBuffer pointer variable to store the result into
+ *
+ * Copies the first buffer for the given tag in the taglist into the variable
+ * pointed to by @value. Free the buffer with gst_buffer_unref() when it is
+ * no longer needed.
+ *
+ * Returns: TRUE, if a buffer was copied, FALSE if the tag didn't exist in the
+ *              given list or if it was #NULL.
+ *
+ * Since: 0.10.23
+ */
+gboolean
+gst_tag_list_get_buffer (const GstTagList * list, const gchar * tag,
+    GstBuffer ** value)
+{
+  GValue v = { 0, };
+
+  g_return_val_if_fail (GST_IS_TAG_LIST (list), FALSE);
+  g_return_val_if_fail (tag != NULL, FALSE);
+  g_return_val_if_fail (value != NULL, FALSE);
+
+  if (!gst_tag_list_copy_value (&v, list, tag))
+    return FALSE;
+  *value = (GstBuffer *) gst_value_dup_mini_object (&v);
+  g_value_unset (&v);
+  return (*value != NULL);
+}
+
+/**
+ * gst_tag_list_get_buffer_index:
+ * @list: a #GstTagList to get the tag from
+ * @tag: tag to read out
+ * @index: number of entry to read out
+ * @value: address of a GstBuffer pointer variable to store the result into
+ *
+ * Gets the buffer that is at the given index for the given tag in the given
+ * list and copies it into the variable pointed to by @value. Free the buffer
+ * with gst_buffer_unref() when it is no longer needed.
+ *
+ * Returns: TRUE, if a buffer was copied, FALSE if the tag didn't exist in the
+ *              given list or if it was #NULL.
+ *
+ * Since: 0.10.23
+ */
+gboolean
+gst_tag_list_get_buffer_index (const GstTagList * list,
+    const gchar * tag, guint index, GstBuffer ** value)
+{
+  const GValue *v;
+
+  g_return_val_if_fail (GST_IS_TAG_LIST (list), FALSE);
+  g_return_val_if_fail (tag != NULL, FALSE);
+  g_return_val_if_fail (value != NULL, FALSE);
+
+  if ((v = gst_tag_list_get_value_index (list, tag, index)) == NULL)
+    return FALSE;
+  *value = (GstBuffer *) gst_value_dup_mini_object (v);
   return (*value != NULL);
 }

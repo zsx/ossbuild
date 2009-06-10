@@ -51,10 +51,9 @@
  *
  * gst_object_unref() is used to drop your reference to the bin.
  *
- * The <link linkend="GstBin-element-added">element-added</link> signal is
- * fired whenever a new element is added to the bin. Likewise the <link
- * linkend="GstBin-element-removed">element-removed</link> signal is fired
- * whenever an element is removed from the bin.
+ * The #GstBin::element-added signal is fired whenever a new element is added to
+ * the bin. Likewise the #GstBin::element-removed signal is fired whenever an
+ * element is removed from the bin.
  *
  * <refsect2><title>Notes</title>
  * <para>
@@ -224,7 +223,7 @@ static GstStateChangeReturn gst_bin_change_state_func (GstElement * element,
 static GstStateChangeReturn gst_bin_get_state_func (GstElement * element,
     GstState * state, GstState * pending, GstClockTime timeout);
 static void bin_handle_async_done (GstBin * bin, GstStateChangeReturn ret,
-    gboolean is_bin);
+    gboolean flag_pending);
 static void bin_handle_async_start (GstBin * bin, gboolean new_base_time);
 static void bin_push_state_continue (BinContinueData * data);
 
@@ -274,59 +273,34 @@ enum
       /* FILL ME */
 };
 
-static void gst_bin_base_init (gpointer g_class);
-static void gst_bin_class_init (GstBinClass * klass);
-static void gst_bin_init (GstBin * bin);
 static void gst_bin_child_proxy_init (gpointer g_iface, gpointer iface_data);
 
-static GstElementClass *parent_class = NULL;
 static guint gst_bin_signals[LAST_SIGNAL] = { 0 };
 
-GType
-gst_bin_get_type (void)
-{
-  static GType gst_bin_type = 0;
-  const gchar *compat;
-
-  if (G_UNLIKELY (gst_bin_type == 0)) {
-    static const GTypeInfo bin_info = {
-      sizeof (GstBinClass),
-      gst_bin_base_init,
-      NULL,
-      (GClassInitFunc) gst_bin_class_init,
-      NULL,
-      NULL,
-      sizeof (GstBin),
-      0,
-      (GInstanceInitFunc) gst_bin_init,
-      NULL
-    };
-    static const GInterfaceInfo child_proxy_info = {
-      gst_bin_child_proxy_init,
-      NULL,
-      NULL
-    };
-
-    gst_bin_type =
-        g_type_register_static (GST_TYPE_ELEMENT, "GstBin", &bin_info, 0);
-
-    g_type_add_interface_static (gst_bin_type, GST_TYPE_CHILD_PROXY,
-        &child_proxy_info);
-
-    GST_DEBUG_CATEGORY_INIT (bin_debug, "bin", GST_DEBUG_BOLD,
-        "debugging info for the 'bin' container element");
-
-    /* compatibility stuff */
-    compat = g_getenv ("GST_COMPAT");
-    if (compat != NULL) {
-      if (strstr (compat, "no-live-preroll"))
-        enable_latency = FALSE;
-      else if (strstr (compat, "live-preroll"))
-        enable_latency = TRUE;
-    }
-  }
-  return gst_bin_type;
+#define _do_init(type) \
+{ \
+  const gchar *compat; \
+  static const GInterfaceInfo iface_info = { \
+    gst_bin_child_proxy_init, \
+    NULL, \
+    NULL}; \
+  \
+  g_type_add_interface_static (type, GST_TYPE_CHILD_PROXY, &iface_info); \
+  \
+  GST_DEBUG_CATEGORY_INIT (bin_debug, "bin", GST_DEBUG_BOLD, \
+      "debugging info for the 'bin' container element"); \
+  \
+  /* compatibility stuff */ \
+  compat = g_getenv ("GST_COMPAT"); \
+  if (compat != NULL) { \
+    if (strstr (compat, "no-live-preroll")) \
+      enable_latency = FALSE; \
+    else if (strstr (compat, "live-preroll")) \
+      enable_latency = TRUE; \
+  } \
 }
+
+GST_BOILERPLATE_FULL (GstBin, gst_bin, GstElement, GST_TYPE_ELEMENT, _do_init);
 
 static void
 gst_bin_base_init (gpointer g_class)
@@ -408,8 +382,6 @@ gst_bin_class_init (GstBinClass * klass)
   gobject_class = (GObjectClass *) klass;
   gstobject_class = (GstObjectClass *) klass;
   gstelement_class = (GstElementClass *) klass;
-
-  parent_class = g_type_class_peek_parent (klass);
 
   g_type_class_add_private (klass, sizeof (GstBinPrivate));
 
@@ -511,7 +483,7 @@ gst_bin_class_init (GstBinClass * klass)
 }
 
 static void
-gst_bin_init (GstBin * bin)
+gst_bin_init (GstBin * bin, GstBinClass * klass)
 {
   GstBus *bus;
 
@@ -803,6 +775,7 @@ message_check (GstMessage * message, MessageFind * target)
     eq &= GST_MESSAGE_SRC (message) == target->src;
   if (target->types)
     eq &= (GST_MESSAGE_TYPE (message) & target->types) != 0;
+  GST_LOG ("looking at message %p: %d", message, eq);
 
   return (eq ? 0 : 1);
 }
@@ -2530,7 +2503,6 @@ gst_bin_continue_func (BinContinueData * data)
   GstBin *bin;
   GstState current, next, pending;
   GstStateChange transition;
-  GstStateChangeReturn ret;
 
   bin = data->bin;
   pending = data->pending;
@@ -2551,6 +2523,7 @@ gst_bin_continue_func (BinContinueData * data)
   transition = (GstStateChange) GST_STATE_TRANSITION (current, next);
 
   GST_STATE_NEXT (bin) = next;
+  GST_STATE_PENDING (bin) = pending;
   /* mark busy */
   GST_STATE_RETURN (bin) = GST_STATE_CHANGE_ASYNC;
   GST_OBJECT_UNLOCK (bin);
@@ -2560,7 +2533,7 @@ gst_bin_continue_func (BinContinueData * data)
       gst_element_state_get_name (current),
       gst_element_state_get_name (next), gst_element_state_get_name (pending));
 
-  ret = gst_element_change_state (GST_ELEMENT_CAST (bin), transition);
+  gst_element_change_state (GST_ELEMENT_CAST (bin), transition);
 
   GST_STATE_UNLOCK (bin);
   GST_DEBUG_OBJECT (bin, "state continue done");
@@ -2696,7 +2669,8 @@ was_no_preroll:
  * This function is called with the OBJECT lock.
  */
 static void
-bin_handle_async_done (GstBin * bin, GstStateChangeReturn ret, gboolean is_bin)
+bin_handle_async_done (GstBin * bin, GstStateChangeReturn ret,
+    gboolean flag_pending)
 {
   GstState current, pending, target;
   GstStateChangeReturn old_ret;
@@ -2811,7 +2785,9 @@ had_error:
 was_busy:
   {
     GST_CAT_DEBUG_OBJECT (GST_CAT_STATES, bin, "state change busy");
-    if (is_bin)
+    /* if we were busy with a state change and we are requested to flag a
+     * pending async done, we do so here */
+    if (flag_pending)
       bin->priv->pending_async_done = TRUE;
     return;
   }
@@ -2922,13 +2898,37 @@ gst_bin_handle_message_func (GstBin * bin, GstMessage * message)
       gst_message_unref (message);
       break;
     }
-    case GST_MESSAGE_SEGMENT_START:
+    case GST_MESSAGE_SEGMENT_START:{
+      gboolean post = FALSE;
+      GstFormat format;
+      gint64 position;
+
+      gst_message_parse_segment_start (message, &format, &position);
+      seqnum = gst_message_get_seqnum (message);
+
       GST_OBJECT_LOCK (bin);
+      /* if this is the first segment-start, post to parent but not to the
+       * application */
+      if (!find_message (bin, NULL, GST_MESSAGE_SEGMENT_START) &&
+          (GST_OBJECT_PARENT (bin) != NULL)) {
+        post = TRUE;
+      }
       /* replace any previous segment_start message from this source
        * with the new segment start message */
       bin_replace_message (bin, message, GST_MESSAGE_SEGMENT_START);
       GST_OBJECT_UNLOCK (bin);
+      if (post) {
+        tmessage = gst_message_new_segment_start (GST_OBJECT_CAST (bin),
+            format, position);
+        gst_message_set_seqnum (tmessage, seqnum);
+
+        /* post segment start with initial format and position. */
+        GST_DEBUG_OBJECT (bin, "posting SEGMENT_START (%u) bus message: %p",
+            seqnum, message);
+        gst_element_post_message (GST_ELEMENT_CAST (bin), tmessage);
+      }
       break;
+    }
     case GST_MESSAGE_SEGMENT_DONE:
     {
       gboolean post = FALSE;
@@ -2957,6 +2957,8 @@ gst_bin_handle_message_func (GstBin * bin, GstMessage * message)
         gst_message_set_seqnum (tmessage, seqnum);
 
         /* post segment done with latest format and position. */
+        GST_DEBUG_OBJECT (bin, "posting SEGMENT_DONE (%u) bus message: %p",
+            seqnum, message);
         gst_element_post_message (GST_ELEMENT_CAST (bin), tmessage);
       }
       break;
@@ -3059,7 +3061,6 @@ gst_bin_handle_message_func (GstBin * bin, GstMessage * message)
     case GST_MESSAGE_ASYNC_DONE:
     {
       GstState target;
-      gboolean is_bin;
 
       GST_DEBUG_OBJECT (bin, "ASYNC_DONE message %p, %s", message,
           src ? GST_OBJECT_NAME (src) : "(NULL)");
@@ -3070,11 +3071,6 @@ gst_bin_handle_message_func (GstBin * bin, GstMessage * message)
       if (target <= GST_STATE_READY)
         goto ignore_done_message;
 
-      /* check if the message came from the bin itself in which case the bin
-       * will simulate ASYNC behaviour without having ASYNC children (such as
-       * decodebin2) */
-      is_bin = (GST_MESSAGE_SRC (message) == GST_OBJECT_CAST (bin));
-
       bin_replace_message (bin, message, GST_MESSAGE_ASYNC_START);
       /* if there are no more ASYNC_START messages, everybody posted
        * a ASYNC_DONE and we can post one on the bus. When checking, we
@@ -3084,7 +3080,13 @@ gst_bin_handle_message_func (GstBin * bin, GstMessage * message)
         bin_remove_messages (bin, NULL, GST_MESSAGE_ASYNC_DONE);
 
         GST_DEBUG_OBJECT (bin, "async elements commited");
-        bin_handle_async_done (bin, GST_STATE_CHANGE_SUCCESS, is_bin);
+        /* when we get an async done message when a state change was busy, we
+         * need to set the pending_done flag so that at the end of the state
+         * change we can see if we need to verify pending async elements, hence
+         * the TRUE argument here. */
+        bin_handle_async_done (bin, GST_STATE_CHANGE_SUCCESS, TRUE);
+      } else {
+        GST_DEBUG_OBJECT (bin, "there are more async elements pending");
       }
       GST_OBJECT_UNLOCK (bin);
       break;

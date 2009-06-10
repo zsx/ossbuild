@@ -28,7 +28,10 @@ easy way to construct pipelines from pipeline descriptions.
 Print help synopsis and available FLAGS
 .TP 8
 .B  \-v, \-\-verbose
-Output status information
+Output status information and property notifications
+.TP 8
+.B  \-v, \-\-quiet
+Do not print any progress information
 .TP 8
 .B  \-m, \-\-messages
 Output messages posted on the pipeline's bus
@@ -84,7 +87,7 @@ ANSI escape sequences.  Using this option causes \fIGStreamer\fP
 to print messages without color. Setting the \fBGST_DEBUG_NO_COLOR\fR
 environment variable will achieve the same thing.
 .TP 8
-.B  \-\-gst\-disable\-debug
+.B  \-\-gst\-debug\-disable
 Disables debugging.
 .TP 8
 .B  \-\-gst\-debug\-help

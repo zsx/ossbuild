@@ -214,6 +214,12 @@ typedef struct _GstBufferClass GstBufferClass;
  * stream and contains media neutral data (elements can switch to optimized code
  * path that ignores the buffer content).
  * @GST_BUFFER_FLAG_DELTA_UNIT: this unit cannot be decoded independently.
+ * @GST_BUFFER_FLAG_MEDIA1: a flag whose use is specific to the caps of the buffer.
+ * Since: 0.10.23
+ * @GST_BUFFER_FLAG_MEDIA2: a flag whose use is specific to the caps of the buffer.
+ * Since: 0.10.23
+ * @GST_BUFFER_FLAG_MEDIA3: a flag whose use is specific to the caps of the buffer.
+ * Since: 0.10.23
  * @GST_BUFFER_FLAG_LAST: additional flags can be added starting from this flag.
  *
  * A set of buffer flags used to describe properties of a #GstBuffer.
@@ -225,7 +231,9 @@ typedef enum {
   GST_BUFFER_FLAG_IN_CAPS    = (GST_MINI_OBJECT_FLAG_LAST << 2),
   GST_BUFFER_FLAG_GAP        = (GST_MINI_OBJECT_FLAG_LAST << 3),
   GST_BUFFER_FLAG_DELTA_UNIT = (GST_MINI_OBJECT_FLAG_LAST << 4),
-  /* padding */
+  GST_BUFFER_FLAG_MEDIA1     = (GST_MINI_OBJECT_FLAG_LAST << 5),
+  GST_BUFFER_FLAG_MEDIA2     = (GST_MINI_OBJECT_FLAG_LAST << 6),
+  GST_BUFFER_FLAG_MEDIA3     = (GST_MINI_OBJECT_FLAG_LAST << 7),
   GST_BUFFER_FLAG_LAST       = (GST_MINI_OBJECT_FLAG_LAST << 8)
 } GstBufferFlag;
 
@@ -334,8 +342,6 @@ G_INLINE_FUNC GstBuffer * gst_buffer_ref (GstBuffer * buf);
 static inline GstBuffer *
 gst_buffer_ref (GstBuffer * buf)
 {
-  /* not using a macro here because gcc-4.1 will complain
-   * if the return value isn't used (because of the cast) */
   return (GstBuffer *) gst_mini_object_ref (GST_MINI_OBJECT_CAST (buf));
 }
 
@@ -347,7 +353,15 @@ gst_buffer_ref (GstBuffer * buf)
  * will be freed. If GST_BUFFER_MALLOCDATA() is non-NULL, this pointer will
  * also be freed at this time.
  */
-#define		gst_buffer_unref(buf)		gst_mini_object_unref (GST_MINI_OBJECT_CAST (buf))
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC void gst_buffer_unref (GstBuffer * buf);
+#endif
+
+static inline void
+gst_buffer_unref (GstBuffer * buf)
+{
+  gst_mini_object_unref (GST_MINI_OBJECT_CAST (buf));
+}
 
 /* copy buffer */
 /**
@@ -356,8 +370,19 @@ gst_buffer_ref (GstBuffer * buf)
  *
  * Create a copy of the given buffer. This will also make a newly allocated
  * copy of the data the source buffer contains.
+ *
+ * Returns: a new copy of @buf.
  */
-#define		gst_buffer_copy(buf)		GST_BUFFER_CAST (gst_mini_object_copy (GST_MINI_OBJECT_CAST (buf)))
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC GstBuffer * gst_buffer_copy (const GstBuffer * buf);
+#endif
+
+static inline GstBuffer *
+gst_buffer_copy (const GstBuffer * buf)
+{
+  return GST_BUFFER (gst_mini_object_copy (GST_MINI_OBJECT_CAST (buf)));
+}
+
 
 /**
  * GstBufferCopyFlags:

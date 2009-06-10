@@ -26,11 +26,11 @@
 
  *      
 
- * $Revision: 1.4 $
+ * $Revision$
 
- * $Author: tpm $
+ * $Author$
 
- * $Date: 2007-10-31 22:01:03 $
+ * $Date$
 
  *
 
@@ -221,9 +221,8 @@ _topendir (const _TCHAR * szPath)
 
 
   // Added by jcsston 02/04/2004, memset was writing to a bad pointer
-  _TCHAR* blahasf;
-  //cc = (_TCHAR*)nd->dd_dir.d_name;
-  //cc = malloc (FILENAME_MAX);
+
+  nd->dd_dir.d_name = malloc (FILENAME_MAX);
 
 
   // End add

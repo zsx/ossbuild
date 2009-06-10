@@ -148,9 +148,10 @@ static guint gst_element_signals[LAST_SIGNAL] = { 0 };
 GType
 gst_element_get_type (void)
 {
-  static GType gst_element_type = 0;
+  static volatile gsize gst_element_type = 0;
 
-  if (G_UNLIKELY (gst_element_type == 0)) {
+  if (g_once_init_enter (&gst_element_type)) {
+    GType _type;
     static const GTypeInfo element_info = {
       sizeof (GstElementClass),
       gst_element_base_class_init,
@@ -164,8 +165,9 @@ gst_element_get_type (void)
       NULL
     };
 
-    gst_element_type = g_type_register_static (GST_TYPE_OBJECT, "GstElement",
+    _type = g_type_register_static (GST_TYPE_OBJECT, "GstElement",
         &element_info, G_TYPE_FLAG_ABSTRACT);
+    g_once_init_leave (&gst_element_type, _type);
   }
   return gst_element_type;
 }
@@ -1772,7 +1774,7 @@ gst_element_set_locked_state (GstElement * element, gboolean locked_state)
 
 was_ok:
   {
-    GST_CAT_DEBUG (GST_CAT_STATES, "elements %s was in locked state %d",
+    GST_CAT_DEBUG (GST_CAT_STATES, "elements %s was already in locked state %d",
         GST_ELEMENT_NAME (element), old);
     GST_OBJECT_UNLOCK (element);
 
@@ -2262,6 +2264,9 @@ nothing_lost:
  * An application can use gst_element_get_state() to wait for the completion
  * of the state change or it can wait for a state change message on the bus.
  *
+ * State changes to %GST_STATE_READY or %GST_STATE_NULL never return
+ * #GST_STATE_CHANGE_ASYNC.
+ *
  * Returns: Result of the state change using #GstStateChangeReturn.
  *
  * MT safe.
@@ -2413,14 +2418,8 @@ gst_element_change_state (GstElement * element, GstStateChange transition)
 {
   GstElementClass *oclass;
   GstStateChangeReturn ret = GST_STATE_CHANGE_SUCCESS;
-  GstState current;
-  GstState next;
 
   oclass = GST_ELEMENT_GET_CLASS (element);
-
-  /* start with the current state. */
-  current = (GstState) GST_STATE_TRANSITION_CURRENT (transition);
-  next = GST_STATE_TRANSITION_NEXT (transition);
 
   /* call the state change function so it can set the state */
   if (oclass->change_state)

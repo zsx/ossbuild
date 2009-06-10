@@ -163,8 +163,8 @@ marshal_VOID__MINIOBJECT (GClosure * closure, GValue * return_value,
     data2 = closure->data;
   }
   callback =
-      (marshalfunc_VOID__MINIOBJECT) (marshal_data ? marshal_data : cc->
-      callback);
+      (marshalfunc_VOID__MINIOBJECT) (marshal_data ? marshal_data :
+      cc->callback);
 
   callback (data1, gst_value_get_mini_object (param_values + 1), data2);
 }
@@ -173,11 +173,9 @@ static void
 gst_identity_class_init (GstIdentityClass * klass)
 {
   GObjectClass *gobject_class;
-  GstElementClass *gstelement_class;
   GstBaseTransformClass *gstbasetrans_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
-  gstelement_class = GST_ELEMENT_CLASS (klass);
   gstbasetrans_class = GST_BASE_TRANSFORM_CLASS (klass);
 
   gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_identity_set_property);
@@ -335,8 +333,7 @@ gst_identity_event (GstBaseTransform * trans, GstEvent * event)
       /* This is the first newsegment, send out a (0, -1) newsegment */
       news = gst_event_new_new_segment (TRUE, 1.0, format, 0, -1, 0);
 
-      if (!(gst_pad_event_default (trans->sinkpad, news)))
-        return FALSE;
+      gst_pad_event_default (trans->sinkpad, news);
     }
   }
 
@@ -435,11 +432,9 @@ gst_identity_check_imperfect_timestamp (GstIdentity * identity, GstBuffer * buf)
     /* check if we had a previous buffer to compare to */
     if (identity->prev_timestamp != GST_CLOCK_TIME_NONE &&
         identity->prev_duration != GST_CLOCK_TIME_NONE) {
-      guint64 offset;
       GstClockTime t_expected;
       GstClockTimeDiff dt;
 
-      offset = GST_BUFFER_OFFSET (buf);
       t_expected = identity->prev_timestamp + identity->prev_duration;
       dt = GST_CLOCK_DIFF (t_expected, timestamp);
       if (dt != 0) {

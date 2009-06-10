@@ -81,6 +81,9 @@ typedef struct _GstMessageClass GstMessageClass;
  * pipeline. Since: 0.10.13
  * @GST_MESSAGE_LATENCY: Posted by elements when their latency changes. The
  * pipeline will calculate and distribute a new latency. Since: 0.10.12
+ * @GST_MESSAGE_REQUEST_STATE: Posted by elements when they want the pipeline to
+ * change state. This message is a suggestion to the application which can
+ * decide to perform the state change on (part of) the pipeline. Since: 0.10.23.
  * @GST_MESSAGE_ANY: mask for all of the above messages.
  *
  * The different message types that are available.
@@ -113,6 +116,7 @@ typedef enum
   GST_MESSAGE_LATENCY           = (1 << 19),
   GST_MESSAGE_ASYNC_START       = (1 << 20),
   GST_MESSAGE_ASYNC_DONE        = (1 << 21),
+  GST_MESSAGE_REQUEST_STATE     = (1 << 22),
   GST_MESSAGE_ANY               = ~0
 } GstMessageType;
 
@@ -256,8 +260,6 @@ G_INLINE_FUNC GstMessage * gst_message_ref (GstMessage * msg);
 static inline GstMessage *
 gst_message_ref (GstMessage * msg)
 {
-  /* not using a macro here because gcc-4.1 will complain
-   * if the return value isn't used (because of the cast) */
   return (GstMessage *) gst_mini_object_ref (GST_MINI_OBJECT (msg));
 }
 
@@ -268,7 +270,16 @@ gst_message_ref (GstMessage * msg)
  * Convenience macro to decrease the reference count of the message, possibly
  * freeing it.
  */
-#define         gst_message_unref(msg)		gst_mini_object_unref (GST_MINI_OBJECT (msg))
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC void gst_message_unref (GstMessage * msg);
+#endif
+
+static inline void
+gst_message_unref (GstMessage * msg)
+{
+  gst_mini_object_unref (GST_MINI_OBJECT_CAST (msg));
+}
+
 /* copy message */
 /**
  * gst_message_copy:
@@ -276,9 +287,20 @@ gst_message_ref (GstMessage * msg)
  *
  * Creates a copy of the message. Returns a copy of the message.
  *
+ * Returns: a new copy of @msg.
+ *
  * MT safe
  */
-#define         gst_message_copy(msg)		GST_MESSAGE (gst_mini_object_copy (GST_MINI_OBJECT (msg)))
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC GstMessage * gst_message_copy (const GstMessage * msg);
+#endif
+
+static inline GstMessage *
+gst_message_copy (const GstMessage * msg)
+{
+  return GST_MESSAGE (gst_mini_object_copy (GST_MINI_OBJECT_CAST (msg)));
+}
+
 /**
  * gst_message_make_writable:
  * @msg: the message to make writable
@@ -382,6 +404,10 @@ GstMessage *	gst_message_new_structure_change   (GstObject * src, GstStructureCh
                                                     GstElement *owner, gboolean busy);
 void		gst_message_parse_structure_change (GstMessage *message, GstStructureChangeType *type,
                                                     GstElement **owner, gboolean *busy);
+
+/* REQUEST_STATE */
+GstMessage *    gst_message_new_request_state   (GstObject * src, GstState state);
+void            gst_message_parse_request_state (GstMessage * message, GstState *state);
 
 /* custom messages */
 GstMessage *	gst_message_new_custom		(GstMessageType type,

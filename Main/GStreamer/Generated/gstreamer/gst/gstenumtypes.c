@@ -60,6 +60,9 @@ register_gst_buffer_flag (GType* id)
     { C_FLAGS(GST_BUFFER_FLAG_IN_CAPS), "GST_BUFFER_FLAG_IN_CAPS", "in-caps" },
     { C_FLAGS(GST_BUFFER_FLAG_GAP), "GST_BUFFER_FLAG_GAP", "gap" },
     { C_FLAGS(GST_BUFFER_FLAG_DELTA_UNIT), "GST_BUFFER_FLAG_DELTA_UNIT", "delta-unit" },
+    { C_FLAGS(GST_BUFFER_FLAG_MEDIA1), "GST_BUFFER_FLAG_MEDIA1", "media1" },
+    { C_FLAGS(GST_BUFFER_FLAG_MEDIA2), "GST_BUFFER_FLAG_MEDIA2", "media2" },
+    { C_FLAGS(GST_BUFFER_FLAG_MEDIA3), "GST_BUFFER_FLAG_MEDIA3", "media3" },
     { C_FLAGS(GST_BUFFER_FLAG_LAST), "GST_BUFFER_FLAG_LAST", "last" },
     { 0, NULL, NULL }
   };
@@ -718,6 +721,8 @@ register_gst_debug_level (GType* id)
     { C_ENUM(GST_LEVEL_INFO), "GST_LEVEL_INFO", "info" },
     { C_ENUM(GST_LEVEL_DEBUG), "GST_LEVEL_DEBUG", "debug" },
     { C_ENUM(GST_LEVEL_LOG), "GST_LEVEL_LOG", "log" },
+    { C_ENUM(GST_LEVEL_FIXME), "GST_LEVEL_FIXME", "fixme" },
+    { C_ENUM(GST_LEVEL_MEMDUMP), "GST_LEVEL_MEMDUMP", "memdump" },
     { C_ENUM(GST_LEVEL_COUNT), "GST_LEVEL_COUNT", "count" },
     { 0, NULL, NULL }
   };
@@ -839,6 +844,7 @@ register_gst_message_type (GType* id)
     { C_FLAGS(GST_MESSAGE_LATENCY), "GST_MESSAGE_LATENCY", "latency" },
     { C_FLAGS(GST_MESSAGE_ASYNC_START), "GST_MESSAGE_ASYNC_START", "async-start" },
     { C_FLAGS(GST_MESSAGE_ASYNC_DONE), "GST_MESSAGE_ASYNC_DONE", "async-done" },
+    { C_FLAGS(GST_MESSAGE_REQUEST_STATE), "GST_MESSAGE_REQUEST_STATE", "request-state" },
     { C_FLAGS(GST_MESSAGE_ANY), "GST_MESSAGE_ANY", "any" },
     { 0, NULL, NULL }
   };
@@ -1209,6 +1215,27 @@ gst_buffering_mode_get_type (void)
   return id;
 }
 
+/* enumerations from "gstsystemclock.h" */
+static void
+register_gst_clock_type (GType* id)
+{
+  static const GEnumValue values[] = {
+    { C_ENUM(GST_CLOCK_TYPE_REALTIME), "GST_CLOCK_TYPE_REALTIME", "realtime" },
+    { C_ENUM(GST_CLOCK_TYPE_MONOTONIC), "GST_CLOCK_TYPE_MONOTONIC", "monotonic" },
+    { 0, NULL, NULL }
+  };
+  *id = g_enum_register_static ("GstClockType", values);
+}
+GType
+gst_clock_type_get_type (void)
+{
+  static GType id;
+  static GOnce once = G_ONCE_INIT;
+
+  g_once (&once, (GThreadFunc)register_gst_clock_type, &id);
+  return id;
+}
+
 /* enumerations from "gsttaglist.h" */
 static void
 register_gst_tag_merge_mode (GType* id)
@@ -1344,6 +1371,28 @@ gst_uri_type_get_type (void)
   static GOnce once = G_ONCE_INIT;
 
   g_once (&once, (GThreadFunc)register_gst_uri_type, &id);
+  return id;
+}
+
+/* enumerations from "gstutils.h" */
+static void
+register_gst_search_mode (GType* id)
+{
+  static const GEnumValue values[] = {
+    { C_ENUM(GST_SEARCH_MODE_EXACT), "GST_SEARCH_MODE_EXACT", "exact" },
+    { C_ENUM(GST_SEARCH_MODE_BEFORE), "GST_SEARCH_MODE_BEFORE", "before" },
+    { C_ENUM(GST_SEARCH_MODE_AFTER), "GST_SEARCH_MODE_AFTER", "after" },
+    { 0, NULL, NULL }
+  };
+  *id = g_enum_register_static ("GstSearchMode", values);
+}
+GType
+gst_search_mode_get_type (void)
+{
+  static GType id;
+  static GOnce once = G_ONCE_INIT;
+
+  g_once (&once, (GThreadFunc)register_gst_search_mode, &id);
   return id;
 }
 

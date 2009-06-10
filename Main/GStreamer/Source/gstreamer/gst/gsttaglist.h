@@ -23,6 +23,7 @@
 #ifndef __GST_TAGLIST_H__
 #define __GST_TAGLIST_H__
 
+#include <gst/gstbuffer.h>
 #include <gst/gststructure.h>
 #include <gst/glib-compat.h>
 
@@ -338,6 +339,13 @@ gboolean     gst_tag_list_get_date_index    (const GstTagList * list,
                                              const gchar      * tag,
                                              guint              index,
                                              GDate           ** value);
+gboolean     gst_tag_list_get_buffer        (const GstTagList * list,
+                                             const gchar      * tag,
+                                             GstBuffer       ** value);
+gboolean     gst_tag_list_get_buffer_index  (const GstTagList * list,
+                                             const gchar      * tag,
+                                             guint              index,
+                                             GstBuffer       ** value);
 
 /* GStreamer core tags */
 /**
@@ -470,6 +478,14 @@ gboolean     gst_tag_list_get_date_index    (const GstTagList * list,
  */
 #define GST_TAG_LOCATION               "location"
 /**
+ * GST_TAG_HOMEPAGE:
+ *
+ * Homepage for this media (i.e. artist or movie homepage) (string)
+ *
+ * Since: 0.10.23
+ */
+#define GST_TAG_HOMEPAGE               "homepage"
+/**
  * GST_TAG_DESCRIPTION:
  *
  * short text describing the content of the data (string)
@@ -557,6 +573,14 @@ gboolean     gst_tag_list_get_date_index    (const GstTagList * list,
  * codec the audio data is stored in (string)
  */
 #define GST_TAG_AUDIO_CODEC            "audio-codec"
+/**
+ * GST_TAG_SUBTITLE_CODEC:
+ *
+ * codec/format the subtitle data is stored in (string)
+ *
+ * Since: 0.10.23
+ */
+#define GST_TAG_SUBTITLE_CODEC         "subtitle-codec"
 /**
  * GST_TAG_BITRATE:
  *

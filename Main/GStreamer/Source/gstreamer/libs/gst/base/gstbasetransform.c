@@ -267,9 +267,10 @@ static GstFlowReturn gst_base_transform_prepare_output_buffer (GstBaseTransform
 GType
 gst_base_transform_get_type (void)
 {
-  static GType base_transform_type = 0;
+  static volatile gsize base_transform_type = 0;
 
-  if (!base_transform_type) {
+  if (g_once_init_enter (&base_transform_type)) {
+    GType _type;
     static const GTypeInfo base_transform_info = {
       sizeof (GstBaseTransformClass),
       NULL,
@@ -282,8 +283,9 @@ gst_base_transform_get_type (void)
       (GInstanceInitFunc) gst_base_transform_init,
     };
 
-    base_transform_type = g_type_register_static (GST_TYPE_ELEMENT,
+    _type = g_type_register_static (GST_TYPE_ELEMENT,
         "GstBaseTransform", &base_transform_info, G_TYPE_FLAG_ABSTRACT);
+    g_once_init_leave (&base_transform_type, _type);
   }
   return base_transform_type;
 }
@@ -491,7 +493,10 @@ gst_base_transform_transform_caps (GstBaseTransform * trans,
       }
       GST_LOG_OBJECT (trans, "merged: (%d)", gst_caps_get_size (ret));
       /* we can't do much simplification here because we don't really want to
-       * change the caps order */
+       * change the caps order
+       gst_caps_do_simplify (ret);
+       GST_DEBUG_OBJECT (trans, "simplified: (%d)", gst_caps_get_size (ret));
+       */
     }
   } else {
     GST_DEBUG_OBJECT (trans, "identity from: %" GST_PTR_FORMAT, caps);
@@ -586,7 +591,7 @@ no_out_size:
   }
 }
 
-/* get the caps that can be handled by @pad. We perforn:
+/* get the caps that can be handled by @pad. We perform:
  *
  *  - take the caps of peer of otherpad,
  *  - filter against the padtemplate of otherpad, 
@@ -972,14 +977,17 @@ static gboolean
 gst_base_transform_acceptcaps (GstPad * pad, GstCaps * caps)
 {
   GstBaseTransform *trans;
+#if 0
   GstPad *otherpad;
   GstCaps *othercaps = NULL;
+#endif
   gboolean ret = TRUE;
 
   trans = GST_BASE_TRANSFORM (gst_pad_get_parent (pad));
-  otherpad = (pad == trans->srcpad) ? trans->sinkpad : trans->srcpad;
 
 #if 0
+  otherpad = (pad == trans->srcpad) ? trans->sinkpad : trans->srcpad;
+
   /* we need fixed caps for the check, fall back to the default implementation
    * if we don't */
   if (!gst_caps_is_fixed (caps))
@@ -1022,8 +1030,11 @@ gst_base_transform_acceptcaps (GstPad * pad, GstCaps * caps)
 #endif
 
 done:
+#if 0
+  /* We know it's always NULL since we never use it */
   if (othercaps)
     gst_caps_unref (othercaps);
+#endif
   gst_object_unref (trans);
 
   return ret;
@@ -1033,8 +1044,7 @@ no_transform_possible:
   {
     GST_WARNING_OBJECT (trans,
         "transform could not transform %" GST_PTR_FORMAT
-        " in anything we support (othercaps %" GST_PTR_FORMAT ")",
-        caps, othercaps);
+        " in anything we support", caps);
     ret = FALSE;
     goto done;
   }
@@ -1052,14 +1062,12 @@ static gboolean
 gst_base_transform_setcaps (GstPad * pad, GstCaps * caps)
 {
   GstBaseTransform *trans;
-  GstBaseTransformClass *klass;
   GstPad *otherpad, *otherpeer;
   GstCaps *othercaps = NULL;
   gboolean ret = TRUE;
   GstCaps *incaps, *outcaps;
 
   trans = GST_BASE_TRANSFORM (gst_pad_get_parent (pad));
-  klass = GST_BASE_TRANSFORM_GET_CLASS (trans);
 
   otherpad = (pad == trans->srcpad) ? trans->sinkpad : trans->srcpad;
   otherpeer = gst_pad_get_peer (otherpad);
@@ -2451,5 +2459,6 @@ gst_base_transform_reconfigure (GstBaseTransform * trans)
   GST_OBJECT_LOCK (trans);
   GST_DEBUG_OBJECT (trans, "marking reconfigure");
   trans->priv->reconfigure = TRUE;
+  gst_caps_replace (&trans->priv->sink_alloc, NULL);
   GST_OBJECT_UNLOCK (trans);
 }

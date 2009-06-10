@@ -923,27 +923,36 @@ gst_debug_category_get_color
 gst_debug_category_get_description
 gst_debug_get_all_categories
 gst_debug_construct_term_color
+gst_debug_construct_win_color
 GST_CAT_LEVEL_LOG
 GST_CAT_ERROR_OBJECT
 GST_CAT_WARNING_OBJECT
 GST_CAT_INFO_OBJECT
 GST_CAT_DEBUG_OBJECT
 GST_CAT_LOG_OBJECT
+GST_CAT_FIXME_OBJECT
+GST_CAT_MEMDUMP_OBJECT
 GST_CAT_ERROR
 GST_CAT_WARNING
 GST_CAT_INFO
 GST_CAT_DEBUG
 GST_CAT_LOG
+GST_CAT_FIXME
+GST_CAT_MEMDUMP
 GST_ERROR_OBJECT
 GST_WARNING_OBJECT
 GST_INFO_OBJECT
 GST_DEBUG_OBJECT
 GST_LOG_OBJECT
+GST_FIXME_OBJECT
+GST_MEMDUMP_OBJECT
 GST_ERROR
 GST_WARNING
 GST_INFO
 GST_DEBUG
 GST_LOG
+GST_FIXME
+GST_MEMDUMP
 GST_DEBUG_FUNCPTR
 GST_DEBUG_FUNCPTR_NAME
 GST_DEBUG_BIN_TO_DOT_FILE
@@ -978,9 +987,7 @@ gst_implements_interface_check
 <SUBSECTION Standard>
 GstImplementsInterfaceClass
 GST_IMPLEMENTS_INTERFACE
-GST_IMPLEMENTS_INTERFACE_CLASS
 GST_IS_IMPLEMENTS_INTERFACE
-GST_IS_IMPLEMENTS_INTERFACE_CLASS
 GST_IMPLEMENTS_INTERFACE_GET_CLASS
 GST_TYPE_IMPLEMENTS_INTERFACE
 GST_IMPLEMENTS_INTERFACE_CHECK_INSTANCE_CAST
@@ -1089,6 +1096,8 @@ gst_message_parse_async_start
 gst_message_new_async_done
 gst_message_new_structure_change
 gst_message_parse_structure_change
+gst_message_new_request_state
+gst_message_parse_request_state
 <SUBSECTION Standard>
 GstMessageClass
 GST_MESSAGE
@@ -1267,6 +1276,7 @@ gst_pad_is_active
 
 gst_pad_set_blocked
 gst_pad_set_blocked_async
+gst_pad_set_blocked_async_full
 GstPadBlockCallback
 gst_pad_is_blocked
 gst_pad_is_blocking
@@ -1526,9 +1536,10 @@ gst_static_caps_get_type
 <TITLE>GstParamSpec</TITLE>
 
 GST_PARAM_CONTROLLABLE
-GST_PARAM_USER_EDITABLE
-GST_PARAM_NOT_PRESETABLE
 GST_PARAM_USER_SHIFT
+GST_PARAM_MUTABLE_PAUSED
+GST_PARAM_MUTABLE_PLAYING
+GST_PARAM_MUTABLE_READY
 
 <SUBSECTION paramspecfraction>
 GstParamSpecFraction
@@ -1718,11 +1729,14 @@ gst_poll_fd_ignored
 gst_poll_fd_init
 gst_poll_free
 gst_poll_new
+gst_poll_new_timer
 gst_poll_remove_fd
 gst_poll_restart
 gst_poll_set_controllable
 gst_poll_set_flushing
 gst_poll_wait
+gst_poll_read_control
+gst_poll_write_control
 </SECTION>
 
 <SECTION>
@@ -1815,6 +1829,7 @@ gst_query_set_uri
 <SUBSECTION Standard>
 GstQueryClass
 GST_QUERY
+GST_QUERY_CAST
 GST_IS_QUERY
 GST_QUERY_CLASS
 GST_IS_QUERY_CLASS
@@ -1964,14 +1979,15 @@ GST_TYPE_STRUCTURE
 gst_structure_get_type
 </SECTION>
 
-
 <SECTION>
 <FILE>gstsystemclock</FILE>
 <TITLE>GstSystemClock</TITLE>
+GstClockType
 GstSystemClock
 gst_system_clock_obtain
 <SUBSECTION Standard>
 GstSystemClockClass
+GstSystemClockPrivate
 GST_SYSTEM_CLOCK
 GST_IS_SYSTEM_CLOCK
 gst_system_clock_get_type
@@ -1979,8 +1995,10 @@ GST_SYSTEM_CLOCK_CLASS
 GST_IS_SYSTEM_CLOCK_CLASS
 GST_SYSTEM_CLOCK_GET_CLASS
 GST_TYPE_SYSTEM_CLOCK
+GST_SYSTEM_CLOCK_CAST
+GST_TYPE_CLOCK_TYPE
+gst_clock_type_get_type
 </SECTION>
-
 
 <SECTION>
 <FILE>gsttaglist</FILE>
@@ -2006,6 +2024,7 @@ GST_TAG_TRACK_COUNT
 GST_TAG_ALBUM_VOLUME_NUMBER
 GST_TAG_ALBUM_VOLUME_COUNT
 GST_TAG_LOCATION
+GST_TAG_HOMEPAGE
 GST_TAG_DESCRIPTION
 GST_TAG_VERSION
 GST_TAG_ISRC
@@ -2021,6 +2040,7 @@ GST_TAG_DURATION
 GST_TAG_CODEC
 GST_TAG_VIDEO_CODEC
 GST_TAG_AUDIO_CODEC
+GST_TAG_SUBTITLE_CODEC
 GST_TAG_BITRATE
 GST_TAG_NOMINAL_BITRATE
 GST_TAG_MINIMUM_BITRATE
@@ -2097,6 +2117,8 @@ gst_tag_list_get_pointer
 gst_tag_list_get_pointer_index
 gst_tag_list_get_date
 gst_tag_list_get_date_index
+gst_tag_list_get_buffer
+gst_tag_list_get_buffer_index
 <SUBSECTION Standard>
 GST_TAG_LIST
 GST_IS_TAG_LIST
@@ -2275,7 +2297,6 @@ gst_uri_handler_new_uri
 <SUBSECTION Standard>
 GST_URI_HANDLER
 GST_IS_URI_HANDLER
-GST_URI_HANDLER_CLASS
 GST_URI_HANDLER_GET_INTERFACE
 GST_TYPE_URI_HANDLER
 GST_TYPE_URI_TYPE
@@ -2358,10 +2379,14 @@ gst_util_seqnum_compare
 gst_util_set_object_arg
 gst_util_set_value_from_string
 gst_util_get_timestamp
+GstSearchMode
+gst_util_array_binary_search
 <SUBSECTION Private>
 GST_HAVE_UNALIGNED_ACCESS
 gst_util_guint64_to_gdouble
 gst_util_gdouble_to_guint64
+GST_TYPE_SEARCH_MODE
+gst_search_mode_get_type
 </SECTION>
 
 <SECTION>

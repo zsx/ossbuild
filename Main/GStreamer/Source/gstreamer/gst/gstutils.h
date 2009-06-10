@@ -92,15 +92,6 @@ GType gst_type_register_static_full (GType parent_type,
 /* Macros for defining classes.  Ideas taken from Bonobo, which took theirs
    from Nautilus and GOB. */
 
-/* FIXME: Use g_once_init_* unconditionally once we depend on glib 2.14 */
-#if GLIB_CHECK_VERSION (2, 14, 0)
-#define __gst_once_init_enter(val) (g_once_init_enter (val))
-#define __gst_once_init_leave(val,newval) (g_once_init_leave (val, newval))
-#else
-#define __gst_once_init_enter(val) (G_UNLIKELY (*(val) == 0))
-#define __gst_once_init_leave(val,newval) (*(val) = newval)
-#endif
-
 /**
  * GST_BOILERPLATE_FULL:
  * @type: the name of the type struct
@@ -145,7 +136,7 @@ type_as_function ## _get_type (void)					\
    * system and whether the compiler is c++ or not. The g_once_init_*	\
    * functions always take a gsize * though ... */			\
   static volatile gsize gonce_data = 0;					\
-  if (__gst_once_init_enter (&gonce_data)) {				\
+  if (g_once_init_enter (&gonce_data)) {				\
     GType _type;							\
     _type = gst_type_register_static_full (parent_type_macro,           \
         g_intern_static_string (#type),					\
@@ -161,7 +152,7 @@ type_as_function ## _get_type (void)					\
         NULL,                                                           \
         (GTypeFlags) 0);				                \
     additional_initializations (_type);				        \
-    __gst_once_init_leave (&gonce_data, (gsize) _type);			\
+    g_once_init_leave (&gonce_data, (gsize) _type);			\
   }									\
   return (GType) gonce_data;						\
 }
@@ -526,6 +517,10 @@ GST_BOILERPLATE_FULL (type, type_as_function, parent_type,              \
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC gfloat GFLOAT_SWAP_LE_BE (gfloat in);
+#endif
+
 inline static gfloat
 GFLOAT_SWAP_LE_BE(gfloat in)
 {
@@ -549,6 +544,10 @@ GFLOAT_SWAP_LE_BE(gfloat in)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC gdouble GDOUBLE_SWAP_LE_BE (gdouble in);
+#endif
+
 inline static gdouble
 GDOUBLE_SWAP_LE_BE(gdouble in)
 {
@@ -677,6 +676,10 @@ GDOUBLE_SWAP_LE_BE(gdouble in)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC gfloat GST_READ_FLOAT_LE (const guint8 *data);
+#endif
+
 inline static gfloat
 GST_READ_FLOAT_LE(const guint8 *data)
 {
@@ -699,6 +702,10 @@ GST_READ_FLOAT_LE(const guint8 *data)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC gfloat GST_READ_FLOAT_BE (const guint8 *data);
+#endif
+
 inline static gfloat
 GST_READ_FLOAT_BE(const guint8 *data)
 {
@@ -721,6 +728,10 @@ GST_READ_FLOAT_BE(const guint8 *data)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC gdouble GST_READ_DOUBLE_LE (const guint8 *data);
+#endif
+
 inline static gdouble
 GST_READ_DOUBLE_LE(const guint8 *data)
 {
@@ -743,6 +754,10 @@ GST_READ_DOUBLE_LE(const guint8 *data)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC gdouble GST_READ_DOUBLE_BE (const guint8 *data);
+#endif
+
 inline static gdouble
 GST_READ_DOUBLE_BE(const guint8 *data)
 {
@@ -766,6 +781,10 @@ GST_READ_DOUBLE_BE(const guint8 *data)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC void GST_WRITE_FLOAT_LE (guint8 *data, gfloat num);
+#endif
+
 inline static void
 GST_WRITE_FLOAT_LE(guint8 *data, gfloat num)
 {
@@ -789,6 +808,10 @@ GST_WRITE_FLOAT_LE(guint8 *data, gfloat num)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC void GST_WRITE_FLOAT_BE (guint8 *data, gfloat num);
+#endif
+
 inline static void
 GST_WRITE_FLOAT_BE(guint8 *data, gfloat num)
 {
@@ -812,6 +835,10 @@ GST_WRITE_FLOAT_BE(guint8 *data, gfloat num)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC void GST_WRITE_DOUBLE_LE (guint8 *data, gdouble num);
+#endif
+
 inline static void
 GST_WRITE_DOUBLE_LE(guint8 *data, gdouble num)
 {
@@ -835,6 +862,10 @@ GST_WRITE_DOUBLE_LE(guint8 *data, gdouble num)
  * Since: 0.10.22
  *
  */
+#ifdef _FOOL_GTK_DOC_
+G_INLINE_FUNC void GST_WRITE_DOUBLE_BE (guint8 *data, gdouble num);
+#endif
+
 inline static void
 GST_WRITE_DOUBLE_BE(guint8 *data, gdouble num)
 {
@@ -980,10 +1011,10 @@ gboolean		gst_element_link_pads_filtered	(GstElement * src, const gchar * srcpad
                                                          GstElement * dest, const gchar * destpadname,
                                                          GstCaps *filter);
 
-gboolean        gst_element_seek_simple (GstElement   *element,
-                                         GstFormat     format,
-                                         GstSeekFlags  seek_flags,
-                                         gint64        seek_pos);
+gboolean                gst_element_seek_simple         (GstElement   *element,
+                                                         GstFormat     format,
+                                                         GstSeekFlags  seek_flags,
+                                                         gint64        seek_pos);
 
 /* util elementfactory functions */
 gboolean		gst_element_factory_can_src_caps(GstElementFactory *factory, const GstCaps *caps);
@@ -1002,8 +1033,6 @@ void			gst_element_class_install_std_props (GstElementClass * klass,
 							 const gchar * first_name, ...) G_GNUC_NULL_TERMINATED;
 
 /* pad functions */
-gboolean                gst_pad_can_link                (GstPad *srcpad, GstPad *sinkpad);
-
 void			gst_pad_use_fixed_caps		(GstPad *pad);
 GstCaps*		gst_pad_get_fixed_caps_func	(GstPad *pad);
 GstCaps*		gst_pad_proxy_getcaps		(GstPad * pad);
@@ -1098,7 +1127,28 @@ GstElement *            gst_parse_bin_from_description_full (const gchar     * b
                                                              GstParseFlags     flags,
                                                              GError         ** err);
 
-GstClockTime gst_util_get_timestamp (void);
+GstClockTime            gst_util_get_timestamp          (void);
+
+/**
+ * GstSearchMode:
+ * @GST_SEARCH_MODE_EXACT : Only search for exact matches.
+ * @GST_SEARCH_MODE_BEFORE: Search for an exact match or the element just before.
+ * @GST_SEARCH_MODE_AFTER : Search for an exact match or the element just after.
+ *
+ * The different search modes.
+ *
+ * Since: 0.10.23
+ */
+typedef enum {
+  GST_SEARCH_MODE_EXACT = 0,
+  GST_SEARCH_MODE_BEFORE,
+  GST_SEARCH_MODE_AFTER
+} GstSearchMode;
+
+gpointer                gst_util_array_binary_search      (gpointer array, guint num_elements,
+                                                           gsize element_size, GCompareDataFunc search_func,
+							   GstSearchMode mode, gconstpointer search_data,
+							   gpointer user_data);
 
 G_END_DECLS
 

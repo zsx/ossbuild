@@ -245,9 +245,10 @@ static void gst_base_src_finalize (GObject * object);
 GType
 gst_base_src_get_type (void)
 {
-  static GType base_src_type = 0;
+  static volatile gsize base_src_type = 0;
 
-  if (G_UNLIKELY (base_src_type == 0)) {
+  if (g_once_init_enter (&base_src_type)) {
+    GType _type;
     static const GTypeInfo base_src_info = {
       sizeof (GstBaseSrcClass),
       (GBaseInitFunc) gst_base_src_base_init,
@@ -260,11 +261,13 @@ gst_base_src_get_type (void)
       (GInstanceInitFunc) gst_base_src_init,
     };
 
-    base_src_type = g_type_register_static (GST_TYPE_ELEMENT,
+    _type = g_type_register_static (GST_TYPE_ELEMENT,
         "GstBaseSrc", &base_src_info, G_TYPE_FLAG_ABSTRACT);
+    g_once_init_leave (&base_src_type, _type);
   }
   return base_src_type;
 }
+
 static GstCaps *gst_base_src_getcaps (GstPad * pad);
 static gboolean gst_base_src_setcaps (GstPad * pad, GstCaps * caps);
 static void gst_base_src_fixate (GstPad * pad, GstCaps * caps);
@@ -912,8 +915,6 @@ gst_base_src_default_query (GstBaseSrc * src, GstQuery * query)
     {
       GstFormat format;
       gint64 start, stop, estimated;
-
-      res = FALSE;
 
       gst_query_parse_buffering_range (query, &format, NULL, NULL, NULL);
 
@@ -2179,6 +2180,9 @@ gst_base_src_loop (GstPad * pad)
   } else
     position = -1;
 
+  GST_LOG_OBJECT (src, "next_ts %" GST_TIME_FORMAT " size %lu",
+      GST_TIME_ARGS (position), blocksize);
+
   ret = gst_base_src_get_range (src, position, blocksize, &buf);
   if (G_UNLIKELY (ret != GST_FLOW_OK)) {
     GST_INFO_OBJECT (src, "pausing after gst_base_src_get_range() = %s",
@@ -2365,6 +2369,9 @@ gst_base_src_default_negotiate (GstBaseSrc * basesrc)
   if (thiscaps == NULL || gst_caps_is_any (thiscaps))
     goto no_nego_needed;
 
+  if (G_UNLIKELY (gst_caps_is_empty (thiscaps)))
+    goto no_caps;
+
   /* get the peer caps */
   peercaps = gst_pad_peer_get_caps (GST_BASE_SRC_PAD (basesrc));
   GST_DEBUG_OBJECT (basesrc, "caps of peer: %" GST_PTR_FORMAT, peercaps);
@@ -2405,12 +2412,23 @@ gst_base_src_default_negotiate (GstBaseSrc * basesrc)
       }
     }
     gst_caps_unref (caps);
+  } else {
+    GST_DEBUG_OBJECT (basesrc, "no common caps");
   }
   return result;
 
 no_nego_needed:
   {
     GST_DEBUG_OBJECT (basesrc, "no negotiation needed");
+    if (thiscaps)
+      gst_caps_unref (thiscaps);
+    return TRUE;
+  }
+no_caps:
+  {
+    GST_ELEMENT_ERROR (basesrc, STREAM, FORMAT,
+        ("No supported formats found"),
+        ("This element did not produce valid caps"));
     if (thiscaps)
       gst_caps_unref (thiscaps);
     return TRUE;

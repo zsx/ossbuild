@@ -52,7 +52,7 @@
  * gst_clock_id_wait(). To receive a callback when the specific time is reached
  * in the clock use gst_clock_id_wait_async(). Both these calls can be
  * interrupted with the gst_clock_id_unschedule() call. If the blocking wait is
- * unscheduled a return value of GST_CLOCK_UNSCHEDULED is returned.
+ * unscheduled a return value of #GST_CLOCK_UNSCHEDULED is returned.
  *
  * Periodic callbacks scheduled async will be repeatedly called automatically
  * until it is unscheduled. To schedule a sync periodic callback,
@@ -92,12 +92,12 @@
  * of their internal clock relative to the master clock by using the
  * gst_clock_get_calibration() function. 
  *
- * The master/slave synchronisation can be tuned with the "timeout", "window-size"
- * and "window-threshold" properties. The "timeout" property defines the interval
- * to sample the master clock and run the calibration functions. 
- * "window-size" defines the number of samples to use when calibrating and
- * "window-threshold" defines the minimum number of samples before the 
- * calibration is performed.
+ * The master/slave synchronisation can be tuned with the #GstClock:timeout,
+ * #GstClock:window-size and #GstClock:window-threshold properties.
+ * The #GstClock:timeout property defines the interval to sample the master
+ * clock and run the calibration functions. #GstClock:window-size defines the
+ * number of samples to use when calibrating and #GstClock:window-threshold
+ * defines the minimum number of samples before the calibration is performed.
  *
  * Last reviewed on 2006-08-11 (0.10.10)
  */
@@ -166,7 +166,7 @@ gst_clock_entry_new (GstClock * clock, GstClockTime time,
   entry->type = type;
   entry->time = time;
   entry->interval = interval;
-  entry->status = GST_CLOCK_BUSY;
+  entry->status = GST_CLOCK_OK;
   entry->func = NULL;
   entry->user_data = NULL;
 
@@ -372,10 +372,6 @@ gst_clock_id_wait (GstClockID id, GstClockTimeDiff * jitter)
   if (G_UNLIKELY (!GST_CLOCK_TIME_IS_VALID (requested)))
     goto invalid_time;
 
-  /* a previously unscheduled entry cannot be scheduled again */
-  if (G_UNLIKELY (entry->status == GST_CLOCK_UNSCHEDULED))
-    goto unscheduled;
-
   cclass = GST_CLOCK_GET_CLASS (clock);
 
   GST_CAT_DEBUG_OBJECT (GST_CAT_CLOCK, clock, "waiting on clock entry %p", id);
@@ -420,12 +416,6 @@ invalid_time:
         "invalid time requested, returning _BADTIME");
     return GST_CLOCK_BADTIME;
   }
-unscheduled:
-  {
-    GST_CAT_DEBUG_OBJECT (GST_CAT_CLOCK, clock,
-        "entry was unscheduled return _UNSCHEDULED");
-    return GST_CLOCK_UNSCHEDULED;
-  }
 not_supported:
   {
     GST_CAT_DEBUG_OBJECT (GST_CAT_CLOCK, clock, "clock wait is not supported");
@@ -444,6 +434,9 @@ not_supported:
  * time to this function, the callback will be called immediately
  * with  a time set to GST_CLOCK_TIME_NONE. The callback will
  * be called when the time of @id has been reached.
+ *
+ * The callback @func can be invoked from any thread, either provided by the
+ * core or from a streaming thread. The application should be prepared for this.
  *
  * Returns: the result of the non blocking wait.
  *
@@ -470,10 +463,6 @@ gst_clock_id_wait_async (GstClockID id,
   if (G_UNLIKELY (!GST_CLOCK_TIME_IS_VALID (requested)))
     goto invalid_time;
 
-  /* a previously unscheduled entry cannot be scheduled again */
-  if (G_UNLIKELY (entry->status == GST_CLOCK_UNSCHEDULED))
-    goto unscheduled;
-
   cclass = GST_CLOCK_GET_CLASS (clock);
 
   if (G_UNLIKELY (cclass->wait_async == NULL))
@@ -493,12 +482,6 @@ invalid_time:
     GST_CAT_DEBUG_OBJECT (GST_CAT_CLOCK, clock,
         "invalid time requested, returning _BADTIME");
     return GST_CLOCK_BADTIME;
-  }
-unscheduled:
-  {
-    GST_CAT_DEBUG_OBJECT (GST_CAT_CLOCK, clock,
-        "entry was unscheduled return _UNSCHEDULED");
-    return GST_CLOCK_UNSCHEDULED;
   }
 not_supported:
   {
@@ -540,44 +523,14 @@ gst_clock_id_unschedule (GstClockID id)
 /**
  * GstClock abstract base class implementation
  */
-GType
-gst_clock_get_type (void)
-{
-  static GType clock_type = 0;
-
-  if (G_UNLIKELY (clock_type == 0)) {
-    static const GTypeInfo clock_info = {
-      sizeof (GstClockClass),
-      NULL,
-      NULL,
-      (GClassInitFunc) gst_clock_class_init,
-      NULL,
-      NULL,
-      sizeof (GstClock),
-      0,
-      (GInstanceInitFunc) gst_clock_init,
-      NULL
-    };
-
-    clock_type = g_type_register_static (GST_TYPE_OBJECT, "GstClock",
-        &clock_info, G_TYPE_FLAG_ABSTRACT);
-  }
-  return clock_type;
-}
+G_DEFINE_TYPE (GstClock, gst_clock, GST_TYPE_OBJECT);
 
 static void
 gst_clock_class_init (GstClockClass * klass)
 {
-  GObjectClass *gobject_class;
-  GstObjectClass *gstobject_class;
-
-  gobject_class = G_OBJECT_CLASS (klass);
-  gstobject_class = GST_OBJECT_CLASS (klass);
+  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
   parent_class = g_type_class_peek_parent (klass);
-
-  if (!g_thread_supported ())
-    g_thread_init (NULL);
 
 #ifndef GST_DISABLE_TRACE
   _gst_clock_entry_trace =

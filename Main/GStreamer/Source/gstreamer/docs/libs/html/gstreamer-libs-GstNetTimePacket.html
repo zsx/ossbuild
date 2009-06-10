@@ -52,23 +52,23 @@
                     <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a>;
 #define             <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GST-NET-TIME-PACKET-SIZE:CAPS" title="GST_NET_TIME_PACKET_SIZE">GST_NET_TIME_PACKET_SIZE</a>
 <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a>*   <a class="link" href="gstreamer-libs-GstNetTimePacket.html#gst-net-time-packet-new" title="gst_net_time_packet_new ()">gst_net_time_packet_new</a>             (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *buffer);
 <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a>*   <a class="link" href="gstreamer-libs-GstNetTimePacket.html#gst-net-time-packet-receive" title="gst_net_time_packet_receive ()">gst_net_time_packet_receive</a>         (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> fd,
                                                          struct sockaddr *addr,
                                                          socklen_t *len);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                <a class="link" href="gstreamer-libs-GstNetTimePacket.html#gst-net-time-packet-send" title="gst_net_time_packet_send ()">gst_net_time_packet_send</a>            (const <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a> *packet,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> fd,
                                                          struct sockaddr *addr,
                                                          socklen_t len);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a>*             <a class="link" href="gstreamer-libs-GstNetTimePacket.html#gst-net-time-packet-serialize" title="gst_net_time_packet_serialize ()">gst_net_time_packet_serialize</a>       (const <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a> *packet);
 </pre>
 </div>
@@ -129,7 +129,7 @@ The size of the packets sent between network clocks.</p>
 <div class="refsect2" lang="en">
 <a name="gst-net-time-packet-new"></a><h3>gst_net_time_packet_new ()</h3>
 <pre class="programlisting"><a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a>*   gst_net_time_packet_new             (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *buffer);</pre>
 <p>
 Creates a new <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket"><span class="type">GstNetTimePacket</span></a> from a buffer received over the network. The
@@ -138,7 +138,7 @@ caller is responsible for ensuring that <em class="parameter"><code>buffer</code
 </p>
 <p>
 If <em class="parameter"><code>buffer</code></em> is <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+href="../glib/glib-Standard-Macros.html#NULL:CAPS"
 ><span class="type">NULL</span></a>, the local and remote times will be set to
 <span class="type">GST_CLOCK_TIME_NONE</span>.
 </p>
@@ -167,7 +167,7 @@ MT safe. Caller owns return value (g_free to free).</p>
 <div class="refsect2" lang="en">
 <a name="gst-net-time-packet-receive"></a><h3>gst_net_time_packet_receive ()</h3>
 <pre class="programlisting"><a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a>*   gst_net_time_packet_receive         (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> fd,
                                                          struct sockaddr *addr,
                                                          socklen_t *len);</pre>
@@ -211,10 +211,10 @@ MT safe. Caller owns return value (g_free to free).</p>
 <div class="refsect2" lang="en">
 <a name="gst-net-time-packet-send"></a><h3>gst_net_time_packet_send ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                gst_net_time_packet_send            (const <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a> *packet,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> fd,
                                                          struct sockaddr *addr,
                                                          socklen_t len);</pre>
@@ -262,7 +262,7 @@ MT safe.</p>
 <div class="refsect2" lang="en">
 <a name="gst-net-time-packet-serialize"></a><h3>gst_net_time_packet_serialize ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a>*             gst_net_time_packet_serialize       (const <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket">GstNetTimePacket</a> *packet);</pre>
 <p>
 Serialized a <a class="link" href="gstreamer-libs-GstNetTimePacket.html#GstNetTimePacket" title="GstNetTimePacket"><span class="type">GstNetTimePacket</span></a> into a newly-allocated sequence of

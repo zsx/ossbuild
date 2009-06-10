@@ -35,6 +35,7 @@ EXPORTS
 	_gst_debug_bin_to_dot_file
 	_gst_debug_bin_to_dot_file_with_ts
 	_gst_debug_category_new
+	_gst_debug_dump_mem
 	_gst_debug_nameof_funcptr
 	_gst_debug_register_funcptr
 	_gst_element_error_printf
@@ -193,6 +194,7 @@ EXPORTS
 	gst_clock_set_calibration
 	gst_clock_set_master
 	gst_clock_set_resolution
+	gst_clock_type_get_type
 	gst_clock_unadjust_unlocked
 	gst_core_error_get_type
 	gst_core_error_quark
@@ -207,6 +209,7 @@ EXPORTS
 	gst_debug_category_set_threshold
 	gst_debug_color_flags_get_type
 	gst_debug_construct_term_color
+	gst_debug_construct_win_color
 	gst_debug_get_all_categories
 	gst_debug_get_default_threshold
 	gst_debug_graph_details_get_type
@@ -459,6 +462,7 @@ EXPORTS
 	gst_message_new_info
 	gst_message_new_latency
 	gst_message_new_new_clock
+	gst_message_new_request_state
 	gst_message_new_segment_done
 	gst_message_new_segment_start
 	gst_message_new_state_changed
@@ -475,6 +479,7 @@ EXPORTS
 	gst_message_parse_error
 	gst_message_parse_info
 	gst_message_parse_new_clock
+	gst_message_parse_request_state
 	gst_message_parse_segment_done
 	gst_message_parse_segment_start
 	gst_message_parse_state_changed
@@ -591,6 +596,7 @@ EXPORTS
 	gst_pad_set_active
 	gst_pad_set_blocked
 	gst_pad_set_blocked_async
+	gst_pad_set_blocked_async_full
 	gst_pad_set_bufferalloc_function
 	gst_pad_set_caps
 	gst_pad_set_chain_function
@@ -689,11 +695,14 @@ EXPORTS
 	gst_poll_fd_init
 	gst_poll_free
 	gst_poll_new
+	gst_poll_new_timer
+	gst_poll_read_control
 	gst_poll_remove_fd
 	gst_poll_restart
 	gst_poll_set_controllable
 	gst_poll_set_flushing
 	gst_poll_wait
+	gst_poll_write_control
 	gst_preset_delete_preset
 	gst_preset_get_meta
 	gst_preset_get_preset_names
@@ -777,6 +786,7 @@ EXPORTS
 	gst_registry_xml_write_cache
 	gst_resource_error_get_type
 	gst_resource_error_quark
+	gst_search_mode_get_type
 	gst_seek_flags_get_type
 	gst_seek_type_get_type
 	gst_segment_clip
@@ -871,6 +881,8 @@ EXPORTS
 	gst_tag_list_free
 	gst_tag_list_get_boolean
 	gst_tag_list_get_boolean_index
+	gst_tag_list_get_buffer
+	gst_tag_list_get_buffer_index
 	gst_tag_list_get_char
 	gst_tag_list_get_char_index
 	gst_tag_list_get_date
@@ -963,6 +975,7 @@ EXPORTS
 	gst_uri_protocol_is_supported
 	gst_uri_protocol_is_valid
 	gst_uri_type_get_type
+	gst_util_array_binary_search
 	gst_util_dump_mem
 	gst_util_gdouble_to_guint64
 	gst_util_get_timestamp

@@ -62,8 +62,6 @@
 
 #define GST_MESSAGE_SEQNUM(e) ((GstMessage*)e)->abidata.ABI.seqnum
 
-static void gst_message_init (GTypeInstance * instance, gpointer g_class);
-static void gst_message_class_init (gpointer g_class, gpointer class_data);
 static void gst_message_finalize (GstMessage * message);
 static GstMessage *_gst_message_copy (GstMessage * message);
 
@@ -111,6 +109,7 @@ static GstMessageQuarks message_quarks[] = {
   {GST_MESSAGE_LATENCY, "latency", 0},
   {GST_MESSAGE_ASYNC_START, "async-start", 0},
   {GST_MESSAGE_ASYNC_DONE, "async-done", 0},
+  {GST_MESSAGE_REQUEST_STATE, "request-state", 0},
   {0, NULL, 0}
 };
 
@@ -154,55 +153,32 @@ gst_message_type_to_quark (GstMessageType type)
   return 0;
 }
 
-GType
-gst_message_get_type (void)
-{
-  static GType _gst_message_type;
-
-  if (G_UNLIKELY (_gst_message_type == 0)) {
-    gint i;
-    static const GTypeInfo message_info = {
-      sizeof (GstMessageClass),
-      NULL,
-      NULL,
-      gst_message_class_init,
-      NULL,
-      NULL,
-      sizeof (GstMessage),
-      0,
-      gst_message_init,
-      NULL
-    };
-
-    _gst_message_type = g_type_register_static (GST_TYPE_MINI_OBJECT,
-        "GstMessage", &message_info, 0);
-
-    for (i = 0; message_quarks[i].name; i++) {
-      message_quarks[i].quark =
-          g_quark_from_static_string (message_quarks[i].name);
-    }
-  }
-  return _gst_message_type;
+#define _do_init \
+{ \
+  gint i; \
+  \
+  for (i = 0; message_quarks[i].name; i++) { \
+    message_quarks[i].quark = \
+        g_quark_from_static_string (message_quarks[i].name); \
+  } \
 }
 
+G_DEFINE_TYPE_WITH_CODE (GstMessage, gst_message, GST_TYPE_MINI_OBJECT,
+    _do_init);
+
 static void
-gst_message_class_init (gpointer g_class, gpointer class_data)
+gst_message_class_init (GstMessageClass * klass)
 {
-  GstMessageClass *message_class = GST_MESSAGE_CLASS (g_class);
+  parent_class = g_type_class_peek_parent (klass);
 
-  parent_class = g_type_class_peek_parent (g_class);
-
-  message_class->mini_object_class.copy =
-      (GstMiniObjectCopyFunction) _gst_message_copy;
-  message_class->mini_object_class.finalize =
+  klass->mini_object_class.copy = (GstMiniObjectCopyFunction) _gst_message_copy;
+  klass->mini_object_class.finalize =
       (GstMiniObjectFinalizeFunction) gst_message_finalize;
 }
 
 static void
-gst_message_init (GTypeInstance * instance, gpointer g_class)
+gst_message_init (GstMessage * message)
 {
-  GstMessage *message = GST_MESSAGE (instance);
-
   GST_CAT_LOG (GST_CAT_MESSAGE, "new message %p", message);
   GST_MESSAGE_TIMESTAMP (message) = GST_CLOCK_TIME_NONE;
 }
@@ -933,6 +909,35 @@ gst_message_new_latency (GstObject * src)
 }
 
 /**
+ * gst_message_new_request_state:
+ * @src: The object originating the message.
+ * @state: The new requested state
+ *
+ * This message can be posted by elements when they want to have their state
+ * changed. A typical use case would be an audio server that wants to pause the
+ * pipeline because a higher priority stream is being played.
+ *
+ * Returns: The new requst state message. 
+ *
+ * MT safe.
+ *
+ * Since: 0.10.23
+ */
+GstMessage *
+gst_message_new_request_state (GstObject * src, GstState state)
+{
+  GstMessage *message;
+  GstStructure *structure;
+
+  structure = gst_structure_empty_new ("GstMessageRequestState");
+  gst_structure_id_set (structure,
+      GST_QUARK (NEW_STATE), GST_TYPE_STATE, (gint) state, NULL);
+  message = gst_message_new_custom (GST_MESSAGE_REQUEST_STATE, src, structure);
+
+  return message;
+}
+
+/**
  * gst_message_get_structure:
  * @message: The #GstMessage.
  *
@@ -1430,4 +1435,26 @@ gst_message_parse_async_start (GstMessage * message, gboolean * new_base_time)
     *new_base_time =
         g_value_get_boolean (gst_structure_id_get_value (message->structure,
             GST_QUARK (NEW_BASE_TIME)));
+}
+
+/**
+ * gst_message_parse_request_state:
+ * @message: A valid #GstMessage of type GST_MESSAGE_REQUEST_STATE.
+ * @state: Result location for the requested state or NULL
+ *
+ * Extract the requested state from the request_state message.
+ *
+ * MT safe.
+ *
+ * Since: 0.10.23
+ */
+void
+gst_message_parse_request_state (GstMessage * message, GstState * state)
+{
+  g_return_if_fail (GST_IS_MESSAGE (message));
+  g_return_if_fail (GST_MESSAGE_TYPE (message) == GST_MESSAGE_REQUEST_STATE);
+
+  if (state)
+    *state = g_value_get_enum (gst_structure_id_get_value (message->structure,
+            GST_QUARK (NEW_STATE)));
 }

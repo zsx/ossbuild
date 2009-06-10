@@ -208,10 +208,6 @@ name_is_valid (const gchar * name, GstPadPresence presence)
   new = gst_pad_template_new (name, GST_PAD_SRC, presence, any);
   if (new) {
     gst_object_unref (GST_OBJECT (new));
-    /* FIXME : We should not have to unref those caps, but due to 
-     * a bug in gst_pad_template_new() not stealing the refcount of
-     * the given caps we have to. */
-    gst_caps_unref (any);
     return TRUE;
   }
   return FALSE;
@@ -482,11 +478,6 @@ GST_START_TEST (test_push_negotiation)
       GST_PAD_ALWAYS, srccaps);
   sink_template = gst_pad_template_new ("sink", GST_PAD_SINK,
       GST_PAD_ALWAYS, sinkcaps);
-  /* FIXME : We should not have to unref those caps, but due to 
-   * a bug in gst_pad_template_new() not stealing the refcount of
-   * the given caps we have to. */
-  gst_caps_unref (srccaps);
-  gst_caps_unref (sinkcaps);
 
   sink = gst_pad_new_from_template (sink_template, "sink");
   fail_if (sink == NULL);
@@ -603,10 +594,6 @@ GST_START_TEST (test_get_caps_must_be_copy)
   caps = gst_caps_new_any ();
   templ =
       gst_pad_template_new ("test_templ", GST_PAD_SRC, GST_PAD_ALWAYS, caps);
-  /* FIXME : This is not correct behaviour, but due to a bug with
-   * gst_pad_template_new() not stealing the refcount of the given caps,
-   * we need to unref it */
-  gst_caps_unref (caps);
 
   pad = gst_pad_new_from_template (templ, NULL);
   fail_unless (GST_PAD_CAPS (pad) == NULL, "caps present on pad");
@@ -623,6 +610,282 @@ GST_START_TEST (test_get_caps_must_be_copy)
 }
 
 GST_END_TEST;
+
+static void
+unblock_async_cb (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  gboolean *bool_user_data = (gboolean *) user_data;
+
+  /* here we should have blocked == 1 unblocked == 0 */
+  fail_unless (bool_user_data[0] == TRUE);
+  fail_unless (bool_user_data[1] == FALSE);
+
+  bool_user_data[1] = TRUE;
+}
+
+static void
+block_async_cb (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  gboolean *bool_user_data = (gboolean *) user_data;
+
+  /* here we should have blocked == 0 unblocked == 0 */
+  fail_unless (bool_user_data[0] == FALSE);
+  fail_unless (bool_user_data[1] == FALSE);
+
+  bool_user_data[0] = blocked;
+
+  gst_pad_set_blocked_async (pad, FALSE, unblock_async_cb, user_data);
+}
+
+GST_START_TEST (test_block_async)
+{
+  GstPad *pad;
+  /* we set data[0] = TRUE when the pad is blocked, data[1] = TRUE when it's
+   * unblocked */
+  gboolean data[2] = { FALSE, FALSE };
+
+  pad = gst_pad_new ("src", GST_PAD_SRC);
+  fail_unless (pad != NULL);
+
+  gst_pad_set_active (pad, TRUE);
+  gst_pad_set_blocked_async (pad, TRUE, block_async_cb, &data);
+
+  fail_unless (data[0] == FALSE);
+  fail_unless (data[1] == FALSE);
+  gst_pad_push (pad, gst_buffer_new ());
+
+  gst_object_unref (pad);
+}
+
+GST_END_TEST;
+
+#if 0
+static void
+block_async_second (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  gst_pad_set_blocked_async (pad, FALSE, unblock_async_cb, NULL);
+}
+
+static void
+block_async_first (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  static int n_calls = 0;
+  gboolean *bool_user_data = (gboolean *) user_data;
+
+  if (++n_calls > 1)
+    /* we expect this callback to be called only once */
+    g_warn_if_reached ();
+
+  *bool_user_data = blocked;
+
+  /* replace block_async_first with block_async_second so next time the pad is
+   * blocked the latter should be called */
+  gst_pad_set_blocked_async (pad, TRUE, block_async_second, NULL);
+
+  /* unblock temporarily, in the next push block_async_second should be called
+   */
+  gst_pad_push_event (pad, gst_event_new_flush_start ());
+}
+
+GST_START_TEST (test_block_async_replace_callback)
+{
+  GstPad *pad;
+  gboolean blocked;
+
+  pad = gst_pad_new ("src", GST_PAD_SRC);
+  fail_unless (pad != NULL);
+  gst_pad_set_active (pad, TRUE);
+
+  gst_pad_set_blocked_async (pad, TRUE, block_async_first, &blocked);
+  blocked = FALSE;
+
+  gst_pad_push (pad, gst_buffer_new ());
+  fail_unless (blocked == TRUE);
+  /* block_async_first flushes to unblock */
+  gst_pad_push_event (pad, gst_event_new_flush_stop ());
+
+  /* push again, this time block_async_second should be called */
+  gst_pad_push (pad, gst_buffer_new ());
+  fail_unless (blocked == TRUE);
+
+  gst_object_unref (pad);
+}
+
+GST_END_TEST;
+#endif
+
+static void
+block_async_full_destroy (gpointer user_data)
+{
+  gint *state = (gint *) user_data;
+
+  fail_unless (*state < 2);
+
+  *state = 2;
+}
+
+static void
+block_async_full_cb (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  *(gint *) user_data = (gint) blocked;
+
+  gst_pad_push_event (pad, gst_event_new_flush_start ());
+}
+
+GST_START_TEST (test_block_async_full_destroy)
+{
+  GstPad *pad;
+  /* 0 = unblocked, 1 = blocked, 2 = destroyed */
+  gint state = 0;
+
+  pad = gst_pad_new ("src", GST_PAD_SRC);
+  fail_unless (pad != NULL);
+  gst_pad_set_active (pad, TRUE);
+
+  gst_pad_set_blocked_async_full (pad, TRUE, block_async_full_cb,
+      &state, block_async_full_destroy);
+  fail_unless (state == 0);
+
+  gst_pad_push (pad, gst_buffer_new ());
+  /* block_async_full_cb sets state to 1 and then flushes to unblock temporarily
+   */
+  fail_unless (state == 1);
+  gst_pad_push_event (pad, gst_event_new_flush_stop ());
+
+  /* call with the same user_data, should not call the destroy_notify function
+   */
+  gst_pad_set_blocked_async_full (pad, TRUE, block_async_full_cb,
+      &state, block_async_full_destroy);
+  fail_unless (state == 1);
+
+  /* now change user_data (to NULL in this case) so destroy_notify should be
+   * called */
+  gst_pad_set_blocked_async_full (pad, FALSE, block_async_full_cb,
+      NULL, block_async_full_destroy);
+  fail_unless (state == 2);
+
+  gst_object_unref (pad);
+}
+
+GST_END_TEST;
+
+GST_START_TEST (test_block_async_full_destroy_dispose)
+{
+  GstPad *pad;
+  /* 0 = unblocked, 1 = blocked, 2 = destroyed */
+  gint state = 0;
+
+  pad = gst_pad_new ("src", GST_PAD_SRC);
+  fail_unless (pad != NULL);
+  gst_pad_set_active (pad, TRUE);
+
+  gst_pad_set_blocked_async_full (pad, TRUE, block_async_full_cb,
+      &state, block_async_full_destroy);
+
+  gst_pad_push (pad, gst_buffer_new ());
+  /* block_async_full_cb sets state to 1 and then flushes to unblock temporarily
+   */
+  fail_unless_equals_int (state, 1);
+  gst_pad_push_event (pad, gst_event_new_flush_stop ());
+
+  /* gst_pad_dispose calls the destroy_notify function if necessary */
+  gst_object_unref (pad);
+
+  fail_unless_equals_int (state, 2);
+}
+
+GST_END_TEST;
+
+
+static void
+unblock_async_no_flush_cb (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  gboolean *bool_user_data = (gboolean *) user_data;
+
+  /* here we should have blocked == 1 unblocked == 0 */
+
+  fail_unless (blocked == FALSE);
+
+  fail_unless (bool_user_data[0] == TRUE);
+  fail_unless (bool_user_data[1] == TRUE);
+  fail_unless (bool_user_data[2] == FALSE);
+
+  bool_user_data[2] = TRUE;
+}
+
+
+static void
+unblock_async_not_called (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  g_warn_if_reached ();
+}
+
+static void
+block_async_second_no_flush (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  gboolean *bool_user_data = (gboolean *) user_data;
+
+  fail_unless (blocked == TRUE);
+
+  fail_unless (bool_user_data[0] == TRUE);
+  fail_unless (bool_user_data[1] == FALSE);
+  fail_unless (bool_user_data[2] == FALSE);
+
+  bool_user_data[1] = TRUE;
+
+  fail_unless (gst_pad_set_blocked_async (pad, FALSE, unblock_async_no_flush_cb,
+          user_data));
+}
+
+static void
+block_async_first_no_flush (GstPad * pad, gboolean blocked, gpointer user_data)
+{
+  static int n_calls = 0;
+  gboolean *bool_user_data = (gboolean *) user_data;
+
+  fail_unless (blocked == TRUE);
+
+  if (++n_calls > 1)
+    /* we expect this callback to be called only once */
+    g_warn_if_reached ();
+
+  *bool_user_data = blocked;
+
+  fail_unless (bool_user_data[0] == TRUE);
+  fail_unless (bool_user_data[1] == FALSE);
+  fail_unless (bool_user_data[2] == FALSE);
+
+  fail_unless (gst_pad_set_blocked_async (pad, FALSE, unblock_async_not_called,
+          NULL));
+
+  /* replace block_async_first with block_async_second so next time the pad is
+   * blocked the latter should be called */
+  fail_unless (gst_pad_set_blocked_async (pad, TRUE,
+          block_async_second_no_flush, user_data));
+}
+
+GST_START_TEST (test_block_async_replace_callback_no_flush)
+{
+  GstPad *pad;
+  gboolean bool_user_data[3] = { FALSE, FALSE, FALSE };
+
+  pad = gst_pad_new ("src", GST_PAD_SRC);
+  fail_unless (pad != NULL);
+  gst_pad_set_active (pad, TRUE);
+
+  fail_unless (gst_pad_set_blocked_async (pad, TRUE, block_async_first_no_flush,
+          bool_user_data));
+
+  gst_pad_push (pad, gst_buffer_new ());
+  fail_unless (bool_user_data[0] == TRUE);
+  fail_unless (bool_user_data[1] == TRUE);
+  fail_unless (bool_user_data[2] == TRUE);
+
+  gst_object_unref (pad);
+}
+
+GST_END_TEST;
+
 
 static Suite *
 gst_pad_suite (void)
@@ -646,6 +909,13 @@ gst_pad_suite (void)
   tcase_add_test (tc_chain, test_src_unref_unlink);
   tcase_add_test (tc_chain, test_sink_unref_unlink);
   tcase_add_test (tc_chain, test_get_caps_must_be_copy);
+  tcase_add_test (tc_chain, test_block_async);
+#if 0
+  tcase_add_test (tc_chain, test_block_async_replace_callback);
+#endif
+  tcase_add_test (tc_chain, test_block_async_full_destroy);
+  tcase_add_test (tc_chain, test_block_async_full_destroy_dispose);
+  tcase_add_test (tc_chain, test_block_async_replace_callback_no_flush);
 
   return s;
 }

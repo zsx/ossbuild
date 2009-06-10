@@ -103,9 +103,8 @@
  * Last reviewed on 2006-08-11 (0.10.10)
  */
 
-#include "gstconfig.h"
-
 #include "gst_private.h"
+#include "gstconfig.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -117,6 +116,10 @@
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#ifdef G_OS_WIN32
+#define WIN32_LEAN_AND_MEAN     /* prevents from including too many things */
+#include <windows.h>            /* GetStdHandle, windows console */
 #endif
 
 #include "gst-i18n-lib.h"
@@ -720,7 +723,7 @@ scan_and_update_registry (GstRegistry * default_registry,
     GST_DEBUG ("scanning main plugins %s", PLUGINDIR);
     changed |= gst_registry_scan_path (default_registry, PLUGINDIR);
 
-#ifdef G_PLATFORM_WIN32
+#ifdef G_OS_WIN32
     {
       char *base_dir;
       char *dir;
@@ -1073,6 +1076,7 @@ init_post (GOptionContext * context, GOptionGroup * group, gpointer data,
   g_type_class_ref (gst_uri_type_get_type ());
   g_type_class_ref (gst_parse_error_get_type ());
   g_type_class_ref (gst_parse_flags_get_type ());
+  g_type_class_ref (gst_search_mode_get_type ());
 
   gst_structure_get_type ();
   _gst_value_initialize ();
@@ -1170,6 +1174,20 @@ gst_debug_help (void)
     GstDebugCategory *cat = (GstDebugCategory *) walk->data;
 
     if (gst_debug_is_colored ()) {
+#ifdef G_OS_WIN32
+      gint color = gst_debug_construct_win_color (cat->color);
+      const gint clear = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+
+      SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE), color);
+      g_print ("%-20s", gst_debug_category_get_name (cat));
+      SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE), clear);
+      g_print (" %1d %s ", gst_debug_category_get_threshold (cat),
+          gst_debug_level_get_name (gst_debug_category_get_threshold (cat)));
+      SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE), color);
+      g_print ("%s", gst_debug_category_get_description (cat));
+      SetConsoleTextAttribute (GetStdHandle (STD_OUTPUT_HANDLE), clear);
+      g_print ("\n");
+#else /* G_OS_WIN32 */
       gchar *color = gst_debug_construct_term_color (cat->color);
 
       g_print ("%s%-20s\033[00m  %1d %s  %s%s\033[00m\n",
@@ -1179,6 +1197,7 @@ gst_debug_help (void)
           gst_debug_level_get_name (gst_debug_category_get_threshold (cat)),
           color, gst_debug_category_get_description (cat));
       g_free (color);
+#endif /* G_OS_WIN32 */
     } else {
       g_print ("%-20s  %1d %s  %s\n", gst_debug_category_get_name (cat),
           gst_debug_category_get_threshold (cat),
@@ -1457,7 +1476,7 @@ gst_version_string ()
   if (nano == 0)
     return g_strdup_printf ("GStreamer %d.%d.%d", major, minor, micro);
   else if (nano == 1)
-    return g_strdup_printf ("GStreamer %d.%d.%d (CVS)", major, minor, micro);
+    return g_strdup_printf ("GStreamer %d.%d.%d (GIT)", major, minor, micro);
   else
     return g_strdup_printf ("GStreamer %d.%d.%d (prerelease)", major, minor,
         micro);

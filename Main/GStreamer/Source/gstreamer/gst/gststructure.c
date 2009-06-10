@@ -139,6 +139,7 @@ gst_structure_id_empty_new (GQuark quark)
   return gst_structure_id_empty_new_with_size (quark, 0);
 }
 
+#ifndef G_DISABLE_CHECKS
 static gboolean
 gst_structure_validate_name (const gchar * name)
 {
@@ -166,6 +167,7 @@ gst_structure_validate_name (const gchar * name)
 
   return TRUE;
 }
+#endif
 
 /**
  * gst_structure_empty_new:
@@ -1546,6 +1548,12 @@ priv_gst_structure_append_to_gstring (const GstStructure * structure,
  *
  * Converts @structure to a human-readable string representation.
  *
+ * For debugging purposes its easier to do something like this:
+ * |[
+ * GST_LOG ("structure is %" GST_PTR_FORMAT, structure);
+ * ]|
+ * This prints the structure in human readble form.
+ *
  * Returns: a pointer to string allocated by g_malloc(). g_free() after
  * usage.
  */
@@ -1821,8 +1829,6 @@ gst_structure_parse_value (gchar * str,
   /* check if there's a (type_name) 'cast' */
   type_name = NULL;
   if (*s == '(') {
-    type = G_TYPE_INVALID;
-
     s++;
     while (g_ascii_isspace (*s))
       s++;

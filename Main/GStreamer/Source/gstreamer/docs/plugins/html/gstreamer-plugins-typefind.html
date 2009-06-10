@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gstreamer Elements">
 <link rel="prev" href="gstreamer-plugins-tee.html" title="tee">
 <link rel="next" href="ch02.html" title="gstreamer Plugins">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gstreamer Elements">
 <link rel="chapter" href="ch02.html" title="gstreamer Plugins">
@@ -22,15 +22,17 @@
 <th width="100%" align="center">GStreamer Core Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="ch02.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gstreamer-plugins-typefind.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gstreamer-plugins-typefind.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gstreamer-plugins-typefind.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gstreamer-plugins-typefind.properties" class="shortcut">Properties</a>
-                   | 
-                  <a href="#gstreamer-plugins-typefind.signals" class="shortcut">Signals</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gstreamer-plugins-typefind.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gstreamer-plugins-typefind.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gstreamer-plugins-typefind.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gstreamer-plugins-typefind.properties" class="shortcut">Properties</a>
+                 | 
+                <a href="#gstreamer-plugins-typefind.signals" class="shortcut">Signals</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gstreamer-plugins-typefind"></a><div class="titlepage"></div>
@@ -51,7 +53,7 @@
 <a name="gstreamer-plugins-typefind.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -63,10 +65,10 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <pre class="synopsis">
   "<a class="link" href="gstreamer-plugins-typefind.html#GstTypeFindElement--caps" title='The "caps" property'>caps</a>"                     GstCaps*              : Read
   "<a class="link" href="gstreamer-plugins-typefind.html#GstTypeFindElement--maximum" title='The "maximum" property'>maximum</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gstreamer-plugins-typefind.html#GstTypeFindElement--minimum" title='The "minimum" property'>minimum</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gstreamer-plugins-typefind.html#GstTypeFindElement--force-caps" title='The "force-caps" property'>force-caps</a>"               GstCaps*              : Read / Write
 </pre>
@@ -89,7 +91,7 @@ Plugins can register custom typefinders by using <span class="type">GstTypeFindF
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2700450"></a><h3>Element Information</h3>
+<a name="id2576133"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -112,7 +114,7 @@ Plugins can register custom typefinders by using <span class="type">GstTypeFindF
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2704788"></a><h3>Element Pads</h3>
+<a name="id2566254"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -158,7 +160,6 @@ Plugins can register custom typefinders by using <span class="type">GstTypeFindF
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -169,7 +170,6 @@ Plugins can register custom typefinders by using <span class="type">GstTypeFindF
 <p>
 Opaque <a class="link" href="gstreamer-plugins-typefind.html#GstTypeFindElement"><span class="type">GstTypeFindElement</span></a> data structure</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -184,7 +184,7 @@ Opaque <a class="link" href="gstreamer-plugins-typefind.html#GstTypeFindElement"
 <div class="refsect2" lang="en">
 <a name="GstTypeFindElement--maximum"></a><h3>The <code class="literal">"maximum"</code> property</h3>
 <pre class="programlisting">  "maximum"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>probability to stop typefinding (deprecated; non-functional).</p>
 <p>Allowed values: [1,100]</p>
@@ -194,7 +194,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <div class="refsect2" lang="en">
 <a name="GstTypeFindElement--minimum"></a><h3>The <code class="literal">"minimum"</code> property</h3>
 <pre class="programlisting">  "minimum"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>minimum probability required to accept caps.</p>
 <p>Allowed values: [1,100]</p>
@@ -213,17 +213,16 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <a name="GstTypeFindElement-have-type"></a><h3>The <code class="literal">"have-type"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gstreamer-plugins-typefind.html#GstTypeFindElement">GstTypeFindElement</a> *typefind,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>               probability,
                                                         GstCaps            *caps,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>            user_data)        : Run First</pre>
 <p>
-This signal gets emitted when the type and its probability has 
+This signal gets emitted when the type and its probability has
 been found.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -254,6 +253,6 @@ been found.</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

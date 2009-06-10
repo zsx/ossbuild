@@ -793,7 +793,14 @@ gst_caps_get_size (const GstCaps * caps)
  * WARNING: This function takes a const GstCaps *, but returns a
  * non-const GstStructure *.  This is for programming convenience --
  * the caller should be aware that structures inside a constant
- * #GstCaps should not be modified.
+ * #GstCaps should not be modified. However, if you know the caps
+ * are writable, either because you have just copied them or made
+ * them writable with gst_caps_make_writable(), you may modify the
+ * structure returned in the usual way, e.g. with functions like
+ * gst_structure_set_simple().
+ *
+ * You do not need to free or unref the structure returned, it
+ * belongs to the #GstCaps.
  *
  * Returns: a pointer to the #GstStructure corresponding to @index
  */
@@ -1781,9 +1788,9 @@ gst_caps_replace (GstCaps ** caps, GstCaps * newcaps)
  * can be converted back to a #GstCaps by gst_caps_from_string().
  *
  * For debugging purposes its easier to do something like this:
- * <programlisting>
- *  GST_LOG ("caps are %" GST_PTR_FORMAT, caps);
- * </programlisting>
+ * |[
+ * GST_LOG ("caps are %" GST_PTR_FORMAT, caps);
+ * ]|
  * This prints the caps in human readble form.
  *
  * Returns: a newly allocated string representing @caps.

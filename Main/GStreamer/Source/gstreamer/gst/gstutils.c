@@ -37,8 +37,8 @@
 #include "gsterror.h"
 #include "gstinfo.h"
 #include "gstparse.h"
+#include "gstvalue.h"
 #include "gst-i18n-lib.h"
-
 
 /**
  * gst_util_dump_mem:
@@ -86,11 +86,14 @@ gst_util_dump_mem (const guchar * mem, guint size)
  *
  * Converts the string to the type of the value and
  * sets the value with it.
+ *
+ * Note that this function is dangerous as it does not return any indication
+ * if the conversion worked or not.
  */
 void
 gst_util_set_value_from_string (GValue * value, const gchar * value_str)
 {
-  gint sscanf_ret;
+  gboolean res;
 
   g_return_if_fail (value != NULL);
   g_return_if_fail (value_str != NULL);
@@ -98,86 +101,13 @@ gst_util_set_value_from_string (GValue * value, const gchar * value_str)
   GST_CAT_DEBUG (GST_CAT_PARAMS, "parsing '%s' to type %s", value_str,
       g_type_name (G_VALUE_TYPE (value)));
 
-  switch (G_VALUE_TYPE (value)) {
-    case G_TYPE_STRING:
-      g_value_set_string (value, value_str);
-      break;
-    case G_TYPE_ENUM:
-    case G_TYPE_INT:{
-      gint i;
-
-      sscanf_ret = sscanf (value_str, "%d", &i);
-      g_return_if_fail (sscanf_ret == 1);
-      g_value_set_int (value, i);
-      break;
-    }
-    case G_TYPE_UINT:{
-      guint i;
-
-      sscanf_ret = sscanf (value_str, "%u", &i);
-      g_return_if_fail (sscanf_ret == 1);
-      g_value_set_uint (value, i);
-      break;
-    }
-    case G_TYPE_LONG:{
-      glong i;
-
-      sscanf_ret = sscanf (value_str, "%ld", &i);
-      g_return_if_fail (sscanf_ret == 1);
-      g_value_set_long (value, i);
-      break;
-    }
-    case G_TYPE_ULONG:{
-      gulong i;
-
-      sscanf_ret = sscanf (value_str, "%lu", &i);
-      g_return_if_fail (sscanf_ret == 1);
-      g_value_set_ulong (value, i);
-      break;
-    }
-    case G_TYPE_BOOLEAN:{
-      gboolean i = FALSE;
-
-      if (!g_ascii_strncasecmp ("true", value_str, 4))
-        i = TRUE;
-      g_value_set_boolean (value, i);
-      break;
-    }
-    case G_TYPE_CHAR:{
-      gchar i;
-
-      sscanf_ret = sscanf (value_str, "%c", &i);
-      g_return_if_fail (sscanf_ret == 1);
-      g_value_set_char (value, i);
-      break;
-    }
-    case G_TYPE_UCHAR:{
-      guchar i;
-
-      sscanf_ret = sscanf (value_str, "%c", &i);
-      g_return_if_fail (sscanf_ret == 1);
-      g_value_set_uchar (value, i);
-      break;
-    }
-    case G_TYPE_FLOAT:{
-      gfloat i;
-
-      sscanf_ret = sscanf (value_str, "%f", &i);
-      g_return_if_fail (sscanf_ret == 1);
-      g_value_set_float (value, i);
-      break;
-    }
-    case G_TYPE_DOUBLE:{
-      gfloat i;
-
-      sscanf_ret = sscanf (value_str, "%g", &i);
-      g_return_if_fail (sscanf_ret == 1);
-      g_value_set_double (value, (gdouble) i);
-      break;
-    }
-    default:
-      break;
+  res = gst_value_deserialize (value, value_str);
+  if (!res && G_VALUE_TYPE (value) == G_TYPE_BOOLEAN) {
+    /* backwards compat, all booleans that fail to parse are false */
+    g_value_set_boolean (value, FALSE);
+    res = TRUE;
   }
+  g_return_if_fail (res);
 }
 
 /**
@@ -188,116 +118,40 @@ gst_util_set_value_from_string (GValue * value, const gchar * value_str)
  *
  * Convertes the string value to the type of the objects argument and
  * sets the argument with it.
+ *
+ * Note that this function silently returns if @object has no property named
+ * @name or when @value cannot be converted to the type of the property.
  */
 void
 gst_util_set_object_arg (GObject * object, const gchar * name,
     const gchar * value)
 {
-  gboolean sscanf_ret;
+  GParamSpec *pspec;
+  GType value_type;
+  GValue v = { 0, };
 
-  if (name && value) {
-    GParamSpec *paramspec;
+  g_return_if_fail (G_IS_OBJECT (object));
+  g_return_if_fail (name != NULL);
+  g_return_if_fail (value != NULL);
 
-    paramspec =
-        g_object_class_find_property (G_OBJECT_GET_CLASS (object), name);
+  pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (object), name);
+  if (!pspec)
+    return;
 
-    if (!paramspec) {
-      return;
-    }
+  value_type = G_PARAM_SPEC_VALUE_TYPE (pspec);
 
-    GST_DEBUG ("paramspec->flags is %d, paramspec->value_type is %d",
-        paramspec->flags, (gint) paramspec->value_type);
+  GST_DEBUG ("pspec->flags is %d, pspec->value_type is %d",
+      pspec->flags, (gint) value_type);
 
-    if (paramspec->flags & G_PARAM_WRITABLE) {
-      switch (paramspec->value_type) {
-        case G_TYPE_STRING:
-          g_object_set (G_OBJECT (object), name, value, NULL);
-          break;
-        case G_TYPE_ENUM:
-        case G_TYPE_INT:{
-          gint i;
+  if (!(pspec->flags & G_PARAM_WRITABLE))
+    return;
 
-          sscanf_ret = sscanf (value, "%d", &i);
-          g_return_if_fail (sscanf_ret == 1);
-          g_object_set (G_OBJECT (object), name, i, NULL);
-          break;
-        }
-        case G_TYPE_UINT:{
-          guint i;
+  g_value_init (&v, value_type);
+  if (!gst_value_deserialize (&v, value))
+    return;
 
-          sscanf_ret = sscanf (value, "%u", &i);
-          g_return_if_fail (sscanf_ret == 1);
-          g_object_set (G_OBJECT (object), name, i, NULL);
-          break;
-        }
-        case G_TYPE_LONG:{
-          glong i;
-
-          sscanf_ret = sscanf (value, "%ld", &i);
-          g_return_if_fail (sscanf_ret == 1);
-          g_object_set (G_OBJECT (object), name, i, NULL);
-          break;
-        }
-        case G_TYPE_ULONG:{
-          gulong i;
-
-          sscanf_ret = sscanf (value, "%lu", &i);
-          g_return_if_fail (sscanf_ret == 1);
-          g_object_set (G_OBJECT (object), name, i, NULL);
-          break;
-        }
-        case G_TYPE_BOOLEAN:{
-          gboolean i = FALSE;
-
-          if (!g_ascii_strncasecmp ("true", value, 4))
-            i = TRUE;
-          g_object_set (G_OBJECT (object), name, i, NULL);
-          break;
-        }
-        case G_TYPE_CHAR:{
-          gchar i;
-
-          sscanf_ret = sscanf (value, "%c", &i);
-          g_return_if_fail (sscanf_ret == 1);
-          g_object_set (G_OBJECT (object), name, i, NULL);
-          break;
-        }
-        case G_TYPE_UCHAR:{
-          guchar i;
-
-          sscanf_ret = sscanf (value, "%c", &i);
-          g_return_if_fail (sscanf_ret == 1);
-          g_object_set (G_OBJECT (object), name, i, NULL);
-          break;
-        }
-        case G_TYPE_FLOAT:{
-          gfloat i;
-
-          sscanf_ret = sscanf (value, "%f", &i);
-          g_return_if_fail (sscanf_ret == 1);
-          g_object_set (G_OBJECT (object), name, i, NULL);
-          break;
-        }
-        case G_TYPE_DOUBLE:{
-          gfloat i;
-
-          sscanf_ret = sscanf (value, "%g", &i);
-          g_return_if_fail (sscanf_ret == 1);
-          g_object_set (G_OBJECT (object), name, (gdouble) i, NULL);
-          break;
-        }
-        default:
-          if (G_IS_PARAM_SPEC_ENUM (paramspec)) {
-            gint i;
-
-            sscanf_ret = sscanf (value, "%d", &i);
-            g_return_if_fail (sscanf_ret == 1);
-            g_object_set (G_OBJECT (object), name, i, NULL);
-          }
-          break;
-      }
-    }
-  }
+  g_object_set_property (object, pspec->name, &v);
+  g_value_unset (&v);
 }
 
 /* work around error C2520: conversion from unsigned __int64 to double
@@ -918,6 +772,60 @@ gst_element_request_compatible_pad (GstElement * element,
   return pad;
 }
 
+/*
+ * Checks if the source pad and the sink pad can be linked.
+ * Both @srcpad and @sinkpad must be unlinked and have a parent.
+ */
+static gboolean
+gst_pad_check_link (GstPad * srcpad, GstPad * sinkpad)
+{
+  /* FIXME This function is gross.  It's almost a direct copy of
+   * gst_pad_link_filtered().  Any decent programmer would attempt
+   * to merge the two functions, which I will do some day. --ds
+   */
+
+  /* generic checks */
+  g_return_val_if_fail (GST_IS_PAD (srcpad), FALSE);
+  g_return_val_if_fail (GST_IS_PAD (sinkpad), FALSE);
+
+  GST_CAT_INFO (GST_CAT_PADS, "trying to link %s:%s and %s:%s",
+      GST_DEBUG_PAD_NAME (srcpad), GST_DEBUG_PAD_NAME (sinkpad));
+
+  /* FIXME: shouldn't we convert this to g_return_val_if_fail? */
+  if (GST_PAD_PEER (srcpad) != NULL) {
+    GST_CAT_INFO (GST_CAT_PADS, "Source pad %s:%s has a peer, failed",
+        GST_DEBUG_PAD_NAME (srcpad));
+    return FALSE;
+  }
+  if (GST_PAD_PEER (sinkpad) != NULL) {
+    GST_CAT_INFO (GST_CAT_PADS, "Sink pad %s:%s has a peer, failed",
+        GST_DEBUG_PAD_NAME (sinkpad));
+    return FALSE;
+  }
+  if (!GST_PAD_IS_SRC (srcpad)) {
+    GST_CAT_INFO (GST_CAT_PADS, "Src pad %s:%s is not source pad, failed",
+        GST_DEBUG_PAD_NAME (srcpad));
+    return FALSE;
+  }
+  if (!GST_PAD_IS_SINK (sinkpad)) {
+    GST_CAT_INFO (GST_CAT_PADS, "Sink pad %s:%s is not sink pad, failed",
+        GST_DEBUG_PAD_NAME (sinkpad));
+    return FALSE;
+  }
+  if (GST_PAD_PARENT (srcpad) == NULL) {
+    GST_CAT_INFO (GST_CAT_PADS, "Src pad %s:%s has no parent, failed",
+        GST_DEBUG_PAD_NAME (srcpad));
+    return FALSE;
+  }
+  if (GST_PAD_PARENT (sinkpad) == NULL) {
+    GST_CAT_INFO (GST_CAT_PADS, "Sink pad %s:%s has no parent, failed",
+        GST_DEBUG_PAD_NAME (srcpad));
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 /**
  * gst_element_get_compatible_pad:
  * @element: a #GstElement in which the pad should be found.
@@ -969,7 +877,7 @@ gst_element_get_compatible_pad (GstElement * element, GstPad * pad,
 
         peer = gst_pad_get_peer (current);
 
-        if (peer == NULL && gst_pad_can_link (pad, current)) {
+        if (peer == NULL && gst_pad_check_link (pad, current)) {
           GstCaps *temp, *temp2, *intersection;
 
           /* Now check if the two pads' caps are compatible */
@@ -997,8 +905,13 @@ gst_element_get_compatible_pad (GstElement * element, GstPad * pad,
             gst_iterator_free (pads);
 
             return current;
+          } else {
+            GST_CAT_DEBUG (GST_CAT_ELEMENT_PADS, "incompatible pads");
           }
           gst_caps_unref (intersection);
+        } else {
+          GST_CAT_DEBUG (GST_CAT_ELEMENT_PADS,
+              "already linked or cannot be linked (peer = %p)", peer);
         }
         GST_CAT_DEBUG (GST_CAT_ELEMENT_PADS, "unreffing pads");
 
@@ -1031,11 +944,6 @@ gst_element_get_compatible_pad (GstElement * element, GstPad * pad,
 
   templ = gst_pad_template_new ((gchar *) GST_PAD_NAME (pad),
       GST_PAD_DIRECTION (pad), GST_PAD_ALWAYS, templcaps);
-
-  /* FIXME : Because of a bug in gst_pad_template_new() by which is does not
-   * properly steal the refcount of the given caps, we have to unref these caps
-   * REVERT THIS WHEN FIXED !*/
-  gst_caps_unref (templcaps);
 
   foundpad = gst_element_request_compatible_pad (element, templ);
   gst_object_unref (templ);
@@ -1760,6 +1668,7 @@ gst_element_link (GstElement * src, GstElement * dest)
 gboolean
 gst_element_link_many (GstElement * element_1, GstElement * element_2, ...)
 {
+  gboolean res = TRUE;
   va_list args;
 
   g_return_val_if_fail (GST_IS_ELEMENT (element_1), FALSE);
@@ -1768,8 +1677,10 @@ gst_element_link_many (GstElement * element_1, GstElement * element_2, ...)
   va_start (args, element_2);
 
   while (element_2) {
-    if (!gst_element_link (element_1, element_2))
-      return FALSE;
+    if (!gst_element_link (element_1, element_2)) {
+      res = FALSE;
+      break;
+    }
 
     element_1 = element_2;
     element_2 = va_arg (args, GstElement *);
@@ -1777,7 +1688,7 @@ gst_element_link_many (GstElement * element_1, GstElement * element_2, ...)
 
   va_end (args);
 
-  return TRUE;
+  return res;
 }
 
 /**
@@ -2100,66 +2011,6 @@ gst_element_seek_simple (GstElement * element, GstFormat format,
 }
 
 /**
- * gst_pad_can_link:
- * @srcpad: the source #GstPad to link.
- * @sinkpad: the sink #GstPad to link.
- *
- * Checks if the source pad and the sink pad can be linked.
- * Both @srcpad and @sinkpad must be unlinked.
- *
- * Returns: TRUE if the pads can be linked, FALSE otherwise.
- */
-gboolean
-gst_pad_can_link (GstPad * srcpad, GstPad * sinkpad)
-{
-  /* FIXME This function is gross.  It's almost a direct copy of
-   * gst_pad_link_filtered().  Any decent programmer would attempt
-   * to merge the two functions, which I will do some day. --ds
-   */
-
-  /* generic checks */
-  g_return_val_if_fail (GST_IS_PAD (srcpad), FALSE);
-  g_return_val_if_fail (GST_IS_PAD (sinkpad), FALSE);
-
-  GST_CAT_INFO (GST_CAT_PADS, "trying to link %s:%s and %s:%s",
-      GST_DEBUG_PAD_NAME (srcpad), GST_DEBUG_PAD_NAME (sinkpad));
-
-  /* FIXME: shouldn't we convert this to g_return_val_if_fail? */
-  if (GST_PAD_PEER (srcpad) != NULL) {
-    GST_CAT_INFO (GST_CAT_PADS, "Source pad %s:%s has a peer, failed",
-        GST_DEBUG_PAD_NAME (srcpad));
-    return FALSE;
-  }
-  if (GST_PAD_PEER (sinkpad) != NULL) {
-    GST_CAT_INFO (GST_CAT_PADS, "Sink pad %s:%s has a peer, failed",
-        GST_DEBUG_PAD_NAME (sinkpad));
-    return FALSE;
-  }
-  if (!GST_PAD_IS_SRC (srcpad)) {
-    GST_CAT_INFO (GST_CAT_PADS, "Src pad %s:%s is not source pad, failed",
-        GST_DEBUG_PAD_NAME (srcpad));
-    return FALSE;
-  }
-  if (!GST_PAD_IS_SINK (sinkpad)) {
-    GST_CAT_INFO (GST_CAT_PADS, "Sink pad %s:%s is not sink pad, failed",
-        GST_DEBUG_PAD_NAME (sinkpad));
-    return FALSE;
-  }
-  if (GST_PAD_PARENT (srcpad) == NULL) {
-    GST_CAT_INFO (GST_CAT_PADS, "Src pad %s:%s has no parent, failed",
-        GST_DEBUG_PAD_NAME (srcpad));
-    return FALSE;
-  }
-  if (GST_PAD_PARENT (sinkpad) == NULL) {
-    GST_CAT_INFO (GST_CAT_PADS, "Sink pad %s:%s has no parent, failed",
-        GST_DEBUG_PAD_NAME (srcpad));
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**
  * gst_pad_use_fixed_caps:
  * @pad: the pad to use
  *
@@ -2202,9 +2053,7 @@ gst_pad_get_fixed_caps_func (GstPad * pad)
         "using pad caps %p %" GST_PTR_FORMAT, result, result);
 
     result = gst_caps_ref (result);
-    goto done;
-  }
-  if (GST_PAD_PAD_TEMPLATE (pad)) {
+  } else if (GST_PAD_PAD_TEMPLATE (pad)) {
     GstPadTemplate *templ = GST_PAD_PAD_TEMPLATE (pad);
 
     result = GST_PAD_TEMPLATE_CAPS (templ);
@@ -2213,12 +2062,10 @@ gst_pad_get_fixed_caps_func (GstPad * pad)
         result);
 
     result = gst_caps_ref (result);
-    goto done;
+  } else {
+    GST_CAT_DEBUG (GST_CAT_CAPS, "pad has no caps");
+    result = gst_caps_new_empty ();
   }
-  GST_CAT_DEBUG (GST_CAT_CAPS, "pad has no caps");
-  result = gst_caps_new_empty ();
-
-done:
   GST_OBJECT_UNLOCK (pad);
 
   return result;
@@ -3615,4 +3462,92 @@ gst_util_get_timestamp (void)
   g_get_current_time (&now);
   return GST_TIMEVAL_TO_TIME (now);
 #endif
+}
+
+/**
+ * gst_util_array_binary_search:
+ * @array: the sorted input array
+ * @num_elements: number of elements in the array
+ * @element_size: size of every element in bytes
+ * @search_func: function to compare two elements, @search_data will always be passed as second argument
+ * @mode: search mode that should be used
+ * @search_data: element that should be found
+ * @user_data: data to pass to @search_func
+ *
+ * Searches inside @array for @search_data by using the comparison function
+ * @search_func. @array must be sorted ascending.
+ *
+ * As @search_data is always passed as second argument to @search_func it's
+ * not required that @search_data has the same type as the array elements.
+ *
+ * The complexity of this search function is O(log (num_elements)).
+ *
+ * Returns: The address of the found element or %NULL if nothing was found
+ *
+ * Since: 0.10.23
+ */
+gpointer
+gst_util_array_binary_search (gpointer array, guint num_elements,
+    gsize element_size, GCompareDataFunc search_func, GstSearchMode mode,
+    gconstpointer search_data, gpointer user_data)
+{
+  glong left = 0, right = num_elements - 1, m;
+  gint ret;
+  guint8 *data = (guint8 *) array;
+
+  g_return_val_if_fail (array != NULL, NULL);
+  g_return_val_if_fail (element_size > 0, NULL);
+  g_return_val_if_fail (search_func != NULL, NULL);
+
+  /* 0. No elements => return NULL */
+  if (num_elements == 0)
+    return NULL;
+
+  /* 1. If search_data is before the 0th element return the 0th element */
+  ret = search_func (data, search_data, user_data);
+  if ((ret >= 0 && mode == GST_SEARCH_MODE_AFTER) || ret == 0)
+    return data;
+  else if (ret > 0)
+    return NULL;
+
+  /* 2. If search_data is after the last element return the last element */
+  ret =
+      search_func (data + (num_elements - 1) * element_size, search_data,
+      user_data);
+  if ((ret <= 0 && mode == GST_SEARCH_MODE_BEFORE) || ret == 0)
+    return data + (num_elements - 1) * element_size;
+  else if (ret < 0)
+    return NULL;
+
+  /* 3. else binary search */
+  while (TRUE) {
+    m = left + (right - left) / 2;
+
+    ret = search_func (data + m * element_size, search_data, user_data);
+
+    if (ret == 0) {
+      return data + m * element_size;
+    } else if (ret < 0) {
+      left = m + 1;
+    } else {
+      right = m - 1;
+    }
+
+    /* No exact match found */
+    if (right < left) {
+      if (mode == GST_SEARCH_MODE_EXACT) {
+        return NULL;
+      } else if (mode == GST_SEARCH_MODE_AFTER) {
+        if (ret < 0)
+          return (m < num_elements) ? data + (m + 1) * element_size : NULL;
+        else
+          return data + m * element_size;
+      } else {
+        if (ret < 0)
+          return data + m * element_size;
+        else
+          return (m > 0) ? data + (m - 1) * element_size : NULL;
+      }
+    }
+  }
 }

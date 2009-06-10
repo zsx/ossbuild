@@ -558,6 +558,7 @@ typedef struct _GstPadTemplate GstPadTemplate;
  * @do_buffer_signals: counter counting installed buffer signals
  * @do_event_signals: counter counting installed event signals
  * @iterintlinkfunc: get the internal links iterator of this pad
+ * @block_destroy_data: notify function for gst_pad_set_blocked_async_full()
  *
  * The #GstPad structure. Use the functions to update the variables.
  */
@@ -629,8 +630,16 @@ struct _GstPad {
   /* iterate internal links */
   GstPadIterIntLinkFunction     iterintlinkfunc;
 
+  /* free block_data */
+  GDestroyNotify block_destroy_data;
+
   /*< private >*/
-  gpointer _gst_reserved[GST_PADDING - 1];
+  union {
+    struct {
+      gboolean                      block_callback_called;
+    } ABI;
+    gpointer _gst_reserved[GST_PADDING - 2];
+  } abidata;
 };
 
 struct _GstPadClass {
@@ -809,6 +818,9 @@ gboolean		gst_pad_activate_push			(GstPad *pad, gboolean active);
 gboolean		gst_pad_set_blocked			(GstPad *pad, gboolean blocked);
 gboolean		gst_pad_set_blocked_async		(GstPad *pad, gboolean blocked,
 								 GstPadBlockCallback callback, gpointer user_data);
+gboolean		gst_pad_set_blocked_async_full		(GstPad *pad, gboolean blocked,
+								 GstPadBlockCallback callback, gpointer user_data,
+                                                                 GDestroyNotify destroy_data);
 gboolean		gst_pad_is_blocked			(GstPad *pad);
 gboolean		gst_pad_is_blocking			(GstPad *pad);
 
@@ -836,6 +848,7 @@ void			gst_pad_set_event_function		(GstPad *pad, GstPadEventFunction event);
 void			gst_pad_set_link_function		(GstPad *pad, GstPadLinkFunction link);
 void			gst_pad_set_unlink_function		(GstPad *pad, GstPadUnlinkFunction unlink);
 
+gboolean                gst_pad_can_link                        (GstPad *srcpad, GstPad *sinkpad);
 GstPadLinkReturn        gst_pad_link				(GstPad *srcpad, GstPad *sinkpad);
 gboolean		gst_pad_unlink				(GstPad *srcpad, GstPad *sinkpad);
 gboolean		gst_pad_is_linked			(GstPad *pad);

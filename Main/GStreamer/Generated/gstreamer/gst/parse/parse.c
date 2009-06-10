@@ -1,6 +1,6 @@
-#line 2 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
+#line 2 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
 
-#line 4 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
+#line 4 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -789,8 +789,8 @@ static yyconst flex_int16_t yy_chk[1354] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
-#line 2 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 1 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 2 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 #include <math.h>
 #include <string.h>
 
@@ -829,7 +829,7 @@ PRINT (const char *format, ...)
 /* links */
 
 #define YY_NO_INPUT 1
-#line 833 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
+#line 833 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
 
 #define INITIAL 0
 #define value 1
@@ -1061,10 +1061,10 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 71 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 71 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 
 
-#line 1068 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
+#line 1068 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
 
     yylval = yylval_param;
 
@@ -1148,7 +1148,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 73 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 73 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 {
     /* "=" */
     PRINT ("ASSIGNMENT: %s", yytext);
@@ -1159,7 +1159,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 81 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 81 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 {
     yytext++;
     PRINT ("PADREF: %s", yytext);
@@ -1170,7 +1170,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 89 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 89 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 {
     PRINT ("REF: %s", yytext);
     yylval->s = gst_parse_strdup (yytext);
@@ -1181,7 +1181,7 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 96 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 96 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 {
     gchar *pos = yytext;
     while (!g_ascii_isspace (*pos) && (*pos != '.')) pos++;
@@ -1194,7 +1194,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 106 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 106 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 {
     PRINT ("IDENTIFIER: %s", yytext);
     yylval->s = gst_parse_strdup (yytext);
@@ -1205,7 +1205,7 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 113 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 113 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 {
     gchar *c = yytext;
     PRINT ("LINK: %s", yytext);
@@ -1228,7 +1228,7 @@ YY_RULE_SETUP
 case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
-#line 131 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 131 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 {
   PRINT ("URL: %s", yytext);
   yylval->s = g_strdup (yytext);
@@ -1239,18 +1239,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 139 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 139 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 { PRINT ("OPERATOR: [%s]", yytext); return *yytext; }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 141 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 141 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 { PRINT ("SPACE: [%s]", yytext); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 143 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 143 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 {
     PRINT ("Invalid Lexer element: %s\n", yytext);
     return *yytext;
@@ -1258,10 +1258,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 148 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 148 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 ECHO;
 	YY_BREAK
-#line 1265 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
+#line 1265 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(value):
 	yyterminate();
@@ -2388,7 +2388,7 @@ void _gst_parse_yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 148 "C:\\David\\Development\\OSSBuild\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
+#line 148 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\parse.l"
 
 
 
