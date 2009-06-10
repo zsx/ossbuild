@@ -307,6 +307,10 @@
 				RelativePath="..\..\Source\gst-python\gst\common.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\Source\gst-python\gst\pygstminiobject.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Sources Files"
@@ -317,6 +321,10 @@
 			</File>
 			<File
 				RelativePath="..\..\Source\gst-python\gst\interfacesmodule.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Source\gst-python\gst\pygstminiobject.c"
 				>
 			</File>
 		</Filter>
