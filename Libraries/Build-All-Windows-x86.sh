@@ -676,6 +676,8 @@ fi
 # GPL Libraries #
 #################
 
+
+
 #libnice
 if [ ! -f "$BinDir/libnice-0.dll" ]; then 
 	unpack_gzip_and_move "libnice.tar.gz" "$PKG_DIR_LIBNICE"
@@ -724,6 +726,27 @@ if [ ! -f "$BinDir/xvidcore.dll" ]; then
 	make clean
 
 	
+fi
+
+#ffmpeg GPL version
+if [ ! -f "$LibDir/libavcodec-gpl.a" ]; then 
+	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
+	mkdir_and_move "$IntDir/ffmpeg-gpl"
+	
+	
+	$PKG_DIR/configure --enable-gpl --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-xvid --enable-zlib --enable-bzlib --enable-w32threads --disable-ffmpeg --disable-ffplay --disable-ffserver --enable-static --disable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
+	
+	reset_flags
+	
+	make 
+
+	mv libavformat/libavformat.a "$LibDir/libavformat-gpl.a"
+	mv libavutil/libavutil.a "$LibDir/libavutil-gpl.a"
+	mv libavcodec/libavcodec.a "$LibDir/libavcodec-gpl.a"
+
+	strip -x "$LibDir/libavutil-gpl.a"
+	strip -x "$LibDir/libavformat-gpl.a"
+	strip -x "$LibDir/libavcodec-gpl.a"
 fi
 
 reset_flags
