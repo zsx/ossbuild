@@ -314,7 +314,7 @@ if [ ! -f "$BinDir/libgnutls-26.dll" ]; then
 fi
 
 #soup
-if [ ! -f "$BinDir/libsoup-2.4-1.dll" ]; then 
+if [ ! -f "$BinDir/libsoup-2.4-" ]; then 
 	unpack_bzip2_and_move "libsoup.tar.bz2" "$PKG_DIR_LIBSOUP"
 	mkdir_and_move "$IntDir/libsoup"
 	
@@ -323,7 +323,8 @@ if [ ! -f "$BinDir/libsoup-2.4-1.dll" ]; then
 
 	cd "libsoup/.libs"
 	pexports "$BinDir/libsoup-2.4-1.dll" > in.def
-	sed '/LIBRARY libsoup/d' in.def > in-mod.def
+	sed '/LIBRARY libsoup/d' -e 's/DATA//g' in.def > in-mod.def
+	
 	$MSLIB /name:libsoup-2.4-1.dll /out:soup-2.4.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 fi
