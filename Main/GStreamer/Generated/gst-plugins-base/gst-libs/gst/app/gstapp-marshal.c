@@ -47,16 +47,14 @@
 #endif /* !G_ENABLE_DEBUG */
 
 
-/* VOID:UINT */
-
 /* BOOLEAN:UINT64 */
 void
-gst_app_marshal_BOOLEAN__UINT64 (GClosure     *closure,
-                                 GValue       *return_value G_GNUC_UNUSED,
-                                 guint         n_param_values,
-                                 const GValue *param_values,
-                                 gpointer      invocation_hint G_GNUC_UNUSED,
-                                 gpointer      marshal_data)
+__gst_app_marshal_BOOLEAN__UINT64 (GClosure     *closure,
+                                   GValue       *return_value G_GNUC_UNUSED,
+                                   guint         n_param_values,
+                                   const GValue *param_values,
+                                   gpointer      invocation_hint G_GNUC_UNUSED,
+                                   gpointer      marshal_data)
 {
   typedef gboolean (*GMarshalFunc_BOOLEAN__UINT64) (gpointer     data1,
                                                     guint64      arg_1,
@@ -90,12 +88,12 @@ gst_app_marshal_BOOLEAN__UINT64 (GClosure     *closure,
 
 /* ENUM:OBJECT */
 void
-gst_app_marshal_ENUM__OBJECT (GClosure     *closure,
-                              GValue       *return_value G_GNUC_UNUSED,
-                              guint         n_param_values,
-                              const GValue *param_values,
-                              gpointer      invocation_hint G_GNUC_UNUSED,
-                              gpointer      marshal_data)
+__gst_app_marshal_ENUM__OBJECT (GClosure     *closure,
+                                GValue       *return_value G_GNUC_UNUSED,
+                                guint         n_param_values,
+                                const GValue *param_values,
+                                gpointer      invocation_hint G_GNUC_UNUSED,
+                                gpointer      marshal_data)
 {
   typedef gint (*GMarshalFunc_ENUM__OBJECT) (gpointer     data1,
                                              gpointer     arg_1,
@@ -129,12 +127,12 @@ gst_app_marshal_ENUM__OBJECT (GClosure     *closure,
 
 /* ENUM:VOID */
 void
-gst_app_marshal_ENUM__VOID (GClosure     *closure,
-                            GValue       *return_value G_GNUC_UNUSED,
-                            guint         n_param_values,
-                            const GValue *param_values,
-                            gpointer      invocation_hint G_GNUC_UNUSED,
-                            gpointer      marshal_data)
+__gst_app_marshal_ENUM__VOID (GClosure     *closure,
+                              GValue       *return_value G_GNUC_UNUSED,
+                              guint         n_param_values,
+                              const GValue *param_values,
+                              gpointer      invocation_hint G_GNUC_UNUSED,
+                              gpointer      marshal_data)
 {
   typedef gint (*GMarshalFunc_ENUM__VOID) (gpointer     data1,
                                            gpointer     data2);
@@ -163,4 +161,6 @@ gst_app_marshal_ENUM__VOID (GClosure     *closure,
 
   g_value_set_enum (return_value, v_return);
 }
+
+/* VOID:UINT */
 

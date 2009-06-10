@@ -83,6 +83,8 @@ static const gchar *rtsp_results[] = {
   "Network error: %s",
   "Host is not a valid IP address",
   "Timeout while waiting for server response",
+  "Tunnel GET request received",
+  "Tunnel POST request received",
   "Unknown error (%d)",
   NULL
 };
@@ -159,6 +161,29 @@ static const gchar *rtsp_headers[] = {
   "PlayerStarttime",            /* PlayerStarttime */
 
   "Location",                   /* Location */
+  "ETag",                       /* ETag */
+  "If-Match",                   /* If-Match */
+
+  /* WM extensions [MS-RTSP] */
+  "Accept-Charset",             /* Accept-Charset */
+  "Supported",                  /* Supported */
+  "Vary",                       /* Vary */
+  "X-Accelerate-Streaming",     /* X-Accelerate-Streaming */
+  "X-Accept-Authentication",    /* X-Accept-Authentication */
+  "X-Accept-Proxy-Authentication",      /* X-Accept-Proxy-Authentication */
+  "X-Broadcast-Id",             /* X-Broadcast-Id */
+  "X-Burst-Streaming",          /* X-Burst-Streaming */
+  "X-Notice",                   /* X-Notice */
+  "X-Player-Lag-Time",          /* X-Player-Lag-Time */
+  "X-Playlist",                 /* X-Playlist */
+  "X-Playlist-Change-Notice",   /* X-Playlist-Change-Notice */
+  "X-Playlist-Gen-Id",          /* X-Playlist-Gen-Id */
+  "X-Playlist-Seek-Id",         /* X-Playlist-Seek-Id */
+  "X-Proxy-Client-Agent",       /* X-Proxy-Client-Agent */
+  "X-Proxy-Client-Verb",        /* X-Proxy-Client-Verb */
+  "X-Receding-PlaylistChange",  /* X-Receding-PlaylistChange */
+  "X-RTP-Info",                 /* X-RTP-Info */
+  "X-StartupProfile",           /* X-StartupProfile */
 
   NULL
 };
@@ -394,4 +419,51 @@ gst_rtsp_find_method (const gchar * method)
     }
   }
   return GST_RTSP_INVALID;
+}
+
+/**
+ * gst_rtsp_options_as_text:
+ * @options: one or more #GstRTSPMethod
+ *
+ * Convert @options to a string.
+ *
+ * Returns: a new string of @options. g_free() after usage.
+ *
+ * Since: 0.10.23
+ */
+gchar *
+gst_rtsp_options_as_text (GstRTSPMethod options)
+{
+  GString *str;
+
+  str = g_string_new ("");
+
+  if (options & GST_RTSP_OPTIONS)
+    g_string_append (str, "OPTIONS, ");
+  if (options & GST_RTSP_DESCRIBE)
+    g_string_append (str, "DESCRIBE, ");
+  if (options & GST_RTSP_ANNOUNCE)
+    g_string_append (str, "ANNOUNCE, ");
+  if (options & GST_RTSP_GET_PARAMETER)
+    g_string_append (str, "GET_PARAMETER, ");
+  if (options & GST_RTSP_PAUSE)
+    g_string_append (str, "PAUSE, ");
+  if (options & GST_RTSP_PLAY)
+    g_string_append (str, "PLAY, ");
+  if (options & GST_RTSP_RECORD)
+    g_string_append (str, "RECORD, ");
+  if (options & GST_RTSP_REDIRECT)
+    g_string_append (str, "REDIRECT, ");
+  if (options & GST_RTSP_SETUP)
+    g_string_append (str, "SETUP, ");
+  if (options & GST_RTSP_SET_PARAMETER)
+    g_string_append (str, "SET_PARAMETER, ");
+  if (options & GST_RTSP_TEARDOWN)
+    g_string_append (str, "TEARDOWN, ");
+
+  /* remove trailing ", " if there is one */
+  if (str->len > 2)
+    str = g_string_truncate (str, str->len - 2);
+
+  return g_string_free (str, FALSE);
 }

@@ -67,14 +67,15 @@ data_scan_ctx_ensure_data (GstTypeFind * tf, DataScanCtx * c, gint min_len)
 {
   const guint8 *data;
   guint64 len;
+  guint chunk_len = MAX (DATA_SCAN_CTX_CHUNK_SIZE, min_len);
 
   if (G_LIKELY (c->size >= min_len))
     return TRUE;
 
-  data = gst_type_find_peek (tf, c->offset, DATA_SCAN_CTX_CHUNK_SIZE);
+  data = gst_type_find_peek (tf, c->offset, chunk_len);
   if (G_LIKELY (data != NULL)) {
     c->data = data;
-    c->size = DATA_SCAN_CTX_CHUNK_SIZE;
+    c->size = chunk_len;
     return TRUE;
   }
 
@@ -83,7 +84,7 @@ data_scan_ctx_ensure_data (GstTypeFind * tf, DataScanCtx * c, gint min_len)
    * of the stream and not have as much data available as we'd like) */
   len = gst_type_find_get_length (tf);
   if (len > 0) {
-    len = CLAMP (len - c->offset, min_len, DATA_SCAN_CTX_CHUNK_SIZE);
+    len = CLAMP (len - c->offset, min_len, chunk_len);
   } else {
     len = min_len;
   }
@@ -413,6 +414,34 @@ mid_type_find (GstTypeFind * tf, gpointer unused)
     gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, MID_CAPS);
 }
 
+/*** audio/mobile-xmf ***/
+
+static GstStaticCaps mxmf_caps = GST_STATIC_CAPS ("audio/mobile-xmf");
+
+#define MXMF_CAPS gst_static_caps_get(&mxmf_caps)
+static void
+mxmf_type_find (GstTypeFind * tf, gpointer unused)
+{
+  guint8 *data = NULL;
+
+  /* Search FileId "XMF_" 4 bytes */
+  data = gst_type_find_peek (tf, 0, 4);
+  if (data && data[0] == 'X' && data[1] == 'M' && data[2] == 'F'
+      && data[3] == '_') {
+    /* Search Format version "2.00" 4 bytes */
+    data = gst_type_find_peek (tf, 4, 4);
+    if (data && data[0] == '2' && data[1] == '.' && data[2] == '0'
+        && data[3] == '0') {
+      /* Search TypeId 2     1 byte */
+      data = gst_type_find_peek (tf, 11, 1);
+      if (data && data[0] == 2) {
+        gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, MXMF_CAPS);
+      }
+    }
+  }
+}
+
+
 /*** video/x-fli ***/
 
 static GstStaticCaps flx_caps = GST_STATIC_CAPS ("video/x-fli");
@@ -523,53 +552,71 @@ static GstStaticCaps flac_caps = GST_STATIC_CAPS ("audio/x-flac");
 static void
 flac_type_find (GstTypeFind * tf, gpointer unused)
 {
-  guint8 *data;
   DataScanCtx c = { 0, NULL, 0 };
 
-  data = gst_type_find_peek (tf, 0, 5);
-  if (G_LIKELY (data)) {
-    /* standard flac */
-    if (memcmp (data, "fLaC", 4) == 0) {
-      gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, FLAC_CAPS);
-    }
-    /* flac-in-ogg, see http://flac.sourceforge.net/ogg_mapping.html */
-    else if (memcmp (data, "\177FLAC\001", 6) == 0) {
-      gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, FLAC_CAPS);
-    }
+  if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 6)))
+    return;
+
+  /* standard flac */
+  if (memcmp (c.data, "fLaC", 4) == 0) {
+    gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, FLAC_CAPS);
+    return;
   }
 
-  /* flac without headers */
+  /* flac-in-ogg, see http://flac.sourceforge.net/ogg_mapping.html */
+  if (memcmp (c.data, "\177FLAC\001", 6) == 0) {
+    gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, FLAC_CAPS);
+    return;
+  }
+
+  /* flac without headers (subset format) */
   /* 64K should be enough */
   while (c.offset < (64 * 1024)) {
     if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 4)))
       break;
 
-    if (data[0] == 0xff && (data[1] >> 2) == 0x3e) {
-      /* bit 15 must be 0 */
-      if (((data[1] >> 1) & 0x01) == 0x01)
+    /* look for frame header,
+     * http://flac.sourceforge.net/format.html#frame_header
+     */
+    if (c.data[0] == 0xff && (c.data[1] >> 2) == 0x3e) {
+      /* bit 15 in the header must be 0 */
+      if (((c.data[1] >> 1) & 0x01) == 0x01)
         goto advance;
 
       /* blocksize must be != 0x00 */
-      if ((data[2] >> 4) == 0x00)
+      if ((c.data[2] >> 4) == 0x00)
         goto advance;
 
       /* samplerate must be != 0x0f */
-      if ((data[2] & 0x0f) == 0x0f)
+      if ((c.data[2] & 0x0f) == 0x0f)
+        goto advance;
+      /* also 0 is invalid, as it means get the info from the header and we
+       * don't have headers if we are here */
+      if ((c.data[2] & 0x0f) == 0x00)
         goto advance;
 
       /* channel assignment must be < 11 */
-      if ((data[3] >> 4) >= 11)
+      if ((c.data[3] >> 4) >= 11)
         goto advance;
 
-      /* sample size must be != 0x07 */
-      if (((data[3] >> 1) & 0x07) == 0x07)
+      /* sample size must be != 0x07 and != 0x05 */
+      if (((c.data[3] >> 1) & 0x07) == 0x07)
+        goto advance;
+      if (((c.data[3] >> 1) & 0x07) == 0x05)
+        goto advance;
+      /* also 0 is invalid, as it means get the info from the header and we
+       * don't have headers if we are here */
+      if (((c.data[3] >> 1) & 0x07) == 0x00)
         goto advance;
 
       /* next bit must be 0 */
-      if ((data[3] & 0x01) == 0x01)
+      if ((c.data[3] & 0x01) == 0x01)
         goto advance;
 
-      gst_type_find_suggest (tf, GST_TYPE_FIND_LIKELY, FLAC_CAPS);
+      /* FIXME: shouldn't we include the crc check ? */
+
+      GST_DEBUG ("Found flac without headers at %d", (gint) c.offset);
+      gst_type_find_suggest (tf, GST_TYPE_FIND_POSSIBLE, FLAC_CAPS);
       return;
     }
   advance:
@@ -1115,6 +1162,15 @@ ac3_type_find (GstTypeFind * tf, gpointer unused)
     data = gst_type_find_peek (tf, offset, 5);
   }
 }
+
+/*** gsm ***/
+
+/* can only be detected by using the extension, in which case we use the default
+ * GSM properties */
+static GstStaticCaps gsm_caps =
+GST_STATIC_CAPS ("audio/x-gsm, rate=8000, channels=1");
+
+#define GSM_CAPS (gst_static_caps_get(&gsm_caps))
 
 /*** wavpack ***/
 
@@ -2264,16 +2320,58 @@ static GstStaticCaps bmp_caps = GST_STATIC_CAPS ("image/bmp");
 static void
 bmp_type_find (GstTypeFind * tf, gpointer unused)
 {
-  guint8 *data = gst_type_find_peek (tf, 0, 18);
+  DataScanCtx c = { 0, NULL, 0 };
+  guint32 struct_size, w, h, planes, bpp;
 
-  if (data && memcmp (data, "BM", 2) == 0) {
-    if ((data[14] == 0x0C ||
-            data[14] == 0x28 ||
-            data[14] == 0xF0) &&
-        data[15] == 0 && data[16] == 0 && data[17] == 0) {
-      gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, BMP_CAPS);
-    }
+  if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 54)))
+    return;
+
+  if (c.data[0] != 'B' || c.data[1] != 'M')
+    return;
+
+  /* skip marker + size */
+  data_scan_ctx_advance (tf, &c, 2 + 4);
+
+  /* reserved, must be 0 */
+  if (c.data[0] != 0 || c.data[1] != 0 || c.data[2] != 0 || c.data[3] != 0)
+    return;
+
+  data_scan_ctx_advance (tf, &c, 2 + 2);
+
+  /* offset to start of image data in bytes (check for sanity) */
+  GST_LOG ("offset=%u", GST_READ_UINT32_LE (c.data));
+  if (GST_READ_UINT32_LE (c.data) > (10 * 1024 * 1024))
+    return;
+
+  struct_size = GST_READ_UINT32_LE (c.data + 4);
+  GST_LOG ("struct_size=%u", struct_size);
+
+  data_scan_ctx_advance (tf, &c, 4 + 4);
+
+  if (struct_size == 0x0C) {
+    w = GST_READ_UINT16_LE (c.data);
+    h = GST_READ_UINT16_LE (c.data + 2);
+    planes = GST_READ_UINT16_LE (c.data + 2 + 2);
+    bpp = GST_READ_UINT16_LE (c.data + 2 + 2 + 2);
+  } else if (struct_size == 40 || struct_size == 64 || struct_size == 108
+      || struct_size == 124 || struct_size == 0xF0) {
+    w = GST_READ_UINT32_LE (c.data);
+    h = GST_READ_UINT32_LE (c.data + 4);
+    planes = GST_READ_UINT16_LE (c.data + 4 + 4);
+    bpp = GST_READ_UINT16_LE (c.data + 4 + 4 + 2);
+  } else {
+    return;
   }
+
+  /* image sizes sanity check */
+  GST_LOG ("w=%u, h=%u, planes=%u, bpp=%u", w, h, planes, bpp);
+  if (w == 0 || w > 0xfffff || h == 0 || h > 0xfffff || planes != 1 ||
+      (bpp != 1 && bpp != 4 && bpp != 8 && bpp != 16 && bpp != 24 && bpp != 32))
+    return;
+
+  gst_type_find_suggest_simple (tf, GST_TYPE_FIND_MAXIMUM, "image/bmp",
+      "width", G_TYPE_INT, w, "height", G_TYPE_INT, h, "bpp", G_TYPE_INT, bpp,
+      NULL);
 }
 
 /*** image/tiff ***/
@@ -3069,6 +3167,7 @@ plugin_init (GstPlugin * plugin)
   };
   static gchar *mp3_exts[] = { "mp3", "mp2", "mp1", "mpga", NULL };
   static gchar *ac3_exts[] = { "ac3", NULL };
+  static gchar *gsm_exts[] = { "gsm", NULL };
   static gchar *musepack_exts[] = { "mpc", "mpp", "mp+", NULL };
   static gchar *mpeg_sys_exts[] = { "mpe", "mpeg", "mpg", NULL };
   static gchar *mpeg_video_exts[] = { "mpv", "mpeg", "mpg", NULL };
@@ -3136,11 +3235,13 @@ plugin_init (GstPlugin * plugin)
   static gchar *vivo_exts[] = { "viv", NULL };
   static gchar *nsf_exts[] = { "nsf", NULL };
   static gchar *mid_exts[] = { "mid", "midi", NULL };
+  static gchar *mxmf_exts[] = { "mxmf", NULL };
   static gchar *imelody_exts[] = { "imy", "ime", "imelody", NULL };
   static gchar *pdf_exts[] = { "pdf", NULL };
   static gchar *mxf_exts[] = { "mxf", NULL };
   static gchar *msword_exts[] = { "doc", NULL };
   static gchar *dsstore_exts[] = { "DS_Store", NULL };
+  static gchar *psd_exts[] = { "psd", NULL };
 
   GST_DEBUG_CATEGORY_INIT (type_find_debug, "typefindfunctions",
       GST_DEBUG_FG_GREEN | GST_DEBUG_BG_RED, "generic type find functions");
@@ -3171,6 +3272,8 @@ plugin_init (GstPlugin * plugin)
 #endif
   TYPE_FIND_REGISTER (plugin, "audio/midi", GST_RANK_PRIMARY, mid_type_find,
       mid_exts, MID_CAPS, NULL, NULL);
+  TYPE_FIND_REGISTER (plugin, "audio/mobile-xmf", GST_RANK_PRIMARY,
+      mxmf_type_find, mxmf_exts, MXMF_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "video/x-fli", GST_RANK_MARGINAL, flx_type_find,
       flx_exts, FLX_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "application/x-id3v2", GST_RANK_PRIMARY + 103,
@@ -3187,6 +3290,8 @@ plugin_init (GstPlugin * plugin)
       mp3_exts, MP3_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "audio/x-ac3", GST_RANK_PRIMARY, ac3_type_find,
       ac3_exts, AC3_CAPS, NULL, NULL);
+  TYPE_FIND_REGISTER (plugin, "audio/x-gsm", GST_RANK_PRIMARY, NULL,
+      gsm_exts, GSM_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "video/mpeg-sys", GST_RANK_PRIMARY,
       mpeg_sys_type_find, mpeg_sys_exts, MPEG_SYS_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "video/mpegts", GST_RANK_PRIMARY,
@@ -3200,8 +3305,8 @@ plugin_init (GstPlugin * plugin)
       mpeg4_video_type_find, m4v_exts, MPEG_VIDEO_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "video/x-h264", GST_RANK_PRIMARY,
       h264_video_type_find, h264_exts, MPEG_VIDEO_CAPS, NULL, NULL);
-  TYPE_FIND_REGISTER (plugin, "video/x-nuv", GST_RANK_SECONDARY,
-      nuv_type_find, nuv_exts, NUV_CAPS, NULL, NULL);
+  TYPE_FIND_REGISTER (plugin, "video/x-nuv", GST_RANK_SECONDARY, nuv_type_find,
+      nuv_exts, NUV_CAPS, NULL, NULL);
 
   /* ISO formats */
   TYPE_FIND_REGISTER (plugin, "audio/x-m4a", GST_RANK_PRIMARY, m4a_type_find,
@@ -3364,6 +3469,9 @@ plugin_init (GstPlugin * plugin)
   /* Mac OS X .DS_Store files tend to be taken for video/mpeg */
   TYPE_FIND_REGISTER_START_WITH (plugin, "application/octet-stream",
       GST_RANK_SECONDARY, dsstore_exts, "\000\000\000\001Bud1", 8,
+      GST_TYPE_FIND_LIKELY);
+  TYPE_FIND_REGISTER_START_WITH (plugin, "image/vnd.adobe.photoshop",
+      GST_RANK_SECONDARY, psd_exts, "8BPS\000\001\000\000\000\000", 10,
       GST_TYPE_FIND_LIKELY);
   return TRUE;
 }

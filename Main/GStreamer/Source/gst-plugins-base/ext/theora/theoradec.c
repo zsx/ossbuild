@@ -249,11 +249,14 @@ _theora_granule_start_time (GstTheoraDec * dec, gint64 granulepos)
 
   /* invalid granule results in invalid time */
   if (granulepos == -1)
-    return -1;
+    return GST_CLOCK_TIME_NONE;
 
   /* get framecount */
-  framecount = _theora_granule_frame (dec, granulepos);
+  if ((framecount = _theora_granule_frame (dec, granulepos)) < 0)
+    return GST_CLOCK_TIME_NONE;
 
+  if (framecount < 0)
+    return GST_CLOCK_TIME_NONE;
   return gst_util_uint64_scale_int (framecount * GST_SECOND,
       dec->info.fps_denominator, dec->info.fps_numerator);
 }
@@ -741,6 +744,7 @@ theora_dec_setcaps (GstPad * pad, GstCaps * caps)
 {
   GstTheoraDec *dec;
   GstStructure *s;
+  const GValue *codec_data;
 
   dec = GST_THEORA_DEC (gst_pad_get_parent (pad));
 
@@ -749,6 +753,49 @@ theora_dec_setcaps (GstPad * pad, GstCaps * caps)
   /* parse the par, this overrides the encoded par */
   dec->have_par = gst_structure_get_fraction (s, "pixel-aspect-ratio",
       &dec->par_num, &dec->par_den);
+
+  if ((codec_data = gst_structure_get_value (s, "codec_data"))) {
+    if (G_VALUE_TYPE (codec_data) == GST_TYPE_BUFFER) {
+      GstBuffer *buffer;
+      guint8 *data;
+      guint size;
+      guint offset;
+
+      buffer = gst_value_get_buffer (codec_data);
+
+      offset = 0;
+      size = GST_BUFFER_SIZE (buffer);
+      data = GST_BUFFER_DATA (buffer);
+
+      while (size > 2) {
+        guint psize;
+        GstBuffer *buf;
+
+        psize = (data[0] << 8) | data[1];
+        /* skip header */
+        data += 2;
+        size -= 2;
+        offset += 2;
+
+        /* make sure we don't read too much */
+        psize = MIN (psize, size);
+
+        buf = gst_buffer_create_sub (buffer, offset, psize);
+
+        /* first buffer is a discont buffer */
+        if (offset == 2)
+          GST_BUFFER_FLAG_SET (buf, GST_BUFFER_FLAG_DISCONT);
+
+        /* now feed it to the decoder we can ignore the error */
+        theora_dec_chain (pad, buf);
+
+        /* skip the data */
+        size -= psize;
+        data += psize;
+        offset += psize;
+      }
+    }
+  }
 
   gst_object_unref (dec);
 
@@ -764,8 +811,9 @@ theora_handle_comment_packet (GstTheoraDec * dec, ogg_packet * packet)
 
   GST_DEBUG_OBJECT (dec, "parsing comment packet");
 
-  buf = gst_buffer_new_and_alloc (packet->bytes);
-  memcpy (GST_BUFFER_DATA (buf), packet->packet, packet->bytes);
+  buf = gst_buffer_new ();
+  GST_BUFFER_SIZE (buf) = packet->bytes;
+  GST_BUFFER_DATA (buf) = packet->packet;
 
   list =
       gst_tag_list_from_vorbiscomment_buffer (buf, (guint8 *) "\201theora", 7,
@@ -1132,7 +1180,8 @@ theora_handle_data_packet (GstTheoraDec * dec, ogg_packet * packet,
   stride_y = GST_ROUND_UP_4 (width);
   stride_uv = GST_ROUND_UP_8 (width) / 2;
 
-  out_size = stride_y * height + stride_uv * cheight * 2;
+  out_size =
+      stride_y * GST_ROUND_UP_2 (height) + stride_uv * GST_ROUND_UP_2 (height);
 
   /* now copy over the area contained in offset_x,offset_y,
    * frame_width, frame_height */
@@ -1156,8 +1205,12 @@ theora_handle_data_packet (GstTheoraDec * dec, ogg_packet * packet,
     gint offset;
 
     dest_y = GST_BUFFER_DATA (out);
-    dest_u = dest_y + stride_y * height;
-    dest_v = dest_u + stride_uv * cheight;
+    dest_u = dest_y + stride_y * GST_ROUND_UP_2 (height);
+    dest_v = dest_u + stride_uv * GST_ROUND_UP_2 (height) / 2;
+
+    GST_LOG_OBJECT (dec, "plane 0, offset 0");
+    GST_LOG_OBJECT (dec, "plane 1, offset %d", dest_u - dest_y);
+    GST_LOG_OBJECT (dec, "plane 2, offset %d", dest_v - dest_y);
 
     src_y = yuv.y + dec->offset_x + dec->offset_y * yuv.y_stride;
 

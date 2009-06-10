@@ -1,14 +1,14 @@
 # Hungarian translation of gst-plugins-base
 # This file is distributed under the same license as the gst-plugins-base package.
-# Copyright (C) 2004, 2006, 2007, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Laszlo Dvornik <dvornik@invitel.hu>, 2004.
-# Gabor Kelemen <kelemeng@gnome.hu>, 2006, 2007, 2008.
+# Gabor Kelemen <kelemeng@gnome.hu>, 2006, 2007, 2008, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: gst-plugins-base 0.10.18\n"
+"Project-Id-Version: gst-plugins-base 0.10.22.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-01-19 21:59+0000\n"
-"PO-Revision-Date: 2008-05-12 03:35+0200\n"
+"POT-Creation-Date: 2009-05-10 22:54+0100\n"
+"PO-Revision-Date: 2009-04-20 01:44+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -144,49 +144,49 @@ msgstr "Nem lehet bezárni a(z) „%s” vfs-fájlt."
 msgid "Error while writing to file \"%s\"."
 msgstr "Hiba a(z) „%s” fájl írása közben."
 
-#: ext/ogg/gstoggdemux.c:3150
+#: ext/ogg/gstoggdemux.c:3160
 msgid "Internal data stream error."
 msgstr "Belső adatfolyam-hiba."
 
-#: gst/playback/gstdecodebin.c:985 gst/playback/gstdecodebin2.c:1028
-#: gst/playback/gstplaybasebin.c:1536 gst/playback/gstplaybasebin.c:1672
+#: gst/playback/gstdecodebin.c:985 gst/playback/gstdecodebin2.c:1075
+#: gst/playback/gstplaybasebin.c:1554 gst/playback/gstplaybasebin.c:1690
 #, c-format
 msgid "A %s plugin is required to play this stream, but not installed."
 msgstr ""
 "Az adatfolyam lejátszásához egy %s bővítmény szükséges, de az nincs "
 "telepítve."
 
-#: gst/playback/gstdecodebin.c:1799 gst/playback/gstdecodebin2.c:1424
+#: gst/playback/gstdecodebin.c:1799 gst/playback/gstdecodebin2.c:1460
 msgid "This appears to be a text file"
 msgstr "Ez egy szövegfájlnak tűnik"
 
-#: gst/playback/gstplaybasebin.c:1519
+#: gst/playback/gstplaybasebin.c:1537
 #, c-format
 msgid "Invalid subtitle URI \"%s\", subtitles disabled."
 msgstr "Érvénytelen felirat URI: „%s”, a feliratok letiltva."
 
-#: gst/playback/gstplaybasebin.c:1642 gst/playback/gsturidecodebin.c:812
+#: gst/playback/gstplaybasebin.c:1660 gst/playback/gsturidecodebin.c:840
 msgid "No URI specified to play from."
 msgstr "Nincs megadva URI a lejátszáshoz."
 
-#: gst/playback/gstplaybasebin.c:1648 gst/playback/gsturidecodebin.c:818
+#: gst/playback/gstplaybasebin.c:1666 gst/playback/gsturidecodebin.c:846
 #, c-format
 msgid "Invalid URI \"%s\"."
 msgstr "Érvénytelen URI: „%s”."
 
-#: gst/playback/gstplaybasebin.c:1654
+#: gst/playback/gstplaybasebin.c:1672
 msgid "RTSP streams cannot be played yet."
 msgstr "Az RTSP adatfolyamok még nem játszhatók le."
 
-#: gst/playback/gstplaybasebin.c:2006
+#: gst/playback/gstplaybasebin.c:2025
 msgid "Could not create \"decodebin\" element."
 msgstr "Nem hozható létre „decodebin” elem"
 
-#: gst/playback/gstplaybasebin.c:2224 gst/playback/gsturidecodebin.c:1406
+#: gst/playback/gstplaybasebin.c:2244 gst/playback/gsturidecodebin.c:1446
 msgid "Source element is invalid."
 msgstr "A forráselem érvénytelen."
 
-#: gst/playback/gstplaybasebin.c:2301
+#: gst/playback/gstplaybasebin.c:2321
 msgid ""
 "Only a subtitle stream was detected. Either you are loading a subtitle file "
 "or some other type of text file, or the media file was not recognized."
@@ -194,7 +194,7 @@ msgstr ""
 "Csak egy feliratfolyam észlelhető. Vagy egy feliratfájlt vagy más "
 "szövegfájlt tölt be, vagy a médiafájl nem ismerhető fel."
 
-#: gst/playback/gstplaybasebin.c:2306
+#: gst/playback/gstplaybasebin.c:2326
 msgid ""
 "You do not have a decoder installed to handle this file. You might need to "
 "install the necessary plugins."
@@ -202,15 +202,15 @@ msgstr ""
 "Nincs telepítve a fájl kezeléséhez szükséges dekódoló. Lehetséges, hogy "
 "telepítenie kell a szükséges bővítményeket."
 
-#: gst/playback/gstplaybasebin.c:2310
+#: gst/playback/gstplaybasebin.c:2330
 msgid "This is not a media file"
 msgstr "Ez nem egy médiafájl"
 
-#: gst/playback/gstplaybasebin.c:2315
+#: gst/playback/gstplaybasebin.c:2335
 msgid "A subtitle stream was detected, but no video stream."
 msgstr "Egy feliratfolyam felismerve, de nincs videofolyam."
 
-#: gst/playback/gstplaybin.c:882 gst/playback/gstplaysink.c:758
+#: gst/playback/gstplaybin.c:882 gst/playback/gstplaysink.c:986
 msgid "Both autovideosink and xvimagesink elements are missing."
 msgstr "Mind az autovideosink, mind az xvimagesink elemek hiányoznak."
 
@@ -218,64 +218,80 @@ msgstr "Mind az autovideosink, mind az xvimagesink elemek hiányoznak."
 #: gst/playback/gstplaybin.c:1157 gst/playback/gstplaybin.c:1166
 #: gst/playback/gstplaybin.c:1175 gst/playback/gstplaybin.c:1306
 #: gst/playback/gstplaybin.c:1315 gst/playback/gstplaybin.c:1324
-#: gst/playback/gstplaysink.c:714 gst/playback/gstplaysink.c:729
-#: gst/playback/gstplaysink.c:845 gst/playback/gstplaysink.c:854
-#: gst/playback/gstplaysink.c:955 gst/playback/gstplaysink.c:973
-#: gst/playback/gstplaysink.c:992 gst/playback/gstplaysink.c:1139
-#: gst/playback/gstplaysink.c:1148 gst/playback/gstplaysink.c:1157
+#: gst/playback/gstplaysink.c:934 gst/playback/gstplaysink.c:952
+#: gst/playback/gstplaysink.c:1119 gst/playback/gstplaysink.c:1131
+#: gst/playback/gstplaysink.c:1286 gst/playback/gstplaysink.c:1299
+#: gst/playback/gstplaysink.c:1424 gst/playback/gstplaysink.c:1442
+#: gst/playback/gstplaysink.c:1461 gst/playback/gstplaysink.c:1667
+#: gst/playback/gstplaysink.c:1676 gst/playback/gstplaysink.c:1685
 #, c-format
 msgid "Missing element '%s' - check your GStreamer installation."
 msgstr "A(z) „%s” elem hiányzik - ellenőrizze a Gstreamer telepítését."
 
-#: gst/playback/gstplaybin.c:1150 gst/playback/gstplaysink.c:1045
+#: gst/playback/gstplaybin.c:1150 gst/playback/gstplaysink.c:1515
 msgid "Both autoaudiosink and alsasink elements are missing."
 msgstr "Mind az autoaudiosink, mind az  alsasink elemek hiányoznak."
 
-#: gst/playback/gstplaysink.c:1028
+#: gst/playback/gstplaysink.c:990
+msgid "Both autovideosink and xvimagesink elements are not working."
+msgstr "Sem az autovideosink, sem az xvimagesink elem nem működik."
+
+#: gst/playback/gstplaysink.c:1106 gst/playback/gstplaysink.c:1263
+msgid "Custom text sink element is not usable."
+msgstr "Az egyéni szövegnyelő elem nem használható."
+
+#: gst/playback/gstplaysink.c:1497
 msgid "No volume control found"
-msgstr ""
+msgstr "Nem található hangerőszabályzó"
 
-#: gst/playback/gstplaysink.c:1380
+#: gst/playback/gstplaysink.c:1518
+msgid "Both autoaudiosink and alsasink elements are not working."
+msgstr "Sem az autoaudiosink, sem az alsasink elem nem működik."
+
+#: gst/playback/gstplaysink.c:2014
 msgid "Can't play a text file without video."
-msgstr ""
+msgstr "A szövegfájl nem játszható le videó nélkül."
 
-#: gst/playback/gstqueue2.c:991
+#: gst/playback/gstplaysink.c:2022
+msgid "Can't play a text subtitles and subpictures."
+msgstr "Nem játszható le szöveges felirat és részképek."
+
+#: gst/playback/gstqueue2.c:1005
 msgid "No file name specified."
 msgstr "Nincs megadva fájlnév."
 
-#: gst/playback/gstqueue2.c:997
+#: gst/playback/gstqueue2.c:1011
 #, c-format
 msgid "Could not open file \"%s\" for reading."
 msgstr "A(z) „%s” fájl nem nyitható meg olvasásra."
 
-#: gst/playback/gsturidecodebin.c:589
+#: gst/playback/gsturidecodebin.c:609
 #, c-format
 msgid "No decoder available for type '%s'."
 msgstr "Nem érhető el dekódoló a(z) „%s” típushoz."
 
-#: gst/playback/gsturidecodebin.c:824
+#: gst/playback/gsturidecodebin.c:852
 msgid "This stream type cannot be played yet."
 msgstr "Ez az adatfolyamtípus még nem játszható le."
 
-#: gst/playback/gsturidecodebin.c:835
+#: gst/playback/gsturidecodebin.c:863
 #, c-format
 msgid "No URI handler implemented for \"%s\"."
 msgstr "Nincs URI kezelő megvalósítva a következőhöz: „%s”."
 
-#: gst/playback/gsturidecodebin.c:1126
+#: gst/playback/gsturidecodebin.c:1164
 msgid "Could not create \"decodebin2\" element."
 msgstr "Nem hozható létre „decodebin2” elem."
 
-#: gst/playback/gsturidecodebin.c:1193
+#: gst/playback/gsturidecodebin.c:1231
 msgid "Could not create \"queue2\" element."
 msgstr "Nem hozható létre „queue2” elem."
 
-#: gst/playback/gsturidecodebin.c:1232
-#, fuzzy
+#: gst/playback/gsturidecodebin.c:1270
 msgid "Could not create \"typefind\" element."
-msgstr "Nem hozható létre „decodebin” elem"
+msgstr "Nem hozható létre „typefind” elem."
 
-#: gst/tcp/gsttcp.c:503 gst/tcp/gsttcpclientsink.c:278
+#: gst/tcp/gsttcp.c:503 gst/tcp/gsttcpclientsink.c:287
 #, c-format
 msgid "Error while sending data to \"%s:%d\"."
 msgstr "Hiba adatok küldése során a következőnek: „%s:%d”."
@@ -290,7 +306,7 @@ msgstr "Hiba a gdp fejlécadatok küldésekor a következőnek: „%s:%d”."
 msgid "Error while sending gdp payload data to \"%s:%d\"."
 msgstr "Hiba a gdp küldeményadatok elküldésekor a következőnek: „%s:%d”."
 
-#: gst/tcp/gsttcpclientsink.c:390 gst/tcp/gsttcpclientsrc.c:373
+#: gst/tcp/gsttcpclientsink.c:399 gst/tcp/gsttcpclientsrc.c:382
 #, c-format
 msgid "Connection to %s:%d refused."
 msgstr "A kapcsolat visszautasítva a következőhöz: %s:%d."
@@ -299,9 +315,9 @@ msgstr "A kapcsolat visszautasítva a következőhöz: %s:%d."
 msgid "Can't record audio fast enough"
 msgstr "Nem lehet leég gyorsan rögzíteni a hangot"
 
-#: gst-libs/gst/tag/gsttagdemux.c:1057
+#: gst-libs/gst/tag/gsttagdemux.c:1055
 msgid "Failed to read tag: not enough data"
-msgstr ""
+msgstr "A címke nem olvasható: nincs elég adat"
 
 #: gst-libs/gst/tag/tags.c:59
 msgid "track ID"
@@ -406,9 +422,8 @@ msgid "TMPlayer subtitle format"
 msgstr "TMPlayer feliratformátum"
 
 #: gst-libs/gst/pbutils/descriptions.c:210
-#, fuzzy
 msgid "Kate subtitle format"
-msgstr "Sami feliratformátum"
+msgstr "Kate feliratformátum"
 
 #: gst-libs/gst/pbutils/descriptions.c:269
 msgid "Uncompressed planar YUV 4:2:0"

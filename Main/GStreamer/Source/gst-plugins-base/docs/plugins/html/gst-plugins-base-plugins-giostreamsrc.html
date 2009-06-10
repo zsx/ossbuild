@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-giostreamsink.html" title="giostreamsink">
 <link rel="next" href="gst-plugins-base-plugins-gnomevfssink.html" title="gnomevfssink">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-gnomevfssink.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-giostreamsrc.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-giostreamsrc.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-giostreamsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-giostreamsrc.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-giostreamsrc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-giostreamsrc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-giostreamsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-giostreamsrc.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-giostreamsrc"></a><div class="titlepage"></div>
@@ -50,7 +52,7 @@
 <a name="gst-plugins-base-plugins-giostreamsrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -63,7 +65,7 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-giostreamsrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-giostreamsrc.html#GstGioStreamSrc--stream" title='The "stream" property'>stream</a>"                   <a
-href="/usr/share/gtk-doc/html/gio/GInputStream.html"
+href="../gio/GInputStream.html"
 >GInputStream</a>*         : Read / Write
 </pre>
 </div>
@@ -71,25 +73,25 @@ href="/usr/share/gtk-doc/html/gio/GInputStream.html"
 <a name="gst-plugins-base-plugins-giostreamsrc.description"></a><h2>Description</h2>
 <p>
 This plugin reads data from a custom GIO <a
-href="/usr/share/gtk-doc/html/gio/GInputStream.html"
+href="../gio/GInputStream.html"
 ><span class="type">GInputStream</span></a>.
 </p>
 <p>
 It can, for example, be used to read data from memory with a
 <a
-href="/usr/share/gtk-doc/html/gio/GMemoryInputStream.html"
+href="../gio/GMemoryInputStream.html"
 ><span class="type">GMemoryInputStream</span></a> or to read from a file with a
 <a
-href="/usr/share/gtk-doc/html/gio/GFileInputStream.html"
+href="../gio/GFileInputStream.html"
 ><span class="type">GFileInputStream</span></a>.
 </p>
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2778787"></a><h3>Example code</h3>
+<a name="id2664086"></a><h3>Example code</h3>
 <p>
 The following example reads data from a <a
-href="/usr/share/gtk-doc/html/gio/GMemoryOutputStream.html"
+href="../gio/GMemoryOutputStream.html"
 ><span class="type">GMemoryOutputStream</span></a>.
 </p>
 <div class="informalexample"><pre class="programlisting">
@@ -124,7 +126,7 @@ g_object_set (G_OBJECT (src), "stream", stream, NULL);
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2778824"></a><h3>Element Information</h3>
+<a name="id2664123"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -147,7 +149,7 @@ g_object_set (G_OBJECT (src), "stream", stream, NULL);
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2778886"></a><h3>Element Pads</h3>
+<a name="id2664185"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -172,7 +174,6 @@ g_object_set (G_OBJECT (src), "stream", stream, NULL);
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -183,7 +184,6 @@ g_object_set (G_OBJECT (src), "stream", stream, NULL);
 <p>
 Opaque data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -192,7 +192,7 @@ Opaque data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstGioStreamSrc--stream"></a><h3>The <code class="literal">"stream"</code> property</h3>
 <pre class="programlisting">  "stream"                   <a
-href="/usr/share/gtk-doc/html/gio/GInputStream.html"
+href="../gio/GInputStream.html"
 >GInputStream</a>*         : Read / Write</pre>
 <p>Stream to read from.</p>
 </div>
@@ -200,6 +200,6 @@ href="/usr/share/gtk-doc/html/gio/GInputStream.html"
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

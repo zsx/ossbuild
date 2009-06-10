@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-base 0.10.19.3\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-01-19 21:59+0000\n"
+"POT-Creation-Date: 2009-05-10 22:54+0100\n"
 "PO-Revision-Date: 2008-07-21 11:18+0300\n"
 "Last-Translator: Alexander Shopov <ash@contact.bg>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -143,49 +143,49 @@ msgstr "Файлът „%s“ от виртуалната файлова сис�
 msgid "Error while writing to file \"%s\"."
 msgstr "Грешка при запис във файла „%s“."
 
-#: ext/ogg/gstoggdemux.c:3150
+#: ext/ogg/gstoggdemux.c:3160
 msgid "Internal data stream error."
 msgstr "Вътрешна грешка на потока от данни."
 
-#: gst/playback/gstdecodebin.c:985 gst/playback/gstdecodebin2.c:1028
-#: gst/playback/gstplaybasebin.c:1536 gst/playback/gstplaybasebin.c:1672
+#: gst/playback/gstdecodebin.c:985 gst/playback/gstdecodebin2.c:1075
+#: gst/playback/gstplaybasebin.c:1554 gst/playback/gstplaybasebin.c:1690
 #, c-format
 msgid "A %s plugin is required to play this stream, but not installed."
 msgstr ""
 "За да пуснете този поток, се нуждаете от приставка за %s. Такава не е "
 "инсталирана."
 
-#: gst/playback/gstdecodebin.c:1799 gst/playback/gstdecodebin2.c:1424
+#: gst/playback/gstdecodebin.c:1799 gst/playback/gstdecodebin2.c:1460
 msgid "This appears to be a text file"
 msgstr "Това изглежда е текстов файл"
 
-#: gst/playback/gstplaybasebin.c:1519
+#: gst/playback/gstplaybasebin.c:1537
 #, c-format
 msgid "Invalid subtitle URI \"%s\", subtitles disabled."
 msgstr "Грешен адрес за субтитри „%s“, субтитрите са изключени."
 
-#: gst/playback/gstplaybasebin.c:1642 gst/playback/gsturidecodebin.c:812
+#: gst/playback/gstplaybasebin.c:1660 gst/playback/gsturidecodebin.c:840
 msgid "No URI specified to play from."
 msgstr "Не е указан адрес за пускане."
 
-#: gst/playback/gstplaybasebin.c:1648 gst/playback/gsturidecodebin.c:818
+#: gst/playback/gstplaybasebin.c:1666 gst/playback/gsturidecodebin.c:846
 #, c-format
 msgid "Invalid URI \"%s\"."
 msgstr "Грешен адрес „%s“."
 
-#: gst/playback/gstplaybasebin.c:1654
+#: gst/playback/gstplaybasebin.c:1672
 msgid "RTSP streams cannot be played yet."
 msgstr "Потоци с RTSP все още не се поддържат."
 
-#: gst/playback/gstplaybasebin.c:2006
+#: gst/playback/gstplaybasebin.c:2025
 msgid "Could not create \"decodebin\" element."
 msgstr "Не може да се създаде елемент „decodebin“."
 
-#: gst/playback/gstplaybasebin.c:2224 gst/playback/gsturidecodebin.c:1406
+#: gst/playback/gstplaybasebin.c:2244 gst/playback/gsturidecodebin.c:1446
 msgid "Source element is invalid."
 msgstr "Елементът-източник е грешен."
 
-#: gst/playback/gstplaybasebin.c:2301
+#: gst/playback/gstplaybasebin.c:2321
 msgid ""
 "Only a subtitle stream was detected. Either you are loading a subtitle file "
 "or some other type of text file, or the media file was not recognized."
@@ -194,7 +194,7 @@ msgstr ""
 "субтитри, или някакъв друг вид текстов файл, или просто видът на "
 "мултимедийния файл не е разпознат."
 
-#: gst/playback/gstplaybasebin.c:2306
+#: gst/playback/gstplaybasebin.c:2326
 msgid ""
 "You do not have a decoder installed to handle this file. You might need to "
 "install the necessary plugins."
@@ -202,15 +202,15 @@ msgstr ""
 "Липсва декодер за обработката на този файл. Ще трябва да инсталирате "
 "необходимите приставки."
 
-#: gst/playback/gstplaybasebin.c:2310
+#: gst/playback/gstplaybasebin.c:2330
 msgid "This is not a media file"
 msgstr "Това не е медиен файл"
 
-#: gst/playback/gstplaybasebin.c:2315
+#: gst/playback/gstplaybasebin.c:2335
 msgid "A subtitle stream was detected, but no video stream."
 msgstr "Открит е поток със субтитри, липсва видео поток."
 
-#: gst/playback/gstplaybin.c:882 gst/playback/gstplaysink.c:758
+#: gst/playback/gstplaybin.c:882 gst/playback/gstplaysink.c:986
 msgid "Both autovideosink and xvimagesink elements are missing."
 msgstr ""
 "Едновременно липсват елементите-приемници „autovideosink“ и „xvimagesink“."
@@ -219,64 +219,85 @@ msgstr ""
 #: gst/playback/gstplaybin.c:1157 gst/playback/gstplaybin.c:1166
 #: gst/playback/gstplaybin.c:1175 gst/playback/gstplaybin.c:1306
 #: gst/playback/gstplaybin.c:1315 gst/playback/gstplaybin.c:1324
-#: gst/playback/gstplaysink.c:714 gst/playback/gstplaysink.c:729
-#: gst/playback/gstplaysink.c:845 gst/playback/gstplaysink.c:854
-#: gst/playback/gstplaysink.c:955 gst/playback/gstplaysink.c:973
-#: gst/playback/gstplaysink.c:992 gst/playback/gstplaysink.c:1139
-#: gst/playback/gstplaysink.c:1148 gst/playback/gstplaysink.c:1157
+#: gst/playback/gstplaysink.c:934 gst/playback/gstplaysink.c:952
+#: gst/playback/gstplaysink.c:1119 gst/playback/gstplaysink.c:1131
+#: gst/playback/gstplaysink.c:1286 gst/playback/gstplaysink.c:1299
+#: gst/playback/gstplaysink.c:1424 gst/playback/gstplaysink.c:1442
+#: gst/playback/gstplaysink.c:1461 gst/playback/gstplaysink.c:1667
+#: gst/playback/gstplaysink.c:1676 gst/playback/gstplaysink.c:1685
 #, c-format
 msgid "Missing element '%s' - check your GStreamer installation."
 msgstr "Елементът „%s“ липсва — проверете инсталацията на GStreamer."
 
-#: gst/playback/gstplaybin.c:1150 gst/playback/gstplaysink.c:1045
+#: gst/playback/gstplaybin.c:1150 gst/playback/gstplaysink.c:1515
 msgid "Both autoaudiosink and alsasink elements are missing."
 msgstr ""
 "Едновременно липсват елементите-приемници „autoaudiosink“ и „alsasink“."
 
-#: gst/playback/gstplaysink.c:1028
+#: gst/playback/gstplaysink.c:990
+#, fuzzy
+msgid "Both autovideosink and xvimagesink elements are not working."
+msgstr ""
+"Едновременно липсват елементите-приемници „autovideosink“ и „xvimagesink“."
+
+#: gst/playback/gstplaysink.c:1106 gst/playback/gstplaysink.c:1263
+msgid "Custom text sink element is not usable."
+msgstr ""
+
+#: gst/playback/gstplaysink.c:1497
 msgid "No volume control found"
 msgstr ""
 
-#: gst/playback/gstplaysink.c:1380
+#: gst/playback/gstplaysink.c:1518
+#, fuzzy
+msgid "Both autoaudiosink and alsasink elements are not working."
+msgstr ""
+"Едновременно липсват елементите-приемници „autoaudiosink“ и „alsasink“."
+
+#: gst/playback/gstplaysink.c:2014
 msgid "Can't play a text file without video."
 msgstr ""
 
-#: gst/playback/gstqueue2.c:991
+#: gst/playback/gstplaysink.c:2022
+msgid "Can't play a text subtitles and subpictures."
+msgstr ""
+
+#: gst/playback/gstqueue2.c:1005
 msgid "No file name specified."
 msgstr "Не е указано име на файл."
 
-#: gst/playback/gstqueue2.c:997
+#: gst/playback/gstqueue2.c:1011
 #, c-format
 msgid "Could not open file \"%s\" for reading."
 msgstr "Файлът „%s“ не може да се отвори за четене."
 
-#: gst/playback/gsturidecodebin.c:589
+#: gst/playback/gsturidecodebin.c:609
 #, c-format
 msgid "No decoder available for type '%s'."
 msgstr "Липсва декодер за вида „%s“."
 
-#: gst/playback/gsturidecodebin.c:824
+#: gst/playback/gsturidecodebin.c:852
 msgid "This stream type cannot be played yet."
 msgstr "Потоци от този тип все още не могат да бъдат изпълнявани."
 
-#: gst/playback/gsturidecodebin.c:835
+#: gst/playback/gsturidecodebin.c:863
 #, c-format
 msgid "No URI handler implemented for \"%s\"."
 msgstr "Обработката на адреси „%s“ не е реализирана."
 
-#: gst/playback/gsturidecodebin.c:1126
+#: gst/playback/gsturidecodebin.c:1164
 msgid "Could not create \"decodebin2\" element."
 msgstr "Не може да се създаде елемент „decodebin2“."
 
-#: gst/playback/gsturidecodebin.c:1193
+#: gst/playback/gsturidecodebin.c:1231
 msgid "Could not create \"queue2\" element."
 msgstr "Не може да се създаде елемент „queue2“."
 
-#: gst/playback/gsturidecodebin.c:1232
+#: gst/playback/gsturidecodebin.c:1270
 msgid "Could not create \"typefind\" element."
 msgstr "Не може да се създаде елемент „typefind“."
 
-#: gst/tcp/gsttcp.c:503 gst/tcp/gsttcpclientsink.c:278
+#: gst/tcp/gsttcp.c:503 gst/tcp/gsttcpclientsink.c:287
 #, c-format
 msgid "Error while sending data to \"%s:%d\"."
 msgstr "Грешка при запис във файла „%s:%d“."
@@ -291,7 +312,7 @@ msgstr "Грешка при запис на заглавните данни gdp 
 msgid "Error while sending gdp payload data to \"%s:%d\"."
 msgstr "Грешка при изпращането на натоварените по gtp данни към „%s:%d“."
 
-#: gst/tcp/gsttcpclientsink.c:390 gst/tcp/gsttcpclientsrc.c:373
+#: gst/tcp/gsttcpclientsink.c:399 gst/tcp/gsttcpclientsrc.c:382
 #, c-format
 msgid "Connection to %s:%d refused."
 msgstr "Връзката към %s:%d е отказана."
@@ -300,7 +321,7 @@ msgstr "Връзката към %s:%d е отказана."
 msgid "Can't record audio fast enough"
 msgstr "Звукът не може да бъде записан достатъчно бързо"
 
-#: gst-libs/gst/tag/gsttagdemux.c:1057
+#: gst-libs/gst/tag/gsttagdemux.c:1055
 msgid "Failed to read tag: not enough data"
 msgstr ""
 

@@ -69,10 +69,10 @@
 void                <a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#gst-base-audio-src-set-provide-clock" title="gst_base_audio_src_set_provide_clock ()">gst_base_audio_src_set_provide_clock</a>
                                                         (<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc">GstBaseAudioSrc</a> *src,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> provide);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#gst-base-audio-src-get-provide-clock" title="gst_base_audio_src_get_provide_clock ()">gst_base_audio_src_get_provide_clock</a>
                                                         (<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc">GstBaseAudioSrc</a> *src);
 </pre>
@@ -81,7 +81,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <a name="gst-plugins-base-libs-gstbaseaudiosrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -95,19 +95,19 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-libs-gstbaseaudiosrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc--actual-buffer-time" title='The "actual-buffer-time" property'>actual-buffer-time</a>"       <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc--actual-latency-time" title='The "actual-latency-time" property'>actual-latency-time</a>"      <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc--buffer-time" title='The "buffer-time" property'>buffer-time</a>"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc--latency-time" title='The "latency-time" property'>latency-time</a>"             <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc--provide-clock" title='The "provide-clock" property'>provide-clock</a>"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc--slave-method" title='The "slave-method" property'>slave-method</a>"             GstBaseAudioSrcSlaveMethod  : Read / Write
 </pre>
@@ -240,15 +240,15 @@ buffer (see <code class="function">gst_object_set_parent()</code>).</p>
 <pre class="programlisting">void                gst_base_audio_src_set_provide_clock
                                                         (<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc">GstBaseAudioSrc</a> *src,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> provide);</pre>
 <p>
 Controls whether <em class="parameter"><code>src</code></em> will provide a clock or not. If <em class="parameter"><code>provide</code></em> is <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE:CAPS"
 ><code class="literal">TRUE</code></a>, 
 <code class="function">gst_element_provide_clock()</code> will return a clock that reflects the datarate
 of <em class="parameter"><code>src</code></em>. If <em class="parameter"><code>provide</code></em> is <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+href="../glib/glib-Standard-Macros.html#FALSE:CAPS"
 ><code class="literal">FALSE</code></a>, <code class="function">gst_element_provide_clock()</code> will return NULL.</p>
 <p>
 
@@ -275,7 +275,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
 <div class="refsect2" lang="en">
 <a name="gst-base-audio-src-get-provide-clock"></a><h3>gst_base_audio_src_get_provide_clock ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_base_audio_src_get_provide_clock
                                                         (<a class="link" href="gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc">GstBaseAudioSrc</a> *src);</pre>
 <p>
@@ -295,7 +295,7 @@ gst_base_audio_src_set_provide_clock.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE:CAPS"
 ><code class="literal">TRUE</code></a> if <em class="parameter"><code>src</code></em> will provide a clock.
 
 </td>
@@ -311,7 +311,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
 <div class="refsect2" lang="en">
 <a name="GstBaseAudioSrc--actual-buffer-time"></a><h3>The <code class="literal">"actual-buffer-time"</code> property</h3>
 <pre class="programlisting">  "actual-buffer-time"       <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read</pre>
 <p>
 Actual configured size of audio buffer in microseconds.</p>
@@ -327,7 +327,7 @@ Actual configured size of audio buffer in microseconds.</p>
 <div class="refsect2" lang="en">
 <a name="GstBaseAudioSrc--actual-latency-time"></a><h3>The <code class="literal">"actual-latency-time"</code> property</h3>
 <pre class="programlisting">  "actual-latency-time"      <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read</pre>
 <p>
 Actual configured audio latency in microseconds.</p>
@@ -343,7 +343,7 @@ Actual configured audio latency in microseconds.</p>
 <div class="refsect2" lang="en">
 <a name="GstBaseAudioSrc--buffer-time"></a><h3>The <code class="literal">"buffer-time"</code> property</h3>
 <pre class="programlisting">  "buffer-time"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
 <p>Size of audio buffer in microseconds.</p>
 <p>Allowed values: &gt;= 1</p>
@@ -353,7 +353,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 <div class="refsect2" lang="en">
 <a name="GstBaseAudioSrc--latency-time"></a><h3>The <code class="literal">"latency-time"</code> property</h3>
 <pre class="programlisting">  "latency-time"             <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
 <p>Audio latency in microseconds.</p>
 <p>Allowed values: &gt;= 1</p>
@@ -363,7 +363,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 <div class="refsect2" lang="en">
 <a name="GstBaseAudioSrc--provide-clock"></a><h3>The <code class="literal">"provide-clock"</code> property</h3>
 <pre class="programlisting">  "provide-clock"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Provide a clock to be used as the global pipeline clock.</p>
 <p>Default value: TRUE</p>

@@ -432,8 +432,6 @@ gst_tag_demux_trim_buffer (GstTagDemux * tagdemux, GstBuffer ** buf_ref)
     need_sub = TRUE;
   }
 
-  g_assert (out_size > 0);
-
   if (need_sub == TRUE) {
     if (out_size != GST_BUFFER_SIZE (buf) || !gst_buffer_is_writable (buf)) {
       GstBuffer *sub;
@@ -1287,7 +1285,7 @@ read_beyond_end:
   {
     GST_DEBUG_OBJECT (demux, "attempted read beyond end of file");
     if (*buffer != NULL) {
-      gst_buffer_unref (buffer);
+      gst_buffer_unref (*buffer);
       *buffer = NULL;
     }
     return GST_FLOW_UNEXPECTED;

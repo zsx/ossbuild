@@ -61,9 +61,12 @@ enum                <a class="link" href="gst-plugins-base-libs-gstrtsprange.htm
                     <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTime" title="GstRTSPTime">GstRTSPTime</a>;
 enum                <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTimeType" title="enum GstRTSPTimeType">GstRTSPTimeType</a>;
 <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPResult" title="enum GstRTSPResult">GstRTSPResult</a>       <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#gst-rtsp-range-parse" title="gst_rtsp_range_parse ()">gst_rtsp_range_parse</a>                (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *rangestr,
                                                          <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTimeRange" title="GstRTSPTimeRange">GstRTSPTimeRange</a> **range);
+<a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*              <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#gst-rtsp-range-to-string" title="gst_rtsp_range_to_string ()">gst_rtsp_range_to_string</a>            (const <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTimeRange" title="GstRTSPTimeRange">GstRTSPTimeRange</a> *range);
 void                <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#gst-rtsp-range-free" title="gst_rtsp_range_free ()">gst_rtsp_range_free</a>                 (<a class="link" href="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTimeRange" title="GstRTSPTimeRange">GstRTSPTimeRange</a> *range);
 </pre>
 </div>
@@ -72,7 +75,7 @@ void                <a class="link" href="gst-plugins-base-libs-gstrtsprange.htm
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3149173"></a><p>
+<a name="id3053024"></a><p>
 Provides helper functions to deal with time ranges.
 </p>
 </div>
@@ -191,7 +194,7 @@ A time indication.</p>
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a> <em class="structfield"><code>seconds</code></em>;</span></p></td>
 <td> seconds when <em class="parameter"><code>type</code></em> is GST_RTSP_TIME_SECONDS 
 </td>
@@ -238,7 +241,7 @@ Possible time types.</p>
 <div class="refsect2" lang="en">
 <a name="gst-rtsp-range-parse"></a><h3>gst_rtsp_range_parse ()</h3>
 <pre class="programlisting"><a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPResult" title="enum GstRTSPResult">GstRTSPResult</a>       gst_rtsp_range_parse                (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *rangestr,
                                                          <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTimeRange" title="GstRTSPTimeRange">GstRTSPTimeRange</a> **range);</pre>
 <p>
@@ -266,6 +269,38 @@ Parse <em class="parameter"><code>rangestr</code></em> to a <a class="link" href
 </tr>
 </tbody>
 </table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="gst-rtsp-range-to-string"></a><h3>gst_rtsp_range_to_string ()</h3>
+<pre class="programlisting"><a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*              gst_rtsp_range_to_string            (const <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTimeRange" title="GstRTSPTimeRange">GstRTSPTimeRange</a> *range);</pre>
+<p>
+Convert <em class="parameter"><code>range</code></em> into a string representation.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>range</code></em> :</span></p></td>
+<td> a <a class="link" href="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTimeRange" title="GstRTSPTimeRange"><span class="type">GstRTSPTimeRange</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The string representation of <em class="parameter"><code>range</code></em>. <a
+href="../glib/glib-Memory-Allocation.html#g-free"
+><code class="function">g_free()</code></a> after usage.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  0.10.23
+</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">

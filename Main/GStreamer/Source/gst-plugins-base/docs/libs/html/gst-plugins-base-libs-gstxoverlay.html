@@ -65,17 +65,17 @@ supporting it</p>
                     <a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlayClass" title="GstXOverlayClass">GstXOverlayClass</a>;
 void                <a class="link" href="gst-plugins-base-libs-gstxoverlay.html#gst-x-overlay-set-xwindow-id" title="gst_x_overlay_set_xwindow_id ()">gst_x_overlay_set_xwindow_id</a>        (<a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay">GstXOverlay</a> *overlay,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gulong"
+href="../glib/glib-Basic-Types.html#gulong"
 >gulong</a> xwindow_id);
 void                <a class="link" href="gst-plugins-base-libs-gstxoverlay.html#gst-x-overlay-got-xwindow-id" title="gst_x_overlay_got_xwindow_id ()">gst_x_overlay_got_xwindow_id</a>        (<a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay">GstXOverlay</a> *overlay,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gulong"
+href="../glib/glib-Basic-Types.html#gulong"
 >gulong</a> xwindow_id);
 void                <a class="link" href="gst-plugins-base-libs-gstxoverlay.html#gst-x-overlay-prepare-xwindow-id" title="gst_x_overlay_prepare_xwindow_id ()">gst_x_overlay_prepare_xwindow_id</a>    (<a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay">GstXOverlay</a> *overlay);
 void                <a class="link" href="gst-plugins-base-libs-gstxoverlay.html#gst-x-overlay-expose" title="gst_x_overlay_expose ()">gst_x_overlay_expose</a>                (<a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay">GstXOverlay</a> *overlay);
 void                <a class="link" href="gst-plugins-base-libs-gstxoverlay.html#gst-x-overlay-handle-events" title="gst_x_overlay_handle_events ()">gst_x_overlay_handle_events</a>         (<a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay">GstXOverlay</a> *overlay,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> handle_events);
 </pre>
 </div>
@@ -90,14 +90,14 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <a name="gst-plugins-base-libs-gstxoverlay.prerequisites"></a><h2>Prerequisites</h2>
 <p>
 GstXOverlay requires
- GstImplementsInterface,  GstObject and  GstElement.</p>
+ GstObject,  GstImplementsInterface and  GstElement.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-libs-gstxoverlay.description"></a><h2>Description</h2>
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3065889"></a><p>
+<a name="id2960585"></a><p>
 The XOverlay interface is used for 2 main purposes :
 </p>
 <div class="itemizedlist"><ul type="disc">
@@ -211,7 +211,7 @@ Opaque <a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay"
 <tbody>
 <tr>
 <td><p><span class="term"><a
-href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GTypeInterface"
+href="../gobject/gobject-Type-Information.html#GTypeInterface"
 >GTypeInterface</a> <em class="structfield"><code>klass</code></em>;</span></p></td>
 <td> parent interface type.
 </td>
@@ -239,7 +239,7 @@ href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GTypeInterfa
 <a name="gst-x-overlay-set-xwindow-id"></a><h3>gst_x_overlay_set_xwindow_id ()</h3>
 <pre class="programlisting">void                gst_x_overlay_set_xwindow_id        (<a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay">GstXOverlay</a> *overlay,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gulong"
+href="../glib/glib-Basic-Types.html#gulong"
 >gulong</a> xwindow_id);</pre>
 <p>
 This will call the video overlay's set_xwindow_id method. You should
@@ -270,7 +270,7 @@ stop using that window and create an internal one.</p>
 <a name="gst-x-overlay-got-xwindow-id"></a><h3>gst_x_overlay_got_xwindow_id ()</h3>
 <pre class="programlisting">void                gst_x_overlay_got_xwindow_id        (<a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay">GstXOverlay</a> *overlay,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gulong"
+href="../glib/glib-Basic-Types.html#gulong"
 >gulong</a> xwindow_id);</pre>
 <p>
 This will post a "have-xwindow-id" element message on the bus.
@@ -344,7 +344,7 @@ in the drawable even if the pipeline is PAUSED.</p>
 <a name="gst-x-overlay-handle-events"></a><h3>gst_x_overlay_handle_events ()</h3>
 <pre class="programlisting">void                gst_x_overlay_handle_events         (<a class="link" href="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay">GstXOverlay</a> *overlay,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> handle_events);</pre>
 <p>
 Tell an overlay that it should handle events from the window system. These
@@ -366,7 +366,7 @@ from the XOverlay.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>handle_events</code></em> :</span></p></td>
 <td> a <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 ><span class="type">gboolean</span></a> indicating if events should be handled or not.
 </td>
 </tr>

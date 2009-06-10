@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-alsasrc.html" title="alsasrc">
 <link rel="next" href="gst-plugins-base-plugins-audioresample.html" title="audioresample">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-audioresample.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-audioconvert.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-audioconvert.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-audioconvert.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-audioconvert.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-audioconvert.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-audioconvert.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-audioconvert.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-audioconvert.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-audioconvert"></a><div class="titlepage"></div>
@@ -52,7 +54,7 @@ enum                <a class="link" href="gst-plugins-base-plugins-audioconvert.
 <a name="gst-plugins-base-plugins-audioconvert.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -77,7 +79,7 @@ signedness and endianness conversion and channel transformations.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2751511"></a><h3>Example launch line</h3>
+<a name="id2631403"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v -m audiotestsrc ! audioconvert ! audio/x-raw-int,channels=2,width=8,depth=8 ! level ! fakesink silent=TRUE
 </pre></div> This pipeline converts audio to 8-bit.  The level element shows that
@@ -94,7 +96,7 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2751480"></a><h3>Element Information</h3>
+<a name="id2631371"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -117,7 +119,7 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2746169"></a><h3>Element Pads</h3>
+<a name="id2631312"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -203,7 +205,6 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -214,7 +215,6 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 <p>
 The audioconvert object structure.</p>
 <p>
-
 </p>
 </div>
 <hr>
@@ -231,28 +231,27 @@ The audioconvert object structure.</p>
 <p>
 Set of available dithering methods when converting audio.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="DITHER-NONE:CAPS"></a><span class="term"><code class="literal">DITHER_NONE</code></span></p></td>
+<td><p><a name="DITHER-NONE--CAPS"></a><span class="term"><code class="literal">DITHER_NONE</code></span></p></td>
 <td> No dithering
 </td>
 </tr>
 <tr>
-<td><p><a name="DITHER-RPDF:CAPS"></a><span class="term"><code class="literal">DITHER_RPDF</code></span></p></td>
+<td><p><a name="DITHER-RPDF--CAPS"></a><span class="term"><code class="literal">DITHER_RPDF</code></span></p></td>
 <td> Rectangular dithering
 </td>
 </tr>
 <tr>
-<td><p><a name="DITHER-TPDF:CAPS"></a><span class="term"><code class="literal">DITHER_TPDF</code></span></p></td>
+<td><p><a name="DITHER-TPDF--CAPS"></a><span class="term"><code class="literal">DITHER_TPDF</code></span></p></td>
 <td> Triangular dithering (default)
 </td>
 </tr>
 <tr>
-<td><p><a name="DITHER-TPDF-HF:CAPS"></a><span class="term"><code class="literal">DITHER_TPDF_HF</code></span></p></td>
+<td><p><a name="DITHER-TPDF-HF--CAPS"></a><span class="term"><code class="literal">DITHER_TPDF_HF</code></span></p></td>
 <td> High frequency triangular dithering
 </td>
 </tr>
@@ -274,33 +273,32 @@ Set of available dithering methods when converting audio.</p>
 <p>
 Set of available noise shaping methods</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="NOISE-SHAPING-NONE:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_NONE</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-NONE--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_NONE</code></span></p></td>
 <td> No noise shaping (default)
 </td>
 </tr>
 <tr>
-<td><p><a name="NOISE-SHAPING-ERROR-FEEDBACK:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_ERROR_FEEDBACK</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-ERROR-FEEDBACK--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_ERROR_FEEDBACK</code></span></p></td>
 <td> Error feedback
 </td>
 </tr>
 <tr>
-<td><p><a name="NOISE-SHAPING-SIMPLE:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_SIMPLE</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-SIMPLE--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_SIMPLE</code></span></p></td>
 <td> Simple 2-pole noise shaping
 </td>
 </tr>
 <tr>
-<td><p><a name="NOISE-SHAPING-MEDIUM:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_MEDIUM</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-MEDIUM--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_MEDIUM</code></span></p></td>
 <td> Medium 5-pole noise shaping
 </td>
 </tr>
 <tr>
-<td><p><a name="NOISE-SHAPING-HIGH:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_HIGH</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-HIGH--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_HIGH</code></span></p></td>
 <td> High 8-pole noise shaping
 </td>
 </tr>
@@ -327,6 +325,6 @@ Set of available noise shaping methods</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

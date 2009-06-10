@@ -25,13 +25,13 @@ extern void gst_tcp_marshal_VOID__INT_BOXED (GClosure     *closure,
                                              gpointer      invocation_hint,
                                              gpointer      marshal_data);
 
-/* VOID:INT,BOOLEAN,INT,UINT64,INT,UINT64 */
-extern void gst_tcp_marshal_VOID__INT_BOOLEAN_INT_UINT64_INT_UINT64 (GClosure     *closure,
-                                                                     GValue       *return_value,
-                                                                     guint         n_param_values,
-                                                                     const GValue *param_values,
-                                                                     gpointer      invocation_hint,
-                                                                     gpointer      marshal_data);
+/* VOID:INT,ENUM,INT,UINT64,INT,UINT64 */
+extern void gst_tcp_marshal_VOID__INT_ENUM_INT_UINT64_INT_UINT64 (GClosure     *closure,
+                                                                  GValue       *return_value,
+                                                                  guint         n_param_values,
+                                                                  const GValue *param_values,
+                                                                  gpointer      invocation_hint,
+                                                                  gpointer      marshal_data);
 
 /* BOXED:INT */
 extern void gst_tcp_marshal_BOXED__INT (GClosure     *closure,

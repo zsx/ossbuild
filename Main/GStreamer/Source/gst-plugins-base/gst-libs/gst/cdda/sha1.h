@@ -3,7 +3,7 @@
 /* from Peter C. Gutmann's implementation as found in */
 /* Applied Cryptography by Bruce Schneier */
 /* This code is in the public domain */
-/* $Id: sha1.h,v 1.2 2007-12-13 10:10:35 tpm Exp $ */
+/* $Id$ */
 
 #ifndef __GST_CDDA_SHA_H__
 #define __GST_CDDA_SHA_H__

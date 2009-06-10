@@ -63,7 +63,7 @@ typedef enum
   GST_RTSP_MESSAGE_INVALID,
   GST_RTSP_MESSAGE_REQUEST,
   GST_RTSP_MESSAGE_RESPONSE,
-  GST_RTSP_MESSAGE_DATA,
+  GST_RTSP_MESSAGE_DATA
 } GstRTSPMsgType;
 
 typedef struct _GstRTSPMessage GstRTSPMessage;
@@ -147,6 +147,9 @@ GstRTSPResult      gst_rtsp_message_parse_data      (GstRTSPMessage *msg,
 GstRTSPResult      gst_rtsp_message_add_header      (GstRTSPMessage *msg,
                                                      GstRTSPHeaderField field,
                                                      const gchar *value);
+GstRTSPResult      gst_rtsp_message_take_header     (GstRTSPMessage *msg,
+                                                     GstRTSPHeaderField field,
+                                                     gchar *value);
 GstRTSPResult      gst_rtsp_message_remove_header   (GstRTSPMessage *msg,
                                                      GstRTSPHeaderField field,
                                                      gint indx);

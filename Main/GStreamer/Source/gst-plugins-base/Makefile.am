@@ -59,7 +59,13 @@ WIN32_COPY = \
 	$(top_builddir)/_stdint.h
 
 win32-update:
-	for f in $(WIN32_COPY); do cp $$f win32/common;done
+	for f in $(WIN32_COPY); do cp -v $$f win32/common; done; \
+	for f in win32/common/*-enumtypes.c; do \
+	  echo "Indenting $$f"; \
+	  gst-indent $$f; gst-indent $$f; \
+	done
+	cp -v $(top_builddir)/win32/common/config.h-new \
+	    $(top_srcdir)/win32/common/config.h
 
 include $(top_srcdir)/common/coverage/lcov.mak
 

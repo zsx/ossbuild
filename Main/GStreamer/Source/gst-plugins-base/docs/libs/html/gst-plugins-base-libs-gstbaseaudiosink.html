@@ -70,10 +70,10 @@ enum                <a class="link" href="gst-plugins-base-libs-gstbaseaudiosink
 void                <a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#gst-base-audio-sink-set-provide-clock" title="gst_base_audio_sink_set_provide_clock ()">gst_base_audio_sink_set_provide_clock</a>
                                                         (<a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink">GstBaseAudioSink</a> *sink,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> provide);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#gst-base-audio-sink-get-provide-clock" title="gst_base_audio_sink_get_provide_clock ()">gst_base_audio_sink_get_provide_clock</a>
                                                         (<a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink">GstBaseAudioSink</a> *sink);
 void                <a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#gst-base-audio-sink-set-slave-method" title="gst_base_audio_sink_set_slave_method ()">gst_base_audio_sink_set_slave_method</a>
@@ -87,7 +87,7 @@ void                <a class="link" href="gst-plugins-base-libs-gstbaseaudiosink
 <a name="gst-plugins-base-libs-gstbaseaudiosink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -100,13 +100,13 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-libs-gstbaseaudiosink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink--buffer-time" title='The "buffer-time" property'>buffer-time</a>"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink--latency-time" title='The "latency-time" property'>latency-time</a>"             <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink--provide-clock" title='The "provide-clock" property'>provide-clock</a>"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink--slave-method" title='The "slave-method" property'>slave-method</a>"             <a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSinkSlaveMethod" title="enum GstBaseAudioSinkSlaveMethod">GstBaseAudioSinkSlaveMethod</a>  : Read / Write
 </pre>
@@ -277,15 +277,15 @@ buffer (see <code class="function">gst_object_set_parent()</code>).</p>
 <pre class="programlisting">void                gst_base_audio_sink_set_provide_clock
                                                         (<a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink">GstBaseAudioSink</a> *sink,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> provide);</pre>
 <p>
 Controls whether <em class="parameter"><code>sink</code></em> will provide a clock or not. If <em class="parameter"><code>provide</code></em> is <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE:CAPS"
 ><code class="literal">TRUE</code></a>, 
 <code class="function">gst_element_provide_clock()</code> will return a clock that reflects the datarate
 of <em class="parameter"><code>sink</code></em>. If <em class="parameter"><code>provide</code></em> is <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+href="../glib/glib-Standard-Macros.html#FALSE:CAPS"
 ><code class="literal">FALSE</code></a>, <code class="function">gst_element_provide_clock()</code> will return NULL.</p>
 <p>
 
@@ -312,7 +312,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
 <div class="refsect2" lang="en">
 <a name="gst-base-audio-sink-get-provide-clock"></a><h3>gst_base_audio_sink_get_provide_clock ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_base_audio_sink_get_provide_clock
                                                         (<a class="link" href="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink">GstBaseAudioSink</a> *sink);</pre>
 <p>
@@ -332,7 +332,7 @@ gst_base_audio_sink_set_provide_clock.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE:CAPS"
 ><code class="literal">TRUE</code></a> if <em class="parameter"><code>sink</code></em> will provide a clock.
 
 </td>
@@ -406,7 +406,7 @@ Get the current slave method used by <em class="parameter"><code>sink</code></em
 <div class="refsect2" lang="en">
 <a name="GstBaseAudioSink--buffer-time"></a><h3>The <code class="literal">"buffer-time"</code> property</h3>
 <pre class="programlisting">  "buffer-time"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
 <p>Size of audio buffer in microseconds.</p>
 <p>Allowed values: &gt;= 1</p>
@@ -416,7 +416,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 <div class="refsect2" lang="en">
 <a name="GstBaseAudioSink--latency-time"></a><h3>The <code class="literal">"latency-time"</code> property</h3>
 <pre class="programlisting">  "latency-time"             <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
+href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
 <p>Audio latency in microseconds.</p>
 <p>Allowed values: &gt;= 1</p>
@@ -426,7 +426,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 <div class="refsect2" lang="en">
 <a name="GstBaseAudioSink--provide-clock"></a><h3>The <code class="literal">"provide-clock"</code> property</h3>
 <pre class="programlisting">  "provide-clock"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Provide a clock to be used as the global pipeline clock.</p>
 <p>Default value: TRUE</p>

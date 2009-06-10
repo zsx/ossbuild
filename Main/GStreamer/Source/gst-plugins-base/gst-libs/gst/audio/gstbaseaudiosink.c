@@ -455,8 +455,9 @@ gst_base_audio_sink_get_time (GstClock * clock, GstBaseAudioSink * sink)
       sink->ringbuffer->spec.rate);
 
   GST_DEBUG_OBJECT (sink,
-      "processed samples: raw %llu, delay %u, real %llu, time %"
-      GST_TIME_FORMAT, raw, delay, samples, GST_TIME_ARGS (result));
+      "processed samples: raw %" G_GUINT64_FORMAT ", delay %u, real %"
+      G_GUINT64_FORMAT ", time %" GST_TIME_FORMAT,
+      raw, delay, samples, GST_TIME_ARGS (result));
 
   return result;
 }
@@ -868,7 +869,7 @@ gst_base_audio_sink_resample_slaving (GstBaseAudioSink * sink,
 
   /* sample clocks and figure out clock skew */
   etime = gst_clock_get_time (GST_ELEMENT_CLOCK (sink));
-  itime = gst_clock_get_internal_time (sink->provided_clock);
+  itime = gst_audio_clock_get_time (sink->provided_clock);
 
   /* add new observation */
   gst_clock_add_observation (sink->provided_clock, itime, etime, &r_squared);
@@ -921,7 +922,7 @@ gst_base_audio_sink_skew_slaving (GstBaseAudioSink * sink,
 
   /* sample clocks and figure out clock skew */
   etime = gst_clock_get_time (GST_ELEMENT_CLOCK (sink));
-  itime = gst_clock_get_internal_time (sink->provided_clock);
+  itime = gst_audio_clock_get_time (sink->provided_clock);
 
   GST_DEBUG_OBJECT (sink,
       "internal %" GST_TIME_FORMAT " external %" GST_TIME_FORMAT
@@ -1127,7 +1128,7 @@ gst_base_audio_sink_sync_latency (GstBaseSink * bsink, GstMiniObject * obj)
    * our internal clock should exactly have been the latency (== the running
    * time of the external clock) */
   etime = GST_ELEMENT_CAST (sink)->base_time + time;
-  itime = gst_base_audio_sink_get_time (sink->provided_clock, sink);
+  itime = gst_audio_clock_get_time (sink->provided_clock);
 
   if (status == GST_CLOCK_EARLY) {
     /* when we prerolled late, we have to take into account the lateness */
@@ -1244,8 +1245,8 @@ gst_base_audio_sink_render (GstBaseSink * bsink, GstBuffer * buf)
   time = GST_BUFFER_TIMESTAMP (buf);
 
   GST_DEBUG_OBJECT (sink,
-      "time %" GST_TIME_FORMAT ", offset %llu, start %" GST_TIME_FORMAT
-      ", samples %u", GST_TIME_ARGS (time), in_offset,
+      "time %" GST_TIME_FORMAT ", offset %" G_GUINT64_FORMAT ", start %"
+      GST_TIME_FORMAT ", samples %u", GST_TIME_ARGS (time), in_offset,
       GST_TIME_ARGS (bsink->segment.start), samples);
 
   data = GST_BUFFER_DATA (buf);
@@ -1494,6 +1495,13 @@ no_sync:
     /* if we got interrupted, we cannot assume that the next sample should
      * be aligned to this one */
     align_next = FALSE;
+
+    /* update the output samples. FIXME, this will just skip them when pausing
+     * during trick mode */
+    if (out_samples > written)
+      out_samples -= written;
+    else
+      break;
 
     samples -= written;
     data += written * bps;
@@ -1781,6 +1789,12 @@ gst_base_audio_sink_change_state (GstElement * element,
       gst_ring_buffer_activate (sink->ringbuffer, FALSE);
       gst_ring_buffer_release (sink->ringbuffer);
       gst_ring_buffer_close_device (sink->ringbuffer);
+#if 0
+      GST_OBJECT_LOCK (sink);
+      gst_object_unparent (GST_OBJECT_CAST (sink->ringbuffer));
+      sink->ringbuffer = NULL;
+      GST_OBJECT_UNLOCK (sink);
+#endif
       break;
     default:
       break;

@@ -79,6 +79,8 @@ G_STMT_START { \
  * @GST_RTSP_ENOTIP: the host is not an IP host
  * @GST_RTSP_ETIMEOUT: a timeout occured
  * @GST_RTSP_ELAST: last error
+ * @GST_RTSP_ETGET: the tunnel GET request has been performed
+ * @GST_RTSP_ETPOST: the tunnel POST request has been performed
  *
  * Result codes from the RTSP functions.
  */
@@ -99,8 +101,10 @@ typedef enum {
   GST_RTSP_ENET        = -12,
   GST_RTSP_ENOTIP      = -13,
   GST_RTSP_ETIMEOUT    = -14,
+  GST_RTSP_ETGET       = -15,
+  GST_RTSP_ETPOST      = -16,
 
-  GST_RTSP_ELAST       = -15
+  GST_RTSP_ELAST       = -17
 } GstRTSPResult;
 
 /**
@@ -279,7 +283,32 @@ typedef enum {
   GST_RTSP_HDR_PLAYER_START_TIME,   /* PlayerStarttime */
 
   /* Since 0.10.16 */
-  GST_RTSP_HDR_LOCATION             /* Location */
+  GST_RTSP_HDR_LOCATION,            /* Location */
+
+  /* Since 0.10.23 */
+  GST_RTSP_HDR_ETAG,                /* ETag */
+  GST_RTSP_HDR_IF_MATCH,            /* If-Match */
+
+  /* WM extensions [MS-RTSP] Since 0.10.23 */
+  GST_RTSP_HDR_ACCEPT_CHARSET,      /* Accept-Charset */
+  GST_RTSP_HDR_SUPPORTED,           /* Supported */
+  GST_RTSP_HDR_VARY,                /* Vary */
+  GST_RTSP_HDR_X_ACCELERATE_STREAMING,    /* X-Accelerate-Streaming */
+  GST_RTSP_HDR_X_ACCEPT_AUTHENT,    /* X-Accept-Authentication */
+  GST_RTSP_HDR_X_ACCEPT_PROXY_AUTHENT,    /* X-Accept-Proxy-Authentication */
+  GST_RTSP_HDR_X_BROADCAST_ID,      /* X-Broadcast-Id */
+  GST_RTSP_HDR_X_BURST_STREAMING,   /* X-Burst-Streaming */
+  GST_RTSP_HDR_X_NOTICE,            /* X-Notice */
+  GST_RTSP_HDR_X_PLAYER_LAG_TIME,   /* X-Player-Lag-Time */
+  GST_RTSP_HDR_X_PLAYLIST,          /* X-Playlist */
+  GST_RTSP_HDR_X_PLAYLIST_CHANGE_NOTICE,  /* X-Playlist-Change-Notice */
+  GST_RTSP_HDR_X_PLAYLIST_GEN_ID,   /* X-Playlist-Gen-Id */
+  GST_RTSP_HDR_X_PLAYLIST_SEEK_ID,  /* X-Playlist-Seek-Id */
+  GST_RTSP_HDR_X_PROXY_CLIENT_AGENT,      /* X-Proxy-Client-Agent */
+  GST_RTSP_HDR_X_PROXY_CLIENT_VERB, /* X-Proxy-Client-Verb */
+  GST_RTSP_HDR_X_RECEDING_PLAYLISTCHANGE, /* X-Receding-PlaylistChange */
+  GST_RTSP_HDR_X_RTP_INFO,          /* X-RTP-Info */
+  GST_RTSP_HDR_X_STARTUPPROFILE     /* X-StartupProfile */
 
 } GstRTSPHeaderField;
 
@@ -337,6 +366,8 @@ const gchar*       gst_rtsp_method_as_text     (GstRTSPMethod method);
 const gchar*       gst_rtsp_version_as_text    (GstRTSPVersion version);
 const gchar*       gst_rtsp_header_as_text     (GstRTSPHeaderField field);
 const gchar*       gst_rtsp_status_as_text     (GstRTSPStatusCode code);
+
+gchar*             gst_rtsp_options_as_text    (GstRTSPMethod options);
 
 GstRTSPHeaderField gst_rtsp_find_header_field  (const gchar *header);
 GstRTSPMethod      gst_rtsp_find_method        (const gchar *method);

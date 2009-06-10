@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-textoverlay.html" title="textoverlay">
 <link rel="next" href="gst-plugins-base-plugins-theoradec.html" title="theoradec">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-theoradec.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-textrender.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-textrender.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-textrender.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-textrender.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-textrender.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-textrender.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-textrender.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-textrender.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-textrender"></a><div class="titlepage"></div>
@@ -50,7 +52,7 @@
 <a name="gst-plugins-base-plugins-textrender.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -61,7 +63,7 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-textrender.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-textrender.html#GstTextRender--font-desc" title='The "font-desc" property'>font-desc</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Write
 </pre>
 </div>
@@ -79,7 +81,7 @@ wrapping? It does not make sense in this context)
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2773806"></a><h3>Example launch lines</h3>
+<a name="id2631101"></a><h3>Example launch lines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=subtitles.srt ! subparse ! textrender ! xvimagesink
 </pre></div>
@@ -87,7 +89,7 @@ gst-launch -v filesrc location=subtitles.srt ! subparse ! textrender ! xvimagesi
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2788603"></a><h3>Element Information</h3>
+<a name="id2638346"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -110,7 +112,7 @@ gst-launch -v filesrc location=subtitles.srt ! subparse ! textrender ! xvimagesi
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2794267"></a><h3>Element Pads</h3>
+<a name="id2679256"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -160,7 +162,6 @@ gst-launch -v filesrc location=subtitles.srt ! subparse ! textrender ! xvimagesi
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -171,7 +172,6 @@ gst-launch -v filesrc location=subtitles.srt ! subparse ! textrender ! xvimagesi
 <p>
 Opaque textrender data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -180,7 +180,7 @@ Opaque textrender data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstTextRender--font-desc"></a><h3>The <code class="literal">"font-desc"</code> property</h3>
 <pre class="programlisting">  "font-desc"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Write</pre>
 <p>Pango font description of font to be used for rendering. See documentation of pango_font_description_from_string for syntax.</p>
 <p>Default value: ""</p>
@@ -188,11 +188,11 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-textrender.see-also"></a><h2>See Also</h2>
-<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay"><span class="type">GstTextOverlay</span></a>
+#GstTextOverlay
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

@@ -275,15 +275,22 @@ gst_ogg_pad_src_query (GstPad * pad, GstQuery * query)
     case GST_QUERY_DURATION:
     {
       GstFormat format;
+      gint64 total_time;
 
       gst_query_parse_duration (query, &format, NULL);
       /* can only get position in time */
       if (format != GST_FORMAT_TIME)
         goto wrong_format;
 
-      /* can only return the total time position */
-      /* FIXME, return time for this specific stream */
-      gst_query_set_duration (query, GST_FORMAT_TIME, ogg->total_time);
+      if (ogg->seekable) {
+        /* we must return the total seekable length */
+        total_time = ogg->total_time;
+      } else {
+        /* in non-seek mode we can answer the query and we must return -1 */
+        total_time = -1;
+      }
+
+      gst_query_set_duration (query, GST_FORMAT_TIME, total_time);
       break;
     }
     case GST_QUERY_SEEKING:
@@ -2149,7 +2156,10 @@ gst_ogg_demux_perform_seek (GstOggDemux * ogg, GstEvent * event)
 
   /* seek failed, make sure we continue the current chain */
   if (!res) {
+    GST_DEBUG_OBJECT (ogg, "seek failed");
     chain = ogg->current_chain;
+  } else {
+    GST_DEBUG_OBJECT (ogg, "seek success");
   }
 
   if (!chain)

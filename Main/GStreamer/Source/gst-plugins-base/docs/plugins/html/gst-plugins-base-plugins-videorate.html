@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-uridecodebin.html" title="uridecodebin">
 <link rel="next" href="gst-plugins-base-plugins-videoscale.html" title="videoscale">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-videoscale.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-videorate.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-videorate.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-videorate.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-videorate.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-videorate.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-videorate.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-videorate.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-videorate.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-videorate"></a><div class="titlepage"></div>
@@ -50,7 +52,7 @@
 <a name="gst-plugins-base-plugins-videorate.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -61,22 +63,22 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-videorate.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-videorate.html#GstVideoRate--drop" title='The "drop" property'>drop</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read
   "<a class="link" href="gst-plugins-base-plugins-videorate.html#GstVideoRate--duplicate" title='The "duplicate" property'>duplicate</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read
   "<a class="link" href="gst-plugins-base-plugins-videorate.html#GstVideoRate--in" title='The "in" property'>in</a>"                       <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read
   "<a class="link" href="gst-plugins-base-plugins-videorate.html#GstVideoRate--new-pref" title='The "new-pref" property'>new-pref</a>"                 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-videorate.html#GstVideoRate--out" title='The "out" property'>out</a>"                      <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read
   "<a class="link" href="gst-plugins-base-plugins-videorate.html#GstVideoRate--silent" title='The "silent" property'>silent</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
@@ -125,7 +127,7 @@ applications should be prepared for this.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2745788"></a><h3>Example pipelines</h3>
+<a name="id2611954"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=videotestsrc.ogg ! oggdemux ! theoradec ! videorate ! video/x-raw-yuv,framerate=15/1 ! xvimagesink
 </pre></div> Decode an Ogg/Theora file and adjust the framerate to 15 fps before playing.
@@ -142,7 +144,7 @@ Last reviewed on 2006-09-02 (0.10.11)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2800563"></a><h3>Element Information</h3>
+<a name="id2686149"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -165,7 +167,7 @@ Last reviewed on 2006-09-02 (0.10.11)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2800625"></a><h3>Element Pads</h3>
+<a name="id2686211"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -235,7 +237,6 @@ Last reviewed on 2006-09-02 (0.10.11)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -246,7 +247,6 @@ Last reviewed on 2006-09-02 (0.10.11)</p>
 <p>
 Opaque data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -255,7 +255,7 @@ Opaque data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstVideoRate--drop"></a><h3>The <code class="literal">"drop"</code> property</h3>
 <pre class="programlisting">  "drop"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read</pre>
 <p>Number of dropped frames.</p>
 <p>Default value: 0</p>
@@ -264,7 +264,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstVideoRate--duplicate"></a><h3>The <code class="literal">"duplicate"</code> property</h3>
 <pre class="programlisting">  "duplicate"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read</pre>
 <p>Number of duplicated frames.</p>
 <p>Default value: 0</p>
@@ -273,7 +273,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstVideoRate--in"></a><h3>The <code class="literal">"in"</code> property</h3>
 <pre class="programlisting">  "in"                       <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read</pre>
 <p>Number of input frames.</p>
 <p>Default value: 0</p>
@@ -282,7 +282,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstVideoRate--new-pref"></a><h3>The <code class="literal">"new-pref"</code> property</h3>
 <pre class="programlisting">  "new-pref"                 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>Value indicating how much to prefer new frames (unused).</p>
 <p>Allowed values: [0,1]</p>
@@ -292,7 +292,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 <div class="refsect2" lang="en">
 <a name="GstVideoRate--out"></a><h3>The <code class="literal">"out"</code> property</h3>
 <pre class="programlisting">  "out"                      <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read</pre>
 <p>Number of output frames.</p>
 <p>Default value: 0</p>
@@ -301,7 +301,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstVideoRate--silent"></a><h3>The <code class="literal">"silent"</code> property</h3>
 <pre class="programlisting">  "silent"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Don't emit notify for dropped and duplicated frames.</p>
 <p>Default value: TRUE</p>
@@ -310,6 +310,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

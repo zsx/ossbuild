@@ -85,7 +85,7 @@ rem gst-plugins-base/gst/playback
 %GEN_MARSHAL_BAT% gst_play_marshal "%SRC_GST_PLUGINS_BASE_DIR%\gst\playback\gstplay-marshal.list" "%GEN_GST_PLUGINS_BASE_DIR%\gst\playback\gstplay-marshal.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst\playback\gstplay-marshal.c"
 
 rem gst-plugins-base/gst-libs/gst/app
-%GEN_MARSHAL_BAT% gst_app_marshal "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\app\gstapp-marshal.list" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\app\gstapp-marshal.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\app\gstapp-marshal.c"
+%GEN_MARSHAL_BAT% __gst_app_marshal "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\app\gstapp-marshal.list" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\app\gstapp-marshal.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\app\gstapp-marshal.c"
 
 rem gst-plugins-base/gst-libs/gst/audio
 %MK_ENUMS_BAT% AUDIO "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\audio" "%GSTDIR%\Plugins\Base\gst-libs\audio.mkenum.lst.txt" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\audio\audio-enumtypes.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\audio\audio-enumtypes.c"
@@ -144,8 +144,6 @@ echo "Generating gst-python/pygst.py.in
 sed.exe -e "s/'@GST_MAJORMINOR@'/\"0.10\"/g" -e "s/_pygst_dir = '@PYGSTDIR@'//g"  "%SRC_GST_PYTHON_DIR%\pygst.py.in" > "%GEN_GST_PYTHON_DIR%\pygst.py"
 
 rem Copying python generated files
-echo "Copying  %GSTDIR%\Bindings\Python\gst-pb-0.10.23.ignore %SRC_GST_PYTHON_DIR%\gst"
-copy "%GSTDIR%\Bindings\Python\gst-pb-0.10.23.ignore" "%SRC_GST_PYTHON_DIR%\gst"
 echo "Copying %GSTDIR%\Bindings\Python\gstversion.override %SRC_GST_PYTHON_DIR%\gst"
 copy "%GSTDIR%\Bindings\Python\gstversion.override" "%SRC_GST_PYTHON_DIR%\gst"
  

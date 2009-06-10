@@ -67,25 +67,28 @@ enum                <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html
 enum                <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPHeaderField" title="enum GstRTSPHeaderField">GstRTSPHeaderField</a>;
 enum                <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPStatusCode" title="enum GstRTSPStatusCode">GstRTSPStatusCode</a>;
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*              <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-strresult" title="gst_rtsp_strresult ()">gst_rtsp_strresult</a>                  (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPResult" title="enum GstRTSPResult">GstRTSPResult</a> result);
 const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*        <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-method-as-text" title="gst_rtsp_method_as_text ()">gst_rtsp_method_as_text</a>             (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPMethod" title="enum GstRTSPMethod">GstRTSPMethod</a> method);
 const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*        <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-version-as-text" title="gst_rtsp_version_as_text ()">gst_rtsp_version_as_text</a>            (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPVersion" title="enum GstRTSPVersion">GstRTSPVersion</a> version);
 const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*        <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-header-as-text" title="gst_rtsp_header_as_text ()">gst_rtsp_header_as_text</a>             (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPHeaderField" title="enum GstRTSPHeaderField">GstRTSPHeaderField</a> field);
 const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*        <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-status-as-text" title="gst_rtsp_status_as_text ()">gst_rtsp_status_as_text</a>             (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPStatusCode" title="enum GstRTSPStatusCode">GstRTSPStatusCode</a> code);
+<a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*              <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-options-as-text" title="gst_rtsp_options_as_text ()">gst_rtsp_options_as_text</a>            (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPMethod" title="enum GstRTSPMethod">GstRTSPMethod</a> options);
 <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPHeaderField" title="enum GstRTSPHeaderField">GstRTSPHeaderField</a>  <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-find-header-field" title="gst_rtsp_find_header_field ()">gst_rtsp_find_header_field</a>          (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *header);
 <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPMethod" title="enum GstRTSPMethod">GstRTSPMethod</a>       <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-find-method" title="gst_rtsp_find_method ()">gst_rtsp_find_method</a>                (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *method);
 </pre>
 </div>
@@ -94,7 +97,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3134884"></a><p>
+<a name="id3037791"></a><p>
 Provides common defines for the RTSP library. 
 </p>
 </div>
@@ -152,8 +155,10 @@ not equal <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GST-RTSP-
   GST_RTSP_ENET        = -12,
   GST_RTSP_ENOTIP      = -13,
   GST_RTSP_ETIMEOUT    = -14,
+  GST_RTSP_ETGET       = -15,
+  GST_RTSP_ETPOST      = -16,
 
-  GST_RTSP_ELAST       = -15
+  GST_RTSP_ELAST       = -17
 } GstRTSPResult;
 </pre>
 <p>
@@ -237,6 +242,16 @@ Result codes from the RTSP functions.</p>
 <tr>
 <td><p><a name="GST-RTSP-ETIMEOUT:CAPS"></a><span class="term"><code class="literal">GST_RTSP_ETIMEOUT</code></span></p></td>
 <td> a timeout occured
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-RTSP-ETGET:CAPS"></a><span class="term"><code class="literal">GST_RTSP_ETGET</code></span></p></td>
+<td> the tunnel GET request has been performed
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-RTSP-ETPOST:CAPS"></a><span class="term"><code class="literal">GST_RTSP_ETPOST</code></span></p></td>
+<td> the tunnel POST request has been performed
 </td>
 </tr>
 <tr>
@@ -567,7 +582,32 @@ Strongest available authentication method</p>
   GST_RTSP_HDR_PLAYER_START_TIME,   /* PlayerStarttime */
 
   /* Since 0.10.16 */
-  GST_RTSP_HDR_LOCATION             /* Location */
+  GST_RTSP_HDR_LOCATION,            /* Location */
+
+  /* Since 0.10.23 */
+  GST_RTSP_HDR_ETAG,                /* ETag */
+  GST_RTSP_HDR_IF_MATCH,            /* If-Match */
+
+  /* WM extensions [MS-RTSP] Since 0.10.23 */
+  GST_RTSP_HDR_ACCEPT_CHARSET,      /* Accept-Charset */
+  GST_RTSP_HDR_SUPPORTED,           /* Supported */
+  GST_RTSP_HDR_VARY,                /* Vary */
+  GST_RTSP_HDR_X_ACCELERATE_STREAMING,    /* X-Accelerate-Streaming */
+  GST_RTSP_HDR_X_ACCEPT_AUTHENT,    /* X-Accept-Authentication */
+  GST_RTSP_HDR_X_ACCEPT_PROXY_AUTHENT,    /* X-Accept-Proxy-Authentication */
+  GST_RTSP_HDR_X_BROADCAST_ID,      /* X-Broadcast-Id */
+  GST_RTSP_HDR_X_BURST_STREAMING,   /* X-Burst-Streaming */
+  GST_RTSP_HDR_X_NOTICE,            /* X-Notice */
+  GST_RTSP_HDR_X_PLAYER_LAG_TIME,   /* X-Player-Lag-Time */
+  GST_RTSP_HDR_X_PLAYLIST,          /* X-Playlist */
+  GST_RTSP_HDR_X_PLAYLIST_CHANGE_NOTICE,  /* X-Playlist-Change-Notice */
+  GST_RTSP_HDR_X_PLAYLIST_GEN_ID,   /* X-Playlist-Gen-Id */
+  GST_RTSP_HDR_X_PLAYLIST_SEEK_ID,  /* X-Playlist-Seek-Id */
+  GST_RTSP_HDR_X_PROXY_CLIENT_AGENT,      /* X-Proxy-Client-Agent */
+  GST_RTSP_HDR_X_PROXY_CLIENT_VERB, /* X-Proxy-Client-Verb */
+  GST_RTSP_HDR_X_RECEDING_PLAYLISTCHANGE, /* X-Receding-PlaylistChange */
+  GST_RTSP_HDR_X_RTP_INFO,          /* X-RTP-Info */
+  GST_RTSP_HDR_X_STARTUPPROFILE     /* X-StartupProfile */
 
 } GstRTSPHeaderField;
 </pre>
@@ -634,7 +674,7 @@ Strongest available authentication method</p>
 <div class="refsect2" lang="en">
 <a name="gst-rtsp-strresult"></a><h3>gst_rtsp_strresult ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*              gst_rtsp_strresult                  (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPResult" title="enum GstRTSPResult">GstRTSPResult</a> result);</pre>
 <p>
 Convert <em class="parameter"><code>result</code></em> in a human readable string.</p>
@@ -652,7 +692,7 @@ Convert <em class="parameter"><code>result</code></em> in a human readable strin
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> a newly allocated string. <a
-href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"
+href="../glib/glib-Memory-Allocation.html#g-free"
 ><code class="function">g_free()</code></a> after usage.
 </td>
 </tr>
@@ -663,7 +703,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"
 <div class="refsect2" lang="en">
 <a name="gst-rtsp-method-as-text"></a><h3>gst_rtsp_method_as_text ()</h3>
 <pre class="programlisting">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*        gst_rtsp_method_as_text             (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPMethod" title="enum GstRTSPMethod">GstRTSPMethod</a> method);</pre>
 <p>
 Convert <em class="parameter"><code>method</code></em> to a string.</p>
@@ -690,7 +730,7 @@ Convert <em class="parameter"><code>method</code></em> to a string.</p>
 <div class="refsect2" lang="en">
 <a name="gst-rtsp-version-as-text"></a><h3>gst_rtsp_version_as_text ()</h3>
 <pre class="programlisting">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*        gst_rtsp_version_as_text            (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPVersion" title="enum GstRTSPVersion">GstRTSPVersion</a> version);</pre>
 <p>
 Convert <em class="parameter"><code>version</code></em> to a string.</p>
@@ -717,7 +757,7 @@ Convert <em class="parameter"><code>version</code></em> to a string.</p>
 <div class="refsect2" lang="en">
 <a name="gst-rtsp-header-as-text"></a><h3>gst_rtsp_header_as_text ()</h3>
 <pre class="programlisting">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*        gst_rtsp_header_as_text             (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPHeaderField" title="enum GstRTSPHeaderField">GstRTSPHeaderField</a> field);</pre>
 <p>
 Convert <em class="parameter"><code>field</code></em> to a string.</p>
@@ -744,7 +784,7 @@ Convert <em class="parameter"><code>field</code></em> to a string.</p>
 <div class="refsect2" lang="en">
 <a name="gst-rtsp-status-as-text"></a><h3>gst_rtsp_status_as_text ()</h3>
 <pre class="programlisting">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*        gst_rtsp_status_as_text             (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPStatusCode" title="enum GstRTSPStatusCode">GstRTSPStatusCode</a> code);</pre>
 <p>
 Convert <em class="parameter"><code>code</code></em> to a string.</p>
@@ -769,9 +809,41 @@ Convert <em class="parameter"><code>code</code></em> to a string.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
+<a name="gst-rtsp-options-as-text"></a><h3>gst_rtsp_options_as_text ()</h3>
+<pre class="programlisting"><a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*              gst_rtsp_options_as_text            (<a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPMethod" title="enum GstRTSPMethod">GstRTSPMethod</a> options);</pre>
+<p>
+Convert <em class="parameter"><code>options</code></em> to a string.</p>
+<p>
+
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>options</code></em> :</span></p></td>
+<td> one or more <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPMethod" title="enum GstRTSPMethod"><span class="type">GstRTSPMethod</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new string of <em class="parameter"><code>options</code></em>. <a
+href="../glib/glib-Memory-Allocation.html#g-free"
+><code class="function">g_free()</code></a> after usage.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since  0.10.23
+</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
 <a name="gst-rtsp-find-header-field"></a><h3>gst_rtsp_find_header_field ()</h3>
 <pre class="programlisting"><a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPHeaderField" title="enum GstRTSPHeaderField">GstRTSPHeaderField</a>  gst_rtsp_find_header_field          (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *header);</pre>
 <p>
 Convert <em class="parameter"><code>header</code></em> to a <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPHeaderField" title="enum GstRTSPHeaderField"><span class="type">GstRTSPHeaderField</span></a>.</p>
@@ -799,7 +871,7 @@ header field is unknown.
 <div class="refsect2" lang="en">
 <a name="gst-rtsp-find-method"></a><h3>gst_rtsp_find_method ()</h3>
 <pre class="programlisting"><a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPMethod" title="enum GstRTSPMethod">GstRTSPMethod</a>       gst_rtsp_find_method                (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *method);</pre>
 <p>
 Convert <em class="parameter"><code>method</code></em> to a <a class="link" href="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPMethod" title="enum GstRTSPMethod"><span class="type">GstRTSPMethod</span></a>.</p>

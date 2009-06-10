@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-decodebin2.html" title="decodebin2">
 <link rel="next" href="gst-plugins-base-plugins-gdpdepay.html" title="gdpdepay">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,11 +23,13 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-gdpdepay.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-ffmpegcolorspace.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-ffmpegcolorspace.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-ffmpegcolorspace.object-hierarchy" class="shortcut">Object Hierarchy</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-ffmpegcolorspace.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-ffmpegcolorspace.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-ffmpegcolorspace.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-ffmpegcolorspace"></a><div class="titlepage"></div>
@@ -48,7 +50,7 @@
 <a name="gst-plugins-base-plugins-ffmpegcolorspace.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -64,7 +66,7 @@ Convert video frames between a great variety of colorspace formats.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2774459"></a><h3>Example launch line</h3>
+<a name="id2659550"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v videotestsrc ! video/x-raw-yuv,format=\(fourcc\)YUY2 ! ffmpegcolorspace ! ximagesink
 </pre></div>
@@ -72,7 +74,7 @@ gst-launch -v videotestsrc ! video/x-raw-yuv,format=\(fourcc\)YUY2 ! ffmpegcolor
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2774439"></a><h3>Element Information</h3>
+<a name="id2659528"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -95,7 +97,7 @@ gst-launch -v videotestsrc ! video/x-raw-yuv,format=\(fourcc\)YUY2 ! ffmpegcolor
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2756143"></a><h3>Element Pads</h3>
+<a name="id2659463"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -213,7 +215,15 @@ gst-launch -v videotestsrc ! video/x-raw-yuv,format=\(fourcc\)YUY2 ! ffmpegcolor
 </tr>
 <tr>
 <td><p><span class="term"></span></p></td>
+<td> video/x-raw-yuv, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ], format=(fourcc)YVYU</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
 <td> video/x-raw-yuv, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ], format=(fourcc)IYU1</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
+<td> video/x-raw-yuv, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ], format=(fourcc)v308</td>
 </tr>
 <tr>
 <td><p><span class="term"></span></p></td>
@@ -338,7 +348,15 @@ gst-launch -v videotestsrc ! video/x-raw-yuv,format=\(fourcc\)YUY2 ! ffmpegcolor
 </tr>
 <tr>
 <td><p><span class="term"></span></p></td>
+<td> video/x-raw-yuv, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ], format=(fourcc)YVYU</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
 <td> video/x-raw-yuv, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ], format=(fourcc)IYU1</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
+<td> video/x-raw-yuv, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ], format=(fourcc)v308</td>
 </tr>
 <tr>
 <td><p><span class="term"></span></p></td>
@@ -349,7 +367,6 @@ gst-launch -v videotestsrc ! video/x-raw-yuv,format=\(fourcc\)YUY2 ! ffmpegcolor
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -360,13 +377,12 @@ gst-launch -v videotestsrc ! video/x-raw-yuv,format=\(fourcc\)YUY2 ! ffmpegcolor
 <p>
 Opaque object data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

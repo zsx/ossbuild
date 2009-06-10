@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-giosrc.html" title="giosrc">
 <link rel="next" href="gst-plugins-base-plugins-giostreamsrc.html" title="giostreamsrc">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-giostreamsrc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-giostreamsink.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-giostreamsink.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-giostreamsink.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-giostreamsink.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-giostreamsink.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-giostreamsink.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-giostreamsink.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-giostreamsink.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-giostreamsink"></a><div class="titlepage"></div>
@@ -50,7 +52,7 @@
 <a name="gst-plugins-base-plugins-giostreamsink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -63,7 +65,7 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-giostreamsink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-giostreamsink.html#GstGioStreamSink--stream" title='The "stream" property'>stream</a>"                   <a
-href="/usr/share/gtk-doc/html/gio/GOutputStream.html"
+href="../gio/GOutputStream.html"
 >GOutputStream</a>*        : Read / Write
 </pre>
 </div>
@@ -71,7 +73,7 @@ href="/usr/share/gtk-doc/html/gio/GOutputStream.html"
 <a name="gst-plugins-base-plugins-giostreamsink.description"></a><h2>Description</h2>
 <p>
 This plugin writes incoming data to a custom GIO <a
-href="/usr/share/gtk-doc/html/gio/GOutputStream.html"
+href="../gio/GOutputStream.html"
 ><span class="type">GOutputStream</span></a>.
 </p>
 <p>
@@ -81,10 +83,10 @@ It can, for example, be used to write a stream to memory with a
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2778404"></a><h3>Example code</h3>
+<a name="id2663626"></a><h3>Example code</h3>
 <p>
 The following example writes the received data to a <a
-href="/usr/share/gtk-doc/html/gio/GMemoryOutputStream.html"
+href="../gio/GMemoryOutputStream.html"
 ><span class="type">GMemoryOutputStream</span></a>.
 </p>
 <div class="informalexample"><pre class="programlisting">
@@ -120,7 +122,7 @@ out_data = g_memory_ouput_stream_get_data (G_MEMORY_OUTPUT_STREAM (stream));
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2778443"></a><h3>Element Information</h3>
+<a name="id2663664"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -143,7 +145,7 @@ out_data = g_memory_ouput_stream_get_data (G_MEMORY_OUTPUT_STREAM (stream));
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2778505"></a><h3>Element Pads</h3>
+<a name="id2663726"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -168,7 +170,6 @@ out_data = g_memory_ouput_stream_get_data (G_MEMORY_OUTPUT_STREAM (stream));
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -179,7 +180,6 @@ out_data = g_memory_ouput_stream_get_data (G_MEMORY_OUTPUT_STREAM (stream));
 <p>
 Opaque data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -188,7 +188,7 @@ Opaque data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstGioStreamSink--stream"></a><h3>The <code class="literal">"stream"</code> property</h3>
 <pre class="programlisting">  "stream"                   <a
-href="/usr/share/gtk-doc/html/gio/GOutputStream.html"
+href="../gio/GOutputStream.html"
 >GOutputStream</a>*        : Read / Write</pre>
 <p>Stream to write to.</p>
 </div>
@@ -196,6 +196,6 @@ href="/usr/share/gtk-doc/html/gio/GOutputStream.html"
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

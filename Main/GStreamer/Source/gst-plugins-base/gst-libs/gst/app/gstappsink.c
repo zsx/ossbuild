@@ -72,9 +72,9 @@
  * The eos signal can also be used to be informed when the EOS state is reached
  * to avoid polling.
  *
- * Since: 0.10.22
- *
  * Last reviewed on 2008-12-17 (0.10.22)
+ *
+ * Since: 0.10.22
  */
 
 #ifdef HAVE_CONFIG_H
@@ -103,6 +103,10 @@ struct _GstAppSinkPrivate
   gboolean flushing;
   gboolean started;
   gboolean is_eos;
+
+  GstAppSinkCallbacks callbacks;
+  gpointer user_data;
+  GDestroyNotify notify;
 };
 
 GST_DEBUG_CATEGORY_STATIC (app_sink_debug);
@@ -144,6 +148,9 @@ GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_ALWAYS,
     GST_STATIC_CAPS_ANY);
 
+static void gst_app_sink_uri_handler_init (gpointer g_iface,
+    gpointer iface_data);
+
 static void gst_app_sink_dispose (GObject * object);
 static void gst_app_sink_finalize (GObject * object);
 
@@ -165,18 +172,33 @@ static GstCaps *gst_app_sink_getcaps (GstBaseSink * psink);
 
 static guint gst_app_sink_signals[LAST_SIGNAL] = { 0 };
 
-GST_BOILERPLATE (GstAppSink, gst_app_sink, GstBaseSink, GST_TYPE_BASE_SINK);
+static void
+_do_init (GType filesrc_type)
+{
+  static const GInterfaceInfo urihandler_info = {
+    gst_app_sink_uri_handler_init,
+    NULL,
+    NULL
+  };
+  g_type_add_interface_static (filesrc_type, GST_TYPE_URI_HANDLER,
+      &urihandler_info);
+}
 
-void
-gst_app_marshal_OBJECT__VOID (GClosure * closure,
+GST_BOILERPLATE_FULL (GstAppSink, gst_app_sink, GstBaseSink, GST_TYPE_BASE_SINK,
+    _do_init);
+
+/* Can't use glib-genmarshal for this, as it doesn't know how to handle
+ * GstMiniObject-based types, which are a new fundamental type */
+static void
+gst_app_marshal_BUFFER__VOID (GClosure * closure,
     GValue * return_value,
     guint n_param_values,
     const GValue * param_values,
     gpointer invocation_hint, gpointer marshal_data)
 {
-  typedef GstBuffer *(*GMarshalFunc_OBJECT__VOID) (gpointer data1,
+  typedef GstBuffer *(*GMarshalFunc_BUFFER__VOID) (gpointer data1,
       gpointer data2);
-  register GMarshalFunc_OBJECT__VOID callback;
+  register GMarshalFunc_BUFFER__VOID callback;
   register GCClosure *cc = (GCClosure *) closure;
   register gpointer data1, data2;
   GstBuffer *v_return;
@@ -192,7 +214,7 @@ gst_app_marshal_OBJECT__VOID (GClosure * closure,
     data2 = closure->data;
   }
   callback =
-      (GMarshalFunc_OBJECT__VOID) (marshal_data ? marshal_data : cc->callback);
+      (GMarshalFunc_BUFFER__VOID) (marshal_data ? marshal_data : cc->callback);
 
   v_return = callback (data1, data2);
 
@@ -330,7 +352,7 @@ gst_app_sink_class_init (GstAppSinkClass * klass)
   gst_app_sink_signals[SIGNAL_PULL_PREROLL] =
       g_signal_new ("pull-preroll", G_TYPE_FROM_CLASS (klass),
       G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION, G_STRUCT_OFFSET (GstAppSinkClass,
-          pull_preroll), NULL, NULL, gst_app_marshal_OBJECT__VOID,
+          pull_preroll), NULL, NULL, gst_app_marshal_BUFFER__VOID,
       GST_TYPE_BUFFER, 0, G_TYPE_NONE);
   /**
    * GstAppSink::pull-buffer:
@@ -356,7 +378,7 @@ gst_app_sink_class_init (GstAppSinkClass * klass)
   gst_app_sink_signals[SIGNAL_PULL_BUFFER] =
       g_signal_new ("pull-buffer", G_TYPE_FROM_CLASS (klass),
       G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION, G_STRUCT_OFFSET (GstAppSinkClass,
-          pull_buffer), NULL, NULL, gst_app_marshal_OBJECT__VOID,
+          pull_buffer), NULL, NULL, gst_app_marshal_BUFFER__VOID,
       GST_TYPE_BUFFER, 0, G_TYPE_NONE);
 
   basesink_class->unlock = gst_app_sink_unlock_start;
@@ -400,6 +422,12 @@ gst_app_sink_dispose (GObject * obj)
     gst_caps_unref (appsink->priv->caps);
     appsink->priv->caps = NULL;
   }
+  if (appsink->priv->notify) {
+    appsink->priv->notify (appsink->priv->user_data);
+  }
+  appsink->priv->user_data = NULL;
+  appsink->priv->notify = NULL;
+
   GST_OBJECT_UNLOCK (appsink);
 
   g_mutex_lock (appsink->priv->mutex);
@@ -570,7 +598,11 @@ gst_app_sink_event (GstBaseSink * sink, GstEvent * event)
       g_mutex_unlock (appsink->priv->mutex);
 
       /* emit EOS now */
-      g_signal_emit (appsink, gst_app_sink_signals[SIGNAL_EOS], 0);
+      if (appsink->priv->callbacks.eos)
+        appsink->priv->callbacks.eos (appsink, appsink->priv->user_data);
+      else
+        g_signal_emit (appsink, gst_app_sink_signals[SIGNAL_EOS], 0);
+
       break;
     case GST_EVENT_FLUSH_START:
       /* we don't have to do anything here, the base class will call unlock
@@ -592,6 +624,7 @@ gst_app_sink_event (GstBaseSink * sink, GstEvent * event)
 static GstFlowReturn
 gst_app_sink_preroll (GstBaseSink * psink, GstBuffer * buffer)
 {
+  GstFlowReturn res = GST_FLOW_OK;
   GstAppSink *appsink = GST_APP_SINK (psink);
   gboolean emit;
 
@@ -601,14 +634,19 @@ gst_app_sink_preroll (GstBaseSink * psink, GstBuffer * buffer)
 
   GST_DEBUG_OBJECT (appsink, "setting preroll buffer %p", buffer);
   gst_buffer_replace (&appsink->priv->preroll, buffer);
+
   g_cond_signal (appsink->priv->cond);
   emit = appsink->priv->emit_signals;
   g_mutex_unlock (appsink->priv->mutex);
 
-  if (emit)
+  if (appsink->priv->callbacks.new_preroll)
+    res =
+        appsink->priv->callbacks.new_preroll (appsink,
+        appsink->priv->user_data);
+  else if (emit)
     g_signal_emit (appsink, gst_app_sink_signals[SIGNAL_NEW_PREROLL], 0);
 
-  return GST_FLOW_OK;
+  return res;
 
 flushing:
   {
@@ -621,6 +659,7 @@ flushing:
 static GstFlowReturn
 gst_app_sink_render (GstBaseSink * psink, GstBuffer * buffer)
 {
+  GstFlowReturn res = GST_FLOW_OK;
   GstAppSink *appsink = GST_APP_SINK (psink);
   gboolean emit;
 
@@ -651,14 +690,18 @@ gst_app_sink_render (GstBaseSink * psink, GstBuffer * buffer)
   }
   /* we need to ref the buffer when pushing it in the queue */
   g_queue_push_tail (appsink->priv->queue, gst_buffer_ref (buffer));
+
   g_cond_signal (appsink->priv->cond);
   emit = appsink->priv->emit_signals;
   g_mutex_unlock (appsink->priv->mutex);
 
-  if (emit)
+  if (appsink->priv->callbacks.new_buffer)
+    res =
+        appsink->priv->callbacks.new_buffer (appsink, appsink->priv->user_data);
+  else if (emit)
     g_signal_emit (appsink, gst_app_sink_signals[SIGNAL_NEW_BUFFER], 0);
 
-  return GST_FLOW_OK;
+  return res;
 
 flushing:
   {
@@ -1072,4 +1115,98 @@ not_started:
     g_mutex_unlock (appsink->priv->mutex);
     return NULL;
   }
+}
+
+/**
+ * gst_app_sink_set_callbacks:
+ * @appsink: a #GstAppSink
+ * @callbacks: the callbacks
+ * @user_data: a user_data argument for the callbacks
+ * @notify: a destroy notify function
+ *
+ * Set callbacks which will be executed for each new preroll, new buffer and eos.
+ * This is an alternative to using the signals, it has lower overhead and is thus
+ * less expensive, but also less flexible.
+ *
+ * If callbacks are installed, no signals will be emited for performance
+ * reasons.
+ *
+ * Since: 0.10.23
+ */
+void
+gst_app_sink_set_callbacks (GstAppSink * appsink,
+    GstAppSinkCallbacks * callbacks, gpointer user_data, GDestroyNotify notify)
+{
+  GDestroyNotify old_notify;
+
+  g_return_if_fail (appsink != NULL);
+  g_return_if_fail (GST_IS_APP_SINK (appsink));
+  g_return_if_fail (callbacks != NULL);
+
+  GST_OBJECT_LOCK (appsink);
+  old_notify = appsink->priv->notify;
+
+  if (old_notify) {
+    gpointer old_data;
+
+    old_data = appsink->priv->user_data;
+
+    appsink->priv->user_data = NULL;
+    appsink->priv->notify = NULL;
+    GST_OBJECT_UNLOCK (appsink);
+
+    old_notify (old_data);
+
+    GST_OBJECT_LOCK (appsink);
+  }
+  appsink->priv->callbacks = *callbacks;
+  appsink->priv->user_data = user_data;
+  appsink->priv->notify = notify;
+  GST_OBJECT_UNLOCK (appsink);
+}
+
+/*** GSTURIHANDLER INTERFACE *************************************************/
+
+static GstURIType
+gst_app_sink_uri_get_type (void)
+{
+  return GST_URI_SINK;
+}
+
+static gchar **
+gst_app_sink_uri_get_protocols (void)
+{
+  static gchar *protocols[] = { "appsink", NULL };
+
+  return protocols;
+}
+
+static const gchar *
+gst_app_sink_uri_get_uri (GstURIHandler * handler)
+{
+  return "appsink";
+}
+
+static gboolean
+gst_app_sink_uri_set_uri (GstURIHandler * handler, const gchar * uri)
+{
+  gchar *protocol;
+  gboolean ret;
+
+  protocol = gst_uri_get_protocol (uri);
+  ret = !strcmp (protocol, "appsink");
+  g_free (protocol);
+
+  return ret;
+}
+
+static void
+gst_app_sink_uri_handler_init (gpointer g_iface, gpointer iface_data)
+{
+  GstURIHandlerInterface *iface = (GstURIHandlerInterface *) g_iface;
+
+  iface->get_type = gst_app_sink_uri_get_type;
+  iface->get_protocols = gst_app_sink_uri_get_protocols;
+  iface->get_uri = gst_app_sink_uri_get_uri;
+  iface->set_uri = gst_app_sink_uri_set_uri;
 }

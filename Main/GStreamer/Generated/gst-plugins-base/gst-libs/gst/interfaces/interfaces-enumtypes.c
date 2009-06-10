@@ -74,6 +74,8 @@ gst_mixer_flags_get_type (void)
     static const GFlagsValue values[] = {
       { GST_MIXER_FLAG_NONE, "GST_MIXER_FLAG_NONE", "none" },
       { GST_MIXER_FLAG_AUTO_NOTIFICATIONS, "GST_MIXER_FLAG_AUTO_NOTIFICATIONS", "auto-notifications" },
+      { GST_MIXER_FLAG_HAS_WHITELIST, "GST_MIXER_FLAG_HAS_WHITELIST", "has-whitelist" },
+      { GST_MIXER_FLAG_GROUPING, "GST_MIXER_FLAG_GROUPING", "grouping" },
       { 0, NULL, NULL }
     };
     etype = g_flags_register_static ("GstMixerFlags", values);
@@ -94,9 +96,91 @@ gst_mixer_track_flags_get_type (void)
       { GST_MIXER_TRACK_RECORD, "GST_MIXER_TRACK_RECORD", "record" },
       { GST_MIXER_TRACK_MASTER, "GST_MIXER_TRACK_MASTER", "master" },
       { GST_MIXER_TRACK_SOFTWARE, "GST_MIXER_TRACK_SOFTWARE", "software" },
+      { GST_MIXER_TRACK_NO_RECORD, "GST_MIXER_TRACK_NO_RECORD", "no-record" },
+      { GST_MIXER_TRACK_NO_MUTE, "GST_MIXER_TRACK_NO_MUTE", "no-mute" },
+      { GST_MIXER_TRACK_WHITELIST, "GST_MIXER_TRACK_WHITELIST", "whitelist" },
       { 0, NULL, NULL }
     };
     etype = g_flags_register_static ("GstMixerTrackFlags", values);
+  }
+  return etype;
+}
+
+/* enumerations from "navigation.h" */
+GType
+gst_navigation_command_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GEnumValue values[] = {
+      { GST_NAVIGATION_COMMAND_INVALID, "GST_NAVIGATION_COMMAND_INVALID", "invalid" },
+      { GST_NAVIGATION_COMMAND_MENU1, "GST_NAVIGATION_COMMAND_MENU1", "menu1" },
+      { GST_NAVIGATION_COMMAND_MENU2, "GST_NAVIGATION_COMMAND_MENU2", "menu2" },
+      { GST_NAVIGATION_COMMAND_MENU3, "GST_NAVIGATION_COMMAND_MENU3", "menu3" },
+      { GST_NAVIGATION_COMMAND_MENU4, "GST_NAVIGATION_COMMAND_MENU4", "menu4" },
+      { GST_NAVIGATION_COMMAND_MENU5, "GST_NAVIGATION_COMMAND_MENU5", "menu5" },
+      { GST_NAVIGATION_COMMAND_MENU6, "GST_NAVIGATION_COMMAND_MENU6", "menu6" },
+      { GST_NAVIGATION_COMMAND_MENU7, "GST_NAVIGATION_COMMAND_MENU7", "menu7" },
+      { GST_NAVIGATION_COMMAND_LEFT, "GST_NAVIGATION_COMMAND_LEFT", "left" },
+      { GST_NAVIGATION_COMMAND_RIGHT, "GST_NAVIGATION_COMMAND_RIGHT", "right" },
+      { GST_NAVIGATION_COMMAND_UP, "GST_NAVIGATION_COMMAND_UP", "up" },
+      { GST_NAVIGATION_COMMAND_DOWN, "GST_NAVIGATION_COMMAND_DOWN", "down" },
+      { GST_NAVIGATION_COMMAND_ACTIVATE, "GST_NAVIGATION_COMMAND_ACTIVATE", "activate" },
+      { GST_NAVIGATION_COMMAND_PREV_ANGLE, "GST_NAVIGATION_COMMAND_PREV_ANGLE", "prev-angle" },
+      { GST_NAVIGATION_COMMAND_NEXT_ANGLE, "GST_NAVIGATION_COMMAND_NEXT_ANGLE", "next-angle" },
+      { 0, NULL, NULL }
+    };
+    etype = g_enum_register_static ("GstNavigationCommand", values);
+  }
+  return etype;
+}
+GType
+gst_navigation_query_type_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GEnumValue values[] = {
+      { GST_NAVIGATION_QUERY_INVALID, "GST_NAVIGATION_QUERY_INVALID", "invalid" },
+      { GST_NAVIGATION_QUERY_COMMANDS, "GST_NAVIGATION_QUERY_COMMANDS", "commands" },
+      { GST_NAVIGATION_QUERY_ANGLES, "GST_NAVIGATION_QUERY_ANGLES", "angles" },
+      { 0, NULL, NULL }
+    };
+    etype = g_enum_register_static ("GstNavigationQueryType", values);
+  }
+  return etype;
+}
+GType
+gst_navigation_message_type_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GEnumValue values[] = {
+      { GST_NAVIGATION_MESSAGE_INVALID, "GST_NAVIGATION_MESSAGE_INVALID", "invalid" },
+      { GST_NAVIGATION_MESSAGE_MOUSE_OVER, "GST_NAVIGATION_MESSAGE_MOUSE_OVER", "mouse-over" },
+      { GST_NAVIGATION_MESSAGE_COMMANDS_CHANGED, "GST_NAVIGATION_MESSAGE_COMMANDS_CHANGED", "commands-changed" },
+      { GST_NAVIGATION_MESSAGE_ANGLES_CHANGED, "GST_NAVIGATION_MESSAGE_ANGLES_CHANGED", "angles-changed" },
+      { 0, NULL, NULL }
+    };
+    etype = g_enum_register_static ("GstNavigationMessageType", values);
+  }
+  return etype;
+}
+GType
+gst_navigation_event_type_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GEnumValue values[] = {
+      { GST_NAVIGATION_EVENT_INVALID, "GST_NAVIGATION_EVENT_INVALID", "invalid" },
+      { GST_NAVIGATION_EVENT_KEY_PRESS, "GST_NAVIGATION_EVENT_KEY_PRESS", "key-press" },
+      { GST_NAVIGATION_EVENT_KEY_RELEASE, "GST_NAVIGATION_EVENT_KEY_RELEASE", "key-release" },
+      { GST_NAVIGATION_EVENT_MOUSE_BUTTON_PRESS, "GST_NAVIGATION_EVENT_MOUSE_BUTTON_PRESS", "mouse-button-press" },
+      { GST_NAVIGATION_EVENT_MOUSE_BUTTON_RELEASE, "GST_NAVIGATION_EVENT_MOUSE_BUTTON_RELEASE", "mouse-button-release" },
+      { GST_NAVIGATION_EVENT_MOUSE_MOVE, "GST_NAVIGATION_EVENT_MOUSE_MOVE", "mouse-move" },
+      { GST_NAVIGATION_EVENT_COMMAND, "GST_NAVIGATION_EVENT_COMMAND", "command" },
+      { 0, NULL, NULL }
+    };
+    etype = g_enum_register_static ("GstNavigationEventType", values);
   }
   return etype;
 }

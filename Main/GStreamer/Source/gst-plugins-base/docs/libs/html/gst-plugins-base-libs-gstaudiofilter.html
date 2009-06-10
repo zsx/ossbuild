@@ -69,7 +69,7 @@ void                <a class="link" href="gst-plugins-base-libs-gstaudiofilter.h
 <a name="gst-plugins-base-libs-gstaudiofilter.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -91,9 +91,13 @@ their base_init function to easily configure the set of caps/formats that
 the element is able to handle.
 </p>
 <p>
-Derived classes should override the GstAudioFilter::<code class="function">setup()</code> and
-GstBaseTransform::<code class="function">transform_ip()</code> and/or GstBaseTransform::<code class="function">transform()</code>
-virtual functions in their class_init function.</p>
+Derived classes should override the <a class="link" href="gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilterClass" title="GstAudioFilterClass"><span class="type">GstAudioFilterClass</span></a>.<code class="function">setup()</code> and
+<span class="type">GstBaseTransformClass</span>.<code class="function">transform_ip()</code> and/or
+<span class="type">GstBaseTransformClass</span>.<code class="function">transform()</code>
+virtual functions in their class_init function.
+</p>
+<p>
+Last reviewed on 2007-02-03 (0.10.11.1)</p>
 <p>
 
 </p>

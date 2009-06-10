@@ -44,8 +44,8 @@ version_check ()
   if test ! -z "$MICRO"; then VERSION=$VERSION.$MICRO; else MICRO=0; fi
 
   debug "major $MAJOR minor $MINOR micro $MICRO"
-  
-  for SUGGESTION in $PKG_PATH; do 
+
+  for SUGGESTION in $PKG_PATH; do
     COMMAND="$SUGGESTION"
 
     # don't check if asked not to
@@ -61,7 +61,7 @@ version_check ()
     }
 
     debug "checking version with $COMMAND"
-    ($COMMAND --version) < /dev/null > /dev/null 2>&1 || 
+    ($COMMAND --version) < /dev/null > /dev/null 2>&1 ||
     {
       echo "not found."
       continue
@@ -292,3 +292,27 @@ tool_run ()
     exit 1
   }
 }
+
+
+install_git_hooks ()
+{
+  if test -d .git; then
+    # install pre-commit hook for doing clean commits
+    for hook in pre-commit; do
+      if test ! \( -x .git/hooks/$hook -a -L .git/hooks/$hook \); then
+        echo "+ Installing git $hook hook"
+        rm -f .git/hooks/$hook
+        ln -s ../../common/hooks/$hook.hook .git/hooks/$hook || {
+          # if we couldn't create a symbolic link, try doing a plain cp
+          if cp common/hooks/pre-commit.hook .git/hooks/pre-commit; then
+            chmod +x .git/hooks/pre-commit;
+          else
+            echo "********** Couldn't install git $hook hook **********";
+          fi
+        }
+      fi
+    done
+  fi
+}
+
+

@@ -60,13 +60,13 @@ enum                <a class="link" href="gst-plugins-base-libs-gstrtppayloads.h
 #define             <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#GST-RTP-PAYLOAD-IS-DYNAMIC:CAPS" title="GST_RTP_PAYLOAD_IS_DYNAMIC()">GST_RTP_PAYLOAD_IS_DYNAMIC</a>          (pt)
                     <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayloadInfo" title="GstRTPPayloadInfo">GstRTPPayloadInfo</a>;
 const <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayloadInfo" title="GstRTPPayloadInfo">GstRTPPayloadInfo</a>* <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#gst-rtp-payload-info-for-name" title="gst_rtp_payload_info_for_name ()">gst_rtp_payload_info_for_name</a>  (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *media,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *encoding_name);
 const <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayloadInfo" title="GstRTPPayloadInfo">GstRTPPayloadInfo</a>* <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#gst-rtp-payload-info-for-pt" title="gst_rtp_payload_info_for_pt ()">gst_rtp_payload_info_for_pt</a>    (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> payload_type);
 </pre>
 </div>
@@ -75,7 +75,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3098527"></a><p>
+<a name="id2993393"></a><p>
 The GstRTPPayloads helper functions makes it easy to deal with static and dynamic
 payloads. Its main purpose is to retrieve properties such as the default clock-rate 
 and get session bandwidth information.
@@ -325,14 +325,14 @@ Structure holding default payload type information.</p>
 <tbody>
 <tr>
 <td><p><span class="term"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> <em class="structfield"><code>payload_type</code></em>;</span></p></td>
 <td> payload type, -1 means dynamic
 </td>
 </tr>
 <tr>
 <td><p><span class="term">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *<em class="structfield"><code>media</code></em>;</span></p></td>
 <td> the media type(s), usually "audio", "video", "application", "text",
 "message".
@@ -340,21 +340,21 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 </tr>
 <tr>
 <td><p><span class="term">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *<em class="structfield"><code>encoding_name</code></em>;</span></p></td>
 <td> the encoding name of <em class="parameter"><code>pt</code></em>
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> <em class="structfield"><code>clock_rate</code></em>;</span></p></td>
 <td> default clock rate, 0 = unknown/variable
 </td>
 </tr>
 <tr>
 <td><p><span class="term">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *<em class="structfield"><code>encoding_parameters</code></em>;</span></p></td>
 <td> encoding parameters. For audio this is the number of
 channels. NULL = not applicable.
@@ -362,7 +362,7 @@ channels. NULL = not applicable.
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> <em class="structfield"><code>bitrate</code></em>;</span></p></td>
 <td> the bitrate of the media. 0 = unknown/variable.
 </td>
@@ -374,10 +374,10 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <div class="refsect2" lang="en">
 <a name="gst-rtp-payload-info-for-name"></a><h3>gst_rtp_payload_info_for_name ()</h3>
 <pre class="programlisting">const <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayloadInfo" title="GstRTPPayloadInfo">GstRTPPayloadInfo</a>* gst_rtp_payload_info_for_name  (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *media,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *encoding_name);</pre>
 <p>
 Get the <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayloadInfo" title="GstRTPPayloadInfo"><span class="type">GstRTPPayloadInfo</span></a> for <em class="parameter"><code>media</code></em> and <em class="parameter"><code>encoding_name</code></em>. This function is
@@ -414,7 +414,7 @@ The search for <em class="parameter"><code>encoding_name</code></em> will be per
 <div class="refsect2" lang="en">
 <a name="gst-rtp-payload-info-for-pt"></a><h3>gst_rtp_payload_info_for_pt ()</h3>
 <pre class="programlisting">const <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayloadInfo" title="GstRTPPayloadInfo">GstRTPPayloadInfo</a>* gst_rtp_payload_info_for_pt    (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> payload_type);</pre>
 <p>
 Get the <a class="link" href="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayloadInfo" title="GstRTPPayloadInfo"><span class="type">GstRTPPayloadInfo</span></a> for <em class="parameter"><code>payload_type</code></em>. This function is

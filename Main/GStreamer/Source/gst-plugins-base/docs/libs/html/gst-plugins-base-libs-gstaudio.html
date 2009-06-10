@@ -70,7 +70,7 @@ long                <a class="link" href="gst-plugins-base-libs-gstaudio.html#gs
 GstClockTime        <a class="link" href="gst-plugins-base-libs-gstaudio.html#gst-audio-duration-from-pad-buffer" title="gst_audio_duration_from_pad_buffer ()">gst_audio_duration_from_pad_buffer</a>  (GstPad *pad,
                                                          GstBuffer *buf);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gst-plugins-base-libs-gstaudio.html#gst-audio-is-buffer-framed" title="gst_audio_is_buffer_framed ()">gst_audio_is_buffer_framed</a>          (GstPad *pad,
                                                          GstBuffer *buf);
 void                <a class="link" href="gst-plugins-base-libs-gstaudio.html#gst-audio-structure-set-int" title="gst_audio_structure_set_int ()">gst_audio_structure_set_int</a>         (GstStructure *structure,
@@ -78,10 +78,10 @@ void                <a class="link" href="gst-plugins-base-libs-gstaudio.html#gs
 GstBuffer*          <a class="link" href="gst-plugins-base-libs-gstaudio.html#gst-audio-buffer-clip" title="gst_audio_buffer_clip ()">gst_audio_buffer_clip</a>               (GstBuffer *buffer,
                                                          GstSegment *segment,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> rate,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> frame_size);
 </pre>
 </div>
@@ -313,7 +313,7 @@ Calculate length in nanoseconds of audio buffer <em class="parameter"><code>buf<
 <div class="refsect2" lang="en">
 <a name="gst-audio-is-buffer-framed"></a><h3>gst_audio_is_buffer_framed ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_audio_is_buffer_framed          (GstPad *pad,
                                                          GstBuffer *buf);</pre>
 <p>
@@ -337,7 +337,7 @@ Check if the buffer size is a whole multiple of the frame size.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE:CAPS"
 ><code class="literal">TRUE</code></a> if buffer size is multiple.
 </td>
 </tr>
@@ -380,10 +380,10 @@ Do not use anymore.</p>
 <pre class="programlisting">GstBuffer*          gst_audio_buffer_clip               (GstBuffer *buffer,
                                                          GstSegment *segment,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> rate,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> frame_size);</pre>
 <p>
 Clip the the buffer to the given <code class="literal">GstSegment</code>.
@@ -420,7 +420,7 @@ After calling this function the caller does not own a reference to
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"
+href="../glib/glib-Standard-Macros.html#NULL:CAPS"
 ><code class="literal">NULL</code></a> if the buffer is completely outside the configured segment,
 otherwise the clipped buffer is returned.
 

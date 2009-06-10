@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-oggdemux.html" title="oggdemux">
 <link rel="next" href="gst-plugins-base-plugins-playbin.html" title="playbin">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-playbin.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-oggmux.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-oggmux.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-oggmux.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-oggmux.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-oggmux.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-oggmux.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-oggmux.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-oggmux.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-oggmux"></a><div class="titlepage"></div>
@@ -50,7 +52,7 @@
 <a name="gst-plugins-base-plugins-oggmux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -61,10 +63,10 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-oggmux.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-oggmux.html#GstOggMux--max-delay" title='The "max-delay" property'>max-delay</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-oggmux.html#GstOggMux--max-page-delay" title='The "max-page-delay" property'>max-page-delay</a>"           <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
 </pre>
 </div>
@@ -76,7 +78,7 @@ This element merges streams (audio and video) into ogg files.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2782104"></a><h3>Example pipelines</h3>
+<a name="id2674029"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch v4l2src num-buffers=500 ! video/x-raw-yuv,width=320,height=240 ! ffmpegcolorspace ! theoraenc ! oggmux ! filesink location=video.ogg
 </pre></div> Encodes a video stream captured from a v4l2-compatible camera to Ogg/Theora
@@ -89,7 +91,7 @@ Last reviewed on 2008-02-06 (0.10.17)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2782073"></a><h3>Element Information</h3>
+<a name="id2674014"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -112,7 +114,7 @@ Last reviewed on 2008-02-06 (0.10.17)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2782547"></a><h3>Element Pads</h3>
+<a name="id2667890"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -194,7 +196,6 @@ Last reviewed on 2008-02-06 (0.10.17)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -205,7 +206,6 @@ Last reviewed on 2008-02-06 (0.10.17)</p>
 <p>
 The ogg muxer object structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -214,7 +214,7 @@ The ogg muxer object structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstOggMux--max-delay"></a><h3>The <code class="literal">"max-delay"</code> property</h3>
 <pre class="programlisting">  "max-delay"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>Maximum delay in multiplexing streams.</p>
 <p>Default value: 500000000</p>
@@ -223,7 +223,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstOggMux--max-page-delay"></a><h3>The <code class="literal">"max-page-delay"</code> property</h3>
 <pre class="programlisting">  "max-page-delay"           <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>Maximum delay for sending out a page.</p>
 <p>Default value: 500000000</p>
@@ -236,6 +236,6 @@ oggdemux
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

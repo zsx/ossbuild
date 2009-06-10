@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-giostreamsrc.html" title="giostreamsrc">
 <link rel="next" href="gst-plugins-base-plugins-gnomevfssrc.html" title="gnomevfssrc">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,17 +23,19 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-gnomevfssrc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-gnomevfssink.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-gnomevfssink.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-gnomevfssink.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-gnomevfssink.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-gnomevfssink.properties" class="shortcut">Properties</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-gnomevfssink.signals" class="shortcut">Signals</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-gnomevfssink.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-gnomevfssink.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-gnomevfssink.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-gnomevfssink.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-gnomevfssink.properties" class="shortcut">Properties</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-gnomevfssink.signals" class="shortcut">Signals</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-gnomevfssink"></a><div class="titlepage"></div>
@@ -54,7 +56,7 @@
 <a name="gst-plugins-base-plugins-gnomevfssink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -73,10 +75,10 @@ GstGnomeVFSSink implements
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-gnomevfssink.html#GstGnomeVFSSink--handle" title='The "handle" property'>handle</a>"                   GnomeVFSHandle*       : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-gnomevfssink.html#GstGnomeVFSSink--location" title='The "location" property'>location</a>"                 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-gnomevfssink.html#GstGnomeVFSSink--uri" title='The "uri" property'>uri</a>"                      <a
-href="/usr/share/gtk-doc/html/gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
+href="../gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
 >GnomeVFSURI</a>*          : Read / Write
 </pre>
 </div>
@@ -102,7 +104,7 @@ resource or abort with an error.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2779345"></a><h3>Example launch lines</h3>
+<a name="id2664712"></a><h3>Example launch lines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=input.xyz ! gnomevfssink location=file:///home/joe/out.xyz
 </pre></div> The above pipeline will simply copy a local file. Instead of gnomevfssink,
@@ -119,7 +121,7 @@ Last reviewed on 2006-02-28 (0.10.4)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2779382"></a><h3>Element Information</h3>
+<a name="id2664748"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -142,7 +144,7 @@ Last reviewed on 2006-02-28 (0.10.4)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2779444"></a><h3>Element Pads</h3>
+<a name="id2664811"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -167,7 +169,6 @@ Last reviewed on 2006-02-28 (0.10.4)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -178,7 +179,6 @@ Last reviewed on 2006-02-28 (0.10.4)</p>
 <p>
 Opaque data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -193,7 +193,7 @@ Opaque data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstGnomeVFSSink--location"></a><h3>The <code class="literal">"location"</code> property</h3>
 <pre class="programlisting">  "location"                 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>Location of the file to write.</p>
 <p>Default value: NULL</p>
@@ -202,7 +202,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="GstGnomeVFSSink--uri"></a><h3>The <code class="literal">"uri"</code> property</h3>
 <pre class="programlisting">  "uri"                      <a
-href="/usr/share/gtk-doc/html/gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
+href="../gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
 >GnomeVFSURI</a>*          : Read / Write</pre>
 <p>URI for GnomeVFS.</p>
 </div>
@@ -212,20 +212,19 @@ href="/usr/share/gtk-doc/html/gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#Gnom
 <div class="refsect2" lang="en">
 <a name="GstGnomeVFSSink-allow-overwrite"></a><h3>The <code class="literal">"allow-overwrite"</code> signal</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            user_function                      (<a class="link" href="gst-plugins-base-plugins-gnomevfssink.html#GstGnomeVFSSink">GstGnomeVFSSink</a> *sink,
                                                         <a
-href="/usr/share/gtk-doc/html/gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
+href="../gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
 >GnomeVFSURI</a>     *uri,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>         user_data)      : Cleanup</pre>
 <p>
 This signal is fired when gnomevfssink is about to overwrite an
 existing resource. The application can connect to this signal and ask
 the user if the resource may be overwritten.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -255,11 +254,11 @@ the user if the resource may be overwritten.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-gnomevfssink.see-also"></a><h2>See Also</h2>
-<span class="type">GstFileSink</span>, <a class="link" href="gst-plugins-base-plugins-gnomevfssrc.html#GstGnomeVFSSrc"><span class="type">GstGnomeVFSSrc</span></a>
+#GstFileSink, <a class="link" href="gst-plugins-base-plugins-gnomevfssrc.html#GstGnomeVFSSrc"><span class="type">GstGnomeVFSSrc</span></a>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

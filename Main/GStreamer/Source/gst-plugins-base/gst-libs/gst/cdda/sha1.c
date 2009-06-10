@@ -10,7 +10,7 @@
  *
  * This code is in the public domain 
  *
- * $Id: sha1.c,v 1.2 2008-02-27 10:42:08 slomo Exp $
+ * $Id$
  */
 
 #ifdef HAVE_CONFIG_H

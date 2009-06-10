@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-alsasink.html" title="alsasink">
 <link rel="next" href="gst-plugins-base-plugins-audioconvert.html" title="audioconvert">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-audioconvert.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-alsasrc.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-alsasrc.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-alsasrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-alsasrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-alsasrc.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-alsasrc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-alsasrc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-alsasrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-alsasrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-alsasrc.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-alsasrc"></a><div class="titlepage"></div>
@@ -52,17 +54,17 @@
 <a name="gst-plugins-base-plugins-alsasrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
                +----GstBaseSrc
                      +----GstPushSrc
                            +----<a
-href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc"
+href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc"
 >GstBaseAudioSrc</a>
                                  +----<a
-href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiosrc.html#GstAudioSrc"
+href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiosrc.html#GstAudioSrc"
 >GstAudioSrc</a>
                                        +----GstAlsaSrc
 </pre>
@@ -72,19 +74,19 @@ href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-g
 <p>
 GstAlsaSrc implements
  GstImplementsInterface,  <a
-href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstmixer.html#GstMixer"
+href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstmixer.html#GstMixer"
 >GstMixer</a> and  <a
-href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
+href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
 >GstPropertyProbe</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-alsasrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-alsasrc.html#GstAlsaSrc--device" title='The "device" property'>device</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-alsasrc.html#GstAlsaSrc--device-name" title='The "device-name" property'>device-name</a>"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read
 </pre>
 </div>
@@ -96,7 +98,7 @@ This element reads data from an audio card using the ALSA API.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2729072"></a><h3>Example pipelines</h3>
+<a name="id2618454"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v alsasrc ! audioconvert ! vorbisenc ! oggmux ! filesink location=alsasrc.ogg
 </pre></div> Record from a sound card using ALSA and encode to Ogg/Vorbis.
@@ -108,7 +110,7 @@ Last reviewed on 2006-03-01 (0.10.4)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2742052"></a><h3>Element Information</h3>
+<a name="id2628043"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -131,7 +133,7 @@ Last reviewed on 2006-03-01 (0.10.4)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2742115"></a><h3>Element Pads</h3>
+<a name="id2628105"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -172,7 +174,6 @@ Last reviewed on 2006-03-01 (0.10.4)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -183,7 +184,6 @@ Last reviewed on 2006-03-01 (0.10.4)</p>
 <p>
 Opaque data structure</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -192,7 +192,7 @@ Opaque data structure</p>
 <div class="refsect2" lang="en">
 <a name="GstAlsaSrc--device"></a><h3>The <code class="literal">"device"</code> property</h3>
 <pre class="programlisting">  "device"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>ALSA device, as defined in an asound configuration file.</p>
 <p>Default value: "default"</p>
@@ -201,7 +201,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="GstAlsaSrc--device-name"></a><h3>The <code class="literal">"device-name"</code> property</h3>
 <pre class="programlisting">  "device-name"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read</pre>
 <p>Human-readable name of the sound device.</p>
 <p>Default value: ""</p>
@@ -214,6 +214,6 @@ alsasink, alsamixer
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

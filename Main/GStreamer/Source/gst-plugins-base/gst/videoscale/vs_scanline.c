@@ -42,8 +42,8 @@ vs_scanline_downsample_Y (uint8_t * dest, uint8_t * src, int n)
 }
 
 void
-vs_scanline_resample_nearest_Y (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_nearest_Y (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   int acc = *accumulator;
   int i;
@@ -53,7 +53,7 @@ vs_scanline_resample_nearest_Y (uint8_t * dest, uint8_t * src, int n,
   for (i = 0; i < n; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i] = (x < 32768) ? src[j] : src[j + 1];
+    dest[i] = (x < 32768 || j + 1 >= src_width) ? src[j] : src[j + 1];
 
     acc += increment;
   }
@@ -61,18 +61,29 @@ vs_scanline_resample_nearest_Y (uint8_t * dest, uint8_t * src, int n,
   *accumulator = acc;
 }
 
+#include <glib.h>
 void
-vs_scanline_resample_linear_Y (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_linear_Y (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
-  uint32_t vals[2];
+  int acc = *accumulator;
+  int i;
+  int j;
+  int x;
 
-  vals[0] = *accumulator;
-  vals[1] = increment;
+  for (i = 0; i < n; i++) {
+    j = acc >> 16;
+    x = acc & 0xffff;
 
-  oil_resample_linear_u8 (dest, src, n, vals);
+    if (j + 1 < src_width)
+      dest[i] = (src[j] * (65536 - x) + src[j + 1] * x) >> 16;
+    else
+      dest[i] = src[j];
 
-  *accumulator = vals[0];
+    acc += increment;
+  }
+
+  *accumulator = acc;
 }
 
 void
@@ -101,8 +112,8 @@ vs_scanline_downsample_RGBA (uint8_t * dest, uint8_t * src, int n)
 }
 
 void
-vs_scanline_resample_nearest_RGBA (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_nearest_RGBA (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   int acc = *accumulator;
   int i;
@@ -112,10 +123,18 @@ vs_scanline_resample_nearest_RGBA (uint8_t * dest, uint8_t * src, int n,
   for (i = 0; i < n; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 4 + 0] = (x < 32768) ? src[j * 4 + 0] : src[j * 4 + 4];
-    dest[i * 4 + 1] = (x < 32768) ? src[j * 4 + 1] : src[j * 4 + 5];
-    dest[i * 4 + 2] = (x < 32768) ? src[j * 4 + 2] : src[j * 4 + 6];
-    dest[i * 4 + 3] = (x < 32768) ? src[j * 4 + 3] : src[j * 4 + 7];
+
+    if (j + 1 < src_width) {
+      dest[i * 4 + 0] = (x < 32768) ? src[j * 4 + 0] : src[j * 4 + 4];
+      dest[i * 4 + 1] = (x < 32768) ? src[j * 4 + 1] : src[j * 4 + 5];
+      dest[i * 4 + 2] = (x < 32768) ? src[j * 4 + 2] : src[j * 4 + 6];
+      dest[i * 4 + 3] = (x < 32768) ? src[j * 4 + 3] : src[j * 4 + 7];
+    } else {
+      dest[i * 4 + 0] = src[j * 4 + 0];
+      dest[i * 4 + 1] = src[j * 4 + 1];
+      dest[i * 4 + 2] = src[j * 4 + 2];
+      dest[i * 4 + 3] = src[j * 4 + 3];
+    }
 
     acc += increment;
   }
@@ -123,16 +142,38 @@ vs_scanline_resample_nearest_RGBA (uint8_t * dest, uint8_t * src, int n,
   *accumulator = acc;
 }
 
+#include <stdio.h>
 void
-vs_scanline_resample_linear_RGBA (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_linear_RGBA (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   uint32_t vals[2];
 
   vals[0] = *accumulator;
   vals[1] = increment;
 
-  oil_resample_linear_argb ((uint32_t *) dest, (uint32_t *) src, n, vals);
+  if (src_width % 2 == 0) {
+    oil_resample_linear_argb ((uint32_t *) dest, (uint32_t *) src, n, vals);
+  } else if (src_width > 1) {
+    if (n > 1)
+      oil_resample_linear_argb ((uint32_t *) dest, (uint32_t *) src, n - 1,
+          vals);
+    dest[4 * (n - 1) + 0] = src[(vals[0] >> 16) + 0];
+    dest[4 * (n - 1) + 1] = src[(vals[0] >> 16) + 1];
+    dest[4 * (n - 1) + 2] = src[(vals[0] >> 16) + 2];
+    dest[4 * (n - 1) + 3] = src[(vals[0] >> 16) + 3];
+    vals[0] += increment;
+  } else {
+    int i;
+
+    for (i = 0; i < n; i++) {
+      dest[4 * i + 0] = src[0];
+      dest[4 * i + 1] = src[1];
+      dest[4 * i + 2] = src[2];
+      dest[4 * i + 3] = src[3];
+      vals[0] += increment;
+    }
+  }
 
   *accumulator = vals[0];
 }
@@ -163,8 +204,8 @@ vs_scanline_downsample_RGB (uint8_t * dest, uint8_t * src, int n)
 }
 
 void
-vs_scanline_resample_nearest_RGB (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_nearest_RGB (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   int acc = *accumulator;
   int i;
@@ -174,9 +215,12 @@ vs_scanline_resample_nearest_RGB (uint8_t * dest, uint8_t * src, int n,
   for (i = 0; i < n; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 3 + 0] = (x < 32768) ? src[j * 3 + 0] : src[j * 3 + 3];
-    dest[i * 3 + 1] = (x < 32768) ? src[j * 3 + 1] : src[j * 3 + 4];
-    dest[i * 3 + 2] = (x < 32768) ? src[j * 3 + 2] : src[j * 3 + 5];
+    dest[i * 3 + 0] = (x < 32768
+        || j + 1 >= src_width) ? src[j * 3 + 0] : src[j * 3 + 3];
+    dest[i * 3 + 1] = (x < 32768
+        || j + 1 >= src_width) ? src[j * 3 + 1] : src[j * 3 + 4];
+    dest[i * 3 + 2] = (x < 32768
+        || j + 1 >= src_width) ? src[j * 3 + 2] : src[j * 3 + 5];
 
     acc += increment;
   }
@@ -185,8 +229,8 @@ vs_scanline_resample_nearest_RGB (uint8_t * dest, uint8_t * src, int n,
 }
 
 void
-vs_scanline_resample_linear_RGB (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_linear_RGB (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   int acc = *accumulator;
   int i;
@@ -196,9 +240,19 @@ vs_scanline_resample_linear_RGB (uint8_t * dest, uint8_t * src, int n,
   for (i = 0; i < n; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 3 + 0] = (src[j * 3 + 0] * (65536 - x) + src[j * 3 + 3] * x) >> 16;
-    dest[i * 3 + 1] = (src[j * 3 + 1] * (65536 - x) + src[j * 3 + 4] * x) >> 16;
-    dest[i * 3 + 2] = (src[j * 3 + 2] * (65536 - x) + src[j * 3 + 5] * x) >> 16;
+
+    if (j + 1 < src_width) {
+      dest[i * 3 + 0] =
+          (src[j * 3 + 0] * (65536 - x) + src[j * 3 + 3] * x) >> 16;
+      dest[i * 3 + 1] =
+          (src[j * 3 + 1] * (65536 - x) + src[j * 3 + 4] * x) >> 16;
+      dest[i * 3 + 2] =
+          (src[j * 3 + 2] * (65536 - x) + src[j * 3 + 5] * x) >> 16;
+    } else {
+      dest[i * 3 + 0] = src[j * 3 + 0];
+      dest[i * 3 + 1] = src[j * 3 + 1];
+      dest[i * 3 + 2] = src[j * 3 + 2];
+    }
 
     acc += increment;
   }
@@ -218,7 +272,7 @@ vs_scanline_merge_linear_RGB (uint8_t * dest, uint8_t * src1, uint8_t * src2,
 
 /* YUYV */
 
-/* n is the number of bi-pixels */
+/* n is the number of pixels */
 /* increment is per Y pixel */
 
 void
@@ -235,63 +289,97 @@ vs_scanline_downsample_YUYV (uint8_t * dest, uint8_t * src, int n)
 }
 
 void
-vs_scanline_resample_nearest_YUYV (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_nearest_YUYV (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   int acc = *accumulator;
   int i;
   int j;
   int x;
+  int quads = (n + 1) / 2;
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < quads; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 4 + 0] = (x < 32768) ? src[j * 2 + 0] : src[j * 2 + 2];
+    dest[i * 4 + 0] = (x < 32768
+        || j + 1 >= src_width) ? src[j * 2 + 0] : src[j * 2 + 2];
 
     j = acc >> 17;
     x = acc & 0x1ffff;
-    dest[i * 4 + 1] = (x < 65536) ? src[j * 4 + 1] : src[j * 4 + 5];
-    dest[i * 4 + 3] = (x < 65536) ? src[j * 4 + 3] : src[j * 4 + 7];
+    dest[i * 4 + 1] = (x < 65536
+        || 2 * (j + 2) >= src_width) ? src[j * 4 + 1] : src[j * 4 + 5];
+
+    if (2 * i + 1 < n && 2 * (j + 1) < src_width)
+      dest[i * 4 + 3] = (x < 65536
+          || 2 * (j + 3) >= src_width) ? src[j * 4 + 3] : src[j * 4 + 7];
 
     acc += increment;
 
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 4 + 2] = (x < 32768) ? src[j * 2 + 0] : src[j * 2 + 2];
-    acc += increment;
+
+    if (2 * i + 1 < n && j < src_width) {
+      dest[i * 4 + 2] = (x < 32768
+          || j + 1 >= src_width) ? src[j * 2 + 0] : src[j * 2 + 2];
+      acc += increment;
+    }
   }
 
   *accumulator = acc;
 }
 
 void
-vs_scanline_resample_linear_YUYV (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_linear_YUYV (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   int acc = *accumulator;
   int i;
   int j;
   int x;
+  int quads = (n + 1) / 2;
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < quads; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 4 + 0] = (src[j * 2 + 0] * (65536 - x) + src[j * 2 + 2] * x) >> 16;
+
+    if (j + 1 < src_width)
+      dest[i * 4 + 0] =
+          (src[j * 2 + 0] * (65536 - x) + src[j * 2 + 2] * x) >> 16;
+    else
+      dest[i * 4 + 0] = src[j * 2 + 0];
 
     j = acc >> 17;
     x = acc & 0x1ffff;
-    dest[i * 4 + 1] =
-        (src[j * 4 + 1] * (131072 - x) + src[j * 4 + 5] * x) >> 17;
-    dest[i * 4 + 3] =
-        (src[j * 4 + 3] * (131072 - x) + src[j * 4 + 7] * x) >> 17;
+
+    if (2 * (j + 2) < src_width)
+      dest[i * 4 + 1] =
+          (src[j * 4 + 1] * (131072 - x) + src[j * 4 + 5] * x) >> 17;
+    else
+      dest[i * 4 + 1] = src[j * 4 + 1];
+
+    if (2 * i + 1 < n && 2 * (j + 1) < src_width) {
+      if (2 * (j + 3) < src_width)
+        dest[i * 4 + 3] =
+            (src[j * 4 + 3] * (131072 - x) + src[j * 4 + 7] * x) >> 17;
+      else
+        dest[i * 4 + 3] = src[j * 4 + 3];
+    }
 
     acc += increment;
 
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 4 + 2] = (src[j * 2 + 0] * (65536 - x) + src[j * 2 + 2] * x) >> 16;
-    acc += increment;
+
+    if (2 * i + 1 < n && j < src_width) {
+      if (j + 1 < src_width)
+        dest[i * 4 + 2] =
+            (src[j * 2 + 0] * (65536 - x) + src[j * 2 + 2] * x) >> 16;
+      else
+        dest[i * 4 + 2] = src[j * 2 + 0];
+      acc += increment;
+    }
   }
+
 
   *accumulator = acc;
 }
@@ -301,16 +389,20 @@ vs_scanline_merge_linear_YUYV (uint8_t * dest, uint8_t * src1, uint8_t * src2,
     int n, int x)
 {
   int i;
+  int quads = (n + 1) / 2;
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < quads; i++) {
     dest[i * 4 + 0] =
         (src1[i * 4 + 0] * (65536 - x) + src2[i * 4 + 0] * x) >> 16;
     dest[i * 4 + 1] =
         (src1[i * 4 + 1] * (65536 - x) + src2[i * 4 + 1] * x) >> 16;
-    dest[i * 4 + 2] =
-        (src1[i * 4 + 2] * (65536 - x) + src2[i * 4 + 2] * x) >> 16;
-    dest[i * 4 + 3] =
-        (src1[i * 4 + 3] * (65536 - x) + src2[i * 4 + 3] * x) >> 16;
+
+    if (2 * i + 1 < n) {
+      dest[i * 4 + 2] =
+          (src1[i * 4 + 2] * (65536 - x) + src2[i * 4 + 2] * x) >> 16;
+      dest[i * 4 + 3] =
+          (src1[i * 4 + 3] * (65536 - x) + src2[i * 4 + 3] * x) >> 16;
+    }
   }
 }
 
@@ -334,75 +426,121 @@ vs_scanline_downsample_UYVY (uint8_t * dest, uint8_t * src, int n)
 }
 
 void
-vs_scanline_resample_nearest_UYVY (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_nearest_UYVY (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   int acc = *accumulator;
   int i;
   int j;
   int x;
+  int quads = (n + 1) / 2;
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < quads; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 4 + 1] = (x < 32768) ? src[j * 2 + 1] : src[j * 2 + 3];
+
+    dest[i * 4 + 1] = (x < 32768
+        || j + 1 >= src_width) ? src[j * 2 + 1] : src[j * 2 + 3];
 
     j = acc >> 17;
     x = acc & 0x1ffff;
-    dest[i * 4 + 0] = (x < 65536) ? src[j * 4 + 0] : src[j * 4 + 4];
-    dest[i * 4 + 2] = (x < 65536) ? src[j * 4 + 2] : src[j * 4 + 6];
+
+    dest[i * 4 + 0] = (x < 65536
+        || 2 * (j + 2) >= src_width) ? src[j * 4 + 0] : src[j * 4 + 4];
+
+    if (2 * i + 1 < n && 2 * (j + 1) < src_width)
+      dest[i * 4 + 2] = (x < 65536
+          || 2 * (j + 3) >= src_width) ? src[j * 4 + 2] : src[j * 4 + 6];
 
     acc += increment;
 
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 4 + 3] = (x < 32768) ? src[j * 2 + 1] : src[j * 2 + 3];
-    acc += increment;
+
+    if (2 * i + 1 < n && j < src_width) {
+      dest[i * 4 + 3] = (x < 32768
+          || j + 1 >= src_width) ? src[j * 2 + 1] : src[j * 2 + 3];
+      acc += increment;
+    }
   }
 
   *accumulator = acc;
 }
 
 void
-vs_scanline_resample_linear_UYVY (uint8_t * dest, uint8_t * src, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_linear_UYVY (uint8_t * dest, uint8_t * src, int src_width,
+    int n, int *accumulator, int increment)
 {
   int acc = *accumulator;
   int i;
   int j;
   int x;
+  int quads = (n + 1) / 2;
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < quads; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i * 4 + 1] = (src[j * 2 + 1] * (65536 - x) + src[j * 2 + 3] * x) >> 16;
+
+    if (j + 1 < src_width)
+      dest[i * 4 + 1] =
+          (src[j * 2 + 1] * (65536 - x) + src[j * 2 + 3] * x) >> 16;
+    else
+      dest[i * 4 + 1] = src[j * 2 + 1];
 
     j = acc >> 17;
     x = acc & 0x1ffff;
+    if (2 * (j + 2) < src_width)
+      dest[i * 4 + 0] =
+          (src[j * 4 + 0] * (131072 - x) + src[j * 4 + 4] * x) >> 17;
+    else
+      dest[i * 4 + 0] = src[j * 4 + 0];
+
+    if (i * 2 + 1 < n && 2 * (j + 1) < src_width) {
+      if (2 * (j + 3) < src_width)
+        dest[i * 4 + 2] =
+            (src[j * 4 + 2] * (131072 - x) + src[j * 4 + 6] * x) >> 17;
+      else
+        dest[i * 4 + 2] = src[j * 4 + 2];
+    }
+
+    acc += increment;
+
+    j = acc >> 16;
+    x = acc & 0xffff;
+
+    if (2 * i + 1 < n && j < src_width) {
+      if (j + 1 < src_width)
+        dest[i * 4 + 3] =
+            (src[j * 2 + 1] * (65536 - x) + src[j * 2 + 3] * x) >> 16;
+      else
+        dest[i * 4 + 3] = src[j * 2 + 1];
+      acc += increment;
+    }
+  }
+
+  *accumulator = acc;
+}
+
+void
+vs_scanline_merge_linear_UYVY (uint8_t * dest, uint8_t * src1,
+    uint8_t * src2, int n, int x)
+{
+  int i;
+  int quads = (n + 1) / 2;
+
+  for (i = 0; i < quads; i++) {
     dest[i * 4 + 0] =
-        (src[j * 4 + 0] * (131072 - x) + src[j * 4 + 4] * x) >> 17;
-    dest[i * 4 + 2] =
-        (src[j * 4 + 2] * (131072 - x) + src[j * 4 + 6] * x) >> 17;
+        (src1[i * 4 + 0] * (65536 - x) + src2[i * 4 + 0] * x) >> 16;
+    dest[i * 4 + 1] =
+        (src1[i * 4 + 1] * (65536 - x) + src2[i * 4 + 1] * x) >> 16;
 
-    acc += increment;
-
-    j = acc >> 16;
-    x = acc & 0xffff;
-    dest[i * 4 + 3] = (src[j * 2 + 1] * (65536 - x) + src[j * 2 + 3] * x) >> 16;
-    acc += increment;
+    if (2 * i + 1 < n) {
+      dest[i * 4 + 2] =
+          (src1[i * 4 + 2] * (65536 - x) + src2[i * 4 + 2] * x) >> 16;
+      dest[i * 4 + 3] =
+          (src1[i * 4 + 3] * (65536 - x) + src2[i * 4 + 3] * x) >> 16;
+    }
   }
-
-  *accumulator = acc;
-}
-
-void
-vs_scanline_merge_linear_UYVY (uint8_t * dest, uint8_t * src1, uint8_t * src2,
-    int n, int x)
-{
-  uint32_t value = x >> 8;
-
-  oil_merge_linear_argb ((uint32_t *) dest, (uint32_t *) src1,
-      (uint32_t *) src2, &value, n);
 }
 
 
@@ -434,8 +572,8 @@ vs_scanline_downsample_RGB565 (uint8_t * dest_u8, uint8_t * src_u8, int n)
 }
 
 void
-vs_scanline_resample_nearest_RGB565 (uint8_t * dest_u8, uint8_t * src_u8, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_nearest_RGB565 (uint8_t * dest_u8, uint8_t * src_u8,
+    int src_width, int n, int *accumulator, int increment)
 {
   uint16_t *dest = (uint16_t *) dest_u8;
   uint16_t *src = (uint16_t *) src_u8;
@@ -447,7 +585,7 @@ vs_scanline_resample_nearest_RGB565 (uint8_t * dest_u8, uint8_t * src_u8, int n,
   for (i = 0; i < n; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i] = (x < 32768) ? src[j] : src[j + 1];
+    dest[i] = (x < 32768 || j + 1 >= src_width) ? src[j] : src[j + 1];
 
     acc += increment;
   }
@@ -456,8 +594,8 @@ vs_scanline_resample_nearest_RGB565 (uint8_t * dest_u8, uint8_t * src_u8, int n,
 }
 
 void
-vs_scanline_resample_linear_RGB565 (uint8_t * dest_u8, uint8_t * src_u8, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_linear_RGB565 (uint8_t * dest_u8, uint8_t * src_u8,
+    int src_width, int n, int *accumulator, int increment)
 {
   uint16_t *dest = (uint16_t *) dest_u8;
   uint16_t *src = (uint16_t *) src_u8;
@@ -469,10 +607,16 @@ vs_scanline_resample_linear_RGB565 (uint8_t * dest_u8, uint8_t * src_u8, int n,
   for (i = 0; i < n; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i] = RGB565 (
-        (RGB565_R (src[j]) * (65536 - x) + RGB565_R (src[j + 1]) * x) >> 16,
-        (RGB565_G (src[j]) * (65536 - x) + RGB565_G (src[j + 1]) * x) >> 16,
-        (RGB565_B (src[j]) * (65536 - x) + RGB565_B (src[j + 1]) * x) >> 16);
+
+    if (j + 1 < src_width) {
+      dest[i] = RGB565 (
+          (RGB565_R (src[j]) * (65536 - x) + RGB565_R (src[j + 1]) * x) >> 16,
+          (RGB565_G (src[j]) * (65536 - x) + RGB565_G (src[j + 1]) * x) >> 16,
+          (RGB565_B (src[j]) * (65536 - x) + RGB565_B (src[j + 1]) * x) >> 16);
+    } else {
+      dest[i] = RGB565 (RGB565_R (src[j]),
+          RGB565_G (src[j]), RGB565_B (src[j]));
+    }
 
     acc += increment;
   }
@@ -526,8 +670,8 @@ vs_scanline_downsample_RGB555 (uint8_t * dest_u8, uint8_t * src_u8, int n)
 }
 
 void
-vs_scanline_resample_nearest_RGB555 (uint8_t * dest_u8, uint8_t * src_u8, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_nearest_RGB555 (uint8_t * dest_u8, uint8_t * src_u8,
+    int src_width, int n, int *accumulator, int increment)
 {
   uint16_t *dest = (uint16_t *) dest_u8;
   uint16_t *src = (uint16_t *) src_u8;
@@ -539,7 +683,7 @@ vs_scanline_resample_nearest_RGB555 (uint8_t * dest_u8, uint8_t * src_u8, int n,
   for (i = 0; i < n; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i] = (x < 32768) ? src[j] : src[j + 1];
+    dest[i] = (x < 32768 || j + 1 >= src_width) ? src[j] : src[j + 1];
 
     acc += increment;
   }
@@ -548,8 +692,8 @@ vs_scanline_resample_nearest_RGB555 (uint8_t * dest_u8, uint8_t * src_u8, int n,
 }
 
 void
-vs_scanline_resample_linear_RGB555 (uint8_t * dest_u8, uint8_t * src_u8, int n,
-    int *accumulator, int increment)
+vs_scanline_resample_linear_RGB555 (uint8_t * dest_u8, uint8_t * src_u8,
+    int src_width, int n, int *accumulator, int increment)
 {
   uint16_t *dest = (uint16_t *) dest_u8;
   uint16_t *src = (uint16_t *) src_u8;
@@ -561,10 +705,16 @@ vs_scanline_resample_linear_RGB555 (uint8_t * dest_u8, uint8_t * src_u8, int n,
   for (i = 0; i < n; i++) {
     j = acc >> 16;
     x = acc & 0xffff;
-    dest[i] = RGB555 (
-        (RGB555_R (src[j]) * (65536 - x) + RGB555_R (src[j + 1]) * x) >> 16,
-        (RGB555_G (src[j]) * (65536 - x) + RGB555_G (src[j + 1]) * x) >> 16,
-        (RGB555_B (src[j]) * (65536 - x) + RGB555_B (src[j + 1]) * x) >> 16);
+
+    if (j + 1 < src_width) {
+      dest[i] = RGB555 (
+          (RGB555_R (src[j]) * (65536 - x) + RGB555_R (src[j + 1]) * x) >> 16,
+          (RGB555_G (src[j]) * (65536 - x) + RGB555_G (src[j + 1]) * x) >> 16,
+          (RGB555_B (src[j]) * (65536 - x) + RGB555_B (src[j + 1]) * x) >> 16);
+    } else {
+      dest[i] = RGB555 (RGB555_R (src[j]),
+          RGB555_G (src[j]), RGB555_B (src[j]));
+    }
 
     acc += increment;
   }

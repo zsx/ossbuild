@@ -839,6 +839,26 @@
 </ARG>
 
 <ARG>
+<NAME>GstMultiFdSink::handle-read</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Handle Read</NICK>
+<BLURB>Handle client reads and discard the data.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstMultiFdSink::resend-streamheader</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Resend streamheader</NICK>
+<BLURB>Resend the streamheader if it changes in the caps.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
 <NAME>GstDecodeBin::threaded</NAME>
 <TYPE>gboolean</TYPE>
 <RANGE></RANGE>
@@ -1166,6 +1186,16 @@
 <NICK>Sharpness</NICK>
 <BLURB>Sharpness.</BLURB>
 <DEFAULT>0</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstTheoraEnc::speed-level</NAME>
+<TYPE>gint</TYPE>
+<RANGE>[0,2]</RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Speed level</NICK>
+<BLURB>Controls the amount of motion vector searching done while encoding.  This property requires libtheora version >= 1.0.</BLURB>
+<DEFAULT>1</DEFAULT>
 </ARG>
 
 <ARG>
@@ -2269,16 +2299,6 @@
 </ARG>
 
 <ARG>
-<NAME>GstPlayBin2::stream-info</NAME>
-<TYPE>GValueArray*</TYPE>
-<RANGE></RANGE>
-<FLAGS>r</FLAGS>
-<NICK>StreamInfo GValueArray</NICK>
-<BLURB>value array of streaminfo.</BLURB>
-<DEFAULT></DEFAULT>
-</ARG>
-
-<ARG>
 <NAME>GstPlayBin2::subtitle-encoding</NAME>
 <TYPE>gchar*</TYPE>
 <RANGE></RANGE>
@@ -2376,6 +2396,16 @@
 <NICK>Buffer size (bytes)</NICK>
 <BLURB>Buffer size when buffering network streams.</BLURB>
 <DEFAULT>-1</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstPlayBin2::text-sink</NAME>
+<TYPE>GstElement*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Text plugin</NICK>
+<BLURB>the text output element to use (NULL = default textoverlay).</BLURB>
+<DEFAULT></DEFAULT>
 </ARG>
 
 <ARG>
@@ -2746,5 +2776,35 @@
 <NICK>Stream Type</NICK>
 <BLURB>the type of the stream.</BLURB>
 <DEFAULT>Stream</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstAppSrc::emit-signals</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Emit signals</NICK>
+<BLURB>Emit new-preroll and new-buffer signals.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstAudioResample::filter-length</NAME>
+<TYPE>gint</TYPE>
+<RANGE>>= 0</RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Filter length</NICK>
+<BLURB>Length of the resample filter.</BLURB>
+<DEFAULT>64</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GstAudioResample::quality</NAME>
+<TYPE>gint</TYPE>
+<RANGE>[0,10]</RANGE>
+<FLAGS>rwx</FLAGS>
+<NICK>Quality</NICK>
+<BLURB>Resample quality with 0 being the lowest and 10 being the best.</BLURB>
+<DEFAULT>4</DEFAULT>
 </ARG>
 

@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-videorate.html" title="videorate">
 <link rel="next" href="gst-plugins-base-plugins-videotestsrc.html" title="videotestsrc">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-videotestsrc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-videoscale.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-videoscale.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-videoscale.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-videoscale.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-videoscale.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-videoscale.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-videoscale.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-videoscale.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-videoscale"></a><div class="titlepage"></div>
@@ -51,7 +53,7 @@ enum                <a class="link" href="gst-plugins-base-plugins-videoscale.ht
 <a name="gst-plugins-base-plugins-videoscale.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -81,7 +83,7 @@ pipeline.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2802028"></a><h3>Example pipelines</h3>
+<a name="id2689545"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=videotestsrc.ogg ! oggdemux ! theoradec ! ffmpegcolorspace ! videoscale ! ximagesink
 </pre></div> Decode an Ogg/Theora and display the video using ximagesink. Since
@@ -100,7 +102,7 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2801994"></a><h3>Element Information</h3>
+<a name="id2689506"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -123,7 +125,7 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2801908"></a><h3>Element Pads</h3>
+<a name="id2689437"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -313,7 +315,6 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -324,7 +325,6 @@ Last reviewed on 2006-03-02 (0.10.4)</p>
 <p>
 Opaque data structure</p>
 <p>
-
 </p>
 </div>
 <hr>
@@ -339,23 +339,22 @@ Opaque data structure</p>
 <p>
 The videoscale method to use.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-VIDEO-SCALE-NEAREST:CAPS"></a><span class="term"><code class="literal">GST_VIDEO_SCALE_NEAREST</code></span></p></td>
+<td><p><a name="GST-VIDEO-SCALE-NEAREST--CAPS"></a><span class="term"><code class="literal">GST_VIDEO_SCALE_NEAREST</code></span></p></td>
 <td> use nearest neighbour scaling (fast and ugly)
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-VIDEO-SCALE-BILINEAR:CAPS"></a><span class="term"><code class="literal">GST_VIDEO_SCALE_BILINEAR</code></span></p></td>
+<td><p><a name="GST-VIDEO-SCALE-BILINEAR--CAPS"></a><span class="term"><code class="literal">GST_VIDEO_SCALE_BILINEAR</code></span></p></td>
 <td> use bilinear scaling (slower but prettier).
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-VIDEO-SCALE-4TAP:CAPS"></a><span class="term"><code class="literal">GST_VIDEO_SCALE_4TAP</code></span></p></td>
+<td><p><a name="GST-VIDEO-SCALE-4TAP--CAPS"></a><span class="term"><code class="literal">GST_VIDEO_SCALE_4TAP</code></span></p></td>
 <td> use a 4-tap filter for scaling (slow).
 </td>
 </tr>
@@ -379,6 +378,6 @@ videorate, ffmpegcolorspace
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

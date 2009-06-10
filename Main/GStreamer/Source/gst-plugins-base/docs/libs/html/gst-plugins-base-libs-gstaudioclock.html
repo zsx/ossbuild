@@ -61,14 +61,14 @@
                     <a class="link" href="gst-plugins-base-libs-gstaudioclock.html#GstAudioClock-struct" title="GstAudioClock">GstAudioClock</a>;
 GstClockTime        (<a class="link" href="gst-plugins-base-libs-gstaudioclock.html#GstAudioClockGetTimeFunc" title="GstAudioClockGetTimeFunc ()">*GstAudioClockGetTimeFunc</a>)         (GstClock *clock,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 GstClock*           <a class="link" href="gst-plugins-base-libs-gstaudioclock.html#gst-audio-clock-new" title="gst_audio_clock_new ()">gst_audio_clock_new</a>                 (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *name,
                                                          <a class="link" href="gst-plugins-base-libs-gstaudioclock.html#GstAudioClockGetTimeFunc" title="GstAudioClockGetTimeFunc ()">GstAudioClockGetTimeFunc</a> func,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);
 </pre>
 </div>
@@ -76,7 +76,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <a name="gst-plugins-base-libs-gstaudioclock.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstClock
@@ -119,7 +119,7 @@ Opaque <a class="link" href="gst-plugins-base-libs-gstaudioclock.html#GstAudioCl
 <a name="GstAudioClockGetTimeFunc"></a><h3>GstAudioClockGetTimeFunc ()</h3>
 <pre class="programlisting">GstClockTime        (*GstAudioClockGetTimeFunc)         (GstClock *clock,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 This function will be called whenever the current clock time needs to be
@@ -154,11 +154,11 @@ be used.
 <div class="refsect2" lang="en">
 <a name="gst-audio-clock-new"></a><h3>gst_audio_clock_new ()</h3>
 <pre class="programlisting">GstClock*           gst_audio_clock_new                 (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *name,
                                                          <a class="link" href="gst-plugins-base-libs-gstaudioclock.html#GstAudioClockGetTimeFunc" title="GstAudioClockGetTimeFunc ()">GstAudioClockGetTimeFunc</a> func,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a> user_data);</pre>
 <p>
 Create a new <a class="link" href="gst-plugins-base-libs-gstaudioclock.html#GstAudioClock"><span class="type">GstAudioClock</span></a> instance. Whenever the clock time should be

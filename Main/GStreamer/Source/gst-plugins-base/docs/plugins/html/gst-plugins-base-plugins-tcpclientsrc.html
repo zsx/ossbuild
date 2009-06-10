@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-playbin2.html" title="playbin2">
 <link rel="next" href="gst-plugins-base-plugins-tcpclientsink.html" title="tcpclientsink">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-tcpclientsink.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-tcpclientsrc.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-tcpclientsrc.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-tcpclientsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-tcpclientsrc.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-tcpclientsrc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-tcpclientsrc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-tcpclientsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-tcpclientsrc.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-tcpclientsrc"></a><div class="titlepage"></div>
@@ -50,7 +52,7 @@
 <a name="gst-plugins-base-plugins-tcpclientsrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -63,20 +65,31 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-tcpclientsrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-tcpclientsrc.html#GstTCPClientSrc--host" title='The "host" property'>host</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-tcpclientsrc.html#GstTCPClientSrc--port" title='The "port" property'>port</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-tcpclientsrc.html#GstTCPClientSrc--protocol" title='The "protocol" property'>protocol</a>"                 <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstTCPProtocol" title="enum GstTCPProtocol">GstTCPProtocol</a>        : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-tcpclientsrc.description"></a><h2>Description</h2>
+<p>
+</p>
+<div class="refsect2" lang="en">
+<a name="id2671984"></a><h3>Example launch line</h3>
+<div class="informalexample"><pre class="programlisting">
+# server:
+nc -l -p 3000
+# client:
+gst-launch tcpclientsrc protocol=none port=3000 ! fdsink fd=2
+</pre></div> everything you type in the server is shown on the client
+</div>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2787198"></a><h3>Element Information</h3>
+<a name="id2672004"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -99,7 +112,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2787260"></a><h3>Element Pads</h3>
+<a name="id2672067"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -124,7 +137,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -133,7 +145,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 <a name="GstTCPClientSrc-struct"></a><h3>GstTCPClientSrc</h3>
 <pre class="programlisting">typedef struct _GstTCPClientSrc GstTCPClientSrc;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -142,7 +153,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 <div class="refsect2" lang="en">
 <a name="GstTCPClientSrc--host"></a><h3>The <code class="literal">"host"</code> property</h3>
 <pre class="programlisting">  "host"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>The host IP address to receive packets from.</p>
 <p>Default value: "localhost"</p>
@@ -151,7 +162,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="GstTCPClientSrc--port"></a><h3>The <code class="literal">"port"</code> property</h3>
 <pre class="programlisting">  "port"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>The port to receive packets from.</p>
 <p>Allowed values: [0,65535]</p>
@@ -165,9 +176,13 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 <p>Default value: GST_TCP_PROTOCOL_NONE</p>
 </div>
 </div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-base-plugins-tcpclientsrc.see-also"></a><h2>See Also</h2>
+#tcpclientsink
+</div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

@@ -802,7 +802,9 @@ gst_base_audio_src_create (GstBaseSrc * bsrc, guint64 offset, guint length,
         G_GUINT64_FORMAT, sample - src->next_sample, sample);
     GST_ELEMENT_WARNING (src, CORE, CLOCK,
         (_("Can't record audio fast enough")),
-        ("dropped %" G_GUINT64_FORMAT " samples", sample - src->next_sample));
+        ("Dropped %" G_GUINT64_FORMAT " samples. This is most likely because "
+            "downstream can't keep up and is consuming samples too slowly.",
+            sample - src->next_sample));
     GST_BUFFER_FLAG_SET (buf, GST_BUFFER_FLAG_DISCONT);
   }
 
@@ -965,6 +967,9 @@ gst_base_audio_src_create (GstBaseSrc * bsrc, guint64 offset, guint length,
     }
   } else {
     GstClockTime base_time;
+
+    /* to get the timestamp against the clock we also need to add our offset */
+    timestamp = gst_audio_clock_adjust (clock, timestamp);
 
     /* we are not slaved, subtract base_time */
     base_time = GST_ELEMENT_CAST (src)->base_time;

@@ -130,6 +130,28 @@ static PixFmtInfo pix_fmt_info[PIX_FMT_NB] = {
         /* .y_chroma_shift = */ 0,
         /* .depth          = */ 8,
       },
+  /* [PIX_FMT_YVYU422] = */ {
+        /* .format         = */ PIX_FMT_YVYU422,
+        /* .name           = */ "yvyu422",
+        /* .nb_channels    = */ 1,
+        /* .color_type     = */ FF_COLOR_YUV,
+        /* .pixel_type     = */ FF_PIXEL_PACKED,
+        /* .is_alpha       = */ 0,
+        /* .x_chroma_shift = */ 1,
+        /* .y_chroma_shift = */ 0,
+        /* .depth          = */ 8,
+      },
+  /* [PIX_FMT_V308] = */ {
+        /* .format         = */ PIX_FMT_V308,
+        /* .name           = */ "v308",
+        /* .nb_channels    = */ 1,
+        /* .color_type     = */ FF_COLOR_YUV,
+        /* .pixel_type     = */ FF_PIXEL_PACKED,
+        /* .is_alpha       = */ 0,
+        /* .x_chroma_shift = */ 0,
+        /* .y_chroma_shift = */ 0,
+        /* .depth          = */ 8,
+      },
   /* [PIX_FMT_YUV410P] = */ {
         /* .format         = */ PIX_FMT_YUV410P,
         /* .name           = */ "yuv410p",
@@ -590,6 +612,7 @@ avg_bits_per_pixel (int pix_fmt)
       switch (pix_fmt) {
         case PIX_FMT_YUV422:
         case PIX_FMT_UYVY422:
+        case PIX_FMT_YVYU422:
         case PIX_FMT_RGB565:
         case PIX_FMT_RGB555:
           bits = 16;
@@ -699,7 +722,7 @@ img_copy (AVPicture * dst, const AVPicture * src,
     int pix_fmt, int width, int height)
 {
   int bwidth, bits, i;
-  PixFmtInfo *pf = get_pix_fmt_info (pix_fmt);
+  const PixFmtInfo *pf;
 
   pf = get_pix_fmt_info (pix_fmt);
   switch (pf->pixel_type) {
@@ -707,6 +730,7 @@ img_copy (AVPicture * dst, const AVPicture * src,
       switch (pix_fmt) {
         case PIX_FMT_YUV422:
         case PIX_FMT_UYVY422:
+        case PIX_FMT_YVYU422:
         case PIX_FMT_RGB565:
         case PIX_FMT_RGB555:
           bits = 16;
@@ -807,6 +831,31 @@ yuv422_to_yuv420p (AVPicture * dst, const AVPicture * src,
 }
 
 static void
+uyvy422_to_gray (AVPicture * dst, const AVPicture * src, int width, int height)
+{
+  const uint8_t *p, *p1;
+  uint8_t *lum, *lum1;
+  int w;
+
+  p1 = src->data[0];
+  lum1 = dst->data[0];
+  for (; height > 0; height--) {
+    p = p1;
+    lum = lum1;
+
+    for (w = width; w >= 2; w -= 2) {
+      lum[0] = p[1];
+      lum[1] = p[3];
+      p += 4;
+      lum += 2;
+    }
+    p1 += src->linesize[0];
+    lum1 += dst->linesize[0];
+  }
+}
+
+
+static void
 uyvy422_to_yuv420p (AVPicture * dst, const AVPicture * src,
     int width, int height)
 {
@@ -899,6 +948,122 @@ uyvy422_to_yuv422p (AVPicture * dst, const AVPicture * src,
   }
 }
 
+static void
+yvyu422_to_gray (AVPicture * dst, const AVPicture * src, int width, int height)
+{
+  const uint8_t *p, *p1;
+  uint8_t *lum, *lum1;
+  int w;
+
+  p1 = src->data[0];
+  lum1 = dst->data[0];
+  for (; height > 0; height--) {
+    p = p1;
+    lum = lum1;
+
+    for (w = width; w >= 2; w -= 2) {
+      lum[0] = p[0];
+      lum[1] = p[2];
+      p += 4;
+      lum += 2;
+    }
+    p1 += src->linesize[0];
+    lum1 += dst->linesize[0];
+  }
+}
+
+
+static void
+yvyu422_to_yuv420p (AVPicture * dst, const AVPicture * src,
+    int width, int height)
+{
+  const uint8_t *p, *p1;
+  uint8_t *lum, *cr, *cb, *lum1, *cr1, *cb1;
+  int w;
+
+  p1 = src->data[0];
+
+  lum1 = dst->data[0];
+  cb1 = dst->data[1];
+  cr1 = dst->data[2];
+
+  for (; height >= 1; height -= 2) {
+    p = p1;
+    lum = lum1;
+    cb = cb1;
+    cr = cr1;
+    for (w = width; w >= 2; w -= 2) {
+      lum[0] = p[0];
+      cb[0] = p[3];
+      lum[1] = p[2];
+      cr[0] = p[1];
+      p += 4;
+      lum += 2;
+      cb++;
+      cr++;
+    }
+    if (w) {
+      lum[0] = p[0];
+      cb[0] = p[3];
+      cr[0] = p[1];
+      cb++;
+      cr++;
+    }
+    p1 += src->linesize[0];
+    lum1 += dst->linesize[0];
+    if (height > 1) {
+      p = p1;
+      lum = lum1;
+      for (w = width; w >= 2; w -= 2) {
+        lum[0] = p[0];
+        lum[1] = p[2];
+        p += 4;
+        lum += 2;
+      }
+      if (w) {
+        lum[0] = p[0];
+      }
+      p1 += src->linesize[0];
+      lum1 += dst->linesize[0];
+    }
+    cb1 += dst->linesize[1];
+    cr1 += dst->linesize[2];
+  }
+}
+
+static void
+yvyu422_to_yuv422p (AVPicture * dst, const AVPicture * src,
+    int width, int height)
+{
+  const uint8_t *p, *p1;
+  uint8_t *lum, *cr, *cb, *lum1, *cr1, *cb1;
+  int w;
+
+  p1 = src->data[0];
+  lum1 = dst->data[0];
+  cb1 = dst->data[1];
+  cr1 = dst->data[2];
+  for (; height > 0; height--) {
+    p = p1;
+    lum = lum1;
+    cb = cb1;
+    cr = cr1;
+    for (w = width; w >= 2; w -= 2) {
+      lum[0] = p[0];
+      cb[0] = p[3];
+      lum[1] = p[2];
+      cr[0] = p[1];
+      p += 4;
+      lum += 2;
+      cb++;
+      cr++;
+    }
+    p1 += src->linesize[0];
+    lum1 += dst->linesize[0];
+    cb1 += dst->linesize[1];
+    cr1 += dst->linesize[2];
+  }
+}
 
 static void
 yuv422_to_yuv422p (AVPicture * dst, const AVPicture * src,
@@ -1007,6 +1172,40 @@ yuv422p_to_uyvy422 (AVPicture * dst, const AVPicture * src,
 }
 
 static void
+yuv422p_to_yvyu422 (AVPicture * dst, const AVPicture * src,
+    int width, int height)
+{
+  uint8_t *p, *p1;
+  const uint8_t *lum, *cr, *cb, *lum1, *cr1, *cb1;
+  int w;
+
+  p1 = dst->data[0];
+  lum1 = src->data[0];
+  cb1 = src->data[1];
+  cr1 = src->data[2];
+  for (; height > 0; height--) {
+    p = p1;
+    lum = lum1;
+    cb = cb1;
+    cr = cr1;
+    for (w = width; w >= 2; w -= 2) {
+      p[0] = lum[0];
+      p[3] = cb[0];
+      p[2] = lum[1];
+      p[1] = cr[0];
+      p += 4;
+      lum += 2;
+      cb++;
+      cr++;
+    }
+    p1 += dst->linesize[0];
+    lum1 += src->linesize[0];
+    cb1 += src->linesize[1];
+    cr1 += src->linesize[2];
+  }
+}
+
+static void
 uyvy411_to_yuv411p (AVPicture * dst, const AVPicture * src,
     int width, int height)
 {
@@ -1041,7 +1240,6 @@ uyvy411_to_yuv411p (AVPicture * dst, const AVPicture * src,
     cr1 += dst->linesize[2];
   }
 }
-
 
 static void
 yuv420p_to_yuv422 (AVPicture * dst, const AVPicture * src,
@@ -2138,6 +2336,7 @@ static ConvertEntry convert_table[] = {
 
   {PIX_FMT_YUV422P, PIX_FMT_YUV422, yuv422p_to_yuv422},
   {PIX_FMT_YUV422P, PIX_FMT_UYVY422, yuv422p_to_uyvy422},
+  {PIX_FMT_YUV422P, PIX_FMT_YVYU422, yuv422p_to_yvyu422},
 
   {PIX_FMT_YUV444P, PIX_FMT_RGB24, yuv444p_to_rgb24},
 
@@ -2161,6 +2360,11 @@ static ConvertEntry convert_table[] = {
 
   {PIX_FMT_UYVY422, PIX_FMT_YUV420P, uyvy422_to_yuv420p},
   {PIX_FMT_UYVY422, PIX_FMT_YUV422P, uyvy422_to_yuv422p},
+  {PIX_FMT_UYVY422, PIX_FMT_GRAY8, uyvy422_to_gray},
+
+  {PIX_FMT_YVYU422, PIX_FMT_YUV420P, yvyu422_to_yuv420p},
+  {PIX_FMT_YVYU422, PIX_FMT_YUV422P, yvyu422_to_yuv422p},
+  {PIX_FMT_YVYU422, PIX_FMT_GRAY8, yvyu422_to_gray},
 
   {PIX_FMT_RGB24, PIX_FMT_YUV420P, rgb24_to_yuv420p},
   {PIX_FMT_RGB24, PIX_FMT_NV12, rgb24_to_nv12},
@@ -2182,6 +2386,7 @@ static ConvertEntry convert_table[] = {
   {PIX_FMT_RGB24, PIX_FMT_YUVJ420P, rgb24_to_yuvj420p},
   {PIX_FMT_RGB24, PIX_FMT_YUVJ444P, rgb24_to_yuvj444p},
   {PIX_FMT_RGB24, PIX_FMT_AYUV4444, rgb24_to_ayuv4444},
+  {PIX_FMT_RGB24, PIX_FMT_V308, rgb24_to_v308},
 
   {PIX_FMT_RGB32, PIX_FMT_RGB24, rgb32_to_rgb24},
   {PIX_FMT_RGB32, PIX_FMT_RGB555, rgba32_to_rgb555},
@@ -2303,9 +2508,10 @@ static ConvertEntry convert_table[] = {
 
   {PIX_FMT_UYVY411, PIX_FMT_YUV411P, uyvy411_to_yuv411p},
 
-  {PIX_FMT_AYUV4444, PIX_FMT_RGBA32, ayuv4444_to_rgba32},
+  {PIX_FMT_V308, PIX_FMT_RGB24, v308_to_rgb24},
 
-  {PIX_FMT_AYUV4444, PIX_FMT_RGB24, ayuv4444_to_rgb24}
+  {PIX_FMT_AYUV4444, PIX_FMT_RGBA32, ayuv4444_to_rgba32},
+  {PIX_FMT_AYUV4444, PIX_FMT_RGB24, ayuv4444_to_rgb24},
 };
 
 static ConvertEntry *
@@ -2542,7 +2748,8 @@ no_chroma_filter:
   if (src_pix_fmt == PIX_FMT_YUV422 || dst_pix_fmt == PIX_FMT_YUV422) {
     /* specific case: convert to YUV422P first */
     int_pix_fmt = PIX_FMT_YUV422P;
-  } else if (src_pix_fmt == PIX_FMT_UYVY422 || dst_pix_fmt == PIX_FMT_UYVY422) {
+  } else if (src_pix_fmt == PIX_FMT_UYVY422 || dst_pix_fmt == PIX_FMT_UYVY422 ||
+      src_pix_fmt == PIX_FMT_YVYU422 || dst_pix_fmt == PIX_FMT_YVYU422) {
     /* specific case: convert to YUV422P first */
     int_pix_fmt = PIX_FMT_YUV422P;
   } else if (src_pix_fmt == PIX_FMT_UYVY411 || dst_pix_fmt == PIX_FMT_UYVY411) {
@@ -2624,7 +2831,7 @@ get_alpha_info_pal8 (const AVPicture * src, int width, int height)
 int
 img_get_alpha_info (const AVPicture * src, int pix_fmt, int width, int height)
 {
-  PixFmtInfo *pf = get_pix_fmt_info (pix_fmt);
+  const PixFmtInfo *pf;
   int ret;
 
   pf = get_pix_fmt_info (pix_fmt);
@@ -2766,6 +2973,7 @@ deinterlace_line (uint8_t * dst,
   }
 #endif
 }
+
 static void
 deinterlace_line_inplace (uint8_t * lum_m4, uint8_t * lum_m3, uint8_t * lum_m2,
     uint8_t * lum_m1, uint8_t * lum, int size)

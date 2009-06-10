@@ -82,6 +82,8 @@ gst_rtsp_url_get_type (void)
 #define RTSPU_PROTO_LEN 8
 #define RTSPT_PROTO     "rtspt://"
 #define RTSPT_PROTO_LEN 8
+#define RTSPH_PROTO     "rtsph://"
+#define RTSPH_PROTO_LEN 8
 
 /* format is rtsp[u]://[user:passwd@]host[:port]/abspath[?query] */
 
@@ -118,6 +120,9 @@ gst_rtsp_url_parse (const gchar * urlstr, GstRTSPUrl ** url)
   } else if (g_str_has_prefix (p, RTSPT_PROTO)) {
     res->transports = GST_RTSP_LOWER_TRANS_TCP;
     p += RTSPT_PROTO_LEN;
+  } else if (g_str_has_prefix (p, RTSPH_PROTO)) {
+    res->transports = GST_RTSP_LOWER_TRANS_HTTP | GST_RTSP_LOWER_TRANS_TCP;
+    p += RTSPH_PROTO_LEN;
   } else
     goto invalid;
 
@@ -205,7 +210,7 @@ invalid:
  * Since: 0.10.22
  */
 GstRTSPUrl *
-gst_rtsp_url_copy (GstRTSPUrl * url)
+gst_rtsp_url_copy (const GstRTSPUrl * url)
 {
   GstRTSPUrl *res;
 
@@ -274,7 +279,7 @@ gst_rtsp_url_set_port (GstRTSPUrl * url, guint16 port)
  * Returns: #GST_RTSP_OK.
  */
 GstRTSPResult
-gst_rtsp_url_get_port (GstRTSPUrl * url, guint16 * port)
+gst_rtsp_url_get_port (const GstRTSPUrl * url, guint16 * port)
 {
   g_return_val_if_fail (url != NULL, GST_RTSP_EINVAL);
   g_return_val_if_fail (port != NULL, GST_RTSP_EINVAL);
@@ -297,7 +302,7 @@ gst_rtsp_url_get_port (GstRTSPUrl * url, guint16 * port)
  * Returns: a string with the request URI. g_free() after usage.
  */
 gchar *
-gst_rtsp_url_get_request_uri (GstRTSPUrl * url)
+gst_rtsp_url_get_request_uri (const GstRTSPUrl * url)
 {
   gchar *uri;
 

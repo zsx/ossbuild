@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-audioconvert.html" title="audioconvert">
 <link rel="next" href="gst-plugins-base-plugins-audiotestsrc.html" title="audiotestsrc">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-plugins-audiotestsrc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-plugins-audioresample.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-audioresample.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-audioresample.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-base-plugins-audioresample.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-audioresample.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-audioresample.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-audioresample.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-plugins-audioresample.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-plugins-audioresample"></a><div class="titlepage"></div>
@@ -42,30 +44,30 @@
 </tr></table></div>
 <div class="refsynopsisdiv">
 <a name="gst-plugins-base-plugins-audioresample.synopsis"></a><h2>Synopsis</h2>
-<a name="GstSpeexResample"></a><pre class="synopsis">
-                    <a class="link" href="gst-plugins-base-plugins-audioresample.html#GstSpeexResample-struct" title="GstSpeexResample">GstSpeexResample</a>;
+<a name="GstAudioResample"></a><pre class="synopsis">
+                    <a class="link" href="gst-plugins-base-plugins-audioresample.html#GstAudioResample-struct" title="GstAudioResample">GstAudioResample</a>;
 </pre>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-audioresample.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
                +----GstBaseTransform
-                     +----GstSpeexResample
+                     +----GstAudioResample
 </pre>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-audioresample.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-base-plugins-audioresample.html#GstSpeexResample--filter-length" title='The "filter-length" property'>filter-length</a>"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write / Construct
-  "<a class="link" href="gst-plugins-base-plugins-audioresample.html#GstSpeexResample--quality" title='The "quality" property'>quality</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+  "<a class="link" href="gst-plugins-base-plugins-audioresample.html#GstAudioResample--filter-length" title='The "filter-length" property'>filter-length</a>"            <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-audioresample.html#GstAudioResample--quality" title='The "quality" property'>quality</a>"                  <a
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write / Construct
 </pre>
 </div>
@@ -78,7 +80,7 @@ a configurable windowing function to enhance quality.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2762269"></a><h3>Example launch line</h3>
+<a name="id2615734"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=sine.ogg ! oggdemux ! vorbisdec ! audioconvert ! audioresample ! audio/x-raw-int, rate=8000 ! alsasink
 </pre></div> Decode an Ogg/Vorbis downsample to 8Khz and play sound through alsa.
@@ -87,7 +89,7 @@ To create the Ogg/Vorbis file refer to the documentation of vorbisenc.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2762266"></a><h3>Element Information</h3>
+<a name="id2615703"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -110,7 +112,7 @@ To create the Ogg/Vorbis file refer to the documentation of vorbisenc.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2759720"></a><h3>Element Pads</h3>
+<a name="id2618181"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -188,37 +190,41 @@ To create the Ogg/Vorbis file refer to the documentation of vorbisenc.
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-audioresample.details"></a><h2>Details</h2>
 <div class="refsect2" lang="en">
-<a name="GstSpeexResample-struct"></a><h3>GstSpeexResample</h3>
-<pre class="programlisting">typedef struct _GstSpeexResample GstSpeexResample;</pre>
+<a name="GstAudioResample-struct"></a><h3>GstAudioResample</h3>
+<pre class="programlisting">typedef struct _GstAudioResample GstAudioResample;</pre>
 <p>
 Opaque data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-audioresample.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
-<a name="GstSpeexResample--filter-length"></a><h3>The <code class="literal">"filter-length"</code> property</h3>
+<a name="GstAudioResample--filter-length"></a><h3>The <code class="literal">"filter-length"</code> property</h3>
 <pre class="programlisting">  "filter-length"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write / Construct</pre>
-<p>DEPRECATED, DON'T USE THIS! Length of the resample filter.</p>
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>                  : Read / Write</pre>
+<p>
+Length of the resample filter
+</p>
+<p>
+Deprectated: Use <a class="link" href="gst-plugins-base-plugins-audioresample.html#GstAudioResample--quality" title='The "quality" property'><span class="type">"quality"</span></a> property instead</p>
+<p>
+</p>
 <p>Allowed values: &gt;= 0</p>
 <p>Default value: 64</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="GstSpeexResample--quality"></a><h3>The <code class="literal">"quality"</code> property</h3>
+<a name="GstAudioResample--quality"></a><h3>The <code class="literal">"quality"</code> property</h3>
 <pre class="programlisting">  "quality"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write / Construct</pre>
 <p>Resample quality with 0 being the lowest and 10 being the best.</p>
 <p>Allowed values: [0,10]</p>
@@ -228,6 +234,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

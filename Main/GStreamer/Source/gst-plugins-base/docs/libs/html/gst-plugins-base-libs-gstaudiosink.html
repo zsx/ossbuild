@@ -66,7 +66,7 @@
 <a name="gst-plugins-base-libs-gstaudiosink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----GstObject
          +----GstElement
@@ -158,6 +158,8 @@ Opaque <a class="link" href="gst-plugins-base-libs-gstaudiosink.html#GstAudioSin
   /* close the device */
   gboolean (*close)     (GstAudioSink *sink);
   /* write samples to the device */
+  /* FIXME 0.11: change return value to gint, as most implementation use that
+   * already anyway */
   guint    (*write)     (GstAudioSink *sink, gpointer data, guint length);
   /* get number of samples queued in the device */
   guint    (*delay)     (GstAudioSink *sink);

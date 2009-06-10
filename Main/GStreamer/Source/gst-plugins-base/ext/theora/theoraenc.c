@@ -119,6 +119,7 @@ _ilog (unsigned int v)
 #define THEORA_DEF_KEYFRAME_MINDISTANCE 8
 #define THEORA_DEF_NOISE_SENSITIVITY    1
 #define THEORA_DEF_SHARPNESS            0
+#define THEORA_DEF_SPEEDLEVEL           1
 enum
 {
   ARG_0,
@@ -134,6 +135,7 @@ enum
   ARG_KEYFRAME_MINDISTANCE,
   ARG_NOISE_SENSITIVITY,
   ARG_SHARPNESS,
+  ARG_SPEEDLEVEL,
   /* FILL ME */
 };
 
@@ -182,6 +184,7 @@ GST_STATIC_PAD_TEMPLATE ("src",
 GST_BOILERPLATE (GstTheoraEnc, gst_theora_enc, GstElement, GST_TYPE_ELEMENT);
 
 static gboolean theora_enc_sink_event (GstPad * pad, GstEvent * event);
+static gboolean theora_enc_src_event (GstPad * pad, GstEvent * event);
 static GstFlowReturn theora_enc_chain (GstPad * pad, GstBuffer * buffer);
 static GstStateChangeReturn theora_enc_change_state (GstElement * element,
     GstStateChange transition);
@@ -265,6 +268,12 @@ gst_theora_enc_class_init (GstTheoraEncClass * klass)
       g_param_spec_int ("sharpness", "Sharpness", "Sharpness", 0, 2,
           THEORA_DEF_SHARPNESS,
           (GParamFlags) G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+  g_object_class_install_property (gobject_class, ARG_SPEEDLEVEL,
+      g_param_spec_int ("speed-level", "Speed level",
+          "Controls the amount of motion vector searching done while "
+          "encoding.  This property requires libtheora version >= 1.0",
+          0, 2, THEORA_DEF_SPEEDLEVEL,
+          (GParamFlags) G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   gstelement_class->change_state = theora_enc_change_state;
   GST_DEBUG_CATEGORY_INIT (theoraenc_debug, "theoraenc", 0, "Theora encoder");
@@ -284,6 +293,7 @@ gst_theora_enc_init (GstTheoraEnc * enc, GstTheoraEncClass * g_class)
 
   enc->srcpad =
       gst_pad_new_from_static_template (&theora_enc_src_factory, "src");
+  gst_pad_set_event_function (enc->srcpad, theora_enc_src_event);
   gst_element_add_pad (GST_ELEMENT (enc), enc->srcpad);
 
   gst_segment_init (&enc->segment, GST_FORMAT_UNDEFINED);
@@ -307,6 +317,8 @@ gst_theora_enc_init (GstTheoraEnc * enc, GstTheoraEncClass * g_class)
       "keyframe_frequency_force is %d, granule shift is %d",
       enc->info.keyframe_frequency_force, enc->granule_shift);
   enc->expected_ts = GST_CLOCK_TIME_NONE;
+
+  enc->speed_level = THEORA_DEF_SPEEDLEVEL;
 }
 
 static void
@@ -327,6 +339,10 @@ theora_enc_reset (GstTheoraEnc * enc)
 {
   theora_clear (&enc->state);
   theora_encode_init (&enc->state, &enc->info);
+#ifdef TH_ENCCTL_SET_SPLEVEL
+  theora_control (&enc->state, TH_ENCCTL_SET_SPLEVEL, &enc->speed_level,
+      sizeof (enc->speed_level));
+#endif
 }
 
 static void
@@ -576,6 +592,21 @@ theora_enc_get_ogg_packet_end_time (GstTheoraEnc * enc, ogg_packet * op)
   return theora_granule_time (&enc->state, end_granule) * GST_SECOND;
 }
 
+static void
+theora_enc_force_keyframe (GstTheoraEnc * enc)
+{
+  GstClockTime next_ts;
+
+  /* make sure timestamps increment after resetting the decoder */
+  next_ts = enc->next_ts + enc->timestamp_offset;
+
+  theora_enc_reset (enc);
+  enc->granulepos_offset =
+      gst_util_uint64_scale (next_ts, enc->fps_n, GST_SECOND * enc->fps_d);
+  enc->timestamp_offset = next_ts;
+  enc->next_ts = 0;
+}
+
 static gboolean
 theora_enc_sink_event (GstPad * pad, GstEvent * event)
 {
@@ -626,19 +657,8 @@ theora_enc_sink_event (GstPad * pad, GstEvent * event)
 
       s = gst_event_get_structure (event);
 
-      if (gst_structure_has_name (s, "GstForceKeyUnit")) {
-        GstClockTime next_ts;
-
-        /* make sure timestamps increment after resetting the decoder */
-        next_ts = enc->next_ts + enc->timestamp_offset;
-
-        theora_enc_reset (enc);
-        enc->granulepos_offset =
-            gst_util_uint64_scale (next_ts, enc->fps_n,
-            GST_SECOND * enc->fps_d);
-        enc->timestamp_offset = next_ts;
-        enc->next_ts = 0;
-      }
+      if (gst_structure_has_name (s, "GstForceKeyUnit"))
+        theora_enc_force_keyframe (enc);
       res = gst_pad_push_event (enc->srcpad, event);
       break;
     }
@@ -646,6 +666,41 @@ theora_enc_sink_event (GstPad * pad, GstEvent * event)
       res = gst_pad_push_event (enc->srcpad, event);
       break;
   }
+  return res;
+}
+
+static gboolean
+theora_enc_src_event (GstPad * pad, GstEvent * event)
+{
+  GstTheoraEnc *enc;
+  gboolean res = TRUE;
+
+  enc = GST_THEORA_ENC (GST_PAD_PARENT (pad));
+
+  switch (GST_EVENT_TYPE (event)) {
+    case GST_EVENT_CUSTOM_UPSTREAM:
+    {
+      const GstStructure *s;
+
+      s = gst_event_get_structure (event);
+
+      if (gst_structure_has_name (s, "GstForceKeyUnit")) {
+        GST_OBJECT_LOCK (enc);
+        enc->force_keyframe = TRUE;
+        GST_OBJECT_UNLOCK (enc);
+        /* consume the event */
+        res = TRUE;
+        gst_event_unref (event);
+      } else {
+        res = gst_pad_push_event (enc->sinkpad, event);
+      }
+      break;
+    }
+    default:
+      res = gst_pad_push_event (enc->sinkpad, event);
+      break;
+  }
+
   return res;
 }
 
@@ -686,6 +741,7 @@ theora_enc_chain (GstPad * pad, GstBuffer * buffer)
   ogg_packet op;
   GstClockTime timestamp, duration, running_time;
   GstFlowReturn ret;
+  gboolean force_keyframe;
 
   enc = GST_THEORA_ENC (GST_PAD_PARENT (pad));
 
@@ -698,8 +754,39 @@ theora_enc_chain (GstPad * pad, GstBuffer * buffer)
    */
   timestamp = GST_BUFFER_TIMESTAMP (buffer);
   duration = GST_BUFFER_DURATION (buffer);
+
   running_time =
       gst_segment_to_running_time (&enc->segment, GST_FORMAT_TIME, timestamp);
+  if ((gint64) running_time < 0) {
+    GST_DEBUG_OBJECT (enc, "Dropping buffer, timestamp: %" GST_TIME_FORMAT,
+        GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (buffer)));
+    gst_buffer_unref (buffer);
+    return GST_FLOW_OK;
+  }
+
+  /* see if we need to schedule a keyframe */
+  GST_OBJECT_LOCK (enc);
+  force_keyframe = enc->force_keyframe;
+  enc->force_keyframe = FALSE;
+  GST_OBJECT_UNLOCK (enc);
+
+  if (force_keyframe) {
+    GstClockTime stream_time;
+    GstStructure *s;
+
+    stream_time = gst_segment_to_stream_time (&enc->segment,
+        GST_FORMAT_TIME, timestamp);
+
+    s = gst_structure_new ("GstForceKeyUnit",
+        "timestamp", G_TYPE_UINT64, timestamp,
+        "stream-time", G_TYPE_UINT64, stream_time,
+        "running-time", G_TYPE_UINT64, running_time, NULL);
+
+    theora_enc_force_keyframe (enc);
+
+    gst_pad_push_event (enc->srcpad,
+        gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM, s));
+  }
 
   /* make sure we copy the discont flag to the next outgoing buffer when it's
    * set on the incomming buffer */
@@ -1026,6 +1113,7 @@ theora_enc_change_state (GstElement * element, GstStateChange transition)
       theora_info_init (&enc->info);
       theora_comment_init (&enc->comment);
       enc->packetno = 0;
+      enc->force_keyframe = FALSE;
       break;
     case GST_STATE_CHANGE_PAUSED_TO_PLAYING:
       break;
@@ -1101,6 +1189,11 @@ theora_enc_set_property (GObject * object, guint prop_id,
     case ARG_SHARPNESS:
       enc->sharpness = g_value_get_int (value);
       break;
+    case ARG_SPEEDLEVEL:
+#ifdef TH_ENCCTL_SET_SPLEVEL
+      enc->speed_level = g_value_get_int (value);
+#endif
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -1149,6 +1242,9 @@ theora_enc_get_property (GObject * object, guint prop_id,
       break;
     case ARG_SHARPNESS:
       g_value_set_int (value, enc->sharpness);
+      break;
+    case ARG_SPEEDLEVEL:
+      g_value_set_int (value, enc->speed_level);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);

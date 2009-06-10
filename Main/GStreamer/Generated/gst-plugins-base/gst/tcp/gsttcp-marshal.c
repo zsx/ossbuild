@@ -123,24 +123,24 @@ gst_tcp_marshal_VOID__INT_BOXED (GClosure     *closure,
             data2);
 }
 
-/* VOID:INT,BOOLEAN,INT,UINT64,INT,UINT64 */
+/* VOID:INT,ENUM,INT,UINT64,INT,UINT64 */
 void
-gst_tcp_marshal_VOID__INT_BOOLEAN_INT_UINT64_INT_UINT64 (GClosure     *closure,
-                                                         GValue       *return_value G_GNUC_UNUSED,
-                                                         guint         n_param_values,
-                                                         const GValue *param_values,
-                                                         gpointer      invocation_hint G_GNUC_UNUSED,
-                                                         gpointer      marshal_data)
+gst_tcp_marshal_VOID__INT_ENUM_INT_UINT64_INT_UINT64 (GClosure     *closure,
+                                                      GValue       *return_value G_GNUC_UNUSED,
+                                                      guint         n_param_values,
+                                                      const GValue *param_values,
+                                                      gpointer      invocation_hint G_GNUC_UNUSED,
+                                                      gpointer      marshal_data)
 {
-  typedef void (*GMarshalFunc_VOID__INT_BOOLEAN_INT_UINT64_INT_UINT64) (gpointer     data1,
-                                                                        gint         arg_1,
-                                                                        gboolean     arg_2,
-                                                                        gint         arg_3,
-                                                                        guint64      arg_4,
-                                                                        gint         arg_5,
-                                                                        guint64      arg_6,
-                                                                        gpointer     data2);
-  register GMarshalFunc_VOID__INT_BOOLEAN_INT_UINT64_INT_UINT64 callback;
+  typedef void (*GMarshalFunc_VOID__INT_ENUM_INT_UINT64_INT_UINT64) (gpointer     data1,
+                                                                     gint         arg_1,
+                                                                     gint         arg_2,
+                                                                     gint         arg_3,
+                                                                     guint64      arg_4,
+                                                                     gint         arg_5,
+                                                                     guint64      arg_6,
+                                                                     gpointer     data2);
+  register GMarshalFunc_VOID__INT_ENUM_INT_UINT64_INT_UINT64 callback;
   register GCClosure *cc = (GCClosure*) closure;
   register gpointer data1, data2;
 
@@ -156,11 +156,11 @@ gst_tcp_marshal_VOID__INT_BOOLEAN_INT_UINT64_INT_UINT64 (GClosure     *closure,
       data1 = g_value_peek_pointer (param_values + 0);
       data2 = closure->data;
     }
-  callback = (GMarshalFunc_VOID__INT_BOOLEAN_INT_UINT64_INT_UINT64) (marshal_data ? marshal_data : cc->callback);
+  callback = (GMarshalFunc_VOID__INT_ENUM_INT_UINT64_INT_UINT64) (marshal_data ? marshal_data : cc->callback);
 
   callback (data1,
             g_marshal_value_peek_int (param_values + 1),
-            g_marshal_value_peek_boolean (param_values + 2),
+            g_marshal_value_peek_enum (param_values + 2),
             g_marshal_value_peek_int (param_values + 3),
             g_marshal_value_peek_uint64 (param_values + 4),
             g_marshal_value_peek_int (param_values + 5),

@@ -15,7 +15,25 @@ GObject
         GstDecodeBin2
         GstURIDecodeBin
         GstDecodeBin
+      GstBaseSink
+        GstGioBaseSink
+          GstGioSink
+          GstGioStreamSink
+        GstGnomeVFSSink
+        GstBaseAudioSink
+          GstAudioSink
+            GstAlsaSink
+        GstVideoSink
+          GstXvImageSink
+          GstXImageSink
+        GstTCPClientSink
+        GstMultiFdSink
+          GstTCPServerSink
+        GstAppSink
       GstBaseSrc
+        GstGioBaseSrc
+          GstGioSrc
+          GstGioStreamSrc
         GstPushSrc
           GstCddaBaseSrc
             GstCdParanoiaSrc
@@ -42,18 +60,6 @@ GObject
         GstOgmTextParse
       GstOggParse
       GstOggAviParse
-      GstBaseSink
-        GstGnomeVFSSink
-        GstBaseAudioSink
-          GstAudioSink
-            GstAlsaSink
-        GstVideoSink
-          GstXvImageSink
-          GstXImageSink
-        GstTCPClientSink
-        GstMultiFdSink
-          GstTCPServerSink
-        GstAppSink
       GstVisual
         GstVisualbumpscope
         GstVisualcorona
@@ -78,7 +84,7 @@ GObject
         GstVideoScale
         GstAudioFilter
           GstVolume
-        GstSpeexResample
+        GstAudioResample
         GstAudioConvert
       GstSubParse
       GstSsaParse
@@ -96,6 +102,28 @@ GObject
     GstRegistry
     GstRingBuffer
   GstSignalObject
+  GFileMonitor
+    GLocalDirectoryMonitor
+      GInotifyDirectoryMonitor
+    GLocalFileMonitor
+      GInotifyFileMonitor
+  GVolumeMonitor
+    GNativeVolumeMonitor
+      GProxyVolumeMonitor
+        GProxyVolumeMonitorGPhoto2
+        GProxyVolumeMonitorHal
+      GUnixVolumeMonitor
+  GVfs
+    GLocalVfs
+  GTypeModule
+    GIOModule
+  GAppLookupGConf
+  GProxyDrive
+  GProxyMount
+  GProxyShadowMount
+  GProxyVolume
+  GOutputStream
+  GInputStream
   GConfClient
   PangoFontMap
     PangoFcFontMap
@@ -111,6 +139,11 @@ GInterface
   GTypePlugin
   GstChildProxy
   GstURIHandler
+  GFile
+  GDesktopAppInfoLookup
+  GDrive
+  GMount
+  GVolume
   GstTagSetter
   GstImplementsInterface
   GstMixer

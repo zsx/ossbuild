@@ -308,8 +308,10 @@ static void paint_setup_YVYU (paintinfo * p, unsigned char *dest);
 static void paint_setup_IYU2 (paintinfo * p, unsigned char *dest);
 static void paint_setup_Y41B (paintinfo * p, unsigned char *dest);
 static void paint_setup_Y42B (paintinfo * p, unsigned char *dest);
+static void paint_setup_Y444 (paintinfo * p, unsigned char *dest);
 static void paint_setup_Y800 (paintinfo * p, unsigned char *dest);
 static void paint_setup_AYUV (paintinfo * p, unsigned char *dest);
+static void paint_setup_v308 (paintinfo * p, unsigned char *dest);
 static void paint_setup_NV12 (paintinfo * p, unsigned char *dest);
 static void paint_setup_NV21 (paintinfo * p, unsigned char *dest);
 
@@ -342,7 +344,9 @@ static void paint_hline_YUY2 (paintinfo * p, int x, int y, int w);
 static void paint_hline_IYU2 (paintinfo * p, int x, int y, int w);
 static void paint_hline_Y41B (paintinfo * p, int x, int y, int w);
 static void paint_hline_Y42B (paintinfo * p, int x, int y, int w);
+static void paint_hline_Y444 (paintinfo * p, int x, int y, int w);
 static void paint_hline_Y800 (paintinfo * p, int x, int y, int w);
+static void paint_hline_v308 (paintinfo * p, int x, int y, int w);
 static void paint_hline_AYUV (paintinfo * p, int x, int y, int w);
 
 #if 0
@@ -363,6 +367,7 @@ struct fourcc_list_struct fourcc_list[] = {
   {VTS_YUV, "Y422", "Y422", 16, paint_setup_UYVY, paint_hline_YUY2},
   {VTS_YUV, "UYNV", "UYNV", 16, paint_setup_UYVY, paint_hline_YUY2},    /* FIXME: UYNV? */
   {VTS_YUV, "YVYU", "YVYU", 16, paint_setup_YVYU, paint_hline_YUY2},
+  {VTS_YUV, "v308", "v308", 24, paint_setup_v308, paint_hline_v308},
   {VTS_YUV, "AYUV", "AYUV", 32, paint_setup_AYUV, paint_hline_AYUV},
 
   /* interlaced */
@@ -413,8 +418,13 @@ struct fourcc_list_struct fourcc_list[] = {
   {VTS_YUV, "Y41B", "Y41B", 12, paint_setup_Y41B, paint_hline_Y41B},
   /* Y42B */
   {VTS_YUV, "Y42B", "Y42B", 16, paint_setup_Y42B, paint_hline_Y42B},
+  /* Y444 */
+  {VTS_YUV, "Y444", "Y444", 24, paint_setup_Y444, paint_hline_Y444},
   /* Y800 grayscale */
   {VTS_YUV, "Y800", "Y800", 8, paint_setup_Y800, paint_hline_Y800},
+
+  /* Not exactly YUV but it's the same as above */
+  {VTS_YUV, "GRAY8", "GRAY8", 8, paint_setup_Y800, paint_hline_Y800},
 
   {VTS_RGB, "RGB ", "xRGB8888", 32, paint_setup_xRGB8888, paint_hline_str4, 24,
       0x00ff0000, 0x0000ff00, 0x000000ff},
@@ -444,6 +454,7 @@ struct fourcc_list_struct fourcc_list[] = {
 
   {VTS_BAYER, "BAY8", "Bayer", 8, paint_setup_bayer, paint_hline_bayer}
 };
+
 int n_fourccs = G_N_ELEMENTS (fourcc_list);
 
 struct fourcc_list_struct *
@@ -455,7 +466,21 @@ paintinfo_find_by_structure (const GstStructure * structure)
 
   g_return_val_if_fail (structure, NULL);
 
-  if (strcmp (media_type, "video/x-raw-yuv") == 0) {
+  if (strcmp (media_type, "video/x-raw-gray") == 0) {
+    gint bpp, depth;
+
+    ret = gst_structure_get_int (structure, "bpp", &bpp) &&
+        gst_structure_get_int (structure, "depth", &depth);
+    if (!ret || bpp != 8 || depth != 8)
+      return NULL;
+
+    for (i = 0; i < n_fourccs; i++) {
+      if (fourcc_list[i].type == VTS_YUV
+          && strcmp (fourcc_list[i].fourcc, "GRAY8") == 0) {
+        return fourcc_list + i;
+      }
+    }
+  } else if (strcmp (media_type, "video/x-raw-yuv") == 0) {
     char *s;
     int fourcc;
     guint32 format;
@@ -592,8 +617,13 @@ paint_get_structure (struct fourcc_list_struct * format)
       }
       break;
     case VTS_YUV:
-      structure = gst_structure_new ("video/x-raw-yuv",
-          "format", GST_TYPE_FOURCC, fourcc, NULL);
+      if (strcmp (format->fourcc, "GRAY8") == 0) {
+        structure = gst_structure_new ("video/x-raw-gray",
+            "bpp", G_TYPE_INT, 8, "depth", G_TYPE_INT, 8, NULL);
+      } else {
+        structure = gst_structure_new ("video/x-raw-yuv",
+            "format", GST_TYPE_FOURCC, fourcc, NULL);
+      }
       break;
     case VTS_BAYER:
       structure = gst_structure_new ("video/x-raw-bayer", NULL);
@@ -1387,6 +1417,16 @@ paint_setup_YV12 (paintinfo * p, unsigned char *dest)
 }
 
 static void
+paint_setup_v308 (paintinfo * p, unsigned char *dest)
+{
+  p->yp = dest;
+  p->up = dest + 1;
+  p->vp = dest + 2;
+  p->ystride = GST_ROUND_UP_4 (p->width * 3);
+  p->endptr = dest + p->ystride * p->height;
+}
+
+static void
 paint_setup_AYUV (paintinfo * p, unsigned char *dest)
 {
   p->ap = dest;
@@ -1425,6 +1465,17 @@ paint_setup_YVYU (paintinfo * p, unsigned char *dest)
   p->vp = dest + 1;
   p->ystride = GST_ROUND_UP_2 (p->width) * 2;
   p->endptr = dest + p->ystride * p->height;
+}
+
+static void
+paint_hline_v308 (paintinfo * p, int x, int y, int w)
+{
+  int offset;
+
+  offset = (y * p->ystride) + (x * 3);
+  oil_splat_u8 (p->yp + offset, 3, &p->yuv_color->Y, w);
+  oil_splat_u8 (p->up + offset, 3, &p->yuv_color->U, w);
+  oil_splat_u8 (p->vp + offset, 3, &p->yuv_color->V, w);
 }
 
 static void
@@ -1523,6 +1574,26 @@ paint_hline_Y42B (paintinfo * p, int x, int y, int w)
   oil_splat_u8_ns (p->yp + offset + x, &p->yuv_color->Y, w);
   oil_splat_u8_ns (p->up + offset1 + x1, &p->yuv_color->U, x2 - x1);
   oil_splat_u8_ns (p->vp + offset1 + x1, &p->yuv_color->V, x2 - x1);
+}
+
+static void
+paint_setup_Y444 (paintinfo * p, unsigned char *dest)
+{
+  p->yp = dest;
+  p->ystride = GST_ROUND_UP_4 (p->width);
+  p->up = p->yp + p->ystride * p->height;
+  p->vp = p->up + p->ystride * p->height;
+  p->endptr = p->vp + p->ystride * p->height;
+}
+
+static void
+paint_hline_Y444 (paintinfo * p, int x, int y, int w)
+{
+  int offset = y * p->ystride;
+
+  oil_splat_u8_ns (p->yp + offset + x, &p->yuv_color->Y, w);
+  oil_splat_u8_ns (p->up + offset + x, &p->yuv_color->U, w);
+  oil_splat_u8_ns (p->vp + offset + x, &p->yuv_color->V, w);
 }
 
 static void
