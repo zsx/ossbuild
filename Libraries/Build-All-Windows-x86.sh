@@ -464,7 +464,7 @@ if [ ! -f "$BinDir/libtheora-0.dll" ]; then
 	$PKG_DIR/configure --disable-examples --disable-oggtest --disable-vorbistest --disable-sdltest --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install
 	
-	copy_files_to_dir "$PKG_DIR/win32/*.def" .
+	copy_files_to_dir "$LIBRARIES_PATCH_DIR/theora/win32/*def" .
 	copy_files_to_dir "lib/.libs/*.def" .
 	flip -d libtheora.def
 	sed '/LIBRARY	libtheora/d' libtheora.def > libtheora-mod.def
@@ -703,7 +703,7 @@ if [ ! -f "$BinDir/libnice-0.dll" ]; then
 fi
 
 
-if [ ! -f "$BinDir/libxvid.dll" ]; then
+if [ ! -f "$BinDir/xvidcore.dll" ]; then
 	echo "$PKG_DIR_XVIDCORE"
 	unpack_gzip_and_move "xvidcore-1.2.2.tar.gz" "$PKG_DIR_XVIDCORE"
 	mkdir_and_move "$IntDir/xvidcore"
