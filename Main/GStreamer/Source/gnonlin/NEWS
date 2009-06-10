@@ -1,3 +1,14 @@
+This is GNonLin 0.10.11 "How about green for the bikeshed?"
+
+Features of this release
+
+      * Speedup option to avoid recalculation during composition changes
+      * Switch to regular seeks for more efficient beheaviour
+      * More GstQuery/GstEvent handling
+      * Bugfixes on GnlOperation
+      * Switch to GIT
+      * Documentation
+
 This is GNonLin 0.10.10 "All Good Things..."
 
 Features of this release

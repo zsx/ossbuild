@@ -1,5 +1,5 @@
 Name: 		gnonlin
-Version: 	0.10.10
+Version: 	0.10.11
 Release:	1
 Summary: 	GStreamer extension library for non-linear editing
 

@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, cvs and prerelease does Werror too
-AC_INIT(GNonLin, 0.10.10,
+AC_INIT(GNonLin, 0.10.11,
     http://gnonlin.sourceforge.net/,
     gnonlin)
 
@@ -197,21 +197,24 @@ dnl whatevertarget_LIBS and -L flags here affect the rest of the linking
 GST_PLUGIN_LDFLAGS="-module -avoid-version -export-symbols-regex '^[_]*gst_plugin_desc\$\$' $GST_ALL_LDFLAGS"
 AC_SUBST(GST_PLUGIN_LDFLAGS)
 
+SHAVE_INIT([common],[enable])
+
 dnl *** output files ***
 
 dnl keep this alphabetic per directory, please
 AC_CONFIG_FILES(
 Makefile
+common/Makefile
+common/m4/Makefile
+common/shave
+common/shave-libtool
 docs/Makefile
 docs/libs/Makefile
 docs/version.entities
-common/Makefile
-common/m4/Makefile
 m4/Makefile
 tests/Makefile
 tests/check/Makefile
 gnl/Makefile
-gnl/gnlversion.h
 gnonlin.spec
 )
 AC_OUTPUT

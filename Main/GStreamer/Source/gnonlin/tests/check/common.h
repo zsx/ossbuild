@@ -1,6 +1,27 @@
 
 #include <gst/check/gstcheck.h>
 
+#define fail_unless_equals_int64(a, b)					\
+G_STMT_START {								\
+  gint64 first = a;							\
+  gint64 second = b;							\
+  fail_unless(first == second,						\
+    "'" #a "' (%" G_GINT64_FORMAT ") is not equal to '" #b"' (%"	\
+    G_GINT64_FORMAT ")", first, second);				\
+} G_STMT_END;
+
+#define check_start_stop_duration(object, startval, stopval, durval)	\
+  G_STMT_START { guint64 start, stop;					\
+    gint64 duration;							\
+    GST_DEBUG_OBJECT (object, "Checking for valid start/stop/duration values");					\
+    g_object_get (object, "start", &start, "stop", &stop,		\
+		  "duration", &duration, NULL);				\
+    fail_unless_equals_uint64(start, startval);				\
+    fail_unless_equals_uint64(stop, stopval);				\
+    fail_unless_equals_int64(duration, durval);				\
+    GST_DEBUG_OBJECT (object, "start/stop/duration values valid");	\
+  } G_STMT_END;
+
 typedef struct _Segment {
   gdouble	rate;
   GstFormat	format;
@@ -164,11 +185,13 @@ videotest_in_bin_gnl_src (const gchar * name, guint64 start, gint64 duration, gi
   GstElement * alpha = NULL;
   GstPad *srcpad = NULL;
 
+  alpha = gst_element_factory_make ("alpha", NULL);
+  if (alpha == NULL)
+    return NULL;
+
   videotestsrc = gst_element_factory_make_or_warn ("videotestsrc", NULL);
   g_object_set (G_OBJECT (videotestsrc), "pattern", pattern, NULL);
   bin = gst_bin_new (NULL);
-
-  alpha = gst_element_factory_make_or_warn ("alpha", NULL);
 
   gnlsource = new_gnl_src (name, start, duration, priority);
 
@@ -264,12 +287,4 @@ segment_new (gdouble rate, GstFormat format, gint64 start, gint64 stop, gint64 p
 
   return segment;
 }
-
-#define check_start_stop_duration(object, startval, stopval, durval)	\
-  { \
-    g_object_get (object, "start", &start, "stop", &stop, "duration", &duration, NULL); \
-    fail_if (start != startval); \
-    fail_if (stop != stopval); \
-    fail_if (duration != durval); \
-  }
 

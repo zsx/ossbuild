@@ -5,16 +5,13 @@ DIE=0
 package=gnonlin
 srcfile=gnl/gnl.c
 
-# a quick cvs co to ease the transition
-if test ! -d common;
+# Make sure we have common
+if test ! -f common/gst-autogen.sh;
 then
-  echo "+ getting common/ from cvs"
-  if test -e CVS/Tag
-  then
-    TAG="-r `tail -c +2 CVS/Tag`"
-  fi
-  cvs co $TAG common
+  echo "+ Setting up common submodule"
+  git submodule init
 fi
+git submodule update
 
 # source helper functions
 if test ! -f common/gst-autogen.sh;
@@ -24,6 +21,13 @@ then
   exit 1
 fi
 . common/gst-autogen.sh
+
+# install pre-commit hook for doing clean commits
+if test ! \( -x .git/hooks/pre-commit -a -L .git/hooks/pre-commit \);
+then
+    rm -f .git/hooks/pre-commit
+    ln -s ../../common/hooks/pre-commit.hook .git/hooks/pre-commit
+fi
 
 CONFIGURE_DEF_OPT='--enable-maintainer-mode --enable-gtk-doc'
 
@@ -36,7 +40,7 @@ version_check "autoconf" "$AUTOCONF autoconf autoconf259 autoconf257 autoconf-2.
 version_check "automake" "$AUTOMAKE automake automake-1.9 automake19 automake-1.8 automake18 automake-1.7 automake17 automake-1.6 automake16" \
               "ftp://ftp.gnu.org/pub/gnu/automake/" 1 7 || DIE=1
 version_check "autopoint" "autopoint" \
-              "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 11 5 || DIE=1
+              "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 17 || DIE=1
 version_check "libtoolize" "libtoolize libtoolize15 glibtoolize" \
               "ftp://ftp.gnu.org/pub/gnu/libtool/" 1 5 0 || DIE=1
 version_check "pkg-config" "" \
@@ -61,8 +65,8 @@ fi
 
 toplevel_check $srcfile
 
-tool_run "$aclocal" "-I m4 -I common/m4 $ACLOCAL_FLAGS"
 tool_run "$libtoolize" "--copy --force"
+tool_run "$aclocal" "-I m4 -I common/m4 $ACLOCAL_FLAGS"
 tool_run "$autoheader"
 
 # touch the stamp-h.in build stamp so we don't re-run autoheader in maintainer mode -- wingo

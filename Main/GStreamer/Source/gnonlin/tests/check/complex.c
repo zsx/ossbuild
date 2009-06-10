@@ -683,7 +683,11 @@ GST_START_TEST (test_one_bin_space_another)
      Priority : 1
    */
   source1 = videotest_in_bin_gnl_src ("source1", 0, 1 * GST_SECOND, 1, 1);
-  fail_if (source1 == NULL);
+  if (source1 == NULL) {
+    gst_object_unref (pipeline);
+    gst_object_unref (comp);
+    return;
+  }
   check_start_stop_duration (source1, 0, 1 * GST_SECOND, 1 * GST_SECOND);
 
   /*

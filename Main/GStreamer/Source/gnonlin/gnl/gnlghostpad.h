@@ -1,6 +1,7 @@
-/* Gnonlin
- * Copyright (C) <2001> Wim Taymans <wim.taymans@gmail.com>
- *		 <2004-2008> Edward Hervey <bilboed@bilboed.com>
+/* GStreamer
+ * Copyright (C) 2009 Edward Hervey <bilboed@bilboed.com>
+ *
+ * gnlghostpad.h: Header for helper ghostpad
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -18,19 +19,33 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifndef __GNL_H__
-#define __GNL_H__
+
+#ifndef __GNL_GHOSTPAD_H__
+#define __GNL_GHOSTPAD_H__
 
 #include <gst/gst.h>
 
 #include "gnltypes.h"
 
-#include "gnlobject.h"
-#include "gnlghostpad.h"
-#include "gnlsource.h"
-#include "gnlcomposition.h"
-#include "gnloperation.h"
+G_BEGIN_DECLS
 
-#include "gnlfilesource.h"
+GstPad *gnl_object_ghost_pad (GnlObject * object,
+    const gchar * name, GstPad * target);
 
-#endif /* __GST_H__ */
+GstPad *gnl_object_ghost_pad_full (GnlObject * object,
+    const gchar * name, GstPad * target, gboolean flush_hack);
+
+
+GstPad *gnl_object_ghost_pad_no_target (GnlObject * object,
+    const gchar * name, GstPadDirection dir);
+
+gboolean gnl_object_ghost_pad_set_target (GnlObject * object,
+    GstPad * ghost, GstPad * target);
+
+void gnl_object_remove_ghost_pad (GnlObject * object, GstPad * ghost);
+
+void gnl_init_ghostpad_category ();
+
+G_END_DECLS
+
+#endif /* __GNL_GHOSTPAD_H__ */

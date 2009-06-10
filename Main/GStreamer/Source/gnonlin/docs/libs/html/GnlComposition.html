@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GnlComposition</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GNonLin 0.10.9.1 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.0">
+<link rel="home" href="index.html" title="GNonLin 0.10.11 Reference Manual">
 <link rel="up" href="ch01.html" title="GNonLin Elements">
 <link rel="prev" href="ch01.html" title="GNonLin Elements">
 <link rel="next" href="GnlFileSource.html" title="GnlFileSource">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="GNonLin Elements">
 <link rel="chapter" href="ch02.html" title="Base Classes">
@@ -19,16 +19,20 @@
 <td><a accesskey="p" href="ch01.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
-<th width="100%" align="center">GNonLin 0.10.9.1 Reference Manual</th>
+<th width="100%" align="center">GNonLin 0.10.11 Reference Manual</th>
 <td><a accesskey="n" href="GnlFileSource.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#GnlComposition.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#GnlComposition.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#GnlComposition.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#GnlComposition.implemented-interfaces" class="shortcut">Implemented Interfaces</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#GnlComposition.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#GnlComposition.description" class="shortcut">Description</a>
+                 | 
+                <a href="#GnlComposition.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#GnlComposition.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#GnlComposition.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="GnlComposition"></a><div class="titlepage"></div>
@@ -73,20 +77,30 @@ href="../gstreamer-0.10/GstChildProxy.html"
 >GstChildProxy</a>.</p>
 </div>
 <div class="refsect1" lang="en">
+<a name="GnlComposition.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="GnlComposition.html#GnlComposition--update" title='The "update" property'>update</a>"                   <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
 <a name="GnlComposition.description"></a><h2>Description</h2>
 <p>
 A GnlComposition contains GnlObjects such as GnlSources and GnlOperations,
 and connects them dynamically to create a composition timeline.</p>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id277685"></a><h3>Element Information</h3>
+<a name="id279494"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
 <td><p><span class="term">plugin</span></p></td>
 <td>
-          gnonlin
-        </td>
+            gnonlin
+          </td>
 </tr>
 <tr>
 <td><p><span class="term">author</span></p></td>
@@ -98,6 +112,10 @@ and connects them dynamically to create a composition timeline.</p>
 </tr>
 </tbody>
 </table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id279556"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -120,8 +138,8 @@ and connects them dynamically to create a composition timeline.</p>
 </tbody>
 </table></div>
 </div>
+</div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -130,13 +148,46 @@ and connects them dynamically to create a composition timeline.</p>
 <a name="GnlComposition-struct"></a><h3>GnlComposition</h3>
 <pre class="programlisting">typedef struct _GnlComposition GnlComposition;</pre>
 <p>
-
 </p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="GnlComposition.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="GnlComposition--update"></a><h3>The <code class="literal">"update"</code> property</h3>
+<pre class="programlisting">  "update"                   <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>
+If <a
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
+><code class="literal">TRUE</code></a>, then all modifications to objects within the composition will
+cause a internal pipeline update (if required).
+If <a
+href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
+><code class="literal">FALSE</code></a>, then only the composition's start/duration/stop properties
+will be updated, and the internal pipeline will only be updated when the
+property is set back to <a
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
+><code class="literal">TRUE</code></a>.
+</p>
+<p>
+It is recommended to temporarily set this property to <a
+href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
+><code class="literal">FALSE</code></a> before doing
+more than one modification in the composition (like adding/moving/removing
+several objects at once) in order to speed up the process, and then setting
+back the property to <a
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
+><code class="literal">TRUE</code></a> when done.</p>
+<p>
+</p>
+<p>Default value: TRUE</p>
 </div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

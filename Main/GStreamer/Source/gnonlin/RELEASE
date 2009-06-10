@@ -1,5 +1,5 @@
 
-Release notes for GNonLin Non-Linear Editing Plug-ins 0.10.10 "All Good Things..."
+Release notes for GNonLin Non-Linear Editing Plug-ins 0.10.11 "How about green for the bikeshed?"
         
 
 
@@ -29,11 +29,22 @@ An element for using filters in a GnlComposition
 
 Features of this release
     
-      * Documentation in gtk-doc format
-      * Smarter handling of modifications while playing.
-      * Can handle more complicated combinations/types of operations
-There were no bugs fixed in this release
-    
+      * Speedup option to avoid recalculation during composition changes
+      * Switch to regular seeks for more efficient beheaviour
+      * More GstQuery/GstEvent handling
+      * Bugfixes on GnlOperation
+      * Switch to GIT
+      * Documentation
+
+Bugs fixed in this release
+     
+      * 398453 : Implement time-shifting for QoS events
+      * 555898 : [optimisation] Block signals from timeline while doing co...
+      * 563507 : Tests are using " alpha " element from gst-plugins-good but...
+      * 566796 : Deadlock using nested compositions
+      * 569854 : Generic duration reporting/querying
+      * 578234 : [gnloperation] Implement time-shifting on sinkpad event/q...
+      * 575972 : [GnlComposition] Switch to using regular segment seeks in...
 
 Download
 
@@ -52,8 +63,7 @@ http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer
 
 Developers
 
-CVS is hosted on cvs.freedesktop.org.
-All code is in CVS and can be checked out from there.
+GStreamer is stored in Git, hosted at git.freedesktop.org, and can be cloned from there.
 Interested developers of the core library, plug-ins, and applications should
 subscribe to the gstreamer-devel list. If there is sufficient interest we
 will create more lists as necessary.
@@ -64,9 +74,13 @@ GNonLin is primarily used by PiTiVi (http://www.pitivi.org/) and Jokosher (http:
   
 Contributors to this release
     
-      * 
-      * Damien Lespiau
+      * Alessandro Decina
+      * Cygwin Ports maintainer
+      * David Schleef
       * Edward Hervey
+      * Felipe Contreras
       * Jan Schmidt
+      * Marc-Andre Lureau
       * Sebastian Dröge
+      * Stefan Kost
  

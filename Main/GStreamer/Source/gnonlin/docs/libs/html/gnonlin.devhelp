@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
-<book xmlns="http://www.devhelp.net/book" title="GNonLin 0.10.9.1 Reference Manual" link="index.html" author="" name="gnonlin">
+<book xmlns="http://www.devhelp.net/book" title="GNonLin 0.10.11 Reference Manual" link="index.html" author="" name="gnonlin">
   <chapters>
     <sub name="GNonLin Elements" link="ch01.html">
       <sub name="GnlComposition" link="GnlComposition.html"/>
@@ -13,18 +13,23 @@
     </sub>
   </chapters>
   <functions>
-    <function name="Element Information" link="GnlComposition.html#id277685"/>
+    <function name="Element Information" link="GnlComposition.html#id279494"/>
+    <function name="Element Pads" link="GnlComposition.html#id279556"/>
     <function name="GnlComposition" link="GnlComposition.html#GnlComposition-struct"/>
-    <function name="Element Information" link="GnlFileSource.html#id340428"/>
+    <function name="The &quot;update&quot; property" link="GnlComposition.html#GnlComposition--update"/>
+    <function name="Element Information" link="GnlFileSource.html#id347212"/>
+    <function name="Element Pads" link="GnlFileSource.html#id347273"/>
     <function name="GnlFileSource" link="GnlFileSource.html#GnlFileSource-struct"/>
     <function name="The &quot;location&quot; property" link="GnlFileSource.html#GnlFileSource--location"/>
-    <function name="" link="GnlOperation.html#id328154"/>
-    <function name="Element Information" link="GnlOperation.html#id328170"/>
+    <function name="" link="GnlOperation.html#id355056"/>
+    <function name="Element Information" link="GnlOperation.html#id348719"/>
+    <function name="Element Pads" link="GnlOperation.html#id341329"/>
     <function name="GnlOperation" link="GnlOperation.html#GnlOperation-struct"/>
     <function name="The &quot;sinks&quot; property" link="GnlOperation.html#GnlOperation--sinks"/>
-    <function name="Element Information" link="GnlSource.html#id331588"/>
+    <function name="Element Information" link="GnlSource.html#id352888"/>
+    <function name="Element Pads" link="GnlSource.html#id328467"/>
     <function name="GnlSource" link="GnlSource.html#GnlSource-struct"/>
-    <function name="" link="GnlObject.html#id334806"/>
+    <function name="" link="GnlObject.html#id327913"/>
     <function name="GnlObject" link="GnlObject.html#GnlObject-struct"/>
     <function name="The &quot;active&quot; property" link="GnlObject.html#GnlObject--active"/>
     <function name="The &quot;caps&quot; property" link="GnlObject.html#GnlObject--caps"/>

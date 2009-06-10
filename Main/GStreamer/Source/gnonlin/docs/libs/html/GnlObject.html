@@ -3,11 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GnlObject</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GNonLin 0.10.9.1 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.74.0">
+<link rel="home" href="index.html" title="GNonLin 0.10.11 Reference Manual">
 <link rel="up" href="ch02.html" title="Base Classes">
 <link rel="prev" href="ch02.html" title="Base Classes">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="GNonLin Elements">
 <link rel="chapter" href="ch02.html" title="Base Classes">
@@ -18,18 +18,20 @@
 <td><a accesskey="p" href="ch02.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch02.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
-<th width="100%" align="center">GNonLin 0.10.9.1 Reference Manual</th>
+<th width="100%" align="center">GNonLin 0.10.11 Reference Manual</th>
 <td> </td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#GnlObject.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#GnlObject.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#GnlObject.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#GnlObject.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#GnlObject.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#GnlObject.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#GnlObject.description" class="shortcut">Description</a>
+                 | 
+                <a href="#GnlObject.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#GnlObject.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#GnlObject.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="GnlObject"></a><div class="titlepage"></div>
@@ -115,13 +117,12 @@ href="../glib/glib-Basic-Types.html#guint64"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id334806"></a><p>
+<a name="id327913"></a><p>
 GnlObject encapsulates default behaviour and implements standard
 properties provided by all the GNonLin elements.
 </p>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -130,7 +131,6 @@ properties provided by all the GNonLin elements.
 <a name="GnlObject-struct"></a><h3>GnlObject</h3>
 <pre class="programlisting">typedef struct _GnlObject GnlObject;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -141,7 +141,15 @@ properties provided by all the GNonLin elements.
 <pre class="programlisting">  "active"                   <a
 href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
-<p>Render this object.</p>
+<p>
+Indicates whether this object should be used by its container.
+</p>
+<p>
+Set to <a
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
+><span class="type">TRUE</span></a> to temporarily disable this object in a <a class="link" href="GnlComposition.html" title="GnlComposition"><span class="type">GnlComposition</span></a>.</p>
+<p>
+</p>
 <p>Default value: TRUE</p>
 </div>
 <hr>
@@ -150,7 +158,17 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <pre class="programlisting">  "caps"                     <a
 href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read / Write</pre>
-<p>Caps used to filter/choose the output stream.</p>
+<p>
+Caps used to filter/choose the output stream.
+</p>
+<p>
+If the controlled object produces several stream, you can set this
+property to choose a specific stream.
+</p>
+<p>
+If nothing is specified then a source pad will be chosen at random.</p>
+<p>
+</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
@@ -158,7 +176,10 @@ href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 <pre class="programlisting">  "duration"                 <a
 href="../glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
-<p>Outgoing duration.</p>
+<p>
+The outgoing duration in nanoseconds.</p>
+<p>
+</p>
 <p>Allowed values: &gt;= 0</p>
 <p>Default value: 0</p>
 </div>
@@ -195,7 +216,22 @@ href="../glib/glib-Basic-Types.html#guint64"
 <pre class="programlisting">  "priority"                 <a
 href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
-<p>The priority of the object (0 = highest priority).</p>
+<p>
+The priority of the object in the container.
+</p>
+<p>
+The highest priority is 0, meaning this object will be selected over
+any other between start and stop.
+</p>
+<p>
+The lowest priority is G_MAXUINT32.
+</p>
+<p>
+Objects whose priority is (-1) will be considered as 'default' objects
+in GnlComposition and their start/stop values will be modified as to
+fit the whole duration of the composition.</p>
+<p>
+</p>
 <p>Default value: 0</p>
 </div>
 <hr>
@@ -204,7 +240,13 @@ href="../glib/glib-Basic-Types.html#guint"
 <pre class="programlisting">  "rate"                     <a
 href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read</pre>
-<p>Playback rate of the media.</p>
+<p>
+The rate applied to the controlled output.
+</p>
+<p>
+This is a read-only value computed from duration and media_duration.</p>
+<p>
+</p>
 <p>Default value: 1</p>
 </div>
 <hr>
@@ -214,9 +256,8 @@ href="../glib/glib-Basic-Types.html#gdouble"
 href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>
-</p>
+The start position relative to the parent in nanoseconds.</p>
 <p>
-
 </p>
 <p>Default value: 0</p>
 </div>
@@ -226,13 +267,19 @@ href="../glib/glib-Basic-Types.html#guint64"
 <pre class="programlisting">  "stop"                     <a
 href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read</pre>
-<p>The stop position relative to the parent.</p>
+<p>
+The stop position relative to the parent in nanoseconds.
+</p>
+<p>
+This value is computed based on the values of start and duration.</p>
+<p>
+</p>
 <p>Default value: 0</p>
 </div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

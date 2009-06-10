@@ -683,7 +683,11 @@ GST_START_TEST (test_complex_operations)
    */
 
   source1 = videotest_in_bin_gnl_src ("source1", 0, 4 * GST_SECOND, 1, 3);
-  fail_if (source1 == NULL);
+  if (source1 == NULL) {
+    gst_object_unref (pipeline);
+    gst_object_unref (comp);
+    return;
+  }
   check_start_stop_duration (source1, 0, 4 * GST_SECOND, 4 * GST_SECOND);
 
   /*

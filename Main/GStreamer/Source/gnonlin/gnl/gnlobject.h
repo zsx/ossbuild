@@ -43,23 +43,6 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_CLASS_TYPE((klass),GNL_TYPE_OBJECT))
 
 /**
- * GnlCoverType"
- * @GNL_COVER_ALL  : Covers all the content
- * @GNL_COVER_SOME : Covers some of the content
- * @GNL_COVER_START: Covers the beginning
- * @GNL_COVER_STOP : Covers the end
- *
- * Type of coverage for the given start/stop values
-*/
-    typedef enum
-{
-  GNL_COVER_ALL,
-  GNL_COVER_SOME,
-  GNL_COVER_START,
-  GNL_COVER_STOP,
-} GnlCoverType;
-
-/**
  * GnlObjectFlags:
  * @GNL_OBJECT_IS_SOURCE:
  * @GNL_OBJECT_IS_OPERATION:
@@ -99,6 +82,8 @@ struct _GnlObject
 
   /* read-only */
   gdouble rate;
+  /* TRUE if rate == 1.0 */
+  gboolean rate_1;
 
   /* priority in parent */
   guint32 priority;
@@ -121,31 +106,11 @@ struct _GnlObjectClass
   GstBinClass parent_class;
 
   /* virtual methods for subclasses */
-    gboolean (*covers) (GnlObject * object,
-      GstClockTime start, GstClockTime stop, GnlCoverType type);
     gboolean (*prepare) (GnlObject * object);
     gboolean (*cleanup) (GnlObject * object);
 };
 
 GType gnl_object_get_type (void);
-
-GstPad *gnl_object_ghost_pad (GnlObject * object,
-    const gchar * name, GstPad * target);
-
-GstPad *gnl_object_ghost_pad_full (GnlObject * object,
-    const gchar * name, GstPad * target, gboolean flush_hack);
-
-
-GstPad *gnl_object_ghost_pad_no_target (GnlObject * object,
-    const gchar * name, GstPadDirection dir);
-
-gboolean gnl_object_ghost_pad_set_target (GnlObject * object,
-    GstPad * ghost, GstPad * target);
-
-void gnl_object_remove_ghost_pad (GnlObject * object, GstPad * ghost);
-
-gboolean gnl_object_covers (GnlObject * object,
-    GstClockTime start, GstClockTime stop, GnlCoverType type);
 
 gboolean
 gnl_object_to_media_time (GnlObject * object, GstClockTime otime,

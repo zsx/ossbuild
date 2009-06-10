@@ -25,14 +25,15 @@ check_PROGRAMS =	\
 	./simple	\
 	./complex	\
 	./gnlsource	\
-	./gnloperation
+	./gnloperation	\
+	./gnlcomposition
 
 noinst_HEADERS = \
 	common.h
 # these tests don't even pass
 noinst_PROGRAMS =
 
-AM_CFLAGS = $(GST_OBJ_CFLAGS) $(GST_CHECK_CFLAGS) $(CHECK_CFLAGS)
+AM_CFLAGS = -I./ $(GST_OBJ_CFLAGS) $(GST_CHECK_CFLAGS) $(CHECK_CFLAGS)
 LDADD = $(GST_OBJ_LIBS) $(GST_CHECK_LIBS) $(CHECK_LIBS)
 
 SUPPRESSIONS = $(top_srcdir)/common/gst.supp

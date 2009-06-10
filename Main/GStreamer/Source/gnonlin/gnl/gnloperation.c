@@ -159,7 +159,8 @@ gnl_operation_reset (GnlOperation * operation)
 }
 
 static void
-gnl_operation_init (GnlOperation * operation, GnlOperationClass * klass)
+gnl_operation_init (GnlOperation * operation,
+    GnlOperationClass * klass G_GNUC_UNUSED)
 {
   gnl_operation_reset (operation);
   operation->ghostpad = NULL;
@@ -209,21 +210,37 @@ element_is_valid_filter (GstElement * element, gboolean * isdynamic)
   }
   gst_iterator_free (pads);
 
-  factory = gst_element_get_factory (element);
+  if (G_LIKELY ((factory = gst_element_get_factory (element)))) {
 
-  for (templates = gst_element_factory_get_static_pad_templates (factory);
-      templates; templates = g_list_next (templates)) {
-    GstStaticPadTemplate *template = (GstStaticPadTemplate *) templates->data;
+    for (templates = gst_element_factory_get_static_pad_templates (factory);
+        templates; templates = g_list_next (templates)) {
+      GstStaticPadTemplate *template = (GstStaticPadTemplate *) templates->data;
 
-    if (template->direction == GST_PAD_SRC)
-      havesrc = TRUE;
-    else if (template->direction == GST_PAD_SINK) {
-      if (!havesink && (template->presence == GST_PAD_REQUEST))
-        *isdynamic = TRUE;
-      havesink = TRUE;
+      if (template->direction == GST_PAD_SRC)
+        havesrc = TRUE;
+      else if (template->direction == GST_PAD_SINK) {
+        if (!havesink && (template->presence == GST_PAD_REQUEST) && isdynamic)
+          *isdynamic = TRUE;
+        havesink = TRUE;
+      }
+    }
+  } else if (GST_ELEMENT_GET_CLASS (element)) {
+    GList *tmp =
+        gst_element_class_get_pad_template_list (GST_ELEMENT_GET_CLASS
+        (element));
+    while (tmp) {
+      GstPadTemplate *template = (GstPadTemplate *) tmp->data;
+
+      if (template->direction == GST_PAD_SRC)
+        havesrc = TRUE;
+      else if (template->direction == GST_PAD_SINK) {
+        if (!havesink && (template->presence == GST_PAD_REQUEST) && isdynamic)
+          *isdynamic = TRUE;
+        havesink = TRUE;
+      }
+      tmp = g_list_next (tmp);
     }
   }
-
   return (havesink && havesrc);
 }
 
@@ -319,14 +336,13 @@ gnl_operation_add_element (GstBin * bin, GstElement * element)
         operation->dynamicsinks = isdynamic;
 
         /* Source ghostpad */
-        if (!operation->ghostpad) {
+        if (operation->ghostpad)
+          gnl_object_ghost_pad_set_target (GNL_OBJECT (operation),
+              operation->ghostpad, srcpad);
+        else
           operation->ghostpad =
-              gst_ghost_pad_new_no_target ("src", GST_PAD_SRC);
-          gst_pad_set_active (operation->ghostpad, TRUE);
-          gst_element_add_pad ((GstElement *) bin, operation->ghostpad);
-        }
-        gst_ghost_pad_set_target ((GstGhostPad *) operation->ghostpad, srcpad);
-        gst_object_unref (srcpad);
+              gnl_object_ghost_pad_full (GNL_OBJECT (operation),
+              GST_PAD_NAME (srcpad), srcpad, TRUE);
 
         /* Figure out number of static sink pads */
         operation->num_sinks = get_nb_static_sinks (operation);
@@ -576,7 +592,8 @@ add_sink_pad (GnlOperation * operation)
     /* static sink pads */
     ret = get_unused_static_sink_pad (operation);
     if (ret) {
-      gpad = gst_ghost_pad_new (GST_PAD_NAME (ret), ret);
+      gpad = gnl_object_ghost_pad ((GnlObject *) operation, GST_PAD_NAME (ret),
+          ret);
       gst_object_unref (ret);
     }
   }
@@ -585,14 +602,13 @@ add_sink_pad (GnlOperation * operation)
     /* request sink pads */
     ret = get_request_sink_pad (operation);
     if (ret) {
-      gpad = gst_ghost_pad_new (GST_PAD_NAME (ret), ret);
+      gpad = gnl_object_ghost_pad ((GnlObject *) operation, GST_PAD_NAME (ret),
+          ret);
       gst_object_unref (ret);
     }
   }
 
   if (gpad) {
-    gst_pad_set_active (gpad, TRUE);
-    gst_element_add_pad ((GstElement *) operation, gpad);
     operation->sinks = g_list_append (operation->sinks, gpad);
     operation->realsinks++;
     GST_DEBUG ("Created new pad %s:%s ghosting %s:%s",
@@ -631,7 +647,7 @@ remove_sink_pad (GnlOperation * operation, GstPad * sinkpad)
     /* release the target pad */
     gst_element_release_request_pad (operation->element, target);
     operation->sinks = g_list_remove (operation->sinks, sinkpad);
-    gst_element_remove_pad ((GstElement *) operation, sinkpad);
+    gnl_object_remove_ghost_pad ((GnlObject *) operation, sinkpad);
   }
 
 beach:

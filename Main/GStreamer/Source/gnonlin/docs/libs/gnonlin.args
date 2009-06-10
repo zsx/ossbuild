@@ -1,7 +1,7 @@
 <ARG>
 <NAME>GnlOperation::sinks</NAME>
 <TYPE>gint</TYPE>
-<RANGE>>= -1</RANGE>
+<RANGE>>= G_MAXULONG</RANGE>
 <FLAGS>rw</FLAGS>
 <NICK>Sinks</NICK>
 <BLURB>Number of input sinks (-1 for automatic handling).</BLURB>
@@ -24,7 +24,7 @@
 <RANGE></RANGE>
 <FLAGS>rw</FLAGS>
 <NICK>Active</NICK>
-<BLURB>Render this object.</BLURB>
+<BLURB>Use this object in the GnlComposition.</BLURB>
 <DEFAULT>TRUE</DEFAULT>
 </ARG>
 
@@ -116,5 +116,15 @@
 <NICK>Stop</NICK>
 <BLURB>The stop position relative to the parent.</BLURB>
 <DEFAULT>0</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>GnlComposition::update</NAME>
+<TYPE>gboolean</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>Update</NICK>
+<BLURB>Update the internal pipeline on every modification.</BLURB>
+<DEFAULT>TRUE</DEFAULT>
 </ARG>
 

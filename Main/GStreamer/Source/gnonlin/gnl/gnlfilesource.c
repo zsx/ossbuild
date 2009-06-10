@@ -88,12 +88,10 @@ gnl_filesource_class_init (GnlFileSourceClass * klass)
 {
   GObjectClass *gobject_class;
   GstElementClass *gstelement_class;
-  GnlObjectClass *gnlobject_class;
   GnlSourceClass *gnlsource_class;
 
   gobject_class = (GObjectClass *) klass;
   gstelement_class = (GstElementClass *) klass;
-  gnlobject_class = (GnlObjectClass *) klass;
   gnlsource_class = (GnlSourceClass *) klass;
 
   parent_class = g_type_class_ref (GNL_TYPE_OBJECT);
@@ -117,7 +115,8 @@ gnl_filesource_class_init (GnlFileSourceClass * klass)
 }
 
 static void
-gnl_filesource_init (GnlFileSource * filesource, GnlFileSourceClass * klass)
+gnl_filesource_init (GnlFileSource * filesource,
+    GnlFileSourceClass * klass G_GNUC_UNUSED)
 {
   GstElement *filesrc, *decodebin;
 
@@ -132,23 +131,25 @@ gnl_filesource_init (GnlFileSource * filesource, GnlFileSourceClass * klass)
             gst_element_factory_make ("filesrc", "internal-filesource")))
       g_warning
           ("Could not create a gnomevfssrc or filesource element, are you sure you have any of them installed ?");
-  if (g_getenv ("USE_DECODEBIN2"))
-    decodebin = gst_element_factory_make ("decodebin2", "internal-decodebin");
-  else
-    decodebin = gst_element_factory_make ("decodebin", "internal-decodebin");
-  if (!decodebin)
+  if (!(decodebin =
+          gst_element_factory_make ("decodebin2", "internal-decodebin"))
+      || !(decodebin =
+          gst_element_factory_make ("decodebin", "internal-decodebin")))
     g_warning
         ("Could not create a decodebin element, are you sure you have decodebin installed ?");
 
   filesource->private->filesource = filesrc;
 
-  gst_bin_add_many (GST_BIN (filesource), filesrc, decodebin, NULL);
+  if (filesrc && decodebin) {
+    gst_bin_add_many (GST_BIN (filesource), filesrc, decodebin, NULL);
+    if (!(gst_element_link (filesrc, decodebin)))
+      g_warning ("Could not link the file source element to decodebin");
+  }
 
-  if (!(gst_element_link (filesrc, decodebin)))
-    g_warning ("Could not link the file source element to decodebin");
-
-  GNL_SOURCE_GET_CLASS (filesource)->control_element ((GnlSource*) filesource,
-      decodebin);
+  if (decodebin) {
+    GNL_SOURCE_GET_CLASS (filesource)->control_element (
+        (GnlSource *) filesource, decodebin);
+  }
 
   GST_DEBUG_OBJECT (filesource, "done");
 }
@@ -156,7 +157,7 @@ gnl_filesource_init (GnlFileSource * filesource, GnlFileSourceClass * klass)
 static void
 gnl_filesource_dispose (GObject * object)
 {
-  GnlFileSource *filesource = (GnlFileSource*) object;
+  GnlFileSource *filesource = (GnlFileSource *) object;
 
   if (filesource->private->dispose_has_run)
     return;
@@ -171,7 +172,7 @@ gnl_filesource_dispose (GObject * object)
 static void
 gnl_filesource_finalize (GObject * object)
 {
-  GnlFileSource *filesource = (GnlFileSource*) object;
+  GnlFileSource *filesource = (GnlFileSource *) object;
 
   GST_INFO_OBJECT (object, "finalize");
   g_free (filesource->private);
@@ -183,7 +184,7 @@ static void
 gnl_filesource_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec)
 {
-  GnlFileSource *fs = (GnlFileSource*) object;
+  GnlFileSource *fs = (GnlFileSource *) object;
 
   switch (prop_id) {
     case ARG_LOCATION:
@@ -201,7 +202,7 @@ static void
 gnl_filesource_get_property (GObject * object, guint prop_id,
     GValue * value, GParamSpec * pspec)
 {
-  GnlFileSource *fs = (GnlFileSource*) object;
+  GnlFileSource *fs = (GnlFileSource *) object;
 
   switch (prop_id) {
     case ARG_LOCATION:

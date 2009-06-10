@@ -48,6 +48,8 @@ plugin_init (GstPlugin * plugin)
                 _elements[i].name, GST_RANK_NONE, (_elements[i].type) ())))
       return FALSE;
 
+  gnl_init_ghostpad_category ();
+
   return TRUE;
 }
 
