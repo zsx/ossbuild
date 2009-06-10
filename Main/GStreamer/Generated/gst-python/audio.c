@@ -2314,6 +2314,36 @@ _wrap_gst_audio_buffer_clip(PyObject *self, PyObject *args, PyObject *kwargs)
     return pygstminiobject_new((GstMiniObject *)ret);
 }
 
+static PyObject *
+_wrap_gst_audio_clock_get_time(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "clock", NULL };
+    PyGObject *clock;
+    guint64 ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O!:clock_get_time", kwlist, &PyGstClock_Type, &clock))
+        return NULL;
+    pyg_begin_allow_threads;
+    ret = gst_audio_clock_get_time(GST_CLOCK(clock->obj));
+    pyg_end_allow_threads;
+    return PyLong_FromUnsignedLongLong(ret);
+}
+
+static PyObject *
+_wrap_gst_audio_clock_adjust(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    static char *kwlist[] = { "clock", "time", NULL };
+    PyGObject *clock;
+    guint64 time, ret;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,"O!K:clock_adjust", kwlist, &PyGstClock_Type, &clock, &time))
+        return NULL;
+    pyg_begin_allow_threads;
+    ret = gst_audio_clock_adjust(GST_CLOCK(clock->obj), time);
+    pyg_end_allow_threads;
+    return PyLong_FromUnsignedLongLong(ret);
+}
+
 const PyMethodDef pyaudio_functions[] = {
     { "frame_byte_size", (PyCFunction)_wrap_gst_audio_frame_byte_size, METH_VARARGS|METH_KEYWORDS,
       NULL },
@@ -2324,6 +2354,10 @@ const PyMethodDef pyaudio_functions[] = {
     { "is_buffer_framed", (PyCFunction)_wrap_gst_audio_is_buffer_framed, METH_VARARGS|METH_KEYWORDS,
       NULL },
     { "buffer_clip", (PyCFunction)_wrap_gst_audio_buffer_clip, METH_VARARGS|METH_KEYWORDS,
+      NULL },
+    { "clock_get_time", (PyCFunction)_wrap_gst_audio_clock_get_time, METH_VARARGS|METH_KEYWORDS,
+      NULL },
+    { "clock_adjust", (PyCFunction)_wrap_gst_audio_clock_adjust, METH_VARARGS|METH_KEYWORDS,
       NULL },
     { NULL, NULL, 0, NULL }
 };
@@ -2436,7 +2470,7 @@ pyaudio_register_classes(PyObject *d)
     }
 
 
-#line 2440 "..\\..\\Source\\gst-python\\gst\\audio.c"
+#line 2474 "..\\..\\Source\\gst-python\\gst\\audio.c"
     pygobject_register_class(d, "GstAudioClock", GST_TYPE_AUDIO_CLOCK, &PyGstAudioClock_Type, Py_BuildValue("(O)", &PyGstSystemClock_Type));
     pygobject_register_class(d, "GstAudioFilter", GST_TYPE_AUDIO_FILTER, &PyGstAudioFilter_Type, Py_BuildValue("(O)", &PyGstBaseTransform_Type));
     pyg_register_class_init(GST_TYPE_AUDIO_FILTER, __GstAudioFilter_class_init);
