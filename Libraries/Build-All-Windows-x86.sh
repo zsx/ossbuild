@@ -734,7 +734,7 @@ if [ ! -f "$LibDir/libavcodec-gpl.a" ]; then
 	mkdir_and_move "$IntDir/ffmpeg-gpl"
 	
 	
-	$PKG_DIR/configure --enable-gpl --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-xvid --enable-zlib --enable-bzlib --enable-w32threads --disable-ffmpeg --disable-ffplay --disable-ffserver --enable-static --disable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
+	$PKG_DIR/configure --enable-gpl --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-libxvid --enable-zlib --enable-bzlib --enable-w32threads --disable-ffmpeg --disable-ffplay --disable-ffserver --enable-static --disable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
 	
 	reset_flags
 	
@@ -749,6 +749,28 @@ if [ ! -f "$LibDir/libavcodec-gpl.a" ]; then
 	strip -x "$LibDir/libavcodec-gpl.a"
 fi
 
+
+if [ ! -f "$BinDir/libwavpack-1.dll" ]; then 
+	unpack_bzip2_and_move "wavpack-4.50.1.tar.bz2" "$PKG_DIR_WAVPACK"
+	mkdir_and_move "$IntDir/wavpack"
+	
+	cp -f "$LIBRARIES_PATCH_DIR/wavpack/Makefile.in" "$PKG_DIR"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	
+	make 
+	make install
+
+	cd src/.libs
+	
+	$MSLIB /name:libwavpack-1.dll /out:wavpack.lib /machine:$MSLibMachine /def:libwavpack-1.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"	
+
+	
+fi
+
+
+
 reset_flags
 
 #Make sure the shared directory has all our updates
@@ -759,3 +781,4 @@ crt_shutdown
 
 #Call common shutdown routines
 common_shutdown
+
