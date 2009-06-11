@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="WavPack"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\wavpack&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\wavpack&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="wavpack.lib"
+	/>
+	<UserMacro
+		Name="WavPackMajorVersion"
+		Value="4"
+	/>
+	<UserMacro
+		Name="WavPackMinorVersion"
+		Value="50"
+	/>
+	<UserMacro
+		Name="WavPackMicroVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="WavPackVersionString"
+		Value="$(WavPackMajorVersion).$(WavPackMinorVersion).$(WavPackMicroVersion)"
+	/>
+	<UserMacro
+		Name="WavPackApiVersionString"
+		Value="$(WavPackMajorVersion).$(WavPackMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

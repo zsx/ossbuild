@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="XvidCore"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="xvidcore.lib"
+	/>
+	<UserMacro
+		Name="XvidCoreMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="XvidCoreMinorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="XvidCoreMicroVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="XvidCoreVersionString"
+		Value="$(XvidCoreMajorVersion).$(XvidCoreMinorVersion).$(XvidCoreMicroVersion)"
+	/>
+	<UserMacro
+		Name="XvidCoreApiVersionString"
+		Value="$(XvidCoreMajorVersion).$(XvidCoreMinorVersion)"
+	/>
+</VisualStudioPropertySheet>
