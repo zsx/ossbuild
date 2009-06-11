@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-good\ext\cairo&quot;;&quot;$(OutDir)\include\cairo&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-good\ext\cairo&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\cairo&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -233,7 +233,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-good\ext\cairo&quot;;&quot;$(OutDir)\include\cairo&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-good\ext\cairo&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\cairo&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
