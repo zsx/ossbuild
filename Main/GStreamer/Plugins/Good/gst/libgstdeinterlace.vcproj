@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="&quot;$(OutDir)\include\liboil-0.3&quot;;&quot;..\..\..\Source\gst-plugins-good\gst\deinterlace&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\liboil-0.3&quot;;&quot;..\..\..\Source\gst-plugins-good\gst\deinterlace&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;$(OutDir)\include\liboil-0.3&quot;;&quot;..\..\..\Source\gst-plugins-good\gst\deinterlace&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\liboil-0.3&quot;;&quot;..\..\..\Source\gst-plugins-good\gst\deinterlace&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

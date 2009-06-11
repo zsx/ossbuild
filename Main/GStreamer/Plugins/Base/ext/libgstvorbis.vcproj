@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstvorbis"
 	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A02}"
 	RootNamespace="libgstvorbis"
@@ -317,6 +317,22 @@
 		/>
 	</References>
 	<Files>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-base\ext\vorbis\gstvorbisdec.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-base\ext\vorbis\gstvorbisenc.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-base\ext\vorbis\gstvorbisparse.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-base\ext\vorbis\gstvorbistag.h"
+			>
+		</File>
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-base\ext\vorbis\vorbis.c"
 			>
