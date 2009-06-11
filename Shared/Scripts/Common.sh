@@ -97,6 +97,9 @@ mkdir_and_move() {
 	fi
 
 	mydir=$1
+	
+	#Not sure why, but sometimes a carriage return gets into the dir name
+	mydir=$( echo $mydir | tr -d "\r" )
 
 	mkdir -p $mydir
 	cd $mydir
@@ -135,9 +138,16 @@ init_unpack_and_move() {
 	mycreatesubdir=$3
 	mycreatedir=$LIBRARIES_UNPACK_DIR
 	mydir=$LIBRARIES_UNPACK_DIR/$mymovedir
+	
+	#Not sure why, but sometimes a carriage return gets into the dir name
+	mydir=$( echo $mydir | tr -d "\r" )
+
 	if [ "$mycreatesubdir" != "" ]; then
 		mycreatedir=$mycreatedir/$mycreatesubdir
 	fi
+	
+	mycreatedir=$( echo $mycreatedir | tr -d "\r" )
+	
 	export PKG_DIR=$mydir
 	if [ -d "$mydir" ]; then
 		cd "$mycreatedir"
@@ -179,5 +189,16 @@ unpack_zip_and_move_windows() {
 	fi
 	echo Extracting $1...
 	7z x "$LIBRARIES_PACKAGE_DIR/$1" > NUL
+	cd "$PKG_DIR"
+}
+
+unpack_zip_and_move_linux() {
+	init_unpack_and_move "$1" "$2" "$3"
+	if [ "$?" -eq "1" ]; then
+		cd "$PKG_DIR"
+		return
+	fi
+	echo Extracting $1...
+	unzip "$LIBRARIES_PACKAGE_DIR/$1" > NUL
 	cd "$PKG_DIR"
 }
