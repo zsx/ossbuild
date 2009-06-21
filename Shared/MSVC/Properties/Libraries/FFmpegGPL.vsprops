@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="FFmpeg"
+	InheritedPropertySheets="..\SDKs\MinGW.vsprops;.\XvidCore.vsprops"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="libavutil-gpl.a libavfilter.a libavdevice.a libavformat-gpl.a libavcodec-gpl.a vfw32.lib wsock32.lib"
+	/>
+	<UserMacro
+		Name="FFmpegMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FFmpegMinorVersion"
+		Value="5"
+	/>
+	<UserMacro
+		Name="FFmpegMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FFmpegApiInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvCodecBuildNumber"
+		Value="52"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvDeviceBuildNumber"
+		Value="52"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvFilterBuildNumber"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvFormatBuildNumber"
+		Value="52"
+	/>
+	<UserMacro
+		Name="FFmpegLibAvUtilBuildNumber"
+		Value="49"
+	/>
+	<UserMacro
+		Name="FFmpegVersionString"
+		Value="$(FFmpegMajorVersion).$(FFmpegMinorVersion).$(FFmpegMicroVersion)"
+	/>
+	<UserMacro
+		Name="FFmpegApiVersionString"
+		Value="$(FFmpegMajorVersion).$(FFmpegMinorVersion)"
+	/>
+	<UserMacro
+		Name="FFmpegLibVersionString"
+		Value="$(FFmpegApiVersionString)-$(FFmpegApiInterfaceAge)"
+	/>
+</VisualStudioPropertySheet>
