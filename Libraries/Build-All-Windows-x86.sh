@@ -845,12 +845,32 @@ if [ ! -f "$BinDir/libdvdread-4.dll" ]; then
 	mkdir_and_move "$IntDir/libdvdread"
 	
 	 
-	sh $PKG_DIR/autogen.sh
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl"
+	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl"
 	make && make install
 
 	cd src/.libs
 	$MSLIB /name:libdvdread-4.dll /out:dvdread.lib /machine:$MSLibMachine /def:libdvdread-4.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	reset_flags
+
+fi
+
+#dvdnav
+if [ ! -f "$BinDir/libdvdnav-4.dll" ]; then 
+
+	unpack_bzip2_and_move "libdvdnav.tar.bz2" "$PKG_DIR_LIBDVDNAV"
+		
+	mkdir_and_move "$IntDir/libdvdnav"
+	
+	 
+	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl -ldvdread"
+
+	make && make install
+
+	cd src/.libs
+	$MSLIB /name:libdvdnav-4.dll /out:dvdnav.lib /machine:$MSLibMachine /def:libdvdnav-4.dll.def
+	$MSLIB /name:libdvdnavmini-4.dll /out:dvdnavmini.lib /machine:$MSLibMachine /def:libdvdnavmini-4.dll.def
+
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	reset_flags
 
