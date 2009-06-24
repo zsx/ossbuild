@@ -807,7 +807,7 @@ fi
 
 
 #libdts
-if [ ! -f "$BinDir/libts-0.dll" ]; then 
+if [ ! -f "$LibDir/libts.a" ]; then 
 
 	unpack_gzip_and_move "libdts.tar.gz" "$PKG_DIR_LIBDTS"
 	
@@ -815,11 +815,9 @@ if [ ! -f "$BinDir/libts-0.dll" ]; then
 	 
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install
+
+	strip -x "$LibDir/libdts.a"
 	
-	pexports "$BinDir/libdts-0.dll" | sed "s/^_//" > in.def
-	sed '/LIBRARY libdts-0.dll/d' in.def > in-mod.def
-	$MSLIB /name:libdts-0.dll /out:dts.lib /machine:$MSLibMachine /def:in-mod.def
-	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
 fi
 
