@@ -807,7 +807,7 @@ fi
 
 
 #libdts
-if [ ! -f "$LibDir/libts.a" ]; then 
+if [ ! -f "$LibDir/libdts.a" ]; then 
 
 	unpack_gzip_and_move "libdts.tar.gz" "$PKG_DIR_LIBDTS"
 	
@@ -821,7 +821,40 @@ if [ ! -f "$LibDir/libts.a" ]; then
 
 fi
 
+#libdl
+if [ ! -f "$BinDir/libdl.dll" ]; then 
 
+	unpack_bzip2_and_move "dlfcn.tar.bz2" "$PKG_DIR_DLFCN"
+	
+	mkdir_and_move "$IntDir/libdl" 
+	 
+	cd $PKG_DIR 
+
+	./configure --disable-static --enable-shared --prefix=$InstallDir --libdir=$LibDir --incdir=$IncludeDir
+
+	make
+	make install
+	
+fi
+
+#dvdread
+if [ ! -f "$BinDir/libdvdread-4.dll" ]; then 
+
+	unpack_bzip2_and_move "libdvdread.tar.bz2" "$PKG_DIR_LIBDVDREAD"
+		
+	mkdir_and_move "$IntDir/libdvdread"
+	
+	 
+	sh $PKG_DIR/autogen.sh
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl"
+	make && make install
+
+	cd src/.libs
+	$MSLIB /name:libdvdread-4.dll /out:dvdread.lib /machine:$MSLibMachine /def:libdvdread-4.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	reset_flags
+
+fi
 
 reset_flags
 

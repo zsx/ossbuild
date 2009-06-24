@@ -39,3 +39,4 @@ libdvdnav	-	4.1.3		-	http://www1.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdnav-
 libdvdread	-	4.1.3		-	http://www1.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdread-4.1.3.tar.bz2	
 libmpeg2	-	0.5.1		-	http://libmpeg2.sourceforge.net/files/libmpeg2-0.5.1.tar.gz
 libdts		-	0.0.2		-	http://debian.unnet.nl/pub/videolan/libdts/0.0.2/libdts-0.0.2.tar.gz
+dlfcn-win32	-	r11		-	http://dlfcn-win32.googlecode.com/files/dlfcn-win32-r11.tar.bz2
