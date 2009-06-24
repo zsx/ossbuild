@@ -868,8 +868,32 @@ if [ ! -f "$BinDir/libdvdnav-4.dll" ]; then
 	make && make install
 
 	cd src/.libs
+	
 	$MSLIB /name:libdvdnav-4.dll /out:dvdnav.lib /machine:$MSLibMachine /def:libdvdnav-4.dll.def
 	$MSLIB /name:libdvdnavmini-4.dll /out:dvdnavmini.lib /machine:$MSLibMachine /def:libdvdnavmini-4.dll.def
+
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	reset_flags
+
+fi
+
+#dvdnav
+if [ ! -f "$BinDir/libdvdcss-4.dll" ]; then 
+
+	unpack_bzip2_and_move "libdvdcss.tar.bz2" "$PKG_DIR_LIBDVDCSS"
+		
+	mkdir_and_move "$IntDir/libdvdcss"
+	
+	 
+	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
+
+	#make && make install
+
+	cd src/.libs
+	pexports "$BinDir/libdvdcss-2.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY libdvdcss-2.dll/d' in.def > in-mod.def
+	$MSLIB /name:libdvdcss-2.dll /out:dvdcss.lib /machine:$MSLibMachine /def:in-mod.def
+
 
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	reset_flags
