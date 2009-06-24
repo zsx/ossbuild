@@ -769,6 +769,60 @@ if [ ! -f "$BinDir/libwavpack-1.dll" ]; then
 	
 fi
 
+#a52dec
+if [ ! -f "$BinDir/liba52-0.dll" ]; then 
+	unpack_gzip_and_move "a52.tar.gz" "$PKG_DIR_A52DEC"
+	
+	./bootstrap
+	
+	mkdir_and_move "$IntDir/a52dec"
+	 
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	make && make install
+	
+	pexports "$BinDir/liba52-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY liba52-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:liba52-0.dll /out:a52.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+
+fi
+
+#mpeg2
+if [ ! -f "$BinDir/libmpeg2-0.dll" ]; then 
+
+	unpack_gzip_and_move "libmpeg2.tar.gz" "$PKG_DIR_LIBMPEG2"
+	
+	mkdir_and_move "$IntDir/libmpeg2"
+	 
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	make && make install
+	
+	pexports "$BinDir/libmpeg2-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY libmpeg2-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:libmpeg2-0.dll /out:mpeg2.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+
+fi
+
+
+
+#libdts
+if [ ! -f "$BinDir/libts-0.dll" ]; then 
+
+	unpack_gzip_and_move "libdts.tar.gz" "$PKG_DIR_LIBDTS"
+	
+	mkdir_and_move "$IntDir/libdts"
+	 
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	make && make install
+	
+	pexports "$BinDir/libdts-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY libdts-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:libdts-0.dll /out:dts.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+
+fi
+
 
 
 reset_flags
