@@ -33,3 +33,9 @@ libschrodinger 	- 	1.0.6 		- 	http://diracvideo.org/download/schroedinger/schroe
 mp3lame 	- 	3.98.2 		- 	http://sourceforge.net/project/downloading.php?group_id=290&use_mirror=superb-west&filename=lame-398-2.tar.gz&a=60930405
 openjpeg 	- 	1.3.0		- 	http://www.openjpeg.org/openjpeg_v1_3.tar.gz
 xvidcore	-	1.2.2		-	http://downloads.xvid.org/downloads/xvidcore-1.2.2.tar.gz
+libsdl		-	1.2.13		-	http://www.libsdl.org/release/SDL-1.2.13.tar.gz
+libdvdcss	-	1.2.9		-	http://download.videolan.org/pub/videolan/libdvdcss/1.2.9/libdvdcss-1.2.9.tar.bz2
+libdvdnav	-	4.1.3		-	http://www1.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdnav-4.1.3.tar.bz2
+libdvdread	-	4.1.3		-	http://www1.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdread-4.1.3.tar.bz2	
+libmpeg2	-	0.5.1		-	http://libmpeg2.sourceforge.net/files/libmpeg2-0.5.1.tar.gz
+libdts		-	0.0.2		-	http://debian.unnet.nl/pub/videolan/libdts/0.0.2/libdts-0.0.2.tar.gz
