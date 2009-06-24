@@ -671,6 +671,28 @@ if [ ! -f "$LibDir/libavcodec.a" ]; then
 	#mv avutil-49.lib avutil.lib
 fi
 
+#sdl
+if [ ! -f "$BinDir/SDL.dll" ]; then 
+
+	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
+		
+	mkdir_and_move "$IntDir/sdl"
+	
+	 
+	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
+	#make && make install
+
+	echo `pwd`
+	cd build/.libs
+	echo `pwd`
+	pexports "$BinDir/SDL.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY SDL.dll/d' in.def > in-mod.def
+	$MSLIB /name:SDL.dll /out:sdl.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	reset_flags
+
+fi
+
 
 #################
 # GPL Libraries #
@@ -878,16 +900,16 @@ if [ ! -f "$BinDir/libdvdnav-4.dll" ]; then
 fi
 
 #dvdnav
-if [ ! -f "$BinDir/libdvdcss-4.dll" ]; then 
+if [ ! -f "$BinDir/libdvdcss-2.dll" ]; then 
 
 	unpack_bzip2_and_move "libdvdcss.tar.bz2" "$PKG_DIR_LIBDVDCSS"
 		
 	mkdir_and_move "$IntDir/libdvdcss"
 	
 	 
-	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
 
-	#make && make install
+	make && make install
 
 	cd src/.libs
 	pexports "$BinDir/libdvdcss-2.dll" | sed "s/^_//" > in.def
