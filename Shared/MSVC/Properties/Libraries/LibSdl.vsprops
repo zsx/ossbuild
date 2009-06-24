@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibSdl"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\sdl&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\sdl&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="sdl.lib"
+	/>
+	<UserMacro
+		Name="LibSdlMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibSdlMinorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibSdlMicroVersion"
+		Value="13"
+	/>
+	<UserMacro
+		Name="LibSdlVersionString"
+		Value="$(LibSdlMajorVersion).$(LibSdlMinorVersion).$(LibSdlMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibSdlApiVersionString"
+		Value="$(LibSdlMajorVersion).$(LibSdlMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

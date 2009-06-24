@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibDvdCss"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\dvdcss&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\dvdcss&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="dvdcss.lib"
+	/>
+	<UserMacro
+		Name="LibDvdCssMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibDvdCssMinorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibDvdCssMicroVersion"
+		Value="9"
+	/>
+	<UserMacro
+		Name="LibDvdCssVersionString"
+		Value="$(LibDvdCssMajorVersion).$(LibDvdCssMinorVersion).$(LibDvdCssMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibDvdCssApiVersionString"
+		Value="$(LibDvdCssMajorVersion).$(LibDvdCssMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

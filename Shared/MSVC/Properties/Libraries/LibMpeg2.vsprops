@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibMpeg2"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\mpeg2dec&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\mpeg2dec&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="mpeg2.lib"
+	/>
+	<UserMacro
+		Name="LibMpeg2MajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibMpeg2MinorVersion"
+		Value="5"
+	/>
+	<UserMacro
+		Name="LibMpeg2MicroVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibMpeg2VersionString"
+		Value="$(LibMpeg2MajorVersion).$(LibMpeg2MinorVersion).$(LibMpeg2MicroVersion)"
+	/>
+	<UserMacro
+		Name="LibMpeg2ApiVersionString"
+		Value="$(LibMpeg2MajorVersion).$(LibMpeg2MinorVersion)"
+	/>
+</VisualStudioPropertySheet>

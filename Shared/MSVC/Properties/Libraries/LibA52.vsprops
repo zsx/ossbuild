@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibA52"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\a52dec&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\a52dec&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="a52.lib"
+	/>
+	<UserMacro
+		Name="LibA52MajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibA52MinorVersion"
+		Value="7"
+	/>
+	<UserMacro
+		Name="LibA52MicroVersion"
+		Value="4"
+	/>
+	<UserMacro
+		Name="LibA52VersionString"
+		Value="$(LibA52MajorVersion).$(LibA52MinorVersion).$(LibA52MicroVersion)"
+	/>
+	<UserMacro
+		Name="LibA52ApiVersionString"
+		Value="$(LibA52MajorVersion).$(LibA52MinorVersion)"
+	/>
+</VisualStudioPropertySheet>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibDvdNav"
+	InheritedPropertySheets=".\LibDvdRead.vsprops"
+
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\dvdread&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\dvdread&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="dvdread.lib dl.lib"
+	/>
+	<UserMacro
+		Name="LibDvdNavMajorVersion"
+		Value="4"
+	/>
+	<UserMacro
+		Name="LibDvdNavMinorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibDvdNavMicroVersion"
+		Value="3"
+	/>
+	<UserMacro
+		Name="LibDvdNavVersionString"
+		Value="$(LibDvdNavMajorVersion).$(LibDvdNavMinorVersion).$(LibDvdNavMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibDvdNavApiVersionString"
+		Value="$(LibDvdNavMajorVersion).$(LibDvdNavMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

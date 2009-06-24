@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibDvdRead"
+	InheritedPropertySheets=".\LibDl.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\dvdread&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\dvdread&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="dvdread.lib"
+	/>
+	<UserMacro
+		Name="LibDvdReadMajorVersion"
+		Value="4"
+	/>
+	<UserMacro
+		Name="LibDvdReadMinorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibDvdReadMicroVersion"
+		Value="3"
+	/>
+	<UserMacro
+		Name="LibDvdReadVersionString"
+		Value="$(LibDvdReadMajorVersion).$(LibDvdReadMinorVersion).$(LibDvdReadMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibDvdReadApiVersionString"
+		Value="$(LibDvdReadMajorVersion).$(LibDvdReadMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

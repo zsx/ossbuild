@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibDts"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="dts.lib"
+	/>
+	<UserMacro
+		Name="LibDtsMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibDtsMinorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibDtsMicroVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibDtsVersionString"
+		Value="$(LibDtsMajorVersion).$(LibDtsMinorVersion).$(LibDtsMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibDtsApiVersionString"
+		Value="$(LibDtsMajorVersion).$(LibDtsMinorVersion)"
+	/>
+</VisualStudioPropertySheet>
