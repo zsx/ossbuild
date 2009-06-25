@@ -5,5 +5,5 @@ libdvdcss	-	1.2.9	-	http://download.videolan.org/pub/videolan/libdvdcss/1.2.9/li
 libdvdnav	-	4.1.3	-	http://www1.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdnav-4.1.3.tar.bz2
 libdvdread	-	4.1.3	-	http://www1.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdread-4.1.3.tar.bz2	
 libmpeg2	-	0.5.1	-	http://libmpeg2.sourceforge.net/files/libmpeg2-0.5.1.tar.gz
-libdts		-	0.0.2	-	http://debian.unnet.nl/pub/videolan/libdts/0.0.2/libdts-0.0.2.tar.gz
+libdca		-	0.0.5	-	http://download.videolan.org/pub/videolan/libdca/0.0.5/libdca-0.0.5.tar.bz2
 a52dec		-	0.7.4	-	http://liba52.sourceforge.net/files/a52dec-0.7.4.tar.gz

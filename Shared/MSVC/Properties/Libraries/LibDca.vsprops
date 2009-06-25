@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibDca"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="dca.lib"
+	/>
+	<UserMacro
+		Name="LibDcaMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibDcaMinorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibDcaMicroVersion"
+		Value="5"
+	/>
+	<UserMacro
+		Name="LibDcaVersionString"
+		Value="$(LibDcaMajorVersion).$(LibDcaMinorVersion).$(LibDcaMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibDcaApiVersionString"
+		Value="$(LibDcaMajorVersion).$(LibDcaMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

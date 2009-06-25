@@ -828,17 +828,22 @@ fi
 
 
 
-#libdts
-if [ ! -f "$LibDir/libdts.a" ]; then 
+#libca
+if [ ! -f "$LibDir/libdca.dll" ]; then 
 
-	unpack_gzip_and_move "libdts.tar.gz" "$PKG_DIR_LIBDTS"
+	unpack_bzip2_and_move "libdca.tar.bz2" "$PKG_DIR_LIBDCA"
 	
-	mkdir_and_move "$IntDir/libdts"
+	mkdir_and_move "$IntDir/libdca"
 	 
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --enable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install
+	
+	pexports "$BinDir/libdca-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY libdca-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:libdca-0.dll /out:dca.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
-	strip -x "$LibDir/libdts.a"
+
 	
 
 fi
