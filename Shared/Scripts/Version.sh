@@ -43,6 +43,8 @@ export PKG_VER_SDL=1.2.13
 export PKG_VER_LIBDCA=0.0.5
 export PKG_VER_A52DEC=0.7.4
 export PKG_VER_DLFCN=r11
+export PKG_VER_FAAC=1.28
+export PKG_VER_FAAD2=2.7
 
 export PKG_DIR_ZLIB=.
 export PKG_DIR_LIBMMS=LibMms
@@ -87,3 +89,5 @@ export PKG_DIR_SDL=SDL-$PKG_VER_SDL
 export PKG_DIR_LIBDCA=libdca-$PKG_VER_LIBDCA
 export PKG_DIR_A52DEC=a52dec-$PKG_VER_A52DEC
 export PKG_DIR_DLFCN=dlfcn-win32-$PKG_VER_DLFCN
+export PKG_DIR_FAAC=faac-$PKG_VER_FAAC
+export PKG_DIR_FAAD2=faad2-$PKG_VER_FAAD2

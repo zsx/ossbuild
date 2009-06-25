@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Faad2"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="faad2.lib"
+	/>
+	<UserMacro
+		Name="Faad2MajorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="Faad2MinorVersion"
+		Value="7"
+	/>
+	<UserMacro
+		Name="Faad2MicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="Faad2VersionString"
+		Value="$(Faad2MajorVersion).$(Faad2MinorVersion).$(Faad2MicroVersion)"
+	/>
+	<UserMacro
+		Name="Faad2ApiVersionString"
+		Value="$(Faad2MajorVersion).$(Faad2MinorVersion)"
+	/>
+</VisualStudioPropertySheet>

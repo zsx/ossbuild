@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Faac"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="faac.lib"
+	/>
+	<UserMacro
+		Name="FaacMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="FaacMinorVersion"
+		Value="28"
+	/>
+	<UserMacro
+		Name="FaacMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="FaacVersionString"
+		Value="$(FaacMajorVersion).$(FaacMinorVersion).$(FaacMicroVersion)"
+	/>
+	<UserMacro
+		Name="FaacApiVersionString"
+		Value="$(FaacMajorVersion).$(FaacMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

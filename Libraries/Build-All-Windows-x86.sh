@@ -829,7 +829,7 @@ fi
 
 
 #libca
-if [ ! -f "$LibDir/libdca.dll" ]; then 
+if [ ! -f "$BinDir/libdca-0.dll" ]; then 
 
 	unpack_bzip2_and_move "libdca.tar.bz2" "$PKG_DIR_LIBDCA"
 	
@@ -841,10 +841,45 @@ if [ ! -f "$LibDir/libdca.dll" ]; then
 	pexports "$BinDir/libdca-0.dll" | sed "s/^_//" > in.def
 	sed '/LIBRARY libdca-0.dll/d' in.def > in-mod.def
 	$MSLIB /name:libdca-0.dll /out:dca.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"	
+
+fi
+
+#faac
+if [ ! -f "$BinDir/libfaac-0.dll" ]; then 
+
+	unpack_gzip_and_move "faac.tar.gz" "$PKG_DIR_FAAC"
+	
+	mkdir_and_move "$IntDir/faac"
+	 
+	$PKG_DIR/configure --with-drm --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	make && make install
+		
+	cd $PKG_DIR/libfaac
+	$MSLIB /name:libfaac-0.dll /out:faac.lib /machine:$MSLibMachine /def:libfaac.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
+	reset_flags	
 
+fi
+
+#faad
+if [ ! -f "$BinDir/libfaad-2.dll" ]; then 
+
+	unpack_gzip_and_move "faad2.tar.gz" "$PKG_DIR_FAAD2"
 	
+	mkdir_and_move "$IntDir/faad2"
+	 
+	cp "$LIBRARIES_PATCH_DIR/faad2/Makefile.in" .
+	
+	$PKG_DIR/configure --with-drm --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	make && make install
+	
+	cd $PKG_DIR/libfaad
+	$MSLIB /name:libfaad-2.dll /out:faad2.lib /machine:$MSLibMachine /def:libfaad2.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+
+	reset_flags	
 
 fi
 
@@ -904,7 +939,7 @@ if [ ! -f "$BinDir/libdvdnav-4.dll" ]; then
 
 fi
 
-#dvdnav
+#dvdcss
 if [ ! -f "$BinDir/libdvdcss-2.dll" ]; then 
 
 	unpack_bzip2_and_move "libdvdcss.tar.bz2" "$PKG_DIR_LIBDVDCSS"
