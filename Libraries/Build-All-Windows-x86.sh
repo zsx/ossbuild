@@ -672,19 +672,21 @@ if [ ! -f "$LibDir/libavcodec.a" ]; then
 fi
 
 #sdl
-if [ ! -f "$BinDir/SDL.dll" ]; then 
+if [ ! -f "$BinDir/SDL1.dll" ]; then 
 
 	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
 		
 	mkdir_and_move "$IntDir/sdl"
 	
 	 
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
-	make && make install
+	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
+	#make && make install
 
-	echo `pwd`
+	cp $PKG_DIR/include/SDL_config.h.default $IncludeDir/SDL/SDL_config.h
+	cp $PKG_DIR/include/SDL_config_win32.h $IncludeDir/SDL
+	
 	cd build/.libs
-	echo `pwd`
+
 	pexports "$BinDir/SDL.dll" | sed "s/^_//" > in.def
 	sed '/LIBRARY SDL.dll/d' in.def > in-mod.def
 	$MSLIB /name:SDL.dll /out:sdl.lib /machine:$MSLibMachine /def:in-mod.def
