@@ -912,6 +912,8 @@ if [ ! -f "$BinDir/libdvdread-4.dll" ]; then
 	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl"
 	make && make install
 
+	cp "$LIBRARIES_PATCH_DIR/dvdread/dvd_reader.h" "$IncludeDir/dvdread" 
+
 	cd src/.libs
 	$MSLIB /name:libdvdread-4.dll /out:dvdread.lib /machine:$MSLibMachine /def:libdvdread-4.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
