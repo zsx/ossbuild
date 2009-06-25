@@ -6,7 +6,7 @@
 	>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="dl.lib"
+		AdditionalDependencies="libdl.lib"
 	/>
 	<UserMacro
 		Name="LibDlMajorVersion"
