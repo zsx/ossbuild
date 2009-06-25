@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="libgstresindvd"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1027}"
 	RootNamespace="libgstresindvd"
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibDvdNav.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibDvdNav.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -286,8 +286,120 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstreamer.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstvideo.vcproj"
+		/>
 	</References>
 	<Files>
+		<Filter
+			Name="Headers"
+			>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdefs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdemux.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdesc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\gstpesfilter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\resindvdbin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\resindvdsrc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnaudiomunge.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnbasesrc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnparsetter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnpushsrc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnstreamselector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnwrappedbuffer.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Sources"
+			>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdemux.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdesc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\gstpesfilter.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\plugin.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\resindvdbin.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\resindvdsrc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnaudiomunge.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnbasesrc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnparsetter.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnpushsrc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnstreamselector.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnwrappedbuffer.c"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
