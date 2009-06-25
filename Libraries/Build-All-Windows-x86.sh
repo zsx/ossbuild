@@ -679,8 +679,8 @@ if [ ! -f "$BinDir/SDL.dll" ]; then
 	mkdir_and_move "$IntDir/sdl"
 	
 	 
-	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
-	#make && make install
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
+	make && make install
 
 	echo `pwd`
 	cd build/.libs
