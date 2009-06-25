@@ -12,7 +12,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="dvdread.lib dl.lib"
+		AdditionalDependencies="dvdread.lib"
 	/>
 	<UserMacro
 		Name="LibDvdNavMajorVersion"
