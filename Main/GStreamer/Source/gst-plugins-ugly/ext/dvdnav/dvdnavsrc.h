@@ -24,7 +24,7 @@
 #include <dvdread/ifo_read.h>
 
 #include <dvdnav/dvdnav.h>
-#include <dvdnav/nav_print.h>
+#include <dvdread/nav_print.h>
 
 #include <gst/gst.h>
 #include <gst/base/gstpushsrc.h>
