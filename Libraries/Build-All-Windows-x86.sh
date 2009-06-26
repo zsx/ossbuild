@@ -679,8 +679,8 @@ if [ ! -f "$BinDir/SDL1.dll" ]; then
 	mkdir_and_move "$IntDir/sdl"
 	
 	 
-	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
-	#make && make install
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
+	make && make install
 
 	cp $PKG_DIR/include/SDL_config.h.default $IncludeDir/SDL/SDL_config.h
 	cp $PKG_DIR/include/SDL_config_win32.h $IncludeDir/SDL
