@@ -16,7 +16,7 @@ Requirements
 
   Linux Build
 
-    1. (sudo) apt-get install perl sed pkg-config build-essential bison flex
+    1. (sudo) apt-get install perl sed pkg-config build-essential bison flex libtool tofrodos vim gettext yasm nasm
 
 
 Setup Visual Studio 2008+
