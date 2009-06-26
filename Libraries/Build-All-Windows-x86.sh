@@ -672,7 +672,7 @@ if [ ! -f "$LibDir/libavcodec.a" ]; then
 fi
 
 #sdl
-if [ ! -f "$BinDir/SDL1.dll" ]; then 
+if [ ! -f "$BinDir/SDL.dll" ]; then 
 
 	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
 		
