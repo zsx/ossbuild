@@ -68,11 +68,11 @@ fi
 if [ ! -f "$LibDir/iconv.lib" ]; then 
 	unpack_bzip2_and_move "win-iconv.tar.bz2" "$PKG_DIR_WIN_ICONV"
 	mkdir_and_move "$IntDir/win-iconv"
-	copy_files_to_dir "$LIBRARIES_DIR/Win-Iconv/Source/*.c $LIBRARIES_DIR/Win-Iconv/Source/*.h" .
+	copy_files_to_dir "$LIBRARIES_DIR/Source/Win-Iconv/*.c $LIBRARIES_DIR/Source/Win-Iconv/*.h" .
 	
-	gcc -I"$IncludeDir" -O2 -c win_iconv.c
-	ar crv libiconv.a win_iconv.o
-	#gcc $(CFLAGS) -O2 -shared -o iconv.dll win_iconv_dll.c
+	gcc -I"$IncludeDir" -O2 -c win_iconv.c 
+	ar crv libiconv.a win_iconv.o 
+	#gcc $(CFLAGS) -O2 -shared -o iconv.dll 
 	dlltool --export-all-symbols -D iconv.dll -l libiconv.dll.a -z in.def libiconv.a
 	ranlib libiconv.dll.a
 	gcc -shared -s -mwindows -def in.def -o iconv.dll libiconv.a
