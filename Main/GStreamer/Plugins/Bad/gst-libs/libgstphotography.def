@@ -21,3 +21,5 @@ EXPORTS
 	gst_photography_get_capabilities
 	gst_photography_prepare_for_capture
 	gst_photography_set_autofocus
+	gst_photography_set_config
+	gst_photography_get_config

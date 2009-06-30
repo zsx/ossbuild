@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstmxf"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0041}"
 	RootNamespace="libgstmxf"
@@ -350,6 +350,14 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxfessence.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxfessence.h"
+			>
+		</File>
+		<File
 			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxfjpeg2000.c"
 			>
 		</File>
@@ -374,11 +382,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxfparse.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxfmux.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxfparse.h"
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxfmux.h"
 			>
 		</File>
 		<File
@@ -390,7 +398,19 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxftypes.c"
+			>
+		</File>
+		<File
 			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxftypes.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxful.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\mxf\mxful.h"
 			>
 		</File>
 		<File
