@@ -134,7 +134,7 @@ struct _GstASFDemux {
   guint64            data_offset;  /* byte offset where packets start          */
   guint64            data_size;    /* total size of packet data in bytes, or 0 */
   guint64            num_packets;  /* total number of data packets, or 0       */
-  guint64            packet;       /* current packet                           */
+  gint64             packet;       /* current packet                           */
 
   /* bitrates are unused at the moment */
   guint32              bitrate[GST_ASF_DEMUX_NUM_STREAM_IDS];
@@ -160,7 +160,7 @@ struct _GstASFDemux {
   guint32              timestamp;       /* in milliseconds              */
   guint64              play_time;
 
-  guint64              preroll;         /* FIXME: make into GstClockTime */
+  guint64              preroll;
   guint64              pts;
 
   gboolean             seekable;
@@ -169,8 +169,12 @@ struct _GstASFDemux {
   GstSegment           segment;          /* configured play segment                 */
 
   gboolean             need_newsegment;  /* do we need to send a new-segment event? */
+  GstClockTime         segment_ts;       /* streaming; timestamp for segment start */
+  GstSegment           in_segment;       /* streaming; upstream segment info */
+  GstClockTime         in_gap;           /* streaming; upstream initial segment gap for interpolation */
   gboolean             segment_running;  /* if we've started the current segment    */
   gboolean             streaming;        /* TRUE if we are operating chain-based    */
+  GstClockTime         latency;
 
   /* Descrambler settings */
   guint8               span;

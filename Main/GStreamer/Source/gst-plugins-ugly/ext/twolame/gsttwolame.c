@@ -201,8 +201,21 @@ static gboolean gst_two_lame_setup (GstTwoLame * twolame);
 static GstStateChangeReturn gst_two_lame_change_state (GstElement * element,
     GstStateChange transition);
 
+static void
+_do_init (GType object_type)
+{
+  const GInterfaceInfo preset_interface_info = {
+    NULL,                       /* interface_init */
+    NULL,                       /* interface_finalize */
+    NULL                        /* interface_data */
+  };
 
-GST_BOILERPLATE (GstTwoLame, gst_two_lame, GstElement, GST_TYPE_ELEMENT);
+  g_type_add_interface_static (object_type, GST_TYPE_PRESET,
+      &preset_interface_info);
+}
+
+GST_BOILERPLATE_FULL (GstTwoLame, gst_two_lame, GstElement, GST_TYPE_ELEMENT,
+    _do_init);
 
 static void
 gst_two_lame_release_memory (GstTwoLame * twolame)
@@ -684,15 +697,14 @@ gst_two_lame_sink_event (GstPad * pad, GstEvent * event)
     case GST_EVENT_FLUSH_STOP:
     {
       guchar *mp3_data = NULL;
-      gint mp3_buffer_size, mp3_size = 0;
+      gint mp3_buffer_size;
 
       GST_DEBUG_OBJECT (twolame, "handling FLUSH stop event");
 
       /* clear buffers */
       mp3_buffer_size = 16384;
       mp3_data = g_malloc (mp3_buffer_size);
-      mp3_size =
-          twolame_encode_flush (twolame->glopts, mp3_data, mp3_buffer_size);
+      twolame_encode_flush (twolame->glopts, mp3_data, mp3_buffer_size);
 
       ret = gst_pad_push_event (twolame->srcpad, event);
 
@@ -1027,7 +1039,7 @@ plugin_init (GstPlugin * plugin)
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif /* ENABLE_NLS */
 
-  if (!gst_element_register (plugin, "twolame", GST_RANK_NONE,
+  if (!gst_element_register (plugin, "twolame", GST_RANK_PRIMARY,
           GST_TYPE_TWO_LAME))
     return FALSE;
 

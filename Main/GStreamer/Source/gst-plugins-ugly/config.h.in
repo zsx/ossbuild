@@ -194,6 +194,12 @@
 /* Define if valgrind should be used */
 #undef HAVE_VALGRIND
 
+/* Define to 1 if you have the <winsock2.h> header file. */
+#undef HAVE_WINSOCK2_H
+
+/* Define to enable x264 plug-in (used by x264). */
+#undef HAVE_X264
+
 /* the host CPU */
 #undef HOST_CPU
 

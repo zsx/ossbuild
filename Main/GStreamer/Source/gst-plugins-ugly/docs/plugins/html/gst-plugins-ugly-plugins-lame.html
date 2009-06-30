@@ -7,8 +7,8 @@
 <link rel="start" href="index.html" title="GStreamer Ugly Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-ugly Elements">
 <link rel="prev" href="gst-plugins-ugly-plugins-cdiocddasrc.html" title="cdiocddasrc">
-<link rel="next" href="gst-plugins-ugly-plugins-mad.html" title="mad">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="next" href="gst-plugins-ugly-plugins-lamemp3enc.html" title="lamemp3enc">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-ugly Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-ugly Plugins">
@@ -20,24 +20,26 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Ugly Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-ugly-plugins-mad.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-ugly-plugins-lamemp3enc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-ugly-plugins-lame.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-ugly-plugins-lame.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-ugly-plugins-lame.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-ugly-plugins-lame.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-ugly-plugins-lame.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-ugly-plugins-lame.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-ugly-plugins-lame.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-ugly-plugins-lame.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-ugly-plugins-lame.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-ugly-plugins-lame.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-ugly-plugins-lame"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
 <h2><span class="refentrytitle"><a name="gst-plugins-ugly-plugins-lame.top_of_page"></a>lame</span></h2>
-<p>lame — High-quality free MP3 encoder</p>
+<p>lame — High-quality free MP3 encoder (deprecated)</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
@@ -62,7 +64,7 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-ugly-plugins-lame.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstLame implements
- GstTagSetter.</p>
+ GstPreset and  GstTagSetter.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-lame.properties"></a><h2>Properties</h2>
@@ -168,7 +170,16 @@ for a royalty free (and often higher quality) alternative.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3039455"></a><h3>Output sample rate</h3>
+<a name="id2575880"></a><h3>Note</h3>
+This element is deprecated, use the lamemp3enc element instead
+which provides a much simpler interface and results in better MP3 files.
+</div>
+<p>
+</p>
+<p>
+</p>
+<div class="refsect2" lang="en">
+<a name="id2575894"></a><h3>Output sample rate</h3>
 If no fixed output sample rate is negotiated on the element's src pad,
 the element will choose an optimal sample rate to resample to internally.
 For example, a 16-bit 44.1 KHz mono audio stream encoded at 48 kbit will
@@ -179,7 +190,7 @@ particular sample rate.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3039467"></a><h3>Writing metadata (tags)</h3>
+<a name="id2575906"></a><h3>Writing metadata (tags)</h3>
 Whilst the lame encoder element does claim to implement the GstTagSetter
 interface, it does so only for backwards compatibility reasons. Tag writing
 has been removed from lame. Use external elements like id3v2mux or apev2mux
@@ -190,7 +201,7 @@ xingmux element to add XING headers to your VBR mp3 file.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3039480"></a><h3>Example pipelines</h3>
+<a name="id2575919"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! lame ! filesink location=sine.mp3
 </pre></div> Encode a test sine signal to MP3.
@@ -214,7 +225,7 @@ Last reviewed on 2007-07-24 (0.10.7)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3039544"></a><h3>Element Information</h3>
+<a name="id2575983"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -237,7 +248,7 @@ Last reviewed on 2007-07-24 (0.10.7)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3039607"></a><h3>Element Pads</h3>
+<a name="id2576046"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -283,7 +294,6 @@ Last reviewed on 2007-07-24 (0.10.7)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -294,7 +304,6 @@ Last reviewed on 2007-07-24 (0.10.7)</p>
 <p>
 Opaque data structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -598,11 +607,11 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-lame.see-also"></a><h2>See Also</h2>
-mad, vorbisenc
+lamemp3enc, mad, vorbisenc
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

@@ -543,8 +543,6 @@ gst_dvd_nav_src_update_tmaps (GstDvdNavSrc * src)
   title_info_t *info;
   gint title_set_nr, title_ttn;
   gint i;
-  guint32 pos;
-  guint32 dvdnav_length;
 
   /* Reset stuffs */
   src->use_tmaps = FALSE;
@@ -608,7 +606,8 @@ gst_dvd_nav_src_update_tmaps (GstDvdNavSrc * src)
    * by dvdnav_get_position, as looks like this function doesn't compute 
    * correctly the pos and length values.
    */
-
+  guint32 pos;
+  guint32 dvdnav_length;
 
   if (dvdnav_get_position (src->dvdnav, &pos,
           &dvdnav_length) != DVDNAV_STATUS_OK) {
@@ -1053,7 +1052,6 @@ gst_dvd_nav_src_update_highlight (GstDvdNavSrc * src, gboolean force)
   pci_t *pci;
   dvdnav_highlight_area_t area;
   GstEvent *event;
-  int ret;
 
   if (dvdnav_get_current_highlight (src->dvdnav, &button) != DVDNAV_STATUS_OK) {
     GST_ELEMENT_ERROR (src, LIBRARY, FAILED, (NULL),
@@ -1113,7 +1111,7 @@ gst_dvd_nav_src_update_highlight (GstDvdNavSrc * src, gboolean force)
     src->button = button;
 
     GST_DEBUG ("Sending dvd-spu-highlight for button %d", button);
-    ret = gst_pad_push_event (GST_BASE_SRC_PAD (src), event);
+    int ret = gst_pad_push_event (GST_BASE_SRC_PAD (src), event);
 
     GST_DEBUG ("End Sending dvd-spu-highlight for button %d, ret: %d", button,
         ret);
@@ -1614,12 +1612,6 @@ gst_dvd_nav_src_process_next_block (GstDvdNavSrc * src, GstBuffer ** p_buf)
   dvdnav_status_t navret;
   guint8 *data;
   gint event, len;
-  dvdnav_still_event_t *info;
-  gint64 val;
-  GstClock *system_clock;
-  GstClockTime cur_time;
-  GstClockID id;
-  guint32 pos;
 
   if (src->cur_buf == NULL)
     src->cur_buf = gst_buffer_new_and_alloc (DVD_VIDEO_LB_LEN);
@@ -1649,7 +1641,7 @@ gst_dvd_nav_src_process_next_block (GstDvdNavSrc * src, GstBuffer ** p_buf)
     }
     case DVDNAV_STILL_FRAME:{
       src->still_frame = TRUE;
-      info = (dvdnav_still_event_t *) data;
+      dvdnav_still_event_t *info = (dvdnav_still_event_t *) data;
 
       gst_dvd_nav_src_print_event (src, data, event, len);
 
@@ -1664,7 +1656,7 @@ gst_dvd_nav_src_process_next_block (GstDvdNavSrc * src, GstBuffer ** p_buf)
         } else {
           src->pause_mode = GST_DVD_NAV_SRC_PAUSE_LIMITED;
           src->pause_remain = info->length * GST_SECOND;
-          
+          gint64 val;
 
           gst_dvd_nav_src_query_position (src, GST_FORMAT_TIME, &val);
           GST_INFO_OBJECT (src,
@@ -1688,9 +1680,9 @@ gst_dvd_nav_src_process_next_block (GstDvdNavSrc * src, GstBuffer ** p_buf)
 
         GST_DEBUG_OBJECT (src, "sleeping %d during still frame",
             GST_DVD_NAV_SRC_PAUSE_INTERVAL);
-        system_clock = gst_system_clock_obtain ();
-        cur_time = gst_clock_get_internal_time (system_clock);
-        id = gst_clock_new_single_shot_id (system_clock,
+        GstClock *system_clock = gst_system_clock_obtain ();
+        GstClockTime cur_time = gst_clock_get_internal_time (system_clock);
+        GstClockID id = gst_clock_new_single_shot_id (system_clock,
             cur_time + GST_DVD_NAV_SRC_PAUSE_INTERVAL);
         gst_clock_id_wait (id, NULL);
         gst_clock_id_unref (id);
@@ -1764,7 +1756,7 @@ gst_dvd_nav_src_process_next_block (GstDvdNavSrc * src, GstBuffer ** p_buf)
           GST_TIME_ARGS (src->cell_start), GST_TIME_ARGS (src->pg_start));
 
       /* Update the current length in sectors */
-
+      guint32 pos;
 
       if (dvdnav_get_position (src->dvdnav, &pos,
               &src->sector_length) != DVDNAV_STATUS_OK)

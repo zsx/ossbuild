@@ -89,9 +89,11 @@ EXTRA_HFILES = \
 	$(top_srcdir)/ext/amrnb/amrnbparse.h \
 	$(top_srcdir)/ext/cdio/gstcdiocddasrc.h \
 	$(top_srcdir)/ext/lame/gstlame.h \
+	$(top_srcdir)/ext/lame/gstlamemp3enc.h \
 	$(top_srcdir)/ext/mad/gstmad.h \
 	$(top_srcdir)/ext/sidplay/gstsiddec.h \
 	$(top_srcdir)/ext/twolame/gsttwolame.h \
+	$(top_srcdir)/ext/x264/gstx264enc.h \
 	$(top_srcdir)/gst/asfdemux/gstrtspwms.h \
 	$(top_srcdir)/gst/mpegaudioparse/gstxingmux.h \
 	$(top_srcdir)/gst/realmedia/rademux.h \

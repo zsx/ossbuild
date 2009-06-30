@@ -4,7 +4,7 @@
 %define gst_minver  0.10.0
 
 Name: 		%{gstreamer}-plugins-ugly
-Version: 	0.10.11
+Version: 	0.10.12
 Release: 	1.gst
 Summary: 	GStreamer streaming media framework "ugly" plug-ins
 
@@ -35,6 +35,8 @@ Provides:       gstreamer-a52dec = %{version}-%{release}
 # #Provides:       gstreamer-dvdnavsrc = %{version}-%{release}
 Provides:       gstreamer-dvdread = %{version}-%{release}
 Provides:       gstreamer-mpeg2dec = %{version}-%{release}
+
+Requires: x264
 
 %description
 GStreamer is a streaming media framework, based on graphs of elements which
@@ -109,9 +111,15 @@ rm -rf $RPM_BUILD_ROOT
 # #%{_libdir}/gstreamer-%{majorminor}/libgstdvdnavsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdvdread.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpeg2dec.so
+%{_libdir}/gstreamer-%{majorminor}/libgsttwolame.so
 %doc %{_datadir}/gtk-doc/html/gst-plugins-ugly-plugins-%{majorminor}/*
+%{_datadir}/gstreamer-%{majorminor}/presets/GstX264Enc.prs
+%{_libdir}/gstreamer-%{majorminor}/libgstx264.so
 
 %changelog
+* Fri Jun 5 2009 Jan Schmidt <thaytan at mad dot scientist dot com>
+- Move x264enc plugin from -bad
+
 * Fri Dec 15 2006 Thomas Vander Stichele <thomas at apestaart dot org>
 - further cleanup
 - add .doap file

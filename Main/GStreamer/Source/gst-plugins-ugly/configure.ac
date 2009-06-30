@@ -5,14 +5,14 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, cvs and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for cvs/prerelease
-AC_INIT(GStreamer Ugly Plug-ins, 0.10.11,
+AC_INIT(GStreamer Ugly Plug-ins, 0.10.12,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-ugly)
 
 AG_GST_INIT
 
 dnl initialize automake
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wno-portability])
 
 dnl define PACKAGE_VERSION_* variables
 AS_VERSION
@@ -47,8 +47,8 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.20
-GSTPB_REQ=0.10.14
+GST_REQ=0.10.23
+GSTPB_REQ=0.10.23
 
 dnl *** autotools stuff ****
 
@@ -204,6 +204,13 @@ AG_GST_CHECK_PLUGIN(mpegstream)
 AG_GST_CHECK_PLUGIN(realmedia)
 AG_GST_CHECK_PLUGIN(synaesthesia)
 
+AC_CHECK_HEADERS([winsock2.h], HAVE_WINSOCK2_H=yes)
+
+if test "x$HAVE_WINSOCK2_H" = "xyes"; then
+  WIN32_LIBS="-lws2_32"
+  AC_SUBST(WIN32_LIBS)
+fi
+
 dnl disable experimental plug-ins
 if test "x$BUILD_EXPERIMENTAL" != "xyes"; then
   AG_GST_DISABLE_PLUGIN(synaesthesia)
@@ -296,6 +303,12 @@ AG_GST_CHECK_FEATURE(LAME, [lame mp3 encoder library], lame, [
       [LAME_CFLAGS="-DGSTLAME_PRESET"],
       [LAME_CFLAGS=""]
     )
+    AC_TRY_COMPILE([#include <lame/lame.h>], [
+        void *ptr = &lame_set_VBR_quality
+      ],
+      [LAME_CFLAGS="$LAME_CFLAGS -DHAVE_LAME_SET_VBR_QUALITY"],
+      [LAME_CFLAGS="$LAME_CFLAGS"]
+    )
   AC_SUBST(LAME_CFLAGS)
   AC_SUBST(LAME_LIBS)
   ])
@@ -355,13 +368,36 @@ AG_GST_CHECK_FEATURE(SIDPLAY, [libsidplay], sid, [
 dnl *** twolame ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_TWOLAME, true)
 AG_GST_CHECK_FEATURE(TWOLAME, [twolame], twolame, [
-  PKG_CHECK_MODULES(TWOLAME, twolame >= 0.3.0, [
+  PKG_CHECK_MODULES(TWOLAME, twolame >= 0.3.10, [
       HAVE_TWOLAME="yes"], [
       HAVE_TWOLAME="no"
       AC_MSG_RESULT(no)
   ])
   AC_SUBST(TWOLAME_CFLAGS)
   AC_SUBST(TWOLAME_LIBS)
+])
+
+dnl *** x264 (MPEG-4 part 10/h.264/AVC encoder) ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_X264, true)
+AG_GST_CHECK_FEATURE(X264, [x264 plug-in], x264, [
+  AG_GST_CHECK_LIBHEADER(X264, x264, x264_nal_encode, -lm, x264.h,
+      AC_MSG_CHECKING([for uptodate x264 API version])
+      dnl _stdint not yet generated, so no compiling
+      AC_TRY_CPP([
+        #include <x264.h>
+        #if X264_BUILD < 55
+        #error "x264 build too old"
+        #endif
+      ], [
+        AC_MSG_RESULT(yes)
+        X264_LIBS="$LDFLAGS -lx264 -lm"
+        X264_CFLAGS="$CFLAGS"
+        AC_SUBST(X264_LIBS)
+        AC_SUBST(X264_CFLAGS)
+      ], [
+        AC_MSG_RESULT(no)
+        HAVE_X264=no
+      ]))
 ])
 
 else
@@ -380,6 +416,7 @@ AM_CONDITIONAL(USE_MAD, false)
 AM_CONDITIONAL(USE_MPEG2DEC, false)
 AM_CONDITIONAL(USE_SIDPLAY, false)
 AM_CONDITIONAL(USE_TWOLAME, false)
+AM_CONDITIONAL(USE_X264, false)
 
 fi dnl of EXT plugins
 
@@ -466,6 +503,7 @@ ext/mad/Makefile
 ext/mpeg2dec/Makefile
 ext/sidplay/Makefile
 ext/twolame/Makefile
+ext/x264/Makefile
 docs/Makefile
 docs/plugins/Makefile
 docs/version.entities

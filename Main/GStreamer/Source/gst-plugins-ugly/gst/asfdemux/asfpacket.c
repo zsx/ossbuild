@@ -121,32 +121,21 @@ static void
 gst_asf_payload_queue_for_stream (GstASFDemux * demux, AsfPayload * payload,
     AsfStream * stream)
 {
+  GST_DEBUG_OBJECT (demux, "Got payload for stream %d ts:%" GST_TIME_FORMAT,
+      stream->id, GST_TIME_ARGS (payload->ts));
   /* remember the first timestamp in the stream */
   if (!GST_CLOCK_TIME_IS_VALID (demux->first_ts) &&
       GST_CLOCK_TIME_IS_VALID (payload->ts)) {
     GST_DEBUG_OBJECT (demux, "first ts: %" GST_TIME_FORMAT,
         GST_TIME_ARGS (payload->ts));
     demux->first_ts = payload->ts;
-    if (demux->streaming) {
-      gst_segment_set_seek (&demux->segment, demux->segment.rate,
-          GST_FORMAT_TIME, demux->segment.flags, GST_SEEK_TYPE_SET,
-          demux->first_ts, GST_SEEK_TYPE_NONE, 0, NULL);
-    }
-  }
-
-  /* better drop a few frames at the beginning than send bogus timestamps */
-  if (G_UNLIKELY (payload->ts < demux->first_ts)) {
-    GST_LOG_OBJECT (stream->pad, "Dropping payload with timestamp %"
-        GST_TIME_FORMAT " which is before the first timestamp %"
-        GST_TIME_FORMAT, GST_TIME_ARGS (payload->ts),
-        GST_TIME_ARGS (demux->first_ts));
-    gst_buffer_replace (&payload->buf, NULL);
-    return;
   }
 
   /* make timestamps start from 0 */
-  if (!demux->streaming)
+  if (demux->first_ts < payload->ts)
     payload->ts -= demux->first_ts;
+  else
+    payload->ts = 0;
 
   /* remove any incomplete payloads that will never be completed */
   while (stream->payloads->len > 0) {
@@ -194,6 +183,19 @@ gst_asf_payload_queue_for_stream (GstASFDemux * demux, AsfPayload * payload,
     GST_BUFFER_FLAG_SET (payload->buf, GST_BUFFER_FLAG_DISCONT);
   }
 
+  /* remember the first queued timestamp for the segment */
+  if (!GST_CLOCK_TIME_IS_VALID (demux->segment_ts) &&
+      GST_CLOCK_TIME_IS_VALID (payload->ts)) {
+    GST_DEBUG_OBJECT (demux, "segment ts: %" GST_TIME_FORMAT,
+        GST_TIME_ARGS (payload->ts));
+    demux->segment_ts = payload->ts;
+    /* always note, but only determines segment when streaming */
+    if (demux->streaming)
+      gst_segment_set_seek (&demux->segment, demux->in_segment.rate,
+          GST_FORMAT_TIME, demux->segment.flags, GST_SEEK_TYPE_SET,
+          demux->segment_ts, GST_SEEK_TYPE_NONE, 0, NULL);
+  }
+
   g_array_append_vals (stream->payloads, payload, 1);
 }
 
@@ -222,7 +224,31 @@ asf_payload_parse_replicated_data_extensions (AsfStream * stream,
           GST_WARNING ("unexpected DURATION extensions len %u", ext->len);
         }
         break;
+      case ASF_PAYLOAD_EXTENSION_SYSTEM_CONTENT:
+        if (ext->len == 1) {
+          guint8 data = payload->rep_data[off];
+
+          payload->interlaced = data & 0x1;
+          payload->rff = data & 0x8;
+          payload->tff = (data & 0x2) || !(data & 0x4);
+          GST_DEBUG ("SYSTEM_CONTENT: interlaced:%d, rff:%d, tff:%d",
+              payload->interlaced, payload->rff, payload->tff);
+        } else {
+          GST_WARNING ("unexpected SYSTEM_CONTE extensions len %u", ext->len);
+        }
+        break;
+      case ASF_PAYLOAD_EXTENSION_SYSTEM_PIXEL_ASPECT_RATIO:
+        if (ext->len == 2) {
+          payload->par_x = payload->rep_data[off];
+          payload->par_y = payload->rep_data[off + 1];
+          GST_DEBUG ("PAR %d / %d", payload->par_x, payload->par_y);
+        } else {
+          GST_WARNING ("unexpected SYSTEM_PIXEL_ASPECT_RATIO extensions len %u",
+              ext->len);
+        }
+        break;
       default:
+        GST_WARNING ("UNKNOWN PAYLOAD EXTENSION !");
         break;
     }
     off += ext->len;
@@ -252,6 +278,11 @@ gst_asf_demux_parse_payload (GstASFDemux * demux, AsfPacket * packet,
 
   payload.ts = GST_CLOCK_TIME_NONE;
   payload.duration = GST_CLOCK_TIME_NONE;
+  payload.par_x = 0;
+  payload.par_y = 0;
+  payload.interlaced = FALSE;
+  payload.tff = FALSE;
+  payload.rff = FALSE;
 
   payload.mo_number =
       asf_packet_read_varlen_int (packet->prop_flags, 4, p_data, p_size);
@@ -313,7 +344,7 @@ gst_asf_demux_parse_payload (GstASFDemux * demux, AsfPacket * packet,
     if (payload.rep_data_len >= 8) {
       payload.mo_size = GST_READ_UINT32_LE (payload.rep_data);
       payload.ts = GST_READ_UINT32_LE (payload.rep_data + 4) * GST_MSECOND;
-      payload.ts -= demux->preroll * GST_MSECOND;
+      payload.ts -= demux->preroll;
       asf_payload_parse_replicated_data_extensions (stream, &payload);
 
       GST_LOG_OBJECT (demux, "media object size   : %u", payload.mo_size);
@@ -368,7 +399,7 @@ gst_asf_demux_parse_payload (GstASFDemux * demux, AsfPacket * packet,
     *p_data += payload_len;
     *p_size -= payload_len;
 
-    ts = (payload.mo_offset - demux->preroll) * GST_MSECOND;
+    ts = payload.mo_offset * GST_MSECOND - demux->preroll;
     ts_delta = payload.rep_data[0] * GST_MSECOND;
 
     for (num = 0; payload_len > 0; ++num) {

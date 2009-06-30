@@ -92,11 +92,6 @@ static void gst_mpeg2dec_init (GstMpeg2dec * mpeg2dec);
 static void gst_mpeg2dec_finalize (GObject * object);
 static void gst_mpeg2dec_reset (GstMpeg2dec * mpeg2dec);
 
-static void gst_mpeg2dec_set_property (GObject * object, guint prop_id,
-    const GValue * value, GParamSpec * pspec);
-static void gst_mpeg2dec_get_property (GObject * object, guint prop_id,
-    GValue * value, GParamSpec * pspec);
-
 #ifndef GST_DISABLE_INDEX
 static void gst_mpeg2dec_set_index (GstElement * element, GstIndex * index);
 static GstIndex *gst_mpeg2dec_get_index (GstElement * element);
@@ -193,8 +188,6 @@ gst_mpeg2dec_class_init (GstMpeg2decClass * klass)
 
   parent_class = g_type_class_peek_parent (klass);
 
-  gobject_class->set_property = gst_mpeg2dec_set_property;
-  gobject_class->get_property = gst_mpeg2dec_get_property;
   gobject_class->finalize = gst_mpeg2dec_finalize;
 
   gstelement_class->change_state = gst_mpeg2dec_change_state;
@@ -407,7 +400,7 @@ crop_buffer (GstMpeg2dec * mpeg2dec, GstBuffer ** buf)
 {
   gboolean result = TRUE;
   GstBuffer *input = *buf;
-  GstBuffer *outbuf = input;
+  GstBuffer *outbuf;
 
   /*We crop only if the target region is smaller than the input one */
   if ((mpeg2dec->decoded_width > mpeg2dec->width) ||
@@ -608,7 +601,8 @@ gst_mpeg2dec_negotiate_format (GstMpeg2dec * mpeg2dec)
       "height", G_TYPE_INT, mpeg2dec->height,
       "pixel-aspect-ratio", GST_TYPE_FRACTION, mpeg2dec->pixel_width,
       mpeg2dec->pixel_height,
-      "framerate", GST_TYPE_FRACTION, mpeg2dec->fps_n, mpeg2dec->fps_d, NULL);
+      "framerate", GST_TYPE_FRACTION, mpeg2dec->fps_n, mpeg2dec->fps_d,
+      "interlaced", G_TYPE_BOOLEAN, mpeg2dec->interlaced, NULL);
 
   gst_pad_set_caps (mpeg2dec->srcpad, caps);
   gst_caps_unref (caps);
@@ -665,6 +659,9 @@ handle_sequence (GstMpeg2dec * mpeg2dec, const mpeg2_info_t * info)
   mpeg2dec->fps_d = info->sequence->frame_period;
   mpeg2dec->frame_period = info->sequence->frame_period * GST_USECOND / 27;
 
+  mpeg2dec->interlaced =
+      !(info->sequence->flags & SEQ_FLAG_PROGRESSIVE_SEQUENCE);
+
   GST_DEBUG_OBJECT (mpeg2dec,
       "sequence flags: %d, frame period: %d (%g), frame rate: %d/%d",
       info->sequence->flags, info->sequence->frame_period,
@@ -675,6 +672,13 @@ handle_sequence (GstMpeg2dec * mpeg2dec, const mpeg2_info_t * info)
   GST_DEBUG_OBJECT (mpeg2dec, "transfer chars: %d, matrix coef: %d",
       info->sequence->transfer_characteristics,
       info->sequence->matrix_coefficients);
+  GST_DEBUG_OBJECT (mpeg2dec,
+      "FLAGS: CONSTRAINED_PARAMETERS:%d, PROGRESSIVE_SEQUENCE:%d",
+      info->sequence->flags & SEQ_FLAG_CONSTRAINED_PARAMETERS,
+      info->sequence->flags & SEQ_FLAG_PROGRESSIVE_SEQUENCE);
+  GST_DEBUG_OBJECT (mpeg2dec, "FLAGS: LOW_DELAY:%d, COLOUR_DESCRIPTION:%d",
+      info->sequence->flags & SEQ_FLAG_LOW_DELAY,
+      info->sequence->flags & SEQ_FLAG_COLOUR_DESCRIPTION);
 
   if (!gst_mpeg2dec_negotiate_format (mpeg2dec))
     goto negotiate_failed;
@@ -934,13 +938,31 @@ handle_slice (GstMpeg2dec * mpeg2dec, const mpeg2_info_t * info)
   }
   mpeg2dec->next_time += GST_BUFFER_DURATION (outbuf);
 
+  if (picture->flags & PIC_FLAG_TOP_FIELD_FIRST)
+    GST_BUFFER_FLAG_SET (outbuf, GST_VIDEO_BUFFER_TFF);
+
+#if MPEG2_RELEASE >= MPEG2_VERSION(0,5,0)
+  /* repeat field introduced in 0.5.0 */
+  if (picture->flags & PIC_FLAG_REPEAT_FIRST_FIELD)
+    GST_BUFFER_FLAG_SET (outbuf, GST_VIDEO_BUFFER_RFF);
+#endif
+
+#ifndef _MSC_VER 
   GST_DEBUG_OBJECT (mpeg2dec,
-      "picture: %s %s fields:%d off:%" G_GINT64_FORMAT " ts:%"
+      "picture: %s %s %s %s %s fields:%d off:%" G_GINT64_FORMAT " ts:%"
       GST_TIME_FORMAT,
-      (picture->flags & PIC_FLAG_TOP_FIELD_FIRST ? "tff " : "    "),
       (picture->flags & PIC_FLAG_PROGRESSIVE_FRAME ? "prog" : "    "),
+      (picture->flags & PIC_FLAG_TOP_FIELD_FIRST ? "tff" : "   "),
+#if MPEG2_RELEASE >= MPEG2_VERSION(0,5,0)
+      (picture->flags & PIC_FLAG_REPEAT_FIRST_FIELD ? "rff" : "   "),
+#else
+      "unknown rff",
+#endif
+      (picture->flags & PIC_FLAG_SKIP ? "skip" : "    "),
+      (picture->flags & PIC_FLAG_COMPOSITE_DISPLAY ? "composite" : "         "),
       picture->nb_fields, GST_BUFFER_OFFSET (outbuf),
-      GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (outbuf)));
+      GST_TIME_ARGS(GST_BUFFER_TIMESTAMP (outbuf)));
+#endif
 
 #ifndef GST_DISABLE_INDEX
   if (mpeg2dec->index) {
@@ -996,6 +1018,7 @@ handle_slice (GstMpeg2dec * mpeg2dec, const mpeg2_info_t * info)
         outbuf,
         GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (outbuf)),
         GST_TIME_ARGS (GST_BUFFER_DURATION (outbuf)));
+    GST_LOG_OBJECT (mpeg2dec, "... with flags %x", GST_BUFFER_FLAGS (outbuf));
 
     ret = gst_pad_push (mpeg2dec->srcpad, outbuf);
     GST_DEBUG_OBJECT (mpeg2dec, "pushed with result %s",
@@ -1364,7 +1387,7 @@ gst_mpeg2dec_sink_convert (GstPad * pad, GstFormat src_format, gint64 src_value,
         case GST_FORMAT_TIME:
           if (info->sequence && info->sequence->byte_rate) {
             *dest_value =
-                gst_util_uint64_scale_int (GST_SECOND, src_value,
+                gst_util_uint64_scale (GST_SECOND, src_value,
                 info->sequence->byte_rate);
             GST_WARNING_OBJECT (mpeg2dec, "dest_value:%" GST_TIME_FORMAT,
                 GST_TIME_ARGS (*dest_value));
@@ -1831,40 +1854,10 @@ init_failed:
   }
 }
 
-static void
-gst_mpeg2dec_set_property (GObject * object, guint prop_id,
-    const GValue * value, GParamSpec * pspec)
-{
-  GstMpeg2dec *src;
-
-  g_return_if_fail (GST_IS_MPEG2DEC (object));
-  src = GST_MPEG2DEC (object);
-
-  switch (prop_id) {
-    default:
-      break;
-  }
-}
-
-static void
-gst_mpeg2dec_get_property (GObject * object, guint prop_id, GValue * value,
-    GParamSpec * pspec)
-{
-  GstMpeg2dec *mpeg2dec;
-
-  g_return_if_fail (GST_IS_MPEG2DEC (object));
-  mpeg2dec = GST_MPEG2DEC (object);
-
-  switch (prop_id) {
-    default:
-      break;
-  }
-}
-
 static gboolean
 plugin_init (GstPlugin * plugin)
 {
-  if (!gst_element_register (plugin, "mpeg2dec", GST_RANK_SECONDARY,
+  if (!gst_element_register (plugin, "mpeg2dec", GST_RANK_PRIMARY,
           GST_TYPE_MPEG2DEC))
     return FALSE;
 

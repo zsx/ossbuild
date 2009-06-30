@@ -470,7 +470,7 @@ gst_rmdemux_perform_seek (GstRMDemux * rmdemux, GstEvent * event)
 {
   gboolean validated;
   gboolean ret = TRUE;
-  gboolean flush, accurate;
+  gboolean flush;
   GstFormat format;
   gdouble rate;
   GstSeekFlags flags;
@@ -505,7 +505,6 @@ gst_rmdemux_perform_seek (GstRMDemux * rmdemux, GstEvent * event)
   GST_DEBUG_OBJECT (rmdemux, "seek, rate %g", rate);
 
   flush = flags & GST_SEEK_FLAG_FLUSH;
-  accurate = flags & GST_SEEK_FLAG_ACCURATE;
 
   /* first step is to unlock the streaming thread if it is
    * blocked in a chain call, we do this by starting the flush. */
@@ -608,7 +607,7 @@ done:
   /* streaming can continue now */
   GST_PAD_STREAM_UNLOCK (rmdemux->sinkpad);
 
-  return TRUE;
+  return ret;
 
 error:
   {
@@ -1571,7 +1570,6 @@ gst_rmdemux_parse_mdpr (GstRMDemux * rmdemux, const guint8 * data, int length)
   GST_LOG_OBJECT (rmdemux, "stream_number=%d", stream->id);
 
   offset = 30;
-  stream_type = GST_RMDEMUX_STREAM_UNKNOWN;
   stream1_type_string = gst_rm_utils_read_string8 (data + offset,
       length - offset, &str_len);
   offset += str_len;
@@ -1985,7 +1983,6 @@ gst_rmdemux_descramble_mp4a_audio (GstRMDemux * rmdemux,
   GstBuffer *buf, *outbuf;
   guint frames, index, i;
   guint8 *data;
-  guint size;
   GstClockTime timestamp;
 
   res = GST_FLOW_OK;
@@ -1995,7 +1992,6 @@ gst_rmdemux_descramble_mp4a_audio (GstRMDemux * rmdemux,
   g_ptr_array_set_size (stream->subpackets, 0);
 
   data = GST_BUFFER_DATA (buf);
-  size = GST_BUFFER_SIZE (buf);
   timestamp = GST_BUFFER_TIMESTAMP (buf);
 
   frames = (data[1] & 0xf0) >> 4;
