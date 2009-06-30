@@ -46,6 +46,9 @@ extern void gst_rtp_bin_marshal_VOID__UINT_OBJECT (GClosure     *closure,
                                                    gpointer      invocation_hint,
                                                    gpointer      marshal_data);
 
+/* VOID:UINT */
+#define gst_rtp_bin_marshal_VOID__UINT	g_cclosure_marshal_VOID__UINT
+
 /* VOID:UINT,UINT */
 extern void gst_rtp_bin_marshal_VOID__UINT_UINT (GClosure     *closure,
                                                  GValue       *return_value,

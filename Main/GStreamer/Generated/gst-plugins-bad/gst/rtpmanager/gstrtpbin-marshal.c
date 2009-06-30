@@ -242,6 +242,8 @@ gst_rtp_bin_marshal_VOID__UINT_OBJECT (GClosure     *closure,
             data2);
 }
 
+/* VOID:UINT */
+
 /* VOID:UINT,UINT */
 void
 gst_rtp_bin_marshal_VOID__UINT_UINT (GClosure     *closure,

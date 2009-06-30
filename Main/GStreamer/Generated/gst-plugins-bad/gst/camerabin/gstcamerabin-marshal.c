@@ -125,19 +125,19 @@ __gst_camerabin_marshal_VOID__INT_INT (GClosure     *closure,
             data2);
 }
 
-/* BOOLEAN:POINTER */
+/* BOOLEAN:STRING */
 void
-__gst_camerabin_marshal_BOOLEAN__POINTER (GClosure     *closure,
-                                          GValue       *return_value G_GNUC_UNUSED,
-                                          guint         n_param_values,
-                                          const GValue *param_values,
-                                          gpointer      invocation_hint G_GNUC_UNUSED,
-                                          gpointer      marshal_data)
+__gst_camerabin_marshal_BOOLEAN__STRING (GClosure     *closure,
+                                         GValue       *return_value G_GNUC_UNUSED,
+                                         guint         n_param_values,
+                                         const GValue *param_values,
+                                         gpointer      invocation_hint G_GNUC_UNUSED,
+                                         gpointer      marshal_data)
 {
-  typedef gboolean (*GMarshalFunc_BOOLEAN__POINTER) (gpointer     data1,
-                                                     gpointer     arg_1,
-                                                     gpointer     data2);
-  register GMarshalFunc_BOOLEAN__POINTER callback;
+  typedef gboolean (*GMarshalFunc_BOOLEAN__STRING) (gpointer     data1,
+                                                    gpointer     arg_1,
+                                                    gpointer     data2);
+  register GMarshalFunc_BOOLEAN__STRING callback;
   register GCClosure *cc = (GCClosure*) closure;
   register gpointer data1, data2;
   gboolean v_return;
@@ -155,10 +155,10 @@ __gst_camerabin_marshal_BOOLEAN__POINTER (GClosure     *closure,
       data1 = g_value_peek_pointer (param_values + 0);
       data2 = closure->data;
     }
-  callback = (GMarshalFunc_BOOLEAN__POINTER) (marshal_data ? marshal_data : cc->callback);
+  callback = (GMarshalFunc_BOOLEAN__STRING) (marshal_data ? marshal_data : cc->callback);
 
   v_return = callback (data1,
-                       g_marshal_value_peek_pointer (param_values + 1),
+                       g_marshal_value_peek_string (param_values + 1),
                        data2);
 
   g_value_set_boolean (return_value, v_return);
