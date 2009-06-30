@@ -418,7 +418,7 @@ if [ ! -f "$BinDir/libSDL.so" ]; then
 	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
 	mkdir_and_move "$IntDir/sdl"
 	
-	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$BinDir --libexecdir=$BinDir --includedir=$IncludeDir 
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$BinDir --libexecdir=$BinDir --includedir=$IncludeDir 
 	make && make install
 
 	arrange_shared "$BinDir" "libSDL-1.2.so" "0" "0.11.2" "libSDL.la" "sdl.pc" "$LibDir"
@@ -474,7 +474,7 @@ if [ ! -f "$BinDir/libavcodec-gpl.so" ]; then
 	mkdir_and_move "$IntDir/ffmpeg-gpl"
 	
 	#LGPL-compatible version
-	#$PKG_DIR/configure --enable-gpl --extra-ldflags="-no-undefined" --extra-cflags="-fno-common" --disable-avisynth --arch=i686 --cpu=i686 --disable-vhook --enable-libxvid --enable-zlib --enable-bzlib --enable-pthreads --enable-ipv6 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir/gpl --libdir=$BinDir/gpl --shlibdir=$BinDir/gpl --incdir=$IncludeDir/gpl
+	$PKG_DIR/configure --enable-gpl --extra-ldflags="-no-undefined" --extra-cflags="-fno-common" --disable-avisynth --arch=i686 --cpu=i686 --disable-vhook --enable-libxvid --enable-zlib --enable-bzlib --enable-pthreads --enable-ipv6 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir/gpl --libdir=$BinDir/gpl --shlibdir=$BinDir/gpl --incdir=$IncludeDir/gpl
 	make && make install
 	
 	arrange_shared "$BinDir/gpl" "libavutil.so" "49" "49.15.0" "" "libavutil.pc" "$LibDir/gpl"
@@ -624,6 +624,7 @@ if [ ! -f "$BinDir/libfaad.so" ]; then
 	make && make install
 	
 	arrange_shared "$BinDir" "libfaad.so" "2" "2.0.0" "libfaad.la" "" "$LibDir"
+	move_files_to_dir "$BinDir/libmp4ff.a" "$LibDir"
 
 	reset_flags	
 fi
@@ -675,10 +676,11 @@ if [ ! -f "$BinDir/libdvdcss.so" ]; then
 	reset_flags
 fi
 
+
 reset_flags
 
 #Make sure the shared directory has all our updates
-#create_shared
+create_shared
 
 #Call common shutdown routines
 common_shutdown
