@@ -672,25 +672,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstflv", "Main\GStreamer\Pl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gsty4m", "Main\GStreamer\Plugins\Good\gst\libgsty4m.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0019}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstxvid", "Main\GStreamer\Plugins\Bad\ext\libgstxvid.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1037}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstxvid", "Main\GStreamer\Plugins\Bad\ext\libgstxvid.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1037}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstwavpack", "Main\GStreamer\Plugins\Good\ext\libgstwavpack.vcproj", "{B9551C49-79E6-493B-8D1F-653FAEC7ADCD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstffmpeggpl", "Main\GStreamer\Plugins\FFmpeg\ext\libgstffmpeg_gpl.vcproj", "{FAD1A4E1-90AC-4A6D-AECE-755D6ADF7274}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstdts", "Main\GStreamer\Plugins\Bad\ext\libgstdts.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1010}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdts", "Main\GStreamer\Plugins\Bad\ext\libgstdts.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1010}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstsdl", "Main\GStreamer\Plugins\Bad\ext\libgstsdl.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1028}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsdl", "Main\GStreamer\Plugins\Bad\ext\libgstsdl.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1028}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstresindvd", "Main\GStreamer\Plugins\Bad\ext\libgstresindvd.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1027}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstresindvd", "Main\GStreamer\Plugins\Bad\ext\libgstresindvd.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1027}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgsta52dec", "Main\GStreamer\Plugins\Ugly\ext\libgsta52dec.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0001}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gsta52dec", "Main\GStreamer\Plugins\Ugly\ext\libgsta52dec.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0001}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstmpeg2dec", "Main\GStreamer\Plugins\Ugly\ext\libgstmpeg2dec.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0016}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstmpeg2dec", "Main\GStreamer\Plugins\Ugly\ext\libgstmpeg2dec.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0016}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstdvdnav", "Main\GStreamer\Plugins\Ugly\ext\libgstdvdnav.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0014}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgstdvdread", "Main\GStreamer\Plugins\Ugly\ext\libgstdvdread.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0015}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdvdread", "Main\GStreamer\Plugins\Ugly\ext\libgstdvdread.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0015}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1403,9 +1401,6 @@ Global
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0016}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0016}.Debug|Win32.Build.0 = Debug|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0016}.Release|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0014}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0014}.Debug|Win32.Build.0 = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0014}.Release|Win32.ActiveCfg = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0015}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0015}.Debug|Win32.Build.0 = Debug|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0015}.Release|Win32.ActiveCfg = Release|Win32
@@ -1589,7 +1584,6 @@ Global
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0006} = {9A756397-7323-4566-98AF-9D55C9227FC1}
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0001} = {9A756397-7323-4566-98AF-9D55C9227FC1}
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0016} = {9A756397-7323-4566-98AF-9D55C9227FC1}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0014} = {9A756397-7323-4566-98AF-9D55C9227FC1}
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0015} = {9A756397-7323-4566-98AF-9D55C9227FC1}
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0002} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0003} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
