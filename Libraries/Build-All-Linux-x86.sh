@@ -414,16 +414,19 @@ if [ ! -f "$BinDir/libavcodec.so" ]; then
 fi
 
 #sdl
-if [ ! -f "$BinDir/libSDL-1.2.so" ]; then 
+if [ ! -f "$BinDir/libSDL.so" ]; then 
 	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
 	mkdir_and_move "$IntDir/sdl"
 	
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$BinDir --libexecdir=$BinDir --includedir=$IncludeDir 
+	#$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$BinDir --libexecdir=$BinDir --includedir=$IncludeDir 
 	make && make install
 
 	arrange_shared "$BinDir" "libSDL-1.2.so" "0" "0.11.2" "libSDL.la" "sdl.pc" "$LibDir"
 	move_files_to_dir "$BinDir/libSDLmain.a" "$LibDir"
 	rm -f "$BinDir/libSDL.so"
+	
+	cd "$BinDir"
+	ln -s "libSDL-1.2.so.0" "libSDL.so"
 fi
 
 
@@ -504,7 +507,7 @@ if [ ! -f "$BinDir/libavcodec-gpl.so" ]; then
 	sedGplBinDir=$( echo $BinDir/gpl | sed 's/\//\\\//g' )
 	sedIncludeDir=$( echo $IncludeDir | sed 's/\//\\\//g' )
 	sedGplIncludeDir=$( echo $IncludeDir/gpl | sed 's/\//\\\//g' )
-	
+	arrange_shared "$BinDir" "libwavpack.so" "1" "1.0.3" "libwavpack.la" "wavpack.pc" "$LibDir"
 	sed "s/$sedGplBinDir/$sedBinDir/g" 										libavutil.pc > tmp.1.txt
 	sed "s/$sedGplIncludeDir/$sedIncludeDir/g" 								tmp.1.txt > tmp.2.txt
 	sed "s/Name: libavutil/Name: libavutil-gpl/g" 							tmp.2.txt > tmp.3.txt
@@ -539,7 +542,144 @@ if [ ! -f "$BinDir/libavcodec-gpl.so" ]; then
 	rm -rf "$IncludeDir/gpl"
 fi
 
+#wavpack
+if [ ! -f "$BinDir/libwavpack.so" ]; then 
+	unpack_bzip2_and_move "wavpack-4.50.1.tar.bz2" "$PKG_DIR_WAVPACK"
+	mkdir_and_move "$IntDir/wavpack"
+	
+	cp -f "$LIBRARIES_PATCH_DIR/wavpack/Makefile.in" "$PKG_DIR"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	
+	make 
+	make install
+
+	arrange_shared "$BinDir" "libwavpack.so" "1" "1.0.3" "libwavpack.la" "wavpack.pc" "$LibDir"
+fi
+
+#a52dec
+if [ ! -f "$BinDir/liba52.so" ]; then 
+	unpack_gzip_and_move "a52.tar.gz" "$PKG_DIR_A52DEC"
+	
+	./bootstrap
+	
+	mkdir_and_move "$IntDir/a52dec"
+	 
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+	
+
+	arrange_shared "$BinDir" "liba52.so" "0" "0.0.0" "" "" "$LibDir"
+fi
+
+#mpeg2
+if [ ! -f "$BinDir/libmpeg2.so" ]; then 
+	unpack_gzip_and_move "libmpeg2.tar.gz" "$PKG_DIR_LIBMPEG2"
+	mkdir_and_move "$IntDir/libmpeg2"
+	 
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+	
+	arrange_shared "$BinDir" "libmpeg2.so" "0" "0.1.0" "libmpeg2.la" "libmpeg2.pc" "$LibDir"
+	arrange_shared "$BinDir" "libmpeg2convert.so" "0" "0.0.0" "libmpeg2convert.la" "libmpeg2convert.pc" "$LibDir"
+fi
+
+#libdca
+if [ ! -f "$BinDir/libdca.so" ]; then 
+	unpack_bzip2_and_move "libdca.tar.bz2" "$PKG_DIR_LIBDCA"
+	mkdir_and_move "$IntDir/libdca"
+	 
+	$PKG_DIR/configure --enable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+	
+	arrange_shared "$BinDir" "libdca.so" "0" "0.0.0" "libdca.la" "libdca.pc" "$LibDir"
+	move_files_to_dir "$BinDir/pkgconfig/libdts.pc" "$LibDir/pkgconfig/"
+	move_files_to_dir "$BinDir/libdca.a" "$LibDir"
+	rm -f "$BinDir/libdts.a"
+	cd "$LibDir"
+	ln -s "libdca.a" "libdts.a"
+fi
+
+#libfaac
+if [ ! -f "$BinDir/libfaac.so" ]; then 
+	unpack_gzip_and_move "faac.tar.gz" "$PKG_DIR_FAAC"
+	mkdir_and_move "$IntDir/faac"
+	 
+	$PKG_DIR/configure --with-drm --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	make && make install
+	
+	arrange_shared "$BinDir" "libfaac.so" "0" "0.0.0" "libfaac.la" "" "$LibDir"
+	
+	reset_flags	
+fi
+
+#libfaad
+if [ ! -f "$BinDir/libfaad.so" ]; then 
+	unpack_gzip_and_move "faad2.tar.gz" "$PKG_DIR_FAAD2"
+	mkdir_and_move "$IntDir/faad2"
+	 
+	cp "$LIBRARIES_PATCH_DIR/faad2/Makefile.in" .
+	
+	$PKG_DIR/configure --with-drm --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	make && make install
+	
+	arrange_shared "$BinDir" "libfaad.so" "2" "2.0.0" "libfaad.la" "" "$LibDir"
+
+	reset_flags	
+fi
+
+#dvdread
+if [ ! -f "$BinDir/libdvdread.so" ]; then 
+	unpack_bzip2_and_move "libdvdread.tar.bz2" "$PKG_DIR_LIBDVDREAD"
+	mkdir_and_move "$IntDir/libdvdread"
+	 
+	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl"
+	make && make install
+
+	cp "$LIBRARIES_PATCH_DIR/dvdread/dvd_reader.h" "$IncludeDir/dvdread" 
+
+	arrange_shared "$BinDir" "libdvdread.so" "4" "4.1.2" "libdvdread.la" "dvdread.pc" "$LibDir"
+
+	reset_flags
+fi
+
+#dvdnav
+if [ ! -f "$BinDir/libdvdnav.so" ]; then 
+	unpack_bzip2_and_move "libdvdnav.tar.bz2" "$PKG_DIR_LIBDVDNAV"
+	mkdir_and_move "$IntDir/libdvdnav"
+	 
+	$PKG_DIR/configure2 --disable-debug --disable-static --enable-shared --shlibdir=$BinDir --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl -ldvdread"
+	make && make install
+	
+	#This will throw an error b/c the install script is bad - doesn't work when building outside the source directory
+	
+	cd "$PKG_DIR"
+	install -m 644 src/dvd_types.h src/dvdnav.h src/dvdnav_events.h "$IncludeDir/dvdnav"
+	
+	arrange_shared "$BinDir" "libdvdnav.so" "4" "4.1.3" "" "dvdnav.pc" "$LibDir"
+	arrange_shared "$BinDir" "libdvdnavmini.so" "4" "4.1.3" "" "dvdnavmini.pc" "$LibDir"
+	
+	reset_flags
+fi
+
+#dvdcss
+if [ ! -f "$BinDir/libdvdcss.so" ]; then 
+	unpack_bzip2_and_move "libdvdcss.tar.bz2" "$PKG_DIR_LIBDVDCSS"
+	mkdir_and_move "$IntDir/libdvdcss"
+	 
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir 
+	make && make install
+	
+	arrange_shared "$BinDir" "libdvdcss.so" "2" "2.0.8" "libdvdcss.la" "" "$LibDir"
+
+	reset_flags
+fi
+
 reset_flags
+
+#Make sure the shared directory has all our updates
+#create_shared
 
 #Call common shutdown routines
 common_shutdown
+
