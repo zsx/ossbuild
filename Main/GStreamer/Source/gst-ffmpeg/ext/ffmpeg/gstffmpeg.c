@@ -36,7 +36,7 @@
 #endif
 
 #include "gstffmpeg.h"
-#include "gstffmpegcodecmap.h"
+#include "gstffmpegutils.h"
 
 GST_DEBUG_CATEGORY (ffmpeg_debug);
 
@@ -161,6 +161,5 @@ plugin_init (GstPlugin * plugin)
 GST_PLUGIN_DEFINE (GST_VERSION_MAJOR,
     GST_VERSION_MINOR,
     "ffmpeg",
-    "All FFMPEG codecs (" FFMPEG_SOURCE ")",
-    plugin_init,
-    PACKAGE_VERSION, "LGPL", "FFMpeg", "http://ffmpeg.sourceforge.net/")
+    "All FFmpeg codecs and formats (" FFMPEG_SOURCE ")",
+    plugin_init, PACKAGE_VERSION, "LGPL", "FFmpeg", "http://ffmpeg.org/")

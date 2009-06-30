@@ -18,18 +18,28 @@ git submodule update
 
 if test -x $have_svn && [ $have_svn ];
 then
-    if test ! -f $FFMPEG_CO_DIR/configure
-    then
+    co_ffmpeg=no
+
+    if test ! -f $FFMPEG_CO_DIR/configure; then
+      co_ffmpeg=yes
+    else
+      if ! svn info gst-libs/ext/ffmpeg | grep "URL: $FFMPEG_SVN" > /dev/null; then
+        echo "FFmpeg checkout is on the wrong branch. Re-fetching."
+        co_ffmpeg=yes
+      fi
+    fi
+
+    if [ "$co_ffmpeg" = "yes" ]; then
 	# checkout ffmpeg from its repository
 	rm -rf $FFMPEG_CO_DIR
 	echo "+ getting ffmpeg from svn"
 	svn -r $FFMPEG_REVISION co $FFMPEG_SVN $FFMPEG_CO_DIR
-	echo "+ updating externals"
-	svn update -r $FFMPEG_EXTERNALS_REVISION $FFMPEG_CO_DIR/libswscale
     else
 	# update ffmpeg from its repository
 	echo "+ updating ffmpeg checkout"
 	svn -r $FFMPEG_REVISION up $FFMPEG_CO_DIR
+    fi
+    if [ "x$FFMPEG_EXTERNALS_REVISION" != "x" ]; then
 	echo "+ updating externals"
 	svn update -r $FFMPEG_EXTERNALS_REVISION $FFMPEG_CO_DIR/libswscale
     fi
@@ -53,25 +63,6 @@ then
     rm -f .git/hooks/pre-commit
     ln -s ../../common/hooks/pre-commit.hook .git/hooks/pre-commit
 fi
-
-
-# Let's check if we can disable the building of the ffmpeg binary
-can_disable=`$FFMPEG_CO_DIR/configure --help | grep 'disable-ffmpeg' | wc -l`
-
-if [ $can_disable != "0" ]
-then
-    CONFIGURE_DEF_OPT="--disable-ffmpeg"
-fi
-
-# Let's clear the 'exit 1' command when we post an Unknown option
-echo "Patching ffmpeg ./configure"
-sed -e '/Unknown option/ {
-N
-N
-s/exit 1/#/
-}' $FFMPEG_CO_DIR/configure > $FFMPEG_CO_DIR/configure.tmp
-mv $FFMPEG_CO_DIR/configure.tmp $FFMPEG_CO_DIR/configure
-chmod +x $FFMPEG_CO_DIR/configure
 
 autogen_options $@
 
@@ -105,8 +96,8 @@ fi
 
 toplevel_check $srcfile
 
-tool_run "$aclocal" "-I common/m4 $ACLOCAL_FLAGS"
 tool_run "$libtoolize" "--copy --force"
+tool_run "$aclocal" "-I common/m4 $ACLOCAL_FLAGS"
 tool_run "$autoheader"
 
 # touch the stamp-h.in build stamp so we don't re-run autoheader in maintainer mode -- wingo

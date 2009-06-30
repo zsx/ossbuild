@@ -33,6 +33,7 @@
 
 #include "gstffmpeg.h"
 #include "gstffmpegcodecmap.h"
+#include "gstffmpegutils.h"
 
 typedef struct _GstFFMpegMux GstFFMpegMux;
 typedef struct _GstFFMpegMuxPad GstFFMpegMuxPad;
@@ -153,11 +154,11 @@ gst_ffmpegmux_base_init (gpointer g_class)
   g_assert (params != NULL);
 
   /* construct the element details struct */
-  details.longname = g_strdup_printf ("FFMPEG %s Muxer",
-      params->in_plugin->name);
+  details.longname = g_strdup_printf ("FFmpeg %s muxer",
+      params->in_plugin->long_name);
   details.klass = g_strdup ("Codec/Muxer");
-  details.description = g_strdup_printf ("FFMPEG %s Muxer",
-      params->in_plugin->name);
+  details.description = g_strdup_printf ("FFmpeg %s muxer",
+      params->in_plugin->long_name);
   details.author = "Wim Taymans <wim.taymans@chello.be>, "
       "Ronald Bultje <rbultje@ronald.bitfreak.net>";
   gst_element_class_set_details (element_class, &details);
@@ -222,6 +223,7 @@ gst_ffmpegmux_init (GstFFMpegMux * ffmpegmux, GstFFMpegMuxClass * g_class)
   GstPadTemplate *templ = gst_element_class_get_pad_template (klass, "src");
 
   ffmpegmux->srcpad = gst_pad_new_from_template (templ, "src");
+  gst_pad_set_caps (ffmpegmux->srcpad, gst_pad_template_get_caps (templ));
   gst_element_add_pad (GST_ELEMENT (ffmpegmux), ffmpegmux->srcpad);
 
   ffmpegmux->collect = gst_collect_pads_new ();
@@ -303,7 +305,6 @@ gst_ffmpegmux_request_new_pad (GstElement * element,
 {
   GstFFMpegMux *ffmpegmux = (GstFFMpegMux *) element;
   GstElementClass *klass = GST_ELEMENT_GET_CLASS (element);
-  GstFFMpegMuxClass *oclass = (GstFFMpegMuxClass *) klass;
   GstFFMpegMuxPad *collect_pad;
   gchar *padname;
   GstPad *pad;
@@ -356,7 +357,7 @@ gst_ffmpegmux_request_new_pad (GstElement * element,
 
   /* we love debug output (c) (tm) (r) */
   GST_DEBUG ("Created %s pad for ffmux_%s element",
-      padname, oclass->in_plugin->name);
+      padname, ((GstFFMpegMuxClass *) klass)->in_plugin->name);
   g_free (padname);
 
   return pad;
@@ -717,6 +718,10 @@ gst_ffmpegmux_get_id_caps (enum CodecID * id_list)
     if ((t = gst_ffmpeg_codecid_to_caps (id_list[i], NULL, TRUE)))
       gst_caps_append (caps, t);
   }
+  if (gst_caps_is_empty (caps)) {
+    gst_caps_unref (caps);
+    return NULL;
+  }
 
   return caps;
 }
@@ -767,7 +772,7 @@ gst_ffmpegmux_register (GstPlugin * plugin)
   AVOutputFormat *in_plugin;
   GstFFMpegMuxClassParams *params;
 
-  in_plugin = av_oformat_next(NULL);
+  in_plugin = av_oformat_next (NULL);
 
   GST_LOG ("Registering muxers");
 
@@ -829,17 +834,6 @@ gst_ffmpegmux_register (GstPlugin * plugin)
       p++;
     }
 
-    /* if it's already registered, drop it */
-    if (g_type_from_name (type_name)) {
-      g_free (type_name);
-      gst_caps_unref (srccaps);
-      if (audiosinkcaps)
-        gst_caps_unref (audiosinkcaps);
-      if (videosinkcaps)
-        gst_caps_unref (videosinkcaps);
-      goto next;
-    }
-
     /* fix up allowed caps for some muxers */
     if (strcmp (in_plugin->name, "flv") == 0) {
       const gint rates[] = { 44100, 22050, 11025 };
@@ -853,17 +847,22 @@ gst_ffmpegmux_register (GstPlugin * plugin)
           gst_caps_from_string ("video/x-raw-rgb, bpp=(int)24, depth=(int)24");
     }
 
-    /* create a cache for these properties */
-    params = g_new0 (GstFFMpegMuxClassParams, 1);
-    params->in_plugin = in_plugin;
-    params->srccaps = srccaps;
-    params->videosinkcaps = videosinkcaps;
-    params->audiosinkcaps = audiosinkcaps;
+    type = g_type_from_name (type_name);
 
-    /* create the type now */
-    type = g_type_register_static (GST_TYPE_ELEMENT, type_name, &typeinfo, 0);
-    g_type_set_qdata (type, GST_FFMUX_PARAMS_QDATA, (gpointer) params);
-    g_type_add_interface_static (type, GST_TYPE_TAG_SETTER, &tag_setter_info);
+    if (!type) {
+      /* create a cache for these properties */
+      params = g_new0 (GstFFMpegMuxClassParams, 1);
+      params->in_plugin = in_plugin;
+      params->srccaps = srccaps;
+      params->videosinkcaps = videosinkcaps;
+      params->audiosinkcaps = audiosinkcaps;
+
+      /* create the type now */
+      type = g_type_register_static (GST_TYPE_ELEMENT, type_name, &typeinfo, 0);
+      g_type_set_qdata (type, GST_FFMUX_PARAMS_QDATA, (gpointer) params);
+      g_type_add_interface_static (type, GST_TYPE_TAG_SETTER, &tag_setter_info);
+
+    }
 
     if (!gst_element_register (plugin, type_name, GST_RANK_NONE, type)) {
       g_free (type_name);
@@ -878,7 +877,7 @@ gst_ffmpegmux_register (GstPlugin * plugin)
     g_free (type_name);
 
   next:
-    in_plugin = av_oformat_next(in_plugin);
+    in_plugin = av_oformat_next (in_plugin);
   }
 
   GST_LOG ("Finished registering muxers");

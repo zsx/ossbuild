@@ -262,6 +262,9 @@ gst_ffmpeg_flags_get_type (void)
 
   if (!ffmpeg_flags_type) {
     static const GFlagsValue ffmpeg_flags[] = {
+      {CODEC_FLAG_OBMC, "Use overlapped block motion compensation (h263+)",
+          "obmc"},
+      {CODEC_FLAG_QSCALE, "Use fixed qscale", "qscale"},
       {CODEC_FLAG_4MV, "Allow 4 MV per MB", "4mv"},
       {CODEC_FLAG_H263P_AIV, "H.263 alternative inter VLC", "aiv"},
       {CODEC_FLAG_QPEL, "Quartel Pel Motion Compensation", "qpel"},
@@ -362,6 +365,7 @@ static gint mpeg[] = {
   CODEC_ID_MPEG2VIDEO,
   CODEC_ID_H263P,
   CODEC_ID_FLV1,
+  CODEC_ID_H263,
   CODEC_ID_NONE
 };
 
@@ -397,7 +401,12 @@ gst_ffmpeg_cfg_init ()
   gst_ffmpeg_add_pspec (pspec, quantizer, FALSE, mpeg, NULL);
 
   pspec = g_param_spec_string ("statsfile", "Statistics Filename",
-      "Filename to store data for 2-pass encoding", "stats.log",
+      "Filename to store data for 2-pass encoding (deprecated, use multipass-cache-file)",
+      "stats.log", G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+  gst_ffmpeg_add_pspec (pspec, filename, FALSE, mpeg, NULL);
+
+  pspec = g_param_spec_string ("multipass-cache-file", "Multipass Cache File",
+      "Filename for multipass cache file", "stats.log",
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
   gst_ffmpeg_add_pspec (pspec, filename, FALSE, mpeg, NULL);
 

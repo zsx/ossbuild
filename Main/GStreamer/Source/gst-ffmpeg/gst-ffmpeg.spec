@@ -5,7 +5,7 @@
 
 
 Name: 		%{gstreamer}-ffmpeg
-Version: 	0.10.7
+Version: 	0.10.8
 Release:	1	
 Summary: 	GStreamer Streaming-media framework plug-in using FFmpeg.
 
@@ -38,7 +38,7 @@ multimedia formats.
 %build
 %configure
 
-make %{?_smp_mflags} CFLAGS="-Wno-error -O1"
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -55,6 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS COPYING README gst-ffmpeg.doap
 %{_libdir}/gstreamer-%{gst_majorminor}/libgstffmpeg.so
 %{_libdir}/gstreamer-%{gst_majorminor}/libgstpostproc.so
+%{_libdir}/gstreamer-%{gst_majorminor}/libgstffmpegscale.so
 
 %changelog
 * Fri Dec 15 2006 Thomas Vander Stichele <thomas at apestaart dot org>

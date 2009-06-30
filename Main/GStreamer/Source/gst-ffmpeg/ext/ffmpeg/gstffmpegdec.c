@@ -31,12 +31,41 @@
 #endif
 
 #include <gst/gst.h>
+#include <gst/video/video.h>
 
 #include "gstffmpeg.h"
 #include "gstffmpegcodecmap.h"
+#include "gstffmpegutils.h"
 
 /* define to enable alternative buffer refcounting algorithm */
 #undef EXTRA_REF
+
+#define TS_MAP_COUNT 0xFF
+#define TS_MAP_INC(ind) ind = (ind + 1) & TS_MAP_COUNT
+
+typedef struct _GstTSMap GstTSMap;
+
+struct _GstTSMap
+{
+  /* timestamp */
+  guint64 ts;
+
+  /* buffer size */
+  gint size;
+};
+
+typedef struct _GstTSHandler GstTSHandler;
+
+struct _GstTSHandler
+{
+  /* ts list indexes */
+  gint buf_head;
+  gint buf_tail;
+  guint buf_count;
+
+  /* incomming buffer timestamp tracking */
+  GstTSMap buffers[TS_MAP_COUNT + 1];
+};
 
 typedef struct _GstFFMpegDec GstFFMpegDec;
 
@@ -60,6 +89,7 @@ struct _GstFFMpegDec
       gint clip_width, clip_height;
       gint fps_n, fps_d;
       gint old_fps_n, old_fps_d;
+      gboolean interlaced;
 
       enum PixelFormat pix_fmt;
     } video;
@@ -75,6 +105,7 @@ struct _GstFFMpegDec
   gboolean clear_ts;
   guint64 next_ts;
   guint64 in_ts;
+  gint64 in_offset;
   GstClockTime last_out;
   gboolean ts_is_dts;
   gboolean has_b_frames;
@@ -106,8 +137,13 @@ struct _GstFFMpegDec
 
   gboolean is_realvideo;
 
+  GstTSHandler ts_handler;
+
   /* reverse playback queue */
   GList *queued;
+
+  /* Can downstream allocate 16bytes aligned data. */
+  gboolean can_allocate_aligned;
 };
 
 typedef struct _GstFFMpegDecClass GstFFMpegDecClass;
@@ -179,13 +215,20 @@ static void gst_ffmpegdec_set_property (GObject * object,
 static void gst_ffmpegdec_get_property (GObject * object,
     guint prop_id, GValue * value, GParamSpec * pspec);
 
-static gboolean gst_ffmpegdec_negotiate (GstFFMpegDec * ffmpegdec);
+static gboolean gst_ffmpegdec_negotiate (GstFFMpegDec * ffmpegdec,
+    gboolean force);
 
 /* some sort of bufferpool handling, but different */
 static int gst_ffmpegdec_get_buffer (AVCodecContext * context,
     AVFrame * picture);
 static void gst_ffmpegdec_release_buffer (AVCodecContext * context,
     AVFrame * picture);
+
+static void gst_ts_handler_init (GstFFMpegDec * ffmpegdec);
+static void gst_ts_handler_append (GstFFMpegDec * ffmpegdec,
+    GstBuffer * buffer);
+static void gst_ts_handler_consume (GstFFMpegDec * ffmpegdec, gint size);
+static guint64 gst_ts_handler_get_ts (GstFFMpegDec * ffmpegdec);
 
 #define GST_FFDEC_PARAMS_QDATA g_quark_from_static_string("ffdec-params")
 
@@ -248,11 +291,11 @@ gst_ffmpegdec_base_init (GstFFMpegDecClass * klass)
   g_assert (params != NULL);
 
   /* construct the element details struct */
-  details.longname = g_strdup_printf ("FFMPEG %s decoder",
+  details.longname = g_strdup_printf ("FFmpeg %s decoder",
       params->in_plugin->long_name);
   details.klass = g_strdup_printf ("Codec/Decoder/%s",
       (params->in_plugin->type == CODEC_TYPE_VIDEO) ? "Video" : "Audio");
-  details.description = g_strdup_printf ("FFMPEG %s decoder",
+  details.description = g_strdup_printf ("FFmpeg %s decoder",
       params->in_plugin->name);
   details.author = "Wim Taymans <wim.taymans@gmail.com>, "
       "Ronald Bultje <rbultje@ronald.bitfreak.net>, "
@@ -361,9 +404,14 @@ gst_ffmpegdec_init (GstFFMpegDec * ffmpegdec)
   ffmpegdec->debug_mv = DEFAULT_DEBUG_MV;
   ffmpegdec->crop = DEFAULT_CROP;
 
+  gst_ts_handler_init (ffmpegdec);
+
   ffmpegdec->format.video.fps_n = -1;
   ffmpegdec->format.video.old_fps_n = -1;
   gst_segment_init (&ffmpegdec->segment, GST_FORMAT_TIME);
+
+  /* We initially assume downstream can allocate 16 bytes aligned buffers */
+  ffmpegdec->can_allocate_aligned = TRUE;
 }
 
 static void
@@ -523,6 +571,7 @@ gst_ffmpegdec_close (GstFFMpegDec * ffmpegdec)
 
   ffmpegdec->format.video.fps_n = -1;
   ffmpegdec->format.video.old_fps_n = -1;
+  ffmpegdec->format.video.interlaced = FALSE;
 }
 
 /* with LOCK */
@@ -584,6 +633,7 @@ gst_ffmpegdec_open (GstFFMpegDec * ffmpegdec)
       ffmpegdec->format.video.clip_width = -1;
       ffmpegdec->format.video.clip_height = -1;
       ffmpegdec->format.video.pix_fmt = PIX_FMT_NB;
+      ffmpegdec->format.video.interlaced = FALSE;
       break;
     case CODEC_TYPE_AUDIO:
       ffmpegdec->format.audio.samplerate = 0;
@@ -782,7 +832,7 @@ alloc_output_buffer (GstFFMpegDec * ffmpegdec, GstBuffer ** outbuf,
   GST_LOG_OBJECT (ffmpegdec, "alloc output buffer");
 
   /* see if we need renegotiation */
-  if (G_UNLIKELY (!gst_ffmpegdec_negotiate (ffmpegdec)))
+  if (G_UNLIKELY (!gst_ffmpegdec_negotiate (ffmpegdec, FALSE)))
     goto negotiate_failed;
 
   /* get the size of the gstreamer output buffer given a
@@ -790,7 +840,7 @@ alloc_output_buffer (GstFFMpegDec * ffmpegdec, GstBuffer ** outbuf,
   fsize = gst_ffmpeg_avpicture_get_size (ffmpegdec->context->pix_fmt,
       width, height);
 
-  if (!ffmpegdec->context->palctrl) {
+  if (!ffmpegdec->context->palctrl && ffmpegdec->can_allocate_aligned) {
     GST_LOG_OBJECT (ffmpegdec, "calling pad_alloc");
     /* no pallete, we can use the buffer size to alloc */
     ret = gst_pad_alloc_buffer_and_set_caps (ffmpegdec->srcpad,
@@ -798,14 +848,23 @@ alloc_output_buffer (GstFFMpegDec * ffmpegdec, GstBuffer ** outbuf,
         GST_PAD_CAPS (ffmpegdec->srcpad), outbuf);
     if (G_UNLIKELY (ret != GST_FLOW_OK))
       goto alloc_failed;
+
+    /* If buffer isn't 128-bit aligned, create a memaligned one ourselves */
+    if (((uintptr_t) GST_BUFFER_DATA (*outbuf)) % 16) {
+      GST_DEBUG_OBJECT (ffmpegdec,
+          "Downstream can't allocate aligned buffers.");
+      ffmpegdec->can_allocate_aligned = FALSE;
+      gst_buffer_unref (*outbuf);
+      *outbuf = new_aligned_buffer (fsize, GST_PAD_CAPS (ffmpegdec->srcpad));
+    }
   } else {
-    GST_LOG_OBJECT (ffmpegdec, "not calling pad_alloc, we have a pallete");
+    GST_LOG_OBJECT (ffmpegdec,
+        "not calling pad_alloc, we have a pallete or downstream can't give 16 byte aligned buffers.");
     /* for paletted data we can't use pad_alloc_buffer(), because
      * fsize contains the size of the palette, so the overall size
      * is bigger than ffmpegcolorspace's unit size, which will
      * prompt GstBaseTransform to complain endlessly ... */
-    *outbuf = gst_buffer_new_and_alloc (fsize);
-    gst_buffer_set_caps (*outbuf, GST_PAD_CAPS (ffmpegdec->srcpad));
+    *outbuf = new_aligned_buffer (fsize, GST_PAD_CAPS (ffmpegdec->srcpad));
     ret = GST_FLOW_OK;
   }
   return ret;
@@ -841,6 +900,7 @@ gst_ffmpegdec_get_buffer (AVCodecContext * context, AVFrame * picture)
    * picture back from ffmpeg we can use this to correctly timestamp the output
    * buffer */
   picture->pts = ffmpegdec->in_ts;
+  picture->reordered_opaque = context->reordered_opaque;
   /* make sure we don't free the buffer when it's not ours */
   picture->opaque = NULL;
 
@@ -852,7 +912,6 @@ gst_ffmpegdec_get_buffer (AVCodecContext * context, AVFrame * picture)
 
   GST_LOG_OBJECT (ffmpegdec, "dimension %dx%d, coded %dx%d", width, height,
       coded_width, coded_height);
-
   if (!ffmpegdec->current_dr) {
     GST_LOG_OBJECT (ffmpegdec, "direct rendering disabled, fallback alloc");
     res = avcodec_default_get_buffer (context, picture);
@@ -1048,7 +1107,7 @@ no_par:
 }
 
 static gboolean
-gst_ffmpegdec_negotiate (GstFFMpegDec * ffmpegdec)
+gst_ffmpegdec_negotiate (GstFFMpegDec * ffmpegdec, gboolean force)
 {
   GstFFMpegDecClass *oclass;
   GstCaps *caps;
@@ -1057,11 +1116,11 @@ gst_ffmpegdec_negotiate (GstFFMpegDec * ffmpegdec)
 
   switch (oclass->in_plugin->type) {
     case CODEC_TYPE_VIDEO:
-      if (ffmpegdec->format.video.width == ffmpegdec->context->width &&
-          ffmpegdec->format.video.height == ffmpegdec->context->height &&
-          ffmpegdec->format.video.fps_n == ffmpegdec->format.video.old_fps_n &&
-          ffmpegdec->format.video.fps_d == ffmpegdec->format.video.old_fps_d &&
-          ffmpegdec->format.video.pix_fmt == ffmpegdec->context->pix_fmt)
+      if (!force && ffmpegdec->format.video.width == ffmpegdec->context->width
+          && ffmpegdec->format.video.height == ffmpegdec->context->height
+          && ffmpegdec->format.video.fps_n == ffmpegdec->format.video.old_fps_n
+          && ffmpegdec->format.video.fps_d == ffmpegdec->format.video.old_fps_d
+          && ffmpegdec->format.video.pix_fmt == ffmpegdec->context->pix_fmt)
         return TRUE;
       GST_DEBUG_OBJECT (ffmpegdec,
           "Renegotiating video from %dx%d@ %d/%d fps to %dx%d@ %d/%d fps",
@@ -1078,7 +1137,7 @@ gst_ffmpegdec_negotiate (GstFFMpegDec * ffmpegdec)
     case CODEC_TYPE_AUDIO:
     {
       gint depth = av_smp_format_depth (ffmpegdec->context->sample_fmt);
-      if (ffmpegdec->format.audio.samplerate ==
+      if (!force && ffmpegdec->format.audio.samplerate ==
           ffmpegdec->context->sample_rate &&
           ffmpegdec->format.audio.channels == ffmpegdec->context->channels &&
           ffmpegdec->format.audio.depth == depth)
@@ -1107,9 +1166,11 @@ gst_ffmpegdec_negotiate (GstFFMpegDec * ffmpegdec)
     case CODEC_TYPE_VIDEO:
     {
       gint width, height;
+      gboolean interlaced;
 
       width = ffmpegdec->format.video.clip_width;
       height = ffmpegdec->format.video.clip_height;
+      interlaced = ffmpegdec->format.video.interlaced;
 
       if (width != -1 && height != -1) {
         /* overwrite the output size with the dimension of the
@@ -1117,6 +1178,9 @@ gst_ffmpegdec_negotiate (GstFFMpegDec * ffmpegdec)
         gst_caps_set_simple (caps,
             "width", G_TYPE_INT, width, "height", G_TYPE_INT, height, NULL);
       }
+      gst_caps_set_simple (caps, "interlaced", G_TYPE_BOOLEAN, interlaced,
+          NULL);
+
       /* If a demuxer provided a framerate then use it (#313970) */
       if (ffmpegdec->format.video.fps_n != -1) {
         gst_caps_set_simple (caps, "framerate",
@@ -1193,9 +1257,13 @@ gst_ffmpegdec_do_qos (GstFFMpegDec * ffmpegdec, GstClockTime timestamp,
     goto no_qos;
   }
 
-  /* qos is done on running time */
+  /* qos is done on running time of the timestamp */
   qostime = gst_segment_to_running_time (&ffmpegdec->segment, GST_FORMAT_TIME,
       timestamp);
+
+  /* timestamp can be out of segment, then we don't do QoS */
+  if (G_UNLIKELY (!GST_CLOCK_TIME_IS_VALID (qostime)))
+    goto no_qos;
 
   /* see how our next timestamp relates to the latest qos timestamp. negative
    * values mean we are early, positive values mean we are too late. */
@@ -1435,8 +1503,10 @@ flush_queued (GstFFMpegDec * ffmpegdec)
   while (ffmpegdec->queued) {
     GstBuffer *buf = GST_BUFFER_CAST (ffmpegdec->queued->data);
 
-    GST_LOG_OBJECT (ffmpegdec, "pushing buffer %p, timestamp %"
+    GST_LOG_OBJECT (ffmpegdec, "pushing buffer %p, offset %"
+        G_GINT64_FORMAT ", timestamp %"
         GST_TIME_FORMAT ", duration %" GST_TIME_FORMAT, buf,
+        GST_BUFFER_OFFSET (buf),
         GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (buf)),
         GST_TIME_ARGS (GST_BUFFER_DURATION (buf)));
 
@@ -1455,6 +1525,7 @@ flush_queued (GstFFMpegDec * ffmpegdec)
  * size: size of data in bytes
  * in_timestamp: incoming timestamp.
  * in_duration: incoming duration.
+ * in_offset: incoming offset (frame number).
  * outbuf: outgoing buffer. Different from NULL ONLY if it contains decoded data.
  * ret: Return flow.
  *
@@ -1465,7 +1536,7 @@ static gint
 gst_ffmpegdec_video_frame (GstFFMpegDec * ffmpegdec,
     guint8 * data, guint size,
     GstClockTime in_timestamp, GstClockTime in_duration,
-    GstBuffer ** outbuf, GstFlowReturn * ret)
+    gint64 in_offset, GstBuffer ** outbuf, GstFlowReturn * ret)
 {
   gint len = -1;
   gint have_data;
@@ -1474,6 +1545,7 @@ gst_ffmpegdec_video_frame (GstFFMpegDec * ffmpegdec,
   gboolean decode;
   gint hurry_up = 0;
   GstClockTime out_timestamp, out_duration, out_pts;
+  gint64 out_offset;
 
   *ret = GST_FLOW_OK;
   *outbuf = NULL;
@@ -1512,9 +1584,13 @@ gst_ffmpegdec_video_frame (GstFFMpegDec * ffmpegdec,
     ffmpegdec->context->hurry_up = 2;
   }
 
+  ffmpegdec->context->reordered_opaque = gst_ts_handler_get_ts (ffmpegdec);
+
   /* now decode the frame */
   len = avcodec_decode_video (ffmpegdec->context,
       ffmpegdec->picture, &have_data, data, size);
+
+  gst_ts_handler_consume (ffmpegdec, len);
 
   /* restore previous state */
   if (!decode)
@@ -1532,10 +1608,12 @@ gst_ffmpegdec_video_frame (GstFFMpegDec * ffmpegdec,
   if (len < 0 || have_data <= 0)
     goto beach;
 
-  /* get pts */
-  out_pts = ffmpegdec->picture->pts;
+  /* recuperate the reordered timestamp */
+  out_pts = ffmpegdec->picture->reordered_opaque;
 
-  GST_DEBUG_OBJECT (ffmpegdec, "picture: pts %" G_GUINT64_FORMAT, out_pts);
+  GST_DEBUG_OBJECT (ffmpegdec, "ts-handler: pts %" G_GUINT64_FORMAT, out_pts);
+  GST_DEBUG_OBJECT (ffmpegdec, "picture: pts %" G_GUINT64_FORMAT,
+      ffmpegdec->picture->pts);
   GST_DEBUG_OBJECT (ffmpegdec, "picture: num %d",
       ffmpegdec->picture->coded_picture_number);
   GST_DEBUG_OBJECT (ffmpegdec, "picture: ref %d",
@@ -1544,6 +1622,17 @@ gst_ffmpegdec_video_frame (GstFFMpegDec * ffmpegdec,
       ffmpegdec->picture->display_picture_number);
   GST_DEBUG_OBJECT (ffmpegdec, "picture: opaque %p",
       ffmpegdec->picture->opaque);
+  GST_DEBUG_OBJECT (ffmpegdec, "repeat_pict:%d",
+      ffmpegdec->picture->repeat_pict);
+
+  if (G_UNLIKELY (ffmpegdec->picture->interlaced_frame !=
+          ffmpegdec->format.video.interlaced)) {
+    GST_WARNING ("Change in interlacing ! picture:%d, recorded:%d",
+        ffmpegdec->picture->interlaced_frame,
+        ffmpegdec->format.video.interlaced);
+    ffmpegdec->format.video.interlaced = ffmpegdec->picture->interlaced_frame;
+    gst_ffmpegdec_negotiate (ffmpegdec, TRUE);
+  }
 
   /* check if we are dealing with a keyframe here, this will also check if we
    * are dealing with B frames. */
@@ -1626,6 +1715,20 @@ gst_ffmpegdec_video_frame (GstFFMpegDec * ffmpegdec,
   GST_BUFFER_TIMESTAMP (*outbuf) = out_timestamp;
 
   /*
+   * Offset:
+   *
+   *  1) Use input offset if valid
+   */
+  if (in_offset == GST_BUFFER_OFFSET_NONE) {
+    GST_LOG_OBJECT (ffmpegdec, "no valid offset found");
+    out_offset = GST_BUFFER_OFFSET_NONE;
+  } else {
+    GST_LOG_OBJECT (ffmpegdec, "using in_offset %" G_GINT64_FORMAT, in_offset);
+    out_offset = in_offset;
+  }
+  GST_BUFFER_OFFSET (*outbuf) = out_offset;
+
+  /*
    * Duration:
    *
    *  1) Copy input duration if valid
@@ -1683,6 +1786,10 @@ gst_ffmpegdec_video_frame (GstFFMpegDec * ffmpegdec,
   /* mark as keyframe or delta unit */
   if (!iskeyframe)
     GST_BUFFER_FLAG_SET (*outbuf, GST_BUFFER_FLAG_DELTA_UNIT);
+
+  if (ffmpegdec->picture->top_field_first)
+    GST_BUFFER_FLAG_SET (*outbuf, GST_VIDEO_BUFFER_TFF);
+
 
 beach:
   GST_DEBUG_OBJECT (ffmpegdec, "return flow %d, out %p, len %d",
@@ -1784,23 +1891,20 @@ static gint
 gst_ffmpegdec_audio_frame (GstFFMpegDec * ffmpegdec,
     AVCodec * in_plugin, guint8 * data, guint size,
     GstClockTime in_timestamp, GstClockTime in_duration,
-    GstBuffer ** outbuf, GstFlowReturn * ret)
+    gint64 in_offset, GstBuffer ** outbuf, GstFlowReturn * ret)
 {
   gint len = -1;
   gint have_data = AVCODEC_MAX_AUDIO_FRAME_SIZE;
 
   GST_DEBUG_OBJECT (ffmpegdec,
-      "size:%d, ts:%" GST_TIME_FORMAT ", dur:%" GST_TIME_FORMAT
-      ", ffmpegdec->next_ts:%" GST_TIME_FORMAT, size,
-      GST_TIME_ARGS (in_timestamp), GST_TIME_ARGS (in_duration),
+      "size:%d, offset:%" G_GINT64_FORMAT ", ts:%" GST_TIME_FORMAT ", dur:%"
+      GST_TIME_FORMAT ", ffmpegdec->next_ts:%" GST_TIME_FORMAT, size,
+      in_offset, GST_TIME_ARGS (in_timestamp), GST_TIME_ARGS (in_duration),
       GST_TIME_ARGS (ffmpegdec->next_ts));
 
-  /* outgoing buffer. We use av_malloc() to have properly aligned memory. */
-  *outbuf = gst_buffer_new ();
-  GST_BUFFER_DATA (*outbuf) = GST_BUFFER_MALLOCDATA (*outbuf) =
-      av_malloc (AVCODEC_MAX_AUDIO_FRAME_SIZE);
-  GST_BUFFER_SIZE (*outbuf) = AVCODEC_MAX_AUDIO_FRAME_SIZE;
-  GST_BUFFER_FREE_FUNC (*outbuf) = av_free;
+  *outbuf =
+      new_aligned_buffer (AVCODEC_MAX_AUDIO_FRAME_SIZE,
+      GST_PAD_CAPS (ffmpegdec->srcpad));
 
   len = avcodec_decode_audio2 (ffmpegdec->context,
       (int16_t *) GST_BUFFER_DATA (*outbuf), &have_data, data, size);
@@ -1809,7 +1913,7 @@ gst_ffmpegdec_audio_frame (GstFFMpegDec * ffmpegdec,
 
   if (len >= 0 && have_data > 0) {
     GST_DEBUG_OBJECT (ffmpegdec, "Creating output buffer");
-    if (!gst_ffmpegdec_negotiate (ffmpegdec)) {
+    if (!gst_ffmpegdec_negotiate (ffmpegdec, FALSE)) {
       gst_buffer_unref (*outbuf);
       *outbuf = NULL;
       len = -1;
@@ -1846,6 +1950,7 @@ gst_ffmpegdec_audio_frame (GstFFMpegDec * ffmpegdec,
 
     GST_BUFFER_TIMESTAMP (*outbuf) = in_timestamp;
     GST_BUFFER_DURATION (*outbuf) = in_duration;
+    GST_BUFFER_OFFSET (*outbuf) = in_offset;
 
     /* the next timestamp we'll use when interpolating */
     ffmpegdec->next_ts = in_timestamp + in_duration;
@@ -1903,7 +2008,8 @@ clipped:
 static gint
 gst_ffmpegdec_frame (GstFFMpegDec * ffmpegdec,
     guint8 * data, guint size, gint * got_data,
-    GstClockTime in_timestamp, GstClockTime in_duration, GstFlowReturn * ret)
+    GstClockTime in_timestamp, GstClockTime in_duration, gint64 in_offset,
+    GstFlowReturn * ret)
 {
   GstFFMpegDecClass *oclass;
   GstBuffer *outbuf = NULL;
@@ -1913,8 +2019,9 @@ gst_ffmpegdec_frame (GstFFMpegDec * ffmpegdec,
     goto no_codec;
 
   GST_LOG_OBJECT (ffmpegdec,
-      "data:%p, size:%d, ts:%" GST_TIME_FORMAT ", dur:%" GST_TIME_FORMAT,
-      data, size, GST_TIME_ARGS (in_timestamp), GST_TIME_ARGS (in_duration));
+      "data:%p, size:%d, offset:%" G_GINT64_FORMAT ", ts:%" GST_TIME_FORMAT
+      ", dur:%" GST_TIME_FORMAT, data, size, in_offset,
+      GST_TIME_ARGS (in_timestamp), GST_TIME_ARGS (in_duration));
 
   *ret = GST_FLOW_OK;
   ffmpegdec->context->frame_number++;
@@ -1925,12 +2032,12 @@ gst_ffmpegdec_frame (GstFFMpegDec * ffmpegdec,
     case CODEC_TYPE_VIDEO:
       len =
           gst_ffmpegdec_video_frame (ffmpegdec, data, size, in_timestamp,
-          in_duration, &outbuf, ret);
+          in_duration, in_offset, &outbuf, ret);
       break;
     case CODEC_TYPE_AUDIO:
       len =
           gst_ffmpegdec_audio_frame (ffmpegdec, oclass->in_plugin, data, size,
-          in_timestamp, in_duration, &outbuf, ret);
+          in_timestamp, in_duration, in_offset, &outbuf, ret);
 
       /* if we did not get an output buffer and we have a pending discont, don't
        * clear the input timestamps, we will put them on the next buffer because
@@ -1965,8 +2072,9 @@ gst_ffmpegdec_frame (GstFFMpegDec * ffmpegdec,
 
   if (outbuf) {
     GST_LOG_OBJECT (ffmpegdec,
-        "Decoded data, now pushing buffer %p with timestamp %" GST_TIME_FORMAT
-        " and duration %" GST_TIME_FORMAT, outbuf,
+        "Decoded data, now pushing buffer %p with offset %" G_GINT64_FORMAT
+        ", timestamp %" GST_TIME_FORMAT " and duration %" GST_TIME_FORMAT,
+        outbuf, GST_BUFFER_OFFSET (outbuf),
         GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (outbuf)),
         GST_TIME_ARGS (GST_BUFFER_DURATION (outbuf)));
 
@@ -2019,7 +2127,7 @@ gst_ffmpegdec_drain (GstFFMpegDec * ffmpegdec)
       GstFlowReturn ret;
 
       len = gst_ffmpegdec_frame (ffmpegdec, NULL, 0, &have_data,
-          GST_CLOCK_TIME_NONE, GST_CLOCK_TIME_NONE, &ret);
+          GST_CLOCK_TIME_NONE, GST_CLOCK_TIME_NONE, -1, &ret);
       if (len < 0 || have_data == 0)
         break;
     } while (try++ < 10);
@@ -2182,6 +2290,7 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
   GstFlowReturn ret = GST_FLOW_OK;
   GstClockTime in_timestamp, in_duration;
   gboolean discont;
+  gint64 in_offset;
 
   ffmpegdec = (GstFFMpegDec *) (GST_PAD_PARENT (pad));
 
@@ -2209,6 +2318,9 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
    * interpollation can work. */
   ffmpegdec->clear_ts = TRUE;
 
+  /* append the unaltered buffer timestamp to list */
+  gst_ts_handler_append (ffmpegdec, inbuf);
+
   oclass = (GstFFMpegDecClass *) (G_OBJECT_GET_CLASS (ffmpegdec));
 
   /* do early keyframe check pretty bad to rely on the keyframe flag in the
@@ -2224,10 +2336,12 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
 
   in_timestamp = GST_BUFFER_TIMESTAMP (inbuf);
   in_duration = GST_BUFFER_DURATION (inbuf);
+  in_offset = GST_BUFFER_OFFSET (inbuf);
 
   GST_LOG_OBJECT (ffmpegdec,
-      "Received new data of size %d, ts:%" GST_TIME_FORMAT ", dur:%"
-      GST_TIME_FORMAT, GST_BUFFER_SIZE (inbuf),
+      "Received new data of size %u, offset:%" G_GUINT64_FORMAT ", ts:%"
+      GST_TIME_FORMAT ", dur:%" GST_TIME_FORMAT,
+      GST_BUFFER_SIZE (inbuf), GST_BUFFER_OFFSET (inbuf),
       GST_TIME_ARGS (in_timestamp), GST_TIME_ARGS (in_duration));
 
   /* parse cache joining. If there is cached data, its timestamp will be what we
@@ -2236,13 +2350,14 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
     /* use timestamp and duration of what is in the cache */
     in_timestamp = GST_BUFFER_TIMESTAMP (ffmpegdec->pcache);
     in_duration = GST_BUFFER_DURATION (ffmpegdec->pcache);
+    in_offset = GST_BUFFER_OFFSET (ffmpegdec->pcache);
 
     /* join with previous data */
     inbuf = gst_buffer_join (ffmpegdec->pcache, inbuf);
 
     GST_LOG_OBJECT (ffmpegdec,
-        "joined parse cache, inbuf now has ts:%" GST_TIME_FORMAT,
-        GST_TIME_ARGS (in_timestamp));
+        "joined parse cache, inbuf now has offset %" G_GINT64_FORMAT ", ts:%"
+        GST_TIME_FORMAT, in_offset, GST_TIME_ARGS (in_timestamp));
 
     /* no more cached data, we assume we can consume the complete cache */
     ffmpegdec->pcache = NULL;
@@ -2266,8 +2381,8 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
       gint res;
 
       GST_LOG_OBJECT (ffmpegdec,
-          "Calling av_parser_parse with ts:%" GST_TIME_FORMAT,
-          GST_TIME_ARGS (in_timestamp));
+          "Calling av_parser_parse with offset %" G_GINT64_FORMAT ", ts:%"
+          GST_TIME_FORMAT, in_offset, GST_TIME_ARGS (in_timestamp));
 
       /* feed the parser. We store the raw gstreamer timestamp because
        * converting it to ffmpeg timestamps can corrupt it if the framerate is
@@ -2307,11 +2422,12 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
       size = bsize;
 
       ffmpegdec->in_ts = in_timestamp;
+      ffmpegdec->in_offset = in_offset;
     }
 
     if (ffmpegdec->do_padding) {
       /* add padding */
-      if (ffmpegdec->padded_size <= size + FF_INPUT_BUFFER_PADDING_SIZE) {
+      if (ffmpegdec->padded_size < size + FF_INPUT_BUFFER_PADDING_SIZE) {
         ffmpegdec->padded_size = size + FF_INPUT_BUFFER_PADDING_SIZE;
         ffmpegdec->padded =
             g_realloc (ffmpegdec->padded, ffmpegdec->padded_size);
@@ -2329,7 +2445,7 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
     /* decode a frame of audio/video now */
     len =
         gst_ffmpegdec_frame (ffmpegdec, pdata, size, &have_data, in_timestamp,
-        in_duration, &ret);
+        in_duration, in_offset, &ret);
 
     if (ret != GST_FLOW_OK) {
       GST_LOG_OBJECT (ffmpegdec, "breaking because of flow ret %s",
@@ -2374,6 +2490,7 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
     if (ffmpegdec->clear_ts) {
       in_timestamp = GST_CLOCK_TIME_NONE;
       in_duration = GST_CLOCK_TIME_NONE;
+      in_offset = GST_BUFFER_OFFSET_NONE;
     } else {
       ffmpegdec->clear_ts = TRUE;
     }
@@ -2385,16 +2502,18 @@ gst_ffmpegdec_chain (GstPad * pad, GstBuffer * inbuf)
   /* keep left-over */
   if (ffmpegdec->pctx && bsize > 0) {
     in_timestamp = GST_BUFFER_TIMESTAMP (inbuf);
+    in_offset = GST_BUFFER_OFFSET (inbuf);
 
     GST_LOG_OBJECT (ffmpegdec,
-        "Keeping %d bytes of data with timestamp %" GST_TIME_FORMAT, bsize,
-        GST_TIME_ARGS (in_timestamp));
+        "Keeping %d bytes of data with offset %" G_GINT64_FORMAT ", timestamp %"
+        GST_TIME_FORMAT, bsize, in_offset, GST_TIME_ARGS (in_timestamp));
 
     ffmpegdec->pcache = gst_buffer_create_sub (inbuf,
         GST_BUFFER_SIZE (inbuf) - bsize, bsize);
     /* we keep timestamp, even though all we really know is that the correct
      * timestamp is not below the one from inbuf */
     GST_BUFFER_TIMESTAMP (ffmpegdec->pcache) = in_timestamp;
+    GST_BUFFER_OFFSET (ffmpegdec->pcache) = in_offset;
   } else if (bsize > 0) {
     GST_DEBUG_OBJECT (ffmpegdec, "Dropping %d bytes of data", bsize);
   }
@@ -2437,6 +2556,7 @@ gst_ffmpegdec_change_state (GstElement * element, GstStateChange transition)
       g_free (ffmpegdec->padded);
       ffmpegdec->padded = NULL;
       ffmpegdec->padded_size = 0;
+      ffmpegdec->can_allocate_aligned = TRUE;
       break;
     default:
       break;
@@ -2545,7 +2665,7 @@ gst_ffmpegdec_register (GstPlugin * plugin)
     /* no quasi-codecs, please */
     if (in_plugin->id == CODEC_ID_RAWVIDEO ||
         (in_plugin->id >= CODEC_ID_PCM_S16LE &&
-            in_plugin->id <= CODEC_ID_PCM_S24DAUD)) {
+            in_plugin->id <= CODEC_ID_PCM_F64LE)) {
       goto next;
     }
 
@@ -2564,6 +2684,8 @@ gst_ffmpegdec_register (GstPlugin * plugin)
     if (!strcmp (in_plugin->name, "h264_vdpau") ||
         !strcmp (in_plugin->name, "mpeg_vdpau") ||
         !strcmp (in_plugin->name, "mpeg1_vdpau") ||
+        !strcmp (in_plugin->name, "mpegvideo_vdpau") ||
+        !strcmp (in_plugin->name, "mpeg1video_vdpau") ||
         !strcmp (in_plugin->name, "vc1_vdpau") ||
         !strcmp (in_plugin->name, "wmv3_vdpau")) {
       GST_DEBUG
@@ -2613,20 +2735,18 @@ gst_ffmpegdec_register (GstPlugin * plugin)
     type_name = g_strdup_printf ("ffdec_%s", plugin_name);
     g_free (plugin_name);
 
-    /* if it's already registered, drop it */
-    if (g_type_from_name (type_name)) {
-      g_free (type_name);
-      goto next;
+    type = g_type_from_name (type_name);
+
+    if (!type) {
+      params = g_new0 (GstFFMpegDecClassParams, 1);
+      params->in_plugin = in_plugin;
+      params->srccaps = gst_caps_ref (srccaps);
+      params->sinkcaps = gst_caps_ref (sinkcaps);
+
+      /* create the gtype now */
+      type = g_type_register_static (GST_TYPE_ELEMENT, type_name, &typeinfo, 0);
+      g_type_set_qdata (type, GST_FFDEC_PARAMS_QDATA, (gpointer) params);
     }
-
-    params = g_new0 (GstFFMpegDecClassParams, 1);
-    params->in_plugin = in_plugin;
-    params->srccaps = gst_caps_ref (srccaps);
-    params->sinkcaps = gst_caps_ref (sinkcaps);
-
-    /* create the gtype now */
-    type = g_type_register_static (GST_TYPE_ELEMENT, type_name, &typeinfo, 0);
-    g_type_set_qdata (type, GST_FFDEC_PARAMS_QDATA, (gpointer) params);
 
     /* (Ronald) MPEG-4 gets a higher priority because it has been well-
      * tested and by far outperforms divxdec/xviddec - so we prefer it.
@@ -2680,4 +2800,99 @@ gst_ffmpegdec_register (GstPlugin * plugin)
   GST_LOG ("Finished Registering decoders");
 
   return TRUE;
+}
+
+/** initialize the timestamp handler */
+static void
+gst_ts_handler_init (GstFFMpegDec * ffmpegdec)
+{
+  GstTSHandler *ts_handler = &ffmpegdec->ts_handler;
+  memset (ts_handler, 0, sizeof (GstTSHandler));
+  ts_handler->buf_tail = 1;
+}
+
+/** add a new entry to the list from a GstBuffer */
+static void
+gst_ts_handler_append (GstFFMpegDec * ffmpegdec, GstBuffer * buffer)
+{
+  GstTSHandler *ts_handler = &ffmpegdec->ts_handler;
+  guint64 ts = GST_BUFFER_TIMESTAMP (buffer);
+  gint size = GST_BUFFER_SIZE (buffer);
+  gint ind = ts_handler->buf_head;
+
+  if ((ts != -1) || (ts == -1 && !ts_handler->buf_count)) {
+    /* null timestamps are only valid for the first entry */
+    TS_MAP_INC (ind);
+    /** debugging trace
+    printf ("app [%02X] %4d\t%6.3f\t%8d\n",
+        ind, ts_handler->buf_count,
+        ts != -1 ? (double) ts / GST_SECOND : -1.0, size);
+    **/
+    GST_LOG_OBJECT (ffmpegdec, "store timestamp @ index [%02X] buf_count: %d"
+        " ts: %" GST_TIME_FORMAT " size: %d",
+        ind, ts_handler->buf_count, GST_TIME_ARGS (ts), size);
+    ts_handler->buffers[ind].ts = ts;
+    ts_handler->buffers[ind].size = size;
+    ts_handler->buf_head = ind;
+    ts_handler->buf_count++;
+  } else {
+    /* append size to existing entry */
+    GST_LOG_OBJECT (ffmpegdec, "Extending index [%02X] buf_count: %d"
+        " ts: %" GST_TIME_FORMAT " new size: %d",
+        ind, ts_handler->buf_count,
+        GST_TIME_ARGS (ts_handler->buffers[ind].ts),
+        ts_handler->buffers[ind].size);
+    ts_handler->buffers[ind].size += size;
+  }
+}
+
+/** indicate that the decoder has consumed some data */
+static void
+gst_ts_handler_consume (GstFFMpegDec * ffmpegdec, gint size)
+{
+  GstTSHandler *ts_handler = &ffmpegdec->ts_handler;
+  gint buf = ts_handler->buf_tail;
+
+  /* eat some bytes from the buffer map */
+  while (size > 0 && ts_handler->buf_count > 0) {
+    GST_LOG_OBJECT (ffmpegdec, "Stepping over %d bytes @ index %d has %d bytes",
+        size, buf, ts_handler->buffers[buf].size);
+    if (size >= ts_handler->buffers[buf].size) {
+      size -= ts_handler->buffers[buf].size;
+      /* reset this entry */
+      memset (ts_handler->buffers + buf, -1, sizeof (GstTSMap));
+      TS_MAP_INC (buf);
+      /* Decrement the active buffer count */
+      ts_handler->buf_count--;
+      /* update the buffer tail */
+      ts_handler->buf_tail = buf;
+    } else {
+      ts_handler->buffers[buf].size -= size;
+      size = 0;
+    }
+  }
+  if (size == -1 && ts_handler->buf_count > 0) {
+    GST_LOG_OBJECT (ffmpegdec, "Stepping over %d bytes @ index %d has %d bytes",
+        size, buf, ts_handler->buffers[buf].size);
+    /* just consume the one buffer regardless */
+    memset (ts_handler->buffers + buf, -1, sizeof (GstTSMap));
+    /* Decrement the active buffer count */
+    ts_handler->buf_count--;
+    TS_MAP_INC (buf);
+    /* update the buffer tail */
+    ts_handler->buf_tail = buf;
+    size = 0;
+  }
+}
+
+/** get the timestamp from the tail of the list */
+static guint64
+gst_ts_handler_get_ts (GstFFMpegDec * ffmpegdec)
+{
+  GstTSHandler *ts_handler = &ffmpegdec->ts_handler;
+  guint64 ts = ts_handler->buffers[ts_handler->buf_tail].ts;
+  GST_LOG_OBJECT (ffmpegdec, "Index %d yielded ts %" GST_TIME_FORMAT,
+      ts_handler->buf_tail, GST_TIME_ARGS (ts));
+  ts_handler->buffers[ts_handler->buf_tail].ts = -1;
+  return ts;
 }
