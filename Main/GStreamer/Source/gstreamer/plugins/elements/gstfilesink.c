@@ -49,6 +49,9 @@
 #define lseek _lseeki64
 #undef off_t
 #define off_t guint64
+#ifdef _MSC_VER
+#define fileno _fileno
+#endif
 #endif
 
 #include <sys/stat.h>
