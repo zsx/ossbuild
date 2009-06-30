@@ -319,6 +319,10 @@
 				RelativePath="..\..\..\Source\gst-ffmpeg\ext\ffmpeg\gstffmpegpipe.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-ffmpeg\ext\ffmpeg\gstffmpegutils.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -361,6 +365,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Source\gst-ffmpeg\ext\ffmpeg\gstffmpegprotocol.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-ffmpeg\ext\ffmpeg\gstffmpegutils.c"
 				>
 			</File>
 		</Filter>

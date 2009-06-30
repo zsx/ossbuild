@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstffmpeg"
 	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92000}"
 	RootNamespace="libgstffmpeg"
@@ -319,6 +319,10 @@
 				RelativePath="..\..\..\Source\gst-ffmpeg\ext\ffmpeg\gstffmpegpipe.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-ffmpeg\ext\ffmpeg\gstffmpegutils.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Source Files"
@@ -361,6 +365,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Source\gst-ffmpeg\ext\ffmpeg\gstffmpegprotocol.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-ffmpeg\ext\ffmpeg\gstffmpegutils.c"
 				>
 			</File>
 		</Filter>
