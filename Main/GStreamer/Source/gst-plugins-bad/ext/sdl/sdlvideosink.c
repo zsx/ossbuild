@@ -25,7 +25,7 @@
 
 #include <signal.h>
 #include <string.h>
-#ifdef HAVE_SYS_TIME_H 
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
 #include <stdlib.h>

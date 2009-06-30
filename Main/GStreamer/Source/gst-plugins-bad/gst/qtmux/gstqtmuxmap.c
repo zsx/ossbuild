@@ -124,6 +124,7 @@
   "rate = (int) 16000, " \
   "channels = [ 1, 2 ] "
 
+/* FIXME 0.11 - take a look at bugs #580005 and #340375 */
 GstQTMuxFormatProp gst_qt_mux_format_list[] = {
   /* original QuickTime format; see Apple site (e.g. qtff.pdf) */
   {
@@ -131,7 +132,7 @@ GstQTMuxFormatProp gst_qt_mux_format_list[] = {
         "qtmux",
         "QuickTime",
         "GstQTMux",
-        GST_STATIC_CAPS ("video/quicktime"),
+        GST_STATIC_CAPS ("video/quicktime, variant = (string) apple"),
         GST_STATIC_CAPS ("video/x-raw-rgb, "
             COMMON_VIDEO_CAPS "; "
             "video/x-raw-yuv, "
@@ -159,8 +160,7 @@ GstQTMuxFormatProp gst_qt_mux_format_list[] = {
         "mp4mux",
         "MP4",
         "GstMP4Mux",
-        /* FIXME does not feel right, due to qt caps mess */
-        GST_STATIC_CAPS ("video/quicktime"),
+        GST_STATIC_CAPS ("video/quicktime, variant = (string) iso"),
         GST_STATIC_CAPS (MPEG4V_CAPS "; " H264_CAPS ";"
             "video/x-mp4-part," COMMON_VIDEO_CAPS),
         GST_STATIC_CAPS (MP3_CAPS "; " AAC_CAPS)
@@ -173,8 +173,8 @@ GstQTMuxFormatProp gst_qt_mux_format_list[] = {
         "gppmux",
         "3GPP",
         "GstGPPMux",
-        GST_STATIC_CAPS ("application/x-3gp"),
-        GST_STATIC_CAPS (H263_CAPS "; " H264_CAPS),
+        GST_STATIC_CAPS ("video/quicktime, variant = (string) 3gpp"),
+        GST_STATIC_CAPS (H263_CAPS "; " MPEG4V_CAPS "; " H264_CAPS),
         GST_STATIC_CAPS (AMR_CAPS "; " MP3_CAPS "; " AAC_CAPS)
       }
   ,
@@ -205,14 +205,40 @@ gst_qt_mux_map_format_to_flavor (GstQTMuxFormat format)
     return ATOMS_TREE_FLAVOR_ISOM;
 }
 
+static void
+gst_qt_mux_map_check_tracks (AtomMOOV * moov, gint * _video, gint * _audio,
+    gboolean * _has_h264)
+{
+  GList *it;
+  gint video = 0, audio = 0;
+  gboolean has_h264 = FALSE;
+
+  for (it = moov->traks; it != NULL; it = g_list_next (it)) {
+    AtomTRAK *track = it->data;
+
+    if (track->is_video) {
+      video++;
+      if (track->is_h264)
+        has_h264 = TRUE;
+    } else
+      audio++;
+  }
+
+  if (_video)
+    *_video = video;
+  if (_audio)
+    *_audio = audio;
+  if (_has_h264)
+    *_has_h264 = has_h264;
+}
+
 /* pretty static, but possibly dynamic format info */
 
 /* notes:
  * - avc1 brand is not used, since the specific extensions indicated by it
  *   are not used (e.g. sample groupings, etc)
- * - 3GPP2 specific formats not (yet) used, only 3GPP, so no need yet either
- *   for 3g2a (but later on, moov might be used to conditionally switch to
- *   3g2a if needed) */
+ * - TODO: maybe even more 3GPP brand fine-tuning ??
+ *   (but that might need ftyp rewriting at the end) */
 void
 gst_qt_mux_map_format_to_header (GstQTMuxFormat format, GstBuffer ** _prefix,
     guint32 * _major, guint32 * _version, GList ** _compatible, AtomMOOV * moov)
@@ -244,9 +270,23 @@ gst_qt_mux_map_format_to_header (GstQTMuxFormat format, GstBuffer ** _prefix,
       comp = mp4_brands;
       break;
     case GST_QT_MUX_FORMAT_3GP:
-      major = FOURCC_3gg7;
+    {
+      gint video, audio;
+      gboolean has_h264;
+
+      gst_qt_mux_map_check_tracks (moov, &video, &audio, &has_h264);
+      /* only track restriction really matters for Basic Profile */
+      if (video <= 1 && audio <= 1) {
+        /* it seems only newer spec knows about H264 */
+        major = has_h264 ? FOURCC_3gp6 : FOURCC_3gp4;
+        version = has_h264 ? 0x100 : 0x200;
+      } else {
+        major = FOURCC_3gg6;
+        version = 0x100;
+      }
       comp = gpp_brands;
       break;
+    }
     case GST_QT_MUX_FORMAT_MJ2:
       major = FOURCC_mjp2;
       comp = mjp2_brands;

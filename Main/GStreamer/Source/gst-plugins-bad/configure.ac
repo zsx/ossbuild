@@ -3,14 +3,14 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, cvs and prerelease does Werror too
-AC_INIT(GStreamer Bad Plug-ins, 0.10.11,
+AC_INIT(GStreamer Bad Plug-ins, 0.10.13,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-bad)
 
 AG_GST_INIT
 
 dnl initialize automake
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wno-portability])
 
 dnl define PACKAGE_VERSION_* variables
 AS_VERSION
@@ -45,8 +45,8 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.22
-GSTPB_REQ=0.10.22
+GST_REQ=0.10.23
+GSTPB_REQ=0.10.23
 
 dnl *** autotools stuff ****
 
@@ -142,6 +142,13 @@ AC_CHECK_HEADERS([sys/time.h])
 dnl used by ext/dts
 AX_CREATE_STDINT_H
 
+AC_CHECK_HEADERS([pthread.h], HAVE_PTHREAD_H=yes)
+AM_CONDITIONAL(HAVE_PTHREAD_H, test "x$HAVE_PTHREAD_H" = "xyes")
+
+if test "x$HAVE_PTHREAD_H" != "xyes"; then
+  GST_PLUGINS_SELECTED=`echo $GST_PLUGINS_SELECTED | $SED -e s/dccp//`
+fi
+
 dnl *** checks for types/defines ***
 
 dnl Check for FIONREAD ioctl declaration
@@ -151,15 +158,12 @@ GST_CHECK_FIONREAD
 dnl *** checks for structures ***
 
 dnl *** checks for compiler characteristics ***
-dnl check if we have GCC inline-asm
-AS_GCC_INLINE_ASSEMBLY([HAVE_GCC_ASM=yes], [HAVE_GCC_ASM=no])
-if test x$HAVE_GCC_ASM = xyes ; then
-  AC_DEFINE(HAVE_GCC_ASM, 1,
-    [Define if compiler supports gcc inline assembly])
-fi
-AM_CONDITIONAL(HAVE_GCC_ASM, test "x$HAVE_GCC_ASM" = "xyes")
 
 dnl *** checks for library functions ***
+AC_CHECK_FUNCS([gmtime_r])
+
+dnl *** checks for headers ***
+AC_CHECK_HEADERS([sys/utsname.h])
 
 dnl *** checks for dependency libraries ***
 
@@ -247,6 +251,7 @@ dnl *** plug-ins to include ***
 
 dnl these are all the gst plug-ins, compilable without additional libs
 AG_GST_CHECK_PLUGIN(aacparse)
+AG_GST_CHECK_PLUGIN(adpcmdec)
 AG_GST_CHECK_PLUGIN(aiffparse)
 AG_GST_CHECK_PLUGIN(amrparse)
 AG_GST_CHECK_PLUGIN(autoconvert)
@@ -255,14 +260,14 @@ AG_GST_CHECK_PLUGIN(legacyresample)
 AG_GST_CHECK_PLUGIN(bayer)
 AG_GST_CHECK_PLUGIN(cdxaparse)
 AG_GST_CHECK_PLUGIN(dccp)
-AG_GST_CHECK_PLUGIN(deinterlace)
-AG_GST_CHECK_PLUGIN(deinterlace2)
+AG_GST_CHECK_PLUGIN(debugutils)
 AG_GST_CHECK_PLUGIN(dtmf)
 AG_GST_CHECK_PLUGIN(dvdspu)
 AG_GST_CHECK_PLUGIN(festival)
-AG_GST_CHECK_PLUGIN(flv)
 AG_GST_CHECK_PLUGIN(freeze)
 AG_GST_CHECK_PLUGIN(h264parse)
+AG_GST_CHECK_PLUGIN(hdvparse)
+AG_GST_CHECK_PLUGIN(id3tag)
 AG_GST_CHECK_PLUGIN(librfb)
 AG_GST_CHECK_PLUGIN(liveadder)
 AG_GST_CHECK_PLUGIN(mpegdemux)
@@ -282,6 +287,7 @@ AG_GST_CHECK_PLUGIN(rtpmux)
 AG_GST_CHECK_PLUGIN(scaletempo)
 AG_GST_CHECK_PLUGIN(sdp)
 AG_GST_CHECK_PLUGIN(selector)
+AG_GST_CHECK_PLUGIN(shapewipe)
 AG_GST_CHECK_PLUGIN(siren)
 AG_GST_CHECK_PLUGIN(speed)
 AG_GST_CHECK_PLUGIN(subenc)
@@ -291,7 +297,6 @@ AG_GST_CHECK_PLUGIN(valve)
 AG_GST_CHECK_PLUGIN(videosignal)
 AG_GST_CHECK_PLUGIN(vmnc)
 AG_GST_CHECK_PLUGIN(xdgmime)
-AG_GST_CHECK_PLUGIN(y4m)
 
 dnl *** plug-ins to exclude ***
 
@@ -305,20 +310,103 @@ dnl disable experimental plug-ins
 #if test "x$BUILD_EXPERIMENTAL" != "xyes"; then
 #fi
 
+# For xdgmime, to use g_content_type_guess()
+PKG_CHECK_MODULES(GIO, gio-2.0 >= 2.16, HAVE_GIO=yes, HAVE_GIO=no)
+AM_CONDITIONAL(HAVE_GIO, test "x$HAVE_GIO" = "xyes")
+AC_SUBST(GIO_CFLAGS)
+AC_SUBST(GIO_LIBS)
+
 dnl disable gst plugins we might not be able to build on this
 dnl platform: librfb (ugly but minimally invasive)
 dnl FIXME: maybe move to sys, or make work with winsock2
 AC_CHECK_HEADERS([sys/socket.h], HAVE_SYS_SOCKET_H=yes)
 AC_CHECK_HEADERS([winsock2.h], HAVE_WINSOCK2_H=yes)
 
+if test "x$HAVE_WINSOCK2_H" = "xyes"; then
+  WIN32_LIBS="-lws2_32"
+  AC_SUBST(WIN32_LIBS)
+fi
+
 dnl needed for festival
 AM_CONDITIONAL(HAVE_WINSOCK2_H, test "x$HAVE_WINSOCK2_H" = "xyes")
+
+if test "x$HAVE_WINSOCK2_H" = "xyes"; then
+  DCCP_LIBS="$DCCP_LIBS -lws2_32"
+  XDG_LIBS="$XDG_LIBS -lws2_32"
+  AC_SUBST(DCCP_LIBS)
+  AC_SUBST(XDG_LIBS)
+fi
 
 if test "x$HAVE_SYS_SOCKET_H" != "xyes"; then
   AG_GST_DISABLE_PLUGIN(librfb)
 fi
 
+if test "x$HAVE_PTHREAD_H" = "xyes"; then
+  DCCP_LIBS="$DCCP_LIBS -lpthread"
+  AC_SUBST(DCCP_LIBS)
+fi
+
+if test "x$HAVE_PTHREAD_H" != "xyes"; then
+  AG_GST_DISABLE_PLUGIN(dccp)
+fi
+
 dnl *** sys plug-ins ***
+
+dnl DirectDraw
+translit(dnm, m, l) AM_CONDITIONAL(USE_DIRECTDRAW, true)
+AG_GST_CHECK_FEATURE(DIRECTDRAW, [DirectDraw plug-in], directdrawsink, [
+  HAVE_DIRECTDRAW="no"
+  save_CFLAGS="$CFLAGS"
+  save_LDFLAGS="$LDFLAGS"
+  save_LIBS="$LIBS"
+  CFLAGS="$CFLAGS $DIRECTDRAW_CFLAGS"
+  LDFLAGS="$LDFLAGS $DIRECTDRAW_LDFLAGS"
+  LIBS="$LIBS -lddraw -lgdi32"
+  AC_MSG_CHECKING(for DirectDraw LDFLAGS)
+  AC_LINK_IFELSE([
+#include <windows.h>
+#include <ddraw.h>
+
+int main ()
+{
+  GetStockObject(0);
+  DirectDrawCreate(NULL, NULL, NULL);
+
+  return 0;
+}
+],
+    [HAVE_DIRECTDRAW="yes"],
+    [HAVE_DIRECTDRAW="no"])
+  AC_MSG_RESULT($HAVE_DIRECTDRAW)
+  CFLAGS=$save_CFLAGS
+  LDFLAGS=$save_LDFLAGS
+  LIBS=$save_LIBS
+
+  if test "x$HAVE_DIRECTDRAW" = "xyes";  then
+    dnl this is much more than we want
+    DIRECTDRAW_LIBS="-lddraw -ldxguid -lgdi32"
+    AC_SUBST(DIRECTDRAW_CFLAGS)
+    AC_SUBST(DIRECTDRAW_LDFLAGS)
+    AC_SUBST(DIRECTDRAW_LIBS)
+  fi
+  AC_SUBST(HAVE_DIRECTDRAW)
+])
+
+dnl *** OS X videosrc ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_OSX_VIDEO, true)
+HAVE_OSX_VIDEO="no"
+AG_GST_CHECK_FEATURE(OSX_VIDEO, [OSX video], osxvideosrc, [
+  AC_CHECK_HEADER(Quicktime/Quicktime.h, HAVE_OSX_VIDEO="yes", HAVE_OSX_VIDEO="no")
+])
+dnl in case header Quicktime/Quicktime.h is found on other platforms
+case "$host" in
+  *-*darwin*)
+    dnl do nothing
+    ;;
+  *)
+    HAVE_OSX_VIDEO="no"
+    ;;
+esac
 
 dnl check for QuickTime
 translit(dnm, m, l) AM_CONDITIONAL(USE_QUICKTIME, true)
@@ -527,10 +615,15 @@ AG_GST_CHECK_FEATURE(CDAUDIO, [cdaudio], cdaudio, [
 dnl *** celt ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_CELT, true)
 AG_GST_CHECK_FEATURE(CELT, [celt], celt, [
-  PKG_CHECK_MODULES(CELT, celt >= 0.4.0, [
+  PKG_CHECK_MODULES(CELT, celt >= 0.5.0, [
       HAVE_CELT="yes"], [
-      HAVE_CELT="no"
-      AC_MSG_RESULT(no)
+      PKG_CHECK_MODULES(CELT, celt >= 0.4.0, [
+          HAVE_CELT="yes"
+          AC_DEFINE([HAVE_CELT_0_4], 1, [Define if libcelt 0.4 is installed])
+          ],[
+          HAVE_CELT="no"
+          AC_MSG_RESULT(no)
+      ])
   ])
   AC_SUBST(CELT_CFLAGS)
   AC_SUBST(CELT_LIBS)
@@ -671,17 +764,18 @@ AG_GST_CHECK_FEATURE(DVDNAV, [dvdnav library], resindvd, [
     DVDNAV_MAJOR=`echo $DVDNAV_VERSION | cut -d. -f1 | sed s/[a-zA-Z\-].*//g`
     DVDNAV_MINOR=`echo $DVDNAV_VERSION | cut -d. -f2 | sed s/[a-zA-Z\-].*//g`
     DVDNAV_MICRO=`echo $DVDNAV_VERSION | cut -d. -f3 | sed s/[a-zA-Z\-].*//g`
-    if [[ "$DVDNAV_MAJOR" -eq "0" ]] && \
-       [[ "$DVDNAV_MINOR" -lt "1" ]]; then
-      AC_MSG_WARN([libdvdnav >= 0.1.7 is required, you have $DVDNAV_VERSION])
+    if [[ "$DVDNAV_MAJOR" -lt "4" ]]; then
+      AC_MSG_WARN([libdvdnav >= 4.1.2 is required, you have $DVDNAV_VERSION])
       HAVE_DVDNAV="no"
-    elif [[ "$DVDNAV_MAJOR" -eq "0" ]] && \
+    elif [[ "$DVDNAV_MAJOR" -eq "4" ]] && \
+         [[ "$DVDNAV_MINOR" -lt "1" ]]; then
+      AC_MSG_WARN([libdvdnav >= 4.1.2 is required, you have $DVDNAV_VERSION])
+      HAVE_DVDNAV="no"
+    elif [[ "$DVDNAV_MAJOR" -eq "4" ]] && \
          [[ "$DVDNAV_MINOR" -eq "1" ]] && \
-         [[ "$DVDNAV_MICRO" -lt "7" ]]; then
-      AC_MSG_WARN([libdvdnav >= 0.1.7 is required, you have $DVDNAV_VERSION])
+         [[ "$DVDNAV_MICRO" -lt "2" ]]; then
+      AC_MSG_WARN([libdvdnav >= 4.1.2 is required, you have $DVDNAV_VERSION])
       HAVE_DVDNAV="no"
-    elif [[ "$DVDNAV_MAJOR" -eq "0" ]]; then
-      AC_DEFINE(DVDNAV_OLD, 1, [Define if an old libdvdnav is used])      
     fi
   fi
   AS_SCRUB_INCLUDE(DVDNAV_CFLAGS)
@@ -769,9 +863,9 @@ AG_GST_CHECK_FEATURE(FAAD, [AAC decoder plug-in], faad, [
       AC_MSG_CHECKING([Checking FAAD2 version in $faad_hdr])
       for minor in 10 9 8 7 6 5 0; do
         if test x$faad2_minor_version = "x"; then
-          AC_EGREP_CPP([2.$minor], [
+          AC_EGREP_CPP([GST_CHECK_FAAD_VERSION \"2\.$minor\"], [
               #include <$faad_hdr>
-              FAAD2_VERSION
+              GST_CHECK_FAAD_VERSION FAAD2_VERSION
             ], [
               faad2_minor_version=$minor
             ])
@@ -1198,21 +1292,32 @@ AG_GST_CHECK_FEATURE(SNDFILE, [sndfile plug-in], sfsrc sfsink, [
 dnl *** soundtouch ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_SOUNDTOUCH, true)
 AG_GST_CHECK_FEATURE(SOUNDTOUCH, [soundtouch plug-in], soundtouch, [
-  PKG_CHECK_MODULES(SOUNDTOUCH, soundtouch-1.0,
-    HAVE_SOUNDTOUCH=yes, 
-    [PKG_CHECK_MODULES(SOUNDTOUCH, libSoundTouch,
-      HAVE_SOUNDTOUCH=yes,
-      HAVE_SOUNDTOUCH=no)])
   dnl We only need -lBPM on soundtouch < 1.4
-  PKG_CHECK_EXISTS(libSoundTouch >= 1.4,
-      AC_DEFINE([HAVE_SOUNDTOUCH_1_4], [1],
-          [Defined if the available libSoundTouch is >= 1.4]),
-      SOUNDTOUCH_LIBS="$SOUNDTOUCH_LIBS -lBPM")
+  dnl We check for libSoundTouch since Debian used it before upstream
+  dnl added a pkgconfig file.
+  HAVE_SOUNDTOUCH_1_4=yes
+  PKG_CHECK_MODULES(SOUNDTOUCH, soundtouch-1.4,
+    [HAVE_SOUNDTOUCH=yes],
+    [PKG_CHECK_MODULES(SOUNDTOUCH, soundtouch-1.0,
+      [HAVE_SOUNDTOUCH=yes
+        HAVE_SOUNDTOUCH_1_4=no
+        SOUNDTOUCH_LIBS="$SOUNDTOUCH_LIBS -lBPM"], 
+      [PKG_CHECK_MODULES(SOUNDTOUCH, libSoundTouch >= 1.4,
+        [HAVE_SOUNDTOUCH=yes],
+        [PKG_CHECK_MODULES(SOUNDTOUCH, libSoundTouch,
+          [HAVE_SOUNDTOUCH=yes
+            HAVE_SOUNDTOUCH_1_4=no
+            SOUNDTOUCH_LIBS="$SOUNDTOUCH_LIBS -lBPM"],
+          HAVE_SOUNDTOUCH=no)])])])
   AC_SUBST(SOUNDTOUCH_CFLAGS)
   AC_SUBST(SOUNDTOUCH_LIBS)
   if test "x$HAVE_CXX" != "xyes"; then
     USE_SOUNDTOUCH=false
     AC_MSG_NOTICE([Not building soundtouch plugin: no C++ compiler found])
+  fi
+  if test "x$HAVE_SOUNDTOUCH" = "xyes" -a "x$HAVE_SOUNDTOUCH_1_4" = "xyes"; then
+     AC_DEFINE([HAVE_SOUNDTOUCH_1_4], [1],
+         [Defined if the available libSoundTouch is >= 1.4])
   fi
 ])
 
@@ -1252,29 +1357,6 @@ AG_GST_CHECK_FEATURE(THEORADEC, [ogg theora codec], theoraexpdec, [
   ])
   AC_SUBST(THEORADEC_LIBS)
   AC_SUBST(THEORADEC_CFLAGS)
-])
-
-dnl *** x264 (MPEG-4 part 10/h.264/AVC encoder) ***
-translit(dnm, m, l) AM_CONDITIONAL(USE_X264, true)
-AG_GST_CHECK_FEATURE(X264, [x264 plug-in], x264, [
-  AG_GST_CHECK_LIBHEADER(X264, x264, x264_nal_encode, -lm, x264.h,
-      AC_MSG_CHECKING([for uptodate x264 API version])
-      dnl _stdint not yet generated, so no compiling
-      AC_TRY_CPP([
-        #include <x264.h>
-        #if X264_BUILD < 55
-        #error "x264 build too old"
-        #endif
-      ], [
-        AC_MSG_RESULT(yes)
-        X264_LIBS="$LDFLAGS -lx264 -lm"
-        X264_CFLAGS="$CFLAGS"
-        AC_SUBST(X264_LIBS)
-        AC_SUBST(X264_CFLAGS)
-      ], [
-        AC_MSG_RESULT(no)
-        HAVE_X264=no
-      ]))
 ])
 
 dnl *** XVID ***
@@ -1333,7 +1415,10 @@ translit(dnm, m, l) AM_CONDITIONAL(USE_ACM, true)
 AG_GST_CHECK_FEATURE(ACM, [Windows ACM library], acm, [
   AC_MSG_CHECKING([Checking for ACM support])
   AC_CHECK_HEADERS([windows.h msacm.h],
-      [HAVE_ACM="yes"], [HAVE_ACM="no"])
+      [HAVE_ACM="yes"
+       AC_SUBST(ACMENC_CFLAGS)
+       AC_SUBST(ACMMP3DEC_CFLAGS)
+      ], [HAVE_ACM="no"])
 ])
 
 else
@@ -1352,10 +1437,12 @@ AM_CONDITIONAL(USE_CDAUDIO, false)
 AM_CONDITIONAL(USE_CELT, false)
 AM_CONDITIONAL(USE_DC1394, false)
 AM_CONDITIONAL(USE_DIRECTFB, false)
+AM_CONDITIONAL(USE_DIRECTDRAW, false)
 AM_CONDITIONAL(USE_DTS, false)
 AM_CONDITIONAL(USE_DIRAC, false)
 AM_CONDITIONAL(USE_DIVX, false)
 AM_CONDITIONAL(USE_DVB, false)
+AM_CONDITIONAL(USE_DVDNAV, false)
 AM_CONDITIONAL(USE_FAAC, false)
 AM_CONDITIONAL(USE_FAAD, false)
 AM_CONDITIONAL(USE_FBDEV, false)
@@ -1384,7 +1471,6 @@ AM_CONDITIONAL(USE_SPC, false)
 AM_CONDITIONAL(USE_SWFDEC, false)
 AM_CONDITIONAL(USE_THEORADEC, false)
 AM_CONDITIONAL(USE_TIMIDITY, false)
-AM_CONDITIONAL(USE_X264, false)
 AM_CONDITIONAL(USE_XVID, false)
 AM_CONDITIONAL(USE_WILDMIDI, false)
 AM_CONDITIONAL(USE_WININET, false)
@@ -1456,6 +1542,7 @@ common/shave-libtool
 gst-plugins-bad.spec
 gst/Makefile
 gst/aacparse/Makefile
+gst/adpcmdec/Makefile
 gst/aiffparse/Makefile
 gst/amrparse/Makefile
 gst/autoconvert/Makefile
@@ -1465,14 +1552,14 @@ gst/bayer/Makefile
 gst/camerabin/Makefile
 gst/cdxaparse/Makefile
 gst/dccp/Makefile
-gst/deinterlace/Makefile
-gst/deinterlace2/Makefile
+gst/debugutils/Makefile
 gst/dtmf/Makefile
 gst/dvdspu/Makefile
 gst/festival/Makefile
-gst/flv/Makefile
 gst/freeze/Makefile
 gst/h264parse/Makefile
+gst/hdvparse/Makefile
+gst/id3tag/Makefile
 gst/librfb/Makefile
 gst/mpegdemux/Makefile
 gst/mpegtsmux/Makefile
@@ -1491,6 +1578,7 @@ gst/rtpmux/Makefile
 gst/scaletempo/Makefile
 gst/sdp/Makefile
 gst/selector/Makefile
+gst/shapewipe/Makefile
 gst/siren/Makefile
 gst/speed/Makefile
 gst/subenc/Makefile
@@ -1501,7 +1589,6 @@ gst/videosignal/Makefile
 gst/vmnc/Makefile
 gst/real/Makefile
 gst/xdgmime/Makefile
-gst/y4m/Makefile
 gst-libs/Makefile
 gst-libs/gst/Makefile
 gst-libs/gst/dshow/Makefile
@@ -1510,11 +1597,13 @@ sys/Makefile
 sys/dshowdecwrapper/Makefile
 sys/acmenc/Makefile
 sys/acmmp3dec/Makefile
+sys/directdraw/Makefile
 sys/dshowsrcwrapper/Makefile
 sys/dshowvideosink/Makefile
 sys/dvb/Makefile
 sys/fbdev/Makefile
 sys/oss4/Makefile
+sys/osxvideo/Makefile
 sys/qtwrapper/Makefile
 sys/vcd/Makefile
 sys/wasapi/Makefile
@@ -1524,6 +1613,7 @@ sys/winscreencap/Makefile
 tests/examples/Makefile
 tests/examples/directfb/Makefile
 tests/examples/mxf/Makefile
+tests/examples/shapewipe/Makefile
 tests/examples/scaletempo/Makefile
 tests/examples/switch/Makefile
 ext/amrwb/Makefile
@@ -1566,7 +1656,6 @@ ext/spc/Makefile
 ext/swfdec/Makefile
 ext/theora/Makefile
 ext/timidity/Makefile
-ext/x264/Makefile
 ext/xvid/Makefile
 po/Makefile.in
 docs/Makefile

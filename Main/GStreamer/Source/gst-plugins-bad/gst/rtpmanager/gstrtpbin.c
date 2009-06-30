@@ -233,6 +233,7 @@ enum
   SIGNAL_ON_BYE_TIMEOUT,
   SIGNAL_ON_TIMEOUT,
   SIGNAL_ON_SENDER_TIMEOUT,
+  SIGNAL_ON_NPT_STOP,
   LAST_SIGNAL
 };
 
@@ -296,12 +297,17 @@ struct _GstRtpBinStream
 
   /* the jitterbuffer of the SSRC */
   GstElement *buffer;
+  gulong buffer_handlesync_sig;
+  gulong buffer_ptreq_sig;
+  gulong buffer_ntpstop_sig;
 
   /* the PT demuxer of the SSRC */
   GstElement *demux;
   gulong demux_newpad_sig;
   gulong demux_ptreq_sig;
   gulong demux_pt_change_sig;
+  /* ghostpads from the ptdemuxer */
+  GSList *pads;
 
   /* if we have calculated a valid unix_delta for this stream */
   gboolean have_sync;
@@ -331,6 +337,7 @@ struct _GstRtpBinSession
   /* the SSRC demuxer */
   GstElement *demux;
   gulong demux_newpad_sig;
+  gulong demux_padremoved_sig;
 
   GMutex *lock;
 
@@ -342,12 +349,17 @@ struct _GstRtpBinSession
 
   /* the pads of the session */
   GstPad *recv_rtp_sink;
+  GstPad *recv_rtp_sink_ghost;
   GstPad *recv_rtp_src;
   GstPad *recv_rtcp_sink;
+  GstPad *recv_rtcp_sink_ghost;
   GstPad *sync_src;
   GstPad *send_rtp_sink;
+  GstPad *send_rtp_sink_ghost;
   GstPad *send_rtp_src;
+  GstPad *send_rtp_src_ghost;
   GstPad *send_rtcp_src;
+  GstPad *send_rtcp_src_ghost;
 };
 
 /* Manages the RTP streams that come from one client and should therefore be
@@ -388,9 +400,10 @@ find_session_by_pad (GstRtpBin * rtpbin, GstPad * pad)
   for (walk = rtpbin->sessions; walk; walk = g_slist_next (walk)) {
     GstRtpBinSession *sess = (GstRtpBinSession *) walk->data;
 
-    if ((sess->recv_rtp_sink == pad) ||
-        (sess->recv_rtcp_sink == pad) ||
-        (sess->send_rtp_sink == pad) || (sess->send_rtcp_src == pad))
+    if ((sess->recv_rtp_sink_ghost == pad) ||
+        (sess->recv_rtcp_sink_ghost == pad) ||
+        (sess->send_rtp_sink_ghost == pad)
+        || (sess->send_rtcp_src_ghost == pad))
       return sess;
   }
   return NULL;
@@ -459,6 +472,43 @@ on_sender_timeout (GstElement * session, guint32 ssrc, GstRtpBinSession * sess)
       sess->id, ssrc);
 }
 
+static void
+on_npt_stop (GstElement * jbuf, GstRtpBinStream * stream)
+{
+  g_signal_emit (stream->bin, gst_rtp_bin_signals[SIGNAL_ON_NPT_STOP], 0,
+      stream->session->id, stream->ssrc);
+}
+
+/* must be called with the SESSION lock */
+static GstRtpBinStream *
+find_stream_by_ssrc (GstRtpBinSession * session, guint32 ssrc)
+{
+  GSList *walk;
+
+  for (walk = session->streams; walk; walk = g_slist_next (walk)) {
+    GstRtpBinStream *stream = (GstRtpBinStream *) walk->data;
+
+    if (stream->ssrc == ssrc)
+      return stream;
+  }
+  return NULL;
+}
+
+static void
+ssrc_demux_pad_removed (GstElement * element, guint ssrc, GstPad * pad,
+    GstRtpBinSession * session)
+{
+  GstRtpBinStream *stream = NULL;
+
+  GST_RTP_SESSION_LOCK (session);
+  if ((stream = find_stream_by_ssrc (session, ssrc)))
+    session->streams = g_slist_remove (session->streams, stream);
+  GST_RTP_SESSION_UNLOCK (session);
+
+  if (stream)
+    free_stream (stream);
+}
+
 /* create a session with the given id.  Must be called with RTP_BIN_LOCK */
 static GstRtpBinSession *
 create_session (GstRtpBin * rtpbin, gint id)
@@ -466,6 +516,7 @@ create_session (GstRtpBin * rtpbin, gint id)
   GstRtpBinSession *sess;
   GstElement *session, *demux;
   gint i;
+  GstState target;
 
   if (!(session = gst_element_factory_make ("gstrtpsession", NULL)))
     goto no_session;
@@ -514,11 +565,16 @@ create_session (GstRtpBin * rtpbin, gint id)
   g_signal_connect (sess->session, "on-sender-timeout",
       (GCallback) on_sender_timeout, sess);
 
-  /* FIXME, change state only to what's needed */
   gst_bin_add (GST_BIN_CAST (rtpbin), session);
-  gst_element_set_state (session, GST_STATE_PLAYING);
   gst_bin_add (GST_BIN_CAST (rtpbin), demux);
-  gst_element_set_state (demux, GST_STATE_PLAYING);
+
+  GST_OBJECT_LOCK (rtpbin);
+  target = GST_STATE_TARGET (rtpbin);
+  GST_OBJECT_UNLOCK (rtpbin);
+
+  /* change state only to what's needed */
+  gst_element_set_state (demux, target);
+  gst_element_set_state (session, target);
 
   return sess;
 
@@ -537,16 +593,12 @@ no_demux:
 }
 
 static void
-free_session (GstRtpBinSession * sess)
+free_session (GstRtpBinSession * sess, GstRtpBin * bin)
 {
-  GstRtpBin *bin;
-
-  bin = sess->bin;
-
   GST_DEBUG_OBJECT (bin, "freeing session %p", sess);
 
-  gst_element_set_state (sess->session, GST_STATE_NULL);
   gst_element_set_state (sess->demux, GST_STATE_NULL);
+  gst_element_set_state (sess->session, GST_STATE_NULL);
 
   if (sess->recv_rtp_sink != NULL) {
     gst_element_release_request_pad (sess->session, sess->recv_rtp_sink);
@@ -580,26 +632,8 @@ free_session (GstRtpBinSession * sess)
   g_mutex_free (sess->lock);
   g_hash_table_destroy (sess->ptmap);
 
-  bin->sessions = g_slist_remove (bin->sessions, sess);
-
   g_free (sess);
 }
-
-#if 0
-static GstRtpBinStream *
-find_stream_by_ssrc (GstRtpBinSession * session, guint32 ssrc)
-{
-  GSList *walk;
-
-  for (walk = session->streams; walk; walk = g_slist_next (walk)) {
-    GstRtpBinStream *stream = (GstRtpBinStream *) walk->data;
-
-    if (stream->ssrc == ssrc)
-      return stream;
-  }
-  return NULL;
-}
-#endif
 
 /* get the payload type caps for the specific payload @pt in @session */
 static GstCaps *
@@ -814,8 +848,9 @@ get_client (GstRtpBin * bin, guint8 len, guint8 * data, gboolean * created)
 }
 
 static void
-free_client (GstRtpBinClient * client)
+free_client (GstRtpBinClient * client, GstRtpBin * bin)
 {
+  GST_DEBUG_OBJECT (bin, "freeing client %p", client);
   g_slist_free (client->streams);
   g_free (client->cname);
   g_free (client);
@@ -1071,6 +1106,8 @@ create_stream (GstRtpBinSession * session, guint32 ssrc)
 {
   GstElement *buffer, *demux;
   GstRtpBinStream *stream;
+  GstRtpBin *rtpbin;
+  GstState target;
 
   if (!(buffer = gst_element_factory_make ("gstrtpjitterbuffer", NULL)))
     goto no_jitterbuffer;
@@ -1078,9 +1115,11 @@ create_stream (GstRtpBinSession * session, guint32 ssrc)
   if (!(demux = gst_element_factory_make ("gstrtpptdemux", NULL)))
     goto no_demux;
 
+  rtpbin = session->bin;
+
   stream = g_new0 (GstRtpBinStream, 1);
   stream->ssrc = ssrc;
-  stream->bin = session->bin;
+  stream->bin = rtpbin;
   stream->session = session;
   stream->buffer = buffer;
   stream->demux = demux;
@@ -1089,20 +1128,28 @@ create_stream (GstRtpBinSession * session, guint32 ssrc)
   session->streams = g_slist_prepend (session->streams, stream);
 
   /* provide clock_rate to the jitterbuffer when needed */
-  g_signal_connect (buffer, "request-pt-map",
+  stream->buffer_ptreq_sig = g_signal_connect (buffer, "request-pt-map",
       (GCallback) pt_map_requested, session);
+  stream->buffer_ntpstop_sig = g_signal_connect (buffer, "on-npt-stop",
+      (GCallback) on_npt_stop, stream);
 
   /* configure latency and packet lost */
-  g_object_set (buffer, "latency", session->bin->latency, NULL);
-  g_object_set (buffer, "do-lost", session->bin->do_lost, NULL);
+  g_object_set (buffer, "latency", rtpbin->latency, NULL);
+  g_object_set (buffer, "do-lost", rtpbin->do_lost, NULL);
 
-  gst_bin_add (GST_BIN_CAST (session->bin), buffer);
-  gst_element_set_state (buffer, GST_STATE_PLAYING);
-  gst_bin_add (GST_BIN_CAST (session->bin), demux);
-  gst_element_set_state (demux, GST_STATE_PLAYING);
+  gst_bin_add (GST_BIN_CAST (rtpbin), demux);
+  gst_bin_add (GST_BIN_CAST (rtpbin), buffer);
 
   /* link stuff */
   gst_element_link (buffer, demux);
+
+  GST_OBJECT_LOCK (rtpbin);
+  target = GST_STATE_TARGET (rtpbin);
+  GST_OBJECT_UNLOCK (rtpbin);
+
+  /* from sink to source */
+  gst_element_set_state (demux, target);
+  gst_element_set_state (buffer, target);
 
   return stream;
 
@@ -1124,16 +1171,29 @@ static void
 free_stream (GstRtpBinStream * stream)
 {
   GstRtpBinSession *session;
+  GSList *walk;
 
   session = stream->session;
 
-  gst_element_set_state (stream->buffer, GST_STATE_NULL);
+  g_signal_handler_disconnect (stream->demux, stream->demux_newpad_sig);
+  g_signal_handler_disconnect (stream->demux, stream->demux_ptreq_sig);
+  g_signal_handler_disconnect (stream->buffer, stream->buffer_handlesync_sig);
+  g_signal_handler_disconnect (stream->buffer, stream->buffer_ptreq_sig);
+  g_signal_handler_disconnect (stream->buffer, stream->buffer_ntpstop_sig);
+
   gst_element_set_state (stream->demux, GST_STATE_NULL);
+  gst_element_set_state (stream->buffer, GST_STATE_NULL);
 
   gst_bin_remove (GST_BIN_CAST (session->bin), stream->buffer);
   gst_bin_remove (GST_BIN_CAST (session->bin), stream->demux);
 
-  session->streams = g_slist_remove (session->streams, stream);
+  for (walk = stream->pads; walk; walk = g_slist_next (walk)) {
+    GstPad *gpad = GST_PAD_CAST (walk->data);
+
+    gst_pad_set_active (gpad, FALSE);
+    gst_element_remove_pad (GST_ELEMENT_CAST (session->bin), gpad);
+  }
+  g_slist_free (stream->pads);
 
   g_free (stream);
 }
@@ -1147,7 +1207,6 @@ static void gst_rtp_bin_get_property (GObject * object, guint prop_id,
     GValue * value, GParamSpec * pspec);
 
 /* GstElement vmethods */
-static GstClock *gst_rtp_bin_provide_clock (GstElement * element);
 static GstStateChangeReturn gst_rtp_bin_change_state (GstElement * element,
     GstStateChange transition);
 static GstPad *gst_rtp_bin_request_new_pad (GstElement * element,
@@ -1375,6 +1434,20 @@ gst_rtp_bin_class_init (GstRtpBinClass * klass)
       NULL, NULL, gst_rtp_bin_marshal_VOID__UINT_UINT, G_TYPE_NONE, 2,
       G_TYPE_UINT, G_TYPE_UINT);
 
+  /**
+   * GstRtpBin::on-npt-stop:
+   * @rtpbin: the object which received the signal
+   * @session: the session
+   * @ssrc: the SSRC 
+   *
+   * Notify that SSRC sender has sent data up to the configured NPT stop time.
+   */
+  gst_rtp_bin_signals[SIGNAL_ON_NPT_STOP] =
+      g_signal_new ("on-npt-stop", G_TYPE_FROM_CLASS (klass),
+      G_SIGNAL_RUN_LAST, G_STRUCT_OFFSET (GstRtpBinClass, on_npt_stop),
+      NULL, NULL, gst_rtp_bin_marshal_VOID__UINT_UINT, G_TYPE_NONE, 2,
+      G_TYPE_UINT, G_TYPE_UINT);
+
   g_object_class_install_property (gobject_class, PROP_SDES_CNAME,
       g_param_spec_string ("sdes-cname", "SDES CNAME",
           "The CNAME to put in SDES messages of this session",
@@ -1415,8 +1488,6 @@ gst_rtp_bin_class_init (GstRtpBinClass * klass)
           "Send an event downstream when a packet is lost", DEFAULT_DO_LOST,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
-  gstelement_class->provide_clock =
-      GST_DEBUG_FUNCPTR (gst_rtp_bin_provide_clock);
   gstelement_class->change_state = GST_DEBUG_FUNCPTR (gst_rtp_bin_change_state);
   gstelement_class->request_new_pad =
       GST_DEBUG_FUNCPTR (gst_rtp_bin_request_new_pad);
@@ -1440,7 +1511,6 @@ gst_rtp_bin_init (GstRtpBin * rtpbin, GstRtpBinClass * klass)
   rtpbin->priv = GST_RTP_BIN_GET_PRIVATE (rtpbin);
   rtpbin->priv->bin_lock = g_mutex_new ();
   rtpbin->priv->dyn_lock = g_mutex_new ();
-  rtpbin->provided_clock = gst_system_clock_obtain ();
 
   rtpbin->latency = DEFAULT_LATENCY_MS;
   rtpbin->do_lost = DEFAULT_DO_LOST;
@@ -1462,11 +1532,11 @@ gst_rtp_bin_dispose (GObject * object)
   rtpbin = GST_RTP_BIN (object);
 
   GST_DEBUG_OBJECT (object, "freeing sessions");
-  g_slist_foreach (rtpbin->sessions, (GFunc) free_session, NULL);
+  g_slist_foreach (rtpbin->sessions, (GFunc) free_session, rtpbin);
   g_slist_free (rtpbin->sessions);
   rtpbin->sessions = NULL;
   GST_DEBUG_OBJECT (object, "freeing clients");
-  g_slist_foreach (rtpbin->clients, (GFunc) free_client, NULL);
+  g_slist_foreach (rtpbin->clients, (GFunc) free_client, rtpbin);
   g_slist_free (rtpbin->clients);
   rtpbin->clients = NULL;
 
@@ -1486,7 +1556,6 @@ gst_rtp_bin_finalize (GObject * object)
 
   g_mutex_free (rtpbin->priv->bin_lock);
   g_mutex_free (rtpbin->priv->dyn_lock);
-  gst_object_unref (rtpbin->provided_clock);
 
   G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -1538,6 +1607,8 @@ gst_rtp_bin_set_sdes_string (GstRtpBin * bin, GstRTCPSDESType type,
   if (type < 0 || type > 8)
     return;
 
+  GST_RTP_BIN_LOCK (bin);
+
   GST_OBJECT_LOCK (bin);
   g_free (bin->sdes[type]);
   bin->sdes[type] = g_strdup (data);
@@ -1546,6 +1617,8 @@ gst_rtp_bin_set_sdes_string (GstRtpBin * bin, GstRTCPSDESType type,
   for (item = bin->sessions; item; item = g_slist_next (item))
     g_object_set (item->data, name, bin->sdes[type], NULL);
   GST_OBJECT_UNLOCK (bin);
+
+  GST_RTP_BIN_UNLOCK (bin);
 }
 
 static gchar *
@@ -1672,16 +1745,6 @@ gst_rtp_bin_get_property (GObject * object, guint prop_id,
   }
 }
 
-static GstClock *
-gst_rtp_bin_provide_clock (GstElement * element)
-{
-  GstRtpBin *rtpbin;
-
-  rtpbin = GST_RTP_BIN (element);
-
-  return GST_CLOCK_CAST (gst_object_ref (rtpbin->provided_clock));
-}
-
 static void
 gst_rtp_bin_handle_message (GstBin * bin, GstMessage * message)
 {
@@ -1695,7 +1758,7 @@ gst_rtp_bin_handle_message (GstBin * bin, GstMessage * message)
       const GstStructure *s = gst_message_get_structure (message);
 
       /* we change the structure name and add the session ID to it */
-      if (gst_structure_has_name (s, "GstRTPSessionSDES")) {
+      if (gst_structure_has_name (s, "application/x-rtp-source-sdes")) {
         GSList *walk;
 
         /* find the session, the message source has it */
@@ -1707,8 +1770,6 @@ gst_rtp_bin_handle_message (GstBin * bin, GstMessage * message)
           if (GST_OBJECT_CAST (sess->session) == GST_MESSAGE_SRC (message)) {
             message = gst_message_make_writable (message);
             s = gst_message_get_structure (message);
-
-            gst_structure_set_name ((GstStructure *) s, "GstRTPBinSDES");
 
             gst_structure_set ((GstStructure *) s, "session", G_TYPE_UINT,
                 sess->id, NULL);
@@ -1828,6 +1889,8 @@ new_payload_found (GstElement * element, guint pt, GstPad * pad,
   gst_pad_set_active (gpad, TRUE);
   gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), gpad);
 
+  stream->pads = g_slist_prepend (stream->pads, gpad);
+
   GST_RTP_BIN_SHUTDOWN_UNLOCK (rtpbin);
 
   return;
@@ -1939,7 +2002,7 @@ new_ssrc_pad_found (GstElement * element, guint ssrc, GstPad * pad,
 
   /* connect to the RTCP sync signal from the jitterbuffer */
   GST_DEBUG_OBJECT (rtpbin, "connecting sync signal");
-  g_signal_connect (stream->buffer,
+  stream->buffer_handlesync_sig = g_signal_connect (stream->buffer,
       "handle-sync", (GCallback) gst_rtp_bin_handle_sync, stream);
 
   /* connect to the new-pad signal of the payload demuxer, this will expose the
@@ -1978,7 +2041,7 @@ no_stream:
 static GstPad *
 create_recv_rtp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
 {
-  GstPad *result, *sinkdpad;
+  GstPad *sinkdpad;
   guint sessid;
   GstRtpBinSession *session;
   GstPadLinkReturn lres;
@@ -2000,8 +2063,8 @@ create_recv_rtp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
   }
 
   /* check if pad was requested */
-  if (session->recv_rtp_sink != NULL)
-    goto existed;
+  if (session->recv_rtp_sink_ghost != NULL)
+    return session->recv_rtp_sink_ghost;
 
   GST_DEBUG_OBJECT (rtpbin, "getting RTP sink pad");
   /* get recv_rtp pad and store */
@@ -2031,14 +2094,16 @@ create_recv_rtp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
   /* connect to the new-ssrc-pad signal of the SSRC demuxer */
   session->demux_newpad_sig = g_signal_connect (session->demux,
       "new-ssrc-pad", (GCallback) new_ssrc_pad_found, session);
+  session->demux_padremoved_sig = g_signal_connect (session->demux,
+      "removed-ssrc-pad", (GCallback) ssrc_demux_pad_removed, session);
 
   GST_DEBUG_OBJECT (rtpbin, "ghosting session sink pad");
-  result =
+  session->recv_rtp_sink_ghost =
       gst_ghost_pad_new_from_template (name, session->recv_rtp_sink, templ);
-  gst_pad_set_active (result, TRUE);
-  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), result);
+  gst_pad_set_active (session->recv_rtp_sink_ghost, TRUE);
+  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), session->recv_rtp_sink_ghost);
 
-  return result;
+  return session->recv_rtp_sink_ghost;
 
   /* ERRORS */
 no_name:
@@ -2049,12 +2114,6 @@ no_name:
 create_error:
   {
     /* create_session already warned */
-    return NULL;
-  }
-existed:
-  {
-    g_warning ("gstrtpbin: recv_rtp pad already requested for session %d",
-        sessid);
     return NULL;
   }
 pad_failed:
@@ -2070,10 +2129,31 @@ link_failed:
 }
 
 static void
-remove_recv_rtp (GstRtpBin * rtpbin, GstRtpBinSession * session, GstPad * pad)
+remove_recv_rtp (GstRtpBin * rtpbin, GstRtpBinSession * session)
 {
-  g_warning ("gstrtpbin: releasing pad %s:%s is not implemented",
-      GST_DEBUG_PAD_NAME (pad));
+  if (session->demux_newpad_sig) {
+    g_signal_handler_disconnect (session->demux, session->demux_newpad_sig);
+    session->demux_newpad_sig = 0;
+  }
+  if (session->demux_padremoved_sig) {
+    g_signal_handler_disconnect (session->demux, session->demux_padremoved_sig);
+    session->demux_padremoved_sig = 0;
+  }
+  if (session->recv_rtp_src) {
+    gst_object_unref (session->recv_rtp_src);
+    session->recv_rtp_src = NULL;
+  }
+  if (session->recv_rtp_sink) {
+    gst_element_release_request_pad (session->session, session->recv_rtp_sink);
+    gst_object_unref (session->recv_rtp_sink);
+    session->recv_rtp_sink = NULL;
+  }
+  if (session->recv_rtp_sink_ghost) {
+    gst_pad_set_active (session->recv_rtp_sink_ghost, FALSE);
+    gst_element_remove_pad (GST_ELEMENT_CAST (rtpbin),
+        session->recv_rtp_sink_ghost);
+    session->recv_rtp_sink_ghost = NULL;
+  }
 }
 
 /* Create a pad for receiving RTCP for the session in @name. Must be called with
@@ -2083,7 +2163,6 @@ static GstPad *
 create_recv_rtcp (GstRtpBin * rtpbin, GstPadTemplate * templ,
     const gchar * name)
 {
-  GstPad *result;
   guint sessid;
   GstRtpBinSession *session;
   GstPad *sinkdpad;
@@ -2106,8 +2185,8 @@ create_recv_rtcp (GstRtpBin * rtpbin, GstPadTemplate * templ,
   }
 
   /* check if pad was requested */
-  if (session->recv_rtcp_sink != NULL)
-    goto existed;
+  if (session->recv_rtcp_sink_ghost != NULL)
+    return session->recv_rtcp_sink_ghost;
 
   /* get recv_rtp pad and store */
   GST_DEBUG_OBJECT (rtpbin, "getting RTCP sink pad");
@@ -2129,12 +2208,13 @@ create_recv_rtcp (GstRtpBin * rtpbin, GstPadTemplate * templ,
   if (lres != GST_PAD_LINK_OK)
     goto link_failed;
 
-  result =
+  session->recv_rtcp_sink_ghost =
       gst_ghost_pad_new_from_template (name, session->recv_rtcp_sink, templ);
-  gst_pad_set_active (result, TRUE);
-  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), result);
+  gst_pad_set_active (session->recv_rtcp_sink_ghost, TRUE);
+  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin),
+      session->recv_rtcp_sink_ghost);
 
-  return result;
+  return session->recv_rtcp_sink_ghost;
 
   /* ERRORS */
 no_name:
@@ -2145,12 +2225,6 @@ no_name:
 create_error:
   {
     /* create_session already warned */
-    return NULL;
-  }
-existed:
-  {
-    g_warning ("gstrtpbin: recv_rtcp pad already requested for session %d",
-        sessid);
     return NULL;
   }
 pad_failed:
@@ -2166,10 +2240,24 @@ link_failed:
 }
 
 static void
-remove_recv_rtcp (GstRtpBin * rtpbin, GstRtpBinSession * session, GstPad * pad)
+remove_recv_rtcp (GstRtpBin * rtpbin, GstRtpBinSession * session)
 {
-  g_warning ("gstrtpbin: releasing pad %s:%s is not implemented",
-      GST_DEBUG_PAD_NAME (pad));
+  if (session->recv_rtcp_sink_ghost) {
+    gst_pad_set_active (session->recv_rtcp_sink_ghost, FALSE);
+    gst_element_remove_pad (GST_ELEMENT_CAST (rtpbin),
+        session->recv_rtcp_sink_ghost);
+    session->recv_rtcp_sink_ghost = NULL;
+  }
+  if (session->sync_src) {
+    /* releasing the request pad should also unref the sync pad */
+    gst_object_unref (session->sync_src);
+    session->sync_src = NULL;
+  }
+  if (session->recv_rtcp_sink) {
+    gst_element_release_request_pad (session->session, session->recv_rtcp_sink);
+    gst_object_unref (session->recv_rtcp_sink);
+    session->recv_rtcp_sink = NULL;
+  }
 }
 
 /* Create a pad for sending RTP for the session in @name. Must be called with
@@ -2178,7 +2266,6 @@ remove_recv_rtcp (GstRtpBin * rtpbin, GstRtpBinSession * session, GstPad * pad)
 static GstPad *
 create_send_rtp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
 {
-  GstPad *result, *srcghost;
   gchar *gname;
   guint sessid;
   GstRtpBinSession *session;
@@ -2198,8 +2285,8 @@ create_send_rtp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
   }
 
   /* check if pad was requested */
-  if (session->send_rtp_sink != NULL)
-    goto existed;
+  if (session->send_rtp_sink_ghost != NULL)
+    return session->send_rtp_sink_ghost;
 
   /* get send_rtp pad and store */
   session->send_rtp_sink =
@@ -2207,10 +2294,10 @@ create_send_rtp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
   if (session->send_rtp_sink == NULL)
     goto pad_failed;
 
-  result =
+  session->send_rtp_sink_ghost =
       gst_ghost_pad_new_from_template (name, session->send_rtp_sink, templ);
-  gst_pad_set_active (result, TRUE);
-  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), result);
+  gst_pad_set_active (session->send_rtp_sink_ghost, TRUE);
+  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), session->send_rtp_sink_ghost);
 
   /* get srcpad */
   session->send_rtp_src =
@@ -2222,13 +2309,13 @@ create_send_rtp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
   klass = GST_ELEMENT_GET_CLASS (rtpbin);
   gname = g_strdup_printf ("send_rtp_src_%d", sessid);
   templ = gst_element_class_get_pad_template (klass, "send_rtp_src_%d");
-  srcghost =
+  session->send_rtp_src_ghost =
       gst_ghost_pad_new_from_template (gname, session->send_rtp_src, templ);
-  gst_pad_set_active (srcghost, TRUE);
-  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), srcghost);
+  gst_pad_set_active (session->send_rtp_src_ghost, TRUE);
+  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), session->send_rtp_src_ghost);
   g_free (gname);
 
-  return result;
+  return session->send_rtp_sink_ghost;
 
   /* ERRORS */
 no_name:
@@ -2239,12 +2326,6 @@ no_name:
 create_error:
   {
     /* create_session already warned */
-    return NULL;
-  }
-existed:
-  {
-    g_warning ("gstrtpbin: send_rtp pad already requested for session %d",
-        sessid);
     return NULL;
   }
 pad_failed:
@@ -2261,10 +2342,30 @@ no_srcpad:
 }
 
 static void
-remove_send_rtp (GstRtpBin * rtpbin, GstRtpBinSession * session, GstPad * pad)
+remove_send_rtp (GstRtpBin * rtpbin, GstRtpBinSession * session)
 {
-  g_warning ("gstrtpbin: releasing pad %s:%s is not implemented",
-      GST_DEBUG_PAD_NAME (pad));
+  if (session->send_rtp_src_ghost) {
+    gst_pad_set_active (session->send_rtp_src_ghost, FALSE);
+    gst_element_remove_pad (GST_ELEMENT_CAST (rtpbin),
+        session->send_rtp_src_ghost);
+    session->send_rtp_src_ghost = NULL;
+  }
+  if (session->send_rtp_src) {
+    gst_object_unref (session->send_rtp_src);
+    session->send_rtp_src = NULL;
+  }
+  if (session->send_rtp_sink) {
+    gst_element_release_request_pad (GST_ELEMENT_CAST (session->session),
+        session->send_rtp_sink);
+    gst_object_unref (session->send_rtp_sink);
+    session->send_rtp_sink = NULL;
+  }
+  if (session->send_rtp_sink_ghost) {
+    gst_pad_set_active (session->send_rtp_sink_ghost, FALSE);
+    gst_element_remove_pad (GST_ELEMENT_CAST (rtpbin),
+        session->send_rtp_sink_ghost);
+    session->send_rtp_sink_ghost = NULL;
+  }
 }
 
 /* Create a pad for sending RTCP for the session in @name. Must be called with
@@ -2273,7 +2374,6 @@ remove_send_rtp (GstRtpBin * rtpbin, GstRtpBinSession * session, GstPad * pad)
 static GstPad *
 create_rtcp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
 {
-  GstPad *result;
   guint sessid;
   GstRtpBinSession *session;
 
@@ -2287,8 +2387,8 @@ create_rtcp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
     goto no_session;
 
   /* check if pad was requested */
-  if (session->send_rtcp_src != NULL)
-    goto existed;
+  if (session->send_rtcp_src_ghost != NULL)
+    return session->send_rtcp_src_ghost;
 
   /* get rtcp_src pad and store */
   session->send_rtcp_src =
@@ -2296,12 +2396,12 @@ create_rtcp (GstRtpBin * rtpbin, GstPadTemplate * templ, const gchar * name)
   if (session->send_rtcp_src == NULL)
     goto pad_failed;
 
-  result =
+  session->send_rtcp_src_ghost =
       gst_ghost_pad_new_from_template (name, session->send_rtcp_src, templ);
-  gst_pad_set_active (result, TRUE);
-  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), result);
+  gst_pad_set_active (session->send_rtcp_src_ghost, TRUE);
+  gst_element_add_pad (GST_ELEMENT_CAST (rtpbin), session->send_rtcp_src_ghost);
 
-  return result;
+  return session->send_rtcp_src_ghost;
 
   /* ERRORS */
 no_name:
@@ -2314,12 +2414,6 @@ no_session:
     g_warning ("gstrtpbin: session with id %d does not exist", sessid);
     return NULL;
   }
-existed:
-  {
-    g_warning ("gstrtpbin: send_rtcp_src pad already requested for session %d",
-        sessid);
-    return NULL;
-  }
 pad_failed:
   {
     g_warning ("gstrtpbin: failed to get rtcp pad for session %d", sessid);
@@ -2328,10 +2422,19 @@ pad_failed:
 }
 
 static void
-remove_rtcp (GstRtpBin * rtpbin, GstRtpBinSession * session, GstPad * pad)
+remove_rtcp (GstRtpBin * rtpbin, GstRtpBinSession * session)
 {
-  g_warning ("gstrtpbin: releasing pad %s:%s is not implemented",
-      GST_DEBUG_PAD_NAME (pad));
+  if (session->send_rtcp_src_ghost) {
+    gst_pad_set_active (session->send_rtcp_src_ghost, FALSE);
+    gst_element_remove_pad (GST_ELEMENT_CAST (rtpbin),
+        session->send_rtcp_src_ghost);
+    session->send_rtcp_src_ghost = NULL;
+  }
+  if (session->send_rtcp_src) {
+    gst_element_release_request_pad (session->session, session->send_rtcp_src);
+    gst_object_unref (session->send_rtcp_src);
+    session->send_rtcp_src = NULL;
+  }
 }
 
 /* If the requested name is NULL we should create a name with
@@ -2395,7 +2498,7 @@ gst_rtp_bin_request_new_pad (GstElement * element,
     pad_name = g_strdup (name);
   }
 
-  GST_DEBUG ("Trying to request a pad with name %s", pad_name);
+  GST_DEBUG_OBJECT (rtpbin, "Trying to request a pad with name %s", pad_name);
 
   /* figure out the template */
   if (templ == gst_element_class_get_pad_template (klass, "recv_rtp_sink_%d")) {
@@ -2432,32 +2535,39 @@ gst_rtp_bin_release_pad (GstElement * element, GstPad * pad)
 {
   GstRtpBinSession *session;
   GstRtpBin *rtpbin;
-  GstPad *target = NULL;
 
   g_return_if_fail (GST_IS_GHOST_PAD (pad));
   g_return_if_fail (GST_IS_RTP_BIN (element));
 
   rtpbin = GST_RTP_BIN (element);
 
-  target = gst_ghost_pad_get_target (GST_GHOST_PAD (pad));
-  g_return_if_fail (target);
-
   GST_RTP_BIN_LOCK (rtpbin);
-  if (!(session = find_session_by_pad (rtpbin, target)))
+  GST_DEBUG_OBJECT (rtpbin, "Trying to release pad %s:%s",
+      GST_DEBUG_PAD_NAME (pad));
+
+  if (!(session = find_session_by_pad (rtpbin, pad)))
     goto unknown_pad;
 
-  if (session->recv_rtp_sink == target) {
-    remove_recv_rtp (rtpbin, session, pad);
-  } else if (session->recv_rtcp_sink == target) {
-    remove_recv_rtcp (rtpbin, session, pad);
-  } else if (session->send_rtp_sink == target) {
-    remove_send_rtp (rtpbin, session, pad);
-  } else if (session->send_rtcp_src == target) {
-    remove_rtcp (rtpbin, session, pad);
+  if (session->recv_rtp_sink_ghost == pad) {
+    remove_recv_rtp (rtpbin, session);
+  } else if (session->recv_rtcp_sink_ghost == pad) {
+    remove_recv_rtcp (rtpbin, session);
+  } else if (session->send_rtp_sink_ghost == pad) {
+    remove_send_rtp (rtpbin, session);
+  } else if (session->send_rtcp_src_ghost == pad) {
+    remove_rtcp (rtpbin, session);
+  }
+
+  /* no more request pads, free the complete session */
+  if (session->recv_rtp_sink_ghost == NULL
+      && session->recv_rtcp_sink_ghost == NULL
+      && session->send_rtp_sink_ghost == NULL
+      && session->send_rtcp_src_ghost == NULL) {
+    GST_DEBUG_OBJECT (rtpbin, "no more pads for session %p", session);
+    rtpbin->sessions = g_slist_remove (rtpbin->sessions, session);
+    free_session (session, rtpbin);
   }
   GST_RTP_BIN_UNLOCK (rtpbin);
-
-  gst_object_unref (target);
 
   return;
 
@@ -2465,7 +2575,6 @@ gst_rtp_bin_release_pad (GstElement * element, GstPad * pad)
 unknown_pad:
   {
     GST_RTP_BIN_UNLOCK (rtpbin);
-    gst_object_unref (target);
     g_warning ("gstrtpbin: %s:%s is not one of our request pads",
         GST_DEBUG_PAD_NAME (pad));
     return;

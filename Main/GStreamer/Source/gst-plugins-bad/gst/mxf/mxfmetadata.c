@@ -24,7 +24,7 @@
 #include <gst/gst.h>
 #include <string.h>
 
-#include "mxfparse.h"
+#include "mxftypes.h"
 #include "mxfmetadata.h"
 #include "mxfquark.h"
 
@@ -82,14 +82,14 @@ mxf_metadata_base_to_structure_default (MXFMetadataBase * self)
 
   ret = gst_structure_id_empty_new (klass->name_quark);
 
-  if (!mxf_ul_is_zero (&self->instance_uid)) {
-    mxf_ul_to_string (&self->instance_uid, str);
+  if (!mxf_uuid_is_zero (&self->instance_uid)) {
+    mxf_uuid_to_string (&self->instance_uid, str);
     gst_structure_id_set (ret, MXF_QUARK (INSTANCE_UID), G_TYPE_STRING, str,
         NULL);
   }
 
-  if (!mxf_ul_is_zero (&self->generation_uid)) {
-    mxf_ul_to_string (&self->generation_uid, str);
+  if (!mxf_uuid_is_zero (&self->generation_uid)) {
+    mxf_uuid_to_string (&self->generation_uid, str);
     gst_structure_id_set (ret, MXF_QUARK (GENERATION_UID), G_TYPE_STRING, str,
         NULL);
   }
@@ -123,7 +123,7 @@ mxf_metadata_base_to_structure_default (MXFMetadataBase * self)
       g_value_init (&v, GST_TYPE_STRUCTURE);
       s = gst_structure_id_empty_new (MXF_QUARK (TAG));
 
-      mxf_ul_to_string (&tag->key, str);
+      mxf_ul_to_string (&tag->ul, str);
 
       buf = gst_buffer_new_and_alloc (tag->size);
       memcpy (GST_BUFFER_DATA (buf), tag->data, tag->size);
@@ -238,6 +238,115 @@ mxf_metadata_base_to_structure (MXFMetadataBase * self)
   return NULL;
 }
 
+GstBuffer *
+mxf_metadata_base_to_buffer (MXFMetadataBase * self, MXFPrimerPack * primer)
+{
+  MXFMetadataBaseClass *klass;
+  GstBuffer *ret;
+  GList *tags, *l;
+  guint size = 0, slen;
+  guint8 ber[9];
+  MXFLocalTag *t, *last;
+  guint8 *data;
+
+  g_return_val_if_fail (MXF_IS_METADATA_BASE (self), NULL);
+  g_return_val_if_fail (primer != NULL, NULL);
+
+  klass = MXF_METADATA_BASE_GET_CLASS (self);
+  g_return_val_if_fail (klass->write_tags, NULL);
+
+  tags = klass->write_tags (self, primer);
+  g_return_val_if_fail (tags != NULL, NULL);
+
+  /* Add unknown tags */
+  if (self->other_tags) {
+    MXFLocalTag *tmp;
+#if GLIB_CHECK_VERSION (2, 16, 0)
+    GHashTableIter iter;
+
+    g_hash_table_iter_init (&iter, self->other_tags);
+#else
+    GList *l, *values;
+
+    values = g_hash_table_get_values (self->other_tags);
+#endif
+
+#if GLIB_CHECK_VERSION (2, 16, 0)
+    while (g_hash_table_iter_next (&iter, NULL, (gpointer) & t)) {
+#else
+    for (l = values; l; l = l->next) {
+      t = l->data;
+#endif
+      tmp = g_slice_dup (MXFLocalTag, t);
+      if (t->g_slice) {
+        tmp->data = g_slice_alloc (t->size);
+        mxf_primer_pack_add_mapping (primer, 0x0000, &t->ul);
+        memcpy (tmp->data, t->data, t->size);
+      } else {
+        tmp->data = g_memdup (t->data, t->size);
+      }
+      tags = g_list_prepend (tags, tmp);
+    }
+
+#if !GLIB_CHECK_VERSION (2, 16, 0)
+    g_list_free (values);
+#endif
+  }
+
+  l = g_list_last (tags);
+  last = l->data;
+  tags = g_list_delete_link (tags, l);
+  /* Last element contains the metadata UL */
+  g_return_val_if_fail (last->size == 0, NULL);
+
+  for (l = tags; l; l = l->next) {
+    t = l->data;
+    g_assert (G_MAXUINT - t->size >= size);
+    size += 4 + t->size;
+  }
+
+  slen = mxf_ber_encode_size (size, ber);
+  size += 16 + slen;
+
+  ret = gst_buffer_new_and_alloc (size);
+
+  memcpy (GST_BUFFER_DATA (ret), &last->ul, 16);
+  mxf_local_tag_free (last);
+  last = NULL;
+  memcpy (GST_BUFFER_DATA (ret) + 16, ber, slen);
+
+  data = GST_BUFFER_DATA (ret) + 16 + slen;
+  size -= 16 + slen;
+
+  for (l = tags; l; l = l->next) {
+    guint16 local_tag;
+
+    g_assert (size >= 4);
+    t = l->data;
+
+    local_tag =
+        GPOINTER_TO_UINT (g_hash_table_lookup (primer->reverse_mappings,
+            &t->ul));
+    g_assert (local_tag != 0);
+
+    GST_WRITE_UINT16_BE (data, local_tag);
+    GST_WRITE_UINT16_BE (data + 2, t->size);
+    data += 4;
+    size -= 4;
+    g_assert (size >= t->size);
+
+    memcpy (data, t->data, t->size);
+    data += t->size;
+    size -= t->size;
+
+    mxf_local_tag_free (t);
+  }
+
+  g_list_free (tags);
+
+  return ret;
+}
+
 G_DEFINE_ABSTRACT_TYPE (MXFMetadata, mxf_metadata, MXF_TYPE_METADATA_BASE);
 
 static gboolean
@@ -256,14 +365,14 @@ mxf_metadata_handle_tag (MXFMetadataBase * metadata, MXFPrimerPack * primer,
         goto error;
       memcpy (&self->parent.instance_uid, tag_data, 16);
       GST_DEBUG ("  instance uid = %s",
-          mxf_ul_to_string (&self->parent.instance_uid, str));
+          mxf_uuid_to_string (&self->parent.instance_uid, str));
       break;
     case 0x0102:
       if (tag_size != 16)
         goto error;
       memcpy (&self->parent.generation_uid, tag_data, 16);
       GST_DEBUG ("  generation uid = %s",
-          mxf_ul_to_string (&self->parent.generation_uid, str));
+          mxf_uuid_to_string (&self->parent.generation_uid, str));
       break;
     default:
       ret =
@@ -281,12 +390,53 @@ error:
   return FALSE;
 }
 
+static GList *
+mxf_metadata_write_tags (MXFMetadataBase * m, MXFPrimerPack * primer)
+{
+  MXFMetadata *self = MXF_METADATA (m);
+  GList *ret = NULL;
+  MXFLocalTag *t;
+  MXFMetadataClass *klass;
+
+  g_return_val_if_fail (MXF_IS_METADATA (self), NULL);
+  klass = MXF_METADATA_GET_CLASS (self);
+
+  /* Last element contains the metadata key */
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (METADATA), 16);
+  GST_WRITE_UINT16_BE (&t->ul.u[13], klass->type);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (INSTANCE_UID), 16);
+  t->size = 16;
+  t->data = g_slice_alloc (16);
+  t->g_slice = TRUE;
+  memcpy (t->data, &self->parent.instance_uid, 16);
+  mxf_primer_pack_add_mapping (primer, 0x3c0a, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (!mxf_uuid_is_zero (&self->parent.generation_uid)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (GENERATION_UID), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (16);
+    t->g_slice = TRUE;
+    memcpy (t->data, &self->parent.generation_uid, 16);
+    mxf_primer_pack_add_mapping (primer, 0x0102, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_class_init (MXFMetadataClass * klass)
 {
   MXFMetadataBaseClass *metadata_base_class = (MXFMetadataBaseClass *) klass;
 
   metadata_base_class->handle_tag = mxf_metadata_handle_tag;
+  metadata_base_class->write_tags = mxf_metadata_write_tags;
 }
 
 static void
@@ -448,10 +598,10 @@ mxf_metadata_preface_handle_tag (MXFMetadataBase * metadata,
         goto error;
       memcpy (&self->primary_package_uid, tag_data, 16);
       GST_DEBUG ("  primary package = %s",
-          mxf_ul_to_string (&self->primary_package_uid, str));
+          mxf_uuid_to_string (&self->primary_package_uid, str));
       break;
     case 0x3b06:
-      if (!mxf_ul_array_parse (&self->identifications_uids,
+      if (!mxf_uuid_array_parse (&self->identifications_uids,
               &self->n_identifications, tag_data, tag_size))
         goto error;
 
@@ -461,7 +611,7 @@ mxf_metadata_preface_handle_tag (MXFMetadataBase * metadata,
         guint i;
         for (i = 0; i < self->n_identifications; i++) {
           GST_DEBUG ("  identification %u = %s", i,
-              mxf_ul_to_string (&self->identifications_uids[i], str));
+              mxf_uuid_to_string (&self->identifications_uids[i], str));
         }
       }
 #endif
@@ -471,7 +621,7 @@ mxf_metadata_preface_handle_tag (MXFMetadataBase * metadata,
         goto error;
       memcpy (&self->content_storage_uid, tag_data, 16);
       GST_DEBUG ("  content storage = %s",
-          mxf_ul_to_string (&self->content_storage_uid, str));
+          mxf_uuid_to_string (&self->content_storage_uid, str));
       break;
     case 0x3b09:
       if (tag_size != 16)
@@ -537,7 +687,7 @@ mxf_metadata_preface_resolve (MXFMetadataBase * m, GHashTable * metadata)
   MXFMetadataBase *current = NULL;
   guint i;
 
-  if (!mxf_ul_is_zero (&self->primary_package_uid)) {
+  if (!mxf_uuid_is_zero (&self->primary_package_uid)) {
     current = g_hash_table_lookup (metadata, &self->primary_package_uid);
     if (!current || !MXF_IS_METADATA_GENERIC_PACKAGE (current)) {
       GST_ERROR ("Primary package not found");
@@ -607,8 +757,8 @@ mxf_metadata_preface_to_structure (MXFMetadataBase * m)
     gst_structure_id_set (ret, MXF_QUARK (OBJECT_MODEL_VERSION), G_TYPE_UINT,
         self->object_model_version, NULL);
 
-  if (!mxf_ul_is_zero (&self->primary_package_uid)) {
-    mxf_ul_to_string (&self->primary_package_uid, str);
+  if (!mxf_uuid_is_zero (&self->primary_package_uid)) {
+    mxf_uuid_to_string (&self->primary_package_uid, str);
     gst_structure_id_set (ret, MXF_QUARK (PRIMARY_PACKAGE), G_TYPE_STRING, str,
         NULL);
   }
@@ -712,6 +862,123 @@ mxf_metadata_preface_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_preface_write_tags (MXFMetadataBase * m, MXFPrimerPack * primer)
+{
+  MXFMetadataPreface *self = MXF_METADATA_PREFACE (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS (mxf_metadata_preface_parent_class)->write_tags
+      (m, primer);
+  MXFLocalTag *t;
+  guint i;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (LAST_MODIFIED_DATE), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (8);
+  t->g_slice = TRUE;
+  mxf_timestamp_write (&self->last_modified_date, t->data);
+  mxf_primer_pack_add_mapping (primer, 0x3b02, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (VERSION), 16);
+  t->size = 2;
+  t->data = g_slice_alloc (2);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT16_BE (t->data, self->version);
+  mxf_primer_pack_add_mapping (primer, 0x3b05, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (self->object_model_version) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (OBJECT_MODEL_VERSION), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (4);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->object_model_version);
+    mxf_primer_pack_add_mapping (primer, 0x3b07, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (!mxf_uuid_is_zero (&self->primary_package_uid)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PRIMARY_PACKAGE), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (16);
+    t->g_slice = TRUE;
+    memcpy (t->data, &self->primary_package_uid, 16);
+    mxf_primer_pack_add_mapping (primer, 0x3b08, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (IDENTIFICATIONS), 16);
+  t->size = 8 + 16 * self->n_identifications;
+  t->data = g_slice_alloc0 (t->size);
+  t->g_slice = TRUE;
+  mxf_primer_pack_add_mapping (primer, 0x3b06, &t->ul);
+  GST_WRITE_UINT32_BE (t->data, self->n_identifications);
+  GST_WRITE_UINT32_BE (t->data + 4, 16);
+  for (i = 0; i < self->n_identifications; i++) {
+    if (!self->identifications[i])
+      continue;
+
+    memcpy (t->data + 8 + 16 * i,
+        &MXF_METADATA_BASE (self->identifications[i])->instance_uid, 16);
+  }
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (CONTENT_STORAGE), 16);
+  t->size = 16;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  mxf_primer_pack_add_mapping (primer, 0x3b03, &t->ul);
+  memcpy (t->data, &MXF_METADATA_BASE (self->content_storage)->instance_uid,
+      16);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (OPERATIONAL_PATTERN), 16);
+  t->size = 16;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  mxf_primer_pack_add_mapping (primer, 0x3b09, &t->ul);
+  memcpy (t->data, &self->operational_pattern, 16);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (ESSENCE_CONTAINERS), 16);
+  t->size = 8 + 16 * self->n_essence_containers;
+  t->data = g_slice_alloc0 (t->size);
+  t->g_slice = TRUE;
+  mxf_primer_pack_add_mapping (primer, 0x3b0a, &t->ul);
+  GST_WRITE_UINT32_BE (t->data, self->n_essence_containers);
+  GST_WRITE_UINT32_BE (t->data + 4, 16);
+  for (i = 0; i < self->n_essence_containers; i++) {
+    memcpy (t->data + 8 + 16 * i, &self->essence_containers[i], 16);
+  }
+  ret = g_list_prepend (ret, t);
+
+  if (self->dm_schemes) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DM_SCHEMES), 16);
+    t->size = 8 + 16 * self->n_dm_schemes;
+    t->data = g_slice_alloc0 (t->size);
+    t->g_slice = TRUE;
+    mxf_primer_pack_add_mapping (primer, 0x3b0b, &t->ul);
+    GST_WRITE_UINT32_BE (t->data, self->n_dm_schemes);
+    GST_WRITE_UINT32_BE (t->data + 4, 16);
+    for (i = 0; i < self->n_dm_schemes; i++) {
+      memcpy (t->data + 8 + 16 * i, &self->dm_schemes[i], 16);
+    }
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_preface_init (MXFMetadataPreface * self)
 {
@@ -729,6 +996,7 @@ mxf_metadata_preface_class_init (MXFMetadataPrefaceClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_preface_handle_tag;
   metadata_base_class->resolve = mxf_metadata_preface_resolve;
   metadata_base_class->to_structure = mxf_metadata_preface_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_preface_write_tags;
   metadata_base_class->name_quark = MXF_QUARK (PREFACE);
   metadata_class->type = 0x012f;
 }
@@ -774,7 +1042,7 @@ mxf_metadata_identification_handle_tag (MXFMetadataBase * metadata,
         goto error;
       memcpy (&self->this_generation_uid, tag_data, 16);
       GST_DEBUG ("  this generation uid = %s",
-          mxf_ul_to_string (&self->this_generation_uid, str));
+          mxf_uuid_to_string (&self->this_generation_uid, str));
       break;
     case 0x3c01:
       self->company_name = mxf_utf16_to_utf8 (tag_data, tag_size);
@@ -803,7 +1071,7 @@ mxf_metadata_identification_handle_tag (MXFMetadataBase * metadata,
         goto error;
       memcpy (&self->product_uid, tag_data, 16);
       GST_DEBUG ("  product uid = %s",
-          mxf_ul_to_string (&self->product_uid, str));
+          mxf_uuid_to_string (&self->product_uid, str));
       break;
     case 0x3c06:
       if (!mxf_timestamp_parse (&self->modification_date, tag_data, tag_size))
@@ -851,8 +1119,8 @@ mxf_metadata_identification_to_structure (MXFMetadataBase * m)
   MXFMetadataIdentification *self = MXF_METADATA_IDENTIFICATION (m);
   gchar str[48];
 
-  if (!mxf_ul_is_zero (&self->this_generation_uid)) {
-    mxf_ul_to_string (&self->this_generation_uid, str);
+  if (!mxf_uuid_is_zero (&self->this_generation_uid)) {
+    mxf_uuid_to_string (&self->this_generation_uid, str);
     gst_structure_id_set (ret, MXF_QUARK (THIS_GENERATION_UID), G_TYPE_STRING,
         str, NULL);
   }
@@ -881,8 +1149,8 @@ mxf_metadata_identification_to_structure (MXFMetadataBase * m)
     gst_structure_id_set (ret, MXF_QUARK (VERSION_STRING), G_TYPE_STRING,
         self->version_string, NULL);
 
-  if (!mxf_ul_is_zero (&self->product_uid)) {
-    mxf_ul_to_string (&self->product_uid, str);
+  if (!mxf_uuid_is_zero (&self->product_uid)) {
+    mxf_uuid_to_string (&self->product_uid, str);
     gst_structure_id_set (ret, MXF_QUARK (PRODUCT_UID), G_TYPE_STRING, str,
         NULL);
   }
@@ -912,6 +1180,95 @@ mxf_metadata_identification_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_identification_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataIdentification *self = MXF_METADATA_IDENTIFICATION (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_identification_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  if (self->company_name) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (COMPANY_NAME), 16);
+    t->data = mxf_utf8_to_utf16 (self->company_name, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x3c01, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->product_name) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PRODUCT_NAME), 16);
+    t->data = mxf_utf8_to_utf16 (self->product_name, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x3c02, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (!mxf_product_version_is_valid (&self->product_version)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PRODUCT_VERSION), 16);
+    t->size = 10;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    mxf_product_version_write (&self->product_version, t->data);
+    mxf_primer_pack_add_mapping (primer, 0x3c03, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->version_string) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (VERSION_STRING), 16);
+    t->data = mxf_utf8_to_utf16 (self->version_string, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x3c04, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (!mxf_uuid_is_zero (&self->product_uid)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PRODUCT_UID), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, &self->product_uid, 16);
+    mxf_primer_pack_add_mapping (primer, 0x3c05, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (!mxf_timestamp_is_unknown (&self->modification_date)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (MODIFICATION_DATE), 16);
+    t->size = 8;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    mxf_timestamp_write (&self->modification_date, t->data);
+    mxf_primer_pack_add_mapping (primer, 0x3c06, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (!mxf_product_version_is_valid (&self->toolkit_version)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (TOOLKIT_VERSION), 16);
+    t->size = 10;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    mxf_product_version_write (&self->toolkit_version, t->data);
+    mxf_primer_pack_add_mapping (primer, 0x3c07, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->platform) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PLATFORM), 16);
+    t->data = mxf_utf8_to_utf16 (self->platform, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x3c08, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_identification_init (MXFMetadataIdentification * self)
 {
@@ -929,6 +1286,7 @@ mxf_metadata_identification_class_init (MXFMetadataIdentificationClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_identification_handle_tag;
   metadata_base_class->name_quark = MXF_QUARK (IDENTIFICATION);
   metadata_base_class->to_structure = mxf_metadata_identification_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_identification_write_tags;
   metadata_class->type = 0x0130;
 }
 
@@ -966,7 +1324,7 @@ mxf_metadata_content_storage_handle_tag (MXFMetadataBase * metadata,
 
   switch (tag) {
     case 0x1901:
-      if (!mxf_ul_array_parse (&self->packages_uids, &self->n_packages,
+      if (!mxf_uuid_array_parse (&self->packages_uids, &self->n_packages,
               tag_data, tag_size))
         goto error;
       GST_DEBUG ("  number of packages = %u", self->n_packages);
@@ -975,13 +1333,13 @@ mxf_metadata_content_storage_handle_tag (MXFMetadataBase * metadata,
         guint i;
         for (i = 0; i < self->n_packages; i++) {
           GST_DEBUG ("  package %u = %s", i,
-              mxf_ul_to_string (&self->packages_uids[i], str));
+              mxf_uuid_to_string (&self->packages_uids[i], str));
         }
       }
 #endif
       break;
     case 0x1902:
-      if (!mxf_ul_array_parse (&self->essence_container_data_uids,
+      if (!mxf_uuid_array_parse (&self->essence_container_data_uids,
               &self->n_essence_container_data, tag_data, tag_size))
         goto error;
 
@@ -992,7 +1350,7 @@ mxf_metadata_content_storage_handle_tag (MXFMetadataBase * metadata,
         guint i;
         for (i = 0; i < self->n_essence_container_data; i++) {
           GST_DEBUG ("  essence container data %u = %s", i,
-              mxf_ul_to_string (&self->essence_container_data_uids[i], str));
+              mxf_uuid_to_string (&self->essence_container_data_uids[i], str));
         }
       }
 #endif
@@ -1151,6 +1509,61 @@ mxf_metadata_content_storage_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_content_storage_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataContentStorage *self = MXF_METADATA_CONTENT_STORAGE (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_content_storage_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+  guint i;
+
+  if (self->packages) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PACKAGES), 16);
+    t->size = 8 + 16 * self->n_packages;
+    t->data = g_slice_alloc0 (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->n_packages);
+    GST_WRITE_UINT32_BE (t->data + 4, 16);
+    for (i = 0; i < self->n_packages; i++) {
+      if (!self->packages[i])
+        continue;
+
+      memcpy (t->data + 8 + i * 16,
+          &MXF_METADATA_BASE (self->packages[i])->instance_uid, 16);
+    }
+
+    mxf_primer_pack_add_mapping (primer, 0x1901, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->essence_container_data) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (ESSENCE_CONTAINER_DATA), 16);
+    t->size = 8 + 16 * self->n_essence_container_data;
+    t->data = g_slice_alloc0 (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->n_essence_container_data);
+    GST_WRITE_UINT32_BE (t->data + 4, 16);
+    for (i = 0; i < self->n_essence_container_data; i++) {
+      if (!self->essence_container_data[i])
+        continue;
+
+      memcpy (t->data + 8 + i * 16,
+          &MXF_METADATA_BASE (self->essence_container_data[i])->instance_uid,
+          16);
+    }
+
+    mxf_primer_pack_add_mapping (primer, 0x1902, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_content_storage_init (MXFMetadataContentStorage * self)
 {
@@ -1169,6 +1582,7 @@ mxf_metadata_content_storage_class_init (MXFMetadataContentStorageClass * klass)
   metadata_base_class->resolve = mxf_metadata_content_storage_resolve;
   metadata_base_class->name_quark = MXF_QUARK (CONTENT_STORAGE);
   metadata_base_class->to_structure = mxf_metadata_content_storage_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_content_storage_write_tags;
   metadata_class->type = 0x0118;
 }
 
@@ -1298,6 +1712,51 @@ mxf_metadata_essence_container_data_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_essence_container_data_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataEssenceContainerData *self =
+      MXF_METADATA_ESSENCE_CONTAINER_DATA (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_essence_container_data_parent_class)->write_tags (m,
+      primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (LINKED_PACKAGE_UID), 16);
+  t->size = 32;
+  t->data = g_slice_alloc0 (32);
+  t->g_slice = TRUE;
+  if (self->linked_package)
+    memcpy (t->data, &self->linked_package->parent.package_uid, 32);
+  mxf_primer_pack_add_mapping (primer, 0x2701, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (BODY_SID), 16);
+  t->size = 4;
+  t->data = g_slice_alloc (4);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT32_BE (t->data, self->body_sid);
+  mxf_primer_pack_add_mapping (primer, 0x3f07, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (self->index_sid) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (INDEX_SID), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (4);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->index_sid);
+    mxf_primer_pack_add_mapping (primer, 0x3f07, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_essence_container_data_init (MXFMetadataEssenceContainerData *
     self)
@@ -1318,6 +1777,8 @@ static void
   metadata_base_class->name_quark = MXF_QUARK (ESSENCE_CONTAINER_DATA);
   metadata_base_class->to_structure =
       mxf_metadata_essence_container_data_to_structure;
+  metadata_base_class->write_tags =
+      mxf_metadata_essence_container_data_write_tags;
   metadata_class->type = 0x0123;
 }
 
@@ -1378,7 +1839,7 @@ mxf_metadata_generic_package_handle_tag (MXFMetadataBase * metadata,
           mxf_timestamp_to_string (&self->package_modified_date, str));
       break;
     case 0x4403:
-      if (!mxf_ul_array_parse (&self->tracks_uids, &self->n_tracks, tag_data,
+      if (!mxf_uuid_array_parse (&self->tracks_uids, &self->n_tracks, tag_data,
               tag_size))
         goto error;
 
@@ -1388,7 +1849,7 @@ mxf_metadata_generic_package_handle_tag (MXFMetadataBase * metadata,
         guint i;
         for (i = 0; i < self->n_tracks; i++) {
           GST_DEBUG ("  track %u = %s", i,
-              mxf_ul_to_string (&self->tracks_uids[i], str));
+              mxf_uuid_to_string (&self->tracks_uids[i], str));
         }
       }
 #endif
@@ -1518,6 +1979,75 @@ mxf_metadata_generic_package_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_generic_package_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataGenericPackage *self = MXF_METADATA_GENERIC_PACKAGE (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_generic_package_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (PACKAGE_UID), 16);
+  t->size = 32;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  memcpy (t->data, &self->package_uid, 32);
+  mxf_primer_pack_add_mapping (primer, 0x4401, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (self->name) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PACKAGE_NAME), 16);
+    t->data = mxf_utf8_to_utf16 (self->name, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x4402, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (PACKAGE_CREATION_DATE), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  mxf_timestamp_write (&self->package_creation_date, t->data);
+  mxf_primer_pack_add_mapping (primer, 0x4405, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (PACKAGE_MODIFIED_DATE), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  mxf_timestamp_write (&self->package_modified_date, t->data);
+  mxf_primer_pack_add_mapping (primer, 0x4404, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (self->tracks) {
+    guint i;
+
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (TRACKS), 16);
+    t->size = 8 + 16 * self->n_tracks;
+    t->data = g_slice_alloc0 (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->n_tracks);
+    GST_WRITE_UINT32_BE (t->data + 4, 16);
+    for (i = 0; i < self->n_tracks; i++) {
+      if (!self->tracks[i])
+        continue;
+
+      memcpy (t->data + 8 + 16 * i,
+          &MXF_METADATA_BASE (self->tracks[i])->instance_uid, 16);
+    }
+    mxf_primer_pack_add_mapping (primer, 0x4403, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_generic_package_init (MXFMetadataGenericPackage * self)
 {
@@ -1534,6 +2064,7 @@ mxf_metadata_generic_package_class_init (MXFMetadataGenericPackageClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_generic_package_handle_tag;
   metadata_base_class->resolve = mxf_metadata_generic_package_resolve;
   metadata_base_class->to_structure = mxf_metadata_generic_package_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_generic_package_write_tags;
 }
 
 G_DEFINE_TYPE (MXFMetadataMaterialPackage, mxf_metadata_material_package,
@@ -1669,7 +2200,7 @@ mxf_metadata_source_package_handle_tag (MXFMetadataBase * metadata,
 
       memcpy (&self->descriptor_uid, tag_data, 16);
       GST_DEBUG ("  descriptor = %s",
-          mxf_ul_to_string (&self->descriptor_uid, str));
+          mxf_uuid_to_string (&self->descriptor_uid, str));
       break;
     default:
       ret =
@@ -1699,7 +2230,7 @@ mxf_metadata_source_package_resolve (MXFMetadataBase * m, GHashTable * metadata)
   gboolean ret;
   MXFMetadataFileDescriptor *d;
 
-  if (mxf_ul_is_zero (&self->descriptor_uid))
+  if (mxf_uuid_is_zero (&self->descriptor_uid))
     return
         MXF_METADATA_BASE_CLASS
         (mxf_metadata_source_package_parent_class)->resolve (m, metadata);
@@ -1802,6 +2333,30 @@ mxf_metadata_source_package_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_source_package_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataSourcePackage *self = MXF_METADATA_SOURCE_PACKAGE (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_source_package_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  if (self->descriptor) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DESCRIPTOR), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, &MXF_METADATA_BASE (self->descriptor)->instance_uid, 16);
+    mxf_primer_pack_add_mapping (primer, 0x4701, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_source_package_init (MXFMetadataSourcePackage * self)
 {
@@ -1818,6 +2373,7 @@ mxf_metadata_source_package_class_init (MXFMetadataSourcePackageClass * klass)
   metadata_base_class->resolve = mxf_metadata_source_package_resolve;
   metadata_base_class->name_quark = MXF_QUARK (SOURCE_PACKAGE);
   metadata_base_class->to_structure = mxf_metadata_source_package_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_source_package_write_tags;
   metadata_class->type = 0x0137;
 }
 
@@ -1870,7 +2426,7 @@ mxf_metadata_track_handle_tag (MXFMetadataBase * metadata,
         goto error;
       memcpy (&self->sequence_uid, tag_data, 16);
       GST_DEBUG ("  sequence uid = %s",
-          mxf_ul_to_string (&self->sequence_uid, str));
+          mxf_uuid_to_string (&self->sequence_uid, str));
       break;
     default:
       ret =
@@ -1959,6 +2515,53 @@ mxf_metadata_track_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_track_write_tags (MXFMetadataBase * m, MXFPrimerPack * primer)
+{
+  MXFMetadataTrack *self = MXF_METADATA_TRACK (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS (mxf_metadata_track_parent_class)->write_tags (m,
+      primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (TRACK_ID), 16);
+  t->size = 4;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT32_BE (t->data, self->track_id);
+  mxf_primer_pack_add_mapping (primer, 0x4801, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (TRACK_NUMBER), 16);
+  t->size = 4;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT32_BE (t->data, self->track_number);
+  mxf_primer_pack_add_mapping (primer, 0x4804, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (self->track_name) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (TRACK_NAME), 16);
+    t->data = mxf_utf8_to_utf16 (self->track_name, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x4802, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (SEQUENCE), 16);
+  t->size = 16;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  memcpy (t->data, &MXF_METADATA_BASE (self->sequence)->instance_uid, 16);
+  mxf_primer_pack_add_mapping (primer, 0x4803, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  return ret;
+}
+
 static void
 mxf_metadata_track_init (MXFMetadataTrack * self)
 {
@@ -1975,38 +2578,29 @@ mxf_metadata_track_class_init (MXFMetadataTrackClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_track_handle_tag;
   metadata_base_class->resolve = mxf_metadata_track_resolve;
   metadata_base_class->to_structure = mxf_metadata_track_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_track_write_tags;
 }
 
 /* SMPTE RP224 */
 static const struct
 {
-  guint8 ul[16];
-  MXFMetadataTrackType type;
+  const MXFUL *ul;
+  const MXFMetadataTrackType type;
 } mxf_metadata_track_identifier[] = {
-  { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01,
-          0x01, 0x03, 0x02, 0x01, 0x01, 0x00, 0x00, 0x00},
-      MXF_METADATA_TRACK_TIMECODE_12M_INACTIVE}, { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01, 0x01, 0x03, 0x02, 0x01,
-          0x02, 0x00, 0x00, 0x00}, MXF_METADATA_TRACK_TIMECODE_12M_ACTIVE}, { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01, 0x01, 0x03, 0x02, 0x01,
-          0x03, 0x00, 0x00, 0x00}, MXF_METADATA_TRACK_TIMECODE_309M}, { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01, 0x01, 0x03, 0x02, 0x01,
-          0x10, 0x00, 0x00, 0x00}, MXF_METADATA_TRACK_METADATA}, { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01, 0x01, 0x03, 0x02, 0x02,
-          0x01, 0x00, 0x00, 0x00}, MXF_METADATA_TRACK_PICTURE_ESSENCE}, { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01, 0x01, 0x03, 0x02, 0x02,
-          0x02, 0x00, 0x00, 0x00}, MXF_METADATA_TRACK_SOUND_ESSENCE}, { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01, 0x01, 0x03, 0x02, 0x02,
-          0x03, 0x00, 0x00, 0x00}, MXF_METADATA_TRACK_DATA_ESSENCE}, { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01, 0x01, 0x03, 0x02, 0x03,
-          0x01, 0x00, 0x00, 0x00}, MXF_METADATA_TRACK_AUXILIARY_DATA}, { {
-  0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x01, 0x01, 0x03, 0x02, 0x03,
-          0x02, 0x00, 0x00, 0x00}, MXF_METADATA_TRACK_PARSED_TEXT},
+  {
+  MXF_UL (TRACK_TIMECODE_12M_INACTIVE),
+        MXF_METADATA_TRACK_TIMECODE_12M_INACTIVE}, {
+  MXF_UL (TRACK_TIMECODE_12M_ACTIVE), MXF_METADATA_TRACK_TIMECODE_12M_ACTIVE}, {
+  MXF_UL (TRACK_TIMECODE_309M), MXF_METADATA_TRACK_TIMECODE_309M}, {
+  MXF_UL (TRACK_METADATA), MXF_METADATA_TRACK_METADATA}, {
+  MXF_UL (TRACK_PICTURE_ESSENCE), MXF_METADATA_TRACK_PICTURE_ESSENCE}, {
+  MXF_UL (TRACK_SOUND_ESSENCE), MXF_METADATA_TRACK_SOUND_ESSENCE}, {
+  MXF_UL (TRACK_DATA_ESSENCE), MXF_METADATA_TRACK_DATA_ESSENCE}, {
+  MXF_UL (TRACK_AUXILIARY_DATA), MXF_METADATA_TRACK_AUXILIARY_DATA}, {
+  MXF_UL (TRACK_PARSED_TEXT), MXF_METADATA_TRACK_PARSED_TEXT},
       /* Avid video? */
-  { {
-  0x80, 0x7d, 0x00, 0x60, 0x08, 0x14, 0x3e, 0x6f, 0x6f, 0x3c, 0x8c, 0xe1,
-          0x6c, 0xef, 0x11, 0xd2}, MXF_METADATA_TRACK_PICTURE_ESSENCE}
+  {
+  MXF_UL (TRACK_AVID_PICTURE_ESSENCE), MXF_METADATA_TRACK_PICTURE_ESSENCE}
 };
 
 MXFMetadataTrackType
@@ -2015,11 +2609,22 @@ mxf_metadata_track_identifier_parse (const MXFUL * track_identifier)
   guint i;
 
   for (i = 0; i < G_N_ELEMENTS (mxf_metadata_track_identifier); i++)
-    if (memcmp (&mxf_metadata_track_identifier[i].ul, &track_identifier->u,
-            16) == 0)
+    if (mxf_ul_is_equal (mxf_metadata_track_identifier[i].ul, track_identifier))
       return mxf_metadata_track_identifier[i].type;
 
   return MXF_METADATA_TRACK_UNKNOWN;
+}
+
+const MXFUL *
+mxf_metadata_track_identifier_get (MXFMetadataTrackType type)
+{
+  guint i;
+
+  for (i = 0; i < G_N_ELEMENTS (mxf_metadata_track_identifier); i++)
+    if (mxf_metadata_track_identifier[i].type == type)
+      return mxf_metadata_track_identifier[i].ul;
+
+  return NULL;
 }
 
 G_DEFINE_TYPE (MXFMetadataTimelineTrack, mxf_metadata_timeline_track,
@@ -2078,6 +2683,38 @@ mxf_metadata_timeline_track_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_timeline_track_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataTimelineTrack *self = MXF_METADATA_TIMELINE_TRACK (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_timeline_track_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (EDIT_RATE), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT32_BE (t->data, self->edit_rate.n);
+  GST_WRITE_UINT32_BE (t->data + 4, self->edit_rate.d);
+  mxf_primer_pack_add_mapping (primer, 0x4b01, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (ORIGIN), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT64_BE (t->data, self->origin);
+  mxf_primer_pack_add_mapping (primer, 0x4b02, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  return ret;
+}
+
 static void
 mxf_metadata_timeline_track_init (MXFMetadataTimelineTrack * self)
 {
@@ -2093,6 +2730,7 @@ mxf_metadata_timeline_track_class_init (MXFMetadataTimelineTrackClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_timeline_track_handle_tag;
   metadata_base_class->name_quark = MXF_QUARK (TIMELINE_TRACK);
   metadata_base_class->to_structure = mxf_metadata_timeline_track_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_timeline_track_write_tags;
   metadata_class->type = 0x013b;
 }
 
@@ -2152,6 +2790,38 @@ mxf_metadata_event_track_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_event_track_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataEventTrack *self = MXF_METADATA_EVENT_TRACK (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_event_track_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (EVENT_EDIT_RATE), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT32_BE (t->data, self->event_edit_rate.n);
+  GST_WRITE_UINT32_BE (t->data + 4, self->event_edit_rate.d);
+  mxf_primer_pack_add_mapping (primer, 0x4901, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (EVENT_ORIGIN), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT64_BE (t->data, self->event_origin);
+  mxf_primer_pack_add_mapping (primer, 0x4902, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  return ret;
+}
+
 static void
 mxf_metadata_event_track_init (MXFMetadataEventTrack * self)
 {
@@ -2167,6 +2837,7 @@ mxf_metadata_event_track_class_init (MXFMetadataEventTrackClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_event_track_handle_tag;
   metadata_base_class->name_quark = MXF_QUARK (EVENT_TRACK);
   metadata_base_class->to_structure = mxf_metadata_event_track_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_event_track_write_tags;
   metadata_class->type = 0x0139;
 }
 
@@ -2229,7 +2900,7 @@ mxf_metadata_sequence_handle_tag (MXFMetadataBase * metadata,
       GST_DEBUG ("  duration = %" G_GINT64_FORMAT, self->duration);
       break;
     case 0x1001:
-      if (!mxf_ul_array_parse (&self->structural_components_uids,
+      if (!mxf_uuid_array_parse (&self->structural_components_uids,
               &self->n_structural_components, tag_data, tag_size))
         goto error;
 
@@ -2240,7 +2911,7 @@ mxf_metadata_sequence_handle_tag (MXFMetadataBase * metadata,
         guint i;
         for (i = 0; i < self->n_structural_components; i++) {
           GST_DEBUG ("  structural component %u = %s", i,
-              mxf_ul_to_string (&self->structural_components_uids[i], str));
+              mxf_uuid_to_string (&self->structural_components_uids[i], str));
         }
       }
 #endif
@@ -2345,6 +3016,59 @@ mxf_metadata_sequence_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_sequence_write_tags (MXFMetadataBase * m, MXFPrimerPack * primer)
+{
+  MXFMetadataSequence *self = MXF_METADATA_SEQUENCE (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS (mxf_metadata_sequence_parent_class)->write_tags
+      (m, primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (DATA_DEFINITION), 16);
+  t->size = 16;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  memcpy (t->data, &self->data_definition, 16);
+  mxf_primer_pack_add_mapping (primer, 0x0201, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (DURATION), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT64_BE (t->data, self->duration);
+  mxf_primer_pack_add_mapping (primer, 0x0202, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (self->structural_components) {
+    guint i;
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (STRUCTURAL_COMPONENTS), 16);
+    t->size = 8 + 16 * self->n_structural_components;
+    t->data = g_slice_alloc0 (t->size);
+    t->g_slice = TRUE;
+
+    GST_WRITE_UINT32_BE (t->data, self->n_structural_components);
+    GST_WRITE_UINT32_BE (t->data + 4, 16);
+    for (i = 0; i < self->n_structural_components; i++) {
+      if (!self->structural_components[i])
+        continue;
+
+      memcpy (t->data + 8 + i * 16,
+          &MXF_METADATA_BASE (self->structural_components[i])->instance_uid,
+          16);
+    }
+
+    mxf_primer_pack_add_mapping (primer, 0x1001, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_sequence_init (MXFMetadataSequence * self)
 {
@@ -2363,6 +3087,7 @@ mxf_metadata_sequence_class_init (MXFMetadataSequenceClass * klass)
   metadata_base_class->resolve = mxf_metadata_sequence_resolve;
   metadata_base_class->name_quark = MXF_QUARK (SEQUENCE);
   metadata_base_class->to_structure = mxf_metadata_sequence_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_sequence_write_tags;
   metadata_class->type = 0x010f;
 }
 
@@ -2429,6 +3154,37 @@ mxf_metadata_structural_component_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_structural_component_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataStructuralComponent *self = MXF_METADATA_STRUCTURAL_COMPONENT (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_structural_component_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (DATA_DEFINITION), 16);
+  t->size = 16;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  memcpy (t->data, &self->data_definition, 16);
+  mxf_primer_pack_add_mapping (primer, 0x0201, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (DURATION), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT64_BE (t->data, self->duration);
+  mxf_primer_pack_add_mapping (primer, 0x0202, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  return ret;
+}
+
 static void
 mxf_metadata_structural_component_init (MXFMetadataStructuralComponent * self)
 {
@@ -2445,6 +3201,8 @@ static void
       mxf_metadata_structural_component_handle_tag;
   metadata_base_class->to_structure =
       mxf_metadata_structural_component_to_structure;
+  metadata_base_class->write_tags =
+      mxf_metadata_structural_component_write_tags;
 }
 
 G_DEFINE_TYPE (MXFMetadataTimecodeComponent, mxf_metadata_timecode_component,
@@ -2512,6 +3270,46 @@ mxf_metadata_timecode_component_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_timecode_component_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataTimecodeComponent *self = MXF_METADATA_TIMECODE_COMPONENT (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_timecode_component_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (ROUNDED_TIMECODE_BASE), 16);
+  t->size = 2;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT16_BE (t->data, self->rounded_timecode_base);
+  mxf_primer_pack_add_mapping (primer, 0x1502, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (START_TIMECODE), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT64_BE (t->data, self->start_timecode);
+  mxf_primer_pack_add_mapping (primer, 0x1501, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (DROP_FRAME), 16);
+  t->size = 1;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT8 (t->data, (self->drop_frame) ? 1 : 0);
+  mxf_primer_pack_add_mapping (primer, 0x1503, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  return ret;
+}
+
 static void
 mxf_metadata_timecode_component_init (MXFMetadataTimecodeComponent * self)
 {
@@ -2529,6 +3327,7 @@ mxf_metadata_timecode_component_class_init (MXFMetadataTimecodeComponentClass *
   metadata_base_class->name_quark = MXF_QUARK (TIMECODE_COMPONENT);
   metadata_base_class->to_structure =
       mxf_metadata_timecode_component_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_timecode_component_write_tags;
   metadata_class->type = 0x0114;
 }
 
@@ -2643,6 +3442,45 @@ mxf_metadata_source_clip_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_source_clip_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataSourceClip *self = MXF_METADATA_SOURCE_CLIP (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_source_clip_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (START_POSITION), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT64_BE (t->data, self->start_position);
+  mxf_primer_pack_add_mapping (primer, 0x1201, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (SOURCE_PACKAGE_ID), 16);
+  t->size = 32;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  memcpy (t->data, &self->source_package_id, 32);
+  mxf_primer_pack_add_mapping (primer, 0x1101, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (SOURCE_TRACK_ID), 16);
+  t->size = 4;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT32_BE (t->data, self->source_track_id);
+  mxf_primer_pack_add_mapping (primer, 0x1102, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  return ret;
+}
 
 static void
 mxf_metadata_source_clip_init (MXFMetadataSourceClip * self)
@@ -2660,6 +3498,7 @@ mxf_metadata_source_clip_class_init (MXFMetadataSourceClipClass * klass)
   metadata_base_class->resolve = mxf_metadata_source_clip_resolve;
   metadata_base_class->name_quark = MXF_QUARK (SOURCE_CLIP);
   metadata_base_class->to_structure = mxf_metadata_source_clip_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_source_clip_write_tags;
   metadata_class->type = 0x0111;
 }
 
@@ -2771,6 +3610,35 @@ mxf_metadata_dm_source_clip_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_dm_source_clip_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataDMSourceClip *self = MXF_METADATA_DM_SOURCE_CLIP (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_dm_source_clip_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  if (self->track_ids) {
+    guint i;
+
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DM_SOURCECLIP_TRACK_IDS), 16);
+    t->size = 8 + 4 * self->n_track_ids;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->n_track_ids);
+    GST_WRITE_UINT32_BE (t->data + 4, 4);
+    for (i = 0; i < self->n_track_ids; i++)
+      GST_WRITE_UINT32_BE (t->data + 8 + i * 4, self->track_ids[i]);
+    mxf_primer_pack_add_mapping (primer, 0x6103, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_dm_source_clip_init (MXFMetadataDMSourceClip * self)
 {
@@ -2788,6 +3656,7 @@ mxf_metadata_dm_source_clip_class_init (MXFMetadataDMSourceClipClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_dm_source_clip_handle_tag;
   metadata_base_class->name_quark = MXF_QUARK (DM_SOURCE_CLIP);
   metadata_base_class->to_structure = mxf_metadata_dm_source_clip_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_dm_source_clip_write_tags;
   metadata_class->type = 0x0145;
 }
 
@@ -2870,7 +3739,7 @@ mxf_metadata_dm_segment_handle_tag (MXFMetadataBase * metadata,
 
       memcpy (&self->dm_framework_uid, tag_data, 16);
       GST_DEBUG ("  DM framework = %s",
-          mxf_ul_to_string (&self->dm_framework_uid, str));
+          mxf_uuid_to_string (&self->dm_framework_uid, str));
       break;
     default:
       ret =
@@ -2965,10 +3834,68 @@ mxf_metadata_dm_segment_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_dm_segment_write_tags (MXFMetadataBase * m, MXFPrimerPack * primer)
+{
+  MXFMetadataDMSegment *self = MXF_METADATA_DM_SEGMENT (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS (mxf_metadata_dm_segment_parent_class)->write_tags
+      (m, primer);
+  MXFLocalTag *t;
+
+  if (self->event_start_position != -1) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (EVENT_START_POSITION), 16);
+    t->size = 8;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT64_BE (t->data, self->event_start_position);
+    mxf_primer_pack_add_mapping (primer, 0x0601, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->event_comment) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (EVENT_COMMENT), 16);
+    t->data = mxf_utf8_to_utf16 (self->event_comment, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x0602, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->track_ids) {
+    guint i;
+
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DM_SEGMENT_TRACK_IDS), 16);
+    t->size = 8 + 4 * self->n_track_ids;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->n_track_ids);
+    GST_WRITE_UINT32_BE (t->data + 4, 4);
+    for (i = 0; i < self->n_track_ids; i++)
+      GST_WRITE_UINT32_BE (t->data + 8 + i * 4, self->track_ids[i]);
+    mxf_primer_pack_add_mapping (primer, 0x6102, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->dm_framework) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DM_FRAMEWORK), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, &MXF_METADATA_BASE (self->dm_framework)->instance_uid, 16);
+    mxf_primer_pack_add_mapping (primer, 0x6101, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_dm_segment_init (MXFMetadataDMSegment * self)
 {
-
+  self->event_start_position = -1;
 }
 
 static void
@@ -2983,6 +3910,7 @@ mxf_metadata_dm_segment_class_init (MXFMetadataDMSegmentClass * klass)
   metadata_base_class->resolve = mxf_metadata_dm_segment_resolve;
   metadata_base_class->name_quark = MXF_QUARK (DM_SEGMENT);
   metadata_base_class->to_structure = mxf_metadata_dm_segment_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_dm_segment_write_tags;
   metadata_class->type = 0x0141;
 }
 
@@ -3018,7 +3946,7 @@ mxf_metadata_generic_descriptor_handle_tag (MXFMetadataBase * metadata,
 
   switch (tag) {
     case 0x2f01:
-      if (!mxf_ul_array_parse (&self->locators_uids, &self->n_locators,
+      if (!mxf_uuid_array_parse (&self->locators_uids, &self->n_locators,
               tag_data, tag_size))
         goto error;
 
@@ -3028,7 +3956,7 @@ mxf_metadata_generic_descriptor_handle_tag (MXFMetadataBase * metadata,
         guint i;
         for (i = 0; i < self->n_locators; i++) {
           GST_DEBUG ("  locator %u = %s", i,
-              mxf_ul_to_string (&self->locators_uids[i], str));
+              mxf_uuid_to_string (&self->locators_uids[i], str));
         }
       }
 #endif
@@ -3129,6 +4057,39 @@ mxf_metadata_generic_descriptor_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_generic_descriptor_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataGenericDescriptor *self = MXF_METADATA_GENERIC_DESCRIPTOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_generic_descriptor_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  if (self->locators) {
+    guint i;
+
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (LOCATORS), 16);
+    t->size = 8 + 16 * self->n_locators;;
+    t->data = g_slice_alloc0 (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->n_locators);
+    GST_WRITE_UINT32_BE (t->data + 4, 16);
+    for (i = 0; i < self->n_locators; i++) {
+      if (!self->locators[i])
+        continue;
+      memcpy (t->data + 8 + 16 * i,
+          &MXF_METADATA_BASE (self->locators[i])->instance_uid, 16);
+    }
+    mxf_primer_pack_add_mapping (primer, 0x2f01, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_generic_descriptor_init (MXFMetadataGenericDescriptor * self)
 {
@@ -3147,6 +4108,7 @@ mxf_metadata_generic_descriptor_class_init (MXFMetadataGenericDescriptorClass *
   metadata_base_class->resolve = mxf_metadata_generic_descriptor_resolve;
   metadata_base_class->to_structure =
       mxf_metadata_generic_descriptor_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_generic_descriptor_write_tags;
 }
 
 G_DEFINE_TYPE (MXFMetadataFileDescriptor, mxf_metadata_file_descriptor,
@@ -3247,6 +4209,71 @@ mxf_metadata_file_descriptor_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_file_descriptor_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataFileDescriptor *self = MXF_METADATA_FILE_DESCRIPTOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_file_descriptor_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  if (self->linked_track_id) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (LINKED_TRACK_ID), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->linked_track_id);
+    mxf_primer_pack_add_mapping (primer, 0x3006, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (SAMPLE_RATE), 16);
+  t->size = 8;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT32_BE (t->data, self->sample_rate.n);
+  GST_WRITE_UINT32_BE (t->data + 4, self->sample_rate.d);
+  mxf_primer_pack_add_mapping (primer, 0x3001, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (self->container_duration > 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (CONTAINER_DURATION), 16);
+    t->size = 8;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT64_BE (t->data, self->container_duration);
+    mxf_primer_pack_add_mapping (primer, 0x3002, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (ESSENCE_CONTAINER), 16);
+  t->size = 16;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  memcpy (t->data, &self->essence_container, 16);
+  mxf_primer_pack_add_mapping (primer, 0x3004, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (!mxf_ul_is_zero (&self->codec)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (CODEC), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, &self->codec, 16);
+    mxf_primer_pack_add_mapping (primer, 0x3005, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_file_descriptor_init (MXFMetadataFileDescriptor * self)
 {
@@ -3262,6 +4289,7 @@ mxf_metadata_file_descriptor_class_init (MXFMetadataFileDescriptorClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_file_descriptor_handle_tag;
   metadata_base_class->name_quark = MXF_QUARK (FILE_DESCRIPTOR);
   metadata_base_class->to_structure = mxf_metadata_file_descriptor_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_file_descriptor_write_tags;
   metadata_class->type = 0x0125;
 }
 
@@ -3567,6 +4595,287 @@ mxf_metadata_generic_picture_essence_descriptor_to_structure (MXFMetadataBase *
   return ret;
 }
 
+static GList *
+mxf_metadata_generic_picture_essence_descriptor_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataGenericPictureEssenceDescriptor *self =
+      MXF_METADATA_GENERIC_PICTURE_ESSENCE_DESCRIPTOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_generic_picture_essence_descriptor_parent_class)->write_tags
+      (m, primer);
+  MXFLocalTag *t;
+
+  if (self->signal_standard != 1) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (SIGNAL_STANDARD), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->signal_standard);
+    mxf_primer_pack_add_mapping (primer, 0x3215, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->frame_layout != 255) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (FRAME_LAYOUT), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->frame_layout);
+    mxf_primer_pack_add_mapping (primer, 0x320c, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->stored_width != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (STORED_WIDTH), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->stored_width);
+    mxf_primer_pack_add_mapping (primer, 0x3203, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->stored_height != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (STORED_HEIGHT), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->stored_height);
+    mxf_primer_pack_add_mapping (primer, 0x3202, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->stored_f2_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (STORED_F2_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->stored_f2_offset);
+    mxf_primer_pack_add_mapping (primer, 0x3216, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->sampled_width != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (SAMPLED_WIDTH), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->sampled_width);
+    mxf_primer_pack_add_mapping (primer, 0x3205, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->sampled_height != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (SAMPLED_HEIGHT), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->sampled_height);
+    mxf_primer_pack_add_mapping (primer, 0x3204, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->sampled_x_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (SAMPLED_X_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->sampled_x_offset);
+    mxf_primer_pack_add_mapping (primer, 0x3206, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->sampled_y_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (SAMPLED_Y_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->sampled_y_offset);
+    mxf_primer_pack_add_mapping (primer, 0x3207, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->display_height != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DISPLAY_HEIGHT), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->display_height);
+    mxf_primer_pack_add_mapping (primer, 0x3208, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->display_width != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DISPLAY_WIDTH), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->display_width);
+    mxf_primer_pack_add_mapping (primer, 0x3209, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->display_x_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DISPLAY_X_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->display_x_offset);
+    mxf_primer_pack_add_mapping (primer, 0x320a, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->display_y_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DISPLAY_Y_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->display_y_offset);
+    mxf_primer_pack_add_mapping (primer, 0x320b, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->display_f2_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DISPLAY_F2_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->display_f2_offset);
+    mxf_primer_pack_add_mapping (primer, 0x3217, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->aspect_ratio.n != 0 && self->aspect_ratio.d != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (ASPECT_RATIO), 16);
+    t->size = 8;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->aspect_ratio.n);
+    GST_WRITE_UINT32_BE (t->data + 4, self->aspect_ratio.d);
+    mxf_primer_pack_add_mapping (primer, 0x320e, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->active_format_descriptor != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (ACTIVE_FORMAT_DESCRIPTOR), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->active_format_descriptor);
+    mxf_primer_pack_add_mapping (primer, 0x3218, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->video_line_map[0] != 0 || self->video_line_map[1] != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (VIDEO_LINE_MAP), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT64_BE (t->data, self->video_line_map[0]);
+    GST_WRITE_UINT64_BE (t->data + 8, self->video_line_map[1]);
+    mxf_primer_pack_add_mapping (primer, 0x320d, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->alpha_transparency != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (ALPHA_TRANSPARENCY), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->alpha_transparency);
+    mxf_primer_pack_add_mapping (primer, 0x320f, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (!mxf_ul_is_zero (&self->capture_gamma)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (CAPTURE_GAMMA), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, &self->capture_gamma, 16);
+    mxf_primer_pack_add_mapping (primer, 0x3210, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->image_alignment_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (IMAGE_ALIGNMENT_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->image_alignment_offset);
+    mxf_primer_pack_add_mapping (primer, 0x3211, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->image_start_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (IMAGE_START_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->image_start_offset);
+    mxf_primer_pack_add_mapping (primer, 0x3213, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->image_end_offset != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (IMAGE_END_OFFSET), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->image_end_offset);
+    mxf_primer_pack_add_mapping (primer, 0x3214, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->field_dominance != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (FIELD_DOMINANCE), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->field_dominance);
+    mxf_primer_pack_add_mapping (primer, 0x3212, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (!mxf_ul_is_zero (&self->picture_essence_coding)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PICTURE_ESSENCE_CODING), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, &self->picture_essence_coding, 16);
+    mxf_primer_pack_add_mapping (primer, 0x3201, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
     mxf_metadata_generic_picture_essence_descriptor_init
     (MXFMetadataGenericPictureEssenceDescriptor * self)
@@ -3588,6 +4897,8 @@ static void
       MXF_QUARK (GENERIC_PICTURE_ESSENCE_DESCRIPTOR);
   metadata_base_class->to_structure =
       mxf_metadata_generic_picture_essence_descriptor_to_structure;
+  metadata_base_class->write_tags =
+      mxf_metadata_generic_picture_essence_descriptor_write_tags;
   metadata_class->type = 0x0127;
 }
 
@@ -3618,8 +4929,10 @@ void mxf_metadata_generic_picture_essence_descriptor_set_caps
    * See SMPTE 377M E2.2 and E1.2
    */
   if (self->frame_layout == 1 || self->frame_layout == 2
-      || self->frame_layout == 4)
+      || self->frame_layout == 4) {
     height *= 2;
+    gst_caps_set_simple (caps, "interlaced", G_TYPE_BOOLEAN, TRUE, NULL);
+  }
 
   if (width == 0 || height == 0) {
     GST_ERROR ("Invalid width/height");
@@ -3640,6 +4953,72 @@ void mxf_metadata_generic_picture_essence_descriptor_set_caps
   gst_caps_set_simple (caps, "pixel-aspect-ratio", GST_TYPE_FRACTION,
       par_n, par_d, NULL);
 }
+
+static gint
+gst_greatest_common_divisor (gint a, gint b)
+{
+  while (b != 0) {
+    int temp = a;
+
+    a = b;
+    b = temp % b;
+  }
+
+  return ABS (a);
+}
+
+gboolean
+    mxf_metadata_generic_picture_essence_descriptor_from_caps
+    (MXFMetadataGenericPictureEssenceDescriptor * self, GstCaps * caps) {
+  gint par_n, par_d, gcd;
+  gint width, height;
+  gint fps_n, fps_d;
+  MXFMetadataFileDescriptor *f = (MXFMetadataFileDescriptor *) self;
+  GstStructure *s;
+  gboolean interlaced;
+
+  g_return_val_if_fail (MXF_IS_METADATA_GENERIC_PICTURE_ESSENCE_DESCRIPTOR
+      (self), FALSE);
+  g_return_val_if_fail (GST_IS_CAPS (caps), FALSE);
+
+  s = gst_caps_get_structure (caps, 0);
+
+  if (!gst_structure_get_boolean (s, "interlaced", &interlaced) || !interlaced)
+    self->frame_layout = 0;
+  else
+    self->frame_layout = 3;
+
+  if (!gst_structure_get_fraction (s, "framerate", &fps_n, &fps_d)) {
+    GST_ERROR ("Invalid framerate");
+    return FALSE;
+  }
+  f->sample_rate.n = fps_n;
+  f->sample_rate.d = fps_d;
+
+  if (!gst_structure_get_int (s, "width", &width) ||
+      !gst_structure_get_int (s, "height", &height)) {
+    GST_ERROR ("Invalid width/height");
+    return FALSE;
+  }
+
+  self->stored_width = width;
+  self->stored_height = height;
+
+  if (!gst_structure_get_fraction (s, "pixel-aspect-ratio", &par_n, &par_d)) {
+    par_n = 1;
+    par_d = 1;
+  }
+
+  self->aspect_ratio.n = par_n * width;
+  self->aspect_ratio.d = par_d * height;
+  gcd =
+      gst_greatest_common_divisor (self->aspect_ratio.n, self->aspect_ratio.d);
+  self->aspect_ratio.n /= gcd;
+  self->aspect_ratio.d /= gcd;
+
+  return TRUE;
+}
+
 
 G_DEFINE_TYPE (MXFMetadataGenericSoundEssenceDescriptor,
     mxf_metadata_generic_sound_essence_descriptor,
@@ -3770,12 +5149,115 @@ mxf_metadata_generic_sound_essence_descriptor_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_generic_sound_essence_descriptor_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataGenericSoundEssenceDescriptor *self =
+      MXF_METADATA_GENERIC_SOUND_ESSENCE_DESCRIPTOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_generic_sound_essence_descriptor_parent_class)->write_tags
+      (m, primer);
+  MXFLocalTag *t;
+
+  if (self->audio_sampling_rate.d && self->audio_sampling_rate.n) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (AUDIO_SAMPLING_RATE), 16);
+    t->size = 8;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->audio_sampling_rate.n);
+    GST_WRITE_UINT32_BE (t->data + 4, self->audio_sampling_rate.d);
+    mxf_primer_pack_add_mapping (primer, 0x3d03, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  t = g_slice_new0 (MXFLocalTag);
+  memcpy (&t->ul, MXF_UL (LOCKED), 16);
+  t->size = 1;
+  t->data = g_slice_alloc (t->size);
+  t->g_slice = TRUE;
+  GST_WRITE_UINT8 (t->data, (self->locked) ? 1 : 0);
+  mxf_primer_pack_add_mapping (primer, 0x3d02, &t->ul);
+  ret = g_list_prepend (ret, t);
+
+  if (self->audio_ref_level) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (AUDIO_REF_LEVEL), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->audio_ref_level);
+    mxf_primer_pack_add_mapping (primer, 0x3d04, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->electro_spatial_formulation != 255) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (ELECTRO_SPATIAL_FORMULATION), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->electro_spatial_formulation);
+    mxf_primer_pack_add_mapping (primer, 0x3d05, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->channel_count) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (CHANNEL_COUNT), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->channel_count);
+    mxf_primer_pack_add_mapping (primer, 0x3d07, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->quantization_bits) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (QUANTIZATION_BITS), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->quantization_bits);
+    mxf_primer_pack_add_mapping (primer, 0x3d01, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->dial_norm != 0) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DIAL_NORM), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->dial_norm);
+    mxf_primer_pack_add_mapping (primer, 0x3d0c, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (!mxf_ul_is_zero (&self->sound_essence_compression)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (SOUND_ESSENCE_COMPRESSION), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, &self->sound_essence_compression, 16);
+    mxf_primer_pack_add_mapping (primer, 0x3d06, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
     mxf_metadata_generic_sound_essence_descriptor_init
     (MXFMetadataGenericSoundEssenceDescriptor * self)
 {
   self->audio_sampling_rate.n = 48000;
   self->audio_sampling_rate.d = 1;
+  self->electro_spatial_formulation = 255;
 }
 
 static void
@@ -3791,6 +5273,8 @@ static void
       MXF_QUARK (GENERIC_SOUND_ESSENCE_DESCRIPTOR);
   metadata_base_class->to_structure =
       mxf_metadata_generic_sound_essence_descriptor_to_structure;
+  metadata_base_class->write_tags =
+      mxf_metadata_generic_sound_essence_descriptor_write_tags;
   metadata_class->type = 0x0142;
 }
 
@@ -3816,6 +5300,38 @@ void mxf_metadata_generic_sound_essence_descriptor_set_caps
         NULL);
   }
 }
+
+gboolean
+    mxf_metadata_generic_sound_essence_descriptor_from_caps
+    (MXFMetadataGenericSoundEssenceDescriptor * self, GstCaps * caps) {
+  gint rate;
+  gint channels;
+  GstStructure *s;
+
+  g_return_val_if_fail (MXF_IS_METADATA_GENERIC_SOUND_ESSENCE_DESCRIPTOR (self),
+      FALSE);
+  g_return_val_if_fail (GST_IS_CAPS (caps), FALSE);
+
+  s = gst_caps_get_structure (caps, 0);
+
+  if (!gst_structure_get_int (s, "rate", &rate) || rate == 0) {
+    GST_WARNING ("No samplerate");
+    return FALSE;
+  } else {
+    self->audio_sampling_rate.n = rate;
+    self->audio_sampling_rate.d = 1;
+  }
+
+  if (!gst_structure_get_int (s, "channels", &channels) || channels == 0) {
+    GST_WARNING ("No channels");
+    return FALSE;
+  } else {
+    self->channel_count = channels;
+  }
+
+  return TRUE;
+}
+
 
 G_DEFINE_TYPE (MXFMetadataCDCIPictureEssenceDescriptor,
     mxf_metadata_cdci_picture_essence_descriptor,
@@ -3933,7 +5449,7 @@ mxf_metadata_cdci_picture_essence_descriptor_to_structure (MXFMetadataBase * m)
     gst_structure_id_set (ret, MXF_QUARK (VERTICAL_SUBSAMPLING), G_TYPE_UINT,
         self->vertical_subsampling, NULL);
 
-  if (self->color_siting != 0)
+  if (self->color_siting != 255)
     gst_structure_id_set (ret, MXF_QUARK (COLOR_SITING), G_TYPE_UCHAR,
         self->color_siting, NULL);
 
@@ -3963,11 +5479,136 @@ mxf_metadata_cdci_picture_essence_descriptor_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_cdci_picture_essence_descriptor_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataCDCIPictureEssenceDescriptor *self =
+      MXF_METADATA_CDCI_PICTURE_ESSENCE_DESCRIPTOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_cdci_picture_essence_descriptor_parent_class)->write_tags
+      (m, primer);
+  MXFLocalTag *t;
+
+  if (self->component_depth) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (COMPONENT_DEPTH), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->component_depth);
+    mxf_primer_pack_add_mapping (primer, 0x3301, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->horizontal_subsampling) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (HORIZONTAL_SUBSAMPLING), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->horizontal_subsampling);
+    mxf_primer_pack_add_mapping (primer, 0x3302, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->vertical_subsampling) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (VERTICAL_SUBSAMPLING), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->vertical_subsampling);
+    mxf_primer_pack_add_mapping (primer, 0x3308, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->color_siting != 0xff) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (COLOR_SITING), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->color_siting);
+    mxf_primer_pack_add_mapping (primer, 0x3303, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->reversed_byte_order) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (REVERSED_BYTE_ORDER), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, (self->reversed_byte_order) ? 1 : 0);
+    mxf_primer_pack_add_mapping (primer, 0x330b, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->padding_bits) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PADDING_BITS), 16);
+    t->size = 2;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT16_BE (t->data, self->padding_bits);
+    mxf_primer_pack_add_mapping (primer, 0x3307, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->alpha_sample_depth) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (ALPHA_SAMPLE_DEPTH), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->alpha_sample_depth);
+    mxf_primer_pack_add_mapping (primer, 0x3309, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->black_ref_level) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (BLACK_REF_LEVEL), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->black_ref_level);
+    mxf_primer_pack_add_mapping (primer, 0x3304, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->white_ref_level) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (WHITE_REF_LEVEL), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->white_ref_level);
+    mxf_primer_pack_add_mapping (primer, 0x3305, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->color_range) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (COLOR_RANGE), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->color_range);
+    mxf_primer_pack_add_mapping (primer, 0x3306, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
     mxf_metadata_cdci_picture_essence_descriptor_init
     (MXFMetadataCDCIPictureEssenceDescriptor * self)
 {
-
+  self->color_siting = 0xff;
 }
 
 static void
@@ -3982,6 +5623,8 @@ static void
   metadata_base_class->name_quark = MXF_QUARK (CDCI_PICTURE_ESSENCE_DESCRIPTOR);
   metadata_base_class->to_structure =
       mxf_metadata_cdci_picture_essence_descriptor_to_structure;
+  metadata_base_class->write_tags =
+      mxf_metadata_cdci_picture_essence_descriptor_write_tags;
   metadata_class->type = 0x0128;
 }
 
@@ -4138,6 +5781,88 @@ mxf_metadata_rgba_picture_essence_descriptor_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_rgba_picture_essence_descriptor_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataRGBAPictureEssenceDescriptor *self =
+      MXF_METADATA_RGBA_PICTURE_ESSENCE_DESCRIPTOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_rgba_picture_essence_descriptor_parent_class)->write_tags
+      (m, primer);
+  MXFLocalTag *t;
+
+  if (self->component_max_ref != 255) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (COMPONENT_MAX_REF), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->component_max_ref);
+    mxf_primer_pack_add_mapping (primer, 0x3406, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->component_min_ref) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (COMPONENT_MIN_REF), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->component_min_ref);
+    mxf_primer_pack_add_mapping (primer, 0x3407, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->alpha_max_ref != 255) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (ALPHA_MAX_REF), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->alpha_max_ref);
+    mxf_primer_pack_add_mapping (primer, 0x3408, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->alpha_min_ref) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (ALPHA_MIN_REF), 16);
+    t->size = 4;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->alpha_min_ref);
+    mxf_primer_pack_add_mapping (primer, 0x3409, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->scanning_direction) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (SCANNING_DIRECTION), 16);
+    t->size = 1;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT8 (t->data, self->scanning_direction);
+    mxf_primer_pack_add_mapping (primer, 0x3405, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  if (self->pixel_layout) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (PIXEL_LAYOUT), 16);
+    t->size = 2 * self->n_pixel_layout + 2;
+    t->data = g_slice_alloc0 (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, self->pixel_layout, self->n_pixel_layout * 2);
+    mxf_primer_pack_add_mapping (primer, 0x3401, &t->ul);
+    ret = g_list_prepend (ret, t);
+
+  }
+
+  return ret;
+}
+
 static void
     mxf_metadata_rgba_picture_essence_descriptor_init
     (MXFMetadataRGBAPictureEssenceDescriptor * self)
@@ -4161,6 +5886,8 @@ static void
   metadata_base_class->name_quark = MXF_QUARK (RGBA_PICTURE_ESSENCE_DESCRIPTOR);
   metadata_base_class->to_structure =
       mxf_metadata_rgba_picture_essence_descriptor_to_structure;
+  metadata_base_class->write_tags =
+      mxf_metadata_rgba_picture_essence_descriptor_write_tags;
   metadata_class->type = 0x0129;
 }
 
@@ -4227,6 +5954,32 @@ mxf_metadata_generic_data_essence_descriptor_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_generic_data_essence_descriptor_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataGenericDataEssenceDescriptor *self =
+      MXF_METADATA_GENERIC_DATA_ESSENCE_DESCRIPTOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_generic_data_essence_descriptor_parent_class)->write_tags
+      (m, primer);
+  MXFLocalTag *t;
+
+  if (!mxf_ul_is_zero (&self->data_essence_coding)) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (DATA_ESSENCE_CODING), 16);
+    t->size = 16;
+    t->data = g_slice_alloc (t->size);
+    t->g_slice = TRUE;
+    memcpy (t->data, &self->data_essence_coding, 16);
+    mxf_primer_pack_add_mapping (primer, 0x3e01, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
     mxf_metadata_generic_data_essence_descriptor_init
     (MXFMetadataGenericDataEssenceDescriptor * self)
@@ -4246,6 +5999,8 @@ static void
   metadata_base_class->name_quark = MXF_QUARK (GENERIC_DATA_ESSENCE_DESCRIPTOR);
   metadata_base_class->to_structure =
       mxf_metadata_generic_data_essence_descriptor_to_structure;
+  metadata_base_class->write_tags =
+      mxf_metadata_generic_data_essence_descriptor_write_tags;
   metadata_class->type = 0x0143;
 }
 
@@ -4281,7 +6036,7 @@ mxf_metadata_multiple_descriptor_handle_tag (MXFMetadataBase * metadata,
 
   switch (tag) {
     case 0x3f01:
-      if (!mxf_ul_array_parse (&self->sub_descriptors_uids,
+      if (!mxf_uuid_array_parse (&self->sub_descriptors_uids,
               &self->n_sub_descriptors, tag_data, tag_size))
         goto error;
 
@@ -4291,7 +6046,7 @@ mxf_metadata_multiple_descriptor_handle_tag (MXFMetadataBase * metadata,
         guint i;
         for (i = 0; i < self->n_sub_descriptors; i++) {
           GST_DEBUG ("    sub descriptor %u = %s", i,
-              mxf_ul_to_string (&self->sub_descriptors_uids[i], str));
+              mxf_uuid_to_string (&self->sub_descriptors_uids[i], str));
         }
       }
 #endif
@@ -4391,6 +6146,40 @@ mxf_metadata_multiple_descriptor_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_multiple_descriptor_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataMultipleDescriptor *self = MXF_METADATA_MULTIPLE_DESCRIPTOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_multiple_descriptor_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  if (self->sub_descriptors) {
+    guint i;
+
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (SUB_DESCRIPTORS), 16);
+    t->size = 8 + 16 * self->n_sub_descriptors;
+    t->data = g_slice_alloc0 (t->size);
+    t->g_slice = TRUE;
+    GST_WRITE_UINT32_BE (t->data, self->n_sub_descriptors);
+    GST_WRITE_UINT32_BE (t->data + 4, 16);
+    for (i = 0; i < self->n_sub_descriptors; i++) {
+      if (!self->sub_descriptors[i])
+        continue;
+
+      memcpy (t->data + 8 + 16 * i,
+          &MXF_METADATA_BASE (self->sub_descriptors[i])->instance_uid, 16);
+    }
+    mxf_primer_pack_add_mapping (primer, 0x3f01, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_multiple_descriptor_init (MXFMetadataMultipleDescriptor * self)
 {
@@ -4411,6 +6200,7 @@ mxf_metadata_multiple_descriptor_class_init (MXFMetadataMultipleDescriptorClass
   metadata_base_class->name_quark = MXF_QUARK (MULTIPLE_DESCRIPTOR);
   metadata_base_class->to_structure =
       mxf_metadata_multiple_descriptor_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_multiple_descriptor_write_tags;
   metadata_class->type = 0x0144;
 }
 
@@ -4480,6 +6270,27 @@ mxf_metadata_text_locator_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_text_locator_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataTextLocator *self = MXF_METADATA_TEXT_LOCATOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_text_locator_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  if (self->locator_name) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (LOCATOR_NAME), 16);
+    t->data = mxf_utf8_to_utf16 (self->locator_name, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x4101, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_text_locator_init (MXFMetadataTextLocator * self)
 {
@@ -4497,6 +6308,7 @@ mxf_metadata_text_locator_class_init (MXFMetadataTextLocatorClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_text_locator_handle_tag;
   metadata_base_class->name_quark = MXF_QUARK (TEXT_LOCATOR);
   metadata_base_class->to_structure = mxf_metadata_text_locator_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_text_locator_write_tags;
   metadata_class->type = 0x0133;
 }
 
@@ -4553,6 +6365,27 @@ mxf_metadata_network_locator_to_structure (MXFMetadataBase * m)
   return ret;
 }
 
+static GList *
+mxf_metadata_network_locator_write_tags (MXFMetadataBase * m,
+    MXFPrimerPack * primer)
+{
+  MXFMetadataNetworkLocator *self = MXF_METADATA_NETWORK_LOCATOR (m);
+  GList *ret =
+      MXF_METADATA_BASE_CLASS
+      (mxf_metadata_network_locator_parent_class)->write_tags (m, primer);
+  MXFLocalTag *t;
+
+  if (self->url_string) {
+    t = g_slice_new0 (MXFLocalTag);
+    memcpy (&t->ul, MXF_UL (URL_STRING), 16);
+    t->data = mxf_utf8_to_utf16 (self->url_string, &t->size);
+    mxf_primer_pack_add_mapping (primer, 0x4001, &t->ul);
+    ret = g_list_prepend (ret, t);
+  }
+
+  return ret;
+}
+
 static void
 mxf_metadata_network_locator_init (MXFMetadataNetworkLocator * self)
 {
@@ -4569,6 +6402,7 @@ mxf_metadata_network_locator_class_init (MXFMetadataNetworkLocatorClass * klass)
   metadata_base_class->handle_tag = mxf_metadata_network_locator_handle_tag;
   metadata_base_class->name_quark = MXF_QUARK (NETWORK_LOCATOR);
   metadata_base_class->to_structure = mxf_metadata_network_locator_to_structure;
+  metadata_base_class->write_tags = mxf_metadata_network_locator_write_tags;
   metadata_class->type = 0x0133;
 }
 
@@ -4672,17 +6506,11 @@ mxf_descriptive_metadata_new (guint8 scheme, guint32 type,
   return ret;
 }
 
-/* TODO: Remove this once we depend on GLib 2.14 */
-#if GLIB_CHECK_VERSION (2, 14, 0)
-#define __gst_once_init_enter(val) (g_once_init_enter (val))
-#define __gst_once_init_leave(val,newval) (g_once_init_leave (val, newval))
-#endif
-
 GType
 mxf_descriptive_metadata_framework_get_type (void)
 {
   static volatile gsize type = 0;
-  if (__gst_once_init_enter (&type)) {
+  if (g_once_init_enter (&type)) {
     GType _type = 0;
     static const GTypeInfo info = {
       sizeof (MXFDescriptiveMetadataFrameworkInterface),
@@ -4700,7 +6528,7 @@ mxf_descriptive_metadata_framework_get_type (void)
 
     g_type_interface_add_prerequisite (_type, MXF_TYPE_DESCRIPTIVE_METADATA);
 
-    __gst_once_init_leave (&type, (gsize) _type);
+    g_once_init_leave (&type, (gsize) _type);
   }
 
   return (GType) type;
@@ -4709,7 +6537,7 @@ mxf_descriptive_metadata_framework_get_type (void)
 GHashTable *
 mxf_metadata_hash_table_new (void)
 {
-  return g_hash_table_new_full ((GHashFunc) mxf_ul_hash,
-      (GEqualFunc) mxf_ul_is_equal, (GDestroyNotify) NULL,
+  return g_hash_table_new_full ((GHashFunc) mxf_uuid_hash,
+      (GEqualFunc) mxf_uuid_is_equal, (GDestroyNotify) NULL,
       (GDestroyNotify) gst_mini_object_unref);
 }

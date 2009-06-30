@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
 <link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="next" href="ch01.html" title="gst-plugins-bad Elements">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-bad Plugins">
@@ -18,7 +18,7 @@
 <div>
 <div><table class="navigation" id="top" width="100%" cellpadding="2" cellspacing="0"><tr><th valign="middle"><p class="title">GStreamer Bad Plugins 0.10 Plugins Reference Manual</p></th></tr></table></div>
 <div><p class="releaseinfo">
-      for GStreamer Bad Plugins 0.10 (0.10.11)
+      for GStreamer Bad Plugins 0.10 (0.10.13)
       The latest version of this documentation can be found on-line at
       <a class="ulink" href="http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-bad/html/" target="_top">http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-bad/html/</a>.
     </p></div>
@@ -71,10 +71,10 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-dccpserversrc.html">dccpserversrc</a></span><span class="refpurpose"> — Receive data as a server over the network via DCCP</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-deinterlace.html">deinterlace</a></span><span class="refpurpose"> — Deinterlace video</span>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-dfbvideosink.html">dfbvideosink</a></span><span class="refpurpose"> — A DirectFB based videosink</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-dfbvideosink.html">dfbvideosink</a></span><span class="refpurpose"> — A DirectFB based videosink</span>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-directdrawsink.html">directdrawsink</a></span><span class="refpurpose"> — Direct Draw video sink</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-dtmfsrc.html">dtmfsrc</a></span><span class="refpurpose"> — Generates DTMF tones</span>
@@ -86,10 +86,13 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-dvbsrc.html">dvbsrc</a></span><span class="refpurpose"> — Digital Video Broadcast Source</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-dvdspu.html">dvdspu</a></span><span class="refpurpose"> — Parses the DVD Sub-Picture command stream and renders the SPU overlay onto the video as it passes through</span>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-dvdspu.html">dvdspu</a></span><span class="refpurpose"> — Parses Sub-Picture command streams and renders the SPU overlay onto the video as it passes through</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-festival.html">festival</a></span><span class="refpurpose"> — Synthesizes plain text into audio</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-fpsdisplaysink.html">fpsdisplaysink</a></span><span class="refpurpose"> — Shows the current frame-rate and drop-rate of the videosink as overlay or text on stdout</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-gstrtpbin.html">gstrtpbin</a></span><span class="refpurpose"> — Implement an RTP bin</span>
@@ -155,6 +158,9 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-mxfdemux.html">mxfdemux</a></span><span class="refpurpose"> — Demux MXF files</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-mxfmux.html">mxfmux</a></span><span class="refpurpose"> — Muxes video/audio streams into a MXF stream</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-nuvdemux.html">nuvdemux</a></span><span class="refpurpose"> — Demultiplex a mythtv .nuv file into audio and video</span>
 </dt>
 <dt>
@@ -185,6 +191,9 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-sdpdemux.html">sdpdemux</a></span><span class="refpurpose"> — Receive data over the network via SDP</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-shapewipe.html">shapewipe</a></span><span class="refpurpose"> — Adds a shape wipe transition to a video stream</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-speed.html">speed</a></span><span class="refpurpose"> — Set speed/pitch on audio/raw streams (resampler)</span>
 </dt>
 <dt>
@@ -213,12 +222,6 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-wildmidi.html">wildmidi</a></span><span class="refpurpose"> — Midi Synthesizer Element</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-x264enc.html">x264enc</a></span><span class="refpurpose"> — H264 Encoder</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-y4menc.html">y4menc</a></span><span class="refpurpose"> — Encodes a YUV frame into the yuv4mpeg format (mjpegtools)</span>
 </dt>
 </dl></dd>
 <dt><span class="chapter"><a href="ch02.html">gst-plugins-bad Plugins</a></span></dt>
@@ -263,10 +266,16 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-dccp.html">dccp</a></span><span class="refpurpose"> — transfer data over the network via DCCP.</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-debugutilsbad.html">debugutilsbad</a></span><span class="refpurpose"> — Collection of elements that may or may not be useful for debugging</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-dfbvideosink.html">dfbvideosink</a></span><span class="refpurpose"> — DirectFB video output plugin</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-dirac.html">dirac</a></span><span class="refpurpose"> — Dirac plugin</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-directdraw.html">directdraw</a></span><span class="refpurpose"> — Direct Draw plugin</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-dtmf.html">dtmf</a></span><span class="refpurpose"> — DTMF plugins</span>
@@ -299,16 +308,10 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-filter.html">filter</a></span><span class="refpurpose"> — IIR audio filter element</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-flvdemux.html">flvdemux</a></span><span class="refpurpose"> — Element demuxing FLV stream</span>
-</dt>
-<dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-freeze.html">freeze</a></span><span class="refpurpose"> — Stream freezer</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-gsm.html">gsm</a></span><span class="refpurpose"> — GSM encoder/decoder</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-gstinterlace.html">gstinterlace</a></span><span class="refpurpose"> — Deinterlace video</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-gstrtpmanager.html">gstrtpmanager</a></span><span class="refpurpose"> — RTP session management plugin library</span>
@@ -401,6 +404,9 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-selector.html">selector</a></span><span class="refpurpose"> — input/output stream selector elements</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-shapewipe.html">shapewipe</a></span><span class="refpurpose"> — Shape Wipe transition filter</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-sndfile.html">sndfile</a></span><span class="refpurpose"> — use libsndfile to read and write audio from and to files</span>
 </dt>
 <dt>
@@ -443,13 +449,7 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-wildmidi.html">wildmidi</a></span><span class="refpurpose"> — Wildmidi Plugin</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-x264.html">x264</a></span><span class="refpurpose"> — libx264-based H264 plugins</span>
-</dt>
-<dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-xvid.html">xvid</a></span><span class="refpurpose"> — XviD plugin library</span>
-</dt>
-<dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-y4menc.html">y4menc</a></span><span class="refpurpose"> — Encodes a YUV frame into the yuv4mpeg format (mjpegtools)</span>
 </dt>
 </dl></dd>
 <dt><span class="chapter"><a href="ch03.html">gst-plugins-bad Classes</a></span></dt>
@@ -460,6 +460,6 @@
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

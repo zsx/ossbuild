@@ -34,9 +34,9 @@
  *
  * The Original Code is Fluendo MPEG Demuxer plugin.
  *
- * The Initial Developer of the Original Code is Fluendo, S.L.
- * Portions created by Fluendo, S.L. are Copyright (C) 2005
- * Fluendo, S.L. All Rights Reserved.
+ * The Initial Developer of the Original Code is Fluendo, S.A.
+ * Portions created by Fluendo, S.A. are Copyright (C) 2005,2006,2007,2008,2009
+ * Fluendo, S.A. All Rights Reserved.
  *
  * Contributor(s): Wim Taymans <wim@fluendo.com>
  */
@@ -205,6 +205,21 @@ struct _GstMpegTSDemux {
   /* clocking */
   GstClock          * clock;
   GstClockTime      clock_base;
+
+  /* Additional information required for seeking.
+   * num_packets: Number of packets outputted
+   * bitrate: estimated bitrate (based on pcr and num_packets */
+  guint64           num_packets;
+  gint64            bitrate;
+
+  /* Two PCRs observations to calculate bitrate */
+  guint64            pcr[2];
+
+  /* Cached duration estimation */
+  GstClockTime      cache_duration;
+
+  /* Cached base_PCR in GStreamer time. */
+  GstClockTime      base_pts;
 };
 
 struct _GstMpegTSDemuxClass {
@@ -213,6 +228,7 @@ struct _GstMpegTSDemuxClass {
   GstPadTemplate    * sink_template;
   GstPadTemplate    * video_template;
   GstPadTemplate    * audio_template;
+  GstPadTemplate    * subpicture_template;
   GstPadTemplate    * private_template;
 };
 

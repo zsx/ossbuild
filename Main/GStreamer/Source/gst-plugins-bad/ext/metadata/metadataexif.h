@@ -41,14 +41,20 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifndef __GST_METADATAPARSE_EXIF_H__
-#define __GST_METADATAPARSE_EXIF_H__
+#ifndef __GST_METADATA_EXIF_H__
+#define __GST_METADATA_EXIF_H__
 
 #include <gst/gst.h>
 #include <gst/base/gstadapter.h>
 #include "metadatatags.h"
 
 G_BEGIN_DECLS
+
+/*
+ * defines
+ */
+ 
+#define EXIF_HEADER "Exif\0"
 
 typedef enum {
         GST_META_EXIF_BYTE_ORDER_MOTOROLA,
@@ -84,4 +90,4 @@ metadatamux_exif_create_chunk_from_tag_list (guint8 ** buf, guint32 *size,
     const GstTagList * taglist, const MetaExifWriteOptions *opts);
 
 G_END_DECLS
-#endif /* __GST_METADATAPARSE_EXIF_H__ */
+#endif /* __GST_METADATA_EXIF_H__ */

@@ -75,6 +75,19 @@
 #include <gst/gst.h>
 #include <gst/base/gstcollectpads.h>
 
+#include <sys/types.h>
+#ifdef G_OS_WIN32
+#include <io.h>                 /* lseek, open, close, read */
+#undef lseek
+#define lseek _lseeki64
+#undef off_t
+#define off_t guint64
+#endif
+
+#ifdef HAVE_UNISTD_H
+#  include <unistd.h>
+#endif
+
 #include "gstqtmux.h"
 
 GST_DEBUG_CATEGORY_STATIC (gst_qt_mux_debug);
@@ -280,6 +293,13 @@ gst_qt_mux_reset (GstQTMux * qtmux, gboolean alloc)
 
   if (alloc) {
     qtmux->moov = atom_moov_new (qtmux->context);
+    /* ensure all is as nice and fresh as request_new_pad would provide it */
+    for (walk = qtmux->collect->data; walk; walk = g_slist_next (walk)) {
+      GstQTPad *qtpad = (GstQTPad *) walk->data;
+
+      qtpad->trak = atom_trak_new (qtmux->context);
+      atom_moov_add_trak (qtmux->moov, qtpad->trak);
+    }
   }
 }
 
@@ -603,8 +623,17 @@ gst_qt_mux_send_buffered_data (GstQTMux * qtmux, guint64 * offset)
   if (fflush (qtmux->fast_start_file))
     goto flush_failed;
 
-  if (fseek (qtmux->fast_start_file, 0, SEEK_SET))
+#ifdef HAVE_FSEEKO
+  if (fseeko (qtmux->fast_start_file, (off_t) 0, SEEK_SET) != 0)
     goto seek_failed;
+#elif defined (G_OS_UNIX) || defined (G_OS_WIN32)
+  if (lseek (fileno (qtmux->fast_start_file), (off_t) 0,
+          SEEK_SET) == (off_t) - 1)
+    goto seek_failed;
+#else
+  if (fseek (qtmux->fast_start_file, (long) 0, SEEK_SET) != 0)
+    goto seek_failed;
+#endif
 
   /* hm, this could all take a really really long time,
    * but there may not be another way to get moov atom first
@@ -1478,7 +1507,10 @@ gst_qt_mux_video_sink_set_caps (GstPad * pad, GstCaps * caps)
         break;
     }
   } else if (strcmp (mimetype, "video/x-h263") == 0) {
-    entry.fourcc = FOURCC_h263;
+    if (format == GST_QT_MUX_FORMAT_QT)
+      entry.fourcc = FOURCC_h263;
+    else
+      entry.fourcc = FOURCC_s263;
     ext_atom = build_h263_extension ();
   } else if (strcmp (mimetype, "video/x-divx") == 0 ||
       strcmp (mimetype, "video/mpeg") == 0) {
@@ -1857,7 +1889,7 @@ gst_qt_mux_register (GstPlugin * plugin)
     g_type_set_qdata (type, GST_QT_MUX_PARAMS_QDATA, (gpointer) params);
     g_type_add_interface_static (type, GST_TYPE_TAG_SETTER, &tag_setter_info);
 
-    if (!gst_element_register (plugin, prop->name, GST_RANK_NONE, type))
+    if (!gst_element_register (plugin, prop->name, GST_RANK_PRIMARY, type))
       return FALSE;
 
     i++;

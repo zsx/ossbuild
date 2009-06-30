@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-celtdec.html" title="celtdec">
 <link rel="next" href="gst-plugins-bad-plugins-dccpclientsink.html" title="dccpclientsink">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-bad Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Bad Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-bad-plugins-dccpclientsink.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-bad-plugins-celtenc.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-celtenc.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-celtenc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-celtenc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-celtenc.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-bad-plugins-celtenc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-celtenc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-celtenc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-celtenc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-celtenc.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-bad-plugins-celtenc"></a><div class="titlepage"></div>
@@ -63,7 +65,7 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-bad-plugins-celtenc.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstCeltEnc implements
- GstTagSetter.</p>
+ GstTagSetter and  GstPreset.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-celtenc.properties"></a><h2>Properties</h2>
@@ -84,7 +86,7 @@ This element raw audio to CELT.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3167584"></a><h3>Example pipelines</h3>
+<a name="id3012220"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! celtenc ! oggmux ! filesink location=sine.ogg
 </pre></div> Encode a test sine signal to Ogg/CELT.
@@ -92,7 +94,7 @@ gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! celtenc ! 
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3160838"></a><h3>Element Information</h3>
+<a name="id3028748"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -115,7 +117,7 @@ gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! celtenc ! 
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3159302"></a><h3>Element Pads</h3>
+<a name="id3029342"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -161,7 +163,6 @@ gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! celtenc ! 
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -170,7 +171,6 @@ gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! celtenc ! 
 <a name="GstCeltEnc-struct"></a><h3>GstCeltEnc</h3>
 <pre class="programlisting">typedef struct _GstCeltEnc GstCeltEnc;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -181,9 +181,9 @@ gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! celtenc ! 
 <pre class="programlisting">  "bitrate"                  <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
-<p>Specify an encoding bit-rate (in bps). (0 = automatic).</p>
+<p>Specify an encoding bit-rate (in Kbps). (0 = automatic).</p>
 <p>Allowed values: [0,150]</p>
-<p>Default value: 128</p>
+<p>Default value: 64</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
@@ -192,7 +192,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>The number of samples per frame.</p>
-<p>Allowed values: [64,256]</p>
+<p>Allowed values: [64,512]</p>
 <p>Default value: 256</p>
 </div>
 </div>
@@ -203,6 +203,6 @@ celtdec, oggmux
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

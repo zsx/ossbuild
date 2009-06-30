@@ -70,22 +70,6 @@ GST_DEBUG_CATEGORY_STATIC (gst_aacparse_debug);
 #define GST_CAT_DEFAULT gst_aacparse_debug
 
 
-static const guint aac_sample_rates[] = {
-  96000,
-  88200,
-  64000,
-  48000,
-  44100,
-  32000,
-  24000,
-  22050,
-  16000,
-  12000,
-  11025,
-  8000
-};
-
-
 #define ADIF_MAX_SIZE 40        /* Should be enough */
 #define ADTS_MAX_SIZE 10        /* Should be enough */
 
@@ -121,6 +105,18 @@ gboolean gst_aacparse_event (GstBaseParse * parse, GstEvent * event);
 GST_BOILERPLATE_FULL (GstAacParse, gst_aacparse, GstBaseParse,
     GST_TYPE_BASE_PARSE, _do_init);
 
+static inline gint
+gst_aacparse_get_sample_rate_from_index (guint sr_idx)
+{
+  static const guint aac_sample_rates[] = { 96000, 88200, 64000, 48000, 44100,
+    32000, 24000, 22050, 16000, 12000, 11025, 8000
+  };
+
+  if (sr_idx < G_N_ELEMENTS (aac_sample_rates))
+    return aac_sample_rates[sr_idx];
+  GST_WARNING ("Invalid sample rate index %u", sr_idx);
+  return 0;
+}
 
 /**
  * gst_aacparse_base_init:
@@ -213,21 +209,30 @@ gst_aacparse_finalize (GObject * object)
 static gboolean
 gst_aacparse_set_src_caps (GstAacParse * aacparse)
 {
-  GstCaps *src_caps = NULL;
-  gchar *caps_str = NULL;
+  GstStructure *s;
+  GstCaps *sink_caps, *src_caps = NULL;
   gboolean res = FALSE;
 
-  src_caps = gst_caps_new_simple ("audio/mpeg",
-      "framed", G_TYPE_BOOLEAN, TRUE,
+  sink_caps = GST_PAD_CAPS (GST_BASE_PARSE (aacparse)->sinkpad);
+  GST_DEBUG_OBJECT (aacparse, "sink caps: %" GST_PTR_FORMAT, sink_caps);
+  if (sink_caps)
+    src_caps = gst_caps_copy (sink_caps);
+  else
+    src_caps = gst_caps_new_simple ("audio/mpeg", NULL);
+
+  gst_caps_set_simple (src_caps, "framed", G_TYPE_BOOLEAN, TRUE,
       "mpegversion", G_TYPE_INT, aacparse->mpegversion, NULL);
 
-  caps_str = gst_caps_to_string (src_caps);
-  GST_DEBUG_OBJECT (aacparse, "setting srcpad caps: %s", caps_str);
-  g_free (caps_str);
+  s = gst_caps_get_structure (src_caps, 0);
+  if (!gst_structure_has_field (s, "rate") && aacparse->sample_rate > 0)
+    gst_structure_set (s, "rate", G_TYPE_INT, aacparse->sample_rate, NULL);
+  if (!gst_structure_has_field (s, "channels") && aacparse->channels > 0)
+    gst_structure_set (s, "channels", G_TYPE_INT, aacparse->channels, NULL);
+
+  GST_DEBUG_OBJECT (aacparse, "setting src caps: %" GST_PTR_FORMAT, src_caps);
 
   gst_pad_use_fixed_caps (GST_BASE_PARSE (aacparse)->srcpad);
   res = gst_pad_set_caps (GST_BASE_PARSE (aacparse)->srcpad, src_caps);
-  gst_pad_fixate_caps (GST_BASE_PARSE (aacparse)->srcpad, src_caps);
   gst_caps_unref (src_caps);
   return res;
 }
@@ -266,9 +271,11 @@ gst_aacparse_sink_setcaps (GstBaseParse * parse, GstCaps * caps)
     if (value) {
       GstBuffer *buf = gst_value_get_buffer (value);
       const guint8 *buffer = GST_BUFFER_DATA (buf);
+      guint sr_idx;
+
+      sr_idx = ((buffer[0] & 0x07) << 1) | ((buffer[1] & 0x80) >> 7);
       aacparse->object_type = (buffer[0] & 0xf8) >> 3;
-      aacparse->sample_rate = ((buffer[0] & 0x07) << 1) |
-          ((buffer[1] & 0x80) >> 7);
+      aacparse->sample_rate = gst_aacparse_get_sample_rate_from_index (sr_idx);
       aacparse->channels = (buffer[1] & 0x78) >> 3;
       aacparse->header_type = DSPAAC_HEADER_NONE;
       aacparse->mpegversion = 4;
@@ -468,13 +475,13 @@ gst_aacparse_detect_stream (GstAacParse * aacparse,
     aacparse->header_type = DSPAAC_HEADER_ADTS;
     sr_idx = (data[2] & 0x3c) >> 2;
 
-    aacparse->sample_rate = aac_sample_rates[sr_idx];
+    aacparse->sample_rate = gst_aacparse_get_sample_rate_from_index (sr_idx);
     aacparse->mpegversion = (data[1] & 0x08) ? 2 : 4;
     aacparse->object_type = (data[2] & 0xc0) >> 6;
     aacparse->channels = ((data[2] & 0x01) << 2) | ((data[3] & 0xc0) >> 6);
     aacparse->bitrate = ((data[5] & 0x1f) << 6) | ((data[6] & 0xfc) >> 2);
 
-    aacparse->frames_per_sec = aac_sample_rates[sr_idx] / 1024.f;
+    aacparse->frames_per_sec = aacparse->sample_rate / 1024.f;
 
     GST_DEBUG ("ADTS: samplerate %d, channels %d, bitrate %d, objtype %d, "
         "fps %f", aacparse->sample_rate, aacparse->channels,
@@ -544,9 +551,9 @@ gst_aacparse_detect_stream (GstAacParse * aacparse,
 
     /* FIXME: This gives totally wrong results. Duration calculation cannot
        be based on this */
-    aacparse->sample_rate = aac_sample_rates[sr_idx];
+    aacparse->sample_rate = gst_aacparse_get_sample_rate_from_index (sr_idx);
 
-    aacparse->frames_per_sec = aac_sample_rates[sr_idx] / 1024.f;
+    aacparse->frames_per_sec = aacparse->sample_rate / 1024.f;
     GST_INFO ("ADIF fps: %f", aacparse->frames_per_sec);
 
     // FIXME: Can we assume this?
@@ -585,7 +592,6 @@ gst_aacparse_check_valid_frame (GstBaseParse * parse,
 {
   const guint8 *data;
   GstAacParse *aacparse;
-  guint needed_data = 1024;
   gboolean ret = FALSE;
 
   aacparse = GST_AACPARSE (parse);
@@ -601,22 +607,30 @@ gst_aacparse_check_valid_frame (GstBaseParse * parse,
     /* There is nothing to parse */
     *framesize = GST_BUFFER_SIZE (buffer);
     ret = TRUE;
-  }
 
-  else if (aacparse->header_type == DSPAAC_HEADER_NOT_PARSED ||
+  } else if (aacparse->header_type == DSPAAC_HEADER_NOT_PARSED ||
       aacparse->sync == FALSE) {
+
     ret = gst_aacparse_detect_stream (aacparse, data, GST_BUFFER_SIZE (buffer),
         framesize, skipsize);
+
   } else if (aacparse->header_type == DSPAAC_HEADER_ADTS) {
+    guint needed_data = 1024;
+
     ret = gst_aacparse_check_adts_frame (aacparse, data,
         GST_BUFFER_SIZE (buffer), framesize, &needed_data);
+
+    if (!ret) {
+      GST_DEBUG ("buffer didn't contain valid frame");
+      gst_base_parse_set_min_frame_size (GST_BASE_PARSE (aacparse),
+          needed_data);
+    }
+
+  } else {
+    GST_DEBUG ("buffer didn't contain valid frame");
+    gst_base_parse_set_min_frame_size (GST_BASE_PARSE (aacparse), 1024);
   }
 
-  if (!ret) {
-    /* Increase the block size, we want to find the header by ourselves */
-    GST_DEBUG ("buffer didn't contain valid frame, skip = %d", *skipsize);
-    gst_base_parse_set_min_frame_size (GST_BASE_PARSE (aacparse), needed_data);
-  }
   return ret;
 }
 

@@ -36,18 +36,19 @@
  * <refsect2>
  * <title>Example launch line</title>
  * |[
- * gst-launch -v -m camerabin filename=test.jpeg
+ * gst-launch -v -m camerabin
  * ]|
  * </refsect2>
  * <refsect2>
  * <title>Image capture</title>
  * <para>
  * Taking still images is initiated with the #GstCameraBin::user-start action
- * signal. Once the image has captured, #GstCameraBin::img-done signal is fired.
- * It allows to decide wheter to take another picture (burst capture, bracketing
- * shot) or stop capturing. The last captured image is shown
- * until one switches back to view finder using #GstCameraBin::user-stop action
- * signal.
+ * signal. Once the image has been captured, "image-captured" gst message is
+ * posted to the bus and capturing another image is possible. If application 
+ * has set #GstCameraBin:preview-caps property, then a "preview-image" gst
+ * message is posted to bus containing preview image formatted according to
+ * specified caps. Eventually when image has been saved #GstCameraBin::img-done
+ * signal is emitted.
  * 
  * Available resolutions can be taken from the #GstCameraBin:inputcaps property.
  * Image capture resolution can be set with #GstCameraBin::user-image-res
@@ -74,7 +75,8 @@
  * of these settings require low-level support the photography interface support
  * is dependent on video src element. In practice photography interface settings
  * cannot be used successfully until in PAUSED state when the video src has
- * opened the video device.
+ * opened the video device. However it is possible to configure photography
+ * settings in NULL state and camerabin will try applying them later.
  * </para>
  * </refsect2>
  * <refsect2>
@@ -105,16 +107,23 @@
 /*
  * The pipeline in the camerabin is
  *
- *                                   "image bin"
- * videosrc ! crop ! scale ! out-sel <------> in-sel ! scale ! ffmpegcsp ! vfsink
- *                                   "video bin"
+ * videosrc [ ! ffmpegcsp ] ! capsfilter ! crop ! scale ! capsfilter ! \
+ *     out-sel name=osel ! queue name=img_q
  *
- * it is possible to have 'ffmpegcolorspace' and 'capsfilter' just after
- * v4l2camsrc
+ * View finder:
+ * osel. ! in-sel name=isel ! scale ! capsfilter [ ! ffmpegcsp ] ! vfsink
+ *
+ * Image bin:
+ * img_q. [ ! ipp ] ! ffmpegcsp ! imageenc ! metadatamux ! filesink
+ *
+ * Video bin:
+ * osel. ! tee name=t ! queue ! videoenc ! videomux name=mux ! filesink
+ * t. ! queue ! isel.
+ * audiosrc ! queue ! audioconvert ! volume ! audioenc ! mux.
  *
  * The properties of elements are:
  *
- *   vfsink - "sync", FALSE, "qos", FALSE
+ *   vfsink - "sync", FALSE, "qos", FALSE, "async", FALSE
  *   output-selector - "resend-latest", FALSE
  *   input-selector - "select-all", TRUE
  */
@@ -134,11 +143,11 @@
 /* FIXME: include #include <gst/gst-i18n-plugin.h> and use _(" ") */
 
 #include "gstcamerabin.h"
-#include "gstcamerabinxoverlay.h"
 #include "gstcamerabincolorbalance.h"
 #include "gstcamerabinphotography.h"
 
 #include "camerabingeneral.h"
+#include "camerabinpreview.h"
 
 #include "gstcamerabin-marshal.h"
 
@@ -176,7 +185,8 @@ enum
   ARG_VIDEO_SRC,
   ARG_AUDIO_SRC,
   ARG_INPUT_CAPS,
-  ARG_FILTER_CAPS
+  ARG_FILTER_CAPS,
+  ARG_PREVIEW_CAPS
 };
 
 /*
@@ -215,6 +225,11 @@ static guint camerabin_signals[LAST_SIGNAL];
 #define DEFAULT_SRC_VID_SRC "v4l2src"
 
 #define DEFAULT_VIEW_SINK "autovideosink"
+
+#define CAMERABIN_MAX_VF_WIDTH 848
+#define CAMERABIN_MAX_VF_HEIGHT 848
+#define PREVIEW_MESSAGE_NAME "preview-image"
+#define IMG_CAPTURED_MESSAGE_NAME "image-captured"
 
 /*
  * static helper functions declaration
@@ -258,6 +273,12 @@ gst_camerabin_have_img_buffer (GstPad * pad, GstBuffer * buffer,
 static gboolean
 gst_camerabin_have_vid_buffer (GstPad * pad, GstBuffer * buffer,
     gpointer u_data);
+static gboolean
+gst_camerabin_have_queue_data (GstPad * pad, GstMiniObject * mini_obj,
+    gpointer u_data);
+static gboolean
+gst_camerabin_have_src_buffer (GstPad * pad, GstBuffer * buffer,
+    gpointer u_data);
 
 static void gst_camerabin_reset_to_view_finder (GstCameraBin * camera);
 
@@ -267,11 +288,15 @@ static void
 gst_camerabin_set_allowed_framerate (GstCameraBin * camera,
     GstCaps * filter_caps);
 
+static guint32 get_srcpad_current_format (GstElement * element);
+
 static const GValue *gst_camerabin_find_better_framerate (GstCameraBin * camera,
     GstStructure * st, const GValue * orig_framerate);
 
 static void
 gst_camerabin_update_aspect_filter (GstCameraBin * camera, GstCaps * new_caps);
+
+static void gst_camerabin_finish_image_capture (GstCameraBin * camera);
 
 /*
  * GObject callback functions declaration
@@ -353,11 +378,7 @@ gst_camerabin_iface_supported (GstImplementsInterface * iface, GType iface_type)
 {
   GstCameraBin *camera = GST_CAMERABIN (iface);
 
-  if (iface_type == GST_TYPE_X_OVERLAY) {
-    if (camera->view_sink) {
-      return GST_IS_X_OVERLAY (camera->view_sink);
-    }
-  } else if (iface_type == GST_TYPE_COLOR_BALANCE) {
+  if (iface_type == GST_TYPE_COLOR_BALANCE) {
     if (camera->src_vid_src) {
       return GST_IS_COLOR_BALANCE (camera->src_vid_src);
     }
@@ -373,9 +394,8 @@ gst_camerabin_iface_supported (GstImplementsInterface * iface, GType iface_type)
       return FALSE;
     }
   } else if (iface_type == GST_TYPE_PHOTOGRAPHY) {
-    if (camera->src_vid_src) {
-      return GST_IS_PHOTOGRAPHY (camera->src_vid_src);
-    }
+    /* Always support photography interface */
+    return TRUE;
   }
 
   return FALSE;
@@ -400,12 +420,6 @@ camerabin_init_interfaces (GType type)
     NULL,
   };
 
-  static const GInterfaceInfo camerabin_xoverlay_info = {
-    (GInterfaceInitFunc) gst_camerabin_xoverlay_init,
-    NULL,
-    NULL,
-  };
-
   static const GInterfaceInfo camerabin_color_balance_info = {
     (GInterfaceInitFunc) gst_camerabin_color_balance_init,
     NULL,
@@ -425,9 +439,6 @@ camerabin_init_interfaces (GType type)
 
   g_type_add_interface_static (type,
       GST_TYPE_IMPLEMENTS_INTERFACE, &camerabin_info);
-
-  g_type_add_interface_static (type, GST_TYPE_X_OVERLAY,
-      &camerabin_xoverlay_info);
 
   g_type_add_interface_static (type, GST_TYPE_COLOR_BALANCE,
       &camerabin_color_balance_info);
@@ -466,6 +477,14 @@ camerabin_setup_src_elements (GstCameraBin * camera)
   } else {
     st = gst_structure_copy (gst_caps_get_structure (camera->view_finder_caps,
             0));
+  }
+
+  /* Update photography interface settings */
+  if (GST_IS_ELEMENT (camera->src_vid_src) &&
+      gst_element_implements_interface (camera->src_vid_src,
+          GST_TYPE_PHOTOGRAPHY)) {
+    gst_photography_set_config (GST_PHOTOGRAPHY (camera->src_vid_src),
+        &camera->photo_settings);
   }
 
   if (camera->width > 0 && camera->height > 0) {
@@ -559,12 +578,6 @@ camerabin_create_src_elements (GstCameraBin * camera)
           gst_camerabin_create_and_add_element (cbin, "output-selector")))
     goto done;
 
-  camera->srcpad_videosrc =
-      gst_element_get_static_pad (camera->src_vid_src, "src");
-
-  camera->srcpad_zoom_filter =
-      gst_element_get_static_pad (camera->src_zoom_filter, "src");
-
   /* Set default "driver-name" for v4l2camsrc if not set */
   if (g_object_class_find_property (G_OBJECT_GET_CLASS (camera->src_vid_src),
           "driver-name")) {
@@ -635,14 +648,16 @@ camerabin_create_view_elements (GstCameraBin * camera)
       && (GST_PAD_DIRECTION (GST_PAD (pads->data)) != GST_PAD_SINK)) {
     pads = g_list_next (pads);
   }
-  camera->pad_view_img = GST_PAD (pads->data);
+  camera->pad_view_src = GST_PAD (pads->data);
 
+  /* Add videoscale in case we need to downscale frame for view finder */
   if (!(camera->view_scale =
           gst_camerabin_create_and_add_element (GST_BIN (camera),
               "videoscale"))) {
     goto error;
   }
 
+  /* Add capsfilter to maintain aspect ratio while scaling */
   if (!(camera->aspect_filter =
           gst_camerabin_create_and_add_element (GST_BIN (camera),
               "capsfilter"))) {
@@ -692,30 +707,44 @@ camerabin_create_elements (GstCameraBin * camera)
     goto done;
   }
 
-  /* Add image bin */
   camera->pad_src_img =
       gst_element_get_request_pad (camera->src_out_sel, "src%d");
-  if (!gst_camerabin_add_element (GST_BIN (camera), camera->imgbin)) {
-    goto done;
-  }
+
   gst_pad_add_buffer_probe (camera->pad_src_img,
       G_CALLBACK (gst_camerabin_have_img_buffer), camera);
 
-  /* Create view finder elements, this also links it to image bin */
-  if (!camerabin_create_view_elements (camera)) {
-    GST_WARNING_OBJECT (camera, "creating view failed");
+  /* Add image queue */
+  if (!(camera->img_queue =
+          gst_camerabin_create_and_add_element (GST_BIN (camera), "queue"))) {
     goto done;
   }
 
-  /* Link output selector ! view_finder */
+  /* To avoid deadlock, we won't restrict the image queue size */
+  /* FIXME: actually we would like to have some kind of restriction here (size),
+     but deadlocks must be handled somehow... */
+  g_object_set (G_OBJECT (camera->img_queue), "max-size-time",
+      G_GUINT64_CONSTANT (0), NULL);
+  g_object_set (G_OBJECT (camera->img_queue), "max-size-bytes",
+      G_GUINT64_CONSTANT (0), NULL);
+  g_object_set (G_OBJECT (camera->img_queue), "max-size-buffers",
+      G_GUINT64_CONSTANT (0), NULL);
+
+  camera->pad_src_queue = gst_element_get_static_pad (camera->img_queue, "src");
+
+  gst_pad_add_data_probe (camera->pad_src_queue,
+      G_CALLBACK (gst_camerabin_have_queue_data), camera);
+
+  /* Add image bin */
+  if (!gst_camerabin_add_element (GST_BIN (camera), camera->imgbin)) {
+    goto done;
+  }
+
   camera->pad_src_view =
       gst_element_get_request_pad (camera->src_out_sel, "src%d");
-  camera->pad_view_src =
-      gst_element_get_request_pad (camera->view_in_sel, "sink%d");
-  link_ret = gst_pad_link (camera->pad_src_view, camera->pad_view_src);
-  if (GST_PAD_LINK_FAILED (link_ret)) {
-    GST_ELEMENT_ERROR (camera, CORE, NEGOTIATION,
-        ("linking view finder failed"), (NULL));
+
+  /* Create view finder elements */
+  if (!camerabin_create_view_elements (camera)) {
+    GST_WARNING_OBJECT (camera, "creating view finder elements failed");
     goto done;
   }
 
@@ -774,10 +803,6 @@ camerabin_destroy_elements (GstCameraBin * camera)
     gst_element_release_request_pad (camera->src_out_sel, camera->pad_src_vid);
     camera->pad_src_vid = NULL;
   }
-  if (camera->pad_view_img) {
-    gst_element_release_request_pad (camera->view_in_sel, camera->pad_view_img);
-    camera->pad_view_img = NULL;
-  }
   if (camera->pad_src_img) {
     gst_element_release_request_pad (camera->src_out_sel, camera->pad_src_img);
     camera->pad_src_img = NULL;
@@ -791,14 +816,9 @@ camerabin_destroy_elements (GstCameraBin * camera)
     camera->pad_src_view = NULL;
   }
 
-  if (camera->srcpad_zoom_filter) {
-    gst_object_unref (camera->srcpad_zoom_filter);
-    camera->srcpad_zoom_filter = NULL;
-  }
-
-  if (camera->srcpad_videosrc) {
-    gst_object_unref (camera->srcpad_videosrc);
-    camera->srcpad_videosrc = NULL;
+  if (camera->pad_src_queue) {
+    gst_object_unref (camera->pad_src_queue);
+    camera->pad_src_queue = NULL;
   }
 
   camera->view_sink = NULL;
@@ -863,27 +883,52 @@ camerabin_dispose_elements (GstCameraBin * camera)
     gst_caps_unref (camera->allowed_caps);
     camera->allowed_caps = NULL;
   }
+
+  if (camera->preview_caps) {
+    gst_caps_unref (camera->preview_caps);
+    camera->preview_caps = NULL;
+  }
+
+  if (camera->event_tags) {
+    gst_tag_list_free (camera->event_tags);
+    camera->event_tags = NULL;
+  }
 }
 
 /*
  * gst_camerabin_image_capture_continue:
  * @camera: camerabin object
- * @filename: new filename set by user
- * @cont: TRUE to continue image capture, FALSE otherwise
  *
- * Check if user wants to continue image capturing by using g_signal.
+ * Notify application that image has been saved with a signal.
+ *
+ * Returns TRUE if another image should be captured, FALSE otherwise.
  */
-static void
-gst_camerabin_image_capture_continue (GstCameraBin * camera, GString * filename,
-    gboolean * cont)
+static gboolean
+gst_camerabin_image_capture_continue (GstCameraBin * camera)
 {
-  GST_DEBUG_OBJECT (camera, "emitting img_done signal, filename: %s",
-      filename->str);
+  gchar *filename = NULL;
+  gboolean cont = FALSE;
+
+  /* Check the filename of the written image */
+  g_object_get (G_OBJECT (camera->imgbin), "filename", &filename, NULL);
+
+  GST_DEBUG_OBJECT (camera, "emitting img_done signal, filename: %s", filename);
   g_signal_emit (G_OBJECT (camera), camerabin_signals[IMG_DONE_SIGNAL], 0,
-      filename, cont);
+      filename, &cont);
+
+  g_free (filename);
 
   GST_DEBUG_OBJECT (camera, "emitted img_done, new filename: %s, continue: %d",
-      filename->str, *cont);
+      camera->filename->str, cont);
+
+  /* If the app wants to continue make sure new filename has been set */
+  if (cont && g_str_equal (camera->filename->str, "")) {
+    GST_ELEMENT_ERROR (camera, RESOURCE, NOT_FOUND,
+        ("cannot continue capture, no filename has been set"), (NULL));
+    cont = FALSE;
+  }
+
+  return cont;
 }
 
 /*
@@ -906,7 +951,16 @@ gst_camerabin_change_mode (GstCameraBin * camera, gint mode)
       gst_element_set_state (camera->active_bin, GST_STATE_NULL);
     }
     if (camera->mode == MODE_IMAGE) {
+      GstStateChangeReturn state_ret;
+
       camera->active_bin = camera->imgbin;
+      state_ret = gst_element_set_state (camera->active_bin, GST_STATE_READY);
+
+      if (state_ret == GST_STATE_CHANGE_FAILURE) {
+        GST_WARNING_OBJECT (camera, "state change failed");
+        gst_element_set_state (camera->active_bin, GST_STATE_NULL);
+        camera->active_bin = NULL;
+      }
     } else if (camera->mode == MODE_VIDEO) {
       camera->active_bin = camera->vidbin;
     }
@@ -920,7 +974,6 @@ gst_camerabin_change_mode (GstCameraBin * camera, gint mode)
  * @name: new filename for capture
  *
  * Change filename for image or video capture.
- * Changing filename will stop ongoing capture.
  */
 static void
 gst_camerabin_change_filename (GstCameraBin * camera, const gchar * name)
@@ -928,58 +981,44 @@ gst_camerabin_change_filename (GstCameraBin * camera, const gchar * name)
   if (0 != strcmp (camera->filename->str, name)) {
     GST_DEBUG_OBJECT (camera, "changing filename from %s to %s",
         camera->filename->str, name);
-    /* Interrupt ongoing capture */
-    gst_camerabin_do_stop (camera);
-    gst_camerabin_reset_to_view_finder (camera);
-
-    if (camera->active_bin) {
-      g_object_set (G_OBJECT (camera->active_bin), "filename", name, NULL);
-    }
-
     g_string_assign (camera->filename, name);
   }
 }
 
-/*
- * gst_camerabin_setup_zoom:
- * @camera: camerabin object
- *
- * Apply zoom configured to camerabin to capture.
- */
-static void
-gst_camerabin_setup_zoom (GstCameraBin * camera)
+static gboolean
+gst_camerabin_set_photo_iface_zoom (GstCameraBin * camera, gint zoom)
 {
-  gint zoom;
-  gboolean done = FALSE;
-
-  g_return_if_fail (camera != NULL);
-  g_return_if_fail (camera->src_zoom_crop != NULL);
-
-  zoom = g_atomic_int_get (&camera->zoom);
-
-  g_return_if_fail (zoom);
+  GstPhotography *photo = NULL;
+  GstPhotoCaps pcaps = GST_PHOTOGRAPHY_CAPS_NONE;
+  gboolean ret = FALSE;
 
   if (GST_IS_ELEMENT (camera->src_vid_src) &&
       gst_element_implements_interface (camera->src_vid_src,
           GST_TYPE_PHOTOGRAPHY)) {
-    /* Try setting (hardware) zoom using photography interface */
-    GstPhotography *photo;
-    GstPhotoCaps pcaps;
-
+    /* Try setting zoom using photography interface */
     photo = GST_PHOTOGRAPHY (camera->src_vid_src);
-    pcaps = gst_photography_get_capabilities (photo);
-
+    if (photo) {
+      pcaps = gst_photography_get_capabilities (photo);
+    }
     if (pcaps & GST_PHOTOGRAPHY_CAPS_ZOOM) {
-      done = gst_photography_set_zoom (photo, (gfloat) zoom / 100.0);
+      GST_DEBUG_OBJECT (camera, "setting zoom %d using photography interface",
+          zoom);
+      ret = gst_photography_set_zoom (photo, (gfloat) zoom / 100.0);
     }
   }
+  return ret;
+}
 
-  if (!done) {
-    /* Update capsfilters to apply the (software) zoom */
-    gint w2_crop = 0;
-    gint h2_crop = 0;
-    GstPad *pad_zoom_sink = NULL;
+static gboolean
+gst_camerabin_set_element_zoom (GstCameraBin * camera, gint zoom)
+{
+  gint w2_crop = 0;
+  gint h2_crop = 0;
+  GstPad *pad_zoom_sink = NULL;
+  gboolean ret = FALSE;
 
+  if (camera->src_zoom_crop) {
+    /* Update capsfilters to apply the zoom */
     GST_INFO_OBJECT (camera, "zoom: %d, orig size: %dx%d", zoom,
         camera->width, camera->height);
 
@@ -997,11 +1036,39 @@ gst_camerabin_setup_zoom (GstCameraBin * camera)
     GST_PAD_STREAM_LOCK (pad_zoom_sink);
     g_object_set (camera->src_zoom_crop, "left", w2_crop, "right", w2_crop,
         "top", h2_crop, "bottom", h2_crop, NULL);
-
     GST_PAD_STREAM_UNLOCK (pad_zoom_sink);
     gst_object_unref (pad_zoom_sink);
+    ret = TRUE;
   }
-  GST_LOG_OBJECT (camera, "zoom set");
+  return ret;
+}
+
+/*
+ * gst_camerabin_setup_zoom:
+ * @camera: camerabin object
+ *
+ * Apply zoom configured to camerabin to capture.
+ */
+static void
+gst_camerabin_setup_zoom (GstCameraBin * camera)
+{
+  gint zoom;
+
+  g_return_if_fail (camera != NULL);
+
+  zoom = g_atomic_int_get (&camera->zoom);
+
+  g_return_if_fail (zoom);
+
+  GST_INFO_OBJECT (camera, "setting zoom %d", zoom);
+
+  if (gst_camerabin_set_photo_iface_zoom (camera, zoom)) {
+    GST_INFO_OBJECT (camera, "zoom set using photography interface");
+  } else if (gst_camerabin_set_element_zoom (camera, zoom)) {
+    GST_INFO_OBJECT (camera, "zoom set using gst elements");
+  } else {
+    GST_INFO_OBJECT (camera, "setting zoom failed");
+  }
 }
 
 /*
@@ -1081,6 +1148,46 @@ done:
 failed:
   GST_INFO_OBJECT (camera, "allowed caps:%" GST_PTR_FORMAT, caps);
   return caps;
+}
+
+/*
+ * gst_camerabin_send_img_queue_event:
+ * @camera: camerabin object
+ * @event: event to be sent
+ *
+ * Send the given event to image queue.
+ */
+static void
+gst_camerabin_send_img_queue_event (GstCameraBin * camera, GstEvent * event)
+{
+  GstPad *queue_sink;
+
+  g_return_if_fail (camera != NULL);
+  g_return_if_fail (event != NULL);
+
+  queue_sink = gst_element_get_static_pad (camera->img_queue, "sink");
+  gst_pad_send_event (queue_sink, event);
+  gst_object_unref (queue_sink);
+}
+
+/*
+ * gst_camerabin_send_img_queue_custom_event:
+ * @camera: camerabin object
+ * @ev_struct: event structure to be sent
+ *
+ * Generate and send a custom event to image queue.
+ */
+static void
+gst_camerabin_send_img_queue_custom_event (GstCameraBin * camera,
+    GstStructure * ev_struct)
+{
+  GstEvent *event;
+
+  g_return_if_fail (camera != NULL);
+  g_return_if_fail (ev_struct != NULL);
+
+  event = gst_event_new_custom (GST_EVENT_CUSTOM_DOWNSTREAM, ev_struct);
+  gst_camerabin_send_img_queue_event (camera, event);
 }
 
 /*
@@ -1245,7 +1352,13 @@ gst_camerabin_rewrite_tags (GstCameraBin * camera)
   }
 
   /* Write tags */
-  gst_camerabin_rewrite_tags_to_bin (GST_BIN (camera->active_bin), list);
+  if (camera->active_bin == camera->vidbin) {
+    gst_camerabin_rewrite_tags_to_bin (GST_BIN (camera->active_bin), list);
+  } else {
+    /* Image tags need to be sent as a serialized event into image queue */
+    GstEvent *tagevent = gst_event_new_tag (gst_tag_list_copy (list));
+    gst_camerabin_send_img_queue_event (camera, tagevent);
+  }
 
   gst_tag_list_free (list);
 }
@@ -1283,17 +1396,35 @@ gst_camerabin_set_capsfilter_caps (GstCameraBin * camera, GstCaps * new_caps)
   gst_camerabin_update_aspect_filter (camera, new_caps);
 }
 
+/*
+ * gst_camerabin_adapt_video_resolution:
+ * @camera: camerabin object
+ * @caps: caps describing the next incoming buffer format
+ *
+ * This function adjusts capsfilter and crop elements in order to modify 
+ * the incoming buffer to the resolution that application requested.
+ *
+ */
 static void
 gst_camerabin_adapt_video_resolution (GstCameraBin * camera, GstCaps * caps)
 {
   GstStructure *st;
   gint width = 0, height = 0;
   GstCaps *filter_caps = NULL;
+  gint top, bottom, left, right, crop;
+  gdouble ratio_w, ratio_h;
+
+  g_return_if_fail (camera->width != 0 && camera->height != 0);
 
   /* Get width and height from caps */
   st = gst_caps_get_structure (caps, 0);
   gst_structure_get_int (st, "width", &width);
   gst_structure_get_int (st, "height", &height);
+
+  if (width == camera->width && height == camera->height) {
+    GST_DEBUG_OBJECT (camera, "no adaptation with resolution needed");
+    return;
+  }
 
   GST_DEBUG_OBJECT (camera,
       "changing %dx%d -> %dx%d filter to %" GST_PTR_FORMAT,
@@ -1306,7 +1437,31 @@ gst_camerabin_adapt_video_resolution (GstCameraBin * camera, GstCaps * caps)
       "height", G_TYPE_INT, height, NULL);
   g_object_set (G_OBJECT (camera->src_filter), "caps", filter_caps, NULL);
   gst_caps_unref (filter_caps);
-  /* FIXME: implement cropping according to requested aspect ratio */
+
+  /* Crop if requested aspect ratio differs from incoming frame aspect ratio */
+
+  /* Don't override original crop values in case we have zoom applied */
+  g_object_get (G_OBJECT (camera->src_zoom_crop), "top", &top, "bottom",
+      &bottom, "left", &left, "right", &right, NULL);
+
+  ratio_w = (gdouble) width / camera->width;
+  ratio_h = (gdouble) height / camera->height;
+
+  if (ratio_w < ratio_h) {
+    crop = height - (camera->height * ratio_w);
+    top += crop / 2;
+    bottom += crop / 2;
+  } else {
+    crop = width - (camera->width * ratio_h);
+    left += crop / 2;
+    right += crop / 2;
+  }
+
+  GST_INFO_OBJECT (camera,
+      "updating crop: left:%d, right:%d, top:%d, bottom:%d", left, right, top,
+      bottom);
+  g_object_set (G_OBJECT (camera->src_zoom_crop), "top", top, "bottom", bottom,
+      "left", left, "right", right, NULL);
 }
 
 /*
@@ -1323,11 +1478,13 @@ img_capture_prepared (gpointer data, GstCaps * caps)
   GstStructure *st, *new_st;
   gint i;
   const gchar *field_name;
+  gboolean adapt = FALSE;
 
   GST_INFO_OBJECT (camera, "image capture prepared");
 
   /* It is possible we are about to get something else that we requested */
   if (!gst_caps_is_equal (camera->image_capture_caps, caps)) {
+    adapt = TRUE;
     /* If capture preparation has added new fields to requested caps,
        we need to copy them */
     st = gst_caps_get_structure (camera->image_capture_caps, 0);
@@ -1348,14 +1505,17 @@ img_capture_prepared (gpointer data, GstCaps * caps)
   /* Update capsfilters */
   gst_camerabin_set_capsfilter_caps (camera, camera->image_capture_caps);
 
-  /* If incoming buffer resolution is different from what application
-     requested, then we need to fix this in camerabin */
-  gst_camerabin_adapt_video_resolution (camera, caps);
-
+  if (adapt) {
+    /* If incoming buffer resolution is different from what application
+       requested, then we can fix this in camerabin */
+    gst_camerabin_adapt_video_resolution (camera, caps);
+  }
   g_object_set (G_OBJECT (camera->src_out_sel), "resend-latest", FALSE,
       "active-pad", camera->pad_src_img, NULL);
-  gst_camerabin_rewrite_tags (camera);
-  gst_element_set_state (GST_ELEMENT (camera->imgbin), GST_STATE_PLAYING);
+
+  if (!GST_CAMERABIN_IMAGE (camera->imgbin)->elements_created) {
+    gst_element_set_state (camera->imgbin, GST_STATE_READY);
+  }
 }
 
 /*
@@ -1401,8 +1561,11 @@ gst_camerabin_start_image_capture (GstCameraBin * camera)
   }
 
   if (!wait_for_prepare) {
-    gst_camerabin_rewrite_tags (camera);
-    state_ret = gst_element_set_state (camera->imgbin, GST_STATE_PLAYING);
+    /* Image queue's srcpad data probe will set imagebin to PLAYING */
+    state_ret = gst_element_set_state (camera->imgbin, GST_STATE_PAUSED);
+    GST_DEBUG_OBJECT (camera, "setting imagebin to paused: %s",
+        gst_element_state_change_return_get_name (state_ret));
+
     if (state_ret != GST_STATE_CHANGE_FAILURE) {
       g_mutex_lock (camera->capture_mutex);
       g_object_set (G_OBJECT (camera->src_out_sel), "resend-latest", TRUE,
@@ -1505,12 +1668,48 @@ image_pad_blocked (GstPad * pad, gboolean blocked, gpointer user_data)
 
   GST_DEBUG_OBJECT (camera, "%s %s:%s",
       blocked ? "blocking" : "unblocking", GST_DEBUG_PAD_NAME (pad));
+}
 
-  if (blocked && (pad == camera->srcpad_videosrc)) {
-    /* Send eos and block until image bin reaches eos */
-    GST_DEBUG_OBJECT (camera, "sending eos to image bin");
-    gst_element_send_event (camera->imgbin, gst_event_new_eos ());
+/*
+ * gst_camerabin_send_preview:
+ * @camera: camerabin object
+ * @buffer: received buffer
+ *
+ * Convert given buffer to desired preview format and send is as a #GstMessage
+ * to application.
+ *
+ * Returns: TRUE always
+ */
+static gboolean
+gst_camerabin_send_preview (GstCameraBin * camera, GstBuffer * buffer)
+{
+  GstBuffer *prev = NULL;
+  GstStructure *s;
+  GstMessage *msg;
+  gboolean ret = FALSE;
+
+  GST_DEBUG_OBJECT (camera, "creating preview");
+
+  prev = gst_camerabin_preview_convert (camera, buffer);
+
+  GST_DEBUG_OBJECT (camera, "preview created: %p", prev);
+
+  if (prev) {
+    s = gst_structure_new (PREVIEW_MESSAGE_NAME,
+        "buffer", GST_TYPE_BUFFER, prev, NULL);
+
+    msg = gst_message_new_element (GST_OBJECT (camera), s);
+
+    GST_DEBUG_OBJECT (camera, "sending message with preview image");
+
+    if (gst_element_post_message (GST_ELEMENT (camera), msg) == FALSE) {
+      GST_WARNING_OBJECT (camera,
+          "This element has no bus, therefore no message sent!");
+    }
+    ret = TRUE;
   }
+
+  return ret;
 }
 
 /*
@@ -1519,27 +1718,19 @@ image_pad_blocked (GstPad * pad, gboolean blocked, gpointer user_data)
  * @buffer: still image frame
  * @u_data: camera bin object
  *
- * Buffer probe called before sending each buffer to image bin.
- *
- * First buffer is always passed directly to image bin. Then pad
- * is blocked in order to interleave buffers with eos events.
- * Interleaving eos events and buffers is needed when we have
- * decoupled elements in the image bin capture pipeline.
- * After image bin posts eos message, then pad is unblocked.
- * Next, image bin is changed to READY state in order to save the
- * file and the application is allowed to decide whether to
- * continue image capture. If yes, only then the next buffer is
- * passed to image bin.
+ * Buffer probe called before sending each buffer to image queue.
+ * Generates and sends preview image as gst message if requested.
  */
 static gboolean
 gst_camerabin_have_img_buffer (GstPad * pad, GstBuffer * buffer,
     gpointer u_data)
 {
   GstCameraBin *camera = (GstCameraBin *) u_data;
+  GstStructure *fn_ev_struct = NULL;
   gboolean ret = TRUE;
+  GstPad *os_sink = NULL;
 
-  GST_LOG ("got buffer #%d %p with size %d", camera->num_img_buffers,
-      buffer, GST_BUFFER_SIZE (buffer));
+  GST_LOG ("got buffer %p with size %d", buffer, GST_BUFFER_SIZE (buffer));
 
   /* Image filename should be set by now */
   if (g_str_equal (camera->filename->str, "")) {
@@ -1548,53 +1739,38 @@ gst_camerabin_have_img_buffer (GstPad * pad, GstBuffer * buffer,
     goto done;
   }
 
-  /* Check for first buffer after capture start, we want to
-     pass it forward directly. */
-  if (!camera->num_img_buffers) {
-    goto done;
+  if (camera->preview_caps) {
+    gst_camerabin_send_preview (camera, buffer);
   }
 
-  /* Close the file of saved image */
-  gst_element_set_state (camera->imgbin, GST_STATE_READY);
+  gst_camerabin_rewrite_tags (camera);
 
-  /* Check if the application wants to continue */
-  gst_camerabin_image_capture_continue (camera, camera->filename, &ret);
+  /* Send a custom event which tells the filename to image queue */
+  /* NOTE: This needs to be THE FIRST event to be sent to queue for
+     every image. It triggers imgbin state change to PLAYING. */
+  fn_ev_struct = gst_structure_new ("img-filename",
+      "filename", G_TYPE_STRING, camera->filename->str, NULL);
+  GST_DEBUG_OBJECT (camera, "sending filename event to image queue");
+  gst_camerabin_send_img_queue_custom_event (camera, fn_ev_struct);
 
-  if (ret && !camera->stop_requested) {
-    GST_DEBUG_OBJECT (camera, "capturing image \"%s\"", camera->filename->str);
-    g_object_set (G_OBJECT (camera->imgbin), "filename",
-        camera->filename->str, NULL);
-    gst_element_set_state (camera->imgbin, GST_STATE_PLAYING);
-  } else {
-    GST_DEBUG_OBJECT (camera, "not continuing (cont:%d, stop_req:%d)",
-        ret, camera->stop_requested);
-    /* Reset filename to force application set new filename */
-    g_string_assign (camera->filename, "");
-
-    /* Block dataflow to the output-selector to show preview image in
-       view finder. Continue and unblock when capture is stopped */
-    gst_pad_set_blocked_async (camera->srcpad_zoom_filter, TRUE,
-        (GstPadBlockCallback) image_pad_blocked, camera);
-    ret = FALSE;                /* Drop the buffer */
-
-    g_mutex_lock (camera->capture_mutex);
-    camera->capturing = FALSE;
-    g_cond_signal (camera->cond);
-    g_mutex_unlock (camera->capture_mutex);
-  }
+  /* Add buffer probe to outputselector's sink pad. It sends
+     EOS event to image queue. */
+  os_sink = gst_element_get_static_pad (camera->src_out_sel, "sink");
+  camera->image_captured_id = gst_pad_add_buffer_probe (os_sink,
+      G_CALLBACK (gst_camerabin_have_src_buffer), camera);
+  gst_object_unref (os_sink);
 
 done:
 
-  if (ret) {
-    camera->num_img_buffers++;
-    /* Block when next buffer arrives, we want to push eos event
-       between frames and make sure that eos reaches the filesink
-       before processing the next buffer. */
-    gst_pad_set_blocked_async (camera->srcpad_videosrc, TRUE,
-        (GstPadBlockCallback) image_pad_blocked, camera);
-  }
+  /* HACK: v4l2camsrc changes to view finder resolution automatically
+     after one captured still image */
+  gst_camerabin_finish_image_capture (camera);
 
-  return ret;
+  gst_camerabin_reset_to_view_finder (camera);
+
+  GST_DEBUG_OBJECT (camera, "switched back to viewfinder");
+
+  return TRUE;
 }
 
 /*
@@ -1624,6 +1800,120 @@ gst_camerabin_have_vid_buffer (GstPad * pad, GstBuffer * buffer,
 }
 
 /*
+ * gst_camerabin_have_src_buffer:
+ * @pad: output-selector sink pad which receives frames from video source
+ * @buffer: buffer pushed to the pad
+ * @u_data: camerabin object
+ *
+ * Buffer probe for sink pad. It sends custom eos event to image queue and
+ * notifies application by sending a "image-captured" message to GstBus.
+ * This probe is installed after image has been captured and it disconnects
+ * itself after EOS has been sent.
+ */
+static gboolean
+gst_camerabin_have_src_buffer (GstPad * pad, GstBuffer * buffer,
+    gpointer u_data)
+{
+  GstCameraBin *camera = (GstCameraBin *) u_data;
+  GstMessage *msg;
+
+  GST_LOG_OBJECT (camera, "got image buffer %p with size %d",
+      buffer, GST_BUFFER_SIZE (buffer));
+
+  /* We can't send real EOS event, since it would switch the image queue
+     into "draining mode". Therefore we send our own custom eos and
+     catch & drop it later in queue's srcpad data probe */
+  GST_DEBUG_OBJECT (camera, "sending eos to image queue");
+  gst_camerabin_send_img_queue_custom_event (camera,
+      gst_structure_new ("img-eos", NULL));
+
+  /* our work is done, disconnect */
+  gst_pad_remove_buffer_probe (pad, camera->image_captured_id);
+
+  g_mutex_lock (camera->capture_mutex);
+  camera->capturing = FALSE;
+  g_cond_signal (camera->cond);
+  g_mutex_unlock (camera->capture_mutex);
+
+  msg = gst_message_new_element (GST_OBJECT (camera),
+      gst_structure_new (IMG_CAPTURED_MESSAGE_NAME, NULL));
+
+  GST_DEBUG_OBJECT (camera, "sending 'image captured' message");
+
+  if (gst_element_post_message (GST_ELEMENT (camera), msg) == FALSE) {
+    GST_WARNING_OBJECT (camera,
+        "This element has no bus, therefore no message sent!");
+  }
+
+  return TRUE;
+}
+
+/*
+ * gst_camerabin_have_queue_data:
+ * @pad: image queue src pad leading to image bin
+ * @mini_obj: buffer or event pushed to the pad
+ * @u_data: camerabin object
+ *
+ * Buffer probe for image queue src pad leading to image bin. It sets imgbin
+ * into PLAYING mode when image buffer is passed to it. This probe also
+ * monitors our internal custom events and handles them accordingly.
+ */
+static gboolean
+gst_camerabin_have_queue_data (GstPad * pad, GstMiniObject * mini_obj,
+    gpointer u_data)
+{
+  GstCameraBin *camera = (GstCameraBin *) u_data;
+  gboolean ret = TRUE;
+
+  if (GST_IS_BUFFER (mini_obj)) {
+    GstEvent *tagevent;
+
+    GST_LOG_OBJECT (camera, "queue sending image buffer to imgbin");
+
+    tagevent = gst_event_new_tag (gst_tag_list_copy (camera->event_tags));
+    gst_element_send_event (camera->imgbin, tagevent);
+    gst_tag_list_free (camera->event_tags);
+    camera->event_tags = gst_tag_list_new ();
+  } else if (GST_IS_EVENT (mini_obj)) {
+    const GstStructure *evs;
+    GstEvent *event;
+
+    event = GST_EVENT_CAST (mini_obj);
+    evs = gst_event_get_structure (event);
+
+    GST_LOG_OBJECT (camera, "got event %s", GST_EVENT_TYPE_NAME (event));
+
+    if (GST_EVENT_TYPE (event) == GST_EVENT_TAG) {
+      GstTagList *tlist;
+
+      gst_event_parse_tag (event, &tlist);
+      gst_tag_list_insert (camera->event_tags, tlist, GST_TAG_MERGE_REPLACE);
+      ret = FALSE;
+    } else if (evs && gst_structure_has_name (evs, "img-filename")) {
+      const gchar *fname;
+
+      GST_LOG_OBJECT (camera, "queue setting image filename to imagebin");
+      fname = gst_structure_get_string (evs, "filename");
+      g_object_set (G_OBJECT (camera->imgbin), "filename", fname, NULL);
+
+      /* imgbin fails to start unless the filename is set */
+      gst_element_set_state (camera->imgbin, GST_STATE_PLAYING);
+      GST_LOG_OBJECT (camera, "Set imgbin to PLAYING");
+
+      ret = FALSE;
+    } else if (evs && gst_structure_has_name (evs, "img-eos")) {
+      GST_LOG_OBJECT (camera, "queue sending EOS to image pipeline");
+      gst_pad_set_blocked_async (camera->pad_src_queue, TRUE,
+          (GstPadBlockCallback) image_pad_blocked, camera);
+      gst_element_send_event (camera->imgbin, gst_event_new_eos ());
+      ret = FALSE;
+    }
+  }
+
+  return ret;
+}
+
+/*
  * gst_camerabin_reset_to_view_finder:
  * @camera: camerabin object
  *
@@ -1636,8 +1926,8 @@ gst_camerabin_reset_to_view_finder (GstCameraBin * camera)
   GstStateChangeReturn state_ret;
   GST_DEBUG_OBJECT (camera, "resetting");
 
-  /* Set active bin to READY state */
-  if (camera->active_bin) {
+  /* Set video bin to READY state */
+  if (camera->active_bin == camera->vidbin) {
     state_ret = gst_element_set_state (camera->active_bin, GST_STATE_READY);
     if (state_ret == GST_STATE_CHANGE_FAILURE) {
       GST_WARNING_OBJECT (camera, "state change failed");
@@ -1647,7 +1937,6 @@ gst_camerabin_reset_to_view_finder (GstCameraBin * camera)
   }
 
   /* Reset counters and flags */
-  camera->num_img_buffers = 0;
   camera->stop_requested = FALSE;
   camera->paused = FALSE;
 
@@ -1655,18 +1944,6 @@ gst_camerabin_reset_to_view_finder (GstCameraBin * camera)
     /* Set selector to forward data to view finder */
     g_object_set (G_OBJECT (camera->src_out_sel), "resend-latest", FALSE,
         "active-pad", camera->pad_src_view, NULL);
-  }
-
-  /* Unblock, if dataflow to output-selector is blocked due to image preview */
-  if (camera->srcpad_zoom_filter &&
-      gst_pad_is_blocked (camera->srcpad_zoom_filter)) {
-    gst_pad_set_blocked_async (camera->srcpad_zoom_filter, FALSE,
-        (GstPadBlockCallback) image_pad_blocked, camera);
-  }
-  /* Unblock, if dataflow in videosrc is blocked due to waiting for eos */
-  if (camera->srcpad_videosrc && gst_pad_is_blocked (camera->srcpad_videosrc)) {
-    gst_pad_set_blocked_async (camera->srcpad_videosrc, FALSE,
-        (GstPadBlockCallback) image_pad_blocked, camera);
   }
 
   /* Enable view finder mode in v4l2camsrc */
@@ -1715,7 +1992,7 @@ gst_camerabin_do_stop (GstCameraBin * camera)
 /*
  * gst_camerabin_default_signal_img_done:
  * @camera: camerabin object
- * @fname: new filename
+ * @fname: filename of the recently saved image
  *
  * Default handler for #GstCameraBin::img-done signal,
  * stops always capture.
@@ -1723,7 +2000,8 @@ gst_camerabin_do_stop (GstCameraBin * camera)
  * Returns: FALSE always
  */
 static gboolean
-gst_camerabin_default_signal_img_done (GstCameraBin * camera, GString * fname)
+gst_camerabin_default_signal_img_done (GstCameraBin * camera,
+    const gchar * fname)
 {
   return FALSE;
 }
@@ -1741,14 +2019,32 @@ gst_camerabin_set_allowed_framerate (GstCameraBin * camera,
     GstCaps * filter_caps)
 {
   GstStructure *structure;
-  GstCaps *allowed_caps = NULL, *intersect = NULL;
+  GstCaps *allowed_caps = NULL, *intersect = NULL, *tmp_caps = NULL;
   const GValue *framerate = NULL;
   guint caps_size, i;
+  guint32 format = 0;
+
+  GST_INFO_OBJECT (camera, "filter caps:%" GST_PTR_FORMAT, filter_caps);
+
+  structure = gst_structure_copy (gst_caps_get_structure (filter_caps, 0));
+
+  /* Set fourcc format according to current videosrc format */
+  format = get_srcpad_current_format (camera->src_vid_src);
+  if (format) {
+    GST_DEBUG_OBJECT (camera,
+        "using format %" GST_FOURCC_FORMAT " for matching",
+        GST_FOURCC_ARGS (format));
+    gst_structure_set (structure, "format", GST_TYPE_FOURCC, format, NULL);
+  } else {
+    GST_DEBUG_OBJECT (camera, "not matching against fourcc format");
+    gst_structure_remove_field (structure, "format");
+  }
+
+  tmp_caps = gst_caps_new_full (structure, NULL);
 
   /* Get supported caps from video src that matches with new filter caps */
-  GST_INFO_OBJECT (camera, "filter caps:%" GST_PTR_FORMAT, filter_caps);
   allowed_caps = gst_camerabin_get_allowed_input_caps (camera);
-  intersect = gst_caps_intersect (allowed_caps, filter_caps);
+  intersect = gst_caps_intersect (allowed_caps, tmp_caps);
   GST_INFO_OBJECT (camera, "intersect caps:%" GST_PTR_FORMAT, intersect);
 
   /* Find the best framerate from the caps */
@@ -1759,6 +2055,7 @@ gst_camerabin_set_allowed_framerate (GstCameraBin * camera,
         gst_camerabin_find_better_framerate (camera, structure, framerate);
   }
 
+  /* Set found frame rate to original caps */
   if (GST_VALUE_HOLDS_FRACTION (framerate)) {
     gst_caps_set_simple (filter_caps,
         "framerate", GST_TYPE_FRACTION,
@@ -1766,11 +2063,15 @@ gst_camerabin_set_allowed_framerate (GstCameraBin * camera,
         gst_value_get_fraction_denominator (framerate), NULL);
   }
 
+  /* Unref helper caps */
   if (allowed_caps) {
     gst_caps_unref (allowed_caps);
   }
   if (intersect) {
     gst_caps_unref (intersect);
+  }
+  if (tmp_caps) {
+    gst_caps_unref (tmp_caps);
   }
 }
 
@@ -1965,6 +2266,26 @@ gst_camerabin_update_aspect_filter (GstCameraBin * camera, GstCaps * new_caps)
       ar_caps);
   g_object_set (G_OBJECT (camera->aspect_filter), "caps", ar_caps, NULL);
   gst_caps_unref (ar_caps);
+}
+
+/*
+ * gst_camerabin_finish_image_capture:
+ * @camera: camerabin object
+ *
+ * Perform finishing operations after image capture is done and
+ * returning back to view finder mode.
+ */
+static void
+gst_camerabin_finish_image_capture (GstCameraBin * camera)
+{
+  if (camera->image_capture_caps) {
+    /* If we used specific caps for image capture we need to 
+       restore the caps and zoom/crop for view finder mode */
+    GST_DEBUG_OBJECT (camera, "resetting crop in camerabin");
+    g_object_set (camera->src_zoom_crop, "left", 0, "right", 0,
+        "top", 0, "bottom", 0, NULL);
+    gst_camerabin_set_capsfilter_caps (camera, camera->view_finder_caps);
+  }
 }
 
 /*
@@ -2188,14 +2509,29 @@ gst_camerabin_class_init (GstCameraBinClass * klass)
   /**
    * GstCameraBin:filter-caps:
    *
-   * Filter video source element caps using this property.
-   * This is an alternative to #GstCamerabin::user-res-fps action
-   * signal that allows more fine grained control of video source.
+   * Caps applied to capsfilter element after videosrc [ ! ffmpegcsp ].
+   * You can use this e.g. to make sure video color format matches with
+   * encoders and other elements configured to camerabin and/or change
+   * resolution and frame rate.
    */
 
   g_object_class_install_property (gobject_class, ARG_FILTER_CAPS,
       g_param_spec_boxed ("filter-caps", "Filter caps",
-          "Capsfilter caps used to control video source operation",
+          "Filter video data coming from videosrc element",
+          GST_TYPE_CAPS, G_PARAM_READWRITE));
+
+  /**
+   * GstCameraBin:preview-caps:
+   *
+   * If application wants to receive a preview image, it needs to 
+   * set this property to depict the desired image format caps. When
+   * this property is not set (NULL), message containing the preview
+   * image is not sent.
+   */
+
+  g_object_class_install_property (gobject_class, ARG_PREVIEW_CAPS,
+      g_param_spec_boxed ("preview-caps", "Preview caps",
+          "Caps defining the preview image format",
           GST_TYPE_CAPS, G_PARAM_READWRITE));
 
   /**
@@ -2290,10 +2626,9 @@ gst_camerabin_class_init (GstCameraBinClass * klass)
   /**
    * GstCameraBin::img-done:
    * @camera: the camera bin element
-   * @filename: the name of the file just saved as a GString*
+   * @filename: the name of the file just saved
    *
-   * Signal emited when the file has just been saved. To continue taking
-   * pictures just update @filename and return TRUE, otherwise return FALSE.
+   * Signal emitted when the file has just been saved.
    *
    * Don't call any #GstCameraBin method from this signal, if you do so there
    * will be a deadlock.
@@ -2303,8 +2638,8 @@ gst_camerabin_class_init (GstCameraBinClass * klass)
       g_signal_new ("img-done", G_TYPE_FROM_CLASS (klass),
       G_SIGNAL_RUN_LAST, G_STRUCT_OFFSET (GstCameraBinClass, img_done),
       g_signal_accumulator_true_handled, NULL,
-      __gst_camerabin_marshal_BOOLEAN__POINTER, G_TYPE_BOOLEAN, 1,
-      G_TYPE_POINTER);
+      __gst_camerabin_marshal_BOOLEAN__STRING, G_TYPE_BOOLEAN, 1,
+      G_TYPE_STRING);
 
   klass->user_start = gst_camerabin_user_start;
   klass->user_stop = gst_camerabin_user_stop;
@@ -2338,7 +2673,6 @@ gst_camerabin_init (GstCameraBin * camera, GstCameraBinClass * gclass)
 
   camera->filename = g_string_new ("");
   camera->mode = DEFAULT_MODE;
-  camera->num_img_buffers = 0;
   camera->stop_requested = FALSE;
   camera->paused = FALSE;
   camera->capturing = FALSE;
@@ -2348,6 +2682,8 @@ gst_camerabin_init (GstCameraBin * camera, GstCameraBinClass * gclass)
   camera->height = DEFAULT_HEIGHT;
   camera->fps_n = DEFAULT_FPS_N;
   camera->fps_d = DEFAULT_FPS_D;
+
+  camera->event_tags = gst_tag_list_new ();
 
   camera->image_capture_caps = NULL;
   camera->view_finder_caps = NULL;
@@ -2363,12 +2699,8 @@ gst_camerabin_init (GstCameraBin * camera, GstCameraBinClass * gclass)
   camera->pad_src_view = NULL;
   camera->pad_view_src = NULL;
   camera->pad_src_img = NULL;
-  camera->pad_view_img = NULL;
   camera->pad_src_vid = NULL;
   camera->pad_view_vid = NULL;
-
-  camera->srcpad_zoom_filter = NULL;
-  camera->srcpad_videosrc = NULL;
 
   /* source elements */
   camera->src_vid_src = NULL;
@@ -2394,6 +2726,8 @@ gst_camerabin_init (GstCameraBin * camera, GstCameraBinClass * gclass)
   camera->view_in_sel = NULL;
   camera->view_scale = NULL;
   camera->view_sink = NULL;
+
+  memset (&camera->photo_settings, 0, sizeof (GstPhotoSettings));
 }
 
 static void
@@ -2410,6 +2744,8 @@ gst_camerabin_dispose (GObject * object)
 
   gst_element_set_state (camera->vidbin, GST_STATE_NULL);
   gst_object_unref (camera->vidbin);
+
+  gst_camerabin_preview_destroy_pipeline (camera);
 
   camerabin_destroy_elements (camera);
 
@@ -2471,7 +2807,7 @@ gst_camerabin_set_property (GObject * object, guint prop_id,
       break;
     case ARG_VIDEO_MUX:
       if (GST_STATE (camera->vidbin) != GST_STATE_NULL) {
-        GST_WARNING_OBJECT (camera->vidbin,
+        GST_WARNING_OBJECT (camera,
             "can't use set element until next video bin NULL to READY state change");
       }
       gst_camerabin_video_set_muxer (GST_CAMERABIN_VIDEO (camera->vidbin),
@@ -2532,7 +2868,18 @@ gst_camerabin_set_property (GObject * object, guint prop_id,
       }
       camera->view_finder_caps = gst_caps_copy (gst_value_get_caps (value));
       GST_OBJECT_UNLOCK (camera);
-      gst_camerabin_set_capsfilter_caps (camera, camera->view_finder_caps);
+      if (GST_STATE (camera) != GST_STATE_NULL) {
+        gst_camerabin_set_capsfilter_caps (camera, camera->view_finder_caps);
+      }
+      break;
+    case ARG_PREVIEW_CAPS:
+      GST_OBJECT_LOCK (camera);
+      if (camera->preview_caps) {
+        gst_caps_unref (camera->preview_caps);
+      }
+      camera->preview_caps = gst_caps_copy (gst_value_get_caps (value));
+      GST_OBJECT_UNLOCK (camera);
+      gst_camerabin_preview_create_pipeline (camera);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -2605,6 +2952,9 @@ gst_camerabin_get_property (GObject * object, guint prop_id,
     case ARG_FILTER_CAPS:
       gst_value_set_caps (value, camera->view_finder_caps);
       break;
+    case ARG_PREVIEW_CAPS:
+      gst_value_set_caps (value, camera->preview_caps);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -2676,6 +3026,29 @@ done:
   return ret;
 }
 
+static gboolean
+gst_camerabin_imgbin_finished (gpointer u_data)
+{
+  GstCameraBin *camera = GST_CAMERABIN (u_data);
+
+  GST_DEBUG_OBJECT (camera, "Image encoding finished");
+
+  /* Close the file of saved image */
+  gst_element_set_state (camera->imgbin, GST_STATE_READY);
+  GST_DEBUG_OBJECT (camera, "Image pipeline set to READY");
+
+  /* Send img-done signal */
+  gst_camerabin_image_capture_continue (camera);
+
+  /* Unblock image queue pad to process next buffer */
+  gst_pad_set_blocked_async (camera->pad_src_queue, FALSE,
+      (GstPadBlockCallback) image_pad_blocked, camera);
+  GST_DEBUG_OBJECT (camera, "Queue srcpad unblocked");
+
+  /* disconnect automatically */
+  return FALSE;
+}
+
 /*
  * GstBin functions implementation
  */
@@ -2699,16 +3072,19 @@ gst_camerabin_handle_message_func (GstBin * bin, GstMessage * msg)
       } else if (GST_MESSAGE_SRC (msg) == GST_OBJECT (camera->imgbin)) {
         /* Image eos */
         GST_DEBUG_OBJECT (camera, "got image eos message");
-
-        /* Still image capture buffer handled, restore filter caps */
-        if (camera->image_capture_caps) {
-          gst_camerabin_set_capsfilter_caps (camera, camera->view_finder_caps);
-        }
-
-        /* Unblock pad to process next buffer */
-        gst_pad_set_blocked_async (camera->srcpad_videosrc, FALSE,
-            (GstPadBlockCallback) image_pad_blocked, camera);
+        g_idle_add (gst_camerabin_imgbin_finished, camera);
       }
+      break;
+    case GST_MESSAGE_ERROR:
+      GST_DEBUG_OBJECT (camera, "error from child %" GST_PTR_FORMAT,
+          GST_MESSAGE_SRC (msg));
+      g_mutex_lock (camera->capture_mutex);
+      if (camera->capturing) {
+        gst_camerabin_finish_image_capture (camera);
+        camera->capturing = FALSE;
+        g_cond_signal (camera->cond);
+      }
+      g_mutex_unlock (camera->capture_mutex);
       break;
     default:
       break;
@@ -2751,12 +3127,11 @@ gst_camerabin_user_start (GstCameraBin * camera)
   g_mutex_unlock (camera->capture_mutex);
 
   if (camera->active_bin) {
-    g_object_set (G_OBJECT (camera->active_bin), "filename",
-        camera->filename->str, NULL);
-
     if (camera->active_bin == camera->imgbin) {
       gst_camerabin_start_image_capture (camera);
     } else if (camera->active_bin == camera->vidbin) {
+      g_object_set (G_OBJECT (camera->active_bin), "filename",
+          camera->filename->str, NULL);
       gst_camerabin_start_video_recording (camera);
     }
   }
@@ -2765,10 +3140,13 @@ gst_camerabin_user_start (GstCameraBin * camera)
 static void
 gst_camerabin_user_stop (GstCameraBin * camera)
 {
-  GST_INFO_OBJECT (camera, "stopping %s capture",
-      camera->mode ? "video" : "image");
-  gst_camerabin_do_stop (camera);
-  gst_camerabin_reset_to_view_finder (camera);
+  if (camera->active_bin == camera->vidbin) {
+    GST_INFO_OBJECT (camera, "stopping video capture");
+    gst_camerabin_do_stop (camera);
+    gst_camerabin_reset_to_view_finder (camera);
+  } else {
+    GST_INFO_OBJECT (camera, "stopping image capture isn't needed");
+  }
 }
 
 static void
@@ -2830,17 +3208,29 @@ static void
 gst_camerabin_user_res_fps (GstCameraBin * camera, gint width, gint height,
     gint fps_n, gint fps_d)
 {
-  GstState state;
+  GstState state, pending;
 
   GST_INFO_OBJECT (camera, "switching resolution to %dx%d and fps to %d/%d",
       width, height, fps_n, fps_d);
 
-  state = GST_STATE (camera);
-  gst_element_set_state (GST_ELEMENT (camera), GST_STATE_READY);
+  /* Interrupt ongoing capture */
+  gst_camerabin_do_stop (camera);
+
+  gst_element_get_state (GST_ELEMENT (camera), &state, &pending, 0);
+  if (state == GST_STATE_PAUSED || state == GST_STATE_PLAYING) {
+    GST_INFO_OBJECT (camera,
+        "changing to READY to initialize videosrc with new format");
+    gst_element_set_state (GST_ELEMENT (camera), GST_STATE_READY);
+  }
   camera->width = width;
   camera->height = height;
   camera->fps_n = fps_n;
   camera->fps_d = fps_d;
+  if (pending != GST_STATE_VOID_PENDING) {
+    GST_LOG_OBJECT (camera, "restoring pending state: %s",
+        gst_element_state_get_name (pending));
+    state = pending;
+  }
   gst_element_set_state (GST_ELEMENT (camera), state);
 }
 
@@ -2849,7 +3239,6 @@ gst_camerabin_user_image_res (GstCameraBin * camera, gint width, gint height)
 {
   GstStructure *structure;
   GstCaps *new_caps = NULL;
-  guint32 format = 0;
 
   g_return_if_fail (camera != NULL);
 
@@ -2861,19 +3250,8 @@ gst_camerabin_user_image_res (GstCameraBin * camera, gint width, gint height)
     new_caps = gst_caps_new_simple (gst_structure_get_name (structure),
         "width", G_TYPE_INT, width, "height", G_TYPE_INT, height, NULL);
 
-    /* Set format according to current videosrc format */
-    format = get_srcpad_current_format (camera->src_vid_src);
-    if (format) {
-      gst_caps_set_simple (new_caps, "format", GST_TYPE_FOURCC, format, NULL);
-    }
-
     /* Set allowed framerate for the resolution. */
     gst_camerabin_set_allowed_framerate (camera, new_caps);
-
-    /* Reset the format to match with view finder mode caps */
-    if (gst_structure_get_fourcc (structure, "format", &format)) {
-      gst_caps_set_simple (new_caps, "format", GST_TYPE_FOURCC, format, NULL);
-    }
   }
 
   GST_INFO_OBJECT (camera,

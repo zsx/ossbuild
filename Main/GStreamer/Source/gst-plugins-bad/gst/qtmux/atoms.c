@@ -1855,13 +1855,11 @@ atom_stsd_copy_data (AtomSTSD * stsd, guint8 ** buffer, guint64 * size,
         break;
       default:
         if (se->kind == VIDEO) {
-          size +=
-              sample_entry_mp4v_copy_data ((SampleTableEntryMP4V *) walker->
-              data, buffer, size, offset);
+          size += sample_entry_mp4v_copy_data ((SampleTableEntryMP4V *)
+              walker->data, buffer, size, offset);
         } else if (se->kind == AUDIO) {
-          size +=
-              sample_entry_mp4a_copy_data ((SampleTableEntryMP4A *) walker->
-              data, buffer, size, offset);
+          size += sample_entry_mp4a_copy_data ((SampleTableEntryMP4A *)
+              walker->data, buffer, size, offset);
         } else {
           if (!atom_hint_sample_entry_copy_data (
                   (AtomHintSampleEntry *) walker->data, buffer, size, offset)) {
@@ -2547,6 +2545,7 @@ atom_moov_append_tag (AtomMOOV * moov, AtomInfo * tag)
 {
   AtomILST *ilst;
 
+  atom_moov_init_metatags (moov);
   ilst = moov->udta->meta->ilst;
   ilst->entries = g_list_append (ilst->entries, tag);
 }
@@ -2563,7 +2562,6 @@ atom_moov_add_tag (AtomMOOV * moov, guint32 fourcc, guint32 flags,
   atom_tag_data_alloc_data (tdata, size);
   g_memmove (tdata->data, data, size);
 
-  atom_moov_init_metatags (moov);
   atom_moov_append_tag (moov,
       build_atom_info_wrapper ((Atom *) tag, atom_tag_copy_data,
           atom_tag_free));
@@ -2785,6 +2783,9 @@ atom_trak_set_audio_type (AtomTRAK * trak, AtomsContext * context,
   atom_trak_set_audio_commons (trak, context, scale);
   ste = atom_trak_add_audio_entry (trak, context, entry->fourcc);
 
+  trak->is_video = FALSE;
+  trak->is_h264 = FALSE;
+
   ste->version = entry->version;
   ste->compression_id = entry->compression_id;
   ste->sample_size = entry->sample_size;
@@ -2812,6 +2813,9 @@ atom_trak_set_video_type (AtomTRAK * trak, AtomsContext * context,
   atom_trak_set_video_commons (trak, context, scale, entry->width,
       entry->height);
   ste = atom_trak_add_video_entry (trak, context, entry->fourcc);
+
+  trak->is_video = TRUE;
+  trak->is_h264 = (entry->fourcc == FOURCC_avc1);
 
   ste->width = entry->width;
   ste->height = entry->height;

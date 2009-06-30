@@ -6,9 +6,9 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
 <link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
-<link rel="prev" href="gst-plugins-bad-plugins-festival.html" title="festival">
+<link rel="prev" href="gst-plugins-bad-plugins-fpsdisplaysink.html" title="fpsdisplaysink">
 <link rel="next" href="gst-plugins-bad-plugins-gstrtpclient.html" title="gstrtpclient">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-bad Plugins">
@@ -17,23 +17,25 @@
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="gst-plugins-bad-plugins-festival.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="gst-plugins-bad-plugins-fpsdisplaysink.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Bad Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-bad-plugins-gstrtpclient.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-bad-plugins-gstrtpbin.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpbin.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpbin.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpbin.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpbin.properties" class="shortcut">Properties</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpbin.signals" class="shortcut">Signals</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-bad-plugins-gstrtpbin.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpbin.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpbin.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpbin.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpbin.properties" class="shortcut">Properties</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpbin.signals" class="shortcut">Signals</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-bad-plugins-gstrtpbin"></a><div class="titlepage"></div>
@@ -116,6 +118,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
   "<a class="link" href="gst-plugins-bad-plugins-gstrtpbin.html#GstRtpBin-get-internal-session" title='The "get-internal-session" signal'>get-internal-session</a>"                           : Run Last / Action
   "<a class="link" href="gst-plugins-bad-plugins-gstrtpbin.html#GstRtpBin-on-sender-timeout" title='The "on-sender-timeout" signal'>on-sender-timeout</a>"                              : Run Last
   "<a class="link" href="gst-plugins-bad-plugins-gstrtpbin.html#GstRtpBin-reset-sync" title='The "reset-sync" signal'>reset-sync</a>"                                     : Run Last / Action
+  "<a class="link" href="gst-plugins-bad-plugins-gstrtpbin.html#GstRtpBin-on-npt-stop" title='The "on-npt-stop" signal'>on-npt-stop</a>"                                    : Run Last
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -167,7 +170,7 @@ signal.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3193288"></a><h3>Example pipelines</h3>
+<a name="id3042630"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch udpsrc port=5000 caps="application/x-rtp, ..." ! .recv_rtp_sink_0 \
     gstrtpbin ! rtptheoradepay ! theoradec ! xvimagesink
@@ -220,7 +223,7 @@ Last reviewed on 2007-08-30 (0.10.6)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3193375"></a><h3>Element Information</h3>
+<a name="id3042717"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -243,7 +246,7 @@ Last reviewed on 2007-08-30 (0.10.6)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3193438"></a><h3>Element Pads</h3>
+<a name="id3042780"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -373,7 +376,6 @@ Last reviewed on 2007-08-30 (0.10.6)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -382,7 +384,6 @@ Last reviewed on 2007-08-30 (0.10.6)</p>
 <a name="GstRtpBin-struct"></a><h3>GstRtpBin</h3>
 <pre class="programlisting">typedef struct _GstRtpBin GstRtpBin;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -481,7 +482,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 Clear all previously cached pt-mapping obtained with
 <a class="link" href="gst-plugins-bad-plugins-gstrtpbin.html#GstRtpBin-request-pt-map" title='The "request-pt-map" signal'><span class="type">"request-pt-map"</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -514,7 +514,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of an SSRC that became inactive because of a BYE packet.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -531,7 +530,7 @@ Notify of an SSRC that became inactive because of a BYE packet.</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>ssrc</code></em> :</span></p></td>
-<td> the SSRC 
+<td> the SSRC
 </td>
 </tr>
 <tr>
@@ -557,7 +556,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of an SSRC that has timed out because of BYE</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -600,7 +598,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of a new SSRC that entered <em class="parameter"><code>session</code></em>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -643,7 +640,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of a SSRC that is active, i.e., sending RTCP.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -686,7 +682,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify when we have an SSRC collision</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -729,7 +724,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of a SSRC that is active, i.e., sending RTCP.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -772,7 +766,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of a new SSRC that became validated.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -815,7 +808,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of an SSRC that has timed out</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -858,7 +850,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Request the payload type as <span class="type">GstCaps</span> for <em class="parameter"><code>pt</code></em> in <em class="parameter"><code>session</code></em>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -900,7 +891,6 @@ Request the internal RTPSession object as <a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 ><span class="type">GObject</span></a> in session <em class="parameter"><code>id</code></em>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -938,7 +928,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of a sender SSRC that has timed out and became a receiver</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -976,7 +965,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 Reset all currently configured lip-sync parameters and require new SR
 packets for all streams before lip-sync is attempted again.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -984,6 +972,48 @@ packets for all streams before lip-sync is attempted again.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>rtpbin</code></em> :</span></p></td>
 <td> the object which received the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstRtpBin-on-npt-stop"></a><h3>The <code class="literal">"on-npt-stop"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-gstrtpbin.html#GstRtpBin">GstRtpBin</a> *rtpbin,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>      session,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>      ssrc,
+                                                        <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>   user_data)      : Run Last</pre>
+<p>
+Notify that SSRC sender has sent data up to the configured NPT stop time.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>rtpbin</code></em> :</span></p></td>
+<td> the object which received the signal
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>session</code></em> :</span></p></td>
+<td> the session
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>ssrc</code></em> :</span></p></td>
+<td> the SSRC 
 </td>
 </tr>
 <tr>
@@ -1001,6 +1031,6 @@ gstrtpjitterbuffer, gstrtpsession, gstrtpptdemux, gstrtpssrcdemux
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

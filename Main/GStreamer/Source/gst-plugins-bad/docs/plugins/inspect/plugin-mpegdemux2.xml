@@ -3,7 +3,7 @@
   <description>MPEG demuxers</description>
   <filename>../../gst/mpegdemux/.libs/libgstmpegdemux.so</filename>
   <basename>libgstmpegdemux.so</basename>
-  <version>0.10.11</version>
+  <version>0.10.13</version>
   <license>unknown</license>
   <source>gst-plugins-bad</source>
   <package>GStreamer Bad Plug-ins source release</package>
@@ -27,6 +27,12 @@
           <direction>source</direction>
           <presence>sometimes</presence>
           <details>ANY</details>
+        </caps>
+        <caps>
+          <name>subpicture_%02x</name>
+          <direction>source</direction>
+          <presence>sometimes</presence>
+          <details>video/x-dvd-subpicture</details>
         </caps>
         <caps>
           <name>audio_%02x</name>
@@ -60,6 +66,12 @@
           <direction>source</direction>
           <presence>sometimes</presence>
           <details>ANY</details>
+        </caps>
+        <caps>
+          <name>subpicture_%04x</name>
+          <direction>source</direction>
+          <presence>sometimes</presence>
+          <details>subpicture/x-pgs; video/x-dvd-subpicture</details>
         </caps>
         <caps>
           <name>audio_%04x</name>

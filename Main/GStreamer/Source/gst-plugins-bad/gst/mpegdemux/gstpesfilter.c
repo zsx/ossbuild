@@ -167,6 +167,9 @@ gst_pes_filter_parse (GstPESFilter * filter)
     avail = MIN (avail, filter->length + 6);
   }
 
+  if (avail < 7)
+    goto need_more_data;
+
   /* read more data, either the whole packet if there is a length
    * or whatever we have available if this in an unbounded packet. */
   if (!(data = gst_adapter_peek (filter->adapter, avail)))
@@ -189,16 +192,14 @@ gst_pes_filter_parse (GstPESFilter * filter)
     case ID_PROGRAM_STREAM_DIRECTORY:
     case ID_DSMCC_STREAM:
     case ID_ITU_TREC_H222_TYPE_E_STREAM:
-      goto skip;
+      /* Push directly out */
+      goto push_out;
     case ID_PADDING_STREAM:
       GST_DEBUG ("skipping padding stream");
       goto skip;
     default:
       break;
   }
-
-  if (datalen < 1)
-    goto need_more_data;
 
   filter->pts = filter->dts = -1;
 
@@ -404,6 +405,7 @@ gst_pes_filter_parse (GstPESFilter * filter)
     goto lost_sync;
   }
 
+push_out:
   {
     GstBuffer *out;
     guint16 consumed;
@@ -563,14 +565,8 @@ gst_pes_filter_process (GstPESFilter * filter)
           ret = GST_FLOW_OK;
         } else {
           GstBuffer *out;
-          guint8 *data;
 
-          data = gst_adapter_take (filter->adapter, avail);
-
-          out = gst_buffer_new ();
-          GST_BUFFER_DATA (out) = data;
-          GST_BUFFER_SIZE (out) = avail;
-          GST_BUFFER_MALLOCDATA (out) = data;
+          out = gst_adapter_take_buffer (filter->adapter, avail);
 
           ret = gst_pes_filter_data_push (filter, filter->first, out);
           filter->first = FALSE;

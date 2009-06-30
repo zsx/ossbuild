@@ -6,9 +6,9 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
 <link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
-<link rel="prev" href="gst-plugins-bad-plugins-deinterlace.html" title="deinterlace">
-<link rel="next" href="gst-plugins-bad-plugins-dtmfsrc.html" title="dtmfsrc">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="prev" href="gst-plugins-bad-plugins-dccpserversrc.html" title="dccpserversrc">
+<link rel="next" href="gst-plugins-bad-plugins-directdrawsink.html" title="directdrawsink">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-bad Plugins">
@@ -17,21 +17,23 @@
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="gst-plugins-bad-plugins-deinterlace.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="gst-plugins-bad-plugins-dccpserversrc.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Bad Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-bad-plugins-dtmfsrc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-bad-plugins-directdrawsink.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-bad-plugins-dfbvideosink.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-dfbvideosink.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-dfbvideosink.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-dfbvideosink.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-dfbvideosink.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-bad-plugins-dfbvideosink.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-dfbvideosink.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-dfbvideosink.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-dfbvideosink.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-dfbvideosink.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-bad-plugins-dfbvideosink"></a><div class="titlepage"></div>
@@ -154,7 +156,7 @@ or the application provided external <a class="link" href="gst-plugins-bad-plugi
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3163259"></a><h3>Example application</h3>
+<a name="id2999744"></a><h3>Example application</h3>
 <p>
 </p>
 <pre class="programlisting">
@@ -248,7 +250,7 @@ main (int argc, char *argv[])
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3163319"></a><h3>Example pipelines</h3>
+<a name="id2999805"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v videotestsrc ! dfbvideosink hue=20000 saturation=40000 brightness=25000
 </pre></div> test the colorbalance interface implementation in dfbvideosink
@@ -256,7 +258,7 @@ gst-launch -v videotestsrc ! dfbvideosink hue=20000 saturation=40000 brightness=
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3163339"></a><h3>Element Information</h3>
+<a name="id3034872"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -279,7 +281,7 @@ gst-launch -v videotestsrc ! dfbvideosink hue=20000 saturation=40000 brightness=
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3163402"></a><h3>Element Pads</h3>
+<a name="id3034934"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -308,7 +310,6 @@ gst-launch -v videotestsrc ! dfbvideosink hue=20000 saturation=40000 brightness=
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -319,7 +320,6 @@ gst-launch -v videotestsrc ! dfbvideosink hue=20000 saturation=40000 brightness=
 <p>
 The opaque <a class="link" href="gst-plugins-bad-plugins-dfbvideosink.html#GstDfbVideoSink"><span class="type">GstDfbVideoSink</span></a> structure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -394,6 +394,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

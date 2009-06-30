@@ -77,7 +77,7 @@ GST_ELEMENT_DETAILS ("Celt audio encoder",
     "Encodes audio in Celt format",
     "Sebastian Dröge <sebastian.droege@collabora.co.uk>");
 
-#define DEFAULT_BITRATE         128
+#define DEFAULT_BITRATE         64
 #define DEFAULT_FRAMESIZE       256
 
 enum
@@ -106,9 +106,16 @@ static void
 gst_celt_enc_setup_interfaces (GType celtenc_type)
 {
   static const GInterfaceInfo tag_setter_info = { NULL, NULL, NULL };
+  const GInterfaceInfo preset_interface_info = {
+    NULL,                       /* interface_init */
+    NULL,                       /* interface_finalize */
+    NULL                        /* interface_data */
+  };
 
   g_type_add_interface_static (celtenc_type, GST_TYPE_TAG_SETTER,
       &tag_setter_info);
+  g_type_add_interface_static (celtenc_type, GST_TYPE_PRESET,
+      &preset_interface_info);
 
   GST_DEBUG_CATEGORY_INIT (celtenc_debug, "celtenc", 0, "Celt encoder");
 }
@@ -145,11 +152,11 @@ gst_celt_enc_class_init (GstCeltEncClass * klass)
 
   g_object_class_install_property (G_OBJECT_CLASS (klass), PROP_BITRATE,
       g_param_spec_int ("bitrate", "Encoding Bit-rate",
-          "Specify an encoding bit-rate (in bps). (0 = automatic)",
+          "Specify an encoding bit-rate (in Kbps). (0 = automatic)",
           0, 150, DEFAULT_BITRATE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_FRAMESIZE,
       g_param_spec_int ("framesize", "Frame Size",
-          "The number of samples per frame", 64, 256, DEFAULT_FRAMESIZE,
+          "The number of samples per frame", 64, 512, DEFAULT_FRAMESIZE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_celt_enc_finalize);
@@ -738,9 +745,15 @@ gst_celt_enc_encode (GstCeltEnc * enc, gboolean flush)
 
     GST_DEBUG_OBJECT (enc, "encoding %d samples (%d bytes)", frame_size, bytes);
 
+#ifdef HAVE_CELT_0_4
     outsize =
-        celt_encode (enc->state, data, GST_BUFFER_DATA (outbuf),
-        bytes_per_packet);
+        celt_encode (enc->state, data,
+        GST_BUFFER_DATA (outbuf), bytes_per_packet);
+#else
+    outsize =
+        celt_encode (enc->state, data, NULL,
+        GST_BUFFER_DATA (outbuf), bytes_per_packet);
+#endif
 
     g_free (data);
 

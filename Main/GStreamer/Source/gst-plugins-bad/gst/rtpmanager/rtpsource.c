@@ -188,12 +188,52 @@ rtp_source_finalize (GObject * object)
   G_OBJECT_CLASS (rtp_source_parent_class)->finalize (object);
 }
 
+#define MAX_ADDRESS  64
+static void
+make_address_string (GstNetAddress * addr, gchar * dest, gulong n)
+{
+  switch (gst_netaddress_get_net_type (addr)) {
+    case GST_NET_TYPE_IP4:
+    {
+      guint32 address;
+      guint16 port;
+
+      gst_netaddress_get_ip4_address (addr, &address, &port);
+      address = g_ntohl (address);
+
+      g_snprintf (dest, n, "%d.%d.%d.%d:%d", (address >> 24) & 0xff,
+          (address >> 16) & 0xff, (address >> 8) & 0xff, address & 0xff,
+          g_ntohs (port));
+      break;
+    }
+    case GST_NET_TYPE_IP6:
+    {
+      guint8 address[16];
+      guint16 port;
+
+      gst_netaddress_get_ip6_address (addr, address, &port);
+
+      g_snprintf (dest, n, "[%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x]:%d",
+          (address[0] << 8) | address[1], (address[2] << 8) | address[3],
+          (address[4] << 8) | address[5], (address[6] << 8) | address[7],
+          (address[8] << 8) | address[9], (address[10] << 8) | address[11],
+          (address[12] << 8) | address[13], (address[14] << 8) | address[15],
+          g_ntohs (port));
+      break;
+    }
+    default:
+      dest[0] = 0;
+      break;
+  }
+}
+
 static GstStructure *
 rtp_source_create_stats (RTPSource * src)
 {
   GstStructure *s;
   gboolean is_sender = src->is_sender;
   gboolean internal = src->internal;
+  gchar address_str[MAX_ADDRESS];
 
   /* common data for all types of sources */
   s = gst_structure_new ("application/x-rtp-source-stats",
@@ -203,6 +243,16 @@ rtp_source_create_stats (RTPSource * src)
       "received-bye", G_TYPE_BOOLEAN, src->received_bye,
       "is-csrc", G_TYPE_BOOLEAN, src->is_csrc,
       "is-sender", G_TYPE_BOOLEAN, is_sender, NULL);
+
+  /* add address and port */
+  if (src->have_rtp_from) {
+    make_address_string (&src->rtp_from, address_str, sizeof (address_str));
+    gst_structure_set (s, "rtp-from", G_TYPE_STRING, address_str, NULL);
+  }
+  if (src->have_rtcp_from) {
+    make_address_string (&src->rtcp_from, address_str, sizeof (address_str));
+    gst_structure_set (s, "rtcp-from", G_TYPE_STRING, address_str, NULL);
+  }
 
   if (internal) {
     /* our internal source */
@@ -272,7 +322,8 @@ rtp_source_create_sdes (RTPSource * src)
   GstStructure *s;
   gchar *str;
 
-  s = gst_structure_new ("application/x-rtp-source-sdes", NULL);
+  s = gst_structure_new ("application/x-rtp-source-sdes",
+      "ssrc", G_TYPE_UINT, (guint) src->ssrc, NULL);
 
   if ((str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_CNAME))) {
     gst_structure_set (s, "cname", G_TYPE_STRING, str, NULL);
@@ -1140,7 +1191,9 @@ rtp_source_send_rtp (RTPSource * src, GstBuffer * buffer, guint64 ntpnstime)
        * get the correct SSRC from the session manager before pushing anything. */
       buffer = gst_buffer_make_writable (buffer);
 
-      GST_WARNING ("updating SSRC from %08x to %08x, fix the payloader", ssrc,
+      /* FIXME, we don't want to warn yet because we can't inform any payloader
+       * of the changes SSRC yet because we don't implement pad-alloc. */
+      GST_LOG ("updating SSRC from %08x to %08x, fix the payloader", ssrc,
           src->ssrc);
       gst_rtp_buffer_set_ssrc (buffer, src->ssrc);
     }

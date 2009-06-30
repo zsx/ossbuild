@@ -290,6 +290,7 @@ gst_camerabin_video_change_state (GstElement * element,
 {
   GstStateChangeReturn ret = GST_STATE_CHANGE_SUCCESS;
   GstCameraBinVideo *vid = GST_CAMERABIN_VIDEO (element);
+  GstObject *camerabin = NULL;
 
   switch (transition) {
     case GST_STATE_CHANGE_NULL_TO_READY:
@@ -325,6 +326,13 @@ gst_camerabin_video_change_state (GstElement * element,
 
   switch (transition) {
     case GST_STATE_CHANGE_PAUSED_TO_PLAYING:
+      camerabin = gst_element_get_parent (vid);
+      /* Write debug graph to file */
+      GST_DEBUG_BIN_TO_DOT_FILE_WITH_TS (GST_BIN (camerabin),
+          GST_DEBUG_GRAPH_SHOW_MEDIA_TYPE |
+          GST_DEBUG_GRAPH_SHOW_NON_DEFAULT_PARAMS, "videobin.playing");
+      gst_object_unref (camerabin);
+
       if (vid->pending_eos) {
         /* Video bin is still paused, so push eos directly to video queue */
         GST_DEBUG_OBJECT (vid, "pushing pending eos");
@@ -641,7 +649,7 @@ gst_camerabin_video_create_elements (GstCameraBinVideo * vid)
   }
   /* Set queue leaky, we don't want to block video encoder feed, but
      prefer leaking view finder buffers instead. */
-  g_object_set (G_OBJECT (queue), "leaky", 2, NULL);
+  g_object_set (G_OBJECT (queue), "leaky", 2, "max-size-buffers", 1, NULL);
 
   /* Set up src ghost pad for video bin */
   vid_srcpad = gst_element_get_static_pad (queue, "src");

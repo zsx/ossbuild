@@ -6,9 +6,6 @@
 /* Define if an old libdts is used */
 #undef DTS_OLD
 
-/* Define if an old libdvdnav is used */
-#undef DVDNAV_OLD
-
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
 #undef ENABLE_NLS
@@ -66,6 +63,9 @@
 
 /* Define to enable celt (used by celt). */
 #undef HAVE_CELT
+
+/* Define if libcelt 0.4 is installed */
+#undef HAVE_CELT_0_4
 
 /* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. */
@@ -127,6 +127,9 @@
 /* Define to enable dirac (used by dirac). */
 #undef HAVE_DIRAC
 
+/* Define to enable DirectDraw plug-in (used by directdrawsink). */
+#undef HAVE_DIRECTDRAW
+
 /* Define to enable directfb (used by dfbvideosink ). */
 #undef HAVE_DIRECTFB
 
@@ -172,14 +175,14 @@
 /* FIONREAD ioctl found in sys/ioclt.h */
 #undef HAVE_FIONREAD_IN_SYS_IOCTL
 
-/* Define if compiler supports gcc inline assembly */
-#undef HAVE_GCC_ASM
-
 /* Define to 1 if you have the `getpagesize' function. */
 #undef HAVE_GETPAGESIZE
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
+
+/* Define to 1 if you have the `gmtime_r' function. */
+#undef HAVE_GMTIME_R
 
 /* Define to enable GSM library (used by gsmenc gsmdec). */
 #undef HAVE_GSM
@@ -268,6 +271,12 @@
 /* Define to enable Open Sound System 4 (used by oss4). */
 #undef HAVE_OSS4
 
+/* Define to enable OSX video (used by osxvideosrc). */
+#undef HAVE_OSX_VIDEO
+
+/* Define to 1 if you have the <pthread.h> header file. */
+#undef HAVE_PTHREAD_H
+
 /* Define to enable QuickTime wrapper (used by qtwrapper). */
 #undef HAVE_QUICKTIME
 
@@ -319,6 +328,9 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Define to 1 if you have the <sys/utsname.h> header file. */
+#undef HAVE_SYS_UTSNAME_H
+
 /* Define to enable ogg theora codec (used by theoraexpdec). */
 #undef HAVE_THEORADEC
 
@@ -351,9 +363,6 @@
 
 /* Define if you have X11 library */
 #undef HAVE_X11
-
-/* Define to enable x264 plug-in (used by x264). */
-#undef HAVE_X264
 
 /* Define to enable xvid plugins (used by xvid). */
 #undef HAVE_XVID

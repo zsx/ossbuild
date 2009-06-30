@@ -323,63 +323,6 @@ on_ssrc_active (RTPSession * session, RTPSource * src, GstRtpSession * sess)
       src->ssrc);
 }
 
-static GstStructure *
-source_get_sdes_structure (RTPSource * src)
-{
-  GstStructure *result;
-  GValue val = { 0 };
-  gchar *str;
-
-  result = gst_structure_empty_new ("GstRTPSessionSDES");
-
-  gst_structure_set (result, "ssrc", G_TYPE_UINT, src->ssrc, NULL);
-
-  g_value_init (&val, G_TYPE_STRING);
-  str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_CNAME);
-  if (str) {
-    g_value_take_string (&val, str);
-    gst_structure_set_value (result, "cname", &val);
-  }
-  str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_NAME);
-  if (str) {
-    g_value_take_string (&val, str);
-    gst_structure_set_value (result, "name", &val);
-  }
-  str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_EMAIL);
-  if (str) {
-    g_value_take_string (&val, str);
-    gst_structure_set_value (result, "email", &val);
-  }
-  str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_PHONE);
-  if (str) {
-    g_value_take_string (&val, str);
-    gst_structure_set_value (result, "phone", &val);
-  }
-  str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_LOC);
-  if (str) {
-    g_value_take_string (&val, str);
-    gst_structure_set_value (result, "location", &val);
-  }
-  str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_TOOL);
-  if (str) {
-    g_value_take_string (&val, str);
-    gst_structure_set_value (result, "tool", &val);
-  }
-  str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_NOTE);
-  if (str) {
-    g_value_take_string (&val, str);
-    gst_structure_set_value (result, "note", &val);
-  }
-  str = rtp_source_get_sdes_string (src, GST_RTCP_SDES_PRIV);
-  if (str) {
-    g_value_take_string (&val, str);
-    gst_structure_set_value (result, "priv", &val);
-  }
-  g_value_unset (&val);
-
-  return result;
-}
-
 static void
 on_ssrc_sdes (RTPSession * session, RTPSource * src, GstRtpSession * sess)
 {
@@ -388,8 +331,9 @@ on_ssrc_sdes (RTPSession * session, RTPSource * src, GstRtpSession * sess)
 
   /* convert the new SDES info into a message */
   RTP_SESSION_LOCK (session);
-  s = source_get_sdes_structure (src);
+  g_object_get (src, "sdes", &s, NULL);
   RTP_SESSION_UNLOCK (session);
+
   m = gst_message_new_custom (GST_MESSAGE_ELEMENT, GST_OBJECT (sess), s);
   gst_element_post_message (GST_ELEMENT_CAST (sess), m);
 
@@ -967,6 +911,11 @@ start_rtcp_thread (GstRtpSession * rtpsession)
   GST_RTP_SESSION_LOCK (rtpsession);
   rtpsession->priv->stop_thread = FALSE;
   if (rtpsession->priv->thread_stopped) {
+    /* if the thread stopped, and we still have a handle to the thread, join it
+     * now. We can safely join with the lock held, the thread will not take it
+     * anymore. */
+    if (rtpsession->priv->thread)
+      g_thread_join (rtpsession->priv->thread);
     /* only create a new thread if the old one was stopped. Otherwise we can
      * just reuse the currently running one. */
     rtpsession->priv->thread =

@@ -1,5 +1,5 @@
 
-Release notes for GStreamer Bad Plug-ins 0.10.11 "A precious stone"
+Release notes for GStreamer Bad Plug-ins 0.10.13 "Supersonic Rocket"
         
 
 
@@ -60,45 +60,31 @@ contains a set of well-supported plug-ins, but might pose problems for
 
 Features of this release
     
-      * Add ASS/SSA subtitle handling element assrender
-      * Leak fixes in the QuickTime decoder wrapper
-      * Better DirectShow output on Windows
-      * Extend QT muxing support to include AMR and H.263
-      * mms seeking support
-      * Extended MXF file format handling
-      * camerabin and photography API for digital camera interfacing
-      * Merge elements from Farsight: liveadder, sirendec, sirenenc, valve, rtpdtmfsrc, rtpdtmdepay, dtmfsrc, rtpdtmfmux, autoconvert, mimdec, mimenc
-      * typefinder based on xdgmime
+      * New shapewipe video transition plugin
+      * qtmux improvements
+      * camerabin improvements
+      * HDV MPEG-TS private streams support
+      * Output interlacing information in mpegvideoparse
+      * MS-ADPCM decoder
+      * RTP fixes and enhancements
+      * DTS decoder improvements
+      * New ID3 tagging plugin that supports v1, v2.3 and v2.4
+      * Support for PGS (BluRay) subtitles
+      * Many other bug fixes and enhancements
 
 Bugs fixed in this release
      
-      * 573369 : [gstfaad] Memory corruption and segfault
-      * 568704 : Metadatamux: unable to configure byte order for EXIF
-      * 354908 : videoflipping interface for v4l2src
-      * 369912 : missing inclusion in rpm spec file
-      * 469930 : [mmssrc] seeking support PATCH
-      * 481075 : Full support for ASS/SSA subtitles
-      * 549645 : merge useful elements from gst-plugins-farsight into core
-      * 567003 : [ladspa] improve plugin scanning
-      * 567371 : [mpegtsparse] memory leak in mpegtspacketizer
-      * 567828 : rtpmanager and RTCP BYE packet
-      * 567965 : [flvdemux] add support for ECMA arrays in script tags
-      * 568480 : gst-plugins-bad dccp plugin won't compile on Soalris
-      * 568483 : Problems linking gst-plugins-bad
-      * 568837 : RFE: allow building against the system modplug library
-      * 569323 : [qtmux] should support audio/AMR sink
-      * 570996 : bpmdetect relibably crashes with SIGSEGV on particular file
-      * 571560 : gstdshowaudio decoder doesn't compile.
-      * 572315 : Compiling camerabin on Windows with Visual Studio
-      * 572900 : gstrtpsession should not forward recv side event to the s...
-      * 573288 : [mpegtsdemux] memory leak when pusi is missed due to pack...
-      * 573391 : [videoanalyse] Wrong brightness calculation
-      * 575157 : xdgmime typefinder: make more conservative
-      * 575565 : [mxf] mxf plugin uses symbols not in glib 2.6 (minimum gl...
-      * 564114 : [PATCH] fbdev: fix depth calculation
-      * 573850 : Use Glib's byte order in gstgsmdec
-      * 573851 : Use glib integer types in gstfaad
-      * 172043 : [mpegpsdemux] wrong video length on mpeg file
+      * 584945 : camerabin unit tests failing
+      * 511097 : Support self-signed certificates in neonhttpsrc
+      * 561752 : GstRtpBin implement Release pad functions
+      * 584164 : gstspu-pgs.c warnings for format string args and uninitia...
+      * 584165 : rtpbin sdes message broken
+      * 584360 : gppmux ftyp
+      * 585015 : debugutils can't find libgstinterfaces
+      * 585660 : segfault in scaletempo plugin
+      * 584114 : gppmux and h263
+      * 583188 : Problem with sdp: bind failed or video disappear after fe...
+      * 583627 : statistic file name needs to be standardized
 
 Download
 
@@ -127,46 +113,18 @@ Applications
   
 Contributors to this release
     
-      * Andoni Morales
-      * Andrzej Polatyński
-      * Andy Wingo
-      * Benjamin Schmitz
-      * Brian Cameron
+      * Ali Sabil
       * Christian Schaller
-      * David Schleef
       * Edward Hervey
-      * Hans de Goede
-      * Håvard Graff
       * Jan Schmidt
-      * Jan Urbanski
-      * Josep Torra
-      * Julien Moutte
-      * LRN
       * Lasse Laukkanen
-      * Laurent Glayal
       * Mark Nauwelaerts
+      * Mathias Hasselmann
       * Michael Smith
-      * Nokia Corporation
-      * Olivier Crete
       * Olivier Crête
-      * Peter Kjellerstedt
-      * Philipe Kalaf
-      * Philippe Khalaf
-      * René Stadler
       * Sebastian Dröge
-      * Sebastian Pölsterl
-      * Simon McVittie
-      * Sjoerd Simons
       * Stefan Kost
-      * Thiago Sousa Santos
       * Tim-Philipp Müller
+      * Tristan Matthews
       * Wim Taymans
-      * Youness Alaoui
-      * Zaheer Merali
-      * Zeeshan Ali
-      * philippe.kalaf@collabora.co.uk
-      * sjoerd@luon.net
-      * vanista
-      * zeenix@gmail.com
-      * zeeshan.ali@nokia.com
  

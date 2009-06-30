@@ -48,8 +48,6 @@ struct _GstRtpBin {
   gboolean        do_lost;
   /* a list of session */
   GSList         *sessions;
-  /* clock we provide */
-  GstClock       *provided_clock;
 
   /* a list of clients, these are streams with the same CNAME */
   GSList         *clients;
@@ -82,6 +80,7 @@ struct _GstRtpBinClass {
   void     (*on_bye_timeout)    (GstRtpBin *rtpbin, guint session, guint32 ssrc);
   void     (*on_timeout)        (GstRtpBin *rtpbin, guint session, guint32 ssrc);
   void     (*on_sender_timeout) (GstRtpBin *rtpbin, guint session, guint32 ssrc);
+  void     (*on_npt_stop)       (GstRtpBin *rtpbin, guint session, guint32 ssrc);
 };
 
 GType gst_rtp_bin_get_type (void);

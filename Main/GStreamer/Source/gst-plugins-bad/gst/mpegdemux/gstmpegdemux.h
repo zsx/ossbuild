@@ -86,6 +86,10 @@ struct _GstFluPSStream
   gint type;
   gint size_bound;
 
+  GstClockTime segment_thresh;
+  GstClockTime last_seg_start;
+  GstClockTime last_ts;
+
   gboolean discont;
   gboolean notlinked;
   gboolean need_segment;
@@ -149,6 +153,7 @@ struct _GstFluPSDemuxClass
   GstPadTemplate *sink_template;
   GstPadTemplate *video_template;
   GstPadTemplate *audio_template;
+  GstPadTemplate *subpicture_template;
   GstPadTemplate *private_template;
 };
 

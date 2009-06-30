@@ -29,6 +29,7 @@
 #include "resindvdsrc.h"
 #include "rsnstreamselector.h"
 #include "rsnaudiomunge.h"
+#include "rsnaudiodec.h"
 #include "rsnparsetter.h"
 
 #include "gstmpegdemux.h"
@@ -36,11 +37,15 @@
 GST_DEBUG_CATEGORY_EXTERN (resindvd_debug);
 #define GST_CAT_DEFAULT resindvd_debug
 
-#define DECODEBIN_AUDIO 0
 #define USE_VIDEOQ 0
+#define USE_HARDCODED_VIDEODEC 1
+#define USE_HARDCODED_AUDIODEC 1
 
 #define DVDBIN_LOCK(d) g_mutex_lock((d)->dvd_lock)
 #define DVDBIN_UNLOCK(d) g_mutex_unlock((d)->dvd_lock)
+
+#define DVDBIN_PREROLL_LOCK(d) g_mutex_lock((d)->preroll_lock)
+#define DVDBIN_PREROLL_UNLOCK(d) g_mutex_unlock((d)->preroll_lock)
 
 #define DEFAULT_DEVICE "/dev/dvd"
 enum
@@ -87,10 +92,8 @@ GST_BOILERPLATE_FULL (RsnDvdBin, rsn_dvdbin, GstBin,
 
 static void demux_pad_added (GstElement * element, GstPad * pad,
     RsnDvdBin * dvdbin);
+#if !USE_HARDCODED_VIDEODEC
 static void viddec_pad_added (GstElement * element, GstPad * pad,
-    gboolean last, RsnDvdBin * dvdbin);
-#if DECODEBIN_AUDIO
-static void auddec_pad_added (GstElement * element, GstPad * pad,
     gboolean last, RsnDvdBin * dvdbin);
 #endif
 static void rsn_dvdbin_set_property (GObject * object, guint prop_id,
@@ -159,6 +162,7 @@ static void
 rsn_dvdbin_init (RsnDvdBin * dvdbin, RsnDvdBinClass * gclass)
 {
   dvdbin->dvd_lock = g_mutex_new ();
+  dvdbin->preroll_lock = g_mutex_new ();
 }
 
 static void
@@ -167,6 +171,7 @@ rsn_dvdbin_finalize (GObject * object)
   RsnDvdBin *dvdbin = RESINDVDBIN (object);
 
   g_mutex_free (dvdbin->dvd_lock);
+  g_mutex_free (dvdbin->preroll_lock);
   g_free (dvdbin->last_uri);
   g_free (dvdbin->device);
 
@@ -375,17 +380,36 @@ create_elements (RsnDvdBin * dvdbin)
       "max-size-time", (7 * GST_SECOND / 10), "max-size-bytes", 0,
       "max-size-buffers", 0, NULL);
 
+#if USE_HARDCODED_VIDEODEC
+  if (!try_create_piece (dvdbin, DVD_ELEM_VIDDEC, "mpeg2dec", 0, "viddec",
+          "video decoder"))
+    return FALSE;
+
+#else
   /* Decodebin will throw a missing element message to find an MPEG decoder */
-  if (!try_create_piece (dvdbin, DVD_ELEM_VIDDEC, "decodebin", 0, "viddec",
+  if (!try_create_piece (dvdbin, DVD_ELEM_VIDDEC, "decodebin2", 0, "viddec",
           "video decoder"))
     return FALSE;
 
   g_signal_connect (G_OBJECT (dvdbin->pieces[DVD_ELEM_VIDDEC]),
       "new-decoded-pad", G_CALLBACK (viddec_pad_added), dvdbin);
+#endif
 
   if (!try_create_piece (dvdbin, DVD_ELEM_PARSET, NULL, RSN_TYPE_RSNPARSETTER,
           "rsnparsetter", "Aspect ratio adjustment"))
     return FALSE;
+
+#if USE_HARDCODED_VIDEODEC
+  src = gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_VIDDEC], "src");
+  sink = gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_PARSET], "sink");
+  if (src == NULL || sink == NULL)
+    goto failed_viddec_connect;
+  if (GST_PAD_LINK_FAILED (gst_pad_link (src, sink)))
+    goto failed_viddec_connect;
+  gst_object_unref (src);
+  gst_object_unref (sink);
+  src = sink = NULL;
+#endif
 
 #if USE_VIDEOQ
   /* Add a small amount of queueing after the video decoder. */
@@ -417,12 +441,38 @@ create_elements (RsnDvdBin * dvdbin)
     goto failed_video_ghost;
   gst_object_unref (src);
   src = NULL;
+  gst_pad_set_active (dvdbin->video_pad, TRUE);
+  gst_pad_set_blocked_async (dvdbin->video_pad, TRUE,
+      (GstPadBlockCallback) dvdbin_pad_blocked_cb, dvdbin);
+
+#if USE_HARDCODED_VIDEODEC
+  gst_element_add_pad (GST_ELEMENT (dvdbin), dvdbin->video_pad);
+  dvdbin->video_added = TRUE;
+#endif
 
   if (!try_create_piece (dvdbin, DVD_ELEM_SPU_SELECT, NULL,
           RSN_TYPE_STREAM_SELECTOR, "subpselect", "Subpicture stream selector"))
     return FALSE;
 
+  /* Add a single standalone queue to hold a single buffer of SPU data */
+  if (!try_create_piece (dvdbin, DVD_ELEM_SPUQ, "queue", 0, "spu_q",
+          "subpicture decoder buffer"))
+    return FALSE;
+  g_object_set (dvdbin->pieces[DVD_ELEM_SPUQ],
+      "max-size-time", G_GUINT64_CONSTANT (0), "max-size-bytes", 0,
+      "max-size-buffers", 1, NULL);
+
   src = gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_SPU_SELECT], "src");
+  sink = gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_SPUQ], "sink");
+  if (src == NULL || sink == NULL)
+    goto failed_spuq_connect;
+  if (GST_PAD_LINK_FAILED (gst_pad_link (src, sink)))
+    goto failed_spuq_connect;
+  gst_object_unref (src);
+  gst_object_unref (sink);
+  src = sink = NULL;
+
+  src = gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_SPUQ], "src");
   if (src == NULL)
     goto failed_spu_ghost;
   dvdbin->subpicture_pad = gst_ghost_pad_new ("subpicture", src);
@@ -438,23 +488,19 @@ create_elements (RsnDvdBin * dvdbin)
           RSN_TYPE_STREAM_SELECTOR, "audioselect", "Audio stream selector"))
     return FALSE;
 
+#if USE_HARDCODED_AUDIODEC
+  if (!try_create_piece (dvdbin, DVD_ELEM_AUDDEC, "a52dec", 0,
+          "auddec", "audio decoder"))
+    return FALSE;
+#else
+  if (!try_create_piece (dvdbin, DVD_ELEM_AUDDEC, NULL,
+          RSN_TYPE_AUDIODEC, "auddec", "audio decoder"))
+    return FALSE;
+#endif
+
   /* rsnaudiomunge goes after the audio decoding to regulate the stream */
   if (!try_create_piece (dvdbin, DVD_ELEM_AUD_MUNGE, NULL,
           RSN_TYPE_AUDIOMUNGE, "audiomunge", "Audio output filter"))
-    return FALSE;
-
-#if DECODEBIN_AUDIO
-  /* Decodebin will throw a missing element message to find a suitable
-   * decoder */
-  if (!try_create_piece (dvdbin, DVD_ELEM_AUDDEC, "decodebin", 0, "auddec",
-          "audio decoder"))
-    return FALSE;
-
-  g_signal_connect (G_OBJECT (dvdbin->pieces[DVD_ELEM_AUDDEC]),
-      "new-decoded-pad", G_CALLBACK (auddec_pad_added), dvdbin);
-#else
-  if (!try_create_piece (dvdbin, DVD_ELEM_AUDDEC, "a52dec", 0, "auddec",
-          "audio decoder"))
     return FALSE;
 
   src = gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_AUDDEC], "src");
@@ -467,7 +513,6 @@ create_elements (RsnDvdBin * dvdbin)
   gst_object_unref (sink);
   gst_object_unref (src);
   src = sink = NULL;
-#endif
 
   src = gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_AUD_SELECT], "src");
   sink = gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_AUDDEC], "sink");
@@ -492,12 +537,23 @@ create_elements (RsnDvdBin * dvdbin)
   gst_object_unref (src);
   src = NULL;
 
+  if (dvdbin->video_added && dvdbin->audio_added && dvdbin->subpicture_added) {
+    GST_DEBUG_OBJECT (dvdbin, "Firing no more pads");
+    gst_element_no_more_pads (GST_ELEMENT (dvdbin));
+  }
+
   return TRUE;
 
 failed_connect:
   GST_ELEMENT_ERROR (dvdbin, CORE, FAILED, (NULL),
       ("Could not connect DVD source and demuxer elements"));
   goto error_out;
+#if USE_HARDCODED_VIDEODEC
+failed_viddec_connect:
+  GST_ELEMENT_ERROR (dvdbin, CORE, FAILED, (NULL),
+      ("Could not connect DVD video decoder and aspect ratio adjuster"));
+  goto error_out;
+#endif
 #if USE_VIDEOQ
 failed_vidq_connect:
   GST_ELEMENT_ERROR (dvdbin, CORE, FAILED, (NULL),
@@ -507,6 +563,10 @@ failed_vidq_connect:
 failed_video_ghost:
   GST_ELEMENT_ERROR (dvdbin, CORE, FAILED, (NULL),
       ("Could not ghost SPU output pad"));
+  goto error_out;
+failed_spuq_connect:
+  GST_ELEMENT_ERROR (dvdbin, CORE, FAILED, (NULL),
+      ("Could not connect DVD subpicture selector and buffer elements"));
   goto error_out;
 failed_spu_ghost:
   GST_ELEMENT_ERROR (dvdbin, CORE, FAILED, (NULL),
@@ -686,36 +746,63 @@ failed:
 static void
 dvdbin_pad_blocked_cb (GstPad * pad, gboolean blocked, RsnDvdBin * dvdbin)
 {
-  gboolean changed = FALSE;
+  gboolean added_last_pad = FALSE;
+  gboolean added = FALSE;
   if (!blocked)
     return;
 
   if (pad == dvdbin->subpicture_pad) {
-    if (!dvdbin->subpicture_added) {
+    GST_DEBUG_OBJECT (dvdbin, "Pad block -> subpicture pad");
+    DVDBIN_PREROLL_LOCK (dvdbin);
+    added = dvdbin->subpicture_added;
+    dvdbin->subpicture_added = TRUE;
+
+    if (!added) {
       gst_element_add_pad (GST_ELEMENT (dvdbin), dvdbin->subpicture_pad);
-      dvdbin->subpicture_added = TRUE;
-      changed = TRUE;
+      added_last_pad = (dvdbin->audio_added && dvdbin->video_added);
     }
+    DVDBIN_PREROLL_UNLOCK (dvdbin);
 
     gst_pad_set_blocked_async (pad, FALSE,
         (GstPadBlockCallback) dvdbin_pad_blocked_cb, dvdbin);
   } else if (pad == dvdbin->audio_pad) {
-    if (!dvdbin->audio_added) {
+    GST_DEBUG_OBJECT (dvdbin, "Pad block -> audio pad");
+    DVDBIN_PREROLL_LOCK (dvdbin);
+    added = dvdbin->audio_added;
+    dvdbin->audio_added = TRUE;
+
+    if (!added) {
       gst_element_add_pad (GST_ELEMENT (dvdbin), dvdbin->audio_pad);
-      dvdbin->audio_added = TRUE;
-      changed = TRUE;
+      added_last_pad = (dvdbin->subpicture_added && dvdbin->video_added);
     }
+    DVDBIN_PREROLL_UNLOCK (dvdbin);
+
+    gst_pad_set_blocked_async (pad, FALSE,
+        (GstPadBlockCallback) dvdbin_pad_blocked_cb, dvdbin);
+  } else if (pad == dvdbin->video_pad) {
+    GST_DEBUG_OBJECT (dvdbin, "Pad block -> video pad");
+
+    DVDBIN_PREROLL_LOCK (dvdbin);
+    added = dvdbin->video_added;
+    dvdbin->video_added = TRUE;
+
+    if (!added) {
+      gst_element_add_pad (GST_ELEMENT (dvdbin), dvdbin->video_pad);
+      added_last_pad = (dvdbin->subpicture_added && dvdbin->audio_added);
+    }
+    DVDBIN_PREROLL_UNLOCK (dvdbin);
 
     gst_pad_set_blocked_async (pad, FALSE,
         (GstPadBlockCallback) dvdbin_pad_blocked_cb, dvdbin);
   }
 
-  if (changed &&
-      dvdbin->video_added && dvdbin->audio_added && dvdbin->subpicture_added) {
+  if (added_last_pad) {
+    GST_DEBUG_OBJECT (dvdbin, "Firing no more pads from pad-blocked cb");
     gst_element_no_more_pads (GST_ELEMENT (dvdbin));
   }
 }
 
+#if !USE_HARDCODED_VIDEODEC
 static void
 viddec_pad_added (GstElement * element, GstPad * pad, gboolean last,
     RsnDvdBin * dvdbin)
@@ -728,32 +815,6 @@ viddec_pad_added (GstElement * element, GstPad * pad, gboolean last,
   gst_pad_link (pad, q_pad);
 
   gst_object_unref (q_pad);
-
-  if (!dvdbin->video_added) {
-    gst_pad_set_active (dvdbin->video_pad, TRUE);
-    gst_element_add_pad (GST_ELEMENT (dvdbin), dvdbin->video_pad);
-    dvdbin->video_added = TRUE;
-
-    if (dvdbin->video_added && dvdbin->audio_added && dvdbin->subpicture_added) {
-      gst_element_no_more_pads (GST_ELEMENT (dvdbin));
-    }
-  }
-}
-
-#if DECODEBIN_AUDIO
-static void
-auddec_pad_added (GstElement * element, GstPad * pad, gboolean last,
-    RsnDvdBin * dvdbin)
-{
-  GstPad *out_pad;
-
-  GST_DEBUG_OBJECT (dvdbin, "New audio pad: %" GST_PTR_FORMAT, pad);
-
-  out_pad =
-      gst_element_get_static_pad (dvdbin->pieces[DVD_ELEM_AUD_MUNGE], "sink");
-  gst_pad_link (pad, out_pad);
-
-  gst_object_unref (out_pad);
 }
 #endif
 

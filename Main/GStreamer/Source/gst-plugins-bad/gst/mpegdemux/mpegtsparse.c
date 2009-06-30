@@ -266,12 +266,15 @@ mpegts_parse_init (MpegTSParse * parse, MpegTSParseClass * klass)
   gst_element_add_pad (GST_ELEMENT (parse), parse->sinkpad);
 
   parse->disposed = FALSE;
+  parse->need_sync_program_pads = FALSE;
   parse->packetizer = mpegts_packetizer_new ();
   parse->program_numbers = g_strdup ("");
   parse->pads_to_add = NULL;
+  parse->pads_to_remove = NULL;
   parse->programs = g_hash_table_new_full (g_direct_hash, g_direct_equal,
       NULL, (GDestroyNotify) mpegts_parse_free_program);
   parse->psi_pids = g_hash_table_new (g_direct_hash, g_direct_equal);
+  parse->pes_pids = g_hash_table_new (g_direct_hash, g_direct_equal);
   mpegts_parse_reset (parse);
 }
 
@@ -301,6 +304,7 @@ mpegts_parse_finalize (GObject * object)
   }
   g_hash_table_destroy (parse->programs);
   g_hash_table_destroy (parse->psi_pids);
+  g_hash_table_destroy (parse->pes_pids);
 
   if (G_OBJECT_CLASS (parent_class)->finalize)
     G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -348,7 +352,7 @@ mpegts_parse_add_program (MpegTSParse * parse,
   program->pcr_pid = G_MAXUINT16;
   program->streams = g_hash_table_new_full (g_direct_hash, g_direct_equal,
       NULL, (GDestroyNotify) mpegts_parse_free_stream);
-  program->patcount = 1;
+  program->patcount = 0;
   program->selected = 0;
   program->active = FALSE;
 
@@ -422,22 +426,30 @@ mpegts_parse_remove_program (MpegTSParse * parse, gint program_number)
 }
 
 static void
-mpegts_parse_sync_program_pads (MpegTSParse * parse,
-    GList * to_add, GList * to_remove)
+mpegts_parse_sync_program_pads (MpegTSParse * parse)
 {
   GList *walk;
 
-  for (walk = to_remove; walk; walk = walk->next)
+  GST_INFO_OBJECT (parse, "begin sync pads");
+  for (walk = parse->pads_to_remove; walk; walk = walk->next)
     gst_element_remove_pad (GST_ELEMENT (parse), GST_PAD (walk->data));
 
-  for (walk = to_add; walk; walk = walk->next)
+  for (walk = parse->pads_to_add; walk; walk = walk->next)
     gst_element_add_pad (GST_ELEMENT (parse), GST_PAD (walk->data));
 
-  if (to_add)
-    g_list_free (to_add);
+  if (parse->pads_to_add)
+    g_list_free (parse->pads_to_add);
 
-  if (to_remove)
-    g_list_free (to_remove);
+  if (parse->pads_to_remove)
+    g_list_free (parse->pads_to_remove);
+
+  GST_OBJECT_LOCK (parse);
+  parse->pads_to_remove = NULL;
+  parse->pads_to_add = NULL;
+  parse->need_sync_program_pads = FALSE;
+  GST_OBJECT_UNLOCK (parse);
+
+  GST_INFO_OBJECT (parse, "end sync pads");
 }
 
 
@@ -493,9 +505,6 @@ static void
 mpegts_parse_reset_selected_programs (MpegTSParse * parse,
     gchar * program_numbers)
 {
-  GList *pads_to_add = NULL;
-  GList *pads_to_remove = NULL;
-
   GST_OBJECT_LOCK (parse);
   if (parse->program_numbers)
     g_free (parse->program_numbers);
@@ -526,13 +535,9 @@ mpegts_parse_reset_selected_programs (MpegTSParse * parse,
   g_hash_table_foreach (parse->programs,
       foreach_program_activate_or_deactivate, parse);
 
-  pads_to_add = parse->pads_to_add;
-  parse->pads_to_add = NULL;
-  pads_to_remove = parse->pads_to_remove;
-  parse->pads_to_remove = NULL;
+  if (parse->pads_to_remove || parse->pads_to_add)
+    parse->need_sync_program_pads = TRUE;
   GST_OBJECT_UNLOCK (parse);
-
-  mpegts_parse_sync_program_pads (parse, pads_to_add, pads_to_remove);
 }
 
 static void
@@ -804,6 +809,10 @@ mpegts_parse_is_psi (MpegTSParse * parse, MpegTSPacketizerPacket * packet)
   if (g_hash_table_lookup (parse->psi_pids,
           GINT_TO_POINTER ((gint) packet->pid)) != NULL)
     retval = TRUE;
+  /* check is it is a pes pid */
+  if (g_hash_table_lookup (parse->pes_pids,
+          GINT_TO_POINTER ((gint) packet->pid)) != NULL)
+    return FALSE;
   if (!retval) {
     if (packet->payload_unit_start_indicator) {
       table_id = *(packet->data);
@@ -850,8 +859,6 @@ mpegts_parse_apply_pat (MpegTSParse * parse, GstStructure * pat_info)
   guint pid;
   MpegTSParseProgram *program;
   gint i;
-  GList *pads_to_add = NULL;
-  GList *pads_to_remove = NULL;
   const GValue *programs;
   gchar *dbg;
 
@@ -889,14 +896,12 @@ mpegts_parse_apply_pat (MpegTSParse * parse, GstStructure * pat_info)
         g_hash_table_insert (parse->psi_pids,
             GINT_TO_POINTER ((gint) pid), GINT_TO_POINTER (1));
       }
-
-      program->patcount += 1;
     } else {
       g_hash_table_insert (parse->psi_pids,
           GINT_TO_POINTER ((gint) pid), GINT_TO_POINTER (1));
       program = mpegts_parse_add_program (parse, program_number, pid);
     }
-
+    program->patcount += 1;
     if (program->selected && !program->active)
       parse->pads_to_add = g_list_append (parse->pads_to_add,
           mpegts_parse_activate_program (parse, program));
@@ -937,18 +942,15 @@ mpegts_parse_apply_pat (MpegTSParse * parse, GstStructure * pat_info)
 
       mpegts_parse_remove_program (parse, program_number);
       g_hash_table_remove (parse->psi_pids, GINT_TO_POINTER ((gint) pid));
+      mpegts_packetizer_remove_stream (parse->packetizer, pid);
     }
 
     gst_structure_free (old_pat);
   }
 
-  pads_to_add = parse->pads_to_add;
-  parse->pads_to_add = NULL;
-  pads_to_remove = parse->pads_to_remove;
-  parse->pads_to_remove = NULL;
   GST_OBJECT_UNLOCK (parse);
 
-  mpegts_parse_sync_program_pads (parse, pads_to_add, pads_to_remove);
+  mpegts_parse_sync_program_pads (parse);
 }
 
 static void
@@ -983,10 +985,13 @@ mpegts_parse_apply_pmt (MpegTSParse * parse,
         gst_structure_get_uint (stream, "pid", &pid);
         gst_structure_get_uint (stream, "stream-type", &stream_type);
         mpegts_parse_program_remove_stream (parse, program, (guint16) pid);
+        g_hash_table_remove (parse->pes_pids, GINT_TO_POINTER ((gint) pid));
       }
 
       /* remove pcr stream */
       mpegts_parse_program_remove_stream (parse, program, program->pcr_pid);
+      g_hash_table_remove (parse->pes_pids,
+          GINT_TO_POINTER ((gint) program->pcr_pid));
 
       gst_structure_free (program->pmt_info);
       program->pmt_info = NULL;
@@ -1003,6 +1008,8 @@ mpegts_parse_apply_pmt (MpegTSParse * parse,
   program->pmt_pid = pmt_pid;
   program->pcr_pid = pcr_pid;
   mpegts_parse_program_add_stream (parse, program, (guint16) pcr_pid, -1);
+  g_hash_table_insert (parse->pes_pids, GINT_TO_POINTER ((gint) pcr_pid),
+      GINT_TO_POINTER (1));
 
   for (i = 0; i < gst_value_list_get_size (new_streams); ++i) {
     value = gst_value_list_get_value (new_streams, i);
@@ -1012,6 +1019,9 @@ mpegts_parse_apply_pmt (MpegTSParse * parse,
     gst_structure_get_uint (stream, "stream-type", &stream_type);
     mpegts_parse_program_add_stream (parse, program,
         (guint16) pid, (guint8) stream_type);
+    g_hash_table_insert (parse->pes_pids, GINT_TO_POINTER ((gint) pid),
+        GINT_TO_POINTER ((gint) 1));
+
   }
   GST_OBJECT_UNLOCK (parse);
 
@@ -1226,6 +1236,9 @@ mpegts_parse_chain (GstPad * pad, GstBuffer * buf)
     mpegts_packetizer_clear_packet (parse->packetizer, &packet);
   }
 
+  if (parse->need_sync_program_pads)
+    mpegts_parse_sync_program_pads (parse);
+
   gst_object_unref (parse);
   return res;
 }
@@ -1278,7 +1291,7 @@ mpegts_parse_src_pad_query (GstPad * pad, GstQuery * query)
     default:
       res = gst_pad_query_default (pad, query);
   }
-
+  gst_object_unref (parse);
   return res;
 }
 

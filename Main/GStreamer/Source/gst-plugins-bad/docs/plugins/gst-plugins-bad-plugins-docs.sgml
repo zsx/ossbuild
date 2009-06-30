@@ -32,13 +32,14 @@
     <xi:include href="xml/element-dccpclientsrc.xml" />
     <xi:include href="xml/element-dccpserversink.xml" />
     <xi:include href="xml/element-dccpserversrc.xml" />
-    <xi:include href="xml/element-deinterlace.xml" />
     <xi:include href="xml/element-dfbvideosink.xml" />
+    <xi:include href="xml/element-directdrawsink.xml" />
     <xi:include href="xml/element-dtmfsrc.xml" />
     <xi:include href="xml/element-dtsdec.xml" />
     <xi:include href="xml/element-dvbsrc.xml" />
     <xi:include href="xml/element-dvdspu.xml" />
     <xi:include href="xml/element-festival.xml" />
+    <xi:include href="xml/element-fpsdisplaysink.xml" />
     <xi:include href="xml/element-gstrtpbin.xml" />
     <xi:include href="xml/element-gstrtpclient.xml" />
     <xi:include href="xml/element-gstrtpjitterbuffer.xml" />
@@ -60,6 +61,7 @@
     <xi:include href="xml/element-mplex.xml" />
     <xi:include href="xml/element-mythtvsrc.xml" />
     <xi:include href="xml/element-mxfdemux.xml" />
+    <xi:include href="xml/element-mxfmux.xml" />
     <xi:include href="xml/element-nuvdemux.xml" />
     <xi:include href="xml/element-output-selector.xml" />
     <xi:include href="xml/element-rtpdtmfdepay.xml" />
@@ -70,6 +72,7 @@
     <xi:include href="xml/element-sdlaudiosink.xml" />
     <xi:include href="xml/element-sdlvideosink.xml" />
     <xi:include href="xml/element-sdpdemux.xml" />
+    <xi:include href="xml/element-shapewipe.xml" />
     <xi:include href="xml/element-speed.xml" />
     <xi:include href="xml/element-stereo.xml" />
     <!--xi:include href="xml/element-theoradecexp.xml" /-->
@@ -81,8 +84,6 @@
     <xi:include href="xml/element-videomark.xml" />
     <xi:include href="xml/element-videoparse.xml" />
     <xi:include href="xml/element-wildmidi.xml" />
-    <xi:include href="xml/element-x264enc.xml" />
-    <xi:include href="xml/element-y4menc.xml" />
   </chapter>
 
   <chapter>
@@ -100,8 +101,10 @@
     <xi:include href="xml/plugin-cdxaparse.xml" />
     <xi:include href="xml/plugin-celt.xml" />
     <xi:include href="xml/plugin-dccp.xml" />
+    <xi:include href="xml/plugin-debugutilsbad.xml" />
     <xi:include href="xml/plugin-dfbvideosink.xml" />
     <xi:include href="xml/plugin-dirac.xml" />
+    <xi:include href="xml/plugin-directdraw.xml" />
     <xi:include href="xml/plugin-dtmf.xml" />
     <xi:include href="xml/plugin-dtsdec.xml" />
     <xi:include href="xml/plugin-dvbsrc.xml" />
@@ -112,10 +115,8 @@
     <xi:include href="xml/plugin-fbdevsink.xml" />
     <xi:include href="xml/plugin-festival.xml" />
     <xi:include href="xml/plugin-filter.xml" />
-    <xi:include href="xml/plugin-flvdemux.xml" />
     <xi:include href="xml/plugin-freeze.xml" />
     <xi:include href="xml/plugin-gsm.xml" />
-    <xi:include href="xml/plugin-gstinterlace.xml" />
     <xi:include href="xml/plugin-gstrtpmanager.xml" />
     <xi:include href="xml/plugin-h264parse.xml" />
     <xi:include href="xml/plugin-jack.xml" />
@@ -146,6 +147,7 @@
     <xi:include href="xml/plugin-sdl.xml" />
     <xi:include href="xml/plugin-sdp.xml" />
     <xi:include href="xml/plugin-selector.xml" />
+    <xi:include href="xml/plugin-shapewipe.xml" />
     <xi:include href="xml/plugin-sndfile.xml" />
     <xi:include href="xml/plugin-soundtouch.xml" />
     <xi:include href="xml/plugin-spcdec.xml" />
@@ -160,9 +162,7 @@
     <xi:include href="xml/plugin-videosignal.xml" />
     <xi:include href="xml/plugin-vmnc.xml" />
     <xi:include href="xml/plugin-wildmidi.xml" />
-    <xi:include href="xml/plugin-x264.xml" />
     <xi:include href="xml/plugin-xvid.xml" />
-    <xi:include href="xml/plugin-y4menc.xml" />
   </chapter>
 
   <chapter>

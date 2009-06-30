@@ -30,16 +30,12 @@
  * <informalexample>
  * <programlisting>
  *-----------------------------------------------------------------------------
- *                      (src0) -> queue ->
- * -> [post proc] -> tee <
- *                      (src1) -> imageenc -> metadatamuxer -> filesink
+ *
+ * -> [post proc] -> csp -> imageenc -> metadatamuxer -> filesink
+ *
  *-----------------------------------------------------------------------------
  * </programlisting>
  * </informalexample>
- *
- * The property of elements are:
- *
- *   queue - "max-size-buffers", 1, "leaky", 2,
  *
  * The image bin opens file for image writing in READY to PAUSED state change.
  * The image bin closes the file in PAUSED to READY state change.
@@ -150,23 +146,15 @@ gst_camerabin_image_init (GstCameraBinImage * img,
 {
   img->filename = g_string_new ("");
 
-  img->pad_tee_enc = NULL;
-  img->pad_tee_view = NULL;
-
   img->post = NULL;
-  img->tee = NULL;
   img->enc = NULL;
   img->user_enc = NULL;
   img->meta_mux = NULL;
   img->sink = NULL;
-  img->queue = NULL;
 
   /* Create src and sink ghost pads */
   img->sinkpad = gst_ghost_pad_new_no_target ("sink", GST_PAD_SINK);
   gst_element_add_pad (GST_ELEMENT (img), img->sinkpad);
-
-  img->srcpad = gst_ghost_pad_new_no_target ("src", GST_PAD_SRC);
-  gst_element_add_pad (GST_ELEMENT (img), img->srcpad);
 
   img->elements_created = FALSE;
 }
@@ -196,6 +184,7 @@ gst_camerabin_image_change_state (GstElement * element,
 {
   GstStateChangeReturn ret = GST_STATE_CHANGE_SUCCESS;
   GstCameraBinImage *img = GST_CAMERABIN_IMAGE (element);
+  GstObject *camerabin = NULL;
 
   switch (transition) {
     case GST_STATE_CHANGE_NULL_TO_READY:
@@ -204,15 +193,25 @@ gst_camerabin_image_change_state (GstElement * element,
       }
       /* Allow setting filename when image bin in READY state */
       gst_element_set_locked_state (img->sink, TRUE);
+      GST_INFO_OBJECT (img, "locking imagebin->sink state to %s",
+          gst_element_state_get_name (GST_STATE (img->sink)));
       break;
     case GST_STATE_CHANGE_READY_TO_PAUSED:
-      gst_element_set_locked_state (img->sink, FALSE);
+      if (!g_str_equal (img->filename->str, "")) {
+        GST_INFO_OBJECT (img, "preparing image with filename: %s",
+            img->filename->str);
+        gst_element_set_locked_state (img->sink, FALSE);
+      } else {
+        GST_INFO_OBJECT (img, "keep sink locked, we have no filename yet");
+      }
       break;
     case GST_STATE_CHANGE_PAUSED_TO_READY:
       /* Set sink to NULL in order to write the file _now_ */
-      GST_INFO ("write img file: %s", img->filename->str);
+      GST_INFO_OBJECT (img, "write image with filename: %s",
+          img->filename->str);
       gst_element_set_locked_state (img->sink, TRUE);
       gst_element_set_state (img->sink, GST_STATE_NULL);
+      g_string_assign (img->filename, "");
       break;
     default:
       break;
@@ -221,6 +220,14 @@ gst_camerabin_image_change_state (GstElement * element,
   ret = GST_ELEMENT_CLASS (parent_class)->change_state (element, transition);
 
   switch (transition) {
+    case GST_STATE_CHANGE_PAUSED_TO_PLAYING:
+      camerabin = gst_element_get_parent (img);
+      /* Write debug graph to file */
+      GST_DEBUG_BIN_TO_DOT_FILE_WITH_TS (GST_BIN (camerabin),
+          GST_DEBUG_GRAPH_SHOW_MEDIA_TYPE |
+          GST_DEBUG_GRAPH_SHOW_NON_DEFAULT_PARAMS, "imagebin.playing");
+      gst_object_unref (camerabin);
+      break;
     case GST_STATE_CHANGE_READY_TO_NULL:
       gst_camerabin_image_destroy_elements (img);
       break;
@@ -261,11 +268,18 @@ gst_camerabin_image_set_property (GObject * object, guint prop_id,
   switch (prop_id) {
     case PROP_FILENAME:
       g_string_assign (bin->filename, g_value_get_string (value));
+      GST_INFO_OBJECT (bin, "received filename: '%s'", bin->filename->str);
       if (bin->sink) {
-        g_object_set (G_OBJECT (bin->sink), "location", bin->filename->str,
-            NULL);
+        if (!g_str_equal (bin->filename->str, "")) {
+          g_object_set (G_OBJECT (bin->sink), "location", bin->filename->str,
+              NULL);
+          gst_element_set_locked_state (bin->sink, FALSE);
+          gst_element_sync_state_with_parent (bin->sink);
+        } else {
+          GST_INFO_OBJECT (bin, "empty filename");
+        }
       } else {
-        GST_INFO ("no sink, not setting name yet");
+        GST_INFO_OBJECT (bin, "no sink, not setting name yet");
       }
       break;
     default:
@@ -369,17 +383,17 @@ done:
  * Use gst_camerabin_image_destroy_elements to release these resources.
  *
  * Image bin:
- *  img->sinkpad ! [ post process !] tee name=t0 ! encoder ! metadata ! filesink
- *   t0. ! queue ! img->srcpad
+ *  img->sinkpad ! [ post process !] csp ! encoder ! metadata ! filesink
  *
  * Returns: %TRUE if succeeded or FALSE if failed
  */
 static gboolean
 gst_camerabin_image_create_elements (GstCameraBinImage * img)
 {
-  GstPad *sinkpad = NULL, *img_sinkpad = NULL, *img_srcpad = NULL;
+  GstPad *sinkpad = NULL, *img_sinkpad = NULL;
   gboolean ret = FALSE;
   GstBin *imgbin = NULL;
+  GstElement *csp = NULL;
 
   g_return_val_if_fail (img != NULL, FALSE);
 
@@ -403,22 +417,17 @@ gst_camerabin_image_create_elements (GstCameraBinImage * img)
     img_sinkpad = gst_element_get_static_pad (img->post, "sink");
   }
 
-  /* Create tee */
-  if (!(img->tee = gst_camerabin_create_and_add_element (imgbin, "tee"))) {
+  /* Add colorspace converter */
+  if (!(csp =
+          gst_camerabin_create_and_add_element (imgbin, "ffmpegcolorspace"))) {
     goto done;
   }
 
   /* Set up sink ghost pad for img bin */
   if (!img_sinkpad) {
-    img_sinkpad = gst_element_get_static_pad (img->tee, "sink");
+    img_sinkpad = gst_element_get_static_pad (csp, "sink");
   }
   gst_ghost_pad_set_target (GST_GHOST_PAD (img->sinkpad), img_sinkpad);
-
-  /* Add colorspace converter */
-  img->pad_tee_enc = gst_element_get_request_pad (img->tee, "src%d");
-  if (!gst_camerabin_create_and_add_element (imgbin, "ffmpegcolorspace")) {
-    goto done;
-  }
 
   /* Create image encoder */
   if (img->user_enc) {
@@ -452,33 +461,14 @@ gst_camerabin_image_create_elements (GstCameraBinImage * img)
     goto done;
   }
 
-  /* Create queue element leading to view finder, attaches it to the tee */
-  img->pad_tee_view = gst_element_get_request_pad (img->tee, "src%d");
-  if (!(img->queue = gst_camerabin_create_and_add_element (imgbin, "queue"))) {
-    goto done;
-  }
-
   /* Set properties */
   g_object_set (G_OBJECT (img->sink), "location", img->filename->str, NULL);
   g_object_set (G_OBJECT (img->sink), "async", FALSE, NULL);
-
-  g_object_set (G_OBJECT (img->queue), "max-size-buffers", 1, "leaky", 2, NULL);
-
-  /* Set up src ghost pad for img bin */
-  img_srcpad = gst_element_get_static_pad (img->queue, "src");
-  gst_ghost_pad_set_target (GST_GHOST_PAD (img->srcpad), img_srcpad);
-
-  /* Never let image bin eos events reach view finder */
-  gst_pad_add_event_probe (img->srcpad,
-      G_CALLBACK (gst_camerabin_drop_eos_probe), img);
 
   ret = TRUE;
 
 done:
 
-  if (img_srcpad) {
-    gst_object_unref (img_srcpad);
-  }
   if (img_sinkpad) {
     gst_object_unref (img_sinkpad);
   }
@@ -502,27 +492,14 @@ static void
 gst_camerabin_image_destroy_elements (GstCameraBinImage * img)
 {
   GST_LOG ("destroying img elements");
-  if (img->pad_tee_enc) {
-    gst_element_release_request_pad (img->tee, img->pad_tee_enc);
-    img->pad_tee_enc = NULL;
-  }
-
-  if (img->pad_tee_view) {
-    gst_element_release_request_pad (img->tee, img->pad_tee_view);
-    img->pad_tee_view = NULL;
-  }
 
   gst_ghost_pad_set_target (GST_GHOST_PAD (img->sinkpad), NULL);
-  gst_ghost_pad_set_target (GST_GHOST_PAD (img->srcpad), NULL);
 
   gst_camerabin_remove_elements_from_bin (GST_BIN (img));
 
-  img->post = NULL;
-  img->tee = NULL;
   img->enc = NULL;
   img->meta_mux = NULL;
   img->sink = NULL;
-  img->queue = NULL;
 
   img->elements_created = FALSE;
 }
@@ -530,6 +507,7 @@ gst_camerabin_image_destroy_elements (GstCameraBinImage * img)
 void
 gst_camerabin_image_set_encoder (GstCameraBinImage * img, GstElement * encoder)
 {
+  GST_DEBUG ("setting image encoder %" GST_PTR_FORMAT, encoder);
   if (img->user_enc)
     gst_object_unref (img->user_enc);
   if (encoder)
@@ -542,6 +520,7 @@ void
 gst_camerabin_image_set_postproc (GstCameraBinImage * img,
     GstElement * postproc)
 {
+  GST_DEBUG ("setting image postprocessing element %" GST_PTR_FORMAT, postproc);
   if (img->post)
     gst_object_unref (img->post);
   if (postproc)

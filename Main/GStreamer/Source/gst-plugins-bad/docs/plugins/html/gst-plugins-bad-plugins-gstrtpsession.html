@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-gstrtpptdemux.html" title="gstrtpptdemux">
 <link rel="next" href="gst-plugins-bad-plugins-gstrtpssrcdemux.html" title="gstrtpssrcdemux">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-bad Plugins">
@@ -23,15 +23,17 @@
 <th width="100%" align="center">GStreamer Bad Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-bad-plugins-gstrtpssrcdemux.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-bad-plugins-gstrtpsession.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpsession.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpsession.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpsession.properties" class="shortcut">Properties</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-gstrtpsession.signals" class="shortcut">Signals</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-bad-plugins-gstrtpsession.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpsession.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpsession.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpsession.properties" class="shortcut">Properties</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-gstrtpsession.signals" class="shortcut">Signals</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-bad-plugins-gstrtpsession"></a><div class="titlepage"></div>
@@ -176,7 +178,7 @@ signal.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3187288"></a><h3>Example pipelines</h3>
+<a name="id2997970"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch udpsrc port=5000 caps="application/x-rtp, ..." ! .recv_rtp_sink gstrtpsession .recv_rtp_src ! rtptheoradepay ! theoradec ! xvimagesink
 </pre></div> Receive theora RTP packets from port 5000 and send them to the depayloader,
@@ -213,7 +215,7 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3178620"></a><h3>Element Information</h3>
+<a name="id3029283"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -236,7 +238,7 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3200189"></a><h3>Element Pads</h3>
+<a name="id3049694"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -387,7 +389,6 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -396,7 +397,6 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 <a name="GstRtpSession-struct"></a><h3>GstRtpSession</h3>
 <pre class="programlisting">typedef struct _GstRtpSession GstRtpSession;</pre>
 <p>
-
 </p>
 </div>
 </div>
@@ -529,7 +529,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Clear the cached pt-maps requested with <a class="link" href="gst-plugins-bad-plugins-gstrtpsession.html#GstRtpSession-request-pt-map" title='The "request-pt-map" signal'><span class="type">"request-pt-map"</span></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -559,7 +558,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of an SSRC that became inactive because of a BYE packet.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -571,7 +569,7 @@ Notify of an SSRC that became inactive because of a BYE packet.</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>ssrc</code></em> :</span></p></td>
-<td> the SSRC 
+<td> the SSRC
 </td>
 </tr>
 <tr>
@@ -594,7 +592,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of an SSRC that has timed out because of BYE</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -629,7 +626,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of a new SSRC that entered <em class="parameter"><code>session</code></em>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -662,7 +658,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>       user_data)          : Run Last</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -675,7 +670,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <tr>
 <td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
 <td>
-
 </td>
 </tr>
 <tr>
@@ -696,7 +690,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>       user_data)          : Run Last</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -709,7 +702,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <tr>
 <td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
 <td>
-
 </td>
 </tr>
 <tr>
@@ -732,7 +724,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify that a new SDES was received for SSRC.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -765,7 +756,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>       user_data)          : Run Last</pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -778,7 +768,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <tr>
 <td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
 <td>
-
 </td>
 </tr>
 <tr>
@@ -801,7 +790,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of an SSRC that has timed out</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -836,7 +824,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Request the payload type as <span class="type">GstCaps</span> for <em class="parameter"><code>pt</code></em>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -871,7 +858,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 <p>
 Notify of a sender SSRC that has timed out and became a receiver</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -901,6 +887,6 @@ gstrtpjitterbuffer, gstrtpbin, gstrtpptdemux, gstrtpssrcdemux
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

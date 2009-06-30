@@ -32,7 +32,6 @@
 #include "camerabinvideo.h"
 
 G_BEGIN_DECLS
-
 /* #defines don't like whitespacey bits */
 #define GST_TYPE_CAMERABIN \
   (gst_camerabin_get_type())
@@ -44,7 +43,6 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_CAMERABIN))
 #define GST_IS_CAMERABIN_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_CAMERABIN))
-
 typedef struct _GstCameraBin GstCameraBin;
 typedef struct _GstCameraBinClass GstCameraBinClass;
 
@@ -61,7 +59,6 @@ struct _GstCameraBin
   /* private */
   GString *filename;
   gint mode;                    /* MODE_IMAGE or MODE_VIDEO */
-  guint num_img_buffers;        /* no of image buffers captured */
   gboolean stop_requested;      /* TRUE if capturing stop needed */
   gboolean paused;              /* TRUE if capturing paused */
 
@@ -71,6 +68,9 @@ struct _GstCameraBin
   gint fps_n;
   gint fps_d;
 
+  /* Image tags are collected here first before sending to imgbin */
+  GstTagList *event_tags;
+
   /* Caps applied to capsfilters when taking still image */
   GstCaps *image_capture_caps;
 
@@ -79,6 +79,9 @@ struct _GstCameraBin
 
   /* Caps that videosrc supports */
   GstCaps *allowed_caps;
+
+  /* Caps used to create preview image */
+  GstCaps *preview_caps;
 
   /* The digital zoom (from 100% to 1000%) */
   gint zoom;
@@ -92,16 +95,16 @@ struct _GstCameraBin
   GstPad *pad_src_view;
   GstPad *pad_view_src;
   GstPad *pad_src_img;
-  GstPad *pad_view_img;
   GstPad *pad_src_vid;
   GstPad *pad_view_vid;
+  GstPad *pad_src_queue;
 
-  GstPad *srcpad_zoom_filter;
-  GstPad *srcpad_videosrc;
-
+  GstElement *img_queue;        /* queue for decoupling capture from
+                                   image-postprocessing and saving */
   GstElement *imgbin;           /* bin that holds image capturing elements */
   GstElement *vidbin;           /*  bin that holds video capturing elements */
   GstElement *active_bin;       /* image or video bin that is currently in use */
+  GstElement *preview_pipeline; /* pipeline for creating preview images */
 
   /* source elements */
   GstElement *src_vid_src;
@@ -125,6 +128,12 @@ struct _GstCameraBin
   gboolean night_mode;
   gint pre_night_fps_n;
   gint pre_night_fps_d;
+
+  /* Cache the photography interface settings */
+  GstPhotoSettings photo_settings;
+
+  /* Buffer probe id for captured image handling */
+  gulong image_captured_id;
 };
 
 /**
@@ -147,7 +156,7 @@ struct _GstCameraBinClass
 
   /* signals (callback) */
 
-    gboolean (*img_done) (GstCameraBin * camera, GString * filename);
+   gboolean (*img_done) (GstCameraBin * camera, const gchar * filename);
 };
 
 /**
@@ -166,5 +175,4 @@ typedef enum
 GType gst_camerabin_get_type (void);
 
 G_END_DECLS
-
-#endif /* #ifndef __GST_CAMERABIN_H__ */
+#endif                          /* #ifndef __GST_CAMERABIN_H__ */

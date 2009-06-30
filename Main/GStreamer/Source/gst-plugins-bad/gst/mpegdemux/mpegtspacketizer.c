@@ -241,7 +241,8 @@ mpegts_packetizer_parse_section_header (MpegTSPacketizer * packetizer,
   data = GST_BUFFER_DATA (section->buffer);
 
   section->table_id = *data++;
-  if ((data[0] & 0x80) == 0)
+  /* if table_id is 0 (pat) then ignore the subtable extension */
+  if ((data[0] & 0x80) == 0 || section->table_id == 0)
     section->subtable_extension = 0;
   else
     section->subtable_extension = GST_READ_UINT16_BE (data + 2);
@@ -502,6 +503,17 @@ mpegts_packetizer_parse_pmt (MpegTSPacketizer * packetizer,
     g_free (struct_name);
 
     if (stream_info_length) {
+      /* check for AC3 descriptor */
+      GstMPEGDescriptor *desc =
+          gst_mpeg_descriptor_parse (data, stream_info_length);
+      if (desc != NULL) {
+        if (gst_mpeg_descriptor_find (desc, DESC_DVB_AC3)) {
+          gst_structure_set (stream_info, "has-ac3", G_TYPE_BOOLEAN, TRUE,
+              NULL);
+        }
+        gst_mpeg_descriptor_free (desc);
+      }
+
       descriptors = g_value_array_new (0);
       if (!mpegts_packetizer_parse_descriptors (packetizer,
               &data, data + stream_info_length, descriptors)) {
@@ -514,6 +526,7 @@ mpegts_packetizer_parse_pmt (MpegTSPacketizer * packetizer,
       gst_structure_set (stream_info,
           "descriptors", G_TYPE_VALUE_ARRAY, descriptors, NULL);
       g_value_array_free (descriptors);
+
     }
 
     g_value_init (&stream_value, GST_TYPE_STRUCTURE);
@@ -1056,12 +1069,12 @@ mpegts_packetizer_parse_nit (MpegTSPacketizer * packetizer,
         GValue frequencies = { 0 };
         guint8 type;
 
-        g_value_init (&frequencies, GST_TYPE_LIST);
         type = *current_pos & 0x03;
         current_pos++;
 
         if (type) {
           const gchar *fieldname = NULL;
+          g_value_init (&frequencies, GST_TYPE_LIST);
 
           while (current_pos < delivery + DESC_LENGTH (delivery) - 3) {
             guint32 freq = 0;
@@ -1830,6 +1843,22 @@ mpegts_packetizer_clear (MpegTSPacketizer * packetizer)
   /* FIXME can't use remove_all because we don't depend on 2.12 yet */
   g_hash_table_foreach_remove (packetizer->streams, remove_all, NULL);
   gst_adapter_clear (packetizer->adapter);
+}
+
+void
+mpegts_packetizer_remove_stream (MpegTSPacketizer * packetizer, gint16 pid)
+{
+  MpegTSPacketizerStream *stream =
+      (MpegTSPacketizerStream *) g_hash_table_lookup (packetizer->streams,
+      GINT_TO_POINTER ((gint) pid));
+  if (stream) {
+    GST_INFO ("Removing stream for PID %d", pid);
+
+    g_hash_table_remove (packetizer->streams, GINT_TO_POINTER ((gint) pid));
+
+    g_object_unref (stream->section_adapter);
+    g_free (stream);
+  }
 }
 
 MpegTSPacketizer *

@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-videoanalyse.html" title="videoanalyse">
 <link rel="next" href="gst-plugins-bad-plugins-videomark.html" title="videomark">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-bad Plugins">
@@ -23,13 +23,15 @@
 <th width="100%" align="center">GStreamer Bad Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-bad-plugins-videomark.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-bad-plugins-videodetect.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-videodetect.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-videodetect.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#gst-plugins-bad-plugins-videodetect.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-bad-plugins-videodetect.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-videodetect.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-videodetect.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-bad-plugins-videodetect.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-bad-plugins-videodetect"></a><div class="titlepage"></div>
@@ -112,10 +114,10 @@ After the pattern has been found and the data pattern has been read, an
 element message called <code class="classname">"GstVideoDetect"</code> will
 be posted on the bus. If the pattern is no longer found in the frame, the
 same element message is posted with the have-pattern field set to <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><span class="type">FALSE</span></a>.
 The message is only posted if the <a class="link" href="gst-plugins-bad-plugins-videodetect.html#GstVideoDetect--message" title='The "message" property'><span class="type">"message"</span></a> property is <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><span class="type">TRUE</span></a>.
 </p>
 <p>
@@ -128,7 +130,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 ><span class="type">gboolean</span></a>
   <code class="classname">"have-pattern"</code>:
   if the pattern was found. This field will be set to <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><span class="type">TRUE</span></a> for as long as
   the pattern was found in the frame and set to FALSE for the first frame
   that does not contain the pattern anymore.
@@ -159,7 +161,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 ><span class="type">guint</span></a>
   <code class="classname">"data"</code>:
   the data-pattern found after the pattern or 0 when have-signal is <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><span class="type">FALSE</span></a>.
   </p></li>
 </ul></div>
@@ -168,7 +170,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3224278"></a><h3>Example launch line</h3>
+<a name="id3075793"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch videotestsrc ! videodetect ! ffmpegcolorspace ! ximagesink
 </pre></div>
@@ -180,7 +182,7 @@ Last reviewed on 2007-05-30 (0.10.5)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3224302"></a><h3>Element Information</h3>
+<a name="id3075817"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -203,7 +205,7 @@ Last reviewed on 2007-05-30 (0.10.5)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3224365"></a><h3>Element Pads</h3>
+<a name="id3075880"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -249,7 +251,6 @@ Last reviewed on 2007-05-30 (0.10.5)</p>
 </div>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -260,7 +261,6 @@ Last reviewed on 2007-05-30 (0.10.5)</p>
 <p>
 Opaque datastructure.</p>
 <p>
-
 </p>
 </div>
 </div>
@@ -357,11 +357,11 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-videodetect.see-also"></a><h2>See Also</h2>
-<a class="link" href="gst-plugins-bad-plugins-videomark.html#GstVideoMark"><span class="type">GstVideoMark</span></a>
+#GstVideoMark
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

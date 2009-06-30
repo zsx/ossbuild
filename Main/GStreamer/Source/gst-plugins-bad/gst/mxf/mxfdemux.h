@@ -23,9 +23,7 @@
 #include <gst/gst.h>
 #include <gst/base/gstadapter.h>
 
-#include "mxftypes.h"
-#include "mxfparse.h"
-#include "mxfmetadata.h"
+#include "mxfessence.h"
 
 G_BEGIN_DECLS
 
@@ -156,7 +154,7 @@ struct _GstMXFDemux
   GArray *random_index_pack;
 
   /* Metadata */
-  GMutex *metadata_lock;
+  GStaticRWLock metadata_lock;
   gboolean update_metadata;
   gboolean pull_footer_metadata;
 

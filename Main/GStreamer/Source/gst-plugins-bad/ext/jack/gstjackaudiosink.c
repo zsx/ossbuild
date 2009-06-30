@@ -213,8 +213,8 @@ jack_process_cb (jack_nframes_t nframes, void *arg)
     if (nframes * sizeof (sample_t) != flen)
       goto wrong_size;
 
-    GST_DEBUG ("copy %d frames: %p, %d bytes, %d channels", nframes, readptr,
-        flen, channels);
+    GST_DEBUG_OBJECT (sink, "copy %d frames: %p, %d bytes, %d channels",
+        nframes, readptr, flen, channels);
     data = (sample_t *) readptr;
 
     /* the samples in the ringbuffer have the channels interleaved, we need to
@@ -231,6 +231,7 @@ jack_process_cb (jack_nframes_t nframes, void *arg)
     /* we wrote one segment */
     gst_ring_buffer_advance (buf, 1);
   } else {
+    GST_DEBUG_OBJECT (sink, "write %d frames silence", nframes);
     /* We are not allowed to read from the ringbuffer, write silence to all
      * jack output buffers */
     for (i = 0; i < channels; i++) {
@@ -454,7 +455,8 @@ gst_jack_ring_buffer_acquire (GstRingBuffer * buf, GstRingBufferSpec * spec)
 
   /* if we need to automatically connect the ports, do so now. We must do this
    * after activating the client. */
-  if (sink->connect == GST_JACK_CONNECT_AUTO) {
+  if (sink->connect == GST_JACK_CONNECT_AUTO
+      || sink->connect == GST_JACK_CONNECT_AUTO_FORCED) {
     /* find all the physical input ports. A physical input port is a port
      * associated with a hardware device. Someone needs connect to a physical
      * port in order to hear something. */
@@ -606,7 +608,7 @@ gst_jack_ring_buffer_delay (GstRingBuffer * buf)
       res = latency;
   }
 
-  GST_DEBUG_OBJECT (sink, "delay %u", res);
+  GST_LOG_OBJECT (sink, "delay %u", res);
 
   return res;
 }

@@ -17,9 +17,10 @@ GObject
         GstRtpBin
         GstRtpClient
         GstSDPDemux
+        GstFPSDisplaySink
       GstBz2enc
       GstBz2dec
-      GstModPlug
+      GstMplex
       GstBaseSrc
         GstPushSrc
           GstNeonhttpSrc
@@ -66,14 +67,15 @@ GObject
           GstBPMDetect
           GstStereo
         GstBayer2RGB
-        GstLegacyresample
         GstScaletempo
+        GstHDVParse
         GstDeinterlace
         GstVideoFilter
           GstVideoAnalyse
           GstVideoDetect
           GstVideoMark
         GstIIR
+        GstLegacyresample
       GstSignalProcessor
         ladspa-noise-white
         ladspa-delay-5s
@@ -94,9 +96,9 @@ GObject
       GstGSMDec
       GstFaac
       GstDtsDec
+      Gstassrender
       GstDiracEnc
       GstTRM
-      GstX264Enc
       GstBaseMetadata
         GstMetadataDemux
         GstMetadataMux
@@ -104,6 +106,8 @@ GObject
       GstAmrBaseParse
         GstAmrParse
       GstFestival
+      GstModPlug
+      ADPCMDec
       GstMveDemux
       GstMveMux
       GstSrtEnc
@@ -138,9 +142,11 @@ GObject
       MpegVideoParse
       GstH264Parse
       GstMXFDemux
-      GstY4mEncode
+      GstMXFMux
       GstSpeed
       GstFreeze
+      GstId3BaseMux
+        GstId3Mux
       GstDVDSpu
       AIFFParse
       GstTtaParse
@@ -150,6 +156,7 @@ GObject
       GstBaseRTPDepayload
         GstRtpDTMFDepay
       GstNuvDemux
+      GstShapeWipe
       GstFLVDemux
       GstFlvMux
       GstMpegPSDemux
@@ -168,6 +175,8 @@ GObject
       GstJackAudioSinkRingBuffer
   GstSignalObject
   GstColorBalanceChannel
+  GstMixerTrack
+    GstMixerOptions
   RTPSession
   MpegTsPatInfo
   MpegTsPmtInfo
@@ -180,6 +189,7 @@ GInterface
   GstColorBalance
   GstXOverlay
   GstTagSetter
+  GstPreset
   GstMixer
   GstPropertyProbe
   MXFDescriptiveMetadataFrameworkInterface

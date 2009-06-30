@@ -22,6 +22,12 @@ endif
 # CDROM_DIR=
 # endif
 
+if USE_DIRECTDRAW
+DIRECTDRAW_DIR=directdraw
+else
+DIRECTDRAW_DIR=
+endif
+
 if USE_FBDEV
 FBDEV_DIR=fbdev
 else
@@ -38,6 +44,12 @@ if USE_OSS4
 OSS4_DIR=oss4
 else
 OSS4_DIR=
+endif
+
+if USE_OSX_VIDEO
+OSX_VIDEO_DIR=osxvideo
+else
+OSX_VIDEO_DIR=
 endif
 
 if USE_QUICKTIME
@@ -58,8 +70,8 @@ else
 ACM_DIR=
 endif
 
-SUBDIRS = $(ACM_DIR) $(DVB_DIR) $(FBDEV_DIR) $(OSS4_DIR) $(QT_DIR) $(VCD_DIR) $(WININET_DIR)
+SUBDIRS = $(ACM_DIR) $(DIRECTDRAW_DIR) $(DVB_DIR) $(FBDEV_DIR) $(OSS4_DIR) $(OSX_VIDEO_DIR) $(QT_DIR) $(VCD_DIR) $(WININET_DIR)
 
-DIST_SUBDIRS = acmenc acmmp3dec dvb fbdev dshowdecwrapper dshowsrcwrapper dshowvideosink \
-			   oss4 qtwrapper vcd wasapi wininet winks winscreencap
+DIST_SUBDIRS = acmenc acmmp3dec directdraw dvb fbdev dshowdecwrapper dshowsrcwrapper dshowvideosink \
+			   oss4 osxvideo qtwrapper vcd wasapi wininet winks winscreencap
 

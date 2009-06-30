@@ -370,8 +370,8 @@ typedef enum {
 struct _MXFMetadataBase {
   GstMiniObject parent;
 
-  MXFUL instance_uid;
-  MXFUL generation_uid;
+  MXFUUID instance_uid;
+  MXFUUID generation_uid;
 
   guint64 offset;
 
@@ -386,6 +386,7 @@ struct _MXFMetadataBaseClass {
   gboolean (*handle_tag) (MXFMetadataBase *self, MXFPrimerPack *primer, guint16 tag, const guint8 *tag_data, guint tag_size);
   gboolean (*resolve) (MXFMetadataBase *self, GHashTable *metadata);
   GstStructure * (*to_structure) (MXFMetadataBase *self);
+  GList * (*write_tags) (MXFMetadataBase *self, MXFPrimerPack *primer);
 
   GQuark name_quark;
 };
@@ -408,14 +409,14 @@ struct _MXFMetadataPreface {
 
   guint32 object_model_version;
 
-  MXFUL primary_package_uid;
+  MXFUUID primary_package_uid;
   MXFMetadataGenericPackage *primary_package;
 
   guint32 n_identifications;
-  MXFUL *identifications_uids;
+  MXFUUID *identifications_uids;
   MXFMetadataIdentification **identifications;
 
-  MXFUL content_storage_uid;
+  MXFUUID content_storage_uid;
   MXFMetadataContentStorage *content_storage;
 
   MXFUL operational_pattern;
@@ -430,7 +431,7 @@ struct _MXFMetadataPreface {
 struct _MXFMetadataIdentification {
   MXFMetadata parent;
 
-  MXFUL this_generation_uid;
+  MXFUUID this_generation_uid;
 
   gchar *company_name;
 
@@ -439,7 +440,7 @@ struct _MXFMetadataIdentification {
   
   gchar *version_string;
 
-  MXFUL product_uid;
+  MXFUUID product_uid;
 
   MXFTimestamp modification_date;
 
@@ -452,11 +453,11 @@ struct _MXFMetadataContentStorage {
   MXFMetadata parent;
 
   guint32 n_packages;
-  MXFUL *packages_uids;
+  MXFUUID *packages_uids;
   MXFMetadataGenericPackage **packages;
 
   guint32 n_essence_container_data;
-  MXFUL *essence_container_data_uids;
+  MXFUUID *essence_container_data_uids;
   MXFMetadataEssenceContainerData **essence_container_data;
 };
 
@@ -480,7 +481,7 @@ struct _MXFMetadataGenericPackage {
   MXFTimestamp package_modified_date;
 
   guint32 n_tracks;
-  MXFUL *tracks_uids;
+  MXFUUID *tracks_uids;
   MXFMetadataTrack **tracks;
 
   guint n_timecode_tracks;
@@ -493,7 +494,7 @@ struct _MXFMetadataSourcePackage
 {
   MXFMetadataGenericPackage parent;
 
-  MXFUL descriptor_uid;
+  MXFUUID descriptor_uid;
   MXFMetadataGenericDescriptor *descriptor;
 
   gboolean top_level;
@@ -520,7 +521,7 @@ struct _MXFMetadataTrack {
 
   gchar *track_name;
 
-  MXFUL sequence_uid;
+  MXFUUID sequence_uid;
   MXFMetadataSequence *sequence;
 
   MXFMetadataTrackType type;
@@ -551,7 +552,7 @@ struct _MXFMetadataSequence {
   gint64 duration;
 
   guint32 n_structural_components;
-  MXFUL *structural_components_uids;
+  MXFUUID *structural_components_uids;
   MXFMetadataStructuralComponent **structural_components;
 };
 
@@ -596,7 +597,7 @@ struct _MXFMetadataDMSegment {
   guint32 n_track_ids;
   guint32 *track_ids;
       
-  MXFUL dm_framework_uid;
+  MXFUUID dm_framework_uid;
   MXFDescriptiveMetadataFramework *dm_framework;
 };
 
@@ -604,7 +605,7 @@ struct _MXFMetadataGenericDescriptor {
   MXFMetadata parent;
 
   guint32 n_locators;
-  MXFUL *locators_uids;
+  MXFUUID *locators_uids;
   MXFMetadataLocator **locators;
 };
 
@@ -712,7 +713,7 @@ struct _MXFMetadataGenericDataEssenceDescriptor {
 struct _MXFMetadataMultipleDescriptor {
   MXFMetadataFileDescriptor parent;
   
-  MXFUL *sub_descriptors_uids;
+  MXFUUID *sub_descriptors_uids;
   guint32 n_sub_descriptors;
   MXFMetadataGenericDescriptor **sub_descriptors;
 };
@@ -751,15 +752,20 @@ struct _MXFDescriptiveMetadataFrameworkInterface {
 gboolean mxf_metadata_base_parse (MXFMetadataBase *self, MXFPrimerPack *primer, const guint8 *data, guint size);
 gboolean mxf_metadata_base_resolve (MXFMetadataBase *self, GHashTable *metadata);
 GstStructure * mxf_metadata_base_to_structure (MXFMetadataBase *self);
+GstBuffer * mxf_metadata_base_to_buffer (MXFMetadataBase *self, MXFPrimerPack *primer);
 
 MXFMetadata *mxf_metadata_new (guint16 type, MXFPrimerPack *primer, guint64 offset, const guint8 *data, guint size);
 void mxf_metadata_register (GType type);
 void mxf_metadata_init_types (void);
 
 MXFMetadataTrackType mxf_metadata_track_identifier_parse (const MXFUL * track_identifier);
+const MXFUL * mxf_metadata_track_identifier_get (MXFMetadataTrackType type);
 
 void mxf_metadata_generic_picture_essence_descriptor_set_caps (MXFMetadataGenericPictureEssenceDescriptor * self, GstCaps * caps);
+gboolean mxf_metadata_generic_picture_essence_descriptor_from_caps (MXFMetadataGenericPictureEssenceDescriptor * self, GstCaps * caps);
+
 void mxf_metadata_generic_sound_essence_descriptor_set_caps (MXFMetadataGenericSoundEssenceDescriptor * self, GstCaps * caps);
+gboolean mxf_metadata_generic_sound_essence_descriptor_from_caps (MXFMetadataGenericSoundEssenceDescriptor * self, GstCaps * caps);
 
 void mxf_descriptive_metadata_register (guint8 scheme, GType *types);
 MXFDescriptiveMetadata * mxf_descriptive_metadata_new (guint8 scheme, guint32 type, MXFPrimerPack * primer, guint64 offset, const guint8 * data, guint size);

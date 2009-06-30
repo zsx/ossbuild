@@ -1,9 +1,4384 @@
-=== release 0.10.11 ===
+=== release 0.10.13 ===
 
-2009-03-21  Jan Schmidt <jan.schmidt@sun.com>
+2009-06-18  Jan Schmidt <jan.schmidt@sun.com>
 
 	* configure.ac:
-	  releasing 0.10.11, "A precious stone"
+	  releasing 0.10.13, "Supersonic Rocket"
+
+2009-06-17 21:56:56 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* po/af.po:
+	* po/az.po:
+	* po/bg.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/da.po:
+	* po/de.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ky.po:
+	* po/lt.po:
+	* po/mt.po:
+	* po/nb.po:
+	* po/nl.po:
+	* po/or.po:
+	* po/pl.po:
+	* po/pt_BR.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sv.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/zh_CN.po:
+	  Update .po files
+
+2009-06-16 17:09:26 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/camerabin/camerabinimage.c:
+	  camerabin: reset filename after capture to avoid racy when capturing again
+	  If we don't reset the filename we cannot check if we still expect the filename
+	  for a subsequent capture pass. The imagebin would good to paused and we set the
+	  filename in that state. This trigers an error-message and would capture to the
+	  old filename.
+
+2009-06-12 10:29:20 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* tests/check/Makefile.am:
+	* tests/check/elements/camerabin.c:
+	  camerabin: cleanups in the tests
+	  Sprinkle more logging to make it easier to follow. Specify a low framerate and
+	  capture resolution to avoid tests timing out. Make the sinks sync to test closer
+	  to reality. Fix Makefile to use uninstalled interface.
+
+2009-06-12 10:26:30 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/camerabin/camerabinimage.c:
+	* gst/camerabin/gstcamerabin.c:
+	  camerabin: set imagebin to PAUSED on capture and delayed filename setting
+	  We need to set imagebin to PAUSED to not fail the bufferalloc. We also need to
+	  keep the filesinks state locked until we have the filename for the run.
+
+2009-06-12 10:14:27 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/selector/gstoutputselector.c:
+	  outputselector: do the pad_alloc for the pad that is pending and have a fallback
+	  We should do the pad_alloc for the pending pad if any, as we will switch to that
+	  pad on next _chain() call. Also do a fallback alloc, if there is no output yet to
+	  not fail state transitions in dynamic pipelines.
+
+2009-06-11 16:00:36 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* win32/common/config.h:
+	  win32: Bump win32 config.h version number too
+
+2009-06-05 22:43:50 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* configure.ac:
+	* po/LINGUAS:
+	* po/af.po:
+	* po/az.po:
+	* po/bg.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/da.po:
+	* po/de.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ja.po:
+	* po/ky.po:
+	* po/lt.po:
+	* po/mt.po:
+	* po/nb.po:
+	* po/nl.po:
+	* po/or.po:
+	* po/pl.po:
+	* po/pt_BR.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sv.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/zh_CN.po:
+	* win32/common/config.h:
+	  0.10.12.3 pre-release
+
+2009-06-06 21:28:27 +0400  LRN <lrn1986@gmail.com>
+
+	* gst/debugutils/Makefile.am:
+	  Added base libs to debug utils makefile
+	  Fixes #585015
+
+2009-06-07 10:55:59 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* tests/check/pipelines/metadata.c:
+	  tests/metadata: Don't try tags we can't handle. Fixes #584945
+
+2009-06-06 19:28:07 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/hdvparse/Makefile.am:
+	  hdvparse: Link against libm because we use pow().
+
+2009-06-06 13:53:04 +0100  Jan Schmidt <jan.schmidt@sun.com>
+
+	* tests/examples/Makefile.am:
+	  examples: Don't build the mxf example if GTK isn't present.
+
+2009-06-06 13:17:49 +0100  Jan Schmidt <jan.schmidt@sun.com>
+
+	* ext/apexsink/gstapexraop.c:
+	* ext/apexsink/gstapexsink.c:
+	  apexsink: Fix compiler warnings
+	  Fix compile warnings on solaris from bzero not being declared (use
+	  memset instead), and strict-aliasing warnings (use a temporary
+	  variable).
+
+2009-06-06 02:35:35 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/id3tag/id3tag.c:
+	  id3mux: init genre field in ID3v1 tag to an invalid number
+	  So that it is not interpreted as 'Blues' if no genre is to be written.
+
+2009-06-06 01:05:49 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/id3tag/gstid3mux.c:
+	  id3mux: don't write ID3v1 tag until specifically instructed to do so
+	  ID3v1 tags are one of the most broken and ill-designed things that
+	  exist on this planet. Let's not write them by default.
+
+2009-06-06 00:58:46 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/id3tag/id3tag.c:
+	  id3mux: don't write empty ID3v1 tag
+
+2009-06-06 00:39:10 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* docs/plugins/inspect/plugin-id3tag.xml:
+	* gst/id3tag/Makefile.am:
+	* gst/id3tag/gstid3mux.c:
+	* gst/id3tag/gstid3mux.h:
+	* gst/id3tag/gstid3tag.c:
+	* gst/id3tag/gstid3tag.h:
+	* gst/id3tag/gsttagmux.c:
+	* gst/id3tag/id3tag.c:
+	* gst/id3tag/id3tag.h:
+	  id3tag: rename new id3tag element to id3mux replacing the one removed from -ugly
+
+2009-06-05 23:52:05 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/nsf/nes6502.c:
+	  nsf: Fix compiler warning on Solaris.
+	  A SEC() macro already exists on Solaris, causing warnings about
+	  redefining it.
+
+2009-06-05 22:20:46 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/hdvparse/gsthdvparse.c:
+	  hdvparse: Fix the build on Commander Thaytan's S10SP
+
+2009-06-05 19:53:09 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* tests/check/elements/.gitignore:
+	  gitignore: Ignore shapewipe unit test binary
+
+2009-06-05 19:32:26 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* configure.ac:
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* docs/plugins/inspect/plugin-x264.xml:
+	* ext/Makefile.am:
+	* ext/x264/GstX264Enc.prs:
+	* ext/x264/Makefile.am:
+	* ext/x264/gstx264enc.c:
+	* ext/x264/gstx264enc.h:
+	* gst-plugins-bad.spec.in:
+	* tests/check/Makefile.am:
+	* tests/check/elements/.gitignore:
+	  Moved 'x264enc' from -bad to -ugly
+
+2009-06-05 21:17:55 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/camerabin/Makefile.am:
+	* tests/check/Makefile.am:
+	  camerabin: fix link order
+	  Move local version up in the link order.
+
+2009-06-05 20:22:17 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/hdvparse/gsthdvparse.c:
+	  hdvparse: Emit a GST_MESSAGE_ELEMENT with some goodness in it.
+
+2009-06-05 10:49:41 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegvideoparse/mpegvideoparse.c:
+	  mpegvideoparse: Add methods to get names of various values.
+
+2009-06-05 10:48:52 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstmpegdefs.h:
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: Fix HDV private stream definition/caps.
+
+2009-06-05 10:47:41 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/hdvparse/gsthdvparse.c:
+	  hdvparse: Rewrite from scratch. Handle both hdv-a and hdv-v
+	  This time we analyze a lot more information.
+	  Still need to re-add the message emission.
+
+2009-06-05 16:48:04 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* ext/celt/gstceltenc.c:
+	  celtenc: correct framesize range
+	  A CELT framesize can be between 64 and 512 samples.
+	  Fix a typo in the bitrate property description.
+
+2009-05-27 11:33:01 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/Makefile.am:
+	* gst/camerabin/camerabinimage.c:
+	* gst/camerabin/camerabinimage.h:
+	* gst/camerabin/camerabinpreview.c:
+	* gst/camerabin/camerabinpreview.h:
+	* gst/camerabin/gstcamerabin.c:
+	* gst/camerabin/gstcamerabin.h:
+	* tests/check/elements/camerabin.c:
+	  camerabin: preview image sending optimization
+	  * decouple image capturing from image post-processing and encoding
+	  * post image-captured message after image is captured
+	  * post preview-image message with snapshot of captured image
+
+2009-05-19 16:58:36 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/camerabinimage.c:
+	  camerabin: don't lose post processing element in first reset
+
+2009-05-12 12:49:33 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/camerabingeneral.c:
+	* gst/camerabin/camerabinimage.c:
+	* gst/camerabin/camerabinvideo.c:
+	  camerabin: add debug including dot graph writing
+
+2009-05-05 14:19:46 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabin.c:
+	  camerabin: unblock if error occurs during capture
+
+2009-05-04 10:33:18 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabinphotography.c:
+	  camerabin: ignore night mode handling if already in night mode
+
+2009-05-04 10:32:10 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabin.c:
+	  camerabin: stop ongoing capture if changing resolution
+
+2009-04-23 18:15:43 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/camerabinvideo.c:
+	  camerabin: limit the size of video bin queue leading to view finder
+	  We don't want to show old buffers in view finder.
+
+2009-04-22 12:29:14 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/Makefile.am:
+	* gst/camerabin/gstcamerabin.c:
+	* gst/camerabin/gstcamerabinxoverlay.c:
+	* gst/camerabin/gstcamerabinxoverlay.h:
+	  camerabin: don't proxy gst xoverlay interface
+	  Default view finder sink in camerabin is autovideosink which doesn't
+	  support xoverlay iface. If application decides to use another sink
+	  that supports xoverlay, then it can use the interface directly.
+
+2009-04-20 17:06:14 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabin.c:
+	* gst/camerabin/gstcamerabin.h:
+	* gst/camerabin/gstcamerabinphotography.c:
+	  camerabin: allow configuring photography settings when in NULL state
+	  Cache the photography settings if set in NULL state and apply them later
+
+2009-04-20 17:05:49 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst-libs/gst/interfaces/photography.c:
+	* gst-libs/gst/interfaces/photography.h:
+	  photography: add functions to set/get all settings with one call
+
+2009-03-09 18:00:45 +0200  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabin.c:
+	  camerabin: crop still image capture frame if necessary
+	  If incoming still image capture frame aspect ratio differs from aspect
+	  ratio that application requested, then apply crop to the frame.
+
+2009-06-05 10:25:26 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* docs/plugins/inspect/plugin-adpcmdec.xml:
+	* docs/plugins/inspect/plugin-hdvparse.xml:
+	* docs/plugins/inspect/plugin-id3tag.xml:
+	  docs: add inspect files for new plugins
+
+2009-06-05 10:16:23 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* docs/plugins/inspect/plugin-debugutilsbad.xml:
+	* docs/plugins/inspect/plugin-dirac.xml:
+	* docs/plugins/inspect/plugin-legacyresample.xml:
+	* docs/plugins/inspect/plugin-mpeg2enc.xml:
+	* docs/plugins/inspect/plugin-mplex.xml:
+	* docs/plugins/inspect/plugin-musepack.xml:
+	* docs/plugins/inspect/plugin-rawparse.xml:
+	  docs: fix build of plugin docs by updating inspect templates
+	  The xml inspect data of the debugutilsbad plugin didn't contain the
+	  data for the fpsdisplaysink element (someone probably ran 'make udpate'
+	  in docs/plugins with the old libgstfpsdisplaysink.so from before the
+	  rename still around).
+
+2009-06-05 10:34:30 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* docs/plugins/xml/element-fpsdisplaysink-details.xml:
+	  Revert "docs: add doc file fro new plugin"
+	  This reverts commit 039ef3eb072555b7ca38fc351ca386bb680ccccc.
+	  We don't track the stuff in xml/ in git.
+
+2009-06-05 11:18:31 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* docs/plugins/xml/element-fpsdisplaysink-details.xml:
+	  docs: add doc file fro new plugin
+
+2009-06-01 16:31:42 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/selector/gstoutputselector.c:
+	  output-selector: serialize setting and actual changing of new active pad
+
+2009-05-04 12:29:54 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/selector/gstoutputselector.c:
+	  output-selector: unref latest buffer also when resending has been disabled
+
+2009-04-16 17:32:03 +0300  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/selector/gstoutputselector.c:
+	  output-selector: keep ref to buffer for resending only if explicitly requested
+
+2009-06-04 19:08:16 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/selector/gstinputselector.c:
+	  inputselector: don't leak pads in iterator
+
+2009-06-04 16:29:31 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/mpegdemux/gstmpegdesc.c:
+	  mpegdemux: Add a GST_MEMDUMP line in the descriptor parsing
+	  Make it possible to see descriptor contents in the debug output
+	  (GST_DEBUG=mpegtsdesc:9), and remove a stray semi-colon.
+
+2009-06-04 16:11:16 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: Avoid passing the custom GST_FLOW_NEED_MORE_DATA upstream
+	  Don't return GST_FLOW_NEED_MORE_DATA from the chain function at the end
+	  of files.
+
+2009-06-04 08:56:29 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/selector/gstinputselector.c:
+	  inputselector: Notify when the tags property of the selector sinkpads changes
+	  First part of bug #584686.
+
+2009-06-04 08:56:14 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* tests/check/elements/shapewipe.c:
+	  shapewipe: Increase timeout of the unit test
+
+2009-06-03 23:35:36 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* configure.ac:
+	  Bump core/base requirements to released versions
+
+2009-06-02 11:36:01 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* gst-plugins-bad.spec.in:
+	  add two new plugins to spec file
+
+2009-06-02 11:23:37 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* gst/dvdspu/Makefile.am:
+	  dvdspu: add missing header to Makefile.am: gstspu-common.h
+
+2009-06-02 01:09:32 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* ext/dirac/Makefile.am:
+	  dirac: use GST_CXXFLAGS instead of GST_CFLAGS for c++ compilers
+	  Fixes compiler message about passing -Wdeclaration-after-statement
+	  to the C++ compiler.
+
+2009-06-01 15:53:27 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/aacparse/gstaacparse.c:
+	  aacparse: fix sample rate extraction from codec data
+	  In one case we extracted the sample rate index from the codec data
+	  and saved it as sample rate rather than getting the real sample
+	  rate from the table. Fix that, and also make sure we don't access
+	  non-existant table entries by adding a small helper function that
+	  guards against out-of-bounds access in case of invalid input data.
+
+2009-06-01 14:02:33 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/aacparse/gstaacparse.c:
+	* gst/amrparse/gstamrparse.c:
+	  aacparse, amrparse: remove bogus gst_pad_fixate_caps() calls
+
+2009-06-01 13:56:18 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/aacparse/gstbaseparse.c:
+	* gst/amrparse/gstbaseparse.c:
+	* gst/flacparse/gstbaseparse.c:
+	  baseparse: propagate return value of GstBaseParse::set_sink_caps()
+	  gst_base_parse_sink_setcaps() presumably should fail if the subclass
+	  returns FALSE from its ::set_sink_caps() function.
+
+2009-06-01 13:47:01 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/aacparse/gstbaseparse.c:
+	* gst/amrparse/gstbaseparse.c:
+	* gst/flacparse/gstbaseparse.c:
+	  baseparse: don't try to GST_LOG an already-freed caps string
+	  The proper way to log caps is via GST_PTR_FORMAT anyway.
+
+2009-06-01 13:05:35 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/aacparse/gstaacparse.c:
+	* tests/check/elements/aacparse.c:
+	  aacparse: set channels and rate on output caps, and keep codec_data
+	  Create output caps from input caps, so we maintain any fields we
+	  might get on the input caps, such as codec_data or rate and channels.
+	  Set channels and rate on the output caps if we don't have input caps
+	  or they don't contain such fields. We do this partly because we can,
+	  but also because some muxers need this information. Tagreadbin will
+	  also be happy about this.
+
+2009-06-01 22:42:08 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* gst/qtmux/atoms.c:
+	* gst/qtmux/atoms.h:
+	* gst/qtmux/ftypcc.h:
+	* gst/qtmux/gstqtmuxmap.c:
+	  gppmux: enhance ftyp brand heuristic.  Fixes #584360.
+
+2009-06-01 21:24:27 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/shapewipe/gstshapewipe.c:
+	  shapewipe: Fix some issues that were exposed by the new unit test
+
+2009-06-01 21:24:12 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* tests/check/Makefile.am:
+	* tests/check/elements/shapewipe.c:
+	  shapewipe: Add unit test for shapewipe
+
+2009-05-31 21:33:01 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* docs/plugins/gst-plugins-bad-plugins.args:
+	* docs/plugins/gst-plugins-bad-plugins.hierarchy:
+	* docs/plugins/gst-plugins-bad-plugins.interfaces:
+	* docs/plugins/gst-plugins-bad-plugins.prerequisites:
+	* docs/plugins/gst-plugins-bad-plugins.signals:
+	* docs/plugins/inspect/plugin-aacparse.xml:
+	* docs/plugins/inspect/plugin-aiffparse.xml:
+	* docs/plugins/inspect/plugin-alsaspdif.xml:
+	* docs/plugins/inspect/plugin-amrparse.xml:
+	* docs/plugins/inspect/plugin-amrwb.xml:
+	* docs/plugins/inspect/plugin-apex.xml:
+	* docs/plugins/inspect/plugin-assrender.xml:
+	* docs/plugins/inspect/plugin-autoconvert.xml:
+	* docs/plugins/inspect/plugin-bayer.xml:
+	* docs/plugins/inspect/plugin-bz2.xml:
+	* docs/plugins/inspect/plugin-camerabin.xml:
+	* docs/plugins/inspect/plugin-cdaudio.xml:
+	* docs/plugins/inspect/plugin-cdxaparse.xml:
+	* docs/plugins/inspect/plugin-celt.xml:
+	* docs/plugins/inspect/plugin-dc1394.xml:
+	* docs/plugins/inspect/plugin-dccp.xml:
+	* docs/plugins/inspect/plugin-debugutilsbad.xml:
+	* docs/plugins/inspect/plugin-dfbvideosink.xml:
+	* docs/plugins/inspect/plugin-dtmf.xml:
+	* docs/plugins/inspect/plugin-dtsdec.xml:
+	* docs/plugins/inspect/plugin-dvb.xml:
+	* docs/plugins/inspect/plugin-dvdspu.xml:
+	* docs/plugins/inspect/plugin-faac.xml:
+	* docs/plugins/inspect/plugin-faad.xml:
+	* docs/plugins/inspect/plugin-fbdevsink.xml:
+	* docs/plugins/inspect/plugin-festival.xml:
+	* docs/plugins/inspect/plugin-freeze.xml:
+	* docs/plugins/inspect/plugin-gsm.xml:
+	* docs/plugins/inspect/plugin-gstrtpmanager.xml:
+	* docs/plugins/inspect/plugin-gstsiren.xml:
+	* docs/plugins/inspect/plugin-h264parse.xml:
+	* docs/plugins/inspect/plugin-jack.xml:
+	* docs/plugins/inspect/plugin-ladspa.xml:
+	* docs/plugins/inspect/plugin-legacyresample.xml:
+	* docs/plugins/inspect/plugin-liveadder.xml:
+	* docs/plugins/inspect/plugin-metadata.xml:
+	* docs/plugins/inspect/plugin-mms.xml:
+	* docs/plugins/inspect/plugin-modplug.xml:
+	* docs/plugins/inspect/plugin-mpeg4videoparse.xml:
+	* docs/plugins/inspect/plugin-mpegdemux2.xml:
+	* docs/plugins/inspect/plugin-mpegtsmux.xml:
+	* docs/plugins/inspect/plugin-mpegvideoparse.xml:
+	* docs/plugins/inspect/plugin-musepack.xml:
+	* docs/plugins/inspect/plugin-musicbrainz.xml:
+	* docs/plugins/inspect/plugin-mve.xml:
+	* docs/plugins/inspect/plugin-mxf.xml:
+	* docs/plugins/inspect/plugin-mythtv.xml:
+	* docs/plugins/inspect/plugin-nas.xml:
+	* docs/plugins/inspect/plugin-neon.xml:
+	* docs/plugins/inspect/plugin-nsfdec.xml:
+	* docs/plugins/inspect/plugin-nuvdemux.xml:
+	* docs/plugins/inspect/plugin-ofa.xml:
+	* docs/plugins/inspect/plugin-oss4.xml:
+	* docs/plugins/inspect/plugin-pcapparse.xml:
+	* docs/plugins/inspect/plugin-qtmux.xml:
+	* docs/plugins/inspect/plugin-rawparse.xml:
+	* docs/plugins/inspect/plugin-real.xml:
+	* docs/plugins/inspect/plugin-resindvd.xml:
+	* docs/plugins/inspect/plugin-rfbsrc.xml:
+	* docs/plugins/inspect/plugin-rtpmux.xml:
+	* docs/plugins/inspect/plugin-scaletempo.xml:
+	* docs/plugins/inspect/plugin-sdl.xml:
+	* docs/plugins/inspect/plugin-sdp.xml:
+	* docs/plugins/inspect/plugin-selector.xml:
+	* docs/plugins/inspect/plugin-shapewipe.xml:
+	* docs/plugins/inspect/plugin-sndfile.xml:
+	* docs/plugins/inspect/plugin-soundtouch.xml:
+	* docs/plugins/inspect/plugin-speed.xml:
+	* docs/plugins/inspect/plugin-stereo.xml:
+	* docs/plugins/inspect/plugin-subenc.xml:
+	* docs/plugins/inspect/plugin-tta.xml:
+	* docs/plugins/inspect/plugin-valve.xml:
+	* docs/plugins/inspect/plugin-vcdsrc.xml:
+	* docs/plugins/inspect/plugin-videosignal.xml:
+	* docs/plugins/inspect/plugin-vmnc.xml:
+	* docs/plugins/inspect/plugin-wildmidi.xml:
+	* docs/plugins/inspect/plugin-x264.xml:
+	* docs/plugins/inspect/plugin-xdgmime.xml:
+	* docs/plugins/inspect/plugin-xvid.xml:
+	* gst/shapewipe/gstshapewipe.c:
+	  shapewipe: Add documentation and integrate into the build system
+
+2009-05-31 20:24:44 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/sdp/gstsdpdemux.c:
+	  sdpdemux: include glib.h before checking if G_OS_WIN32 is defined
+
+2009-05-31 20:23:19 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* .gitignore:
+	  .gitignore: ignore new shapewipe example binary
+
+2009-05-31 18:23:50 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/hdvparse/gsthdvparse.c:
+	  hdvparse: Setting rank to NONE so it doesn't get picked up by playbin2.
+
+2009-05-31 18:23:08 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/hdvparse/gsthdvparse.c:
+	  hdvparse: Emit application message with the parsed information.
+
+2009-05-31 14:15:11 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* configure.ac:
+	* gst/hdvparse/Makefile.am:
+	* gst/hdvparse/gsthdvparse.c:
+	* gst/hdvparse/gsthdvparse.h:
+	  hdvparse: New element for parsing private/hdv-a1 streams.
+
+2009-05-29 21:07:26 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/shapewipe/gstshapewipe.c:
+	  shapewipe: Adjust border to still have everything transparent at 1.0 and the other way around
+
+2009-05-29 16:55:25 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/shapewipe/gstshapewipe.c:
+	* tests/examples/shapewipe/shapewipe-example.c:
+	  shapewipe: Divide the border value by two, otherwise we use a twice a wide border
+
+2009-05-29 16:51:50 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/shapewipe/gstshapewipe.c:
+	* gst/shapewipe/gstshapewipe.h:
+	* tests/examples/shapewipe/shapewipe-example.c:
+	  shapewipe: Add border property to allow smooth borders
+	  ...and use a border of 0.01 in the example application.
+
+2009-05-29 15:44:51 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: Fix bogus uninitialised variable access
+	  Typo in the previous commit
+
+2009-05-29 15:01:42 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: Use the ISO 639 language code descriptor to send tags.
+	  If there is an ISO 639 language descriptor for a stream, send a language
+	  code tag so that players can show a meaningful language for the audio and
+	  subtitle streams.
+
+2009-05-29 16:00:16 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* tests/examples/shapewipe/Makefile.am:
+	  shapewipe: Fix Makefile of the example application
+
+2009-05-29 15:32:24 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* configure.ac:
+	* gst/shapewipe/Makefile.am:
+	* gst/shapewipe/gstshapewipe.c:
+	* gst/shapewipe/gstshapewipe.h:
+	* tests/examples/Makefile.am:
+	* tests/examples/shapewipe/Makefile.am:
+	* tests/examples/shapewipe/shapewipe-example.c:
+	  shapewipe: Add a simple shapewipe transition filter & example application
+
+2009-05-28 17:37:44 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: Transform the right session sdes message
+	  Fixes #584165
+
+2009-05-28 17:33:10 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/rtpsource.c:
+	  Add ssrc to application/x-rtp-source-sdes structure
+
+2009-05-28 23:12:13 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/rawparse/gstaudioparse.c:
+	  audioparse: add support for A-Law and µ-Law
+
+2009-05-28 23:08:17 +0100  Tristan Matthews <le.businessman@gmail.com>
+
+	* gst/dvdspu/gstspu-pgs.c:
+	  gstspu: Fix compiler warnings on OS/X
+	  Fix some warnings for format string args and uninitialized vars on OS/X
+	  Fixes: #584164
+	  Signed-off-by: Jan Schmidt <thaytan@noraisin.net>
+
+2009-05-28 13:56:10 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* gst/qtmux/fourcc.h:
+	* gst/qtmux/gstqtmux.c:
+	  qtmux: use different stsd atom type for H263 for ISO and QT variants
+	  Fixes #584114.
+
+2009-05-28 13:07:37 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* configure.ac:
+	  soundtouch: fix detection of libsoundtouch >= 1.4
+
+2009-05-28 13:09:24 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* gst/amrparse/gstamrparse.c:
+	* gst/amrparse/gstamrparse.h:
+	  amrparse: consider header size in byte <-> time conversions
+
+2009-05-26 19:43:53 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* gst/aacparse/gstbaseparse.c:
+	* gst/amrparse/gstbaseparse.c:
+	  baseparse: fix debug category
+
+2009-05-28 10:38:50 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/selector/gstoutputselector.h:
+	  selector: remove not needed instance var (previous commit).
+
+2009-05-11 16:12:54 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* ext/jack/gstjackaudioclient.c:
+	* ext/jack/gstjackaudiosink.c:
+	  jack: when stopping playback, do one more cycle to flush the port. Fixes #582167
+	  The gst_jack_audio_client_set_active() flags the port as deactivating and uses
+	  a GCond to wait until the jack_process_cb() has run once more and cleared the
+	  flag. This way the client zero's the buffer. This happens if one manyally go
+	  to PAUSED and then to READY, while leting the mainloop run inbetween.
+
+2009-05-28 10:12:58 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/selector/gstoutputselector.c:
+	* gst/selector/gstoutputselector.h:
+	  outputselector: implement pad_alloc on active pad.
+
+2009-05-27 22:54:51 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	* ext/resindvd/gstmpegdemux.h:
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/rsnaudiomunge.c:
+	  resindvd: Create all the audio streams of all formats
+	  Enable creation of the demuxer pads for all audio streams, even types we
+	  don't yet support. This means that unsupported types (LPCM, DTS) are output,
+	  but not linked to anything yet. If only unsupported streams are available,
+	  the user hears silence instead of having the pipeline not pre-roll correctly.
+	  This is a prerequisite for hooking up the automatic decoder switching.
+
+2009-05-27 11:03:14 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/rtpsource.c:
+	  rtpsouce: the network address is in network order
+	  Bring the network address in netowkr byte order to the host order.
+
+2009-05-27 00:51:45 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstspu-pgs.c:
+	  gstspu: Convert g_warnings to GST_ERROR, and fix format specifiers
+	  Use G_GSSIZE_FORMAT for printing pointer differences, which should work on
+	  both 32-bit and 64-bit systems.
+	  Use GST_ERROR instead of g_warning for printing messages about unknown
+	  packet contents.
+
+2009-05-27 00:47:05 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstspu-vobsub-render.c:
+	  gstspu: Fix a nasty regression, with DVDs randomly crashing
+	  Use the local wrapper function when clearing the compositing buffers to
+	  ensure the correct portion is being cleared.
+
+2009-05-26 19:38:54 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	  resindvd: LPCM streams are only from 0xa0 to 0xaf.
+	  Fix the same bug as the previous commit, but in resindvd's copy of
+	  mpegdemux.
+
+2009-05-26 18:47:32 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/mpegdemux/gstmpegdemux.c:
+	  mpegdemux: Only treat streams from 0xa0 to 0xaf as LPCM, not 0xa0..0xbf
+	  Don't treat some streams (Private Stream 2) as LPCM when they're not. Fixes
+	  playback of files that have private streams in them now that the PES filter
+	  emits such packets.
+
+2009-05-26 18:43:18 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/dvdspu/gstspu-pgs.c:
+	  dvdspu: fix printf formats to avoid compiler warnings
+
+2009-05-26 17:19:35 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* common:
+	  Automatic update of common submodule
+	  From 6ab11d1 to c572721
+
+2009-05-23 23:19:05 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/Makefile.am:
+	* gst/dvdspu/gstdvdspu-render.c:
+	* gst/dvdspu/gstdvdspu.c:
+	* gst/dvdspu/gstdvdspu.h:
+	* gst/dvdspu/gstspu-common.h:
+	* gst/dvdspu/gstspu-pgs.c:
+	* gst/dvdspu/gstspu-pgs.h:
+	* gst/dvdspu/gstspu-vobsub-render.c:
+	* gst/dvdspu/gstspu-vobsub.c:
+	* gst/dvdspu/gstspu-vobsub.h:
+	  gstspu: Implement PGS rendering and alpha blending
+	  Refactor the DVD subpicture compositing, switching it to 8-bit alpha
+	  calculations. Reuse some of the resulting code to implement PGS
+	  subpicture blending.
+	  Implement parsing and collecting of composition objects properly, but
+	  assuming a single active window and colour palette for now. I need more
+	  PGS samples.
+
+2009-05-22 11:13:59 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/Makefile.am:
+	* gst/dvdspu/gstdvdspu.c:
+	* gst/dvdspu/gstspu-vobsub.c:
+	* gst/dvdspu/gstspu-vobsub.h:
+	  dvdspu: Move a bunch of vobsub specific logic to a separate file.
+	  Start separating out the vobsub logic in preparation for creating
+	  separate renderer objects for each subpicture format.
+
+2009-05-22 11:12:52 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstspu-pgs.c:
+	  dvdspu: Add copyright header and includes to the PGS handler
+
+2009-05-22 10:15:44 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstspu-pgs.c:
+	  dvdspu: Make the PGS dumping less verbose
+
+2009-05-21 23:45:43 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstdvdspu.c:
+	  dvdspu: Collect entire PGS packets and queue as events
+	  Collect fragmented PGS packets and submit as complete events for
+	  processing at the correct moment.
+
+2009-05-20 08:55:40 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/Makefile.am:
+	* gst/dvdspu/gstdvdspu.c:
+	* gst/dvdspu/gstdvdspu.h:
+	* gst/dvdspu/gstspu-pgs.c:
+	* gst/dvdspu/gstspu-pgs.h:
+	  dvdspu: Add simple PGS handler that dumps the packet info
+	  Add setcaps logic on the subpicture sink pad for configuring
+	  which subpicture format is arriving.
+	  Add the first piece of PGS subpicture handling by dumping the stream
+	  contents out to the terminal as the packets arrive.
+	  Add some more debug.
+	  Don't calculate the running time for our subpicture packets twice,
+	  once is enough.
+
+2009-05-21 15:22:58 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstdvdspu.c:
+	  dvdspu: Add a simple default colour table.
+	  When we're not provided with a palette in advance, draw with a grey
+	  colour or two, instead of YUV green.
+
+2009-05-21 11:13:54 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/mpegdemux/gstmpegdemux.c:
+	* gst/mpegdemux/gstmpegdemux.h:
+	  mpegdemux: Add sparse stream filling.
+	  First stab at sending new-segment events to effect sparse stream
+	  updates.
+
+2009-05-21 00:41:47 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/mpegdemux/gstmpegdemux.c:
+	* gst/mpegdemux/gstmpegdemux.h:
+	  mpegdemux: Add support for outputting sub-picture streams found in files.
+	  Output subpicture streams when they are found on the private stream ID.
+	  Don't strip off the first byte of such packets when pushing.
+
+2009-05-20 08:50:37 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/mpegdemux/gstmpegdefs.h:
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	* gst/mpegdemux/gstmpegtsdemux.h:
+	* gst/mpegdemux/gstpesfilter.h:
+	  mpegtsdemux: Add mapping for DVD and Bluray subpicture streams.
+	  Add output subpicture pads for DVD (video/x-dvd-subpicture) and Bluray PGS
+	  (subpicture/x-pgs) streams. Remove an unused variable from
+	  the PES filter.
+
+2009-05-25 00:25:07 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	  resindvd: Fix subpicture timing in some cases
+	  Make sure we send events to all pads. Unmark the notlinked flag on
+	  freshly selected pads to ensure they get data.
+
+2009-05-22 14:02:38 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	  resindvd: Try a different approach to segment filling.
+	  Restore the old segment update behaviour, and instead extend the
+	  close segment stop time if the SCR (last_stop) overruns the calculated
+	  stop position.
+
+2009-05-21 11:10:13 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	  resindvd: Minor change to inline a function in the demuxer
+
+2009-05-20 19:31:24 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* tests/check/Makefile.am:
+	  states: Ignore the camerabin for the states test
+	  It accesses the video device, which isn't generally desirable for the
+	  state test.
+
+2009-05-22 13:07:38 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstdvdspu.c:
+	  dvdspu: Don't accidentally lose the colour palette when flushing the SPU
+	  Fixes racy startup on DVDs where it sometimes gets entirely the wrong set
+	  of colours in the menus and subtitles.
+
+2009-05-26 15:40:52 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/rtpsource.c:
+	  rtpsource: byteswap the port from GstNetAddress
+	  Since the port in GstNetAddress is in network order we might need to byteswap it
+	  before adding it to the source statistics.
+
+2009-05-11 19:30:34 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstpesfilter.c:
+	  gstpesfilter: Directly use gst_adapter_take_buffer().
+
+2009-05-25 16:27:34 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstpesfilter.c:
+	  gstpesfilter: Don't peek the adapter if we don't have enough data.
+
+2009-05-25 16:25:42 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstpesfilter.c:
+	  gstpesfilter: Don't skip private streams PES but push them out.
+	  The one thing we *DO* need to do for those streams is to skip all
+	  the PTS/DTS/Scrambling/DSM/extension/... handling.
+
+2009-05-25 15:21:52 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: Ignore NULL packets as early as possible.
+	  This avoids:
+	  * creating a MpegTSStream structure for nothing
+	  * processing packet data for nothing
+
+2009-05-25 15:21:12 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstmpegdefs.h:
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: Add mapping for HDV private streams
+
+2009-05-25 17:24:32 +0200  Mathias Hasselmann <mathias.hasselmann at gmx.de>
+
+	* ext/neon/gstneonhttpsrc.c:
+	* ext/neon/gstneonhttpsrc.h:
+	  neonhttp: add property to support SS cerificates
+	  Add a property to support self-signed certificates in neonhttpsrc. This property
+	  is FALSE by default.
+	  Fixes #511097
+
+2009-05-25 13:46:29 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: remove ptdemux ghostpads
+
+2009-05-25 13:33:20 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* tests/check/elements/rtpbin.c:
+	  tests: add receive rtpbin unit test
+
+2009-05-25 11:18:57 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* ext/x264/gstx264enc.c:
+	* ext/x264/gstx264enc.h:
+	  x264enc: add multipass-cache-file property
+	  Fixes #583627
+
+2009-05-23 13:11:28 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* gst-plugins-bad.spec.in:
+	  Update spec file
+
+2009-05-22 16:56:52 -0700  Michael Smith <msmith@songbirdnest.com>
+
+	* common:
+	* configure.ac:
+	* gst/adpcmdec/Makefile.am:
+	* gst/adpcmdec/adpcmdec.c:
+	  adpcmdec: Add new plugin for ms-adpcm decoding.
+
+2009-05-20 16:46:49 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegvideoparse/mpegpacketiser.c:
+	* gst/mpegvideoparse/mpegpacketiser.h:
+	* gst/mpegvideoparse/mpegvideoparse.c:
+	  mpegvideoparse: Detect interlaced content and set it on outgoing caps.
+	  I also added the parsing of all the other bits in the sequence extension
+	  header in case we need it later.
+
+2009-05-22 16:41:19 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: add to new signal to remove SSRC pads
+
+2009-05-22 16:35:20 +0200  Ali Sabil <ali.sabil at gmail.com>
+
+	* gst/rtpmanager/gstrtpbin-marshal.list:
+	* gst/rtpmanager/gstrtpssrcdemux.c:
+	* gst/rtpmanager/gstrtpssrcdemux.h:
+	  ssrcdemux: emit signal when pads are removed
+	  Add action signal to clear an SSRC in the ssrc demuxer.
+	  Add signal to notify of removed ssrc.
+	  See #554839
+
+2009-05-22 15:45:19 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: use our ghostpads instead of its target
+	  Since we keep a reference to our ghostpads, we can use them to track sessions.
+	  This avoid us having to mess with the target of the ghostpad.
+
+2009-05-22 15:37:29 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* tests/check/elements/rtpbin.c:
+	  tests: more rtpbin checks
+
+2009-05-22 15:36:17 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: don't warn when getting request pads twice
+	  Allow getting the request pads multiple times, just return the previously
+	  created pads.
+
+2009-05-22 13:47:30 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/rtpsource.c:
+	  rtpsource: add RTP and RTCP source address
+	  Add the RTP and RTCP sender addresses in the stats structure.
+
+2009-05-22 13:45:15 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpsession.c:
+	  rtpsession: reuse source code for SDES
+	  Reuse the RTPSource object property instead of duplicating code.
+
+2009-05-22 13:44:17 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* tests/check/elements/rtpbin.c:
+	  tests: add more rtpbin tests
+
+2009-05-22 12:23:27 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* tests/check/Makefile.am:
+	* tests/check/elements/.gitignore:
+	* tests/check/elements/rtpbin.c:
+	  tests: add rtpbin unit test
+	  Add the beginnings of an rtpbin unit test
+	  Add some more stuff to .gitignore
+
+2009-05-22 12:20:13 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: set target state on new elements
+	  Set the state on newly added elements to the state of the parent.
+	  Add some debug info and do some cleanups
+
+2009-05-22 11:59:17 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: unref requests pads after releasing
+
+2009-05-21 16:00:46 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: fix memleaks and refcounts
+	  Use correct constants for PID_type so that we clear the right filter.
+	  provide_clock must return a ref to a clock.
+
+2009-05-22 09:55:20 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* autogen.sh:
+	* configure.ac:
+	  autotools: move -Wno-portability for automake to configure.ac
+
+2009-05-22 09:54:57 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/id3tag/gstid3tag.c:
+	* gst/id3tag/gstid3tag.h:
+	* gst/id3tag/id3tag.c:
+	  id3tag: canonicalise function names
+
+2009-05-22 09:51:29 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/id3tag/gstid3tag.c:
+	* gst/id3tag/gstid3tag.h:
+	* gst/id3tag/gsttagmux.c:
+	  id3tag: change GType to GstId3Tag so it doesn't conflict with the id3tag plugin in -ugly
+
+2009-05-22 01:29:33 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* win32/common/config.h:
+	  win32: update config.h
+
+2009-05-22 01:27:09 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/id3tag/gsttagmux.c:
+	  id3tag: register GType of the base class with a less generic name
+	  .. so we can easily move the base class into -base later without
+	  causing GType name conflicts.
+
+2009-05-22 01:04:02 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* common:
+	* m4/gst-fionread.m4:
+	  m4: fix 'suspicious cache value id' warnings in gst-fionread.m4
+	  And update common to pull in a related fix from there.
+
+2009-05-22 01:43:50 +0200  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: Implement releasing the streams
+	  See #561752
+
+2009-05-22 01:16:11 +0200  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: Keep jb signals handler
+	  Keep the signal handlers so they can be disconnected at release time
+	  See #561752
+
+2009-05-22 01:12:57 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: use the right lock for the sessions
+	  Use the right lock when iterating the sessions.
+
+2009-05-22 01:03:55 +0200  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: Free session if request pads are released
+	  Free the session when all the request pads are released.
+	  Don't mess with the session list in free_session as it is called from a foreach
+	  on that list.
+	  Set the state of the upstream element to NULL first.
+	  See #561752
+
+2009-05-22 00:51:53 +0200  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: Implement relasing of the rtp recv pad
+
+2009-05-22 00:44:51 +0200  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: Implement releasing of rtp send pads
+
+2009-05-22 00:34:36 +0200  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: Implement release of the recv rtcp pad
+	  See #561752
+
+2009-05-22 00:16:19 +0200  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	  rtpbin: Implement releasing of rtcp src pad
+	  See #561752
+
+2009-05-18 23:38:59 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/dts/gstdtsdec.c:
+	* ext/dts/gstdtsdec.h:
+	  dtsdec: Reconcile element code with a52dec changes
+	  Re-work the dtsdec element code to unify it with changes made it a52dec,
+	  including support for reverse playback and dynamic channel negotiation
+	  on the source pad.
+
+2009-05-21 21:35:32 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* win32/common/config.h:
+	  win32: Update the win32 config.h
+
+2009-05-18 23:21:47 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/sdp/gstsdpdemux.c:
+	* gst/sdp/gstsdpdemux.h:
+	  sdpdemux: rework RTCP sending and RTP receiving
+	  When we are dealing with multiast, create the udp src and sink elements pointing
+	  to the multicast addresses. When we are doing unicast, receive data on the local
+	  ports and don't send RTCP because we don't know where we have to send it.
+	  Fixes #583188
+
+2009-05-21 13:15:46 -0700  Michael Smith <msmith@songbirdnest.com>
+
+	* configure.ac:
+	* gst/id3tag/Makefile.am:
+	* gst/id3tag/gstid3tag.c:
+	* gst/id3tag/gstid3tag.h:
+	* gst/id3tag/gsttagmux.c:
+	* gst/id3tag/gsttagmux.h:
+	* gst/id3tag/id3tag.c:
+	* gst/id3tag/id3tag.h:
+	  id3tag: Add new id3 tagging plugin, supports v1, v2.3, and v2.4.
+	  By default, does v1 and v2.3, but there are properties to select.
+	  Will hopefully replace id3mux, id3v2mux, in the not-too-distant future.
+
+2009-05-21 21:02:55 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* configure.ac:
+	  Back to hacking -> 0.10.12.1
+
+=== release 0.10.12 ===
+
+2009-05-20 22:31:54 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ChangeLog:
+	* NEWS:
+	* RELEASE:
+	* configure.ac:
+	* docs/plugins/gst-plugins-bad-plugins.args:
+	* docs/plugins/gst-plugins-bad-plugins.hierarchy:
+	* docs/plugins/gst-plugins-bad-plugins.interfaces:
+	* docs/plugins/gst-plugins-bad-plugins.prerequisites:
+	* docs/plugins/inspect/plugin-aacparse.xml:
+	* docs/plugins/inspect/plugin-aiffparse.xml:
+	* docs/plugins/inspect/plugin-alsaspdif.xml:
+	* docs/plugins/inspect/plugin-amrparse.xml:
+	* docs/plugins/inspect/plugin-apex.xml:
+	* docs/plugins/inspect/plugin-autoconvert.xml:
+	* docs/plugins/inspect/plugin-bayer.xml:
+	* docs/plugins/inspect/plugin-bz2.xml:
+	* docs/plugins/inspect/plugin-camerabin.xml:
+	* docs/plugins/inspect/plugin-cdaudio.xml:
+	* docs/plugins/inspect/plugin-cdxaparse.xml:
+	* docs/plugins/inspect/plugin-celt.xml:
+	* docs/plugins/inspect/plugin-dc1394.xml:
+	* docs/plugins/inspect/plugin-dccp.xml:
+	* docs/plugins/inspect/plugin-debugutilsbad.xml:
+	* docs/plugins/inspect/plugin-dfbvideosink.xml:
+	* docs/plugins/inspect/plugin-dirac.xml:
+	* docs/plugins/inspect/plugin-dtmf.xml:
+	* docs/plugins/inspect/plugin-dtsdec.xml:
+	* docs/plugins/inspect/plugin-dvb.xml:
+	* docs/plugins/inspect/plugin-dvdspu.xml:
+	* docs/plugins/inspect/plugin-faac.xml:
+	* docs/plugins/inspect/plugin-faad.xml:
+	* docs/plugins/inspect/plugin-fbdevsink.xml:
+	* docs/plugins/inspect/plugin-festival.xml:
+	* docs/plugins/inspect/plugin-freeze.xml:
+	* docs/plugins/inspect/plugin-gsm.xml:
+	* docs/plugins/inspect/plugin-gstrtpmanager.xml:
+	* docs/plugins/inspect/plugin-gstsiren.xml:
+	* docs/plugins/inspect/plugin-h264parse.xml:
+	* docs/plugins/inspect/plugin-jack.xml:
+	* docs/plugins/inspect/plugin-ladspa.xml:
+	* docs/plugins/inspect/plugin-legacyresample.xml:
+	* docs/plugins/inspect/plugin-liveadder.xml:
+	* docs/plugins/inspect/plugin-metadata.xml:
+	* docs/plugins/inspect/plugin-mms.xml:
+	* docs/plugins/inspect/plugin-modplug.xml:
+	* docs/plugins/inspect/plugin-mpeg2enc.xml:
+	* docs/plugins/inspect/plugin-mpeg4videoparse.xml:
+	* docs/plugins/inspect/plugin-mpegdemux2.xml:
+	* docs/plugins/inspect/plugin-mpegtsmux.xml:
+	* docs/plugins/inspect/plugin-mpegvideoparse.xml:
+	* docs/plugins/inspect/plugin-mplex.xml:
+	* docs/plugins/inspect/plugin-musepack.xml:
+	* docs/plugins/inspect/plugin-musicbrainz.xml:
+	* docs/plugins/inspect/plugin-mve.xml:
+	* docs/plugins/inspect/plugin-mxf.xml:
+	* docs/plugins/inspect/plugin-mythtv.xml:
+	* docs/plugins/inspect/plugin-nas.xml:
+	* docs/plugins/inspect/plugin-neon.xml:
+	* docs/plugins/inspect/plugin-nsfdec.xml:
+	* docs/plugins/inspect/plugin-nuvdemux.xml:
+	* docs/plugins/inspect/plugin-ofa.xml:
+	* docs/plugins/inspect/plugin-oss4.xml:
+	* docs/plugins/inspect/plugin-pcapparse.xml:
+	* docs/plugins/inspect/plugin-qtmux.xml:
+	* docs/plugins/inspect/plugin-rawparse.xml:
+	* docs/plugins/inspect/plugin-real.xml:
+	* docs/plugins/inspect/plugin-resindvd.xml:
+	* docs/plugins/inspect/plugin-rfbsrc.xml:
+	* docs/plugins/inspect/plugin-rtpmux.xml:
+	* docs/plugins/inspect/plugin-scaletempo.xml:
+	* docs/plugins/inspect/plugin-sdl.xml:
+	* docs/plugins/inspect/plugin-sdp.xml:
+	* docs/plugins/inspect/plugin-selector.xml:
+	* docs/plugins/inspect/plugin-sndfile.xml:
+	* docs/plugins/inspect/plugin-soundtouch.xml:
+	* docs/plugins/inspect/plugin-spcdec.xml:
+	* docs/plugins/inspect/plugin-speed.xml:
+	* docs/plugins/inspect/plugin-stereo.xml:
+	* docs/plugins/inspect/plugin-subenc.xml:
+	* docs/plugins/inspect/plugin-tta.xml:
+	* docs/plugins/inspect/plugin-valve.xml:
+	* docs/plugins/inspect/plugin-vcdsrc.xml:
+	* docs/plugins/inspect/plugin-videosignal.xml:
+	* docs/plugins/inspect/plugin-vmnc.xml:
+	* docs/plugins/inspect/plugin-wildmidi.xml:
+	* docs/plugins/inspect/plugin-x264.xml:
+	* docs/plugins/inspect/plugin-xdgmime.xml:
+	* docs/plugins/inspect/plugin-xvid.xml:
+	* gst-plugins-bad.doap:
+	* win32/common/config.h:
+	  Release 0.10.12
+
+2009-05-20 20:44:12 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* po/af.po:
+	* po/az.po:
+	* po/bg.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/da.po:
+	* po/de.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ky.po:
+	* po/lt.po:
+	* po/mt.po:
+	* po/nb.po:
+	* po/nl.po:
+	* po/or.po:
+	* po/pl.po:
+	* po/pt_BR.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sv.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/zh_CN.po:
+	  Update .po files
+
+2009-05-20 17:10:40 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mxf/mxfmetadata.c:
+	  mxf: Fix frame_layout for non-interlaced formats. Fixes #583337
+
+2009-05-16 01:58:33 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ChangeLog:
+	* configure.ac:
+	* po/af.po:
+	* po/az.po:
+	* po/bg.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/da.po:
+	* po/de.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ky.po:
+	* po/lt.po:
+	* po/mt.po:
+	* po/nb.po:
+	* po/nl.po:
+	* po/or.po:
+	* po/pl.po:
+	* po/pt_BR.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sv.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/zh_CN.po:
+	* win32/common/config.h:
+	  0.10.11.3 pre-release
+
+2009-05-16 01:53:15 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* win32/MANIFEST:
+	  win32: Add directdraw project files to the win32 manifest
+
+2009-05-16 01:14:23 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* configure.ac:
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* docs/plugins/inspect/plugin-directdraw.xml:
+	* sys/Makefile.am:
+	  Moved 'directdraw' from -good to -bad
+
+2007-06-15 09:13:55 +0000  Jan Schmidt <thaytan@mad.scientist.com>
+
+	  [MOVED FROM GOOD] win32/vs6/: Mark *.dsp & *.dsw as binary files and convert to DOS line endings, as they don't load into VS6 correctly...
+	  Original commit message from CVS:
+	  * win32/vs6/autogen.dsp:
+	  * win32/vs6/gst_plugins_good.dsw:
+	  * win32/vs6/libgstalaw.dsp:
+	  * win32/vs6/libgstalpha.dsp:
+	  * win32/vs6/libgstalphacolor.dsp:
+	  * win32/vs6/libgstapetag.dsp:
+	  * win32/vs6/libgstaudiofx.dsp:
+	  * win32/vs6/libgstauparse.dsp:
+	  * win32/vs6/libgstautodetect.dsp:
+	  * win32/vs6/libgstavi.dsp:
+	  * win32/vs6/libgstcutter.dsp:
+	  * win32/vs6/libgstdirectdraw.dsp:
+	  * win32/vs6/libgstdirectsound.dsp:
+	  * win32/vs6/libgsteffectv.dsp:
+	  * win32/vs6/libgstflx.dsp:
+	  * win32/vs6/libgstgoom.dsp:
+	  * win32/vs6/libgsticydemux.dsp:
+	  * win32/vs6/libgstid3demux.dsp:
+	  * win32/vs6/libgstinterleave.dsp:
+	  * win32/vs6/libgstjpeg.dsp:
+	  * win32/vs6/libgstlevel.dsp:
+	  * win32/vs6/libgstmatroska.dsp:
+	  * win32/vs6/libgstmedian.dsp:
+	  * win32/vs6/libgstmonoscope.dsp:
+	  * win32/vs6/libgstmulaw.dsp:
+	  * win32/vs6/libgstmultipart.dsp:
+	  * win32/vs6/libgstqtdemux.dsp:
+	  * win32/vs6/libgstrtp.dsp:
+	  * win32/vs6/libgstrtsp.dsp:
+	  * win32/vs6/libgstsmpte.dsp:
+	  * win32/vs6/libgstspeex.dsp:
+	  * win32/vs6/libgstudp.dsp:
+	  * win32/vs6/libgstvideobalance.dsp:
+	  * win32/vs6/libgstvideobox.dsp:
+	  * win32/vs6/libgstvideocrop.dsp:
+	  * win32/vs6/libgstvideoflip.dsp:
+	  * win32/vs6/libgstvideomixer.dsp:
+	  * win32/vs6/libgstwaveform.dsp:
+	  * win32/vs6/libgstwavenc.dsp:
+	  * win32/vs6/libgstwavparse.dsp:
+	  Mark *.dsp & *.dsw as binary files and convert to DOS line
+	  endings, as they don't load into VS6 correctly otherwise.
+
+2007-02-11 15:26:49 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	  [MOVED FROM GOOD] Makefile.am: Add win32 MANIFEST
+	  Original commit message from CVS:
+	  * Makefile.am:
+	  Add win32 MANIFEST
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  * sys/directdraw/gstdirectdrawsink.h:
+	  Clear unused code and add comments.
+	  Remove yuv from template caps, it only supports RGB
+	  actually.
+	  Implement XOverlay interface and remove window and fullscreen
+	  properties.
+	  Add debug logs.
+	  Test for blit capabilities to return only the current colorspace if
+	  the hardware can't blit for one colorspace to another.
+	  * sys/directsound/gstdirectsoundsink.c:
+	  Add some debugs.
+	  * win32/MANIFEST:
+	  Add VS7 project files and solution.
+	  * win32/vs6/gst_plugins_bad.dsw:
+	  * win32/vs6/libgstdirectdraw.dsp:
+	  * win32/vs6/libgstdirectsound.dsp:
+	  * win32/vs6/libgstqtdemux.dsp:
+	  Update project files.
+
+2006-11-01 10:19:18 +0000  Sergey Scobich <sergey.scobich@gmail.com>
+
+	  [MOVED FROM GOOD] sys/: Wait until the window is created before using it; guard unistd.h includes with HAVE_UNISTD_H. (#366523)
+	  Original commit message from CVS:
+	  Patch by: Sergey Scobich  <sergey dot scobich at gmail com>
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_directdrawsink_window_thread),
+	  (gst_directdrawsink_create_default_window):
+	  * sys/directdraw/gstdirectdrawsink.h:
+	  * sys/directsound/gstdirectsoundsink.c:
+	  Wait until the window is created before using it; guard unistd.h
+	  includes with HAVE_UNISTD_H. (#366523)
+	  * win32/vs8/libgstdirectdraw.vcproj:
+	  * win32/vs8/libgstdirectsound.vcproj:
+	  Update project files.
+
+2006-07-24 21:43:06 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	  [MOVED FROM GOOD] sys/directsound/gstdirectsoundsink.*: Add an attenuation property that will directly attenuate the directsound buffer.
+	  Original commit message from CVS:
+	  * sys/directsound/gstdirectsoundsink.h:
+	  * sys/directsound/gstdirectsoundsink.c:
+	  Add an attenuation property that will directly attenuate the
+	  directsound buffer.
+	  Change the size of the directsound secondary buffer to a half second.
+	  Add more debug logs.
+	  Add a lock to protect dsound buffer write access.
+	  Fix a bad implementation of reset.
+	  * sys/directsound/gstdirectdrawsink.c:
+	  * sys/directsound/gstdirectdrawsink.h:
+	  Add a keep_aspect_ratio property.
+	  Do not use overlay if not supported.
+	  Add more debug logs.
+	  Remove overwrite of WM_ERASEBKGND message handling. It was not
+	  redrawing border when keep_aspect_ratio was enabled.
+	  * win32/common/config.h:
+	  update version waiting an auto-generated config.h
+
+2006-03-03 23:45:23 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	  [MOVED FROM GOOD] sys/: sinks are now using GST_RANK_PRIMARY to be used with autodectection
+	  Original commit message from CVS:
+	  * sys/directdraw:
+	  * sys/directsound:
+	  sinks are now using GST_RANK_PRIMARY to be used with autodectection
+	  * win32/vs6:
+	  project files updated to fix some bugs
+	  * win32/vs7:
+	  * win32/vs8:
+	  vs7 and vs8 project files added
+
+2006-01-05 23:17:44 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	* win32/vs6/libgstdirectdraw.dsp:
+	  [MOVED FROM GOOD] added sys/directdraw added sys/directsound added win32/vs6/gst_plugins_bad.dsw added win32/vs6/libgstdirectsound.dsp ...
+	  Original commit message from CVS:
+	  2006-01-05  Sebastien Moutte  <sebastien@moutte.net>
+	  * added sys/directdraw
+	  * added sys/directsound
+	  * added win32/vs6/gst_plugins_bad.dsw
+	  * added win32/vs6/libgstdirectsound.dsp
+	  * added win32/vs6/libgstdirectdraw.dsp
+	  * added win32/common/config.h
+
+2009-02-27 20:40:31 +0100  LRN <lrn1986@gmail.com>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] directdrawsink: Fix type mismatches
+	  Fixes bug #573343.
+
+2009-01-29 11:07:59 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] Remove version numbers from a few gst-launch examples.
+	  The majority of the examples doe not use -0.10 and this will also help us to maintain the docs.
+
+2009-01-29 10:10:08 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] Update and add documentation for platform specific plugins (sys).
+	  Link to properties. Correct titles for examples. Fix examples.
+
+2008-11-04 12:28:34 +0000  Stefan Kost <ensonic@users.sourceforge.net>
+
+	  [MOVED FROM GOOD] Don't install static libs for plugins. Fixes #550851 for -good.
+	  Original commit message from CVS:
+	  * ext/aalib/Makefile.am:
+	  * ext/annodex/Makefile.am:
+	  * ext/cairo/Makefile.am:
+	  * ext/dv/Makefile.am:
+	  * ext/esd/Makefile.am:
+	  * ext/flac/Makefile.am:
+	  * ext/gconf/Makefile.am:
+	  * ext/gdk_pixbuf/Makefile.am:
+	  * ext/hal/Makefile.am:
+	  * ext/jpeg/Makefile.am:
+	  * ext/ladspa/Makefile.am:
+	  * ext/libcaca/Makefile.am:
+	  * ext/libmng/Makefile.am:
+	  * ext/libpng/Makefile.am:
+	  * ext/mikmod/Makefile.am:
+	  * ext/pulse/Makefile.am:
+	  * ext/raw1394/Makefile.am:
+	  * ext/shout2/Makefile.am:
+	  * ext/soup/Makefile.am:
+	  * ext/speex/Makefile.am:
+	  * ext/taglib/Makefile.am:
+	  * ext/wavpack/Makefile.am:
+	  * gst/alpha/Makefile.am:
+	  * gst/apetag/Makefile.am:
+	  * gst/audiofx/Makefile.am:
+	  * gst/auparse/Makefile.am:
+	  * gst/autodetect/Makefile.am:
+	  * gst/avi/Makefile.am:
+	  * gst/cutter/Makefile.am:
+	  * gst/debug/Makefile.am:
+	  * gst/effectv/Makefile.am:
+	  * gst/equalizer/Makefile.am:
+	  * gst/flx/Makefile.am:
+	  * gst/goom/Makefile.am:
+	  * gst/goom2k1/Makefile.am:
+	  * gst/icydemux/Makefile.am:
+	  * gst/id3demux/Makefile.am:
+	  * gst/interleave/Makefile.am:
+	  * gst/law/Makefile.am:
+	  * gst/level/Makefile.am:
+	  * gst/matroska/Makefile.am:
+	  * gst/median/Makefile.am:
+	  * gst/monoscope/Makefile.am:
+	  * gst/multifile/Makefile.am:
+	  * gst/multipart/Makefile.am:
+	  * gst/oldcore/Makefile.am:
+	  * gst/qtdemux/Makefile.am:
+	  * gst/replaygain/Makefile.am:
+	  * gst/rtp/Makefile.am:
+	  * gst/rtsp/Makefile.am:
+	  * gst/smpte/Makefile.am:
+	  * gst/spectrum/Makefile.am:
+	  * gst/udp/Makefile.am:
+	  * gst/videobox/Makefile.am:
+	  * gst/videocrop/Makefile.am:
+	  * gst/videofilter/Makefile.am:
+	  * gst/videomixer/Makefile.am:
+	  * gst/wavenc/Makefile.am:
+	  * gst/wavparse/Makefile.am:
+	  * sys/directdraw/Makefile.am:
+	  * sys/directsound/Makefile.am:
+	  * sys/oss/Makefile.am:
+	  * sys/osxaudio/Makefile.am:
+	  * sys/osxvideo/Makefile.am:
+	  * sys/sunaudio/Makefile.am:
+	  * sys/v4l2/Makefile.am:
+	  * sys/waveform/Makefile.am:
+	  * sys/ximage/Makefile.am:
+	  Don't install static libs for plugins. Fixes #550851 for -good.
+
+2008-08-21 21:56:19 +0000  Ole André Vadla Ravnås <ole.andre.ravnas@tandberg.com>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_buffer_alloc, gst_directdraw_sink_bufferpool_clear):
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_buffer_alloc,
+	  gst_directdraw_sink_bufferpool_clear):
+	  Fix two more buffer ref leaks.
+
+2008-08-21 15:28:09 +0000  Ole André Vadla Ravnås <ole.andre.ravnas@tandberg.com>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c: Fix buffer ref leak.
+	  Original commit message from CVS:
+	  Patch by: Ole André Vadla Ravnås  <ole.andre.ravnas at tandberg com>
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_directdraw_sink_show_frame):
+	  Fix buffer ref leak.
+
+2008-05-07 15:33:52 +0000  Haakon Sporsheim <haakon.sporsheim@tandberg.com>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_setup_ddraw): Do IDirectDrawClipper_SetHWnd() if the window I...
+	  Original commit message from CVS:
+	  patch by: Haakon Sporsheim <haakon.sporsheim at tandberg com>
+	  * sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_setup_ddraw):
+	  Do IDirectDrawClipper_SetHWnd() if the window ID has already been
+	  set after creating the clipper.
+
+2008-05-07 15:28:06 +0000  Haakon Sporsheim <haakon.sporsheim@tandberg.com>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_show_frame): Added checking of surface lost case after an uns...
+	  Original commit message from CVS:
+	  patch by: Haakon Sporsheim <haakon.sporsheim at tandberg com>
+	  * sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_show_frame):
+	  Added checking of surface lost case after an unsuccessful
+	  IDirectDrawSurface7_Lock() call.
+	  If surface is lost, return GST_FLOW_OK.
+
+2008-05-07 15:19:47 +0000  Haakon Sporsheim <haakon.sporsheim@tandberg.com>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_show_frame,
+	  Original commit message from CVS:
+	  patch by: Haakon Sporsheim <haakon.sporsheim at tandberg com>
+	  * sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_show_frame,
+	  WndProc, gst_directdraw_sink_window_thread):
+	  Improved Windows message loop and fixed window destruction issue.
+	  When the window which DirectDraw is rendering to is destroyed, the
+	  render/show_frame function will return GST_FLOW_ERROR.
+	  Partially fixes #520885.
+
+2008-05-07 15:09:10 +0000  Haakon Sporsheim <haakon.sporsheim@tandberg.com>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_set_caps): Fixed mid stream resolution change bug, the offscr...
+	  Original commit message from CVS:
+	  patch by: Haakon Sporsheim <haakon.sporsheim at tandberg com>
+	  * sys/directdraw/gstdirectdrawsink.c (gst_directdraw_sink_set_caps):
+	  Fixed mid stream resolution change bug, the offscreen surface is now
+	  released when set_caps is called.
+	  Partially fixes #520885.
+
+2008-05-07 14:56:22 +0000  Ole André Vadla Ravnås <ole.andre.ravnas@tandberg.com>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c
+	  (gst_directdraw_sink_buffer_alloc):
+	  Make it so that gst_directdraw_sink_buffer_alloc uses the right
+	  width/height.
+	  Especially when looking through the pool of buffers, make sure that
+	  the width/height of caps is used instead of the already negotiated
+	  dimensions.
+	  For example if a buffer with different caps is requested, i.e.
+	  higher resolution, the caller would get a buffer with the old
+	  dimensions and thus corrupt the heap.
+
+2008-05-07 14:43:39 +0000  Ole André Vadla Ravnås <ole.andre.ravnas@tandberg.com>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c
+	  (gst_directdraw_sink_buffer_alloc):
+	  Clear the flags on recycled buffers from buffer_alloc.
+	  Partially fixes #520885.
+	  The right fix this time.
+
+2008-05-07 14:39:45 +0000  Ole André Vadla Ravnås <ole.andre.ravnas@tandberg.com>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c
+	  (gst_directdraw_sink_buffer_alloc):
+	  Reverting previous commit, it had it all mixed up, was for a different
+	  patch (major automation screw-up). Sorry!
+
+2008-05-07 13:48:28 +0000  Ole André Vadla Ravnås <ole.andre.ravnas@tandberg.com>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c
+	  (gst_directdraw_sink_buffer_alloc):
+	  Clear the flags on recycled buffers from buffer_alloc.
+	  Partially fixes #520885.
+
+2008-02-12 12:22:48 +0000  Sebastian Dröge <slomo@circular-chaos.org>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c: Properly chain up finalize functions. Fixes bug #515980.
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_ddrawsurface_class_init), (gst_ddrawsurface_finalize),
+	  (gst_directdraw_sink_finalize):
+	  Properly chain up finalize functions. Fixes bug #515980.
+
+2008-01-07 16:41:00 +0000  Tim-Philipp Müller <tim@centricular.net>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c: FALSE is not a gpointer.
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_directdraw_sink_window_thread):
+	  FALSE is not a gpointer.
+
+2008-01-05 21:20:08 +0000  Julien Moutte <julien@moutte.net>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c: Make sure we create our internal window only when we need it. That will give a ch...
+	  Original commit message from CVS:
+	  2008-01-05  Julien Moutte  <julien@fluendo.com>
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_directdraw_sink_set_window_id),
+	  (gst_directdraw_sink_set_caps),
+	  (gst_directdraw_sink_change_state),
+	  (gst_directdraw_sink_buffer_alloc),
+	  (gst_directdraw_sink_draw_borders),
+	  (gst_directdraw_sink_show_frame),
+	  (gst_directdraw_sink_setup_ddraw),
+	  (gst_directdraw_sink_window_thread),
+	  (gst_directdraw_sink_get_ddrawcaps),
+	  (gst_directdraw_sink_surface_create): Make sure we create our
+	  internal window only when we need it. That will give a chance to
+	  the application to get the prepare-xwindow-id bus message. Draw
+	  black borders when keeping aspect ratio. Handle the case where
+	  our
+	  rendering window disappears (closed or errors) like other sinks
+	  do. Various 80 columns fixes, improve state change order. That
+	  element could need some more love.
+
+2007-09-22 08:12:57 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	* sys/directdraw/gstdirectdrawsink.h:
+	  [MOVED FROM GOOD] fix header and comments
+	  Original commit message from CVS:
+	  fix header and comments
+
+2007-06-14 12:14:24 +0000  Jan Schmidt <thaytan@mad.scientist.com>
+
+	  [MOVED FROM GOOD] Make sure to dist everything needed for win32 builds.
+	  Original commit message from CVS:
+	  * configure.ac:
+	  * sys/Makefile.am:
+	  * sys/directdraw/Makefile.am:
+	  * sys/directsound/Makefile.am:
+	  * sys/waveform/Makefile.am:
+	  Make sure to dist everything needed for win32 builds.
+
+2007-06-08 16:31:15 +0000  Jan Schmidt <thaytan@mad.scientist.com>
+
+	  [MOVED FROM GOOD] Rename the keep-aspect-ratio property to force-aspect-ratio to make it consistent with xvimagesink and ximagesink.
+	  Original commit message from CVS:
+	  * docs/plugins/gst-plugins-bad-plugins.args:
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_directdraw_sink_class_init):
+	  Rename the keep-aspect-ratio property to force-aspect-ratio to make
+	  it consistent with xvimagesink and ximagesink.
+
+2007-05-24 08:35:23 +0000  Vincent Torri <vtorri@univ-evry.fr>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.*: Fix more warnings when compiling with MingW (#439914).
+	  Original commit message from CVS:
+	  Patch by: Vincent Torri  <vtorri at univ-evry fr>
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_directdraw_sink_buffer_alloc),
+	  (gst_directdraw_sink_show_frame),
+	  (gst_directdraw_sink_check_primary_surface),
+	  (gst_directdraw_sink_check_offscreen_surface),
+	  (EnumModesCallback2), (gst_directdraw_sink_get_ddrawcaps),
+	  (gst_directdraw_sink_surface_create):
+	  * sys/directdraw/gstdirectdrawsink.h:
+	  Fix more warnings when compiling with MingW (#439914).
+
+2007-05-20 14:59:46 +0000  Tim-Philipp Müller <tim@centricular.net>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.c: Bunch of small fixes: remove static function that doesn't exist; declare another ...
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c: (gst_ddrawsurface_finalize),
+	  (gst_directdraw_sink_buffer_alloc),
+	  (gst_directdraw_sink_get_ddrawcaps),
+	  (gst_directdraw_sink_surface_create):
+	  Bunch of small fixes: remove static function that doesn't exist;
+	  declare another one that does; printf format fix; use right macro
+	  when specifying debug category; remove a bunch of unused variables;
+	  #if 0 out an unused chunk of code (partially fixes #439914).
+
+2007-05-15 17:22:58 +0000  Tim-Philipp Müller <tim@centricular.net>
+
+	  [MOVED FROM GOOD] Add DIRECTDRAW_CFLAGS and DIRECTSOUND_CFLAGS to Makefile.am; save and restore the various flags in the directdraw/dir...
+	  Original commit message from CVS:
+	  * configure.ac:
+	  * sys/directdraw/Makefile.am:
+	  * sys/directsound/Makefile.am:
+	  Add DIRECTDRAW_CFLAGS and DIRECTSOUND_CFLAGS to Makefile.am; save
+	  and restore the various flags in the directdraw/directsound
+	  detection section. Apparently improves cross-compiling for win32
+	  with mingw32 under some circumstances (#437539).
+
+2007-04-29 13:56:18 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* sys/directdraw/gstdirectdrawsink.c:
+	  [MOVED FROM GOOD] 80 char police
+	  Original commit message from CVS:
+	  80 char police
+
+2007-03-11 22:23:04 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	  [MOVED FROM GOOD] sys/directdraw/gstdirectdrawsink.*: Handle display mode changes during playback.
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  * sys/directdraw/gstdirectdrawsink.h:
+	  Handle display mode changes during playback.
+
+2007-02-27 12:02:03 +0000  Christian Schaller <uraeus@gnome.org>
+
+	* sys/directdraw/gstdirectdrawplugin.c:
+	* sys/directdraw/gstdirectdrawsink.c:
+	* sys/directdraw/gstdirectdrawsink.h:
+	  [MOVED FROM GOOD] update copyright statements
+	  Original commit message from CVS:
+	  update copyright statements
+
+2007-02-18 18:00:51 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	  [MOVED FROM GOOD] sys/directdraw/: Prepare the plugin to move to good:
+	  Original commit message from CVS:
+	  * sys/directdraw/gstdirectdrawplugin.c:
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  * sys/directdraw/gstdirectdrawsink.h:
+	  Prepare the plugin to move to good:
+	  Remove unused/untested code (rendering to an extern surface,
+	  yuv format rendering).Use GST_(DEBUG/*)_OBJECT macros
+	  Rename all functions from gst_directdrawsink to gst_directdraw_sink.
+	  Add gtk doc section
+	  Fix a bug in gst_directdraw_sink_show_frame, memcpy line by line
+	  respecting destination surface stride.
+	  * sys/directsound/gstdirectsoundplugin.c:
+	  * sys/directsound/gstdirectsoundsink.c:
+	  * sys/directsound/gstdirectsoundsink.h:
+	  Prepare the plugin to move to good:
+	  Rename all functions from gst_directsoundsink to gst_directsound_sink.
+	  Add gtk doc section
+	  * win32/common/config.h.in:
+	  * win32/MANIFEST:
+	  Add config.h.in
+
+2007-02-11 15:26:49 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	  [MOVED FROM GOOD] Makefile.am: Add win32 MANIFEST
+	  Original commit message from CVS:
+	  * Makefile.am:
+	  Add win32 MANIFEST
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  * sys/directdraw/gstdirectdrawsink.h:
+	  Clear unused code and add comments.
+	  Remove yuv from template caps, it only supports RGB
+	  actually.
+	  Implement XOverlay interface and remove window and fullscreen
+	  properties.
+	  Add debug logs.
+	  Test for blit capabilities to return only the current colorspace if
+	  the hardware can't blit for one colorspace to another.
+	  * sys/directsound/gstdirectsoundsink.c:
+	  Add some debugs.
+	  * win32/MANIFEST:
+	  Add VS7 project files and solution.
+	  * win32/vs6/gst_plugins_bad.dsw:
+	  * win32/vs6/libgstdirectdraw.dsp:
+	  * win32/vs6/libgstdirectsound.dsp:
+	  * win32/vs6/libgstqtdemux.dsp:
+	  Update project files.
+
+2007-01-03 19:54:33 +0000  Vincent Torri <vtorri@univ-evry.fr>
+
+	  [MOVED FROM GOOD] Add directdrawsink to build and dist it, so it gets built when compiling with MingW on win32 and the required headers...
+	  Original commit message from CVS:
+	  Patch by: Vincent Torri  <vtorri at univ-evry fr>
+	  * configure.ac:
+	  * sys/Makefile.am:
+	  * sys/directdraw/Makefile.am:
+	  Add directdrawsink to build and dist it, so it gets built when
+	  compiling with MingW on win32 and the required headers and libraries
+	  are available (fixes: #392313).
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_directdrawsink_center_rect), (gst_directdrawsink_show_frame),
+	  (gst_directdrawsink_setup_ddraw),
+	  (gst_directdrawsink_surface_create):
+	  Comment out some unused things and fix some printf format issues in
+	  order to avoid warnings when buildling with MingW (#392313).
+
+2006-11-01 10:19:18 +0000  Sergey Scobich <sergey.scobich@gmail.com>
+
+	  [MOVED FROM GOOD] sys/: Wait until the window is created before using it; guard unistd.h includes with HAVE_UNISTD_H. (#366523)
+	  Original commit message from CVS:
+	  Patch by: Sergey Scobich  <sergey dot scobich at gmail com>
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  (gst_directdrawsink_window_thread),
+	  (gst_directdrawsink_create_default_window):
+	  * sys/directdraw/gstdirectdrawsink.h:
+	  * sys/directsound/gstdirectsoundsink.c:
+	  Wait until the window is created before using it; guard unistd.h
+	  includes with HAVE_UNISTD_H. (#366523)
+	  * win32/vs8/libgstdirectdraw.vcproj:
+	  * win32/vs8/libgstdirectsound.vcproj:
+	  Update project files.
+
+2006-07-24 21:43:06 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	  [MOVED FROM GOOD] sys/directsound/gstdirectsoundsink.*: Add an attenuation property that will directly attenuate the directsound buffer.
+	  Original commit message from CVS:
+	  * sys/directsound/gstdirectsoundsink.h:
+	  * sys/directsound/gstdirectsoundsink.c:
+	  Add an attenuation property that will directly attenuate the
+	  directsound buffer.
+	  Change the size of the directsound secondary buffer to a half second.
+	  Add more debug logs.
+	  Add a lock to protect dsound buffer write access.
+	  Fix a bad implementation of reset.
+	  * sys/directsound/gstdirectdrawsink.c:
+	  * sys/directsound/gstdirectdrawsink.h:
+	  Add a keep_aspect_ratio property.
+	  Do not use overlay if not supported.
+	  Add more debug logs.
+	  Remove overwrite of WM_ERASEBKGND message handling. It was not
+	  redrawing border when keep_aspect_ratio was enabled.
+	  * win32/common/config.h:
+	  update version waiting an auto-generated config.h
+
+2006-06-12 10:53:26 +0000  Tim-Philipp Müller <tim@centricular.net>
+
+	  [MOVED FROM GOOD] ext/libmms/gstmms.c: Set caps on outgoing buffers.
+	  Original commit message from CVS:
+	  * ext/libmms/gstmms.c: (gst_mms_create):
+	  Set caps on outgoing buffers.
+	  * sys/directdraw/gstdirectdrawsink.c: (gst_directdrawsink_init):
+	  Comment out unused global instance variable.
+
+2006-06-01 22:00:26 +0000  Stefan Kost <ensonic@users.sourceforge.net>
+
+	  [MOVED FROM GOOD] Fix more gobject macros: obj<->klass, GstXXX<->GstXXXClass
+	  Original commit message from CVS:
+	  * ext/alsaspdif/alsaspdifsink.h:
+	  * ext/amrwb/gstamrwbdec.h:
+	  * ext/amrwb/gstamrwbenc.h:
+	  * ext/amrwb/gstamrwbparse.h:
+	  * ext/arts/gst_arts.h:
+	  * ext/artsd/gstartsdsink.h:
+	  * ext/audiofile/gstafparse.h:
+	  * ext/audiofile/gstafsink.h:
+	  * ext/audiofile/gstafsrc.h:
+	  * ext/audioresample/gstaudioresample.h:
+	  * ext/bz2/gstbz2dec.h:
+	  * ext/bz2/gstbz2enc.h:
+	  * ext/dirac/gstdiracdec.h:
+	  * ext/directfb/dfbvideosink.h:
+	  * ext/divx/gstdivxdec.h:
+	  * ext/divx/gstdivxenc.h:
+	  * ext/dts/gstdtsdec.h:
+	  * ext/faac/gstfaac.h:
+	  * ext/gsm/gstgsmdec.h:
+	  * ext/gsm/gstgsmenc.h:
+	  * ext/ivorbis/vorbisenc.h:
+	  * ext/libfame/gstlibfame.h:
+	  * ext/nas/nassink.h:
+	  * ext/neon/gstneonhttpsrc.h:
+	  * ext/polyp/polypsink.h:
+	  * ext/sdl/sdlaudiosink.h:
+	  * ext/sdl/sdlvideosink.h:
+	  * ext/shout/gstshout.h:
+	  * ext/snapshot/gstsnapshot.h:
+	  * ext/sndfile/gstsf.h:
+	  * ext/swfdec/gstswfdec.h:
+	  * ext/tarkin/gsttarkindec.h:
+	  * ext/tarkin/gsttarkinenc.h:
+	  * ext/theora/theoradec.h:
+	  * ext/wavpack/gstwavpackdec.h:
+	  * ext/wavpack/gstwavpackparse.h:
+	  * ext/xine/gstxine.h:
+	  * ext/xvid/gstxviddec.h:
+	  * ext/xvid/gstxvidenc.h:
+	  * gst/cdxaparse/gstcdxaparse.h:
+	  * gst/cdxaparse/gstcdxastrip.h:
+	  * gst/colorspace/gstcolorspace.h:
+	  * gst/festival/gstfestival.h:
+	  * gst/freeze/gstfreeze.h:
+	  * gst/gdp/gstgdpdepay.h:
+	  * gst/gdp/gstgdppay.h:
+	  * gst/modplug/gstmodplug.h:
+	  * gst/mpeg1sys/gstmpeg1systemencode.h:
+	  * gst/mpeg1videoparse/gstmp1videoparse.h:
+	  * gst/mpeg2sub/gstmpeg2subt.h:
+	  * gst/mpegaudioparse/gstmpegaudioparse.h:
+	  * gst/multifilesink/gstmultifilesink.h:
+	  * gst/overlay/gstoverlay.h:
+	  * gst/playondemand/gstplayondemand.h:
+	  * gst/qtdemux/qtdemux.h:
+	  * gst/rtjpeg/gstrtjpegdec.h:
+	  * gst/rtjpeg/gstrtjpegenc.h:
+	  * gst/smooth/gstsmooth.h:
+	  * gst/smoothwave/gstsmoothwave.h:
+	  * gst/spectrum/gstspectrum.h:
+	  * gst/speed/gstspeed.h:
+	  * gst/stereo/gststereo.h:
+	  * gst/switch/gstswitch.h:
+	  * gst/tta/gstttadec.h:
+	  * gst/tta/gstttaparse.h:
+	  * gst/videodrop/gstvideodrop.h:
+	  * gst/xingheader/gstxingmux.h:
+	  * sys/directdraw/gstdirectdrawsink.h:
+	  * sys/directsound/gstdirectsoundsink.h:
+	  * sys/dxr3/dxr3audiosink.h:
+	  * sys/dxr3/dxr3spusink.h:
+	  * sys/dxr3/dxr3videosink.h:
+	  * sys/qcam/gstqcamsrc.h:
+	  * sys/vcd/vcdsrc.h:
+	  Fix more gobject macros: obj<->klass, GstXXX<->GstXXXClass
+
+2006-04-25 21:56:38 +0000  Stefan Kost <ensonic@users.sourceforge.net>
+
+	  [MOVED FROM GOOD] Define GstElementDetails as const and also static (when defined as global)
+	  Original commit message from CVS:
+	  * ext/amrwb/gstamrwbdec.c:
+	  * ext/amrwb/gstamrwbenc.c:
+	  * ext/amrwb/gstamrwbparse.c:
+	  * ext/arts/gst_arts.c:
+	  * ext/artsd/gstartsdsink.c:
+	  * ext/audiofile/gstafparse.c:
+	  * ext/audiofile/gstafsink.c:
+	  * ext/audiofile/gstafsrc.c:
+	  * ext/audioresample/gstaudioresample.c:
+	  * ext/bz2/gstbz2dec.c:
+	  * ext/bz2/gstbz2enc.c:
+	  * ext/cdaudio/gstcdaudio.c:
+	  * ext/directfb/dfbvideosink.c:
+	  * ext/divx/gstdivxdec.c:
+	  * ext/divx/gstdivxenc.c:
+	  * ext/dts/gstdtsdec.c: (gst_dtsdec_base_init):
+	  * ext/faac/gstfaac.c: (gst_faac_base_init):
+	  * ext/faad/gstfaad.c:
+	  * ext/gsm/gstgsmdec.c:
+	  * ext/gsm/gstgsmenc.c:
+	  * ext/hermes/gsthermescolorspace.c:
+	  * ext/ivorbis/vorbisfile.c:
+	  * ext/lcs/gstcolorspace.c:
+	  * ext/libfame/gstlibfame.c:
+	  * ext/libmms/gstmms.c: (gst_mms_base_init):
+	  * ext/musepack/gstmusepackdec.c: (gst_musepackdec_base_init):
+	  * ext/musicbrainz/gsttrm.c: (gst_musicbrainz_base_init):
+	  * ext/nas/nassink.c: (gst_nassink_base_init):
+	  * ext/neon/gstneonhttpsrc.c:
+	  * ext/sdl/sdlaudiosink.c:
+	  * ext/sdl/sdlvideosink.c:
+	  * ext/shout/gstshout.c:
+	  * ext/snapshot/gstsnapshot.c:
+	  * ext/sndfile/gstsf.c:
+	  * ext/swfdec/gstswfdec.c:
+	  * ext/tarkin/gsttarkindec.c:
+	  * ext/tarkin/gsttarkinenc.c:
+	  * ext/theora/theoradec.c:
+	  * ext/wavpack/gstwavpackdec.c: (gst_wavpack_dec_base_init):
+	  * ext/wavpack/gstwavpackparse.c: (gst_wavpack_parse_base_init):
+	  * ext/xvid/gstxviddec.c:
+	  * ext/xvid/gstxvidenc.c:
+	  * gst/cdxaparse/gstcdxaparse.c: (gst_cdxa_parse_base_init):
+	  * gst/cdxaparse/gstcdxastrip.c: (gst_cdxastrip_base_init):
+	  * gst/chart/gstchart.c:
+	  * gst/colorspace/gstcolorspace.c:
+	  * gst/deinterlace/gstdeinterlace.c:
+	  * gst/equalizer/gstiirequalizer.c: (gst_iir_equalizer_base_init):
+	  * gst/festival/gstfestival.c:
+	  * gst/filter/gstbpwsinc.c:
+	  * gst/filter/gstiir.c:
+	  * gst/filter/gstlpwsinc.c:
+	  * gst/freeze/gstfreeze.c:
+	  * gst/games/gstpuzzle.c: (gst_puzzle_base_init):
+	  * gst/librfb/gstrfbsrc.c:
+	  * gst/mixmatrix/mixmatrix.c:
+	  * gst/mpeg1sys/gstmpeg1systemencode.c:
+	  * gst/mpeg1videoparse/gstmp1videoparse.c:
+	  * gst/mpeg2sub/gstmpeg2subt.c:
+	  * gst/mpegaudioparse/gstmpegaudioparse.c:
+	  * gst/multifilesink/gstmultifilesink.c:
+	  * gst/overlay/gstoverlay.c:
+	  * gst/passthrough/gstpassthrough.c:
+	  * gst/playondemand/gstplayondemand.c:
+	  * gst/qtdemux/qtdemux.c:
+	  * gst/rtjpeg/gstrtjpegdec.c:
+	  * gst/rtjpeg/gstrtjpegenc.c:
+	  * gst/smooth/gstsmooth.c:
+	  * gst/smoothwave/gstsmoothwave.c:
+	  * gst/spectrum/gstspectrum.c:
+	  * gst/speed/gstspeed.c:
+	  * gst/stereo/gststereo.c:
+	  * gst/switch/gstswitch.c:
+	  * gst/tta/gstttadec.c: (gst_tta_dec_base_init):
+	  * gst/tta/gstttaparse.c: (gst_tta_parse_base_init):
+	  * gst/vbidec/gstvbidec.c:
+	  * gst/videocrop/gstvideocrop.c:
+	  * gst/videodrop/gstvideodrop.c:
+	  * gst/virtualdub/gstxsharpen.c:
+	  * gst/xingheader/gstxingmux.c: (gst_xing_mux_base_init):
+	  * gst/y4m/gsty4mencode.c:
+	  * sys/cdrom/gstcdplayer.c:
+	  * sys/directdraw/gstdirectdrawsink.c:
+	  * sys/directsound/gstdirectsoundsink.c:
+	  * sys/glsink/glimagesink.c:
+	  * sys/qcam/gstqcamsrc.c:
+	  * sys/v4l2/gstv4l2src.c:
+	  * sys/vcd/vcdsrc.c: (gst_vcdsrc_base_init):
+	  * sys/ximagesrc/ximagesrc.c:
+	  Define GstElementDetails as const and also static (when defined as
+	  global)
+
+2006-04-01 10:09:11 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* sys/directdraw/gstdirectdrawplugin.c:
+	  [MOVED FROM GOOD] rework build; add translations for v4l2
+	  Original commit message from CVS:
+	  rework build; add translations for v4l2
+
+2006-03-03 23:45:23 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	  [MOVED FROM GOOD] sys/: sinks are now using GST_RANK_PRIMARY to be used with autodectection
+	  Original commit message from CVS:
+	  * sys/directdraw:
+	  * sys/directsound:
+	  sinks are now using GST_RANK_PRIMARY to be used with autodectection
+	  * win32/vs6:
+	  project files updated to fix some bugs
+	  * win32/vs7:
+	  * win32/vs8:
+	  vs7 and vs8 project files added
+
+2006-01-05 23:17:44 +0000  Sébastien Moutte <sebastien@moutte.net>
+
+	* sys/directdraw/gstdirectdrawplugin.c:
+	* sys/directdraw/gstdirectdrawsink.c:
+	* sys/directdraw/gstdirectdrawsink.h:
+	  [MOVED FROM GOOD] added sys/directdraw added sys/directsound added win32/vs6/gst_plugins_bad.dsw added win32/vs6/libgstdirectsound.dsp ...
+	  Original commit message from CVS:
+	  2006-01-05  Sebastien Moutte  <sebastien@moutte.net>
+	  * added sys/directdraw
+	  * added sys/directsound
+	  * added win32/vs6/gst_plugins_bad.dsw
+	  * added win32/vs6/libgstdirectsound.dsp
+	  * added win32/vs6/libgstdirectdraw.dsp
+	  * added win32/common/config.h
+
+2009-05-15 10:45:45 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/debugutils/fpsdisplaysink.c:
+	  fpsdisplaysink: Fix resetting of the sink in NULL
+	  Reset the fpsdisplaysink in NULL by removing the textoverlay if we
+	  created it.
+	  Fixes: #582633
+
+2009-05-16 00:17:00 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* configure.ac:
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* docs/plugins/inspect/plugin-y4menc.xml:
+	* gst/y4m/Makefile.am:
+	* gst/y4m/gsty4mencode.c:
+	* gst/y4m/gsty4mencode.h:
+	* gst/y4m/y4menc.vcproj:
+	* tests/check/Makefile.am:
+	* tests/check/elements/.gitignore:
+	* tests/check/elements/y4menc.c:
+	  Moved 'y4menc' from -bad to -good
+
+2009-05-15 18:24:41 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* po/Makevars:
+	  po: add Makevars magic so we don't get line numbers in *.po files
+	  This avoids the number one reason for local modifications in *.po
+	  files and and makes things less annoying when working with git (or
+	  any other VCS for that matter).
+
+2009-05-15 01:54:44 -0300  Thiago Santos <thiagoss@embedded.ufcg.edu.br>
+
+	* gst/qtmux/atoms.c:
+	  [qtmux] Fixes segfault when adding a blob as first tag.
+	  Moves tags data initialization to the function that actually appends
+	  the tags to the list. Fixes #582702
+	  Also fixes some style caught by the pre-commit hook.
+
+2009-05-14 21:20:47 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfdemux.c:
+	* gst/mxf/mxfdemux.h:
+	  mxfdemux: Use a RW lock to protect metadata and add all pads at once without a lock held
+	  This makes it possible, among other things, to do a query in the
+	  pad-added callback.
+	  Fixes bug #582656.
+
+2009-05-14 10:34:08 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Fix the argument order in a debug statement
+	  Make the debug statement correctly show the 'old' and 'new' button
+	  coordinates, instead of the wrong way around.
+
+2009-05-14 09:53:25 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	* ext/resindvd/gstmpegdemux.h:
+	  resindvd: Make segment updates less aggressive.
+	  When updating a pad, send the update to half a second behind the SCR,
+	  which avoids ever updating the start time for a pad to beyond the end of
+	  the cell. Also, remember the last actual new-segment start time for each
+	  pad, and use it when closing the segment.
+
+2009-05-13 12:47:43 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Rework button highlight calculation slightly
+	  When the current button number is higher than the number of available
+	  buttons, switch to the highest numbered button rather than the lowest.
+	  Also, don't throw errors when we fail to retrieve some button info
+	  from libdvdnav, just reset the highlight.
+
+2009-05-12 23:42:00 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: Send commands-changed on button change and handle commands query
+	  Send the commands-changed navigation message when the set of available
+	  DVD menu button actions changes, and handle the commands navigation
+	  query so that (e.g.) Totem can know about the available navigation
+	  commands.
+
+2009-05-14 08:42:24 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Fix a leak of the DVD title string
+
+2009-05-14 10:55:38 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstdvdspu.c:
+	  dvdspu: Push update frame, if any, when entering stills.
+	  When entering a still frame generates an updated buffer, make sure
+	  to push it out, otherwise we may not put a frame onscreen with a
+	  rendered button, causing raciness as to whether buttons get drawn
+	  or not when jumping back to the menu on some discs.
+
+2009-05-13 10:29:36 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdbin.c:
+	* ext/resindvd/resindvdbin.h:
+	  resindvd: Fix raciness in rsndvdbin when initially creating pads
+	  Protect pad exposure with a preroll lock to avoid situations
+	  where no-more-pads is fired more than once, or fired just before
+	  the last pad is actually added.
+
+2009-05-13 17:55:46 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/y4m/gsty4mencode.c:
+	  y4menc: change my email
+	  change my email to something more current
+	  See #580783
+
+2009-05-13 17:54:47 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/y4m/gsty4mencode.c:
+	  y4menc: don't strip timestamps
+	  Fixes #582483
+
+2009-05-13 10:47:23 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* configure.ac:
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* docs/plugins/inspect/plugin-deinterlace2.xml:
+	* docs/plugins/inspect/plugin-gstinterlace.xml:
+	* gst/deinterlace/.gitignore:
+	* gst/deinterlace/Makefile.am:
+	* gst/deinterlace/deinterlace.vcproj:
+	* gst/deinterlace/gstdeinterlace.c:
+	* gst/deinterlace/gstdeinterlace.h:
+	* gst/deinterlace2/Makefile.am:
+	* gst/deinterlace2/gstdeinterlace2.c:
+	* gst/deinterlace2/gstdeinterlace2.h:
+	* gst/deinterlace2/tvtime/greedy.c:
+	* gst/deinterlace2/tvtime/greedyh.asm:
+	* gst/deinterlace2/tvtime/greedyh.c:
+	* gst/deinterlace2/tvtime/greedyhmacros.h:
+	* gst/deinterlace2/tvtime/linear.c:
+	* gst/deinterlace2/tvtime/linearblend.c:
+	* gst/deinterlace2/tvtime/mmx.h:
+	* gst/deinterlace2/tvtime/plugins.h:
+	* gst/deinterlace2/tvtime/scalerbob.c:
+	* gst/deinterlace2/tvtime/sse.h:
+	* gst/deinterlace2/tvtime/tomsmocomp.c:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoop0A.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopBottom.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopEdgeA.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopEdgeA8.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopOddA.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopOddA2.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopOddA6.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopOddAH.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopOddAH2.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopTop.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopVA.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/SearchLoopVAH.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/StrangeBob.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/TomsMoCompAll.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/TomsMoCompAll2.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/WierdBob.inc:
+	* gst/deinterlace2/tvtime/tomsmocomp/tomsmocompmacros.h:
+	* gst/deinterlace2/tvtime/vfir.c:
+	* gst/deinterlace2/tvtime/weave.c:
+	* gst/deinterlace2/tvtime/weavebff.c:
+	* gst/deinterlace2/tvtime/weavetff.c:
+	* gst/deinterlace2/tvtime/x86-64_macros.inc:
+	  Moved 'deinterlace2' from -bad to -good
+	  And remove old deinterlace plugin as deinterlace2 will
+	  be called deinterlace in -good.
+
+2009-05-12 21:50:12 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* configure.ac:
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* docs/plugins/inspect/plugin-flv.xml:
+	* docs/plugins/inspect/plugin-flvdemux.xml:
+	* gst/flv/Makefile.am:
+	* gst/flv/gstflvdemux.c:
+	* gst/flv/gstflvdemux.h:
+	* gst/flv/gstflvmux.c:
+	* gst/flv/gstflvmux.h:
+	* gst/flv/gstflvparse.c:
+	* gst/flv/gstflvparse.h:
+	  Moved 'flv' from -bad to -good
+
+2009-05-12 00:50:01 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ChangeLog:
+	* configure.ac:
+	* po/af.po:
+	* po/az.po:
+	* po/bg.po:
+	* po/ca.po:
+	* po/cs.po:
+	* po/da.po:
+	* po/de.po:
+	* po/en_GB.po:
+	* po/es.po:
+	* po/fi.po:
+	* po/fr.po:
+	* po/hu.po:
+	* po/id.po:
+	* po/it.po:
+	* po/ky.po:
+	* po/lt.po:
+	* po/mt.po:
+	* po/nb.po:
+	* po/nl.po:
+	* po/or.po:
+	* po/pl.po:
+	* po/pt_BR.po:
+	* po/ru.po:
+	* po/sk.po:
+	* po/sq.po:
+	* po/sr.po:
+	* po/sv.po:
+	* po/tr.po:
+	* po/uk.po:
+	* po/vi.po:
+	* po/zh_CN.po:
+	* win32/common/config.h:
+	  0.10.11.2 pre-release
+
+2009-05-11 17:50:41 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	* ext/resindvd/gstmpegdemux.h:
+	  resindvd: Modify the segment update logic
+	  Send segment updates to the audio and subpicture pads more frequently,
+	  but less often to the video pad, where timestamps appear less often.
+	  This helps with gap filling on some DVDs.
+
+2009-05-11 16:09:56 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/rsnaudiomunge.c:
+	  resindvd: Increase the amount of filler audio generated
+	  When creating a filler audio buffer in rsnaudiomunge, generate
+	  a bit more, as audio sinks don't seem to preroll otherwise. This
+	  needs a better algorithm in general, to intelligently fill the
+	  gap, rather than hard-coding a value.
+
+2009-05-11 14:17:42 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: Manage timed still sequences better
+	  Make timed still frames work better by extending the current segment
+	  when needed, and restarting the still sequence with the correct
+	  remaining duration when the wait it interrupted by activation of a
+	  highlight NAV packet.
+
+2009-05-11 11:06:03 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/rsnaudiomunge.c:
+	  resindvd: Change the audiomunge debug output.
+	  Make sure we always show information about the segment events passing through,
+	  even when pre-roll audio buffers aren't going to be needed.
+
+2009-05-11 11:04:25 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstdvdspu.c:
+	  dvdspu: Make the debugging output a bit clearer.
+	  Display more info about custom DVD events in the debug messages.
+
+2009-05-08 17:42:12 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstdvdspu.c:
+	  dvdspu: Always push a frame at the start of a still frame, and fix a leak.
+	  Make sure to push the frame for a still frame, with discont = true and
+	  timestamp=none, so that it gets displayed by the sink. Also, don't leak
+	  each rendered video frame during still menus.
+
+2009-05-08 17:40:48 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstdvdspu-render.c:
+	  dvdspu: Add a guard when we don't have any subpicture buffer to render
+
+2009-05-08 16:29:20 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/rsnaudiomunge.c:
+	  resindvd: Rename the audio munger debug category
+	  Rename a debug category: rsn_audiomunge -> rsnaudiomunge.
+
+2009-05-08 16:27:31 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Ensure we send a title tag in the first play section.
+
+2009-05-08 16:06:01 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Simplify some stuff. Remove an unnecessary LOG message.
+	  Skip attempting to schedule a nav block unless we're in PLAYING. Take a lock
+	  slightly later, when we actually need it. Remove a noisy LOG message.
+
+2009-05-08 14:23:48 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Remove per-menu description from the TITLE tag
+	  The part number reported while in a menu doesn't reflect the selected
+	  menu, so it's pointless to use it to report which menu we're in (Audio,
+	  Angle etc). Just report "DVD Menu" in the title tag instead.
+
+2009-05-08 14:20:32 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: Send title info message when current angle is switched.
+	  Make sure we send an update title tag when the current angle or available
+	  angles changes.
+
+2009-05-08 10:43:27 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: Implement navigation command change message and query
+	  Send messages when the available DVD navigation commands changes, and
+	  handle navigation commands and angles queries.
+
+2009-05-11 16:59:20 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	* gst/mpegdemux/gstmpegtsdemux.h:
+	  mpegtsdemux: Protect bitrate estimation against bogus values.
+	  If the estimated bitrate is lower than 188 bytes, there's most likely
+	  something completely wrong with the two samples. If that happens,
+	  force recalculation.
+	  Use guint64 for observation PCR, I saw cases where it would overflow.
+
+2009-05-11 16:58:58 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: Only take PCR from the active stream for bitrate estimation.
+
+2009-05-11 16:40:46 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: Change debugging levels for very frequent messages.
+	  This allows debugging with mpegtsdemux:4 while being able to track what's
+	  going on (and avoid taking up as much cpu for debugging as for the actual
+	  demuxing process).
+
+2009-05-09 09:57:47 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstmpegtsdemux.h:
+	  mpegtsdemux: Revert indentation and comment header file.
+	  One shouldn't run gst-indent on .h files, in this case it was un-beautifying
+	  the indentation :)
+
+2009-05-10 21:21:36 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* gst/qtmux/gstqtmuxmap.c:
+	  gppmux: Add MPEG-4 part 2 to supported formats.  Fixes #581593.
+
+2009-05-10 17:17:15 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* configure.ac:
+	  faad: Fix configure check for the FAAD version
+	  The previous version matched things like 297 for
+	  version 2.7, etc which could be added to the file
+	  by other headers.
+	  Fixes bug #582074.
+
+2009-05-10 11:17:17 +0200  Marc-Andre Lureau <marcandre.lureau@gmail.com>
+
+	* autogen.sh:
+	  Run libtoolize before aclocal
+	  This unbreaks the build in some cases. Fixes bug #582021
+
+2009-05-10 10:40:36 +0200  Tristan Matthews <le.businessman@gmail.com>
+
+	* gst/mxf/mxfmux.c:
+	  mxfmux: Fix uninitialized variable compiler warning
+	  This will always be set to something but gcc didn't detect
+	  this. Fixes bug #582013.
+
+2009-05-09 23:47:39 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* ext/x264/GstX264Enc.prs:
+	  Remove wrong stuff from preset file
+
+2009-05-09 15:48:54 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	* gst/mxf/mxfmux.h:
+	  mxfmux: Write metadata items in reference order
+	  This ensures that the metadata items are always written
+	  in the same order and that first comes the preface,
+	  then the identification linked from the preface, ...
+	  Some demuxers can't handle files where the metadata
+	  items are in random order.
+
+2009-05-09 15:48:41 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	  mxfmux: Fix EOS logic again
+
+2009-05-09 15:48:01 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	  mxfmux: Don't unref NULL buffers if pushing a buffer after the first failed
+
+2009-05-09 12:42:25 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* ext/x264/GstX264Enc.prs:
+	  Add a more representative example preset file for x264
+
+2009-05-08 18:24:28 +0100  Zaheer Merali <zaheerabbas@merali.org>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	* gst/mpegdemux/gstmpegtsdemux.h:
+	  mpegtsdemux: Add initial naive seeking support and fix duration query.
+	  Sync from gst-fluendo-mpegdemux and have seeking/duration query
+	  improvements in. No support however for wrapped around pcrs etc. but a
+	  start nonetheless.
+	  Also fix indentation issues.
+
+2009-05-08 16:38:26 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* gst-plugins-bad.spec.in:
+	  Comment out preset not in yet
+
+2009-05-08 15:39:24 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	* gst/deinterlace2/gstdeinterlace2.h:
+	  deinterlace2: Add a disabled mode for passthrough operation
+	  Also allow to change the mode in PAUSED and PLAYING by updating
+	  the caps if necessary.
+
+2009-05-07 17:53:42 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* ext/faac/gstfaac.c:
+	* ext/mpeg2enc/gstmpeg2enc.cc:
+	* ext/x264/gstx264enc.c:
+	* gst/flv/gstflvdemux.c:
+	* gst/mxf/mxf.c:
+	* gst/qtmux/gstqtmux.c:
+	  Add ranks to various muxers and encoders in -bad
+
+2009-05-07 17:34:36 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* gst-plugins-bad.spec.in:
+	  Update spec file
+
+2009-05-07 13:12:34 +0200  Rov Juvano <rovjuvano@users.sourceforge.net>
+
+	* tests/examples/scaletempo/demo-player.c:
+	  scaletempo: Don't require gconfaudiosink in the demo
+	  Fixes bug #537700.
+
+2009-05-06 21:48:30 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Don't open all VTS ifo at the start
+	  Load each VTS ifo the first time the disc enters that VTS,
+	  rather than scanning them all at the start.
+
+2009-05-06 21:19:13 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: Send a title tag when we change chapter/menu/angle
+	  Allow apps like Totem to display a nicer title that reflects the current
+	  position on the disc.
+
+2009-05-05 13:18:20 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Don't send highlight-reset messages when not needed
+	  Fix a small bug that results in the SPU highlight being reset more often
+	  than is necessary - ie, clearing it when it's already cleared.
+
+2009-05-05 13:14:47 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: send angles-changed messages when appropriate
+	  When the current angle changes, or the number of available angles changes,
+	  send an angles-changed message to let the app know.
+
+2009-05-05 11:34:26 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Make the next/prev angle switching cycle at the ends
+	  When the current angle is 1 and prev_angle is requested, loop to the
+	  maximum angle and vice versa for next_angle
+
+2009-05-05 16:54:39 +0200  Arnout Vandecappelle <arnout@mind.be>
+
+	* gst/mpeg4videoparse/mpeg4videoparse.c:
+	  mpeg4videoparse: don't leak the config data
+	  Clear the config data when going to READY or when disposed.
+	  Fixes #581427
+
+2009-05-05 16:48:37 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpssrcdemux.c:
+	  rtpssrcdemux: drop unexpected RTCP packets
+	  We usually only get SR packets in our chain function but if an invalid packet
+	  contains the SR packet after the RR packet, we must not fail but simply ignore
+	  the malformed packet.
+	  Fixes #581375
+
+2009-05-04 22:09:05 +0100  Zaheer Abbas Merali <zaheer@localhost.localdomain>
+
+	* gst/mpegdemux/mpegtsparse.c:
+	* gst/mpegdemux/mpegtsparse.h:
+	  mpegtsparse: Remember pids that are meant to be stream pids.
+	  Fixes #569781
+
+2009-05-04 12:37:31 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* ext/celt/gstceltenc.c:
+	  celt: Implement preset interface
+
+2009-05-04 12:36:17 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* ext/dirac/gstdiracenc.cc:
+	  dirac: Implement preset interface
+
+2009-05-04 12:34:59 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* ext/jp2k/gstjasperenc.c:
+	  jp2kenc: Implement preset interface
+
+2009-05-04 12:33:41 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* ext/mpeg2enc/gstmpeg2enc.cc:
+	  mpeg2enc: Implement Preset interface
+
+2009-05-04 12:31:58 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* ext/xvid/gstxvidenc.c:
+	  xvid: Implement Preset interface
+
+2009-05-04 12:30:26 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* ext/faac/gstfaac.c:
+	  faac: Implement preset interface
+
+2009-05-03 17:42:44 +0100  Vincent Genieux <mutex@runbox.com>
+
+	* gst/mpegdemux/mpegtspacketizer.c:
+	* gst/mpegdemux/mpegtspacketizer.h:
+	* gst/mpegdemux/mpegtsparse.c:
+	  mpegtsparse: Ignore subtable extension when parsing PAT
+	  Fixes #569673.
+
+2009-05-03 17:21:22 +0100  Vincent Genieux <mutex@runbox.com>
+
+	* gst/mpegdemux/mpegtsparse.c:
+	* gst/mpegdemux/mpegtsparse.h:
+	  mpegtsparse: make safe changing the program-numbers property dynamically
+	  Fixes #569437.
+
+2009-05-03 14:28:51 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* ext/libmms/gstmms.c:
+	  mms: extend BaseSrc query handling rather than overriding
+
+2009-04-27 22:39:15 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* gst/aacparse/gstbaseparse.c:
+	* gst/amrparse/gstbaseparse.c:
+	* gst/flacparse/gstbaseparse.c:
+	  baseparse: fix (regression in) newsegment handling
+	  (aacparse, amrparse, flacparse).  Fixes #580133.
+
+2009-05-02 12:23:03 +0100  Zaheer Merali <zaheerabbas@merali.org>
+
+	* sys/dvb/gstdvbsrc.c:
+	  dvbsrc: fix pes filter pid resetting
+
+2009-05-01 02:26:22 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* ext/dts/gstdtsdec.h:
+	  dtsdec: cosmetic fix to header structure to make gtk-doc happy
+
+2009-05-01 14:25:40 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* gst/debugutils/fpsdisplaysink.c:
+	  docs: make fpsdisplaysink show up in the docs
+
+2009-05-01 02:21:10 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/debugutils/fpsdisplaysink.c:
+	* gst/debugutils/fpsdisplaysink.h:
+	  fpsdisplaysink: move private struct into plugin struct and use Gst namespace
+
+2009-05-01 01:59:56 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* docs/plugins/inspect/plugin-debugutilsbad.xml:
+	* docs/plugins/inspect/plugin-fpsdisplaysink.xml:
+	* gst/debugutils/Makefile.am:
+	* gst/debugutils/debugutilsbad.c:
+	* gst/debugutils/fpsdisplaysink.c:
+	  fpsdisplaysink: rename plugin (not element) to debugutilsbad
+	  Makes it easier to add further utils here without creating yet another plugin.
+
+2009-05-01 14:28:23 +0100  Zaheer Merali <zaheerabbas@merali.org>
+
+	* sys/dvb/gstdvbsrc.c:
+	  dvbsrc: unset pid filters correctly
+
+2009-04-30 14:43:36 -0300  Thiago Santos <thiagoss@embedded.ufcg.edu.br>
+
+	* gst/qtmux/gstqtmuxmap.c:
+	  qtmux: changes caps of src pads to video/quicktime, variant=something
+	  Take a look at bug #580005 for further info.
+
+2009-04-30 17:29:35 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	  Merge branch 'master' of ssh://uraeus@git.freedesktop.org/git/gstreamer/gst-plugins-bad
+
+2009-04-30 17:28:47 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* gst-plugins-bad.spec.in:
+	  Update for new presets file
+
+2009-04-30 17:08:52 +0100  Tristan Matthews <le.businessman@gmail.com>
+
+	* gst/debugutils/fpsdisplaysink.c:
+	  fpsdisplaysink: init variable to NULL to avoid compiler warning
+	  Fixes #580901.
+
+2009-04-30 14:20:16 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/dvdspu/gstdvdspu-render.c:
+	* gst/dvdspu/gstdvdspu.h:
+	  dvdspu: do some basic clipping
+	  Add some basic clipping of the subtitle region when the subtitle is bigger than
+	  the image we should put it on.
+
+2009-04-30 14:18:58 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/dvdspu/gstdvdspu.c:
+	  dvdspu: don't EOS when the subtitle got EOS
+	  Don't forward the EOS on the subtitle pad as the video might still be running.
+
+2009-04-30 13:45:30 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/debugutils/fpsdisplaysink.c:
+	  fpsdisplay: code cleanup and plug overlay as needed
+	  Pluggin the text-ovelay causes some slowdowns and might need a colorspace
+	  converter. We now only check the text-overlay property whne goint to ready and
+	  plug or unplug the text-overlay at that time. If the property changes during
+	  playing, its not switched immediately.
+
+2009-04-30 00:06:36 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* ext/x264/GstX264Enc.prs:
+	* ext/x264/Makefile.am:
+	* ext/x264/gstx264enc.c:
+	  x264enc: add preset support
+	  Add preset iface and a (dummy) preset file as a starting point.
+
+2009-04-26 21:26:00 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/rsnaudiodec.c:
+	* ext/resindvd/rsnaudiomunge.c:
+	  resindvd: Convert some g_print to GST_LOG_OBJECT and friends, remove some others
+	  Trim down the g_print verbosity.
+
+2009-04-26 21:29:27 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Add DVDFASTSTART env var to making some testing easier
+
+2009-04-24 14:08:55 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	  resindvd: Remove redundant modulo operation in the demuxer
+
+2009-04-24 14:07:30 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Map audio and subpicture logical streams to physical.
+	  The logical audio and subpicture stream number doesn't always correspond
+	  with the physical substream it is coming from. When configuring the demuxer
+	  pads, use the mapping table provided in each PGC to get the layout and
+	  ensure the demuxer creates the correct pads.
+
+2009-04-29 18:52:20 +0100  Tristan Matthews <le.businessman@gmail.com>
+
+	* gst/flv/gstflvmux.c:
+	  flvmux: init variable to NULL to fix compiler warning
+	  Fixes #580786.
+
+2009-04-29 16:57:36 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* ext/x264/gstx264enc.c:
+	  x264enc: add some documentation on profile
+
+2009-04-29 13:56:07 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/flv/gstflvmux.c:
+	* gst/flv/gstflvparse.c:
+	  flv: Set/require the framed/parsed fields of the audio/mpeg caps to TRUE
+
+2009-04-29 13:16:25 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/flv/gstflvmux.c:
+	  flv: Always write at least the minimal tags and write the PAR as tags
+
+2009-04-29 13:03:46 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/flv/gstflvmux.c:
+	* gst/flv/gstflvmux.h:
+	  flv: Add support for muxing some tags
+
+2009-04-29 13:03:27 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/flv/gstflvparse.c:
+	  flv: Add support for title tag
+
+2009-04-29 09:40:41 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/flv/gstflvparse.c:
+	  flv: Fix parsing of tags and add new mappings
+	  We shouldn't register a new GstTag for every unknown tag
+	  we find as this might lead to conflicts and also those
+	  tags are essentially unknown.
+	  Add mappings for some known tags and also convert string
+	  dates to GDate, as found in many FLV files.
+
+2009-04-28 16:10:21 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Reject wrong caps
+
+2009-04-28 16:03:19 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Fix leak
+	  Fixed a leak discovered by Laurent Glayal <spegle@yahoo.fr>
+
+2009-04-28 15:58:41 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Fix leak
+	  Fixed a leak discovered by Laurent Glayal <spegle@yahoo.fr>
+
+2009-04-27 11:09:08 +0200  Olivier Crete <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/rtpsource.c:
+	  rtpsouce: make WARNING into LOG
+	  Since neither rtpmanager nor any of the payloaders properly implement
+	  pad allocation, there is no way for the rtpmanager to inform downstream elements
+	  of the new SSRC if there is an SSRC collision. So the warning is emitted all the
+	  time and it is confusing.
+	  Fixes #580144
+
+2009-04-27 11:06:01 +0200  Olivier Crete <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmanager/rtpsession.c:
+	  rtpsession: notify when SSRC changes
+	  Emit a g_object_notify when the SSRc changes because of a collision.
+	  Fixes #580144
+
+2009-04-27 10:04:51 +0100  Christian Schaller <christian.schaller@collabora.co.uk>
+
+	* gst-plugins-bad.spec.in:
+	* gst/dccp/Makefile.am:
+	  Add new plugin to spec file and add missing header to gst/dccp/Makefile.am
+
+2009-04-25 00:44:15 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* tests/check/elements/.gitignore:
+	* tests/check/pipelines/.gitignore:
+	  tests: make git ignore new unit tests binaries
+
+2009-04-25 00:42:44 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* win32/MANIFEST:
+	  win32: dist libgstdshow.def by adding it to win32/MANIFEST
+	  Fixes #578563.
+
+2009-04-24 18:53:36 -0300  Thiago Santos <thiagoss@embedded.ufcg.edu.br>
+
+	* gst/qtmux/gstqtmuxmap.c:
+	  mp4mux: Changes src caps to application/x-iso-mp4
+	  Fixes #580005
+
+2009-04-24 16:01:44 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* win32/common/config.h:
+	  win32: Commit the win32 config with bumped version number.
+	  Should have committed this when I unfroze the build last time, sorry.
+
+2009-04-24 14:51:00 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* tests/check/Makefile.am:
+	  check: exclude rsndvdbin from the states test
+
+2009-04-24 15:42:27 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* configure.ac:
+	  soundtouch: fix configure to use proper shell syntax. fixes #580091
+
+2009-04-23 17:33:25 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* configure.ac:
+	  soundtouch: Fix compilation on newer libSoundTouch
+	  Newer libsoundtouch requires that we include an extra header that wasn't
+	  previously required, so define HAVE_SOUNDTOUCH_1_4 for newer builds so that it
+	  gets included.
+
+2009-04-20 11:38:01 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/debugutils/fpsdisplaysink.c:
+	  fpsdisplay: more cleanups
+	  Use normal gst-defines in PLUGIN_DEFINE. Shorten _start/stop method names.
+	  More ideas. Move debug category-init down to plugin-init.
+
+2009-04-20 09:51:50 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/debugutils/fpsdisplaysink.c:
+	  fpsdisplay: use a nicer font family
+
+2009-04-20 10:24:37 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/debugutils/fpsdisplaysink.c:
+	  fpsdisplay: various cleanups, docs and comments
+	  Remove unused base_init. Add basic doc blob. Reuse query object. Rename
+	  variables for clarity. Add comments and ToDos.
+
+2009-04-20 09:49:32 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/debugutils/fpsdisplaysink.c:
+	  fpsdisplay: remove iface proxy
+	  When we get bus messages for setting the xid, we have the real sink element
+	  instance as message_src. No need to proxy the xoverlay iface therefore
+	  (autovideosink does not do it either). Also we don't need to rewrite the
+	  message src of all messages from that sink.
+
+2009-04-23 11:04:46 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/selector/gstinputselector.c:
+	  input-selector: Forward segment events for the active pad immediately.
+	  When a segment event is received on the active pad, forward it downstream
+	  immediately instead of deferring it until the next data buffer arrives. This
+	  fixes problems with segment updates never being sent downstream, like those
+	  needed for sparse streams, or for closing previously opened segments.
+	  This fixes playback of DVD menus with a still video frame and an audio track,
+	  for example.
+	  Fixes: #577843
+
+2009-04-22 18:01:07 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Fix warning
+
+2009-04-20 20:00:15 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Set different caps depending on the input
+
+2009-04-22 16:25:07 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Only free pad private when pad is disposed
+
+2009-04-22 19:52:05 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* gst/flv/gstflvdemux.c:
+	* gst/flv/gstflvdemux.h:
+	* gst/flv/gstflvmux.c:
+	* gst/flv/gstflvmux.h:
+	  flv: Add documentation to flvmux and flvdemux
+	  Partially fixes bug #573737.
+
+2009-04-22 19:45:07 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.h:
+	  mxf: Mark most fields of the instance struct as private
+
+2009-04-22 19:43:22 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* gst/deinterlace2/gstdeinterlace2.c:
+	* gst/deinterlace2/gstdeinterlace2.h:
+	  deinterlace2: Add documentation and integrate into the build system
+
+2009-04-22 19:24:43 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* docs/plugins/Makefile.am:
+	* docs/plugins/gst-plugins-bad-plugins-docs.sgml:
+	* docs/plugins/gst-plugins-bad-plugins-sections.txt:
+	* docs/plugins/gst-plugins-bad-plugins.args:
+	* docs/plugins/gst-plugins-bad-plugins.hierarchy:
+	* docs/plugins/gst-plugins-bad-plugins.interfaces:
+	* docs/plugins/gst-plugins-bad-plugins.prerequisites:
+	* docs/plugins/gst-plugins-bad-plugins.signals:
+	* docs/plugins/inspect/plugin-aacparse.xml:
+	* docs/plugins/inspect/plugin-aiffparse.xml:
+	* docs/plugins/inspect/plugin-alsaspdif.xml:
+	* docs/plugins/inspect/plugin-amrparse.xml:
+	* docs/plugins/inspect/plugin-amrwb.xml:
+	* docs/plugins/inspect/plugin-apex.xml:
+	* docs/plugins/inspect/plugin-assrender.xml:
+	* docs/plugins/inspect/plugin-autoconvert.xml:
+	* docs/plugins/inspect/plugin-bayer.xml:
+	* docs/plugins/inspect/plugin-bz2.xml:
+	* docs/plugins/inspect/plugin-camerabin.xml:
+	* docs/plugins/inspect/plugin-cdaudio.xml:
+	* docs/plugins/inspect/plugin-cdxaparse.xml:
+	* docs/plugins/inspect/plugin-celt.xml:
+	* docs/plugins/inspect/plugin-dc1394.xml:
+	* docs/plugins/inspect/plugin-dccp.xml:
+	* docs/plugins/inspect/plugin-deinterlace2.xml:
+	* docs/plugins/inspect/plugin-dfbvideosink.xml:
+	* docs/plugins/inspect/plugin-dtmf.xml:
+	* docs/plugins/inspect/plugin-dtsdec.xml:
+	* docs/plugins/inspect/plugin-dvb.xml:
+	* docs/plugins/inspect/plugin-dvdspu.xml:
+	* docs/plugins/inspect/plugin-faac.xml:
+	* docs/plugins/inspect/plugin-faad.xml:
+	* docs/plugins/inspect/plugin-fbdevsink.xml:
+	* docs/plugins/inspect/plugin-festival.xml:
+	* docs/plugins/inspect/plugin-flv.xml:
+	* docs/plugins/inspect/plugin-fpsdisplaysink.xml:
+	* docs/plugins/inspect/plugin-freeze.xml:
+	* docs/plugins/inspect/plugin-gsm.xml:
+	* docs/plugins/inspect/plugin-gstinterlace.xml:
+	* docs/plugins/inspect/plugin-gstrtpmanager.xml:
+	* docs/plugins/inspect/plugin-gstsiren.xml:
+	* docs/plugins/inspect/plugin-h264parse.xml:
+	* docs/plugins/inspect/plugin-jack.xml:
+	* docs/plugins/inspect/plugin-ladspa.xml:
+	* docs/plugins/inspect/plugin-legacyresample.xml:
+	* docs/plugins/inspect/plugin-liveadder.xml:
+	* docs/plugins/inspect/plugin-metadata.xml:
+	* docs/plugins/inspect/plugin-mms.xml:
+	* docs/plugins/inspect/plugin-modplug.xml:
+	* docs/plugins/inspect/plugin-mpeg4videoparse.xml:
+	* docs/plugins/inspect/plugin-mpegdemux2.xml:
+	* docs/plugins/inspect/plugin-mpegtsmux.xml:
+	* docs/plugins/inspect/plugin-mpegvideoparse.xml:
+	* docs/plugins/inspect/plugin-musepack.xml:
+	* docs/plugins/inspect/plugin-musicbrainz.xml:
+	* docs/plugins/inspect/plugin-mve.xml:
+	* docs/plugins/inspect/plugin-mxf.xml:
+	* docs/plugins/inspect/plugin-mythtv.xml:
+	* docs/plugins/inspect/plugin-nas.xml:
+	* docs/plugins/inspect/plugin-neon.xml:
+	* docs/plugins/inspect/plugin-nsfdec.xml:
+	* docs/plugins/inspect/plugin-nuvdemux.xml:
+	* docs/plugins/inspect/plugin-ofa.xml:
+	* docs/plugins/inspect/plugin-oss4.xml:
+	* docs/plugins/inspect/plugin-pcapparse.xml:
+	* docs/plugins/inspect/plugin-qtmux.xml:
+	* docs/plugins/inspect/plugin-rawparse.xml:
+	* docs/plugins/inspect/plugin-real.xml:
+	* docs/plugins/inspect/plugin-resindvd.xml:
+	* docs/plugins/inspect/plugin-rfbsrc.xml:
+	* docs/plugins/inspect/plugin-rtpmux.xml:
+	* docs/plugins/inspect/plugin-scaletempo.xml:
+	* docs/plugins/inspect/plugin-sdl.xml:
+	* docs/plugins/inspect/plugin-sdp.xml:
+	* docs/plugins/inspect/plugin-selector.xml:
+	* docs/plugins/inspect/plugin-sndfile.xml:
+	* docs/plugins/inspect/plugin-speed.xml:
+	* docs/plugins/inspect/plugin-stereo.xml:
+	* docs/plugins/inspect/plugin-subenc.xml:
+	* docs/plugins/inspect/plugin-tta.xml:
+	* docs/plugins/inspect/plugin-valve.xml:
+	* docs/plugins/inspect/plugin-vcdsrc.xml:
+	* docs/plugins/inspect/plugin-videosignal.xml:
+	* docs/plugins/inspect/plugin-vmnc.xml:
+	* docs/plugins/inspect/plugin-wildmidi.xml:
+	* docs/plugins/inspect/plugin-x264.xml:
+	* docs/plugins/inspect/plugin-xdgmime.xml:
+	* docs/plugins/inspect/plugin-xvid.xml:
+	* docs/plugins/inspect/plugin-y4menc.xml:
+	* gst/mxf/mxfmux.c:
+	  mxf: Add documentation to mxfmux and update the docs
+
+2009-03-19 15:37:17 -0700  LRN <lrn1986@gmail.com>
+
+	* ext/modplug/gstmodplug.cc:
+	  modplug: Use correct header file
+	  modplug's sndfile.h conflicts with libsndfile's sndfile.h, so
+	  we'll access it directly using modplug/sndfile.h.  Fixes #573849
+	  Signed-off-by: David Schleef <ds@schleef.org>
+
+2009-03-19 15:29:04 -0700  LRN <lrn1986@gmail.com>
+
+	* m4/gst-sdl.m4:
+	  sdl: Use SDL static-libs for conftest
+	  Fixes: #573847.  This fixes building with SDL on Windows.
+	  Signed-off-by: David Schleef <ds@schleef.org>
+
+2009-03-19 14:55:26 -0700  LRN <lrn1986@gmail.com>
+
+	* ext/mpeg2enc/gstmpeg2encoptions.cc:
+	  mpeg2enc: Get number of processors on win32
+	  Fixes #573848.
+	  Signed-off-by: David Schleef <ds@schleef.org>
+
+2009-03-19 14:49:13 -0700  David Schleef <ds@schleef.org>
+
+	* configure.ac:
+	  soundtouch: Add pkgconfig check for soundtouch-1.4
+	  Fixes #573846.
+
+2009-02-26 14:18:54 -0800  David Schleef <ds@schleef.org>
+
+	* gst/rawparse/gstrawparse.c:
+	* gst/rawparse/gstrawparse.h:
+	* gst/rawparse/gstvideoparse.c:
+	* gst/rawparse/gstvideoparse.h:
+	  Add interlaced support to videoparse
+	  Add a virtual method in rawparse to set buffer flags.  This doesn't
+	  use API from unreleased -base, since it defines GST_VIDEO_BUFFER_TFF
+	  if it's not defined yet.
+
+2009-04-21 22:13:12 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* common:
+	  Automatic update of common submodule
+	  From b3941ea to 6ab11d1
+
+2009-04-21 13:27:29 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	  Merge branch 'rtpmux-fixes'
+
+2009-04-21 16:48:39 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* ext/libmms/gstmms.c:
+	  mmssrc: If the connection fails, emit a redirection msg to the rtsp equivalent.
+	  This should help fix the issue with Windows Media Server using rtsp... but
+	  still declaring the stream with mms://
+
+2009-04-21 16:08:55 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gst/mpegdemux/gstmpegdemux.c:
+	  mpegdemux: Only error out at EOS push failure if we don't have any streams.
+	  This should remove the bogus error messages while still keeping the original
+	  intent of this, which is to inform the pipeline/application/user that we
+	  could not find any valid streams.
+	  There are many reasons why pushing an event can fail, and not all of them are
+	  because there's no link downstream (it could be because it was blocked, or
+	  flushing).
+
+2009-04-10 19:24:26 +0200  Zaheer Abbas Merali <zaheer@localhost.localdomain>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  mpegtsdemux: add hack specific for itvhd
+	  itvhd masks its h264 video stream as a private stream making it harder for
+	  other set top boxes to decode. this checks for specific program number, video
+	  pid and stream type combination before declaring it as h264.
+
+2009-04-10 19:06:55 +0200  Zaheer Abbas Merali <zaheer@localhost.localdomain>
+
+	* gst/mpegdemux/mpegtspacketizer.c:
+	  mpegtsparse: detect AC3 streams in PMT table
+	  add 'has-ac3' boolean to pmt bus message
+
+2009-04-10 01:16:30 +0200  Zaheer Abbas Merali <zaheer@localhost.localdomain>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  itv hd hack
+
+2009-04-10 01:11:01 +0200  Zaheer Abbas Merali <zaheer@localhost.localdomain>
+
+	* gst/mpegdemux/gstmpegtsdemux.c:
+	  hack for itvhd sid to detect mpeg1 as h264
+
+2009-04-20 18:41:39 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Remove useless caps mangling
+
+2009-04-20 18:36:42 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Rename variable for more clarity
+
+2009-04-20 17:43:39 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpdtmfmux.c:
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Use GST_BOILERPLATE
+
+2009-04-20 17:42:40 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpdtmfmux.c:
+	* gst/rtpmux/gstrtpdtmfmux.h:
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Do the includes locally
+
+2009-04-20 16:34:30 +0200  Andy Wingo <wingo@wingomac.bcn.oblong.net>
+
+	* sys/osxvideo/osxvideosrc.c:
+	  patch over logic errors in osxvideosrc
+	  apple's compiler carps, with reason, about some constructs in osxvideosrc.c
+	  fix them.
+	  also it seems that for some reason this required a gst-indent run. whee
+
+2009-04-20 13:09:46 +0200  Andy Wingo <wingo@oblong.net>
+
+	  add osxvideosrc
+	  * configure.ac:
+	  * sys/Makefile.am:
+	  * sys/osxvideo/Makefile.am: Autoconfiscation.
+	  * sys/osxvideo/osxvideoplugin.m:
+	  * sys/osxvideo/osxvideosrc.h:
+	  * sys/osxvideo/osxvideosrc.c: Add osxvideosrc. Should fix #153684.
+	  Patch-by: Ole André Vadla Ravnås <ole.andre.ravnas@tandberg.com>
+	  Patch-by: Ali Sabil <ali.sabil@tandberg.com>
+	  Patch-by: Barracuda Networks <justin@affinix.com>
+
+2009-04-19 17:18:35 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	  deinterlace2: Make it possible to select interlacing autodetection or to enfore deinterlacing
+	  For this add a "mode" property that defaults to "interlaced" for now as
+	  most decoders/demuxers don't properly set the "interlaced" field on the
+	  caps yet.
+	  If this property is set to "auto" the element will work in passthrough
+	  mode unless the caps contain the "interlaced" field.
+
+2009-04-18 23:42:57 +0100  Zaheer Merali <zaheerabbas@merali.org>
+
+	* gst/mpegdemux/mpegtspacketizer.c:
+	  mpegtsparse: fix leak of GST_TYPE_LIST gvalue
+
+2009-04-18 13:09:23 +0100  Zaheer Merali <zaheerabbas@merali.org>
+
+	* gst/mpegdemux/mpegtsparse.c:
+	  mpegtsparse: fix leak in src_pad_query
+
+2009-04-17 16:16:29 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpsession.c:
+	  rtpsession: join the RTCP thread
+	  Avoid a case where a joinable thread would be left unjoined, which leaked the
+	  thread structure.
+	  Fixes #577318.
+
+2009-04-17 15:39:59 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	  deinterlace2: Use GST_(DEBUG|WARNING|ERROR)_OBJECT instead of the non-OBJECT ones
+
+2009-04-17 15:39:36 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	  deinterlace2: Reset history if DISCONT is set on the incoming buffer
+
+2009-04-17 15:39:10 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	  deinterlace2: Fix timestamps for buffers with RFF flag set
+
+2009-04-16 22:14:15 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmetadata.c:
+	  mxf: Properly handle the new interlaced support from libgstvideo for (de)muxing
+
+2009-04-16 17:41:37 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	* gst/deinterlace2/gstdeinterlace2.h:
+	* gst/deinterlace2/tvtime/greedy.c:
+	* gst/deinterlace2/tvtime/greedyh.c:
+	* gst/deinterlace2/tvtime/scalerbob.c:
+	* gst/deinterlace2/tvtime/tomsmocomp/TomsMoCompAll.inc:
+	* gst/deinterlace2/tvtime/weave.c:
+	* gst/deinterlace2/tvtime/weavebff.c:
+	* gst/deinterlace2/tvtime/weavetff.c:
+	  deinterlace2: Rename line_length to row_stride and remove output_stride
+
+2009-04-16 15:52:39 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	  deinterlace2: Implement support for RFF and ONEFIELD buffer flags
+
+2009-04-16 18:36:13 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* configure.ac:
+	* gst/debugutils/Makefile.am:
+	* gst/debugutils/fpsdisplaysink.c:
+	* gst/debugutils/fpsdisplaysink.h:
+	  fpsdisplaysink: add a initial port of a sink with fps display
+	  This now works with a event probe. Needs some extra work.
+
+2009-03-09 18:22:28 +0200  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabin.c:
+	  camerabin: clean up and fix assertion fail when setting zoom in NULL state
+
+2009-03-09 18:31:07 +0200  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabin.c:
+	  camerabin: fix format matching when detecting allowed frame rate
+
+2009-03-09 18:25:48 +0200  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabin.c:
+	  camerabin: don't lose pending state when changing resolution
+
+2009-02-27 17:12:38 +0200  Lasse Laukkanen <ext-lasse.2.laukkanen@nokia.com>
+
+	* gst/camerabin/gstcamerabin-marshal.list:
+	* gst/camerabin/gstcamerabin.c:
+	* gst/camerabin/gstcamerabin.h:
+	* tests/check/elements/camerabin.c:
+	  camerabin: change img-done signal parameter from GString* to const gchar*
+	  Don't allow setting filename via img-done signal parameter but force app
+	  use filename property. Don't stop capture when setting filename property.
+	  Update check unit test based on the change.
+
+2009-04-15 13:23:01 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpdtmfmux.c:
+	* gst/rtpmux/gstrtpmux.c:
+	  rtpmux: Add GST_DEBUG_FUNCPTRs
+
+2009-04-15 13:15:55 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* gst/rtpmux/gstrtpdtmfmux.c:
+	  rtpdtmfmux: Release locked pad on release_pad
+	  Release the special pad if the pad is removed from the muxer.
+
+2009-04-15 13:09:27 -0400  Laurent Glayal <spglegle@yahoo.fr>
+
+	* gst/rtpmux/gstrtpdtmfmux.c:
+	  rtpdtmfmux: Release special on pad dispose
+	  Fixes #577690
+
+2009-04-15 18:14:48 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpjitterbuffer.c:
+	  jitterbuffer: prevent overflow in EOS estimation
+	  Use a guint64 instead of a guint to hold a 64bit value to prevent completely
+	  bogues EOS estimation values due to overflows.
+
+2009-04-15 17:44:17 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	* gst/rtpmanager/gstrtpbin.h:
+	  rtpbin: we should not provide a clock
+	  There is no need to provide a clock.
+
+2009-04-15 17:28:56 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpjitterbuffer.c:
+	  jitterbuffer: more estimated EOS fixes
+	  Do more accurate EOS estimate and guard against backward timestamps.
+
+2009-04-15 17:25:02 +0200  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpjitterbuffer.c:
+	  jitterbuffer: release lock before pushing EOS
+	  Make sure we release the jitterbuffer lock before we start pushing out data
+	  because else we might deadlock.
+
+2009-04-15 15:46:44 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	* gst/deinterlace2/gstdeinterlace2.h:
+	* gst/deinterlace2/tvtime/greedy.c:
+	* gst/deinterlace2/tvtime/greedyh.c:
+	* gst/deinterlace2/tvtime/tomsmocomp/TomsMoCompAll.inc:
+	  deinterlace2: Move output buffer from the instance struct to a function parameter
+
+2009-04-15 15:33:17 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	* gst/deinterlace2/gstdeinterlace2.h:
+	  deinterlace2: Add initial support for automatic detection of the field order
+
+2009-04-15 14:47:49 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace2/gstdeinterlace2.c:
+	  deinterlace2: Add support for YVYU colorspace
+	  This is the same as YUY2 with just Cr and Cb swapped. As
+	  we don't make a difference between them when deinterlacing
+	  this works.
+
+2009-04-13 13:32:34 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	  mxfmux: Small cleanup
+
+2009-04-10 18:00:06 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* sys/dshowdecwrapper/gstdshowaudiodec.cpp:
+	* sys/dshowdecwrapper/gstdshowvideodec.cpp:
+	  dshowdec: fix compilation with the debugging system disabled
+	  One GST_DEBUG_CATEGORY_INIT should be enough anyway.
+	  Fixes #578562 (spotted by David Hoyt).
+
+2009-04-09 23:53:39 +0200  Janin Kolenc <janin.kolenc at marand.si>
+
+	* ext/x264/gstx264enc.c:
+	* ext/x264/gstx264enc.h:
+	  x264enc: add force keyframe event handling
+	  Use the GstForceKeyUnit event to force a keyframe.
+	  Fixes #578112.
+
+2009-04-08 11:52:46 -0700  Michael Smith <msmith@songbirdnest.com>
+
+	* configure.ac:
+	* sys/acmenc/Makefile.am:
+	* sys/acmmp3dec/Makefile.am:
+	  acmenc, acmmp3dec, sdp: link to all requires libraries on win32.
+	  Add winsock for windows (for sdp). Link to all the plugins-base
+	  libs we indirectly use for acmmenc and acmmp3dec.
+
+2009-04-07 15:50:37 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* tests/check/Makefile.am:
+	* tests/check/pipelines/mxf.c:
+	  mxf: Add unit tests for checking if mxfmux ! mxfdemux pipelines are working without errors
+
+2009-04-07 15:49:00 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfdemux.c:
+	  mxfdemux: Don't use invalid buffer offsets, instead assume offset == 0
+
+2009-04-07 15:45:50 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmetadata.c:
+	  mxf: Fix comparison
+
+2009-04-07 15:19:29 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmetadata.c:
+	* gst/mxf/mxful.c:
+	* gst/mxf/mxful.h:
+	  Use UL database for all metadata ULs
+
+2009-04-07 04:53:02 +0300  René Stadler <mail@renestadler.de>
+
+	* gst/aacparse/gstbaseparse.c:
+	* gst/amrparse/gstbaseparse.c:
+	* gst/flacparse/gstbaseparse.c:
+	  baseparse: Fix slightly broken buffer-in-segment check (aacparse, amrparse, flacparse)
+
+2009-04-05 03:50:19 +0300  René Stadler <mail@renestadler.de>
+
+	* gst/aacparse/gstbaseparse.c:
+	* gst/amrparse/gstbaseparse.c:
+	  baseparse: Fix push mode seeking (aacparse, amrparse)
+	  Sending the flush-start event forward before taking the stream lock actually
+	  works, in contrast to deadlocking in downstream preroll_wait (hunk 1).
+	  After that we get the chain function being stuck in a busy loop. This is fixed
+	  by updating the minimum frame size inside the synchronization loop because the
+	  subclass asks for more data in this way (hunk 2).
+	  Finally, this leads to a very probable crash because the subclass can find a
+	  valid frame with a size greater than the currently available data in the
+	  adapter. This makes the subsequent gst_adapter_take_buffer call return NULL,
+	  which is not expected (hunk 3).
+
+2009-04-04 21:19:11 +0300  Felipe Contreras <felipe.contreras@gmail.com>
+
+	* common:
+	  Automatic update of common submodule
+	  From d0ea89e to b3941ea
+
+2009-04-04 17:51:34 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* ext/bz2/Makefile.am:
+	* ext/bz2/gstbz2dec.c:
+	* ext/bz2/gstbz2enc.c:
+	  bz2: fix some refcount mistakes and do some cleaning up
+	  No need to unref buffers if pad_push returns something non-FLOW_OK.
+	  In fact, this will cause assertions or crashes. However, we do need
+	  to unref the input buffer whenever we don't pass it downstream. Also,
+	  a non-OK flow return is not an error, so don't post error messages on
+	  the bus - the pipeline may just be shutting down. Miscellaneous other
+	  clean-ups and crack removal. Plenty of work left for those who feel
+	  like it.
+
+2009-04-04 14:54:25 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* common:
+	  Automatic update of common submodule
+	  From f8b3d91 to d0ea89e
+
+2009-04-03 23:10:28 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* configure.ac:
+	  configure.ac: fix dvdnav version check
+	  Fixes #577864. This time for real.
+
+2009-04-03 17:55:31 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* configure.ac:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: require libdvdnav >= 4.1.2 for dvdnav_get_current_time()
+	  Fixes #577864.
+
+2009-04-03 10:29:53 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* configure.ac:
+	  misc: Bump plugins-base requirement to 0.10.22.1
+
+2009-04-01 17:41:40 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Send both the logical and physical substream ID in the stream change.
+	  When sending the stream change message(s) to the demuxer, also include the
+	  logical stream id along with the physical ID, so that the demuxer can remap
+	  logical->physical MPEG stream ID.
+
+2009-04-01 02:23:20 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/Makefile.am:
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: Use new GstNavigation functionality.
+	  Handle the new DVD commands, so that we can handle commands from a player
+	  to change angle, jump to menus etc. Use the new GstNavigation event parsing
+	  functions, instead of hand-rolled stuff.
+	  Send GstNavigation notification messages when the mouse enters a button
+	  or leaves it, so UI can turn the mouse cursor to a hand icon.
+
+2009-03-30 01:07:49 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdbin.c:
+	* ext/resindvd/resindvdbin.h:
+	  resindvd: Switch to using a hard-coded mpeg2dec, and change pad blocking a bit.
+	  Change the pad blocking behaviour during startup, and use a hard-coded mpeg2dec (for the moment), in order to make things work with playbin2.
+
+2009-03-25 12:31:10 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Add newline to debug g_print statement
+
+2009-03-25 02:20:12 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Make highlights work when jumping into menus
+	  Make the highlights re-appear correctly when jumping back into menus
+	  by making sure to set the flushing_seek flag for user-action initiated
+	  seeks.
+	  Fiddle some debug related to tracking down the issue.
+
+2009-03-25 01:21:28 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Support multiangle titles.
+	  Add a workaround for an apparent libdvdnav bug where it loses nav packets
+	  during multiangle titles, and add some keypress bindings to switch the angle.
+
+2009-03-18 09:35:12 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdbin.c:
+	  resindvd: Add back in support for using hardcoded a52dec
+
+2009-03-16 20:31:58 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/gstmpegdemux.c:
+	  resindvd: Add some debug when creating the output pads in the demuxer
+
+2009-03-10 10:39:22 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/rsnaudiodec.c:
+	  resindvd: More hacking on the audio decoder.
+
+2009-03-05 00:04:24 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Trim back the g_print debug - convert to GST_DEBUG and GST_LOG
+
+2009-03-04 16:16:57 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdbin.c:
+	* ext/resindvd/rsnaudiodec.c:
+	* ext/resindvd/rsnaudiodec.h:
+	  resindvd: Extend the Resin audio decoder element, and switch rsndvdbin to use it
+
+2009-02-27 10:18:14 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/Makefile.am:
+	* ext/resindvd/rsnaudiodec.c:
+	* ext/resindvd/rsnaudiodec.h:
+	  resindvd: First part of the re-plugging audio decoder
+
+2009-02-27 09:42:35 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdbin.c:
+	  resindvd: remove unused code path from the bin
+
+2009-02-26 00:29:26 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdbin.h:
+	  resindvd: Indent some things
+
+2009-02-26 00:27:54 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/rsnaudiomunge.c:
+	* ext/resindvd/rsnwrappedbuffer.c:
+	  resindvd: Switch GST_BOILERPLATE to G_DEFINE_TYPE for no real reason.
+
+2009-03-24 01:02:28 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	* ext/resindvd/resindvdsrc.h:
+	  resindvd: Add faststart, and work around some multi-angle issues
+	  Add a 'fast-start' property to the rsndvdsrc element, that attempts to
+	  jump directly to the DVD menu when starting. Doesn't work correctly on all
+	  titles yet.
+	  Add workarounds for issues with multiple angles in libdvdnav: Use a heuristic
+	  to avoid detecting discontinuities during multiple-angle titles, it seems
+	  caused by libdvdnav losing some NAV packets in multiangle titles. Fix
+	  seeking in multi-angle titles by aligning our sector calculation logic
+	  with libdvdnav's. Also, use libdvdnav's dvdnav_get_current_time() method
+	  to determine the logical position of the current cell when it changes, as the
+	  cell_start value in the cell_change event provides a number that doesn't
+	  compensate for angle cell blocks.
+
+2009-03-21 19:04:05 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ext/resindvd/resindvdsrc.c:
+	  resindvd: Small debug output change in the source element
+
+2009-04-01 02:25:42 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* gst/dvdspu/gstdvdspu.c:
+	  dvdspu: Add some debug
+	  Add a little bit of extra debug. Wrap a hardcoded #if 0 into a define instead.
+
+2009-04-02 13:05:11 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* ext/jp2k/gstjasperenc.c:
+	  jp2enc: Unref peer caps after usage to fix a memory leak
+
+2009-04-02 12:46:13 +0200  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* tests/check/Makefile.am:
+	* tests/check/elements/mxfmux.c:
+	  mxfmux: Add unit tests
+
+2009-04-01 15:45:22 +0100  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* gst/legacyresample/gstlegacyresample.c:
+	  legacyresample: fix negotiation so that upstream can actually fixate to downstream's rate
+	  If one side has a preference for a particular sample rate or set of sample rates, we
+	  should honour this in the caps we advertise and transform to and from, so that elements
+	  actually know about the other side's sample rate preference and can negotiate to it
+	  if supported. Also add unit test for this.
+
+2009-03-31 16:07:46 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* gst/aacparse/gstbaseparse.c:
+	* gst/amrparse/gstbaseparse.c:
+	  baseparse: Delay newsegment as long as possible.
+	  If newsegment is sent (too) early, caps may not yet be fixed/set,
+	  and downstream may not have been linked.
+
+2009-03-30 21:57:12 +0200  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* ext/mpeg2enc/gstmpeg2encoptions.cc:
+	  mpeg2enc: fix bitrate property settings
+	  Align bitrate property interpretation with usual mpeg2enc behaviour.
+	  Fixes #575736.
+
+2009-03-27 21:39:05 +0000  Alan Falloon <afalloon@lumenera.com>
+
+	* configure.ac:
+	  configure.ac: make --disable-external work again
+
+2009-03-27 19:37:47 +0000  Tim-Philipp Müller <tim.muller@collabora.co.uk>
+
+	* ext/jp2k/gstjasperdec.c:
+	* ext/jp2k/gstjasperdec.h:
+	  jp2kdec: implement basic QoS
+	  Don't try to decode frames that are going to be late anyway.
+
+2009-03-27 17:44:57 +0100  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/rtpmanager/gstrtpbin.c:
+	* gst/rtpmanager/gstrtpbin.h:
+	* gst/rtpmanager/gstrtpjitterbuffer.c:
+	* gst/rtpmanager/gstrtpjitterbuffer.h:
+	  rtpbin: add on_npt_stop signal
+	  Add the on_npt_stop signal to rtpbin and rtpjitterbuffer to notify the
+	  application that the NPT stop position has been reached.
+
+2009-03-27 11:20:02 +0100  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/selector/gstoutputselector.c:
+	  outputselector: reset state when going to READY
+	  Reset the last-buffer, the pending pad and the segment when going to the READY
+	  state.
+	  Fixes #576712.
+
+2009-03-25 21:24:44 +0100  Mark Nauwelaerts <mark.nauwelaerts@collabora.co.uk>
+
+	* gst/qtmux/gstqtmux.c:
+	  qtmux: fix reusing element
+	  State change to READY and then back to PAUSED should still provide
+	  the proper structures as are otherwise freshly available following
+	  a request_new_pad.
+	  Pointed out by Thiago Santos.
+
+2009-03-26 20:28:30 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	* gst/mxf/mxftypes.c:
+	  mxf: Fix compilation and compiler errors with GLib < 2.16.0
+
+2009-03-26 14:26:34 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxftypes.c:
+	  mxf: Fix "cast to pointer type of different size" compiler warning
+
+2009-03-26 13:24:49 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxftypes.c:
+	  mxf: Rename forgotten function to fix unresolved symbols error
+
+2009-03-26 13:20:18 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfaes-bwf.c:
+	* gst/mxf/mxfdemux.c:
+	* gst/mxf/mxfdv-dif.c:
+	* gst/mxf/mxfvc3.c:
+	  mxf: Use mxf_u{l,uid}_is_equal() and friends instead of memcmp()
+
+2009-03-26 13:11:07 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfaes-bwf.c:
+	* gst/mxf/mxfdemux.c:
+	* gst/mxf/mxfdms1.c:
+	* gst/mxf/mxfdms1.h:
+	* gst/mxf/mxfmetadata.c:
+	* gst/mxf/mxfmetadata.h:
+	* gst/mxf/mxfmpeg.c:
+	* gst/mxf/mxfmux.c:
+	* gst/mxf/mxftypes.c:
+	* gst/mxf/mxftypes.h:
+	  mxf: Differentiate between UL and UUID
+
+2009-03-26 12:46:22 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/Makefile.am:
+	* gst/mxf/mxf.c:
+	* gst/mxf/mxfaes-bwf.c:
+	* gst/mxf/mxfaes-bwf.h:
+	* gst/mxf/mxfalaw.c:
+	* gst/mxf/mxfalaw.h:
+	* gst/mxf/mxfd10.c:
+	* gst/mxf/mxfd10.h:
+	* gst/mxf/mxfdemux.c:
+	* gst/mxf/mxfdemux.h:
+	* gst/mxf/mxfdms1.c:
+	* gst/mxf/mxfdv-dif.c:
+	* gst/mxf/mxfdv-dif.h:
+	* gst/mxf/mxfessence.c:
+	* gst/mxf/mxfessence.h:
+	* gst/mxf/mxfjpeg2000.c:
+	* gst/mxf/mxfjpeg2000.h:
+	* gst/mxf/mxfmetadata.c:
+	* gst/mxf/mxfmpeg.c:
+	* gst/mxf/mxfmpeg.h:
+	* gst/mxf/mxfmux.h:
+	* gst/mxf/mxfparse.c:
+	* gst/mxf/mxfparse.h:
+	* gst/mxf/mxftypes.c:
+	* gst/mxf/mxftypes.h:
+	* gst/mxf/mxful.c:
+	* gst/mxf/mxful.h:
+	* gst/mxf/mxfup.c:
+	* gst/mxf/mxfup.h:
+	* gst/mxf/mxfvc3.c:
+	* gst/mxf/mxfvc3.h:
+	* gst/mxf/mxfwrite.c:
+	* gst/mxf/mxfwrite.h:
+	  mxf: Source files and #include cleanup
+
+2009-03-26 12:10:05 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* configure.ac:
+	* gst/xdgmime/Makefile.am:
+	* gst/xdgmime/gstxdgmime.c:
+	  xdgmime: Use GIOs g_content_type_guess() if possible
+
+2009-03-26 11:51:43 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfwrite.c:
+	  mxf: Use the UL database for some more ULs
+
+2009-03-26 11:42:45 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmetadata.c:
+	  mxf: Remove some GLib < 2.14 compatibility stuff
+
+2009-03-26 11:37:28 +0100  Руслан Ижбулатов <lrn1986@gmail.com>
+
+	* configure.ac:
+	* sys/acmenc/Makefile.am:
+	* sys/acmenc/acmenc.c:
+	* sys/acmmp3dec/Makefile.am:
+	* sys/acmmp3dec/acmmp3dec.c:
+	  acm: Port to MinGW
+	  Fixes bug #573595.
+
+2009-03-26 11:33:50 +0100  Руслан Ижбулатов <lrn1986@gmail.com>
+
+	* configure.ac:
+	* gst/xdgmime/Makefile.am:
+	  xdgmime: Link with winsock library to fix build with MinGW
+	  Partially fixes bug #573595.
+
+2009-03-26 11:32:08 +0100  Руслан Ижбулатов <lrn1986@gmail.com>
+
+	* configure.ac:
+	* gst/dccp/Makefile.am:
+	* gst/dccp/gstdccp.c:
+	* gst/dccp/gstdccp.h:
+	* gst/dccp/gstdccp_common.h:
+	* gst/dccp/gstdccpclientsink.c:
+	* gst/dccp/gstdccpclientsink.h:
+	* gst/dccp/gstdccpclientsrc.c:
+	* gst/dccp/gstdccpclientsrc.h:
+	* gst/dccp/gstdccpserversink.c:
+	* gst/dccp/gstdccpserversink.h:
+	* gst/dccp/gstdccpserversrc.c:
+	* gst/dccp/gstdccpserversrc.h:
+	  dccp: Port DCCP plugin to MinGW
+	  Partially fixes bug #573595.
+
+2009-03-26 11:23:30 +0100  Руслан Ижбулатов <lrn1986@gmail.com>
+
+	* configure.ac:
+	  dccp: Disable the dccp plugin if no pthread support is available
+	  Partially fixes bug #573595.
+
+2009-03-26 08:13:10 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	  Merge branch 'mxfmux'
+
+2009-03-26 08:12:02 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfdv-dif.c:
+	* gst/mxf/mxfjpeg2000.c:
+	* gst/mxf/mxfvc3.c:
+	  mxfmux: Cleanup
+
+2009-03-26 08:11:20 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfaes-bwf.c:
+	* gst/mxf/mxfalaw.c:
+	* gst/mxf/mxfmux.c:
+	* gst/mxf/mxfmux.h:
+	  mxfmux: Fix handling of buffers with more than one edit unit and EOS handling
+
+2009-03-25 23:04:13 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* ext/ladspa/gstsignalprocessor.c:
+	* ext/ladspa/gstsignalprocessor.h:
+	  ladspa: comment signalprocessor class more and do minor code cleanups
+
+2009-03-25 12:40:35 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* configure.ac:
+	  Require core >= 0.10.22.1 for %u pad template support
+
+2009-03-24 15:23:03 +0100  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/selector/gstinputselector.c:
+	  selector: merge the tags
+	  Merge the tags received on the input-selector sinkpads instead of only keeping
+	  the last one we saw.
+
+2009-03-23 19:33:31 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* NEWS:
+	  Fix version number in the NEWS file
+
+2009-03-19 01:17:25 +0200  René Stadler <mail@renestadler.de>
+
+	* gst/aacparse/gstaacparse.c:
+	  aacparse: Fix busyloop when seeking. Fixes #575388
+	  The problem is that after a discont, set_min_frame_size(1024) is called when
+	  detect_stream returns FALSE. However, detect_stream calls check_adts_frame
+	  which sets the frame size on its own to something larger than 1024. This is the
+	  same situation as in the beginning, so the base class ends up calling
+	  check_valid_frame in an endless loop.
+
+2009-03-19 00:32:40 +0200  René Stadler <mail@renestadler.de>
+
+	* gst/aacparse/gstaacparse.c:
+	  aacparse: Refactor check_valid_frame to expose broken code
+	  Just moving code around and removing an unhelpful/misleading comment.
+
+2009-03-23 11:17:39 +0100  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* gst/qtmux/gstqtmux.c:
+	  qtmux: fix includes for lseek
+	  --
+
+2009-03-20 14:20:16 +0100  LRN <lrn1986 at gmail dot com>
+
+	* gst/qtmux/gstqtmux.c:
+	  win32: fix seeking in large files
+	  Use _lseeki64() on Windows to seek in large files.
+	  Fixes #576021.
+
+2009-03-16 11:21:02 +0100  Wim Taymans <wim.taymans@collabora.co.uk>
+
+	* ext/jack/gstjack.c:
+	* ext/jack/gstjack.h:
+	* ext/jack/gstjackaudiosink.c:
+	* ext/jack/gstjackaudiosrc.c:
+	  jack: Add new connection mode
+	  Add a new connection mode to jacksrc and jacksink. In this new auto-force
+	  connection mode jack will create as many ports as requested/needed in the
+	  pipeline and will then connect as many physical ports as possible, possibly
+	  leaving some ports unconnected.
+	  Also get rid of some leftover g_print.
+	  Fixes #575284.
+
+2009-03-23 15:06:11 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfparse.c:
+	  mxf: Move some static const variables into functions
+
+2009-03-13 19:42:18 +0100  Alessandro Decina <alessandro.decina@collabora.co.uk>
+
+	* configure.ac:
+	* ext/celt/gstceltenc.c:
+	  celtenc: build with celt 0.5.
+
+2009-03-22 20:14:25 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* configure.ac:
+	  back to development -> 0.10.11.1
+
+2009-03-20 15:55:19 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* tests/check/Makefile.am:
+	  tests: reenable metadata test
+
+2009-03-20 15:33:31 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* tests/check/Makefile.am:
+	  metadata: reenable test
+
+2009-03-20 15:18:05 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* ext/metadata/metadataexif.h:
+	* ext/metadata/metadataiptc.h:
+	* ext/metadata/metadatamuxjpeg.c:
+	* ext/metadata/metadatamuxpng.c:
+	* ext/metadata/metadataparsejpeg.c:
+	* ext/metadata/metadataparsepng.c:
+	* ext/metadata/metadataxmp.h:
+	  metdata: more logging and code cleanups
+	  Sprinkle more debug log statements into the code. Move some repeaded string
+	  constant into header files and use sizeof instead of manually counted bytes. Add
+	  comments.
+
+2009-03-20 15:14:07 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* ext/metadata/metadatamuxjpeg.c:
+	  metadata: fix muxing jfifless jpeg. Fixes #574401
+	  Don't error out when to be muxed jpeg has no jfif, as we can easily
+	  add it.
+
+2009-03-20 15:10:22 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* ext/metadata/metadataexif.h:
+	* ext/metadata/metadataiptc.h:
+	* ext/metadata/metadataxmp.h:
+	  metadata: fix include guards
+
+2009-03-20 15:04:16 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* ext/metadata/metadata.c:
+	  metadata: rework doc comment
+
+2009-03-09 23:43:55 +0200  Stefan Kost <ensonic@users.sf.net>
+
+	* gst/autoconvert/Makefile.am:
+	* gst/camerabin/Makefile.am:
+	* gst/dtmf/Makefile.am:
+	* gst/liveadder/Makefile.am:
+	* gst/mxf/Makefile.am:
+	* gst/nuvdemux/Makefile.am:
+	* gst/qtmux/Makefile.am:
+	* gst/rtpmux/Makefile.am:
+	* gst/siren/Makefile.am:
+	* gst/valve/Makefile.am:
+	  Makefile.am: no static libs for plugins
+
+2009-03-22 15:58:50 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	  mxfmux: Fix error handling
+
+2009-03-22 15:51:37 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfaes-bwf.c:
+	* gst/mxf/mxfalaw.c:
+	* gst/mxf/mxfdv-dif.c:
+	* gst/mxf/mxfjpeg2000.c:
+	* gst/mxf/mxfmetadata.c:
+	* gst/mxf/mxfmetadata.h:
+	* gst/mxf/mxfmpeg.c:
+	* gst/mxf/mxfup.c:
+	* gst/mxf/mxfvc3.c:
+	  mxfmux: Fix some memory leaks, improve debugging and handle errors better
+
+2009-03-22 15:35:42 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	* gst/mxf/mxfmux.h:
+	  mxfmux: Add an error state from which we return immediately
+	  Also improve debugging a bit.
+
+2009-03-19 20:41:16 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxful.c:
+	  mxf: Optimize mxf_ul_is_subclass() a bit
+
+2009-03-19 14:30:34 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/Makefile.am:
+	* gst/mxf/mxfparse.c:
+	* gst/mxf/mxfparse.h:
+	* gst/mxf/mxftypes.h:
+	* gst/mxf/mxful.c:
+	* gst/mxf/mxful.h:
+	  mxf: Start implementing a central UL database and add some helper functions and use them
+
+2009-03-17 14:27:50 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmpeg.c:
+	  mxfmux: Make sure to include a picture in the edit units when muxing MPEG2/MPEG4
+
+2009-03-17 14:23:37 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmpeg.c:
+	  mxfdemux: Remove accidentially committed g_assert_not_reached()
+
+2009-03-16 17:49:40 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfup.c:
+	  mxf: Add support for muxing/demuxing subsampled YUV formats
+
+2009-03-16 17:22:22 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfup.c:
+	  mxfdemux: Use correct width/height for stride conversions
+
+2009-03-16 17:18:17 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfup.c:
+	  mxf: Implement stride transformations for raw video content for muxing and demuxing
+
+2009-03-16 15:37:25 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfup.c:
+	  mxfdemux: Simplify caps selection by using a lookup table
+
+2009-03-16 12:48:31 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfup.c:
+	  mxfmux: Add initial support for muxing raw picture essence
+
+2009-03-16 12:15:46 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	  mxfmux: Only add an essence container UL once to the partition and preface
+
+2009-03-16 12:07:20 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfup.c:
+	  mxfdemux: Add support for AYUV and v308 YUV colorspaces
+
+2009-03-16 11:00:57 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmpeg.c:
+	  mxfmux: Use the correct edit rate instead of estimating it from the first buffer duration
+
+2009-03-15 15:27:56 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfdemux.c:
+	  mxfdemux: Error out directly if pushing a packet downstream failed
+
+2009-03-15 15:27:24 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfdv-dif.c:
+	  mxfmux: Add support for DV/DIF muxing and add framerate, etc to the caps when demuxing DV/DIF content
+
+2009-03-15 15:27:03 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmux.c:
+	  mxfmux: Add some debugging and error out on invalid input data
+
+2009-03-14 19:59:39 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/deinterlace/gstdeinterlace.c:
+	  deinterlace: Fix uninitialized variable compiler warnings
+
+2009-03-11 19:38:26 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmpeg.c:
+	  mxfmux: Add support for muxing MPEG audio and video
+
+2009-03-11 19:38:02 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfmpeg.c:
+	  mxfdemux: Use correct caps type for AC3 audio (audio/x-ac3 instead of audio/ac3)
+
+2009-03-11 19:34:12 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfjpeg2000.c:
+	  mxfmux: Add support for muxing JPEG2000 code streams
+
+2009-03-11 19:33:54 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfvc3.c:
+	  mxfmux: Add support for muxing VC-3 (aka DNxHD) video
+
+2009-03-11 19:33:38 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfalaw.c:
+	  mxfmux: Add support for muxing A-Law audio
+
+2009-03-11 19:33:18 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* gst/mxf/mxfaes-bwf.c:
+	  mxfmux: Add support for muxing raw audio
+
+2009-03-11 19:32:16 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* configure.ac:
+	* gst/mxf/Makefile.am:
+	* gst/mxf/mxf.c:
+	* gst/mxf/mxfmetadata.c:
+	* gst/mxf/mxfmetadata.h:
+	* gst/mxf/mxfmux.c:
+	* gst/mxf/mxfmux.h:
+	* gst/mxf/mxfparse.c:
+	* gst/mxf/mxfparse.h:
+	* gst/mxf/mxftypes.h:
+	* gst/mxf/mxfwrite.c:
+	* gst/mxf/mxfwrite.h:
+	  mxf: Add MXF muxer
+	  This muxer currently only supports OP1a and is
+	  probably not yet 100% complying to the standards.
+
+2009-03-11 19:30:22 +0100  Sebastian Dröge <sebastian.droege@collabora.co.uk>
+
+	* ext/jp2k/gstjasperenc.c:
+	  jp2kenc: Add width/height/fourcc to the pad template caps
+
+=== release 0.10.11 ===
+
+2009-03-21 01:09:08 +0000  Jan Schmidt <thaytan@noraisin.net>
+
+	* ChangeLog:
+	* NEWS:
+	* RELEASE:
+	* configure.ac:
+	* docs/plugins/gst-plugins-bad-plugins.args:
+	* docs/plugins/gst-plugins-bad-plugins.hierarchy:
+	* docs/plugins/gst-plugins-bad-plugins.interfaces:
+	* docs/plugins/gst-plugins-bad-plugins.prerequisites:
+	* docs/plugins/gst-plugins-bad-plugins.signals:
+	* docs/plugins/inspect/plugin-aacparse.xml:
+	* docs/plugins/inspect/plugin-aiffparse.xml:
+	* docs/plugins/inspect/plugin-alsaspdif.xml:
+	* docs/plugins/inspect/plugin-amrparse.xml:
+	* docs/plugins/inspect/plugin-apex.xml:
+	* docs/plugins/inspect/plugin-autoconvert.xml:
+	* docs/plugins/inspect/plugin-bayer.xml:
+	* docs/plugins/inspect/plugin-bz2.xml:
+	* docs/plugins/inspect/plugin-camerabin.xml:
+	* docs/plugins/inspect/plugin-cdaudio.xml:
+	* docs/plugins/inspect/plugin-cdxaparse.xml:
+	* docs/plugins/inspect/plugin-celt.xml:
+	* docs/plugins/inspect/plugin-dc1394.xml:
+	* docs/plugins/inspect/plugin-dccp.xml:
+	* docs/plugins/inspect/plugin-deinterlace2.xml:
+	* docs/plugins/inspect/plugin-dfbvideosink.xml:
+	* docs/plugins/inspect/plugin-dirac.xml:
+	* docs/plugins/inspect/plugin-dtmf.xml:
+	* docs/plugins/inspect/plugin-dtsdec.xml:
+	* docs/plugins/inspect/plugin-dvb.xml:
+	* docs/plugins/inspect/plugin-dvdspu.xml:
+	* docs/plugins/inspect/plugin-faac.xml:
+	* docs/plugins/inspect/plugin-faad.xml:
+	* docs/plugins/inspect/plugin-fbdevsink.xml:
+	* docs/plugins/inspect/plugin-festival.xml:
+	* docs/plugins/inspect/plugin-flv.xml:
+	* docs/plugins/inspect/plugin-freeze.xml:
+	* docs/plugins/inspect/plugin-gsm.xml:
+	* docs/plugins/inspect/plugin-gstinterlace.xml:
+	* docs/plugins/inspect/plugin-gstrtpmanager.xml:
+	* docs/plugins/inspect/plugin-gstsiren.xml:
+	* docs/plugins/inspect/plugin-h264parse.xml:
+	* docs/plugins/inspect/plugin-jack.xml:
+	* docs/plugins/inspect/plugin-ladspa.xml:
+	* docs/plugins/inspect/plugin-legacyresample.xml:
+	* docs/plugins/inspect/plugin-liveadder.xml:
+	* docs/plugins/inspect/plugin-metadata.xml:
+	* docs/plugins/inspect/plugin-mms.xml:
+	* docs/plugins/inspect/plugin-modplug.xml:
+	* docs/plugins/inspect/plugin-mpeg2enc.xml:
+	* docs/plugins/inspect/plugin-mpeg4videoparse.xml:
+	* docs/plugins/inspect/plugin-mpegdemux2.xml:
+	* docs/plugins/inspect/plugin-mpegtsmux.xml:
+	* docs/plugins/inspect/plugin-mpegvideoparse.xml:
+	* docs/plugins/inspect/plugin-musepack.xml:
+	* docs/plugins/inspect/plugin-musicbrainz.xml:
+	* docs/plugins/inspect/plugin-mve.xml:
+	* docs/plugins/inspect/plugin-mxf.xml:
+	* docs/plugins/inspect/plugin-mythtv.xml:
+	* docs/plugins/inspect/plugin-nas.xml:
+	* docs/plugins/inspect/plugin-neon.xml:
+	* docs/plugins/inspect/plugin-nsfdec.xml:
+	* docs/plugins/inspect/plugin-nuvdemux.xml:
+	* docs/plugins/inspect/plugin-ofa.xml:
+	* docs/plugins/inspect/plugin-oss4.xml:
+	* docs/plugins/inspect/plugin-pcapparse.xml:
+	* docs/plugins/inspect/plugin-qtmux.xml:
+	* docs/plugins/inspect/plugin-rawparse.xml:
+	* docs/plugins/inspect/plugin-real.xml:
+	* docs/plugins/inspect/plugin-resindvd.xml:
+	* docs/plugins/inspect/plugin-rfbsrc.xml:
+	* docs/plugins/inspect/plugin-rtpmux.xml:
+	* docs/plugins/inspect/plugin-scaletempo.xml:
+	* docs/plugins/inspect/plugin-sdl.xml:
+	* docs/plugins/inspect/plugin-sdp.xml:
+	* docs/plugins/inspect/plugin-selector.xml:
+	* docs/plugins/inspect/plugin-sndfile.xml:
+	* docs/plugins/inspect/plugin-soundtouch.xml:
+	* docs/plugins/inspect/plugin-spcdec.xml:
+	* docs/plugins/inspect/plugin-speed.xml:
+	* docs/plugins/inspect/plugin-stereo.xml:
+	* docs/plugins/inspect/plugin-subenc.xml:
+	* docs/plugins/inspect/plugin-tta.xml:
+	* docs/plugins/inspect/plugin-valve.xml:
+	* docs/plugins/inspect/plugin-vcdsrc.xml:
+	* docs/plugins/inspect/plugin-videosignal.xml:
+	* docs/plugins/inspect/plugin-vmnc.xml:
+	* docs/plugins/inspect/plugin-wildmidi.xml:
+	* docs/plugins/inspect/plugin-x264.xml:
+	* docs/plugins/inspect/plugin-xdgmime.xml:
+	* docs/plugins/inspect/plugin-xvid.xml:
+	* docs/plugins/inspect/plugin-y4menc.xml:
+	* gst-plugins-bad.doap:
+	* win32/common/config.h:
+	  Release 0.10.11
 
 2009-03-20 23:37:39 +0000  Jan Schmidt <thaytan@noraisin.net>
 

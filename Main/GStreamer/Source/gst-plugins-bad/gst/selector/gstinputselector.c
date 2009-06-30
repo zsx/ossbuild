@@ -392,27 +392,36 @@ gst_selector_pad_event (GstPad * pad, GstEvent * event)
       gst_segment_set_newsegment_full (&selpad->segment, update,
           rate, arate, format, start, stop, time);
       GST_OBJECT_UNLOCK (selpad);
-      /* we are not going to forward the segment, mark the segment as
-       * pending */
-      forward = FALSE;
-      selpad->segment_pending = TRUE;
-      GST_INPUT_SELECTOR_UNLOCK (sel);
 
+      /* If we aren't forwarding the event (because the pad is not the
+       * active_sinkpad, and select_all is not set, then set the flag on the
+       * that says a segment needs sending if/when that pad is activated.
+       * For all other cases, we send the event immediately, which makes
+       * sparse streams and other segment updates work correctly downstream.
+       */
+      if (!forward)
+        selpad->segment_pending = TRUE;
+
+      GST_INPUT_SELECTOR_UNLOCK (sel);
       break;
     }
     case GST_EVENT_TAG:
     {
-      GstTagList *tags;
+      GstTagList *tags, *oldtags, *newtags;
+
+      gst_event_parse_tag (event, &tags);
 
       GST_OBJECT_LOCK (selpad);
-      if (selpad->tags)
-        gst_tag_list_free (selpad->tags);
-      gst_event_parse_tag (event, &tags);
-      if (tags)
-        tags = gst_tag_list_copy (tags);
-      selpad->tags = tags;
-      GST_DEBUG_OBJECT (pad, "received tags %" GST_PTR_FORMAT, selpad->tags);
+      oldtags = selpad->tags;
+
+      newtags = gst_tag_list_merge (oldtags, tags, GST_TAG_MERGE_REPLACE);
+      selpad->tags = newtags;
+      if (oldtags)
+        gst_tag_list_free (oldtags);
+      GST_DEBUG_OBJECT (pad, "received tags %" GST_PTR_FORMAT, newtags);
       GST_OBJECT_UNLOCK (selpad);
+
+      g_object_notify (G_OBJECT (selpad), "tags");
       break;
     }
     case GST_EVENT_EOS:
@@ -1408,6 +1417,7 @@ gst_input_selector_check_eos (GstElement * selector)
         if (!pad->eos) {
           done = TRUE;
         }
+        gst_object_unref (pad);
         break;
       case GST_ITERATOR_RESYNC:
         gst_iterator_resync (it);
