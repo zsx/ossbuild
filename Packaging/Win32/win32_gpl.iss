@@ -34,6 +34,7 @@ Source: "..\..\Libraries\ReadMe-GPL.txt"; DestDir: "{app}\share\licenses"; Flags
 Source: "..\..\Libraries\ReadMe-BSD.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
 Source: ".\COPYING"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\plugins\*.dll"; DestDir: "{app}\lib\gstreamer-0.10"; Flags: ignoreversion
+Source: "..\..\Shared\Build\Windows\Win32\etc\*"; DestDir: "{app}\etc"; Flags: ignoreversion  recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
