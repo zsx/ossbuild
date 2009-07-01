@@ -154,7 +154,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\FFmpeg.vsprops;..\..\..\Properties\gstreamer-plugin-ffmpeg.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-ffmpeg.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\FFmpegGPL.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
