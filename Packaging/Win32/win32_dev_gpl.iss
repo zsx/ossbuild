@@ -31,7 +31,7 @@ Source: "..\..\Shared\Build\Windows\Win32\include\*"; DestDir: "{app}\include"; 
 Source: "..\..\Build\Windows\Win32\Release\lib\gstreamer\gst*"; DestDir: "{app}\lib"; Flags: ignoreversion
 Source: "..\..\Shared\Build\Windows\Win32\lib\*exp"; DestDir: "{app}\lib"; Flags: ignoreversion
 Source: "..\..\Shared\Build\Windows\Win32\lib\*lib"; DestDir: "{app}\lib"; Flags: ignoreversion
-Source: "..\..\Shared\Build\Windows\Win32\lib\*a"; DestDir: "{app}\lib"; Flags: ignoreversion
+Source: "..\..\Shared\Build\Windows\Win32\lib\*.a"; DestDir: "{app}\lib"; Flags: ignoreversion
 Source: "..\..\Shared\Build\Windows\Win32\lib\glib-2.0\*"; DestDir: "{app}\lib\glib-2.0"; Flags: ignoreversion  recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
