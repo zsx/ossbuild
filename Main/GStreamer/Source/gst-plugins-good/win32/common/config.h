@@ -15,7 +15,7 @@
 #define DEFAULT_AUDIOSRC "audiotestsrc"
 
 /* Default video sink */
-#undef DEFAULT_VIDEOSINK
+#define DEFAULT_VIDEOSINK "directdrawsink"
 
 /* Default video source */
 #define DEFAULT_VIDEOSRC "videotestsrc"
