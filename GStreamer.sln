@@ -649,13 +649,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{E025DAEC-46F6-4E0E-ADAE-0F51F60CA74D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstgl", "Main\GStreamer\Plugins\GL\gst-libs\libgstgl.vcproj", "{09475780-CDE5-45AD-BF90-BE489DD12A23}"
-	ProjectSection(ProjectDependencies) = postProject
-		{39C85775-F04E-415A-ADE9-89B10D85F5D0} = {39C85775-F04E-415A-ADE9-89B10D85F5D0}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{E3D83F9F-F87A-4CA9-B8A6-0B11162F2A28}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstgl", "Main\GStreamer\Plugins\GL\gst\libgstgl-plg.vcproj", "{0597EA2B-A46C-4CF1-B534-011D6DB91B96}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstopengl", "Main\GStreamer\Plugins\GL\gst\libgstgl-plg.vcproj", "{0597EA2B-A46C-4CF1-B534-011D6DB91B96}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstx264", "Main\GStreamer\Plugins\Bad\ext\libgstx264.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1036}"
 EndProject
