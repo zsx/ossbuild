@@ -10,7 +10,7 @@
 		Name="VCCLCompilerTool"
 		InlineFunctionExpansion="2"
 		FavorSizeOrSpeed="1"
-		AdditionalIncludeDirectories="&quot;$(IntDir)\..\common\&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\gstreamer-$(ApiVersionString)\&quot;"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\gstreamer-$(ApiVersionString)\&quot;"
 		PreprocessorDefinitions="WIN32;_WINDOWS;_USRDLL;HAVE_CONFIG_H;HAVE_WIN32;YYFREE=free;YYMALLOC=malloc;YY_NO_UNISTD_H"
 	/>
 	<Tool

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstbase"
 	ProjectGUID="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
 	RootNamespace="libgstbase"
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\Properties\gstreamer.vsprops"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\Properties\gstreamer-Libraries.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -158,7 +158,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\Properties\gstreamer.vsprops"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\Properties\gstreamer-Libraries.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>

@@ -6,6 +6,10 @@
 	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
 	>
 	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)Main\GStreamer\Source\gstreamer\win32\common\&quot;"
+	/>
+	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="gstreamer.lib"
 		EntryPointSymbol=""

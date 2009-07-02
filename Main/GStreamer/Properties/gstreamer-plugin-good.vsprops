@@ -7,6 +7,6 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="..\..\..\Source\gst-plugins-good\gst-libs\"
+		AdditionalIncludeDirectories="$(SolutionDir)Main\GStreamer\Source\gst-plugins-good\gst-libs\;&quot;..\..\..\Source\gst-plugins-good\win32\common\&quot;"
 	/>
 </VisualStudioPropertySheet>

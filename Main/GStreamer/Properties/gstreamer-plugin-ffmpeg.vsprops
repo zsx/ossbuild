@@ -7,7 +7,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		PreprocessorDefinitions="FFMPEG_SOURCE=\&quot;local snapshot\&quot;;inline=_inline"
+		PreprocessorDefinitions="inline=_inline"
 	/>
 	<Tool
 		Name="VCLinkerTool"

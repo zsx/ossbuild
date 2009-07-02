@@ -5,4 +5,10 @@
 	Name="GStreamer Farsight Plugins"
 	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
 	>	
+
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)Main\GStreamer\Plugins\Farsight\&quot;"
+	/>
+
 </VisualStudioPropertySheet>

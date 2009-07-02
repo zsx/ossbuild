@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstreamer"
 	ProjectGUID="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
 	RootNamespace="libgstreamer"
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;..\Properties\gstreamer-Libraries.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -188,7 +188,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
+			InheritedPropertySheets="..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer-Libraries.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -1674,62 +1674,6 @@
 									>
 									<Tool
 										Name="Header Installer Tool"
-									/>
-								</FileConfiguration>
-							</File>
-						</Filter>
-					</Filter>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="Generated"
-				>
-				<Filter
-					Name="gstreamer"
-					>
-					<Filter
-						Name="win32"
-						>
-						<Filter
-							Name="common"
-							>
-							<File
-								RelativePath="..\Source\gstreamer\win32\common\config.h"
-								>
-								<FileConfiguration
-									Name="Debug|Win32"
-									>
-									<Tool
-										Name="Copy Tool"
-										DestinationPath="$(IntDir)\..\common\$(InputFileName)"
-									/>
-								</FileConfiguration>
-								<FileConfiguration
-									Name="Release|Win32"
-									>
-									<Tool
-										Name="Copy Tool"
-										DestinationPath="$(IntDir)\..\common\$(InputFileName)"
-									/>
-								</FileConfiguration>
-							</File>
-							<File
-								RelativePath="..\Source\gstreamer\win32\common\gtchar.h"
-								>
-								<FileConfiguration
-									Name="Debug|Win32"
-									>
-									<Tool
-										Name="Copy Tool"
-										DestinationPath="$(IntDir)\..\common\$(InputFileName)"
-									/>
-								</FileConfiguration>
-								<FileConfiguration
-									Name="Release|Win32"
-									>
-									<Tool
-										Name="Copy Tool"
-										DestinationPath="$(IntDir)\..\common\$(InputFileName)"
 									/>
 								</FileConfiguration>
 							</File>

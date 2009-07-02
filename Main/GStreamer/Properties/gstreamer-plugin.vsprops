@@ -7,10 +7,6 @@
 	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
 	>
 	<Tool
-		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;$(IntDir)\..\..\common\&quot;"
-	/>
-	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="gstnet.lib gstdataprotocol.lib gstcontroller.lib gstbase.lib gstreamer.lib"
 		OutputFile="$(OutDir)\bin\gstreamer\plugins\lib$(ProjectName).dll"
