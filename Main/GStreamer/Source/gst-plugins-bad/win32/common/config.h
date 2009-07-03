@@ -39,7 +39,7 @@
 #undef HAVE_CPU_HPPA
 
 /* Define if the host CPU is an x86 */
-#undef HAVE_CPU_I386
+#define HAVE_CPU_I386 1
 
 /* Define if the host CPU is a IA64 */
 #undef HAVE_CPU_IA64
