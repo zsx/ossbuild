@@ -154,10 +154,10 @@
 #undef HAVE_SYS_SOCKET_H
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
-#undef HAVE_SYS_STAT_H 1
+#define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/types.h> header file. */
-#undef HAVE_SYS_TYPES_H 1
+#define HAVE_SYS_TYPES_H 1
 
 /* support for features: theoradec theoraenc */
 #undef HAVE_THEORA
@@ -193,16 +193,16 @@
 #define PACKAGE_BUGREPORT "http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer"
 
 /* Define to the full name of this package. */
-#undef PACKAGE_NAME "GStreamer Ugly Plug-ins"
+#define PACKAGE_NAME "GStreamer Ugly Plug-ins"
 
 /* Define to the full name and version of this package. */
-#undef PACKAGE_STRING "GStreamer Ugly Plug-ins 0.10.12"
+#define PACKAGE_STRING "GStreamer Ugly Plug-ins 0.10.12"
 
 /* Define to the one symbol short name of this package. */
-#undef PACKAGE_TARNAME "gst-plugins-ugly"
+#define PACKAGE_TARNAME "gst-plugins-ugly"
 
 /* Define to the version of this package. */
-#undef PACKAGE_VERSION "0.10.12"
+#define PACKAGE_VERSION "0.10.12"
 
 /* directory where plugins are located */
 #undef PLUGINDIR
