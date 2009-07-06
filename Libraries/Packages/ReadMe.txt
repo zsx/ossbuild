@@ -15,7 +15,7 @@ pango 		-	1.24.1 		- 	http://ftp.gnome.org/pub/GNOME/sources/pango/1.24/pango-1.
 freetype 	- 	2.3.9		- 	http://mirror.its.uidaho.edu/pub/savannah/freetype/freetype-2.3.9.tar.bz2
 fontconfig 	- 	2.6.0 		- 	http://fontconfig.org/release/fontconfig-2.6.0.tar.gz
 libogg 		- 	1.1.3 		- 	http://downloads.xiph.org/releases/ogg/libogg-1.1.3.tar.gz
-libvorbis 	- 	1.2.0 		- 	http://downloads.xiph.org/releases/vorbis/libvorbis-1.2.0.tar.bz2
+libvorbis 	- 	1.2.2 		- 	http://downloads.xiph.org/releases/vorbis/libvorbis-1.2.2.tar.bz2
 libtheora 	- 	1.0.0 		- 	http://downloads.xiph.org/releases/theora/libtheora-1.0.tar.bz2
 libmms 		- 	0.4.0 		- 	https://code.launchpad.net/~libmms-devel/libmms/win32
 pixman 		- 	0.15.2 		- 	http://cairographics.org/releases/pixman-0.15.2.tar.gz
