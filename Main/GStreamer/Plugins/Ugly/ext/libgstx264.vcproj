@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="gstx264"
-	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1036}"
+	ProjectGUID="{922DD35C-43FE-4097-91E0-3229F5A967AB}"
 	RootNamespace="libgstx264"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-ugly.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-ugly.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -294,11 +294,11 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\ext\x264\gstx264enc.c"
+			RelativePath="..\..\..\Source\gst-plugins-ugly\ext\x264\gstx264enc.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\ext\x264\gstx264enc.h"
+			RelativePath="..\..\..\Source\gst-plugins-ugly\ext\x264\gstx264enc.h"
 			>
 		</File>
 	</Files>
