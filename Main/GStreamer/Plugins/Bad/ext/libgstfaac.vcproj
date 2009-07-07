@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
-	Name="libgstfaac"
+	Version="9,00"
+	Name="gstfaac"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1011}"
 	RootNamespace="libgstfaac"
 	Keyword="Win32Proj"
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\Faac.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -102,6 +102,7 @@
 				Optimization="0"
 				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="FAACAPI="
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -120,7 +121,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstaudio.lib Winmm.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\Faac.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -235,6 +235,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="FAACAPI="
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -288,6 +289,14 @@
 	<References>
 	</References>
 	<Files>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\ext\faac\gstfaac.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\ext\faac\gstfaac.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
