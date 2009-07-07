@@ -855,11 +855,13 @@ if [ ! -f "$BinDir/libfaac-0.dll" ]; then
 	
 	mkdir_and_move "$IntDir/faac"
 	 
-	$PKG_DIR/configure --with-drm --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	$PKG_DIR/configure --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
 	make && make install
 		
 	cd $PKG_DIR/libfaac
-	$MSLIB /name:libfaac-0.dll /out:faac.lib /machine:$MSLibMachine /def:libfaac.def
+	pexports "$BinDir/libfaac-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY libfaac-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:libfaac-0.dll /out:faac.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
 	reset_flags	
@@ -875,11 +877,13 @@ if [ ! -f "$BinDir/libfaad-2.dll" ]; then
 	 
 	cp "$LIBRARIES_PATCH_DIR/faad2/Makefile.in" .
 	
-	$PKG_DIR/configure --with-drm --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	$PKG_DIR/configure --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
 	make && make install
 	
 	cd $PKG_DIR/libfaad
-	$MSLIB /name:libfaad-2.dll /out:faad2.lib /machine:$MSLibMachine /def:libfaad2.def
+	pexports "$BinDir/libfaad-2.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY libfaad-2.dll/d' in.def > in-mod.def
+	$MSLIB /name:libfaad-2.dll /out:faad2.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
 	reset_flags	
