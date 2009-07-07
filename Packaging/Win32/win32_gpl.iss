@@ -40,3 +40,23 @@ Source: "..\..\Shared\Build\Windows\Win32\etc\*"; DestDir: "{app}\etc"; Flags: i
 [Icons]
 Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild}"; Filename: "{uninstallexe}"
 
+[Icons]
+Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild}"; Filename: "{uninstallexe}"
+
+[Registry]
+Root: HKCU; Subkey: "Environment"; ValueName: "PATH"; ValueType: string; ValueData: "{code:BinPath|{olddata}}"
+Root: HKCU; Subkey: "Environment"; ValueName: "GST_PLUGIN_PATH"; ValueType: string; ValueData: "{app}\lib\gstreamer-0.10"; Flags: uninsdeletevalue
+
+[Code]
+function BinPath(Param: String): String;
+var
+   GstPath: String;
+   p: Integer;
+begin
+   GstPath := ExpandConstant('{app}') + '\bin';
+   p := Pos(GstPath, Param);
+   if 0 < p then
+       Result := Param
+   else
+       Result := Param + ';' + GstPath;
+end;

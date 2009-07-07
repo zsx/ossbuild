@@ -5,9 +5,9 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{693CD20A-667F-4441-975D-C62F38BEEBDF}
-AppName=GStreamer WinBuild  Developers Files
-AppVerName=GStreamer WinBuild 0.10.4
+AppId={{693CD20A-667F-4441-975D-C62F18BEEBDF}
+AppName=GStreamer WinBuild  Developers Package
+AppVerName=GStreamer WinBuild 0.10.4-dev
 AppPublisher=GStreamer WinBuild Team
 AppPublisherURL=http://www.gstreamer-winbuild.ylatuya.es
 AppSupportURL=http://www.gstreamer-winbuild.ylatuya.es
@@ -36,5 +36,5 @@ Source: "..\..\Shared\Build\Windows\Win32\lib\glib-2.0\*"; DestDir: "{app}\lib\g
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild}"; Filename: "{uninstallexe}"
+Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild Developers Package}"; Filename: "{uninstallexe}"
 
