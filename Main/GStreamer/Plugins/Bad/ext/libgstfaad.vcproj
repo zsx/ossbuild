@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
-	Name="libgstfaad"
+	Version="9,00"
+	Name="gstfaad"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1012}"
 	RootNamespace="libgstfaad"
 	Keyword="Win32Proj"
@@ -102,6 +102,7 @@
 				Optimization="0"
 				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="FAAD_IS_NEAAC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -155,7 +156,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\Faad2.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -235,6 +236,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="FAAD_IS_NEAAC"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -286,8 +288,20 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstaudio.vcproj"
+		/>
 	</References>
 	<Files>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\ext\faad\gstfaad.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\ext\faad\gstfaad.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
