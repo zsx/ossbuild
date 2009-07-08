@@ -313,6 +313,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Resources"
+			>
+			<File
+				RelativePath=".\application.rc"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

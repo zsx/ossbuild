@@ -4,16 +4,15 @@
 	Version="8.00"
 	Name="GStreamer Python Bindings"
 	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\bindings\python\$(ProjectName)"
-	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Python.vsprops"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;..\..\Source\gst-python\gst&quot;;&quot;..\..\Source\gst-python\win32\common\&quot;;&quot;C:\Python25\include&quot;;;&quot;c:\Python25\include\pygtk-2.0&quot;"
+		AdditionalIncludeDirectories="&quot;..\..\Source\gst-python\gst&quot;;&quot;..\..\Source\gst-python\win32\common\&quot;"
 	/>
-
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="python25.lib gstnet.lib gstdataprotocol.lib gstcontroller.lib gstbase.lib gstreamer.lib"
+		AdditionalDependencies="gstnet.lib gstdataprotocol.lib gstcontroller.lib gstbase.lib gstreamer.lib"
 		OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\gst$(ProjectName).pyd"
 		AdditionalLibraryDirectories="$(OutDir)\lib\gstreamer\plugins\;&quot;C:\Python25\libs&quot;"
 		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\bindings\python\$(TargetName).pdb"

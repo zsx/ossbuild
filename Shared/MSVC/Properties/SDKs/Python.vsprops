@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Python"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)\Shared\SDKs\Python\include&quot;;&quot;$(SolutionDir)\Shared\SDKs\Python\include\pygtk-2.0&quot;"
+	/>
+	<Tool
+		Name="VCLibrarianTool"
+		AdditionalLibraryDirectories="&quot;$(SolutionDir)\Shared\SDKs\Python\lib\$(PlatformName)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="python25.lib"
+		AdditionalLibraryDirectories="&quot;$(SolutionDir)\Shared\SDKs\Python\lib\$(PlatformName)&quot;"
+	/>
+	<UserMacro
+		Name="PythonApiMajorVersion"
+		Value="2"
+	/>
+	<UserMacro
+		Name="PythonApiMinorVersion"
+		Value="5"
+	/>
+	<UserMacro
+		Name="PythonApiMicroVersion"
+		Value="4"
+	/>
+	<UserMacro
+		Name="PythonVersionString"
+		Value="$(PythonApiMajorVersion).$(PythonApiMinorVersion).$(PythonApiMicroVersion)"
+	/>
+</VisualStudioPropertySheet>
