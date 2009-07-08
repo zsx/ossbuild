@@ -16,6 +16,7 @@ DefaultDirName=c:\gstreamer
 DisableDirPage=yes
 DefaultGroupName=GStreamer WinBuild
 LicenseFile=..\..\Licenses\gpl-2.0.txt
+SetupIconFile=..\..\Main\GStreamer\GStreamer.ico
 ;InfoBeforeFile=..\..\ReadMe.txt
 OutputDir=.
 OutputBaseFilename=GStreamerWinBuild-0.10.4
