@@ -536,6 +536,7 @@ if [ ! -f "$BinDir/libspeex-1.dll" ]; then
 	echo speex_uwb_mode >> libspeex-mod.def
 	echo speex_wb_mode >> libspeex-mod.def
 	echo speex_header_free >> libspeex-mod.def
+	echo speex_mode_list >> libspeex-mod.def
 	
 	$MSLIB /name:libspeex-1.dll /out:speex.lib /machine:$MSLibMachine /def:libspeex-mod.def
 	$MSLIB /name:libspeexdsp-1.dll /out:speexdsp.lib /machine:$MSLibMachine /def:libspeexdsp-mod.def
