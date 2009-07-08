@@ -41,8 +41,7 @@ Source: "..\..\Shared\Build\Windows\Win32\etc\*"; DestDir: "{app}\etc"; Flags: i
 [Icons]
 Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild}"; Filename: "{uninstallexe}"
 
-[Icons]
-Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild}"; Filename: "{uninstallexe}"
+
 
 [Registry]
 Root: HKCU; Subkey: "Environment"; ValueName: "PATH"; ValueType: string; ValueData: "{code:BinPath|{olddata}}"
