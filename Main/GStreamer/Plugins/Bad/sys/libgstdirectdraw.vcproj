@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstdirectdraw"
-	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92002}"
+	ProjectGUID="{464A3D96-D0E5-4F79-8FE3-508F09153E62}"
 	RootNamespace="libgstdirectdraw"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\Shared\MSVC\Properties\SDKs\DirectX.vsprops;..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\Shared\MSVC\Properties\SDKs\DirectX.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\Shared\MSVC\Properties\SDKs\DirectX.vsprops;..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\Shared\MSVC\Properties\SDKs\DirectX.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -308,15 +308,15 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\sys\directdraw\gstdirectdrawplugin.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\directdraw\gstdirectdrawplugin.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\sys\directdraw\gstdirectdrawsink.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\directdraw\gstdirectdrawsink.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\sys\directdraw\gstdirectdrawsink.h"
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\directdraw\gstdirectdrawsink.h"
 			>
 		</File>
 	</Files>
