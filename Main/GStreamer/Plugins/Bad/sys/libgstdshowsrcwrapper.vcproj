@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\dshow&quot;"
 				PreprocessorDefinitions="CINTERFACE;COBJMACROS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\dshow&quot;"
 				PreprocessorDefinitions="CINTERFACE;COBJMACROS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -310,6 +310,22 @@
 		/>
 	</References>
 	<Files>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiomixer.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiomixer.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiomixertrack.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiomixertrack.h"
+			>
+		</File>
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiosrc.c"
 			>

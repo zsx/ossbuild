@@ -1,7 +1,8 @@
 /* GStreamer
  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
+ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
  *
- * gstdshowaudiosrc.h: 
+ * gstdshowaudiosrc.h:
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -28,6 +29,7 @@
 #include <gst/interfaces/propertyprobe.h>
 
 #include "gstdshowsrcwrapper.h"
+#include "gstdshowaudiomixer.h"
 
 G_BEGIN_DECLS
 #define GST_TYPE_DSHOWAUDIOSRC              (gst_dshowaudiosrc_get_type())
@@ -64,9 +66,14 @@ struct _GstDshowAudioSrc
   IMediaFilter *media_filter;
   IFilterGraph *filter_graph;
 
+  GstDshowAudioMixer *mixer;
+
   /* bytes array*/
   GByteArray *gbarray;
   GMutex *gbarray_lock;
+
+  /* size */
+  gint sleep_time; //in ms
 
   gboolean is_running;
 };

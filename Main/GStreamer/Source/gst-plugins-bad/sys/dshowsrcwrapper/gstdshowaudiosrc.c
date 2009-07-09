@@ -1,7 +1,8 @@
 /* GStreamer
  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
+ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
  *
- * gstdshowaudiosrc.c: 
+ * gstdshowaudiosrc.c:
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -55,6 +56,8 @@ static void gst_dshowaudiosrc_init_interfaces (GType type);
 GST_BOILERPLATE_FULL (GstDshowAudioSrc, gst_dshowaudiosrc, GstAudioSrc,
     GST_TYPE_AUDIO_SRC, gst_dshowaudiosrc_init_interfaces);
 
+GST_IMPLEMENT_DSHOWAUDIO_MIXER_METHODS (GstDshowAudioSrc, gst_dshowaudiosrc_mixer);
+
 enum
 {
   PROP_0,
@@ -97,6 +100,21 @@ static GstCaps *gst_dshowaudiosrc_getcaps_from_streamcaps (GstDshowAudioSrc *
 static gboolean gst_dshowaudiosrc_push_buffer (byte * buffer, long size,
     byte * src_object, UINT64 start, UINT64 stop);
 
+static gboolean
+gst_dshowaudiosrc_interface_supported (GstDshowAudioSrc * this, GType interface_type)
+{
+  /* only support this one interface (wrapped by GstImplementsInterface) */
+  g_assert (interface_type == GST_TYPE_MIXER);
+
+  return gst_dshowaudiosrc_mixer_supported (this, interface_type);
+}
+
+static void
+gst_implements_interface_init (GstImplementsInterfaceClass * klass)
+{
+  klass->supported = (gpointer) gst_dshowaudiosrc_interface_supported;
+}
+
 static void
 gst_dshowaudiosrc_init_interfaces (GType type)
 {
@@ -106,8 +124,24 @@ gst_dshowaudiosrc_init_interfaces (GType type)
     NULL,
   };
 
+  static const GInterfaceInfo implements_iface_info = {
+    (GInterfaceInitFunc) gst_implements_interface_init,
+    NULL,
+    NULL,
+  };
+
+  static const GInterfaceInfo mixer_iface_info = {
+    (GInterfaceInitFunc) gst_dshowaudiosrc_mixer_interface_init,
+    NULL,
+    NULL,
+  };
+
   g_type_add_interface_static (type,
       GST_TYPE_PROPERTY_PROBE, &dshowaudiosrc_info);
+
+  g_type_add_interface_static (type, GST_TYPE_IMPLEMENTS_INTERFACE,
+      &implements_iface_info);
+  g_type_add_interface_static (type, GST_TYPE_MIXER, &mixer_iface_info);
 }
 
 static void
@@ -136,11 +170,13 @@ gst_dshowaudiosrc_class_init (GstDshowAudioSrcClass * klass)
   GObjectClass *gobject_class;
   GstElementClass *gstelement_class;
   GstBaseSrcClass *gstbasesrc_class;
+  GstBaseAudioSrcClass *gstbaseaudiosrc_class;
   GstAudioSrcClass *gstaudiosrc_class;
 
   gobject_class = (GObjectClass *) klass;
   gstelement_class = (GstElementClass *) klass;
   gstbasesrc_class = (GstBaseSrcClass *) klass;
+  gstbaseaudiosrc_class = (GstBaseAudioSrcClass *) klass;
   gstaudiosrc_class = (GstAudioSrcClass *) klass;
 
   gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_dshowaudiosrc_dispose);
@@ -171,7 +207,7 @@ gst_dshowaudiosrc_class_init (GstDshowAudioSrcClass * klass)
 
   g_object_class_install_property
       (gobject_class, PROP_DEVICE_NAME,
-      g_param_spec_string ("device-name", "Device name",
+      g_param_spec_string ("device_name", "Device name",
           "Human-readable name of the sound device", NULL, G_PARAM_READWRITE));
 
   GST_DEBUG_CATEGORY_INIT (dshowaudiosrc_debug, "dshowaudiosrc", 0,
@@ -189,6 +225,7 @@ gst_dshowaudiosrc_init (GstDshowAudioSrc * src, GstDshowAudioSrcClass * klass)
   src->filter_graph = NULL;
   src->caps = NULL;
   src->pins_mediatypes = NULL;
+  src->mixer = NULL;
 
   src->gbarray = g_byte_array_new ();
   src->gbarray_lock = g_mutex_new ();
@@ -233,6 +270,11 @@ gst_dshowaudiosrc_dispose (GObject * gobject)
     src->gbarray_lock = NULL;
   }
 
+  if (src->mixer) {
+    gst_dshowaudio_mixer_free (src->mixer);
+    src->mixer = NULL;
+  }
+
   /* clean dshow */
   if (src->audio_cap_filter) {
     IBaseFilter_Release (src->audio_cap_filter);
@@ -253,7 +295,7 @@ gst_dshowaudiosrc_probe_get_properties (GstPropertyProbe * probe)
   if (!props) {
     GParamSpec *pspec;
 
-    pspec = g_object_class_find_property (klass, "device-name");
+    pspec = g_object_class_find_property (klass, "device_name");
     props = g_list_append (props, pspec);
   }
 
@@ -374,6 +416,17 @@ gst_dshowaudiosrc_set_property (GObject * object, guint prop_id,
       }
       break;
     }
+    case PROP_DEVICE_NAME:
+    {
+      if (src->device_name) {
+        g_free (src->device_name);
+        src->device_name = NULL;
+      }
+      if (g_value_get_string (value)) {
+        src->device_name = g_strdup (g_value_get_string (value));
+      }
+      break;
+    }
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -432,6 +485,9 @@ gst_dshowaudiosrc_get_caps (GstBaseSrc * basesrc)
     IEnumPins *enumpins = NULL;
     HRESULT hres;
 
+    if (!src->mixer)
+      src->mixer = gst_dshowaudio_mixer_new (src->audio_cap_filter, GST_DSHOWAUDIO_MIXER_CAPTURE);
+
     hres = IBaseFilter_EnumPins (src->audio_cap_filter, &enumpins);
     if (SUCCEEDED (hres)) {
       while (IEnumPins_Next (enumpins, 1, &capture_pin, NULL) == S_OK) {
@@ -454,6 +510,14 @@ gst_dshowaudiosrc_get_caps (GstBaseSrc * basesrc)
           if (UuidCompare (&pin_category, &PIN_CATEGORY_CAPTURE,
                   &rpcstatus) == 0) {
             IAMStreamConfig *streamcaps = NULL;
+            IAMPushSource *pushsrc = NULL;
+            PIN_INFO pInfo;
+            LPWSTR pinId;
+
+            IPin_QueryPinInfo(capture_pin, &pInfo);
+            IPin_QueryId(capture_pin, &pinId);
+
+            GST_INFO ("one more output (capture) pin, name = %ls and id = %ls", pInfo.achName, pinId);
 
             if (SUCCEEDED (IPin_QueryInterface (capture_pin,
                         &IID_IAMStreamConfig, (void **) &streamcaps))) {
@@ -462,6 +526,20 @@ gst_dshowaudiosrc_get_caps (GstBaseSrc * basesrc)
                   streamcaps);
               IAMStreamConfig_Release (streamcaps);
             }
+            else
+              GST_DEBUG ("failed to get IAMStreamConfig");
+
+            if (SUCCEEDED (IPin_QueryInterface (capture_pin,
+                        &IID_IAMPushSource, (void **) &pushsrc))) {
+              REFERENCE_TIME latency = 500;
+              GST_DEBUG ("stream off set = %d", latency);
+              IAMPushSource_GetStreamOffset(pushsrc, &latency);
+              IAMPushSource_Release (pushsrc);
+
+              GST_DEBUG ("stream off set = %d", latency);
+            }
+            else
+              GST_DEBUG ("failed to get IAMPushSource");
           }
           IKsPropertySet_Release (pKs);
         }
@@ -624,6 +702,7 @@ gst_dshowaudiosrc_prepare (GstAudioSrc * asrc, GstRingBufferSpec * spec)
       /*get the corresponding media type and build the dshow graph */
       GstCapturePinMediaType *pin_mediatype = NULL;
       GList *type = g_list_nth (src->pins_mediatypes, res);
+      IAMBufferNegotiation *buffernegociation = NULL;
 
       if (type) {
         pin_mediatype = (GstCapturePinMediaType *) type->data;
@@ -655,9 +734,53 @@ gst_dshowaudiosrc_prepare (GstAudioSrc * asrc, GstRingBufferSpec * spec)
           goto error;
         }
 
+        if (spec->buffer_time % spec->latency_time != 0)
+            GST_ERROR ("latency-time and buffer-time are incompatible");
+
+        GST_DEBUG ("rate: %d, channels: %d, width: %d, buffer time: %I64u, latency time: %I64u",
+          spec->rate, spec->channels, spec->width, spec->buffer_time, spec->latency_time);
+
+        spec->segsize = spec->rate * spec->channels * (spec->width / 8) * (spec->latency_time / 1000000.0) ; //44100*2*16/8* 200ms/1000
+        spec->segtotal = spec->buffer_time / spec->latency_time;
+
+        spec->silence_sample[0] = 0;
+        spec->silence_sample[1] = 0;
+        spec->silence_sample[2] = 0;
+        spec->silence_sample[3] = 0;
+
+
+        GST_DEBUG ("segsize: %d, segtotal: %d",
+          spec->segsize, spec->segtotal);
+
+        src->sleep_time = spec->latency_time / 1000;
+
+        GST_DEBUG ("sleep time: %d", src->sleep_time);
+
+        if (SUCCEEDED (IPin_QueryInterface (pin_mediatype->capture_pin,
+                        &IID_IAMBufferNegotiation, (void **) &buffernegociation)))
+        {
+            HRESULT result;
+            ALLOCATOR_PROPERTIES pprop;
+            GST_DEBUG ("success to get IAMBufferNegotiation");
+
+            pprop.cbAlign = -1;
+            pprop.cbBuffer = spec->segsize ;
+            pprop.cbPrefix = -1;
+            pprop.cBuffers = -1;
+
+            result = IAMBufferNegotiation_SuggestAllocatorProperties(buffernegociation, &pprop);
+
+            if (FAILED(result))
+              GST_DEBUG("suggest alloc properties failed");
+            else
+              GST_DEBUG("suggest alloc properties succeeded");
+
+            IAMBufferNegotiation_Release (buffernegociation);
+        }
+
         hres =
             IFilterGraph_ConnectDirect (src->filter_graph,
-            pin_mediatype->capture_pin, input_pin, NULL);
+            pin_mediatype->capture_pin, input_pin, pin_mediatype->mediatype);
         IPin_Release (input_pin);
 
         if (hres != S_OK) {
@@ -666,9 +789,6 @@ gst_dshowaudiosrc_prepare (GstAudioSrc * asrc, GstRingBufferSpec * spec)
               hres);
           goto error;
         }
-
-        spec->segsize = spec->rate * spec->channels;
-        spec->segtotal = 1;
       }
     }
   }
@@ -746,6 +866,7 @@ gst_dshowaudiosrc_read (GstAudioSrc * asrc, gpointer data, guint length)
   if (src->gbarray) {
   test:
     if (src->gbarray->len >= length) {
+      GST_DEBUG ("audio size= %d", length);
       g_mutex_lock (src->gbarray_lock);
       memcpy (data, src->gbarray->data + (src->gbarray->len - length), length);
       g_byte_array_remove_range (src->gbarray, src->gbarray->len - length,
@@ -754,7 +875,8 @@ gst_dshowaudiosrc_read (GstAudioSrc * asrc, gpointer data, guint length)
       g_mutex_unlock (src->gbarray_lock);
     } else {
       if (src->is_running) {
-        Sleep (100);
+        Sleep (src->sleep_time);
+        GST_DEBUG ("sleep");
         goto test;
       }
     }
@@ -777,6 +899,8 @@ gst_dshowaudiosrc_delay (GstAudioSrc * asrc)
     g_mutex_unlock (src->gbarray_lock);
   }
 
+  GST_DEBUG ("delay = %d", ret);
+
   return ret;
 }
 
@@ -786,7 +910,9 @@ gst_dshowaudiosrc_reset (GstAudioSrc * asrc)
   GstDshowAudioSrc *src = GST_DSHOWAUDIOSRC (asrc);
 
   g_mutex_lock (src->gbarray_lock);
-  g_byte_array_remove_range (src->gbarray, 0, src->gbarray->len);
+  GST_DEBUG ("byte array size= %d", src->gbarray->len);
+  if (src->gbarray->len > 0)
+    g_byte_array_remove_range (src->gbarray, 0, src->gbarray->len);
   g_mutex_unlock (src->gbarray_lock);
 }
 
@@ -870,8 +996,11 @@ gst_dshowaudiosrc_push_buffer (byte * buffer, long size, byte * src_object,
   GstDshowAudioSrc *src = GST_DSHOWAUDIOSRC (src_object);
 
   if (!buffer || size == 0 || !src) {
+    GST_WARNING ("wrong audio buffer");
     return FALSE;
   }
+
+  GST_DEBUG ("sound card buffer size %d, start %I64u, stop %I64u", size, start, stop);
 
   g_mutex_lock (src->gbarray_lock);
   g_byte_array_prepend (src->gbarray, (guint8 *) buffer, size);

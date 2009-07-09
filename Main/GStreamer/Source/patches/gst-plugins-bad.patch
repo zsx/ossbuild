@@ -1,0 +1,1957 @@
+Index: gst-libs/gst/dshow/gstdshowfakesrc.h
+===================================================================
+RCS file: /cvs/gstreamer/gst-plugins-bad/gst-libs/gst/dshow/gstdshowfakesrc.h,v
+retrieving revision 1.1
+diff -u -r1.1 gstdshowfakesrc.h
+--- gst-libs/gst/dshow/gstdshowfakesrc.h	23 May 2007 22:44:12 -0000	1.1
++++ gst-libs/gst/dshow/gstdshowfakesrc.h	1 Dec 2008 09:23:03 -0000
+@@ -20,7 +20,6 @@
+  */
+ 
+ #include "gstdshowinterface.h"
+-#include <gst/gst.h>
+ 
+ class CDshowFakeOutputPin : public CBaseOutputPin
+ {
+Index: sys/dshowsrcwrapper/gstdshowaudiosrc.c
+===================================================================
+RCS file: /cvs/gstreamer/gst-plugins-bad/sys/dshowsrcwrapper/gstdshowaudiosrc.c,v
+retrieving revision 1.5
+diff -u -r1.5 gstdshowaudiosrc.c
+--- sys/dshowsrcwrapper/gstdshowaudiosrc.c	11 Aug 2008 07:20:15 -0000	1.5
++++ sys/dshowsrcwrapper/gstdshowaudiosrc.c	8 Jan 2009 15:45:24 -0000
+@@ -1,7 +1,8 @@
+ /* GStreamer
+  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
++ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
+  *
+- * gstdshowaudiosrc.c: 
++ * gstdshowaudiosrc.c:
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -55,6 +56,8 @@
+ GST_BOILERPLATE_FULL (GstDshowAudioSrc, gst_dshowaudiosrc, GstAudioSrc,
+     GST_TYPE_AUDIO_SRC, gst_dshowaudiosrc_init_interfaces);
+ 
++GST_IMPLEMENT_DSHOWAUDIO_MIXER_METHODS (GstDshowAudioSrc, gst_dshowaudiosrc_mixer);
++
+ enum
+ {
+   PROP_0,
+@@ -97,6 +100,21 @@
+ static gboolean gst_dshowaudiosrc_push_buffer (byte * buffer, long size,
+     byte * src_object, UINT64 start, UINT64 stop);
+ 
++static gboolean
++gst_dshowaudiosrc_interface_supported (GstDshowAudioSrc * this, GType interface_type)
++{
++  /* only support this one interface (wrapped by GstImplementsInterface) */
++  g_assert (interface_type == GST_TYPE_MIXER);
++
++  return gst_dshowaudiosrc_mixer_supported (this, interface_type);
++}
++
++static void
++gst_implements_interface_init (GstImplementsInterfaceClass * klass)
++{
++  klass->supported = (gpointer) gst_dshowaudiosrc_interface_supported;
++}
++
+ static void
+ gst_dshowaudiosrc_init_interfaces (GType type)
+ {
+@@ -106,8 +124,24 @@
+     NULL,
+   };
+ 
++  static const GInterfaceInfo implements_iface_info = {
++    (GInterfaceInitFunc) gst_implements_interface_init,
++    NULL,
++    NULL,
++  };
++
++  static const GInterfaceInfo mixer_iface_info = {
++    (GInterfaceInitFunc) gst_dshowaudiosrc_mixer_interface_init,
++    NULL,
++    NULL,
++  };
++
+   g_type_add_interface_static (type,
+       GST_TYPE_PROPERTY_PROBE, &dshowaudiosrc_info);
++
++  g_type_add_interface_static (type, GST_TYPE_IMPLEMENTS_INTERFACE,
++      &implements_iface_info);
++  g_type_add_interface_static (type, GST_TYPE_MIXER, &mixer_iface_info);
+ }
+ 
+ static void
+@@ -136,11 +170,13 @@
+   GObjectClass *gobject_class;
+   GstElementClass *gstelement_class;
+   GstBaseSrcClass *gstbasesrc_class;
++  GstBaseAudioSrcClass *gstbaseaudiosrc_class;
+   GstAudioSrcClass *gstaudiosrc_class;
+ 
+   gobject_class = (GObjectClass *) klass;
+   gstelement_class = (GstElementClass *) klass;
+   gstbasesrc_class = (GstBaseSrcClass *) klass;
++  gstbaseaudiosrc_class = (GstBaseAudioSrcClass *) klass;
+   gstaudiosrc_class = (GstAudioSrcClass *) klass;
+ 
+   gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_dshowaudiosrc_dispose);
+@@ -171,7 +207,7 @@
+ 
+   g_object_class_install_property
+       (gobject_class, PROP_DEVICE_NAME,
+-      g_param_spec_string ("device-name", "Device name",
++      g_param_spec_string ("device_name", "Device name",
+           "Human-readable name of the sound device", NULL, G_PARAM_READWRITE));
+ 
+   GST_DEBUG_CATEGORY_INIT (dshowaudiosrc_debug, "dshowaudiosrc", 0,
+@@ -189,6 +225,7 @@
+   src->filter_graph = NULL;
+   src->caps = NULL;
+   src->pins_mediatypes = NULL;
++  src->mixer = NULL;
+ 
+   src->gbarray = g_byte_array_new ();
+   src->gbarray_lock = g_mutex_new ();
+@@ -233,6 +270,11 @@
+     src->gbarray_lock = NULL;
+   }
+ 
++  if (src->mixer) {
++    gst_dshowaudio_mixer_free (src->mixer);
++    src->mixer = NULL;
++  }
++
+   /* clean dshow */
+   if (src->audio_cap_filter) {
+     IBaseFilter_Release (src->audio_cap_filter);
+@@ -253,7 +295,7 @@
+   if (!props) {
+     GParamSpec *pspec;
+ 
+-    pspec = g_object_class_find_property (klass, "device-name");
++    pspec = g_object_class_find_property (klass, "device_name");
+     props = g_list_append (props, pspec);
+   }
+ 
+@@ -374,6 +416,17 @@
+       }
+       break;
+     }
++    case PROP_DEVICE_NAME:
++    {
++      if (src->device_name) {
++        g_free (src->device_name);
++        src->device_name = NULL;
++      }
++      if (g_value_get_string (value)) {
++        src->device_name = g_strdup (g_value_get_string (value));
++      }
++      break;
++    }
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -432,6 +485,9 @@
+     IEnumPins *enumpins = NULL;
+     HRESULT hres;
+ 
++    if (!src->mixer)
++      src->mixer = gst_dshowaudio_mixer_new (src->audio_cap_filter, GST_DSHOWAUDIO_MIXER_CAPTURE);
++
+     hres = IBaseFilter_EnumPins (src->audio_cap_filter, &enumpins);
+     if (SUCCEEDED (hres)) {
+       while (IEnumPins_Next (enumpins, 1, &capture_pin, NULL) == S_OK) {
+@@ -454,6 +510,14 @@
+           if (UuidCompare (&pin_category, &PIN_CATEGORY_CAPTURE,
+                   &rpcstatus) == 0) {
+             IAMStreamConfig *streamcaps = NULL;
++            IAMPushSource *pushsrc = NULL;
++            PIN_INFO pInfo;
++            LPWSTR pinId;
++
++            IPin_QueryPinInfo(capture_pin, &pInfo);
++            IPin_QueryId(capture_pin, &pinId);
++
++            GST_INFO ("one more output (capture) pin, name = %ls and id = %ls", pInfo.achName, pinId);
+ 
+             if (SUCCEEDED (IPin_QueryInterface (capture_pin,
+                         &IID_IAMStreamConfig, (void **) &streamcaps))) {
+@@ -462,6 +526,20 @@
+                   streamcaps);
+               IAMStreamConfig_Release (streamcaps);
+             }
++            else
++              GST_DEBUG ("failed to get IAMStreamConfig");
++
++            if (SUCCEEDED (IPin_QueryInterface (capture_pin,
++                        &IID_IAMPushSource, (void **) &pushsrc))) {
++              REFERENCE_TIME latency = 500;
++              GST_DEBUG ("stream off set = %d", latency);
++              IAMPushSource_GetStreamOffset(pushsrc, &latency);
++              IAMPushSource_Release (pushsrc);
++
++              GST_DEBUG ("stream off set = %d", latency);
++            }
++            else
++              GST_DEBUG ("failed to get IAMPushSource");
+           }
+           IKsPropertySet_Release (pKs);
+         }
+@@ -624,6 +702,7 @@
+       /*get the corresponding media type and build the dshow graph */
+       GstCapturePinMediaType *pin_mediatype = NULL;
+       GList *type = g_list_nth (src->pins_mediatypes, res);
++      IAMBufferNegotiation *buffernegociation = NULL;
+ 
+       if (type) {
+         pin_mediatype = (GstCapturePinMediaType *) type->data;
+@@ -655,9 +734,53 @@
+           goto error;
+         }
+ 
++        if (spec->buffer_time % spec->latency_time != 0)
++            GST_ERROR ("latency-time and buffer-time are incompatible");
++
++        GST_DEBUG ("rate: %d, channels: %d, width: %d, buffer time: %I64u, latency time: %I64u",
++          spec->rate, spec->channels, spec->width, spec->buffer_time, spec->latency_time);
++
++        spec->segsize = spec->rate * spec->channels * (spec->width / 8) * (spec->latency_time / 1000000.0) ; //44100*2*16/8* 200ms/1000
++        spec->segtotal = spec->buffer_time / spec->latency_time;
++
++        spec->silence_sample[0] = 0;
++        spec->silence_sample[1] = 0;
++        spec->silence_sample[2] = 0;
++        spec->silence_sample[3] = 0;
++
++
++        GST_DEBUG ("segsize: %d, segtotal: %d",
++          spec->segsize, spec->segtotal);
++
++        src->sleep_time = spec->latency_time / 1000;
++
++        GST_DEBUG ("sleep time: %d", src->sleep_time);
++
++        if (SUCCEEDED (IPin_QueryInterface (pin_mediatype->capture_pin,
++                        &IID_IAMBufferNegotiation, (void **) &buffernegociation)))
++        {
++            HRESULT result;
++            ALLOCATOR_PROPERTIES pprop;
++            GST_DEBUG ("success to get IAMBufferNegotiation");
++
++            pprop.cbAlign = -1;
++            pprop.cbBuffer = spec->segsize ;
++            pprop.cbPrefix = -1;
++            pprop.cBuffers = -1;
++
++            result = IAMBufferNegotiation_SuggestAllocatorProperties(buffernegociation, &pprop);
++
++            if (FAILED(result))
++              GST_DEBUG("suggest alloc properties failed");
++            else
++              GST_DEBUG("suggest alloc properties succeeded");
++
++            IAMBufferNegotiation_Release (buffernegociation);
++        }
++
+         hres =
+             IFilterGraph_ConnectDirect (src->filter_graph,
+-            pin_mediatype->capture_pin, input_pin, NULL);
++            pin_mediatype->capture_pin, input_pin, pin_mediatype->mediatype);
+         IPin_Release (input_pin);
+ 
+         if (hres != S_OK) {
+@@ -666,9 +789,6 @@
+               hres);
+           goto error;
+         }
+-
+-        spec->segsize = spec->rate * spec->channels;
+-        spec->segtotal = 1;
+       }
+     }
+   }
+@@ -746,6 +866,7 @@
+   if (src->gbarray) {
+   test:
+     if (src->gbarray->len >= length) {
++      GST_DEBUG ("audio size= %d", length);
+       g_mutex_lock (src->gbarray_lock);
+       memcpy (data, src->gbarray->data + (src->gbarray->len - length), length);
+       g_byte_array_remove_range (src->gbarray, src->gbarray->len - length,
+@@ -754,7 +875,8 @@
+       g_mutex_unlock (src->gbarray_lock);
+     } else {
+       if (src->is_running) {
+-        Sleep (100);
++        Sleep (src->sleep_time);
++        GST_DEBUG ("sleep");
+         goto test;
+       }
+     }
+@@ -777,6 +899,8 @@
+     g_mutex_unlock (src->gbarray_lock);
+   }
+ 
++  GST_DEBUG ("delay = %d", ret);
++
+   return ret;
+ }
+ 
+@@ -786,7 +910,9 @@
+   GstDshowAudioSrc *src = GST_DSHOWAUDIOSRC (asrc);
+ 
+   g_mutex_lock (src->gbarray_lock);
+-  g_byte_array_remove_range (src->gbarray, 0, src->gbarray->len);
++  GST_DEBUG ("byte array size= %d", src->gbarray->len);
++  if (src->gbarray->len > 0)
++    g_byte_array_remove_range (src->gbarray, 0, src->gbarray->len);
+   g_mutex_unlock (src->gbarray_lock);
+ }
+ 
+@@ -870,9 +996,12 @@
+   GstDshowAudioSrc *src = GST_DSHOWAUDIOSRC (src_object);
+ 
+   if (!buffer || size == 0 || !src) {
++    GST_WARNING ("wrong audio buffer");
+     return FALSE;
+   }
+ 
++  GST_DEBUG ("sound card buffer size %d, start %I64u, stop %I64u", size, start, stop);
++
+   g_mutex_lock (src->gbarray_lock);
+   g_byte_array_prepend (src->gbarray, (guint8 *) buffer, size);
+   g_mutex_unlock (src->gbarray_lock);
+Index: sys/dshowsrcwrapper/gstdshowaudiosrc.h
+===================================================================
+RCS file: /cvs/gstreamer/gst-plugins-bad/sys/dshowsrcwrapper/gstdshowaudiosrc.h,v
+retrieving revision 1.1
+diff -u -r1.1 gstdshowaudiosrc.h
+--- sys/dshowsrcwrapper/gstdshowaudiosrc.h	23 May 2007 22:44:12 -0000	1.1
++++ sys/dshowsrcwrapper/gstdshowaudiosrc.h	8 Jan 2009 15:17:17 -0000
+@@ -1,7 +1,8 @@
+ /* GStreamer
+  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
++ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
+  *
+- * gstdshowaudiosrc.h: 
++ * gstdshowaudiosrc.h:
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -28,6 +29,7 @@
+ #include <gst/interfaces/propertyprobe.h>
+ 
+ #include "gstdshowsrcwrapper.h"
++#include "gstdshowaudiomixer.h"
+ 
+ G_BEGIN_DECLS
+ #define GST_TYPE_DSHOWAUDIOSRC              (gst_dshowaudiosrc_get_type())
+@@ -64,10 +66,15 @@
+   IMediaFilter *media_filter;
+   IFilterGraph *filter_graph;
+ 
++  GstDshowAudioMixer *mixer;
++
+   /* bytes array*/
+   GByteArray *gbarray;
+   GMutex *gbarray_lock;
+ 
++  /* size */
++  gint sleep_time; //in ms
++
+   gboolean is_running;
+ };
+ 
+Index: sys/dshowsrcwrapper/gstdshowsrcwrapper.c
+===================================================================
+RCS file: /cvs/gstreamer/gst-plugins-bad/sys/dshowsrcwrapper/gstdshowsrcwrapper.c,v
+retrieving revision 1.1
+diff -u -r1.1 gstdshowsrcwrapper.c
+--- sys/dshowsrcwrapper/gstdshowsrcwrapper.c	23 May 2007 22:44:12 -0000	1.1
++++ sys/dshowsrcwrapper/gstdshowsrcwrapper.c	7 Jan 2009 17:30:55 -0000
+@@ -1,7 +1,8 @@
+ /* GStreamer
+  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
++ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
+  *
+- * gstdshowsrcwrapper.c: 
++ * gstdshowsrcwrapper.c:
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+Index: sys/dshowsrcwrapper/gstdshowsrcwrapper.h
+===================================================================
+RCS file: /cvs/gstreamer/gst-plugins-bad/sys/dshowsrcwrapper/gstdshowsrcwrapper.h,v
+retrieving revision 1.1
+diff -u -r1.1 gstdshowsrcwrapper.h
+--- sys/dshowsrcwrapper/gstdshowsrcwrapper.h	23 May 2007 22:44:12 -0000	1.1
++++ sys/dshowsrcwrapper/gstdshowsrcwrapper.h	7 Jan 2009 17:30:57 -0000
+@@ -1,7 +1,8 @@
+ /* GStreamer
+  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
++ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
+  *
+- * gstdshowsrcwrapper.h: 
++ * gstdshowsrcwrapper.h:
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -27,7 +28,7 @@
+ #include <dshow.h>
+ #include <Rpc.h>
+ 
+-#include <gst/dshow/gstdshowinterface.h>
++#include <gstdshowinterface.h>
+ 
+ #pragma warning( disable : 4090 4024)
+ 
+Index: sys/dshowsrcwrapper/gstdshowvideosrc.c
+===================================================================
+RCS file: /cvs/gstreamer/gst-plugins-bad/sys/dshowsrcwrapper/gstdshowvideosrc.c,v
+retrieving revision 1.6
+diff -u -r1.6 gstdshowvideosrc.c
+--- sys/dshowsrcwrapper/gstdshowvideosrc.c	11 Aug 2008 07:20:15 -0000	1.6
++++ sys/dshowsrcwrapper/gstdshowvideosrc.c	12 Jan 2009 10:11:56 -0000
+@@ -1,7 +1,8 @@
+ /* GStreamer
+  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
++ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
+  *
+- * gstdshowvideosrc.c: 
++ * gstdshowvideosrc.c:
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -39,6 +40,11 @@
+     0x71}
+ };
+ 
++const GUID MEDIASUBTYPE_HDYC
++    = { 0x43594448, 0x0000, 0x0010, {0x80, 0x00, 0x00, 0xAA, 0x00, 0x38, 0x9B,
++    0x71}
++};
++
+ static GstStaticPadTemplate src_template = GST_STATIC_PAD_TEMPLATE ("src",
+     GST_PAD_SRC,
+     GST_PAD_ALWAYS,
+@@ -48,6 +54,21 @@
+         "width = (int) [ 1, MAX ],"
+         "height = (int) [ 1, MAX ],"
+         "framerate = (fraction) [ 0, MAX ];"
++        "video/x-raw-yuv,"
++        "width = (int) [ 1, MAX ],"
++        "height = (int) [ 1, MAX ],"
++        "framerate = (fraction) [ 0, MAX ],"
++        "format = (fourcc) I420;"
++        "video/x-raw-yuv,"
++        "width = (int) [ 1, MAX ],"
++        "height = (int) [ 1, MAX ],"
++        "framerate = (fraction) [ 0, MAX ],"
++        "format = (fourcc) UYVY;"
++        "video/x-raw-yuv,"
++        "width = (int) [ 1, MAX ],"
++        "height = (int) [ 1, MAX ],"
++        "framerate = (fraction) [ 0, MAX ],"
++        "format = (fourcc) YUY2;"
+         "video/x-dv,"
+         "systemstream = (boolean) FALSE,"
+         "width = (int) [ 1, MAX ],"
+@@ -55,11 +76,7 @@
+         "framerate = (fraction) [ 0, MAX ],"
+         "format = (fourcc) dvsd;"
+         "video/x-dv,"
+-        "systemstream = (boolean) TRUE;"
+-        "video/x-raw-yuv,"
+-        "width = (int) [ 1, MAX ],"
+-        "height = (int) [ 1, MAX ],"
+-        "framerate = (fraction) [ 0, MAX ]," "format = (fourcc) I420")
++        "systemstream = (boolean) TRUE")
+     );
+ 
+ static void gst_dshowvideosrc_init_interfaces (GType type);
+@@ -104,6 +121,7 @@
+ static gboolean gst_dshowvideosrc_unlock_stop (GstBaseSrc * bsrc);
+ static gboolean gst_dshowvideosrc_set_caps (GstBaseSrc * bsrc, GstCaps * caps);
+ static GstCaps *gst_dshowvideosrc_get_caps (GstBaseSrc * bsrc);
++static void gst_dshowvideosrc_src_fixate (GstBaseSrc * bsrc, GstCaps * caps);
+ static GstFlowReturn gst_dshowvideosrc_create (GstPushSrc * psrc,
+     GstBuffer ** buf);
+ 
+@@ -170,6 +188,7 @@
+ 
+   gstbasesrc_class->get_caps = GST_DEBUG_FUNCPTR (gst_dshowvideosrc_get_caps);
+   gstbasesrc_class->set_caps = GST_DEBUG_FUNCPTR (gst_dshowvideosrc_set_caps);
++  gstbasesrc_class->fixate = GST_DEBUG_FUNCPTR (gst_dshowvideosrc_src_fixate);
+   gstbasesrc_class->start = GST_DEBUG_FUNCPTR (gst_dshowvideosrc_start);
+   gstbasesrc_class->stop = GST_DEBUG_FUNCPTR (gst_dshowvideosrc_stop);
+   gstbasesrc_class->unlock = GST_DEBUG_FUNCPTR (gst_dshowvideosrc_unlock);
+@@ -185,8 +204,8 @@
+ 
+   g_object_class_install_property
+       (gobject_class, PROP_DEVICE_NAME,
+-      g_param_spec_string ("device-name", "Device name",
+-          "Human-readable name of the sound device", NULL, G_PARAM_READWRITE));
++      g_param_spec_string ("device_name", "Device name",
++          "Human-readable name of the video device", NULL, G_PARAM_READWRITE));
+ 
+   GST_DEBUG_CATEGORY_INIT (dshowvideosrc_debug, "dshowvideosrc", 0,
+       "Directshow video source");
+@@ -203,6 +222,7 @@
+   src->media_filter = NULL;
+   src->filter_graph = NULL;
+   src->caps = NULL;
++  src->video_defaults = NULL;
+   src->pins_mediatypes = NULL;
+   src->is_rgb = FALSE;
+ 
+@@ -217,6 +237,36 @@
+ }
+ 
+ static void
++gst_dshowvideosrc_src_fixate (GstBaseSrc * bsrc, GstCaps * caps)
++{
++  /* If there is no desired video size, set default video size to device preffered video size */
++
++  GstDshowVideoSrc *src = GST_DSHOWVIDEOSRC (bsrc);
++  GstStructure *structure = gst_caps_get_structure (caps, 0);
++  guint i = 0;
++  gint res = -1;
++
++  for (; i < gst_caps_get_size (src->caps) && res == -1; i++) {
++    GstCaps *capstmp = gst_caps_copy_nth (src->caps, i);
++
++    if (gst_caps_is_subset (caps, capstmp)) {
++      res = i;
++    }
++    gst_caps_unref (capstmp);
++  }
++
++  if (res != -1) {
++    GList *type_video_default = g_list_nth (src->video_defaults, res);
++    if (type_video_default) {
++      GstCaptureVideoDefault *video_default = (GstCaptureVideoDefault *) type_video_default->data;
++      gst_structure_fixate_field_nearest_int (structure, "width", video_default->defaultWidth);
++      gst_structure_fixate_field_nearest_int (structure, "height", video_default->defaultHeight);
++      gst_structure_fixate_field_nearest_fraction (structure, "framerate", video_default->defaultFPS, 1);
++    }
++  }
++}
++
++static void
+ gst_dshowvideosrc_dispose (GObject * gobject)
+ {
+   GstDshowVideoSrc *src = GST_DSHOWVIDEOSRC (gobject);
+@@ -236,6 +286,11 @@
+     src->caps = NULL;
+   }
+ 
++  if (src->video_defaults) {
++    g_list_free (src->video_defaults);
++    src->video_defaults = NULL;
++  }
++
+   if (src->pins_mediatypes) {
+     gst_dshow_free_pins_mediatypes (src->pins_mediatypes);
+     src->pins_mediatypes = NULL;
+@@ -243,7 +298,9 @@
+ 
+   /* clean dshow */
+   if (src->video_cap_filter) {
+-    IBaseFilter_Release (src->video_cap_filter);
++    HRESULT hres = IBaseFilter_Release (src->video_cap_filter);
++    if (FAILED(hres))
++        g_warning ("Failed to release dshow video capture filter: 0x%x\n", hres);
+     src->video_cap_filter = NULL;
+   }
+ 
+@@ -290,7 +347,6 @@
+ 
+   switch (prop_id) {
+     case PROP_DEVICE_NAME:
+-      //gst_v4l_class_probe_devices (klass, FALSE);
+       break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (probe, prop_id, pspec);
+@@ -307,7 +363,7 @@
+   if (!props) {
+     GParamSpec *pspec;
+ 
+-    pspec = g_object_class_find_property (klass, "device-name");
++    pspec = g_object_class_find_property (klass, "device_name");
+     props = g_list_append (props, pspec);
+   }
+ 
+@@ -501,6 +557,23 @@
+     IEnumPins *enumpins = NULL;
+     HRESULT hres;
+ 
++    if (!src->filter_graph)
++    {
++      hres = CoCreateInstance (&CLSID_FilterGraph, NULL, CLSCTX_INPROC,
++        &IID_IFilterGraph, (LPVOID *) & src->filter_graph);
++      if (hres != S_OK || !src->filter_graph) {
++        GST_CAT_ERROR (dshowvideosrc_debug,
++            "Can't create an instance of the dshow graph manager (error=%d)", hres);
++      }
++
++      hres = IFilterGraph_AddFilter (src->filter_graph, src->video_cap_filter,
++        L"capture");
++      if (hres != S_OK) {
++        GST_CAT_ERROR (dshowvideosrc_debug,
++            "Can't add video capture filter to the graph (error=%d)", hres);
++      }
++    }
++
+     hres = IBaseFilter_EnumPins (src->video_cap_filter, &enumpins);
+     if (SUCCEEDED (hres)) {
+       while (IEnumPins_Next (enumpins, 1, &capture_pin, NULL) == S_OK) {
+@@ -526,8 +599,9 @@
+ 
+             if (SUCCEEDED (IPin_QueryInterface (capture_pin,
+                         &IID_IAMStreamConfig, (void **) &streamcaps))) {
++
+               GstCaps *caps =
+-                  gst_dshowvideosrc_getcaps_from_streamcaps (src, capture_pin,
++                gst_dshowvideosrc_getcaps_from_streamcaps (src, capture_pin,
+                   streamcaps);
+ 
+               if (caps) {
+@@ -604,13 +678,8 @@
+   HRESULT hres = S_FALSE;
+   GstDshowVideoSrc *src = GST_DSHOWVIDEOSRC (bsrc);
+ 
+-  hres = CoCreateInstance (&CLSID_FilterGraph, NULL, CLSCTX_INPROC,
+-      &IID_IFilterGraph, (LPVOID *) & src->filter_graph);
+-  if (hres != S_OK || !src->filter_graph) {
+-    GST_CAT_ERROR (dshowvideosrc_debug,
+-        "Can't create an instance of the dshow graph manager (error=%d)", hres);
+-    goto error;
+-  }
++  if (!src->device)
++      goto error;;
+ 
+   hres = IFilterGraph_QueryInterface (src->filter_graph, &IID_IMediaFilter,
+       (void **) &src->media_filter);
+@@ -631,15 +700,6 @@
+   }
+ 
+   hres =
+-      IFilterGraph_AddFilter (src->filter_graph, src->video_cap_filter,
+-      L"capture");
+-  if (hres != S_OK) {
+-    GST_CAT_ERROR (dshowvideosrc_debug,
+-        "Can't add video capture filter to the graph (error=%d)", hres);
+-    goto error;
+-  }
+-
+-  hres =
+       IFilterGraph_AddFilter (src->filter_graph, src->dshow_fakesink, L"sink");
+   if (hres != S_OK) {
+     GST_CAT_ERROR (dshowvideosrc_debug,
+@@ -694,11 +754,50 @@
+       /* get the corresponding media type and build the dshow graph */
+       GstCapturePinMediaType *pin_mediatype = NULL;
+       gchar *caps_string = NULL;
++      gchar *src_caps_string = NULL;
+       GList *type = g_list_nth (src->pins_mediatypes, res);
+ 
+-      if (type) {
++      //will be removed when GST_TYPE_INT_RANGE_STEP exits
++      GList *type_video_default = g_list_nth (src->video_defaults, res);
++
++      if (type && type_video_default) {
++
++        //will be removed when GST_TYPE_INT_RANGE_STEP exits
++        GstCaptureVideoDefault *video_default = (GstCaptureVideoDefault *) type_video_default->data;
++
++        /* retrieve the desired video size */
++        VIDEOINFOHEADER *video_info = NULL;
++        gint width = 0;
++        gint height = 0;
++        gint numerator = 0;
++        gint denominator = 0;
++        gst_structure_get_int (s, "width", &width);
++        gst_structure_get_int (s, "height", &height);
++        gst_structure_get_fraction (s, "framerate", &numerator, &denominator);
++
++        /* check if the desired video size is valid about granularity  */
++		/* This check will be removed when GST_TYPE_INT_RANGE_STEP exits */
++        /* See remarks in gst_dshowvideosrc_getcaps_from_streamcaps function */
++        if (video_default->granularityWidth != 0 && width % video_default->granularityWidth != 0)
++          g_warning ("your desired video size is not valid : %d mod %d !=0\n", width, video_default->granularityWidth) ;
++        if (video_default->granularityHeight !=0 && height % video_default->granularityHeight != 0)
++          g_warning ("your desired video size is not valid : %d mod %d !=0\n", height, video_default->granularityHeight) ;
++
++        /* display all capabilities when using --gst-debug-level=3 */
++        src_caps_string = gst_caps_to_string (src->caps);
++        GST_CAT_LEVEL_LOG (dshowvideosrc_debug, GST_LEVEL_INFO, src, src_caps_string);
++        g_free (src_caps_string);
++
+         pin_mediatype = (GstCapturePinMediaType *) type->data;
+ 
++        /* update mediatype */
++        video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
++        video_info->bmiHeader.biWidth = width;
++        video_info->bmiHeader.biHeight = height;
++        video_info->AvgTimePerFrame = (LONGLONG) (10000000 * denominator / (double)numerator);
++        video_info->bmiHeader.biSizeImage = DIBSIZE(video_info->bmiHeader);
++        pin_mediatype->mediatype->lSampleSize = DIBSIZE(video_info->bmiHeader);
++
+         hres =
+             IBaseFilter_QueryInterface (src->dshow_fakesink,
+             &IID_IGstDshowInterface, (void **) &srcinterface);
+@@ -727,9 +826,10 @@
+           goto error;
+         }
+ 
++        /* connection using the updated mediatype */
+         hres =
+             IFilterGraph_ConnectDirect (src->filter_graph,
+-            pin_mediatype->capture_pin, input_pin, NULL);
++            pin_mediatype->capture_pin, input_pin, pin_mediatype->mediatype);
+         IPin_Release (input_pin);
+ 
+         if (hres != S_OK) {
+@@ -782,29 +882,43 @@
+       &output_pin);
+   if (output_pin) {
+     hres = IFilterGraph_Disconnect (src->filter_graph, output_pin);
++    if (FAILED(hres))
++        g_warning ("Failed to disconnect dshow video capture filter: 0x%x\n", hres);
+     IPin_Release (output_pin);
+   }
+ 
+   gst_dshow_get_pin_from_filter (src->dshow_fakesink, PINDIR_INPUT, &input_pin);
+   if (input_pin) {
+     hres = IFilterGraph_Disconnect (src->filter_graph, input_pin);
++    if (FAILED(hres))
++        g_warning ("Failed to disconnect dshow fake sink: 0x%x\n", hres);
+     IPin_Release (input_pin);
+   }
+ 
+   /*remove filters from the graph */
+-  IFilterGraph_RemoveFilter (src->filter_graph, src->video_cap_filter);
++  hres = IFilterGraph_RemoveFilter (src->filter_graph, src->video_cap_filter);
++  if (FAILED(hres))
++    g_warning ("Failed to remove dshow video capture filter: 0x%x\n", hres);
+   IFilterGraph_RemoveFilter (src->filter_graph, src->dshow_fakesink);
++  if (FAILED(hres))
++    g_warning ("Failed to remove dshow fakesink: 0x%x\n", hres);
+ 
+   /*release our gstreamer dshow sink */
+-  IBaseFilter_Release (src->dshow_fakesink);
++  hres = IBaseFilter_Release (src->dshow_fakesink);
++  if (FAILED(hres))
++    g_warning ("Failed to release dshow fake sink: 0x%x\n", hres);
+   src->dshow_fakesink = NULL;
+ 
+   /*release media filter interface */
+-  IMediaFilter_Release (src->media_filter);
++  hres = IMediaFilter_Release (src->media_filter);
++  if (FAILED(hres))
++    g_warning ("Failed to release media filter interface: 0x%x\n", hres);
+   src->media_filter = NULL;
+ 
+   /*release the filter graph manager */
+-  IFilterGraph_Release (src->filter_graph);
++  hres = IFilterGraph_Release (src->filter_graph);
++  if (FAILED(hres))
++    g_warning ("Failed to release dshow capture graph: 0x%x\n", hres);
+   src->filter_graph = NULL;
+ 
+   return TRUE;
+@@ -872,6 +986,7 @@
+   int isize = 0;
+   VIDEO_STREAM_CONFIG_CAPS vscc;
+   int i = 0;
++  IEnumMediaTypes * pEnumCandidates = NULL;
+ 
+   if (!streamcaps)
+     return NULL;
+@@ -879,10 +994,11 @@
+   IAMStreamConfig_GetNumberOfCapabilities (streamcaps, &icount, &isize);
+ 
+   if (isize != sizeof (vscc))
+-    return NULL;
++    goto enumPinMediaTypes;
+ 
+   for (; i < icount; i++) {
+     GstCapturePinMediaType *pin_mediatype = g_new0 (GstCapturePinMediaType, 1);
++    GstCaptureVideoDefault *video_default = g_new0 (GstCaptureVideoDefault, 1);
+ 
+     IPin_AddRef (pin);
+     pin_mediatype->capture_pin = pin;
+@@ -897,6 +1013,17 @@
+       if (!caps)
+         caps = gst_caps_new_empty ();
+ 
++      /* some remarks: */
++      /* Hope GST_TYPE_INT_RANGE_STEP will exits in future gstreamer releases  */
++      /* because we could use :  */
++      /* "width", GST_TYPE_INT_RANGE_STEP, video_default->minWidth, video_default->maxWidth,  video_default->granularityWidth */
++      /* instead of : */
++      /* "width", GST_TYPE_INT_RANGE, video_default->minWidth, video_default->maxWidth */
++
++      /* For framerate we do not need a step (granularity) because  */
++      /* "The IAMStreamConfig::SetFormat method will set the frame rate to the closest  */
++      /* value that the filter supports" as it said in the VIDEO_STREAM_CONFIG_CAPS dshwo doc */
++
+       /* I420 */
+       if ((UuidCompare (&pin_mediatype->mediatype->subtype, &MEDIASUBTYPE_I420,
+                   &rpcstatus) == 0 && rpcstatus == RPC_S_OK)
+@@ -905,19 +1032,137 @@
+               && rpcstatus == RPC_S_OK)) {
+         video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
+ 
++        video_default->defaultWidth = video_info->bmiHeader.biWidth;
++        video_default->defaultHeight = video_info->bmiHeader.biHeight;
++        video_default->defaultFPS = (int) (10000000 / video_info->AvgTimePerFrame);
++        video_default->granularityWidth = vscc.OutputGranularityX;
++        video_default->granularityHeight = vscc.OutputGranularityY;
++
++        mediacaps = gst_caps_new_simple ("video/x-raw-yuv",
++            "width", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cx, vscc.MaxOutputSize.cx,
++            "height", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cy, vscc.MaxOutputSize.cy,
++            "framerate", GST_TYPE_FRACTION_RANGE,
++            (int) (10000000 / vscc.MaxFrameInterval), 1,
++            (int) (10000000 / vscc.MinFrameInterval), 1,
++            "format", GST_TYPE_FOURCC, MAKEFOURCC ('I', '4', '2', '0'), NULL);
++
++        if (mediacaps) {
++          src->pins_mediatypes =
++              g_list_append (src->pins_mediatypes, pin_mediatype);
++          src->video_defaults =
++            g_list_append (src->video_defaults, video_default);
++          gst_caps_append (caps, mediacaps);
++        } else {
++          gst_dshow_free_pin_mediatype (pin_mediatype);
++          g_free (video_default);
++        }
++        continue;
++      }
++
++      /* UYVY */
++      if ((UuidCompare (&pin_mediatype->mediatype->subtype, &MEDIASUBTYPE_UYVY,
++                  &rpcstatus) == 0 && rpcstatus == RPC_S_OK)
++          && (UuidCompare (&pin_mediatype->mediatype->formattype,
++                  &FORMAT_VideoInfo, &rpcstatus) == 0
++              && rpcstatus == RPC_S_OK)) {
++        video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
++
++        video_default->defaultWidth = video_info->bmiHeader.biWidth;
++        video_default->defaultHeight = video_info->bmiHeader.biHeight;
++        video_default->defaultFPS = (int) (10000000 / video_info->AvgTimePerFrame);
++        video_default->granularityWidth = vscc.OutputGranularityX;
++        video_default->granularityHeight = vscc.OutputGranularityY;
++
+         mediacaps = gst_caps_new_simple ("video/x-raw-yuv",
+-            "width", G_TYPE_INT, video_info->bmiHeader.biWidth,
+-            "height", G_TYPE_INT, video_info->bmiHeader.biHeight,
+-            "framerate", GST_TYPE_FRACTION,
+-            (int) (10000000 / video_info->AvgTimePerFrame), 1, "format",
+-            GST_TYPE_FOURCC, MAKEFOURCC ('I', '4', '2', '0'), NULL);
++            "width", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cx, vscc.MaxOutputSize.cx,
++            "height", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cy, vscc.MaxOutputSize.cy,
++            "framerate", GST_TYPE_FRACTION_RANGE,
++            (int) (10000000 / vscc.MaxFrameInterval), 1,
++            (int) (10000000 / vscc.MinFrameInterval), 1,
++            "format", GST_TYPE_FOURCC, MAKEFOURCC ('U', 'Y', 'V', 'Y'), NULL);
+ 
+         if (mediacaps) {
+           src->pins_mediatypes =
+               g_list_append (src->pins_mediatypes, pin_mediatype);
++          src->video_defaults =
++            g_list_append (src->video_defaults, video_default);
+           gst_caps_append (caps, mediacaps);
+         } else {
+           gst_dshow_free_pin_mediatype (pin_mediatype);
++          g_free (video_default);
++        }
++        continue;
++      }
++
++      /* YUY2 */
++      if ((UuidCompare (&pin_mediatype->mediatype->subtype, &MEDIASUBTYPE_YUY2,
++                  &rpcstatus) == 0 && rpcstatus == RPC_S_OK)
++          && (UuidCompare (&pin_mediatype->mediatype->formattype,
++                  &FORMAT_VideoInfo, &rpcstatus) == 0
++              && rpcstatus == RPC_S_OK)) {
++        video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
++
++        video_default->defaultWidth = video_info->bmiHeader.biWidth;
++        video_default->defaultHeight = video_info->bmiHeader.biHeight;
++        video_default->defaultFPS = (int) (10000000 / video_info->AvgTimePerFrame);
++        video_default->granularityWidth = vscc.OutputGranularityX;
++        video_default->granularityHeight = vscc.OutputGranularityY;
++
++        mediacaps = gst_caps_new_simple ("video/x-raw-yuv",
++            "width", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cx, vscc.MaxOutputSize.cx,
++            "height", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cy, vscc.MaxOutputSize.cy,
++            "framerate", GST_TYPE_FRACTION_RANGE,
++            (int) (10000000 / vscc.MaxFrameInterval), 1,
++            (int) (10000000 / vscc.MinFrameInterval), 1,
++            "format", GST_TYPE_FOURCC, MAKEFOURCC ('Y', 'U', 'Y', '2'), NULL);
++
++        if (mediacaps) {
++          src->pins_mediatypes =
++              g_list_append (src->pins_mediatypes, pin_mediatype);
++          src->video_defaults =
++            g_list_append (src->video_defaults, video_default);
++          gst_caps_append (caps, mediacaps);
++        } else {
++          gst_dshow_free_pin_mediatype (pin_mediatype);
++          g_free (video_default);
++        }
++        continue;
++      }
++
++	  /* HDYC */
++      if ((UuidCompare (&pin_mediatype->mediatype->subtype, &MEDIASUBTYPE_HDYC,
++                  &rpcstatus) == 0 && rpcstatus == RPC_S_OK)
++          && (UuidCompare (&pin_mediatype->mediatype->formattype,
++                  &FORMAT_VideoInfo, &rpcstatus) == 0
++              && rpcstatus == RPC_S_OK)) {
++        video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
++
++        video_default->defaultWidth = video_info->bmiHeader.biWidth;
++        video_default->defaultHeight = video_info->bmiHeader.biHeight;
++        video_default->defaultFPS = (int) (10000000 / video_info->AvgTimePerFrame);
++        video_default->granularityWidth = vscc.OutputGranularityX;
++        video_default->granularityHeight = vscc.OutputGranularityY;
++
++        mediacaps = gst_caps_new_simple ("video/x-raw-yuv",
++            "width", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cx, vscc.MaxOutputSize.cx,
++            "height", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cy, vscc.MaxOutputSize.cy,
++            "framerate", GST_TYPE_FRACTION_RANGE,
++            (int) (10000000 / vscc.MaxFrameInterval), 1,
++            (int) (10000000 / vscc.MinFrameInterval), 1,
++            "format", GST_TYPE_FOURCC, MAKEFOURCC ('U', 'Y', 'V', 'Y'), NULL);
++
++		//In libavcodec from FFMPEG, HDYC is exactly the same as UYVY
++		//(even if it's not exactly true)
++
++        if (mediacaps) {
++          src->pins_mediatypes =
++              g_list_append (src->pins_mediatypes, pin_mediatype);
++          src->video_defaults =
++            g_list_append (src->video_defaults, video_default);
++          gst_caps_append (caps, mediacaps);
++        } else {
++          gst_dshow_free_pin_mediatype (pin_mediatype);
++          g_free (video_default);
+         }
+         continue;
+       }
+@@ -930,23 +1175,35 @@
+               && rpcstatus == RPC_S_OK)) {
+         video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
+ 
++        video_default->defaultWidth = video_info->bmiHeader.biWidth;
++        video_default->defaultHeight = video_info->bmiHeader.biHeight;
++        video_default->defaultFPS = (int) (10000000 / video_info->AvgTimePerFrame);
++        video_default->granularityWidth = vscc.OutputGranularityX;
++        video_default->granularityHeight = vscc.OutputGranularityY;
++
+         /* ffmpegcolorspace handles RGB24 in BIG_ENDIAN */
+         mediacaps = gst_caps_new_simple ("video/x-raw-rgb",
+             "bpp", G_TYPE_INT, 24,
+             "depth", G_TYPE_INT, 24,
+-            "width", G_TYPE_INT, video_info->bmiHeader.biWidth,
+-            "height", G_TYPE_INT, video_info->bmiHeader.biHeight,
+-            "framerate", GST_TYPE_FRACTION,
+-            (int) (10000000 / video_info->AvgTimePerFrame), 1, "endianness",
+-            G_TYPE_INT, G_BIG_ENDIAN, "red_mask", G_TYPE_INT, 255, "green_mask",
+-            G_TYPE_INT, 65280, "blue_mask", G_TYPE_INT, 16711680, NULL);
++            "width", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cx, vscc.MaxOutputSize.cx,
++            "height", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cy, vscc.MaxOutputSize.cy,
++            "framerate", GST_TYPE_FRACTION_RANGE,
++            (int) (10000000 / vscc.MaxFrameInterval), 1,
++            (int) (10000000 / vscc.MinFrameInterval), 1,
++            "endianness", G_TYPE_INT, G_BIG_ENDIAN,
++            "red_mask", G_TYPE_INT, 255,
++            "green_mask", G_TYPE_INT, 65280,
++            "blue_mask", G_TYPE_INT, 16711680, NULL);
+ 
+         if (mediacaps) {
+           src->pins_mediatypes =
+               g_list_append (src->pins_mediatypes, pin_mediatype);
++          src->video_defaults =
++            g_list_append (src->video_defaults, video_default);
+           gst_caps_append (caps, mediacaps);
+         } else {
+           gst_dshow_free_pin_mediatype (pin_mediatype);
++          g_free (video_default);
+         }
+         continue;
+       }
+@@ -959,20 +1216,30 @@
+               && rpcstatus == RPC_S_OK)) {
+         video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
+ 
++        video_default->defaultWidth = video_info->bmiHeader.biWidth;
++        video_default->defaultHeight = video_info->bmiHeader.biHeight;
++        video_default->defaultFPS = (int) (10000000 / video_info->AvgTimePerFrame);
++        video_default->granularityWidth = vscc.OutputGranularityX;
++        video_default->granularityHeight = vscc.OutputGranularityY;
++
+         mediacaps = gst_caps_new_simple ("video/x-dv",
+             "systemstream", G_TYPE_BOOLEAN, FALSE,
+             "format", GST_TYPE_FOURCC, GST_MAKE_FOURCC ('d', 'v', 's', 'd'),
+-            "framerate", GST_TYPE_FRACTION,
+-            (int) (10000000 / video_info->AvgTimePerFrame), 1, "width",
+-            G_TYPE_INT, video_info->bmiHeader.biWidth, "height", G_TYPE_INT,
+-            video_info->bmiHeader.biHeight, NULL);
++            "framerate", GST_TYPE_FRACTION_RANGE,
++            (int) (10000000 / vscc.MaxFrameInterval), 1,
++            (int) (10000000 / vscc.MinFrameInterval), 1,
++            "width", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cx, vscc.MaxOutputSize.cx,
++            "height", GST_TYPE_INT_RANGE, vscc.MinOutputSize.cy, vscc.MaxOutputSize.cy, NULL);
+ 
+         if (mediacaps) {
+           src->pins_mediatypes =
+               g_list_append (src->pins_mediatypes, pin_mediatype);
++          src->video_defaults =
++            g_list_append (src->video_defaults, video_default);
+           gst_caps_append (caps, mediacaps);
+         } else {
+           gst_dshow_free_pin_mediatype (pin_mediatype);
++          g_free (video_default);
+         }
+         continue;
+       }
+@@ -983,21 +1250,102 @@
+           && (UuidCompare (&pin_mediatype->mediatype->formattype,
+                   &FORMAT_DvInfo, &rpcstatus) == 0 && rpcstatus == RPC_S_OK)) {
+ 
++        video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
++
++        //No video size in caps when stream ? I do know if the following fields exist
++        video_default->defaultWidth = video_info->bmiHeader.biWidth;
++        video_default->defaultHeight = video_info->bmiHeader.biHeight;
++        video_default->defaultFPS = (int) (10000000 / video_info->AvgTimePerFrame);
++        video_default->granularityWidth = vscc.OutputGranularityX;
++        video_default->granularityHeight = vscc.OutputGranularityY;
++
+         mediacaps = gst_caps_new_simple ("video/x-dv",
+             "systemstream", G_TYPE_BOOLEAN, TRUE, NULL);
+ 
+         if (mediacaps) {
+           src->pins_mediatypes =
+               g_list_append (src->pins_mediatypes, pin_mediatype);
++          src->video_defaults =
++            g_list_append (src->video_defaults, video_default);
+           gst_caps_append (caps, mediacaps);
+         } else {
+           gst_dshow_free_pin_mediatype (pin_mediatype);
++          g_free (video_default);
+         }
+         continue;
+       }
+     } else {
+       gst_dshow_free_pin_mediatype (pin_mediatype);
++      g_free (video_default);
++    }
++  }
++
++  if (caps && gst_caps_is_empty (caps)) {
++    gst_caps_unref (caps);
++    caps = NULL;
++  }
++
++  return caps;
++
++enumPinMediaTypes:
++
++  if (SUCCEEDED(IPin_EnumMediaTypes(pin, &pEnumCandidates)))
++  {
++
++    GstCapturePinMediaType *pin_mediatype = g_new0 (GstCapturePinMediaType, 1);
++    GstCaptureVideoDefault *video_default = g_new0 (GstCaptureVideoDefault, 1);
++
++    IPin_AddRef (pin);
++    pin_mediatype->capture_pin = pin;
++
++    while (S_OK == IEnumMediaTypes_Next(pEnumCandidates, 1, &pin_mediatype->mediatype, NULL))
++    {
++      VIDEOINFOHEADER *video_info;
++      GstCaps *mediacaps = NULL;
++
++      if (!caps)
++        caps = gst_caps_new_empty ();
++
++      if ((UuidCompare (&pin_mediatype->mediatype->subtype, &MEDIASUBTYPE_RGB24,
++                  &rpcstatus) == 0 && rpcstatus == RPC_S_OK)
++          && (UuidCompare (&pin_mediatype->mediatype->formattype,
++                  &FORMAT_VideoInfo, &rpcstatus) == 0
++              && rpcstatus == RPC_S_OK)) {
++        video_info = (VIDEOINFOHEADER *) pin_mediatype->mediatype->pbFormat;
++
++        video_default->defaultWidth = video_info->bmiHeader.biWidth;
++        video_default->defaultHeight = video_info->bmiHeader.biHeight;
++        video_default->defaultFPS = (int) (10000000 / video_info->AvgTimePerFrame);
++        video_default->granularityWidth = 1;
++        video_default->granularityHeight = 1;
++
++        /* ffmpegcolorspace handles RGB24 in BIG_ENDIAN */
++        mediacaps = gst_caps_new_simple ("video/x-raw-rgb",
++            "bpp", G_TYPE_INT, 24,
++            "depth", G_TYPE_INT, 24,
++            "width", G_TYPE_INT, video_default->defaultWidth,
++            "height", G_TYPE_INT, video_default->defaultHeight,
++            "framerate", GST_TYPE_FRACTION_RANGE,
++            1, 1,
++            video_default->defaultFPS, 1,
++            "endianness", G_TYPE_INT, G_BIG_ENDIAN,
++            "red_mask", G_TYPE_INT, 255,
++            "green_mask", G_TYPE_INT, 65280,
++            "blue_mask", G_TYPE_INT, 16711680, NULL);
++
++        if (mediacaps) {
++          src->pins_mediatypes =
++              g_list_append (src->pins_mediatypes, pin_mediatype);
++          src->video_defaults =
++            g_list_append (src->video_defaults, video_default);
++          gst_caps_append (caps, mediacaps);
++        } else {
++          gst_dshow_free_pin_mediatype (pin_mediatype);
++          g_free (video_default);
++        }
++      }
+     }
++    IEnumMediaTypes_Release(pEnumCandidates);
+   }
+ 
+   if (caps && gst_caps_is_empty (caps)) {
+@@ -1031,7 +1379,7 @@
+   GST_BUFFER_DURATION (buf) = stop - start;
+ 
+   if (src->is_rgb) {
+-    /* FOR RGB directshow decoder will return bottom-up BITMAP 
++    /* FOR RGB directshow decoder will return bottom-up BITMAP
+      * There is probably a way to get top-bottom video frames from
+      * the decoder...
+      */
+Index: sys/dshowsrcwrapper/gstdshowvideosrc.h
+===================================================================
+RCS file: /cvs/gstreamer/gst-plugins-bad/sys/dshowsrcwrapper/gstdshowvideosrc.h,v
+retrieving revision 1.2
+diff -u -r1.2 gstdshowvideosrc.h
+--- sys/dshowsrcwrapper/gstdshowvideosrc.h	11 Apr 2008 19:33:53 -0000	1.2
++++ sys/dshowsrcwrapper/gstdshowvideosrc.h	7 Jan 2009 17:30:46 -0000
+@@ -1,7 +1,8 @@
+ /* GStreamer
+  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
++ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
+  *
+- * gstdshowvideosrc.h: 
++ * gstdshowvideosrc.h:
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Library General Public
+@@ -40,6 +41,18 @@
+ typedef struct _GstDshowVideoSrc GstDshowVideoSrc;
+ typedef struct _GstDshowVideoSrcClass GstDshowVideoSrcClass;
+ 
++/* video default properties associated to a video format (YUY2, I420, RGB24 ...) */
++typedef struct _GstCaptureVideoDefault
++{
++  gint defaultWidth;
++  gint defaultHeight;
++  gint defaultFPS;
++
++  gint granularityWidth; //will be removed when GST_TYPE_INT_RANGE_STEP exits
++  gint granularityHeight; //will be removed when GST_TYPE_INT_RANGE_STEP exits
++
++} GstCaptureVideoDefault;
++
+ struct _GstDshowVideoSrc
+ {
+   GstPushSrc src;
+@@ -53,6 +66,9 @@
+   /* list of caps created from the list of supported media types of the dshow capture filter */
+   GstCaps *caps;
+ 
++  /* list of dshow default video properties from filter's capture pins */
++  GList *video_defaults;
++
+   /* list of dshow media types from the filter's capture pins */
+   GList *pins_mediatypes;
+ 
+--- gstdshowaudiomixer.c
++++ gstdshowaudiomixer.c
+@@ -0,0 +1,368 @@
++/* GStreamer
++ * Copyright (C)  2009 Julien Isorce <julien.isorce@gmail.com>
++ *
++ * gstdshowaudiomixer.c: 
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Library General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Library General Public License for more details.
++ *
++ * You should have received a copy of the GNU Library General Public
++ * License along with this library; if not, write to the
++ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++ * Boston, MA 02111-1307, USA.
++ */
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
++#include "gstdshowaudiomixer.h"
++
++GstDshowAudioMixer *
++gst_dshowaudio_mixer_new (IBaseFilter *base_filter, GstDshowAudioMixerDirection dir)
++{
++  GstDshowAudioMixer *ret = NULL;
++
++  g_return_val_if_fail (base_filter != NULL, NULL);
++
++  ret = g_new0 (GstDshowAudioMixer, 1);
++
++  ret->rec_mutex = g_new (GStaticRecMutex, 1);
++  g_static_rec_mutex_init (ret->rec_mutex);
++
++  ret->dir = dir;
++
++  if (!base_filter)
++    goto error;
++
++  ret->capture_filter = base_filter;
++
++  return ret;
++
++  /* ERRORS */
++error:
++  {
++    gst_dshowaudio_mixer_free (ret);
++    return NULL;
++  }
++}
++
++void
++gst_dshowaudio_mixer_free (GstDshowAudioMixer * mixer)
++{
++  g_return_if_fail (mixer != NULL);
++
++  if (mixer->mixer_interface) {
++    g_object_unref (G_OBJECT (mixer->mixer_interface));
++    mixer->mixer_interface = NULL;
++  }
++
++  if (mixer->tracklist) {
++    g_list_foreach (mixer->tracklist, (GFunc) g_object_unref, NULL);
++    g_list_free (mixer->tracklist);
++    mixer->tracklist = NULL;
++  }
++
++  if (mixer->capture_filter) {
++    mixer->capture_filter = NULL;
++  }
++
++  g_static_rec_mutex_free (mixer->rec_mutex);
++  g_free (mixer->rec_mutex);
++  mixer->rec_mutex = NULL;
++
++  g_free (mixer);
++}
++
++const GList *
++gst_dshowaudio_mixer_list_tracks (GstDshowAudioMixer * mixer)
++{
++  IPin *pPin = NULL;
++  IEnumPins *enumpins = NULL;
++  HRESULT hres;
++  
++  g_return_val_if_fail (mixer->capture_filter != NULL, NULL);
++
++  hres = IBaseFilter_EnumPins (mixer->capture_filter, &enumpins);
++  if (SUCCEEDED (hres)) 
++  {
++    int index = 0;
++    while (IEnumPins_Next (enumpins, 1, &pPin, NULL) == S_OK) 
++    {
++      PIN_DIRECTION pinDir;
++
++      IPin_QueryDirection(pPin, &pinDir);
++      if (pinDir == PINDIR_INPUT)
++      {
++        GstMixerTrack *cap_track = NULL;
++        PIN_INFO pInfo;
++        LPWSTR pinId;
++        gchar label[256];
++        gchar untranslated_label[256];
++        IAMAudioInputMixer* dshow_audio_input_mixer = NULL;
++
++        IPin_QueryPinInfo(pPin, &pInfo);
++        IPin_QueryId(pPin, &pinId);
++
++        wcstombs(label, pInfo.achName, sizeof(pInfo.achName));
++        wcstombs(untranslated_label, pinId, sizeof(pinId));
++
++        GST_INFO("one more input pin name = %s and id = %ls\n", label, pinId);
++
++        if (SUCCEEDED (IPin_QueryInterface (pPin,
++                      &IID_IAMAudioInputMixer, (void **) &dshow_audio_input_mixer))) 
++        {
++
++          cap_track = gst_dshowaudio_mixer_track_new (dshow_audio_input_mixer, label, untranslated_label, index, GST_MIXER_TRACK_INPUT, 2); //FIXME: 2
++
++          if (cap_track)
++            mixer->tracklist = g_list_append (mixer->tracklist, cap_track);
++        }
++      }
++      ++index;
++    }
++  }
++  else
++    GST_DEBUG("failed to enumerate pins 0x%x", hres);
++
++  return (const GList *) mixer->tracklist;
++}
++
++void
++gst_dshowaudio_mixer_get_volume (GstDshowAudioMixer * mixer, GstMixerTrack * track,
++    gint * volumes)
++{
++  GstDshowAudioMixerTrack *dshowaudio_track = GST_DSHOWAUDIO_MIXER_TRACK (track);
++  gint i = 0;
++
++  g_return_if_fail (mixer != NULL);
++  g_return_if_fail (track != NULL);
++
++  //dshow only support mono or stereo
++  g_return_if_fail (track->num_channels <= 2 || track->num_channels >= 1);
++
++  //sink
++  if (track->flags & GST_MIXER_TRACK_OUTPUT) 
++  {
++    GST_WARNING ("not yet implemented");
++  } 
++  //src
++  else if (track->flags & GST_MIXER_TRACK_INPUT) 
++  {
++    g_return_if_fail (mixer->capture_filter != NULL);
++    g_return_if_fail (dshowaudio_track->dshow_audio_input_mixer != NULL);
++    
++    //mono
++    if (track->num_channels < 2)
++    {
++      gdouble volume = 0.0;
++      IAMAudioInputMixer_get_MixLevel(dshowaudio_track->dshow_audio_input_mixer, &volume);
++      volumes[0] = (gint) (volume * 100);
++    }
++    //stereo
++    else
++    {
++      gdouble balance = 0.0;
++      gdouble volume = 0.0;
++
++      IAMAudioInputMixer_get_MixLevel(dshowaudio_track->dshow_audio_input_mixer, &volume);
++      IAMAudioInputMixer_get_Pan(dshowaudio_track->dshow_audio_input_mixer, &balance);
++
++      //same volume on each side
++      if (balance == 0)
++      {
++        volumes[0] = (gint) (volume * 100);
++        volumes[1] = (gint) (volume * 100);
++      }
++      else
++      {
++        //balance is used to have different level on each side
++        gdouble min = volume * (1 - (balance < 0 ? -balance : balance ));
++
++        g_return_if_fail (min >= 0 || min <= 100);
++        
++        //left higher than right
++        if (balance < 0)
++        {
++          volumes[0] = (gint) (volume * 100);
++          volumes[1] = (gint) (min * 100);
++
++        }
++        else
++        {
++          volumes[0] = (gint) (min * 100);
++          volumes[1] = (gint) (volume * 100);
++        }
++      }
++    }
++  }
++
++  //dshow volumes must be double in [0, 1] but gst interface wants integers, so [0, 100]
++  for (i = 0; i < track->num_channels; ++i)
++    g_return_if_fail (volumes[i] <= 100 || volumes[i] >= 0);
++}
++
++
++void
++gst_dshowaudio_mixer_set_volume (GstDshowAudioMixer * mixer, GstMixerTrack * track,
++    gint * volumes)
++{
++  GstDshowAudioMixerTrack *dshowaudio_track = GST_DSHOWAUDIO_MIXER_TRACK (track);
++  gint i = 0;
++
++  g_return_if_fail (mixer != NULL);
++  g_return_if_fail (track != NULL);
++
++  //dshow only support mono or stereo
++  g_return_if_fail (track->num_channels >= 1 || track->num_channels <= 2);
++
++  //dshow volumes must be double in [0, 1]
++  for (i = 0; i < track->num_channels; ++i)
++    g_return_if_fail (volumes[i] <= 100 || volumes[i] >= 0);
++
++  //sink
++  if (track->flags & GST_MIXER_TRACK_OUTPUT) 
++  {
++    GST_WARNING ("not yet implemented");
++  } 
++  //src
++  else if (track->flags & GST_MIXER_TRACK_INPUT) 
++  {
++    HRESULT hres = 0;
++    
++    g_return_if_fail (mixer->capture_filter != NULL);
++    g_return_if_fail (dshowaudio_track->dshow_audio_input_mixer != NULL);
++    
++    //mono or (stereo and same volume)
++    if (track->num_channels < 2 || (track->num_channels > 1 && volumes[0] == volumes[1]))
++    {
++      //dhsow volume is in [0, 1]
++      hres = IAMAudioInputMixer_put_MixLevel(dshowaudio_track->dshow_audio_input_mixer, volumes[0] / 100.0);
++
++      if (FAILED(hres))
++        GST_DEBUG("failed to put_MixLevel 0x%x", hres);
++
++      hres = IAMAudioInputMixer_put_Pan(dshowaudio_track->dshow_audio_input_mixer, 0.0);
++
++      if (FAILED(hres))
++        GST_DEBUG("failed to put_Pan 0x%x", hres);
++    }
++    else
++    {
++      //dhsow volume is in [0, 1]
++      gdouble max_volume = max(volumes[0], volumes[1]) / 100.0;
++      gdouble percent = 0;
++      gint side = 0;
++
++      //can't happen because in this case L and R volume are equals, and this is the if
++      g_return_if_fail(max_volume != 0);
++
++      //set level for the 2 channels
++      hres = IAMAudioInputMixer_put_MixLevel(dshowaudio_track->dshow_audio_input_mixer, max_volume);
++
++      if (FAILED(hres))
++        GST_DEBUG("failed to put_MixLevel 0x%x", hres);
++
++      //percent can't be 1 because can't be equals
++      percent = (min(volumes[0], volumes[1]) / 100.0) / max_volume;
++
++      //left greater than right ?
++      side = volumes[0] > volumes[1] ? -1 : 1;
++
++      //set balance to have different volume on each side
++      hres = IAMAudioInputMixer_put_Pan(dshowaudio_track->dshow_audio_input_mixer, side * (1.0 - percent));
++
++      if (FAILED(hres))
++        GST_DEBUG("failed to put_Pan 0x%x", hres);
++    }
++  }
++}
++
++void
++gst_dshowaudio_mixer_set_mute (GstDshowAudioMixer * mixer, GstMixerTrack * track,
++    gboolean mute)
++{
++  GstDshowAudioMixerTrack *dshowaudio_track = GST_DSHOWAUDIO_MIXER_TRACK (track);
++
++  gint volumes[2] = {0, 0};
++  gint i = 0;
++
++  g_return_if_fail (mixer != NULL);
++  g_return_if_fail (track != NULL);
++
++  //dshow only support mono or stereo
++  g_return_if_fail (track->num_channels <= 2 || track->num_channels >= 1);
++
++  //mute all channels of the given track
++  gst_dshowaudio_mixer_set_volume (mixer, track, volumes);
++}
++
++void
++gst_dshowaudio_mixer_set_record (GstDshowAudioMixer * mixer,
++    GstMixerTrack * track, gboolean record)
++{
++
++  GstDshowAudioMixerTrack *dshowaudio_track = GST_DSHOWAUDIO_MIXER_TRACK (track);
++
++  g_return_if_fail (mixer != NULL);
++  g_return_if_fail (track != NULL);
++
++  //sink
++  if (track->flags & GST_MIXER_TRACK_OUTPUT) 
++  {
++    GST_WARNING ("not yet implemented");
++  } 
++  //src
++  else if (track->flags & GST_MIXER_TRACK_INPUT) 
++  {
++    HRESULT hres = 0;
++    
++    g_return_if_fail (mixer->capture_filter != NULL);
++    g_return_if_fail (dshowaudio_track->dshow_audio_input_mixer != NULL);
++
++    hres = IAMAudioInputMixer_put_Enable(dshowaudio_track->dshow_audio_input_mixer, record);
++
++    if (FAILED(hres))
++      GST_DEBUG("failed to start recording track 0x%x", hres);
++  }
++}
++
++void
++gst_dshowaudio_mixer_set_option (GstDshowAudioMixer * mixer,
++    GstMixerOptions * opts, gchar * value)
++{
++  GST_WARNING ("not yet implemented");
++}
++
++const gchar *
++gst_dshowaudio_mixer_get_option (GstDshowAudioMixer * mixer, GstMixerOptions * opts)
++{
++  GST_WARNING ("not yet implemented");
++
++  return NULL;
++}
++
++GstMixerFlags
++gst_dshowaudio_mixer_get_mixer_flags (GstDshowAudioMixer * mixer)
++{
++  g_return_val_if_fail (mixer != NULL, GST_MIXER_FLAG_NONE);
++
++  return GST_MIXER_FLAG_AUTO_NOTIFICATIONS;
++}
++
++/* utility function for gstdshowaudiomixerelement to set the interface */
++void
++_gst_dshowaudio_mixer_set_interface (GstDshowAudioMixer * mixer, GstMixer * mixer_interface)
++{
++  g_return_if_fail (mixer != NULL && mixer->mixer_interface == NULL);
++  g_return_if_fail (mixer_interface != NULL);
++
++  mixer->mixer_interface = g_object_ref (G_OBJECT (mixer_interface));
++}
+
+--- gstdshowaudiomixer.h
++++ gstdshowaudiomixer.h
+@@ -0,0 +1,212 @@
++/* GStreamer
++ * Copyright (C)  2009 Julien Isorce <julien.isorce@gmail.com>
++ *
++ * gstdshowaudiomixer.h: 
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Library General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Library General Public License for more details.
++ *
++ * You should have received a copy of the GNU Library General Public
++ * License along with this library; if not, write to the
++ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++ * Boston, MA 02111-1307, USA.
++ */
++
++
++#ifndef __GST_DSHOWAUDIO_MIXER_H__
++#define __GST_DSHOWAUDIO_MIXER_H__
++
++#include <gst/interfaces/mixer.h>
++#include <gst/interfaces/mixeroptions.h>
++#include "gstdshowaudiomixertrack.h"
++
++
++G_BEGIN_DECLS
++
++/* This does not get you what you think it does, use obj->mixer   */
++//#define GST_DSHOWAUDIO_MIXER(obj)             ((GstDshowAudioMixer*)(obj))
++
++typedef struct _GstDshowAudioMixer GstDshowAudioMixer;
++
++typedef enum {
++  GST_DSHOWAUDIO_MIXER_CAPTURE = 1<<0,
++  GST_DSHOWAUDIO_MIXER_PLAYBACK = 1<<1,
++  GST_DSHOWAUDIO_MIXER_ALL = GST_DSHOWAUDIO_MIXER_CAPTURE | GST_DSHOWAUDIO_MIXER_PLAYBACK
++} GstDshowAudioMixerDirection;
++
++/**
++ * GstDshowAudioMixer:
++ *
++ * Opaque data structure
++ */
++struct _GstDshowAudioMixer
++{
++  GList * tracklist;      /* list of available tracks */
++
++  IBaseFilter * capture_filter;
++  
++  //IBaseFilter * renderer_filter;
++
++  GStaticRecMutex *	rec_mutex;
++
++  GstMixer *		mixer_interface;
++
++  GstDshowAudioMixerDirection dir;
++};
++
++
++GstDshowAudioMixer*   gst_dshowaudio_mixer_new   (IBaseFilter *base_filter, GstDshowAudioMixerDirection dir);
++void            gst_dshowaudio_mixer_free             (GstDshowAudioMixer *mixer);
++
++const GList*    gst_dshowaudio_mixer_list_tracks      (GstDshowAudioMixer * mixer);
++void            gst_dshowaudio_mixer_set_volume       (GstDshowAudioMixer * mixer,
++                                                 GstMixerTrack * track,
++                                                 gint * volumes);
++void            gst_dshowaudio_mixer_get_volume       (GstDshowAudioMixer * mixer,
++                                                 GstMixerTrack * track,
++                                                 gint * volumes);
++void            gst_dshowaudio_mixer_set_record       (GstDshowAudioMixer * mixer,
++                                                 GstMixerTrack * track,
++                                                 gboolean record);
++void            gst_dshowaudio_mixer_set_mute         (GstDshowAudioMixer * mixer,
++                                                 GstMixerTrack * track,
++                                                 gboolean mute);
++void            gst_dshowaudio_mixer_set_option       (GstDshowAudioMixer * mixer,
++                                                 GstMixerOptions * opts,
++                                                 gchar * value);
++const gchar*    gst_dshowaudio_mixer_get_option       (GstDshowAudioMixer * mixer,
++                                                 GstMixerOptions * opts);
++void		_gst_dshowaudio_mixer_set_interface   (GstDshowAudioMixer * mixer,
++						 GstMixer * mixer_interface);
++GstMixerFlags   gst_dshowaudio_mixer_get_mixer_flags  (GstDshowAudioMixer *mixer);
++
++#define GST_IMPLEMENT_DSHOWAUDIO_MIXER_METHODS(Type, interface_as_function)           \
++static gboolean                                                                 \
++interface_as_function ## _supported (Type *this, GType iface_type)              \
++{                                                                               \
++  g_assert (iface_type == GST_TYPE_MIXER);                                      \
++                                                                                \
++  return (this->mixer != NULL);                                                 \
++}                                                                               \
++                                                                                \
++static const GList*                                                             \
++interface_as_function ## _list_tracks (GstMixer * mixer)                        \
++{                                                                               \
++  Type *this = (Type*) mixer;                                                   \
++                                                                                \
++  g_return_val_if_fail (this != NULL, NULL);                                    \
++  g_return_val_if_fail (this->mixer != NULL, NULL);                             \
++                                                                                \
++  return gst_dshowaudio_mixer_list_tracks (this->mixer);                              \
++}                                                                               \
++                                                                                \
++static void                                                                     \
++interface_as_function ## _set_volume (GstMixer * mixer, GstMixerTrack * track,  \
++    gint * volumes)                                                             \
++{                                                                               \
++  Type *this = (Type*) mixer;                                                   \
++                                                                                \
++  g_return_if_fail (this != NULL);                                              \
++  g_return_if_fail (this->mixer != NULL);                                       \
++                                                                                \
++  gst_dshowaudio_mixer_set_volume (this->mixer, track, volumes);                      \
++}                                                                               \
++                                                                                \
++static void                                                                     \
++interface_as_function ## _get_volume (GstMixer * mixer, GstMixerTrack * track,  \
++    gint * volumes)                                                             \
++{                                                                               \
++  Type *this = (Type*) mixer;                                                   \
++                                                                                \
++  g_return_if_fail (this != NULL);                                              \
++  g_return_if_fail (this->mixer != NULL);                                       \
++                                                                                \
++  gst_dshowaudio_mixer_get_volume (this->mixer, track, volumes);                      \
++}                                                                               \
++                                                                                \
++static void                                                                     \
++interface_as_function ## _set_record (GstMixer * mixer, GstMixerTrack * track,  \
++    gboolean record)                                                            \
++{                                                                               \
++  Type *this = (Type*) mixer;                                                   \
++                                                                                \
++  g_return_if_fail (this != NULL);                                              \
++  g_return_if_fail (this->mixer != NULL);                                       \
++                                                                                \
++  gst_dshowaudio_mixer_set_record (this->mixer, track, record);                       \
++}                                                                               \
++                                                                                \
++static void                                                                     \
++interface_as_function ## _set_mute (GstMixer * mixer, GstMixerTrack * track,    \
++    gboolean mute)                                                              \
++{                                                                               \
++  Type *this = (Type*) mixer;                                                   \
++                                                                                \
++  g_return_if_fail (this != NULL);                                              \
++  g_return_if_fail (this->mixer != NULL);                                       \
++                                                                                \
++  gst_dshowaudio_mixer_set_mute (this->mixer, track, mute);                           \
++}                                                                               \
++                                                                                \
++static void                                                                     \
++interface_as_function ## _set_option (GstMixer * mixer, GstMixerOptions * opts, \
++    gchar * value)                                                              \
++{                                                                               \
++  Type *this = (Type*) mixer;                                                   \
++                                                                                \
++  g_return_if_fail (this != NULL);                                              \
++  g_return_if_fail (this->mixer != NULL);                                       \
++                                                                                \
++  gst_dshowaudio_mixer_set_option (this->mixer, opts, value);                         \
++}                                                                               \
++                                                                                \
++static const gchar*                                                             \
++interface_as_function ## _get_option (GstMixer * mixer, GstMixerOptions * opts) \
++{                                                                               \
++  Type *this = (Type*) mixer;                                                   \
++                                                                                \
++  g_return_val_if_fail (this != NULL, NULL);                                    \
++  g_return_val_if_fail (this->mixer != NULL, NULL);                             \
++                                                                                \
++  return gst_dshowaudio_mixer_get_option (this->mixer, opts);                         \
++}                                                                               \
++                                                                                \
++static GstMixerFlags                                                            \
++interface_as_function ## _get_mixer_flags (GstMixer * mixer)                    \
++{                                                                               \
++  Type *this = (Type*) mixer;                                                   \
++                                                                                \
++  g_return_val_if_fail (this != NULL, GST_MIXER_FLAG_NONE);                     \
++  g_return_val_if_fail (this->mixer != NULL, GST_MIXER_FLAG_NONE);              \
++                                                                                \
++  return gst_dshowaudio_mixer_get_mixer_flags (this->mixer);                          \
++}                                                                               \
++                                                                                \
++static void                                                                     \
++interface_as_function ## _interface_init (GstMixerClass * klass)                \
++{                                                                               \
++  GST_MIXER_TYPE (klass) = GST_MIXER_HARDWARE;                                  \
++                                                                                \
++  /* set up the interface hooks */                                              \
++  klass->list_tracks = interface_as_function ## _list_tracks;                   \
++  klass->set_volume = interface_as_function ## _set_volume;                     \
++  klass->get_volume = interface_as_function ## _get_volume;                     \
++  klass->set_mute = interface_as_function ## _set_mute;                         \
++  klass->set_record = interface_as_function ## _set_record;                     \
++  klass->set_option = interface_as_function ## _set_option;                     \
++  klass->get_option = interface_as_function ## _get_option;                     \
++  klass->get_mixer_flags = interface_as_function ## _get_mixer_flags;           \
++}
++
++
++G_END_DECLS
++
++
++#endif /* __GST_DSHOWAUDIO_MIXER_H__ */
+
+--- gstdshowaudiomixertrack.c
++++ gstdshowaudiomixertrack.c
+@@ -0,0 +1,115 @@
++/* GStreamer
++ * Copyright (C)  2009 Julien Isorce <julien.isorce@gmail.com>
++ *
++ * gstdshowaudiomixer.c: 
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Library General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Library General Public License for more details.
++ *
++ * You should have received a copy of the GNU Library General Public
++ * License along with this library; if not, write to the
++ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++ * Boston, MA 02111-1307, USA.
++ */
++
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#endif
++
++#include <gst/gst-i18n-plugin.h>
++
++#include "gstdshowaudiomixertrack.h"
++
++static void gst_dshowaudio_mixer_track_init (GstDshowAudioMixerTrack * dshowaudio_track);
++static void gst_dshowaudio_mixer_track_class_init (gpointer g_class,
++    gpointer class_data);
++
++static GstMixerTrackClass *parent_class = NULL;
++
++GType
++gst_dshowaudio_mixer_track_get_type (void)
++{
++  static GType track_type = 0;
++
++  if (!track_type) {
++    static const GTypeInfo track_info = {
++      sizeof (GstDshowAudioMixerTrackClass),
++      NULL,
++      NULL,
++      gst_dshowaudio_mixer_track_class_init,
++      NULL,
++      NULL,
++      sizeof (GstDshowAudioMixerTrack),
++      0,
++      (GInstanceInitFunc) gst_dshowaudio_mixer_track_init,
++      NULL
++    };
++
++    track_type =
++        g_type_register_static (GST_TYPE_MIXER_TRACK, "GstDshowAudioMixerTrack",
++        &track_info, 0);
++  }
++
++  return track_type;
++}
++
++static void
++gst_dshowaudio_mixer_track_class_init (gpointer g_class, gpointer class_data)
++{
++  parent_class = g_type_class_peek_parent (g_class);
++}
++
++static void
++gst_dshowaudio_mixer_track_init (GstDshowAudioMixerTrack * dshowaudio_track)
++{
++}
++
++GstMixerTrack *
++gst_dshowaudio_mixer_track_new (IAMAudioInputMixer * dshow_audio_input_mixer,
++                                const gchar* label, const gchar* untranslated_label, gint index, gint flags,
++                                gint num_channels)
++{
++  GstDshowAudioMixerTrack *dshowaudio_track = NULL;
++  GstMixerTrack *track = (GstMixerTrack *) g_object_new (GST_DSHOWAUDIO_MIXER_TRACK_TYPE,
++    "untranslated-label", g_strdup(untranslated_label), "index", index, NULL);
++
++  dshowaudio_track = (GstDshowAudioMixerTrack *) track;
++
++  GST_LOG ("[%s] created new mixer track %p", label, track);
++
++  /* This reflects the assumptions used for GstDshowAudioMixerTrack */
++  if (!(!!(flags & GST_MIXER_TRACK_OUTPUT) ^ !!(flags & GST_MIXER_TRACK_INPUT))) {
++    GST_ERROR ("Mixer track must be either output or input!");
++    g_return_val_if_reached (NULL);
++  }
++
++  track->label = g_strdup(label);
++  track->flags = flags;
++  track->num_channels = num_channels;
++  track->min_volume = 0;
++  track->max_volume = 100;
++  dshowaudio_track->dshow_audio_input_mixer = dshow_audio_input_mixer;
++
++  return track;
++}
++
++void
++gst_dshowaudio_mixer_track_free (GstDshowAudioMixerTrack * mixer_track)
++{
++  g_return_if_fail (mixer_track != NULL);
++
++  if (mixer_track->dshow_audio_input_mixer) {
++    IAMAudioInputMixer_Release (mixer_track->dshow_audio_input_mixer);
++    mixer_track->dshow_audio_input_mixer = NULL;
++  }
++
++  g_print (" *** in gst_dshowaudio_mixer_track_free ***\n"); 
++}
++
+
+--- gstdshowaudiomixertrack.h
++++ gstdshowaudiomixertrack.h
+@@ -0,0 +1,61 @@
++/* GStreamer
++ * Copyright (C)  2009 Julien Isorce <julien.isorce@gmail.com>
++ *
++ * gstdshowaudiomixer.c: 
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Library General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Library General Public License for more details.
++ *
++ * You should have received a copy of the GNU Library General Public
++ * License along with this library; if not, write to the
++ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++ * Boston, MA 02111-1307, USA.
++ */
++
++
++#ifndef __GST_DSHOWAUDIO_MIXER_TRACK_H__
++#define __GST_DSHOWAUDIO_MIXER_TRACK_H__
++
++#include "gstdshowsrcwrapper.h"
++#include <gst/interfaces/mixertrack.h>
++
++G_BEGIN_DECLS
++
++
++#define GST_DSHOWAUDIO_MIXER_TRACK_TYPE         (gst_dshowaudio_mixer_track_get_type ())
++#define GST_DSHOWAUDIO_MIXER_TRACK(obj)         (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_DSHOWAUDIO_MIXER_TRACK,GstDshowAudioMixerTrack))
++#define GST_DSHOWAUDIO_MIXER_TRACK_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_DSHOWAUDIO_MIXER_TRACK,GstDshowAudioMixerTrackClass))
++#define GST_IS_DSHOWAUDIO_MIXER_TRACK(obj)            (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_DSHOWAUDIO_MIXER_TRACK))
++#define GST_IS_DSHOWAUDIO_MIXER_TRACK_CLASS(klass)    (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_DSHOWAUDIO_MIXER_TRACK))
++#define GST_TYPE_DSHOWAUDIO_MIXER_TRACK               (gst_dshowaudio_mixer_track_get_type())
++
++typedef struct _GstDshowAudioMixerTrack GstDshowAudioMixerTrack;
++typedef struct _GstDshowAudioMixerTrackClass GstDshowAudioMixerTrackClass;
++
++
++struct _GstDshowAudioMixerTrack {
++  GstMixerTrack parent;
++  IAMAudioInputMixer *dshow_audio_input_mixer;    /* the dshow audio mixer interface for this track */ 
++};
++
++struct _GstDshowAudioMixerTrackClass {
++  GstMixerTrackClass parent;
++};
++
++GType           gst_dshowaudio_mixer_track_get_type   (void);
++GstMixerTrack * gst_dshowaudio_mixer_track_new        (IAMAudioInputMixer * dshow_audio_input_mixer,
++                                                       const gchar* label, const gchar* untranslated_label,
++                                                       gint index,gint flags, gint num_channels);
++void            gst_dshowaudio_mixer_track_free             (GstDshowAudioMixerTrack *mixer_track);
++
++G_END_DECLS
++
++
++#endif /* __GST_DSHOWAUDIO_MIXER_TRACK_H__ */
+
+

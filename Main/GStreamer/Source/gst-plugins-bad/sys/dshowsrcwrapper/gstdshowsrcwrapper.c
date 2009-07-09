@@ -1,7 +1,8 @@
 /* GStreamer
  * Copyright (C)  2007 Sebastien Moutte <sebastien@moutte.net>
+ * Copyright (C)  2008-2009 Julien Isorce <julien.isorce@gmail.com>
  *
- * gstdshowsrcwrapper.c: 
+ * gstdshowsrcwrapper.c:
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

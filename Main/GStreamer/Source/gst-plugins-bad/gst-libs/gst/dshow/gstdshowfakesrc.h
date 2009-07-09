@@ -20,7 +20,6 @@
  */
 
 #include "gstdshowinterface.h"
-#include <gst/gst.h>
 
 class CDshowFakeOutputPin : public CBaseOutputPin
 {

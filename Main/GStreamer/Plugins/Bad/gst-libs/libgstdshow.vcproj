@@ -78,6 +78,7 @@
 			/>
 			<Tool
 				Name="Header Installer Tool"
+				ModuleName="gstreamer-$(ApiVersionString)\gst\dshow"
 			/>
 			<Tool
 				Name="Yasm Tool"
@@ -214,6 +215,7 @@
 			/>
 			<Tool
 				Name="Header Installer Tool"
+				ModuleName="gstreamer-$(ApiVersionString)\gst\dshow"
 			/>
 			<Tool
 				Name="Yasm Tool"
@@ -308,6 +310,20 @@
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-bad\gst-libs\gst\dshow\gstdshow.h"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="Header Installer Tool"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="Header Installer Tool"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-bad\gst-libs\gst\dshow\gstdshowfakesink.cpp"
@@ -332,6 +348,20 @@
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-bad\gst-libs\gst\dshow\gstdshowinterface.h"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="Header Installer Tool"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="Header Installer Tool"
+				/>
+			</FileConfiguration>
 		</File>
 	</Files>
 	<Globals>
