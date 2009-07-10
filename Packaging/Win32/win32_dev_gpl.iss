@@ -30,10 +30,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Source: "..\..\Build\Windows\Win32\Release\include\gstreamer-0.10\*"; DestDir: "{app}\include\gstreamer-0.10"; Flags: ignoreversion  recursesubdirs createallsubdirs
 Source: "..\..\Shared\Build\Windows\Win32\include\*"; DestDir: "{app}\include"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "..\..\Build\Windows\Win32\Release\lib\gstreamer\gst*"; DestDir: "{app}\lib"; Flags: ignoreversion
-Source: "..\..\Shared\Build\Windows\Win32\lib\*exp"; DestDir: "{app}\lib"; Flags: ignoreversion
-Source: "..\..\Shared\Build\Windows\Win32\lib\*lib"; DestDir: "{app}\lib"; Flags: ignoreversion
-Source: "..\..\Shared\Build\Windows\Win32\lib\*.a"; DestDir: "{app}\lib"; Flags: ignoreversion
-Source: "..\..\Shared\Build\Windows\Win32\lib\glib-2.0\*"; DestDir: "{app}\lib\glib-2.0"; Flags: ignoreversion  recursesubdirs createallsubdirs
+Source: "..\..\Shared\Build\Windows\Win32\lib\*"; DestDir: "{app}\lib\"; Flags: ignoreversion  recursesubdirs createallsubdirs  ; Excludes: *la
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
