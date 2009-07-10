@@ -9,4 +9,16 @@
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="&quot;$(SolutionDir)\Main\GStreamer\Source\gstreamer\win32\common\&quot;"
 	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="ws2_32.lib wsock32.lib intl.lib"
+		Version="$(VersionString)"
+		OutputFile="$(OutDir)\bin\gstreamer\lib$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).dll"
+		GenerateManifest="false"
+		IgnoreAllDefaultLibraries="true"
+		ModuleDefinitionFile=""
+		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\gstreamer\$(ProjectName).lib"
+	/>
+
 </VisualStudioPropertySheet>

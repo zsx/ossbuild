@@ -8,7 +8,7 @@
 	>
 	<Tool
 		Name="VCLinkerTool"
-		OutputFile="$(OutDir)\bin\gstreamer\lib$(ProjectName).dll"
+		OutputFile="$(OutDir)\bin\gstreamer\lib$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).dll"
 		ImportLibrary="$(OutDir)\lib\gstreamer\$(ProjectName).lib"
 	/>
 </VisualStudioPropertySheet>
