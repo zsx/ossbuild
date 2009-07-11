@@ -1,4 +1,10 @@
 EXPORTS
+	DllMain				PRIVATE
+    DllGetClassObject   PRIVATE
+    DllCanUnloadNow     PRIVATE
+    DllRegisterServer   PRIVATE
+    DllUnregisterServer PRIVATE
+    
 	gst_dshow_register_fakefilters 
 	gst_dshow_free_pin_mediatype
 	gst_dshow_free_mediatype
