@@ -21,12 +21,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_0BB5C6D70F1A4DBB813134A78C982F22"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_19C3CD47D0F34188AD94F71F5C442725"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -63,6 +57,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5F4B1949ADC11FF74F8813BEB3279C8C"
+        "OwnerKey" = "8:_7B88E790E2BF4E9E95637A85A5632F19"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_71D6259F71A9482393E3C3A4FF12CFCB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -77,6 +77,72 @@
         {
         "MsmKey" = "8:_7F148C4DB67A4742AA98790D63313D76"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_032E0782F2B94074ABE11970FFE23CCA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_E751D1FF5A7243FDA202A20B846881E9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_DAD1D82667774C11A402C619474192D5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_BD6D29478A854700913A112C89A7F893"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_9296FAA6AA7641A3BAC103543140AB8D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_91A1BC98C90848C2948C6D9994122BC3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_7F148C4DB67A4742AA98790D63313D76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_7B88E790E2BF4E9E95637A85A5632F19"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_4404BFD7202142AEA996CB851BF0B50E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_3FDDDCBE74114EF284D4F434B034438F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8CD92486C510DBD1591759E7BCBCCD03"
+        "OwnerKey" = "8:_30DD6DD5B8DF40EFA3876E3F2FFCE120"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -105,7 +171,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C713099A568B4610BCED090EF403AC7C"
+        "MsmKey" = "8:_CA90C4DFD75AD51AA294F99FEFE8504D"
+        "OwnerKey" = "8:_7B88E790E2BF4E9E95637A85A5632F19"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CCAB4DD948744CE189B06FEBB29D221A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -222,7 +294,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libmpeg2-0.dll"
             "TargetName" = "8:libmpeg2-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -242,7 +314,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\xvidcore.dll"
             "TargetName" = "8:xvidcore.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -262,7 +334,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libdl.dll"
             "TargetName" = "8:libdl.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -275,6 +347,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5F4B1949ADC11FF74F8813BEB3279C8C"
+            {
+            "SourcePath" = "8:WSOCK32.dll"
+            "TargetName" = "8:WSOCK32.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_71D6259F71A9482393E3C3A4FF12CFCB"
@@ -282,7 +374,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\liba52-0.dll"
             "TargetName" = "8:liba52-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -295,6 +387,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8CD92486C510DBD1591759E7BCBCCD03"
+            {
+            "SourcePath" = "8:msvcrt.dll"
+            "TargetName" = "8:msvcrt.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BB4EA0BB05B54AB9AEFE48F53F05D524"
@@ -302,7 +414,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libmpeg2convert-0.dll"
             "TargetName" = "8:libmpeg2convert-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -317,12 +429,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C713099A568B4610BCED090EF403AC7C"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CA90C4DFD75AD51AA294F99FEFE8504D"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libdvdcss-2.dll"
-            "TargetName" = "8:libdvdcss-2.dll"
+            "SourcePath" = "8:AVIFIL32.dll"
+            "TargetName" = "8:AVIFIL32.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CCAB4DD948744CE189B06FEBB29D221A"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libdvdread-4.dll"
+            "TargetName" = "8:libdvdread-4.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -342,7 +474,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libdca-0.dll"
             "TargetName" = "8:libdca-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -362,7 +494,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libdvdcss-2.dll"
             "TargetName" = "8:libdvdcss-2.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -382,7 +514,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libdvdnav-4.dll"
             "TargetName" = "8:libdvdnav-4.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -402,7 +534,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libdvdnavmini-4.dll"
             "TargetName" = "8:libdvdnavmini-4.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -422,7 +554,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libfaad-2.dll"
             "TargetName" = "8:libfaad-2.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -442,7 +574,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libfaac-0.dll"
             "TargetName" = "8:libfaac-0.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -462,7 +594,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Shared\\Build\\Windows\\Win32\\bin\\libwavpack-1.dll"
             "TargetName" = "8:libwavpack-1.dll"
             "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
+            "Folder" = "8:_28193FAC37A445E2BED59194CECDD022"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -495,15 +627,37 @@
             "Property" = "8:NEWRETARGETABLEPROPERTY1"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_E0163531754049778E68F51ED0FA1DC1"
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_28193FAC37A445E2BED59194CECDD022"
                     {
-                    "Name" = "8:plugins"
+                    "Name" = "8:bin"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
-                    "Property" = "8:_8401AB0F56944DD28FBCA9D1401334E9"
+                    "Property" = "8:_B8102048477B4AF2B686D21C53DE0918"
                         "Folders"
                         {
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_D0C2C63AF30541459BFB279073E33620"
+                    {
+                    "Name" = "8:lib"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_0D44DEA497974240BA92F4D4F86CDADC"
+                        "Folders"
+                        {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_BCB1BE281ACC4E298B4D8C9631291138"
+                            {
+                            "Name" = "8:gstreamer-0.10"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_2BEAC21D567B425A8DC936F81F6B5F70"
+                                "Folders"
+                                {
+                                }
+                            }
                         }
                     }
                 }
@@ -538,7 +692,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstdvdread.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -561,66 +715,12 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0BB5C6D70F1A4DBB813134A78C982F22"
-            {
-            "SourcePath" = "8:Release\\Libraries-LGPL\\GStreamer-Libraries-x86-LGPL.msm"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{5F0DCB24-9888-488E-B1AB-CE603C6E113E}"
-            "ShowKeyOutput" = "11:FALSE"
-                "ExcludeFilters"
-                {
-                "ExcludeFilter" = "8:libgstffmpeg.dll"
-                }
-                "KeyOutputModule"
-                {
-                "UseDynamicProperties" = "11:TRUE"
-                "IsDependency" = "11:FALSE"
-                "SourcePath" = "8:Release\\GStreamer-Libraries-x86-LGPL.msm"
-                    "Properties"
-                    {
-                        "_017ECC18C269401B8FD259CCDBC8869E.E79B711F041F49979FF4973BA78DFF37"
-                        {
-                        "Name" = "8:_017ECC18C269401B8FD259CCDBC8869E.E79B711F041F49979FF4973BA78DFF37"
-                        "DisplayName" = "8:Module Retargetable Folder"
-                        "Description" = "8:"
-                        "Type" = "3:32769"
-                        "ContextData" = "8:_RetargetableFolder"
-                        "Attributes" = "3:6"
-                        "Setting" = "3:1"
-                        "UsePlugInResources" = "11:FALSE"
-                        }
-                    }
-                "LanguageId" = "3:1033"
-                "Exclude" = "11:FALSE"
-                "Folder" = "8:_0FB4DAE61264429698E92F267E9F8337"
-                "Feature" = "8:"
-                "IsolateTo" = "8:"
-                }
-            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_30DD6DD5B8DF40EFA3876E3F2FFCE120"
             {
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstresindvd.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -648,7 +748,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstxvid.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -676,7 +776,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstdts.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -704,7 +804,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstffmpeggpl.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -732,7 +832,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstfaad.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -760,7 +860,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstfaac.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -788,7 +888,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstx264.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -816,7 +916,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstmpeg2dec.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -844,7 +944,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgsta52dec.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -872,7 +972,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\plugins\\libgstwavpack.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E0163531754049778E68F51ED0FA1DC1"
+            "Folder" = "8:_BCB1BE281ACC4E298B4D8C9631291138"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"

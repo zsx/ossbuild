@@ -96,7 +96,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
 
 #include <glib-object.h>
 #include <glib.h>
@@ -649,7 +649,7 @@ static int yyerror (void *scanner, graph_t *graph, const char *s);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 533 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
 {
     gchar *s;
     chain_t *c;
@@ -659,7 +659,7 @@ typedef union YYSTYPE
     graph_t *g;
 }
 /* Line 187 of yacc.c.  */
-#line 663 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\grammar.tab.c"
+
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -672,7 +672,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 676 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\grammar.tab.c"
+
 
 #ifdef short
 # undef short
@@ -1935,7 +1935,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 568 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.e) = gst_element_factory_make ((yyvsp[(1) - (1)].s), NULL); 
 						if ((yyval.e) == NULL) {
 						  ADD_MISSING_ELEMENT (graph, (yyvsp[(1) - (1)].s));
@@ -1953,97 +1953,97 @@ yyreduce:
     break;
 
   case 3:
-#line 582 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { gst_parse_element_set ((yyvsp[(2) - (2)].s), (yyvsp[(1) - (2)].e), graph);
 						(yyval.e) = (yyvsp[(1) - (2)].e);
 	                                      ;}
     break;
 
   case 4:
-#line 586 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = NULL; ;}
     break;
 
   case 5:
-#line 587 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = g_slist_prepend ((yyvsp[(1) - (2)].p), (yyvsp[(2) - (2)].s)); ;}
     break;
 
   case 6:
-#line 589 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { GST_BIN_MAKE ((yyval.c), "bin", (yyvsp[(3) - (4)].c), (yyvsp[(2) - (4)].p), FALSE); ;}
     break;
 
   case 7:
-#line 590 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { GST_BIN_MAKE ((yyval.c), (yyvsp[(1) - (4)].s), (yyvsp[(3) - (4)].c), (yyvsp[(2) - (4)].p), TRUE); 
 						gst_parse_strfree ((yyvsp[(1) - (4)].s));
 					      ;}
     break;
 
   case 8:
-#line 593 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { GST_BIN_MAKE ((yyval.c), (yyvsp[(1) - (3)].s), NULL, (yyvsp[(2) - (3)].p), TRUE); 
 						gst_parse_strfree ((yyvsp[(1) - (3)].s));
 					      ;}
     break;
 
   case 9:
-#line 596 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { GST_BIN_MAKE ((yyval.c), (yyvsp[(1) - (4)].s), NULL, (yyvsp[(2) - (4)].p), TRUE); 
 						gst_parse_strfree ((yyvsp[(1) - (4)].s));
 					      ;}
     break;
 
   case 10:
-#line 601 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = g_slist_prepend (NULL, (yyvsp[(1) - (1)].s)); ;}
     break;
 
   case 11:
-#line 602 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = (yyvsp[(2) - (2)].p);
 						(yyval.p) = g_slist_prepend ((yyval.p), (yyvsp[(1) - (2)].s));
 					      ;}
     break;
 
   case 12:
-#line 606 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = g_slist_prepend (NULL, (yyvsp[(2) - (2)].s)); ;}
     break;
 
   case 13:
-#line 607 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = g_slist_prepend ((yyvsp[(3) - (3)].p), (yyvsp[(2) - (3)].s)); ;}
     break;
 
   case 14:
-#line 610 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { MAKE_REF ((yyval.l), (yyvsp[(1) - (1)].s), NULL); ;}
     break;
 
   case 15:
-#line 611 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { MAKE_REF ((yyval.l), (yyvsp[(1) - (2)].s), (yyvsp[(2) - (2)].p)); ;}
     break;
 
   case 16:
-#line 614 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.l) = (yyvsp[(1) - (1)].l); ;}
     break;
 
   case 17:
-#line 615 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { MAKE_REF ((yyval.l), NULL, (yyvsp[(1) - (1)].p)); ;}
     break;
 
   case 18:
-#line 616 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { MAKE_REF ((yyval.l), NULL, NULL); ;}
     break;
 
   case 19:
-#line 619 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.l) = (yyvsp[(1) - (3)].l);
 						if ((yyvsp[(2) - (3)].s)) {
 						  (yyval.l)->caps = gst_caps_from_string ((yyvsp[(2) - (3)].s));
@@ -2058,22 +2058,22 @@ yyreduce:
     break;
 
   case 20:
-#line 632 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = g_slist_prepend (NULL, (yyvsp[(1) - (1)].l)); ;}
     break;
 
   case 21:
-#line 633 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = g_slist_prepend ((yyvsp[(2) - (2)].p), (yyvsp[(1) - (2)].l)); ;}
     break;
 
   case 22:
-#line 634 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.p) = (yyvsp[(1) - (2)].p); ;}
     break;
 
   case 23:
-#line 637 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.c) = gst_parse_chain_new ();
 						(yyval.c)->first = (yyval.c)->last = (yyvsp[(1) - (1)].e);
 						(yyval.c)->front = (yyval.c)->back = NULL;
@@ -2082,12 +2082,12 @@ yyreduce:
     break;
 
   case 24:
-#line 642 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.c) = (yyvsp[(1) - (1)].c); ;}
     break;
 
   case 25:
-#line 643 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { if ((yyvsp[(1) - (2)].c)->back && (yyvsp[(2) - (2)].c)->front) {
 						  if (!(yyvsp[(1) - (2)].c)->back->sink_name) {
 						    SET_ERROR (graph->error, GST_PARSE_ERROR_LINK, _("link without source element"));
@@ -2126,7 +2126,7 @@ yyreduce:
     break;
 
   case 26:
-#line 678 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { GSList *walk;
 						if ((yyvsp[(1) - (2)].c)->back) {
 						  (yyvsp[(2) - (2)].p) = g_slist_prepend ((yyvsp[(2) - (2)].p), (yyvsp[(1) - (2)].c)->back);
@@ -2158,12 +2158,12 @@ yyreduce:
     break;
 
   case 27:
-#line 706 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.c) = (yyvsp[(1) - (2)].c); ;}
     break;
 
   case 28:
-#line 707 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { if ((yyvsp[(2) - (2)].c)->front) {
 						  if (!(yyvsp[(2) - (2)].c)->front->src_name) {
 						    SET_ERROR (graph->error, GST_PARSE_ERROR_LINK, _("link without source element"));
@@ -2181,7 +2181,7 @@ yyreduce:
     break;
 
   case 29:
-#line 721 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.c) = (yyvsp[(2) - (2)].c);
 						if ((yyval.c)->front) {
 						  GstElement *element = 
@@ -2205,7 +2205,7 @@ yyreduce:
     break;
 
   case 30:
-#line 741 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { GstElement *element =
 							  gst_element_make_from_uri (GST_URI_SINK, (yyvsp[(2) - (2)].s), NULL);
 						if (!element) {
@@ -2233,14 +2233,14 @@ yyreduce:
     break;
 
   case 31:
-#line 766 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { SET_ERROR (graph->error, GST_PARSE_ERROR_EMPTY, _("empty pipeline not allowed"));
 						(yyval.g) = graph;
 					      ;}
     break;
 
   case 32:
-#line 769 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
     { (yyval.g) = graph;
 						if ((yyvsp[(1) - (1)].c)->front) {
 						  if (!(yyvsp[(1) - (1)].c)->front->src_name) {
@@ -2266,7 +2266,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2270 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\grammar.tab.c"
+
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2480,7 +2480,7 @@ yyreturn:
 }
 
 
-#line 792 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
 
 
 

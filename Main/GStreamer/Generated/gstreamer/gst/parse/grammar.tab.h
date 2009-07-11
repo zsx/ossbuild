@@ -62,7 +62,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 533 "E:\\ossbuild2\\Main\\GStreamer\\.\\Source\\gstreamer\\gst\\parse\\grammar.y"
+
 {
     gchar *s;
     chain_t *c;
@@ -72,7 +72,7 @@ typedef union YYSTYPE
     graph_t *g;
 }
 /* Line 1489 of yacc.c.  */
-#line 76 "E:\\ossbuild2\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\grammar.tab.h"
+
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

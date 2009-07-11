@@ -16,7 +16,7 @@ set MY_INPUT=%2
 set MY_OUTPUT=%3
 
 echo Generating %MY_OUTPUT%
-%MY_FLEX% -P%MY_PREFIX% -o%MY_OUTPUT% %MY_INPUT%
+%MY_FLEX% -L -P%MY_PREFIX% -o%MY_OUTPUT% %MY_INPUT%
 
 goto end
 

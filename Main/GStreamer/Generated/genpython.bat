@@ -12,13 +12,24 @@ set MY_PYTHON=%MY_PYTHON_INSTALL_DIR%\python.exe
 
 set MY_SED=sed.exe
 
-set PATH=%MY_SHAREDBINDIR%;%MY_TOOLSDIR%;%PATH%
+set PATH=%MY_SHAREDBINDIR%;%MY_TOOLSDIR%;%MY_PYTHON_INSTALL_DIR%;%PATH%
 
 set GST_PYTHON_SOURCES_DIR=%1
 set GENERATED_OUTPUT_DIR=%2
 set MY_PREFIX=%3
 
 set MY_GST_PYTHON_SOURCES_DIR=..\..\Source\gst-python
+
+rem Attempt to see if python exists on the system
+%MY_PYTHON% -V > NUL
+
+if %ERRORLEVEL% neq 0 (
+	echo ** WARNING **
+	echo Unable to produce %MY_PREFIX%.c
+	echo You are missing python. The script was unable to generate python-related files.
+	echo If you do not need to generate the python files from scratch, then you're okay.
+	goto end
+)
 
 
 cd %GENERATED_OUTPUT_DIR%

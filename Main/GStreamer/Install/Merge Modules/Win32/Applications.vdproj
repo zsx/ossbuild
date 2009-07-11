@@ -15,26 +15,26 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_055E1C44345EF769FE5E0C7009DA3CD9"
+        "MsmKey" = "8:_2BC5AC88A9864424A569EDB31E2DE444"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3B2EDD8A8A56915E3B4CDB5F2F6DB3A8"
         "OwnerKey" = "8:_2BC5AC88A9864424A569EDB31E2DE444"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_055E1C44345EF769FE5E0C7009DA3CD9"
+        "MsmKey" = "8:_3B2EDD8A8A56915E3B4CDB5F2F6DB3A8"
         "OwnerKey" = "8:_C03FE065EC98461CB81D78E047BB7ABD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_055E1C44345EF769FE5E0C7009DA3CD9"
+        "MsmKey" = "8:_3B2EDD8A8A56915E3B4CDB5F2F6DB3A8"
         "OwnerKey" = "8:_6E5C6A0EF8314864958CF8F4EAB31DF0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_2BC5AC88A9864424A569EDB31E2DE444"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -45,24 +45,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_71AFC9CC262167BFA7C187DE2490819E"
-        "OwnerKey" = "8:_2BC5AC88A9864424A569EDB31E2DE444"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_71AFC9CC262167BFA7C187DE2490819E"
-        "OwnerKey" = "8:_C03FE065EC98461CB81D78E047BB7ABD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_71AFC9CC262167BFA7C187DE2490819E"
-        "OwnerKey" = "8:_6E5C6A0EF8314864958CF8F4EAB31DF0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_7CF50F2CB99F04F0715D428174A027B8"
         "OwnerKey" = "8:_2BC5AC88A9864424A569EDB31E2DE444"
         "MsmSig" = "8:_UNDEFINED"
@@ -76,24 +58,6 @@
         "Entry"
         {
         "MsmKey" = "8:_7CF50F2CB99F04F0715D428174A027B8"
-        "OwnerKey" = "8:_6E5C6A0EF8314864958CF8F4EAB31DF0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7E8872063703B19D13C615DF1D0D0818"
-        "OwnerKey" = "8:_2BC5AC88A9864424A569EDB31E2DE444"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7E8872063703B19D13C615DF1D0D0818"
-        "OwnerKey" = "8:_C03FE065EC98461CB81D78E047BB7ABD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7E8872063703B19D13C615DF1D0D0818"
         "OwnerKey" = "8:_6E5C6A0EF8314864958CF8F4EAB31DF0"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -101,24 +65,6 @@
         {
         "MsmKey" = "8:_C03FE065EC98461CB81D78E047BB7ABD"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDE5512FA9447DB05EA82BC16CEBC01F"
-        "OwnerKey" = "8:_2BC5AC88A9864424A569EDB31E2DE444"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDE5512FA9447DB05EA82BC16CEBC01F"
-        "OwnerKey" = "8:_C03FE065EC98461CB81D78E047BB7ABD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDE5512FA9447DB05EA82BC16CEBC01F"
-        "OwnerKey" = "8:_6E5C6A0EF8314864958CF8F4EAB31DF0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -146,6 +92,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5.SP1"
+                    {
+                    "Name" = "8:.NET Framework 3.5 SP1"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5.SP1"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
     }
@@ -162,30 +121,10 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_055E1C44345EF769FE5E0C7009DA3CD9"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3B2EDD8A8A56915E3B4CDB5F2F6DB3A8"
             {
-            "SourcePath" = "8:libgobject-2.0-0.dll"
-            "TargetName" = "8:libgobject-2.0-0.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_0C5022FFDD754B7881F7E59DB4FB6DB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_71AFC9CC262167BFA7C187DE2490819E"
-            {
-            "SourcePath" = "8:libgstreamer.dll"
-            "TargetName" = "8:libgstreamer.dll"
+            "SourcePath" = "8:libgstreamer-0.10.dll"
+            "TargetName" = "8:libgstreamer-0.10.dll"
             "Tag" = "8:"
             "Folder" = "8:_0C5022FFDD754B7881F7E59DB4FB6DB7"
             "Condition" = "8:"
@@ -222,46 +161,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7E8872063703B19D13C615DF1D0D0818"
-            {
-            "SourcePath" = "8:libgthread-2.0-0.dll"
-            "TargetName" = "8:libgthread-2.0-0.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_0C5022FFDD754B7881F7E59DB4FB6DB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CDE5512FA9447DB05EA82BC16CEBC01F"
-            {
-            "SourcePath" = "8:libglib-2.0-0.dll"
-            "TargetName" = "8:libglib-2.0-0.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_0C5022FFDD754B7881F7E59DB4FB6DB7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:TRUE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -280,6 +179,17 @@
             "Property" = "8:NEWRETARGETABLEPROPERTY1"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_6D329D434FA8431B82958CF9015F2F30"
+                    {
+                    "Name" = "8:bin"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_36A7F95E72EC41989D5ABFA9B053224C"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -312,7 +222,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\gst-xmlinspect-0.10.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_0C5022FFDD754B7881F7E59DB4FB6DB7"
+            "Folder" = "8:_6D329D434FA8431B82958CF9015F2F30"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -340,7 +250,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\gst-inspect-0.10.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_0C5022FFDD754B7881F7E59DB4FB6DB7"
+            "Folder" = "8:_6D329D434FA8431B82958CF9015F2F30"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -368,7 +278,7 @@
             "SourcePath" = "8:..\\..\\..\\..\\..\\Build\\Windows\\Win32\\Release\\bin\\gstreamer\\gst-launch-0.10.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_0C5022FFDD754B7881F7E59DB4FB6DB7"
+            "Folder" = "8:_6D329D434FA8431B82958CF9015F2F30"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"

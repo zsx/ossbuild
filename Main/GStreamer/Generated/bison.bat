@@ -15,7 +15,7 @@ set MY_INPUT=%2
 set MY_OUTPUT=%3
 
 echo Generating %MY_OUTPUT%
-%MY_BISON% -d -v -p%MY_PREFIX% %MY_INPUT% -o %MY_OUTPUT%
+%MY_BISON% -l -d -v -p%MY_PREFIX% %MY_INPUT% -o %MY_OUTPUT%
 
 goto end
 
