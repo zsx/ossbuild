@@ -1199,7 +1199,7 @@ dshow_vdec_register (GstPlugin * plugin)
           g_type_register_static (GST_TYPE_ELEMENT,
           video_dec_codecs[i].element_name, &info, (GTypeFlags)0);
       if (!gst_element_register (plugin, video_dec_codecs[i].element_name,
-              GST_RANK_PRIMARY, type)) {
+              GST_RANK_NONE, type)) {
         return FALSE;
       }
       GST_DEBUG ("Registered %s", video_dec_codecs[i].element_name);

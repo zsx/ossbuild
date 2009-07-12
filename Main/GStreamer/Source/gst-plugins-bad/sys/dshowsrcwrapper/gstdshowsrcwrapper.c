@@ -47,7 +47,7 @@ plugin_init (GstPlugin * plugin)
           GST_RANK_NONE,
           GST_TYPE_DSHOWAUDIOSRC) ||
       !gst_element_register (plugin, "dshowvideosrc",
-          GST_RANK_NONE, GST_TYPE_DSHOWVIDEOSRC))
+          GST_RANK_PRIMARY, GST_TYPE_DSHOWVIDEOSRC))
     return FALSE;
 
   return TRUE;
