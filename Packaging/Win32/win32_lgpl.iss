@@ -13,7 +13,6 @@ AppPublisherURL=http://www.gstreamer-winbuild.ylatuya.es
 AppSupportURL=http://www.gstreamer-winbuild.ylatuya.es
 AppUpdatesURL=http://www.gstreamer-winbuild.ylatuya.es
 DefaultDirName=c:\gstreamer
-DisableDirPage=yes
 DefaultGroupName=GStreamer WinBuild
 LicenseFile=..\..\Licenses\lgpl.txt
 SetupIconFile=..\..\Main\GStreamer\GStreamer.ico
