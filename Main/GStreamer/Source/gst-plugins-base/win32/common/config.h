@@ -20,16 +20,16 @@
 #undef CDPARANOIA_HEADERS_IN_DIR
 
 /* Default audio sink */
-#define DEFAULT_AUDIOSINK "directaudiosink"
+#define DEFAULT_AUDIOSINK "directsoundsink"
 
 /* Default audio source */
-#undef DEFAULT_AUDIOSRC
+#undef DEFAULT_AUDIOSRC "dshowaudiosrc"
 
 /* Default video sink */
 #define DEFAULT_VIDEOSINK "directdrawsink"
 
 /* Default video source */
-#undef DEFAULT_VIDEOSRC
+#undef DEFAULT_VIDEOSRC "dshowvideosrc"
 
 /* Default visualizer */
 #define DEFAULT_VISUALIZER "goom"
