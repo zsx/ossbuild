@@ -676,6 +676,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstmpeg2dec", "Main\GStreamer\Plugins\Ugly\ext\libgstmpeg2dec.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0016}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdvdread", "Main\GStreamer\Plugins\Ugly\ext\libgstdvdread.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0015}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstx264", "Main\GStreamer\Plugins\Ugly\ext\libgstx264.vcproj", "{922DD35C-43FE-4097-91E0-3229F5A967AB}"
 EndProject
@@ -1610,7 +1613,9 @@ Global
 		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Debug|Win32.ActiveCfg = Debug|Win32
 		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Debug|Win32.Build.0 = Debug|Win32
 		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
 		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{BC97873B-2B88-4B1B-C627-F70DF4F92000}.Release|Win32.ActiveCfg = Release|Win32
