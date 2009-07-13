@@ -28,7 +28,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Files]
 Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion ; Excludes: "libgstgl.dll"
 Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\*.exe"; DestDir: "{app}\bin"; Flags: ignoreversion
-Source: "..\..\Shared\Build\Windows\Win32\bin\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion   ; Excludes: "xvidcore.dll,libwavpack-1.dll,liba52-0.dll,libmpeg2-0.dll,libdca-0.dll,libfaac-0.dll,libfaad-2.dll,libdl.dll,libdvdread-4.dll,libdvdnav-4.dll,libdvdcss-2.dll, glew32.dll"
+Source: "..\..\Shared\Build\Windows\Win32\bin\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion   ; Excludes: "libdvdnavmini-4.dll,xvidcore.dll,libwavpack-1.dll,liba52-0.dll,libmpeg2-0.dll,libdca-0.dll,libfaac-0.dll,libfaad-2.dll,libdl.dll,libdvdread-4.dll,libdvdnav-4.dll,libdvdcss-2.dll, glew32.dll"
 Source: "..\..\Licenses\*"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
 Source: "..\..\Libraries\ReadMe - GPL.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
 Source: "..\..\Libraries\ReadMe-BSD.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
