@@ -1,24 +1,16 @@
 
+Download.bat 	Utility for downloading the source from the gstreamer archives 
+		and extracting it under the source/ directory.
 
-Getting arbitrary text overlaid on top of video:
+
+Generate.bat 	Utility for calling the various flex, bison, and glib 
+		(perl-based) scripts and creating auto-generated source for 
+		some areas of the code such as the command line parser, 
+		object metadata, etc. 
+
+		You shouldn't have any need to run this except when you 
+		have updated the source to a new version.
 
 
-<YoYo> does playbin/playbin2 support text overlay?
-
-<MikeS__> Yes/
-
-<YoYo> i'm looking at the documentation - i see it supports subtitles
-
-<YoYo> but i don't see a property for setting the text
-
-<MikeS__> oh, separate text overlay? playbin/playbin2 don't provide API for that directly.
-
-<MikeS__> However, you can set a video sink on them - and it could be a bin that has a textoverlay element in it, that you control
-
-<YoYo> gst-launch playbin2 uri=/video.avi ! textoverlay text=hi there ! autovideosink   or something of that nature?
-
-<MikeS__> well, you can't do it from gst-launch, but you'd set the 'video-sink' property on a playbin2 instance to a bin that contains textoverlay and autovideosink
-
-<MikeS__> pretty easy
-
-<YoYo> great - ty so much
+GStreamer.ico 	Icon embedded in executables created by OSSBuild. It just 
+		adds some pizzazz, nothing more.
