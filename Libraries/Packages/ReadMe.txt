@@ -17,7 +17,9 @@ fontconfig 	- 	2.6.0 		- 	http://fontconfig.org/release/fontconfig-2.6.0.tar.gz
 libogg 		- 	1.1.3 		- 	http://downloads.xiph.org/releases/ogg/libogg-1.1.3.tar.gz
 libvorbis 	- 	1.2.2 		- 	http://downloads.xiph.org/releases/vorbis/libvorbis-1.2.2.tar.bz2
 libtheora 	- 	1.0.0 		- 	http://downloads.xiph.org/releases/theora/libtheora-1.0.tar.bz2
-libmms 		- 	0.4.0 		- 	https://code.launchpad.net/~libmms-devel/libmms/win32
+libmms 		- 	win32 branch- 	https://code.launchpad.net/~libmms-devel/libmms/win32
+
+libmms-0.4.0- 	0.4.0 		- 	http://sourceforge.net/projects/libmms/files/libmms/0.4/libmms-0.4.tar.gz/download	
 pixman 		- 	0.15.2 		- 	http://cairographics.org/releases/pixman-0.15.2.tar.gz
 cairo 		- 	1.8.6 		- 	http://cairographics.org/releases/cairo-1.8.6.tar.gz
 x264 		- 	r2245 		- 	http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20090414-2245.tar.bz2
