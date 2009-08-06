@@ -8,3 +8,6 @@ It's been modified for the directory it lives in + -Wl,--kill-at was added as a 
 
 
 Makefile.linux attempts to reassign the owner to root. This makefile corrects it.
+
+
+On OSX, the patches from MacPorts were applied. Also, owned and group reassignement were removed in the makefile for osx.
