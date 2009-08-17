@@ -23,13 +23,13 @@
 #define DEFAULT_AUDIOSINK "directsoundsink"
 
 /* Default audio source */
-#undef DEFAULT_AUDIOSRC "dshowaudiosrc"
+#define DEFAULT_AUDIOSRC "dshowaudiosrc"
 
 /* Default video sink */
 #define DEFAULT_VIDEOSINK "directdrawsink"
 
 /* Default video source */
-#undef DEFAULT_VIDEOSRC "dshowvideosrc"
+#define DEFAULT_VIDEOSRC "dshowvideosrc"
 
 /* Default visualizer */
 #define DEFAULT_VISUALIZER "goom"
