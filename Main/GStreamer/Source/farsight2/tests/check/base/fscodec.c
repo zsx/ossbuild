@@ -25,6 +25,7 @@
 #include <gst/check/gstcheck.h>
 #include <gst/farsight/fs-codec.h>
 
+#include "testutils.h"
 
 GST_START_TEST (test_fscodec_new)
 {
@@ -198,15 +199,6 @@ GST_START_TEST (test_fscodec_null)
 }
 GST_END_TEST;
 
-static gchar *
-get_fullpath (const gchar *filename)
-{
-  if (g_getenv ("SRCDIR"))
-    return g_strdup_printf ("%s/%s", g_getenv ("SRCDIR"), filename);
-  else
-    return g_strdup (filename);
-}
-
 GST_START_TEST (test_fscodec_keyfile)
 {
   GList *codecs = NULL;
@@ -231,7 +223,7 @@ GST_START_TEST (test_fscodec_keyfile)
     GList *item;
     for(item = codecs; item ; item= item->next)
     {
-      g_debug ("%s", fs_codec_to_string (item->data));
+      GST_DEBUG ("%s", fs_codec_to_string (item->data));
     }
   }
 #endif

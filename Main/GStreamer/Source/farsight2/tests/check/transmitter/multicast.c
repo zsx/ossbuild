@@ -26,16 +26,10 @@
 #include <gst/farsight/fs-transmitter.h>
 #include <gst/farsight/fs-conference-iface.h>
 
-#ifdef HAVE_GETIFADDRS
- #include <sys/socket.h>
- #include <ifaddrs.h>
- #include <net/if.h>
- #include <arpa/inet.h>
-#endif
-
 #include "check-threadsafe.h"
 #include "generic.h"
 #include "fake-filter.h"
+#include "testutils.h"
 
 gint buffer_count[2] = {0, 0};
 GMainLoop *loop = NULL;
@@ -70,7 +64,7 @@ _handoff_handler (GstElement *element, GstBuffer *buffer, GstPad *pad,
   buffer_count[component_id-1]++;
 
   /*
-  g_debug ("Buffer %d component: %d size: %u", buffer_count[component_id-1],
+  GST_DEBUG ("Buffer %d component: %d size: %u", buffer_count[component_id-1],
     component_id, GST_BUFFER_SIZE (buffer));
   */
 
@@ -94,7 +88,7 @@ _new_active_candidate_pair (FsStreamTransmitter *st, FsCandidate *local,
   ts_fail_unless (local->component_id == remote->component_id,
     "Local and remote candidates dont have the same component id");
 
-  g_debug ("New active candidate pair for component %d", local->component_id);
+  GST_DEBUG ("New active candidate pair for component %d", local->component_id);
 
   if (!src_setup[local->component_id-1])
     setup_fakesrc (user_data, pipeline, local->component_id);
@@ -106,7 +100,7 @@ _start_pipeline (gpointer user_data)
 {
   GstElement *pipeline = user_data;
 
-  g_debug ("Starting pipeline");
+  GST_DEBUG ("Starting pipeline");
 
   ts_fail_if (gst_element_set_state (pipeline, GST_STATE_PLAYING) ==
     GST_STATE_CHANGE_FAILURE, "Could not set the pipeline to playing");
@@ -134,6 +128,7 @@ run_multicast_transmitter_test (gint n_parameters, GParameter *params,
   FsCandidate *tmpcand = NULL;
   GList *candidates = NULL;
   GstBus *bus = NULL;
+  guint tos;
 
   buffer_count[0] = 0;
   buffer_count[1] = 0;
@@ -145,7 +140,7 @@ run_multicast_transmitter_test (gint n_parameters, GParameter *params,
     fail_unless (fs_fake_filter_register ());
 
   loop = g_main_loop_new (NULL, FALSE);
-  trans = fs_transmitter_new ("multicast", 2, &error);
+  trans = fs_transmitter_new ("multicast", 2, 0, &error);
 
   if (error) {
     ts_fail ("Error creating transmitter: (%s:%d) %s",
@@ -153,6 +148,10 @@ run_multicast_transmitter_test (gint n_parameters, GParameter *params,
   }
 
   ts_fail_if (trans == NULL, "No transmitter create, yet error is still NULL");
+
+  g_object_set (trans, "tos", 2, NULL);
+  g_object_get (trans, "tos", &tos, NULL);
+  ts_fail_unless (tos == 2);
 
   if (flags & FLAG_RECVONLY_FILTER)
     ts_fail_unless (g_signal_connect (trans, "get-recvonly-filter",
@@ -208,7 +207,7 @@ run_multicast_transmitter_test (gint n_parameters, GParameter *params,
 
   fs_candidate_list_destroy (candidates);
 
-  g_main_run (loop);
+  g_main_loop_run (loop);
 
   g_object_unref (st);
 
@@ -227,60 +226,13 @@ GST_START_TEST (test_multicasttransmitter_run)
 }
 GST_END_TEST;
 
-static gchar *
-_find_multicast_capable_address (void)
-{
-#ifdef HAVE_GETIFADDRS
-  gchar *retval = NULL;
-  struct ifaddrs *ifa, *results;
-
-  if (getifaddrs (&results) < 0)
-    return NULL;
-
-  for (ifa = results; ifa; ifa = ifa->ifa_next) {
-    /* no ip address from interface that is down */
-    if ((ifa->ifa_flags & IFF_UP) == 0)
-      continue;
-
-    if ((ifa->ifa_flags & IFF_MULTICAST) == 0)
-      continue;
-
-    if (ifa->ifa_addr == NULL || ifa->ifa_addr->sa_family != AF_INET)
-      continue;
-
-    if (retval)
-    {
-      g_free (retval);
-      retval = NULL;
-      g_debug ("Disabling test, more than one multicast capable interface");
-      break;
-    }
-
-    retval = g_strdup (
-        inet_ntoa (((struct sockaddr_in *) ifa->ifa_addr)->sin_addr));
-    g_debug ("Sending from %s on interface %s", retval, ifa->ifa_name);
-  }
-
-  freeifaddrs (results);
-
-  if (retval == NULL)
-    g_message ("Skipping multicast transmitter tests, "
-        "no multicast capable interface found");
-  return retval;
-
-#else
-  g_message ("This system does not have getifaddrs,"
-      " this test will be disabled");
-  return NULL;
-#endif
-}
 
 GST_START_TEST (test_multicasttransmitter_run_local_candidates)
 {
   GParameter params[1];
   GList *list = NULL;
   FsCandidate *candidate;
-  gchar *address = _find_multicast_capable_address ();
+  gchar *address = find_multicast_capable_address ();
 
   if (address == NULL)
     return;
@@ -334,7 +286,7 @@ multicasttransmitter_suite (void)
   GLogLevelFlags fatal_mask;
   gchar *tmp_addr;
 
-  tmp_addr = _find_multicast_capable_address ();
+  tmp_addr = find_multicast_capable_address ();
 
   if (!tmp_addr)
     return s;

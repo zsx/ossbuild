@@ -1,0 +1,1305 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="NiceAgent">
+<refmeta>
+<refentrytitle role="top_of_page" id="NiceAgent.top_of_page">NiceAgent</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNICE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NiceAgent</refname>
+<refpurpose>ICE agent API implementation</refpurpose>
+</refnamediv>
+<refsect1 id="NiceAgent.stability-level">
+<title>Stability Level</title>
+Stable, unless otherwise indicated
+</refsect1>
+
+<refsynopsisdiv id="NiceAgent.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+#include &lt;agent.h&gt;
+
+                    <link linkend="NiceAgent-struct">NiceAgent</link>;
+enum                <link linkend="NiceComponentState">NiceComponentState</link>;
+enum                <link linkend="NiceComponentType">NiceComponentType</link>;
+enum                <link linkend="NiceProxyType">NiceProxyType</link>;
+enum                <link linkend="NiceCompatibility">NiceCompatibility</link>;
+<link linkend="void">void</link>                (<link linkend="NiceAgentRecvFunc">*NiceAgentRecvFunc</link>)                (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         <link linkend="guint">guint</link> len,
+                                                         <link linkend="gchar">gchar</link> *buf,
+                                                         <link linkend="gpointer">gpointer</link> user_data);
+#define             <link linkend="NICE-AGENT-MAX-REMOTE-CANDIDATES--CAPS">NICE_AGENT_MAX_REMOTE_CANDIDATES</link>
+<link linkend="NiceAgent">NiceAgent</link> *         <link linkend="nice-agent-new">nice_agent_new</link>                      (<link linkend="GMainContext">GMainContext</link> *ctx,
+                                                         <link linkend="NiceCompatibility">NiceCompatibility</link> compat);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-agent-add-local-address">nice_agent_add_local_address</link>        (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="NiceAddress">NiceAddress</link> *addr);
+<link linkend="guint">guint</link>               <link linkend="nice-agent-add-stream">nice_agent_add_stream</link>               (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> n_components);
+<link linkend="void">void</link>                <link linkend="nice-agent-remove-stream">nice_agent_remove_stream</link>            (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-agent-set-relay-info">nice_agent_set_relay_info</link>           (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         const <link linkend="gchar">gchar</link> *server_ip,
+                                                         <link linkend="guint">guint</link> server_port,
+                                                         const <link linkend="gchar">gchar</link> *username,
+                                                         const <link linkend="gchar">gchar</link> *password,
+                                                         <link linkend="NiceRelayType">NiceRelayType</link> type);
+<link linkend="void">void</link>                <link linkend="nice-agent-gather-candidates">nice_agent_gather_candidates</link>        (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-agent-set-remote-credentials">nice_agent_set_remote_credentials</link>   (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         const <link linkend="gchar">gchar</link> *ufrag,
+                                                         const <link linkend="gchar">gchar</link> *pwd);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-agent-get-local-credentials">nice_agent_get_local_credentials</link>    (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="gchar">gchar</link> **ufrag,
+                                                         <link linkend="gchar">gchar</link> **pwd);
+<link linkend="int">int</link>                 <link linkend="nice-agent-set-remote-candidates">nice_agent_set_remote_candidates</link>    (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         const <link linkend="GSList">GSList</link> *candidates);
+<link linkend="GSList">GSList</link> *            <link linkend="nice-agent-get-remote-candidates">nice_agent_get_remote_candidates</link>    (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id);
+<link linkend="GSList">GSList</link> *            <link linkend="nice-agent-get-local-candidates">nice_agent_get_local_candidates</link>     (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id);
+<link linkend="gint">gint</link>                <link linkend="nice-agent-send">nice_agent_send</link>                     (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         <link linkend="guint">guint</link> len,
+                                                         const <link linkend="gchar">gchar</link> *buf);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-agent-attach-recv">nice_agent_attach_recv</link>              (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         <link linkend="GMainContext">GMainContext</link> *ctx,
+                                                         <link linkend="NiceAgentRecvFunc">NiceAgentRecvFunc</link> func,
+                                                         <link linkend="gpointer">gpointer</link> data);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-agent-set-selected-pair">nice_agent_set_selected_pair</link>        (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         const <link linkend="gchar">gchar</link> *lfoundation,
+                                                         const <link linkend="gchar">gchar</link> *rfoundation);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-agent-set-selected-remote-candidate">nice_agent_set_selected_remote_candidate</link>
+                                                        (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         <link linkend="NiceCandidate">NiceCandidate</link> *candidate);
+<link linkend="void">void</link>                <link linkend="nice-agent-set-stream-tos">nice_agent_set_stream_tos</link>           (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="gint">gint</link> tos);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-agent-restart">nice_agent_restart</link>                  (<link linkend="NiceAgent">NiceAgent</link> *agent);
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 id="NiceAgent.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----NiceAgent
+</synopsis>
+</refsect1>
+
+
+
+
+
+<refsect1 id="NiceAgent.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="NiceAgent--compatibility">compatibility</link>&quot;            <link linkend="guint">guint</link>                 : Read / Write / Construct Only
+  &quot;<link linkend="NiceAgent--controlling-mode">controlling-mode</link>&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="NiceAgent--full-mode">full-mode</link>&quot;                <link linkend="gboolean">gboolean</link>              : Read / Write / Construct Only
+  &quot;<link linkend="NiceAgent--main-context">main-context</link>&quot;             <link linkend="gpointer">gpointer</link>              : Read / Write / Construct Only
+  &quot;<link linkend="NiceAgent--max-connectivity-checks">max-connectivity-checks</link>&quot;  <link linkend="guint">guint</link>                 : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-ip">proxy-ip</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-password">proxy-password</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-port">proxy-port</link>&quot;               <link linkend="guint">guint</link>                 : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-type">proxy-type</link>&quot;               <link linkend="guint">guint</link>                 : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-username">proxy-username</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NiceAgent--stun-pacing-timer">stun-pacing-timer</link>&quot;        <link linkend="guint">guint</link>                 : Read / Write / Construct Only
+  &quot;<link linkend="NiceAgent--stun-server">stun-server</link>&quot;              <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NiceAgent--stun-server-port">stun-server-port</link>&quot;         <link linkend="guint">guint</link>                 : Read / Write
+  &quot;<link linkend="NiceAgent--compatibility">compatibility</link>&quot;            <link linkend="guint">guint</link>                 : Read / Write / Construct Only
+  &quot;<link linkend="NiceAgent--controlling-mode">controlling-mode</link>&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write
+  &quot;<link linkend="NiceAgent--full-mode">full-mode</link>&quot;                <link linkend="gboolean">gboolean</link>              : Read / Write / Construct Only
+  &quot;<link linkend="NiceAgent--main-context">main-context</link>&quot;             <link linkend="gpointer">gpointer</link>              : Read / Write / Construct Only
+  &quot;<link linkend="NiceAgent--max-connectivity-checks">max-connectivity-checks</link>&quot;  <link linkend="guint">guint</link>                 : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-ip">proxy-ip</link>&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-password">proxy-password</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-port">proxy-port</link>&quot;               <link linkend="guint">guint</link>                 : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-type">proxy-type</link>&quot;               <link linkend="guint">guint</link>                 : Read / Write
+  &quot;<link linkend="NiceAgent--proxy-username">proxy-username</link>&quot;           <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NiceAgent--stun-pacing-timer">stun-pacing-timer</link>&quot;        <link linkend="guint">guint</link>                 : Read / Write / Construct Only
+  &quot;<link linkend="NiceAgent--stun-server">stun-server</link>&quot;              <link linkend="gchar">gchar</link>*                : Read / Write
+  &quot;<link linkend="NiceAgent--stun-server-port">stun-server-port</link>&quot;         <link linkend="guint">guint</link>                 : Read / Write
+</synopsis>
+</refsect1>
+
+<refsect1 id="NiceAgent.signals" role="signal_proto">
+<title role="signal_proto.title">Signals</title>
+<synopsis>
+  &quot;<link linkend="NiceAgent-candidate-gathering-done">candidate-gathering-done</link>&quot;                       : Run Last
+  &quot;<link linkend="NiceAgent-component-state-changed">component-state-changed</link>&quot;                        : Run Last
+  &quot;<link linkend="NiceAgent-initial-binding-request-received">initial-binding-request-received</link>&quot;               : Run Last
+  &quot;<link linkend="NiceAgent-new-candidate">new-candidate</link>&quot;                                  : Run Last
+  &quot;<link linkend="NiceAgent-new-remote-candidate">new-remote-candidate</link>&quot;                           : Run Last
+  &quot;<link linkend="NiceAgent-new-selected-pair">new-selected-pair</link>&quot;                              : Run Last
+  &quot;<link linkend="NiceAgent-candidate-gathering-done">candidate-gathering-done</link>&quot;                       : Run Last
+  &quot;<link linkend="NiceAgent-component-state-changed">component-state-changed</link>&quot;                        : Run Last
+  &quot;<link linkend="NiceAgent-initial-binding-request-received">initial-binding-request-received</link>&quot;               : Run Last
+  &quot;<link linkend="NiceAgent-new-candidate">new-candidate</link>&quot;                                  : Run Last
+  &quot;<link linkend="NiceAgent-new-remote-candidate">new-remote-candidate</link>&quot;                           : Run Last
+  &quot;<link linkend="NiceAgent-new-selected-pair">new-selected-pair</link>&quot;                              : Run Last
+</synopsis>
+</refsect1>
+
+
+<refsect1 id="NiceAgent.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+The <link linkend="NiceAgent"><type>NiceAgent</type></link> is your main object when using libnice.
+It is the agent that will take care of everything relating to ICE.
+It will take care of discovering your local candidates and do
+ connectivity checks to create a stream of data between you and your peer.
+</para>
+<para>
+ <example>
+   <title>Simple example on how to use libnice</title>
+   <programlisting>
+   guint stream_id;
+   gchar buffer[] = "hello world!";
+   GSList *lcands = NULL;
+
+   // Create a nice agent
+   NiceAgent *agent = nice_agent_new (NULL, NICE_COMPATIBILITY_DRAFT19);
+
+   // Connect the signals
+   g_signal_connect (G_OBJECT (agent), "candidate-gathering-done",
+                     G_CALLBACK (cb_candidate_gathering_done), NULL);
+   g_signal_connect (G_OBJECT (agent), "component-state-changed",
+                     G_CALLBACK (cb_component_state_changed), NULL);
+   g_signal_connect (G_OBJECT (agent), "new-selected-pair",
+                     G_CALLBACK (cb_new_selected_pair), NULL);
+
+   // Create a new stream with one component and start gathering candidates
+   stream_id = nice_agent_add_stream (agent, 1);
+   nice_agent_gather_candidates (agent, stream_id);
+
+   // Attach to the component to receive the data
+   nice_agent_attach_recv (agent, stream_id, 1, NULL,
+                          cb_nice_recv, NULL);
+
+   // ... Wait until the signal candidate-gathering-done is fired ...
+   lcands = nice_agent_get_local_candidates(agent, stream_id, 1);
+
+   // ... Send local candidates to the peer and set the peer's remote candidates
+   nice_agent_set_remote_candidates (agent, stream_id, 1, rcands);
+
+   // ... Wait until the signal new-selected-pair is fired ...
+   // Send our message!
+   nice_agent_send (agent, stream_id, 1, sizeof(buffer), buffer);
+
+   // Anything received will be received through the cb_nice_recv callback
+
+   // Destroy the object
+   g_object_unref(agent);
+
+   </programlisting>
+ </example></para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="NiceAgent.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="NiceAgent-struct" role="struct">
+<title>NiceAgent</title>
+<indexterm zone="NiceAgent-struct"><primary sortas="NiceAgent">NiceAgent</primary></indexterm><programlisting>typedef struct _NiceAgent NiceAgent;</programlisting>
+<para>
+The <link linkend="NiceAgent"><type>NiceAgent</type></link> is the main GObject of the libnice library and represents
+the ICE agent.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NiceComponentState" role="enum">
+<title>enum NiceComponentState</title>
+<indexterm zone="NiceComponentState"><primary sortas="NiceComponentState">NiceComponentState</primary></indexterm><programlisting>typedef enum
+{
+  NICE_COMPONENT_STATE_DISCONNECTED,
+  NICE_COMPONENT_STATE_GATHERING,
+  NICE_COMPONENT_STATE_CONNECTING,
+  NICE_COMPONENT_STATE_CONNECTED,
+  NICE_COMPONENT_STATE_READY,
+  NICE_COMPONENT_STATE_FAILED,
+  NICE_COMPONENT_STATE_LAST
+} NiceComponentState;
+</programlisting>
+<para>
+An enum representing the state of a component.
+<para> See also: <link linkend="NiceAgent-component-state-changed"><type>"component-state-changed"</type></link> </para></para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="NICE-COMPONENT-STATE-DISCONNECTED--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_STATE_DISCONNECTED</literal></term>
+<listitem><simpara> No activity scheduled
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPONENT-STATE-GATHERING--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_STATE_GATHERING</literal></term>
+<listitem><simpara> Gathering local candidates
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPONENT-STATE-CONNECTING--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_STATE_CONNECTING</literal></term>
+<listitem><simpara> Establishing connectivity
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPONENT-STATE-CONNECTED--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_STATE_CONNECTED</literal></term>
+<listitem><simpara> At least one working candidate pair
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPONENT-STATE-READY--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_STATE_READY</literal></term>
+<listitem><simpara> ICE concluded, candidate pair selection
+is now final
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPONENT-STATE-FAILED--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_STATE_FAILED</literal></term>
+<listitem><simpara> Connectivity checks have been completed,
+but connectivity was not established
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPONENT-STATE-LAST--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_STATE_LAST</literal></term>
+<listitem><simpara> Dummy state
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NiceComponentType" role="enum">
+<title>enum NiceComponentType</title>
+<indexterm zone="NiceComponentType"><primary sortas="NiceComponentType">NiceComponentType</primary></indexterm><programlisting>typedef enum
+{
+  NICE_COMPONENT_TYPE_RTP = 1,
+  NICE_COMPONENT_TYPE_RTCP = 2
+} NiceComponentType;
+</programlisting>
+<para>
+Convenience enum representing the type of a component for use as the
+component_id for RTP/RTCP usages.
+ <example>
+   <title>Example of use.</title>
+   <programlisting>
+   nice_agent_send (agent, stream_id, NICE_COMPONENT_TYPE_RTP, len, buf);
+   </programlisting>
+  </example></para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="NICE-COMPONENT-TYPE-RTP--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_TYPE_RTP</literal></term>
+<listitem><simpara> RTP Component type
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPONENT-TYPE-RTCP--CAPS" role="constant">
+<term><literal>NICE_COMPONENT_TYPE_RTCP</literal></term>
+<listitem><simpara> RTCP Component type
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NiceProxyType" role="enum">
+<title>enum NiceProxyType</title>
+<indexterm zone="NiceProxyType"><primary sortas="NiceProxyType">NiceProxyType</primary></indexterm><programlisting>typedef enum
+{
+  NICE_PROXY_TYPE_NONE = 0,
+  NICE_PROXY_TYPE_SOCKS5,
+  NICE_PROXY_TYPE_HTTP,
+  NICE_PROXY_TYPE_LAST = NICE_PROXY_TYPE_HTTP,
+} NiceProxyType;
+</programlisting>
+<para>
+An enum to specify which proxy type to use for relaying.
+Note that the proxies will only be used with TCP TURN relaying.
+<para> See also: <link linkend="NiceAgent--proxy-type"><type>"proxy-type"</type></link> </para></para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="NICE-PROXY-TYPE-NONE--CAPS" role="constant">
+<term><literal>NICE_PROXY_TYPE_NONE</literal></term>
+<listitem><simpara> Do not use a proxy
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-PROXY-TYPE-SOCKS5--CAPS" role="constant">
+<term><literal>NICE_PROXY_TYPE_SOCKS5</literal></term>
+<listitem><simpara> Use a SOCKS5 proxy
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-PROXY-TYPE-HTTP--CAPS" role="constant">
+<term><literal>NICE_PROXY_TYPE_HTTP</literal></term>
+<listitem><simpara> Use an HTTP proxy
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-PROXY-TYPE-LAST--CAPS" role="constant">
+<term><literal>NICE_PROXY_TYPE_LAST</literal></term>
+<listitem><simpara> Dummy last proxy type
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NiceCompatibility" role="enum">
+<title>enum NiceCompatibility</title>
+<indexterm zone="NiceCompatibility"><primary sortas="NiceCompatibility">NiceCompatibility</primary></indexterm><programlisting>typedef enum
+{
+  NICE_COMPATIBILITY_DRAFT19 = 0,
+  NICE_COMPATIBILITY_GOOGLE,
+  NICE_COMPATIBILITY_MSN,
+  NICE_COMPATIBILITY_WLM2009,
+  NICE_COMPATIBILITY_LAST = NICE_COMPATIBILITY_WLM2009
+} NiceCompatibility;
+</programlisting>
+<para>
+An enum to specify which compatible specifications the <link linkend="NiceAgent"><type>NiceAgent</type></link> should use.
+Use with <link linkend="nice-agent-new"><function>nice_agent_new()</function></link></para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="NICE-COMPATIBILITY-DRAFT19--CAPS" role="constant">
+<term><literal>NICE_COMPATIBILITY_DRAFT19</literal></term>
+<listitem><simpara> Use compatibility for ICE Draft 19 specs
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPATIBILITY-GOOGLE--CAPS" role="constant">
+<term><literal>NICE_COMPATIBILITY_GOOGLE</literal></term>
+<listitem><simpara> Use compatibility for Google Talk specs
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPATIBILITY-MSN--CAPS" role="constant">
+<term><literal>NICE_COMPATIBILITY_MSN</literal></term>
+<listitem><simpara> Use compatibility for MSN Messenger specs
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPATIBILITY-WLM2009--CAPS" role="constant">
+<term><literal>NICE_COMPATIBILITY_WLM2009</literal></term>
+<listitem><simpara> Use compatibility with Windows Live Messenger
+2009
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-COMPATIBILITY-LAST--CAPS" role="constant">
+<term><literal>NICE_COMPATIBILITY_LAST</literal></term>
+<listitem><simpara> Dummy last compatibility mode
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NiceAgentRecvFunc" role="function">
+<title>NiceAgentRecvFunc ()</title>
+<indexterm zone="NiceAgentRecvFunc"><primary sortas="NiceAgentRecvFunc">NiceAgentRecvFunc</primary></indexterm><programlisting><link linkend="void">void</link>                (*NiceAgentRecvFunc)                (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         <link linkend="guint">guint</link> len,
+                                                         <link linkend="gchar">gchar</link> *buf,
+                                                         <link linkend="gpointer">gpointer</link> user_data);</programlisting>
+<para>
+Callback function when data is received on a component</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The id of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The id of the component of the stream
+       which received the data
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>len</parameter>&#160;:</term>
+<listitem><simpara> The length of the data
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buf</parameter>&#160;:</term>
+<listitem><simpara> The buffer containing the data received
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara> The user data set in <link linkend="nice-agent-attach-recv"><function>nice_agent_attach_recv()</function></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NICE-AGENT-MAX-REMOTE-CANDIDATES--CAPS" role="macro">
+<title>NICE_AGENT_MAX_REMOTE_CANDIDATES</title>
+<indexterm zone="NICE-AGENT-MAX-REMOTE-CANDIDATES--CAPS"><primary sortas="NICE_AGENT_MAX_REMOTE_CANDIDATES">NICE_AGENT_MAX_REMOTE_CANDIDATES</primary></indexterm><programlisting>#define             NICE_AGENT_MAX_REMOTE_CANDIDATES</programlisting>
+<para>
+A hard limit for the number of remote candidates. This
+limit is enforced to protect against malevolent remote
+clients.</para>
+<para>
+</para></refsect2>
+<refsect2 id="nice-agent-new" role="function">
+<title>nice_agent_new ()</title>
+<indexterm zone="nice-agent-new"><primary sortas="nice_agent_new">nice_agent_new</primary></indexterm><programlisting><link linkend="NiceAgent">NiceAgent</link> *         nice_agent_new                      (<link linkend="GMainContext">GMainContext</link> *ctx,
+                                                         <link linkend="NiceCompatibility">NiceCompatibility</link> compat);</programlisting>
+<para>
+Create a new <link linkend="NiceAgent"><type>NiceAgent</type></link>.
+The returned object must be freed with <link linkend="g-object-unref"><function>g_object_unref()</function></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>ctx</parameter>&#160;:</term>
+<listitem><simpara> The Glib Mainloop Context to use for timers
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>compat</parameter>&#160;:</term>
+<listitem><simpara> The compatibility mode of the agent
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The new agent GObject
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-add-local-address" role="function">
+<title>nice_agent_add_local_address ()</title>
+<indexterm zone="nice-agent-add-local-address"><primary sortas="nice_agent_add_local_address">nice_agent_add_local_address</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_agent_add_local_address        (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="NiceAddress">NiceAddress</link> *addr);</programlisting>
+<para>
+Add a local address from which to derive local host candidates</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The address to listen to
+If the port is 0, then a random port will be chosen by the system
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> on success, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> on fatal (memory allocation) errors
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-add-stream" role="function">
+<title>nice_agent_add_stream ()</title>
+<indexterm zone="nice-agent-add-stream"><primary sortas="nice_agent_add_stream">nice_agent_add_stream</primary></indexterm><programlisting><link linkend="guint">guint</link>               nice_agent_add_stream               (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> n_components);</programlisting>
+<para>
+Adds a data stream to <parameter>agent</parameter> containing <parameter>n_components</parameter> components.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>n_components</parameter>&#160;:</term>
+<listitem><simpara> The number of components to add to the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The ID of the new stream, 0 on failure
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-remove-stream" role="function">
+<title>nice_agent_remove_stream ()</title>
+<indexterm zone="nice-agent-remove-stream"><primary sortas="nice_agent_remove_stream">nice_agent_remove_stream</primary></indexterm><programlisting><link linkend="void">void</link>                nice_agent_remove_stream            (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id);</programlisting>
+<para>
+Remove and free a previously created data stream from <parameter>agent</parameter></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream to remove
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-set-relay-info" role="function">
+<title>nice_agent_set_relay_info ()</title>
+<indexterm zone="nice-agent-set-relay-info"><primary sortas="nice_agent_set_relay_info">nice_agent_set_relay_info</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_agent_set_relay_info           (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         const <link linkend="gchar">gchar</link> *server_ip,
+                                                         <link linkend="guint">guint</link> server_port,
+                                                         const <link linkend="gchar">gchar</link> *username,
+                                                         const <link linkend="gchar">gchar</link> *password,
+                                                         <link linkend="NiceRelayType">NiceRelayType</link> type);</programlisting>
+<para>
+Sets the settings for using a relay server during the candidate discovery.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>server_ip</parameter>&#160;:</term>
+<listitem><simpara> The IP address of the TURN server
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>server_port</parameter>&#160;:</term>
+<listitem><simpara> The port of the TURN server
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>username</parameter>&#160;:</term>
+<listitem><simpara> The TURN username to use for the allocate
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>password</parameter>&#160;:</term>
+<listitem><simpara> The TURN password to use for the allocate
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The type of relay to use
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the TURN settings were accepted.
+<link linkend="FALSE--CAPS"><literal>FALSE</literal></link> if the address was invalid.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-gather-candidates" role="function">
+<title>nice_agent_gather_candidates ()</title>
+<indexterm zone="nice-agent-gather-candidates"><primary sortas="nice_agent_gather_candidates">nice_agent_gather_candidates</primary></indexterm><programlisting><link linkend="void">void</link>                nice_agent_gather_candidates        (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id);</programlisting>
+<para>
+Start the candidate gathering process.
+Once done, <link linkend="NiceAgent-candidate-gathering-done"><type>"candidate-gathering-done"</type></link> is called for the stream
+</para>
+<para>
+ <note>
+   <para>
+    Local addresses can be previously set with <link linkend="nice-agent-add-local-address"><function>nice_agent_add_local_address()</function></link>
+  </para>
+  <para>
+    If no local address was previously added, then the nice agent will
+    automatically detect the local address using <link linkend="nice-interfaces-get-local-ips"><function>nice_interfaces_get_local_ips()</function></link>
+   </para>
+ </note></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The id of the stream to start
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-set-remote-credentials" role="function">
+<title>nice_agent_set_remote_credentials ()</title>
+<indexterm zone="nice-agent-set-remote-credentials"><primary sortas="nice_agent_set_remote_credentials">nice_agent_set_remote_credentials</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_agent_set_remote_credentials   (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         const <link linkend="gchar">gchar</link> *ufrag,
+                                                         const <link linkend="gchar">gchar</link> *pwd);</programlisting>
+<para>
+Sets the remote credentials for stream <parameter>stream_id</parameter>.
+</para>
+<para>
+ <note>
+   <para>
+     Stream credentials do not override per-candidate credentials if set
+   </para>
+ </note></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ufrag</parameter>&#160;:</term>
+<listitem><simpara> NULL-terminated string containing an ICE username fragment
+   (length must be between 22 and 256 chars)
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>pwd</parameter>&#160;:</term>
+<listitem><simpara> NULL-terminated string containing an ICE password
+   (length must be between 4 and 256 chars)
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> on success, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> on error.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-get-local-credentials" role="function">
+<title>nice_agent_get_local_credentials ()</title>
+<indexterm zone="nice-agent-get-local-credentials"><primary sortas="nice_agent_get_local_credentials">nice_agent_get_local_credentials</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_agent_get_local_credentials    (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="gchar">gchar</link> **ufrag,
+                                                         <link linkend="gchar">gchar</link> **pwd);</programlisting>
+<para>
+Gets the local credentials for stream <parameter>stream_id</parameter>.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ufrag</parameter>&#160;:</term>
+<listitem><simpara> a pointer to a NULL-terminated string containing
+an ICE username fragment [OUT].
+This string must be freed with <link linkend="g-free"><function>g_free()</function></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>pwd</parameter>&#160;:</term>
+<listitem><simpara> a pointer to a NULL-terminated string containing an ICE
+password [OUT]
+This string must be freed with <link linkend="g-free"><function>g_free()</function></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> on success, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> on error.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-set-remote-candidates" role="function">
+<title>nice_agent_set_remote_candidates ()</title>
+<indexterm zone="nice-agent-set-remote-candidates"><primary sortas="nice_agent_set_remote_candidates">nice_agent_set_remote_candidates</primary></indexterm><programlisting><link linkend="int">int</link>                 nice_agent_set_remote_candidates    (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         const <link linkend="GSList">GSList</link> *candidates);</programlisting>
+<para>
+Sets, adds or updates the remote candidates for a component of a stream.
+</para>
+<para>
+ <note>
+   <para>
+    NICE_AGENT_MAX_REMOTE_CANDIDATES is the absolute maximum limit
+    for remote candidates.
+   </para>
+   <para>
+   You must first call <link linkend="nice-agent-gather-candidates"><function>nice_agent_gather_candidates()</function></link> and wait for the
+   <link linkend="NiceAgent-candidate-gathering-done"><type>"candidate-gathering-done"</type></link> signale before
+   calling <link linkend="nice-agent-set-remote-candidates"><function>nice_agent_set_remote_candidates()</function></link>
+   </para>
+ </note></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream the candidates are for
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component the candidates are for
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>candidates</parameter>&#160;:</term>
+<listitem><simpara> a <link linkend="GList"><type>GList</type></link> of <link linkend="NiceCandidate"><type>NiceCandidate</type></link> items describing each candidate to add
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The number of candidates added, negative on errors (memory allocation
+or if the local candidates are not done gathering yet)
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-get-remote-candidates" role="function">
+<title>nice_agent_get_remote_candidates ()</title>
+<indexterm zone="nice-agent-get-remote-candidates"><primary sortas="nice_agent_get_remote_candidates">nice_agent_get_remote_candidates</primary></indexterm><programlisting><link linkend="GSList">GSList</link> *            nice_agent_get_remote_candidates    (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id);</programlisting>
+<para>
+Get a list of the remote candidates set on a stream's component
+</para>
+<para>
+ <note>
+   <para>
+     The caller owns the returned GSList but not the candidates
+     contained within it.
+   </para>
+   <para>
+     The list of remote candidates can change during processing.
+     The client should register for the <link linkend="NiceAgent-new-remote-candidate"><type>"new-remote-candidate"</type></link> signal
+     to get notified of new remote candidates.
+   </para>
+ </note></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a <link linkend="GSList"><type>GSList</type></link> of <link linkend="NiceCandidates"><type>NiceCandidates</type></link> objects representing
+the remote candidates set on the <parameter>agent</parameter>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-get-local-candidates" role="function">
+<title>nice_agent_get_local_candidates ()</title>
+<indexterm zone="nice-agent-get-local-candidates"><primary sortas="nice_agent_get_local_candidates">nice_agent_get_local_candidates</primary></indexterm><programlisting><link linkend="GSList">GSList</link> *            nice_agent_get_local_candidates     (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id);</programlisting>
+<para>
+Retreive from the agent the list of all local candidates
+for a stream's component
+</para>
+<para>
+ <note>
+   <para>
+     The caller owns the returned GSList as well as the candidates contained
+     within it.
+     To get full results, the client should wait for the
+     <link linkend="NiceAgent-candidates-gathering-done"><type>"candidates-gathering-done"</type></link> signal.
+   </para>
+ </note></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> a <link linkend="GSList"><type>GSList</type></link> of <link linkend="NiceCandidate"><type>NiceCandidate</type></link> objects representing
+the local candidates of <parameter>agent</parameter>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-send" role="function">
+<title>nice_agent_send ()</title>
+<indexterm zone="nice-agent-send"><primary sortas="nice_agent_send">nice_agent_send</primary></indexterm><programlisting><link linkend="gint">gint</link>                nice_agent_send                     (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         <link linkend="guint">guint</link> len,
+                                                         const <link linkend="gchar">gchar</link> *buf);</programlisting>
+<para>
+Sends a data payload over a stream's component.
+</para>
+<para>
+ <note>
+   <para>
+     Component state MUST be NICE_COMPONENT_STATE_READY, or as a special case,
+     in any state if component was in READY state before and was then restarted
+   </para>
+ </note></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream to send to
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component to send to
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>len</parameter>&#160;:</term>
+<listitem><simpara> The length of the buffer to send
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buf</parameter>&#160;:</term>
+<listitem><simpara> The buffer of data to send
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The number of bytes sent, or negative error code
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-attach-recv" role="function">
+<title>nice_agent_attach_recv ()</title>
+<indexterm zone="nice-agent-attach-recv"><primary sortas="nice_agent_attach_recv">nice_agent_attach_recv</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_agent_attach_recv              (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         <link linkend="GMainContext">GMainContext</link> *ctx,
+                                                         <link linkend="NiceAgentRecvFunc">NiceAgentRecvFunc</link> func,
+                                                         <link linkend="gpointer">gpointer</link> data);</programlisting>
+<para>
+Attaches the stream's component's sockets to the Glib Mainloop Context in
+order to be notified whenever data becomes available for a component.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>ctx</parameter>&#160;:</term>
+<listitem><simpara> The Glib Mainloop Context to use for listening on the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>func</parameter>&#160;:</term>
+<listitem><simpara> The callback function to be called when data is received on
+the stream's component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>data</parameter>&#160;:</term>
+<listitem><simpara> user data associated with the callback
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> on success, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> if the stream or component IDs are invalid.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-set-selected-pair" role="function">
+<title>nice_agent_set_selected_pair ()</title>
+<indexterm zone="nice-agent-set-selected-pair"><primary sortas="nice_agent_set_selected_pair">nice_agent_set_selected_pair</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_agent_set_selected_pair        (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         const <link linkend="gchar">gchar</link> *lfoundation,
+                                                         const <link linkend="gchar">gchar</link> *rfoundation);</programlisting>
+<para>
+Sets the selected candidate pair for media transmission
+for a given stream's component. Calling this function will
+disable all further ICE processing (connection check,
+state machine updates, etc). Note that keepalives will
+continue to be sent.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lfoundation</parameter>&#160;:</term>
+<listitem><simpara> The local foundation of the candidate to use
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>rfoundation</parameter>&#160;:</term>
+<listitem><simpara> The remote foundation of the candidate to use
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> on success, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> if the candidate pair cannot be found
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-set-selected-remote-candidate" role="function">
+<title>nice_agent_set_selected_remote_candidate ()</title>
+<indexterm zone="nice-agent-set-selected-remote-candidate"><primary sortas="nice_agent_set_selected_remote_candidate">nice_agent_set_selected_remote_candidate</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_agent_set_selected_remote_candidate
+                                                        (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="guint">guint</link> component_id,
+                                                         <link linkend="NiceCandidate">NiceCandidate</link> *candidate);</programlisting>
+<para>
+Sets the selected remote candidate for media transmission
+for a given stream's component. This is used to force the selection of
+a specific remote candidate even when connectivity checks are failing
+(e.g. non-ICE compatible candidates).
+Calling this function will disable all further ICE processing
+(connection check, state machine updates, etc). Note that keepalives will
+continue to be sent.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>candidate</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceCandidate"><type>NiceCandidate</type></link> to select
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> on success, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> on failure
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-set-stream-tos" role="function">
+<title>nice_agent_set_stream_tos ()</title>
+<indexterm zone="nice-agent-set-stream-tos"><primary sortas="nice_agent_set_stream_tos">nice_agent_set_stream_tos</primary></indexterm><programlisting><link linkend="void">void</link>                nice_agent_set_stream_tos           (<link linkend="NiceAgent">NiceAgent</link> *agent,
+                                                         <link linkend="guint">guint</link> stream_id,
+                                                         <link linkend="gint">gint</link> tos);</programlisting>
+<para>
+Sets the IP_TOS and/or IPV6_TCLASS field on the stream's sockets' options</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>tos</parameter>&#160;:</term>
+<listitem><simpara> The ToS to set
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-agent-restart" role="function">
+<title>nice_agent_restart ()</title>
+<indexterm zone="nice-agent-restart"><primary sortas="nice_agent_restart">nice_agent_restart</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_agent_restart                  (<link linkend="NiceAgent">NiceAgent</link> *agent);</programlisting>
+<para>
+Restarts the session as defined in ICE draft 19. This function
+needs to be called both when initiating (ICE spec section 9.1.1.1.
+"ICE Restarts"), as well as when reacting (spec section 9.2.1.1.
+"Detecting ICE Restart") to a restart.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAgent"><type>NiceAgent</type></link> Object
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> on success <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> on error
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 id="NiceAgent.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="NiceAgent--compatibility" role="property"><title>The <literal>&quot;compatibility&quot;</literal> property</title>
+<indexterm zone="NiceAgent--compatibility"><primary sortas="NiceAgent:compatibility">NiceAgent:compatibility</primary></indexterm><programlisting>  &quot;compatibility&quot;            <link linkend="guint">guint</link>                 : Read / Write / Construct Only</programlisting>
+<para>
+The Nice agent can work in various compatibility modes depending on
+what the application/peer needs.
+<para> See also: <link linkend="NiceCompatibility"><type>NiceCompatibility</type></link></para></para>
+<para>
+</para><para>Allowed values: &lt;= 3</para>
+<para>Default value: 0</para>
+</refsect2>
+<refsect2 id="NiceAgent--controlling-mode" role="property"><title>The <literal>&quot;controlling-mode&quot;</literal> property</title>
+<indexterm zone="NiceAgent--controlling-mode"><primary sortas="NiceAgent:controlling-mode">NiceAgent:controlling-mode</primary></indexterm><programlisting>  &quot;controlling-mode&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>Whether the agent is in controlling mode.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2 id="NiceAgent--full-mode" role="property"><title>The <literal>&quot;full-mode&quot;</literal> property</title>
+<indexterm zone="NiceAgent--full-mode"><primary sortas="NiceAgent:full-mode">NiceAgent:full-mode</primary></indexterm><programlisting>  &quot;full-mode&quot;                <link linkend="gboolean">gboolean</link>              : Read / Write / Construct Only</programlisting>
+<para>Whether agent runs in ICE full mode.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="NiceAgent--main-context" role="property"><title>The <literal>&quot;main-context&quot;</literal> property</title>
+<indexterm zone="NiceAgent--main-context"><primary sortas="NiceAgent:main-context">NiceAgent:main-context</primary></indexterm><programlisting>  &quot;main-context&quot;             <link linkend="gpointer">gpointer</link>              : Read / Write / Construct Only</programlisting>
+<para>
+A GLib main context is needed for all timeouts used by libnice.
+This is a property being set by the <link linkend="nice-agent-new"><function>nice_agent_new()</function></link> call.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NiceAgent--max-connectivity-checks" role="property"><title>The <literal>&quot;max-connectivity-checks&quot;</literal> property</title>
+<indexterm zone="NiceAgent--max-connectivity-checks"><primary sortas="NiceAgent:max-connectivity-checks">NiceAgent:max-connectivity-checks</primary></indexterm><programlisting>  &quot;max-connectivity-checks&quot;  <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>Upper limit for the total number of connectivity checks performed.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-ip" role="property"><title>The <literal>&quot;proxy-ip&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-ip"><primary sortas="NiceAgent:proxy-ip">NiceAgent:proxy-ip</primary></indexterm><programlisting>  &quot;proxy-ip&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>The proxy server used to bypass a proxy firewall.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-password" role="property"><title>The <literal>&quot;proxy-password&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-password"><primary sortas="NiceAgent:proxy-password">NiceAgent:proxy-password</primary></indexterm><programlisting>  &quot;proxy-password&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>The password used to authenticate with the proxy.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-port" role="property"><title>The <literal>&quot;proxy-port&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-port"><primary sortas="NiceAgent:proxy-port">NiceAgent:proxy-port</primary></indexterm><programlisting>  &quot;proxy-port&quot;               <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>The Proxy server used to bypass a proxy firewall.</para><para>Allowed values: [1,65536]</para>
+<para>Default value: 1</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-type" role="property"><title>The <literal>&quot;proxy-type&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-type"><primary sortas="NiceAgent:proxy-type">NiceAgent:proxy-type</primary></indexterm><programlisting>  &quot;proxy-type&quot;               <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>The type of proxy set in the proxy-ip property.</para><para>Allowed values: &lt;= 2</para>
+<para>Default value: 0</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-username" role="property"><title>The <literal>&quot;proxy-username&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-username"><primary sortas="NiceAgent:proxy-username">NiceAgent:proxy-username</primary></indexterm><programlisting>  &quot;proxy-username&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>The username used to authenticate with the proxy.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NiceAgent--stun-pacing-timer" role="property"><title>The <literal>&quot;stun-pacing-timer&quot;</literal> property</title>
+<indexterm zone="NiceAgent--stun-pacing-timer"><primary sortas="NiceAgent:stun-pacing-timer">NiceAgent:stun-pacing-timer</primary></indexterm><programlisting>  &quot;stun-pacing-timer&quot;        <link linkend="guint">guint</link>                 : Read / Write / Construct Only</programlisting>
+<para>Timer 'Ta' (msecs) used in the IETF ICE specification for pacing candidate gathering and sending of connectivity checks.</para><para>Allowed values: &gt;= 1</para>
+<para>Default value: 20</para>
+</refsect2>
+<refsect2 id="NiceAgent--stun-server" role="property"><title>The <literal>&quot;stun-server&quot;</literal> property</title>
+<indexterm zone="NiceAgent--stun-server"><primary sortas="NiceAgent:stun-server">NiceAgent:stun-server</primary></indexterm><programlisting>  &quot;stun-server&quot;              <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>The STUN server used to obtain server-reflexive candidates.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NiceAgent--stun-server-port" role="property"><title>The <literal>&quot;stun-server-port&quot;</literal> property</title>
+<indexterm zone="NiceAgent--stun-server-port"><primary sortas="NiceAgent:stun-server-port">NiceAgent:stun-server-port</primary></indexterm><programlisting>  &quot;stun-server-port&quot;         <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>The STUN server used to obtain server-reflexive candidates.</para><para>Allowed values: [1,65536]</para>
+<para>Default value: 1</para>
+</refsect2>
+<refsect2 id="NiceAgent--compatibility" role="property"><title>The <literal>&quot;compatibility&quot;</literal> property</title>
+<indexterm zone="NiceAgent--compatibility"><primary sortas="NiceAgent:compatibility">NiceAgent:compatibility</primary></indexterm><programlisting>  &quot;compatibility&quot;            <link linkend="guint">guint</link>                 : Read / Write / Construct Only</programlisting>
+<para>
+The Nice agent can work in various compatibility modes depending on
+what the application/peer needs.
+<para> See also: <link linkend="NiceCompatibility"><type>NiceCompatibility</type></link></para></para>
+<para>
+</para><para>Allowed values: &lt;= 3</para>
+<para>Default value: 0</para>
+</refsect2>
+<refsect2 id="NiceAgent--controlling-mode" role="property"><title>The <literal>&quot;controlling-mode&quot;</literal> property</title>
+<indexterm zone="NiceAgent--controlling-mode"><primary sortas="NiceAgent:controlling-mode">NiceAgent:controlling-mode</primary></indexterm><programlisting>  &quot;controlling-mode&quot;         <link linkend="gboolean">gboolean</link>              : Read / Write</programlisting>
+<para>Whether the agent is in controlling mode.</para><para>Default value: FALSE</para>
+</refsect2>
+<refsect2 id="NiceAgent--full-mode" role="property"><title>The <literal>&quot;full-mode&quot;</literal> property</title>
+<indexterm zone="NiceAgent--full-mode"><primary sortas="NiceAgent:full-mode">NiceAgent:full-mode</primary></indexterm><programlisting>  &quot;full-mode&quot;                <link linkend="gboolean">gboolean</link>              : Read / Write / Construct Only</programlisting>
+<para>Whether agent runs in ICE full mode.</para><para>Default value: TRUE</para>
+</refsect2>
+<refsect2 id="NiceAgent--main-context" role="property"><title>The <literal>&quot;main-context&quot;</literal> property</title>
+<indexterm zone="NiceAgent--main-context"><primary sortas="NiceAgent:main-context">NiceAgent:main-context</primary></indexterm><programlisting>  &quot;main-context&quot;             <link linkend="gpointer">gpointer</link>              : Read / Write / Construct Only</programlisting>
+<para>
+A GLib main context is needed for all timeouts used by libnice.
+This is a property being set by the <link linkend="nice-agent-new"><function>nice_agent_new()</function></link> call.</para>
+<para>
+</para></refsect2>
+<refsect2 id="NiceAgent--max-connectivity-checks" role="property"><title>The <literal>&quot;max-connectivity-checks&quot;</literal> property</title>
+<indexterm zone="NiceAgent--max-connectivity-checks"><primary sortas="NiceAgent:max-connectivity-checks">NiceAgent:max-connectivity-checks</primary></indexterm><programlisting>  &quot;max-connectivity-checks&quot;  <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>Upper limit for the total number of connectivity checks performed.</para><para>Default value: 0</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-ip" role="property"><title>The <literal>&quot;proxy-ip&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-ip"><primary sortas="NiceAgent:proxy-ip">NiceAgent:proxy-ip</primary></indexterm><programlisting>  &quot;proxy-ip&quot;                 <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>The proxy server used to bypass a proxy firewall.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-password" role="property"><title>The <literal>&quot;proxy-password&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-password"><primary sortas="NiceAgent:proxy-password">NiceAgent:proxy-password</primary></indexterm><programlisting>  &quot;proxy-password&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>The password used to authenticate with the proxy.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-port" role="property"><title>The <literal>&quot;proxy-port&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-port"><primary sortas="NiceAgent:proxy-port">NiceAgent:proxy-port</primary></indexterm><programlisting>  &quot;proxy-port&quot;               <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>The Proxy server used to bypass a proxy firewall.</para><para>Allowed values: [1,65536]</para>
+<para>Default value: 1</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-type" role="property"><title>The <literal>&quot;proxy-type&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-type"><primary sortas="NiceAgent:proxy-type">NiceAgent:proxy-type</primary></indexterm><programlisting>  &quot;proxy-type&quot;               <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>The type of proxy set in the proxy-ip property.</para><para>Allowed values: &lt;= 2</para>
+<para>Default value: 0</para>
+</refsect2>
+<refsect2 id="NiceAgent--proxy-username" role="property"><title>The <literal>&quot;proxy-username&quot;</literal> property</title>
+<indexterm zone="NiceAgent--proxy-username"><primary sortas="NiceAgent:proxy-username">NiceAgent:proxy-username</primary></indexterm><programlisting>  &quot;proxy-username&quot;           <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>The username used to authenticate with the proxy.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NiceAgent--stun-pacing-timer" role="property"><title>The <literal>&quot;stun-pacing-timer&quot;</literal> property</title>
+<indexterm zone="NiceAgent--stun-pacing-timer"><primary sortas="NiceAgent:stun-pacing-timer">NiceAgent:stun-pacing-timer</primary></indexterm><programlisting>  &quot;stun-pacing-timer&quot;        <link linkend="guint">guint</link>                 : Read / Write / Construct Only</programlisting>
+<para>Timer 'Ta' (msecs) used in the IETF ICE specification for pacing candidate gathering and sending of connectivity checks.</para><para>Allowed values: &gt;= 1</para>
+<para>Default value: 20</para>
+</refsect2>
+<refsect2 id="NiceAgent--stun-server" role="property"><title>The <literal>&quot;stun-server&quot;</literal> property</title>
+<indexterm zone="NiceAgent--stun-server"><primary sortas="NiceAgent:stun-server">NiceAgent:stun-server</primary></indexterm><programlisting>  &quot;stun-server&quot;              <link linkend="gchar">gchar</link>*                : Read / Write</programlisting>
+<para>The STUN server used to obtain server-reflexive candidates.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="NiceAgent--stun-server-port" role="property"><title>The <literal>&quot;stun-server-port&quot;</literal> property</title>
+<indexterm zone="NiceAgent--stun-server-port"><primary sortas="NiceAgent:stun-server-port">NiceAgent:stun-server-port</primary></indexterm><programlisting>  &quot;stun-server-port&quot;         <link linkend="guint">guint</link>                 : Read / Write</programlisting>
+<para>The STUN server used to obtain server-reflexive candidates.</para><para>Allowed values: [1,65536]</para>
+<para>Default value: 1</para>
+</refsect2>
+</refsect1>
+
+<refsect1 id="NiceAgent.signal-details" role="signals">
+<title role="signals.title">Signal Details</title>
+<refsect2 id="NiceAgent-candidate-gathering-done" role="signal"><title>The <literal>&quot;candidate-gathering-done&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-candidate-gathering-done"><primary sortas="NiceAgent::candidate-gathering-done">NiceAgent::candidate-gathering-done</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      arg1,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)      : Run Last</programlisting>
+<para>
+This signal is fired whenever a stream has finished gathering its
+candidates after a call to <link linkend="nice-agent-gather-candidates"><function>nice_agent_gather_candidates()</function></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-component-state-changed" role="signal"><title>The <literal>&quot;component-state-changed&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-component-state-changed"><primary sortas="NiceAgent::component-state-changed">NiceAgent::component-state-changed</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      component_id,
+                                                        <link linkend="guint">guint</link>      state,
+                                                        <link linkend="guint">guint</link>      arg3,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)         : Run Last</programlisting>
+<para>
+This signal is fired whenever a component's state changes</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>state</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceComponentState"><type>NiceComponentState</type></link> of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-initial-binding-request-received" role="signal"><title>The <literal>&quot;initial-binding-request-received&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-initial-binding-request-received"><primary sortas="NiceAgent::initial-binding-request-received">NiceAgent::initial-binding-request-received</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      arg1,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)      : Run Last</programlisting>
+<para>
+This signal is fired when we received our first binding request from
+the peer.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-new-candidate" role="signal"><title>The <literal>&quot;new-candidate&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-new-candidate"><primary sortas="NiceAgent::new-candidate">NiceAgent::new-candidate</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      component_id,
+                                                        <link linkend="guint">guint</link>      foundation,
+                                                        <link linkend="gchar">gchar</link>     *arg3,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)         : Run Last</programlisting>
+<para>
+This signal is fired when the agent discovers a new candidate
+<para> See also: <link linkend="NiceAgent-candidates-gathering-done"><type>"candidates-gathering-done"</type></link> </para></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>foundation</parameter>&#160;:</term>
+<listitem><simpara> The foundation of the new candidate
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-new-remote-candidate" role="signal"><title>The <literal>&quot;new-remote-candidate&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-new-remote-candidate"><primary sortas="NiceAgent::new-remote-candidate">NiceAgent::new-remote-candidate</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      component_id,
+                                                        <link linkend="guint">guint</link>      foundation,
+                                                        <link linkend="gchar">gchar</link>     *arg3,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)         : Run Last</programlisting>
+<para>
+This signal is fired when the agent discovers a new remote candidate.
+This can happen with peer reflexive candidates.
+<para> See also: <link linkend="NiceAgent-candidates-gathering-done"><type>"candidates-gathering-done"</type></link> </para></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>foundation</parameter>&#160;:</term>
+<listitem><simpara> The foundation of the new candidate
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-new-selected-pair" role="signal"><title>The <literal>&quot;new-selected-pair&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-new-selected-pair"><primary sortas="NiceAgent::new-selected-pair">NiceAgent::new-selected-pair</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      component_id,
+                                                        <link linkend="guint">guint</link>      lfoundation,
+                                                        <link linkend="gchar">gchar</link>     *rfoundation,
+                                                        <link linkend="gchar">gchar</link>     *arg4,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)         : Run Last</programlisting>
+<para>
+This signal is fired once a candidate pair is selected for data transfer for
+a stream's component</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lfoundation</parameter>&#160;:</term>
+<listitem><simpara> The local foundation of the selected candidate pair
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>rfoundation</parameter>&#160;:</term>
+<listitem><simpara> The remote foundation of the selected candidate pair
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-candidate-gathering-done" role="signal"><title>The <literal>&quot;candidate-gathering-done&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-candidate-gathering-done"><primary sortas="NiceAgent::candidate-gathering-done">NiceAgent::candidate-gathering-done</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      arg1,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)      : Run Last</programlisting>
+<para>
+This signal is fired whenever a stream has finished gathering its
+candidates after a call to <link linkend="nice-agent-gather-candidates"><function>nice_agent_gather_candidates()</function></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-component-state-changed" role="signal"><title>The <literal>&quot;component-state-changed&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-component-state-changed"><primary sortas="NiceAgent::component-state-changed">NiceAgent::component-state-changed</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      component_id,
+                                                        <link linkend="guint">guint</link>      state,
+                                                        <link linkend="guint">guint</link>      arg3,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)         : Run Last</programlisting>
+<para>
+This signal is fired whenever a component's state changes</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>state</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceComponentState"><type>NiceComponentState</type></link> of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-initial-binding-request-received" role="signal"><title>The <literal>&quot;initial-binding-request-received&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-initial-binding-request-received"><primary sortas="NiceAgent::initial-binding-request-received">NiceAgent::initial-binding-request-received</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      arg1,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)      : Run Last</programlisting>
+<para>
+This signal is fired when we received our first binding request from
+the peer.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-new-candidate" role="signal"><title>The <literal>&quot;new-candidate&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-new-candidate"><primary sortas="NiceAgent::new-candidate">NiceAgent::new-candidate</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      component_id,
+                                                        <link linkend="guint">guint</link>      foundation,
+                                                        <link linkend="gchar">gchar</link>     *arg3,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)         : Run Last</programlisting>
+<para>
+This signal is fired when the agent discovers a new candidate
+<para> See also: <link linkend="NiceAgent-candidates-gathering-done"><type>"candidates-gathering-done"</type></link> </para></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>foundation</parameter>&#160;:</term>
+<listitem><simpara> The foundation of the new candidate
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-new-remote-candidate" role="signal"><title>The <literal>&quot;new-remote-candidate&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-new-remote-candidate"><primary sortas="NiceAgent::new-remote-candidate">NiceAgent::new-remote-candidate</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      component_id,
+                                                        <link linkend="guint">guint</link>      foundation,
+                                                        <link linkend="gchar">gchar</link>     *arg3,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)         : Run Last</programlisting>
+<para>
+This signal is fired when the agent discovers a new remote candidate.
+This can happen with peer reflexive candidates.
+<para> See also: <link linkend="NiceAgent-candidates-gathering-done"><type>"candidates-gathering-done"</type></link> </para></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>foundation</parameter>&#160;:</term>
+<listitem><simpara> The foundation of the new candidate
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2><refsect2 id="NiceAgent-new-selected-pair" role="signal"><title>The <literal>&quot;new-selected-pair&quot;</literal> signal</title>
+<indexterm zone="NiceAgent-new-selected-pair"><primary sortas="NiceAgent::new-selected-pair">NiceAgent::new-selected-pair</primary></indexterm><programlisting><link linkend="void">void</link>                user_function                      (<link linkend="NiceAgent">NiceAgent</link> *stream_id,
+                                                        <link linkend="guint">guint</link>      component_id,
+                                                        <link linkend="guint">guint</link>      lfoundation,
+                                                        <link linkend="gchar">gchar</link>     *rfoundation,
+                                                        <link linkend="gchar">gchar</link>     *arg4,
+                                                        <link linkend="gpointer">gpointer</link>   user_data)         : Run Last</programlisting>
+<para>
+This signal is fired once a candidate pair is selected for data transfer for
+a stream's component</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>stream_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the stream
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>component_id</parameter>&#160;:</term>
+<listitem><simpara> The ID of the component
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lfoundation</parameter>&#160;:</term>
+<listitem><simpara> The local foundation of the selected candidate pair
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>rfoundation</parameter>&#160;:</term>
+<listitem><simpara> The remote foundation of the selected candidate pair
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+</refsect1>
+
+
+<refsect1 id="NiceAgent.see-also">
+<title>See Also</title>
+#NiceAddress
+</refsect1>
+
+</refentry>

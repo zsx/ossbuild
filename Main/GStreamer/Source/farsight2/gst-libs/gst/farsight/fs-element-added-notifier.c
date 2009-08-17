@@ -67,15 +67,12 @@ G_DEFINE_TYPE(FsElementAddedNotifier, fs_element_added_notifier, G_TYPE_OBJECT);
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-static GObjectClass *parent_class = NULL;
-
 static void
 fs_element_added_notifier_class_init (FsElementAddedNotifierClass *klass)
 {
   GObjectClass *gobject_class;
 
   gobject_class = (GObjectClass *) klass;
-  parent_class = g_type_class_peek_parent (klass);
 
   gobject_class->finalize = fs_element_added_notifier_finalize;
 
@@ -401,6 +398,36 @@ fs_element_added_notifier_set_properties_from_keyfile (
     g_list_prepend (notifier->priv->keyfiles, keyfile);
 }
 
+
+/**
+ * fs_element_added_notifier_set_properties_from_file:
+ * @notifier: a #FsElementAddedNotifier
+ * @filename: The name of the keyfile to use
+ * @error: location of a #GError, or %NULL if no error occured
+ *
+ * Same as fs_element_added_notifier_set_properties_from_keyfile() but using
+ * the name of the file to load instead of the #GKeyFile directly.
+ *
+ * Returns: %TRUE if the file was successfully loaded, %FALSE otherwise
+ */
+gboolean
+fs_element_added_notifier_set_properties_from_file (
+    FsElementAddedNotifier *notifier,
+    const gchar *filename,
+    GError **error)
+{
+  GKeyFile *keyfile = g_key_file_new ();
+
+  if (!g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, error))
+  {
+    g_key_file_free (keyfile);
+    return FALSE;
+  }
+
+  fs_element_added_notifier_set_properties_from_keyfile(notifier, keyfile);
+
+  return TRUE;
+}
 
 static void
 _element_added_callback (GstBin *parent, GstElement *element,

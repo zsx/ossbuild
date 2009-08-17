@@ -55,6 +55,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
 	$(top_srcdir)/common/m4/pkg.m4 \
+	$(top_srcdir)/common/m4/shave.m4 \
 	$(top_srcdir)/m4/as-check-python-headers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -68,6 +69,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ACLOCAL_AMFLAGS = @ACLOCAL_AMFLAGS@
 AMTAR = @AMTAR@
+AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -95,6 +97,7 @@ EGREP = @EGREP@
 ERROR_CFLAGS = @ERROR_CFLAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
+FC = @FC@
 FFLAGS = @FFLAGS@
 FS2_AGE = @FS2_AGE@
 FS2_ALL_LDFLAGS = @FS2_ALL_LDFLAGS@
@@ -156,11 +159,13 @@ LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+MAKEFLAGS = @MAKEFLAGS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 NICE_CFLAGS = @NICE_CFLAGS@
 NICE_LIBS = @NICE_LIBS@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -177,6 +182,9 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PLUGINDIR = @PLUGINDIR@
 PROFILE_CFLAGS = @PROFILE_CFLAGS@
+PYCODEGEN = @PYCODEGEN@
+PYCODEGEN_CFLAGS = @PYCODEGEN_CFLAGS@
+PYCODEGEN_LIBS = @PYCODEGEN_LIBS@
 PYFARSIGHT_CFLAGS = @PYFARSIGHT_CFLAGS@
 PYFARSIGHT_LIBS = @PYFARSIGHT_LIBS@
 PYTHON = @PYTHON@
@@ -185,11 +193,13 @@ PYTHON_INCLUDES = @PYTHON_INCLUDES@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
+Q = @Q@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
@@ -245,6 +255,7 @@ pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+shavedir = @shavedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
@@ -309,6 +320,7 @@ SCANOBJ_DEPS = \
 	$(top_builddir)/transmitters/rawudp/librawudp-transmitter.la \
 	$(top_builddir)/transmitters/nice/libnice-transmitter.la \
 	$(top_builddir)/gst/fsrtpconference/libfsrtpconference_doc.la \
+	$(top_builddir)/gst/fsmsnconference/libfsmsnconference_doc.la \
 	$(top_builddir)/gst/funnel/libfsfunnel.la \
 	$(top_builddir)/gst/videoanyrate/libfsvideoanyrate.la 
 
@@ -331,6 +343,12 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/fsrtpconference/fs-rtp-session.h \
 	$(top_srcdir)/gst/fsrtpconference/fs-rtp-stream.h \
 	$(top_srcdir)/gst/fsrtpconference/fs-rtp-participant.h \
+	$(top_srcdir)/gst/fsmsnconference/fs-msn-cam-recv-conference.h \
+	$(top_srcdir)/gst/fsmsnconference/fs-msn-cam-send-conference.h \
+	$(top_srcdir)/gst/fsmsnconference/fs-msn-conference.h \
+	$(top_srcdir)/gst/fsmsnconference/fs-msn-session.h \
+	$(top_srcdir)/gst/fsmsnconference/fs-msn-stream.h \
+	$(top_srcdir)/gst/fsmsnconference/fs-msn-participant.h \
 	$(top_srcdir)/transmitters/rawudp/fs-rawudp-transmitter.h \
 	$(top_srcdir)/transmitters/rawudp/fs-rawudp-stream-transmitter.h \
 	$(top_srcdir)/transmitters/multicast/fs-multicast-transmitter.h \
@@ -363,10 +381,11 @@ GTKDOC_CFLAGS = $(GST_BASE_CFLAGS) -I$(top_builddir) -I$(top_builddir)/gst-libs
 GTKDOC_LIBS = \
 	$(top_builddir)/gst-libs/gst/farsight/libgstfarsight-0.10.la \
 	$(top_builddir)/gst/fsrtpconference/libfsrtpconference_doc.la \
+	$(top_builddir)/gst/fsmsnconference/libfsmsnconference_doc.la \
 	$(GST_BASE_LIBS) 
 
-GTKDOC_CC = $(LIBTOOL) --mode=compile $(CC)
-GTKDOC_LD = $(LIBTOOL) --mode=link $(CC)
+GTKDOC_CC = $(LIBTOOL) --tag=CC --mode=compile $(CC)
+GTKDOC_LD = $(LIBTOOL) --tag=CC --mode=link $(CC)
 
 # If you need to override some of the declarations, place them in this file
 # and uncomment this line.

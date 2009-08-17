@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnice-TURN">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnice-TURN.top_of_page">TURN</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNICE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>TURN</refname>
+<refpurpose>TURN Allocation Usage</refpurpose>
+</refnamediv>
+<refsect1 id="libnice-TURN.stability-level">
+<title>Stability Level</title>
+Stable, unless otherwise indicated
+</refsect1>
+
+<refsynopsisdiv id="libnice-TURN.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+#include &lt;stun/usages/turn.h&gt;
+
+enum                <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link>;
+enum                <link linkend="StunUsageTurnRequestPorts">StunUsageTurnRequestPorts</link>;
+enum                <link linkend="StunUsageTurnReturn">StunUsageTurnReturn</link>;
+<link linkend="size-t">size_t</link>              <link linkend="stun-usage-turn-create">stun_usage_turn_create</link>              (<link linkend="StunAgent">StunAgent</link> *agent,
+                                                         <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint8-t">uint8_t</link> *buffer,
+                                                         <link linkend="size-t">size_t</link> buffer_len,
+                                                         <link linkend="StunMessage">StunMessage</link> *previous_response,
+                                                         <link linkend="StunUsageTurnRequestPorts">StunUsageTurnRequestPorts</link> request_ports,
+                                                         <link linkend="int32-t">int32_t</link> bandwidth,
+                                                         <link linkend="int32-t">int32_t</link> lifetime,
+                                                         <link linkend="uint8-t">uint8_t</link> *username,
+                                                         <link linkend="size-t">size_t</link> username_len,
+                                                         <link linkend="uint8-t">uint8_t</link> *password,
+                                                         <link linkend="size-t">size_t</link> password_len,
+                                                         <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link> compatibility);
+<link linkend="size-t">size_t</link>              <link linkend="stun-usage-turn-create-refresh">stun_usage_turn_create_refresh</link>      (<link linkend="StunAgent">StunAgent</link> *agent,
+                                                         <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint8-t">uint8_t</link> *buffer,
+                                                         <link linkend="size-t">size_t</link> buffer_len,
+                                                         <link linkend="StunMessage">StunMessage</link> *previous_response,
+                                                         <link linkend="int32-t">int32_t</link> lifetime,
+                                                         <link linkend="uint8-t">uint8_t</link> *username,
+                                                         <link linkend="size-t">size_t</link> username_len,
+                                                         <link linkend="uint8-t">uint8_t</link> *password,
+                                                         <link linkend="size-t">size_t</link> password_len,
+                                                         <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link> compatibility);
+<link linkend="StunUsageTurnReturn">StunUsageTurnReturn</link>  <link linkend="stun-usage-turn-process">stun_usage_turn_process</link>            (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *relay_addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *relay_addrlen,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *alternate_server,
+                                                         <link linkend="socklen-t">socklen_t</link> *alternate_server_len,
+                                                         <link linkend="uint32-t">uint32_t</link> *bandwidth,
+                                                         <link linkend="uint32-t">uint32_t</link> *lifetime,
+                                                         <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link> compatibility);
+<link linkend="StunUsageTurnReturn">StunUsageTurnReturn</link>  <link linkend="stun-usage-turn-refresh-process">stun_usage_turn_refresh_process</link>    (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint32-t">uint32_t</link> *lifetime,
+                                                         <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link> compatibility);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnice-TURN.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+The STUN TURN usage allows for easily creating and parsing STUN Allocate
+requests and responses used for TURN. The API allows you to create a new
+allocation or refresh an existing one as well as to parse a response to
+an allocate or refresh request.</para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnice-TURN.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="StunUsageTurnCompatibility" role="enum">
+<title>enum StunUsageTurnCompatibility</title>
+<indexterm zone="StunUsageTurnCompatibility"><primary sortas="StunUsageTurnCompatibility">StunUsageTurnCompatibility</primary></indexterm><programlisting>typedef enum {
+  STUN_USAGE_TURN_COMPATIBILITY_DRAFT9,
+  STUN_USAGE_TURN_COMPATIBILITY_GOOGLE,
+  STUN_USAGE_TURN_COMPATIBILITY_MSN,
+} StunUsageTurnCompatibility;
+</programlisting>
+<para>
+Specifies which TURN specification compatibility to use</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-USAGE-TURN-COMPATIBILITY-DRAFT9--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_COMPATIBILITY_DRAFT9</literal></term>
+<listitem><simpara> Use the specification compatible with
+TURN Draft 09
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TURN-COMPATIBILITY-GOOGLE--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_COMPATIBILITY_GOOGLE</literal></term>
+<listitem><simpara> Use the specification compatible with
+Google Talk's relay server
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TURN-COMPATIBILITY-MSN--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_COMPATIBILITY_MSN</literal></term>
+<listitem><simpara> Use the specification compatible with
+MSN TURN servers
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="StunUsageTurnRequestPorts" role="enum">
+<title>enum StunUsageTurnRequestPorts</title>
+<indexterm zone="StunUsageTurnRequestPorts"><primary sortas="StunUsageTurnRequestPorts">StunUsageTurnRequestPorts</primary></indexterm><programlisting>typedef enum {
+  STUN_USAGE_TURN_REQUEST_PORT_NORMAL = 0,
+  STUN_USAGE_TURN_REQUEST_PORT_EVEN = 1,
+  STUN_USAGE_TURN_REQUEST_PORT_EVEN_AND_RESERVE = 2
+} StunUsageTurnRequestPorts;
+</programlisting>
+<para>
+This enum is used to specify which port configuration you want when creating
+a new Allocation</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-USAGE-TURN-REQUEST-PORT-NORMAL--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_REQUEST_PORT_NORMAL</literal></term>
+<listitem><simpara> Request a normal port
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TURN-REQUEST-PORT-EVEN--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_REQUEST_PORT_EVEN</literal></term>
+<listitem><simpara> Request an even port
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TURN-REQUEST-PORT-EVEN-AND-RESERVE--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_REQUEST_PORT_EVEN_AND_RESERVE</literal></term>
+<listitem><simpara> Request an even port and
+reserve the next higher port
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="StunUsageTurnReturn" role="enum">
+<title>enum StunUsageTurnReturn</title>
+<indexterm zone="StunUsageTurnReturn"><primary sortas="StunUsageTurnReturn">StunUsageTurnReturn</primary></indexterm><programlisting>typedef enum {
+  STUN_USAGE_TURN_RETURN_RELAY_SUCCESS,
+  STUN_USAGE_TURN_RETURN_MAPPED_SUCCESS,
+  STUN_USAGE_TURN_RETURN_ERROR,
+  STUN_USAGE_TURN_RETURN_INVALID,
+  STUN_USAGE_TURN_RETURN_ALTERNATE_SERVER,
+} StunUsageTurnReturn;
+</programlisting>
+<para>
+Return value of <link linkend="stun-usage-turn-process"><function>stun_usage_turn_process()</function></link> and
+<link linkend="stun-usage-turn-refresh-process"><function>stun_usage_turn_refresh_process()</function></link> which allows you to see what status the
+function call returned.</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-USAGE-TURN-RETURN-RELAY-SUCCESS--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_RETURN_RELAY_SUCCESS</literal></term>
+<listitem><simpara> The response was successful and a relay
+address is provided
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TURN-RETURN-MAPPED-SUCCESS--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_RETURN_MAPPED_SUCCESS</literal></term>
+<listitem><simpara> The response was successful and a
+relay address as well as a mapped address are provided
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TURN-RETURN-ERROR--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_RETURN_ERROR</literal></term>
+<listitem><simpara> The response resulted in an error
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TURN-RETURN-INVALID--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_RETURN_INVALID</literal></term>
+<listitem><simpara> The response is not a valid response
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TURN-RETURN-ALTERNATE-SERVER--CAPS" role="constant">
+<term><literal>STUN_USAGE_TURN_RETURN_ALTERNATE_SERVER</literal></term>
+<listitem><simpara> The server requests the message
+to be sent to an alternate server
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-usage-turn-create" role="function">
+<title>stun_usage_turn_create ()</title>
+<indexterm zone="stun-usage-turn-create"><primary sortas="stun_usage_turn_create">stun_usage_turn_create</primary></indexterm><programlisting><link linkend="size-t">size_t</link>              stun_usage_turn_create              (<link linkend="StunAgent">StunAgent</link> *agent,
+                                                         <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint8-t">uint8_t</link> *buffer,
+                                                         <link linkend="size-t">size_t</link> buffer_len,
+                                                         <link linkend="StunMessage">StunMessage</link> *previous_response,
+                                                         <link linkend="StunUsageTurnRequestPorts">StunUsageTurnRequestPorts</link> request_ports,
+                                                         <link linkend="int32-t">int32_t</link> bandwidth,
+                                                         <link linkend="int32-t">int32_t</link> lifetime,
+                                                         <link linkend="uint8-t">uint8_t</link> *username,
+                                                         <link linkend="size-t">size_t</link> username_len,
+                                                         <link linkend="uint8-t">uint8_t</link> *password,
+                                                         <link linkend="size-t">size_t</link> password_len,
+                                                         <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link> compatibility);</programlisting>
+<para>
+Create a new TURN Allocation request</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAgent"><type>StunAgent</type></link> to use to build the request
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link> to build
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buffer</parameter>&#160;:</term>
+<listitem><simpara> The buffer to use for creating the <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buffer_len</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>buffer</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>previous_response</parameter>&#160;:</term>
+<listitem><simpara> If this is the first request you are sending, set this
+argument to NULL, if it's a subsequent request you are building, then set this
+argument to the response you have received. This argument is used for building
+long term credentials (using the REALM and NONCE attributes) as well as for
+getting the RESERVATION-TOKEN attribute when you previously requested an
+allocation which reserved two ports
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>request_ports</parameter>&#160;:</term>
+<listitem><simpara> Specify how you want to request the allocated port(s).
+This is only used if the compatibility is set to
+<link linkend="STUN-USAGE-TURN-COMPATIBILITY-DRAFT9--CAPS"><type>STUN_USAGE_TURN_COMPATIBILITY_DRAFT9</type></link>
+<para>See <link linkend="StunUsageTurnRequestPorts"><type>StunUsageTurnRequestPorts</type></link> </para>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>bandwidth</parameter>&#160;:</term>
+<listitem><simpara> The bandwidth to request from the server for the allocation. If
+this value is negative, then no BANDWIDTH attribute is added to the request.
+This is only used if the compatibility is set to
+<link linkend="STUN-USAGE-TURN-COMPATIBILITY-DRAFT9--CAPS"><type>STUN_USAGE_TURN_COMPATIBILITY_DRAFT9</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lifetime</parameter>&#160;:</term>
+<listitem><simpara> The lifetime of the allocation to request from the server. If
+this value is negative, then no LIFETIME attribute is added to the request.
+This is only used if the compatibility is set to
+<link linkend="STUN-USAGE-TURN-COMPATIBILITY-DRAFT9--CAPS"><type>STUN_USAGE_TURN_COMPATIBILITY_DRAFT9</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>username</parameter>&#160;:</term>
+<listitem><simpara> The username to use in the request
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>username_len</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>username</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>password</parameter>&#160;:</term>
+<listitem><simpara> The key to use for building the MESSAGE-INTEGRITY
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>password_len</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>password</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>compatibility</parameter>&#160;:</term>
+<listitem><simpara> The compatibility mode to use for building the Allocation
+request
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The length of the message to send
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-usage-turn-create-refresh" role="function">
+<title>stun_usage_turn_create_refresh ()</title>
+<indexterm zone="stun-usage-turn-create-refresh"><primary sortas="stun_usage_turn_create_refresh">stun_usage_turn_create_refresh</primary></indexterm><programlisting><link linkend="size-t">size_t</link>              stun_usage_turn_create_refresh      (<link linkend="StunAgent">StunAgent</link> *agent,
+                                                         <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint8-t">uint8_t</link> *buffer,
+                                                         <link linkend="size-t">size_t</link> buffer_len,
+                                                         <link linkend="StunMessage">StunMessage</link> *previous_response,
+                                                         <link linkend="int32-t">int32_t</link> lifetime,
+                                                         <link linkend="uint8-t">uint8_t</link> *username,
+                                                         <link linkend="size-t">size_t</link> username_len,
+                                                         <link linkend="uint8-t">uint8_t</link> *password,
+                                                         <link linkend="size-t">size_t</link> password_len,
+                                                         <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link> compatibility);</programlisting>
+<para>
+Create a new TURN Refresh request</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAgent"><type>StunAgent</type></link> to use to build the request
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link> to build
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buffer</parameter>&#160;:</term>
+<listitem><simpara> The buffer to use for creating the <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buffer_len</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>buffer</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>previous_response</parameter>&#160;:</term>
+<listitem><simpara> If this is the first request you are sending, set this
+argument to NULL, if it's a subsequent request you are building, then set this
+argument to the response you have received. This argument is used for building
+long term credentials (using the REALM and NONCE attributes)
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lifetime</parameter>&#160;:</term>
+<listitem><simpara> The lifetime of the allocation to request from the server. If
+this value is negative, then no LIFETIME attribute is added to the request.
+This is only used if the compatibility is set to
+<link linkend="STUN-USAGE-TURN-COMPATIBILITY-DRAFT9--CAPS"><type>STUN_USAGE_TURN_COMPATIBILITY_DRAFT9</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>username</parameter>&#160;:</term>
+<listitem><simpara> The username to use in the request
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>username_len</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>username</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>password</parameter>&#160;:</term>
+<listitem><simpara> The key to use for building the MESSAGE-INTEGRITY
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>password_len</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>password</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>compatibility</parameter>&#160;:</term>
+<listitem><simpara> The compatibility mode to use for building the Allocation
+request
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The length of the message to send
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-usage-turn-process" role="function">
+<title>stun_usage_turn_process ()</title>
+<indexterm zone="stun-usage-turn-process"><primary sortas="stun_usage_turn_process">stun_usage_turn_process</primary></indexterm><programlisting><link linkend="StunUsageTurnReturn">StunUsageTurnReturn</link>  stun_usage_turn_process            (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *relay_addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *relay_addrlen,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *alternate_server,
+                                                         <link linkend="socklen-t">socklen_t</link> *alternate_server_len,
+                                                         <link linkend="uint32-t">uint32_t</link> *bandwidth,
+                                                         <link linkend="uint32-t">uint32_t</link> *lifetime,
+                                                         <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link> compatibility);</programlisting>
+<para>
+Process a TURN Allocate response and extract the necessary information from
+the message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The message containing the response
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>relay_addr</parameter>&#160;:</term>
+<listitem><simpara> A pointer to a <link linkend="sockaddr"><type>sockaddr</type></link> structure to fill with the relay address
+that the TURN server allocated for us
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>relay_addrlen</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>relay_addr</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> A pointer to a <link linkend="sockaddr"><type>sockaddr</type></link> structure to fill with the mapped address
+that the STUN response contains.
+This argument will only be filled if the return value
+of the function is <link linkend="STUN-USAGE-TURN-RETURN-MAPPED-SUCCESS--CAPS"><type>STUN_USAGE_TURN_RETURN_MAPPED_SUCCESS</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>addr</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>alternate_server</parameter>&#160;:</term>
+<listitem><simpara> A pointer to a <link linkend="sockaddr"><type>sockaddr</type></link> structure to fill with the
+address of an alternate server to which we should send our new STUN
+Allocate request, in case the currently used TURN server is requesting the use
+of an alternate server. This argument will only be filled if the return value
+of the function is <link linkend="STUN-USAGE-TURN-RETURN-ALTERNATE-SERVER--CAPS"><type>STUN_USAGE_TURN_RETURN_ALTERNATE_SERVER</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>alternate_server_len</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>alternate_server</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>bandwidth</parameter>&#160;:</term>
+<listitem><simpara> A pointer to fill with the bandwidth the TURN server allocated us
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lifetime</parameter>&#160;:</term>
+<listitem><simpara> A pointer to fill with the lifetime of the allocation
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>compatibility</parameter>&#160;:</term>
+<listitem><simpara> The compatibility mode to use for processing the Allocation
+response
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunUsageTurnReturn"><type>StunUsageTurnReturn</type></link> value
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-usage-turn-refresh-process" role="function">
+<title>stun_usage_turn_refresh_process ()</title>
+<indexterm zone="stun-usage-turn-refresh-process"><primary sortas="stun_usage_turn_refresh_process">stun_usage_turn_refresh_process</primary></indexterm><programlisting><link linkend="StunUsageTurnReturn">StunUsageTurnReturn</link>  stun_usage_turn_refresh_process    (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint32-t">uint32_t</link> *lifetime,
+                                                         <link linkend="StunUsageTurnCompatibility">StunUsageTurnCompatibility</link> compatibility);</programlisting>
+<para>
+Process a TURN Refresh response and extract the necessary information from
+the message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The message containing the response
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>lifetime</parameter>&#160;:</term>
+<listitem><simpara> A pointer to fill with the lifetime of the allocation
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>compatibility</parameter>&#160;:</term>
+<listitem><simpara> The compatibility mode to use for processing the Refresh
+response
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunUsageTurnReturn"><type>StunUsageTurnReturn</type></link> value. A <link linkend="STUN-USAGE-TURN-RETURN-RELAY-SUCCESS--CAPS"><type>STUN_USAGE_TURN_RETURN_RELAY_SUCCESS</type></link>
+means the Refresh was successful, but no relay address is given (kept the same
+as for the original allocation)
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

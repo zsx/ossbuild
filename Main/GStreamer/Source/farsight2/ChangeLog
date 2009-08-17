@@ -1,3 +1,1732 @@
+commit 20ffe3888a03c9e762b03419eba46d55ad56ceb7
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Aug 3 16:32:19 2009 -0400
+
+    Version 0.0.14
+
+commit ec8c0a1204b0381c778fa39fba485f041e7e8582
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 28 13:35:34 2009 -0400
+
+    nice: Pass ToS property to libnice
+
+commit e1adf1e1951daf8aedfac4559be0c85bc4731407
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Jul 31 17:44:36 2009 -0400
+
+    Bump libnice requirement to 0.0.9
+    
+    This is required to the tos setting function
+
+commit 6afd591046fcaa93341767dcf70a8b2539a16f45
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 15:26:15 2009 -0400
+
+    tests: Add tests for ToS
+
+commit 124a3e748a51be156ac8fcc6f71f7e31c698b161
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 15:04:23 2009 -0400
+
+    msn: Implement ths ToS property
+
+commit 4131702911fae979eb1a2e8ba5cf26cefc46bb62
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 14:42:39 2009 -0400
+
+    rtpsession: Set Type of service on transmitters
+
+commit 331f91c979bd8e0051d3fa017fd14e86e9123d5d
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 14:36:14 2009 -0400
+
+    session: Add ToS property
+
+commit 6bc62f2b1f9947e0529b788e5135ca9f61bf4816
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 22 17:28:11 2009 -0400
+
+    fstransmitter: Pass the ToS in the _new function
+
+commit 4715c87e5e06ab521ae699d5f94dd01c52c87505
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 22 16:57:49 2009 -0400
+
+    multicast: Implement ToS field
+
+commit 518947fb469f6e4ef11c09712c7678de625f0f53
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 22 16:51:23 2009 -0400
+
+    rawudp: Implement setting of the ToS
+
+commit 18fbd33aea8fb4a76a03a4e771fbcb89fff1b5fa
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 22 16:31:44 2009 -0400
+
+    transmitter: Add tos (type of service) property
+
+commit fcf8499faea878b879d54ddfc2f9d006d455cd4f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Aug 3 14:56:05 2009 -0400
+
+    tests: Make it build on OSX where RECVERR/ERRQUEUE don't exist
+
+commit 2ec43985ac3713941e7b3155374ea2c64df62d6f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Aug 3 14:32:01 2009 -0400
+
+    msn: Print error on test failure
+
+commit 6f9f1bb3f51508c571e0fb9d8a5ddc2dcec9ee4b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Aug 3 14:30:57 2009 -0400
+
+    rawudp: Set the socklen to the right len per address family
+
+commit f07efb47967ab5bd851c0c6d45bbdfee8cdc9aac
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Mon Aug 3 13:54:59 2009 -0400
+
+    Fix some formatting issues
+
+commit 105493503257083fae86ac127b279e0903c1d8d1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Aug 3 11:53:07 2009 -0400
+
+    rtcpfilter: Verify if the packet exists before continuing
+
+commit 451b9e235f41faee2fcd0d188d629c58e1a14634
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jul 30 12:14:22 2009 -0400
+
+    Version 0.0.13.1
+
+commit 6f953c28402209772a7add26cbbebbe81a8ce5bf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jul 30 12:02:29 2009 -0400
+
+    Version 0.0.13
+
+commit 96870f00af162f2292c12ab7a4ba855dd705a249
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jul 30 11:56:41 2009 -0400
+
+    tests: Fail keyfile test if can't load file
+    
+    Fail the tests if it can't load the keyfile
+    
+    Also add the keyfile..
+
+commit 8489132f0f12a798d501788265438199e5c39c98
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jul 30 11:45:45 2009 -0400
+
+    gui: Add .ui files to automake file
+
+commit 1e94ebd3a107ca205d0827b822bd2751ebab64ba
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 29 18:22:06 2009 -0400
+
+    rtpconference: Let messages through on construction errors
+
+commit 217ae1539ad7333acacfa31b546259ca5e628c18
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 29 16:29:57 2009 -0400
+
+    Revert "rtp: Release the request pads from gstrtpbin, require gst-p-bad 0.10.13 to match"
+    
+    This reverts commit f5c228f61018b75d908e1c1ca586fdb00a587500.
+    
+    The session dispose then tries to remove the recv part of the gstrtpbin, which
+    tries to stop the jitterbuffer stream. The session dispose could be called
+    from a streaming thread (if it is disposed during a src-pad-added signal for example). We need to stop it from another thread in this case.
+
+commit f5c228f61018b75d908e1c1ca586fdb00a587500
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jun 25 19:21:13 2009 -0400
+
+    rtp: Release the request pads from gstrtpbin, require gst-p-bad 0.10.13 to match
+
+commit f8cb36ea210d153027101ab06ec1aab409dcfd0c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 21:36:21 2009 -0400
+
+    base: Use g_signal_connect_object to prevent races
+
+commit 19a023fd7488c5623bdb36f73d6e4abdba3f4d13
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 18:38:48 2009 -0400
+
+    Document undocumented symbols
+
+commit e7022c942e982684cb7eda32e93a8401236fabc5
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 18:30:16 2009 -0400
+
+    tests: Sync src state with parent to try to defeat race
+    
+    The race is that the source can be state locked while the main pipeline is stopped.
+    This will caues an abort() when the pipeline in unreferenced.
+
+commit 5a905095a7738a197072efc6788765c271772a85
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 18:15:27 2009 -0400
+
+    msn: Remove unused parent_class pointers
+
+commit e596117cdae463af8e2373758b9817bdb0f73afe
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 18:13:54 2009 -0400
+
+    rtp: Remove duplicated parent_class pointers
+
+commit 7e5b540de33bf84472f402027130a3e66ca1ff78
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 18:07:50 2009 -0400
+
+    lib: Cleanup parent_class/dispose/finalize
+    
+    Remove a bunch of useless stuff
+
+commit c26d3d6662e0e256c0c31faa027da9fd1a6f9296
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Jul 25 16:33:43 2009 -0400
+
+    Add G_PARAM_STATIC_STRINGS everywhere
+
+commit 2474ebad24d038c20d8a746061975634767fe1db
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 22 15:57:05 2009 -0400
+
+    msn: Make the fdsrc timestamp the buffers
+    
+    This way, it will act like a live source and will timestamp
+    the buffers with the current running time.
+
+commit dacec3a33ddd40490ef1dfd83987df88367c632a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 22 14:07:18 2009 -0400
+
+    funnel: Ignore errors from newsegment push
+
+commit a6cc137442dbba91f24385e50a161700d4ddd27e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jul 22 13:56:23 2009 -0400
+
+    tests: Remove useless get_state
+
+commit 1ade48f68856a68dffecbf00a69ff10eb9dd9fb5
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 21 21:12:48 2009 -0400
+
+    rtp: Create caps only if needed, fixes leak
+
+commit 9d375e15be9cb5d853cbe024b60fe47295afccf8
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 21 21:01:14 2009 -0400
+
+    rtp: Remove useless properties in special sources
+
+commit 4bbc6acd6b185ebda25a0f8f240c69b82236ffa7
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 21 20:26:50 2009 -0400
+
+    rtp: Fix caps leak in discovery
+
+commit 3eb91e52c98d137b94e12ee0ffb4c111318199e3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 21 17:55:00 2009 -0400
+
+    rtpspecialsource: Simplify muxer pad release code
+
+commit 8d7ace3dfed620b5edfb15f6ccdd1e03ac50b99a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 21 16:17:26 2009 -0400
+
+    rtp: Remove unused arguments
+
+commit 5bcd7363b3c5cca1b9411b26e9b9ed35d9423513
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 21 16:03:12 2009 -0400
+
+    rtp: Unref muxer request pad
+
+commit 30a6c5f2e909ef000dac892f0f3ce7d14f42e9ca
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 21 15:27:56 2009 -0400
+
+    rtp: Set sdes-* properties to sdes rtpbin property
+    
+    This is to make it work with the newer rtpbin where the sdes properties
+    have been made into a single GstStructure
+
+commit dd15fa29f6b6f89fae56c56347e727914cf4ffa2
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 22:42:18 2009 -0400
+
+    rtp substream: Use substream lock to protect stopped/modifying
+    
+    These could be called after the session has exited
+
+commit 8a4ac8cb4b602df46476e0c114f83120e286cb37
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 22:41:56 2009 -0400
+
+    tests: Completely comment out broken cname tests
+
+commit ccf43f84537b18b2a3caa2d5a02bd0f5355df159
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 21:44:47 2009 -0400
+
+    tests: Free allocated path
+    
+    Also, fix some >80 char lines
+
+commit 1b86bfe8b0e32de4139131bd0490eefb8c7e6f09
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 21:44:29 2009 -0400
+
+    nice: Free nice candidates, fixes leak
+
+commit 00bc98bf7429f8ba6f1578f4d4380ff86bf659ea
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 21:26:37 2009 -0400
+
+    multicast: Free allocated mutex
+
+commit 176dd64070ffbe19c8b950ebea264b315655f75c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 21:24:28 2009 -0400
+
+    tests: Don't leak strings from GUPnP in rawudp test
+
+commit 4a6bc0bcb61b90d246466c7399501543673bd113
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 18:41:30 2009 -0400
+
+    test: Test unreffing the stream during various nice transmitter signals
+
+commit 6b86b08338f79fb636836a2ff3c27be1c1bab1bf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 18:40:47 2009 -0400
+
+    nice: Emit state-changed signal from idle too
+    
+    This is to work around the fact that libnice keeps its lock held over
+    signal emissions.
+
+commit 7b73f48e08ff6d879fb606c89447ab7c76b59acf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 18:39:06 2009 -0400
+
+    test: Stop nice transmitter before unreffing it
+
+commit a7771cf73d11bc2592b626d29aa7af5ceeb0baa6
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 17:53:28 2009 -0400
+
+    nice: Emit new-candidate and selected-candidate-pair signals from an idle
+    
+    Emit the signals from an idle because libnice keeps a lock over signal emissions
+
+commit d40bbdd86f2ceac2c2719b577abf222481bb66b7
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 17:11:04 2009 -0400
+
+    nice: Keep sinks state locked while not in bin
+    
+    For some reason, they tend to lose their NULL state even though they have
+    no parent
+
+commit ddd4dc632465393e86f5726c4c6dd23b32b87ced
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 16:28:23 2009 -0400
+
+    nice: Do gathering_done processing from a idle callback
+    
+    This is because libnice keeps its lock held over signal emissions.
+
+commit 3d02ec497c6133386af2b9dd0f1e5b49ffb6a441
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 16:27:12 2009 -0400
+
+    nice: Add function to add idle callback in agent thread
+    
+    Add a function to be able to add an idle callback to work around libnice's
+    recursive locking.
+
+commit 83ad9166d5e97598e7be8be62fde964f0a8671b7
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 16:26:19 2009 -0400
+
+    rtp: Disconnect stream transmitter signals on dispose
+    
+    The stream transmitter could be multi-threaded and could therefore survive
+    the FsRtpStream if some other thread has a reference.
+
+commit ac4d08c1fe77f88b6abf516c0933bd65ea22465b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 20 15:50:18 2009 -0400
+
+    test: remove empty line
+
+commit 216cdb47c3f81624de4204a9001742045c5de5e7
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Jul 17 13:42:16 2009 -0400
+
+    Revert "rtp: Keep a ref on the session/stream while calling into it from an async callback"
+    
+    This reverts commit a82b8a42f594a37b3299645c67b7ccf58025994c.
+
+commit 78b7b99cd303545bebe75390debb784bdc905eb1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Jul 17 14:07:53 2009 -0400
+
+    rtp: use g_signal_connect_object to keep refs while the signal is running
+
+commit 84af7fd86e11f53bc35a1e8f8e8e2618dd6b958e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jul 16 18:04:16 2009 -0400
+
+    nice: Don't let agent thread try to join self
+
+commit 54bde6a964f000c02f22f53f4dc8e03659151b5e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jul 16 19:39:50 2009 -0400
+
+    test: Test deadlock if stream destroyed while agent in signal
+    
+    Test that the nice stream transmitter will not die if it is unreffed
+    while it is in a callback
+
+commit 533ee1fc9ef62b23f1382aba00099e8549dd3bfb
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 14 16:15:48 2009 -0400
+
+    test: Test if it caues a problem if the session/stream is destroyed while the stuff is running
+
+commit a82b8a42f594a37b3299645c67b7ccf58025994c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 14 16:22:42 2009 -0400
+
+    rtp: Keep a ref on the session/stream while calling into it from an async callback
+
+commit d02f45eefc3db282e31a28b433d3e5727f96b5ac
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jul 14 14:49:59 2009 -0400
+
+    transmitters: set the ToS field on outgoing packets
+    
+    Set the ToS field to the highest priority in the hope that this will help
+    reduce latency.
+
+commit 56f2489d68fe881ed861f7fd057cd4ffe7be925d
+Author: Louis-Francis Ratté-Boulianne <Louis-Francis.Ratte-Boulianne@collabora.co.uk>
+Date:   Mon Jul 13 14:02:54 2009 -0400
+
+    msn: Generate random session_id upon construction
+
+commit a278c5cbc9b6f2cc40c54addeb2da3f46cc8b6b6
+Author: Louis-Francis Ratté-Boulianne <Louis-Francis.Ratte-Boulianne@collabora.co.uk>
+Date:   Mon Jul 13 14:00:21 2009 -0400
+
+    msn: Accept session_id between 1 and 9999
+
+commit 531adfe9ed3a6aaded3d2cf9082a6c233181941f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Jul 12 15:08:02 2009 -0400
+
+    msn: Enable paused-mode on mimenc if possible
+
+commit 67eaddf0bbd5345899d3972528efbe632e1d46c3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Jul 12 15:00:55 2009 -0400
+
+    msn: Check required element before allowing subelement creation
+
+commit fd507be99ba2304f16fad5cf102b02b3594ce246
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Jul 12 14:53:20 2009 -0400
+
+    msn: Split fsmsnconference into separate send and recv elements
+
+commit beb54d208e5b6d872590e1dd62a437979d7991c3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Jul 12 16:31:12 2009 +0100
+
+    Rename element fsmsncamconference
+
+commit aa3bf48fcc6efd3a939fc567d62f9cbcfa01524d
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Jul 12 16:23:04 2009 +0100
+
+    msn: Add myself to authors
+    
+    Also update copyright dates
+
+commit b8cc4ee40c4b71a423e4d687210cacdeebc4da0a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Jul 10 21:43:17 2009 +0100
+
+    msnconnectioin: unlock lock instead of double-locking..
+
+commit 0adc1ade20915588cf1c6c129e901e792f488977
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Jul 10 17:17:51 2009 +0100
+
+    Register enum types in a thread safe way
+
+commit 53c3eff23f2d56d17ade27dcd964c55985f448d3
+Author: Louis-Francis Ratté-Boulianne <louis-francis.ratte-boulianne@collabora.co.uk>
+Date:   Thu Jun 18 10:44:08 2009 -0400
+
+    msn : session ID can be between 1000 and 9999
+
+commit 0491f6a7008584ac1346e35c309a366480f12faa
+Author: Louis-Francis Ratté-Boulianne <louis-francis.ratte-boulianne@collabora.co.uk>
+Date:   Fri Jun 19 12:49:52 2009 -0400
+
+    Check the right session id
+
+commit 4d004f2757351d59b339ce1a527504f78bf47531
+Author: Louis-Francis Ratté-Boulianne <louis-francis.ratte-boulianne@collabora.co.uk>
+Date:   Fri Jun 19 12:47:44 2009 -0400
+
+    Set state to connected when we begin to receive data without receiving "connected" first
+
+commit 8d7f45f156bfc552ec7a9458dd70c638078ba8c2
+Author: Louis-Francis Ratté-Boulianne <louis-francis.ratte-boulianne@collabora.co.uk>
+Date:   Thu Jun 18 15:13:53 2009 -0400
+
+    Added a test for fs_element_added_notifier_set_properties_from_file
+
+commit 899acf9334b8df5279d83d0d98b732f3bd55d5a4
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jun 18 15:36:11 2009 -0400
+
+    tests: Put get_fullpath into the generic testutils file
+
+commit 8c38af58376d7aea25c5db18b49fc3e96fe77207
+Author: Louis-Francis Ratté-Boulianne <louis-francis.ratte-boulianne@collabora.co.uk>
+Date:   Thu Jun 4 17:00:03 2009 -0400
+
+    Added fs_element_added_notifier_set_properties_from_file and python binding
+
+commit 27316bd6737efdde048f922906c8b8d451ca25e6
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jun 18 14:41:53 2009 -0400
+
+    python: add missing methods
+
+commit 6e8ddb3bc477e391f47502166c47661a186d6eb0
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jun 18 14:37:56 2009 -0400
+
+    msn: Allow session ids from 1
+
+commit c33edb27264e8d448eb7c1cbf35a43a5d0f03e61
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jun 16 16:12:06 2009 -0400
+
+    msn: use type##_parent_class pointer from G_DEFINE_TYPE
+
+commit 2a95bb2b8e7b5f1124e8b1529577ed1393b94589
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jun 16 16:09:37 2009 -0400
+
+    msnconnection: set method before adding properties
+
+commit 6eb1598868d88a1cc606625bddff2e5590aec1ce
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Jun 12 20:01:38 2009 -0400
+
+    msn: Allow any 4-digit session-id
+
+commit 147e588c48f0a5176d973106a20dfafa6f2512da
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 16:49:07 2009 -0400
+
+    msn: Add a bit of documentation
+
+commit 492b7079ea083ba98eb1e2e367401f23eb4f171b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 16:26:54 2009 -0400
+
+    msn: Generate plugin documentation
+
+commit d71b180e56a265f861a488152945fecc4285c7e2
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 16:17:25 2009 -0400
+
+    rtp: Re-order Makefile to split out common stuff from the different results
+
+commit b2308c6ce077a5649c1d2f6405b603ba18a9b278
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 16:16:06 2009 -0400
+
+    msn: Build doc-building library
+
+commit 4a8a61bf135def9b08b54d31fbc0e11ee3365954
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 16:08:37 2009 -0400
+
+    msn:l Remove non-existent test from makefile
+
+commit f8aac7b4c2fc496ea767fe427021b9961c05aa6e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 16:05:30 2009 -0400
+
+    msn: Stash the session id in the candidate username
+
+commit e4dd04988c2e454d9018ce94a253233a8527506f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 15:55:22 2009 -0400
+
+    msn: Get the session id from the connection obj
+
+commit 99b255338975dabace3b4efad1218c2351b9aec2
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 15:54:03 2009 -0400
+
+    msn: Add session-id property to the connection
+
+commit 1663e1194068401686a64fdd51cea692b88ff962
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 31 15:45:29 2009 -0400
+
+    msn: Store session-id/initial-port as unsigned int in connection
+
+commit bdc7f04805fcafb39f8f1440b7b64a74d007931c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 16:34:06 2009 -0400
+
+    msn: Move session-id/initial-port setting from the session to the stream's creation
+
+commit 9974b73ccea2a35f0f180d6d8bebee5a4feef53c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 16:22:56 2009 -0400
+
+    msn: Check for race in stream addition
+
+commit d5f98965aa4f5397498372ff73d6ac5ef1953589
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 16:18:53 2009 -0400
+
+    msn: Create the connection in the constructed method
+
+commit 40046fb07a214d2f63feb6f7b1823454dbfdb5d1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 16:07:20 2009 -0400
+
+    msn: Add session-id and initial-port construct params to fs-msn-stream
+
+commit 8f8b00f4c1dff189cd0c3e02c01b784dd716f322
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 16:01:02 2009 -0400
+
+    msn: Implement get_stream_transmitter_type
+
+commit 674546cbd7ed071252ee51400021b61476cdcf10
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 15:58:40 2009 -0400
+
+    python: Use fs_session_get_stream_transmitter_type
+
+commit 29c73993a4274a48b7f075a033cdf372b50b6a92
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 15:54:29 2009 -0400
+
+    rtp: Implement get_stream_transmitter_type
+
+commit 082dd2ac74b537c88e9b7acec733031364cc4382
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 15:50:32 2009 -0400
+
+    msn: Comment out non-existing test
+
+commit dd8bb7273514c5cdea48bcff8b1a14a940e1849b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 29 15:30:53 2009 -0400
+
+    lib: Add fs_session_get_stream_transmitter_type api
+
+commit 4bca81e8baf613102b44681cd41e445919daf259
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 22 18:20:32 2009 -0400
+
+    msn: Emit messages on connection failure
+
+commit f3a819b737182a61e0f27dde3ac96be42bcfd9fe
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 22 18:15:54 2009 -0400
+
+    msn: emit connecting and ready stream states
+
+commit 7a98482bf69ab0cfd437e4b054f5431c0780173f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed May 13 17:51:54 2009 -0400
+
+    Release conference obj lock before changing the valve properties
+    
+    The obj lock of a containing bin is taken in the notify signal when changing
+    the properties of its childs.
+
+commit 65404e4a9b96357178c3064d487373a0560c7eb7
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 23:51:11 2009 -0400
+
+    msn: Don't leak codecbin on error
+
+commit d0540a94f3c14807d823d6d8160eb3cf9f33a556
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 23:39:30 2009 -0400
+
+    Add tests for error case
+
+commit a2e6278f905ca188e154ae4d03c95be00f94c548
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 23:36:53 2009 -0400
+
+    msn: add test for other direction
+
+commit 8bc93fcf6ce0a6f8e48f7b56716303eee02c38ad
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 23:23:51 2009 -0400
+
+    msn: Check for right variable
+
+commit b45c053944211aa05ec31a9ea3886e9daf1d9419
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 23:23:39 2009 -0400
+
+    msn: Add Call test
+
+commit a353dc8f82f28837c0bc81573d2116e5a00b36a8
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 23:20:53 2009 -0400
+
+    Make stream-transmitter a property of the rtp stream
+
+commit f176488e1f013ba2b1d63565f49a3c494f242453
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 22:51:39 2009 -0400
+
+    msnconnection: Replace GArray with GPtrArray
+
+commit c540cd6e3dc64b3a58db69ab9ffd0a0fa85b56e4
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 22:49:37 2009 -0400
+
+    msn: Fix leak of pollfd
+
+commit 53a6fd9a50cdb6042a9543fedbaf8d07b3fcd937
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 22:45:21 2009 -0400
+
+    msn: First test
+
+commit 40c0125d893a487de94780384bec902c4654b99c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 22:08:16 2009 -0400
+
+    msn: Stop on success from listen()
+
+commit eff682fd69e7ddc2b507573e054980b6c42cc25b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 20:39:21 2009 -0400
+
+    msn: Stream locking completed
+
+commit a8725b378eedc1669e06342c8a8da3d1d14ce844
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 20:14:02 2009 -0400
+
+    msn: Dispose of all objects
+
+commit 9d7a611885b867139c0efd69946bf202634a06f4
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 19:50:59 2009 -0400
+
+    msn: use session valve directly in stream
+
+commit b102b7e8c02a852c0c0cd65c051b51a9aab0fa11
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 19:49:54 2009 -0400
+
+    msn: make session valve public
+
+commit 2963195dab1a18ad0ffca316e5e737b713264d37
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 19:45:03 2009 -0400
+
+    msn: Use the conf lock to protect session
+
+commit 7c4b60d5114f2b33eec73d53bfd16738191fc866
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 19:33:47 2009 -0400
+
+    msn: indentation
+
+commit 696d433f91040541ec2a0013983bb30b438b8542
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 19:12:22 2009 -0400
+
+    msn: simplify session dispose
+
+commit e3a22cd94166de6c8f154359e07dda153471a21f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 19:10:31 2009 -0400
+
+    msn: unref conf on dispose
+
+commit c7a416fa4bc3f86574adf3055138838fc46c697e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 19:09:17 2009 -0400
+
+    Remove sink pad on session dispose
+
+commit abe3671ebaed103a6d3c5262d6494be2c0386b3a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 18:26:08 2009 -0400
+
+    msn: handle direction changes
+
+commit 8fff5ab3846abc952c7b6adbb688cab8406ca6dc
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 18:17:25 2009 -0400
+
+    Don't crash on error
+
+commit 867fea9b2dee6d34231dcaa63da269621f1f5a61
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 11 17:27:33 2009 -0400
+
+    Create pipelines just in time
+
+commit 16eb798f1b25926f8d57bcc459914b75823e2d27
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 17:38:58 2009 -0400
+
+    msn: check if the fd has to properly set
+
+commit 99268adbf9e962591015dc1c332ff7752d068fcc
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 17:23:43 2009 -0400
+
+    expose the right sink pad
+
+commit 14381945b4daa32f75dbb280f06a916a382bdcbd
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 17:07:41 2009 -0400
+
+    msnconnection: downgrade some errors into warnings
+
+commit 29b9fb235d37271b514904085b97acbb84ae5d17
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 17:02:59 2009 -0400
+
+    msn: Set the default debug cat
+
+commit d202585b20d2c7eadcb63314cf83751d019f0da0
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 16:50:15 2009 -0400
+
+    Thread protect pollfds
+
+commit fbf87a141ef6fccf09338bde76b25cc65f020468
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 16:45:14 2009 -0400
+
+    Use shutdown_fd to close other fds too
+
+commit 796a71ee259203084e10b8f6a38ebdbd7546dc6d
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 16:42:21 2009 -0400
+
+    msnconnection: Remove duplicate pollfd checks
+
+commit 0786bef952b6b76a9eff986955b8287dd601e158
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 16:40:47 2009 -0400
+
+    Find pollfd before shutting it down
+
+commit b5bc31cf16e7befb59912357fc3eb6d53ea0610f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 16:22:15 2009 -0400
+
+    msnconnection: Set pollfd server flag before adding it to thread
+
+commit 4034c4ccc3bffc799bbf1b00c5417f9f56d480d3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 15:39:17 2009 -0400
+
+    msnconnection: Document locking
+
+commit 999398a9aae68a682eef973ab900c1e1139bc758
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 15:33:25 2009 -0400
+
+    replace sprintf/strcmp with snprintf/strncmp
+
+commit a5445ade738e7361f4eca99abe8fb3f858854cc8
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 15:27:57 2009 -0400
+
+    Indentation
+
+commit 2e27df5d46deb2afcde9aadda2815cc3ecbb1619
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 15:27:44 2009 -0400
+
+    Replace perror() calls with GST_ERROR
+
+commit 35e858428643482ee259253658c7f68545d3bfa3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 15:25:57 2009 -0400
+
+    Remove useless checks
+
+commit a569dfd63c944098bd6006da6cb7133ad01f11e8
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 15:25:23 2009 -0400
+
+    msnconnection: Free the mutex
+
+commit 2d6879631fa0e9f57b90be13265f7844fc2428eb
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 15:24:24 2009 -0400
+
+    msnconnection: Split dispose and finalize
+
+commit 2215f89222711718564497f877db6d866838a075
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 13:57:36 2009 -0400
+
+    msn: Return errors correct on set_remote_candidates
+
+commit eef5a2558d2d84d44d31f7b9b06f3cdf6e608689
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 13:51:40 2009 -0400
+
+    msn: Cleanup code, get proper locking for gather candidates and return errors correctly
+
+commit ef897dcced2580f6f55e409370d1a2c33539e5a4
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 13:34:36 2009 -0400
+
+    msn: make session mutex not recursive
+
+commit 99b8e2f57fff4f52c740206ddec885cc767e5d7e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 13:33:32 2009 -0400
+
+    msn: Remove session's id prop, its always 1
+
+commit 07891656937b23f8432a6f5e956708ce631e489a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 13:30:55 2009 -0400
+
+    its valve, no fsvalve now
+
+commit 709f35ff0ae5265d1899ac167d4e320bc800cdb9
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat May 9 13:30:39 2009 -0400
+
+    msn: Return nothing when reading codec prefs
+
+commit b1d27064426e44aabd99c7ca69d7a49e94823329
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 8 18:12:16 2009 -0400
+
+    Make the strings static
+
+commit 6e2a765492b1668b581e4a6045f9b0cdec87d8e7
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 8 18:10:26 2009 -0400
+
+    Set the initial port property
+
+commit 7288dd713a2b5c3a831f7f54bd8e57e058b36ff3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 8 18:02:21 2009 -0400
+
+    Replace g_debug with GST_DEBUG in fsmsnconnection
+
+commit 4650f1a362c8232c62b3e96bd86c3148736cc3d9
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 8 17:59:32 2009 -0400
+
+    Use macro for mutex
+
+commit a183ddf9fbf50b464ef7aa629837074037eac9f1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 8 17:52:03 2009 -0400
+
+    msnwebcam: Make code C90 compliant
+
+commit d6760e79be28a7b16bfa107e88ad0488aadf79a6
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 8 17:37:00 2009 -0400
+
+    Fix indentation
+
+commit 51fcd36cb9a5aa52a762bf310976ac928a167e95
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Thu Jan 22 08:46:28 2009 -0500
+
+    Make the src_pad_added signal be fired once connected.. it must not be in the constructor otherwise noone can connect to it
+
+commit ba7c621d9f485790ff2a60dc04339e096210004a
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Thu Jan 22 08:45:19 2009 -0500
+
+    add queues on the send/receive pipelines...
+
+commit 362210fdf75dc7b3f38e588f49d427b179a68e0d
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Wed Jan 21 19:20:07 2009 -0500
+
+    use fs_interfaces instead of nice_interfaces... for now
+
+commit e59e8d1da0e0c259f98be68586d030abdb564c43
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Wed Jan 21 19:14:25 2009 -0500
+
+    Correctly fix fsmsnconference to work
+
+commit 662d79de9b5efeeab0bc2e7689016d1c0b8d947b
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Wed Jan 21 19:14:07 2009 -0500
+
+    fix a compilation issue.. and use FS_MSN_SESSION_LOCK instead of GST_OBJECT_LOCK
+
+commit fd4a0023193568fa3eb872b421fa263e71c544d5
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Wed Jan 21 19:13:14 2009 -0500
+
+    Correctly find the port we used.. in case port is 0, we can't use the port variable since it will be randomly allocated
+
+commit cb5ffca56b6f1a663a7177e9a309a7162e4cb996
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Tue Jan 20 23:40:28 2009 -0500
+
+    a lot of stuff to move a bit forward in making fsmsnconference work...
+
+commit 26eda514ae70f5865bfae939ade2d1f6aa757745
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Fri Jan 9 18:04:53 2009 -0500
+
+    Making the msn-connection use a state machine per socket and not use blocking sockets. Fixed GstPoll and tested it, it works!
+
+commit 2645a167cb0637b2398f6dd4ababbb4881a3201a
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Tue Jan 6 18:44:35 2009 -0500
+
+    avoid bug if we can't create a new session
+
+commit f7e46f27bda5efad507585cfca0c9c30d68f9ec3
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Mon Jan 5 15:41:56 2009 -0500
+
+    Move all connection related stuff into its own object
+
+commit e1965e29ea758c4f47572557b94cb6094373d9ac
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Mon Dec 15 20:05:42 2008 -0500
+
+    Correctly set up the pipeline if we are sending and we act as the server
+
+commit 8da16e4b57c6206e59adb73bfbdfc75cd50f9519
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Mon Dec 15 20:02:41 2008 -0500
+
+    Port msnstream to use GstPoll instead of GIOChannel
+
+commit 956a9e5ca4e65f913b0b83534119242ffb16e5be
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Thu Dec 11 18:36:00 2008 -0500
+
+    remove duplicate useless weak_ref
+
+commit c7dde5d081530399023c38dfb8c0bf27cda17c86
+Author: Youness Alaoui <youness.alaoui@collabora.co.uk>
+Date:   Thu Dec 11 18:35:48 2008 -0500
+
+    update to API which needs the cname to be a const
+
+commit 06aeb2c47d0bfed520b38b83d62093749a0a625c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Nov 30 14:34:57 2008 -0500
+
+    Add polling thread
+
+commit 7d1462f2517b7f7c83b5b627bde226c0e85e9b89
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Nov 30 13:56:27 2008 -0500
+
+    Add GstPoll based infrastructure
+
+commit fe48102f4656fceaaf004cf050489301e20d03e3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Nov 30 18:27:11 2008 +0100
+
+    Don't allow bidi or nodi streams
+
+commit 286c919fa1a1834830eab232930c925e7ecf10a1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Oct 13 12:55:02 2008 -0400
+
+    Add sink pad and valve to FsMsnSession
+
+commit 7d0fae9227a636a54c4e99847e4d3728978e7f55
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Oct 12 16:14:15 2008 -0400
+
+    Guarantee only one session
+
+commit 600b0d983ba3adbec0e8e43046b5bc2bc7cf3910
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Oct 12 16:07:21 2008 -0400
+
+    Make the msn conference enforce a single participant and a single session
+
+commit 4a611bbbe2707ed4aca4d0fe76d986f8a5e9740f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Oct 12 15:19:05 2008 -0400
+
+    Fix indentation in FsMsnParticipant
+
+commit f95bb569372df7fa0c9ddbfa1190ea2dd2a86bf4
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Oct 12 15:16:55 2008 -0400
+
+    Add already_exists error
+
+commit 71e6f78278b3177a62ec679ce5036e5de69d3b8b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Oct 12 12:39:48 2008 -0400
+
+    Remove gstfsmsnconference.c
+
+commit 20477cff6719ed4ec7bca212842989721ccdd3c3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Oct 12 12:38:44 2008 -0400
+
+    Fix copyright headers in the msn plugin
+
+commit 373b35c1252ed45724157989d09424773a44a37a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Oct 11 15:06:20 2008 -0400
+
+    Indent fs-msn-stream properly
+
+commit 4342e3513467197f3848f2ea003a9bfda75780b1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Oct 11 15:03:17 2008 -0400
+
+    Indent fs-msn-session properly
+
+commit 868239dd01d6604efe27ad37aaf84fd6ee1a9b0e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sat Oct 11 15:01:32 2008 -0400
+
+    Indent fs-msn-conference properly
+
+commit 9dfc92eb7ecbb15f80d2856bb6c3e373000bf99d
+Author: Richard Spiers <richard.spiers@gmail.com>
+Date:   Mon Aug 18 02:26:56 2008 +0200
+
+    Last minute changes to the stream
+
+commit b3b25e88463a68f1525e4026549940ffd765415f
+Author: Richard Spiers <richard.spiers@gmail.com>
+Date:   Mon Aug 18 01:57:06 2008 +0200
+
+    Making the code neater, fixing some errors so it can compile with Werror, as well as some stream changes
+
+commit 242cd483e2fe68e3f9ed599b31d92a95bd161aa2
+Author: Richard Spiers <richard.spiers@gmail.com>
+Date:   Sun Aug 17 00:19:43 2008 +0200
+
+    More modifications to fs-msn-stream - sending and recieving should work now
+
+commit ce88e4d0b67e2336b1277fb4abe79f8bc719e808
+Author: Richard Spiers <richard.spiers@gmail.com>
+Date:   Wed Aug 13 02:04:56 2008 +0200
+
+    More work done on the msn stream - connected various functions together, starting to look almost functional
+
+commit 4de2748cb97a5032c4e46675c8a4d70baffcaefd
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Aug 6 15:42:19 2008 -0400
+
+    Fix indentation
+
+commit fa71df786c7647ff3c352393050e87ebf4a9dd84
+Author: Richard Spiers <richard.spiers@gmail.com>
+Date:   Wed Aug 6 21:06:17 2008 +0200
+
+    Created a duplicate gui example to hack around in Added more functionality to the fs-msn-stream
+
+commit 83da09316963d8dc25439e2ca2b557d04b05a49f
+Author: Richard Spiers <richard.spiers@gmail.com>
+Date:   Mon Jul 21 22:01:39 2008 +0200
+
+    Just adding in some author information
+
+commit 6fe761fd5b7d3d2b59e9d81e71666d2e16037db2
+Author: Richard Spiers <richard.spiers@gmail.com>
+Date:   Mon Jul 21 21:38:26 2008 +0200
+
+    First real commit - mostly skeleton code Starting to add some msn functionality Nothing too new, just reworked some functions
+
+commit 0355c710ffdefc3e5582076bfa1da5fbf657f80f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jul 13 18:35:39 2009 -0400
+
+    rtp: Make the locking of fs_rtp_sub_stream_verify_codec clearer
+
+commit eed05a55ce1a68cc1de6d6ce8a6da4ca0c847c37
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jun 29 23:05:44 2009 -0400
+
+    rtp nego: simplify the iLBC negotiation function
+
+commit 73c669f834b87db78a2cbed480a41052c2d95d93
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jun 29 17:22:48 2009 -0400
+
+    rtp cache: Reject cache if the factory does not exist
+
+commit a709918824a4b71b67b33f37c43b0f9284789e39
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jun 25 19:14:35 2009 -0400
+
+    rtp: Keep session ref while doing callback
+
+commit 1905290e982b14e9a1e1cd31c072e856c39cc91b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jun 25 17:48:45 2009 -0400
+
+    tests: Use GST_DEBUG/LOG/WARNING instead of g_debug in tests
+
+commit 396f5fd2d31fe86031c0f374c231a4f72996984b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jun 25 17:35:29 2009 -0400
+
+    nice: Release lock before calling into nice agent
+
+commit a18a67d67dac193403355da32e6fdf5270b1a6a2
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jun 23 19:19:11 2009 -0400
+
+    python: Rebuild defs
+
+commit 8e9ffbcdf1b35fdacfcff3c56f31f06205a80685
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Jun 18 14:40:44 2009 -0400
+
+    python: Export fs_stream_add_id
+
+commit ee956c08df2cb5e318d9caefef6f528484f58c10
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jun 16 17:58:05 2009 -0400
+
+    nice: Use stream_id from arguments
+
+commit 005b71225cac0dd85e128c1b07e5c8e010e0df15
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jun 16 17:57:19 2009 -0400
+
+    nice: Dribble out candidates
+
+commit 855ac3ad0c476a841e0f2513a71fef77fd63848c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jun 16 13:24:10 2009 -0400
+
+    gui: Replace libglade with GtkBuilder
+
+commit 0161852402ff7d0dcd41315234eab8fe53b57018
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jun 15 17:53:32 2009 -0400
+
+    rtp: Make cache work on memaligned platforms
+
+commit 901c42f3087f1ceb99d15545c77cfc35eba7b9ee
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jun 15 13:37:35 2009 -0400
+
+    rtp: Remove pad block cb when destroying substream
+
+commit beed3cb4ed40026f4fed7a076dece480812003f9
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Jun 10 10:38:51 2009 -0400
+
+    Try to unref internal session only if its set
+
+commit 516449ba927cab674a7bdbc415508c4e5991c138
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Jun 9 10:17:22 2009 -0400
+
+    Update gst version in configure to 0.10.23 to match README
+
+commit 35960e8d82b5322680d9dcd948d43b06da9aa4a3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Jun 1 15:44:20 2009 -0400
+
+    Update core gst dep to match the -bad dep
+
+commit 8be088f5829ff168595fc5549e875eb49cd08388
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu May 28 17:56:36 2009 -0400
+
+    Version 0.0.12.1
+
+commit 3f40b79a04bfc89d9fd318b5bf9ef7857b539dea
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu May 28 17:50:18 2009 -0400
+
+    Version 0.0.12
+
+commit 8a64db4a0035559a34b84ab5593512a8061ff232
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu May 28 17:39:21 2009 -0400
+
+    Disable RTCP CNAME based association tests
+    
+    The message is broken in gst-plugins-bad 0.10.12, so it won't work.
+
+commit 4c476d49211f2f387b5f050a6bde853765dd4303
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu May 28 17:36:57 2009 -0400
+
+    rtp: Check for the new name of the sdes message
+
+commit 4a60b35295dbc1f9b70f33cb15bbbc6b8df5502a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu May 28 16:38:49 2009 -0400
+
+    tests: Reduce nice test debug output
+
+commit 8c46154df085bf91c71ac62e18a19c8a93393356
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu May 28 14:05:33 2009 -0400
+
+    tests: Name multicast rtp tests more accurately
+
+commit a53438667b01b10fd15645c53764be071a0d1361
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 26 20:46:25 2009 -0400
+
+    Revert "nice: remove useless state unlock"
+    
+    This reverts commit bbefabf9da7fc4a695a8e18591fe1309e79b1479.
+
+commit 42181a7499c669fdb29b6dbc3c3bc995c426f356
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 26 15:52:27 2009 -0400
+
+    Set link to playing before linking it
+
+commit 586b649e80f316a2dfc0cef8df398ea68e3f3673
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 26 15:51:20 2009 -0400
+
+    rtp: Do proper locking when removing send codec bin
+
+commit d443e642c4e453cb028b5670536cf1699a843a68
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon May 25 17:16:55 2009 -0400
+
+    Version 0.0.11.1
+    
+    Version 0.0.11 is in a branch
+
+commit a46e57c168338c8a2e3b39771e10aa5e626abeda
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun May 24 14:44:58 2009 -0400
+
+    rtp: Re-add plugin ldflags
+
+commit 5c2609de1101faa2409680e8b7ca3321bb27c6af
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 22 14:52:25 2009 -0400
+
+    tests: Disable upnp for invalid stun test
+
+commit bb17542752c655957580a25892d1082aa33af85d
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri May 22 13:40:06 2009 -0400
+
+    tests: Do g_debug instead of warning when skipping tests
+
+commit 79ce8d23643eda8ddb45fb3bbf5444e6c225f299
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed May 20 19:02:34 2009 -0400
+
+    Update -bad dep for ssrc setting property
+
+commit b51b61984e7e2f465c375f9781eec7c3bf9b9089
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 18:25:00 2009 -0400
+
+    Add ssrc based multicast test
+
+commit 80a81edd9ee3085426ac755b33c2226b0f6270a6
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Apr 22 17:42:04 2009 -0400
+
+    Implement fs_stream_add_id in RTP plugin
+
+commit 6aaadd3066a8ab0133ad3feb72c5c657e608240a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 21 19:53:20 2009 -0400
+
+    Add fs_stream_add_id api
+
+commit c8ccc1d254a167e88fc25bf28547c90609385230
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Apr 20 20:18:41 2009 -0400
+
+    Add test for changing the sending ssrc
+
+commit 91325df0c3835686abaa654ced8d63e45fc57d22
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Apr 20 19:10:22 2009 -0400
+
+    Implement the ssrc property on the rtp session
+
+commit f9e660f88e6226d023e4a55ddd3adae4f185662a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Apr 24 12:15:15 2009 -0400
+
+    Get rtpbin internal session
+
+commit ad703c2a8a4a728e53c7993d9cf055607e22801c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed May 20 19:00:50 2009 -0400
+
+    Version 0.0.10.1
+
+commit 31d9d40883b7df444d28a89e7d445c877185bfbf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed May 20 18:54:34 2009 -0400
+
+    Version 0.0.10
+
+commit 2fefd38935055282f0e9f8f08f5349259ef0d861
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 19 16:23:57 2009 -0400
+
+    codec: Ignore case when comparing codec parameter names
+
+commit ab58cfd77f2cb50be081c2a6430fdb698cf22015
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 19 16:21:33 2009 -0400
+
+    codec: Ignore case when comparing codec names
+
+commit 307660cbb1f4c785d029366b52d96e7f9fe2ef2e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 19 16:21:14 2009 -0400
+
+    codec: Accept special arguments with any case
+
+commit 4eb594b91b135956edbc5d77b840a6aa7361db6d
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 19 15:43:06 2009 -0400
+
+    rtcpfilter: Replace SR with empty RR if there was no RR
+
+commit ebe4d6f0692cf5f713e567d7472b63801d3a137e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 19 14:43:09 2009 -0400
+
+    rtcpfilter: Test for no-rr case
+
+commit 688eb530fddf21f7b1a93380097d3cadd14e1b0a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 19 13:58:06 2009 -0400
+
+    rtp: Don't unref passed caps in discovery
+    
+    Don't try to unref the caps pass as input, instead ref them when they are
+    added somewhere.
+
+commit 59df5a00e4ea0ef5840f637d67328c5742aa625f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed May 13 17:18:32 2009 -0400
+
+    rtp: Free substream if its parent is unlinked
+
+commit 34eb9f312cecaa53c4e51f68d674b221be02f09b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed May 13 16:47:28 2009 -0400
+
+    rtp: Make sure substream is stopped before disposing of it
+
+commit bcb3d7ad3fabbfd196e4e029d555be65d5b9d683
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed May 13 15:27:03 2009 -0400
+
+    Have substream emit a unlinked signal
+
+commit 92a7eac0b5ff87e89c770beaea3de66e893ae775
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed May 13 12:20:39 2009 -0400
+
+    nice: Free nice candidate with the right function
+
+commit bbefabf9da7fc4a695a8e18591fe1309e79b1479
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 12 12:24:27 2009 -0400
+
+    nice: remove useless state unlock
+
+commit ea8b7bf7e31a40b1e4e64c09c795dce9d5090ccf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 12 12:07:20 2009 -0400
+
+    Safeguard against malformed GstRTPBinSDES messages
+
+commit e4b2dbb273171888fef35e30e5a9b773cf36dc7b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 12 12:03:38 2009 -0400
+
+    rtcpfilter: Verify if there is at least one packet
+
+commit 32c15a7520f65ba5fabb4933036aa91366492b7b
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 12 12:01:51 2009 -0400
+
+    nice transm: Make sure foundation ends with a NUL byte
+
+commit 5651022a4a8acf6bb296be512758f68cc787f224
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 12 11:59:59 2009 -0400
+
+    substream: Add missing break
+
+commit bbd8db90081fdc96ecd6cd513abbf1e95eb379d9
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 5 15:05:51 2009 -0400
+
+    Continue discovery until the caps have been found
+
+commit 7efe8ad1732ecaadf22ad3ea5e912e60231ead1f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu May 7 13:51:20 2009 -0400
+
+    Remove unused variable when debug disabled
+
+commit a6829deb59d85e26349d92a6da7b632b729d9d43
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Sun Apr 26 18:16:01 2009 -0400
+
+    Remove deprecated GLib symbols
+
+commit 2250f8e4c3d8e7615e3bd180a7f881778dcbc035
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue May 5 12:37:03 2009 -0400
+
+    funnel: Change the pad caps on source change
+
+commit 5e79e5ed87c5615f80db761048e3ae7c2a3426d3
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 28 17:10:51 2009 -0400
+
+    Use a convenience lib to avoid building everything twice
+
+commit e5937fa4c41abdff87855b361dd5bbc05e7fea4f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 28 16:49:40 2009 -0400
+
+    Update common and use shave
+
+commit 677bdc62a5c612ba34037b6de2d9b55a6ad9e9b2
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 18:25:00 2009 -0400
+
+    Add full conference multicast test
+    
+    This test uses cname for the association
+
+commit f17b7f3af4f694170a9fdfa06ec60e893c07882e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 20:03:34 2009 -0400
+
+    Return more errors in multicast transmitter
+
+commit f296ea9b403fe9165c24aa03042627a933049c6d
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 17:48:35 2009 -0400
+
+    Factor out the utility func to find multicast addresses
+
+commit 666aaa493d3fb011db2fd6c6d31d0dbb4c6a5b24
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 17:37:00 2009 -0400
+
+    Select the transmitter name for each test in rtp tests
+
+commit 064b3fff689bd0f7f32abde95c76e796bebb50ad
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 21:36:08 2009 -0400
+
+    Remove usage of cname in the most tests
+
+commit 7dad3b6432fa3965584026f60624211ff92f1aa4
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 20:54:53 2009 -0400
+
+    Make the cname optional in participants
+
+commit 0e4ec9f0c6811a120ff31d9d39538c965350ea33
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 20:39:54 2009 -0400
+
+    Don't emit the UNKWOWN_CNAME error anymore
+
+commit f376c3ff602c89e8757e25eea9347b3a40dcaddf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 21 19:41:04 2009 -0400
+
+    Fix doc typo
+
+commit 6e04cf3ab2ff1b3ae077ad11d6f30032646dda86
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 23 19:20:12 2009 -0400
+
+    Return an error if no codecs where detected, every time
+
+commit 93fd20fddbf0c3841499fb00a21351717c268391
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Apr 15 18:29:22 2009 -0400
+
+    Use internal stunalternd for testing
+
+commit 68732ff3e7a769d4c150139d6b9dd47a981d7c6a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Apr 10 14:13:19 2009 -0400
+
+    Emit GstForceKeyUnit when multicast starts sending
+
+commit 442a43705c4121c41c6e60f50244fff40e7cb776
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Apr 10 14:09:47 2009 -0400
+
+    Emit GstForceKeyUnit when nice starts sending
+
+commit 2b94c4aa5fb26f48d50a3873dfaff1d6eb64681a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Apr 10 14:06:22 2009 -0400
+
+    Emit GstForceKeyUnit when rawudp starts sending
+
+commit 1de519a700932fdb37a88bca1d1c62bff1ea0c03
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Apr 10 17:23:00 2009 -0400
+
+    Only enable stun debug if rawudp debug level is debug or log
+
+commit 9cbbdc2dd7efd1a06aa1c197fc1eb916da7e3ffb
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Apr 8 21:03:32 2009 -0400
+
+    Use NiceAddress to parse stun ip
+
+commit e04ccafdf2990ae96b49113f117f9403927bb76e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Apr 8 17:07:44 2009 -0400
+
+    Update libnice dep to 0.0.6 for stable stun API
+
+commit 4dc735149c08003fff154c6f5902c2e2afae7022
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 7 20:29:04 2009 -0400
+
+    Add stun alternate-server tests
+
+commit 77286bdba89619f59c08d086f0e25a658042b017
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 7 18:32:46 2009 -0400
+
+    Implement stun alternate server
+
+commit 97de77fe3f12c84f527ab4c9dab171a2e30ead8a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 7 18:17:49 2009 -0400
+
+    Use libnice stun timer
+
+commit 580a0fbf168a94f87de3d39584f128449146bfe0
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 7 17:12:15 2009 -0400
+
+    use libnice to parse incoming stun
+
+commit afe00f2ca7a339b72b5bd0d1ef6ad0c4df5604d0
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 7 15:57:17 2009 -0400
+
+    Remove stun for old libnice
+
+commit befe532b310bf9763b9a87e2492020b590734bb6
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Apr 7 15:56:48 2009 -0400
+
+    Use libnice when sending STUN requests
+
+commit 342f097a3fbe9af972d76429c5eb69278e00d412
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Apr 10 14:56:48 2009 -0400
+
+    Don't print NULL candidate
+
+commit a89f6b1df1fd2fbb08ab95c8180fe23a9caaa196
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Apr 10 13:24:20 2009 -0400
+
+    Remove unused label
+
+commit 753462cfbc0cce96a84eaa3dfd96b682ec68c443
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 9 19:06:30 2009 -0400
+
+    Remove support for H263-N800 hack
+
+commit 34b52b61ec10e573db0ab3c77a3d01d377cd807f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Apr 9 14:02:04 2009 -0400
+
+    Update references diagram to match reality
+
+commit f20f61665b7b225fd91dba6d2b52c260e237d6a5
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Apr 8 20:39:47 2009 -0400
+
+    Stop encoding when no one is sending
+
+commit 3c8acacf9120fa5b7962e4062a31eef0ca761385
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Apr 8 19:26:37 2009 -0400
+
+    Don't try to use gdk/gtk defs in python codegen
+
+commit 386c809953600827c6c7637839bcb702f60b1e2a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Apr 8 18:11:52 2009 -0400
+
+    Remove dep on pygtk if pygobject 2.16 is present
+
+commit 6904d6df1959168646946dc431339074a5a3fb08
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Apr 6 20:35:23 2009 -0400
+
+    Version 0.0.9.1
+
 commit 4fe6016ec86e748342ee3fa35b607cbefc049109
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Mon Apr 6 20:29:37 2009 -0400
@@ -1759,7 +3488,7 @@ Date:   Thu Nov 13 12:13:17 2008 +0000
     Only strncyp the candidate foundation if it's set
 
 commit f415d1908289480a3838022d47e28d6783f79cdb
-Merge: d36d151... 90bc234...
+Merge: d36d151 90bc234
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Tue Nov 11 19:23:49 2008 +0000
 
@@ -2986,7 +4715,7 @@ Date:   Tue Oct 28 18:48:16 2008 -0400
     Add upnp xml files to the distcheck
 
 commit aac3ceaf0ab1016145836c85a57faa596bca71ed
-Merge: 8c02231... 6174b79...
+Merge: 8c02231 6174b79
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Tue Oct 28 17:50:48 2008 -0400
 
@@ -3879,7 +5608,7 @@ Date:   Mon Sep 8 16:41:47 2008 -0400
     Fix error string for python config check
 
 commit e4505074b33d06b6f3342277b79dc27afbec4c6c
-Merge: efa832b... ff2fd6f...
+Merge: efa832b ff2fd6f
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Mon Sep 8 15:19:51 2008 -0400
 
@@ -4428,7 +6157,7 @@ Date:   Mon Aug 25 17:06:00 2008 -0400
     Version 0.0.3
 
 commit c697423323f087c5803f7c96fe6ecea78a0f79d3
-Merge: 10a0c5c... 5112498...
+Merge: 10a0c5c 5112498
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Mon Aug 25 16:37:37 2008 -0400
 
@@ -4837,7 +6566,7 @@ Date:   Mon Aug 4 19:39:50 2008 -0400
     Add videoanyrate element
 
 commit b01cd258bf64adbdc4a86bc0e518811a1ab463d8
-Merge: 2716551... ae15df5...
+Merge: 2716551 ae15df5
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Mon Aug 4 13:13:25 2008 -0400
 
@@ -7938,7 +9667,7 @@ Date:   Mon Mar 24 12:06:24 2008 -0400
     Document the FsRtpSpecialSource class
 
 commit 5d5840463bae8df1145f867ec81657c962788440
-Merge: 30fcad5... 265a1aa...
+Merge: 30fcad5 265a1aa
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Thu Mar 20 18:38:25 2008 -0400
 
@@ -8257,7 +9986,7 @@ Date:   Wed Mar 12 16:34:35 2008 -0400
     Update dependency for proper multicast
 
 commit 25dfadcb46583c2bd7dc0201053c64eb0321cdbc
-Merge: ba138cd... df1418b...
+Merge: ba138cd df1418b
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Tue Mar 11 19:57:03 2008 -0400
 
@@ -8936,7 +10665,7 @@ Date:   Fri Jan 18 18:55:32 2008 -0500
     More s/prefered/preferred/
 
 commit 1e50dfc572c0413c0d09e841265c35dc89ba5c66
-Merge: 89faa33... 49436d4...
+Merge: 89faa33 49436d4
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Fri Jan 18 18:52:58 2008 -0500
 
@@ -8955,7 +10684,7 @@ Date:   Fri Jan 18 18:45:35 2008 -0500
     Update the fs_candidate_new call to the new api
 
 commit ca1253c68ae6676d2dd21006653d14b0ad113e77
-Merge: 264cb2d... a36fc87...
+Merge: 264cb2d a36fc87
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Fri Jan 18 18:43:06 2008 -0500
 
@@ -8980,7 +10709,7 @@ Date:   Fri Jan 18 17:30:17 2008 -0500
     Complete untested version of the multicast transmitter
 
 commit 7457bad4c5cea87864dbfee9e9ddebbb028f5e74
-Merge: 9261e7a... 8ef9704...
+Merge: 9261e7a 8ef9704
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Fri Jan 18 17:10:32 2008 -0500
 
@@ -9065,7 +10794,7 @@ Date:   Fri Jan 11 18:39:15 2008 -0500
     Remove theora preference (it still doesnt work)
 
 commit 4ffa7401d3e524b2673b9610f57cb01abee7ce98
-Merge: ecd6d6a... 50b924f...
+Merge: ecd6d6a 50b924f
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Fri Jan 11 18:37:46 2008 -0500
 
@@ -11775,7 +13504,7 @@ Date:   Tue Nov 6 12:38:36 2007 -0500
     Put the _CAST and some _get_type into the -sections.txt file
 
 commit 47326ae7a08f33683868a0128ac3fdc8e7218a70
-Merge: 2b30a02... 36f0610...
+Merge: 2b30a02 36f0610
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Tue Nov 6 12:20:31 2007 -0500
 
@@ -12070,21 +13799,21 @@ Date:   Fri Nov 2 18:03:32 2007 -0400
     Make FsBaseConference into a proper derivative of GstElement
 
 commit 4c20b1c106db17213450970b06b7635cdbc84430
-Merge: f807f11... 2c052ae...
+Merge: f807f11 2c052ae
 Author: burger <burger@Silverwork.(none)>
 Date:   Fri Nov 2 17:05:38 2007 -0400
 
     Merge commit 'tester/unit-tests'
 
 commit f807f11fb330419887da8be42423e5dbb434241b
-Merge: 1b4339e... 5bef80c...
+Merge: 1b4339e 5bef80c
 Author: burger <burger@Silverwork.(none)>
 Date:   Fri Nov 2 16:57:35 2007 -0400
 
     Merge commit 'tester/misc-fixes'
 
 commit 1b4339ee556ecd3025bc232100fc3082fc169fef
-Merge: 139d32a... 97ccf76...
+Merge: 139d32a 97ccf76
 Author: burger <burger@Silverwork.(none)>
 Date:   Fri Nov 2 16:56:45 2007 -0400
 
@@ -12163,14 +13892,14 @@ Date:   Tue Oct 30 15:39:48 2007 -0400
     session and participants are objects...
 
 commit 139d32ae9f99f402cf9243a08ecf5d6cdaf797bb
-Merge: 90f6540... 187d966...
+Merge: 90f6540 187d966
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Tue Oct 30 15:35:12 2007 -0400
 
     Merge branch 'master' into fixes-from-darcs
 
 commit d13920f742cb0f516977e466fa8300ef2032bb1f
-Merge: 4b3f5aa... 187d966...
+Merge: 4b3f5aa 187d966
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Tue Oct 30 15:33:53 2007 -0400
 

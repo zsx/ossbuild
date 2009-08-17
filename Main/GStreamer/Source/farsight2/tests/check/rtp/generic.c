@@ -36,6 +36,7 @@ setup_simple_conference (
 {
   struct SimpleTestConference *dat = g_new0 (struct SimpleTestConference, 1);
   GError *error = NULL;
+  guint tos;
 
   dat->id = id;
   dat->cname = g_strdup (cname);
@@ -57,6 +58,11 @@ setup_simple_conference (
         error->code, error->message);
   fail_if (dat->session == NULL, "Could not make session, but no GError!");
 
+  g_object_set (dat->session, "tos", 2, NULL);
+  g_object_get (dat->session, "tos", &tos, NULL);
+  fail_unless (tos == 2);
+
+
   g_object_set_data (G_OBJECT (dat->conference), "dat", dat);
 
   return dat;
@@ -67,6 +73,7 @@ struct SimpleTestStream *
 simple_conference_add_stream (
     struct SimpleTestConference *dat,
     struct SimpleTestConference *target,
+    const gchar *transmitter,
     guint st_param_count,
     GParameter *st_params)
 {
@@ -77,14 +84,14 @@ simple_conference_add_stream (
   st->target = target;
 
   st->participant = fs_conference_new_participant (
-      FS_CONFERENCE (dat->conference), target->cname, &error);
+      FS_CONFERENCE (dat->conference), NULL, &error);
   if (error)
     fail ("Error while creating new participant (%d): %s",
         error->code, error->message);
   fail_if (st->participant == NULL, "Could not make participant, but no GError!");
 
   st->stream = fs_session_new_stream (dat->session, st->participant,
-      FS_DIRECTION_BOTH, "rawudp", st_param_count, st_params, &error);
+      FS_DIRECTION_BOTH, transmitter, st_param_count, st_params, &error);
   if (error)
     fail ("Error while creating new stream (%d): %s",
         error->code, error->message);
@@ -101,7 +108,8 @@ simple_conference_add_stream (
 void
 cleanup_simple_stream (struct SimpleTestStream *st)
 {
-  g_object_unref (st->stream);
+  if (st->stream)
+    g_object_unref (st->stream);
   g_object_unref (st->participant);
   g_free (st);
 }
@@ -113,7 +121,8 @@ cleanup_simple_conference (struct SimpleTestConference *dat)
   g_list_foreach (dat->streams, (GFunc) cleanup_simple_stream, NULL);
   g_list_free (dat->streams);
 
-  g_object_unref (dat->session);
+  if (dat->session)
+    g_object_unref (dat->session);
   gst_object_unref (dat->pipeline);
   g_free (dat->cname);
   g_free (dat);
@@ -125,7 +134,7 @@ setup_fakesrc (struct SimpleTestConference *dat)
 {
   GstPad *sinkpad = NULL, *srcpad = NULL;
 
-  g_debug ("Adding fakesrc");
+  GST_DEBUG ("Adding fakesrc");
 
 
   g_object_get (dat->session, "sink-pad", &sinkpad, NULL);

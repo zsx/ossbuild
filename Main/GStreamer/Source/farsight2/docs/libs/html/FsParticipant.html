@@ -8,7 +8,7 @@
 <link rel="up" href="ch02.html" title="Farsight Core Library">
 <link rel="prev" href="ch02.html" title="Farsight Core Library">
 <link rel="next" href="FsSession.html" title="FsSession">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="part" href="pt01.html" title="Part I. User-oriented classes, interfaces and functions">
 <link rel="chapter" href="ch01.html" title="Farsight GStreamer Interfaces">
@@ -28,15 +28,17 @@
 <th width="100%" align="center">Farsight2 Reference Manual</th>
 <td><a accesskey="n" href="FsSession.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#FsParticipant.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#FsParticipant.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#FsParticipant.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#FsParticipant.properties" class="shortcut">Properties</a>
-                   | 
-                  <a href="#FsParticipant.signals" class="shortcut">Signals</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#FsParticipant.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#FsParticipant.description" class="shortcut">Description</a>
+                 | 
+                <a href="#FsParticipant.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#FsParticipant.properties" class="shortcut">Properties</a>
+                 | 
+                <a href="#FsParticipant.signals" class="shortcut">Signals</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="FsParticipant"></a><div class="titlepage"></div>
@@ -55,15 +57,15 @@
 
                     <a class="link" href="FsParticipant.html#FsParticipant-struct" title="FsParticipant">FsParticipant</a>;
                     <a class="link" href="FsParticipant.html#FsParticipantClass" title="FsParticipantClass">FsParticipantClass</a>;
-#define             <a class="link" href="FsParticipant.html#FS-PARTICIPANT-DATA-LOCK:CAPS" title="FS_PARTICIPANT_DATA_LOCK()">FS_PARTICIPANT_DATA_LOCK</a>            (participant)
-#define             <a class="link" href="FsParticipant.html#FS-PARTICIPANT-DATA-UNLOCK:CAPS" title="FS_PARTICIPANT_DATA_UNLOCK()">FS_PARTICIPANT_DATA_UNLOCK</a>          (participant)
+#define             <a class="link" href="FsParticipant.html#FS-PARTICIPANT-DATA-LOCK--CAPS" title="FS_PARTICIPANT_DATA_LOCK()">FS_PARTICIPANT_DATA_LOCK</a>            (participant)
+#define             <a class="link" href="FsParticipant.html#FS-PARTICIPANT-DATA-UNLOCK--CAPS" title="FS_PARTICIPANT_DATA_UNLOCK()">FS_PARTICIPANT_DATA_UNLOCK</a>          (participant)
 </pre>
 </div>
 <div class="refsect1" lang="en">
 <a name="FsParticipant.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----FsParticipant
 </pre>
@@ -72,8 +74,8 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="FsParticipant.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="FsParticipant.html#FsParticipant--cname" title='The "cname" property'>cname</a>"                    <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Read / Write / Construct Only
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write / Construct
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -90,7 +92,6 @@ derived and implemented by a farsight conference gstreamer element. A
 participant represents any source of media in a conference. This could be a
 human-participant or an automaton.</p>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -101,7 +102,6 @@ human-participant or an automaton.</p>
 <p>
 All members are private (access them using the properties)</p>
 <p>
-
 </p>
 </div>
 <hr>
@@ -117,13 +117,12 @@ All members are private (access them using the properties)</p>
 The FsParticipant class has no virtual methods to implement,
 but you may want to override the properties or attach more date to it</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObjectClass"
+href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"
 >GObjectClass</a> <em class="structfield"><code>parent_class</code></em>;</span></p></td>
 <td> Our parent
 </td>
@@ -132,17 +131,16 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObjectC
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="FS-PARTICIPANT-DATA-LOCK:CAPS"></a><h3>FS_PARTICIPANT_DATA_LOCK()</h3>
+<a name="FS-PARTICIPANT-DATA-LOCK--CAPS"></a><h3>FS_PARTICIPANT_DATA_LOCK()</h3>
 <pre class="programlisting">#define             FS_PARTICIPANT_DATA_LOCK(participant)</pre>
 <p>
 Locks the participant for data set with <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-set-data"
+href="../gobject/gobject-The-Base-Object-Type.html#g-object-set-data"
 ><code class="function">g_object_set_data()</code></a> or
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-set-qdata"
+href="../gobject/gobject-The-Base-Object-Type.html#g-object-set-qdata"
 ><code class="function">g_object_set_qdata()</code></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -155,17 +153,16 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="FS-PARTICIPANT-DATA-UNLOCK:CAPS"></a><h3>FS_PARTICIPANT_DATA_UNLOCK()</h3>
+<a name="FS-PARTICIPANT-DATA-UNLOCK--CAPS"></a><h3>FS_PARTICIPANT_DATA_UNLOCK()</h3>
 <pre class="programlisting">#define             FS_PARTICIPANT_DATA_UNLOCK(participant)</pre>
 <p>
 Unlocks the participant for data set with <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-set-data"
+href="../gobject/gobject-The-Base-Object-Type.html#g-object-set-data"
 ><code class="function">g_object_set_data()</code></a> or
 <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object-set-qdata"
+href="../gobject/gobject-The-Base-Object-Type.html#g-object-set-qdata"
 ><code class="function">g_object_set_qdata()</code></a>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -182,14 +179,12 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#g-object
 <div class="refsect2" lang="en">
 <a name="FsParticipant--cname"></a><h3>The <code class="literal">"cname"</code> property</h3>
 <pre class="programlisting">  "cname"                    <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Read / Write / Construct Only</pre>
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>*                : Read / Write / Construct</pre>
 <p>
-A string representing the cname of the current participant. This is a
-constructor parameter that cannot be changed afterwards. User must free the
-string after getting it.</p>
+A string representing the cname of the current participant.
+User must free the string after getting it.</p>
 <p>
-
 </p>
 <p>Default value: NULL</p>
 </div>
@@ -200,22 +195,21 @@ string after getting it.</p>
 <a name="FsParticipant-error"></a><h3>The <code class="literal">"error"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsParticipant.html" title="FsParticipant">FsParticipant</a> *self,
                                                         <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>       *object,
                                                         <a class="link" href="FsConference.html#FsError" title="enum FsError">FsError</a>        errorno,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>         *error_msg,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>         *dbg_msg,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>       user_data)      : Run Last</pre>
 <p>
 This signal is emitted in any error condition</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -256,6 +250,6 @@ This signal is emitted in any error condition</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

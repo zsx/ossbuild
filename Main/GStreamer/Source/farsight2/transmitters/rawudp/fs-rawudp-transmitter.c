@@ -53,7 +53,7 @@
 #else /*G_OS_WIN32*/
 # include <netdb.h>
 # include <sys/socket.h>
-# include <netinet/in.h>
+# include <netinet/ip.h>
 # include <arpa/inet.h>
 #endif /*G_OS_WIN32*/
 
@@ -72,7 +72,8 @@ enum
   PROP_0,
   PROP_GST_SINK,
   PROP_GST_SRC,
-  PROP_COMPONENTS
+  PROP_COMPONENTS,
+  PROP_TYPE_OF_SERVICE
 };
 
 struct _FsRawUdpTransmitterPrivate
@@ -90,6 +91,8 @@ struct _FsRawUdpTransmitterPrivate
   GMutex *mutex;
   /* Protected by the mutex */
   GList **udpports;
+
+  gint type_of_service;
 
   gboolean disposed;
 };
@@ -121,6 +124,10 @@ static FsStreamTransmitter *fs_rawudp_transmitter_new_stream_transmitter (
     GError **error);
 static GType fs_rawudp_transmitter_get_stream_transmitter_type (
     FsTransmitter *transmitter);
+
+static void fs_rawudp_transmitter_set_type_of_service (
+    FsRawUdpTransmitter *self,
+    gint tos);
 
 
 static GObjectClass *parent_class = NULL;
@@ -187,6 +194,8 @@ fs_rawudp_transmitter_class_init (FsRawUdpTransmitterClass *klass)
   g_object_class_override_property (gobject_class, PROP_GST_SINK, "gst-sink");
   g_object_class_override_property (gobject_class, PROP_COMPONENTS,
       "components");
+  g_object_class_override_property (gobject_class, PROP_TYPE_OF_SERVICE,
+      "tos");
 
   transmitter_class->new_stream_transmitter =
     fs_rawudp_transmitter_new_stream_transmitter;
@@ -442,6 +451,11 @@ fs_rawudp_transmitter_get_property (GObject *object,
     case PROP_COMPONENTS:
       g_value_set_uint (value, self->components);
       break;
+    case PROP_TYPE_OF_SERVICE:
+      g_mutex_lock (self->priv->mutex);
+      g_value_set_uint (value, self->priv->type_of_service);
+      g_mutex_unlock (self->priv->mutex);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -460,6 +474,10 @@ fs_rawudp_transmitter_set_property (GObject *object,
   {
     case PROP_COMPONENTS:
       self->components = g_value_get_uint (value);
+      break;
+    case PROP_TYPE_OF_SERVICE:
+      fs_rawudp_transmitter_set_type_of_service (self,
+          g_value_get_uint (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -543,6 +561,7 @@ _bind_port (
     const gchar *ip,
     guint port,
     guint *used_port,
+    int tos,
     GError **error)
 {
   int sock;
@@ -596,6 +615,14 @@ _bind_port (
   } while (retval != 0);
 
   *used_port = port;
+
+  if (setsockopt (sock, IPPROTO_IP, IP_TOS, &tos, sizeof (tos)) < 0)
+    GST_WARNING ("could not set socket ToS: %s", g_strerror (errno));
+
+#ifdef IPV6_TCLASS
+  if (setsockopt (sock, IPPROTO_IPV6, IPV6_TCLASS, &tos, sizeof (tos)) < 0)
+    GST_WARNING ("could not set TCLASS: %s", g_strerror (errno));
+#endif
 
   return sock;
 }
@@ -799,6 +826,7 @@ fs_rawudp_transmitter_get_udpport (FsRawUdpTransmitter *trans,
 {
   UdpPort *udpport;
   UdpPort *tmpudpport;
+  int tos;
 
   /* First lets check if we already have one */
   if (component_id > trans->components)
@@ -811,6 +839,7 @@ fs_rawudp_transmitter_get_udpport (FsRawUdpTransmitter *trans,
   g_mutex_lock (trans->priv->mutex);
   udpport = fs_rawudp_transmitter_get_udpport_locked (trans, component_id,
       requested_ip, requested_port);
+  tos = trans->priv->type_of_service;
   g_mutex_unlock (trans->priv->mutex);
 
   if (udpport)
@@ -832,7 +861,7 @@ fs_rawudp_transmitter_get_udpport (FsRawUdpTransmitter *trans,
 
   /* Now lets bind both ports */
 
-  udpport->fd = _bind_port (requested_ip, requested_port, &udpport->port,
+  udpport->fd = _bind_port (requested_ip, requested_port, &udpport->port, tos,
       error);
   if (udpport->fd < 0)
     goto error;
@@ -999,6 +1028,9 @@ fs_rawudp_transmitter_udpport_add_dest (UdpPort *udpport,
 {
   GST_DEBUG ("Adding dest %s:%d", ip, port);
   g_signal_emit_by_name (udpport->udpsink, "add", ip, port);
+  gst_element_send_event (udpport->udpsink,
+      gst_event_new_custom (GST_EVENT_CUSTOM_UPSTREAM,
+          gst_structure_new ("GstForceKeyUnit", NULL)));
 }
 
 
@@ -1228,4 +1260,39 @@ fs_rawudp_transmitter_udpport_remove_recvonly_dest (UdpPort *udpport,
 {
   if (udpport->recvonly_udpsink)
     g_signal_emit_by_name (udpport->recvonly_udpsink, "remove", ip, port);
+}
+
+static void
+fs_rawudp_transmitter_set_type_of_service (FsRawUdpTransmitter *self,
+    gint tos)
+{
+  gint i;
+
+  g_mutex_lock (self->priv->mutex);
+  if (self->priv->type_of_service == tos)
+    goto out;
+
+  self->priv->type_of_service = tos;
+
+  for (i = 0; i < self->components; i++)
+  {
+    GList *item;
+
+    for (item = self->priv->udpports[i]; item; item = item->next)
+    {
+      UdpPort *udpport = item->data;
+
+      if (setsockopt (udpport->fd, IPPROTO_IP, IP_TOS, &tos, sizeof (tos)) < 0)
+        GST_WARNING ( "could not set socket ToS: %s", g_strerror (errno));
+
+#ifdef IPV6_TCLASS
+      if (setsockopt (udpport->fd, IPPROTO_IPV6, IPV6_TCLASS,
+              &tos, sizeof (tos)) < 0)
+        GST_WARNING ("could not set TCLASS: %s", g_strerror (errno));
+#endif
+    }
+  }
+
+ out:
+  g_mutex_unlock (self->priv->mutex);
 }

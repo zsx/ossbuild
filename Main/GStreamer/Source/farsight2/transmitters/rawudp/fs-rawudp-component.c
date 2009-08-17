@@ -31,7 +31,10 @@
 
 #include "fs-rawudp-marshal.h"
 
-#include "stun.h"
+#include <stun/usages/bind.h>
+#include <stun/stunagent.h>
+#include <stun/usages/timer.h>
+#include <nice/address.h>
 
 #include <gst/farsight/fs-conference-iface.h>
 #include <gst/farsight/fs-interfaces.h>
@@ -117,7 +120,11 @@ struct _FsRawUdpComponentPrivate
 
   GMutex *mutex;
 
-  gchar stun_cookie[16];
+  StunAgent stun_agent;
+  StunMessage stun_message;
+  guchar stun_buffer[STUN_MAX_MESSAGE_SIZE_IPV6];
+  struct sockaddr_storage stun_sockaddr;
+  gboolean stun_server_changed;
 
   gboolean associate_on_source;
 
@@ -282,7 +289,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The component id",
           "The id of this component",
           1, G_MAXUINT, 1,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
 
   g_object_class_install_property (gobject_class,
@@ -291,7 +298,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "Whether to send from this transmitter",
           "If set to FALSE, the transmitter will stop sending to this person",
           TRUE,
-          G_PARAM_READWRITE));
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_IP,
@@ -299,7 +306,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The local IP of this component",
           "The IPv4 address as a x.x.x.x string",
           NULL,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_PORT,
@@ -307,7 +314,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The local port requested for this component",
           "The IPv4 UDP port",
           1, 65535, 7078,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
 
   g_object_class_install_property (gobject_class,
@@ -316,7 +323,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The IP address of the STUN server",
           "The IPv4 address of the STUN server as a x.x.x.x string",
           NULL,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_STUN_PORT,
@@ -324,7 +331,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The port of the STUN server",
           "The IPv4 UDP port of the STUN server as a ",
           1, 65535, 3478,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_STUN_TIMEOUT,
@@ -332,7 +339,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The timeout for the STUN reply",
           "How long to wait for for the STUN reply (in seconds) before giving up",
           1,  MAX_STUN_TIMEOUT, DEFAULT_STUN_TIMEOUT,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
 
   g_object_class_install_property (gobject_class,
@@ -341,7 +348,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The transmitter object",
           "The rawudp transmitter object",
           FS_TYPE_RAWUDP_TRANSMITTER,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
 
   g_object_class_install_property (gobject_class,
@@ -350,7 +357,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "A Forced candidate",
           "This candidate is built from a user preference",
           FS_TYPE_CANDIDATE,
-          G_PARAM_WRITABLE));
+          G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_ASSOCIATE_ON_SOURCE,
@@ -359,7 +366,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "Whether to associate incoming data stream based on the"
           " source address",
           TRUE,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
 #ifdef HAVE_GUPNP
     g_object_class_install_property (gobject_class,
@@ -368,7 +375,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "Try to map ports using UPnP",
           "Tries to map ports using UPnP if enabled",
           TRUE,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_UPNP_DISCOVERY,
@@ -376,7 +383,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "Try to use UPnP to find the external IP address",
           "Tries to discovery the external IP with UPnP if stun fails",
           TRUE,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_UPNP_MAPPING_TIMEOUT,
@@ -385,7 +392,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The UPnP port mappings expire after this period if the app has"
           " crashed (in seconds)",
           0, G_MAXUINT32, DEFAULT_UPNP_MAPPING_TIMEOUT,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_UPNP_DISCOVERY_TIMEOUT,
@@ -394,7 +401,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "After this period, UPnP discovery is considered to have failed"
           " and the local IP is returned",
           0, G_MAXUINT32, DEFAULT_UPNP_DISCOVERY_TIMEOUT,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_UPNP_IGD,
@@ -402,7 +409,7 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
           "The GUPnPSimpleIgdThread object",
           "This is the GUPnP IGD abstraction object",
           GUPNP_TYPE_SIMPLE_IGD_THREAD,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 #endif
 
    /**
@@ -500,6 +507,11 @@ fs_rawudp_component_class_init (FsRawUdpComponentClass *klass)
 
 
   g_type_class_add_private (klass, sizeof (FsRawUdpComponentPrivate));
+
+  if (gst_debug_category_get_threshold (GST_CAT_DEFAULT) >= GST_LEVEL_DEBUG)
+    stun_debug_enable ();
+  else
+    stun_debug_disable ();
 }
 
 
@@ -519,10 +531,8 @@ fs_rawudp_component_init (FsRawUdpComponent *self)
 
   self->priv->associate_on_source = TRUE;
 
-  ((guint32*)self->priv->stun_cookie)[0] = g_random_int ();
-  ((guint32*)self->priv->stun_cookie)[1] = g_random_int ();
-  ((guint32*)self->priv->stun_cookie)[2] = g_random_int ();
-  ((guint32*)self->priv->stun_cookie)[3] = g_random_int ();
+  stun_agent_init (&self->priv->stun_agent,
+      STUN_ALL_KNOWN_ATTRIBUTES, STUN_COMPATIBILITY_RFC3489, 0);
 
 #ifdef HAVE_GUPNP
   self->priv->upnp_mapping = TRUE;
@@ -1043,11 +1053,11 @@ fs_rawudp_component_maybe_emit_local_candidates (FsRawUdpComponent *self)
   {
     self->priv->local_active_candidate = self->priv->local_upnp_candidate;
     self->priv->local_upnp_candidate = NULL;
-    FS_RAWUDP_COMPONENT_UNLOCK (self);
     GST_DEBUG ("C:%d Emitting UPnP discovered candidate: %s:%u",
         self->priv->component,
-        self->priv->local_upnp_candidate->ip,
-        self->priv->local_upnp_candidate->port);
+        self->priv->local_active_candidate->ip,
+        self->priv->local_active_candidate->port);
+    FS_RAWUDP_COMPONENT_UNLOCK (self);
     fs_rawudp_component_emit_candidate (self,
         self->priv->local_active_candidate);
     return;
@@ -1224,61 +1234,34 @@ fs_rawudp_component_gather_local_candidates (FsRawUdpComponent *self,
 }
 
 static gboolean
-fs_rawudp_component_send_stun (FsRawUdpComponent *self, GError **error)
+fs_rawudp_component_send_stun_locked (FsRawUdpComponent *self, GError **error)
 {
-  struct addrinfo hints;
-  struct addrinfo *result = NULL;
-  struct sockaddr_in address;
-  gchar *packed;
-  guint length;
-  int retval;
-  StunMessage *msg;
+  socklen_t socklen = 0;
 
-  memset (&hints, 0, sizeof (struct addrinfo));
-  hints.ai_family = AF_INET;
-  hints.ai_flags = AI_NUMERICHOST;
-  retval = getaddrinfo (self->priv->stun_ip, NULL, &hints, &result);
-  if (retval != 0)
+  switch (self->priv->stun_sockaddr.ss_family)
   {
-    g_set_error (error, FS_ERROR, FS_ERROR_INVALID_ARGUMENTS,
-        "Invalid IP address %s passed for STUN: %s",
-        self->priv->stun_ip, gai_strerror (retval));
-    return FALSE;
-  }
-  memcpy (&address, result->ai_addr, sizeof (struct sockaddr_in));
-  freeaddrinfo (result);
-
-  address.sin_family = AF_INET;
-  address.sin_port = htons (self->priv->stun_port);
-
-  msg = stun_message_new (STUN_MESSAGE_BINDING_REQUEST,
-      self->priv->stun_cookie, 0);
-  if (!msg)
-  {
-    g_set_error (error, FS_ERROR, FS_ERROR_INTERNAL,
-        "Could not create a new STUN binding request");
-    return FALSE;
+    case AF_INET:
+      socklen = sizeof(struct sockaddr_in);
+      break;
+    case AF_INET6:
+      socklen = sizeof(struct sockaddr_in6);
+      break;
+    default:
+      g_set_error (error, FS_ERROR, FS_ERROR_INVALID_ARGUMENTS,
+          "Unknown address family for stun server");
+      return FALSE;
   }
 
-  length = stun_message_pack (msg, &packed);
-
-  if (!fs_rawudp_transmitter_udpport_sendto (self->priv->udpport,
-          packed, length, (const struct sockaddr *)&address, sizeof (address),
-          error))
-  {
-    g_free (packed);
-    stun_message_free (msg);
-    return FALSE;
-  }
-  g_free (packed);
-  stun_message_free (msg);
-
-  return TRUE;
+  return fs_rawudp_transmitter_udpport_sendto (self->priv->udpport,
+      (gchar*) self->priv->stun_buffer,
+      stun_message_length (&self->priv->stun_message),
+      (const struct sockaddr *)&self->priv->stun_sockaddr, socklen, error);
 }
 
 static gboolean
 fs_rawudp_component_start_stun (FsRawUdpComponent *self, GError **error)
 {
+  NiceAddress niceaddr;
   gboolean res = TRUE;
 
   GST_DEBUG ("C:%d starting the STUN process with server %s:%u",
@@ -1289,6 +1272,24 @@ fs_rawudp_component_start_stun (FsRawUdpComponent *self, GError **error)
     fs_rawudp_transmitter_udpport_connect_recv (
         self->priv->udpport,
         G_CALLBACK (stun_recv_cb), self);
+
+
+  nice_address_init (&niceaddr);
+  if (!nice_address_set_from_string (&niceaddr, self->priv->stun_ip))
+  {
+    g_set_error (error, FS_ERROR, FS_ERROR_INVALID_ARGUMENTS,
+        "Invalid IP address %s passed for STUN", self->priv->stun_ip);
+    return FALSE;
+  }
+  nice_address_set_port (&niceaddr, self->priv->stun_port);
+  nice_address_copy_to_sockaddr (&niceaddr,
+      (struct sockaddr *) &self->priv->stun_sockaddr);
+
+  stun_usage_bind_create (
+      &self->priv->stun_agent,
+      &self->priv->stun_message,
+      self->priv->stun_buffer,
+      sizeof(self->priv->stun_buffer));
 
   if (self->priv->stun_timeout_thread == NULL) {
     /* only create a new thread if the old one was stopped. Otherwise we can
@@ -1334,8 +1335,15 @@ stun_recv_cb (GstPad *pad, GstBuffer *buffer,
 {
   FsRawUdpComponent *self = FS_RAWUDP_COMPONENT (user_data);
   FsCandidate *candidate = NULL;
-  StunMessage *msg;
-  StunAttribute **attr;
+  StunMessage msg;
+  StunValidationStatus stunv;
+  StunUsageBindReturn stunr;
+  struct sockaddr_storage addr;
+  socklen_t addr_len = sizeof(addr);
+  struct sockaddr_storage alt_addr;
+  socklen_t alt_addr_len = sizeof(alt_addr);
+  gchar addr_str[NI_MAXHOST];
+  NiceAddress niceaddr;
 
   if (GST_BUFFER_SIZE (buffer) < 4)
     /* Packet is too small to be STUN */
@@ -1348,74 +1356,68 @@ stun_recv_cb (GstPad *pad, GstBuffer *buffer,
 
   g_assert (fs_rawudp_transmitter_udpport_is_pad (self->priv->udpport, pad));
 
-  msg = stun_message_unpack (GST_BUFFER_SIZE (buffer),
-      (const gchar *) GST_BUFFER_DATA (buffer));
-  if (!msg)
-    /* invalid message */
+  FS_RAWUDP_COMPONENT_LOCK(self);
+  stunv = stun_agent_validate (&self->priv->stun_agent, &msg,
+      GST_BUFFER_DATA (buffer), GST_BUFFER_SIZE (buffer), NULL, NULL);
+  FS_RAWUDP_COMPONENT_UNLOCK(self);
+
+  /* not a valid stun message */
+  if (stunv != STUN_VALIDATION_SUCCESS)
     return TRUE;
 
-  if (memcmp (msg->transaction_id, self->priv->stun_cookie, 16) != 0)
+  stunr = stun_usage_bind_process (&msg,
+      (struct sockaddr *) &addr, &addr_len,
+      (struct sockaddr *) &alt_addr, &alt_addr_len);
+
+  switch (stunr)
   {
-    /* not ours */
-    stun_message_free (msg);
-    return TRUE;
-  }
-
-  if (msg->type == STUN_MESSAGE_BINDING_ERROR_RESPONSE)
-  {
-    fs_rawudp_component_emit_error (FS_RAWUDP_COMPONENT (self),
-        FS_ERROR_NETWORK, "Got an error message from the STUN server",
-        "The STUN process produced an error");
-    stun_message_free (msg);
-    // fs_rawudp_component_stop_stun (self, component_id);
-    /* Lets not stop the STUN now and wait for the timeout
-     * in case the server answers with the right reply
-     */
-    return FALSE;
-  }
-
-  if (msg->type != STUN_MESSAGE_BINDING_RESPONSE)
-  {
-    stun_message_free (msg);
-    return TRUE;
-  }
-
-
-  for (attr = msg->attributes; *attr; attr++)
-  {
-    if ((*attr)->type == STUN_ATTRIBUTE_MAPPED_ADDRESS)
-    {
-      // TODO
-      gchar *id = g_strdup_printf ("L1");
-      gchar *ip = g_strdup_printf ("%u.%u.%u.%u",
-          ((*attr)->address.ip & 0xff000000) >> 24,
-          ((*attr)->address.ip & 0x00ff0000) >> 16,
-          ((*attr)->address.ip & 0x0000ff00) >>  8,
-          ((*attr)->address.ip & 0x000000ff));
-
-      candidate = fs_candidate_new (id,
-          self->priv->component,
-          FS_CANDIDATE_TYPE_SRFLX,
-          FS_NETWORK_PROTOCOL_UDP,
-          ip,
-          (*attr)->address.port);
-      g_free (id);
-      g_free (ip);
-
-      GST_DEBUG ("Stun server says we are %u.%u.%u.%u %u\n",
-          ((*attr)->address.ip & 0xff000000) >> 24,
-          ((*attr)->address.ip & 0x00ff0000) >> 16,
-          ((*attr)->address.ip & 0x0000ff00) >>  8,
-          ((*attr)->address.ip & 0x000000ff),(*attr)->address.port);
+    case STUN_USAGE_BIND_RETURN_INVALID:
+      /* Not a valid bind reponse */
+      return TRUE;
+    case STUN_USAGE_BIND_RETURN_ERROR:
+      /* Not a valid bind reponse */
+      return FALSE;
+    case STUN_USAGE_BIND_RETURN_ALTERNATE_SERVER:
+      /* Change servers and reset timeouts */
+      FS_RAWUDP_COMPONENT_LOCK(self);
+      memcpy (&self->priv->stun_sockaddr, &alt_addr,
+          MIN (sizeof(self->priv->stun_sockaddr), alt_addr_len));
+      self->priv->stun_server_changed = TRUE;
+      stun_usage_bind_create (
+          &self->priv->stun_agent,
+          &self->priv->stun_message,
+          self->priv->stun_buffer,
+          sizeof(self->priv->stun_buffer));
+      nice_address_init (&niceaddr);
+      nice_address_set_from_sockaddr (&niceaddr,
+          (const struct sockaddr *) &alt_addr);
+      nice_address_to_string (&niceaddr, addr_str);
+      GST_DEBUG ("Stun server redirected us to alternate server %s:%d",
+          addr_str, nice_address_get_port (&niceaddr));
+      if (self->priv->stun_timeout_id)
+        gst_clock_id_unschedule (self->priv->stun_timeout_id);
+      FS_RAWUDP_COMPONENT_UNLOCK(self);
+      return FALSE;
+    default:
+      /* For any other case, pass the packet through */
+      return TRUE;
+    case STUN_USAGE_BIND_RETURN_SUCCESS:
       break;
-    }
   }
 
-  if (!candidate)
-  {
-    stun_message_free (msg);
-    return TRUE;
-  }
+  nice_address_init (&niceaddr);
+  nice_address_set_from_sockaddr (&niceaddr, (const struct sockaddr *) &addr);
+  nice_address_to_string (&niceaddr, addr_str);
+
+  candidate = fs_candidate_new ("L1",
+      self->priv->component,
+      FS_CANDIDATE_TYPE_SRFLX,
+      FS_NETWORK_PROTOCOL_UDP,
+      addr_str,
+      nice_address_get_port (&niceaddr));
+
+  GST_DEBUG ("Stun server says we are %s:%u\n", addr_str,
+      nice_address_get_port (&niceaddr));
 
   FS_RAWUDP_COMPONENT_LOCK(self);
   fs_rawudp_component_stop_stun_locked (self);
@@ -1434,8 +1436,6 @@ stun_recv_cb (GstPad *pad, GstBuffer *buffer,
 
   fs_candidate_destroy (candidate);
 
-  /* It was a stun packet, lets drop it */
-  stun_message_free (msg);
   return FALSE;
 }
 
@@ -1448,8 +1448,11 @@ stun_timeout_func (gpointer user_data)
   gboolean emit = TRUE;
   GstClockTime next_stun_timeout;
   GError *error = NULL;
-  guint next_timeout_ms = 100;
   guint timeout_accum_ms = 0;
+  guint remainder;
+  StunUsageTimerReturn timer_ret = STUN_USAGE_TIMER_RETURN_RETRANSMIT;
+  StunTransactionId stunid;
+  StunTimer stun_timer;
 
   sysclock = gst_system_clock_obtain ();
   if (sysclock == NULL)
@@ -1461,12 +1464,22 @@ stun_timeout_func (gpointer user_data)
   }
 
   FS_RAWUDP_COMPONENT_LOCK(self);
+  stun_timer_start (&stun_timer);
+
   while (!self->priv->stun_stop &&
       timeout_accum_ms < self->priv->stun_timeout * 1000)
   {
-    FS_RAWUDP_COMPONENT_UNLOCK(self);
-    if (!fs_rawudp_component_send_stun (self, &error))
+    if (self->priv->stun_server_changed)
     {
+      stun_timer_start (&stun_timer);
+      self->priv->stun_server_changed = FALSE;
+      timer_ret = STUN_USAGE_TIMER_RETURN_RETRANSMIT;
+    }
+
+    if (timer_ret == STUN_USAGE_TIMER_RETURN_RETRANSMIT &&
+        !fs_rawudp_component_send_stun_locked (self, &error))
+    {
+      FS_RAWUDP_COMPONENT_UNLOCK(self);
       fs_rawudp_component_emit_error (self, error->code, "Could not send stun",
           error->message);
       g_clear_error (&error);
@@ -1474,19 +1487,20 @@ stun_timeout_func (gpointer user_data)
       fs_rawudp_component_stop_stun_locked (self);
       goto interrupt;
     }
-    FS_RAWUDP_COMPONENT_LOCK(self);
 
     if (self->priv->stun_stop)
       goto interrupt;
 
+    remainder = stun_timer_remainder (&stun_timer);
+
     next_stun_timeout = gst_clock_get_time (sysclock) +
-      next_timeout_ms * GST_MSECOND;
+      remainder * GST_MSECOND;
 
     id = self->priv->stun_timeout_id = gst_clock_new_single_shot_id (sysclock,
         next_stun_timeout);
 
     GST_LOG ("C:%u Waiting for STUN reply for %u ms, next: %u ms",
-        self->priv->component, next_timeout_ms, timeout_accum_ms);
+        self->priv->component, remainder, timeout_accum_ms);
 
     FS_RAWUDP_COMPONENT_UNLOCK(self);
     gst_clock_id_wait (id, NULL);
@@ -1495,9 +1509,11 @@ stun_timeout_func (gpointer user_data)
     gst_clock_id_unref (id);
     self->priv->stun_timeout_id = NULL;
 
-    next_timeout_ms *= 2;
-    next_timeout_ms += 100;
-    timeout_accum_ms += next_timeout_ms;
+    timer_ret = stun_timer_refresh (&stun_timer);
+    timeout_accum_ms += remainder;
+
+    if (timer_ret == STUN_USAGE_TIMER_RETURN_TIMEOUT)
+      break;
   }
 
  interrupt:
@@ -1508,6 +1524,9 @@ stun_timeout_func (gpointer user_data)
   }
 
   fs_rawudp_component_stop_stun_locked (self);
+
+  stun_message_id (&self->priv->stun_message, stunid);
+  stun_agent_forget_transaction (&self->priv->stun_agent, stunid);
 
   FS_RAWUDP_COMPONENT_UNLOCK(self);
 

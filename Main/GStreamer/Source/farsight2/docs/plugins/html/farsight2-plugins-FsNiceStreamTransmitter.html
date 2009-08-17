@@ -7,13 +7,15 @@
 <link rel="start" href="index.html" title="Farsight2 Plugins Manual">
 <link rel="up" href="ch02.html" title="Transmitters">
 <link rel="prev" href="farsight2-plugins-FsMulticastStreamTransmitter.html" title="FsMulticastStreamTransmitter">
-<link rel="next" href="pt02.html" title="Part II. Utility elements">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<link rel="next" href="pt02.html" title="Part II. MSN plugins">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="part" href="pt01.html" title="Part I. RTP Plugin">
 <link rel="chapter" href="ch01.html" title="Core interface classes">
 <link rel="chapter" href="ch02.html" title="Transmitters">
-<link rel="part" href="pt02.html" title="Part II. Utility elements">
+<link rel="part" href="pt02.html" title="Part II. MSN plugins">
+<link rel="chapter" href="ch03.html" title="MSN Webcam plugin">
+<link rel="part" href="pt03.html" title="Part III. Utility elements">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -24,11 +26,13 @@
 <th width="100%" align="center">Farsight2 Plugins Manual</th>
 <td><a accesskey="n" href="pt02.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#farsight2-plugins-FsNiceStreamTransmitter.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#farsight2-plugins-FsNiceStreamTransmitter.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#farsight2-plugins-FsNiceStreamTransmitter.properties" class="shortcut">Properties</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#farsight2-plugins-FsNiceStreamTransmitter.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#farsight2-plugins-FsNiceStreamTransmitter.description" class="shortcut">Description</a>
+                 | 
+                <a href="#farsight2-plugins-FsNiceStreamTransmitter.properties" class="shortcut">Properties</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="farsight2-plugins-FsNiceStreamTransmitter"></a><div class="titlepage"></div>
@@ -49,25 +53,25 @@
 <a name="farsight2-plugins-FsNiceStreamTransmitter.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="farsight2-plugins-FsNiceStreamTransmitter.html#FsNiceStreamTransmitter--compatibility-mode" title='The "compatibility-mode" property'>compatibility-mode</a>"       <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Write / Construct Only
   "<a class="link" href="farsight2-plugins-FsNiceStreamTransmitter.html#FsNiceStreamTransmitter--controlling-mode" title='The "controlling-mode" property'>controlling-mode</a>"         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct
   "<a class="link" href="farsight2-plugins-FsNiceStreamTransmitter.html#FsNiceStreamTransmitter--debug" title='The "debug" property'>debug</a>"                    <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Write
   "<a class="link" href="farsight2-plugins-FsNiceStreamTransmitter.html#FsNiceStreamTransmitter--relay-info" title='The "relay-info" property'>relay-info</a>"               <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
+href="../gobject/gobject-Value-arrays.html#GValueArray"
 >GValueArray</a>*          : Write / Construct Only
   "<a class="link" href="farsight2-plugins-FsNiceStreamTransmitter.html#FsNiceStreamTransmitter--stream-id" title='The "stream-id" property'>stream-id</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read
   "<a class="link" href="farsight2-plugins-FsNiceStreamTransmitter.html#FsNiceStreamTransmitter--stun-ip" title='The "stun-ip" property'>stun-ip</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only
   "<a class="link" href="farsight2-plugins-FsNiceStreamTransmitter.html#FsNiceStreamTransmitter--stun-port" title='The "stun-port" property'>stun-port</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct Only
 </pre>
 </div>
@@ -76,7 +80,6 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <p>
 </p>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -90,8 +93,17 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <p>
 All members are private, access them using methods and properties</p>
 <p>
-
 </p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><a
+href="../farsight-libs/FsStreamTransmitter.html"
+>FsStreamTransmitter</a> <em class="structfield"><code>parent</code></em>;</span></p></td>
+<td> Parent object
+</td>
+</tr></tbody>
+</table></div>
 </div>
 </div>
 <div class="refsect1" lang="en">
@@ -99,7 +111,7 @@ All members are private, access them using methods and properties</p>
 <div class="refsect2" lang="en">
 <a name="FsNiceStreamTransmitter--compatibility-mode"></a><h3>The <code class="literal">"compatibility-mode"</code> property</h3>
 <pre class="programlisting">  "compatibility-mode"       <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Write / Construct Only</pre>
 <p>The id of the stream according to libnice.</p>
 <p>Allowed values: &lt;= 3</p>
@@ -109,7 +121,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <div class="refsect2" lang="en">
 <a name="FsNiceStreamTransmitter--controlling-mode"></a><h3>The <code class="literal">"controlling-mode"</code> property</h3>
 <pre class="programlisting">  "controlling-mode"         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct</pre>
 <p>Whether the agent is in controlling mode.</p>
 <p>Default value: TRUE</p>
@@ -118,7 +130,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" lang="en">
 <a name="FsNiceStreamTransmitter--debug"></a><h3>The <code class="literal">"debug"</code> property</h3>
 <pre class="programlisting">  "debug"                    <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Write</pre>
 <p>Whether the agent should enable libnice and stun debug messages.</p>
 <p>Default value: FALSE</p>
@@ -127,11 +139,11 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" lang="en">
 <a name="FsNiceStreamTransmitter--relay-info"></a><h3>The <code class="literal">"relay-info"</code> property</h3>
 <pre class="programlisting">  "relay-info"               <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
+href="../gobject/gobject-Value-arrays.html#GValueArray"
 >GValueArray</a>*          : Write / Construct Only</pre>
 <p>
 This is a <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
+href="../gobject/gobject-Value-arrays.html#GValueArray"
 ><span class="type">GValueArray</span></a> containing one or more <a
 href="../gstreamer-0.10/gstreamer-GstStructure.html#GstStructure"
 ><span class="type">GstStructure</span></a>.
@@ -178,14 +190,13 @@ The fields in the structure are:
   </tr>
 </table>
 <p>
-
 </p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
 <a name="FsNiceStreamTransmitter--stream-id"></a><h3>The <code class="literal">"stream-id"</code> property</h3>
 <pre class="programlisting">  "stream-id"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read</pre>
 <p>The id of the stream according to libnice.</p>
 <p>Allowed values: &lt;= G_MAXINT</p>
@@ -195,7 +206,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <div class="refsect2" lang="en">
 <a name="FsNiceStreamTransmitter--stun-ip"></a><h3>The <code class="literal">"stun-ip"</code> property</h3>
 <pre class="programlisting">  "stun-ip"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct Only</pre>
 <p>The STUN server used to obtain server-reflexive candidates.</p>
 <p>Default value: NULL</p>
@@ -204,7 +215,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="FsNiceStreamTransmitter--stun-port"></a><h3>The <code class="literal">"stun-port"</code> property</h3>
 <pre class="programlisting">  "stun-port"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct Only</pre>
 <p>The STUN server used to obtain server-reflexive candidates.</p>
 <p>Allowed values: [1,65536]</p>
@@ -213,11 +224,11 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 </div>
 <div class="refsect1" lang="en">
 <a name="farsight2-plugins-FsNiceStreamTransmitter.see-also"></a><h2>See Also</h2>
-<a class="link" href="farsight2-plugins-FsRawUdpStreamTransmitter.html#FsRawUdpStreamTransmitter" title="FsRawUdpStreamTransmitter"><span class="type">FsRawUdpStreamTransmitter</span></a>
+#FsRawUdpStreamTransmitter
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

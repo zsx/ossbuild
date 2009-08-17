@@ -82,9 +82,6 @@ G_DEFINE_ABSTRACT_TYPE(FsStreamTransmitter, fs_stream_transmitter,
   (G_TYPE_INSTANCE_GET_PRIVATE ((o), FS_TYPE_STREAM_TRANSMITTER, \
                                 FsStreamTransmitterPrivate))
 
-static void fs_stream_transmitter_dispose (GObject *object);
-static void fs_stream_transmitter_finalize (GObject *object);
-
 static void fs_stream_transmitter_get_property (GObject *object,
                                                 guint prop_id,
                                                 GValue *value,
@@ -94,7 +91,6 @@ static void fs_stream_transmitter_set_property (GObject *object,
                                                 const GValue *value,
                                                 GParamSpec *pspec);
 
-static GObjectClass *parent_class = NULL;
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static void
@@ -103,11 +99,9 @@ fs_stream_transmitter_class_init (FsStreamTransmitterClass *klass)
   GObjectClass *gobject_class;
 
   gobject_class = (GObjectClass *) klass;
-  parent_class = g_type_class_peek_parent (klass);
 
   gobject_class->set_property = fs_stream_transmitter_set_property;
   gobject_class->get_property = fs_stream_transmitter_get_property;
-
 
 
   /**
@@ -122,7 +116,7 @@ fs_stream_transmitter_class_init (FsStreamTransmitterClass *klass)
         "Whether to send from this transmitter",
         "If set to FALSE, the transmitter will stop sending to this person",
         TRUE,
-        G_PARAM_READWRITE));
+        G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStreamTransmitter:preferred-local-candidate:
@@ -137,7 +131,7 @@ fs_stream_transmitter_class_init (FsStreamTransmitterClass *klass)
         "The preferred candidates",
         "A GList of FsCandidates",
         FS_TYPE_CANDIDATE_LIST,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStreamTransmitter:associate-on-source
@@ -153,7 +147,7 @@ fs_stream_transmitter_class_init (FsStreamTransmitterClass *klass)
         "Associate incoming data based on the source address",
         "Whether to associate incoming data stream based on the source address",
         TRUE,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStreamTransmitter::error:
@@ -273,9 +267,6 @@ fs_stream_transmitter_class_init (FsStreamTransmitterClass *klass)
       G_TYPE_NONE, 2, G_TYPE_UINT, FS_TYPE_STREAM_STATE);
 
 
-  gobject_class->dispose = fs_stream_transmitter_dispose;
-  gobject_class->finalize = fs_stream_transmitter_finalize;
-
   g_type_class_add_private (klass, sizeof (FsStreamTransmitterPrivate));
 }
 
@@ -285,28 +276,6 @@ fs_stream_transmitter_init (FsStreamTransmitter *self)
   /* member init */
   self->priv = FS_STREAM_TRANSMITTER_GET_PRIVATE (self);
   self->priv->disposed = FALSE;
-}
-
-static void
-fs_stream_transmitter_dispose (GObject *object)
-{
-  FsStreamTransmitter *self = FS_STREAM_TRANSMITTER (object);
-
-  if (self->priv->disposed) {
-    /* If dispose did already run, return. */
-    return;
-  }
-
-  /* Make sure dispose does not run twice. */
-  self->priv->disposed = TRUE;
-
-  parent_class->dispose (object);
-}
-
-static void
-fs_stream_transmitter_finalize (GObject *object)
-{
-  parent_class->finalize (object);
 }
 
 static void

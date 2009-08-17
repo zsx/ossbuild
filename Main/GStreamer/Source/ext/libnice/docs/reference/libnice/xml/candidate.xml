@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnice-NiceCandidate">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnice-NiceCandidate.top_of_page">NiceCandidate</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNICE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NiceCandidate</refname>
+<refpurpose>ICE candidate representation</refpurpose>
+</refnamediv>
+<refsect1 id="libnice-NiceCandidate.stability-level">
+<title>Stability Level</title>
+Stable, unless otherwise indicated
+</refsect1>
+
+<refsynopsisdiv id="libnice-NiceCandidate.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="NiceCandidate">NiceCandidate</link>;
+enum                <link linkend="NiceCandidateType">NiceCandidateType</link>;
+enum                <link linkend="NiceCandidateTransport">NiceCandidateTransport</link>;
+                    <link linkend="TurnServer">TurnServer</link>;
+enum                <link linkend="NiceRelayType">NiceRelayType</link>;
+#define             <link linkend="NICE-CANDIDATE-MAX-FOUNDATION--CAPS">NICE_CANDIDATE_MAX_FOUNDATION</link>
+<link linkend="NiceCandidate">NiceCandidate</link> *     <link linkend="nice-candidate-new">nice_candidate_new</link>                  (<link linkend="NiceCandidateType">NiceCandidateType</link> type);
+<link linkend="void">void</link>                <link linkend="nice-candidate-free">nice_candidate_free</link>                 (<link linkend="NiceCandidate">NiceCandidate</link> *candidate);
+<link linkend="NiceCandidate">NiceCandidate</link> *     <link linkend="nice-candidate-copy">nice_candidate_copy</link>                 (const <link linkend="NiceCandidate">NiceCandidate</link> *candidate);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnice-NiceCandidate.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+A representation of an ICE candidate. Make sure you read the ICE drafts[1] to
+understand correctly the concept of ICE candidates.
+</para>
+<para>
+[1] http://tools.ietf.org/wg/mmusic/draft-ietf-mmusic-ice/</para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnice-NiceCandidate.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="NiceCandidate" role="struct">
+<title>NiceCandidate</title>
+<indexterm zone="NiceCandidate"><primary sortas="NiceCandidate">NiceCandidate</primary></indexterm><programlisting>typedef struct {
+  NiceCandidateType type;
+  NiceCandidateTransport transport;
+  NiceAddress addr;
+  NiceAddress base_addr;
+  guint32 priority;
+  guint stream_id;
+  guint component_id;
+  gchar foundation[NICE_CANDIDATE_MAX_FOUNDATION];
+  gchar *username;        /* pointer to a NULL-terminated username string */
+  gchar *password;        /* pointer to a NULL-terminated password string */
+  TurnServer *turn;
+  NiceSocket *sockptr;
+} NiceCandidate;
+</programlisting>
+<para>
+A structure to represent an ICE candidate
+ <note>
+   <para>
+   The <parameter>priority</parameter> is an integer as specified in the ICE draft 19. If you are
+   using the MSN or the GOOGLE compatibility mode (which are based on ICE
+   draft 6, which uses a floating point qvalue as priority), then the <parameter>priority</parameter>
+   value will represent the qvalue multiplied by 1000.
+   </para>
+ </note></para>
+<para>
+</para><variablelist role="struct">
+<varlistentry>
+<term><link linkend="NiceCandidateType">NiceCandidateType</link>&#160;<structfield>type</structfield>;</term>
+<listitem><simpara> The type of candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="NiceCandidateTransport">NiceCandidateTransport</link>&#160;<structfield>transport</structfield>;</term>
+<listitem><simpara> The transport being used for the candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="NiceAddress">NiceAddress</link>&#160;<structfield>addr</structfield>;</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> of the candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="NiceAddress">NiceAddress</link>&#160;<structfield>base_addr</structfield>;</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> of the base address used by the candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="guint32">guint32</link>&#160;<structfield>priority</structfield>;</term>
+<listitem><simpara> The priority of the candidate <emphasis> see note </emphasis>
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="guint">guint</link>&#160;<structfield>stream_id</structfield>;</term>
+<listitem><simpara> The ID of the stream to which belongs the candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="guint">guint</link>&#160;<structfield>component_id</structfield>;</term>
+<listitem><simpara> The ID of the component to which belongs the candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="gchar">gchar</link>&#160;<structfield>foundation</structfield>[NICE_CANDIDATE_MAX_FOUNDATION];</term>
+<listitem><simpara> The foundation of the candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="gchar">gchar</link>&#160;*<structfield>username</structfield>;</term>
+<listitem><simpara> The candidate-specific username to use (overrides the one set
+by <link linkend="nice-agent-set-local-credentials"><function>nice_agent_set_local_credentials()</function></link> or <link linkend="nice-agent-set-remote-credentials"><function>nice_agent_set_remote_credentials()</function></link>)
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="gchar">gchar</link>&#160;*<structfield>password</structfield>;</term>
+<listitem><simpara> The candidate-specific password to use (overrides the one set
+by <link linkend="nice-agent-set-local-credentials"><function>nice_agent_set_local_credentials()</function></link> or <link linkend="nice-agent-set-remote-credentials"><function>nice_agent_set_remote_credentials()</function></link>)
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="TurnServer">TurnServer</link>&#160;*<structfield>turn</structfield>;</term>
+<listitem><simpara> The <link linkend="TurnServer"><type>TurnServer</type></link> settings if the candidate is
+of type <link linkend="NICE-CANDIDATE-TYPE-RELAYED--CAPS"><literal>NICE_CANDIDATE_TYPE_RELAYED</literal></link>
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="NiceSocket">NiceSocket</link>&#160;*<structfield>sockptr</structfield>;</term>
+<listitem><simpara> The underlying socket
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NiceCandidateType" role="enum">
+<title>enum NiceCandidateType</title>
+<indexterm zone="NiceCandidateType"><primary sortas="NiceCandidateType">NiceCandidateType</primary></indexterm><programlisting>typedef enum
+{
+  NICE_CANDIDATE_TYPE_HOST,
+  NICE_CANDIDATE_TYPE_SERVER_REFLEXIVE,
+  NICE_CANDIDATE_TYPE_PEER_REFLEXIVE,
+  NICE_CANDIDATE_TYPE_RELAYED,
+} NiceCandidateType;
+</programlisting>
+<para>
+An enum represneting the type of a candidate</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="NICE-CANDIDATE-TYPE-HOST--CAPS" role="constant">
+<term><literal>NICE_CANDIDATE_TYPE_HOST</literal></term>
+<listitem><simpara> A host candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-CANDIDATE-TYPE-SERVER-REFLEXIVE--CAPS" role="constant">
+<term><literal>NICE_CANDIDATE_TYPE_SERVER_REFLEXIVE</literal></term>
+<listitem><simpara> A server reflexive candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-CANDIDATE-TYPE-PEER-REFLEXIVE--CAPS" role="constant">
+<term><literal>NICE_CANDIDATE_TYPE_PEER_REFLEXIVE</literal></term>
+<listitem><simpara> A peer reflexive candidate
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-CANDIDATE-TYPE-RELAYED--CAPS" role="constant">
+<term><literal>NICE_CANDIDATE_TYPE_RELAYED</literal></term>
+<listitem><simpara> A relay candidate
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NiceCandidateTransport" role="enum">
+<title>enum NiceCandidateTransport</title>
+<indexterm zone="NiceCandidateTransport"><primary sortas="NiceCandidateTransport">NiceCandidateTransport</primary></indexterm><programlisting>typedef enum
+{
+  NICE_CANDIDATE_TRANSPORT_UDP,
+} NiceCandidateTransport;
+</programlisting>
+<para>
+An enum representing the type of transport to use</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="NICE-CANDIDATE-TRANSPORT-UDP--CAPS" role="constant">
+<term><literal>NICE_CANDIDATE_TRANSPORT_UDP</literal></term>
+<listitem><simpara> UDP transport
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="TurnServer" role="struct">
+<title>TurnServer</title>
+<indexterm zone="TurnServer"><primary sortas="TurnServer">TurnServer</primary></indexterm><programlisting>typedef struct {
+  NiceAddress server;       /**&lt; TURN server address */
+  gchar *username;           /**&lt; TURN username */
+  gchar *password;           /**&lt; TURN password */
+  NiceRelayType type;             /**&lt; TURN type */
+} TurnServer;
+</programlisting>
+<para>
+A structure to store the TURN relay settings</para>
+<para>
+</para><variablelist role="struct">
+<varlistentry>
+<term><link linkend="NiceAddress">NiceAddress</link>&#160;<structfield>server</structfield>;</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> of the TURN server
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="gchar">gchar</link>&#160;*<structfield>username</structfield>;</term>
+<listitem><simpara> The TURN username
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="gchar">gchar</link>&#160;*<structfield>password</structfield>;</term>
+<listitem><simpara> The TURN password
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="NiceRelayType">NiceRelayType</link>&#160;<structfield>type</structfield>;</term>
+<listitem><simpara> The <link linkend="NiceRelayType"><type>NiceRelayType</type></link> of the server
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NiceRelayType" role="enum">
+<title>enum NiceRelayType</title>
+<indexterm zone="NiceRelayType"><primary sortas="NiceRelayType">NiceRelayType</primary></indexterm><programlisting>typedef enum {
+  NICE_RELAY_TYPE_TURN_UDP,
+  NICE_RELAY_TYPE_TURN_TCP,
+  NICE_RELAY_TYPE_TURN_TLS
+} NiceRelayType;
+</programlisting>
+<para>
+An enum representing the type of relay to use</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="NICE-RELAY-TYPE-TURN-UDP--CAPS" role="constant">
+<term><literal>NICE_RELAY_TYPE_TURN_UDP</literal></term>
+<listitem><simpara> A TURN relay using UDP
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-RELAY-TYPE-TURN-TCP--CAPS" role="constant">
+<term><literal>NICE_RELAY_TYPE_TURN_TCP</literal></term>
+<listitem><simpara> A TURN relay using TCP
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="NICE-RELAY-TYPE-TURN-TLS--CAPS" role="constant">
+<term><literal>NICE_RELAY_TYPE_TURN_TLS</literal></term>
+<listitem><simpara> A TURN relay using TLS over TCP
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="NICE-CANDIDATE-MAX-FOUNDATION--CAPS" role="macro">
+<title>NICE_CANDIDATE_MAX_FOUNDATION</title>
+<indexterm zone="NICE-CANDIDATE-MAX-FOUNDATION--CAPS"><primary sortas="NICE_CANDIDATE_MAX_FOUNDATION">NICE_CANDIDATE_MAX_FOUNDATION</primary></indexterm><programlisting>#define             NICE_CANDIDATE_MAX_FOUNDATION</programlisting>
+<para>
+The maximum size a candidate foundation can have.</para>
+<para>
+</para></refsect2>
+<refsect2 id="nice-candidate-new" role="function">
+<title>nice_candidate_new ()</title>
+<indexterm zone="nice-candidate-new"><primary sortas="nice_candidate_new">nice_candidate_new</primary></indexterm><programlisting><link linkend="NiceCandidate">NiceCandidate</link> *     nice_candidate_new                  (<link linkend="NiceCandidateType">NiceCandidateType</link> type);</programlisting>
+<para>
+Creates a new candidate. Must be freed with <link linkend="nice-candidate-free"><function>nice_candidate_free()</function></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceCandidateType"><type>NiceCandidateType</type></link> of the candidate to create
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A new <link linkend="NiceCandidate"><type>NiceCandidate</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-candidate-free" role="function">
+<title>nice_candidate_free ()</title>
+<indexterm zone="nice-candidate-free"><primary sortas="nice_candidate_free">nice_candidate_free</primary></indexterm><programlisting><link linkend="void">void</link>                nice_candidate_free                 (<link linkend="NiceCandidate">NiceCandidate</link> *candidate);</programlisting>
+<para>
+Frees a <link linkend="NiceCandidate"><type>NiceCandidate</type></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>candidate</parameter>&#160;:</term>
+<listitem><simpara> The candidate to free
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-candidate-copy" role="function">
+<title>nice_candidate_copy ()</title>
+<indexterm zone="nice-candidate-copy"><primary sortas="nice_candidate_copy">nice_candidate_copy</primary></indexterm><programlisting><link linkend="NiceCandidate">NiceCandidate</link> *     nice_candidate_copy                 (const <link linkend="NiceCandidate">NiceCandidate</link> *candidate);</programlisting>
+<para>
+Makes a copy of a <link linkend="NiceCandidate"><type>NiceCandidate</type></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>candidate</parameter>&#160;:</term>
+<listitem><simpara> The candidate to copy
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A new <link linkend="NiceCandidate"><type>NiceCandidate</type></link>, a copy of <parameter>candidate</parameter>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+<refsect1 id="libnice-NiceCandidate.see-also">
+<title>See Also</title>
+#NiceAddress
+</refsect1>
+
+</refentry>

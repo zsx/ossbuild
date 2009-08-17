@@ -133,8 +133,7 @@ enum
   PROP_CURRENT_RECV_CODECS,
   PROP_DIRECTION,
   PROP_PARTICIPANT,
-  PROP_SESSION,
-  PROP_STREAM_TRANSMITTER
+  PROP_SESSION
 };
 
 /*
@@ -157,7 +156,6 @@ static void fs_stream_set_property (GObject *object,
                                     const GValue *value,
                                     GParamSpec *pspec);
 
-static GObjectClass *parent_class = NULL;
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static void
@@ -166,7 +164,6 @@ fs_stream_class_init (FsStreamClass *klass)
   GObjectClass *gobject_class;
 
   gobject_class = (GObjectClass *) klass;
-  parent_class = g_type_class_peek_parent (klass);
 
   gobject_class->set_property = fs_stream_set_property;
   gobject_class->get_property = fs_stream_get_property;
@@ -186,7 +183,7 @@ fs_stream_class_init (FsStreamClass *klass)
         "A GList of GstPads representing the source pads being used by this"
         " stream for the different codecs",
         ,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 #endif
 
   /**
@@ -203,7 +200,7 @@ fs_stream_class_init (FsStreamClass *klass)
         "List of remote codecs",
         "A GList of FsCodecs of the remote codecs",
         FS_TYPE_CODEC_LIST,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStream:negotiated-codecs:
@@ -221,7 +218,7 @@ fs_stream_class_init (FsStreamClass *klass)
         "List of remote codecs",
         "A GList of FsCodecs of the negotiated codecs for this stream",
         FS_TYPE_CODEC_LIST,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStream:current-recv-codecs:
@@ -242,7 +239,7 @@ fs_stream_class_init (FsStreamClass *klass)
           "The codecs currently being received",
           "A GList of FsCodec representing the codecs that have been received",
           FS_TYPE_CODEC_LIST,
-          G_PARAM_READABLE));
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStream:direction:
@@ -259,7 +256,7 @@ fs_stream_class_init (FsStreamClass *klass)
         "An enum to set and get the direction of the stream",
         FS_TYPE_STREAM_DIRECTION,
         FS_DIRECTION_NONE,
-        G_PARAM_CONSTRUCT | G_PARAM_READWRITE));
+        G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStream:participant:
@@ -274,7 +271,7 @@ fs_stream_class_init (FsStreamClass *klass)
         "The participant of the stream",
         "An FsParticipant represented by the stream",
         FS_TYPE_PARTICIPANT,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStream:session:
@@ -289,21 +286,7 @@ fs_stream_class_init (FsStreamClass *klass)
         "The session of the stream",
         "An FsSession represented by the stream",
         FS_TYPE_SESSION,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
-
-  /**
-   * FsStream:stream-transmitter:
-   *
-   * The #FsStreamTransmitter for this stream.
-   *
-   */
-  g_object_class_install_property (gobject_class,
-      PROP_STREAM_TRANSMITTER,
-      g_param_spec_object ("stream-transmitter",
-        "The transmitter use by the stream",
-        "An FsStreamTransmitter used by this stream",
-        FS_TYPE_STREAM_TRANSMITTER,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE));
+        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsStream::error:
@@ -447,7 +430,7 @@ fs_stream_force_remote_candidates (FsStream *stream,
 
 /**
  * fs_stream_set_remote_codecs:
- * @stream: an #FsStream
+ * @stream: a #FsStream
  * @remote_codecs: a #GList of #FsCodec representing the remote codecs
  * @error: location of a #GError, or %NULL if no error occured
  *
@@ -475,6 +458,34 @@ fs_stream_set_remote_codecs (FsStream *stream,
   return FALSE;
 }
 
+/**
+ * fs_stream_add_id:
+ * @stream: a #FsStream
+ * @id: The id to add to the stream
+ *
+ * This function is used to add data identifiers that allow the
+ * plugin to recognize packets that are meant for id. For example, in RTP,
+ * one would set the SSRCs that are expected.
+ *
+ * Depending on the protocol, one may be able to add more than one ID
+ * to a stream (in RTP you can have multiple SSRCs in a stream).
+ * If a protocol supports only one id, adding a new one will overwrite it.
+ * If an ID was already set on a stream, adding it to another stream will
+ * override the previdous decision.
+ *
+ * For most protocols, calling this function is optional as the incoming data
+ * can be matched with a stream by its source IP address. This is mostly useful
+ * if one is using multicast or is behind a muxer server.
+ */
+void
+fs_stream_add_id (FsStream *stream,
+                  guint id)
+{
+  FsStreamClass *klass = FS_STREAM_GET_CLASS (stream);
+
+  if (klass->add_id)
+    klass->add_id (stream, id);
+}
 
 /**
  * fs_stream_emit_error:

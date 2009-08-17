@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnice-NiceAddress">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnice-NiceAddress.top_of_page">NiceAddress</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNICE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>NiceAddress</refname>
+<refpurpose>IP address convenience library</refpurpose>
+</refnamediv>
+<refsect1 id="libnice-NiceAddress.stability-level">
+<title>Stability Level</title>
+Stable, unless otherwise indicated
+</refsect1>
+
+<refsynopsisdiv id="libnice-NiceAddress.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+                    <link linkend="NiceAddress">NiceAddress</link>;
+#define             <link linkend="NICE-ADDRESS-STRING-LEN--CAPS">NICE_ADDRESS_STRING_LEN</link>
+<link linkend="void">void</link>                <link linkend="nice-address-init">nice_address_init</link>                   (<link linkend="NiceAddress">NiceAddress</link> *addr);
+<link linkend="NiceAddress">NiceAddress</link> *       <link linkend="nice-address-new">nice_address_new</link>                    (void);
+<link linkend="void">void</link>                <link linkend="nice-address-free">nice_address_free</link>                   (<link linkend="NiceAddress">NiceAddress</link> *addr);
+<link linkend="NiceAddress">NiceAddress</link> *       <link linkend="nice-address-dup">nice_address_dup</link>                    (const <link linkend="NiceAddress">NiceAddress</link> *addr);
+<link linkend="void">void</link>                <link linkend="nice-address-set-ipv4">nice_address_set_ipv4</link>               (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         <link linkend="guint32">guint32</link> addr_ipv4);
+<link linkend="void">void</link>                <link linkend="nice-address-set-ipv6">nice_address_set_ipv6</link>               (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         const <link linkend="guchar">guchar</link> *addr_ipv6);
+<link linkend="void">void</link>                <link linkend="nice-address-set-port">nice_address_set_port</link>               (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         <link linkend="guint">guint</link> port);
+<link linkend="guint">guint</link>               <link linkend="nice-address-get-port">nice_address_get_port</link>               (const <link linkend="NiceAddress">NiceAddress</link> *addr);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-address-set-from-string">nice_address_set_from_string</link>        (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         const <link linkend="gchar">gchar</link> *str);
+<link linkend="void">void</link>                <link linkend="nice-address-set-from-sockaddr">nice_address_set_from_sockaddr</link>      (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         const <link linkend="struct-sockaddr">struct sockaddr</link> *sin);
+<link linkend="void">void</link>                <link linkend="nice-address-copy-to-sockaddr">nice_address_copy_to_sockaddr</link>       (const <link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *sin);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-address-equal">nice_address_equal</link>                  (const <link linkend="NiceAddress">NiceAddress</link> *a,
+                                                         const <link linkend="NiceAddress">NiceAddress</link> *b);
+<link linkend="void">void</link>                <link linkend="nice-address-to-string">nice_address_to_string</link>              (const <link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         <link linkend="gchar">gchar</link> *dst);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-address-is-private">nice_address_is_private</link>             (const <link linkend="NiceAddress">NiceAddress</link> *addr);
+<link linkend="gboolean">gboolean</link>            <link linkend="nice-address-is-valid">nice_address_is_valid</link>               (const <link linkend="NiceAddress">NiceAddress</link> *addr);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnice-NiceAddress.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+The <link linkend="NiceAddress"><type>NiceAddress</type></link> structure will allow you to easily set/get and modify an IPv4
+or IPv6 address in order to communicate with the <link linkend="NiceAgent"><type>NiceAgent</type></link>.</para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnice-NiceAddress.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="NiceAddress" role="struct">
+<title>NiceAddress</title>
+<indexterm zone="NiceAddress"><primary sortas="NiceAddress">NiceAddress</primary></indexterm><programlisting>typedef struct {
+  union
+  {
+    struct sockaddr     addr;
+    struct sockaddr_in  ip4;
+    struct sockaddr_in6 ip6;
+  } s;
+} NiceAddress;
+</programlisting>
+<para>
+The <link linkend="NiceAddress"><type>NiceAddress</type></link> structure that represents an IPv4 or IPv6 address.</para>
+<para>
+</para><variablelist role="struct">
+</variablelist></refsect2>
+<refsect2 id="NICE-ADDRESS-STRING-LEN--CAPS" role="macro">
+<title>NICE_ADDRESS_STRING_LEN</title>
+<indexterm zone="NICE-ADDRESS-STRING-LEN--CAPS"><primary sortas="NICE_ADDRESS_STRING_LEN">NICE_ADDRESS_STRING_LEN</primary></indexterm><programlisting>#define             NICE_ADDRESS_STRING_LEN</programlisting>
+<para>
+The maximum string length representation of an address.
+When using <link linkend="nice-address-to-string"><function>nice_address_to_string()</function></link> make sure the string has a size of
+at least <link linkend="NICE-ADDRESS-STRING-LEN--CAPS"><literal>NICE_ADDRESS_STRING_LEN</literal></link></para>
+<para>
+</para></refsect2>
+<refsect2 id="nice-address-init" role="function">
+<title>nice_address_init ()</title>
+<indexterm zone="nice-address-init"><primary sortas="nice_address_init">nice_address_init</primary></indexterm><programlisting><link linkend="void">void</link>                nice_address_init                   (<link linkend="NiceAddress">NiceAddress</link> *addr);</programlisting>
+<para>
+Initialize a <link linkend="NiceAddress"><type>NiceAddress</type></link> into an undefined address</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to init
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-new" role="function">
+<title>nice_address_new ()</title>
+<indexterm zone="nice-address-new"><primary sortas="nice_address_new">nice_address_new</primary></indexterm><programlisting><link linkend="NiceAddress">NiceAddress</link> *       nice_address_new                    (void);</programlisting>
+<para>
+Create a new <link linkend="NiceAddress"><type>NiceAddress</type></link> with undefined address
+You must free it with <link linkend="nice-address-free"><function>nice_address_free()</function></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The new <link linkend="NiceAddress"><type>NiceAddress</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-free" role="function">
+<title>nice_address_free ()</title>
+<indexterm zone="nice-address-free"><primary sortas="nice_address_free">nice_address_free</primary></indexterm><programlisting><link linkend="void">void</link>                nice_address_free                   (<link linkend="NiceAddress">NiceAddress</link> *addr);</programlisting>
+<para>
+Frees a <link linkend="NiceAddress"><type>NiceAddress</type></link> created with <link linkend="nice-address-new"><function>nice_address_new()</function></link> or <link linkend="nice-address-dup"><function>nice_address_dup()</function></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to free
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-dup" role="function">
+<title>nice_address_dup ()</title>
+<indexterm zone="nice-address-dup"><primary sortas="nice_address_dup">nice_address_dup</primary></indexterm><programlisting><link linkend="NiceAddress">NiceAddress</link> *       nice_address_dup                    (const <link linkend="NiceAddress">NiceAddress</link> *addr);</programlisting>
+<para>
+Creates a new <link linkend="NiceAddress"><type>NiceAddress</type></link> with the same address as <parameter>addr</parameter></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to dup
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The new <link linkend="NiceAddress"><type>NiceAddress</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-set-ipv4" role="function">
+<title>nice_address_set_ipv4 ()</title>
+<indexterm zone="nice-address-set-ipv4"><primary sortas="nice_address_set_ipv4">nice_address_set_ipv4</primary></indexterm><programlisting><link linkend="void">void</link>                nice_address_set_ipv4               (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         <link linkend="guint32">guint32</link> addr_ipv4);</programlisting>
+<para>
+Set <parameter>addr</parameter> to an IPv4 address using the data from <parameter>addr_ipv4</parameter>
+</para>
+<para>
+ <note>
+  <para>
+   This function will reset the port to 0, so make sure you call it before
+   <link linkend="nice-address-set-port"><function>nice_address_set_port()</function></link>
+  </para>
+ </note></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to modify
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr_ipv4</parameter>&#160;:</term>
+<listitem><simpara> The IPv4 address
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-set-ipv6" role="function">
+<title>nice_address_set_ipv6 ()</title>
+<indexterm zone="nice-address-set-ipv6"><primary sortas="nice_address_set_ipv6">nice_address_set_ipv6</primary></indexterm><programlisting><link linkend="void">void</link>                nice_address_set_ipv6               (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         const <link linkend="guchar">guchar</link> *addr_ipv6);</programlisting>
+<para>
+Set <parameter>addr</parameter> to an IPv6 address using the data from <parameter>addr_ipv6</parameter>
+</para>
+<para>
+ <note>
+  <para>
+   This function will reset the port to 0, so make sure you call it before
+   <link linkend="nice-address-set-port"><function>nice_address_set_port()</function></link>
+  </para>
+ </note></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to modify
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr_ipv6</parameter>&#160;:</term>
+<listitem><simpara> The IPv6 address
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-set-port" role="function">
+<title>nice_address_set_port ()</title>
+<indexterm zone="nice-address-set-port"><primary sortas="nice_address_set_port">nice_address_set_port</primary></indexterm><programlisting><link linkend="void">void</link>                nice_address_set_port               (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         <link linkend="guint">guint</link> port);</programlisting>
+<para>
+Set the port of <parameter>addr</parameter> to <parameter>port</parameter></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to modify
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>port</parameter>&#160;:</term>
+<listitem><simpara> The port to set
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-get-port" role="function">
+<title>nice_address_get_port ()</title>
+<indexterm zone="nice-address-get-port"><primary sortas="nice_address_get_port">nice_address_get_port</primary></indexterm><programlisting><link linkend="guint">guint</link>               nice_address_get_port               (const <link linkend="NiceAddress">NiceAddress</link> *addr);</programlisting>
+<para>
+Retreive the port of <parameter>addr</parameter></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to query
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The port of <parameter>addr</parameter>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-set-from-string" role="function">
+<title>nice_address_set_from_string ()</title>
+<indexterm zone="nice-address-set-from-string"><primary sortas="nice_address_set_from_string">nice_address_set_from_string</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_address_set_from_string        (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         const <link linkend="gchar">gchar</link> *str);</programlisting>
+<para>
+Sets an IPv4 or IPv6 address from the string <parameter>str</parameter></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to modify
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>str</parameter>&#160;:</term>
+<listitem><simpara> The string to set
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if success, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> on error
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-set-from-sockaddr" role="function">
+<title>nice_address_set_from_sockaddr ()</title>
+<indexterm zone="nice-address-set-from-sockaddr"><primary sortas="nice_address_set_from_sockaddr">nice_address_set_from_sockaddr</primary></indexterm><programlisting><link linkend="void">void</link>                nice_address_set_from_sockaddr      (<link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         const <link linkend="struct-sockaddr">struct sockaddr</link> *sin);</programlisting>
+<para>
+Sets an IPv4 or IPv6 address from the sockaddr structure <parameter>sin</parameter></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to modify
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sin</parameter>&#160;:</term>
+<listitem><simpara> The sockaddr to set
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-copy-to-sockaddr" role="function">
+<title>nice_address_copy_to_sockaddr ()</title>
+<indexterm zone="nice-address-copy-to-sockaddr"><primary sortas="nice_address_copy_to_sockaddr">nice_address_copy_to_sockaddr</primary></indexterm><programlisting><link linkend="void">void</link>                nice_address_copy_to_sockaddr       (const <link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *sin);</programlisting>
+<para>
+Fills the sockaddr structure <parameter>sin</parameter> with the address contained in <parameter>addr</parameter></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to query
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sin</parameter>&#160;:</term>
+<listitem><simpara> The sockaddr to fill
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-equal" role="function">
+<title>nice_address_equal ()</title>
+<indexterm zone="nice-address-equal"><primary sortas="nice_address_equal">nice_address_equal</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_address_equal                  (const <link linkend="NiceAddress">NiceAddress</link> *a,
+                                                         const <link linkend="NiceAddress">NiceAddress</link> *b);</programlisting>
+<para>
+Compares two <link linkend="NiceAddress"><type>NiceAddress</type></link> structures to see if they contain the same address</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>a</parameter>&#160;:</term>
+<listitem><simpara> First <link linkend="NiceAddress"><type>NiceAddress</type></link> to compare
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>b</parameter>&#160;:</term>
+<listitem><simpara> Second <link linkend="NiceAddress"><type>NiceAddress</type></link> to compare
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if <parameter>a</parameter> and <parameter>b</parameter> are the same address, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> if they are different
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-to-string" role="function">
+<title>nice_address_to_string ()</title>
+<indexterm zone="nice-address-to-string"><primary sortas="nice_address_to_string">nice_address_to_string</primary></indexterm><programlisting><link linkend="void">void</link>                nice_address_to_string              (const <link linkend="NiceAddress">NiceAddress</link> *addr,
+                                                         <link linkend="gchar">gchar</link> *dst);</programlisting>
+<para>
+Transforms the address <parameter>addr</parameter> into a human readable string</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to query
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>dst</parameter>&#160;:</term>
+<listitem><simpara> The string to fill
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-is-private" role="function">
+<title>nice_address_is_private ()</title>
+<indexterm zone="nice-address-is-private"><primary sortas="nice_address_is_private">nice_address_is_private</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_address_is_private             (const <link linkend="NiceAddress">NiceAddress</link> *addr);</programlisting>
+<para>
+Verifies if the address in <parameter>addr</parameter> is a private address or not</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to query
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if <parameter>addr</parameter> is a private address, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> otherwise
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-address-is-valid" role="function">
+<title>nice_address_is_valid ()</title>
+<indexterm zone="nice-address-is-valid"><primary sortas="nice_address_is_valid">nice_address_is_valid</primary></indexterm><programlisting><link linkend="gboolean">gboolean</link>            nice_address_is_valid               (const <link linkend="NiceAddress">NiceAddress</link> *addr);</programlisting>
+<para>
+Validate whether the <link linkend="NiceAddress"><type>NiceAddress</type></link> <parameter>addr</parameter> is a valid IPv4 or IPv6 address</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="NiceAddress"><type>NiceAddress</type></link> to query
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if <parameter>addr</parameter> is valid, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> otherwise
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

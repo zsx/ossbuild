@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnice-Bind">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnice-Bind.top_of_page">Bind</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNICE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>Bind</refname>
+<refpurpose>STUN Binding Usage</refpurpose>
+</refnamediv>
+<refsect1 id="libnice-Bind.stability-level">
+<title>Stability Level</title>
+Stable, unless otherwise indicated
+</refsect1>
+
+<refsynopsisdiv id="libnice-Bind.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+#include &lt;stun/usages/bind.h&gt;
+
+enum                <link linkend="StunUsageBindReturn">StunUsageBindReturn</link>;
+<link linkend="size-t">size_t</link>              <link linkend="stun-usage-bind-create">stun_usage_bind_create</link>              (<link linkend="StunAgent">StunAgent</link> *agent,
+                                                         <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint8-t">uint8_t</link> *buffer,
+                                                         <link linkend="size-t">size_t</link> buffer_len);
+<link linkend="StunUsageBindReturn">StunUsageBindReturn</link>  <link linkend="stun-usage-bind-process">stun_usage_bind_process</link>            (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *alternate_server,
+                                                         <link linkend="socklen-t">socklen_t</link> *alternate_server_len);
+<link linkend="size-t">size_t</link>              <link linkend="stun-usage-bind-keepalive">stun_usage_bind_keepalive</link>           (<link linkend="StunAgent">StunAgent</link> *agent,
+                                                         <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint8-t">uint8_t</link> *buf,
+                                                         <link linkend="size-t">size_t</link> len);
+<link linkend="StunUsageBindReturn">StunUsageBindReturn</link>  <link linkend="stun-usage-bind-run">stun_usage_bind_run</link>                (const <link linkend="struct-sockaddr">struct sockaddr</link> *srv,
+                                                         <link linkend="socklen-t">socklen_t</link> srvlen,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnice-Bind.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+The STUN Binding usage allows for easily creating and parsing STUN Binding
+requests and responses. It offers both an asynchronous and a synchronous API
+that uses the STUN timer usage.</para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnice-Bind.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="StunUsageBindReturn" role="enum">
+<title>enum StunUsageBindReturn</title>
+<indexterm zone="StunUsageBindReturn"><primary sortas="StunUsageBindReturn">StunUsageBindReturn</primary></indexterm><programlisting>typedef enum {
+  STUN_USAGE_BIND_RETURN_SUCCESS,
+  STUN_USAGE_BIND_RETURN_ERROR,
+  STUN_USAGE_BIND_RETURN_INVALID,
+  STUN_USAGE_BIND_RETURN_ALTERNATE_SERVER,
+  STUN_USAGE_BIND_RETURN_TIMEOUT,
+} StunUsageBindReturn;
+</programlisting>
+<para>
+Return value of <link linkend="stun-usage-bind-process"><function>stun_usage_bind_process()</function></link> and <link linkend="stun-usage-bind-run"><function>stun_usage_bind_run()</function></link> which
+allows you to see what status the function call returned.</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-USAGE-BIND-RETURN-SUCCESS--CAPS" role="constant">
+<term><literal>STUN_USAGE_BIND_RETURN_SUCCESS</literal></term>
+<listitem><simpara> The binding usage succeeded
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-BIND-RETURN-ERROR--CAPS" role="constant">
+<term><literal>STUN_USAGE_BIND_RETURN_ERROR</literal></term>
+<listitem><simpara> There was an unknown error in the bind usage
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-BIND-RETURN-INVALID--CAPS" role="constant">
+<term><literal>STUN_USAGE_BIND_RETURN_INVALID</literal></term>
+<listitem><simpara> The message is invalid and should be ignored
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-BIND-RETURN-ALTERNATE-SERVER--CAPS" role="constant">
+<term><literal>STUN_USAGE_BIND_RETURN_ALTERNATE_SERVER</literal></term>
+<listitem><simpara> The binding request has an
+ALTERNATE-SERVER attribute
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-BIND-RETURN-TIMEOUT--CAPS" role="constant">
+<term><literal>STUN_USAGE_BIND_RETURN_TIMEOUT</literal></term>
+<listitem><simpara> The binding was unsuccessful because it has
+timed out.
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-usage-bind-create" role="function">
+<title>stun_usage_bind_create ()</title>
+<indexterm zone="stun-usage-bind-create"><primary sortas="stun_usage_bind_create">stun_usage_bind_create</primary></indexterm><programlisting><link linkend="size-t">size_t</link>              stun_usage_bind_create              (<link linkend="StunAgent">StunAgent</link> *agent,
+                                                         <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint8-t">uint8_t</link> *buffer,
+                                                         <link linkend="size-t">size_t</link> buffer_len);</programlisting>
+<para>
+Create a new STUN binding request to use with a STUN server.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAgent"><type>StunAgent</type></link> to use to create the binding request
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link> to build
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buffer</parameter>&#160;:</term>
+<listitem><simpara> The buffer to use for creating the <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buffer_len</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>buffer</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The length of the built message.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-usage-bind-process" role="function">
+<title>stun_usage_bind_process ()</title>
+<indexterm zone="stun-usage-bind-process"><primary sortas="stun_usage_bind_process">stun_usage_bind_process</primary></indexterm><programlisting><link linkend="StunUsageBindReturn">StunUsageBindReturn</link>  stun_usage_bind_process            (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *alternate_server,
+                                                         <link linkend="socklen-t">socklen_t</link> *alternate_server_len);</programlisting>
+<para>
+Process a STUN binding response and extracts the mapped address from the STUN
+message. Also checks for the ALTERNATE-SERVER attribute.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link> to process
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> A pointer to a <link linkend="sockaddr"><type>sockaddr</type></link> structure to fill with the mapped address
+that the STUN server gives us
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>add</parameter>. rMust be set to the size of the <parameter>addr</parameter> socket
+address and will be set to the actual length of the socket address.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>alternate_server</parameter>&#160;:</term>
+<listitem><simpara> A pointer to a <link linkend="sockaddr"><type>sockaddr</type></link> structure to fill with the
+address of an alternate server to which we should send our new STUN
+binding request, in case the currently used STUN server is requesting the use
+of an alternate server. This argument will only be filled if the return value
+of the function is <link linkend="STUN-USAGE-BIND-RETURN-ALTERNATE-SERVER--CAPS"><type>STUN_USAGE_BIND_RETURN_ALTERNATE_SERVER</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>alternate_server_len</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>alternate_server</parameter>. Must be set to
+the size of the <parameter>alternate_server</parameter> socket address and will be set to the
+actual length of the socket address.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunUsageBindReturn"><type>StunUsageBindReturn</type></link> value.
+Note that <link linkend="STUN-USAGE-BIND-RETURN-TIMEOUT--CAPS"><type>STUN_USAGE_BIND_RETURN_TIMEOUT</type></link> cannot be returned by this function
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-usage-bind-keepalive" role="function">
+<title>stun_usage_bind_keepalive ()</title>
+<indexterm zone="stun-usage-bind-keepalive"><primary sortas="stun_usage_bind_keepalive">stun_usage_bind_keepalive</primary></indexterm><programlisting><link linkend="size-t">size_t</link>              stun_usage_bind_keepalive           (<link linkend="StunAgent">StunAgent</link> *agent,
+                                                         <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="uint8-t">uint8_t</link> *buf,
+                                                         <link linkend="size-t">size_t</link> len);</programlisting>
+<para>
+Creates a STUN binding indication that can be used for a keepalive.
+Since this is an indication message, no STUN response will be generated
+and it can only be used as a keepalive message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>agent</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAgent"><type>StunAgent</type></link> to use to build the message
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link> to build
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buf</parameter>&#160;:</term>
+<listitem><simpara> The buffer to use for creating the <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>len</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>buf</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The length of the message to send
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-usage-bind-run" role="function">
+<title>stun_usage_bind_run ()</title>
+<indexterm zone="stun-usage-bind-run"><primary sortas="stun_usage_bind_run">stun_usage_bind_run</primary></indexterm><programlisting><link linkend="StunUsageBindReturn">StunUsageBindReturn</link>  stun_usage_bind_run                (const <link linkend="struct-sockaddr">struct sockaddr</link> *srv,
+                                                         <link linkend="socklen-t">socklen_t</link> srvlen,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen);</programlisting>
+<para>
+This is a convenience function that will do a synchronous Binding request to
+a server and wait for its answer. It will use the <link linkend="StunUsageTrans"><type>StunUsageTrans</type></link> and
+<link linkend="StunUsageTimer"><type>StunUsageTimer</type></link> usages to send the request and handle the response.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>srv</parameter>&#160;:</term>
+<listitem><simpara> A pointer to the <link linkend="sockaddr"><type>sockaddr</type></link> structure representing the STUN server's
+address
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>srvlen</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>srv</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> A pointer to a <link linkend="sockaddr"><type>sockaddr</type></link> structure to fill with the mapped address
+that the STUN server gives us
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The length of <parameter>addr</parameter>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunUsageBindReturn"><type>StunUsageBindReturn</type></link>.
+Possible return values are <link linkend="STUN-USAGE-BIND-RETURN-SUCCESS--CAPS"><type>STUN_USAGE_BIND_RETURN_SUCCESS</type></link>,
+<link linkend="STUN-USAGE-BIND-RETURN-ERROR--CAPS"><type>STUN_USAGE_BIND_RETURN_ERROR</type></link> and <link linkend="STUN-USAGE-BIND-RETURN-TIMEOUT--CAPS"><type>STUN_USAGE_BIND_RETURN_TIMEOUT</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

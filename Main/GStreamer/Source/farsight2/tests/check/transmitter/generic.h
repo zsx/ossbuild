@@ -43,5 +43,4 @@ extern GPid stund_pid;
 void setup_stund (void);
 void teardown_stund (void);
 
-
 #endif /* __GENERIC_H__ */

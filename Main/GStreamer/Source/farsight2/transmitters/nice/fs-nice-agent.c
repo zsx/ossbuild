@@ -158,15 +158,15 @@ fs_nice_agent_class_init (FsNiceAgentClass *klass)
           "The id of the stream according to libnice",
           NICE_COMPATIBILITY_DRAFT19, NICE_COMPATIBILITY_LAST,
           NICE_COMPATIBILITY_DRAFT19,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class,
       PROP_PREFERRED_LOCAL_CANDIDATES,
       g_param_spec_boxed ("preferred-local-candidates",
-        "The preferred candidates",
-        "A GList of FsCandidates",
-        FS_TYPE_CANDIDATE_LIST,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+          "The preferred candidates",
+          "A GList of FsCandidates",
+          FS_TYPE_CANDIDATE_LIST,
+          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -281,16 +281,17 @@ fs_nice_agent_stop_thread (FsNiceAgent *self)
 {
   GSource *idle_source;
 
+  g_main_loop_quit (self->priv->main_loop);
+
   FS_NICE_AGENT_LOCK(self);
 
-  if (self->priv->thread == NULL)
+  if (self->priv->thread == NULL ||
+      self->priv->thread == g_thread_self ())
   {
     FS_NICE_AGENT_UNLOCK (self);
     return;
   }
   FS_NICE_AGENT_UNLOCK (self);
-
-  g_main_loop_quit (self->priv->main_loop);
 
   idle_source = g_idle_source_new ();
   g_source_set_priority (idle_source, G_PRIORITY_HIGH);
@@ -429,4 +430,20 @@ fs_nice_agent_new (guint compatibility_mode,
   FS_NICE_AGENT_UNLOCK (self);
 
   return self;
+}
+
+
+void
+fs_nice_agent_add_idle (FsNiceAgent *agent, GSourceFunc func,
+    gpointer data, GDestroyNotify destroy_notify)
+{
+  GSource *source;
+
+  g_return_if_fail (func != NULL);
+
+  source = g_idle_source_new ();
+  g_source_set_priority (source, G_PRIORITY_HIGH);
+  g_source_set_callback (source, func, data, destroy_notify);
+  g_source_attach (source, agent->priv->main_context);
+  g_source_unref (source);
 }

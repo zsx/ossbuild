@@ -1,0 +1,1505 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnice-StunMessage">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnice-StunMessage.top_of_page">StunMessage</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNICE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>StunMessage</refname>
+<refpurpose>STUN messages parsing and formatting functions</refpurpose>
+</refnamediv>
+<refsect1 id="libnice-StunMessage.stability-level">
+<title>Stability Level</title>
+Stable, unless otherwise indicated
+</refsect1>
+
+<refsynopsisdiv id="libnice-StunMessage.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+#include &lt;stun/stunmessage.h&gt;
+
+                    <link linkend="StunMessage">StunMessage</link>;
+enum                <link linkend="StunClass">StunClass</link>;
+enum                <link linkend="StunMethod">StunMethod</link>;
+enum                <link linkend="StunAttribute">StunAttribute</link>;
+typedef             <link linkend="StunTransactionId">StunTransactionId</link>;
+enum                <link linkend="StunError">StunError</link>;
+enum                <link linkend="StunMessageReturn">StunMessageReturn</link>;
+#define             <link linkend="STUN-MESSAGE-BUFFER-INCOMPLETE--CAPS">STUN_MESSAGE_BUFFER_INCOMPLETE</link>
+#define             <link linkend="STUN-MESSAGE-BUFFER-INVALID--CAPS">STUN_MESSAGE_BUFFER_INVALID</link>
+<link linkend="bool">bool</link>                <link linkend="stun-message-init">stun_message_init</link>                   (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunClass">StunClass</link> c,
+                                                         <link linkend="StunMethod">StunMethod</link> m,
+                                                         const <link linkend="StunTransactionId">StunTransactionId</link> id);
+<link linkend="uint16-t">uint16_t</link>            <link linkend="stun-message-length">stun_message_length</link>                 (const <link linkend="StunMessage">StunMessage</link> *msg);
+const <link linkend="void">void</link> *        <link linkend="stun-message-find">stun_message_find</link>                   (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint16-t">uint16_t</link> *palen);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-find-flag">stun_message_find_flag</link>              (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-find32">stun_message_find32</link>                 (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint32-t">uint32_t</link> *pval);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-find64">stun_message_find64</link>                 (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint64-t">uint64_t</link> *pval);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-find-string">stun_message_find_string</link>            (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="char">char</link> *buf,
+                                                         <link linkend="size-t">size_t</link> buflen);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-find-addr">stun_message_find_addr</link>              (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-find-xor-addr">stun_message_find_xor_addr</link>          (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-find-xor-addr-full">stun_message_find_xor_addr_full</link>     (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen,
+                                                         <link linkend="uint32-t">uint32_t</link> magic_cookie);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-find-error">stun_message_find_error</link>             (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="int">int</link> *code);
+<link linkend="void">void</link> *              <link linkend="stun-message-append">stun_message_append</link>                 (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="size-t">size_t</link> length);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append-bytes">stun_message_append_bytes</link>           (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="void">void</link> *data,
+                                                         <link linkend="size-t">size_t</link> len);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append-flag">stun_message_append_flag</link>            (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append32">stun_message_append32</link>               (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint32-t">uint32_t</link> value);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append64">stun_message_append64</link>               (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint64-t">uint64_t</link> value);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append-string">stun_message_append_string</link>          (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="char">char</link> *str);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append-addr">stun_message_append_addr</link>            (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> addrlen);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append-xor-addr">stun_message_append_xor_addr</link>        (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> addrlen);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append-xor-addr-full">stun_message_append_xor_addr_full</link>   (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> addrlen,
+                                                         <link linkend="uint32-t">uint32_t</link> magic_cookie);
+<link linkend="StunMessageReturn">StunMessageReturn</link>   <link linkend="stun-message-append-error">stun_message_append_error</link>           (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunError">StunError</link> code);
+<link linkend="int">int</link>                 <link linkend="stun-message-validate-buffer-length">stun_message_validate_buffer_length</link> (const <link linkend="uint8-t">uint8_t</link> *msg,
+                                                         <link linkend="size-t">size_t</link> length);
+<link linkend="void">void</link>                <link linkend="stun-message-id">stun_message_id</link>                     (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunTransactionId">StunTransactionId</link> id);
+<link linkend="StunClass">StunClass</link>           <link linkend="stun-message-get-class">stun_message_get_class</link>              (const <link linkend="StunMessage">StunMessage</link> *msg);
+<link linkend="StunMethod">StunMethod</link>          <link linkend="stun-message-get-method">stun_message_get_method</link>             (const <link linkend="StunMessage">StunMessage</link> *msg);
+<link linkend="bool">bool</link>                <link linkend="stun-message-has-attribute">stun_message_has_attribute</link>          (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type);
+<link linkend="bool">bool</link>                <link linkend="stun-message-has-cookie">stun_message_has_cookie</link>             (const <link linkend="StunMessage">StunMessage</link> *msg);
+<link linkend="bool">bool</link>                <link linkend="stun-optional">stun_optional</link>                       (<link linkend="uint16-t">uint16_t</link> t);
+const <link linkend="char">char</link> *        <link linkend="stun-strerror">stun_strerror</link>                       (<link linkend="StunError">StunError</link> code);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnice-StunMessage.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+The STUN Messages API allows you to create STUN messages easily as well as to
+parse existing messages.</para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnice-StunMessage.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="StunMessage" role="struct">
+<title>StunMessage</title>
+<indexterm zone="StunMessage"><primary sortas="StunMessage">StunMessage</primary></indexterm><programlisting>typedef struct {
+  StunAgent *agent;
+  uint8_t *buffer;
+  size_t buffer_len;
+  uint8_t *key;
+  size_t key_len;
+  uint8_t long_term_key[16];
+  bool long_term_valid;
+} StunMessage;
+</programlisting>
+<para>
+This structure represents a STUN message</para>
+<para>
+</para><variablelist role="struct">
+<varlistentry>
+<term><link linkend="StunAgent">StunAgent</link>&#160;*<structfield>agent</structfield>;</term>
+<listitem><simpara> The agent that created or validated this message
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="uint8-t">uint8_t</link>&#160;*<structfield>buffer</structfield>;</term>
+<listitem><simpara> The buffer containing the STUN message
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="size-t">size_t</link>&#160;<structfield>buffer_len</structfield>;</term>
+<listitem><simpara> The length of the buffer (not the size of the message)
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="uint8-t">uint8_t</link>&#160;*<structfield>key</structfield>;</term>
+<listitem><simpara> The short term credentials key to use for authentication validation
+or that was used to finalize this message
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="size-t">size_t</link>&#160;<structfield>key_len</structfield>;</term>
+<listitem><simpara> The length of the associated key
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="uint8-t">uint8_t</link>&#160;<structfield>long_term_key</structfield>[16];</term>
+<listitem><simpara> The long term credential key to use for authentication
+validation or that was used to finalize this message
+</simpara></listitem>
+</varlistentry>
+<varlistentry>
+<term><link linkend="bool">bool</link>&#160;<structfield>long_term_valid</structfield>;</term>
+<listitem><simpara> Whether or not the <link linkend="long-term-key"><type>long_term_key</type></link> variable contains valid
+data
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="StunClass" role="enum">
+<title>enum StunClass</title>
+<indexterm zone="StunClass"><primary sortas="StunClass">StunClass</primary></indexterm><programlisting>typedef enum
+{
+  STUN_REQUEST=0,
+  STUN_INDICATION=1,
+  STUN_RESPONSE=2,
+  STUN_ERROR=3
+} StunClass;
+</programlisting>
+<para>
+This enum is used to represent the class of
+a STUN message, as defined in RFC5389</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-REQUEST--CAPS" role="constant">
+<term><literal>STUN_REQUEST</literal></term>
+<listitem><simpara> A STUN Request message
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-INDICATION--CAPS" role="constant">
+<term><literal>STUN_INDICATION</literal></term>
+<listitem><simpara> A STUN indication message
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-RESPONSE--CAPS" role="constant">
+<term><literal>STUN_RESPONSE</literal></term>
+<listitem><simpara> A STUN Response message
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR--CAPS" role="constant">
+<term><literal>STUN_ERROR</literal></term>
+<listitem><simpara> A STUN Error message
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="StunMethod" role="enum">
+<title>enum StunMethod</title>
+<indexterm zone="StunMethod"><primary sortas="StunMethod">StunMethod</primary></indexterm><programlisting>typedef enum
+{
+  STUN_BINDING=0x001,    /* RFC5389 */
+  STUN_SHARED_SECRET=0x002,  /* old RFC3489 */
+  STUN_ALLOCATE=0x003,    /* TURN-12 */
+  STUN_SET_ACTIVE_DST=0x004,  /* TURN-04 */
+  STUN_REFRESH=0x004,  /* TURN-12 */
+  STUN_SEND=0x004,  /* TURN-00 */
+  STUN_CONNECT=0x005,    /* TURN-04 */
+  STUN_OLD_SET_ACTIVE_DST=0x006,  /* TURN-00 */
+  STUN_IND_SEND=0x006,    /* TURN-12 */
+  STUN_IND_DATA=0x007,    /* TURN-12 */
+  STUN_IND_CONNECT_STATUS=0x008,  /* TURN-04 */
+  STUN_CREATEPERMISSION= 0x008, /* TURN-12 */
+  STUN_CHANNELBIND= 0x009 /* TURN-12 */
+} StunMethod;
+</programlisting>
+<para>
+This enum is used to represent the method of
+a STUN message, as defined by various RFCs</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-BINDING--CAPS" role="constant">
+<term><literal>STUN_BINDING</literal></term>
+<listitem><simpara> The Binding method as defined by the RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-SHARED-SECRET--CAPS" role="constant">
+<term><literal>STUN_SHARED_SECRET</literal></term>
+<listitem><simpara> The Shared-Secret method as defined by the RFC3489
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ALLOCATE--CAPS" role="constant">
+<term><literal>STUN_ALLOCATE</literal></term>
+<listitem><simpara> The Allocate method as defined by the TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-SET-ACTIVE-DST--CAPS" role="constant">
+<term><literal>STUN_SET_ACTIVE_DST</literal></term>
+<listitem><simpara> The Set-Active-Destination method as defined by
+the TURN draft 4
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-REFRESH--CAPS" role="constant">
+<term><literal>STUN_REFRESH</literal></term>
+<listitem><simpara> The Refresh method as defined by the TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-SEND--CAPS" role="constant">
+<term><literal>STUN_SEND</literal></term>
+<listitem><simpara> The Send method as defined by the TURN draft 00
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-CONNECT--CAPS" role="constant">
+<term><literal>STUN_CONNECT</literal></term>
+<listitem><simpara> The Connect method as defined by the TURN draft 4
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-OLD-SET-ACTIVE-DST--CAPS" role="constant">
+<term><literal>STUN_OLD_SET_ACTIVE_DST</literal></term>
+<listitem><simpara> The older Set-Active-Destination method as
+defined by the TURN draft 0
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-IND-SEND--CAPS" role="constant">
+<term><literal>STUN_IND_SEND</literal></term>
+<listitem><simpara> The Send method used in indication messages as defined
+by the TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-IND-DATA--CAPS" role="constant">
+<term><literal>STUN_IND_DATA</literal></term>
+<listitem><simpara> The Data method used in indication messages as defined
+by the TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-IND-CONNECT-STATUS--CAPS" role="constant">
+<term><literal>STUN_IND_CONNECT_STATUS</literal></term>
+<listitem><simpara>  The Connect-Status method used in indication
+messages as defined by the TURN draft 4
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-CREATEPERMISSION--CAPS" role="constant">
+<term><literal>STUN_CREATEPERMISSION</literal></term>
+<listitem><simpara> The CreatePermission method as defined by
+the TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-CHANNELBIND--CAPS" role="constant">
+<term><literal>STUN_CHANNELBIND</literal></term>
+<listitem><simpara> The ChannelBind method as defined by the TURN draft 12
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="StunAttribute" role="enum">
+<title>enum StunAttribute</title>
+<indexterm zone="StunAttribute"><primary sortas="StunAttribute">StunAttribute</primary></indexterm><programlisting>typedef enum
+{
+  /* Mandatory attributes */
+  /* 0x0000 */        /* reserved */
+  STUN_ATTRIBUTE_MAPPED_ADDRESS=0x0001,    /* RFC5389 */
+  STUN_ATTRIBUTE_RESPONSE_ADDRESS=0x0002,  /* old RFC3489 */
+  STUN_ATTRIBUTE_CHANGE_REQUEST=0x0003,    /* old RFC3489 */
+  STUN_ATTRIBUTE_SOURCE_ADDRESS=0x0004,    /* old RFC3489 */
+  STUN_ATTRIBUTE_CHANGED_ADDRESS=0x0005,  /* old RFC3489 */
+  STUN_ATTRIBUTE_USERNAME=0x0006,      /* RFC5389 */
+  STUN_ATTRIBUTE_PASSWORD=0x0007,    /* old RFC3489 */
+  STUN_ATTRIBUTE_MESSAGE_INTEGRITY=0x0008,    /* RFC5389 */
+  STUN_ATTRIBUTE_ERROR_CODE=0x0009,      /* RFC5389 */
+  STUN_ATTRIBUTE_UNKNOWN_ATTRIBUTES=0x000A,    /* RFC5389 */
+  STUN_ATTRIBUTE_REFLECTED_FROM=0x000B,    /* old RFC3489 */
+  STUN_ATTRIBUTE_CHANNEL_NUMBER=0x000C,        /* TURN-12 */
+  STUN_ATTRIBUTE_LIFETIME=0x000D,      /* TURN-12 */
+  /* 0x000E */        /* reserved (was ALTERNATE-SERVER from midcom-TURN 08 */
+  STUN_ATTRIBUTE_MAGIC_COOKIE=0x000F,        /* midcom-TURN 08 */
+  STUN_ATTRIBUTE_BANDWIDTH=0x0010,      /* TURN-04 */
+  STUN_ATTRIBUTE_DESTINATION_ADDRESS=0x0011,        /* midcom-TURN 08 */
+  STUN_ATTRIBUTE_REMOTE_ADDRESS=0x0012,    /* TURN-04 */
+  STUN_ATTRIBUTE_PEER_ADDRESS=0x0012,    /* TURN-09 */
+  STUN_ATTRIBUTE_XOR_PEER_ADDRESS=0x0012,    /* TURN-12 */
+  STUN_ATTRIBUTE_DATA=0x0013,      /* TURN-12 */
+  STUN_ATTRIBUTE_REALM=0x0014,      /* RFC5389 */
+  STUN_ATTRIBUTE_NONCE=0x0015,      /* RFC5389 */
+  STUN_ATTRIBUTE_RELAY_ADDRESS=0x0016,    /* TURN-04 */
+  STUN_ATTRIBUTE_RELAYED_ADDRESS=0x0016,    /* TURN-09 */
+  STUN_ATTRIBUTE_XOR_RELAYED_ADDRESS=0x0016,    /* TURN-12 */
+  STUN_ATTRIBUTE_REQUESTED_ADDRESS_TYPE=0x0017,  /* TURN-IPv6-05 */
+  STUN_ATTRIBUTE_REQUESTED_PORT_PROPS=0x0018,  /* TURN-04 */
+  STUN_ATTRIBUTE_REQUESTED_PROPS=0x0018,  /* TURN-09 */
+  STUN_ATTRIBUTE_EVEN_PORT=0x0018,  /* TURN-12 */
+  STUN_ATTRIBUTE_REQUESTED_TRANSPORT=0x0019,  /* TURN-12 */
+  STUN_ATTRIBUTE_DONT_FRAGMENT=0x001A,  /* TURN-12 */
+  /* 0x001B */        /* reserved */
+  /* 0x001C */        /* reserved */
+  /* 0x001D */        /* reserved */
+  /* 0x001E */        /* reserved */
+  /* 0x001F */        /* reserved */
+  STUN_ATTRIBUTE_XOR_MAPPED_ADDRESS=0x0020,    /* RFC5389 */
+  STUN_ATTRIBUTE_TIMER_VAL=0x0021,      /* TURN-04 */
+  STUN_ATTRIBUTE_REQUESTED_IP=0x0022,    /* TURN-04 */
+  STUN_ATTRIBUTE_RESERVATION_TOKEN=0x0022,    /* TURN-09 */
+  STUN_ATTRIBUTE_CONNECT_STAT=0x0023,    /* TURN-04 */
+  STUN_ATTRIBUTE_PRIORITY=0x0024,      /* ICE-19 */
+  STUN_ATTRIBUTE_USE_CANDIDATE=0x0025,    /* ICE-19 */
+  /* 0x0026 */        /* reserved */
+  /* 0x0027 */        /* reserved */
+  /* 0x0028 */        /* reserved */
+  /* 0x0029 */        /* reserved */
+  /* 0x002A-0x7fff */      /* reserved */
+
+  /* Optional attributes */
+  /* 0x8000-0x8021 */      /* reserved */
+  STUN_ATTRIBUTE_OPTIONS=0x8001, /* libjingle */
+  STUN_ATTRIBUTE_SOFTWARE=0x8022,      /* RFC5389 */
+  STUN_ATTRIBUTE_ALTERNATE_SERVER=0x8023,    /* RFC5389 */
+  /* 0x8024 */        /* reserved */
+  /* 0x8025 */        /* reserved */
+  /* 0x8026 */        /* reserved */
+  /* 0x8027 */        /* reserved */
+  STUN_ATTRIBUTE_FINGERPRINT=0x8028,    /* RFC5389 */
+  STUN_ATTRIBUTE_ICE_CONTROLLED=0x8029,    /* ICE-19 */
+  STUN_ATTRIBUTE_ICE_CONTROLLING=0x802A,    /* ICE-19 */
+  /* 0x802B-0xFFFF */      /* reserved */
+} StunAttribute;
+</programlisting>
+<para>
+Known STUN attribute types as defined by various RFCs and drafts</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-ATTRIBUTE-MAPPED-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_MAPPED_ADDRESS</literal></term>
+<listitem><simpara> The MAPPED-ADDRESS attribute as defined
+by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-RESPONSE-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_RESPONSE_ADDRESS</literal></term>
+<listitem><simpara> The RESPONSE-ADDRESS attribute as defined
+by RFC3489
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-CHANGE-REQUEST--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_CHANGE_REQUEST</literal></term>
+<listitem><simpara> The CHANGE-REQUEST attribute as defined by
+RFC3489
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-SOURCE-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_SOURCE_ADDRESS</literal></term>
+<listitem><simpara> The SOURCE-ADDRESS attribute as defined by
+RFC3489
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-CHANGED-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_CHANGED_ADDRESS</literal></term>
+<listitem><simpara> The CHANGED-ADDRESS attribute as defined
+by RFC3489
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-USERNAME--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_USERNAME</literal></term>
+<listitem><simpara> The USERNAME attribute as defined by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-PASSWORD--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_PASSWORD</literal></term>
+<listitem><simpara> The PASSWORD attribute as defined by RFC3489
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-MESSAGE-INTEGRITY--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_MESSAGE_INTEGRITY</literal></term>
+<listitem><simpara> The MESSAGE-INTEGRITY attribute as defined
+by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-ERROR-CODE--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_ERROR_CODE</literal></term>
+<listitem><simpara> The ERROR-CODE attribute as defined by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-UNKNOWN-ATTRIBUTES--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_UNKNOWN_ATTRIBUTES</literal></term>
+<listitem><simpara> The UNKNOWN-ATTRIBUTES attribute as
+defined by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-REFLECTED-FROM--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_REFLECTED_FROM</literal></term>
+<listitem><simpara> The REFLECTED-FROM attribute as defined
+by RFC3489
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-CHANNEL-NUMBER--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_CHANNEL_NUMBER</literal></term>
+<listitem><simpara> The CHANNEL-NUMBER attribute as defined by
+TURN draft 09 and 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-LIFETIME--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_LIFETIME</literal></term>
+<listitem><simpara> The LIFETIME attribute as defined by TURN
+draft 04, 09 and 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-MAGIC-COOKIE--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_MAGIC_COOKIE</literal></term>
+<listitem><simpara> The MAGIC-COOKIE attribute as defined by
+the rosenberg-midcom TURN draft 08
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-BANDWIDTH--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_BANDWIDTH</literal></term>
+<listitem><simpara> The BANDWIDTH attribute as defined by TURN draft 04
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-DESTINATION-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_DESTINATION_ADDRESS</literal></term>
+<listitem><simpara> The DESTINATION-ADDRESS attribute as
+defined by the rosenberg-midcom TURN draft 08
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-REMOTE-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_REMOTE_ADDRESS</literal></term>
+<listitem><simpara> The REMOTE-ADDRESS attribute as defined by
+TURN draft 04
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-PEER-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_PEER_ADDRESS</literal></term>
+<listitem><simpara> The PEER-ADDRESS attribute as defined by
+TURN draft 09
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-XOR-PEER-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_XOR_PEER_ADDRESS</literal></term>
+<listitem><simpara> The XOR-PEER-ADDRESS attribute as defined
+by TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-DATA--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_DATA</literal></term>
+<listitem><simpara> The DATA attribute as defined by TURN draft 04,
+09 and 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-REALM--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_REALM</literal></term>
+<listitem><simpara> The REALM attribute as defined by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-NONCE--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_NONCE</literal></term>
+<listitem><simpara> The NONCE attribute as defined by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-RELAY-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_RELAY_ADDRESS</literal></term>
+<listitem><simpara> The RELAY-ADDRESS attribute as defined by
+TURN draft 04
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-RELAYED-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_RELAYED_ADDRESS</literal></term>
+<listitem><simpara> The RELAYED-ADDRESS attribute as defined by
+TURN draft 09
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-XOR-RELAYED-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_XOR_RELAYED_ADDRESS</literal></term>
+<listitem><simpara> The XOR-RELAYED-ADDRESS attribute as
+defined by TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-REQUESTED-ADDRESS-TYPE--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_REQUESTED_ADDRESS_TYPE</literal></term>
+<listitem><simpara> The REQUESTED-ADDRESS-TYPE attribute
+as defined by TURN-IPV6 draft 05
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-REQUESTED-PORT-PROPS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_REQUESTED_PORT_PROPS</literal></term>
+<listitem><simpara> The REQUESTED-PORT-PROPS attribute
+as defined by TURN draft 04
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-REQUESTED-PROPS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_REQUESTED_PROPS</literal></term>
+<listitem><simpara> The REQUESTED-PROPS attribute as defined
+by TURN draft 09
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-EVEN-PORT--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_EVEN_PORT</literal></term>
+<listitem><simpara> The EVEN-PORT attribute as defined by TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-REQUESTED-TRANSPORT--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_REQUESTED_TRANSPORT</literal></term>
+<listitem><simpara> The REQUESTED-TRANSPORT attribute as
+defined by TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-DONT-FRAGMENT--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_DONT_FRAGMENT</literal></term>
+<listitem><simpara> The DONT-FRAGMENT attribute as defined
+by TURN draft 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-XOR-MAPPED-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_XOR_MAPPED_ADDRESS</literal></term>
+<listitem><simpara> The XOR-MAPPED-ADDRESS attribute as
+defined by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-TIMER-VAL--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_TIMER_VAL</literal></term>
+<listitem><simpara> The TIMER-VAL attribute as defined by TURN draft 04
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-REQUESTED-IP--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_REQUESTED_IP</literal></term>
+<listitem><simpara> The REQUESTED-IP attribute as defined by
+TURN draft 04
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-RESERVATION-TOKEN--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_RESERVATION_TOKEN</literal></term>
+<listitem><simpara> The RESERVATION-TOKEN attribute as defined
+by TURN draft 09 and 12
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-CONNECT-STAT--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_CONNECT_STAT</literal></term>
+<listitem><simpara> The CONNECT-STAT attribute as defined by TURN
+draft 04
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-PRIORITY--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_PRIORITY</literal></term>
+<listitem><simpara> The PRIORITY attribute as defined by ICE draft 19
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-USE-CANDIDATE--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_USE_CANDIDATE</literal></term>
+<listitem><simpara> The USE-CANDIDATE attribute as defined by
+ICE draft 19
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-OPTIONS--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_OPTIONS</literal></term>
+<listitem><simpara> The OPTIONS optional attribute as defined by
+libjingle
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-SOFTWARE--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_SOFTWARE</literal></term>
+<listitem><simpara> The SOFTWARE optional attribute as defined by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-ALTERNATE-SERVER--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_ALTERNATE_SERVER</literal></term>
+<listitem><simpara> The ALTERNATE-SERVER optional attribute as
+defined by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-FINGERPRINT--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_FINGERPRINT</literal></term>
+<listitem><simpara> The FINGERPRINT optional attribute as defined
+by RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-ICE-CONTROLLED--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_ICE_CONTROLLED</literal></term>
+<listitem><simpara> The ICE-CONTROLLED optional attribute as
+defined by ICE draft 19
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ATTRIBUTE-ICE-CONTROLLING--CAPS" role="constant">
+<term><literal>STUN_ATTRIBUTE_ICE_CONTROLLING</literal></term>
+<listitem><simpara> The ICE-CONTROLLING optional attribute as
+defined by ICE draft 19
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="StunTransactionId" role="typedef">
+<title>StunTransactionId</title>
+<indexterm zone="StunTransactionId"><primary sortas="StunTransactionId">StunTransactionId</primary></indexterm><para>
+A type that holds a STUN transaction id.</para>
+<para>
+</para></refsect2>
+<refsect2 id="StunError" role="enum">
+<title>enum StunError</title>
+<indexterm zone="StunError"><primary sortas="StunError">StunError</primary></indexterm><programlisting>typedef enum
+{
+  STUN_ERROR_TRY_ALTERNATE=300,      /* RFC5389 */
+  STUN_ERROR_BAD_REQUEST=400,      /* RFC5389 */
+  STUN_ERROR_UNAUTHORIZED=401,      /* RFC5389 */
+  STUN_ERROR_UNKNOWN_ATTRIBUTE=420,    /* RFC5389 */
+  STUN_ERROR_ALLOCATION_MISMATCH=437,   /* TURN-12 */
+  STUN_ERROR_STALE_NONCE=438,      /* RFC5389 */
+  STUN_ERROR_ACT_DST_ALREADY=439,    /* TURN-04 */
+  STUN_ERROR_UNSUPPORTED_FAMILY=440,      /* TURN-IPv6-05 */
+  STUN_ERROR_WRONG_CREDENTIALS=441,    /* TURN-12 */
+  STUN_ERROR_UNSUPPORTED_TRANSPORT=442,    /* TURN-12 */
+  STUN_ERROR_INVALID_IP=443,      /* TURN-04 */
+  STUN_ERROR_INVALID_PORT=444,      /* TURN-04 */
+  STUN_ERROR_OP_TCP_ONLY=445,      /* TURN-04 */
+  STUN_ERROR_CONN_ALREADY=446,      /* TURN-04 */
+  STUN_ERROR_ALLOCATION_QUOTA_REACHED=486,    /* TURN-12 */
+  STUN_ERROR_ROLE_CONFLICT=487,      /* ICE-19 */
+  STUN_ERROR_SERVER_ERROR=500,      /* RFC5389 */
+  STUN_ERROR_SERVER_CAPACITY=507,    /* TURN-04 */
+  STUN_ERROR_INSUFFICIENT_CAPACITY=508,    /* TURN-12 */
+  STUN_ERROR_MAX=699
+} StunError;
+</programlisting>
+<para>
+STUN error codes as defined by various RFCs and drafts</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-ERROR-TRY-ALTERNATE--CAPS" role="constant">
+<term><literal>STUN_ERROR_TRY_ALTERNATE</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Try Alternate" error as defined in RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-BAD-REQUEST--CAPS" role="constant">
+<term><literal>STUN_ERROR_BAD_REQUEST</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Bad Request" error as defined in RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-UNAUTHORIZED--CAPS" role="constant">
+<term><literal>STUN_ERROR_UNAUTHORIZED</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Unauthorized" error as defined in RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-UNKNOWN-ATTRIBUTE--CAPS" role="constant">
+<term><literal>STUN_ERROR_UNKNOWN_ATTRIBUTE</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Unknown Attribute" error as defined in RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-ALLOCATION-MISMATCH--CAPS" role="constant">
+<term><literal>STUN_ERROR_ALLOCATION_MISMATCH</literal></term>
+<listitem><simpara>The ERROR-CODE value for the
+"Allocation Mismatch" error as defined in TURN draft 12.
+Equivalent to the "No Binding" error defined in TURN draft 04.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-STALE-NONCE--CAPS" role="constant">
+<term><literal>STUN_ERROR_STALE_NONCE</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Stale Nonce" error as defined in RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-ACT-DST-ALREADY--CAPS" role="constant">
+<term><literal>STUN_ERROR_ACT_DST_ALREADY</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Active Destination Already Set" error as defined in TURN draft 04.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-UNSUPPORTED-FAMILY--CAPS" role="constant">
+<term><literal>STUN_ERROR_UNSUPPORTED_FAMILY</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Address Family not Supported" error as defined in TURN IPV6 Draft 05.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-WRONG-CREDENTIALS--CAPS" role="constant">
+<term><literal>STUN_ERROR_WRONG_CREDENTIALS</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Wrong Credentials" error as defined in TURN Draft 12.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-UNSUPPORTED-TRANSPORT--CAPS" role="constant">
+<term><literal>STUN_ERROR_UNSUPPORTED_TRANSPORT</literal></term>
+<listitem><simpara>he ERROR-CODE value for the
+"Unsupported Transport Protocol" error as defined in TURN Draft 12.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-INVALID-IP--CAPS" role="constant">
+<term><literal>STUN_ERROR_INVALID_IP</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Invalid IP Address" error as defined in TURN draft 04.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-INVALID-PORT--CAPS" role="constant">
+<term><literal>STUN_ERROR_INVALID_PORT</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Invalid Port" error as defined in TURN draft 04.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-OP-TCP-ONLY--CAPS" role="constant">
+<term><literal>STUN_ERROR_OP_TCP_ONLY</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Operation for TCP Only" error as defined in TURN draft 04.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-CONN-ALREADY--CAPS" role="constant">
+<term><literal>STUN_ERROR_CONN_ALREADY</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Connection Already Exists" error as defined in TURN draft 04.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-ALLOCATION-QUOTA-REACHED--CAPS" role="constant">
+<term><literal>STUN_ERROR_ALLOCATION_QUOTA_REACHED</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Allocation Quota Reached" error as defined in TURN draft 12.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-ROLE-CONFLICT--CAPS" role="constant">
+<term><literal>STUN_ERROR_ROLE_CONFLICT</literal></term>
+<listitem><simpara>The ERROR-CODE value for the
+"Role Conflict" error as defined in ICE draft 19.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-SERVER-ERROR--CAPS" role="constant">
+<term><literal>STUN_ERROR_SERVER_ERROR</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Server Error" error as defined in RFC5389
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-SERVER-CAPACITY--CAPS" role="constant">
+<term><literal>STUN_ERROR_SERVER_CAPACITY</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Insufficient Capacity" error as defined in TURN draft 04.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-INSUFFICIENT-CAPACITY--CAPS" role="constant">
+<term><literal>STUN_ERROR_INSUFFICIENT_CAPACITY</literal></term>
+<listitem><simpara> The ERROR-CODE value for the
+"Insufficient Capacity" error as defined in TURN draft 12.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-ERROR-MAX--CAPS" role="constant">
+<term><literal>STUN_ERROR_MAX</literal></term>
+<listitem><simpara> The maximum possible ERROR-CODE value as defined by RFC 5389.
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="StunMessageReturn" role="enum">
+<title>enum StunMessageReturn</title>
+<indexterm zone="StunMessageReturn"><primary sortas="StunMessageReturn">StunMessageReturn</primary></indexterm><programlisting>typedef enum
+{
+  STUN_MESSAGE_RETURN_SUCCESS,
+  STUN_MESSAGE_RETURN_NOT_FOUND,
+  STUN_MESSAGE_RETURN_INVALID,
+  STUN_MESSAGE_RETURN_NOT_ENOUGH_SPACE,
+  STUN_MESSAGE_RETURN_UNSUPPORTED_ADDRESS
+} StunMessageReturn;
+</programlisting>
+<para>
+The return value of most stun_message_* functions.
+This enum will report on whether an operation was successful or not
+and what error occured if any.</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-MESSAGE-RETURN-SUCCESS--CAPS" role="constant">
+<term><literal>STUN_MESSAGE_RETURN_SUCCESS</literal></term>
+<listitem><simpara> The operation was successful
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-MESSAGE-RETURN-NOT-FOUND--CAPS" role="constant">
+<term><literal>STUN_MESSAGE_RETURN_NOT_FOUND</literal></term>
+<listitem><simpara> The attribute was not found
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-MESSAGE-RETURN-INVALID--CAPS" role="constant">
+<term><literal>STUN_MESSAGE_RETURN_INVALID</literal></term>
+<listitem><simpara> The argument or data is invalid
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-MESSAGE-RETURN-NOT-ENOUGH-SPACE--CAPS" role="constant">
+<term><literal>STUN_MESSAGE_RETURN_NOT_ENOUGH_SPACE</literal></term>
+<listitem><simpara> There is not enough space in the
+message to append data to it, or not enough in an argument to fill it with
+the data requested.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-MESSAGE-RETURN-UNSUPPORTED-ADDRESS--CAPS" role="constant">
+<term><literal>STUN_MESSAGE_RETURN_UNSUPPORTED_ADDRESS</literal></term>
+<listitem><simpara> The address in the arguments or in
+the STUN message is not supported.
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="STUN-MESSAGE-BUFFER-INCOMPLETE--CAPS" role="macro">
+<title>STUN_MESSAGE_BUFFER_INCOMPLETE</title>
+<indexterm zone="STUN-MESSAGE-BUFFER-INCOMPLETE--CAPS"><primary sortas="STUN_MESSAGE_BUFFER_INCOMPLETE">STUN_MESSAGE_BUFFER_INCOMPLETE</primary></indexterm><programlisting>#define             STUN_MESSAGE_BUFFER_INCOMPLETE</programlisting>
+<para>
+Convenience macro for <link linkend="stun-message-validate-buffer-length"><function>stun_message_validate_buffer_length()</function></link> meaning that the
+data to validate does not hold a complete STUN message</para>
+<para>
+</para></refsect2>
+<refsect2 id="STUN-MESSAGE-BUFFER-INVALID--CAPS" role="macro">
+<title>STUN_MESSAGE_BUFFER_INVALID</title>
+<indexterm zone="STUN-MESSAGE-BUFFER-INVALID--CAPS"><primary sortas="STUN_MESSAGE_BUFFER_INVALID">STUN_MESSAGE_BUFFER_INVALID</primary></indexterm><programlisting>#define             STUN_MESSAGE_BUFFER_INVALID</programlisting>
+<para>
+Convenience macro for <link linkend="stun-message-validate-buffer-length"><function>stun_message_validate_buffer_length()</function></link> meaning that the
+data to validate is not a valid STUN message</para>
+<para>
+</para></refsect2>
+<refsect2 id="stun-message-init" role="function">
+<title>stun_message_init ()</title>
+<indexterm zone="stun-message-init"><primary sortas="stun_message_init">stun_message_init</primary></indexterm><programlisting><link linkend="bool">bool</link>                stun_message_init                   (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunClass">StunClass</link> c,
+                                                         <link linkend="StunMethod">StunMethod</link> m,
+                                                         const <link linkend="StunTransactionId">StunTransactionId</link> id);</programlisting>
+<para>
+Initializes a STUN message buffer, with no attributes.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link> to initialize
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>c</parameter>&#160;:</term>
+<listitem><simpara> STUN message class (host byte order)
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>m</parameter>&#160;:</term>
+<listitem><simpara> STUN message method (host byte order)
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>id</parameter>&#160;:</term>
+<listitem><simpara> 16-bytes transaction ID
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the initialization was successful
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-length" role="function">
+<title>stun_message_length ()</title>
+<indexterm zone="stun-message-length"><primary sortas="stun_message_length">stun_message_length</primary></indexterm><programlisting><link linkend="uint16-t">uint16_t</link>            stun_message_length                 (const <link linkend="StunMessage">StunMessage</link> *msg);</programlisting>
+<para>
+Get the length of the message (including the header)</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The length of the message
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find" role="function">
+<title>stun_message_find ()</title>
+<indexterm zone="stun-message-find"><primary sortas="stun_message_find">stun_message_find</primary></indexterm><programlisting>const <link linkend="void">void</link> *        stun_message_find                   (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint16-t">uint16_t</link> *palen);</programlisting>
+<para>
+Finds an attribute in a STUN message and fetches its content</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to find
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>palen</parameter>&#160;:</term>
+<listitem><simpara> A pointer to store the length of the attribute
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A pointer to the start of the attribute payload if found,
+otherwise NULL.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find-flag" role="function">
+<title>stun_message_find_flag ()</title>
+<indexterm zone="stun-message-find-flag"><primary sortas="stun_message_find_flag">stun_message_find_flag</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_find_flag              (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type);</programlisting>
+<para>
+Looks for a flag attribute within a valid STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to find
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the attribute's size is not zero.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find32" role="function">
+<title>stun_message_find32 ()</title>
+<indexterm zone="stun-message-find32"><primary sortas="stun_message_find32">stun_message_find32</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_find32                 (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint32-t">uint32_t</link> *pval);</programlisting>
+<para>
+Extracts a 32-bits attribute from a STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to find
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>pval</parameter>&#160;:</term>
+<listitem><simpara> A pointer where to store the value (host byte order)
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>  A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the attribute's size is not
+4 bytes.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find64" role="function">
+<title>stun_message_find64 ()</title>
+<indexterm zone="stun-message-find64"><primary sortas="stun_message_find64">stun_message_find64</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_find64                 (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint64-t">uint64_t</link> *pval);</programlisting>
+<para>
+Extracts a 64-bits attribute from a STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to find
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>pval</parameter>&#160;:</term>
+<listitem><simpara> A pointer where to store the value (host byte order)
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>  A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the attribute's size is not
+8 bytes.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find-string" role="function">
+<title>stun_message_find_string ()</title>
+<indexterm zone="stun-message-find-string"><primary sortas="stun_message_find_string">stun_message_find_string</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_find_string            (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="char">char</link> *buf,
+                                                         <link linkend="size-t">size_t</link> buflen);</programlisting>
+<para>
+Extracts an UTF-8 string from a valid STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to find
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buf</parameter>&#160;:</term>
+<listitem><simpara> A pointer where to store the data
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>buflen</parameter>&#160;:</term>
+<listitem><simpara> The length of the buffer
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the attribute is improperly
+encoded
+<link linkend="STUN-MESSAGE-RETURN-NOT-ENOUGH-SPACE--CAPS"><literal>STUN_MESSAGE_RETURN_NOT_ENOUGH_SPACE</literal></link> is return if the buffer size is too
+small to hold the string
+
+ <note>
+   <para>
+    The string will be NULL-terminated.
+   </para>
+ </note>
+
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find-addr" role="function">
+<title>stun_message_find_addr ()</title>
+<indexterm zone="stun-message-find-addr"><primary sortas="stun_message_find_addr">stun_message_find_addr</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_find_addr              (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen);</programlisting>
+<para>
+Extracts a network address attribute from a STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to find
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="sockaddr"><type>sockaddr</type></link> to be filled
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>addr</parameter> variable. Must be set to the size of the
+<parameter>addr</parameter> socket address and will be set to the size of the extracted socket
+address.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the attribute payload size is
+wrong or if the <parameter>addrlen</parameter> is too small
+<link linkend="STUN-MESSAGE-RETURN-UNSUPPORTED-ADDRESSS--CAPS"><literal>STUN_MESSAGE_RETURN_UNSUPPORTED_ADDRESSS</literal></link> if the address family is unknown.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find-xor-addr" role="function">
+<title>stun_message_find_xor_addr ()</title>
+<indexterm zone="stun-message-find-xor-addr"><primary sortas="stun_message_find_xor_addr">stun_message_find_xor_addr</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_find_xor_addr          (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen);</programlisting>
+<para>
+Extracts an obfuscated network address attribute from a STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to find
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="sockaddr"><type>sockaddr</type></link> to be filled
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>addr</parameter> variable. Must be set to the size of the
+<parameter>addr</parameter> socket address and will be set to the size of the
+extracted socket address.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the attribute payload size is
+wrong or if the <parameter>addrlen</parameter> is too small
+<link linkend="STUN-MESSAGE-RETURN-UNSUPPORTED-ADDRESSS--CAPS"><literal>STUN_MESSAGE_RETURN_UNSUPPORTED_ADDRESSS</literal></link> if the address family is unknown.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find-xor-addr-full" role="function">
+<title>stun_message_find_xor_addr_full ()</title>
+<indexterm zone="stun-message-find-xor-addr-full"><primary sortas="stun_message_find_xor_addr_full">stun_message_find_xor_addr_full</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_find_xor_addr_full     (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> *addrlen,
+                                                         <link linkend="uint32-t">uint32_t</link> magic_cookie);</programlisting>
+<para>
+Extracts an obfuscated network address attribute from a STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to find
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="sockaddr"><type>sockaddr</type></link> to be filled
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>addr</parameter> variable. Must be set to the size of the
+<parameter>addr</parameter> socket address and will be set to the size of the
+extracted socket address.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>magic_cookie</parameter>&#160;:</term>
+<listitem><simpara> The magic cookie to use to XOR the address.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the attribute payload size is
+wrong or if the <parameter>addrlen</parameter> is too small
+<link linkend="STUN-MESSAGE-RETURN-UNSUPPORTED-ADDRESSS--CAPS"><literal>STUN_MESSAGE_RETURN_UNSUPPORTED_ADDRESSS</literal></link> if the address family is unknown.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-find-error" role="function">
+<title>stun_message_find_error ()</title>
+<indexterm zone="stun-message-find-error"><primary sortas="stun_message_find_error">stun_message_find_error</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_find_error             (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="int">int</link> *code);</programlisting>
+<para>
+Extract the error response code from a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>code</parameter>&#160;:</term>
+<listitem><simpara> A  pointer where to store the value
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the value is invalid
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append" role="function">
+<title>stun_message_append ()</title>
+<indexterm zone="stun-message-append"><primary sortas="stun_message_append">stun_message_append</primary></indexterm><programlisting><link linkend="void">void</link> *              stun_message_append                 (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="size-t">size_t</link> length);</programlisting>
+<para>
+Reserves room for appending an attribute to an unfinished STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>length</parameter>&#160;:</term>
+<listitem><simpara> The length of the attribute
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A pointer to an unitialized buffer of <parameter>length</parameter> bytes to
+where the attribute payload must be written, or NULL if there is not
+enough room in the STUN message buffer.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append-bytes" role="function">
+<title>stun_message_append_bytes ()</title>
+<indexterm zone="stun-message-append-bytes"><primary sortas="stun_message_append_bytes">stun_message_append_bytes</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append_bytes           (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="void">void</link> *data,
+                                                         <link linkend="size-t">size_t</link> len);</programlisting>
+<para>
+Appends a binary value to a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>data</parameter>&#160;:</term>
+<listitem><simpara> The data to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>len</parameter>&#160;:</term>
+<listitem><simpara> The length of the attribute
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append-flag" role="function">
+<title>stun_message_append_flag ()</title>
+<indexterm zone="stun-message-append-flag"><primary sortas="stun_message_append_flag">stun_message_append_flag</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append_flag            (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type);</programlisting>
+<para>
+Appends an empty flag attribute to a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append32" role="function">
+<title>stun_message_append32 ()</title>
+<indexterm zone="stun-message-append32"><primary sortas="stun_message_append32">stun_message_append32</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append32               (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint32-t">uint32_t</link> value);</programlisting>
+<para>
+Appends a 32-bits value attribute to a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara> The value to append (host byte order)
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append64" role="function">
+<title>stun_message_append64 ()</title>
+<indexterm zone="stun-message-append64"><primary sortas="stun_message_append64">stun_message_append64</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append64               (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         <link linkend="uint64-t">uint64_t</link> value);</programlisting>
+<para>
+Appends a 64-bits value attribute to a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara> The value to append (host byte order)
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append-string" role="function">
+<title>stun_message_append_string ()</title>
+<indexterm zone="stun-message-append-string"><primary sortas="stun_message_append_string">stun_message_append_string</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append_string          (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="char">char</link> *str);</programlisting>
+<para>
+Adds an attribute from a NULL-terminated string to a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>str</parameter>&#160;:</term>
+<listitem><simpara> The string to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append-addr" role="function">
+<title>stun_message_append_addr ()</title>
+<indexterm zone="stun-message-append-addr"><primary sortas="stun_message_append_addr">stun_message_append_addr</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append_addr            (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> addrlen);</programlisting>
+<para>
+Append a network address attribute to a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="sockaddr"><type>sockaddr</type></link> to be append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>addr</parameter> variable.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the <parameter>addrlen</parameter> is too small
+<link linkend="STUN-MESSAGE-RETURN-UNSUPPORTED-ADDRESSS--CAPS"><literal>STUN_MESSAGE_RETURN_UNSUPPORTED_ADDRESSS</literal></link> if the address family is unknown.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append-xor-addr" role="function">
+<title>stun_message_append_xor_addr ()</title>
+<indexterm zone="stun-message-append-xor-addr"><primary sortas="stun_message_append_xor_addr">stun_message_append_xor_addr</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append_xor_addr        (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> addrlen);</programlisting>
+<para>
+Append an obfuscated network address attribute to a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="sockaddr"><type>sockaddr</type></link> to be append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>addr</parameter> variable.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the <parameter>addrlen</parameter> is too small
+<link linkend="STUN-MESSAGE-RETURN-UNSUPPORTED-ADDRESSS--CAPS"><literal>STUN_MESSAGE_RETURN_UNSUPPORTED_ADDRESSS</literal></link> if the address family is unknown.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append-xor-addr-full" role="function">
+<title>stun_message_append_xor_addr_full ()</title>
+<indexterm zone="stun-message-append-xor-addr-full"><primary sortas="stun_message_append_xor_addr_full">stun_message_append_xor_addr_full</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append_xor_addr_full   (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type,
+                                                         const <link linkend="struct-sockaddr">struct sockaddr</link> *addr,
+                                                         <link linkend="socklen-t">socklen_t</link> addrlen,
+                                                         <link linkend="uint32-t">uint32_t</link> magic_cookie);</programlisting>
+<para>
+Append an obfuscated network address attribute from a STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addr</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="sockaddr"><type>sockaddr</type></link> to be append
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>addrlen</parameter>&#160;:</term>
+<listitem><simpara> The size of the <parameter>addr</parameter> variable.
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>magic_cookie</parameter>&#160;:</term>
+<listitem><simpara> The magic cookie to use to XOR the address.
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+<link linkend="STUN-MESSAGE-RETURN-INVALID--CAPS"><literal>STUN_MESSAGE_RETURN_INVALID</literal></link> is returned if the <parameter>addrlen</parameter> is too small
+<link linkend="STUN-MESSAGE-RETURN-UNSUPPORTED-ADDRESSS--CAPS"><literal>STUN_MESSAGE_RETURN_UNSUPPORTED_ADDRESSS</literal></link> if the address family is unknown.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-append-error" role="function">
+<title>stun_message_append_error ()</title>
+<indexterm zone="stun-message-append-error"><primary sortas="stun_message_append_error">stun_message_append_error</primary></indexterm><programlisting><link linkend="StunMessageReturn">StunMessageReturn</link>   stun_message_append_error           (<link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunError">StunError</link> code);</programlisting>
+<para>
+Appends the ERROR-CODE attribute to the STUN message and fills it according
+to <link linkend="code"><type>code</type></link></para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>code</parameter>&#160;:</term>
+<listitem><simpara> The error code value
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunMessageReturn"><type>StunMessageReturn</type></link> value.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-validate-buffer-length" role="function">
+<title>stun_message_validate_buffer_length ()</title>
+<indexterm zone="stun-message-validate-buffer-length"><primary sortas="stun_message_validate_buffer_length">stun_message_validate_buffer_length</primary></indexterm><programlisting><link linkend="int">int</link>                 stun_message_validate_buffer_length (const <link linkend="uint8-t">uint8_t</link> *msg,
+                                                         <link linkend="size-t">size_t</link> length);</programlisting>
+<para>
+This function will take a data buffer and will try to validate whether it is
+a STUN message or if it's not or if it's an incomplete STUN message and will
+provide us with the length of the STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The buffer to validate
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>length</parameter>&#160;:</term>
+<listitem><simpara> The length of the buffer
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The length of the valid STUN message in the buffer.
+<para> See also: <link linkend="STUN-MESSAGE-BUFFER-INCOMPLETE--CAPS"><type>STUN_MESSAGE_BUFFER_INCOMPLETE</type></link> </para>
+<para> See also: <link linkend="STUN-MESSAGE-BUFFER-INVALID--CAPS"><type>STUN_MESSAGE_BUFFER_INVALID</type></link> </para>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-id" role="function">
+<title>stun_message_id ()</title>
+<indexterm zone="stun-message-id"><primary sortas="stun_message_id">stun_message_id</primary></indexterm><programlisting><link linkend="void">void</link>                stun_message_id                     (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunTransactionId">StunTransactionId</link> id);</programlisting>
+<para>
+Retreive the STUN transaction id from a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>id</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunTransactionId"><type>StunTransactionId</type></link> to fill
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-get-class" role="function">
+<title>stun_message_get_class ()</title>
+<indexterm zone="stun-message-get-class"><primary sortas="stun_message_get_class">stun_message_get_class</primary></indexterm><programlisting><link linkend="StunClass">StunClass</link>           stun_message_get_class              (const <link linkend="StunMessage">StunMessage</link> *msg);</programlisting>
+<para>
+Retreive the STUN class from a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The <link linkend="StunClass"><type>StunClass</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-get-method" role="function">
+<title>stun_message_get_method ()</title>
+<indexterm zone="stun-message-get-method"><primary sortas="stun_message_get_method">stun_message_get_method</primary></indexterm><programlisting><link linkend="StunMethod">StunMethod</link>          stun_message_get_method             (const <link linkend="StunMessage">StunMessage</link> *msg);</programlisting>
+<para>
+Retreive the STUN method from a STUN message</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The <link linkend="StunMethod"><type>StunMethod</type></link>
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-has-attribute" role="function">
+<title>stun_message_has_attribute ()</title>
+<indexterm zone="stun-message-has-attribute"><primary sortas="stun_message_has_attribute">stun_message_has_attribute</primary></indexterm><programlisting><link linkend="bool">bool</link>                stun_message_has_attribute          (const <link linkend="StunMessage">StunMessage</link> *msg,
+                                                         <link linkend="StunAttribute">StunAttribute</link> type);</programlisting>
+<para>
+Checks if an attribute is present within a STUN message.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>type</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunAttribute"><type>StunAttribute</type></link> to look for
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the attribute is found, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> otherwise
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-message-has-cookie" role="function">
+<title>stun_message_has_cookie ()</title>
+<indexterm zone="stun-message-has-cookie"><primary sortas="stun_message_has_cookie">stun_message_has_cookie</primary></indexterm><programlisting><link linkend="bool">bool</link>                stun_message_has_cookie             (const <link linkend="StunMessage">StunMessage</link> *msg);</programlisting>
+<para>
+Checks if the STUN message has a RFC5389 compatible cookie</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>msg</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunMessage"><type>StunMessage</type></link>
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the cookie is present, <link linkend="FALSE--CAPS"><literal>FALSE</literal></link> otherwise
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-optional" role="function">
+<title>stun_optional ()</title>
+<indexterm zone="stun-optional"><primary sortas="stun_optional">stun_optional</primary></indexterm><programlisting><link linkend="bool">bool</link>                stun_optional                       (<link linkend="uint16-t">uint16_t</link> t);</programlisting>
+<para>
+Helper function that checks whether a STUN attribute is a mandatory
+or an optional attribute</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>t</parameter>&#160;:</term>
+<listitem><simpara> An attribute type
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> <link linkend="TRUE--CAPS"><literal>TRUE</literal></link> if the attribute is an optional one
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-strerror" role="function">
+<title>stun_strerror ()</title>
+<indexterm zone="stun-strerror"><primary sortas="stun_strerror">stun_strerror</primary></indexterm><programlisting>const <link linkend="char">char</link> *        stun_strerror                       (<link linkend="StunError">StunError</link> code);</programlisting>
+<para>
+Transforms a STUN error-code into a human readable string</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>code</parameter>&#160;:</term>
+<listitem><simpara> host-byte order error code
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A static pointer to a NULL-terminated error message string.
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+<refsect1 id="libnice-StunMessage.see-also">
+<title>See Also</title>
+#StunAgent
+</refsect1>
+
+</refentry>

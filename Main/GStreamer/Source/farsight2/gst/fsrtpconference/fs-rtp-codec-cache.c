@@ -122,7 +122,7 @@ read_codec_blueprint_uint (gchar **in, gsize *size, guint *val) {
   if (*size < sizeof (guint))
     return FALSE;
 
-  *val = *((guint *) *in);
+  memcpy (val, *in, sizeof(guint));
   *in += sizeof (guint);
   *size -= sizeof (guint);
   return TRUE;
@@ -133,7 +133,7 @@ read_codec_blueprint_int (gchar **in, gsize *size, gint *val) {
   if (*size < sizeof (gint))
     return FALSE;
 
-  *val = *((gint *) *in);
+  memcpy (val, *in, sizeof(gint));
   *in += sizeof (gint);
   *size -= sizeof (gint);
   return TRUE;
@@ -209,6 +209,8 @@ load_codec_blueprint (FsMediaType media_type, gchar **in, gsize *size) {
       READ_CHECK (read_codec_blueprint_string (in, size, &(tmp)));
       fact = gst_element_factory_find (tmp);
       g_free (tmp);
+      if (!fact)
+        goto error;
       tmplist = g_list_append (tmplist, fact);
     }
     codec_blueprint->send_pipeline_factory =
@@ -226,6 +228,8 @@ load_codec_blueprint (FsMediaType media_type, gchar **in, gsize *size) {
       READ_CHECK (read_codec_blueprint_string (in, size, &(tmp)));
       fact = gst_element_factory_find (tmp);
       g_free (tmp);
+      if (!fact)
+        goto error;
       tmplist = g_list_append (tmplist, fact);
     }
     codec_blueprint->receive_pipeline_factory =
@@ -252,7 +256,7 @@ load_codec_blueprint (FsMediaType media_type, gchar **in, gsize *size) {
  *
  * Will load the codecs blueprints from the cache.
  *
- * Returns : TRUE if successful, FALSE if error, or cache outdated
+ * Returns: TRUE if successful, FALSE if error, or cache outdated
  *
  */
 GList *
@@ -340,7 +344,7 @@ load_codecs_cache (FsMediaType media_type)
     goto error;
   }
 
-  num_blueprints = *((gint *) in);
+  memcpy (&num_blueprints, in, sizeof(gint));
   in += sizeof (gint);
   size -= sizeof (gint);
 

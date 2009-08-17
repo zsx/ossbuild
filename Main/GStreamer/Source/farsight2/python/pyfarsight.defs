@@ -298,6 +298,7 @@
     '("no-codecs-left" "FS_ERROR_NO_CODECS_LEFT")
     '("connection-failed" "FS_ERROR_CONNECTION_FAILED")
     '("disposed" "FS_ERROR_DISPOSED")
+    '("already-exists" "FS_ERROR_ALREADY_EXISTS")
   )
 )
 
@@ -472,6 +473,16 @@
   )
 )
 
+(define-method get_stream_transmitter_type
+  (of-object "FsSession")
+  (unblock-threads t)
+  (c-name "fs_session_get_stream_transmitter_type")
+  (return-type "GType")
+  (parameters
+    '("const-gchar*" "transmitter")
+  )
+)
+
 
 ;; -*- scheme -*-
 ; object definitions ...
@@ -571,6 +582,16 @@
   )
 )
 
+(define-method add_id
+  (of-object "FsStream")
+  (unblock-threads t)
+  (c-name "fs_stream_add_id")
+  (return-type "none")
+  (parameters
+    '("guint" "id")
+  )
+)
+
 (define-method emit_error
   (of-object "FsStream")
   (unblock-threads t)
@@ -644,6 +665,16 @@
   (return-type "none")
   (parameters
     '("GKeyFile*" "keyfile")
+  )
+)
+
+(define-method set_properties_from_file
+  (of-object "FsElementAddedNotifier")
+  (c-name "fs_element_added_notifier_set_properties_from_file")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "filename")
+    '("GError**" "error")
   )
 )
 

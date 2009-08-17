@@ -59,6 +59,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
 	$(top_srcdir)/common/m4/pkg.m4 \
+	$(top_srcdir)/common/m4/shave.m4 \
 	$(top_srcdir)/m4/as-check-python-headers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -72,6 +73,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ACLOCAL_AMFLAGS = @ACLOCAL_AMFLAGS@
 AMTAR = @AMTAR@
+AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -99,6 +101,7 @@ EGREP = @EGREP@
 ERROR_CFLAGS = @ERROR_CFLAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
+FC = @FC@
 FFLAGS = @FFLAGS@
 FS2_AGE = @FS2_AGE@
 FS2_ALL_LDFLAGS = @FS2_ALL_LDFLAGS@
@@ -160,11 +163,13 @@ LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+MAKEFLAGS = @MAKEFLAGS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 NICE_CFLAGS = @NICE_CFLAGS@
 NICE_LIBS = @NICE_LIBS@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -181,6 +186,9 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PLUGINDIR = @PLUGINDIR@
 PROFILE_CFLAGS = @PROFILE_CFLAGS@
+PYCODEGEN = @PYCODEGEN@
+PYCODEGEN_CFLAGS = @PYCODEGEN_CFLAGS@
+PYCODEGEN_LIBS = @PYCODEGEN_LIBS@
 PYFARSIGHT_CFLAGS = @PYFARSIGHT_CFLAGS@
 PYFARSIGHT_LIBS = @PYFARSIGHT_LIBS@
 PYTHON = @PYTHON@
@@ -189,11 +197,13 @@ PYTHON_INCLUDES = @PYTHON_INCLUDES@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
+Q = @Q@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
@@ -249,6 +259,7 @@ pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+shavedir = @shavedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
@@ -323,8 +334,8 @@ GTKDOC_LIBS = -static \
 	$(GST_BASE_LIBS) \
 	$(GCOV_LIBS)
 
-GTKDOC_CC = $(LIBTOOL) --mode=compile $(CC)
-GTKDOC_LD = $(LIBTOOL) --mode=link $(CC)
+GTKDOC_CC = $(LIBTOOL) --tag=CC --mode=compile $(CC)
+GTKDOC_LD = $(LIBTOOL) --tag=CC --mode=link $(CC)
 
 # If you need to override some of the declarations, place them in this file
 # and uncomment this line.
@@ -641,7 +652,7 @@ uninstall-am: uninstall-local
 @ENABLE_GTK_DOC_TRUE@	rm -f html/version.entities
 @ENABLE_GTK_DOC_TRUE@	test "x$(HTML_IMAGES)" = "x" || for i in "" $(HTML_IMAGES) ; do \
 @ENABLE_GTK_DOC_TRUE@	    if test "$$i" != ""; then cp $(srcdir)/$$i html ; fi; done
-@ENABLE_GTK_DOC_TRUE@	@echo '-- Fixing Crossreferences' 
+@ENABLE_GTK_DOC_TRUE@	@echo '-- Fixing Crossreferences'
 @ENABLE_GTK_DOC_TRUE@	gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
 @ENABLE_GTK_DOC_TRUE@	touch html-build.stamp
 
@@ -658,10 +669,10 @@ clean-local: clean-local-gtkdoc
 	rm -f *~ *.bak
 	rm -rf .libs
 
-# company: don't delete .sgml and -sections.txt as they're in CVS
+# company: don't delete .sgml and -sections.txt as they're in git
 # FIXME : thomas added all sgml files and some other things to make
 # make distcheck work
-distclean-local: clean
+distclean-local:
 	rm -f $(REPORT_FILES) \
                 $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 	rm -rf tmpl/*.sgml.bak
@@ -702,7 +713,7 @@ install-data-local:
 	  fi; \
 	  (which gtkdoc-rebase >/dev/null && \
 	    gtkdoc-rebase --relative --dest-dir=$(DESTDIR) --html-dir=$(DESTDIR)$(TARGET_DIR)) || true ; \
-	fi) 
+	fi)
 uninstall-local:
 	if test -d $(DESTDIR)$(TARGET_DIR); then \
 	  rm -rf $(DESTDIR)$(TARGET_DIR)/*; \

@@ -108,6 +108,7 @@ typedef enum
  * @set_send_codec: Forces sending with a specific codec
  * @set_codec_preferences: Specifies the codec preferences
  * @list_transmitters: Returns a list of the available transmitters
+ * @get_stream_transmitter_type: Returns the GType of the stream transmitter
  *
  * You must override at least new_stream in a subclass.
  */
@@ -138,9 +139,12 @@ struct _FsSessionClass
 
   gchar** (* list_transmitters) (FsSession *session);
 
+  GType (* get_stream_transmitter_type) (FsSession *session,
+                                         const gchar *transmitter);
+
 
   /*< private >*/
-  gpointer _padding[8];
+  gpointer _padding[7];
 };
 
 /**
@@ -188,6 +192,10 @@ void fs_session_emit_error (FsSession *session,
     gint error_no,
     const gchar *error_msg,
     const gchar *debug_msg);
+
+GType fs_session_get_stream_transmitter_type (FsSession *session,
+    const gchar *transmitter);
+
 
 G_END_DECLS
 

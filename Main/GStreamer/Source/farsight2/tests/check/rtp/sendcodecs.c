@@ -46,7 +46,7 @@ _start_pipeline (gpointer user_data)
 {
   struct SimpleTestConference *dat = user_data;
 
-  g_debug ("%d: Starting pipeline", dat->id);
+  GST_DEBUG ("%d: Starting pipeline", dat->id);
 
   ts_fail_if (gst_element_set_state (dat->pipeline, GST_STATE_PLAYING) ==
     GST_STATE_CHANGE_FAILURE, "Could not set the pipeline to playing");
@@ -134,7 +134,7 @@ _bus_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         gchar *debug = NULL;
         gst_message_parse_warning (message, &error, &debug);
 
-        g_debug ("%d: Got a warning on the BUS (%d): %s (%s)", dat->id,
+        GST_WARNING ("%d: Got a warning on the BUS (%d): %s (%s)", dat->id,
             error->code,
             error->message, debug);
         g_error_free (error);
@@ -205,7 +205,7 @@ set_codecs (struct SimpleTestConference *dat, FsStream *stream)
       filtered_codecs = g_list_append (filtered_codecs, codec);
     }
     else if (codec->clock_rate == 8000 &&
-        !g_strcasecmp (codec->encoding_name, "telephone-event"))
+        !g_ascii_strcasecmp (codec->encoding_name, "telephone-event"))
     {
       ts_fail_unless (dtmf_id == 0, "More than one copy of telephone-event");
       dtmf_id = codec->id;
@@ -277,7 +277,7 @@ one_way (GCallback havedata_handler, gpointer data)
 
   recv_pipeline = build_recv_pipeline (havedata_handler, NULL, &port);
 
-  g_debug ("port is %d", port);
+  GST_DEBUG ("port is %d", port);
 
   candidates = g_list_prepend (NULL,
       fs_candidate_new ("1", FS_COMPONENT_RTP, FS_CANDIDATE_TYPE_HOST,
@@ -393,6 +393,51 @@ GST_START_TEST (test_senddtmf_auto)
 GST_END_TEST;
 
 
+static void
+change_ssrc_handler (GstPad *pad, GstBuffer *buf, gpointer user_data)
+{
+  guint sess_ssrc;
+  guint buf_ssrc;
+  static gboolean checked = FALSE;
+
+  ts_fail_unless (gst_rtp_buffer_validate (buf));
+
+  buf_ssrc = gst_rtp_buffer_get_ssrc (buf);
+
+  g_object_get (dat->session, "ssrc", &sess_ssrc, NULL);
+
+  if (buf_ssrc == 12345)
+  {
+    /* Step two, set it to 6789 */
+    ts_fail_unless (buf_ssrc == sess_ssrc || sess_ssrc == 6789);
+
+    g_object_set (dat->session, "ssrc", 6789, NULL);
+  }
+  else if (buf_ssrc == 6789)
+  {
+    /* Step three, quit */
+    ts_fail_unless (buf_ssrc == sess_ssrc);
+
+    g_main_loop_quit (loop);
+  }
+  else
+  {
+    ts_fail_unless (checked || buf_ssrc == sess_ssrc);
+    checked = TRUE;
+
+    /* Step one, set the ssrc to 12345 */
+    if (sess_ssrc != 12345)
+      g_object_set (dat->session, "ssrc", 12345, NULL);
+  }
+}
+
+GST_START_TEST (test_change_ssrc)
+{
+  one_way (G_CALLBACK (change_ssrc_handler), NULL);
+}
+GST_END_TEST;
+
+
 static Suite *
 fsrtpsendcodecs_suite (void)
 {
@@ -411,6 +456,10 @@ fsrtpsendcodecs_suite (void)
 
   tc_chain = tcase_create ("fsrtpsenddtmf_auto");
   tcase_add_test (tc_chain, test_senddtmf_auto);
+  suite_add_tcase (s, tc_chain);
+
+  tc_chain = tcase_create ("fsrtpchangessrc");
+  tcase_add_test (tc_chain, test_change_ssrc);
   suite_add_tcase (s, tc_chain);
 
   return s;

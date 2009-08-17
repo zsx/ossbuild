@@ -9,9 +9,9 @@
 <ANCHOR id="FsConference-struct" href="farsight2-libs-0.10/FsConference.html#FsConference-struct">
 <ANCHOR id="fs-conference-new-session" href="farsight2-libs-0.10/FsConference.html#fs-conference-new-session">
 <ANCHOR id="fs-conference-new-participant" href="farsight2-libs-0.10/FsConference.html#fs-conference-new-participant">
-<ANCHOR id="FS-ERROR:CAPS" href="farsight2-libs-0.10/FsConference.html#FS-ERROR:CAPS">
+<ANCHOR id="FS-ERROR--CAPS" href="farsight2-libs-0.10/FsConference.html#FS-ERROR--CAPS">
 <ANCHOR id="FsError" href="farsight2-libs-0.10/FsConference.html#FsError">
-<ANCHOR id="FS-ERROR-IS-FATAL:CAPS" href="farsight2-libs-0.10/FsConference.html#FS-ERROR-IS-FATAL:CAPS">
+<ANCHOR id="FS-ERROR-IS-FATAL--CAPS" href="farsight2-libs-0.10/FsConference.html#FS-ERROR-IS-FATAL--CAPS">
 <ANCHOR id="FsParticipant" href="farsight2-libs-0.10/FsParticipant.html">
 <ANCHOR id="FsParticipant.synopsis" href="farsight2-libs-0.10/FsParticipant.html#FsParticipant.synopsis">
 <ANCHOR id="FsParticipant.object-hierarchy" href="farsight2-libs-0.10/FsParticipant.html#FsParticipant.object-hierarchy">
@@ -21,8 +21,8 @@
 <ANCHOR id="FsParticipant.details" href="farsight2-libs-0.10/FsParticipant.html#FsParticipant.details">
 <ANCHOR id="FsParticipant-struct" href="farsight2-libs-0.10/FsParticipant.html#FsParticipant-struct">
 <ANCHOR id="FsParticipantClass" href="farsight2-libs-0.10/FsParticipant.html#FsParticipantClass">
-<ANCHOR id="FS-PARTICIPANT-DATA-LOCK:CAPS" href="farsight2-libs-0.10/FsParticipant.html#FS-PARTICIPANT-DATA-LOCK:CAPS">
-<ANCHOR id="FS-PARTICIPANT-DATA-UNLOCK:CAPS" href="farsight2-libs-0.10/FsParticipant.html#FS-PARTICIPANT-DATA-UNLOCK:CAPS">
+<ANCHOR id="FS-PARTICIPANT-DATA-LOCK--CAPS" href="farsight2-libs-0.10/FsParticipant.html#FS-PARTICIPANT-DATA-LOCK--CAPS">
+<ANCHOR id="FS-PARTICIPANT-DATA-UNLOCK--CAPS" href="farsight2-libs-0.10/FsParticipant.html#FS-PARTICIPANT-DATA-UNLOCK--CAPS">
 <ANCHOR id="FsParticipant.property-details" href="farsight2-libs-0.10/FsParticipant.html#FsParticipant.property-details">
 <ANCHOR id="FsParticipant--cname" href="farsight2-libs-0.10/FsParticipant.html#FsParticipant--cname">
 <ANCHOR id="FsParticipant.signal-details" href="farsight2-libs-0.10/FsParticipant.html#FsParticipant.signal-details">
@@ -44,6 +44,7 @@
 <ANCHOR id="fs-session-set-send-codec" href="farsight2-libs-0.10/FsSession.html#fs-session-set-send-codec">
 <ANCHOR id="fs-session-set-codec-preferences" href="farsight2-libs-0.10/FsSession.html#fs-session-set-codec-preferences">
 <ANCHOR id="fs-session-list-transmitters" href="farsight2-libs-0.10/FsSession.html#fs-session-list-transmitters">
+<ANCHOR id="fs-session-get-stream-transmitter-type" href="farsight2-libs-0.10/FsSession.html#fs-session-get-stream-transmitter-type">
 <ANCHOR id="fs-session-emit-error" href="farsight2-libs-0.10/FsSession.html#fs-session-emit-error">
 <ANCHOR id="FsSession.property-details" href="farsight2-libs-0.10/FsSession.html#FsSession.property-details">
 <ANCHOR id="FsSession--codec-preferences" href="farsight2-libs-0.10/FsSession.html#FsSession--codec-preferences">
@@ -54,6 +55,7 @@
 <ANCHOR id="FsSession--id" href="farsight2-libs-0.10/FsSession.html#FsSession--id">
 <ANCHOR id="FsSession--media-type" href="farsight2-libs-0.10/FsSession.html#FsSession--media-type">
 <ANCHOR id="FsSession--sink-pad" href="farsight2-libs-0.10/FsSession.html#FsSession--sink-pad">
+<ANCHOR id="FsSession--tos" href="farsight2-libs-0.10/FsSession.html#FsSession--tos">
 <ANCHOR id="FsSession.signal-details" href="farsight2-libs-0.10/FsSession.html#FsSession.signal-details">
 <ANCHOR id="FsSession-error" href="farsight2-libs-0.10/FsSession.html#FsSession-error">
 <ANCHOR id="FsStream" href="farsight2-libs-0.10/FsStream.html">
@@ -70,6 +72,7 @@
 <ANCHOR id="fs-stream-set-remote-candidates" href="farsight2-libs-0.10/FsStream.html#fs-stream-set-remote-candidates">
 <ANCHOR id="fs-stream-set-remote-codecs" href="farsight2-libs-0.10/FsStream.html#fs-stream-set-remote-codecs">
 <ANCHOR id="fs-stream-force-remote-candidates" href="farsight2-libs-0.10/FsStream.html#fs-stream-force-remote-candidates">
+<ANCHOR id="fs-stream-add-id" href="farsight2-libs-0.10/FsStream.html#fs-stream-add-id">
 <ANCHOR id="fs-stream-emit-error" href="farsight2-libs-0.10/FsStream.html#fs-stream-emit-error">
 <ANCHOR id="fs-stream-emit-src-pad-added" href="farsight2-libs-0.10/FsStream.html#fs-stream-emit-src-pad-added">
 <ANCHOR id="FsStream.property-details" href="farsight2-libs-0.10/FsStream.html#FsStream.property-details">
@@ -79,7 +82,6 @@
 <ANCHOR id="FsStream--participant" href="farsight2-libs-0.10/FsStream.html#FsStream--participant">
 <ANCHOR id="FsStream--remote-codecs" href="farsight2-libs-0.10/FsStream.html#FsStream--remote-codecs">
 <ANCHOR id="FsStream--session" href="farsight2-libs-0.10/FsStream.html#FsStream--session">
-<ANCHOR id="FsStream--stream-transmitter" href="farsight2-libs-0.10/FsStream.html#FsStream--stream-transmitter">
 <ANCHOR id="FsStream.signal-details" href="farsight2-libs-0.10/FsStream.html#FsStream.signal-details">
 <ANCHOR id="FsStream-error" href="farsight2-libs-0.10/FsStream.html#FsStream-error">
 <ANCHOR id="FsStream-src-pad-added" href="farsight2-libs-0.10/FsStream.html#FsStream-src-pad-added">
@@ -103,8 +105,8 @@
 <ANCHOR id="FsCodec" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FsCodec">
 <ANCHOR id="FsMediaType" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FsMediaType">
 <ANCHOR id="FsCodecParameter" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FsCodecParameter">
-<ANCHOR id="FS-CODEC-ID-ANY:CAPS" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FS-CODEC-ID-ANY:CAPS">
-<ANCHOR id="FS-CODEC-ID-DISABLE:CAPS" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FS-CODEC-ID-DISABLE:CAPS">
+<ANCHOR id="FS-CODEC-ID-ANY--CAPS" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FS-CODEC-ID-ANY--CAPS">
+<ANCHOR id="FS-CODEC-ID-DISABLE--CAPS" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FS-CODEC-ID-DISABLE--CAPS">
 <ANCHOR id="fs-codec-new" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#fs-codec-new">
 <ANCHOR id="fs-codec-destroy" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#fs-codec-destroy">
 <ANCHOR id="fs-codec-copy" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#fs-codec-copy">
@@ -117,8 +119,8 @@
 <ANCHOR id="fs-codec-add-optional-parameter" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#fs-codec-add-optional-parameter">
 <ANCHOR id="fs-codec-remove-optional-parameter" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#fs-codec-remove-optional-parameter">
 <ANCHOR id="fs-codec-get-optional-parameter" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#fs-codec-get-optional-parameter">
-<ANCHOR id="FS-CODEC-FORMAT:CAPS" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FS-CODEC-FORMAT:CAPS">
-<ANCHOR id="FS-CODEC-ARGS:CAPS" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FS-CODEC-ARGS:CAPS">
+<ANCHOR id="FS-CODEC-FORMAT--CAPS" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FS-CODEC-FORMAT--CAPS">
+<ANCHOR id="FS-CODEC-ARGS--CAPS" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#FS-CODEC-ARGS--CAPS">
 <ANCHOR id="fs-media-type-to-string" href="farsight2-libs-0.10/farsight2-libs-FsCodec.html#fs-media-type-to-string">
 <ANCHOR id="FsElementAddedNotifier" href="farsight2-libs-0.10/FsElementAddedNotifier.html">
 <ANCHOR id="FsElementAddedNotifier.synopsis" href="farsight2-libs-0.10/FsElementAddedNotifier.html#FsElementAddedNotifier.synopsis">
@@ -131,6 +133,7 @@
 <ANCHOR id="fs-element-added-notifier-add" href="farsight2-libs-0.10/FsElementAddedNotifier.html#fs-element-added-notifier-add">
 <ANCHOR id="fs-element-added-notifier-remove" href="farsight2-libs-0.10/FsElementAddedNotifier.html#fs-element-added-notifier-remove">
 <ANCHOR id="fs-element-added-notifier-set-properties-from-keyfile" href="farsight2-libs-0.10/FsElementAddedNotifier.html#fs-element-added-notifier-set-properties-from-keyfile">
+<ANCHOR id="fs-element-added-notifier-set-properties-from-file" href="farsight2-libs-0.10/FsElementAddedNotifier.html#fs-element-added-notifier-set-properties-from-file">
 <ANCHOR id="FsElementAddedNotifier.signal-details" href="farsight2-libs-0.10/FsElementAddedNotifier.html#FsElementAddedNotifier.signal-details">
 <ANCHOR id="FsElementAddedNotifier-element-added" href="farsight2-libs-0.10/FsElementAddedNotifier.html#FsElementAddedNotifier-element-added">
 <ANCHOR id="farsight2-libs-Network-interfaces-discovery" href="farsight2-libs-0.10/farsight2-libs-Network-interfaces-discovery.html">
@@ -167,6 +170,7 @@
 <ANCHOR id="FsTransmitter--components" href="farsight2-libs-0.10/FsTransmitter.html#FsTransmitter--components">
 <ANCHOR id="FsTransmitter--gst-sink" href="farsight2-libs-0.10/FsTransmitter.html#FsTransmitter--gst-sink">
 <ANCHOR id="FsTransmitter--gst-src" href="farsight2-libs-0.10/FsTransmitter.html#FsTransmitter--gst-src">
+<ANCHOR id="FsTransmitter--tos" href="farsight2-libs-0.10/FsTransmitter.html#FsTransmitter--tos">
 <ANCHOR id="FsTransmitter.signal-details" href="farsight2-libs-0.10/FsTransmitter.html#FsTransmitter.signal-details">
 <ANCHOR id="FsTransmitter-error" href="farsight2-libs-0.10/FsTransmitter.html#FsTransmitter-error">
 <ANCHOR id="FsTransmitter-get-recvonly-filter" href="farsight2-libs-0.10/FsTransmitter.html#FsTransmitter-get-recvonly-filter">
@@ -202,5 +206,5 @@
 <ANCHOR id="FsPlugin" href="farsight2-libs-0.10/farsight2-libs-FsPlugin.html#FsPlugin">
 <ANCHOR id="fs-plugin-create-valist" href="farsight2-libs-0.10/farsight2-libs-FsPlugin.html#fs-plugin-create-valist">
 <ANCHOR id="fs-plugin-create" href="farsight2-libs-0.10/farsight2-libs-FsPlugin.html#fs-plugin-create">
-<ANCHOR id="FS-INIT-PLUGIN:CAPS" href="farsight2-libs-0.10/farsight2-libs-FsPlugin.html#FS-INIT-PLUGIN:CAPS">
+<ANCHOR id="FS-INIT-PLUGIN--CAPS" href="farsight2-libs-0.10/farsight2-libs-FsPlugin.html#FS-INIT-PLUGIN--CAPS">
 <ANCHOR id="fs-plugin-list-available" href="farsight2-libs-0.10/farsight2-libs-FsPlugin.html#fs-plugin-list-available">

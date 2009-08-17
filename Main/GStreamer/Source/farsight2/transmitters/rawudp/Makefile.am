@@ -7,8 +7,7 @@ plugin_LTLIBRARIES = librawudp-transmitter.la
 librawudp_transmitter_la_SOURCES = \
 	fs-rawudp-transmitter.c \
 	fs-rawudp-stream-transmitter.c \
-	fs-rawudp-component.c \
-	stun.c
+	fs-rawudp-component.c
 
 nodist_librawudp_transmitter_la_SOURCES = \
 	fs-rawudp-marshal.c \
@@ -21,6 +20,7 @@ librawudp_transmitter_la_CFLAGS = \
 	$(FS2_CFLAGS) \
 	$(GST_PLUGINS_BASE_CFLAGS) \
 	$(GST_CFLAGS) \
+	$(NICE_CFLAGS) \
 	$(GUPNP_CFLAGS)
 librawudp_transmitter_la_LDFLAGS = $(FS2_PLUGIN_LDFLAGS)
 librawudp_transmitter_la_LIBADD = \
@@ -28,14 +28,14 @@ librawudp_transmitter_la_LIBADD = \
 	$(FS2_LIBS) \
 	$(GST_PLUGINS_BASE_LIBS) \
 	$(GST_LIBS) \
+	$(NICE_LIBS) \
 	$(GUPNP_LIBS) \
 	-lgstnetbuffer-@GST_MAJORMINOR@
 
 noinst_HEADERS = \
 	fs-rawudp-transmitter.h \
 	fs-rawudp-stream-transmitter.h \
-	fs-rawudp-component.h \
-	stun.h
+	fs-rawudp-component.h
 
 BUILT_SOURCES = $(nodist_librawudp_transmitter_la_SOURCES)
 

@@ -52,8 +52,6 @@
 enum
 {
   PROP_0,
-  PROP_BIN,
-  PROP_RTPMUXER
 };
 
 struct _FsRtpSpecialSourcePrivate {
@@ -71,8 +69,6 @@ struct _FsRtpSpecialSourcePrivate {
   GMutex *mutex;
 };
 
-static GObjectClass *parent_class = NULL;
-
 static GList *classes = NULL;
 
 G_DEFINE_ABSTRACT_TYPE(FsRtpSpecialSource, fs_rtp_special_source,
@@ -85,15 +81,6 @@ G_DEFINE_ABSTRACT_TYPE(FsRtpSpecialSource, fs_rtp_special_source,
 
 #define FS_RTP_SPECIAL_SOURCE_LOCK(src)   g_mutex_lock (src->priv->mutex)
 #define FS_RTP_SPECIAL_SOURCE_UNLOCK(src) g_mutex_unlock (src->priv->mutex)
-
-static void fs_rtp_special_source_set_property (GObject *object,
-    guint prop_id,
-    const GValue *value,
-    GParamSpec *pspec);
-static void fs_rtp_special_source_get_property (GObject *object,
-    guint prop_id,
-    GValue *value,
-    GParamSpec *pspec);
 
 static void fs_rtp_special_source_dispose (GObject *object);
 static void fs_rtp_special_source_finalize (GObject *object);
@@ -132,30 +119,8 @@ fs_rtp_special_source_class_init (FsRtpSpecialSourceClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
-  parent_class = fs_rtp_special_source_parent_class;
-
-  gobject_class->set_property = fs_rtp_special_source_set_property;
-  gobject_class->get_property = fs_rtp_special_source_get_property;
   gobject_class->dispose = fs_rtp_special_source_dispose;
   gobject_class->finalize = fs_rtp_special_source_finalize;
-
-  g_object_class_install_property (gobject_class,
-      PROP_BIN,
-      g_param_spec_object ("bin",
-          "The GstBin to add the elements to",
-          "This is the GstBin where this class adds elements",
-          GST_TYPE_BIN,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
-
-  g_object_class_install_property (gobject_class,
-      PROP_RTPMUXER,
-      g_param_spec_object ("rtpmuxer",
-          "The RTP muxer that the source is linked to",
-          "The RTP muxer that the source is linked to",
-          GST_TYPE_ELEMENT,
-          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
-
-
 
   g_type_class_add_private (klass, sizeof (FsRtpSpecialSourcePrivate));
 }
@@ -188,14 +153,8 @@ stop_source_thread (gpointer data)
   FS_RTP_SPECIAL_SOURCE_LOCK (self);
   if (self->priv->muxer_request_pad)
   {
-    GstElement *parent =
-      gst_pad_get_parent_element (self->priv->muxer_request_pad);
-
-    if (parent)
-    {
-      gst_element_release_request_pad (parent, self->priv->muxer_request_pad);
-      gst_object_unref (parent);
-    }
+    gst_element_release_request_pad (self->priv->rtpmuxer, self->priv->muxer_request_pad);
+    gst_object_unref (self->priv->muxer_request_pad);
   }
   self->priv->muxer_request_pad = NULL;
 
@@ -281,52 +240,6 @@ fs_rtp_special_source_finalize (GObject *object)
 
   G_OBJECT_CLASS (fs_rtp_special_source_parent_class)->finalize (object);
 }
-
-
-static void
-fs_rtp_special_source_set_property (GObject *object,
-    guint prop_id,
-    const GValue *value,
-    GParamSpec *pspec)
-{
-  FsRtpSpecialSource *self = FS_RTP_SPECIAL_SOURCE (object);
-
-  switch (prop_id)
-  {
-    case PROP_BIN:
-      self->priv->outer_bin = g_value_dup_object (value);
-      break;
-    case PROP_RTPMUXER:
-      self->priv->rtpmuxer = g_value_dup_object (value);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-      break;
-  }
-}
-
-static void
-fs_rtp_special_source_get_property (GObject *object,
-    guint prop_id,
-    GValue *value,
-    GParamSpec *pspec)
-{
- FsRtpSpecialSource *self = FS_RTP_SPECIAL_SOURCE (object);
-
-  switch (prop_id)
-  {
-    case PROP_BIN:
-      g_value_set_object (value, self->priv->outer_bin);
-      break;
-    case PROP_RTPMUXER:
-      g_value_set_object (value, self->priv->rtpmuxer);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-      break;
-  }
-}
-
 
 static GList*
 fs_rtp_special_source_class_add_blueprint (FsRtpSpecialSourceClass *klass,
@@ -443,8 +356,6 @@ _source_order_compare_func (gconstpointer item1,gconstpointer item2)
  * #CodecAssociation
  * @mutex: the mutex protecting the last two things
  * @send_codec: A pointer to the currently selected send codec
- * @bin: The #GstBin to add the stuff to
- * @rtpmuxer: The rtpmux element
  *
  * This function removes any special source that are not compatible with the
  * currently selected send codec.
@@ -454,9 +365,7 @@ fs_rtp_special_sources_remove (
     GList **extra_sources,
     GList **negotiated_codecs,
     GMutex *mutex,
-    FsCodec *send_codec,
-    GstElement *bin,
-    GstElement *rtpmuxer)
+    FsCodec *send_codec)
 {
   GList *klass_item = NULL;
 
@@ -598,13 +507,13 @@ fs_rtp_special_source_new (FsRtpSpecialSourceClass *klass,
   g_return_val_if_fail (GST_IS_ELEMENT (rtpmuxer), NULL);
 
   source = g_object_new (G_OBJECT_CLASS_TYPE (klass),
-      "bin", bin,
-      "rtpmuxer", rtpmuxer,
       NULL);
   g_return_val_if_fail (source, NULL);
 
   g_mutex_lock (mutex);
 
+  source->priv->rtpmuxer = gst_object_ref (rtpmuxer);
+  source->priv->outer_bin = gst_object_ref (bin);
   source->priv->src = klass->build (source, *negotiated_codecs, selected_codec);
 
   g_mutex_unlock (mutex);

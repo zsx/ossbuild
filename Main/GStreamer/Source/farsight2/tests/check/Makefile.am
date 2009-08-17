@@ -34,7 +34,8 @@ SUPPRESSIONS = $(top_srcdir)/common/gst.supp
 EXTRA_DIST = \
 	upnp/InternetGatewayDevice.xml \
 	upnp/WANIPConnection.xml \
-	base/test1.conf
+	base/test1.conf \
+	utils/gstelements.conf
 
 #######
 # From here.. Its a list of our tests and their sub stuff
@@ -48,6 +49,7 @@ check_PROGRAMS = \
 	rtp/codecs \
 	rtp/sendcodecs \
 	rtp/conference \
+	msn/conference \
 	utils/binadded \
 	elements/rtcpfilter
 
@@ -63,26 +65,37 @@ LDADD = \
 	$(GST_CHECK_LIBS) \
 	$(GST_LIBS)
 
-transmitter_rawudp_CFLAGS = $(AM_CFLAGS) $(GUPNP_CFLAGS)
+base_fscodec_SOURCES = \
+	testutils.c \
+	testutils.h \
+	base/fscodec.c
+
+
+transmitter_rawudp_CFLAGS = $(AM_CFLAGS) $(GUPNP_CFLAGS) $(NICE_CFLAGS)
 transmitter_rawudp_LDADD = $(LDADD) \
-	$(GUPNP_LIBS)
+	$(GUPNP_LIBS) \
+	$(NICE_LIBS)
 transmitter_rawudp_SOURCES = \
 	check-threadsafe.h  \
 	transmitter/generic.c \
 	transmitter/generic.h \
 	transmitter/rawudp.c \
 	transmitter/rawudp-upnp.c \
-	transmitter/rawudp-upnp.h
+	transmitter/rawudp-upnp.h \
+	transmitter/stunalternd.c \
+	transmitter/stunalternd.h
 
 
 transmitter_multicast_CFLAGS = $(AM_CFLAGS)
 transmitter_multicast_SOURCES = \
 	check-threadsafe.h  \
+	testutils.c \
+	testutils.h \
 	transmitter/generic.c \
 	transmitter/generic.h \
 	transmitter/fake-filter.c \
 	transmitter/fake-filter.h \
-	transmitter/multicast.c 
+	transmitter/multicast.c
 
 transmitter_nice_CFLAGS = $(FS2_INTERNAL_CFLAGS) $(CFLAGS) $(AM_CFLAGS)
 transmitter_nice_SOURCES = \
@@ -96,6 +109,8 @@ transmitter_nice_SOURCES = \
 rtp_conference_CFLAGS = $(AM_CFLAGS)
 rtp_conference_SOURCES = \
 	check-threadsafe.h  \
+	testutils.c \
+	testutils.h \
 	rtp/generic.c \
 	rtp/generic.h \
 	rtp/conference.c
@@ -113,8 +128,14 @@ rtp_sendcodecs_SOURCES = \
 	rtp/generic.h \
 	rtp/sendcodecs.c
 
+msn_conference_CFLAGS = $(AM_CFLAGS)
+msn_conference_SOURCES = \
+	msn/conference.c
+
 utils_binadded_CFLAGS = $(AM_CFLAGS)
 utils_binadded_SOURCES = \
+	testutils.c \
+	testutils.h \
 	utils/binadded.c
 
 elements_rtcpfilter_CFLAGS = $(AM_CFLAGS)

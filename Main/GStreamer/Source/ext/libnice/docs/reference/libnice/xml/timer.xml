@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnice-Timer">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnice-Timer.top_of_page">Timer</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNICE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>Timer</refname>
+<refpurpose>STUN timer Usage</refpurpose>
+</refnamediv>
+<refsect1 id="libnice-Timer.stability-level">
+<title>Stability Level</title>
+Stable, unless otherwise indicated
+</refsect1>
+
+<refsynopsisdiv id="libnice-Timer.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+
+#include &lt;stun/usages/timer.h&gt;
+
+typedef             <link linkend="StunTimer">StunTimer</link>;
+enum                <link linkend="StunUsageTimerReturn">StunUsageTimerReturn</link>;
+<link linkend="void">void</link>                <link linkend="stun-timer-start">stun_timer_start</link>                    (<link linkend="StunTimer">StunTimer</link> *timer);
+<link linkend="void">void</link>                <link linkend="stun-timer-start-reliable">stun_timer_start_reliable</link>           (<link linkend="StunTimer">StunTimer</link> *timer);
+<link linkend="StunUsageTimerReturn">StunUsageTimerReturn</link>  <link linkend="stun-timer-refresh">stun_timer_refresh</link>                (<link linkend="StunTimer">StunTimer</link> *timer);
+<link linkend="unsigned">unsigned</link>            <link linkend="stun-timer-remainder">stun_timer_remainder</link>                (const <link linkend="StunTimer">StunTimer</link> *timer);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnice-Timer.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+The STUN timer usage is a set of helpful utility functions that allows you
+to easily track when a STUN message should be retransmitted or considered
+as timed out.
+</para>
+<para>
+ <example>
+   <title>Simple example on how to use the timer usage</title>
+   <programlisting>
+   StunTimer timer;
+   unsigned remainder;
+   StunUsageTimerReturn ret;
+
+   // Build the message, etc..
+   ...
+
+   // Send the message and start the timer
+   send(socket, request, sizeof(request));
+   stun_timer_start(&amp;timer);
+
+   // Loop until we get the response
+   for (;;) {
+     remainder = stun_timer_remainder(&amp;timer);
+
+     // Poll the socket until data is received or the timer expires
+     if (poll (&amp;pollfd, 1, delay) &lt;= 0) {
+       // Time out and no response was received
+       ret = stun_timer_refresh (&amp;timer);
+       if (ret == STUN_USAGE_TIMER_RETURN_TIMEOUT) {
+         // Transaction timed out
+         break;
+       } else if (ret == STUN_USAGE_TIMER_RETURN_RETRANSMIT) {
+         // A retransmission is necessary
+         send(socket, request, sizeof(request));
+         continue;
+       } else if (ret == STUN_USAGE_TIMER_RETURN_SUCCESS) {
+         // The refresh succeeded and nothing has to be done, continue polling
+         continue;
+       }
+     } else {
+       // We received a response, read it
+       recv(socket, response, sizeof(response));
+       break;
+     }
+   }
+
+   // Check if the transaction timed out or not
+   if (ret == STUN_USAGE_TIMER_RETURN_TIMEOUT) {
+     // do whatever needs to be done in that case
+   } else {
+     // Parse the response
+   }
+
+   </programlisting>
+ </example></para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnice-Timer.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="StunTimer" role="typedef">
+<title>StunTimer</title>
+<indexterm zone="StunTimer"><primary sortas="StunTimer">StunTimer</primary></indexterm><para>
+An opaque structure representing a STUN transaction retransmission timer</para>
+<para>
+</para></refsect2>
+<refsect2 id="StunUsageTimerReturn" role="enum">
+<title>enum StunUsageTimerReturn</title>
+<indexterm zone="StunUsageTimerReturn"><primary sortas="StunUsageTimerReturn">StunUsageTimerReturn</primary></indexterm><programlisting>typedef enum {
+  STUN_USAGE_TIMER_RETURN_SUCCESS,
+  STUN_USAGE_TIMER_RETURN_RETRANSMIT,
+  STUN_USAGE_TIMER_RETURN_TIMEOUT
+} StunUsageTimerReturn;
+</programlisting>
+<para>
+Return value of <link linkend="stun-usage-timer-refresh"><function>stun_usage_timer_refresh()</function></link> which provides you with status
+information on the timer.</para>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="STUN-USAGE-TIMER-RETURN-SUCCESS--CAPS" role="constant">
+<term><literal>STUN_USAGE_TIMER_RETURN_SUCCESS</literal></term>
+<listitem><simpara> The timer was refreshed successfully
+and there is nothing to be done
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TIMER-RETURN-RETRANSMIT--CAPS" role="constant">
+<term><literal>STUN_USAGE_TIMER_RETURN_RETRANSMIT</literal></term>
+<listitem><simpara> The timer expired and the message
+should be retransmitted now.
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="STUN-USAGE-TIMER-RETURN-TIMEOUT--CAPS" role="constant">
+<term><literal>STUN_USAGE_TIMER_RETURN_TIMEOUT</literal></term>
+<listitem><simpara> The timer expired as well as all the
+retransmissions, the transaction timed out
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-timer-start" role="function">
+<title>stun_timer_start ()</title>
+<indexterm zone="stun-timer-start"><primary sortas="stun_timer_start">stun_timer_start</primary></indexterm><programlisting><link linkend="void">void</link>                stun_timer_start                    (<link linkend="StunTimer">StunTimer</link> *timer);</programlisting>
+<para>
+Starts a STUN transaction retransmission timer.
+This should be called as soon as you send the message for the first time on
+a UDP socket</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>timer</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunTimer"><type>StunTimer</type></link> to start
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-timer-start-reliable" role="function">
+<title>stun_timer_start_reliable ()</title>
+<indexterm zone="stun-timer-start-reliable"><primary sortas="stun_timer_start_reliable">stun_timer_start_reliable</primary></indexterm><programlisting><link linkend="void">void</link>                stun_timer_start_reliable           (<link linkend="StunTimer">StunTimer</link> *timer);</programlisting>
+<para>
+Starts a STUN transaction retransmission timer for a reliable transport.
+This should be called as soon as you send the message for the first time on
+a TCP socket</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>timer</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunTimer"><type>StunTimer</type></link> to start
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-timer-refresh" role="function">
+<title>stun_timer_refresh ()</title>
+<indexterm zone="stun-timer-refresh"><primary sortas="stun_timer_refresh">stun_timer_refresh</primary></indexterm><programlisting><link linkend="StunUsageTimerReturn">StunUsageTimerReturn</link>  stun_timer_refresh                (<link linkend="StunTimer">StunTimer</link> *timer);</programlisting>
+<para>
+Updates a STUN transaction retransmission timer.</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>timer</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunTimer"><type>StunTimer</type></link> to refresh
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> A <link linkend="StunUsageTimerReturn"><type>StunUsageTimerReturn</type></link> telling you what to do next
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="stun-timer-remainder" role="function">
+<title>stun_timer_remainder ()</title>
+<indexterm zone="stun-timer-remainder"><primary sortas="stun_timer_remainder">stun_timer_remainder</primary></indexterm><programlisting><link linkend="unsigned">unsigned</link>            stun_timer_remainder                (const <link linkend="StunTimer">StunTimer</link> *timer);</programlisting>
+<para>
+Query the timer on the time left before the next refresh should be done</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>timer</parameter>&#160;:</term>
+<listitem><simpara> The <link linkend="StunTimer"><type>StunTimer</type></link> to query
+</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara> The time remaining for the timer to expire in milliseconds
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

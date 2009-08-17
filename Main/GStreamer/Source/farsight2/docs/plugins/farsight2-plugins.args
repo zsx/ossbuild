@@ -89,6 +89,16 @@
 </ARG>
 
 <ARG>
+<NAME>FsRtpSession::ssrc</NAME>
+<TYPE>guint</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>The SSRC of the sent data</NICK>
+<BLURB>This is the current SSRC used to send data (defaults to a random value).</BLURB>
+<DEFAULT>0</DEFAULT>
+</ARG>
+
+<ARG>
 <NAME>FsRawUdpStreamTransmitter::stun-ip</NAME>
 <TYPE>gchar*</TYPE>
 <RANGE></RANGE>
@@ -256,5 +266,65 @@
 <NICK>Sending RTP?</NICK>
 <BLURB>If set to FALSE, it assumes that all RTP has been dropped.</BLURB>
 <DEFAULT>FALSE</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpStream::stream-transmitter</NAME>
+<TYPE>FsStreamTransmitter*</TYPE>
+<RANGE></RANGE>
+<FLAGS>wX</FLAGS>
+<NICK>The transmitter use by the stream</NICK>
+<BLURB>An FsStreamTransmitter used by this stream.</BLURB>
+<DEFAULT></DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsMsnSession::conference</NAME>
+<TYPE>FsMsnConference*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>The Conference this stream refers to</NICK>
+<BLURB>This is a convience pointer for the Conference.</BLURB>
+<DEFAULT></DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsMsnStream::conference</NAME>
+<TYPE>FsMsnConference*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>The Conference this stream refers to</NICK>
+<BLURB>This is a conveniance pointer for the Conference.</BLURB>
+<DEFAULT></DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsMsnStream::initial-port</NAME>
+<TYPE>guint</TYPE>
+<RANGE>[1025,65535]</RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>The initial port to listen on</NICK>
+<BLURB>The initial port to try to listen on for incoming connection. If already used, port+1 is tried until one succeeds.</BLURB>
+<DEFAULT>1025</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsMsnStream::session-id</NAME>
+<TYPE>guint</TYPE>
+<RANGE>[1000,9999]</RANGE>
+<FLAGS>rwX</FLAGS>
+<NICK>The session-id of the session</NICK>
+<BLURB>This is the session-id of the MSN session.</BLURB>
+<DEFAULT>9000</DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>FsRtpParticipant::cname</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>The cname of the participant</NICK>
+<BLURB>A string of the cname of the participant.</BLURB>
+<DEFAULT>NULL</DEFAULT>
 </ARG>
 

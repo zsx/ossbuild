@@ -62,7 +62,8 @@ enum
   PROP_0,
   PROP_GST_SINK,
   PROP_GST_SRC,
-  PROP_COMPONENTS
+  PROP_COMPONENTS,
+  PROP_TOS
 };
 
 struct _FsNiceTransmitterPrivate
@@ -76,6 +77,8 @@ struct _FsNiceTransmitterPrivate
   /* They are tables of pointers, one per component */
   GstElement **src_funnels;
   GstElement **sink_tees;
+
+  gint tos;
 };
 
 #define FS_NICE_TRANSMITTER_GET_PRIVATE(o)  \
@@ -169,6 +172,7 @@ fs_nice_transmitter_class_init (FsNiceTransmitterClass *klass)
   g_object_class_override_property (gobject_class, PROP_GST_SINK, "gst-sink");
   g_object_class_override_property (gobject_class, PROP_COMPONENTS,
     "components");
+  g_object_class_override_property (gobject_class, PROP_TOS, "tos");
 
   transmitter_class->new_stream_transmitter =
     fs_nice_transmitter_new_stream_transmitter;
@@ -406,6 +410,9 @@ fs_nice_transmitter_get_property (GObject *object,
     case PROP_COMPONENTS:
       g_value_set_uint (value, self->components);
       break;
+    case PROP_TOS:
+      g_value_set_uint (value, self->priv->tos);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -424,6 +431,9 @@ fs_nice_transmitter_set_property (GObject *object,
   {
     case PROP_COMPONENTS:
       self->components = g_value_get_uint (value);
+      break;
+    case PROP_TOS:
+      self->priv->tos = g_value_get_uint (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -772,7 +782,6 @@ remove_sink (FsNiceTransmitter *self, NiceGstStream *ns, guint component_id)
           ns->nicesinks[component_id]))
     GST_ERROR ("Could not remove nicesink element from transmitter"
         " sink");
-  gst_element_set_locked_state (ns->nicesinks[component_id], FALSE);
 }
 
 
@@ -885,6 +894,7 @@ fs_nice_transmitter_set_sending (FsNiceTransmitter *self,
           GstStateChangeReturn ret;
           GstPad *elempad;
 
+          gst_element_set_locked_state (ns->nicesinks[c], FALSE);
           if (!gst_bin_add (GST_BIN (self->priv->gst_sink), ns->nicesinks[c]))
             GST_ERROR ("Could not add nicesink element to the transmitter"
                 " sink");
@@ -903,6 +913,10 @@ fs_nice_transmitter_set_sending (FsNiceTransmitter *self,
           if (GST_PAD_LINK_FAILED(ret))
             GST_ERROR ("Could not link nicesink to its tee pad");
           gst_object_unref (elempad);
+
+          gst_element_send_event (ns->nicesinks[c],
+              gst_event_new_custom (GST_EVENT_CUSTOM_UPSTREAM,
+                  gst_structure_new ("GstForceKeyUnit", NULL)));
         }
       }
     }

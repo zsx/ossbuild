@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<book xmlns="http://www.devhelp.net/book" title="libnice Reference Manual" link="index.html" author="" name="libnice">
+  <chapters>
+    <sub name="ICE Library" link="pt01.html">
+      <sub name="" link="ch01.html">
+        <sub name="NiceAgent" link="NiceAgent.html"/>
+        <sub name="NiceAddress" link="libnice-NiceAddress.html"/>
+        <sub name="NiceCandidate" link="libnice-NiceCandidate.html"/>
+      </sub>
+      <sub name="Libnice helper functions " link="ch02.html">
+        <sub name="Debug messages" link="libnice-Debug-messages.html"/>
+        <sub name="Network interfaces discovery" link="libnice-Network-interfaces-discovery.html"/>
+      </sub>
+    </sub>
+    <sub name="STUN Library" link="pt02.html">
+      <sub name="" link="ch03.html">
+        <sub name="StunAgent" link="libnice-StunAgent.html"/>
+        <sub name="StunMessage" link="libnice-StunMessage.html"/>
+      </sub>
+      <sub name="STUN usages" link="ch04.html">
+        <sub name="Bind" link="libnice-Bind.html"/>
+        <sub name="ICE" link="libnice-ICE.html"/>
+        <sub name="TURN" link="libnice-TURN.html"/>
+        <sub name="Timer" link="libnice-Timer.html"/>
+      </sub>
+    </sub>
+  </chapters>
+  <functions>
+    <function name="NiceAgent" link="NiceAgent.html#NiceAgent-struct"/>
+    <function name="enum NiceComponentState" link="NiceAgent.html#NiceComponentState"/>
+    <function name="enum NiceComponentType" link="NiceAgent.html#NiceComponentType"/>
+    <function name="enum NiceProxyType" link="NiceAgent.html#NiceProxyType"/>
+    <function name="enum NiceCompatibility" link="NiceAgent.html#NiceCompatibility"/>
+    <function name="NiceAgentRecvFunc ()" link="NiceAgent.html#NiceAgentRecvFunc"/>
+    <function name="NICE_AGENT_MAX_REMOTE_CANDIDATES" link="NiceAgent.html#NICE-AGENT-MAX-REMOTE-CANDIDATES--CAPS"/>
+    <function name="nice_agent_new ()" link="NiceAgent.html#nice-agent-new"/>
+    <function name="nice_agent_add_local_address ()" link="NiceAgent.html#nice-agent-add-local-address"/>
+    <function name="nice_agent_add_stream ()" link="NiceAgent.html#nice-agent-add-stream"/>
+    <function name="nice_agent_remove_stream ()" link="NiceAgent.html#nice-agent-remove-stream"/>
+    <function name="nice_agent_set_relay_info ()" link="NiceAgent.html#nice-agent-set-relay-info"/>
+    <function name="nice_agent_gather_candidates ()" link="NiceAgent.html#nice-agent-gather-candidates"/>
+    <function name="nice_agent_set_remote_credentials ()" link="NiceAgent.html#nice-agent-set-remote-credentials"/>
+    <function name="nice_agent_get_local_credentials ()" link="NiceAgent.html#nice-agent-get-local-credentials"/>
+    <function name="nice_agent_set_remote_candidates ()" link="NiceAgent.html#nice-agent-set-remote-candidates"/>
+    <function name="nice_agent_get_remote_candidates ()" link="NiceAgent.html#nice-agent-get-remote-candidates"/>
+    <function name="nice_agent_get_local_candidates ()" link="NiceAgent.html#nice-agent-get-local-candidates"/>
+    <function name="nice_agent_send ()" link="NiceAgent.html#nice-agent-send"/>
+    <function name="nice_agent_attach_recv ()" link="NiceAgent.html#nice-agent-attach-recv"/>
+    <function name="nice_agent_set_selected_pair ()" link="NiceAgent.html#nice-agent-set-selected-pair"/>
+    <function name="nice_agent_set_selected_remote_candidate ()" link="NiceAgent.html#nice-agent-set-selected-remote-candidate"/>
+    <function name="nice_agent_set_stream_tos ()" link="NiceAgent.html#nice-agent-set-stream-tos"/>
+    <function name="nice_agent_restart ()" link="NiceAgent.html#nice-agent-restart"/>
+    <function name="The &quot;compatibility&quot; property" link="NiceAgent.html#NiceAgent--compatibility"/>
+    <function name="The &quot;controlling-mode&quot; property" link="NiceAgent.html#NiceAgent--controlling-mode"/>
+    <function name="The &quot;full-mode&quot; property" link="NiceAgent.html#NiceAgent--full-mode"/>
+    <function name="The &quot;main-context&quot; property" link="NiceAgent.html#NiceAgent--main-context"/>
+    <function name="The &quot;max-connectivity-checks&quot; property" link="NiceAgent.html#NiceAgent--max-connectivity-checks"/>
+    <function name="The &quot;proxy-ip&quot; property" link="NiceAgent.html#NiceAgent--proxy-ip"/>
+    <function name="The &quot;proxy-password&quot; property" link="NiceAgent.html#NiceAgent--proxy-password"/>
+    <function name="The &quot;proxy-port&quot; property" link="NiceAgent.html#NiceAgent--proxy-port"/>
+    <function name="The &quot;proxy-type&quot; property" link="NiceAgent.html#NiceAgent--proxy-type"/>
+    <function name="The &quot;proxy-username&quot; property" link="NiceAgent.html#NiceAgent--proxy-username"/>
+    <function name="The &quot;stun-pacing-timer&quot; property" link="NiceAgent.html#NiceAgent--stun-pacing-timer"/>
+    <function name="The &quot;stun-server&quot; property" link="NiceAgent.html#NiceAgent--stun-server"/>
+    <function name="The &quot;stun-server-port&quot; property" link="NiceAgent.html#NiceAgent--stun-server-port"/>
+    <function name="The &quot;compatibility&quot; property" link="NiceAgent.html#NiceAgent--compatibility"/>
+    <function name="The &quot;controlling-mode&quot; property" link="NiceAgent.html#NiceAgent--controlling-mode"/>
+    <function name="The &quot;full-mode&quot; property" link="NiceAgent.html#NiceAgent--full-mode"/>
+    <function name="The &quot;main-context&quot; property" link="NiceAgent.html#NiceAgent--main-context"/>
+    <function name="The &quot;max-connectivity-checks&quot; property" link="NiceAgent.html#NiceAgent--max-connectivity-checks"/>
+    <function name="The &quot;proxy-ip&quot; property" link="NiceAgent.html#NiceAgent--proxy-ip"/>
+    <function name="The &quot;proxy-password&quot; property" link="NiceAgent.html#NiceAgent--proxy-password"/>
+    <function name="The &quot;proxy-port&quot; property" link="NiceAgent.html#NiceAgent--proxy-port"/>
+    <function name="The &quot;proxy-type&quot; property" link="NiceAgent.html#NiceAgent--proxy-type"/>
+    <function name="The &quot;proxy-username&quot; property" link="NiceAgent.html#NiceAgent--proxy-username"/>
+    <function name="The &quot;stun-pacing-timer&quot; property" link="NiceAgent.html#NiceAgent--stun-pacing-timer"/>
+    <function name="The &quot;stun-server&quot; property" link="NiceAgent.html#NiceAgent--stun-server"/>
+    <function name="The &quot;stun-server-port&quot; property" link="NiceAgent.html#NiceAgent--stun-server-port"/>
+    <function name="The &quot;candidate-gathering-done&quot; signal" link="NiceAgent.html#NiceAgent-candidate-gathering-done"/>
+    <function name="The &quot;component-state-changed&quot; signal" link="NiceAgent.html#NiceAgent-component-state-changed"/>
+    <function name="The &quot;initial-binding-request-received&quot; signal" link="NiceAgent.html#NiceAgent-initial-binding-request-received"/>
+    <function name="The &quot;new-candidate&quot; signal" link="NiceAgent.html#NiceAgent-new-candidate"/>
+    <function name="The &quot;new-remote-candidate&quot; signal" link="NiceAgent.html#NiceAgent-new-remote-candidate"/>
+    <function name="The &quot;new-selected-pair&quot; signal" link="NiceAgent.html#NiceAgent-new-selected-pair"/>
+    <function name="The &quot;candidate-gathering-done&quot; signal" link="NiceAgent.html#NiceAgent-candidate-gathering-done"/>
+    <function name="The &quot;component-state-changed&quot; signal" link="NiceAgent.html#NiceAgent-component-state-changed"/>
+    <function name="The &quot;initial-binding-request-received&quot; signal" link="NiceAgent.html#NiceAgent-initial-binding-request-received"/>
+    <function name="The &quot;new-candidate&quot; signal" link="NiceAgent.html#NiceAgent-new-candidate"/>
+    <function name="The &quot;new-remote-candidate&quot; signal" link="NiceAgent.html#NiceAgent-new-remote-candidate"/>
+    <function name="The &quot;new-selected-pair&quot; signal" link="NiceAgent.html#NiceAgent-new-selected-pair"/>
+    <function name="NiceAddress" link="libnice-NiceAddress.html#NiceAddress"/>
+    <function name="NICE_ADDRESS_STRING_LEN" link="libnice-NiceAddress.html#NICE-ADDRESS-STRING-LEN--CAPS"/>
+    <function name="nice_address_init ()" link="libnice-NiceAddress.html#nice-address-init"/>
+    <function name="nice_address_new ()" link="libnice-NiceAddress.html#nice-address-new"/>
+    <function name="nice_address_free ()" link="libnice-NiceAddress.html#nice-address-free"/>
+    <function name="nice_address_dup ()" link="libnice-NiceAddress.html#nice-address-dup"/>
+    <function name="nice_address_set_ipv4 ()" link="libnice-NiceAddress.html#nice-address-set-ipv4"/>
+    <function name="nice_address_set_ipv6 ()" link="libnice-NiceAddress.html#nice-address-set-ipv6"/>
+    <function name="nice_address_set_port ()" link="libnice-NiceAddress.html#nice-address-set-port"/>
+    <function name="nice_address_get_port ()" link="libnice-NiceAddress.html#nice-address-get-port"/>
+    <function name="nice_address_set_from_string ()" link="libnice-NiceAddress.html#nice-address-set-from-string"/>
+    <function name="nice_address_set_from_sockaddr ()" link="libnice-NiceAddress.html#nice-address-set-from-sockaddr"/>
+    <function name="nice_address_copy_to_sockaddr ()" link="libnice-NiceAddress.html#nice-address-copy-to-sockaddr"/>
+    <function name="nice_address_equal ()" link="libnice-NiceAddress.html#nice-address-equal"/>
+    <function name="nice_address_to_string ()" link="libnice-NiceAddress.html#nice-address-to-string"/>
+    <function name="nice_address_is_private ()" link="libnice-NiceAddress.html#nice-address-is-private"/>
+    <function name="nice_address_is_valid ()" link="libnice-NiceAddress.html#nice-address-is-valid"/>
+    <function name="NiceCandidate" link="libnice-NiceCandidate.html#NiceCandidate"/>
+    <function name="enum NiceCandidateType" link="libnice-NiceCandidate.html#NiceCandidateType"/>
+    <function name="enum NiceCandidateTransport" link="libnice-NiceCandidate.html#NiceCandidateTransport"/>
+    <function name="TurnServer" link="libnice-NiceCandidate.html#TurnServer"/>
+    <function name="enum NiceRelayType" link="libnice-NiceCandidate.html#NiceRelayType"/>
+    <function name="NICE_CANDIDATE_MAX_FOUNDATION" link="libnice-NiceCandidate.html#NICE-CANDIDATE-MAX-FOUNDATION--CAPS"/>
+    <function name="nice_candidate_new ()" link="libnice-NiceCandidate.html#nice-candidate-new"/>
+    <function name="nice_candidate_free ()" link="libnice-NiceCandidate.html#nice-candidate-free"/>
+    <function name="nice_candidate_copy ()" link="libnice-NiceCandidate.html#nice-candidate-copy"/>
+    <function name="nice_debug_enable ()" link="libnice-Debug-messages.html#nice-debug-enable"/>
+    <function name="nice_debug_disable ()" link="libnice-Debug-messages.html#nice-debug-disable"/>
+    <function name="nice_interfaces_get_ip_for_interface ()" link="libnice-Network-interfaces-discovery.html#nice-interfaces-get-ip-for-interface"/>
+    <function name="nice_interfaces_get_local_interfaces ()" link="libnice-Network-interfaces-discovery.html#nice-interfaces-get-local-interfaces"/>
+    <function name="nice_interfaces_get_local_ips ()" link="libnice-Network-interfaces-discovery.html#nice-interfaces-get-local-ips"/>
+    <function name="StunAgent" link="libnice-StunAgent.html#StunAgent"/>
+    <function name="enum StunCompatibility" link="libnice-StunAgent.html#StunCompatibility"/>
+    <function name="enum StunAgentUsageFlags" link="libnice-StunAgent.html#StunAgentUsageFlags"/>
+    <function name="enum StunValidationStatus" link="libnice-StunAgent.html#StunValidationStatus"/>
+    <function name="StunMessageIntegrityValidate ()" link="libnice-StunAgent.html#StunMessageIntegrityValidate"/>
+    <function name="StunDefaultValidaterData" link="libnice-StunAgent.html#StunDefaultValidaterData"/>
+    <function name="stun_agent_init ()" link="libnice-StunAgent.html#stun-agent-init"/>
+    <function name="stun_agent_validate ()" link="libnice-StunAgent.html#stun-agent-validate"/>
+    <function name="stun_agent_default_validater ()" link="libnice-StunAgent.html#stun-agent-default-validater"/>
+    <function name="stun_agent_init_request ()" link="libnice-StunAgent.html#stun-agent-init-request"/>
+    <function name="stun_agent_init_indication ()" link="libnice-StunAgent.html#stun-agent-init-indication"/>
+    <function name="stun_agent_init_response ()" link="libnice-StunAgent.html#stun-agent-init-response"/>
+    <function name="stun_agent_init_error ()" link="libnice-StunAgent.html#stun-agent-init-error"/>
+    <function name="stun_agent_build_unknown_attributes_error ()" link="libnice-StunAgent.html#stun-agent-build-unknown-attributes-error"/>
+    <function name="stun_agent_finish_message ()" link="libnice-StunAgent.html#stun-agent-finish-message"/>
+    <function name="stun_agent_forget_transaction ()" link="libnice-StunAgent.html#stun-agent-forget-transaction"/>
+    <function name="stun_debug_enable ()" link="libnice-StunAgent.html#stun-debug-enable"/>
+    <function name="stun_debug_disable ()" link="libnice-StunAgent.html#stun-debug-disable"/>
+    <function name="StunMessage" link="libnice-StunMessage.html#StunMessage"/>
+    <function name="enum StunClass" link="libnice-StunMessage.html#StunClass"/>
+    <function name="enum StunMethod" link="libnice-StunMessage.html#StunMethod"/>
+    <function name="enum StunAttribute" link="libnice-StunMessage.html#StunAttribute"/>
+    <function name="StunTransactionId" link="libnice-StunMessage.html#StunTransactionId"/>
+    <function name="enum StunError" link="libnice-StunMessage.html#StunError"/>
+    <function name="enum StunMessageReturn" link="libnice-StunMessage.html#StunMessageReturn"/>
+    <function name="STUN_MESSAGE_BUFFER_INCOMPLETE" link="libnice-StunMessage.html#STUN-MESSAGE-BUFFER-INCOMPLETE--CAPS"/>
+    <function name="STUN_MESSAGE_BUFFER_INVALID" link="libnice-StunMessage.html#STUN-MESSAGE-BUFFER-INVALID--CAPS"/>
+    <function name="stun_message_init ()" link="libnice-StunMessage.html#stun-message-init"/>
+    <function name="stun_message_length ()" link="libnice-StunMessage.html#stun-message-length"/>
+    <function name="stun_message_find ()" link="libnice-StunMessage.html#stun-message-find"/>
+    <function name="stun_message_find_flag ()" link="libnice-StunMessage.html#stun-message-find-flag"/>
+    <function name="stun_message_find32 ()" link="libnice-StunMessage.html#stun-message-find32"/>
+    <function name="stun_message_find64 ()" link="libnice-StunMessage.html#stun-message-find64"/>
+    <function name="stun_message_find_string ()" link="libnice-StunMessage.html#stun-message-find-string"/>
+    <function name="stun_message_find_addr ()" link="libnice-StunMessage.html#stun-message-find-addr"/>
+    <function name="stun_message_find_xor_addr ()" link="libnice-StunMessage.html#stun-message-find-xor-addr"/>
+    <function name="stun_message_find_xor_addr_full ()" link="libnice-StunMessage.html#stun-message-find-xor-addr-full"/>
+    <function name="stun_message_find_error ()" link="libnice-StunMessage.html#stun-message-find-error"/>
+    <function name="stun_message_append ()" link="libnice-StunMessage.html#stun-message-append"/>
+    <function name="stun_message_append_bytes ()" link="libnice-StunMessage.html#stun-message-append-bytes"/>
+    <function name="stun_message_append_flag ()" link="libnice-StunMessage.html#stun-message-append-flag"/>
+    <function name="stun_message_append32 ()" link="libnice-StunMessage.html#stun-message-append32"/>
+    <function name="stun_message_append64 ()" link="libnice-StunMessage.html#stun-message-append64"/>
+    <function name="stun_message_append_string ()" link="libnice-StunMessage.html#stun-message-append-string"/>
+    <function name="stun_message_append_addr ()" link="libnice-StunMessage.html#stun-message-append-addr"/>
+    <function name="stun_message_append_xor_addr ()" link="libnice-StunMessage.html#stun-message-append-xor-addr"/>
+    <function name="stun_message_append_xor_addr_full ()" link="libnice-StunMessage.html#stun-message-append-xor-addr-full"/>
+    <function name="stun_message_append_error ()" link="libnice-StunMessage.html#stun-message-append-error"/>
+    <function name="stun_message_validate_buffer_length ()" link="libnice-StunMessage.html#stun-message-validate-buffer-length"/>
+    <function name="stun_message_id ()" link="libnice-StunMessage.html#stun-message-id"/>
+    <function name="stun_message_get_class ()" link="libnice-StunMessage.html#stun-message-get-class"/>
+    <function name="stun_message_get_method ()" link="libnice-StunMessage.html#stun-message-get-method"/>
+    <function name="stun_message_has_attribute ()" link="libnice-StunMessage.html#stun-message-has-attribute"/>
+    <function name="stun_message_has_cookie ()" link="libnice-StunMessage.html#stun-message-has-cookie"/>
+    <function name="stun_optional ()" link="libnice-StunMessage.html#stun-optional"/>
+    <function name="stun_strerror ()" link="libnice-StunMessage.html#stun-strerror"/>
+    <function name="enum StunUsageBindReturn" link="libnice-Bind.html#StunUsageBindReturn"/>
+    <function name="stun_usage_bind_create ()" link="libnice-Bind.html#stun-usage-bind-create"/>
+    <function name="stun_usage_bind_process ()" link="libnice-Bind.html#stun-usage-bind-process"/>
+    <function name="stun_usage_bind_keepalive ()" link="libnice-Bind.html#stun-usage-bind-keepalive"/>
+    <function name="stun_usage_bind_run ()" link="libnice-Bind.html#stun-usage-bind-run"/>
+    <function name="enum StunUsageIceCompatibility" link="libnice-ICE.html#StunUsageIceCompatibility"/>
+    <function name="enum StunUsageIceReturn" link="libnice-ICE.html#StunUsageIceReturn"/>
+    <function name="stun_usage_ice_conncheck_create ()" link="libnice-ICE.html#stun-usage-ice-conncheck-create"/>
+    <function name="stun_usage_ice_conncheck_process ()" link="libnice-ICE.html#stun-usage-ice-conncheck-process"/>
+    <function name="stun_usage_ice_conncheck_create_reply ()" link="libnice-ICE.html#stun-usage-ice-conncheck-create-reply"/>
+    <function name="stun_usage_ice_conncheck_priority ()" link="libnice-ICE.html#stun-usage-ice-conncheck-priority"/>
+    <function name="stun_usage_ice_conncheck_use_candidate ()" link="libnice-ICE.html#stun-usage-ice-conncheck-use-candidate"/>
+    <function name="enum StunUsageTurnCompatibility" link="libnice-TURN.html#StunUsageTurnCompatibility"/>
+    <function name="enum StunUsageTurnRequestPorts" link="libnice-TURN.html#StunUsageTurnRequestPorts"/>
+    <function name="enum StunUsageTurnReturn" link="libnice-TURN.html#StunUsageTurnReturn"/>
+    <function name="stun_usage_turn_create ()" link="libnice-TURN.html#stun-usage-turn-create"/>
+    <function name="stun_usage_turn_create_refresh ()" link="libnice-TURN.html#stun-usage-turn-create-refresh"/>
+    <function name="stun_usage_turn_process ()" link="libnice-TURN.html#stun-usage-turn-process"/>
+    <function name="stun_usage_turn_refresh_process ()" link="libnice-TURN.html#stun-usage-turn-refresh-process"/>
+    <function name="StunTimer" link="libnice-Timer.html#StunTimer"/>
+    <function name="enum StunUsageTimerReturn" link="libnice-Timer.html#StunUsageTimerReturn"/>
+    <function name="stun_timer_start ()" link="libnice-Timer.html#stun-timer-start"/>
+    <function name="stun_timer_start_reliable ()" link="libnice-Timer.html#stun-timer-start-reliable"/>
+    <function name="stun_timer_refresh ()" link="libnice-Timer.html#stun-timer-refresh"/>
+    <function name="stun_timer_remainder ()" link="libnice-Timer.html#stun-timer-remainder"/>
+  </functions>
+</book>

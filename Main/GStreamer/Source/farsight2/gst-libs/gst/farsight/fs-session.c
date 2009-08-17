@@ -102,7 +102,8 @@ enum
   PROP_CODECS,
   PROP_CODECS_WITHOUT_CONFIG,
   PROP_CURRENT_SEND_CODEC,
-  PROP_CODECS_READY
+  PROP_CODECS_READY,
+  PROP_TYPE_OF_SERVICE
 };
 
 /*
@@ -125,7 +126,6 @@ static void fs_session_set_property (GObject *object,
                                      const GValue *value,
                                      GParamSpec *pspec);
 
-static GObjectClass *parent_class = NULL;
 static guint signals[LAST_SIGNAL] = { 0 };
 
 static void
@@ -134,7 +134,6 @@ fs_session_class_init (FsSessionClass *klass)
   GObjectClass *gobject_class;
 
   gobject_class = (GObjectClass *) klass;
-  parent_class = g_type_class_peek_parent (klass);
 
   gobject_class->set_property = fs_session_set_property;
   gobject_class->get_property = fs_session_get_property;
@@ -153,7 +152,7 @@ fs_session_class_init (FsSessionClass *klass)
         "An enum that specifies the media type of the session",
         FS_TYPE_MEDIA_TYPE,
         FS_MEDIA_TYPE_AUDIO,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsSession:id:
@@ -168,7 +167,7 @@ fs_session_class_init (FsSessionClass *klass)
         "The ID of the session",
         "This ID is used on pad related to this session",
         0, G_MAXUINT, 0,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsSession:sink-pad:
@@ -183,7 +182,7 @@ fs_session_class_init (FsSessionClass *klass)
         "A gstreamer sink pad for this session",
         "A pad used for sending data on this session",
         GST_TYPE_PAD,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsSession:codec-preferences:
@@ -206,7 +205,7 @@ fs_session_class_init (FsSessionClass *klass)
         "A GList of FsCodecs that allows user to set his codec options and"
         " priorities",
         FS_TYPE_CODEC_LIST,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsSession:codecs:
@@ -235,7 +234,7 @@ fs_session_class_init (FsSessionClass *klass)
         "List of codecs",
         "A GList of FsCodecs indicating the codecs for this session",
         FS_TYPE_CODEC_LIST,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsSession:codecs-without-config:
@@ -265,7 +264,7 @@ fs_session_class_init (FsSessionClass *klass)
           "A GList of FsCodecs indicating the codecs for this session without "
           "any configuration data",
           FS_TYPE_CODEC_LIST,
-          G_PARAM_READABLE));
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsSession:current-send-codec:
@@ -283,7 +282,7 @@ fs_session_class_init (FsSessionClass *klass)
         "Current active send codec",
         "An FsCodec indicating the currently active send codec",
         FS_TYPE_CODEC,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsSession:codecs-ready
@@ -303,7 +302,21 @@ fs_session_class_init (FsSessionClass *klass)
           "Indicates if the codecs are ready or if their configuration is"
           " still being discovered",
           TRUE,
-          G_PARAM_READABLE));
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
+
+  /**
+   * FsSession:tos
+   *
+   * Sets the IP ToS field (and if possible the IPv6 TCLASS field
+   */
+  g_object_class_install_property (gobject_class,
+      PROP_TYPE_OF_SERVICE,
+      g_param_spec_uint ("tos",
+          "IP Type of Service",
+          "The IP Type of Service to set on sent packets",
+          0, 255, 0,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
 
   /**
    * FsSession::error:
@@ -422,8 +435,8 @@ fs_session_new_stream (FsSession *session, FsParticipant *participant,
     return NULL;
 
   /* Let's catch all stream errors and forward them */
-  g_signal_connect (new_stream, "error",
-        G_CALLBACK (fs_session_error_forward), session);
+  g_signal_connect_object (new_stream, "error",
+      G_CALLBACK (fs_session_error_forward), session, 0);
 
   return new_stream;
 }
@@ -598,4 +611,27 @@ fs_session_list_transmitters (FsSession *session)
   } else {
     return NULL;
   }
+}
+
+
+/**
+ * fs_session_get_stream_transmitter_type:
+ * @session: A #FsSession
+ * @transmitter: The name of the transmitter
+ *
+ * Returns the GType of the stream transmitter, bindings can use it
+ * to validate/convert the parameters passed to fs_session_new_stream().
+ *
+ * Returns: The #GType of the stream transmitter
+ */
+GType
+fs_session_get_stream_transmitter_type (FsSession *session,
+    const gchar *transmitter)
+{
+  FsSessionClass *klass = FS_SESSION_GET_CLASS (session);
+
+  if (klass->get_stream_transmitter_type)
+    return klass->get_stream_transmitter_type (session, transmitter);
+
+  return 0;
 }

@@ -1,0 +1,68 @@
+<!-- ##### SECTION Title ##### -->
+Timer
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### TYPEDEF StunTimer ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ENUM StunUsageTimerReturn ##### -->
+<para>
+
+</para>
+
+@STUN_USAGE_TIMER_RETURN_SUCCESS: 
+@STUN_USAGE_TIMER_RETURN_RETRANSMIT: 
+@STUN_USAGE_TIMER_RETURN_TIMEOUT: 
+
+<!-- ##### FUNCTION stun_timer_start ##### -->
+<para>
+
+</para>
+
+@timer: 
+
+
+<!-- ##### FUNCTION stun_timer_start_reliable ##### -->
+<para>
+
+</para>
+
+@timer: 
+
+
+<!-- ##### FUNCTION stun_timer_refresh ##### -->
+<para>
+
+</para>
+
+@timer: 
+@Returns: 
+
+
+<!-- ##### FUNCTION stun_timer_remainder ##### -->
+<para>
+
+</para>
+
+@timer: 
+@Returns: 
+
+

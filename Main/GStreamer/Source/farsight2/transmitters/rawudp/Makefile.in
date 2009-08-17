@@ -61,6 +61,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
 	$(top_srcdir)/common/m4/pkg.m4 \
+	$(top_srcdir)/common/m4/shave.m4 \
 	$(top_srcdir)/m4/as-check-python-headers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -81,12 +82,12 @@ am__DEPENDENCIES_1 =
 librawudp_transmitter_la_DEPENDENCIES =  \
 	$(top_builddir)/gst-libs/gst/farsight/libgstfarsight-0.10.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_librawudp_transmitter_la_OBJECTS =  \
 	librawudp_transmitter_la-fs-rawudp-transmitter.lo \
 	librawudp_transmitter_la-fs-rawudp-stream-transmitter.lo \
-	librawudp_transmitter_la-fs-rawudp-component.lo \
-	librawudp_transmitter_la-stun.lo
+	librawudp_transmitter_la-fs-rawudp-component.lo
 nodist_librawudp_transmitter_la_OBJECTS =  \
 	librawudp_transmitter_la-fs-rawudp-marshal.lo
 librawudp_transmitter_la_OBJECTS =  \
@@ -118,6 +119,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ACLOCAL_AMFLAGS = @ACLOCAL_AMFLAGS@
 AMTAR = @AMTAR@
+AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -145,6 +147,7 @@ EGREP = @EGREP@
 ERROR_CFLAGS = @ERROR_CFLAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
+FC = @FC@
 FFLAGS = @FFLAGS@
 FS2_AGE = @FS2_AGE@
 FS2_ALL_LDFLAGS = @FS2_ALL_LDFLAGS@
@@ -206,11 +209,13 @@ LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+MAKEFLAGS = @MAKEFLAGS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 NICE_CFLAGS = @NICE_CFLAGS@
 NICE_LIBS = @NICE_LIBS@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -227,6 +232,9 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PLUGINDIR = @PLUGINDIR@
 PROFILE_CFLAGS = @PROFILE_CFLAGS@
+PYCODEGEN = @PYCODEGEN@
+PYCODEGEN_CFLAGS = @PYCODEGEN_CFLAGS@
+PYCODEGEN_LIBS = @PYCODEGEN_LIBS@
 PYFARSIGHT_CFLAGS = @PYFARSIGHT_CFLAGS@
 PYFARSIGHT_LIBS = @PYFARSIGHT_LIBS@
 PYTHON = @PYTHON@
@@ -235,11 +243,13 @@ PYTHON_INCLUDES = @PYTHON_INCLUDES@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
+Q = @Q@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
@@ -295,6 +305,7 @@ pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+shavedir = @shavedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
@@ -307,8 +318,7 @@ plugin_LTLIBRARIES = librawudp-transmitter.la
 librawudp_transmitter_la_SOURCES = \
 	fs-rawudp-transmitter.c \
 	fs-rawudp-stream-transmitter.c \
-	fs-rawudp-component.c \
-	stun.c
+	fs-rawudp-component.c
 
 nodist_librawudp_transmitter_la_SOURCES = \
 	fs-rawudp-marshal.c \
@@ -321,6 +331,7 @@ librawudp_transmitter_la_CFLAGS = \
 	$(FS2_CFLAGS) \
 	$(GST_PLUGINS_BASE_CFLAGS) \
 	$(GST_CFLAGS) \
+	$(NICE_CFLAGS) \
 	$(GUPNP_CFLAGS)
 
 librawudp_transmitter_la_LDFLAGS = $(FS2_PLUGIN_LDFLAGS)
@@ -329,14 +340,14 @@ librawudp_transmitter_la_LIBADD = \
 	$(FS2_LIBS) \
 	$(GST_PLUGINS_BASE_LIBS) \
 	$(GST_LIBS) \
+	$(NICE_LIBS) \
 	$(GUPNP_LIBS) \
 	-lgstnetbuffer-@GST_MAJORMINOR@
 
 noinst_HEADERS = \
 	fs-rawudp-transmitter.h \
 	fs-rawudp-stream-transmitter.h \
-	fs-rawudp-component.h \
-	stun.h
+	fs-rawudp-component.h
 
 BUILT_SOURCES = $(nodist_librawudp_transmitter_la_SOURCES)
 CLEANFILES = $(BUILT_SOURCES) fs-rawudp-marshal.list
@@ -417,7 +428,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librawudp_transmitter_la-fs-rawudp-marshal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librawudp_transmitter_la-fs-rawudp-stream-transmitter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librawudp_transmitter_la-fs-rawudp-transmitter.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librawudp_transmitter_la-stun.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -460,13 +470,6 @@ librawudp_transmitter_la-fs-rawudp-component.lo: fs-rawudp-component.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rawudp-component.c' object='librawudp_transmitter_la-fs-rawudp-component.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librawudp_transmitter_la_CFLAGS) $(CFLAGS) -c -o librawudp_transmitter_la-fs-rawudp-component.lo `test -f 'fs-rawudp-component.c' || echo '$(srcdir)/'`fs-rawudp-component.c
-
-librawudp_transmitter_la-stun.lo: stun.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librawudp_transmitter_la_CFLAGS) $(CFLAGS) -MT librawudp_transmitter_la-stun.lo -MD -MP -MF $(DEPDIR)/librawudp_transmitter_la-stun.Tpo -c -o librawudp_transmitter_la-stun.lo `test -f 'stun.c' || echo '$(srcdir)/'`stun.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/librawudp_transmitter_la-stun.Tpo $(DEPDIR)/librawudp_transmitter_la-stun.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='stun.c' object='librawudp_transmitter_la-stun.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librawudp_transmitter_la_CFLAGS) $(CFLAGS) -c -o librawudp_transmitter_la-stun.lo `test -f 'stun.c' || echo '$(srcdir)/'`stun.c
 
 librawudp_transmitter_la-fs-rawudp-marshal.lo: fs-rawudp-marshal.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librawudp_transmitter_la_CFLAGS) $(CFLAGS) -MT librawudp_transmitter_la-fs-rawudp-marshal.lo -MD -MP -MF $(DEPDIR)/librawudp_transmitter_la-fs-rawudp-marshal.Tpo -c -o librawudp_transmitter_la-fs-rawudp-marshal.lo `test -f 'fs-rawudp-marshal.c' || echo '$(srcdir)/'`fs-rawudp-marshal.c
@@ -700,9 +703,9 @@ fs-rawudp-marshal.list: $(librawudp_transmitter_la_SOURCES) Makefile.am
 	glib-mkenums \
 	--fhead "#include \"$*-enum-types.h\"\n$(enum_headers)" \
 	--fprod "\n/* enumerations from \"@filename@\" */" \
-	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"     \
+	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static volatile gsize g_define_type_id__volatile = 0;\n  if (g_once_init_enter (&g_define_type_id__volatile)) {\n    static const G@Type@Value values[] = {"     \
 	--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
-	--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
+	--vtail "      { 0, NULL, NULL }\n    };\n    GType g_define_type_id = g_@type@_register_static (\"@EnumName@\", values);\n    g_once_init_leave (&g_define_type_id__volatile, g_define_type_id);\n  }\n  return g_define_type_id__volatile;\n}\n" \
 	$^ > $@
 
 # a hack rule to make sure .Plo files exist because they get include'd

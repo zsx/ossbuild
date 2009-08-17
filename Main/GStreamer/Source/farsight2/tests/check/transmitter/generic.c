@@ -32,7 +32,6 @@
 #include "check-threadsafe.h"
 #include "generic.h"
 
-
 static void
 _transmitter_error (FsTransmitter *transmitter, gint errorno, gchar *error_msg,
   gchar *debug_msg, gpointer user_data)
@@ -88,6 +87,7 @@ setup_fakesrc (FsTransmitter *trans, GstElement *pipeline, guint component_id)
     GST_STATE_CHANGE_FAILURE, "Could not set the fakesrc to playing");
 
   gst_element_set_locked_state (src, FALSE);
+  gst_element_sync_state_with_parent (src);
 
   gst_object_unref (trans_sink);
 }
@@ -161,7 +161,7 @@ bus_error_callback (GstBus *bus, GstMessage *message, gpointer user_data)
         gchar *debug = NULL;
         gst_message_parse_warning (message, &error, &debug);
 
-        g_debug ("Got a warning on the BUS (%d): %s (%s)",
+        GST_WARNING ("Got a warning on the BUS (%d): %s (%s)",
             error->code,
             error->message, debug);
         g_error_free (error);
@@ -183,7 +183,7 @@ test_transmitter_creation (gchar *transmitter_name)
   GstElement *pipeline;
   GstElement *trans_sink, *trans_src;
 
-  trans = fs_transmitter_new (transmitter_name, 2, &error);
+  trans = fs_transmitter_new (transmitter_name, 2, 0, &error);
 
   if (error) {
     ts_fail ("Error creating transmitter: (%s:%d) %s",
@@ -223,7 +223,7 @@ setup_stund (void)
           G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD,
           NULL, NULL, &stund_pid, &error))
   {
-    g_debug ("Could not spawn stund, skipping stun testing: %s",
+    GST_WARNING ("Could not spawn stund, skipping stun testing: %s",
         error->message);
     g_clear_error (&error);
     return;
@@ -241,3 +241,4 @@ teardown_stund (void)
   g_spawn_close_pid (stund_pid);
   stund_pid = 0;
 }
+

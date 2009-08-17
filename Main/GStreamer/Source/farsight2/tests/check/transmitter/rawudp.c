@@ -35,6 +35,9 @@
 #include "generic.h"
 #include "transmitter/rawudp-upnp.h"
 
+#include "stunalternd.h"
+
+
 gint buffer_count[2] = {0, 0};
 GMainLoop *loop = NULL;
 gint candidates[2] = {0, 0};
@@ -48,6 +51,7 @@ gboolean associate_on_source = TRUE;
 gboolean pipeline_done = FALSE;
 GStaticMutex pipeline_mod_mutex = G_STATIC_MUTEX_INIT;
 
+void *stun_alternd_data = NULL;
 
 enum {
   FLAG_HAS_STUN  = 1 << 0,
@@ -94,7 +98,7 @@ _new_local_candidate (FsStreamTransmitter *st, FsCandidate *candidate,
   GList *item = NULL;
   gboolean ret;
 
-  g_debug ("Has local candidate %s:%u of type %d",
+  GST_DEBUG ("Has local candidate %s:%u of type %d",
     candidate->ip, candidate->port, candidate->type);
 
   ts_fail_if (candidate == NULL, "Passed NULL candidate");
@@ -133,7 +137,7 @@ _new_local_candidate (FsStreamTransmitter *st, FsCandidate *candidate,
 
   candidates[candidate->component_id-1] = 1;
 
-  g_debug ("New local candidate %s:%d of type %d for component %d",
+  GST_DEBUG ("New local candidate %s:%d of type %d for component %d",
     candidate->ip, candidate->port, candidate->type, candidate->component_id);
 
   item = g_list_prepend (NULL, candidate);
@@ -156,7 +160,7 @@ _local_candidates_prepared (FsStreamTransmitter *st, gpointer user_data)
   ts_fail_if (candidates[0] == 0, "candidates-prepared with no RTP candidate");
   ts_fail_if (candidates[1] == 0, "candidates-prepared with no RTCP candidate");
 
-  g_debug ("Local Candidates Prepared");
+  GST_DEBUG ("Local Candidates Prepared");
 
   /*
    * This doesn't work on my router
@@ -180,7 +184,7 @@ _new_active_candidate_pair (FsStreamTransmitter *st, FsCandidate *local,
   ts_fail_unless (local->component_id == remote->component_id,
     "Local and remote candidates dont have the same component id");
 
-  g_debug ("New active candidate pair for component %d", local->component_id);
+  GST_DEBUG ("New active candidate pair for component %d", local->component_id);
 
   g_static_mutex_lock (&pipeline_mod_mutex);
   if (!pipeline_done && !src_setup[local->component_id-1])
@@ -201,10 +205,8 @@ _handoff_handler (GstElement *element, GstBuffer *buffer, GstPad *pad,
 
   buffer_count[component_id-1]++;
 
-  /*
-  g_debug ("Buffer %d component: %d size: %u", buffer_count[component_id-1],
+  GST_LOG ("Buffer %d component: %d size: %u", buffer_count[component_id-1],
     component_id, GST_BUFFER_SIZE (buffer));
-  */
 
   ts_fail_if (buffer_count[component_id-1] > 20,
     "Too many buffers %d > 20 for component",
@@ -278,6 +280,7 @@ run_rawudp_transmitter_test (gint n_parameters, GParameter *params,
   FsTransmitter *trans;
   FsStreamTransmitter *st;
   GstBus *bus = NULL;
+  guint tos;
 
   buffer_count[0] = 0;
   buffer_count[1] = 0;
@@ -295,7 +298,7 @@ run_rawudp_transmitter_test (gint n_parameters, GParameter *params,
   }
 
   loop = g_main_loop_new (NULL, FALSE);
-  trans = fs_transmitter_new ("rawudp", 2, &error);
+  trans = fs_transmitter_new ("rawudp", 2, 0, &error);
 
   if (error) {
     ts_fail ("Error creating transmitter: (%s:%d) %s",
@@ -303,6 +306,10 @@ run_rawudp_transmitter_test (gint n_parameters, GParameter *params,
   }
 
   ts_fail_if (trans == NULL, "No transmitter create, yet error is still NULL");
+
+  g_object_set (trans, "tos", 2, NULL);
+  g_object_get (trans, "tos", &tos, NULL);
+  ts_fail_unless (tos == 2);
 
   if (flags & FLAG_RECVONLY_FILTER)
     ts_fail_unless (g_signal_connect (trans, "get-recvonly-filter",
@@ -328,7 +335,7 @@ run_rawudp_transmitter_test (gint n_parameters, GParameter *params,
         error->code == FS_ERROR_NETWORK &&
         error->message && strstr (error->message, "unreachable"))
     {
-      g_debug ("Skipping stunserver test, we have no network");
+      GST_WARNING ("Skipping stunserver test, we have no network");
       goto skip;
     }
     else
@@ -373,7 +380,7 @@ run_rawudp_transmitter_test (gint n_parameters, GParameter *params,
 
   g_idle_add (check_running, NULL);
 
-  g_main_run (loop);
+  g_main_loop_run (loop);
 
  skip:
 
@@ -382,8 +389,6 @@ run_rawudp_transmitter_test (gint n_parameters, GParameter *params,
   g_static_mutex_unlock (&pipeline_mod_mutex);
 
   gst_element_set_state (pipeline, GST_STATE_NULL);
-
-  gst_element_get_state (pipeline, NULL, NULL, GST_CLOCK_TIME_NONE);
 
   if (st)
   {
@@ -432,13 +437,13 @@ GST_END_TEST;
 
 GST_START_TEST (test_rawudptransmitter_run_invalid_stun)
 {
-  GParameter params[3];
+  GParameter params[4];
 
   /*
    * Hopefully not one is runing a stun server on local port 7777
    */
 
-  memset (params, 0, sizeof (GParameter) * 3);
+  memset (params, 0, sizeof (GParameter) * 4);
 
   params[0].name = "stun-ip";
   g_value_init (&params[0].value, G_TYPE_STRING);
@@ -452,8 +457,11 @@ GST_START_TEST (test_rawudptransmitter_run_invalid_stun)
   g_value_init (&params[2].value, G_TYPE_UINT);
   g_value_set_uint (&params[2].value, 3);
 
-  run_rawudp_transmitter_test (3, params, 0);
+  params[3].name = "upnp-discovery";
+  g_value_init (&params[3].value, G_TYPE_BOOLEAN);
+  g_value_set_boolean (&params[3].value, FALSE);
 
+  run_rawudp_transmitter_test (4, params, 0);
 }
 GST_END_TEST;
 
@@ -541,12 +549,12 @@ _bus_stop_stream_cb (GstBus *bus, GstMessage *message, gpointer user_data)
   if (pending != GST_STATE_VOID_PENDING)
     ts_fail ("New state playing, but pending is %d", pending);
 
-  g_debug ("Stopping stream transmitter");
+  GST_DEBUG ("Stopping stream transmitter");
 
   fs_stream_transmitter_stop (st);
   g_object_unref (st);
 
-  g_debug ("Stopped stream transmitter");
+  GST_DEBUG ("Stopped stream transmitter");
 
   g_atomic_int_set(&running, FALSE);
   g_main_loop_quit (loop);
@@ -583,7 +591,7 @@ GST_START_TEST (test_rawudptransmitter_stop_stream)
   has_stun = FALSE;
 
   loop = g_main_loop_new (NULL, FALSE);
-  trans = fs_transmitter_new ("rawudp", 2, &error);
+  trans = fs_transmitter_new ("rawudp", 2, 0, &error);
 
   if (error) {
     ts_fail ("Error creating transmitter: (%s:%d) %s",
@@ -631,11 +639,9 @@ GST_START_TEST (test_rawudptransmitter_stop_stream)
 
   g_idle_add (check_running, NULL);
 
-  g_main_run (loop);
+  g_main_loop_run (loop);
 
   gst_element_set_state (pipeline, GST_STATE_NULL);
-
-  gst_element_get_state (pipeline, NULL, NULL, GST_CLOCK_TIME_NONE);
 
   g_object_unref (trans);
 
@@ -804,6 +810,120 @@ GST_START_TEST (test_rawudptransmitter_sending_half)
 }
 GST_END_TEST;
 
+
+GST_START_TEST (test_rawudptransmitter_run_stunalternd)
+{
+  GParameter params[4];
+
+  if (stund_pid <= 0 || stun_alternd_data == NULL)
+    return;
+
+  memset (params, 0, sizeof (GParameter) * 4);
+
+  params[0].name = "stun-ip";
+  g_value_init (&params[0].value, G_TYPE_STRING);
+  g_value_set_static_string (&params[0].value, "127.0.0.1");
+
+  params[1].name = "stun-port";
+  g_value_init (&params[1].value, G_TYPE_UINT);
+  g_value_set_uint (&params[1].value, 3480);
+
+  params[2].name = "stun-timeout";
+  g_value_init (&params[2].value, G_TYPE_UINT);
+  g_value_set_uint (&params[2].value, 5);
+
+  params[3].name = "upnp-discovery";
+  g_value_init (&params[3].value, G_TYPE_BOOLEAN);
+  g_value_set_boolean (&params[3].value, FALSE);
+
+
+  run_rawudp_transmitter_test (3, params, FLAG_HAS_STUN);
+}
+GST_END_TEST;
+
+
+GST_START_TEST (test_rawudptransmitter_run_stun_altern_to_nowhere)
+{
+  GParameter params[4];
+
+  if (stun_alternd_data == NULL)
+    return;
+
+  /*
+   * Hopefully not one is runing a stun server on local port 3478
+   */
+
+  memset (params, 0, sizeof (GParameter) * 4);
+
+  params[0].name = "stun-ip";
+  g_value_init (&params[0].value, G_TYPE_STRING);
+  g_value_set_static_string (&params[0].value, "127.0.0.1");
+
+  params[1].name = "stun-port";
+  g_value_init (&params[1].value, G_TYPE_UINT);
+  g_value_set_uint (&params[1].value, 3480);
+
+  params[2].name = "stun-timeout";
+  g_value_init (&params[2].value, G_TYPE_UINT);
+  g_value_set_uint (&params[2].value, 10);
+
+  params[3].name = "upnp-discovery";
+  g_value_init (&params[3].value, G_TYPE_BOOLEAN);
+  g_value_set_boolean (&params[3].value, FALSE);
+
+  run_rawudp_transmitter_test (4, params, 0);
+}
+GST_END_TEST;
+
+
+void
+setup_stunalternd_valid (void)
+{
+  stun_alternd_data = stun_alternd_init (AF_INET,
+      "127.0.0.1", 3478, 3480);
+
+  if (!stun_alternd_data)
+    GST_WARNING ("Could not spawn stunalternd,"
+        " skipping stun alternate server testing");
+}
+
+static void
+setup_stunalternd_loop (void)
+{
+  stun_alternd_data = stun_alternd_init (AF_INET,
+      "127.0.0.1", 3478, 3478);
+
+  if (!stun_alternd_data)
+    GST_WARNING ("Could not spawn stunalternd,"
+        " skipping stun alternate server testing");
+}
+
+static void
+teardown_stunalternd (void)
+{
+  if (!stun_alternd_data)
+    return;
+
+  stun_alternd_stop (stun_alternd_data);
+  stun_alternd_data = NULL;
+}
+
+static void
+setup_stund_stunalternd (void)
+{
+  setup_stund ();
+  setup_stunalternd_valid ();
+}
+
+
+static void
+teardown_stund_stunalternd (void)
+{
+  teardown_stund ();
+  teardown_stunalternd ();
+}
+
+
 static Suite *
 rawudptransmitter_suite (void)
 {
@@ -867,6 +987,27 @@ rawudptransmitter_suite (void)
 
   tc_chain = tcase_create ("rawudptransmitter-sending-half");
   tcase_add_test (tc_chain, test_rawudptransmitter_sending_half);
+  suite_add_tcase (s, tc_chain);
+
+  tc_chain = tcase_create ("rawudptransmitter-stunalternd");
+  tcase_set_timeout (tc_chain, 5);
+  tcase_add_checked_fixture (tc_chain, setup_stund_stunalternd,
+      teardown_stund_stunalternd);
+  tcase_add_test (tc_chain, test_rawudptransmitter_run_stunalternd);
+  suite_add_tcase (s, tc_chain);
+
+  tc_chain = tcase_create ("rawudptransmitter-stunalternd-to-nowhere");
+  tcase_set_timeout (tc_chain, 12);
+  tcase_add_checked_fixture (tc_chain, setup_stunalternd_valid,
+      teardown_stunalternd);
+  tcase_add_test (tc_chain, test_rawudptransmitter_run_stun_altern_to_nowhere);
+  suite_add_tcase (s, tc_chain);
+
+  tc_chain = tcase_create ("rawudptransmitter-stunalternd-loop");
+  tcase_set_timeout (tc_chain, 12);
+  tcase_add_checked_fixture (tc_chain, setup_stunalternd_loop,
+      teardown_stunalternd);
+  tcase_add_test (tc_chain, test_rawudptransmitter_run_stun_altern_to_nowhere);
   suite_add_tcase (s, tc_chain);
 
   return s;

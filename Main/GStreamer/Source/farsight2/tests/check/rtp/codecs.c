@@ -196,7 +196,7 @@ GST_START_TEST (test_rtpcodecs_two_way_negotiation)
   GError *error = NULL;
 
   dat = setup_simple_conference (1, "fsrtpconference", "bob@127.0.0.1");
-  st = simple_conference_add_stream (dat, dat, 0, NULL);
+  st = simple_conference_add_stream (dat, dat, "rawudp", 0, NULL);
 
   session_codecs_notified = FALSE;
   stream_remote_codecs_notified = FALSE;
@@ -368,7 +368,7 @@ GST_START_TEST (test_rtpcodecs_invalid_remote_codecs)
   gboolean rv;
 
   dat = setup_simple_conference (1, "fsrtpconference", "bob@127.0.0.1");
-  st = simple_conference_add_stream (dat, dat, 0, NULL);
+  st = simple_conference_add_stream (dat, dat, "rawudp", 0, NULL);
 
   codecs = g_list_prepend (codecs,
       fs_codec_new (1, "INVALID1", FS_MEDIA_TYPE_AUDIO, 1));
@@ -416,8 +416,8 @@ GST_START_TEST (test_rtpcodecs_reserved_pt)
 
   if (!item)
   {
-    g_warning ("Could not find a dynamically allocated codec, skipping testing"
-               " of the payload-type reservation mecanism");
+    GST_WARNING ("Could not find a dynamically allocated codec,"
+        " skipping testing of the payload-type reservation mecanism");
     goto out;
   }
 
@@ -759,7 +759,7 @@ run_test_rtpcodecs_config_data (gboolean preset_remotes)
 
   if (!item)
   {
-    g_warning ("Could not find Vorbis encoder/decoder/payloader/depayloaders,"
+    GST_WARNING ("Could not find Vorbis encoder/decoder/payloader/depayloaders,"
         " so we are skipping the config-data test");
     goto out;
   }
@@ -987,7 +987,7 @@ GST_START_TEST (test_rtpcodecs_dynamic_pt)
 
   if (!codec1 || !codec2)
   {
-    g_warning ("Could not find two dynamically allocated codec,"
+    GST_WARNING ("Could not find two dynamically allocated codec,"
         "skipping testing of the payload-type dynamic number preferences");
     goto out;
   }

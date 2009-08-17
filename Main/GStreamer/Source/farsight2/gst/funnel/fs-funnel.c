@@ -151,10 +151,9 @@ fs_funnel_request_new_pad (GstElement * element, GstPadTemplate * templ,
   const gchar * name)
 {
   GstPad *sinkpad;
-  FsFunnel *funnel = FS_FUNNEL (element);
   FsFunnelPadPrivate *priv = g_slice_alloc0 (sizeof(FsFunnelPadPrivate));
 
-  GST_DEBUG_OBJECT (funnel, "requesting pad");
+  GST_DEBUG_OBJECT (element, "requesting pad");
 
   sinkpad = gst_pad_new_from_template (templ, name);
 
@@ -211,6 +210,7 @@ fs_funnel_chain (GstPad * pad, GstBuffer * buffer)
   FsFunnelPadPrivate *priv = gst_pad_get_element_private (pad);
   GstEvent *event = NULL;
   GstClockTime newts;
+  GstCaps *padcaps;
 
   GST_DEBUG_OBJECT (funnel, "received buffer %p", buffer);
 
@@ -242,9 +242,18 @@ fs_funnel_chain (GstPad * pad, GstBuffer * buffer)
   GST_OBJECT_UNLOCK (funnel);
 
   if (event) {
-    if (!gst_pad_push_event (funnel->srcpad, event)) {
+    if (!gst_pad_push_event (funnel->srcpad, event))
       GST_WARNING_OBJECT (funnel, "Could not push out newsegment event");
-      res = GST_FLOW_ERROR;
+  }
+
+
+  GST_OBJECT_LOCK (pad);
+  padcaps = GST_PAD_CAPS (funnel->srcpad);
+  GST_OBJECT_UNLOCK (pad);
+
+  if (GST_BUFFER_CAPS (buffer) && GST_BUFFER_CAPS (buffer) != padcaps) {
+    if (!gst_pad_set_caps (funnel->srcpad, GST_BUFFER_CAPS (buffer))) {
+      res = GST_FLOW_NOT_NEGOTIATED;
       goto out;
     }
   }

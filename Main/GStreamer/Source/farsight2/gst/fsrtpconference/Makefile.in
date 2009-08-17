@@ -40,7 +40,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@ENABLE_GTK_DOC_TRUE@am__append_1 = gstfsrtpconference_doc.c
+
+# Optionally build a library to allow building the gtk-doc
+@ENABLE_GTK_DOC_TRUE@am__append_1 = libfsrtpconference_doc.la
+@ENABLE_GTK_DOC_TRUE@am__append_2 = gstfsrtpconference_doc.c
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in \
 	$(top_srcdir)/common-modified/glib-gen.mak
@@ -62,6 +65,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
 	$(top_srcdir)/common/m4/pkg.m4 \
+	$(top_srcdir)/common/m4/shave.m4 \
 	$(top_srcdir)/m4/as-check-python-headers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -78,60 +82,38 @@ am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(plugindir)"
 pluginLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(noinst_LTLIBRARIES) $(plugin_LTLIBRARIES)
+libfsrtpconference_convenience_la_LIBADD =
+am_libfsrtpconference_convenience_la_OBJECTS = fs-rtp-conference.lo \
+	fs-rtp-participant.lo fs-rtp-session.lo fs-rtp-stream.lo \
+	fs-rtp-substream.lo fs-rtp-discover-codecs.lo \
+	fs-rtp-codec-cache.lo fs-rtp-codec-negotiation.lo \
+	fs-rtp-specific-nego.lo fs-rtp-special-source.lo \
+	fs-rtp-dtmf-event-source.lo fs-rtp-dtmf-sound-source.lo
+nodist_libfsrtpconference_convenience_la_OBJECTS = fs-rtp-marshal.lo
+libfsrtpconference_convenience_la_OBJECTS =  \
+	$(am_libfsrtpconference_convenience_la_OBJECTS) \
+	$(nodist_libfsrtpconference_convenience_la_OBJECTS)
 am__DEPENDENCIES_1 =
 libfsrtpconference_la_DEPENDENCIES =  \
+	libfsrtpconference-convenience.la \
 	$(top_builddir)/gst-libs/gst/farsight/libgstfarsight-0.10.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
-am__objects_1 = libfsrtpconference_la-fs-rtp-conference.lo \
-	libfsrtpconference_la-fs-rtp-participant.lo \
-	libfsrtpconference_la-fs-rtp-session.lo \
-	libfsrtpconference_la-fs-rtp-stream.lo \
-	libfsrtpconference_la-fs-rtp-substream.lo \
-	libfsrtpconference_la-fs-rtp-discover-codecs.lo \
-	libfsrtpconference_la-fs-rtp-codec-cache.lo \
-	libfsrtpconference_la-fs-rtp-codec-negotiation.lo \
-	libfsrtpconference_la-fs-rtp-specific-nego.lo \
-	libfsrtpconference_la-fs-rtp-special-source.lo \
-	libfsrtpconference_la-fs-rtp-dtmf-event-source.lo \
-	libfsrtpconference_la-fs-rtp-dtmf-sound-source.lo
-am_libfsrtpconference_la_OBJECTS =  \
-	libfsrtpconference_la-gstfsrtpconference.lo $(am__objects_1)
-nodist_libfsrtpconference_la_OBJECTS =  \
-	libfsrtpconference_la-fs-rtp-marshal.lo
-libfsrtpconference_la_OBJECTS = $(am_libfsrtpconference_la_OBJECTS) \
-	$(nodist_libfsrtpconference_la_OBJECTS)
+am_libfsrtpconference_la_OBJECTS = gstfsrtpconference.lo
+libfsrtpconference_la_OBJECTS = $(am_libfsrtpconference_la_OBJECTS)
 libfsrtpconference_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libfsrtpconference_la_CFLAGS) $(CFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(libfsrtpconference_la_LDFLAGS) $(LDFLAGS) -o $@
-am__DEPENDENCIES_2 =  \
+am__DEPENDENCIES_2 = libfsrtpconference-convenience.la \
 	$(top_builddir)/gst-libs/gst/farsight/libgstfarsight-0.10.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 @ENABLE_GTK_DOC_TRUE@libfsrtpconference_doc_la_DEPENDENCIES =  \
 @ENABLE_GTK_DOC_TRUE@	$(am__DEPENDENCIES_2)
-am__objects_2 = libfsrtpconference_doc_la-fs-rtp-conference.lo \
-	libfsrtpconference_doc_la-fs-rtp-participant.lo \
-	libfsrtpconference_doc_la-fs-rtp-session.lo \
-	libfsrtpconference_doc_la-fs-rtp-stream.lo \
-	libfsrtpconference_doc_la-fs-rtp-substream.lo \
-	libfsrtpconference_doc_la-fs-rtp-discover-codecs.lo \
-	libfsrtpconference_doc_la-fs-rtp-codec-cache.lo \
-	libfsrtpconference_doc_la-fs-rtp-codec-negotiation.lo \
-	libfsrtpconference_doc_la-fs-rtp-specific-nego.lo \
-	libfsrtpconference_doc_la-fs-rtp-special-source.lo \
-	libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.lo \
-	libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.lo
-am__objects_3 = libfsrtpconference_doc_la-fs-rtp-marshal.lo
-@ENABLE_GTK_DOC_TRUE@nodist_libfsrtpconference_doc_la_OBJECTS = libfsrtpconference_doc_la-gstfsrtpconference_doc.lo \
-@ENABLE_GTK_DOC_TRUE@	$(am__objects_2) $(am__objects_3)
+@ENABLE_GTK_DOC_TRUE@nodist_libfsrtpconference_doc_la_OBJECTS =  \
+@ENABLE_GTK_DOC_TRUE@	gstfsrtpconference_doc.lo
 libfsrtpconference_doc_la_OBJECTS =  \
 	$(nodist_libfsrtpconference_doc_la_OBJECTS)
-libfsrtpconference_doc_la_LINK = $(LIBTOOL) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
 @ENABLE_GTK_DOC_TRUE@am_libfsrtpconference_doc_la_rpath =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -145,10 +127,12 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libfsrtpconference_la_SOURCES) \
-	$(nodist_libfsrtpconference_la_SOURCES) \
+SOURCES = $(libfsrtpconference_convenience_la_SOURCES) \
+	$(nodist_libfsrtpconference_convenience_la_SOURCES) \
+	$(libfsrtpconference_la_SOURCES) \
 	$(nodist_libfsrtpconference_doc_la_SOURCES)
-DIST_SOURCES = $(libfsrtpconference_la_SOURCES)
+DIST_SOURCES = $(libfsrtpconference_convenience_la_SOURCES) \
+	$(libfsrtpconference_la_SOURCES)
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -156,6 +140,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ACLOCAL_AMFLAGS = @ACLOCAL_AMFLAGS@
 AMTAR = @AMTAR@
+AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -183,6 +168,7 @@ EGREP = @EGREP@
 ERROR_CFLAGS = @ERROR_CFLAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
+FC = @FC@
 FFLAGS = @FFLAGS@
 FS2_AGE = @FS2_AGE@
 FS2_ALL_LDFLAGS = @FS2_ALL_LDFLAGS@
@@ -244,11 +230,13 @@ LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+MAKEFLAGS = @MAKEFLAGS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 NICE_CFLAGS = @NICE_CFLAGS@
 NICE_LIBS = @NICE_LIBS@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -265,6 +253,9 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PLUGINDIR = @PLUGINDIR@
 PROFILE_CFLAGS = @PROFILE_CFLAGS@
+PYCODEGEN = @PYCODEGEN@
+PYCODEGEN_CFLAGS = @PYCODEGEN_CFLAGS@
+PYCODEGEN_LIBS = @PYCODEGEN_LIBS@
 PYFARSIGHT_CFLAGS = @PYFARSIGHT_CFLAGS@
 PYFARSIGHT_LIBS = @PYFARSIGHT_LIBS@
 PYTHON = @PYTHON@
@@ -273,11 +264,13 @@ PYTHON_INCLUDES = @PYTHON_INCLUDES@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
+Q = @Q@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
@@ -333,6 +326,7 @@ pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+shavedir = @shavedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
@@ -340,7 +334,10 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 plugin_LTLIBRARIES = libfsrtpconference.la
-common_SOURCES = \
+
+# First build a convenience lib with the common stuff so its not built twice
+noinst_LTLIBRARIES = libfsrtpconference-convenience.la $(am__append_1)
+libfsrtpconference_convenience_la_SOURCES = \
 	fs-rtp-conference.c \
 	fs-rtp-participant.c \
 	fs-rtp-session.c \
@@ -354,13 +351,12 @@ common_SOURCES = \
 	fs-rtp-dtmf-event-source.c \
 	fs-rtp-dtmf-sound-source.c
 
-libfsrtpconference_la_SOURCES = gstfsrtpconference.c $(common_SOURCES)
-nodist_libfsrtpconference_la_SOURCES = \
+nodist_libfsrtpconference_convenience_la_SOURCES = \
 	fs-rtp-marshal.c \
 	fs-rtp-marshal.h
 
-BUILT_SOURCES = $(nodist_libfsrtpconference_la_SOURCES) \
-	$(am__append_1)
+BUILT_SOURCES = $(nodist_libfsrtpconference_convenience_la_SOURCES) \
+	$(am__append_2)
 noinst_HEADERS = \
 	fs-rtp-conference.h \
 	fs-rtp-participant.h \
@@ -376,27 +372,28 @@ noinst_HEADERS = \
 	fs-rtp-dtmf-sound-source.h
 
 CLEANFILES = $(BUILT_SOURCES) fs-rtp-marshal.list
-libfsrtpconference_la_CFLAGS = \
+AM_CFLAGS = \
 	$(FS2_INTERNAL_CFLAGS) \
 	$(FS2_CFLAGS) \
 	$(GST_PLUGINS_BASE_CFLAGS) \
 	$(GST_CFLAGS)
 
-libfsrtpconference_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
+
+# Build the main plugin
+libfsrtpconference_la_SOURCES = gstfsrtpconference.c
 libfsrtpconference_la_LIBADD = \
+	libfsrtpconference-convenience.la \
 	$(top_builddir)/gst-libs/gst/farsight/libgstfarsight-0.10.la \
 	$(FS2_LIBS) \
 	$(GST_PLUGINS_BASE_LIBS) \
 	$(GST_LIBS) \
 	-lgstrtp-@GST_MAJORMINOR@
 
-@ENABLE_GTK_DOC_TRUE@noinst_LTLIBRARIES = libfsrtpconference_doc.la
+libfsrtpconference_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 @ENABLE_GTK_DOC_TRUE@nodist_libfsrtpconference_doc_la_SOURCES = \
 @ENABLE_GTK_DOC_TRUE@	gstfsrtpconference_doc.c  \
-@ENABLE_GTK_DOC_TRUE@	$(common_SOURCES) \
 @ENABLE_GTK_DOC_TRUE@	$(nodist_libfsrtpconference_la_SOURCES)
 
-@ENABLE_GTK_DOC_TRUE@libfsrtpconference_doc_la_CFLAGS = $(libfsrtpconference_la_CFLAGS)
 @ENABLE_GTK_DOC_TRUE@libfsrtpconference_doc_la_LIBADD = $(libfsrtpconference_la_LIBADD)
 glib_enum_define = FS_RTP
 glib_enum_prefix = _fs_rtp
@@ -471,10 +468,12 @@ clean-pluginLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+libfsrtpconference-convenience.la: $(libfsrtpconference_convenience_la_OBJECTS) $(libfsrtpconference_convenience_la_DEPENDENCIES) 
+	$(LINK)  $(libfsrtpconference_convenience_la_OBJECTS) $(libfsrtpconference_convenience_la_LIBADD) $(LIBS)
 libfsrtpconference.la: $(libfsrtpconference_la_OBJECTS) $(libfsrtpconference_la_DEPENDENCIES) 
 	$(libfsrtpconference_la_LINK) -rpath $(plugindir) $(libfsrtpconference_la_OBJECTS) $(libfsrtpconference_la_LIBADD) $(LIBS)
 libfsrtpconference_doc.la: $(libfsrtpconference_doc_la_OBJECTS) $(libfsrtpconference_doc_la_DEPENDENCIES) 
-	$(libfsrtpconference_doc_la_LINK) $(am_libfsrtpconference_doc_la_rpath) $(libfsrtpconference_doc_la_OBJECTS) $(libfsrtpconference_doc_la_LIBADD) $(LIBS)
+	$(LINK) $(am_libfsrtpconference_doc_la_rpath) $(libfsrtpconference_doc_la_OBJECTS) $(libfsrtpconference_doc_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -482,34 +481,21 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-codec-cache.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-codec-negotiation.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-conference.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-discover-codecs.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-marshal.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-participant.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-session.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-special-source.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-specific-nego.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-stream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-substream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_doc_la-gstfsrtpconference_doc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-codec-cache.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-codec-negotiation.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-conference.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-discover-codecs.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-dtmf-event-source.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-dtmf-sound-source.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-marshal.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-participant.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-session.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-special-source.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-specific-nego.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-stream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-fs-rtp-substream.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libfsrtpconference_la-gstfsrtpconference.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-codec-cache.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-codec-negotiation.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-conference.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-discover-codecs.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-dtmf-event-source.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-dtmf-sound-source.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-marshal.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-participant.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-session.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-special-source.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-specific-nego.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-stream.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fs-rtp-substream.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gstfsrtpconference.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gstfsrtpconference_doc.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -531,202 +517,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
-
-libfsrtpconference_la-gstfsrtpconference.lo: gstfsrtpconference.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-gstfsrtpconference.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-gstfsrtpconference.Tpo -c -o libfsrtpconference_la-gstfsrtpconference.lo `test -f 'gstfsrtpconference.c' || echo '$(srcdir)/'`gstfsrtpconference.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-gstfsrtpconference.Tpo $(DEPDIR)/libfsrtpconference_la-gstfsrtpconference.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstfsrtpconference.c' object='libfsrtpconference_la-gstfsrtpconference.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-gstfsrtpconference.lo `test -f 'gstfsrtpconference.c' || echo '$(srcdir)/'`gstfsrtpconference.c
-
-libfsrtpconference_la-fs-rtp-conference.lo: fs-rtp-conference.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-conference.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-conference.Tpo -c -o libfsrtpconference_la-fs-rtp-conference.lo `test -f 'fs-rtp-conference.c' || echo '$(srcdir)/'`fs-rtp-conference.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-conference.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-conference.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-conference.c' object='libfsrtpconference_la-fs-rtp-conference.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-conference.lo `test -f 'fs-rtp-conference.c' || echo '$(srcdir)/'`fs-rtp-conference.c
-
-libfsrtpconference_la-fs-rtp-participant.lo: fs-rtp-participant.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-participant.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-participant.Tpo -c -o libfsrtpconference_la-fs-rtp-participant.lo `test -f 'fs-rtp-participant.c' || echo '$(srcdir)/'`fs-rtp-participant.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-participant.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-participant.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-participant.c' object='libfsrtpconference_la-fs-rtp-participant.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-participant.lo `test -f 'fs-rtp-participant.c' || echo '$(srcdir)/'`fs-rtp-participant.c
-
-libfsrtpconference_la-fs-rtp-session.lo: fs-rtp-session.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-session.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-session.Tpo -c -o libfsrtpconference_la-fs-rtp-session.lo `test -f 'fs-rtp-session.c' || echo '$(srcdir)/'`fs-rtp-session.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-session.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-session.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-session.c' object='libfsrtpconference_la-fs-rtp-session.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-session.lo `test -f 'fs-rtp-session.c' || echo '$(srcdir)/'`fs-rtp-session.c
-
-libfsrtpconference_la-fs-rtp-stream.lo: fs-rtp-stream.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-stream.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-stream.Tpo -c -o libfsrtpconference_la-fs-rtp-stream.lo `test -f 'fs-rtp-stream.c' || echo '$(srcdir)/'`fs-rtp-stream.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-stream.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-stream.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-stream.c' object='libfsrtpconference_la-fs-rtp-stream.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-stream.lo `test -f 'fs-rtp-stream.c' || echo '$(srcdir)/'`fs-rtp-stream.c
-
-libfsrtpconference_la-fs-rtp-substream.lo: fs-rtp-substream.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-substream.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-substream.Tpo -c -o libfsrtpconference_la-fs-rtp-substream.lo `test -f 'fs-rtp-substream.c' || echo '$(srcdir)/'`fs-rtp-substream.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-substream.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-substream.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-substream.c' object='libfsrtpconference_la-fs-rtp-substream.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-substream.lo `test -f 'fs-rtp-substream.c' || echo '$(srcdir)/'`fs-rtp-substream.c
-
-libfsrtpconference_la-fs-rtp-discover-codecs.lo: fs-rtp-discover-codecs.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-discover-codecs.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-discover-codecs.Tpo -c -o libfsrtpconference_la-fs-rtp-discover-codecs.lo `test -f 'fs-rtp-discover-codecs.c' || echo '$(srcdir)/'`fs-rtp-discover-codecs.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-discover-codecs.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-discover-codecs.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-discover-codecs.c' object='libfsrtpconference_la-fs-rtp-discover-codecs.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-discover-codecs.lo `test -f 'fs-rtp-discover-codecs.c' || echo '$(srcdir)/'`fs-rtp-discover-codecs.c
-
-libfsrtpconference_la-fs-rtp-codec-cache.lo: fs-rtp-codec-cache.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-codec-cache.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-codec-cache.Tpo -c -o libfsrtpconference_la-fs-rtp-codec-cache.lo `test -f 'fs-rtp-codec-cache.c' || echo '$(srcdir)/'`fs-rtp-codec-cache.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-codec-cache.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-codec-cache.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-codec-cache.c' object='libfsrtpconference_la-fs-rtp-codec-cache.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-codec-cache.lo `test -f 'fs-rtp-codec-cache.c' || echo '$(srcdir)/'`fs-rtp-codec-cache.c
-
-libfsrtpconference_la-fs-rtp-codec-negotiation.lo: fs-rtp-codec-negotiation.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-codec-negotiation.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-codec-negotiation.Tpo -c -o libfsrtpconference_la-fs-rtp-codec-negotiation.lo `test -f 'fs-rtp-codec-negotiation.c' || echo '$(srcdir)/'`fs-rtp-codec-negotiation.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-codec-negotiation.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-codec-negotiation.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-codec-negotiation.c' object='libfsrtpconference_la-fs-rtp-codec-negotiation.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-codec-negotiation.lo `test -f 'fs-rtp-codec-negotiation.c' || echo '$(srcdir)/'`fs-rtp-codec-negotiation.c
-
-libfsrtpconference_la-fs-rtp-specific-nego.lo: fs-rtp-specific-nego.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-specific-nego.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-specific-nego.Tpo -c -o libfsrtpconference_la-fs-rtp-specific-nego.lo `test -f 'fs-rtp-specific-nego.c' || echo '$(srcdir)/'`fs-rtp-specific-nego.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-specific-nego.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-specific-nego.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-specific-nego.c' object='libfsrtpconference_la-fs-rtp-specific-nego.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-specific-nego.lo `test -f 'fs-rtp-specific-nego.c' || echo '$(srcdir)/'`fs-rtp-specific-nego.c
-
-libfsrtpconference_la-fs-rtp-special-source.lo: fs-rtp-special-source.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-special-source.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-special-source.Tpo -c -o libfsrtpconference_la-fs-rtp-special-source.lo `test -f 'fs-rtp-special-source.c' || echo '$(srcdir)/'`fs-rtp-special-source.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-special-source.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-special-source.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-special-source.c' object='libfsrtpconference_la-fs-rtp-special-source.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-special-source.lo `test -f 'fs-rtp-special-source.c' || echo '$(srcdir)/'`fs-rtp-special-source.c
-
-libfsrtpconference_la-fs-rtp-dtmf-event-source.lo: fs-rtp-dtmf-event-source.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-dtmf-event-source.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-dtmf-event-source.Tpo -c -o libfsrtpconference_la-fs-rtp-dtmf-event-source.lo `test -f 'fs-rtp-dtmf-event-source.c' || echo '$(srcdir)/'`fs-rtp-dtmf-event-source.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-dtmf-event-source.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-dtmf-event-source.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-dtmf-event-source.c' object='libfsrtpconference_la-fs-rtp-dtmf-event-source.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-dtmf-event-source.lo `test -f 'fs-rtp-dtmf-event-source.c' || echo '$(srcdir)/'`fs-rtp-dtmf-event-source.c
-
-libfsrtpconference_la-fs-rtp-dtmf-sound-source.lo: fs-rtp-dtmf-sound-source.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-dtmf-sound-source.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-dtmf-sound-source.Tpo -c -o libfsrtpconference_la-fs-rtp-dtmf-sound-source.lo `test -f 'fs-rtp-dtmf-sound-source.c' || echo '$(srcdir)/'`fs-rtp-dtmf-sound-source.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-dtmf-sound-source.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-dtmf-sound-source.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-dtmf-sound-source.c' object='libfsrtpconference_la-fs-rtp-dtmf-sound-source.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-dtmf-sound-source.lo `test -f 'fs-rtp-dtmf-sound-source.c' || echo '$(srcdir)/'`fs-rtp-dtmf-sound-source.c
-
-libfsrtpconference_la-fs-rtp-marshal.lo: fs-rtp-marshal.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_la-fs-rtp-marshal.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_la-fs-rtp-marshal.Tpo -c -o libfsrtpconference_la-fs-rtp-marshal.lo `test -f 'fs-rtp-marshal.c' || echo '$(srcdir)/'`fs-rtp-marshal.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_la-fs-rtp-marshal.Tpo $(DEPDIR)/libfsrtpconference_la-fs-rtp-marshal.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-marshal.c' object='libfsrtpconference_la-fs-rtp-marshal.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_la-fs-rtp-marshal.lo `test -f 'fs-rtp-marshal.c' || echo '$(srcdir)/'`fs-rtp-marshal.c
-
-libfsrtpconference_doc_la-gstfsrtpconference_doc.lo: gstfsrtpconference_doc.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-gstfsrtpconference_doc.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-gstfsrtpconference_doc.Tpo -c -o libfsrtpconference_doc_la-gstfsrtpconference_doc.lo `test -f 'gstfsrtpconference_doc.c' || echo '$(srcdir)/'`gstfsrtpconference_doc.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-gstfsrtpconference_doc.Tpo $(DEPDIR)/libfsrtpconference_doc_la-gstfsrtpconference_doc.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstfsrtpconference_doc.c' object='libfsrtpconference_doc_la-gstfsrtpconference_doc.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-gstfsrtpconference_doc.lo `test -f 'gstfsrtpconference_doc.c' || echo '$(srcdir)/'`gstfsrtpconference_doc.c
-
-libfsrtpconference_doc_la-fs-rtp-conference.lo: fs-rtp-conference.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-conference.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-conference.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-conference.lo `test -f 'fs-rtp-conference.c' || echo '$(srcdir)/'`fs-rtp-conference.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-conference.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-conference.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-conference.c' object='libfsrtpconference_doc_la-fs-rtp-conference.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-conference.lo `test -f 'fs-rtp-conference.c' || echo '$(srcdir)/'`fs-rtp-conference.c
-
-libfsrtpconference_doc_la-fs-rtp-participant.lo: fs-rtp-participant.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-participant.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-participant.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-participant.lo `test -f 'fs-rtp-participant.c' || echo '$(srcdir)/'`fs-rtp-participant.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-participant.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-participant.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-participant.c' object='libfsrtpconference_doc_la-fs-rtp-participant.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-participant.lo `test -f 'fs-rtp-participant.c' || echo '$(srcdir)/'`fs-rtp-participant.c
-
-libfsrtpconference_doc_la-fs-rtp-session.lo: fs-rtp-session.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-session.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-session.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-session.lo `test -f 'fs-rtp-session.c' || echo '$(srcdir)/'`fs-rtp-session.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-session.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-session.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-session.c' object='libfsrtpconference_doc_la-fs-rtp-session.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-session.lo `test -f 'fs-rtp-session.c' || echo '$(srcdir)/'`fs-rtp-session.c
-
-libfsrtpconference_doc_la-fs-rtp-stream.lo: fs-rtp-stream.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-stream.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-stream.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-stream.lo `test -f 'fs-rtp-stream.c' || echo '$(srcdir)/'`fs-rtp-stream.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-stream.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-stream.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-stream.c' object='libfsrtpconference_doc_la-fs-rtp-stream.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-stream.lo `test -f 'fs-rtp-stream.c' || echo '$(srcdir)/'`fs-rtp-stream.c
-
-libfsrtpconference_doc_la-fs-rtp-substream.lo: fs-rtp-substream.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-substream.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-substream.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-substream.lo `test -f 'fs-rtp-substream.c' || echo '$(srcdir)/'`fs-rtp-substream.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-substream.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-substream.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-substream.c' object='libfsrtpconference_doc_la-fs-rtp-substream.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-substream.lo `test -f 'fs-rtp-substream.c' || echo '$(srcdir)/'`fs-rtp-substream.c
-
-libfsrtpconference_doc_la-fs-rtp-discover-codecs.lo: fs-rtp-discover-codecs.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-discover-codecs.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-discover-codecs.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-discover-codecs.lo `test -f 'fs-rtp-discover-codecs.c' || echo '$(srcdir)/'`fs-rtp-discover-codecs.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-discover-codecs.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-discover-codecs.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-discover-codecs.c' object='libfsrtpconference_doc_la-fs-rtp-discover-codecs.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-discover-codecs.lo `test -f 'fs-rtp-discover-codecs.c' || echo '$(srcdir)/'`fs-rtp-discover-codecs.c
-
-libfsrtpconference_doc_la-fs-rtp-codec-cache.lo: fs-rtp-codec-cache.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-codec-cache.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-codec-cache.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-codec-cache.lo `test -f 'fs-rtp-codec-cache.c' || echo '$(srcdir)/'`fs-rtp-codec-cache.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-codec-cache.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-codec-cache.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-codec-cache.c' object='libfsrtpconference_doc_la-fs-rtp-codec-cache.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-codec-cache.lo `test -f 'fs-rtp-codec-cache.c' || echo '$(srcdir)/'`fs-rtp-codec-cache.c
-
-libfsrtpconference_doc_la-fs-rtp-codec-negotiation.lo: fs-rtp-codec-negotiation.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-codec-negotiation.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-codec-negotiation.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-codec-negotiation.lo `test -f 'fs-rtp-codec-negotiation.c' || echo '$(srcdir)/'`fs-rtp-codec-negotiation.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-codec-negotiation.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-codec-negotiation.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-codec-negotiation.c' object='libfsrtpconference_doc_la-fs-rtp-codec-negotiation.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-codec-negotiation.lo `test -f 'fs-rtp-codec-negotiation.c' || echo '$(srcdir)/'`fs-rtp-codec-negotiation.c
-
-libfsrtpconference_doc_la-fs-rtp-specific-nego.lo: fs-rtp-specific-nego.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-specific-nego.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-specific-nego.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-specific-nego.lo `test -f 'fs-rtp-specific-nego.c' || echo '$(srcdir)/'`fs-rtp-specific-nego.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-specific-nego.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-specific-nego.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-specific-nego.c' object='libfsrtpconference_doc_la-fs-rtp-specific-nego.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-specific-nego.lo `test -f 'fs-rtp-specific-nego.c' || echo '$(srcdir)/'`fs-rtp-specific-nego.c
-
-libfsrtpconference_doc_la-fs-rtp-special-source.lo: fs-rtp-special-source.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-special-source.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-special-source.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-special-source.lo `test -f 'fs-rtp-special-source.c' || echo '$(srcdir)/'`fs-rtp-special-source.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-special-source.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-special-source.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-special-source.c' object='libfsrtpconference_doc_la-fs-rtp-special-source.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-special-source.lo `test -f 'fs-rtp-special-source.c' || echo '$(srcdir)/'`fs-rtp-special-source.c
-
-libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.lo: fs-rtp-dtmf-event-source.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.lo `test -f 'fs-rtp-dtmf-event-source.c' || echo '$(srcdir)/'`fs-rtp-dtmf-event-source.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-dtmf-event-source.c' object='libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-dtmf-event-source.lo `test -f 'fs-rtp-dtmf-event-source.c' || echo '$(srcdir)/'`fs-rtp-dtmf-event-source.c
-
-libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.lo: fs-rtp-dtmf-sound-source.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.lo `test -f 'fs-rtp-dtmf-sound-source.c' || echo '$(srcdir)/'`fs-rtp-dtmf-sound-source.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-dtmf-sound-source.c' object='libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-dtmf-sound-source.lo `test -f 'fs-rtp-dtmf-sound-source.c' || echo '$(srcdir)/'`fs-rtp-dtmf-sound-source.c
-
-libfsrtpconference_doc_la-fs-rtp-marshal.lo: fs-rtp-marshal.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -MT libfsrtpconference_doc_la-fs-rtp-marshal.lo -MD -MP -MF $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-marshal.Tpo -c -o libfsrtpconference_doc_la-fs-rtp-marshal.lo `test -f 'fs-rtp-marshal.c' || echo '$(srcdir)/'`fs-rtp-marshal.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-marshal.Tpo $(DEPDIR)/libfsrtpconference_doc_la-fs-rtp-marshal.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='fs-rtp-marshal.c' object='libfsrtpconference_doc_la-fs-rtp-marshal.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libfsrtpconference_doc_la_CFLAGS) $(CFLAGS) -c -o libfsrtpconference_doc_la-fs-rtp-marshal.lo `test -f 'fs-rtp-marshal.c' || echo '$(srcdir)/'`fs-rtp-marshal.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -923,10 +713,12 @@ uninstall-am: uninstall-pluginLTLIBRARIES
 @ENABLE_GTK_DOC_TRUE@	sed -e 's:GST_PLUGIN_DEFINE:GST_PLUGIN_DEFINE_STATIC:' \
 @ENABLE_GTK_DOC_TRUE@		$(srcdir)/gstfsrtpconference.c > gstfsrtpconference_doc.c
 
+# Build the build sources
+
 fs-rtp-marshal.list: $(libfsrtpconference_la_SOURCES) Makefile.am
 	( cd $(srcdir) && \
 	sed -n -e 's/.*fs_rtp_marshal_\([[:upper:][:digit:]]*__[[:upper:][:digit:]_]*\).*/\1/p' \
-	$(libfsrtpconference_la_SOURCES) ) \
+	$(libfsrtpconference_convenience_la_SOURCES) ) \
 	| sed -e 's/__/:/' -e 'y/_/,/' | sort -u > $@.tmp
 	if cmp -s $@.tmp $@; then \
 		rm $@.tmp; \
@@ -958,9 +750,9 @@ fs-rtp-marshal.list: $(libfsrtpconference_la_SOURCES) Makefile.am
 	glib-mkenums \
 	--fhead "#include \"$*-enum-types.h\"\n$(enum_headers)" \
 	--fprod "\n/* enumerations from \"@filename@\" */" \
-	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"     \
+	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static volatile gsize g_define_type_id__volatile = 0;\n  if (g_once_init_enter (&g_define_type_id__volatile)) {\n    static const G@Type@Value values[] = {"     \
 	--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
-	--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
+	--vtail "      { 0, NULL, NULL }\n    };\n    GType g_define_type_id = g_@type@_register_static (\"@EnumName@\", values);\n    g_once_init_leave (&g_define_type_id__volatile, g_define_type_id);\n  }\n  return g_define_type_id__volatile;\n}\n" \
 	$^ > $@
 
 # a hack rule to make sure .Plo files exist because they get include'd

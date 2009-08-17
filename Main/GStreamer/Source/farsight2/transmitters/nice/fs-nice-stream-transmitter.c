@@ -96,6 +96,8 @@ struct _FsNiceStreamTransmitterPrivate
   gulong new_selected_pair_handler_id;
   gulong new_candidate_handler_id;
 
+  gulong tos_changed_handler_id;
+
   GValueArray *relay_info;
 
   volatile gint associate_on_source;
@@ -245,7 +247,7 @@ fs_nice_stream_transmitter_class_init (FsNiceStreamTransmitterClass *klass)
           "STUN server",
           "The STUN server used to obtain server-reflexive candidates",
           NULL,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class, PROP_STUN_PORT,
       g_param_spec_uint (
@@ -254,7 +256,7 @@ fs_nice_stream_transmitter_class_init (FsNiceStreamTransmitterClass *klass)
           "The STUN server used to obtain server-reflexive candidates",
           1, 65536,
           3478,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class, PROP_CONTROLLING_MODE,
       g_param_spec_boolean (
@@ -262,7 +264,7 @@ fs_nice_stream_transmitter_class_init (FsNiceStreamTransmitterClass *klass)
           "ICE controlling mode",
           "Whether the agent is in controlling mode",
           TRUE,
-          G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class, PROP_STREAM_ID,
       g_param_spec_uint (
@@ -271,7 +273,7 @@ fs_nice_stream_transmitter_class_init (FsNiceStreamTransmitterClass *klass)
           "The id of the stream according to libnice",
           0, G_MAXINT,
           0,
-          G_PARAM_READABLE));
+          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class, PROP_COMPATIBILITY_MODE,
       g_param_spec_uint (
@@ -280,7 +282,7 @@ fs_nice_stream_transmitter_class_init (FsNiceStreamTransmitterClass *klass)
           "The id of the stream according to libnice",
           NICE_COMPATIBILITY_DRAFT19, NICE_COMPATIBILITY_LAST,
           NICE_COMPATIBILITY_DRAFT19,
-          G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+          G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsNiceStreamTransmitter:relay-info:
@@ -335,7 +337,7 @@ fs_nice_stream_transmitter_class_init (FsNiceStreamTransmitterClass *klass)
           "ip/port/username/password/relay-type/component of the TURN servers"
           " in a GValueArray of GstStructures",
           NULL,
-          G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+          G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class, PROP_DEBUG,
       g_param_spec_boolean (
@@ -343,7 +345,7 @@ fs_nice_stream_transmitter_class_init (FsNiceStreamTransmitterClass *klass)
           "Enable debug messages",
           "Whether the agent should enable libnice and stun debug messages",
           FALSE,
-          G_PARAM_WRITABLE));
+          G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
 
 }
 
@@ -387,6 +389,11 @@ fs_nice_stream_transmitter_dispose (GObject *object)
         self->priv->new_candidate_handler_id);
   self->priv->new_candidate_handler_id = 0;
 
+  if (self->priv->tos_changed_handler_id)
+    g_signal_handler_disconnect (self->priv->transmitter,
+        self->priv->tos_changed_handler_id);
+  self->priv->tos_changed_handler_id = 0;
+
   if (self->priv->agent)
   {
     g_object_unref (self->priv->agent);
@@ -408,18 +415,21 @@ fs_nice_stream_transmitter_stop (FsStreamTransmitter *streamtransmitter)
 {
   FsNiceStreamTransmitter *self =
     FS_NICE_STREAM_TRANSMITTER (streamtransmitter);
+  NiceGstStream *gststream;
+  guint stream_id;
+
 
   FS_NICE_STREAM_TRANSMITTER_LOCK (self);
-  if (self->priv->gststream)
-    fs_nice_transmitter_free_gst_stream (self->priv->transmitter,
-        self->priv->gststream);
+  gststream = self->priv->gststream;
   self->priv->gststream = NULL;
-
-  if (self->priv->stream_id)
-    nice_agent_remove_stream (self->priv->agent->agent,
-        self->priv->stream_id);
+  stream_id = self->priv->stream_id;
   self->priv->stream_id = 0;
   FS_NICE_STREAM_TRANSMITTER_UNLOCK (self);
+
+  if (gststream)
+    fs_nice_transmitter_free_gst_stream (self->priv->transmitter, gststream);
+  if (stream_id)
+    nice_agent_remove_stream (self->priv->agent->agent, stream_id);
 }
 
 
@@ -604,7 +614,7 @@ fs_candidate_to_nice_candidate (FsNiceStreamTransmitter *self,
   nc->component_id = candidate->component_id;
   if (candidate->foundation != NULL)
     strncpy (nc->foundation, candidate->foundation,
-       NICE_CANDIDATE_MAX_FOUNDATION);
+       NICE_CANDIDATE_MAX_FOUNDATION - 1);
 
   nc->username = g_strdup(candidate->username);
   nc->password = g_strdup(candidate->password);
@@ -626,7 +636,7 @@ fs_candidate_to_nice_candidate (FsNiceStreamTransmitter *self,
   return nc;
 
  error:
-  g_free (nc);
+  nice_candidate_free (nc);
   return NULL;
 }
 
@@ -1095,6 +1105,19 @@ fs_nice_stream_transmitter_set_relay_info (FsNiceStreamTransmitter *self,
   return TRUE;
 }
 
+
+
+static void
+tos_changed (GObject *transmitter, GParamSpec *param,
+    FsNiceStreamTransmitter *self)
+{
+  guint tos;
+
+  g_object_get (transmitter, "tos", &tos, NULL);
+  nice_agent_set_stream_tos (self->priv->agent->agent, self->priv->stream_id,
+      tos);
+}
+
 static gboolean
 fs_nice_stream_transmitter_build (FsNiceStreamTransmitter *self,
     FsParticipant *participant,
@@ -1344,13 +1367,20 @@ fs_nice_stream_transmitter_build (FsNiceStreamTransmitter *self,
     }
   }
 
-  self->priv->state_changed_handler_id = g_signal_connect (agent->agent,
-      "component-state-changed", G_CALLBACK (agent_state_changed), self);
-  self->priv->gathering_done_handler_id = g_signal_connect (agent->agent,
-      "candidate-gathering-done", G_CALLBACK (agent_gathering_done), self);
-  self->priv->new_selected_pair_handler_id = g_signal_connect (agent->agent,
-      "new-selected-pair", G_CALLBACK (agent_new_selected_pair), self);
+  self->priv->state_changed_handler_id = g_signal_connect_object (agent->agent,
+      "component-state-changed", G_CALLBACK (agent_state_changed), self, 0);
+  self->priv->gathering_done_handler_id = g_signal_connect_object (agent->agent,
+      "candidate-gathering-done", G_CALLBACK (agent_gathering_done), self, 0);
+  self->priv->new_selected_pair_handler_id = g_signal_connect_object (
+      agent->agent, "new-selected-pair", G_CALLBACK (agent_new_selected_pair),
+      self, 0);
+  self->priv->new_candidate_handler_id = g_signal_connect_object (agent->agent,
+      "new-candidate", G_CALLBACK (agent_new_candidate), self, 0);
+  self->priv->tos_changed_handler_id = g_signal_connect_object (
+      self->priv->transmitter, "notify::tos", G_CALLBACK (tos_changed), self,
+      0);
 
+  tos_changed (G_OBJECT (self->priv->transmitter), NULL, self);
 
   self->priv->gststream = fs_nice_transmitter_add_gst_stream (
       self->priv->transmitter,
@@ -1406,6 +1436,31 @@ nice_component_state_to_fs_stream_state (NiceComponentState state)
   }
 }
 
+struct state_changed_signal_data
+{
+  FsNiceStreamTransmitter *self;
+  guint component_id;
+  FsStreamState fs_state;
+};
+
+static void
+free_state_changed_signal_data (gpointer user_data)
+{
+  struct state_changed_signal_data *data = user_data;
+  g_object_unref (data->self);
+  g_slice_free (struct state_changed_signal_data, data);
+}
+
+static gboolean
+state_changed_signal_idle (gpointer userdata)
+{
+  struct state_changed_signal_data *data = userdata;
+
+  g_signal_emit_by_name (data->self, "state-changed", data->component_id,
+      data->fs_state);
+  return FALSE;
+}
+
 static void
 agent_state_changed (NiceAgent *agent,
     guint stream_id,
@@ -1415,6 +1470,8 @@ agent_state_changed (NiceAgent *agent,
 {
   FsNiceStreamTransmitter *self = FS_NICE_STREAM_TRANSMITTER (user_data);
   FsStreamState fs_state = nice_component_state_to_fs_stream_state (state);
+  struct state_changed_signal_data *data =
+    g_slice_new (struct state_changed_signal_data);
 
   if (stream_id != self->priv->stream_id)
     return;
@@ -1422,7 +1479,41 @@ agent_state_changed (NiceAgent *agent,
   GST_DEBUG ("Stream: %u Component %u has state %u",
       self->priv->stream_id, component_id, state);
 
-  g_signal_emit_by_name (self, "state-changed", component_id, fs_state);
+  data->self = g_object_ref (self);
+  data->component_id = component_id;
+  data->fs_state = fs_state;
+  fs_nice_agent_add_idle (self->priv->agent, state_changed_signal_idle,
+      data, free_state_changed_signal_data);
+}
+
+
+struct candidate_signal_data
+{
+  FsNiceStreamTransmitter *self;
+  const gchar *signal_name;
+  FsCandidate *candidate1;
+  FsCandidate *candidate2;
+};
+
+static void
+free_candidate_signal_data (gpointer user_data)
+{
+  struct candidate_signal_data *data = user_data;
+  fs_candidate_destroy (data->candidate1);
+  if (data->candidate2)
+    fs_candidate_destroy (data->candidate2);
+  g_object_unref (data->self);
+  g_slice_free (struct candidate_signal_data, data);
+}
+
+static gboolean
+agent_candidate_signal_idle (gpointer userdata)
+{
+  struct candidate_signal_data *data = userdata;
+
+  g_signal_emit_by_name (data->self, data->signal_name, data->candidate1,
+                         data->candidate2);
+  return FALSE;
 }
 
 
@@ -1476,14 +1567,24 @@ agent_new_selected_pair (NiceAgent *agent,
 
 
   if (local && remote)
-    g_signal_emit_by_name (self, "new-active-candidate-pair", local, remote);
-
-  if (local)
-    fs_candidate_destroy (local);
-  if (remote)
-    fs_candidate_destroy (remote);
+  {
+    struct candidate_signal_data *data =
+      g_slice_new (struct candidate_signal_data);
+    data->self = g_object_ref (self);
+    data->signal_name = "new-active-candidate-pair";
+    data->candidate1 = local;
+    data->candidate2 = remote;
+    fs_nice_agent_add_idle (self->priv->agent, agent_candidate_signal_idle,
+        data, free_candidate_signal_data);
+  }
+  else
+  {
+    if (local)
+      fs_candidate_destroy (local);
+    if (remote)
+      fs_candidate_destroy (remote);
+  }
 }
-
 
 static void
 agent_new_candidate (NiceAgent *agent,
@@ -1499,57 +1600,58 @@ agent_new_candidate (NiceAgent *agent,
   if (stream_id != self->priv->stream_id)
     return;
 
-  FS_NICE_STREAM_TRANSMITTER_LOCK (self);
-  if (!self->priv->gathered)
-  {
-    FS_NICE_STREAM_TRANSMITTER_UNLOCK (self);
-    return;
-  }
-  FS_NICE_STREAM_TRANSMITTER_UNLOCK (self);
-
   GST_DEBUG ("New candidate found for stream %u component %u",
       stream_id, component_id);
 
-  candidates = nice_agent_get_local_candidates (agent,
-      self->priv->stream_id, component_id);
+  candidates = nice_agent_get_local_candidates (agent, stream_id, component_id);
 
   for (item = candidates; item; item = g_slist_next (item))
   {
     NiceCandidate *candidate = item->data;
 
-    if (!strcmp (item->data, foundation))
+    if (!strcmp (candidate->foundation, foundation))
     {
       fscandidate = nice_candidate_to_fs_candidate (agent, candidate, TRUE);
       break;
     }
   }
+  g_slist_foreach (candidates, (GFunc) nice_candidate_free, NULL);
   g_slist_free (candidates);
 
   if (fscandidate)
   {
-    g_signal_emit_by_name (self, "new-local-candidate", fscandidate);
-    fs_candidate_destroy (fscandidate);
+    struct candidate_signal_data *data =
+      g_slice_new (struct candidate_signal_data);
+    data->self = g_object_ref (self);
+    data->signal_name = "new-local-candidate";
+    data->candidate1 = fscandidate;
+    data->candidate2 = NULL;
+    fs_nice_agent_add_idle (self->priv->agent, agent_candidate_signal_idle,
+        data, free_candidate_signal_data);
+  }
+  else
+  {
+    GST_WARNING ("Could not find local candidate with foundation %s"
+        " for component_ %d in stream %d", foundation, component_id,
+        stream_id);
   }
 }
 
-static void
-agent_gathering_done (NiceAgent *agent, guint stream_id, gpointer user_data)
+
+static gboolean
+agent_gathering_done_idle (gpointer data)
 {
-  FsNiceStreamTransmitter *self = FS_NICE_STREAM_TRANSMITTER (user_data);
-  GSList *candidates, *item;
-  gint c;
+  FsNiceStreamTransmitter *self = data;
   GList *remote_candidates = NULL;
   gboolean forced_candidates;
-
-  if (stream_id != self->priv->stream_id)
-    return;
 
   FS_NICE_STREAM_TRANSMITTER_LOCK (self);
   if (self->priv->gathered)
   {
     FS_NICE_STREAM_TRANSMITTER_UNLOCK (self);
-    return;
+    return FALSE;
   }
+
   self->priv->gathered = TRUE;
   remote_candidates = self->priv->remote_candidates;
   self->priv->remote_candidates = NULL;
@@ -1558,30 +1660,7 @@ agent_gathering_done (NiceAgent *agent, guint stream_id, gpointer user_data)
 
   GST_DEBUG ("Candidates gathered for stream %u", self->priv->stream_id);
 
-  for (c = 1; c <= self->priv->transmitter->components; c++)
-  {
-    candidates = nice_agent_get_local_candidates (agent,
-        self->priv->stream_id, c);
-
-    for (item = candidates; item; item = g_slist_next (item))
-    {
-      NiceCandidate *candidate = item->data;
-      FsCandidate *fscandidate;
-
-      fscandidate = nice_candidate_to_fs_candidate (agent, candidate, TRUE);
-      g_signal_emit_by_name (self, "new-local-candidate", fscandidate);
-      fs_candidate_destroy (fscandidate);
-    }
-
-
-    g_slist_foreach (candidates, (GFunc)nice_candidate_free, NULL);
-    g_slist_free (candidates);
-  }
   g_signal_emit_by_name (self, "local-candidates-prepared");
-
-  if (!self->priv->new_candidate_handler_id)
-    self->priv->new_candidate_handler_id = g_signal_connect (agent,
-        "new-candidate", G_CALLBACK (agent_new_candidate), self);
 
   if (remote_candidates)
   {
@@ -1602,14 +1681,15 @@ agent_gathering_done (NiceAgent *agent, guint stream_id, gpointer user_data)
       if (self->priv->compatibility_mode != NICE_COMPATIBILITY_GOOGLE &&
           self->priv->compatibility_mode != NICE_COMPATIBILITY_MSN)
       {
-        if (!nice_agent_set_remote_credentials (agent, self->priv->stream_id,
-                self->priv->username, self->priv->password))
+        if (!nice_agent_set_remote_credentials (self->priv->agent->agent,
+                self->priv->stream_id, self->priv->username,
+                self->priv->password))
         {
           fs_stream_transmitter_emit_error (FS_STREAM_TRANSMITTER (self),
               FS_ERROR_INTERNAL, "Error setting delayed remote candidates",
               "Could not set the security credentials");
           fs_candidate_list_destroy (remote_candidates);
-          return;
+          return FALSE;
         }
       }
 
@@ -1627,6 +1707,21 @@ agent_gathering_done (NiceAgent *agent, guint stream_id, gpointer user_data)
 
     fs_candidate_list_destroy (remote_candidates);
   }
+
+  return FALSE;
+}
+
+
+static void
+agent_gathering_done (NiceAgent *agent, guint stream_id, gpointer user_data)
+{
+  FsNiceStreamTransmitter *self = FS_NICE_STREAM_TRANSMITTER (user_data);
+
+  if (stream_id != self->priv->stream_id)
+    return;
+
+  fs_nice_agent_add_idle (self->priv->agent, agent_gathering_done_idle,
+      g_object_ref (self), g_object_unref);
 }
 
 

@@ -53,7 +53,7 @@
 #else /*G_OS_WIN32*/
 # include <netdb.h>
 # include <sys/socket.h>
-# include <netinet/in.h>
+# include <netinet/ip.h>
 # include <arpa/inet.h>
 #endif /*G_OS_WIN32*/
 
@@ -72,7 +72,8 @@ enum
   PROP_0,
   PROP_GST_SINK,
   PROP_GST_SRC,
-  PROP_COMPONENTS
+  PROP_COMPONENTS,
+  PROP_TYPE_OF_SERVICE
 };
 
 struct _FsMulticastTransmitterPrivate
@@ -89,6 +90,8 @@ struct _FsMulticastTransmitterPrivate
 
   GMutex *mutex;
   GList **udpsocks;
+
+  gint type_of_service;
 
   gboolean disposed;
 };
@@ -118,6 +121,11 @@ static FsStreamTransmitter *fs_multicast_transmitter_new_stream_transmitter (
     guint n_parameters, GParameter *parameters, GError **error);
 static GType fs_multicast_transmitter_get_stream_transmitter_type (
     FsTransmitter *transmitter);
+
+static void fs_multicast_transmitter_set_type_of_service (
+    FsMulticastTransmitter *self,
+    gint tos);
+
 
 static GObjectClass *parent_class = NULL;
 //static guint signals[LAST_SIGNAL] = { 0 };
@@ -182,6 +190,8 @@ fs_multicast_transmitter_class_init (FsMulticastTransmitterClass *klass)
   g_object_class_override_property (gobject_class, PROP_GST_SINK, "gst-sink");
   g_object_class_override_property (gobject_class, PROP_COMPONENTS,
     "components");
+  g_object_class_override_property (gobject_class, PROP_TYPE_OF_SERVICE,
+    "tos");
 
   transmitter_class->new_stream_transmitter =
     fs_multicast_transmitter_new_stream_transmitter;
@@ -423,6 +433,11 @@ fs_multicast_transmitter_get_property (GObject *object,
     case PROP_COMPONENTS:
       g_value_set_uint (value, self->components);
       break;
+    case PROP_TYPE_OF_SERVICE:
+      g_mutex_lock (self->priv->mutex);
+      g_value_set_uint (value, self->priv->type_of_service);
+      g_mutex_unlock (self->priv->mutex);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -440,6 +455,10 @@ fs_multicast_transmitter_set_property (GObject *object,
   switch (prop_id) {
     case PROP_COMPONENTS:
       self->components = g_value_get_uint (value);
+      break;
+    case PROP_TYPE_OF_SERVICE:
+      fs_multicast_transmitter_set_type_of_service (self,
+          g_value_get_uint (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -538,6 +557,7 @@ _bind_port (
     const gchar *multicast_ip,
     guint16 port,
     guchar ttl,
+    int type_of_service,
     GError **error)
 {
   int sock = -1;
@@ -637,6 +657,16 @@ _bind_port (
         g_strerror (errno));
     goto error;
   }
+
+  if (setsockopt (sock, IPPROTO_IP, IP_TOS,
+          &type_of_service, sizeof (type_of_service)) < 0)
+    GST_WARNING ("could not set socket ToS: %s", g_strerror (errno));
+
+#ifdef IPV6_TCLASS
+  if (setsockopt (sock, IPPROTO_IPV6, IPV6_TCLASS,
+          &type_of_service, sizeof (type_of_service)) < 0)
+    GST_WARNING ("could not set TCLASS: %s", g_strerror (errno));
+#endif
 
   address.sin_port = htons (port);
   retval = bind (sock, (struct sockaddr *) &address, sizeof (address));
@@ -861,6 +891,8 @@ fs_multicast_transmitter_get_udpsock (FsMulticastTransmitter *trans,
 {
   UdpSock *udpsock;
   UdpSock *tmpudpsock;
+  GError *local_error = NULL;
+  int tos;
 
   /* First lets check if we already have one */
   if (component_id > trans->components)
@@ -872,8 +904,15 @@ fs_multicast_transmitter_get_udpsock (FsMulticastTransmitter *trans,
 
   g_mutex_lock (trans->priv->mutex);
   udpsock = fs_multicast_transmitter_get_udpsock_locked (trans, component_id,
-      local_ip, multicast_ip, port, ttl, sending, error);
+      local_ip, multicast_ip, port, ttl, sending, &local_error);
+  tos = trans->priv->type_of_service;
   g_mutex_unlock (trans->priv->mutex);
+
+  if (local_error)
+  {
+    g_propagate_error (error, local_error);
+    return NULL;
+  }
 
   if (udpsock)
   {
@@ -895,7 +934,7 @@ fs_multicast_transmitter_get_udpsock (FsMulticastTransmitter *trans,
 
   /* Now lets bind both ports */
 
-  udpsock->fd = _bind_port (local_ip, multicast_ip, port, ttl, error);
+  udpsock->fd = _bind_port (local_ip, multicast_ip, port, ttl, tos, error);
   if (udpsock->fd < 0)
     goto error;
 
@@ -928,12 +967,17 @@ fs_multicast_transmitter_get_udpsock (FsMulticastTransmitter *trans,
   g_mutex_lock (trans->priv->mutex);
   /* Check if someone else has added the same thing at the same time */
   tmpudpsock = fs_multicast_transmitter_get_udpsock_locked (trans, component_id,
-      local_ip, multicast_ip, port, ttl, sending, error);
+      local_ip, multicast_ip, port, ttl, sending, &local_error);
 
-  if (tmpudpsock)
+  if (tmpudpsock || local_error)
   {
     g_mutex_unlock (trans->priv->mutex);
     fs_multicast_transmitter_put_udpsock (trans, udpsock, ttl);
+    if (local_error)
+    {
+      g_propagate_error (error, local_error);
+      goto error;
+    }
     if (sending)
       fs_multicast_transmitter_udpsock_inc_sending (udpsock);
     return tmpudpsock;
@@ -1087,6 +1131,10 @@ fs_multicast_transmitter_udpsock_inc_sending (UdpSock *udpsock)
     else
       g_signal_emit_by_name (udpsock->udpsink, "add", udpsock->multicast_ip,
           udpsock->port);
+
+    gst_element_send_event (udpsock->udpsink,
+        gst_event_new_custom (GST_EVENT_CUSTOM_UPSTREAM,
+            gst_structure_new ("GstForceKeyUnit", NULL)));
   }
 }
 
@@ -1117,4 +1165,41 @@ fs_multicast_transmitter_udpsock_ref (FsMulticastTransmitter *trans,
   g_mutex_lock (trans->priv->mutex);
   g_byte_array_append (udpsock->ttls, &ttl, 1);
   g_mutex_unlock (trans->priv->mutex);
+}
+
+
+static void
+fs_multicast_transmitter_set_type_of_service (FsMulticastTransmitter *self,
+    gint tos)
+{
+  gint i;
+
+  g_mutex_lock (self->priv->mutex);
+  if (self->priv->type_of_service == tos)
+    goto out;
+
+  self->priv->type_of_service = tos;
+
+  for (i = 0; i < self->components; i++)
+  {
+    GList *item;
+
+    for (item = self->priv->udpsocks[i]; item; item = item->next)
+    {
+      UdpSock *udpsock = item->data;
+
+      if (setsockopt (udpsock->fd, IPPROTO_IP, IP_TOS,
+              &tos, sizeof (tos)) < 0)
+        GST_WARNING ( "could not set socket tos: %s", g_strerror (errno));
+
+#ifdef IPV6_TCLASS
+      if (setsockopt (udpsock->fd, IPPROTO_IPV6, IPV6_TCLASS,
+              &tos, sizeof (tos)) < 0)
+        GST_WARNING ("could not set TCLASS: %s", g_strerror (errno));
+#endif
+    }
+  }
+
+ out:
+  g_mutex_unlock (self->priv->mutex);
 }

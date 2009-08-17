@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<refentry id="libnice-Debug-messages">
+<refmeta>
+<refentrytitle role="top_of_page" id="libnice-Debug-messages.top_of_page">Debug messages</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>LIBNICE Library</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname>Debug messages</refname>
+<refpurpose>Debug messages utility functions</refpurpose>
+</refnamediv>
+<refsect1 id="libnice-Debug-messages.stability-level">
+<title>Stability Level</title>
+More flags are to come and a better API to
+enable/disable each flag should be added. Unstable, unless otherwise indicated
+</refsect1>
+
+<refsynopsisdiv id="libnice-Debug-messages.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+<link linkend="void">void</link>                <link linkend="nice-debug-enable">nice_debug_enable</link>                   (<link linkend="gboolean">gboolean</link> with_stun);
+<link linkend="void">void</link>                <link linkend="nice-debug-disable">nice_debug_disable</link>                  (<link linkend="gboolean">gboolean</link> with_stun);
+</synopsis>
+</refsynopsisdiv>
+
+
+
+
+
+
+
+
+
+<refsect1 id="libnice-Debug-messages.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+Libnice can output a lot of information when debug messages are enabled.
+This can significantly help track down problems and/or understand what
+it's doing.
+You can enable/disable the debug messages by calling <link linkend="nice-debug-enable"><function>nice_debug_enable()</function></link>
+or <link linkend="nice-debug-disable"><function>nice_debug_disable()</function></link> and choosing whether you want only ICE debug messages
+or also stun debug messages.
+By default, the debug messages are disabled, unless the environment variable
+NICE_DEBUG is set, in which case, it must contain a comma separated list of
+flags specifying which debug to enable. The flags can be "nice", "stun",
+or "all" to enable all debug messages.</para>
+<para>
+</para>
+</refsect1>
+
+<refsect1 id="libnice-Debug-messages.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="nice-debug-enable" role="function">
+<title>nice_debug_enable ()</title>
+<indexterm zone="nice-debug-enable"><primary sortas="nice_debug_enable">nice_debug_enable</primary></indexterm><programlisting><link linkend="void">void</link>                nice_debug_enable                   (<link linkend="gboolean">gboolean</link> with_stun);</programlisting>
+<para>
+Enables libnice debug output to the terminal</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>with_stun</parameter>&#160;:</term>
+<listitem><simpara> Also enable stun debugging messages
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="nice-debug-disable" role="function">
+<title>nice_debug_disable ()</title>
+<indexterm zone="nice-debug-disable"><primary sortas="nice_debug_disable">nice_debug_disable</primary></indexterm><programlisting><link linkend="void">void</link>                nice_debug_disable                  (<link linkend="gboolean">gboolean</link> with_stun);</programlisting>
+<para>
+Disables libnice debug output to the terminal</para>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>with_stun</parameter>&#160;:</term>
+<listitem><simpara> Also disable stun debugging messages
+</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+
+
+
+</refentry>

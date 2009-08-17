@@ -73,7 +73,16 @@ struct _FsRtpStreamPrivate
 
   stream_new_remote_codecs_cb new_remote_codecs_cb;
   stream_known_source_packet_receive_cb known_source_packet_received_cb;
+  stream_sending_changed_locked_cb sending_changed_locked_cb;
+  stream_ssrc_added_cb ssrc_added_cb;
   gpointer user_data_for_cb;
+
+  gulong local_candidates_prepared_handler_id;
+  gulong new_active_candidate_pair_handler_id;
+  gulong new_local_candidate_handler_id;
+  gulong error_handler_id;
+  gulong known_source_packet_received_handler_id;
+  gulong state_changed_handler_id;
 
   GMutex *mutex;
 };
@@ -109,6 +118,8 @@ static gboolean fs_rtp_stream_set_remote_codecs (FsStream *stream,
                                                  GList *remote_codecs,
                                                  GError **error);
 
+static void fs_rtp_stream_add_id (FsStream *stream, guint id);
+
 static void _local_candidates_prepared (
     FsStreamTransmitter *stream_transmitter,
     gpointer user_data);
@@ -139,8 +150,6 @@ static void _state_changed (FsStreamTransmitter *stream_transmitter,
     FsStreamState state,
     gpointer user_data);
 
-
-static GObjectClass *parent_class = NULL;
 // static guint signals[LAST_SIGNAL] = { 0 };
 
 static void
@@ -150,7 +159,6 @@ fs_rtp_stream_class_init (FsRtpStreamClass *klass)
   FsStreamClass *stream_class = FS_STREAM_CLASS (klass);
 
   gobject_class = (GObjectClass *) klass;
-  parent_class = g_type_class_peek_parent (klass);
 
   gobject_class->set_property = fs_rtp_stream_set_property;
   gobject_class->get_property = fs_rtp_stream_get_property;
@@ -161,6 +169,7 @@ fs_rtp_stream_class_init (FsRtpStreamClass *klass)
   stream_class->set_remote_candidates = fs_rtp_stream_set_remote_candidates;
   stream_class->set_remote_codecs = fs_rtp_stream_set_remote_codecs;
   stream_class->force_remote_candidates = fs_rtp_stream_force_remote_candidates;
+  stream_class->add_id = fs_rtp_stream_add_id;
 
 
   g_type_class_add_private (klass, sizeof (FsRtpStreamPrivate));
@@ -183,9 +192,20 @@ fs_rtp_stream_class_init (FsRtpStreamClass *klass)
   g_object_class_override_property (gobject_class,
                                     PROP_SESSION,
                                     "session");
-  g_object_class_override_property (gobject_class,
-                                    PROP_STREAM_TRANSMITTER,
-                                   "stream-transmitter");
+  /**
+   * FsRtpStream:stream-transmitter:
+   *
+   * The #FsStreamTransmitter for this stream.
+   *
+   */
+  g_object_class_install_property (gobject_class,
+      PROP_STREAM_TRANSMITTER,
+      g_param_spec_object ("stream-transmitter",
+        "The transmitter use by the stream",
+        "An FsStreamTransmitter used by this stream",
+        FS_TYPE_STREAM_TRANSMITTER,
+        G_PARAM_CONSTRUCT_ONLY | G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS));
+
 }
 
 static void
@@ -261,6 +281,12 @@ fs_rtp_stream_dispose (GObject *object)
   g_mutex_unlock (self->priv->mutex);
 
   FS_RTP_SESSION_LOCK (session);
+
+  if (self->priv->sending_changed_locked_cb &&
+      self->priv->direction & FS_DIRECTION_SEND)
+    self->priv->sending_changed_locked_cb (self, FALSE,
+        self->priv->user_data_for_cb);
+
   participant = self->participant;
   self->participant = NULL;
 
@@ -269,6 +295,19 @@ fs_rtp_stream_dispose (GObject *object)
 
   if (st)
   {
+    g_signal_handler_disconnect (st,
+        self->priv->local_candidates_prepared_handler_id);
+    g_signal_handler_disconnect (st,
+        self->priv->new_active_candidate_pair_handler_id);
+    g_signal_handler_disconnect (st,
+        self->priv->new_local_candidate_handler_id);
+    g_signal_handler_disconnect (st,
+        self->priv->error_handler_id);
+    g_signal_handler_disconnect (st,
+        self->priv->known_source_packet_received_handler_id);
+    g_signal_handler_disconnect (st,
+        self->priv->state_changed_handler_id);
+
     FS_RTP_SESSION_UNLOCK (session);
     fs_stream_transmitter_stop (st);
     g_object_unref (st);
@@ -290,7 +329,7 @@ fs_rtp_stream_dispose (GObject *object)
   g_object_unref (session);
   g_object_unref (session);
 
-  parent_class->dispose (object);
+  G_OBJECT_CLASS (fs_rtp_stream_parent_class)->dispose (object);
 }
 
 static void
@@ -303,7 +342,7 @@ fs_rtp_stream_finalize (GObject *object)
 
   g_mutex_free (self->priv->mutex);
 
-  parent_class->finalize (object);
+  G_OBJECT_CLASS (fs_rtp_stream_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -419,6 +458,13 @@ fs_rtp_stream_set_property (GObject *object,
         }
 
         FS_RTP_SESSION_LOCK (session);
+        if (self->priv->sending_changed_locked_cb &&
+            (self->priv->direction & FS_DIRECTION_SEND) !=
+            (g_value_get_flags (value) & FS_DIRECTION_SEND))
+          self->priv->sending_changed_locked_cb (self,
+              g_value_get_flags (value) & FS_DIRECTION_SEND,
+              self->priv->user_data_for_cb);
+
         dir = self->priv->direction = g_value_get_flags (value);
         FS_RTP_SESSION_UNLOCK (session);
         st = fs_rtp_stream_get_stream_transmitter (self, NULL);
@@ -465,30 +511,36 @@ fs_rtp_stream_constructed (GObject *object)
   g_object_set (self->priv->stream_transmitter, "sending",
     self->priv->direction & FS_DIRECTION_SEND, NULL);
 
-  g_signal_connect (self->priv->stream_transmitter,
-      "local-candidates-prepared",
-      G_CALLBACK (_local_candidates_prepared),
-      self);
-  g_signal_connect (self->priv->stream_transmitter,
-      "new-active-candidate-pair",
-      G_CALLBACK (_new_active_candidate_pair),
-      self);
-  g_signal_connect (self->priv->stream_transmitter,
-      "new-local-candidate",
-      G_CALLBACK (_new_local_candidate),
-      self);
-  g_signal_connect (self->priv->stream_transmitter,
-      "error",
-      G_CALLBACK (_transmitter_error),
-      self);
-  g_signal_connect (self->priv->stream_transmitter,
-      "known-source-packet-received",
-      G_CALLBACK (_known_source_packet_received),
-      self);
-  g_signal_connect (self->priv->stream_transmitter,
-      "state-changed",
-      G_CALLBACK (_state_changed),
-      self);
+  self->priv->local_candidates_prepared_handler_id =
+    g_signal_connect_object (self->priv->stream_transmitter,
+        "local-candidates-prepared",
+        G_CALLBACK (_local_candidates_prepared),
+        self, 0);
+  self->priv->new_active_candidate_pair_handler_id =
+    g_signal_connect_object (self->priv->stream_transmitter,
+        "new-active-candidate-pair",
+        G_CALLBACK (_new_active_candidate_pair),
+        self, 0);
+  self->priv->new_local_candidate_handler_id =
+    g_signal_connect_object (self->priv->stream_transmitter,
+        "new-local-candidate",
+        G_CALLBACK (_new_local_candidate),
+        self, 0);
+  self->priv->error_handler_id =
+    g_signal_connect_object (self->priv->stream_transmitter,
+        "error",
+        G_CALLBACK (_transmitter_error),
+        self, 0);
+  self->priv->known_source_packet_received_handler_id =
+    g_signal_connect_object (self->priv->stream_transmitter,
+        "known-source-packet-received",
+        G_CALLBACK (_known_source_packet_received),
+        self, 0);
+  self->priv->state_changed_handler_id =
+    g_signal_connect_object (self->priv->stream_transmitter,
+        "state-changed",
+        G_CALLBACK (_state_changed),
+        self, 0);
 
   if (!fs_stream_transmitter_gather_local_candidates (
           self->priv->stream_transmitter,
@@ -501,7 +553,8 @@ fs_rtp_stream_constructed (GObject *object)
     return;
   }
 
-  GST_CALL_PARENT (G_OBJECT_CLASS, constructed, (object));
+  if (G_OBJECT_CLASS (fs_rtp_stream_parent_class)->constructed)
+    G_OBJECT_CLASS (fs_rtp_stream_parent_class)->constructed(object);
 }
 
 
@@ -655,6 +708,8 @@ fs_rtp_stream_set_remote_codecs (FsStream *stream,
  * the session lock across calls.
  * @known_source_packet_received: Callback called when a packet from a
  * known source is receive.
+ * @sending_changed_locked_cb: Callback called when the sending status of
+ *  this stream changes
  * @user_data: User data for the callbacks.
  * This function create a new stream
  *
@@ -668,6 +723,8 @@ fs_rtp_stream_new (FsRtpSession *session,
     FsStreamTransmitter *stream_transmitter,
     stream_new_remote_codecs_cb new_remote_codecs_cb,
     stream_known_source_packet_receive_cb known_source_packet_received_cb,
+    stream_sending_changed_locked_cb sending_changed_locked_cb,
+    stream_ssrc_added_cb ssrc_added_cb,
     gpointer user_data_for_cb,
     GError **error)
 {
@@ -688,7 +745,15 @@ fs_rtp_stream_new (FsRtpSession *session,
 
   self->priv->new_remote_codecs_cb = new_remote_codecs_cb;
   self->priv->known_source_packet_received_cb = known_source_packet_received_cb;
+  self->priv->sending_changed_locked_cb = sending_changed_locked_cb;
+  self->priv->ssrc_added_cb = ssrc_added_cb;
   self->priv->user_data_for_cb = user_data_for_cb;
+
+  FS_RTP_SESSION_LOCK (session);
+  if (sending_changed_locked_cb && (direction & FS_DIRECTION_SEND))
+    sending_changed_locked_cb (self, direction & FS_DIRECTION_SEND,
+        user_data_for_cb);
+  FS_RTP_SESSION_UNLOCK (session);
 
   if (self->priv->construction_error) {
     g_propagate_error (error, self->priv->construction_error);
@@ -855,6 +920,28 @@ _substream_error (FsRtpSubStream *substream,
   fs_stream_emit_error (stream, errorno, error_msg, debug_msg);
 }
 
+
+static void
+_substream_unlinked (FsRtpSubStream *substream, gpointer user_data)
+{
+  FsRtpStream *stream = FS_RTP_STREAM (user_data);
+  FsRtpSession *session =  fs_rtp_stream_get_session (stream, NULL);
+
+  if (!session)
+    return;
+
+  FS_RTP_SESSION_LOCK (session);
+  stream->substreams = g_list_remove (stream->substreams,
+      substream);
+  FS_RTP_SESSION_UNLOCK (session);
+
+  fs_rtp_sub_stream_stop (substream);
+
+  g_object_unref (substream);
+  g_object_unref (session);
+}
+
+
 /**
  * fs_rtp_stream_add_substream_unlock:
  * @stream: a #FsRtpStream
@@ -885,14 +972,16 @@ fs_rtp_stream_add_substream_unlock (FsRtpStream *stream,
       "receiving", ((stream->priv->direction & FS_DIRECTION_RECV) != 0),
       NULL);
 
-  g_signal_connect (substream, "src-pad-added",
-                    G_CALLBACK (_substream_src_pad_added), stream);
-  g_signal_connect (substream, "codec-changed",
-                    G_CALLBACK (_substream_codec_changed), stream);
-  g_signal_connect (substream, "error",
-                    G_CALLBACK (_substream_error), stream);
+  g_signal_connect_object (substream, "unlinked",
+      G_CALLBACK (_substream_unlinked), stream, 0);
+  g_signal_connect_object (substream, "src-pad-added",
+      G_CALLBACK (_substream_src_pad_added), stream, 0);
+  g_signal_connect_object (substream, "codec-changed",
+      G_CALLBACK (_substream_codec_changed), stream, 0);
+  g_signal_connect_object (substream, "error",
+      G_CALLBACK (_substream_error), stream, 0);
 
-  fs_rtp_sub_stream_verify_codec (substream);
+  fs_rtp_sub_stream_verify_codec_locked (substream);
 
   /* Only announce a pad if it has a codec attached to it */
   if (substream->codec)
@@ -1017,6 +1106,21 @@ fs_rtp_stream_set_negotiated_codecs_unlock (FsRtpStream *stream,
   FS_RTP_SESSION_UNLOCK (session);
 
   g_object_notify (G_OBJECT (stream), "negotiated-codecs");
+
+  g_object_unref (session);
+}
+
+static void
+fs_rtp_stream_add_id (FsStream *stream, guint id)
+{
+  FsRtpStream *self = FS_RTP_STREAM (stream);
+  FsRtpSession *session = fs_rtp_stream_get_session (self, NULL);
+
+  if (!session)
+    return;
+
+  if (self->priv->ssrc_added_cb)
+    self->priv->ssrc_added_cb (self, id, self->priv->user_data_for_cb);
 
   g_object_unref (session);
 }

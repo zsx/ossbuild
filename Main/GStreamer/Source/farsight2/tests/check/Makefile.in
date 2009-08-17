@@ -37,7 +37,8 @@ check_PROGRAMS = base/fscodec$(EXEEXT) base/fstransmitter$(EXEEXT) \
 	transmitter/rawudp$(EXEEXT) transmitter/multicast$(EXEEXT) \
 	transmitter/nice$(EXEEXT) rtp/codecs$(EXEEXT) \
 	rtp/sendcodecs$(EXEEXT) rtp/conference$(EXEEXT) \
-	utils/binadded$(EXEEXT) elements/rtcpfilter$(EXEEXT)
+	msn/conference$(EXEEXT) utils/binadded$(EXEEXT) \
+	elements/rtcpfilter$(EXEEXT)
 subdir = tests/check
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
@@ -56,6 +57,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
 	$(top_srcdir)/common/m4/pkg.m4 \
+	$(top_srcdir)/common/m4/shave.m4 \
 	$(top_srcdir)/m4/as-check-python-headers.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -63,8 +65,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-base_fscodec_SOURCES = base/fscodec.c
-base_fscodec_OBJECTS = fscodec.$(OBJEXT)
+am_base_fscodec_OBJECTS = testutils.$(OBJEXT) fscodec.$(OBJEXT)
+base_fscodec_OBJECTS = $(am_base_fscodec_OBJECTS)
 base_fscodec_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
 base_fscodec_DEPENDENCIES =  \
@@ -88,6 +90,15 @@ elements_rtcpfilter_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(elements_rtcpfilter_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
+am_msn_conference_OBJECTS = msn_conference-conference.$(OBJEXT)
+msn_conference_OBJECTS = $(am_msn_conference_OBJECTS)
+msn_conference_LDADD = $(LDADD)
+msn_conference_DEPENDENCIES =  \
+	$(top_builddir)/gst-libs/gst/farsight/libgstfarsight-0.10.la \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+msn_conference_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(msn_conference_CFLAGS) \
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_rtp_codecs_OBJECTS = rtp_codecs-generic.$(OBJEXT) \
 	rtp_codecs-codecs.$(OBJEXT)
 rtp_codecs_OBJECTS = $(am_rtp_codecs_OBJECTS)
@@ -98,7 +109,8 @@ rtp_codecs_DEPENDENCIES =  \
 rtp_codecs_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(rtp_codecs_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_rtp_conference_OBJECTS = rtp_conference-generic.$(OBJEXT) \
+am_rtp_conference_OBJECTS = rtp_conference-testutils.$(OBJEXT) \
+	rtp_conference-generic.$(OBJEXT) \
 	rtp_conference-conference.$(OBJEXT)
 rtp_conference_OBJECTS = $(am_rtp_conference_OBJECTS)
 rtp_conference_LDADD = $(LDADD)
@@ -116,6 +128,7 @@ rtp_sendcodecs_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(rtp_sendcodecs_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_transmitter_multicast_OBJECTS =  \
+	transmitter_multicast-testutils.$(OBJEXT) \
 	transmitter_multicast-generic.$(OBJEXT) \
 	transmitter_multicast-fake-filter.$(OBJEXT) \
 	transmitter_multicast-multicast.$(OBJEXT)
@@ -141,15 +154,17 @@ transmitter_nice_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_transmitter_rawudp_OBJECTS = transmitter_rawudp-generic.$(OBJEXT) \
 	transmitter_rawudp-rawudp.$(OBJEXT) \
-	transmitter_rawudp-rawudp-upnp.$(OBJEXT)
+	transmitter_rawudp-rawudp-upnp.$(OBJEXT) \
+	transmitter_rawudp-stunalternd.$(OBJEXT)
 transmitter_rawudp_OBJECTS = $(am_transmitter_rawudp_OBJECTS)
 transmitter_rawudp_DEPENDENCIES = $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 transmitter_rawudp_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(transmitter_rawudp_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_utils_binadded_OBJECTS = utils_binadded-binadded.$(OBJEXT)
+am_utils_binadded_OBJECTS = utils_binadded-testutils.$(OBJEXT) \
+	utils_binadded-binadded.$(OBJEXT)
 utils_binadded_OBJECTS = $(am_utils_binadded_OBJECTS)
 utils_binadded_LDADD = $(LDADD)
 utils_binadded_DEPENDENCIES =  \
@@ -170,22 +185,25 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = base/fscodec.c base/fstransmitter.c \
-	$(elements_rtcpfilter_SOURCES) $(rtp_codecs_SOURCES) \
-	$(rtp_conference_SOURCES) $(rtp_sendcodecs_SOURCES) \
-	$(transmitter_multicast_SOURCES) $(transmitter_nice_SOURCES) \
-	$(transmitter_rawudp_SOURCES) $(utils_binadded_SOURCES)
-DIST_SOURCES = base/fscodec.c base/fstransmitter.c \
-	$(elements_rtcpfilter_SOURCES) $(rtp_codecs_SOURCES) \
-	$(rtp_conference_SOURCES) $(rtp_sendcodecs_SOURCES) \
-	$(transmitter_multicast_SOURCES) $(transmitter_nice_SOURCES) \
-	$(transmitter_rawudp_SOURCES) $(utils_binadded_SOURCES)
+SOURCES = $(base_fscodec_SOURCES) base/fstransmitter.c \
+	$(elements_rtcpfilter_SOURCES) $(msn_conference_SOURCES) \
+	$(rtp_codecs_SOURCES) $(rtp_conference_SOURCES) \
+	$(rtp_sendcodecs_SOURCES) $(transmitter_multicast_SOURCES) \
+	$(transmitter_nice_SOURCES) $(transmitter_rawudp_SOURCES) \
+	$(utils_binadded_SOURCES)
+DIST_SOURCES = $(base_fscodec_SOURCES) base/fstransmitter.c \
+	$(elements_rtcpfilter_SOURCES) $(msn_conference_SOURCES) \
+	$(rtp_codecs_SOURCES) $(rtp_conference_SOURCES) \
+	$(rtp_sendcodecs_SOURCES) $(transmitter_multicast_SOURCES) \
+	$(transmitter_nice_SOURCES) $(transmitter_rawudp_SOURCES) \
+	$(utils_binadded_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ACLOCAL_AMFLAGS = @ACLOCAL_AMFLAGS@
 AMTAR = @AMTAR@
+AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -213,6 +231,7 @@ EGREP = @EGREP@
 ERROR_CFLAGS = @ERROR_CFLAGS@
 EXEEXT = @EXEEXT@
 F77 = @F77@
+FC = @FC@
 FFLAGS = @FFLAGS@
 FS2_AGE = @FS2_AGE@
 FS2_ALL_LDFLAGS = @FS2_ALL_LDFLAGS@
@@ -274,11 +293,13 @@ LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+MAKEFLAGS = @MAKEFLAGS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 NICE_CFLAGS = @NICE_CFLAGS@
 NICE_LIBS = @NICE_LIBS@
 NMEDIT = @NMEDIT@
+OBJC = @OBJC@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -295,6 +316,9 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PLUGINDIR = @PLUGINDIR@
 PROFILE_CFLAGS = @PROFILE_CFLAGS@
+PYCODEGEN = @PYCODEGEN@
+PYCODEGEN_CFLAGS = @PYCODEGEN_CFLAGS@
+PYCODEGEN_LIBS = @PYCODEGEN_LIBS@
 PYFARSIGHT_CFLAGS = @PYFARSIGHT_CFLAGS@
 PYFARSIGHT_LIBS = @PYFARSIGHT_LIBS@
 PYTHON = @PYTHON@
@@ -303,11 +327,13 @@ PYTHON_INCLUDES = @PYTHON_INCLUDES@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
+Q = @Q@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
@@ -363,6 +389,7 @@ pyexecdir = @pyexecdir@
 pythondir = @pythondir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+shavedir = @shavedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
@@ -396,7 +423,8 @@ SUPPRESSIONS = $(top_srcdir)/common/gst.supp
 EXTRA_DIST = \
 	upnp/InternetGatewayDevice.xml \
 	upnp/WANIPConnection.xml \
-	base/test1.conf
+	base/test1.conf \
+	utils/gstelements.conf
 
 AM_CFLAGS = \
 	$(CFLAGS) \
@@ -410,9 +438,15 @@ LDADD = \
 	$(GST_CHECK_LIBS) \
 	$(GST_LIBS)
 
-transmitter_rawudp_CFLAGS = $(AM_CFLAGS) $(GUPNP_CFLAGS)
+base_fscodec_SOURCES = \
+	testutils.c \
+	testutils.h \
+	base/fscodec.c
+
+transmitter_rawudp_CFLAGS = $(AM_CFLAGS) $(GUPNP_CFLAGS) $(NICE_CFLAGS)
 transmitter_rawudp_LDADD = $(LDADD) \
-	$(GUPNP_LIBS)
+	$(GUPNP_LIBS) \
+	$(NICE_LIBS)
 
 transmitter_rawudp_SOURCES = \
 	check-threadsafe.h  \
@@ -420,16 +454,20 @@ transmitter_rawudp_SOURCES = \
 	transmitter/generic.h \
 	transmitter/rawudp.c \
 	transmitter/rawudp-upnp.c \
-	transmitter/rawudp-upnp.h
+	transmitter/rawudp-upnp.h \
+	transmitter/stunalternd.c \
+	transmitter/stunalternd.h
 
 transmitter_multicast_CFLAGS = $(AM_CFLAGS)
 transmitter_multicast_SOURCES = \
 	check-threadsafe.h  \
+	testutils.c \
+	testutils.h \
 	transmitter/generic.c \
 	transmitter/generic.h \
 	transmitter/fake-filter.c \
 	transmitter/fake-filter.h \
-	transmitter/multicast.c 
+	transmitter/multicast.c
 
 transmitter_nice_CFLAGS = $(FS2_INTERNAL_CFLAGS) $(CFLAGS) $(AM_CFLAGS)
 transmitter_nice_SOURCES = \
@@ -443,6 +481,8 @@ transmitter_nice_SOURCES = \
 rtp_conference_CFLAGS = $(AM_CFLAGS)
 rtp_conference_SOURCES = \
 	check-threadsafe.h  \
+	testutils.c \
+	testutils.h \
 	rtp/generic.c \
 	rtp/generic.h \
 	rtp/conference.c
@@ -460,8 +500,14 @@ rtp_sendcodecs_SOURCES = \
 	rtp/generic.h \
 	rtp/sendcodecs.c
 
+msn_conference_CFLAGS = $(AM_CFLAGS)
+msn_conference_SOURCES = \
+	msn/conference.c
+
 utils_binadded_CFLAGS = $(AM_CFLAGS)
 utils_binadded_SOURCES = \
+	testutils.c \
+	testutils.h \
 	utils/binadded.c
 
 elements_rtcpfilter_CFLAGS = $(AM_CFLAGS)
@@ -522,6 +568,12 @@ elements/$(am__dirstamp):
 elements/rtcpfilter$(EXEEXT): $(elements_rtcpfilter_OBJECTS) $(elements_rtcpfilter_DEPENDENCIES) elements/$(am__dirstamp)
 	@rm -f elements/rtcpfilter$(EXEEXT)
 	$(elements_rtcpfilter_LINK) $(elements_rtcpfilter_OBJECTS) $(elements_rtcpfilter_LDADD) $(LIBS)
+msn/$(am__dirstamp):
+	@$(MKDIR_P) msn
+	@: > msn/$(am__dirstamp)
+msn/conference$(EXEEXT): $(msn_conference_OBJECTS) $(msn_conference_DEPENDENCIES) msn/$(am__dirstamp)
+	@rm -f msn/conference$(EXEEXT)
+	$(msn_conference_LINK) $(msn_conference_OBJECTS) $(msn_conference_LDADD) $(LIBS)
 rtp/$(am__dirstamp):
 	@$(MKDIR_P) rtp
 	@: > rtp/$(am__dirstamp)
@@ -562,22 +614,28 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/elements_rtcpfilter-rtcpfilter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fscodec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fstransmitter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msn_conference-conference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtp_codecs-codecs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtp_codecs-generic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtp_conference-conference.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtp_conference-generic.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtp_conference-testutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtp_sendcodecs-generic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rtp_sendcodecs-sendcodecs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_multicast-fake-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_multicast-generic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_multicast-multicast.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_multicast-testutils.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_nice-fake-filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_nice-generic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_nice-nice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_rawudp-generic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_rawudp-rawudp-upnp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_rawudp-rawudp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transmitter_rawudp-stunalternd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utils_binadded-binadded.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utils_binadded-testutils.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -642,6 +700,20 @@ elements_rtcpfilter-rtcpfilter.obj: elements/rtcpfilter.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(elements_rtcpfilter_CFLAGS) $(CFLAGS) -c -o elements_rtcpfilter-rtcpfilter.obj `if test -f 'elements/rtcpfilter.c'; then $(CYGPATH_W) 'elements/rtcpfilter.c'; else $(CYGPATH_W) '$(srcdir)/elements/rtcpfilter.c'; fi`
 
+msn_conference-conference.o: msn/conference.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(msn_conference_CFLAGS) $(CFLAGS) -MT msn_conference-conference.o -MD -MP -MF $(DEPDIR)/msn_conference-conference.Tpo -c -o msn_conference-conference.o `test -f 'msn/conference.c' || echo '$(srcdir)/'`msn/conference.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/msn_conference-conference.Tpo $(DEPDIR)/msn_conference-conference.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='msn/conference.c' object='msn_conference-conference.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(msn_conference_CFLAGS) $(CFLAGS) -c -o msn_conference-conference.o `test -f 'msn/conference.c' || echo '$(srcdir)/'`msn/conference.c
+
+msn_conference-conference.obj: msn/conference.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(msn_conference_CFLAGS) $(CFLAGS) -MT msn_conference-conference.obj -MD -MP -MF $(DEPDIR)/msn_conference-conference.Tpo -c -o msn_conference-conference.obj `if test -f 'msn/conference.c'; then $(CYGPATH_W) 'msn/conference.c'; else $(CYGPATH_W) '$(srcdir)/msn/conference.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/msn_conference-conference.Tpo $(DEPDIR)/msn_conference-conference.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='msn/conference.c' object='msn_conference-conference.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(msn_conference_CFLAGS) $(CFLAGS) -c -o msn_conference-conference.obj `if test -f 'msn/conference.c'; then $(CYGPATH_W) 'msn/conference.c'; else $(CYGPATH_W) '$(srcdir)/msn/conference.c'; fi`
+
 rtp_codecs-generic.o: rtp/generic.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtp_codecs_CFLAGS) $(CFLAGS) -MT rtp_codecs-generic.o -MD -MP -MF $(DEPDIR)/rtp_codecs-generic.Tpo -c -o rtp_codecs-generic.o `test -f 'rtp/generic.c' || echo '$(srcdir)/'`rtp/generic.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/rtp_codecs-generic.Tpo $(DEPDIR)/rtp_codecs-generic.Po
@@ -669,6 +741,20 @@ rtp_codecs-codecs.obj: rtp/codecs.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rtp/codecs.c' object='rtp_codecs-codecs.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtp_codecs_CFLAGS) $(CFLAGS) -c -o rtp_codecs-codecs.obj `if test -f 'rtp/codecs.c'; then $(CYGPATH_W) 'rtp/codecs.c'; else $(CYGPATH_W) '$(srcdir)/rtp/codecs.c'; fi`
+
+rtp_conference-testutils.o: testutils.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtp_conference_CFLAGS) $(CFLAGS) -MT rtp_conference-testutils.o -MD -MP -MF $(DEPDIR)/rtp_conference-testutils.Tpo -c -o rtp_conference-testutils.o `test -f 'testutils.c' || echo '$(srcdir)/'`testutils.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/rtp_conference-testutils.Tpo $(DEPDIR)/rtp_conference-testutils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='testutils.c' object='rtp_conference-testutils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtp_conference_CFLAGS) $(CFLAGS) -c -o rtp_conference-testutils.o `test -f 'testutils.c' || echo '$(srcdir)/'`testutils.c
+
+rtp_conference-testutils.obj: testutils.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtp_conference_CFLAGS) $(CFLAGS) -MT rtp_conference-testutils.obj -MD -MP -MF $(DEPDIR)/rtp_conference-testutils.Tpo -c -o rtp_conference-testutils.obj `if test -f 'testutils.c'; then $(CYGPATH_W) 'testutils.c'; else $(CYGPATH_W) '$(srcdir)/testutils.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/rtp_conference-testutils.Tpo $(DEPDIR)/rtp_conference-testutils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='testutils.c' object='rtp_conference-testutils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtp_conference_CFLAGS) $(CFLAGS) -c -o rtp_conference-testutils.obj `if test -f 'testutils.c'; then $(CYGPATH_W) 'testutils.c'; else $(CYGPATH_W) '$(srcdir)/testutils.c'; fi`
 
 rtp_conference-generic.o: rtp/generic.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtp_conference_CFLAGS) $(CFLAGS) -MT rtp_conference-generic.o -MD -MP -MF $(DEPDIR)/rtp_conference-generic.Tpo -c -o rtp_conference-generic.o `test -f 'rtp/generic.c' || echo '$(srcdir)/'`rtp/generic.c
@@ -725,6 +811,20 @@ rtp_sendcodecs-sendcodecs.obj: rtp/sendcodecs.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rtp/sendcodecs.c' object='rtp_sendcodecs-sendcodecs.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rtp_sendcodecs_CFLAGS) $(CFLAGS) -c -o rtp_sendcodecs-sendcodecs.obj `if test -f 'rtp/sendcodecs.c'; then $(CYGPATH_W) 'rtp/sendcodecs.c'; else $(CYGPATH_W) '$(srcdir)/rtp/sendcodecs.c'; fi`
+
+transmitter_multicast-testutils.o: testutils.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_multicast_CFLAGS) $(CFLAGS) -MT transmitter_multicast-testutils.o -MD -MP -MF $(DEPDIR)/transmitter_multicast-testutils.Tpo -c -o transmitter_multicast-testutils.o `test -f 'testutils.c' || echo '$(srcdir)/'`testutils.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/transmitter_multicast-testutils.Tpo $(DEPDIR)/transmitter_multicast-testutils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='testutils.c' object='transmitter_multicast-testutils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_multicast_CFLAGS) $(CFLAGS) -c -o transmitter_multicast-testutils.o `test -f 'testutils.c' || echo '$(srcdir)/'`testutils.c
+
+transmitter_multicast-testutils.obj: testutils.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_multicast_CFLAGS) $(CFLAGS) -MT transmitter_multicast-testutils.obj -MD -MP -MF $(DEPDIR)/transmitter_multicast-testutils.Tpo -c -o transmitter_multicast-testutils.obj `if test -f 'testutils.c'; then $(CYGPATH_W) 'testutils.c'; else $(CYGPATH_W) '$(srcdir)/testutils.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/transmitter_multicast-testutils.Tpo $(DEPDIR)/transmitter_multicast-testutils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='testutils.c' object='transmitter_multicast-testutils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_multicast_CFLAGS) $(CFLAGS) -c -o transmitter_multicast-testutils.obj `if test -f 'testutils.c'; then $(CYGPATH_W) 'testutils.c'; else $(CYGPATH_W) '$(srcdir)/testutils.c'; fi`
 
 transmitter_multicast-generic.o: transmitter/generic.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_multicast_CFLAGS) $(CFLAGS) -MT transmitter_multicast-generic.o -MD -MP -MF $(DEPDIR)/transmitter_multicast-generic.Tpo -c -o transmitter_multicast-generic.o `test -f 'transmitter/generic.c' || echo '$(srcdir)/'`transmitter/generic.c
@@ -852,6 +952,34 @@ transmitter_rawudp-rawudp-upnp.obj: transmitter/rawudp-upnp.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_rawudp_CFLAGS) $(CFLAGS) -c -o transmitter_rawudp-rawudp-upnp.obj `if test -f 'transmitter/rawudp-upnp.c'; then $(CYGPATH_W) 'transmitter/rawudp-upnp.c'; else $(CYGPATH_W) '$(srcdir)/transmitter/rawudp-upnp.c'; fi`
 
+transmitter_rawudp-stunalternd.o: transmitter/stunalternd.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_rawudp_CFLAGS) $(CFLAGS) -MT transmitter_rawudp-stunalternd.o -MD -MP -MF $(DEPDIR)/transmitter_rawudp-stunalternd.Tpo -c -o transmitter_rawudp-stunalternd.o `test -f 'transmitter/stunalternd.c' || echo '$(srcdir)/'`transmitter/stunalternd.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/transmitter_rawudp-stunalternd.Tpo $(DEPDIR)/transmitter_rawudp-stunalternd.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='transmitter/stunalternd.c' object='transmitter_rawudp-stunalternd.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_rawudp_CFLAGS) $(CFLAGS) -c -o transmitter_rawudp-stunalternd.o `test -f 'transmitter/stunalternd.c' || echo '$(srcdir)/'`transmitter/stunalternd.c
+
+transmitter_rawudp-stunalternd.obj: transmitter/stunalternd.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_rawudp_CFLAGS) $(CFLAGS) -MT transmitter_rawudp-stunalternd.obj -MD -MP -MF $(DEPDIR)/transmitter_rawudp-stunalternd.Tpo -c -o transmitter_rawudp-stunalternd.obj `if test -f 'transmitter/stunalternd.c'; then $(CYGPATH_W) 'transmitter/stunalternd.c'; else $(CYGPATH_W) '$(srcdir)/transmitter/stunalternd.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/transmitter_rawudp-stunalternd.Tpo $(DEPDIR)/transmitter_rawudp-stunalternd.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='transmitter/stunalternd.c' object='transmitter_rawudp-stunalternd.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(transmitter_rawudp_CFLAGS) $(CFLAGS) -c -o transmitter_rawudp-stunalternd.obj `if test -f 'transmitter/stunalternd.c'; then $(CYGPATH_W) 'transmitter/stunalternd.c'; else $(CYGPATH_W) '$(srcdir)/transmitter/stunalternd.c'; fi`
+
+utils_binadded-testutils.o: testutils.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(utils_binadded_CFLAGS) $(CFLAGS) -MT utils_binadded-testutils.o -MD -MP -MF $(DEPDIR)/utils_binadded-testutils.Tpo -c -o utils_binadded-testutils.o `test -f 'testutils.c' || echo '$(srcdir)/'`testutils.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/utils_binadded-testutils.Tpo $(DEPDIR)/utils_binadded-testutils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='testutils.c' object='utils_binadded-testutils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(utils_binadded_CFLAGS) $(CFLAGS) -c -o utils_binadded-testutils.o `test -f 'testutils.c' || echo '$(srcdir)/'`testutils.c
+
+utils_binadded-testutils.obj: testutils.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(utils_binadded_CFLAGS) $(CFLAGS) -MT utils_binadded-testutils.obj -MD -MP -MF $(DEPDIR)/utils_binadded-testutils.Tpo -c -o utils_binadded-testutils.obj `if test -f 'testutils.c'; then $(CYGPATH_W) 'testutils.c'; else $(CYGPATH_W) '$(srcdir)/testutils.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/utils_binadded-testutils.Tpo $(DEPDIR)/utils_binadded-testutils.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='testutils.c' object='utils_binadded-testutils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(utils_binadded_CFLAGS) $(CFLAGS) -c -o utils_binadded-testutils.obj `if test -f 'testutils.c'; then $(CYGPATH_W) 'testutils.c'; else $(CYGPATH_W) '$(srcdir)/testutils.c'; fi`
+
 utils_binadded-binadded.o: utils/binadded.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(utils_binadded_CFLAGS) $(CFLAGS) -MT utils_binadded-binadded.o -MD -MP -MF $(DEPDIR)/utils_binadded-binadded.Tpo -c -o utils_binadded-binadded.o `test -f 'utils/binadded.c' || echo '$(srcdir)/'`utils/binadded.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/utils_binadded-binadded.Tpo $(DEPDIR)/utils_binadded-binadded.Po
@@ -873,6 +1001,7 @@ clean-libtool:
 	-rm -rf .libs _libs
 	-rm -rf base/.libs base/_libs
 	-rm -rf elements/.libs elements/_libs
+	-rm -rf msn/.libs msn/_libs
 	-rm -rf rtp/.libs rtp/_libs
 	-rm -rf transmitter/.libs transmitter/_libs
 	-rm -rf utils/.libs utils/_libs
@@ -1065,6 +1194,7 @@ distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-rm -f base/$(am__dirstamp)
 	-rm -f elements/$(am__dirstamp)
+	-rm -f msn/$(am__dirstamp)
 	-rm -f rtp/$(am__dirstamp)
 	-rm -f transmitter/$(am__dirstamp)
 	-rm -f utils/$(am__dirstamp)
@@ -1147,10 +1277,10 @@ uninstall-am:
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags uninstall uninstall-am
 
+
+# keep target around, since it's referenced in the modules' Makefiles
 clean-local-check:
-	for i in `find . -name ".libs" -type d`; do \
-	  rm -rf $$i; \
-	done
+	@echo
 
 # hangs spectacularly on some machines, so let's not do this by default yet
 @HAVE_VALGRIND_TRUE@check-valgrind:

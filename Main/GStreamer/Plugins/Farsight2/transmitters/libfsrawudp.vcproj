@@ -294,6 +294,10 @@
 			ReferencedProjectIdentifier="{EB5D7598-7014-42D3-886C-9B9EC38167C3}"
 			RelativePathToProject=".\Main\GStreamer\Plugins\Farsight2\gst-libs\libgstfarsight.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{6D935778-C3CD-4A93-9434-58CBCF2D85DB}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\ext\libnice.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter

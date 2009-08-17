@@ -62,21 +62,20 @@ enum
   PROP_0,
   PROP_GST_SINK,
   PROP_GST_SRC,
-  PROP_COMPONENTS
+  PROP_COMPONENTS,
+  PROP_TYPE_OF_SERVICE
 };
 
+/*
 struct _FsTransmitterPrivate
 {
-  gboolean disposed;
 };
+*/
 
 G_DEFINE_ABSTRACT_TYPE(FsTransmitter, fs_transmitter, G_TYPE_OBJECT);
 
 #define FS_TRANSMITTER_GET_PRIVATE(o)  \
   (G_TYPE_INSTANCE_GET_PRIVATE ((o), FS_TYPE_TRANSMITTER, FsTransmitterPrivate))
-
-static void fs_transmitter_dispose (GObject *object);
-static void fs_transmitter_finalize (GObject *object);
 
 static void fs_transmitter_get_property (GObject *object,
                                          guint prop_id,
@@ -87,7 +86,6 @@ static void fs_transmitter_set_property (GObject *object,
                                          const GValue *value,
                                          GParamSpec *pspec);
 
-static GObjectClass *parent_class = NULL;
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
@@ -99,7 +97,6 @@ fs_transmitter_class_init (FsTransmitterClass *klass)
   fs_base_conference_init_debug ();
 
   gobject_class = (GObjectClass *) klass;
-  parent_class = g_type_class_peek_parent (klass);
 
   gobject_class->set_property = fs_transmitter_set_property;
   gobject_class->get_property = fs_transmitter_get_property;
@@ -122,7 +119,7 @@ fs_transmitter_class_init (FsTransmitterClass *klass)
         "The network source",
         "A source GstElement to be used by a FsSession",
         GST_TYPE_ELEMENT,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsTransmitter:gst-sink:
@@ -141,7 +138,7 @@ fs_transmitter_class_init (FsTransmitterClass *klass)
         "The network source",
         "A source GstElement to be used by a FsSession",
         GST_TYPE_ELEMENT,
-        G_PARAM_READABLE));
+        G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsTransmitter:components:
@@ -154,7 +151,20 @@ fs_transmitter_class_init (FsTransmitterClass *klass)
         "Number of componnets",
         "The number of components to create",
         1, 255, 1,
-        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
+  /**
+   * FsTransmitter:tos:
+   *
+   * Sets the IP ToS field (and if possible the IPv6 TCLASS field
+   */
+  g_object_class_install_property (gobject_class,
+      PROP_TYPE_OF_SERVICE,
+      g_param_spec_uint ("tos",
+          "IP Type of Service",
+          "The IP Type of Service to set on sent packets",
+          0, 255, 0,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * FsTransmitter::error:
@@ -200,40 +210,13 @@ fs_transmitter_class_init (FsTransmitterClass *klass)
       GST_TYPE_ELEMENT, 1, G_TYPE_UINT);
 
 
-  gobject_class->dispose = fs_transmitter_dispose;
-  gobject_class->finalize = fs_transmitter_finalize;
-
-  g_type_class_add_private (klass, sizeof (FsTransmitterPrivate));
+  //g_type_class_add_private (klass, sizeof (FsTransmitterPrivate));
 }
 
 static void
 fs_transmitter_init (FsTransmitter *self)
 {
-  /* member init */
-  self->priv = FS_TRANSMITTER_GET_PRIVATE (self);
-  self->priv->disposed = FALSE;
-}
-
-static void
-fs_transmitter_dispose (GObject *object)
-{
-  FsTransmitter *self = FS_TRANSMITTER (object);
-
-  if (self->priv->disposed) {
-    /* If dispose did already run, return. */
-    return;
-  }
-
-  /* Make sure dispose does not run twice. */
-  self->priv->disposed = TRUE;
-
-  parent_class->dispose (object);
-}
-
-static void
-fs_transmitter_finalize (GObject *object)
-{
-  parent_class->finalize (object);
+  // self->priv = FS_TRANSMITTER_GET_PRIVATE (self);
 }
 
 static void
@@ -300,6 +283,7 @@ fs_transmitter_new_stream_transmitter (FsTransmitter *transmitter,
  * fs_transmitter_new:
  * @type: The type of transmitter to create
  * @components: The number of components to create
+ * @tos: The Type of Service of the socket, max is 255
  * @error: location of a #GError, or NULL if no error occured
  *
  * This function creates a new transmitter of the requested type.
@@ -310,14 +294,20 @@ fs_transmitter_new_stream_transmitter (FsTransmitter *transmitter,
  */
 
 FsTransmitter *
-fs_transmitter_new (const gchar *type, guint components, GError **error)
+fs_transmitter_new (const gchar *type,
+    guint components,
+    guint tos,
+    GError **error)
 {
   FsTransmitter *self = NULL;
 
   g_return_val_if_fail (type != NULL, NULL);
+  g_return_val_if_fail (tos >= 0 && tos <= 255, NULL);
 
   self = FS_TRANSMITTER (fs_plugin_create (type, "transmitter", error,
-      "components", components, NULL));
+          "components", components,
+          "tos", tos,
+          NULL));
 
   if (!self)
     return NULL;

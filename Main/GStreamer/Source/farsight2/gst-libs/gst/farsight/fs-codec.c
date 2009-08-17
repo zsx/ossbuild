@@ -329,7 +329,7 @@ fs_codec_list_from_keyfile (const gchar *filename, GError **error)
     }
 
     for (j = 0; j < keys_count && keys[j]; j++) {
-      if (!strcmp ("clock-rate", keys[j])) {
+      if (!g_ascii_strcasecmp ("clock-rate", keys[j])) {
         codec->clock_rate = g_key_file_get_integer (keyfile, groups[i], keys[j],
             &gerror);
         if (gerror) {
@@ -337,7 +337,7 @@ fs_codec_list_from_keyfile (const gchar *filename, GError **error)
           goto keyerror;
         }
 
-      } else if (!strcmp ("id", keys[j])) {
+      } else if (!g_ascii_strcasecmp ("id", keys[j])) {
          codec->id = g_key_file_get_integer (keyfile, groups[i], keys[j],
             &gerror);
         if (gerror) {
@@ -348,7 +348,7 @@ fs_codec_list_from_keyfile (const gchar *filename, GError **error)
         if (codec->id < 0)
           codec->id = FS_CODEC_ID_DISABLE;
 
-      } else if (!strcmp ("channels", keys[j])) {
+      } else if (!g_ascii_strcasecmp ("channels", keys[j])) {
          codec->channels = g_key_file_get_integer (keyfile, groups[i], keys[j],
             &gerror);
         if (gerror) {
@@ -485,7 +485,7 @@ compare_lists (GList *list1, GList *list2)
          item2 = g_list_next (item2)) {
       FsCodecParameter *param2 = item2->data;
 
-      if (!strcmp (param1->name, param2->name) &&
+      if (!g_ascii_strcasecmp (param1->name, param2->name) &&
           !strcmp (param1->value, param2->value))
         break;
     }
@@ -524,7 +524,7 @@ fs_codec_are_equal (const FsCodec *codec1, const FsCodec *codec2)
       codec1->channels != codec2->channels ||
       codec1->encoding_name == NULL ||
       codec2->encoding_name == NULL ||
-      strcmp (codec1->encoding_name, codec2->encoding_name))
+      g_ascii_strcasecmp (codec1->encoding_name, codec2->encoding_name))
     return FALSE;
 
 

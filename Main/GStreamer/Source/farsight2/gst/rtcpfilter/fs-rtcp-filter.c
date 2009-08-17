@@ -38,6 +38,8 @@
 
 #include <gst/rtp/gstrtcpbuffer.h>
 
+#include <string.h>
+
 GST_DEBUG_CATEGORY (rtcp_filter_debug);
 #define GST_CAT_DEFAULT (rtcp_filter_debug)
 
@@ -128,7 +130,7 @@ fs_rtcp_filter_class_init (FsRtcpFilterClass *klass)
           "Sending RTP?",
           "If set to FALSE, it assumes that all RTP has been dropped",
           FALSE,
-          G_PARAM_READWRITE));
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -197,20 +199,43 @@ fs_rtcp_filter_transform_ip (GstBaseTransform *transform, GstBuffer *buf)
     GstRTCPPacket packet;
     gboolean modified = FALSE;
 
-    gst_rtcp_buffer_get_first_packet (buf, &packet);
-
-    for (;;)
+    if (gst_rtcp_buffer_get_first_packet (buf, &packet))
     {
-      if (gst_rtcp_packet_get_type (&packet) == GST_RTCP_TYPE_SR)
+      for (;;)
       {
-        if (!gst_rtcp_packet_remove (&packet))
-          break;
-        modified = TRUE;
-      }
-      else
-      {
-        if (!gst_rtcp_packet_move_to_next (&packet))
-          break;
+        if (gst_rtcp_packet_get_type (&packet) == GST_RTCP_TYPE_SR)
+        {
+          GstRTCPPacket nextpacket = packet;
+
+          modified = TRUE;
+          if (gst_rtcp_packet_move_to_next (&nextpacket) &&
+              gst_rtcp_packet_get_type (&nextpacket) == GST_RTCP_TYPE_RR)
+          {
+            if (!gst_rtcp_packet_remove (&packet))
+              break;
+          }
+          else
+          {
+            guchar *data = GST_BUFFER_DATA (buf) + packet.offset;
+
+            /* If there is no RR, lets add an empty one */
+            data[0] = (GST_RTCP_VERSION << 6);
+            data[1] = GST_RTCP_TYPE_RR;
+            data[2] = 0;
+            data[3] = 1;
+            memmove (GST_BUFFER_DATA (buf) + packet.offset + 8,
+                GST_BUFFER_DATA (buf) + nextpacket.offset,
+                GST_BUFFER_SIZE (buf) - nextpacket.offset);
+            if (!gst_rtcp_buffer_get_first_packet (buf, &packet))
+              break;
+          }
+
+        }
+        else
+        {
+          if (!gst_rtcp_packet_move_to_next (&packet))
+            break;
+        }
       }
     }
 
