@@ -39,10 +39,10 @@ Source: "..\..\Shared\Build\Windows\Win32\etc\*"; DestDir: "{app}\etc"; Flags: i
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild}"; Filename: "{uninstallexe}"
+Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild (LGPL)}"; Filename: "{uninstallexe}"
 
 [Icons]
-Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild}"; Filename: "{uninstallexe}"
+Name: "{group}\{cm:UninstallProgram,GStreamer WinBuild (LGPL)}"; Filename: "{uninstallexe}"
 
 [Registry]
 Root: HKCU; Subkey: "Environment"; ValueName: "PATH"; ValueType: string; ValueData: "{code:BinPath|{olddata}}"
