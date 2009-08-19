@@ -33,7 +33,7 @@ Source: "..\..\Licenses\*"; DestDir: "{app}\share\licenses"; Flags: ignoreversio
 Source: "..\..\Libraries\ReadMe - GPL.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
 Source: "..\..\Libraries\ReadMe-BSD.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
 Source: ".\COPYING"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\plugins\*.dll"; DestDir: "{app}\lib\gstreamer-0.10"; Flags: "ignoreversion"; Excludes: "*transmitter*,libgstffmpeggpl.dll,libnice.dll, libgstxvid.dll, libgsta52.dll, libgstmpeg2dec.dll, libgstfaad.dll. libgstfaac.dll, libgstdvdread.dll, libgstresindvd.dll, libgstdts.dll, libgstopengl.dll,libgstpng.dll,libgstsoup.dll"
+Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\plugins\*.dll"; DestDir: "{app}\lib\gstreamer-0.10"; Flags: "ignoreversion"; Excludes: "*transmitter*,libgstffmpeggpl.dll,libnice.dll, libgstxvid.dll, libgsta52dec.dll, libgstmpeg2dec.dll, libgstfaad.dll, libgstfaac.dll, libgstdvdread.dll, libgstresindvd.dll, libgstdts.dll, libgstopengl.dll,libgstpng.dll,libgstsoup.dll, libgstwavpack.dll"
 Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\plugins\*transmitter*"; DestDir: "{app}\lib\farsight2-0.0"; Flags: "ignoreversion";
 Source: "..\..\Shared\Build\Windows\Win32\etc\*"; DestDir: "{app}\etc"; Flags: ignoreversion  recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
