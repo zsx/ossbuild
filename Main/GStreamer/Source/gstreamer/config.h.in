@@ -175,7 +175,7 @@
 /* defined if the compiler implements __PRETTY_FUNCTION__ */
 #undef HAVE_PRETTY_FUNCTION
 
-/* Defined if we have register_printf_function () */
+/* Defined if we have printf specifier extensions available */
 #undef HAVE_PRINTF_EXTENSION
 
 /* Define to 1 if you have the <process.h> header file. */
@@ -184,8 +184,17 @@
 /* Define to 1 if you have the `pselect' function. */
 #undef HAVE_PSELECT
 
+/* Define to 1 if you have the <pthread.h> header file. */
+#undef HAVE_PTHREAD_H
+
 /* Define if RDTSC is available */
 #undef HAVE_RDTSC
+
+/* Define to 1 if you have the `register_printf_function' function. */
+#undef HAVE_REGISTER_PRINTF_FUNCTION
+
+/* Define to 1 if you have the `register_printf_specifier' function. */
+#undef HAVE_REGISTER_PRINTF_SPECIFIER
 
 /* Define to 1 if you have the `sigaction' function. */
 #undef HAVE_SIGACTION
@@ -284,9 +293,6 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
-/* Define if we should use binary registry instead xml registry */
-#undef USE_BINARY_REGISTRY
-
 /* Define if we should poison deallocated memory */
 #undef USE_POISONING
 
@@ -316,9 +322,3 @@
 
 /* We need at least WinXP SP2 for __stat64 */
 #undef __MSVCRT_VERSION__
-
-/* Define to `__inline__' or `__inline' if that's what the C compiler
-   calls it, or to nothing if 'inline' is not supported under any name.  */
-#ifndef __cplusplus
-#undef inline
-#endif

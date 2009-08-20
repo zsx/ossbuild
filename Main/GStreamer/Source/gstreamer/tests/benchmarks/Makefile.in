@@ -32,8 +32,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = caps$(EXEEXT) complexity$(EXEEXT) init$(EXEEXT) \
-	mass-elements$(EXEEXT) gstpollstress$(EXEEXT)
+noinst_PROGRAMS = caps$(EXEEXT) complexity$(EXEEXT) \
+	controller$(EXEEXT) init$(EXEEXT) mass-elements$(EXEEXT) \
+	gstpollstress$(EXEEXT) gstclockstress$(EXEEXT)
 subdir = tests/benchmarks
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -91,6 +92,17 @@ complexity_SOURCES = complexity.c
 complexity_OBJECTS = complexity.$(OBJEXT)
 complexity_LDADD = $(LDADD)
 complexity_DEPENDENCIES = $(am__DEPENDENCIES_1)
+controller_SOURCES = controller.c
+controller_OBJECTS = controller-controller.$(OBJEXT)
+controller_LDADD = $(LDADD)
+controller_DEPENDENCIES = $(am__DEPENDENCIES_1)
+controller_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(controller_CFLAGS) \
+	$(CFLAGS) $(controller_LDFLAGS) $(LDFLAGS) -o $@
+gstclockstress_SOURCES = gstclockstress.c
+gstclockstress_OBJECTS = gstclockstress.$(OBJEXT)
+gstclockstress_LDADD = $(LDADD)
+gstclockstress_DEPENDENCIES = $(am__DEPENDENCIES_1)
 gstpollstress_SOURCES = gstpollstress.c
 gstpollstress_OBJECTS = gstpollstress.$(OBJEXT)
 gstpollstress_LDADD = $(LDADD)
@@ -115,9 +127,10 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = caps.c complexity.c gstpollstress.c init.c mass-elements.c
-DIST_SOURCES = caps.c complexity.c gstpollstress.c init.c \
-	mass-elements.c
+SOURCES = caps.c complexity.c controller.c gstclockstress.c \
+	gstpollstress.c init.c mass-elements.c
+DIST_SOURCES = caps.c complexity.c controller.c gstclockstress.c \
+	gstpollstress.c init.c mass-elements.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -374,6 +387,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 LDADD = $(GST_OBJ_LIBS)
 AM_CFLAGS = $(GST_OBJ_CFLAGS)
+controller_CFLAGS = $(GST_OBJ_CFLAGS) -I$(top_builddir)/libs
+controller_LDFLAGS = $(top_builddir)/libs/gst/controller/libgstcontroller-@GST_MAJORMINOR@.la
 all: all-am
 
 .SUFFIXES:
@@ -420,6 +435,12 @@ caps$(EXEEXT): $(caps_OBJECTS) $(caps_DEPENDENCIES)
 complexity$(EXEEXT): $(complexity_OBJECTS) $(complexity_DEPENDENCIES) 
 	@rm -f complexity$(EXEEXT)
 	$(LINK) $(complexity_OBJECTS) $(complexity_LDADD) $(LIBS)
+controller$(EXEEXT): $(controller_OBJECTS) $(controller_DEPENDENCIES) 
+	@rm -f controller$(EXEEXT)
+	$(controller_LINK) $(controller_OBJECTS) $(controller_LDADD) $(LIBS)
+gstclockstress$(EXEEXT): $(gstclockstress_OBJECTS) $(gstclockstress_DEPENDENCIES) 
+	@rm -f gstclockstress$(EXEEXT)
+	$(LINK) $(gstclockstress_OBJECTS) $(gstclockstress_LDADD) $(LIBS)
 gstpollstress$(EXEEXT): $(gstpollstress_OBJECTS) $(gstpollstress_DEPENDENCIES) 
 	@rm -f gstpollstress$(EXEEXT)
 	$(LINK) $(gstpollstress_OBJECTS) $(gstpollstress_LDADD) $(LIBS)
@@ -438,6 +459,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/caps.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/complexity.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/controller-controller.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gstclockstress.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gstpollstress.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/init.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mass-elements.Po@am__quote@
@@ -462,6 +485,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+controller-controller.o: controller.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(controller_CFLAGS) $(CFLAGS) -MT controller-controller.o -MD -MP -MF $(DEPDIR)/controller-controller.Tpo -c -o controller-controller.o `test -f 'controller.c' || echo '$(srcdir)/'`controller.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/controller-controller.Tpo $(DEPDIR)/controller-controller.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='controller.c' object='controller-controller.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(controller_CFLAGS) $(CFLAGS) -c -o controller-controller.o `test -f 'controller.c' || echo '$(srcdir)/'`controller.c
+
+controller-controller.obj: controller.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(controller_CFLAGS) $(CFLAGS) -MT controller-controller.obj -MD -MP -MF $(DEPDIR)/controller-controller.Tpo -c -o controller-controller.obj `if test -f 'controller.c'; then $(CYGPATH_W) 'controller.c'; else $(CYGPATH_W) '$(srcdir)/controller.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/controller-controller.Tpo $(DEPDIR)/controller-controller.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='controller.c' object='controller-controller.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(controller_CFLAGS) $(CFLAGS) -c -o controller-controller.obj `if test -f 'controller.c'; then $(CYGPATH_W) 'controller.c'; else $(CYGPATH_W) '$(srcdir)/controller.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.8.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-10 22:30+0100\n"
+"POT-Creation-Date: 2009-08-04 23:00+0100\n"
 "PO-Revision-Date: 2005-04-27 14:55+0800\n"
 "Last-Translator: Abel Cheung <abelcheung@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -123,9 +123,10 @@ msgstr "GStreamer 開發人員未用任何錯誤碼判定這類錯誤。請匯�
 msgid "Internal GStreamer error: code not implemented."
 msgstr "GStreamer 內部錯誤：未完成編程。請匯報錯誤。"
 
-#, fuzzy
-msgid "Internal GStreamer error: state change failed."
-msgstr "GStreamer 內部錯誤：無法更改狀態。請匯報錯誤。"
+msgid ""
+"GStreamer error: state change failed and some element failed to post a "
+"proper error message with the reason for the failure."
+msgstr ""
 
 #, fuzzy
 msgid "Internal GStreamer error: pad problem."
@@ -473,6 +474,14 @@ msgstr "視像編碼"
 msgid "codec the subtitle data is stored in"
 msgstr "音效"
 
+#, fuzzy
+msgid "container format"
+msgstr "連絡資訊"
+
+#, fuzzy
+msgid "container format the data is stored in"
+msgstr "音效"
+
 msgid "bitrate"
 msgstr "位元率"
 
@@ -587,7 +596,7 @@ msgid "geo location name"
 msgstr "位置"
 
 msgid ""
-"human readable descriptive location or where the media has been recorded or "
+"human readable descriptive location of where the media has been recorded or "
 "produced"
 msgstr ""
 
@@ -679,6 +688,9 @@ msgstr ""
 msgid "Internal data flow error."
 msgstr ""
 
+msgid "A lot of buffers are being dropped."
+msgstr ""
+
 msgid "Internal data flow problem."
 msgstr ""
 
@@ -691,14 +703,6 @@ msgstr ""
 msgid ""
 "Restrict the possible allowed capabilities (NULL means ANY). Setting this "
 "property takes a reference to the supplied GstCaps object."
-msgstr ""
-
-#, fuzzy, c-format
-msgid "Error while writing to file descriptor \"%d\"."
-msgstr "當寫入內容至檔案 “%s” 時發生錯誤。"
-
-#, c-format
-msgid "File descriptor \"%d\" is not valid."
 msgstr ""
 
 msgid "No file name specified for writing."
@@ -836,7 +840,20 @@ msgstr "錯誤：無法解析指令的第 %d 個參數：%s。\n"
 msgid "WARNING: element named '%s' not found.\n"
 msgstr ""
 
-msgid "Got Message #%"
+#, c-format
+msgid "Got message #%u from element \"%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u from pad \"%s:%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u from object \"%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u (%s): "
 msgstr ""
 
 #, fuzzy, c-format
@@ -845,6 +862,17 @@ msgstr "錯誤：來自 %s 元件：%s\n"
 
 #, c-format
 msgid "FOUND TAG      : found by element \"%s\".\n"
+msgstr ""
+
+#, c-format
+msgid "FOUND TAG      : found by pad \"%s:%s\".\n"
+msgstr ""
+
+#, c-format
+msgid "FOUND TAG      : found by object \"%s\".\n"
+msgstr ""
+
+msgid "FOUND TAG\n"
 msgstr ""
 
 #, c-format
@@ -992,6 +1020,9 @@ msgstr "執行管線 ...\n"
 
 #~ msgid "Scheduler to use (default is '%s')"
 #~ msgstr "準備使用的排程器 (預設為 ‘%s’)"
+
+#~ msgid "Internal GStreamer error: state change failed.  File a bug."
+#~ msgstr "GStreamer 內部錯誤：無法更改狀態。請匯報錯誤。"
 
 #~ msgid "Internal GStreamer error: scheduler problem.  File a bug."
 #~ msgstr "GStreamer 內部錯誤：排程器發生問題。請匯報錯誤。"

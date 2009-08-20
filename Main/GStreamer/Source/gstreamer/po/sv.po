@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.10.22.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-10 22:30+0100\n"
+"POT-Creation-Date: 2009-08-04 23:00+0100\n"
 "PO-Revision-Date: 2009-04-19 10:57+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -125,8 +125,10 @@ msgstr ""
 msgid "Internal GStreamer error: code not implemented."
 msgstr "Internt GStreamer-fel: koden inte implementerad."
 
-msgid "Internal GStreamer error: state change failed."
-msgstr "Internt GStreamer-fel: tillståndsändring misslyckades."
+msgid ""
+"GStreamer error: state change failed and some element failed to post a "
+"proper error message with the reason for the failure."
+msgstr ""
 
 # Richard Hult säger: "Pad" i gstreamer betyder ungefär "kontakt", man
 # kopplar ihop två element via deras "pads".
@@ -464,6 +466,14 @@ msgstr "kodek för undertext"
 msgid "codec the subtitle data is stored in"
 msgstr "kodek som undertextdata lagrats med"
 
+#, fuzzy
+msgid "container format"
+msgstr "kontaktinformation"
+
+#, fuzzy
+msgid "container format the data is stored in"
+msgstr "komprimeringsmetod som dessa data lagras med"
+
 msgid "bitrate"
 msgstr "bitfrekvens"
 
@@ -580,8 +590,9 @@ msgstr "kommaseparerade nyckelord som beskriver innehållet"
 msgid "geo location name"
 msgstr "geografiskt platsnamn"
 
+#, fuzzy
 msgid ""
-"human readable descriptive location or where the media has been recorded or "
+"human readable descriptive location of where the media has been recorded or "
 "produced"
 msgstr ""
 "mänskligt läslig beskrivande plats eller var mediet har spelats in eller "
@@ -685,6 +696,9 @@ msgstr "Internt klockfel."
 msgid "Internal data flow error."
 msgstr "Internt fel i dataflöde."
 
+msgid "A lot of buffers are being dropped."
+msgstr ""
+
 msgid "Internal data flow problem."
 msgstr "Internt dataflödesproblem."
 
@@ -700,14 +714,6 @@ msgid ""
 msgstr ""
 "Begränsa de möjliga tillåtna förmågorna (NULL betyder ANY). Inställning av "
 "egenskapen tar en referens till det angivna GstCaps-objektet."
-
-#, c-format
-msgid "Error while writing to file descriptor \"%d\"."
-msgstr "Fel vid skrivning till filbeskrivaren \"%d\"."
-
-#, c-format
-msgid "File descriptor \"%d\" is not valid."
-msgstr "Filbeskrivaren \"%d\" är ogiltig."
 
 msgid "No file name specified for writing."
 msgstr "Inget filnamn angivet för skrivning."
@@ -850,7 +856,20 @@ msgstr "FEL: kunde inte tolka kommandoradsargumentet %d: %s.\n"
 msgid "WARNING: element named '%s' not found.\n"
 msgstr "VARNING: elementet med namnet \"%s\" hittades inte.\n"
 
-msgid "Got Message #%"
+#, fuzzy, c-format
+msgid "Got message #%u from element \"%s\" (%s): "
+msgstr "Fick meddelande från element \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u from pad \"%s:%s\" (%s): "
+msgstr "Fick meddelande från element \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u from object \"%s\" (%s): "
+msgstr "Fick meddelande från element \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u (%s): "
 msgstr "Fick meddelande #%"
 
 #, c-format
@@ -860,6 +879,17 @@ msgstr "Fick EOS från element \"%s\".\n"
 #, c-format
 msgid "FOUND TAG      : found by element \"%s\".\n"
 msgstr "HITTADE TAGG   : hittat av elementet \"%s\".\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by pad \"%s:%s\".\n"
+msgstr "HITTADE TAGG   : hittat av elementet \"%s\".\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by object \"%s\".\n"
+msgstr "HITTADE TAGG   : hittat av elementet \"%s\".\n"
+
+msgid "FOUND TAG\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -993,11 +1023,17 @@ msgstr "Ställer in rörledningen till NULL...\n"
 msgid "Freeing pipeline ...\n"
 msgstr "Frigör rörledning ...\n"
 
+#~ msgid "Internal GStreamer error: state change failed."
+#~ msgstr "Internt GStreamer-fel: tillståndsändring misslyckades."
+
+#~ msgid "Error while writing to file descriptor \"%d\"."
+#~ msgstr "Fel vid skrivning till filbeskrivaren \"%d\"."
+
+#~ msgid "File descriptor \"%d\" is not valid."
+#~ msgstr "Filbeskrivaren \"%d\" är ogiltig."
+
 #~ msgid "FREEING pipeline ...\n"
 #~ msgstr "FRIGÖR rörledning...\n"
-
-#~ msgid "Got Message from element \"%s\" (%s): "
-#~ msgstr "Fick meddelande från element \"%s\" (%s): "
 
 #~ msgid "original location of file as a URI"
 #~ msgstr "ursprunglig plats för filen som en URI"

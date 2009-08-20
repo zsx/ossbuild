@@ -175,6 +175,7 @@ fs_error_get_type (void)
       { FS_ERROR_NO_CODECS_LEFT, "FS_ERROR_NO_CODECS_LEFT", "no-codecs-left" },
       { FS_ERROR_CONNECTION_FAILED, "FS_ERROR_CONNECTION_FAILED", "connection-failed" },
       { FS_ERROR_DISPOSED, "FS_ERROR_DISPOSED", "disposed" },
+      { FS_ERROR_ALREADY_EXISTS, "FS_ERROR_ALREADY_EXISTS", "already-exists" },
       { 0, NULL, NULL }
     };
     etype = g_enum_register_static ("FsError", values);

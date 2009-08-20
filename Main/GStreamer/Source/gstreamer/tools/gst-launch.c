@@ -406,6 +406,7 @@ event_loop (GstElement * pipeline, gboolean blocking, GstState target_state)
 
     /* check if we need to dump messages to the console */
     if (messages) {
+      GstObject *src_obj;
       const GstStructure *s;
       guint32 seqnum;
 
@@ -413,10 +414,25 @@ event_loop (GstElement * pipeline, gboolean blocking, GstState target_state)
 
       s = gst_message_get_structure (message);
 
-      g_print (_("Got Message #%" G_GUINT32_FORMAT
-              " from element \"%s\" (%s): "), seqnum,
-          GST_STR_NULL (GST_ELEMENT_NAME (GST_MESSAGE_SRC (message))),
-          gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
+      src_obj = GST_MESSAGE_SRC (message);
+
+      if (GST_IS_ELEMENT (src_obj)) {
+        g_print (_("Got message #%u from element \"%s\" (%s): "),
+            (guint) seqnum, GST_ELEMENT_NAME (src_obj),
+            GST_MESSAGE_TYPE_NAME (message));
+      } else if (GST_IS_PAD (src_obj)) {
+        g_print (_("Got message #%u from pad \"%s:%s\" (%s): "),
+            (guint) seqnum, GST_DEBUG_PAD_NAME (src_obj),
+            GST_MESSAGE_TYPE_NAME (message));
+      } else if (GST_IS_OBJECT (src_obj)) {
+        g_print (_("Got message #%u from object \"%s\" (%s): "),
+            (guint) seqnum, GST_OBJECT_NAME (src_obj),
+            GST_MESSAGE_TYPE_NAME (message));
+      } else {
+        g_print (_("Got message #%u (%s): "), (guint) seqnum,
+            GST_MESSAGE_TYPE_NAME (message));
+      }
+
       if (s) {
         gchar *sstr;
 
@@ -448,19 +464,30 @@ event_loop (GstElement * pipeline, gboolean blocking, GstState target_state)
         gst_element_set_state (pipeline, GST_STATE_PLAYING);
 #endif
         break;
-      case GST_MESSAGE_EOS:
+      case GST_MESSAGE_EOS:{
         waiting_eos = FALSE;
-        g_print (_
-            ("Got EOS from element \"%s\".\n"),
-            GST_STR_NULL (GST_ELEMENT_NAME (GST_MESSAGE_SRC (message))));
+        g_print (_("Got EOS from element \"%s\".\n"),
+            GST_MESSAGE_SRC_NAME (message));
         goto exit;
+      }
       case GST_MESSAGE_TAG:
         if (tags) {
           GstTagList *tags;
 
+          if (GST_IS_ELEMENT (GST_MESSAGE_SRC (message))) {
+            g_print (_("FOUND TAG      : found by element \"%s\".\n"),
+                GST_MESSAGE_SRC_NAME (message));
+          } else if (GST_IS_PAD (GST_MESSAGE_SRC (message))) {
+            g_print (_("FOUND TAG      : found by pad \"%s:%s\".\n"),
+                GST_DEBUG_PAD_NAME (GST_MESSAGE_SRC (message)));
+          } else if (GST_IS_OBJECT (GST_MESSAGE_SRC (message))) {
+            g_print (_("FOUND TAG      : found by object \"%s\".\n"),
+                GST_MESSAGE_SRC_NAME (message));
+          } else {
+            g_print (_("FOUND TAG\n"));
+          }
+
           gst_message_parse_tag (message, &tags);
-          g_print (_("FOUND TAG      : found by element \"%s\".\n"),
-              GST_STR_NULL (GST_ELEMENT_NAME (GST_MESSAGE_SRC (message))));
           gst_tag_list_foreach (tags, print_tag, NULL);
           gst_tag_list_free (tags);
         }
@@ -639,6 +666,7 @@ main (int argc, char *argv[])
   gboolean eos_on_shutdown = FALSE;
   gchar *savefile = NULL;
   gchar *exclude_args = NULL;
+#ifndef GST_DISABLE_OPTION_PARSING
   GOptionEntry options[] = {
     {"tags", 't', 0, G_OPTION_ARG_NONE, &tags,
         N_("Output tags (also known as metadata)"), NULL},
@@ -665,6 +693,7 @@ main (int argc, char *argv[])
   };
   GOptionContext *ctx;
   GError *err = NULL;
+#endif
   gchar **argvn;
   GError *error = NULL;
   gint res = 0;
@@ -682,6 +711,7 @@ main (int argc, char *argv[])
 
   gst_alloc_trace_set_flags_all (GST_ALLOC_TRACE_LIVE);
 
+#ifndef GST_DISABLE_OPTION_PARSING
   ctx = g_option_context_new ("PIPELINE-DESCRIPTION");
   g_option_context_add_main_entries (ctx, options, GETTEXT_PACKAGE);
   g_option_context_add_group (ctx, gst_init_get_option_group ());
@@ -693,6 +723,9 @@ main (int argc, char *argv[])
     exit (1);
   }
   g_option_context_free (ctx);
+#else
+  gst_init (&argc, &argv);
+#endif
 
   gst_tools_print_version ("gst-launch");
 
@@ -744,7 +777,7 @@ main (int argc, char *argv[])
   if (verbose) {
     gchar **exclude_list =
         exclude_args ? g_strsplit (exclude_args, ",", 0) : NULL;
-    g_signal_connect (pipeline, "deep_notify",
+    g_signal_connect (pipeline, "deep-notify",
         G_CALLBACK (gst_object_default_deep_notify), exclude_list);
   }
 #ifndef GST_DISABLE_LOADSAVE
@@ -850,13 +883,14 @@ main (int argc, char *argv[])
       g_print (_("Execution ended after %" G_GUINT64_FORMAT " ns.\n"), diff);
     }
 
-    /* iterate mainloop to process pending stuff */
-    while (g_main_context_iteration (NULL, FALSE));
-
     PRINT (_("Setting pipeline to PAUSED ...\n"));
     gst_element_set_state (pipeline, GST_STATE_PAUSED);
     if (caught_error == ELR_NO_ERROR)
       gst_element_get_state (pipeline, &state, &pending, GST_CLOCK_TIME_NONE);
+
+    /* iterate mainloop to process pending stuff */
+    while (g_main_context_iteration (NULL, FALSE));
+
     PRINT (_("Setting pipeline to READY ...\n"));
     gst_element_set_state (pipeline, GST_STATE_READY);
     gst_element_get_state (pipeline, &state, &pending, GST_CLOCK_TIME_NONE);

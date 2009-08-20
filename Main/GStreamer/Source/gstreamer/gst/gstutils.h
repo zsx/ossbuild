@@ -268,10 +268,10 @@ GST_BOILERPLATE_FULL (type, type_as_function, parent_type,              \
 
 /* Define PUT and GET functions for unaligned memory */
 #define _GST_GET(__data, __idx, __size, __shift) \
-    (((guint##__size) (((guint8 *) (__data))[__idx])) << __shift)
+    (((guint##__size) (((guint8 *) (__data))[__idx])) << (__shift))
 
 #define _GST_PUT(__data, __idx, __size, __shift, __num) \
-    (((guint8 *) (__data))[__idx] = (((guint##__size) __num) >> __shift) & 0xff)
+    (((guint8 *) (__data))[__idx] = (((guint##__size) (__num)) >> (__shift)) & 0xff)
 
 /**
  * GST_READ_UINT64_BE:
@@ -514,6 +514,8 @@ GST_BOILERPLATE_FULL (type, type_as_function, parent_type,              \
  *
  * Swap byte order of a 32-bit floating point value (float).
  *
+ * Returns: @in byte-swapped.
+ *
  * Since: 0.10.22
  *
  */
@@ -540,6 +542,8 @@ GFLOAT_SWAP_LE_BE(gfloat in)
  * @in: input value
  *
  * Swap byte order of a 64-bit floating point value (double).
+ *
+ * Returns: @in byte-swapped.
  *
  * Since: 0.10.22
  *
@@ -673,6 +677,8 @@ GDOUBLE_SWAP_LE_BE(gdouble in)
  *
  * Read a 32 bit float value in little endian format from the memory buffer.
  *
+ * Returns: The floating point value read from @data
+ *
  * Since: 0.10.22
  *
  */
@@ -698,6 +704,8 @@ GST_READ_FLOAT_LE(const guint8 *data)
  * @data: memory location
  *
  * Read a 32 bit float value in big endian format from the memory buffer.
+ *
+ * Returns: The floating point value read from @data
  *
  * Since: 0.10.22
  *
@@ -725,6 +733,8 @@ GST_READ_FLOAT_BE(const guint8 *data)
  *
  * Read a 64 bit double value in little endian format from the memory buffer.
  *
+ * Returns: The double-precision floating point value read from @data
+ *
  * Since: 0.10.22
  *
  */
@@ -750,6 +760,8 @@ GST_READ_DOUBLE_LE(const guint8 *data)
  * @data: memory location
  *
  * Read a 64 bit double value in big endian format from the memory buffer.
+ *
+ * Returns: The double-precision floating point value read from @data
  *
  * Since: 0.10.22
  *

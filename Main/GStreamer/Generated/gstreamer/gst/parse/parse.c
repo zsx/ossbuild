@@ -1,5 +1,5 @@
 
-#line 3 "D:\\OSSBuild\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
+#line 3 "C:\\ossbuild\\Main\\GStreamer\\.\\Generated\\gstreamer\\gst\\parse\\parse.c"
 
 #define  YY_INT_ALIGNED short int
 

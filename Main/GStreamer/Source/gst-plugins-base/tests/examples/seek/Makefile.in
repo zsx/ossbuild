@@ -77,7 +77,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 @HAVE_GTK_X11_TRUE@am__EXEEXT_1 = seek$(EXEEXT) scrubby$(EXEEXT)
-am__EXEEXT_2 = $(am__EXEEXT_1)
+am__EXEEXT_2 = $(am__EXEEXT_1) stepping$(EXEEXT) stepping2$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 scrubby_SOURCES = scrubby.c
 scrubby_OBJECTS = scrubby.$(OBJEXT)
@@ -89,6 +89,16 @@ seek_SOURCES = seek.c
 seek_OBJECTS = seek.$(OBJEXT)
 seek_LDADD = $(LDADD)
 seek_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(top_builddir)/gst-libs/gst/interfaces/libgstinterfaces-@GST_MAJORMINOR@.la
+stepping_SOURCES = stepping.c
+stepping_OBJECTS = stepping.$(OBJEXT)
+stepping_LDADD = $(LDADD)
+stepping_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(top_builddir)/gst-libs/gst/interfaces/libgstinterfaces-@GST_MAJORMINOR@.la
+stepping2_SOURCES = stepping2.c
+stepping2_OBJECTS = stepping2.$(OBJEXT)
+stepping2_LDADD = $(LDADD)
+stepping2_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(top_builddir)/gst-libs/gst/interfaces/libgstinterfaces-@GST_MAJORMINOR@.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -102,8 +112,8 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = scrubby.c seek.c
-DIST_SOURCES = scrubby.c seek.c
+SOURCES = scrubby.c seek.c stepping.c stepping2.c
+DIST_SOURCES = scrubby.c seek.c stepping.c stepping2.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -217,6 +227,8 @@ GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GTK_X11_CFLAGS = @GTK_X11_CFLAGS@
 GTK_X11_LIBS = @GTK_X11_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HAVE_CDPARANOIA = @HAVE_CDPARANOIA@
 HAVE_X = @HAVE_X@
 HAVE_XSHM = @HAVE_XSHM@
@@ -374,7 +386,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 @HAVE_GTK_X11_TRUE@GTK_EXAMPLES = seek scrubby
-examples = $(GTK_EXAMPLES)
+examples = $(GTK_EXAMPLES) stepping stepping2
 LDADD = $(GST_LIBS) $(GTK_LIBS) \
 	$(top_builddir)/gst-libs/gst/interfaces/libgstinterfaces-@GST_MAJORMINOR@.la
 
@@ -425,6 +437,12 @@ scrubby$(EXEEXT): $(scrubby_OBJECTS) $(scrubby_DEPENDENCIES)
 seek$(EXEEXT): $(seek_OBJECTS) $(seek_DEPENDENCIES) 
 	@rm -f seek$(EXEEXT)
 	$(LINK) $(seek_OBJECTS) $(seek_LDADD) $(LIBS)
+stepping$(EXEEXT): $(stepping_OBJECTS) $(stepping_DEPENDENCIES) 
+	@rm -f stepping$(EXEEXT)
+	$(LINK) $(stepping_OBJECTS) $(stepping_LDADD) $(LIBS)
+stepping2$(EXEEXT): $(stepping2_OBJECTS) $(stepping2_DEPENDENCIES) 
+	@rm -f stepping2$(EXEEXT)
+	$(LINK) $(stepping2_OBJECTS) $(stepping2_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -434,6 +452,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scrubby.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/seek.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stepping.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stepping2.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

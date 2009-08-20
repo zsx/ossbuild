@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.8.4\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-10 22:30+0100\n"
+"POT-Creation-Date: 2009-08-04 23:00+0100\n"
 "PO-Revision-Date: 2004-08-07 23:46+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <begraj@hotmail.com>\n"
@@ -128,10 +128,10 @@ msgstr ""
 msgid "Internal GStreamer error: code not implemented."
 msgstr "Gabim i brendshëm i GStreamer: kodi mungon.  Raporto bug."
 
-#, fuzzy
-msgid "Internal GStreamer error: state change failed."
+msgid ""
+"GStreamer error: state change failed and some element failed to post a "
+"proper error message with the reason for the failure."
 msgstr ""
-"Gabim i brendshëm i GStreamer: ndryshimi i gjendjes dështoi.  Raporto bug."
 
 #, fuzzy
 msgid "Internal GStreamer error: pad problem."
@@ -483,6 +483,14 @@ msgstr "video codec"
 msgid "codec the subtitle data is stored in"
 msgstr "codec ku janë regjistruar të dhënat video"
 
+#, fuzzy
+msgid "container format"
+msgstr "informacione në lidhje me kontaktin"
+
+#, fuzzy
+msgid "container format the data is stored in"
+msgstr "codec ku janë regjistruar të dhënat"
+
 msgid "bitrate"
 msgstr "bitrate"
 
@@ -600,7 +608,7 @@ msgid "geo location name"
 msgstr "pozicioni"
 
 msgid ""
-"human readable descriptive location or where the media has been recorded or "
+"human readable descriptive location of where the media has been recorded or "
 "produced"
 msgstr ""
 
@@ -692,6 +700,9 @@ msgstr ""
 msgid "Internal data flow error."
 msgstr ""
 
+msgid "A lot of buffers are being dropped."
+msgstr ""
+
 msgid "Internal data flow problem."
 msgstr ""
 
@@ -704,14 +715,6 @@ msgstr ""
 msgid ""
 "Restrict the possible allowed capabilities (NULL means ANY). Setting this "
 "property takes a reference to the supplied GstCaps object."
-msgstr ""
-
-#, fuzzy, c-format
-msgid "Error while writing to file descriptor \"%d\"."
-msgstr "Gabim gjatë shkrimit tek file \"%s\"."
-
-#, c-format
-msgid "File descriptor \"%d\" is not valid."
 msgstr ""
 
 msgid "No file name specified for writing."
@@ -853,7 +856,20 @@ msgstr ""
 msgid "WARNING: element named '%s' not found.\n"
 msgstr "KUJDES: elementi me emrin '%s' nuk u gjet.\n"
 
-msgid "Got Message #%"
+#, c-format
+msgid "Got message #%u from element \"%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u from pad \"%s:%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u from object \"%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u (%s): "
 msgstr ""
 
 #, fuzzy, c-format
@@ -863,6 +879,17 @@ msgstr "GABIM: nga elementi %s: %s\n"
 #, c-format
 msgid "FOUND TAG      : found by element \"%s\".\n"
 msgstr "NDRYSHIM I GJETUR      : u gjet nga elementi \"%s\".\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by pad \"%s:%s\".\n"
+msgstr "NDRYSHIM I GJETUR      : u gjet nga elementi \"%s\".\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by object \"%s\".\n"
+msgstr "NDRYSHIM I GJETUR      : u gjet nga elementi \"%s\".\n"
+
+msgid "FOUND TAG\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -1012,6 +1039,10 @@ msgstr "DUKE ZBATUAR pipeline ...\n"
 
 #~ msgid "Scheduler to use (default is '%s')"
 #~ msgstr "Planifikuesi që duhet përdorur (i prezgjedhuri është '%s')"
+
+#~ msgid "Internal GStreamer error: state change failed.  File a bug."
+#~ msgstr ""
+#~ "Gabim i brendshëm i GStreamer: ndryshimi i gjendjes dështoi.  Raporto bug."
 
 #~ msgid "Internal GStreamer error: scheduler problem.  File a bug."
 #~ msgstr "Gabim i brendshëm i GStreamer: problem planifikimi.  Raporto bug."

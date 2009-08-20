@@ -263,6 +263,17 @@ typedef enum
 #define GST_ELEMENT_PADS(elem)			(GST_ELEMENT_CAST(elem)->pads)
 
 /**
+ * GST_ELEMENT_START_TIME:
+ * @elem: a #GstElement to return the start time for.
+ *
+ * This macro returns the start_time of the @elem. The start_time is the
+ * running_time of the pipeline when the element went to PAUSED.
+ *
+ * Since: 0.10.24
+ */
+#define GST_ELEMENT_START_TIME(elem)		(GST_ELEMENT_CAST(elem)->abidata.ABI.start_time)
+
+/**
  * GST_ELEMENT_ERROR:
  * @el:     the element that generates the error
  * @domain: like CORE, LIBRARY, RESOURCE or STREAM (see #gstreamer-GstGError)
@@ -394,7 +405,7 @@ G_STMT_START {								\
  * element by the toplevel #GstPipeline.
  * @base_time: the time of the clock right before the element is set to
  * PLAYING. Subtracting @base_time from the current clock time in the PLAYING
- * state will yield the stream time.
+ * state will yield the running_time against the clock.
  * @numpads: number of pads of the element, includes both source and sink pads.
  * @pads: list of pads
  * @numsrcpads: number of source pads of the element.
@@ -441,6 +452,8 @@ struct _GstElement
     struct {
       /* state set by application */
       GstState              target_state;
+      /* running time of the last PAUSED state */
+      GstClockTime          start_time;
     } ABI;
     /* adding + 0 to mark ABI change to be undone later */
     gpointer _gst_reserved[GST_PADDING + 0];
@@ -586,6 +599,8 @@ GstClock*		gst_element_get_clock		(GstElement *element);
 gboolean		gst_element_set_clock		(GstElement *element, GstClock *clock);
 void			gst_element_set_base_time	(GstElement *element, GstClockTime time);
 GstClockTime		gst_element_get_base_time	(GstElement *element);
+void			gst_element_set_start_time	(GstElement *element, GstClockTime time);
+GstClockTime		gst_element_get_start_time	(GstElement *element);
 
 /* indexes */
 gboolean		gst_element_is_indexable	(GstElement *element);
@@ -654,6 +669,7 @@ GstStateChangeReturn    gst_element_change_state        (GstElement * element,
 GstStateChangeReturn	gst_element_continue_state	(GstElement * element,
                                                          GstStateChangeReturn ret);
 void			gst_element_lost_state	        (GstElement * element);
+void			gst_element_lost_state_full     (GstElement * element, gboolean new_base_time);
 
 /* factory management */
 GstElementFactory*	gst_element_get_factory		(GstElement *element);

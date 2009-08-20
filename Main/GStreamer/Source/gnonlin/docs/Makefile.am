@@ -8,4 +8,4 @@ SUBDIRS = $(DOCS_SUBDIRS)
 DIST_SUBDIRS = libs
 
 EXTRA_DIST = \
-	upload.mak version.entities.in
+	version.entities.in

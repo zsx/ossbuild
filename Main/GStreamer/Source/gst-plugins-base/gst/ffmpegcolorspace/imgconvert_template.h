@@ -123,6 +123,7 @@ static void glue(nv12_to_, RGB_NAME)(AVPicture *dst, const AVPicture *src,
     int w, y, cb, cr, r_add, g_add, b_add;
     uint8_t *cm = cropTbl + MAX_NEG_CROP;
     unsigned int r, g, b;
+    int c_wrap = src->linesize[1] - ((width+1) & ~0x01);
 
     d = dst->data[0];
     y1_ptr = src->data[0];
@@ -169,7 +170,7 @@ static void glue(nv12_to_, RGB_NAME)(AVPicture *dst, const AVPicture *src,
         }
         d += 2 * dst->linesize[0];
         y1_ptr += 2 * src->linesize[0] - width;
-        c_ptr += src->linesize[1] - width;
+        c_ptr += c_wrap;
     }
     /* handle odd height */
     if (height) {
@@ -210,6 +211,7 @@ static void glue(nv21_to_, RGB_NAME)(AVPicture *dst, const AVPicture *src,
     int w, y, cb, cr, r_add, g_add, b_add;
     uint8_t *cm = cropTbl + MAX_NEG_CROP;
     unsigned int r, g, b;
+    int c_wrap = src->linesize[1] - ((width+1) & ~0x01);
 
     d = dst->data[0];
     y1_ptr = src->data[0];
@@ -256,7 +258,7 @@ static void glue(nv21_to_, RGB_NAME)(AVPicture *dst, const AVPicture *src,
         }
         d += 2 * dst->linesize[0];
         y1_ptr += 2 * src->linesize[0] - width;
-        c_ptr += src->linesize[1] - width;
+        c_ptr += c_wrap;
     }
     /* handle odd height */
     if (height) {
@@ -745,6 +747,110 @@ static void glue(gray_to_, RGB_NAME)(AVPicture *dst, const AVPicture *src,
             RGB_OUT(q, r, r, r);
             q += BPP;
             p ++;
+        }
+        p += src_wrap;
+        q += dst_wrap;
+    }
+}
+
+static void glue(RGB_NAME, _to_gray16_l)(AVPicture *dst, const AVPicture *src,
+                                     int width, int height)
+{
+    const unsigned char *p;
+    unsigned char *q;
+    int r, g, b, dst_wrap, src_wrap;
+    int x, y;
+
+    p = src->data[0];
+    src_wrap = src->linesize[0] - BPP * width;
+
+    q = dst->data[0];
+    dst_wrap = dst->linesize[0] - 2 * width;
+
+    for(y=0;y<height;y++) {
+        for(x=0;x<width;x++) {
+            RGB_IN(r, g, b, p);
+            GST_WRITE_UINT16_LE (q, RGB_TO_Y(r, g, b) << 8);
+            q += 2;
+            p += BPP;
+        }
+        p += src_wrap;
+        q += dst_wrap;
+    }
+}
+
+static void glue(gray16_l_to_, RGB_NAME)(AVPicture *dst, const AVPicture *src,
+                                     int width, int height)
+{
+    const unsigned char *p;
+    unsigned char *q;
+    int r, dst_wrap, src_wrap;
+    int x, y;
+
+    p = src->data[0];
+    src_wrap = src->linesize[0] - 2 * width;
+
+    q = dst->data[0];
+    dst_wrap = dst->linesize[0] - BPP * width;
+
+    for(y=0;y<height;y++) {
+        for(x=0;x<width;x++) {
+            r = GST_READ_UINT16_LE (p) >> 8;
+            RGB_OUT(q, r, r, r);
+            q += BPP;
+            p += 2;
+        }
+        p += src_wrap;
+        q += dst_wrap;
+    }
+}
+
+static void glue(RGB_NAME, _to_gray16_b)(AVPicture *dst, const AVPicture *src,
+                                     int width, int height)
+{
+    const unsigned char *p;
+    unsigned char *q;
+    int r, g, b, dst_wrap, src_wrap;
+    int x, y;
+
+    p = src->data[0];
+    src_wrap = src->linesize[0] - BPP * width;
+
+    q = dst->data[0];
+    dst_wrap = dst->linesize[0] - 2 * width;
+
+    for(y=0;y<height;y++) {
+        for(x=0;x<width;x++) {
+            RGB_IN(r, g, b, p);
+            GST_WRITE_UINT16_BE (q, RGB_TO_Y(r, g, b) << 8);
+            q += 2;
+            p += BPP;
+        }
+        p += src_wrap;
+        q += dst_wrap;
+    }
+}
+
+static void glue(gray16_b_to_, RGB_NAME)(AVPicture *dst, const AVPicture *src,
+                                     int width, int height)
+{
+    const unsigned char *p;
+    unsigned char *q;
+    int r, dst_wrap, src_wrap;
+    int x, y;
+
+    p = src->data[0];
+    src_wrap = src->linesize[0] - 2 * width;
+
+    q = dst->data[0];
+    dst_wrap = dst->linesize[0] - BPP * width;
+
+    for(y=0;y<height;y++) {
+        for(x=0;x<width;x++) {
+            r = GST_READ_UINT16_BE (p) >> 8;
+            RGB_OUT(q, r, r, r);
+            q += BPP;
+            p += 2;
         }
         p += src_wrap;
         q += dst_wrap;

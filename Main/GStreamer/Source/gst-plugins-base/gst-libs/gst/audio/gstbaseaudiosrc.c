@@ -663,21 +663,31 @@ static gboolean
 gst_base_audio_src_event (GstBaseSrc * bsrc, GstEvent * event)
 {
   GstBaseAudioSrc *src = GST_BASE_AUDIO_SRC (bsrc);
+  gboolean res;
+
+  res = TRUE;
 
   switch (GST_EVENT_TYPE (event)) {
     case GST_EVENT_FLUSH_START:
+      GST_DEBUG_OBJECT (bsrc, "flush-start");
       gst_ring_buffer_pause (src->ringbuffer);
       gst_ring_buffer_clear_all (src->ringbuffer);
       break;
     case GST_EVENT_FLUSH_STOP:
+      GST_DEBUG_OBJECT (bsrc, "flush-stop");
       /* always resync on sample after a flush */
       src->next_sample = -1;
       gst_ring_buffer_clear_all (src->ringbuffer);
       break;
+    case GST_EVENT_SEEK:
+      GST_DEBUG_OBJECT (bsrc, "refuse to seek");
+      res = FALSE;
+      break;
     default:
+      GST_DEBUG_OBJECT (bsrc, "dropping event %p", event);
       break;
   }
-  return TRUE;
+  return res;
 }
 
 /* get the next offset in the ringbuffer for reading samples.
@@ -716,7 +726,7 @@ gst_base_audio_src_get_offset (GstBaseAudioSrc * src)
   if (diff >= segtotal) {
     GST_DEBUG_OBJECT (src, "dropped, align to segment %d", segdone);
     /* sample would be dropped, position to next playable position */
-    sample = ((guint64) (segdone - segtotal + 1)) * sps;
+    sample = ((guint64) (segdone)) * sps;
   }
 
   return sample;
@@ -974,10 +984,18 @@ gst_base_audio_src_create (GstBaseSrc * bsrc, guint64 offset, guint length,
     /* we are not slaved, subtract base_time */
     base_time = GST_ELEMENT_CAST (src)->base_time;
 
-    if (timestamp > base_time)
+    if (timestamp > base_time) {
       timestamp -= base_time;
-    else
+      GST_LOG_OBJECT (src,
+          "buffer timestamp %" GST_TIME_FORMAT " (base_time %" GST_TIME_FORMAT
+          ")", GST_TIME_ARGS (timestamp), GST_TIME_ARGS (base_time));
+    } else {
+      GST_LOG_OBJECT (src,
+          "buffer timestamp 0, ts %" GST_TIME_FORMAT " <= base_time %"
+          GST_TIME_FORMAT, GST_TIME_ARGS (timestamp),
+          GST_TIME_ARGS (base_time));
       timestamp = 0;
+    }
   }
 
 no_sync:

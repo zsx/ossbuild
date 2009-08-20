@@ -41,14 +41,13 @@
 #include "gst_private.h"
 #include "gstinfo.h"
 #include "gstsystemclock.h"
+#include "gstenumtypes.h"
 #include "gstpoll.h"
 
 #include <errno.h>
 
 /* Define this to get some extra debug about jitter from each clock_wait */
 #undef WAIT_DEBUGGING
-
-#define GST_TYPE_CLOCK_TYPE (gst_clock_type_get_type())
 
 struct _GstSystemClockPrivate
 {
@@ -61,6 +60,16 @@ struct _GstSystemClockPrivate
 #define GST_SYSTEM_CLOCK_GET_PRIVATE(obj)  \
    (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GST_TYPE_SYSTEM_CLOCK, \
         GstSystemClockPrivate))
+
+#ifdef HAVE_POSIX_TIMERS
+# ifdef HAVE_MONOTONIC_CLOCK
+#  define DEFAULT_CLOCK_TYPE GST_CLOCK_TYPE_MONOTONIC
+# else
+#  define DEFAULT_CLOCK_TYPE GST_CLOCK_TYPE_REALTIME
+# endif
+#else
+#define DEFAULT_CLOCK_TYPE GST_CLOCK_TYPE_REALTIME
+#endif
 
 enum
 {
@@ -103,22 +112,6 @@ static GstClockClass *parent_class = NULL;
 
 G_DEFINE_TYPE (GstSystemClock, gst_system_clock, GST_TYPE_CLOCK);
 
-static GType
-gst_clock_type_get_type (void)
-{
-  static GType clock_type_type = 0;
-  static const GEnumValue clock_types[] = {
-    {GST_CLOCK_TYPE_REALTIME, "GST_CLOCK_TYPE_REALTIME", "realtime"},
-    {GST_CLOCK_TYPE_MONOTONIC, "GST_CLOCK_TYPE_MONOTONIC", "monotonic"},
-    {0, NULL, NULL},
-  };
-
-  if (G_UNLIKELY (!clock_type_type)) {
-    clock_type_type = g_enum_register_static ("GstClockType", clock_types);
-  }
-  return clock_type_type;
-}
-
 static void
 gst_system_clock_class_init (GstSystemClockClass * klass)
 {
@@ -139,7 +132,7 @@ gst_system_clock_class_init (GstSystemClockClass * klass)
   g_object_class_install_property (gobject_class, PROP_CLOCK_TYPE,
       g_param_spec_enum ("clock-type", "Clock type",
           "The type of underlying clock implementation used",
-          GST_TYPE_CLOCK_TYPE, GST_CLOCK_TYPE_REALTIME, G_PARAM_READWRITE));
+          GST_TYPE_CLOCK_TYPE, DEFAULT_CLOCK_TYPE, G_PARAM_READWRITE));
 
   gstclock_class->get_internal_time = gst_system_clock_get_internal_time;
   gstclock_class->get_resolution = gst_system_clock_get_resolution;
@@ -159,7 +152,7 @@ gst_system_clock_init (GstSystemClock * clock)
 
   clock->priv = GST_SYSTEM_CLOCK_GET_PRIVATE (clock);
 
-  clock->priv->clock_type = GST_CLOCK_TYPE_REALTIME;
+  clock->priv->clock_type = DEFAULT_CLOCK_TYPE;
   clock->priv->timer = gst_poll_new_timer ();
 
 #if 0
@@ -268,8 +261,7 @@ gst_system_clock_obtain (void)
 
     /* we created the global clock; take ownership so
      * we can hand out instances later */
-    gst_object_ref (clock);
-    gst_object_sink (GST_OBJECT (clock));
+    gst_object_ref_sink (clock);
 
     _the_system_clock = clock;
     g_static_mutex_unlock (&_gst_sysclock_mutex);

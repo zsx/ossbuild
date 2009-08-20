@@ -658,7 +658,7 @@ control_internal_pad (GstPad * ghostpad, GnlObject * object)
   internal = gst_pad_get_peer (target);
   gst_object_unref (target);
 
-  if (!(priv = gst_pad_get_element_private (internal))) {
+  if (G_UNLIKELY (!(priv = gst_pad_get_element_private (internal)))) {
     GST_DEBUG_OBJECT (internal,
         "Creating a GnlPadPrivate to put in element_private");
     priv = g_new0 (GnlPadPrivate, 1);
@@ -676,9 +676,6 @@ control_internal_pad (GstPad * ghostpad, GnlObject * object)
         GST_DEBUG_FUNCPTR (internalpad_event_function));
     gst_pad_set_query_function (internal,
         GST_DEBUG_FUNCPTR (internalpad_query_function));
-  } else {
-    GST_WARNING_OBJECT (internal,
-        "internal pad already had an element_private");
   }
 
   priv->object = object;
@@ -724,7 +721,6 @@ gnl_object_ghost_pad_full (GnlObject * object, const gchar * name,
     gst_object_unref (ghost);
     return NULL;
   }
-
 
   /* activate pad */
   gst_pad_set_active (ghost, TRUE);
@@ -814,6 +810,17 @@ gnl_object_ghost_pad_set_target (GnlObject * object, GstPad * ghost,
   /* set target */
   if (!(gst_ghost_pad_set_target (GST_GHOST_PAD (ghost), target)))
     return FALSE;
+
+  if (target) {
+    GstCaps *negotiated_caps;
+
+    /* if the target has negotiated caps, forward them to the ghost */
+    if ((negotiated_caps = gst_pad_get_negotiated_caps (target))) {
+      gst_pad_set_caps (ghost, negotiated_caps);
+      gst_caps_unref (negotiated_caps);
+    }
+  }
+
 
   if (!GST_OBJECT_IS_FLOATING (ghost))
     control_internal_pad (ghost, object);

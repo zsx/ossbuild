@@ -28,7 +28,7 @@
  *
  * GStreamer uses a global clock to synchronize the plugins in a pipeline.
  * Different clock implementations are possible by implementing this abstract
- * base class.
+ * base class or, more conveniently, by subclassing #GstSystemClock.
  *
  * The #GstClock returns a monotonically increasing time with the method
  * gst_clock_get_time(). Its accuracy and base time depend on the specific
@@ -37,7 +37,7 @@
  * meaningful in itself, what matters are the deltas between two clock times.
  * The time returned by a clock is called the absolute time.
  *
- * The pipeline uses the clock to calculate the stream time. Usually all
+ * The pipeline uses the clock to calculate the running time. Usually all
  * renderers synchronize to the global clock using the buffer timestamps, the
  * newsegment events and the element's base time, see #GstPipeline.
  *
@@ -77,7 +77,7 @@
  * state changes and if the entry would be unreffed automatically, the handle 
  * might become invalid without any notification.
  *
- * These clock operations do not operate on the stream time, so the callbacks
+ * These clock operations do not operate on the running time, so the callbacks
  * will also occur when not in PLAYING state as if the clock just keeps on
  * running. Some clocks however do not progress when the element that provided
  * the clock is not PLAYING.
@@ -99,7 +99,7 @@
  * number of samples to use when calibrating and #GstClock:window-threshold
  * defines the minimum number of samples before the calibration is performed.
  *
- * Last reviewed on 2006-08-11 (0.10.10)
+ * Last reviewed on 2009-05-21 (0.10.24)
  */
 
 
@@ -131,6 +131,41 @@ enum
   PROP_WINDOW_THRESHOLD,
   PROP_TIMEOUT
 };
+
+struct _GstClockPrivate
+{
+  gint pre_count;
+  gint post_count;
+};
+
+/* seqlocks */
+#define read_seqbegin(clock)                                   \
+  g_atomic_int_get (&clock->ABI.priv->post_count);
+
+static inline gboolean
+read_seqretry (GstClock * clock, gint seq)
+{
+  /* no retry if the seqnum did not change */
+  if (G_LIKELY (seq == g_atomic_int_get (&clock->ABI.priv->pre_count)))
+    return FALSE;
+
+  /* wait for the writer to finish and retry */
+  GST_OBJECT_LOCK (clock);
+  GST_OBJECT_UNLOCK (clock);
+  return TRUE;
+}
+
+#define write_seqlock(clock)                      \
+G_STMT_START {                                    \
+  GST_OBJECT_LOCK (clock);                        \
+  g_atomic_int_inc (&clock->ABI.priv->pre_count);     \
+} G_STMT_END;
+
+#define write_sequnlock(clock)                    \
+G_STMT_START {                                    \
+  g_atomic_int_inc (&clock->ABI.priv->post_count);    \
+  GST_OBJECT_UNLOCK (clock);                      \
+} G_STMT_END;
 
 static void gst_clock_class_init (GstClockClass * klass);
 static void gst_clock_init (GstClock * clock);
@@ -404,7 +439,7 @@ gst_clock_id_wait (GstClockID id, GstClockTimeDiff * jitter)
   if (entry->type == GST_CLOCK_ENTRY_PERIODIC)
     entry->time = requested + entry->interval;
 
-  if (clock->stats)
+  if (G_UNLIKELY (clock->stats))
     gst_clock_update_stats (clock);
 
   return res;
@@ -520,7 +555,7 @@ gst_clock_id_unschedule (GstClockID id)
 }
 
 
-/**
+/*
  * GstClock abstract base class implementation
  */
 G_DEFINE_TYPE (GstClock, gst_clock, GST_TYPE_OBJECT);
@@ -560,6 +595,8 @@ gst_clock_class_init (GstClockClass * klass)
           "The amount of time, in nanoseconds, to sample master and slave clocks",
           0, G_MAXUINT64, DEFAULT_TIMEOUT,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
+  g_type_class_add_private (klass, sizeof (GstClockPrivate));
 }
 
 static void
@@ -569,6 +606,9 @@ gst_clock_init (GstClock * clock)
   clock->entries = NULL;
   clock->entries_changed = g_cond_new ();
   clock->stats = FALSE;
+
+  clock->ABI.priv =
+      G_TYPE_INSTANCE_GET_PRIVATE (clock, GST_TYPE_CLOCK, GstClockPrivate);
 
   clock->internal_calibration = 0;
   clock->external_calibration = 0;
@@ -701,7 +741,7 @@ gst_clock_adjust_unlocked (GstClock * clock, GstClockTime internal)
   cdenom = clock->rate_denominator;
 
   /* avoid divide by 0 */
-  if (cdenom == 0)
+  if (G_UNLIKELY (cdenom == 0))
     cnum = cdenom = 1;
 
   /* The formula is (internal - cinternal) * cnum / cdenom + cexternal
@@ -711,12 +751,14 @@ gst_clock_adjust_unlocked (GstClock * clock, GstClockTime internal)
    * though.
    */
   if (G_LIKELY (internal >= cinternal)) {
-    ret = gst_util_uint64_scale (internal - cinternal, cnum, cdenom);
+    ret = internal - cinternal;
+    ret = gst_util_uint64_scale (ret, cnum, cdenom);
     ret += cexternal;
   } else {
-    ret = gst_util_uint64_scale (cinternal - internal, cnum, cdenom);
+    ret = cinternal - internal;
+    ret = gst_util_uint64_scale (ret, cnum, cdenom);
     /* clamp to 0 */
-    if (cexternal > ret)
+    if (G_LIKELY (cexternal > ret))
       ret = cexternal - ret;
     else
       ret = 0;
@@ -756,16 +798,18 @@ gst_clock_unadjust_unlocked (GstClock * clock, GstClockTime external)
   cdenom = clock->rate_denominator;
 
   /* avoid divide by 0 */
-  if (cnum == 0)
+  if (G_UNLIKELY (cnum == 0))
     cnum = cdenom = 1;
 
   /* The formula is (external - cexternal) * cdenom / cnum + cinternal */
-  if (external >= cexternal) {
-    ret = gst_util_uint64_scale (external - cexternal, cdenom, cnum);
+  if (G_LIKELY (external >= cexternal)) {
+    ret = external - cexternal;
+    ret = gst_util_uint64_scale (ret, cdenom, cnum);
     ret += cinternal;
   } else {
-    ret = gst_util_uint64_scale (cexternal - external, cdenom, cnum);
-    if (cinternal > ret)
+    ret = cexternal - external;
+    ret = gst_util_uint64_scale (ret, cdenom, cnum);
+    if (G_LIKELY (cinternal > ret))
       ret = cinternal - ret;
     else
       ret = 0;
@@ -831,15 +875,19 @@ GstClockTime
 gst_clock_get_time (GstClock * clock)
 {
   GstClockTime ret;
+  gint seq;
 
   g_return_val_if_fail (GST_IS_CLOCK (clock), GST_CLOCK_TIME_NONE);
 
-  ret = gst_clock_get_internal_time (clock);
+  do {
+    /* reget the internal time when we retry to get the most current
+     * timevalue */
+    ret = gst_clock_get_internal_time (clock);
 
-  GST_OBJECT_LOCK (clock);
-  /* this will scale for rate and offset */
-  ret = gst_clock_adjust_unlocked (clock, ret);
-  GST_OBJECT_UNLOCK (clock);
+    seq = read_seqbegin (clock);
+    /* this will scale for rate and offset */
+    ret = gst_clock_adjust_unlocked (clock, ret);
+  } while (read_seqretry (clock, seq));
 
   GST_CAT_DEBUG_OBJECT (GST_CAT_CLOCK, clock, "adjusted time %" GST_TIME_FORMAT,
       GST_TIME_ARGS (ret));
@@ -887,9 +935,8 @@ gst_clock_set_calibration (GstClock * clock, GstClockTime internal, GstClockTime
   g_return_if_fail (GST_IS_CLOCK (clock));
   g_return_if_fail (rate_num != GST_CLOCK_TIME_NONE);
   g_return_if_fail (rate_denom > 0 && rate_denom != GST_CLOCK_TIME_NONE);
-  g_return_if_fail (internal <= gst_clock_get_internal_time (clock));
 
-  GST_OBJECT_LOCK (clock);
+  write_seqlock (clock);
   GST_CAT_DEBUG_OBJECT (GST_CAT_CLOCK, clock,
       "internal %" GST_TIME_FORMAT " external %" GST_TIME_FORMAT " %"
       G_GUINT64_FORMAT "/%" G_GUINT64_FORMAT " = %f", GST_TIME_ARGS (internal),
@@ -900,7 +947,7 @@ gst_clock_set_calibration (GstClock * clock, GstClockTime internal, GstClockTime
   clock->external_calibration = external;
   clock->rate_numerator = rate_num;
   clock->rate_denominator = rate_denom;
-  GST_OBJECT_UNLOCK (clock);
+  write_sequnlock (clock);
 }
 
 /**
@@ -923,18 +970,21 @@ void
 gst_clock_get_calibration (GstClock * clock, GstClockTime * internal,
     GstClockTime * external, GstClockTime * rate_num, GstClockTime * rate_denom)
 {
+  gint seq;
+
   g_return_if_fail (GST_IS_CLOCK (clock));
 
-  GST_OBJECT_LOCK (clock);
-  if (rate_num)
-    *rate_num = clock->rate_numerator;
-  if (rate_denom)
-    *rate_denom = clock->rate_denominator;
-  if (external)
-    *external = clock->external_calibration;
-  if (internal)
-    *internal = clock->internal_calibration;
-  GST_OBJECT_UNLOCK (clock);
+  do {
+    seq = read_seqbegin (clock);
+    if (rate_num)
+      *rate_num = clock->rate_numerator;
+    if (rate_denom)
+      *rate_denom = clock->rate_denominator;
+    if (external)
+      *external = clock->external_calibration;
+    if (internal)
+      *internal = clock->internal_calibration;
+  } while (read_seqretry (clock, seq));
 }
 
 /* will be called repeatedly to sample the master and slave clock

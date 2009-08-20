@@ -198,6 +198,9 @@ gboolean               gst_tag_is_fixed        (const gchar * tag);
 
 /* tag lists */
 GstTagList * gst_tag_list_new               (void);
+GstTagList * gst_tag_list_new_full          (const gchar * tag, ...);
+GstTagList * gst_tag_list_new_full_valist   (va_list var_args);
+
 gboolean     gst_is_tag_list                (gconstpointer p);
 GstTagList * gst_tag_list_copy              (const GstTagList * list);
 gboolean     gst_tag_list_is_empty          (const GstTagList * list);
@@ -226,6 +229,10 @@ void         gst_tag_list_add_valist_values (GstTagList       * list,
                                              GstTagMergeMode    mode,
                                              const gchar      * tag,
                                              va_list            var_args);
+void         gst_tag_list_add_value         (GstTagList       * list,
+                                             GstTagMergeMode    mode,
+                                             const gchar      * tag,
+                                             const GValue     * value);
 void         gst_tag_list_remove_tag        (GstTagList       * list,
                                              const gchar      * tag);
 void         gst_tag_list_foreach           (const GstTagList * list,
@@ -581,6 +588,14 @@ gboolean     gst_tag_list_get_buffer_index  (const GstTagList * list,
  * Since: 0.10.23
  */
 #define GST_TAG_SUBTITLE_CODEC         "subtitle-codec"
+/**
+ * GST_TAG_CONTAINER_FORMAT:
+ *
+ * container format the data is stored in (string)
+ *
+ * Since: 0.10.24
+ */
+#define GST_TAG_CONTAINER_FORMAT       "container-format"
 /**
  * GST_TAG_BITRATE:
  *

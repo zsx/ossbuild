@@ -3,6 +3,7 @@ glib-compat.h
 gstobject.h
 gstbin.h
 gstbuffer.h
+gstbufferlist.h
 gstbus.h
 gstcaps.h
 gstchildproxy.h
@@ -39,6 +40,7 @@ gstsystemclock.h
 gsttaglist.h
 gsttagsetter.h
 gsttask.h
+gsttaskpool.h
 gsttrace.h
 gsttypefind.h
 gsttypefindfactory.h

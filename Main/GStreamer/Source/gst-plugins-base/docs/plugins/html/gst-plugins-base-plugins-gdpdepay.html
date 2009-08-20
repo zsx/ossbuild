@@ -50,10 +50,14 @@
 <a name="gst-plugins-base-plugins-gdpdepay.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstGDPDepay
 </pre>
 </div>
@@ -66,7 +70,7 @@ buffers and events.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2617961"></a><div class="informalexample"><pre class="programlisting">
+<a name="id2625230"></a><div class="informalexample"><pre class="programlisting">
 gst-launch -v -m filesrc location=test.gdp ! gdpdepay ! xvimagesink
 </pre></div> This pipeline plays back a serialized video stream as created in the
 example for gdppay.
@@ -74,7 +78,7 @@ example for gdppay.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2644156"></a><h3>Element Information</h3>
+<a name="id2624577"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -97,7 +101,78 @@ example for gdppay.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2621015"></a><h3>Element Pads</h3>
+<a name="id2638570"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>application/x-gdp</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2665250"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-base-plugins-plugin-gdp.html#plugin-gdp">gdp</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Thomas Vander Stichele &lt;thomas at apestaart dot org&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>GDP/Depayloader</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2665313"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>

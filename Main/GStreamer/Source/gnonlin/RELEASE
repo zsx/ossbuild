@@ -1,5 +1,5 @@
 
-Release notes for GNonLin Non-Linear Editing Plug-ins 0.10.11 "How about green for the bikeshed?"
+Release notes for GNonLin Non-Linear Editing Plug-ins 0.10.12 "Lots of people on the clothesline"
         
 
 
@@ -29,22 +29,11 @@ An element for using filters in a GnlComposition
 
 Features of this release
     
-      * Speedup option to avoid recalculation during composition changes
-      * Switch to regular seeks for more efficient beheaviour
-      * More GstQuery/GstEvent handling
-      * Bugfixes on GnlOperation
-      * Switch to GIT
-      * Documentation
-
-Bugs fixed in this release
-     
-      * 398453 : Implement time-shifting for QoS events
-      * 555898 : [optimisation] Block signals from timeline while doing co...
-      * 563507 : Tests are using " alpha " element from gst-plugins-good but...
-      * 566796 : Deadlock using nested compositions
-      * 569854 : Generic duration reporting/querying
-      * 578234 : [gnloperation] Implement time-shifting on sinkpad event/q...
-      * 575972 : [GnlComposition] Switch to using regular segment seeks in...
+      * New property for faster composition updates
+      * Speedups
+      * various fixes
+There were no bugs fixed in this release
+    
 
 Download
 
@@ -74,13 +63,10 @@ GNonLin is primarily used by PiTiVi (http://www.pitivi.org/) and Jokosher (http:
   
 Contributors to this release
     
+      * Adam Dingle
       * Alessandro Decina
-      * Cygwin Ports maintainer
-      * David Schleef
       * Edward Hervey
-      * Felipe Contreras
       * Jan Schmidt
-      * Marc-Andre Lureau
-      * Sebastian Dröge
+      * Olivier Crête
       * Stefan Kost
  

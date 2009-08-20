@@ -52,11 +52,17 @@
 <a name="gst-plugins-base-plugins-giostreamsink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSink
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
+>GstBaseSink</a>
                      +----GstGioBaseSink
                            +----GstGioStreamSink
 </pre>
@@ -65,7 +71,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-giostreamsink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-giostreamsink.html#GstGioStreamSink--stream" title='The "stream" property'>stream</a>"                   <a
-href="../gio/GOutputStream.html"
+href="/usr/share/gtk-doc/html/gio/GOutputStream.html"
 >GOutputStream</a>*        : Read / Write
 </pre>
 </div>
@@ -73,7 +79,7 @@ href="../gio/GOutputStream.html"
 <a name="gst-plugins-base-plugins-giostreamsink.description"></a><h2>Description</h2>
 <p>
 This plugin writes incoming data to a custom GIO <a
-href="../gio/GOutputStream.html"
+href="/usr/share/gtk-doc/html/gio/GOutputStream.html"
 ><span class="type">GOutputStream</span></a>.
 </p>
 <p>
@@ -83,10 +89,10 @@ It can, for example, be used to write a stream to memory with a
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2663626"></a><h3>Example code</h3>
+<a name="id2660841"></a><h3>Example code</h3>
 <p>
 The following example writes the received data to a <a
-href="../gio/GMemoryOutputStream.html"
+href="/usr/share/gtk-doc/html/gio/GMemoryOutputStream.html"
 ><span class="type">GMemoryOutputStream</span></a>.
 </p>
 <div class="informalexample"><pre class="programlisting">
@@ -122,7 +128,7 @@ out_data = g_memory_ouput_stream_get_data (G_MEMORY_OUTPUT_STREAM (stream));
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2663664"></a><h3>Element Information</h3>
+<a name="id2660880"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -134,7 +140,7 @@ out_data = g_memory_ouput_stream_get_data (G_MEMORY_OUTPUT_STREAM (stream));
 </tr>
 <tr>
 <td><p><span class="term">author</span></p></td>
-<td>Sebastian Dröge &lt;slomo@circular-chaos.org&gt;</td>
+<td>Sebastian Dröge &lt;sebastian.droege@collabora.co.uk&gt;</td>
 </tr>
 <tr>
 <td><p><span class="term">class</span></p></td>
@@ -145,7 +151,57 @@ out_data = g_memory_ouput_stream_get_data (G_MEMORY_OUTPUT_STREAM (stream));
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2663726"></a><h3>Element Pads</h3>
+<a name="id2660943"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2661020"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-base-plugins-plugin-gio.html#plugin-gio">gio</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Sebastian Dröge &lt;sebastian.droege@collabora.co.uk&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Sink</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2661082"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -188,7 +244,7 @@ Opaque data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstGioStreamSink--stream"></a><h3>The <code class="literal">"stream"</code> property</h3>
 <pre class="programlisting">  "stream"                   <a
-href="../gio/GOutputStream.html"
+href="/usr/share/gtk-doc/html/gio/GOutputStream.html"
 >GOutputStream</a>*        : Read / Write</pre>
 <p>Stream to write to.</p>
 </div>

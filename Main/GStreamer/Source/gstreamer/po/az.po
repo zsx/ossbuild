@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer-0.8.0\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-10 22:30+0100\n"
+"POT-Creation-Date: 2009-08-04 23:00+0100\n"
 "PO-Revision-Date: 2004-03-19 18:40+0200\n"
 "Last-Translator: Metin Amiroff <metin@karegen.com>\n"
 "Language-Team: Azerbaijani <translation-team-az@lists.sourceforge.net>\n"
@@ -114,7 +114,9 @@ msgstr ""
 msgid "Internal GStreamer error: code not implemented."
 msgstr ""
 
-msgid "Internal GStreamer error: state change failed."
+msgid ""
+"GStreamer error: state change failed and some element failed to post a "
+"proper error message with the reason for the failure."
 msgstr ""
 
 msgid "Internal GStreamer error: pad problem."
@@ -446,6 +448,13 @@ msgstr ""
 msgid "codec the subtitle data is stored in"
 msgstr ""
 
+#, fuzzy
+msgid "container format"
+msgstr "əlaqə mə'lumatı"
+
+msgid "container format the data is stored in"
+msgstr ""
+
 msgid "bitrate"
 msgstr ""
 
@@ -558,7 +567,7 @@ msgid "geo location name"
 msgstr ""
 
 msgid ""
-"human readable descriptive location or where the media has been recorded or "
+"human readable descriptive location of where the media has been recorded or "
 "produced"
 msgstr ""
 
@@ -650,6 +659,9 @@ msgstr ""
 msgid "Internal data flow error."
 msgstr ""
 
+msgid "A lot of buffers are being dropped."
+msgstr ""
+
 msgid "Internal data flow problem."
 msgstr ""
 
@@ -662,14 +674,6 @@ msgstr ""
 msgid ""
 "Restrict the possible allowed capabilities (NULL means ANY). Setting this "
 "property takes a reference to the supplied GstCaps object."
-msgstr ""
-
-#, c-format
-msgid "Error while writing to file descriptor \"%d\"."
-msgstr ""
-
-#, c-format
-msgid "File descriptor \"%d\" is not valid."
 msgstr ""
 
 msgid "No file name specified for writing."
@@ -806,7 +810,20 @@ msgstr ""
 msgid "WARNING: element named '%s' not found.\n"
 msgstr ""
 
-msgid "Got Message #%"
+#, c-format
+msgid "Got message #%u from element \"%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u from pad \"%s:%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u from object \"%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u (%s): "
 msgstr ""
 
 #, c-format
@@ -815,6 +832,17 @@ msgstr ""
 
 #, c-format
 msgid "FOUND TAG      : found by element \"%s\".\n"
+msgstr ""
+
+#, c-format
+msgid "FOUND TAG      : found by pad \"%s:%s\".\n"
+msgstr ""
+
+#, c-format
+msgid "FOUND TAG      : found by object \"%s\".\n"
+msgstr ""
+
+msgid "FOUND TAG\n"
 msgstr ""
 
 #, c-format

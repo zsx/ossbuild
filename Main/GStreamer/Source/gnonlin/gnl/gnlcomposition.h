@@ -48,7 +48,7 @@ struct _GnlComposition
 
   /*< private >*/
 
-  GnlCompositionPrivate *private;
+  GnlCompositionPrivate *priv;
 };
 
 struct _GnlCompositionClass

@@ -370,6 +370,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Source\gstreamer\gst\gstbufferlist.c"
+				>
+			</File>
+			<File
 				RelativePath="..\Source\gstreamer\gst\gstbus.c"
 				>
 			</File>
@@ -527,6 +531,10 @@
 			</File>
 			<File
 				RelativePath="..\Source\gstreamer\gst\gsttask.c"
+				>
+			</File>
+			<File
+				RelativePath="..\Source\gstreamer\gst\gsttaskpool.c"
 				>
 			</File>
 			<File
@@ -708,6 +716,24 @@
 				</File>
 				<File
 					RelativePath="..\Source\gstreamer\gst\gstbuffer.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\Source\gstreamer\gst\gstbufferlist.h"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1446,6 +1472,24 @@
 				</File>
 				<File
 					RelativePath="..\Source\gstreamer\gst\gsttask.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\Source\gstreamer\gst\gsttaskpool.h"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

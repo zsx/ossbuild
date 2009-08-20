@@ -67,7 +67,11 @@ G_BEGIN_DECLS
 struct _GnlOperationClass
 {
   GnlObjectClass parent_class;
+
+  void	(*input_priority_changed) (GnlOperation * operation, GstPad *pad, guint32 priority);
 };
+
+GstPad * get_unlinked_sink_ghost_pad (GnlOperation * operation);
 
 /* normal GOperation stuff */
 GType gnl_operation_get_type (void);

@@ -299,6 +299,35 @@ static const struct vts_color_struct_yuv vts_colors_bt601_ycbcr_75[] = {
   {32, 128, 128},
 };
 
+static const struct vts_color_struct_gray vts_colors_gray_100[] = {
+  {235 << 8},
+  {210 << 8},
+  {170 << 8},
+  {145 << 8},
+  {106 << 8},
+  {81 << 8},
+  {41 << 8},
+  {16 << 8},
+  {16 << 8},
+  {16 << 8},
+  {-0 << 8},
+  {32 << 8},
+};
+
+static const struct vts_color_struct_gray vts_colors_gray_75[] = {
+  {180 << 8},
+  {162 << 8},
+  {131 << 8},
+  {112 << 8},
+  {84 << 8},
+  {65 << 8},
+  {35 << 8},
+  {16 << 8},
+  {16 << 8},
+  {16 << 8},
+  {-0 << 8},
+  {32 << 8},
+};
 
 static void paint_setup_I420 (paintinfo * p, unsigned char *dest);
 static void paint_setup_YV12 (paintinfo * p, unsigned char *dest);
@@ -314,6 +343,9 @@ static void paint_setup_AYUV (paintinfo * p, unsigned char *dest);
 static void paint_setup_v308 (paintinfo * p, unsigned char *dest);
 static void paint_setup_NV12 (paintinfo * p, unsigned char *dest);
 static void paint_setup_NV21 (paintinfo * p, unsigned char *dest);
+static void paint_setup_v410 (paintinfo * p, unsigned char *dest);
+static void paint_setup_v216 (paintinfo * p, unsigned char *dest);
+static void paint_setup_v210 (paintinfo * p, unsigned char *dest);
 
 #if 0
 static void paint_setup_IMC1 (paintinfo * p, unsigned char *dest);
@@ -348,6 +380,9 @@ static void paint_hline_Y444 (paintinfo * p, int x, int y, int w);
 static void paint_hline_Y800 (paintinfo * p, int x, int y, int w);
 static void paint_hline_v308 (paintinfo * p, int x, int y, int w);
 static void paint_hline_AYUV (paintinfo * p, int x, int y, int w);
+static void paint_hline_v410 (paintinfo * p, int x, int y, int w);
+static void paint_hline_v216 (paintinfo * p, int x, int y, int w);
+static void paint_hline_v210 (paintinfo * p, int x, int y, int w);
 
 #if 0
 static void paint_hline_IMC1 (paintinfo * p, int x, int y, int w);
@@ -360,6 +395,11 @@ static void paint_hline_xRGB1555 (paintinfo * p, int x, int y, int w);
 
 static void paint_hline_bayer (paintinfo * p, int x, int y, int w);
 
+static void paint_setup_GRAY8 (paintinfo * p, unsigned char *dest);
+static void paint_setup_GRAY16 (paintinfo * p, unsigned char *dest);
+static void paint_hline_GRAY8 (paintinfo * p, int x, int y, int w);
+static void paint_hline_GRAY16 (paintinfo * p, int x, int y, int w);
+
 struct fourcc_list_struct fourcc_list[] = {
 /* packed */
   {VTS_YUV, "YUY2", "YUY2", 16, paint_setup_YUY2, paint_hline_YUY2},
@@ -369,6 +409,9 @@ struct fourcc_list_struct fourcc_list[] = {
   {VTS_YUV, "YVYU", "YVYU", 16, paint_setup_YVYU, paint_hline_YUY2},
   {VTS_YUV, "v308", "v308", 24, paint_setup_v308, paint_hline_v308},
   {VTS_YUV, "AYUV", "AYUV", 32, paint_setup_AYUV, paint_hline_AYUV},
+  {VTS_YUV, "v410", "v410", 32, paint_setup_v410, paint_hline_v410},
+  {VTS_YUV, "v210", "v210", 21, paint_setup_v210, paint_hline_v210},
+  {VTS_YUV, "v216", "v216", 32, paint_setup_v216, paint_hline_v216},
 
   /* interlaced */
   /*{ VTS_YUV,  "IUYV", "IUY2", 16, paint_setup_YVYU, paint_hline_YUY2 }, */
@@ -424,7 +467,8 @@ struct fourcc_list_struct fourcc_list[] = {
   {VTS_YUV, "Y800", "Y800", 8, paint_setup_Y800, paint_hline_Y800},
 
   /* Not exactly YUV but it's the same as above */
-  {VTS_YUV, "GRAY8", "GRAY8", 8, paint_setup_Y800, paint_hline_Y800},
+  {VTS_GRAY, "GRAY8", "GRAY8", 8, paint_setup_GRAY8, paint_hline_GRAY8},
+  {VTS_GRAY, "GRAY16", "GRAY16", 16, paint_setup_GRAY16, paint_hline_GRAY16},
 
   {VTS_RGB, "RGB ", "xRGB8888", 32, paint_setup_xRGB8888, paint_hline_str4, 24,
       0x00ff0000, 0x0000ff00, 0x000000ff},
@@ -467,16 +511,19 @@ paintinfo_find_by_structure (const GstStructure * structure)
   g_return_val_if_fail (structure, NULL);
 
   if (strcmp (media_type, "video/x-raw-gray") == 0) {
-    gint bpp, depth;
+    gint bpp, depth, endianness = 0;
 
     ret = gst_structure_get_int (structure, "bpp", &bpp) &&
         gst_structure_get_int (structure, "depth", &depth);
-    if (!ret || bpp != 8 || depth != 8)
+    if (!ret || bpp != depth || (depth != 8 && depth != 16))
+      return NULL;
+
+    ret = gst_structure_get_int (structure, "endianness", &endianness);
+    if ((!ret || endianness != G_BYTE_ORDER) && bpp == 16)
       return NULL;
 
     for (i = 0; i < n_fourccs; i++) {
-      if (fourcc_list[i].type == VTS_YUV
-          && strcmp (fourcc_list[i].fourcc, "GRAY8") == 0) {
+      if (fourcc_list[i].type == VTS_GRAY && fourcc_list[i].bitspp == bpp) {
         return fourcc_list + i;
       }
     }
@@ -616,14 +663,17 @@ paint_get_structure (struct fourcc_list_struct * format)
             format->alpha_mask, NULL);
       }
       break;
+    case VTS_GRAY:
+      structure = gst_structure_new ("video/x-raw-gray",
+          "bpp", G_TYPE_INT, format->bitspp, "depth", G_TYPE_INT,
+          format->bitspp, NULL);
+      if (format->bitspp == 16)
+        gst_structure_set (structure, "endianness", G_TYPE_INT, G_BYTE_ORDER,
+            NULL);
+      break;
     case VTS_YUV:
-      if (strcmp (format->fourcc, "GRAY8") == 0) {
-        structure = gst_structure_new ("video/x-raw-gray",
-            "bpp", G_TYPE_INT, 8, "depth", G_TYPE_INT, 8, NULL);
-      } else {
-        structure = gst_structure_new ("video/x-raw-yuv",
-            "format", GST_TYPE_FOURCC, fourcc, NULL);
-      }
+      structure = gst_structure_new ("video/x-raw-yuv",
+          "format", GST_TYPE_FOURCC, fourcc, NULL);
       break;
     case VTS_BAYER:
       structure = gst_structure_new ("video/x-raw-bayer", NULL);
@@ -672,6 +722,7 @@ gst_video_test_src_smpte (GstVideoTestSrc * v, unsigned char *dest, int w,
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -691,6 +742,7 @@ gst_video_test_src_smpte (GstVideoTestSrc * v, unsigned char *dest, int w,
 
     p->yuv_color = p->yuv_colors + i;
     p->rgb_color = p->rgb_colors + i;
+    p->gray_color = p->gray_colors + i;
     for (j = 0; j < y1; j++) {
       p->paint_hline (p, x1, j, (x2 - x1));
     }
@@ -709,6 +761,7 @@ gst_video_test_src_smpte (GstVideoTestSrc * v, unsigned char *dest, int w,
     }
     p->yuv_color = p->yuv_colors + k;
     p->rgb_color = p->rgb_colors + k;
+    p->gray_color = p->gray_colors + k;
     for (j = y1; j < y2; j++) {
       p->paint_hline (p, x1, j, (x2 - x1));
     }
@@ -729,6 +782,7 @@ gst_video_test_src_smpte (GstVideoTestSrc * v, unsigned char *dest, int w,
 
     p->yuv_color = p->yuv_colors + k;
     p->rgb_color = p->rgb_colors + k;
+    p->gray_color = p->gray_colors + k;
     for (j = y2; j < h; j++) {
       p->paint_hline (p, x1, j, (x2 - x1));
     }
@@ -749,6 +803,7 @@ gst_video_test_src_smpte (GstVideoTestSrc * v, unsigned char *dest, int w,
 
     p->yuv_color = p->yuv_colors + k;
     p->rgb_color = p->rgb_colors + k;
+    p->gray_color = p->gray_colors + k;
     for (j = y2; j < h; j++) {
       p->paint_hline (p, x1, j, (x2 - x1));
     }
@@ -758,11 +813,14 @@ gst_video_test_src_smpte (GstVideoTestSrc * v, unsigned char *dest, int w,
     int x1 = w * 3 / 4;
     struct vts_color_struct_rgb rgb_color;
     struct vts_color_struct_yuv yuv_color;
+    struct vts_color_struct_gray gray_color;
 
     rgb_color = p->rgb_colors[COLOR_BLACK];
     yuv_color = p->yuv_colors[COLOR_BLACK];
+    gray_color = p->gray_colors[COLOR_BLACK];
     p->rgb_color = &rgb_color;
     p->yuv_color = &yuv_color;
+    p->gray_color = &gray_color;
 
     for (i = x1; i < w; i++) {
       for (j = y2; j < h; j++) {
@@ -772,6 +830,7 @@ gst_video_test_src_smpte (GstVideoTestSrc * v, unsigned char *dest, int w,
         rgb_color.R = y;
         rgb_color.G = y;
         rgb_color.B = y;
+        gray_color.G = (y << 8) | random_char ();
         p->paint_hline (p, i, j, 1);
       }
     }
@@ -795,6 +854,7 @@ gst_video_test_src_smpte75 (GstVideoTestSrc * v, unsigned char *dest, int w,
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_75;
   }
+  p->gray_colors = vts_colors_gray_75;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -811,6 +871,7 @@ gst_video_test_src_smpte75 (GstVideoTestSrc * v, unsigned char *dest, int w,
 
     p->yuv_color = p->yuv_colors + i;
     p->rgb_color = p->rgb_colors + i;
+    p->gray_color = p->gray_colors + i;
     for (j = 0; j < h; j++) {
       p->paint_hline (p, x1, j, (x2 - x1));
     }
@@ -827,6 +888,7 @@ gst_video_test_src_snow (GstVideoTestSrc * v, unsigned char *dest, int w, int h)
   struct fourcc_list_struct *fourcc;
   struct vts_color_struct_rgb rgb_color;
   struct vts_color_struct_yuv yuv_color;
+  struct vts_color_struct_gray gray_color;
 
   p->rgb_colors = vts_colors_rgb;
   if (v->color_spec == GST_VIDEO_TEST_SRC_BT601) {
@@ -834,6 +896,7 @@ gst_video_test_src_snow (GstVideoTestSrc * v, unsigned char *dest, int w, int h)
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -845,8 +908,10 @@ gst_video_test_src_snow (GstVideoTestSrc * v, unsigned char *dest, int w, int h)
 
   rgb_color = p->rgb_colors[COLOR_BLACK];
   yuv_color = p->yuv_colors[COLOR_BLACK];
+  gray_color = p->gray_colors[COLOR_BLACK];
   p->rgb_color = &rgb_color;
   p->yuv_color = &yuv_color;
+  p->gray_color = &gray_color;
 
   for (i = 0; i < w; i++) {
     for (j = 0; j < h; j++) {
@@ -856,6 +921,7 @@ gst_video_test_src_snow (GstVideoTestSrc * v, unsigned char *dest, int w, int h)
       rgb_color.R = y;
       rgb_color.G = y;
       rgb_color.B = y;
+      gray_color.G = (y << 8) | random_char ();
       p->paint_hline (p, i, j, 1);
     }
   }
@@ -876,6 +942,7 @@ gst_video_test_src_unicolor (GstVideoTestSrc * v, unsigned char *dest, int w,
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -887,6 +954,7 @@ gst_video_test_src_unicolor (GstVideoTestSrc * v, unsigned char *dest, int w,
 
   p->rgb_color = p->rgb_colors + color_index;
   p->yuv_color = p->yuv_colors + color_index;
+  p->gray_color = p->gray_colors + color_index;
 
   for (i = 0; i < h; i++) {
     p->paint_hline (p, 0, i, w);
@@ -937,6 +1005,7 @@ gst_video_test_src_checkers1 (GstVideoTestSrc * v, guchar * dest, int w, int h)
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -949,10 +1018,12 @@ gst_video_test_src_checkers1 (GstVideoTestSrc * v, guchar * dest, int w, int h)
   for (y = 0; y < h; y++) {
     p->rgb_color = p->rgb_colors + COLOR_GREEN;
     p->yuv_color = p->yuv_colors + COLOR_GREEN;
+    p->gray_color = p->gray_colors + COLOR_GREEN;
     p->paint_hline (p, 0, y, w);
     for (x = (y % 2); x < w; x += 2) {
       p->rgb_color = p->rgb_colors + COLOR_RED;
       p->yuv_color = p->yuv_colors + COLOR_RED;
+      p->gray_color = p->gray_colors + COLOR_RED;
       p->paint_hline (p, x, y, 1);
     }
   }
@@ -972,6 +1043,7 @@ gst_video_test_src_checkers2 (GstVideoTestSrc * v, guchar * dest, int w, int h)
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -983,6 +1055,7 @@ gst_video_test_src_checkers2 (GstVideoTestSrc * v, guchar * dest, int w, int h)
 
   p->rgb_color = p->rgb_colors + COLOR_GREEN;
   p->yuv_color = p->yuv_colors + COLOR_GREEN;
+  p->gray_color = p->gray_colors + COLOR_GREEN;
   for (y = 0; y < h; y++) {
     p->paint_hline (p, 0, y, w);
   }
@@ -993,6 +1066,7 @@ gst_video_test_src_checkers2 (GstVideoTestSrc * v, guchar * dest, int w, int h)
 
       p->rgb_color = p->rgb_colors + COLOR_RED;
       p->yuv_color = p->yuv_colors + COLOR_RED;
+      p->gray_color = p->gray_colors + COLOR_RED;
       p->paint_hline (p, x, y + 0, len);
       if (G_LIKELY ((y + 1) < h)) {
         p->paint_hline (p, x, y + 1, len);
@@ -1015,6 +1089,7 @@ gst_video_test_src_checkers4 (GstVideoTestSrc * v, guchar * dest, int w, int h)
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -1026,6 +1101,7 @@ gst_video_test_src_checkers4 (GstVideoTestSrc * v, guchar * dest, int w, int h)
 
   p->rgb_color = p->rgb_colors + COLOR_GREEN;
   p->yuv_color = p->yuv_colors + COLOR_GREEN;
+  p->gray_color = p->gray_colors + COLOR_GREEN;
   for (y = 0; y < h; y++) {
     p->paint_hline (p, 0, y, w);
   }
@@ -1036,6 +1112,7 @@ gst_video_test_src_checkers4 (GstVideoTestSrc * v, guchar * dest, int w, int h)
 
       p->rgb_color = p->rgb_colors + COLOR_RED;
       p->yuv_color = p->yuv_colors + COLOR_RED;
+      p->gray_color = p->gray_colors + COLOR_RED;
       p->paint_hline (p, x, y + 0, len);
       if (G_LIKELY ((y + 1) < h)) {
         p->paint_hline (p, x, y + 1, len);
@@ -1064,6 +1141,7 @@ gst_video_test_src_checkers8 (GstVideoTestSrc * v, guchar * dest, int w, int h)
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -1075,6 +1153,7 @@ gst_video_test_src_checkers8 (GstVideoTestSrc * v, guchar * dest, int w, int h)
 
   p->rgb_color = p->rgb_colors + COLOR_GREEN;
   p->yuv_color = p->yuv_colors + COLOR_GREEN;
+  p->gray_color = p->gray_colors + COLOR_GREEN;
   for (y = 0; y < h; y++) {
     for (x = 0; x < w; x += 8) {
       int len = MIN (8, w - x);
@@ -1082,9 +1161,11 @@ gst_video_test_src_checkers8 (GstVideoTestSrc * v, guchar * dest, int w, int h)
       if ((x ^ y) & (1 << 4)) {
         p->rgb_color = p->rgb_colors + COLOR_GREEN;
         p->yuv_color = p->yuv_colors + COLOR_GREEN;
+        p->gray_color = p->gray_colors + COLOR_GREEN;
       } else {
         p->rgb_color = p->rgb_colors + COLOR_RED;
         p->yuv_color = p->yuv_colors + COLOR_RED;
+        p->gray_color = p->gray_colors + COLOR_RED;
       }
       p->paint_hline (p, x, y, len);
     }
@@ -1102,6 +1183,7 @@ gst_video_test_src_zoneplate (GstVideoTestSrc * v, unsigned char *dest,
   struct fourcc_list_struct *fourcc;
   struct vts_color_struct_rgb rgb_color;
   struct vts_color_struct_yuv yuv_color;
+  struct vts_color_struct_gray gray_color;
   static uint8_t sine_array[256];
   static int sine_array_inited = FALSE;
 
@@ -1142,6 +1224,7 @@ gst_video_test_src_zoneplate (GstVideoTestSrc * v, unsigned char *dest,
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -1153,8 +1236,10 @@ gst_video_test_src_zoneplate (GstVideoTestSrc * v, unsigned char *dest,
 
   rgb_color = p->rgb_colors[COLOR_BLACK];
   yuv_color = p->yuv_colors[COLOR_BLACK];
+  gray_color = p->gray_colors[COLOR_BLACK];
   p->rgb_color = &rgb_color;
   p->yuv_color = &yuv_color;
+  p->gray_color = &gray_color;
 
   /* Zoneplate equation:
    *
@@ -1236,6 +1321,8 @@ gst_video_test_src_zoneplate (GstVideoTestSrc * v, unsigned char *dest,
       rgb_color.R = yuv_color.Y;
       rgb_color.G = yuv_color.Y;
       rgb_color.B = yuv_color.Y;
+
+      gray_color.G = yuv_color.Y << 8;
       p->paint_hline (p, i, j, 1);
     }
   }
@@ -1255,6 +1342,7 @@ gst_video_test_src_circular (GstVideoTestSrc * v, unsigned char *dest,
   struct fourcc_list_struct *fourcc;
   struct vts_color_struct_rgb rgb_color;
   struct vts_color_struct_yuv yuv_color;
+  struct vts_color_struct_gray gray_color;
   static uint8_t sine_array[256];
   static int sine_array_inited = FALSE;
   double freq[8];
@@ -1278,6 +1366,7 @@ gst_video_test_src_circular (GstVideoTestSrc * v, unsigned char *dest,
   } else {
     p->yuv_colors = vts_colors_bt709_ycbcr_100;
   }
+  p->gray_colors = vts_colors_gray_100;
   p->width = w;
   p->height = h;
   fourcc = v->fourcc;
@@ -1289,8 +1378,10 @@ gst_video_test_src_circular (GstVideoTestSrc * v, unsigned char *dest,
 
   rgb_color = p->rgb_colors[COLOR_BLACK];
   yuv_color = p->yuv_colors[COLOR_BLACK];
+  gray_color = p->gray_colors[COLOR_BLACK];
   p->rgb_color = &rgb_color;
   p->yuv_color = &yuv_color;
+  p->gray_color = &gray_color;
 
   for (i = 1; i < 8; i++) {
     freq[i] = 200 * pow (2.0, -(i - 1) / 4.0);
@@ -1315,6 +1406,7 @@ gst_video_test_src_circular (GstVideoTestSrc * v, unsigned char *dest,
       seg = floor (dist * 16);
       if (seg == 0 || seg >= 8) {
         yuv_color.Y = 255;
+        gray_color.G = 65535;
       } else {
 #ifdef SCALE_AMPLITUDE
         double a;
@@ -1325,8 +1417,10 @@ gst_video_test_src_circular (GstVideoTestSrc * v, unsigned char *dest,
         if (a < 0)
           a = 0;
         yuv_color.Y = 128 + a * (sine_array[d & 0xff] - 128);
+        gray_color.G = 128 + a * (sine_array[d & 0xff] - 128);
 #else
         yuv_color.Y = sine_array[d & 0xff];
+        gray_color.G = sine_array[d & 0xff];
 #endif
       }
       rgb_color.R = yuv_color.Y;
@@ -1336,8 +1430,6 @@ gst_video_test_src_circular (GstVideoTestSrc * v, unsigned char *dest,
     }
   }
 }
-
-
 
 static void
 paint_setup_I420 (paintinfo * p, unsigned char *dest)
@@ -1360,7 +1452,7 @@ paint_setup_NV12 (paintinfo * p, unsigned char *dest)
   p->vp = p->up + 1;
   p->ustride = p->ystride;
   p->vstride = p->ystride;
-  p->endptr = p->up + (p->ystride * p->height) / 2;
+  p->endptr = p->up + (p->ystride * GST_ROUND_UP_2 (p->height)) / 2;
 }
 
 static void
@@ -1372,7 +1464,7 @@ paint_setup_NV21 (paintinfo * p, unsigned char *dest)
   p->up = p->vp + 1;
   p->ustride = p->ystride;
   p->vstride = p->ystride;
-  p->endptr = p->vp + (p->ustride * p->height) / 2;
+  p->endptr = p->vp + (p->ystride * GST_ROUND_UP_2 (p->height)) / 2;
 }
 
 static void
@@ -1391,11 +1483,11 @@ paint_hline_I420 (paintinfo * p, int x, int y, int w)
 static void
 paint_hline_NV12_NV21 (paintinfo * p, int x, int y, int w)
 {
-  int x1 = GST_ROUND_UP_2 (x) / 2;
-  int x2 = GST_ROUND_UP_2 (x + w) / 2;
+  int x1 = x / 2;
+  int x2 = (x + w) / 2;
   int offset = y * p->ystride;
-  int offsetuv = GST_ROUND_UP_2 ((y / 2) * p->ustride + x);
-  int uvlength = x2 - x1;
+  int offsetuv = (y / 2) * p->ustride + (x & ~0x01);
+  int uvlength = x2 - x1 + 1;
 
   oil_splat_u8_ns (p->yp + offset + x, &p->yuv_color->Y, w);
   if (uvlength) {
@@ -1434,6 +1526,38 @@ paint_setup_AYUV (paintinfo * p, unsigned char *dest)
   p->up = dest + 2;
   p->vp = dest + 3;
   p->ystride = p->width * 4;
+  p->endptr = dest + p->ystride * p->height;
+}
+
+static void
+paint_setup_v410 (paintinfo * p, unsigned char *dest)
+{
+  p->yp = dest + 0;
+  p->up = dest + 0;
+  p->vp = dest + 0;
+  p->ystride = p->width * 4;
+  p->endptr = dest + p->ystride * p->height;
+}
+
+static void
+paint_setup_v216 (paintinfo * p, unsigned char *dest)
+{
+  p->ap = dest;
+  p->yp = dest + 2;
+  p->up = dest + 0;
+  p->vp = dest + 4;
+  p->ystride = p->width * 4;
+  p->endptr = dest + p->ystride * p->height;
+}
+
+static void
+paint_setup_v210 (paintinfo * p, unsigned char *dest)
+{
+  p->ap = dest;
+  p->yp = dest + 0;
+  p->up = dest + 0;
+  p->vp = dest + 0;
+  p->ystride = ((p->width + 47) / 48) * 128;    /* no, really. */
   p->endptr = dest + p->ystride * p->height;
 }
 
@@ -1489,6 +1613,75 @@ paint_hline_AYUV (paintinfo * p, int x, int y, int w)
   oil_splat_u8 (p->up + offset, 4, &p->yuv_color->U, w);
   oil_splat_u8 (p->vp + offset, 4, &p->yuv_color->V, w);
   oil_splat_u8 (p->ap + offset, 4, &alpha, w);
+}
+
+#define TO_16(x) (((x)<<8) | (x))
+#define TO_10(x) (((x)<<2) | ((x)>>6))
+
+static void
+paint_hline_v216 (paintinfo * p, int x, int y, int w)
+{
+  int x1 = x / 2;
+  int x2 = (x + w) / 2;
+  uint16_t Y, U, V;
+  int i;
+  int offset;
+
+  offset = y * p->ystride;
+  Y = TO_16 (p->yuv_color->Y);
+  U = TO_16 (p->yuv_color->U);
+  V = TO_16 (p->yuv_color->V);
+  for (i = x; i < x + w; i++) {
+    GST_WRITE_UINT16_LE (p->yp + offset + i * 4, Y);
+  }
+  for (i = x1; i < x2; i++) {
+    GST_WRITE_UINT16_LE (p->up + offset + i * 8, U);
+    GST_WRITE_UINT16_LE (p->vp + offset + i * 8, V);
+  }
+}
+
+static void
+paint_hline_v410 (paintinfo * p, int x, int y, int w)
+{
+  uint32_t a;
+  uint8_t *data;
+  int i;
+
+  a = (TO_10 (p->yuv_color->U) << 22) |
+      (TO_10 (p->yuv_color->Y) << 12) | (TO_10 (p->yuv_color->V) << 2);
+
+  data = p->yp + y * p->ystride + x * 4;
+  for (i = 0; i < w; i++) {
+    GST_WRITE_UINT32_LE (data, a);
+  }
+}
+
+static void
+paint_hline_v210 (paintinfo * p, int x, int y, int w)
+{
+  uint32_t a0, a1, a2, a3;
+  uint8_t *data;
+  int i;
+
+  /* FIXME this is kinda gross.  it only handles x values in
+     multiples of 6 */
+
+  a0 = TO_10 (p->yuv_color->U) | (TO_10 (p->yuv_color->Y) << 10)
+      | (TO_10 (p->yuv_color->V) << 20);
+  a1 = TO_10 (p->yuv_color->Y) | (TO_10 (p->yuv_color->U) << 10)
+      | (TO_10 (p->yuv_color->Y) << 20);
+  a2 = TO_10 (p->yuv_color->V) | (TO_10 (p->yuv_color->Y) << 10)
+      | (TO_10 (p->yuv_color->U) << 20);
+  a3 = TO_10 (p->yuv_color->Y) | (TO_10 (p->yuv_color->V) << 10)
+      | (TO_10 (p->yuv_color->Y) << 20);
+
+  data = p->yp + y * p->ystride;
+  for (i = x / 6; i < (x + w) / 6; i++) {
+    GST_WRITE_UINT32_LE (data + i * 16 + 0, a0);
+    GST_WRITE_UINT32_LE (data + i * 16 + 4, a1);
+    GST_WRITE_UINT32_LE (data + i * 16 + 8, a2);
+    GST_WRITE_UINT32_LE (data + i * 16 + 12, a3);
+  }
 }
 
 static void
@@ -1900,4 +2093,37 @@ paint_hline_bayer (paintinfo * p, int x, int y, int w)
       }
     }
   }
+}
+
+static void
+paint_setup_GRAY8 (paintinfo * p, unsigned char *dest)
+{
+  p->yp = dest;
+  p->ystride = GST_ROUND_UP_4 (p->width);
+  p->endptr = dest + p->ystride * p->height;
+}
+
+static void
+paint_hline_GRAY8 (paintinfo * p, int x, int y, int w)
+{
+  int offset = y * p->ystride;
+  guint8 color = p->gray_color->G >> 8;
+
+  oil_splat_u8_ns (p->yp + offset + x, &color, w);
+}
+
+static void
+paint_setup_GRAY16 (paintinfo * p, unsigned char *dest)
+{
+  p->yp = dest;
+  p->ystride = GST_ROUND_UP_4 (p->width * 2);
+  p->endptr = dest + p->ystride * p->height;
+}
+
+static void
+paint_hline_GRAY16 (paintinfo * p, int x, int y, int w)
+{
+  int offset = y * p->ystride;
+
+  oil_splat_u16_ns ((guint16 *) (p->yp + offset + 2 * x), &p->gray_color->G, w);
 }

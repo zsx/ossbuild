@@ -74,8 +74,10 @@ struct _GstURIDecodeBin
   gchar *encoding;
 
   gboolean is_stream;
+  gboolean need_queue;
   guint64 buffer_duration;      /* When streaming, buffer duration (ns) */
   guint buffer_size;            /* When streaming, buffer size (bytes) */
+  gboolean download;
 
   GstElement *source;
   GstElement *typefind;
@@ -146,6 +148,7 @@ enum
 #define DEFAULT_SUBTITLE_ENCODING   NULL
 #define DEFAULT_BUFFER_DURATION     -1
 #define DEFAULT_BUFFER_SIZE         -1
+#define DEFAULT_DOWNLOAD            FALSE
 
 enum
 {
@@ -157,6 +160,7 @@ enum
   PROP_SUBTITLE_ENCODING,
   PROP_BUFFER_SIZE,
   PROP_BUFFER_DURATION,
+  PROP_DOWNLOAD,
   PROP_LAST
 };
 
@@ -280,7 +284,7 @@ gst_uri_decode_bin_class_init (GstURIDecodeBinClass * klass)
   g_object_class_install_property (gobject_class, PROP_CONNECTION_SPEED,
       g_param_spec_uint ("connection-speed", "Connection Speed",
           "Network connection speed in kbps (0 = unknown)",
-          0, G_MAXUINT, DEFAULT_CONNECTION_SPEED,
+          0, G_MAXUINT / 1000, DEFAULT_CONNECTION_SPEED,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_property (gobject_class, PROP_CAPS,
@@ -306,6 +310,11 @@ gst_uri_decode_bin_class_init (GstURIDecodeBinClass * klass)
           "Buffer duration when buffering network streams",
           -1, G_MAXINT64, DEFAULT_BUFFER_DURATION,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
+  g_object_class_install_property (gobject_class, PROP_DOWNLOAD,
+      g_param_spec_boolean ("download", "Download",
+          "Attempt download buffering when buffering network streams",
+          DEFAULT_DOWNLOAD, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * GstURIDecodeBin::unknown-type:
@@ -442,6 +451,7 @@ gst_uri_decode_bin_init (GstURIDecodeBin * dec, GstURIDecodeBinClass * klass)
 
   dec->buffer_duration = DEFAULT_BUFFER_DURATION;
   dec->buffer_size = DEFAULT_BUFFER_SIZE;
+  dec->download = DEFAULT_DOWNLOAD;
 }
 
 static void
@@ -452,10 +462,10 @@ gst_uri_decode_bin_finalize (GObject * obj)
   g_mutex_free (dec->lock);
   g_free (dec->uri);
   g_free (dec->encoding);
-  if (dec->factories) {
+  if (dec->factories)
     g_value_array_free (dec->factories);
-    dec->factories = NULL;
-  }
+  if (dec->caps)
+    gst_caps_unref (dec->caps);
 
   G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
@@ -516,6 +526,9 @@ gst_uri_decode_bin_set_property (GObject * object, guint prop_id,
     case PROP_BUFFER_DURATION:
       dec->buffer_duration = g_value_get_int64 (value);
       break;
+    case PROP_DOWNLOAD:
+      dec->download = g_value_get_boolean (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -564,6 +577,9 @@ gst_uri_decode_bin_get_property (GObject * object, guint prop_id,
       g_value_set_int64 (value, dec->buffer_duration);
       GST_OBJECT_UNLOCK (dec);
       break;
+    case PROP_DOWNLOAD:
+      g_value_set_boolean (value, dec->download);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -587,6 +603,7 @@ do_async_done (GstURIDecodeBin * dbin)
   GstMessage *message;
 
   if (dbin->async_pending) {
+    GST_DEBUG_OBJECT (dbin, "posting ASYNC_DONE");
     message = gst_message_new_async_done (GST_OBJECT_CAST (dbin));
     parent_class->handle_message (GST_BIN_CAST (dbin), message);
 
@@ -750,11 +767,26 @@ array_has_value (const gchar * values[], const gchar * value)
   return FALSE;
 }
 
+static gboolean
+array_has_uri_value (const gchar * values[], const gchar * value)
+{
+  gint i;
+
+  for (i = 0; values[i]; i++) {
+    if (!g_ascii_strncasecmp (value, values[i], strlen (values[i])))
+      return TRUE;
+  }
+  return FALSE;
+}
+
 /* list of URIs that we consider to be streams and that need buffering.
  * We have no mechanism yet to figure this out with a query. */
 static const gchar *stream_uris[] = { "http://", "mms://", "mmsh://",
-  "mmsu://", "mmst://", NULL
+  "mmsu://", "mmst://", "fd://", NULL
 };
+
+/* list of URIs that need a queue because they are pretty bursty */
+static const gchar *queue_uris[] = { "cdda://", NULL };
 
 /* blacklisted URIs, we know they will always fail. */
 static const gchar *blacklisted_uris[] = { NULL };
@@ -770,13 +802,20 @@ static const gchar *no_media_mimes[] = {
 /* media types we consider raw media */
 static const gchar *raw_media[] = {
   "audio/x-raw", "video/x-raw", "text/plain", "text/x-pango-markup",
-  "video/x-dvd-subpicture", NULL
+  "video/x-dvd-subpicture", "subpicture/x-", NULL
 };
 
-#define IS_STREAM_URI(uri)          (array_has_value (stream_uris, uri))
-#define IS_BLACKLISTED_URI(uri)     (array_has_value (blacklisted_uris, uri))
+/* media types we can download */
+static const gchar *download_media[] = {
+  "video/quicktime", "video/x-flv", NULL
+};
+
+#define IS_STREAM_URI(uri)          (array_has_uri_value (stream_uris, uri))
+#define IS_QUEUE_URI(uri)           (array_has_uri_value (queue_uris, uri))
+#define IS_BLACKLISTED_URI(uri)     (array_has_uri_value (blacklisted_uris, uri))
 #define IS_NO_MEDIA_MIME(mime)      (array_has_value (no_media_mimes, mime))
 #define IS_RAW_MEDIA(media)         (array_has_value (raw_media, media))
+#define IS_DOWNLOAD_MEDIA(media)    (array_has_value (download_media, media))
 
 /*
  * Generate and configure a source element.
@@ -804,8 +843,10 @@ gen_source_element (GstURIDecodeBin * decoder)
   GST_LOG_OBJECT (decoder, "found source type %s", G_OBJECT_TYPE_NAME (source));
 
   decoder->is_stream = IS_STREAM_URI (decoder->uri);
-
   GST_LOG_OBJECT (decoder, "source is stream: %d", decoder->is_stream);
+
+  decoder->need_queue = IS_QUEUE_URI (decoder->uri);
+  GST_LOG_OBJECT (decoder, "source needs queue: %d", decoder->need_queue);
 
   /* make HTTP sources send extra headers so we get icecast
    * metadata in case the stream is an icecast stream */
@@ -926,6 +967,7 @@ done:
  * @is_raw: are all pads raw data
  * @have_out: does the source have output
  * @is_dynamic: is this a dynamic source
+ * @use_queue: put a queue before raw output pads
  *
  * Check the source of @decoder and collect information about it.
  *
@@ -942,7 +984,7 @@ done:
  */
 static gboolean
 analyse_source (GstURIDecodeBin * decoder, gboolean * is_raw,
-    gboolean * have_out, gboolean * is_dynamic)
+    gboolean * have_out, gboolean * is_dynamic, gboolean use_queue)
 {
   GstIterator *pads_iter;
   gboolean done = FALSE;
@@ -981,8 +1023,28 @@ analyse_source (GstURIDecodeBin * decoder, gboolean * is_raw,
         }
 
         /* caps on source pad are all raw, we can add the pad */
-        if (*is_raw)
-          new_decoded_pad_cb (decoder->source, pad, FALSE, decoder);
+        if (*is_raw) {
+          GstElement *outelem;
+
+          if (use_queue) {
+            GstPad *sinkpad;
+
+            /* insert a queue element right before the raw pad */
+            outelem = gst_element_factory_make ("queue2", "queue");
+            gst_bin_add (GST_BIN_CAST (decoder), outelem);
+
+            sinkpad = gst_element_get_static_pad (outelem, "sink");
+            gst_pad_link (pad, sinkpad);
+            gst_object_unref (sinkpad);
+            gst_object_unref (pad);
+
+            /* get the new raw srcpad */
+            pad = gst_element_get_static_pad (outelem, "src");
+          } else {
+            outelem = decoder->source;
+          }
+          new_decoded_pad_cb (outelem, pad, FALSE, decoder);
+        }
         gst_object_unref (pad);
         break;
     }
@@ -1123,6 +1185,10 @@ make_decoder (GstURIDecodeBin * decoder)
   if (!decodebin)
     goto no_decodebin;
 
+  /* configure caps if we have any */
+  if (decoder->caps)
+    g_object_set (decodebin, "caps", decoder->caps, NULL);
+
   /* connect signals to proxy */
   g_signal_connect (G_OBJECT (decodebin), "unknown-type",
       G_CALLBACK (proxy_unknown_type_signal), decoder);
@@ -1171,6 +1237,8 @@ type_found (GstElement * typefind, guint probability,
     GstCaps * caps, GstURIDecodeBin * decoder)
 {
   GstElement *dec_elem, *queue;
+  GstStructure *s;
+  const gchar *media_type;
 
   GST_DEBUG_OBJECT (decoder, "typefind found caps %" GST_PTR_FORMAT, caps);
 
@@ -1183,7 +1251,36 @@ type_found (GstElement * typefind, guint probability,
     goto no_queue2;
 
   g_object_set (G_OBJECT (queue), "use-buffering", TRUE, NULL);
-  /* g_object_set (G_OBJECT (queue), "temp-location", "temp", NULL); */
+
+  s = gst_caps_get_structure (caps, 0);
+  media_type = gst_structure_get_name (s);
+
+  GST_DEBUG_OBJECT (decoder, "check media-type %s, %d", media_type,
+      decoder->download);
+
+  if (IS_DOWNLOAD_MEDIA (media_type) && decoder->download) {
+    gchar *temp_template, *filename;
+    const gchar *tmp_dir, *prgname;
+
+    tmp_dir = g_get_tmp_dir ();
+    prgname = g_get_prgname ();
+    if (prgname == NULL)
+      prgname = "GStreamer";
+
+    filename = g_strdup_printf ("%s-XXXXXX", prgname);
+
+    /* build our filename */
+    temp_template = g_build_filename (tmp_dir, filename, NULL);
+
+    GST_DEBUG_OBJECT (decoder, "enable download buffering in %s (%s, %s, %s)",
+        temp_template, tmp_dir, prgname, filename);
+
+    /* configure progressive download for selected media types */
+    g_object_set (G_OBJECT (queue), "temp-template", temp_template, NULL);
+
+    g_free (filename);
+    g_free (temp_template);
+  }
 
   /* Disable max-size-buffers */
   g_object_set (G_OBJECT (queue), "max-size-buffers", 0, NULL);
@@ -1201,6 +1298,9 @@ type_found (GstElement * typefind, guint probability,
   if (!gst_element_link_pads (typefind, "src", queue, "sink"))
     goto could_not_link;
 
+  /* to force caps on the decodebin element and avoid reparsing stuff by
+   * typefind. It also avoids a deadlock in the way typefind activates pads in
+   * the state change */
   g_object_set (G_OBJECT (dec_elem), "sink-caps", caps, NULL);
 
   if (!gst_element_link_pads (queue, "src", dec_elem, "sink"))
@@ -1384,7 +1484,8 @@ setup_source (GstURIDecodeBin * decoder)
    * if so, we can create streams for the pads and be done with it.
    * Also check that is has source pads, if not, we assume it will
    * do everything itself.  */
-  if (!analyse_source (decoder, &is_raw, &have_out, &is_dynamic))
+  if (!analyse_source (decoder, &is_raw, &have_out, &is_dynamic,
+          decoder->need_queue))
     goto invalid_source;
 
   if (is_raw) {
@@ -1866,6 +1967,12 @@ gst_uri_decode_bin_change_state (GstElement * element,
       remove_pads (decoder);
       remove_source (decoder);
       do_async_done (decoder);
+      break;
+    case GST_STATE_CHANGE_READY_TO_NULL:
+      GST_DEBUG ("ready to null");
+      remove_decoders (decoder);
+      remove_pads (decoder);
+      remove_source (decoder);
       break;
     default:
       break;

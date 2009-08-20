@@ -127,6 +127,7 @@
 #include <gst/gstinfo.h>
 GST_DEBUG_CATEGORY_STATIC (gst_debug_xvimagesink);
 #define GST_CAT_DEFAULT gst_debug_xvimagesink
+GST_DEBUG_CATEGORY_STATIC (GST_CAT_PERFORMANCE);
 
 typedef struct
 {
@@ -906,6 +907,45 @@ gst_xvimagesink_xwindow_decorate (GstXvImageSink * xvimagesink,
   return TRUE;
 }
 
+static void
+gst_xvimagesink_xwindow_set_title (GstXvImageSink * xvimagesink,
+    GstXWindow * xwindow, const gchar * media_title)
+{
+  if (media_title) {
+    g_free (xvimagesink->media_title);
+    xvimagesink->media_title = g_strdup (media_title);
+  }
+  if (xwindow) {
+    /* we have a window */
+    if (xwindow->internal) {
+      XTextProperty xproperty;
+      const gchar *app_name;
+      const gchar *title = NULL;
+      gchar *title_mem = NULL;
+
+      /* set application name as a title */
+      app_name = g_get_application_name ();
+
+      if (app_name && xvimagesink->media_title) {
+        title = title_mem = g_strconcat (xvimagesink->media_title, " : ",
+            app_name, NULL);
+      } else if (app_name) {
+        title = app_name;
+      } else if (xvimagesink->media_title) {
+        title = xvimagesink->media_title;
+      }
+
+      if (title) {
+        if ((XStringListToTextProperty (((char **) &title), 1,
+                    &xproperty)) != 0)
+          XSetWMName (xvimagesink->xcontext->disp, xwindow->win, &xproperty);
+
+        g_free (title_mem);
+      }
+    }
+  }
+}
+
 /* This function handles a GstXWindow creation
  * The width and height are the actual pixel size on the display */
 static GstXWindow *
@@ -933,6 +973,9 @@ gst_xvimagesink_xwindow_new (GstXvImageSink * xvimagesink,
   /* We have to do that to prevent X from redrawing the background on
    * ConfigureNotify. This takes away flickering of video when resizing. */
   XSetWindowBackgroundPixmap (xvimagesink->xcontext->disp, xwindow->win, None);
+
+  /* set application name as a title */
+  gst_xvimagesink_xwindow_set_title (xvimagesink, xwindow, NULL);
 
   if (xvimagesink->handle_events) {
     Atom wm_delete;
@@ -2282,7 +2325,8 @@ gst_xvimagesink_show_frame (GstBaseSink * bsink, GstBuffer * buf)
             GST_XVIMAGE_BUFFER_CAST (buf)))
       goto no_window;
   } else {
-    GST_LOG_OBJECT (xvimagesink, "slow copy into bufferpool buffer %p", buf);
+    GST_CAT_LOG_OBJECT (GST_CAT_PERFORMANCE, xvimagesink,
+        "slow copy into bufferpool buffer %p", buf);
     /* Else we have to copy the data into our private image, */
     /* if we have one... */
     if (!xvimagesink->xvimage) {
@@ -2330,6 +2374,37 @@ no_window:
     GST_WARNING_OBJECT (xvimagesink, "could not output image - no window");
     return GST_FLOW_ERROR;
   }
+}
+
+static gboolean
+gst_xvimagesink_event (GstBaseSink * sink, GstEvent * event)
+{
+  GstXvImageSink *xvimagesink = GST_XVIMAGESINK (sink);
+
+  switch (GST_EVENT_TYPE (event)) {
+    case GST_EVENT_TAG:{
+      GstTagList *l;
+      gchar *title = NULL;
+
+      gst_event_parse_tag (event, &l);
+      gst_tag_list_get_string (l, GST_TAG_TITLE, &title);
+
+      if (title) {
+        GST_DEBUG_OBJECT (xvimagesink, "got tags, title='%s'", title);
+        gst_xvimagesink_xwindow_set_title (xvimagesink, xvimagesink->xwindow,
+            title);
+
+        g_free (title);
+      }
+      break;
+    }
+    default:
+      break;
+  }
+  if (GST_BASE_SINK_CLASS (parent_class)->event)
+    return GST_BASE_SINK_CLASS (parent_class)->event (sink, event);
+  else
+    return TRUE;
 }
 
 /* Buffer management */
@@ -3227,6 +3302,8 @@ gst_xvimagesink_finalize (GObject * object)
     xvimagesink->pool_lock = NULL;
   }
 
+  g_free (xvimagesink->media_title);
+
   G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
@@ -3413,6 +3490,7 @@ gst_xvimagesink_class_init (GstXvImageSinkClass * klass)
   gstbasesink_class->get_times = GST_DEBUG_FUNCPTR (gst_xvimagesink_get_times);
   gstbasesink_class->preroll = GST_DEBUG_FUNCPTR (gst_xvimagesink_show_frame);
   gstbasesink_class->render = GST_DEBUG_FUNCPTR (gst_xvimagesink_show_frame);
+  gstbasesink_class->event = GST_DEBUG_FUNCPTR (gst_xvimagesink_event);
 }
 
 /* ============================================================= */
@@ -3502,6 +3580,7 @@ plugin_init (GstPlugin * plugin)
 
   GST_DEBUG_CATEGORY_INIT (gst_debug_xvimagesink, "xvimagesink", 0,
       "xvimagesink element");
+  GST_DEBUG_CATEGORY_GET (GST_CAT_PERFORMANCE, "GST_PERFORMANCE");
 
   return TRUE;
 }

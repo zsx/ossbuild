@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
-<book xmlns="http://www.devhelp.net/book" title="GNonLin 0.10.11 Reference Manual" link="index.html" author="" name="gnonlin" version="2" language="c">
+<book xmlns="http://www.devhelp.net/book" title="GNonLin 0.10.12 Reference Manual" link="index.html" author="" name="gnonlin" version="2" language="c">
   <chapters>
     <sub name="GNonLin Elements" link="ch01.html">
       <sub name="GnlComposition" link="GnlComposition.html"/>
@@ -13,23 +13,23 @@
     </sub>
   </chapters>
   <functions>
-    <keyword type="" name="Element Information" link="GnlComposition.html#id279494"/>
-    <keyword type="" name="Element Pads" link="GnlComposition.html#id279556"/>
+    <keyword type="" name="Element Information" link="GnlComposition.html#id284494"/>
+    <keyword type="" name="Element Pads" link="GnlComposition.html#id284556"/>
     <keyword type="struct" name="GnlComposition" link="GnlComposition.html#GnlComposition-struct"/>
     <keyword type="property" name="The &quot;update&quot; property" link="GnlComposition.html#GnlComposition--update"/>
-    <keyword type="" name="Element Information" link="GnlFileSource.html#id347212"/>
-    <keyword type="" name="Element Pads" link="GnlFileSource.html#id347273"/>
+    <keyword type="" name="Element Information" link="GnlFileSource.html#id353626"/>
+    <keyword type="" name="Element Pads" link="GnlFileSource.html#id353688"/>
     <keyword type="struct" name="GnlFileSource" link="GnlFileSource.html#GnlFileSource-struct"/>
     <keyword type="property" name="The &quot;location&quot; property" link="GnlFileSource.html#GnlFileSource--location"/>
-    <keyword type="" name="" link="GnlOperation.html#id355056"/>
-    <keyword type="" name="Element Information" link="GnlOperation.html#id348719"/>
-    <keyword type="" name="Element Pads" link="GnlOperation.html#id341329"/>
+    <keyword type="" name="" link="GnlOperation.html#id358415"/>
+    <keyword type="" name="Element Information" link="GnlOperation.html#id324476"/>
+    <keyword type="" name="Element Pads" link="GnlOperation.html#id338529"/>
     <keyword type="struct" name="GnlOperation" link="GnlOperation.html#GnlOperation-struct"/>
     <keyword type="property" name="The &quot;sinks&quot; property" link="GnlOperation.html#GnlOperation--sinks"/>
-    <keyword type="" name="Element Information" link="GnlSource.html#id352888"/>
-    <keyword type="" name="Element Pads" link="GnlSource.html#id328467"/>
+    <keyword type="" name="Element Information" link="GnlSource.html#id360767"/>
+    <keyword type="" name="Element Pads" link="GnlSource.html#id336296"/>
     <keyword type="struct" name="GnlSource" link="GnlSource.html#GnlSource-struct"/>
-    <keyword type="" name="" link="GnlObject.html#id327913"/>
+    <keyword type="" name="" link="GnlObject.html#id347898"/>
     <keyword type="struct" name="GnlObject" link="GnlObject.html#GnlObject-struct"/>
     <keyword type="property" name="The &quot;active&quot; property" link="GnlObject.html#GnlObject--active"/>
     <keyword type="property" name="The &quot;caps&quot; property" link="GnlObject.html#GnlObject--caps"/>

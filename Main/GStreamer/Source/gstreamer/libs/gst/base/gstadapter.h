@@ -40,6 +40,7 @@ G_BEGIN_DECLS
 
 typedef struct _GstAdapter GstAdapter;
 typedef struct _GstAdapterClass GstAdapterClass;
+typedef struct _GstAdapterPrivate GstAdapterPrivate;
 
 /**
  * GstAdapter:
@@ -60,10 +61,14 @@ struct _GstAdapter {
   guint		assembled_size;
   guint		assembled_len;
 
+  /* ABI added */
   /* Remember where the end of our buffer list is to
    * speed up the push */
   GSList *buflist_end;
-  gpointer _gst_reserved[GST_PADDING - 1];
+
+  GstAdapterPrivate *priv;
+
+  gpointer _gst_reserved[GST_PADDING - 2];
 };
 
 struct _GstAdapterClass {
@@ -72,6 +77,8 @@ struct _GstAdapterClass {
   /*< private >*/
   gpointer _gst_reserved[GST_PADDING];
 };
+
+GType			gst_adapter_get_type		(void);
 
 GstAdapter *		gst_adapter_new			(void);
 
@@ -85,7 +92,12 @@ guint8*			gst_adapter_take		(GstAdapter *adapter, guint nbytes);
 GstBuffer*		gst_adapter_take_buffer		(GstAdapter *adapter, guint nbytes);
 guint			gst_adapter_available		(GstAdapter *adapter);
 guint			gst_adapter_available_fast    	(GstAdapter *adapter);
-GType			gst_adapter_get_type		(void);
+
+GstClockTime            gst_adapter_prev_timestamp      (GstAdapter *adapter, guint64 *distance);
+
+guint                   gst_adapter_masked_scan_uint32  (GstAdapter * adapter, guint32 mask,
+                                                         guint32 pattern, guint offset, guint size);
+
 
 G_END_DECLS
 

@@ -2,20 +2,20 @@ AC_PREREQ(2.52)
 
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
-dnl releases only do Wall, cvs and prerelease does Werror too
-AC_INIT(GStreamer, 0.10.23,
+dnl releases only do Wall, git and prerelease does Werror too
+AC_INIT(GStreamer, 0.10.24,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gstreamer)
 AG_GST_INIT
 
-dnl initialize automake
-AM_INIT_AUTOMAKE
+dnl initialize automake (we require GNU make)
+AM_INIT_AUTOMAKE([-Wno-portability])
 
 dnl define PACKAGE_VERSION_* variables
 AS_VERSION
 
 dnl check if this is a release version
-AS_NANO(GST_CVS="no", GST_CVS="yes")
+AS_NANO(GST_GIT="no", GST_GIT="yes")
 
 dnl can autoconf find the source ?
 AC_CONFIG_SRCDIR([gst/gst.c])
@@ -43,7 +43,7 @@ dnl - interfaces added/removed/changed -> increment CURRENT, REVISION = 0
 dnl - interfaces added -> increment AGE
 dnl - interfaces removed -> AGE = 0
 dnl sets GST_LT_LDFLAGS
-AS_LIBTOOL(GST, 20, 0, 20)
+AS_LIBTOOL(GST, 21, 0, 21)
 
 dnl FIXME: this macro doesn't actually work;
 dnl the generated libtool script has no support for the listed tags.
@@ -173,26 +173,6 @@ if test "x$USE_POISONING" = xyes; then
   AC_DEFINE(USE_POISONING, 1,
     [Define if we should poison deallocated memory])
 fi
-
-dnl Use binary registry
-AC_ARG_ENABLE(binary-registry,
-  AC_HELP_STRING([--disable-binary-registry],
-    [disable binary registry]),
-  [
-    case "${enableval}" in
-      yes) USE_BINARY_REGISTRY=yes ;;
-      no)  USE_BINARY_REGISTRY=no ;;
-      *)   AC_MSG_ERROR(bad value ${enableval} for --disable-binary-registry) ;;
-    esac
-  ],
-  [USE_BINARY_REGISTRY=yes]) dnl Default value
-
-if test "x$USE_BINARY_REGISTRY" = xyes; then
-  dnl for config.h:
-  AC_DEFINE(USE_BINARY_REGISTRY, 1,
-    [Define if we should use binary registry instead xml registry])
-fi
-AM_CONDITIONAL(USE_BINARY_REGISTRY, test "x$USE_BINARY_REGISTRY" = "xyes")
 
 dnl *** checks for platform ***
 
@@ -325,6 +305,10 @@ AC_CHECK_HEADERS([sys/utsname.h])
 dnl Check for stdio_ext.f for __fbufsize
 AC_CHECK_HEADERS([stdio_ext.h])
 
+dnl check for pthreads
+AC_CHECK_HEADERS([pthread.h], HAVE_PTHREAD_H=yes)
+AM_CONDITIONAL(HAVE_PTHREAD_H, test "x$HAVE_PTHREAD_H" = "xyes")
+
 dnl Check for valgrind.h
 dnl separate from HAVE_VALGRIND because you can have the program, but not
 dnl the dev package
@@ -343,9 +327,6 @@ dnl *** checks for types/defines ***
 dnl *** checks for structures ***
 
 dnl *** checks for compiler characteristics ***
-
-dnl make sure we can use "inline" from C code
-AC_C_INLINE
 
 OPT_CFLAGS=
 dnl Check for some compiler flags that optimize our code.
@@ -451,20 +432,21 @@ AM_CONDITIONAL(GST_HAVE_MONOTONIC_CLOCK, test "$gst_cv_monotonic_clock" = "yes")
 dnl Check for a way to display the function name in debug output
 AG_GST_CHECK_FUNCTION
 
-dnl test for register_printf_function
-AC_CHECK_FUNC(register_printf_function,
-  [
-    GST_PRINTF_EXTENSION_POINTER_FORMAT_DEFINE="#define GST_PTR_FORMAT \"P\""
-    GST_PRINTF_EXTENSION_SEGMENT_FORMAT_DEFINE="#define GST_SEGMENT_FORMAT \"Q\""
-    GST_USING_PRINTF_EXTENSION_DEFINE="#define GST_USING_PRINTF_EXTENSION"
-    AC_DEFINE(HAVE_PRINTF_EXTENSION, 1,
-      [Defined if we have register_printf_function ()])
-  ], [
+dnl test for register_printf_specifier or register_printf_function
+AC_CHECK_FUNCS([register_printf_specifier register_printf_function],
+    [HAVE_PRINTF_EXTENSION=yes])
+
+if test "$HAVE_PRINTF_EXTENSION" = yes; then
+  GST_PRINTF_EXTENSION_POINTER_FORMAT_DEFINE="#define GST_PTR_FORMAT \"P\""
+  GST_PRINTF_EXTENSION_SEGMENT_FORMAT_DEFINE="#define GST_SEGMENT_FORMAT \"Q\""
+  GST_USING_PRINTF_EXTENSION_DEFINE="#define GST_USING_PRINTF_EXTENSION"
+  AC_DEFINE(HAVE_PRINTF_EXTENSION, 1,
+      [Defined if we have printf specifier extensions available])
+else
     GST_PRINTF_EXTENSION_POINTER_FORMAT_DEFINE="#define GST_PTR_FORMAT \"p\""
     GST_PRINTF_EXTENSION_SEGMENT_FORMAT_DEFINE="#define GST_SEGMENT_FORMAT \"p\""
     GST_USING_PRINTF_EXTENSION_DEFINE="#undef GST_USING_PRINTF_EXTENSION"
-  ]
-)
+fi
 AC_SUBST(GST_PRINTF_EXTENSION_POINTER_FORMAT_DEFINE)
 AC_SUBST(GST_PRINTF_EXTENSION_SEGMENT_FORMAT_DEFINE)
 AC_SUBST(GST_USING_PRINTF_EXTENSION_DEFINE)
@@ -494,7 +476,7 @@ LIBS="$save_libs"
 dnl *** checks for dependency libraries ***
 
 dnl GLib
-GLIB_REQ=2.14
+GLIB_REQ=2.16
 
 AG_GST_GLIB_CHECK([$GLIB_REQ])
 
@@ -510,9 +492,7 @@ GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
 AC_SUBST(GLIB_PREFIX)
 
 dnl libxml 2 is optional in some cases
-if test "x$GST_DISABLE_LOADSAVE" = "xyes" && \
-   ( test "x$GST_DISABLE_REGISTRY" = "xyes" || \
-   test "x$USE_BINARY_REGISTRY" = "xyes" )
+if test "x$GST_DISABLE_LOADSAVE" = "xyes" -a "x$GST_DISABLE_REGISTRY" = "xyes"
 then
   AC_MSG_NOTICE([XML registry and load/save are disabled, not checking for libxml2])
   GST_DISABLE_XML_DEFINE="#define GST_DISABLE_XML 1"
@@ -561,10 +541,10 @@ GST_PKG_DEPS="glib-2.0, gobject-2.0, gmodule-no-export-2.0, gthread-2.0"
 AC_SUBST(GST_PKG_DEPS)
 
 dnl define an ERROR_CFLAGS Makefile variable
-AG_GST_SET_ERROR_CFLAGS($GST_CVS)
+AG_GST_SET_ERROR_CFLAGS($GST_GIT)
 
 dnl define correct level for debugging messages
-AG_GST_SET_LEVEL_DEFAULT($GST_CVS)
+AG_GST_SET_LEVEL_DEFAULT($GST_GIT)
 
 dnl *** finalize CFLAGS, LDFLAGS, LIBS
 
@@ -587,7 +567,7 @@ AC_SUBST(PROFILE_CFLAGS)
 # functionality from the API that gstreamer uses
 # GST_REMOVE_DEPRECATED: don't compile deprecated functionality (breaks ABI)
 if test "x$PACKAGE_VERSION_NANO" = "x1"; then
-  dnl Define _only_ during CVS (not pre-releases or releases)
+  dnl Define _only_ when compiling from git (not for pre-releases or releases)
   DEPRECATED_CFLAGS="-DGST_DISABLE_DEPRECATED"
 else
   DEPRECATED_CFLAGS=""
@@ -675,11 +655,13 @@ tests/misc/Makefile
 tests/examples/Makefile
 tests/examples/adapter/Makefile
 tests/examples/controller/Makefile
+tests/examples/stepping/Makefile
 tests/examples/helloworld/Makefile
 tests/examples/launch/Makefile
 tests/examples/manual/Makefile
 tests/examples/metadata/Makefile
 tests/examples/queue/Makefile
+tests/examples/streams/Makefile
 tests/examples/typefind/Makefile
 tests/examples/xml/Makefile
 tools/Makefile
@@ -747,7 +729,6 @@ sed \
     -e 's/.* PACKAGE_TARNAME$/#define PACKAGE_TARNAME "'$PACKAGE_TARNAME'"/' \
     -e 's/.* PACKAGE_VERSION$/#define PACKAGE_VERSION "'$PACKAGE_VERSION'"/' \
     -e 's/.* PLUGINDIR$/#ifdef _DEBUG\n#  define PLUGINDIR PREFIX "\\\\debug\\\\lib\\\\gstreamer-0.10"\n#else\n#  define PLUGINDIR PREFIX "\\\\lib\\\\gstreamer-0.10"\n#endif/' \
-    -e 's/.* USE_BINARY_REGISTRY$/#define USE_BINARY_REGISTRY/' \
     -e 's/.* VERSION$/#define VERSION "'$VERSION'"/' \
     config.h.in >win32/common/config.h-new
 

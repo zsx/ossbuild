@@ -98,6 +98,28 @@ gst_buffer_copy_flags_get_type (void)
   return id;
 }
 
+/* enumerations from "gstbufferlist.h" */
+static void
+register_gst_buffer_list_item (GType* id)
+{
+  static const GEnumValue values[] = {
+    { C_ENUM(GST_BUFFER_LIST_CONTINUE), "GST_BUFFER_LIST_CONTINUE", "continue" },
+    { C_ENUM(GST_BUFFER_LIST_SKIP_GROUP), "GST_BUFFER_LIST_SKIP_GROUP", "skip-group" },
+    { C_ENUM(GST_BUFFER_LIST_END), "GST_BUFFER_LIST_END", "end" },
+    { 0, NULL, NULL }
+  };
+  *id = g_enum_register_static ("GstBufferListItem", values);
+}
+GType
+gst_buffer_list_item_get_type (void)
+{
+  static GType id;
+  static GOnce once = G_ONCE_INIT;
+
+  g_once (&once, (GThreadFunc)register_gst_buffer_list_item, &id);
+  return id;
+}
+
 /* enumerations from "gstbus.h" */
 static void
 register_gst_bus_flags (GType* id)
@@ -498,6 +520,7 @@ register_gst_event_type (GType* id)
     { C_ENUM(GST_EVENT_SEEK), "GST_EVENT_SEEK", "seek" },
     { C_ENUM(GST_EVENT_NAVIGATION), "GST_EVENT_NAVIGATION", "navigation" },
     { C_ENUM(GST_EVENT_LATENCY), "GST_EVENT_LATENCY", "latency" },
+    { C_ENUM(GST_EVENT_STEP), "GST_EVENT_STEP", "step" },
     { C_ENUM(GST_EVENT_CUSTOM_UPSTREAM), "GST_EVENT_CUSTOM_UPSTREAM", "custom-upstream" },
     { C_ENUM(GST_EVENT_CUSTOM_DOWNSTREAM), "GST_EVENT_CUSTOM_DOWNSTREAM", "custom-downstream" },
     { C_ENUM(GST_EVENT_CUSTOM_DOWNSTREAM_OOB), "GST_EVENT_CUSTOM_DOWNSTREAM_OOB", "custom-downstream-oob" },
@@ -845,6 +868,7 @@ register_gst_message_type (GType* id)
     { C_FLAGS(GST_MESSAGE_ASYNC_START), "GST_MESSAGE_ASYNC_START", "async-start" },
     { C_FLAGS(GST_MESSAGE_ASYNC_DONE), "GST_MESSAGE_ASYNC_DONE", "async-done" },
     { C_FLAGS(GST_MESSAGE_REQUEST_STATE), "GST_MESSAGE_REQUEST_STATE", "request-state" },
+    { C_FLAGS(GST_MESSAGE_STEP_START), "GST_MESSAGE_STEP_START", "step-start" },
     { C_FLAGS(GST_MESSAGE_ANY), "GST_MESSAGE_ANY", "any" },
     { 0, NULL, NULL }
   };
@@ -876,6 +900,30 @@ gst_structure_change_type_get_type (void)
   static GOnce once = G_ONCE_INIT;
 
   g_once (&once, (GThreadFunc)register_gst_structure_change_type, &id);
+  return id;
+}
+static void
+register_gst_stream_status_type (GType* id)
+{
+  static const GEnumValue values[] = {
+    { C_ENUM(GST_STREAM_STATUS_TYPE_CREATE), "GST_STREAM_STATUS_TYPE_CREATE", "create" },
+    { C_ENUM(GST_STREAM_STATUS_TYPE_ENTER), "GST_STREAM_STATUS_TYPE_ENTER", "enter" },
+    { C_ENUM(GST_STREAM_STATUS_TYPE_LEAVE), "GST_STREAM_STATUS_TYPE_LEAVE", "leave" },
+    { C_ENUM(GST_STREAM_STATUS_TYPE_DESTROY), "GST_STREAM_STATUS_TYPE_DESTROY", "destroy" },
+    { C_ENUM(GST_STREAM_STATUS_TYPE_START), "GST_STREAM_STATUS_TYPE_START", "start" },
+    { C_ENUM(GST_STREAM_STATUS_TYPE_PAUSE), "GST_STREAM_STATUS_TYPE_PAUSE", "pause" },
+    { C_ENUM(GST_STREAM_STATUS_TYPE_STOP), "GST_STREAM_STATUS_TYPE_STOP", "stop" },
+    { 0, NULL, NULL }
+  };
+  *id = g_enum_register_static ("GstStreamStatusType", values);
+}
+GType
+gst_stream_status_type_get_type (void)
+{
+  static GType id;
+  static GOnce once = G_ONCE_INIT;
+
+  g_once (&once, (GThreadFunc)register_gst_stream_status_type, &id);
   return id;
 }
 

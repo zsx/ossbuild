@@ -655,13 +655,18 @@ gst_decode_bin_init (GstDecodeBin * decode_bin)
 
   decode_bin->caps =
       gst_caps_from_string ("video/x-raw-yuv;video/x-raw-rgb;video/x-raw-gray;"
-      "audio/x-raw-int;audio/x-raw-float;" "text/plain;text/x-pango-markup");
+      "audio/x-raw-int;audio/x-raw-float;" "text/plain;text/x-pango-markup;"
+      "video/x-dvd-subpicture; subpicture/x-pgs");
 }
 
 static void
 gst_decode_bin_remove_groups (GstDecodeBin * dbin)
 {
   GList *tmp;
+  GstIterator *it;
+  gpointer point;
+  gboolean done;
+  GstIteratorResult res;
 
   GST_DEBUG_OBJECT (dbin, "cleaning up");
 
@@ -689,6 +694,45 @@ gst_decode_bin_remove_groups (GstDecodeBin * dbin)
   }
   g_list_free (dbin->oldgroups);
   dbin->oldgroups = NULL;
+
+  GST_DEBUG_OBJECT (dbin, "removing last elements");
+
+  /* remove all remaining elements */
+  it = gst_bin_iterate_elements (GST_BIN_CAST (dbin));
+restart:
+  done = FALSE;
+  while (!done) {
+    res = gst_iterator_next (it, &point);
+    switch (res) {
+      case GST_ITERATOR_DONE:
+        done = TRUE;
+        break;
+      case GST_ITERATOR_RESYNC:
+        gst_iterator_resync (it);
+        goto restart;
+      case GST_ITERATOR_ERROR:
+        GST_WARNING_OBJECT (dbin,
+            "Had an error while iterating bin %s", GST_ELEMENT_NAME (dbin));
+        done = TRUE;
+        break;
+      case GST_ITERATOR_OK:
+      {
+        GstElement *elem = GST_ELEMENT_CAST (point);
+
+        /* don't remove the typefind element */
+        if (elem != dbin->typefind) {
+          GST_DEBUG_OBJECT (dbin, "remove element %s", GST_ELEMENT_NAME (elem));
+          gst_bin_remove (GST_BIN_CAST (dbin), elem);
+          gst_element_set_state (elem, GST_STATE_NULL);
+        }
+        gst_object_unref (elem);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+  gst_iterator_free (it);
 }
 
 static void
@@ -748,14 +792,21 @@ gst_decode_bin_finalize (GObject * object)
 static void
 gst_decode_bin_set_caps (GstDecodeBin * dbin, GstCaps * caps)
 {
+  GstCaps *old;
+
   GST_DEBUG_OBJECT (dbin, "Setting new caps: %" GST_PTR_FORMAT, caps);
 
   GST_OBJECT_LOCK (dbin);
-  if (dbin->caps)
-    gst_caps_unref (dbin->caps);
-  if (caps)
-    gst_caps_ref (caps);
-  dbin->caps = caps;
+  old = dbin->caps;
+  if (old != caps) {
+    if (caps)
+      gst_caps_ref (caps);
+
+    dbin->caps = caps;
+
+    if (old)
+      gst_caps_unref (old);
+  }
   GST_OBJECT_UNLOCK (dbin);
 }
 
@@ -765,7 +816,6 @@ gst_decode_bin_set_caps (GstDecodeBin * dbin, GstCaps * caps)
  *
  * MT-safe
  */
-
 static GstCaps *
 gst_decode_bin_get_caps (GstDecodeBin * dbin)
 {
@@ -1770,8 +1820,8 @@ gst_decode_group_new (GstDecodeBin * dbin, gboolean use_queue)
      * memory. When this queue overruns, we assume the group is complete and can
      * be exposed. */
     g_object_set (G_OBJECT (mq),
-        "max-size-bytes", 2 * 1024 * 1024,
-        "max-size-time", 5 * GST_SECOND, "max-size-buffers", 0, NULL);
+        "max-size-bytes", (guint) 2 * 1024 * 1024,
+        "max-size-time", (guint64) 0, "max-size-buffers", (guint) 0, NULL);
     /* will expose the group */
     group->overrunsig = g_signal_connect (G_OBJECT (mq), "overrun",
         G_CALLBACK (multi_queue_overrun_cb), group);

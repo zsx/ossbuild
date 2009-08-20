@@ -216,7 +216,9 @@ element_pad_added_cb (GstElement * element G_GNUC_UNUSED, GstPad * pad,
 
   if (source->priv->ghostpad || source->priv->pendingblock) {
     GST_WARNING_OBJECT (source,
-        "We already have (pending) ghost-ed a valid source pad");
+        "We already have (pending) ghost-ed a valid source pad (ghostpad:%s:%s, pendingblock:%d",
+        GST_DEBUG_PAD_NAME (source->priv->ghostpad),
+        source->priv->pendingblock);
     return;
   }
 
@@ -258,6 +260,7 @@ element_pad_removed_cb (GstElement * element G_GNUC_UNUSED, GstPad * pad,
       gnl_object_remove_ghost_pad ((GnlObject *) source,
           source->priv->ghostpad);
       source->priv->ghostpad = NULL;
+      source->priv->pendingblock = FALSE;
       gst_object_unref (target);
     } else {
       GST_DEBUG_OBJECT (source, "The removed pad wasn't our ghostpad target");

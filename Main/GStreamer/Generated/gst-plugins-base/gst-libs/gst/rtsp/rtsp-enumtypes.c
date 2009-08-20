@@ -217,6 +217,7 @@ gst_rtsp_header_field_get_type (void)
       { GST_RTSP_HDR_X_RECEDING_PLAYLISTCHANGE, "GST_RTSP_HDR_X_RECEDING_PLAYLISTCHANGE", "x-receding-playlistchange" },
       { GST_RTSP_HDR_X_RTP_INFO, "GST_RTSP_HDR_X_RTP_INFO", "x-rtp-info" },
       { GST_RTSP_HDR_X_STARTUPPROFILE, "GST_RTSP_HDR_X_STARTUPPROFILE", "x-startupprofile" },
+      { GST_RTSP_HDR_TIMESTAMP, "GST_RTSP_HDR_TIMESTAMP", "timestamp" },
       { 0, NULL, NULL }
     };
     etype = g_enum_register_static ("GstRTSPHeaderField", values);

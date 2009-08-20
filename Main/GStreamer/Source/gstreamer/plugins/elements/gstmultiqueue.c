@@ -169,6 +169,7 @@ static void gst_single_queue_free (GstSingleQueue * squeue);
 
 static void wake_up_next_non_linked (GstMultiQueue * mq);
 static void compute_high_id (GstMultiQueue * mq);
+static void single_queue_overrun_cb (GstDataQueue * dq, GstSingleQueue * sq);
 
 static GstStaticPadTemplate sinktemplate = GST_STATIC_PAD_TEMPLATE ("sink%d",
     GST_PAD_SINK,
@@ -795,7 +796,7 @@ gst_multi_queue_item_destroy (GstMultiQueueItem * item)
 {
   if (item->object)
     gst_mini_object_unref (item->object);
-  g_free (item);
+  g_slice_free (GstMultiQueueItem, item);
 }
 
 /* takes ownership of passed mini object! */
@@ -804,7 +805,7 @@ gst_multi_queue_item_new (GstMiniObject * object, guint32 curid)
 {
   GstMultiQueueItem *item;
 
-  item = g_new (GstMultiQueueItem, 1);
+  item = g_slice_new (GstMultiQueueItem);
   item->object = object;
   item->destroy = (GDestroyNotify) gst_multi_queue_item_destroy;
   item->posid = curid;
@@ -1090,6 +1091,7 @@ gst_multi_queue_sink_event (GstPad * pad, GstEvent * event)
   switch (type) {
     case GST_EVENT_EOS:
       sq->is_eos = TRUE;
+      single_queue_overrun_cb (sq->queue, sq);
       break;
     case GST_EVENT_NEWSEGMENT:
       apply_segment (mq, sq, sref, &sq->sink_segment);
@@ -1312,7 +1314,8 @@ single_queue_overrun_cb (GstDataQueue * dq, GstSingleQueue * sq)
         ssize.bytes, sq->max_size.bytes, sq->cur_time, sq->max_size.time);
 
     /* if this queue is filled completely we must signal overrun */
-    if (IS_FILLED (bytes, ssize.bytes) || IS_FILLED (time, sq->cur_time)) {
+    if (sq->is_eos || IS_FILLED (bytes, ssize.bytes) ||
+        IS_FILLED (time, sq->cur_time)) {
       GST_LOG_OBJECT (mq, "Queue %d is filled", ssq->id);
       filled = TRUE;
     }
@@ -1385,13 +1388,9 @@ single_queue_check_full (GstDataQueue * dataq, guint visible, guint bytes,
   if (IS_FILLED (visible, visible))
     return TRUE;
 
-  if (sq->cur_time != 0) {
-    /* if we have valid time in the queue, check */
-    res = IS_FILLED (time, sq->cur_time);
-  } else {
-    /* no valid time, check bytes */
-    res = IS_FILLED (bytes, bytes);
-  }
+  /* check time or bytes */
+  res = IS_FILLED (time, sq->cur_time) || IS_FILLED (bytes, bytes);
+
   return res;
 }
 

@@ -56,7 +56,7 @@ build_triplet = @build@
 host_triplet = @host@
 DIST_COMMON = $(srcdir)/../htmlinstall.mak $(srcdir)/../manuals.mak \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(top_srcdir)/common/upload.mak
+	$(top_srcdir)/common/upload-doc.mak
 subdir = docs/pwg
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
@@ -369,7 +369,7 @@ top_srcdir = @top_srcdir@
 
 # base name of doc
 DOC = pwg
-# formats defined for upload.mak
+# formats defined for upload-doc.mak
 FORMATS = html ps pdf
 
 # main xml file
@@ -447,7 +447,7 @@ pwg_DATA = $(PDF_DAT) $(PS_DAT)
 all: all-am
 
 .SUFFIXES:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../manuals.mak $(top_srcdir)/common/upload.mak $(srcdir)/../htmlinstall.mak $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../manuals.mak $(top_srcdir)/common/upload-doc.mak $(srcdir)/../htmlinstall.mak $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -658,12 +658,12 @@ debug:
 
 # a rule to copy all of the source for docs into $(builddir)/build
 $(BUILDDIR)/$(MAIN): $(XML) $(CSS) $(EXTRA_SRC)
-	@-mkdir -p $(BUILDDIR)
-	@if test "x$(EXTRA_SRC)" != "x"; then for a in $(EXTRA_SRC); do cp $(srcdir)/$$a $(BUILDDIR); done; fi
-	@for a in $(XML); do cp $(srcdir)/$$a $(BUILDDIR); done
-	@for a in $(CSS); do cp $(srcdir)/$$a $(BUILDDIR); done
-	@cp ../version.entities $(BUILDDIR)
-	@cp $(top_srcdir)/docs/url.entities $(BUILDDIR)
+	@-mkdir -p $(BUILDDIR); \
+	if test "x$(EXTRA_SRC)" != "x"; then for a in $(EXTRA_SRC); do cp $(srcdir)/$$a $(BUILDDIR); done; fi ; \
+	for a in $(XML); do cp $(srcdir)/$$a $(BUILDDIR); done ; \
+	for a in $(CSS); do cp $(srcdir)/$$a $(BUILDDIR); done ; \
+	cp ../version.entities $(BUILDDIR) ; \
+	cp $(top_srcdir)/docs/url.entities $(BUILDDIR)
 
 # we should switch to xsltproc
 # docbook2html aka jade can't add the encoding easily to the html meta
@@ -759,12 +759,24 @@ upload: $(FORMATS)
         fi; \
         export DIR=$(DOC_BASE)/gstreamer/$$DOCVERSION/$(DOC); \
 	ssh $(DOC_SERVER) mkdir -p $$DIR; \
-	if echo $(FORMATS) | grep html > /dev/null; then export SRC="$$SRC html"; fi; \
+	if echo $(FORMATS) | grep html > /dev/null; then \
+	  echo "Preparing docs for upload (rebasing cross-references) ..." ; \
+	  if test x$(builddir) != x$(srcdir); then \
+	    echo "make upload can only be used if srcdir == builddir"; \
+	    exit 1; \
+	  fi; \
+	  gtkdoc-rebase --online --html-dir=$(builddir)/html ; \
+	  export SRC="$$SRC html"; \
+	fi; \
 	if echo $(FORMATS) | grep ps > /dev/null; then export SRC="$$SRC $(DOC).ps"; fi; \
 	if echo $(FORMATS) | grep pdf > /dev/null; then export SRC="$$SRC $(DOC).pdf"; fi; \
 	echo Uploading $$SRC to $(DOC_SERVER):$$DIR; \
 	rsync -rv -e ssh --delete $$SRC $(DOC_SERVER):$$DIR; \
 	ssh $(DOC_SERVER) chmod -R g+w $$DIR; \
+	if echo $(FORMATS) | grep html > /dev/null; then \
+	  echo "Un-preparing docs for upload (rebasing cross-references) ..." ; \
+	  gtkdoc-rebase --html-dir=$(builddir)/html ; \
+	fi; \
 	echo Done
 
 @DOC_HTML_TRUE@install-data-local: html

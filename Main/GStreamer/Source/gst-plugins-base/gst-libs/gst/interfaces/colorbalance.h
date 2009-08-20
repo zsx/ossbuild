@@ -46,6 +46,7 @@ G_BEGIN_DECLS
 #define GST_COLOR_BALANCE_TYPE(klass) (klass->balance_type)
 
 typedef struct _GstColorBalance GstColorBalance;
+typedef struct _GstColorBalanceClass GstColorBalanceClass;
   
 /**
  * GstColorBalanceType:
@@ -65,7 +66,7 @@ typedef enum
   GST_COLOR_BALANCE_SOFTWARE
 } GstColorBalanceType;
 
-typedef struct _GstColorBalanceClass {
+struct _GstColorBalanceClass {
   GTypeInterface klass;
 
   GstColorBalanceType balance_type;
@@ -85,7 +86,7 @@ typedef struct _GstColorBalanceClass {
                           gint                    value);
 
   gpointer _gst_reserved[GST_PADDING];
-} GstColorBalanceClass;
+};
 
 GType   gst_color_balance_get_type      (void);
 
@@ -97,6 +98,9 @@ void    gst_color_balance_set_value     (GstColorBalance        *balance,
                                          gint                    value);
 gint    gst_color_balance_get_value     (GstColorBalance        *balance,
                                          GstColorBalanceChannel *channel);
+
+GstColorBalanceType
+        gst_color_balance_get_balance_type (GstColorBalance        *balance);
 
 /* trigger signal */
 void    gst_color_balance_value_changed (GstColorBalance        *balance,

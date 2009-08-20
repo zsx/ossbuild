@@ -76,12 +76,12 @@ _strnlen (const gchar * str, gint maxlen)
 {
   gint len = 0;
 
-  if (len == maxlen)
+  if (G_UNLIKELY (len == maxlen))
     return -1;
 
   while (*str++ != '\0') {
     len++;
-    if (len == maxlen)
+    if (G_UNLIKELY (len == maxlen))
       return -1;
   }
   return len;
@@ -97,19 +97,19 @@ _strnlen (const gchar * str, gint maxlen)
 }G_STMT_END
 
 #define unpack_const_string(inptr, outptr, endptr, error_label) G_STMT_START{\
-  gint _len = _strnlen (inptr, (endptr-inptr)) + 1; \
+  gint _len = _strnlen (inptr, (endptr-inptr)); \
   if (_len == -1) \
     goto error_label; \
   outptr = g_intern_string ((const gchar *)inptr); \
-  inptr += _len; \
+  inptr += _len + 1; \
 }G_STMT_END
 
 #define unpack_string(inptr, outptr, endptr, error_label)  G_STMT_START{\
-  gint _len = _strnlen (inptr, (endptr-inptr)) + 1; \
+  gint _len = _strnlen (inptr, (endptr-inptr)); \
   if (_len == -1) \
     goto error_label; \
-  outptr = g_memdup ((gconstpointer)inptr, _len); \
-  inptr += _len; \
+  outptr = g_memdup ((gconstpointer)inptr, _len + 1); \
+  inptr += _len + 1; \
 }G_STMT_END
 
 #define ALIGNMENT            (sizeof (void *))
@@ -674,6 +674,14 @@ gst_registry_binary_save_plugin (GList ** list, GstRegistry * registry,
 
   gst_plugin_feature_list_free (plugin_features);
 
+  /* pack cache data */
+  if (plugin->priv->cache_data) {
+    gchar *cache_str = gst_structure_to_string (plugin->priv->cache_data);
+    gst_registry_binary_save_string (list, cache_str);
+  } else {
+    gst_registry_binary_save_const_string (list, "");
+  }
+
   /* pack plugin element strings */
   gst_registry_binary_save_const_string (list, plugin->desc.origin);
   gst_registry_binary_save_const_string (list, plugin->desc.package);
@@ -766,10 +774,6 @@ gst_registry_binary_write_cache (GstRegistry * registry, const char *location)
 
     if (!gst_registry_binary_write_chunk (registry, cache, cur->data, cur->size,
             &file_position, cur->align)) {
-      if (!(cur->flags & GST_BINARY_REGISTRY_FLAG_CONST))
-        g_free (cur->data);
-      g_free (cur);
-      walk->data = NULL;
       goto fail_free_list;
     }
     if (!(cur->flags & GST_BINARY_REGISTRY_FLAG_CONST))
@@ -864,7 +868,7 @@ gst_registry_binary_load_pad_template (GstElementFactory * factory, gchar ** in,
     gchar * end)
 {
   GstBinaryPadTemplate *pt;
-  GstStaticPadTemplate *template;
+  GstStaticPadTemplate *template = NULL;
 
   align (*in);
   GST_DEBUG ("Reading/casting for GstBinaryPadTemplate at address %p", *in);
@@ -885,6 +889,7 @@ gst_registry_binary_load_pad_template (GstElementFactory * factory, gchar ** in,
 
 fail:
   GST_INFO ("Reading pad template failed");
+  g_free (template);
   return FALSE;
 }
 
@@ -909,26 +914,26 @@ gst_registry_binary_load_feature (GstRegistry * registry, gchar ** in,
   /* unpack plugin feature strings */
   unpack_string (*in, type_name, end, fail);
 
-  if (!type_name) {
+  if (G_UNLIKELY (!type_name)) {
     GST_ERROR ("No feature type name");
     return FALSE;
   }
 
   GST_DEBUG ("Plugin '%s' feature typename : '%s'", plugin_name, type_name);
 
-  if (!(type = g_type_from_name (type_name))) {
+  if (G_UNLIKELY (!(type = g_type_from_name (type_name)))) {
     GST_ERROR ("Unknown type from typename '%s' for plugin '%s'", type_name,
         plugin_name);
     g_free (type_name);
     return FALSE;
   }
-  if ((feature = g_object_new (type, NULL)) == NULL) {
+  if (G_UNLIKELY ((feature = g_object_new (type, NULL)) == NULL)) {
     GST_ERROR ("Can't create feature from type");
     g_free (type_name);
     return FALSE;
   }
 
-  if (!GST_IS_PLUGIN_FEATURE (feature)) {
+  if (G_UNLIKELY (!GST_IS_PLUGIN_FEATURE (feature))) {
     GST_ERROR ("typename : '%s' is not a plugin feature", type_name);
     goto fail;
   }
@@ -938,7 +943,8 @@ gst_registry_binary_load_feature (GstRegistry * registry, gchar ** in,
 
   if (GST_IS_ELEMENT_FACTORY (feature)) {
     GstBinaryElementFactory *ef;
-    GstElementFactory *factory = GST_ELEMENT_FACTORY (feature);
+    guint n;
+    GstElementFactory *factory = GST_ELEMENT_FACTORY_CAST (feature);
 
     align (*in);
     GST_LOG ("Reading/casting for GstBinaryElementFactory at address %p", *in);
@@ -950,38 +956,43 @@ gst_registry_binary_load_feature (GstRegistry * registry, gchar ** in,
     unpack_string (*in, factory->details.klass, end, fail);
     unpack_string (*in, factory->details.description, end, fail);
     unpack_string (*in, factory->details.author, end, fail);
+    n = ef->npadtemplates;
     GST_DEBUG ("Element factory : '%s' with npadtemplates=%d",
-        factory->details.longname, ef->npadtemplates);
+        factory->details.longname, n);
 
     /* load pad templates */
-    for (i = 0; i < ef->npadtemplates; i++) {
-      if (!gst_registry_binary_load_pad_template (factory, in, end)) {
+    for (i = 0; i < n; i++) {
+      if (G_UNLIKELY (!gst_registry_binary_load_pad_template (factory, in,
+                  end))) {
         GST_ERROR ("Error while loading binary pad template");
         goto fail;
       }
     }
 
     /* load uritypes */
-    if (ef->nuriprotocols) {
-      GST_DEBUG ("Reading %d UriTypes at address %p", ef->nuriprotocols, *in);
+    if (G_UNLIKELY ((n = ef->nuriprotocols))) {
+      GST_DEBUG ("Reading %d UriTypes at address %p", n, *in);
 
       align (*in);
       factory->uri_type = *((guint *) * in);
       *in += sizeof (factory->uri_type);
       /*unpack_element(*in, &factory->uri_type, factory->uri_type, end, fail); */
 
-      factory->uri_protocols = g_new0 (gchar *, ef->nuriprotocols + 1);
-      for (i = 0; i < ef->nuriprotocols; i++) {
+      factory->uri_protocols = g_new0 (gchar *, n + 1);
+      for (i = 0; i < n; i++) {
         unpack_string (*in, str, end, fail);
         factory->uri_protocols[i] = str;
       }
     }
+
     /* load interfaces */
-    GST_DEBUG ("Reading %d Interfaces at address %p", ef->ninterfaces, *in);
-    for (i = 0; i < ef->ninterfaces; i++) {
-      unpack_string (*in, str, end, fail);
-      __gst_element_factory_add_interface (factory, str);
-      g_free (str);
+    if (G_UNLIKELY ((n = ef->ninterfaces))) {
+      GST_DEBUG ("Reading %d Interfaces at address %p", n, *in);
+      for (i = 0; i < n; i++) {
+        unpack_string (*in, str, end, fail);
+        __gst_element_factory_add_interface (factory, str);
+        g_free (str);
+      }
     }
   } else if (GST_IS_TYPE_FIND_FACTORY (feature)) {
     GstBinaryTypeFindFactory *tff;
@@ -1035,10 +1046,12 @@ gst_registry_binary_load_feature (GstRegistry * registry, gchar ** in,
 fail:
   GST_INFO ("Reading plugin feature failed");
   g_free (type_name);
-  if (GST_IS_OBJECT (feature))
-    gst_object_unref (feature);
-  else
-    g_object_unref (feature);
+  if (feature) {
+    if (GST_IS_OBJECT (feature))
+      gst_object_unref (feature);
+    else
+      g_object_unref (feature);
+  }
   return FALSE;
 }
 
@@ -1115,7 +1128,8 @@ gst_registry_binary_load_plugin (GstRegistry * registry, gchar ** in,
 {
   GstBinaryPluginElement *pe;
   GstPlugin *plugin = NULL;
-  guint i;
+  gchar *cache_str = NULL;
+  guint i, n;
 
   align (*in);
   GST_LOG ("Reading/casting for GstBinaryPluginElement at address %p", *in);
@@ -1146,17 +1160,25 @@ gst_registry_binary_load_plugin (GstRegistry * registry, gchar ** in,
   GST_LOG ("  desc.package='%s'", plugin->desc.package);
   GST_LOG ("  desc.origin='%s'", plugin->desc.origin);
 
+  /* unpack cache data */
+  unpack_string (*in, cache_str, end, fail);
+  if (*cache_str) {
+    plugin->priv->cache_data = gst_structure_from_string (cache_str, NULL);
+  }
+  g_free (cache_str);
+
   plugin->basename = g_path_get_basename (plugin->filename);
 
   /* Takes ownership of plugin */
   gst_registry_add_plugin (registry, plugin);
+  n = pe->nfeatures;
   GST_DEBUG ("Added plugin '%s' plugin with %d features from binary registry",
-      plugin->desc.name, pe->nfeatures);
+      plugin->desc.name, n);
 
   /* Load plugin features */
-  for (i = 0; i < pe->nfeatures; i++) {
-    if (!gst_registry_binary_load_feature (registry, in, end,
-            plugin->desc.name)) {
+  for (i = 0; i < n; i++) {
+    if (G_UNLIKELY (!gst_registry_binary_load_feature (registry, in, end,
+                plugin->desc.name))) {
       GST_ERROR ("Error while loading binary feature");
       gst_registry_remove_plugin (registry, plugin);
       goto fail;
@@ -1165,7 +1187,7 @@ gst_registry_binary_load_plugin (GstRegistry * registry, gchar ** in,
 
   /* Load external plugin dependencies */
   for (i = 0; i < pe->n_deps; ++i) {
-    if (!gst_registry_binary_load_plugin_dep (plugin, in, end)) {
+    if (G_UNLIKELY (!gst_registry_binary_load_plugin_dep (plugin, in, end))) {
       GST_ERROR_OBJECT (plugin, "Could not read external plugin dependency");
       gst_registry_remove_plugin (registry, plugin);
       goto fail;
@@ -1215,7 +1237,7 @@ gst_registry_binary_read_cache (GstRegistry * registry, const char *location)
 #endif
 
   mapped = g_mapped_file_new (location, FALSE, &err);
-  if (err != NULL) {
+  if (G_UNLIKELY (err != NULL)) {
     GST_INFO ("Unable to mmap file %s : %s", location, err->message);
     g_error_free (err);
     err = NULL;
@@ -1230,7 +1252,7 @@ gst_registry_binary_read_cache (GstRegistry * registry, const char *location)
       return FALSE;
     }
   } else {
-    if ((contents = g_mapped_file_get_contents (mapped)) == NULL) {
+    if (G_UNLIKELY ((contents = g_mapped_file_get_contents (mapped)) == NULL)) {
       GST_ERROR ("Can't load file %s : %s", location, g_strerror (errno));
       goto Error;
     }
@@ -1241,13 +1263,14 @@ gst_registry_binary_read_cache (GstRegistry * registry, const char *location)
   /* in is a cursor pointer, we initialize it with the begin of registry and is updated on each read */
   in = contents;
   GST_DEBUG ("File data at address %p", in);
-  if (size < sizeof (GstBinaryRegistryMagic)) {
+  if (G_UNLIKELY (size < sizeof (GstBinaryRegistryMagic))) {
     GST_ERROR ("No or broken registry header");
     goto Error;
   }
 
   /* check if header is valid */
-  if ((check_magic_result = gst_registry_binary_check_magic (&in, size)) < 0) {
+  if (G_UNLIKELY ((check_magic_result =
+              gst_registry_binary_check_magic (&in, size)) < 0)) {
 
     if (check_magic_result == -1)
       GST_ERROR
@@ -1257,8 +1280,8 @@ gst_registry_binary_read_cache (GstRegistry * registry, const char *location)
   }
 
   /* check if there are plugins in the file */
-  if (!(((gsize) in + sizeof (GstBinaryPluginElement)) <
-          (gsize) contents + size)) {
+  if (G_UNLIKELY (!(((gsize) in + sizeof (GstBinaryPluginElement)) <
+              (gsize) contents + size))) {
     GST_INFO ("No binary plugins structure to read");
     /* empty file, this is not an error */
   } else {
@@ -1299,21 +1322,3 @@ Error:
   return res;
 }
 
-
-/* FIXME 0.11: these are here for backwards compatibility */
-
-#ifndef _MSC_VER
-
-gboolean
-gst_registry_xml_read_cache (GstRegistry * registry, const char *location)
-{
-  return FALSE;
-}
-
-gboolean
-gst_registry_xml_write_cache (GstRegistry * registry, const char *location)
-{
-  return FALSE;
-}
-
-#endif

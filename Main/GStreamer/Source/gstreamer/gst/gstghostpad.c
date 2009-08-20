@@ -144,20 +144,6 @@ gst_proxy_pad_do_query (GstPad * pad, GstQuery * query)
   return res;
 }
 
-static GList *
-gst_proxy_pad_do_internal_link (GstPad * pad)
-{
-  GList *res = NULL;
-  GstPad *target = gst_proxy_pad_get_target (pad);
-
-  if (target) {
-    res = gst_pad_get_internal_links (target);
-    gst_object_unref (target);
-  }
-
-  return res;
-}
-
 static GstIterator *
 gst_proxy_pad_do_iterate_internal_links (GstPad * pad)
 {
@@ -191,6 +177,17 @@ gst_proxy_pad_do_chain (GstPad * pad, GstBuffer * buffer)
   GstPad *internal = GST_PROXY_PAD_INTERNAL (pad);
 
   res = gst_pad_push (internal, buffer);
+
+  return res;
+}
+
+static GstFlowReturn
+gst_proxy_pad_do_chain_list (GstPad * pad, GstBufferList * list)
+{
+  GstFlowReturn res;
+  GstPad *internal = GST_PROXY_PAD_INTERNAL (pad);
+
+  res = gst_pad_push_list (internal, list);
 
   return res;
 }
@@ -434,8 +431,6 @@ gst_proxy_pad_init (GstProxyPad * ppad)
       GST_DEBUG_FUNCPTR (gst_proxy_pad_do_query_type));
   gst_pad_set_event_function (pad, GST_DEBUG_FUNCPTR (gst_proxy_pad_do_event));
   gst_pad_set_query_function (pad, GST_DEBUG_FUNCPTR (gst_proxy_pad_do_query));
-  gst_pad_set_internal_link_function (pad,
-      GST_DEBUG_FUNCPTR (gst_proxy_pad_do_internal_link));
   gst_pad_set_iterate_internal_links_function (pad,
       GST_DEBUG_FUNCPTR (gst_proxy_pad_do_iterate_internal_links));
 
@@ -689,14 +684,19 @@ static void
 on_int_notify (GstPad * internal, GParamSpec * unused, GstGhostPad * pad)
 {
   GstCaps *caps;
+  gboolean changed;
 
   g_object_get (internal, "caps", &caps, NULL);
 
   GST_OBJECT_LOCK (pad);
-  gst_caps_replace (&(GST_PAD_CAPS (pad)), caps);
+  changed = (GST_PAD_CAPS (pad) != caps);
+  if (changed)
+    gst_caps_replace (&(GST_PAD_CAPS (pad)), caps);
   GST_OBJECT_UNLOCK (pad);
 
-  g_object_notify (G_OBJECT (pad), "caps");
+  if (changed)
+    g_object_notify (G_OBJECT (pad), "caps");
+
   if (caps)
     gst_caps_unref (caps);
 }
@@ -705,17 +705,20 @@ static void
 on_src_target_notify (GstPad * target, GParamSpec * unused, GstGhostPad * pad)
 {
   GstCaps *caps;
+  gboolean changed;
 
   g_object_get (target, "caps", &caps, NULL);
 
   GST_OBJECT_LOCK (pad);
+  changed = (GST_PAD_CAPS (pad) != caps);
   gst_caps_replace (&(GST_PAD_CAPS (pad)), caps);
   GST_OBJECT_UNLOCK (pad);
 
-  g_object_notify (G_OBJECT (pad), "caps");
+  if (changed)
+    g_object_notify (G_OBJECT (pad), "caps");
+
   if (caps)
     gst_caps_unref (caps);
-
 }
 
 static gboolean
@@ -823,6 +826,8 @@ gst_ghost_pad_construct (GstGhostPad * gpad)
         GST_DEBUG_FUNCPTR (gst_proxy_pad_do_bufferalloc));
     gst_pad_set_chain_function (pad,
         GST_DEBUG_FUNCPTR (gst_proxy_pad_do_chain));
+    gst_pad_set_chain_list_function (pad,
+        GST_DEBUG_FUNCPTR (gst_proxy_pad_do_chain_list));
   } else {
     gst_pad_set_getrange_function (pad,
         GST_DEBUG_FUNCPTR (gst_proxy_pad_do_getrange));
@@ -856,6 +861,8 @@ gst_ghost_pad_construct (GstGhostPad * gpad)
         GST_DEBUG_FUNCPTR (gst_proxy_pad_do_bufferalloc));
     gst_pad_set_chain_function (internal,
         GST_DEBUG_FUNCPTR (gst_proxy_pad_do_chain));
+    gst_pad_set_chain_list_function (internal,
+        GST_DEBUG_FUNCPTR (gst_proxy_pad_do_chain_list));
   } else {
     gst_pad_set_getrange_function (internal,
         GST_DEBUG_FUNCPTR (gst_proxy_pad_do_getrange));

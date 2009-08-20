@@ -54,11 +54,17 @@
 <a name="gst-plugins-base-plugins-giosink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSink
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
+>GstBaseSink</a>
                      +----GstGioBaseSink
                            +----GstGioSink
 </pre>
@@ -67,16 +73,18 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-giosink.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstGioSink implements
- GstURIHandler.</p>
+ <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstUriHandler.html#GstURIHandler"
+>GstURIHandler</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-giosink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-giosink.html#GstGioSink--location" title='The "location" property'>location</a>"                 <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-giosink.html#GstGioSink--file" title='The "file" property'>file</a>"                     <a
-href="../gio/GFile.html"
+href="/usr/share/gtk-doc/html/gio/GFile.html"
 >GFile</a>*                : Read / Write
 </pre>
 </div>
@@ -89,9 +97,32 @@ the GIO library or it's VFS backends. Common protocols are 'file', 'ftp',
 or 'smb'.
 </p>
 <p>
+If the URI or <a
+href="/usr/share/gtk-doc/html/gio/GFile.html"
+><span class="type">GFile</span></a> already exists giosink will post a message of
+type <code class="literal">GST_MESSAGE_ELEMENT</code> with name "file-exists" on the bus. The message
+also contains the <a
+href="/usr/share/gtk-doc/html/gio/GFile.html"
+><span class="type">GFile</span></a> and the corresponding URI.
+Applications can use the "file-exists" message to notify the user about
+the problem and to set a different target location or to remove the
+existing file. Note that right after the "file-exists" message a normal
+error message is posted on the bus which should be ignored if "file-exists"
+is handled by the application, for example by calling
+gst_bus_set_flushing(bus, TRUE) after the "file-exists" message was
+received and gst_bus_set_flushing(bus, FALSE) after the problem is
+resolved.
+</p>
+<p>
+Similar to the "file-exist" message a "not-mounted" message is posted
+on the bus if the target location is not mounted yet and needs to be
+mounted. This message can be used by application to mount the location
+and retry after the location was mounted successfully.
+</p>
+<p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2662948"></a><h3>Example pipelines</h3>
+<a name="id2665902"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=input.xyz ! giosink location=file:///home/joe/out.xyz
 </pre></div> The above pipeline will simply copy a local file. Instead of giosink,
@@ -108,7 +139,7 @@ it in the home directory of user foo.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2662990"></a><h3>Element Information</h3>
+<a name="id2665946"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -120,7 +151,7 @@ it in the home directory of user foo.
 </tr>
 <tr>
 <td><p><span class="term">author</span></p></td>
-<td>René Stadler &lt;mail@renestadler.de&gt;, Sebastian Dröge &lt;slomo@circular-chaos.org&gt;</td>
+<td>René Stadler &lt;mail@renestadler.de&gt;, Sebastian Dröge &lt;sebastian.droege@collabora.co.uk&gt;</td>
 </tr>
 <tr>
 <td><p><span class="term">class</span></p></td>
@@ -131,7 +162,57 @@ it in the home directory of user foo.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2663054"></a><h3>Element Pads</h3>
+<a name="id2666009"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2668010"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-base-plugins-plugin-gio.html#plugin-gio">gio</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>René Stadler &lt;mail@renestadler.de&gt;, Sebastian Dröge &lt;sebastian.droege@collabora.co.uk&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Sink/File</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2668073"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -174,7 +255,7 @@ Opaque data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstGioSink--location"></a><h3>The <code class="literal">"location"</code> property</h3>
 <pre class="programlisting">  "location"                 <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>URI location to write to.</p>
 <p>Default value: NULL</p>
@@ -183,11 +264,11 @@ href="../glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="GstGioSink--file"></a><h3>The <code class="literal">"file"</code> property</h3>
 <pre class="programlisting">  "file"                     <a
-href="../gio/GFile.html"
+href="/usr/share/gtk-doc/html/gio/GFile.html"
 >GFile</a>*                : Read / Write</pre>
 <p>
 <a
-href="../gio/GFile.html"
+href="/usr/share/gtk-doc/html/gio/GFile.html"
 ><code class="literal">GFile</code></a> to write to.</p>
 <p>
 </p>

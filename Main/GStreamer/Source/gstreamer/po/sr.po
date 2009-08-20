@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.8.8\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-10 22:30+0100\n"
+"POT-Creation-Date: 2009-08-04 23:00+0100\n"
 "PO-Revision-Date: 2005-01-27 16:58+0100\n"
 "Last-Translator: Danilo Segan <dsegan@gmx.net>\n"
 "Language-Team: Serbian <gnu@prevod.org>\n"
@@ -127,10 +127,10 @@ msgstr ""
 msgid "Internal GStreamer error: code not implemented."
 msgstr "Унутрашња грешка у ГСтримеру: код није написан.  Пријавите грешку."
 
-#, fuzzy
-msgid "Internal GStreamer error: state change failed."
+msgid ""
+"GStreamer error: state change failed and some element failed to post a "
+"proper error message with the reason for the failure."
 msgstr ""
-"Унутрашња грешка у ГСтримеру: неуспешна промена стања.  Пријавите грешку."
 
 #, fuzzy
 msgid "Internal GStreamer error: pad problem."
@@ -491,6 +491,14 @@ msgstr "видео кодирање"
 msgid "codec the subtitle data is stored in"
 msgstr "на који начин су видео подаци кодирани"
 
+#, fuzzy
+msgid "container format"
+msgstr "подаци за ступање у везу"
+
+#, fuzzy
+msgid "container format the data is stored in"
+msgstr "на који начин су подаци кодирани"
+
 msgid "bitrate"
 msgstr "брзина битова"
 
@@ -609,7 +617,7 @@ msgid "geo location name"
 msgstr "положај"
 
 msgid ""
-"human readable descriptive location or where the media has been recorded or "
+"human readable descriptive location of where the media has been recorded or "
 "produced"
 msgstr ""
 
@@ -701,6 +709,9 @@ msgstr ""
 msgid "Internal data flow error."
 msgstr ""
 
+msgid "A lot of buffers are being dropped."
+msgstr ""
+
 msgid "Internal data flow problem."
 msgstr ""
 
@@ -713,14 +724,6 @@ msgstr ""
 msgid ""
 "Restrict the possible allowed capabilities (NULL means ANY). Setting this "
 "property takes a reference to the supplied GstCaps object."
-msgstr ""
-
-#, fuzzy, c-format
-msgid "Error while writing to file descriptor \"%d\"."
-msgstr "Грешка при упису у датотеку „%s“."
-
-#, c-format
-msgid "File descriptor \"%d\" is not valid."
 msgstr ""
 
 msgid "No file name specified for writing."
@@ -865,7 +868,20 @@ msgstr "ГРЕШКА: не могу да рашчланим %d. аргумент
 msgid "WARNING: element named '%s' not found.\n"
 msgstr "УПОЗОРЕЊЕ: елемент са именом „%s“ није нађен.\n"
 
-msgid "Got Message #%"
+#, c-format
+msgid "Got message #%u from element \"%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u from pad \"%s:%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u from object \"%s\" (%s): "
+msgstr ""
+
+#, c-format
+msgid "Got message #%u (%s): "
 msgstr ""
 
 #, fuzzy, c-format
@@ -875,6 +891,17 @@ msgstr "ГРЕШКА: из елемента %s: %s\n"
 #, c-format
 msgid "FOUND TAG      : found by element \"%s\".\n"
 msgstr "НАЂОХ ОЗНАКУ   : нашао је елемент „%s“.\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by pad \"%s:%s\".\n"
+msgstr "НАЂОХ ОЗНАКУ   : нашао је елемент „%s“.\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by object \"%s\".\n"
+msgstr "НАЂОХ ОЗНАКУ   : нашао је елемент „%s“.\n"
+
+msgid "FOUND TAG\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -1024,6 +1051,10 @@ msgstr "Покрећем цевовод...\n"
 
 #~ msgid "Scheduler to use (default is '%s')"
 #~ msgstr "Користи распоређивач (подразумева се '%s')"
+
+#~ msgid "Internal GStreamer error: state change failed.  File a bug."
+#~ msgstr ""
+#~ "Унутрашња грешка у ГСтримеру: неуспешна промена стања.  Пријавите грешку."
 
 #~ msgid "Internal GStreamer error: scheduler problem.  File a bug."
 #~ msgstr ""

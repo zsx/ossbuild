@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.10.22.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-10 22:30+0100\n"
+"POT-Creation-Date: 2009-08-04 23:00+0100\n"
 "PO-Revision-Date: 2009-04-18 20:31+0700\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
@@ -122,8 +122,10 @@ msgstr ""
 msgid "Internal GStreamer error: code not implemented."
 msgstr "Galat GStreamer internal: kode belum diimplementasikan."
 
-msgid "Internal GStreamer error: state change failed."
-msgstr "Galat GStreamer internal: mengubah kondisi gagal."
+msgid ""
+"GStreamer error: state change failed and some element failed to post a "
+"proper error message with the reason for the failure."
+msgstr ""
 
 msgid "Internal GStreamer error: pad problem."
 msgstr "Galat GStreamer internal: masalah landasan."
@@ -461,6 +463,14 @@ msgstr "codec subjudul"
 msgid "codec the subtitle data is stored in"
 msgstr "codec data subjudul tersimpan di"
 
+#, fuzzy
+msgid "container format"
+msgstr "informasi kontak"
+
+#, fuzzy
+msgid "container format the data is stored in"
+msgstr "codec data tersimpan"
+
 msgid "bitrate"
 msgstr "bitrasi"
 
@@ -572,8 +582,9 @@ msgstr "kata kunci yang dipisahkan koma menerangkan isi data"
 msgid "geo location name"
 msgstr "nama lokasi geografis"
 
+#, fuzzy
 msgid ""
-"human readable descriptive location or where the media has been recorded or "
+"human readable descriptive location of where the media has been recorded or "
 "produced"
 msgstr ""
 "lokasi deskriptif dapat dibaca manusia atau dimana media telah direkam atau "
@@ -674,6 +685,9 @@ msgstr "Galat jam internal."
 msgid "Internal data flow error."
 msgstr "Galat aliran data internal."
 
+msgid "A lot of buffers are being dropped."
+msgstr ""
+
 msgid "Internal data flow problem."
 msgstr "Masalah aliran data internal."
 
@@ -689,14 +703,6 @@ msgid ""
 msgstr ""
 "Larang kemampuan yang mungkin diizinkan (KOSONG berarti APAPUN). Pengaturan "
 "properti ini bersumber pada objek GstCaps yang disediakan."
-
-#, c-format
-msgid "Error while writing to file descriptor \"%d\"."
-msgstr "Galat ketika menulis ke penjelas berkas \"%d\"."
-
-#, c-format
-msgid "File descriptor \"%d\" is not valid."
-msgstr "Penjelas berkas \"%d\" tidak sah."
 
 msgid "No file name specified for writing."
 msgstr "Tak ada nama berkas yang ditentukan untuk ditulis."
@@ -835,7 +841,20 @@ msgstr "GALAT: tak dapat menguraikan argumen baris perintah %d: %s.\n"
 msgid "WARNING: element named '%s' not found.\n"
 msgstr "GALAT: elemen yang dinamakan '%s' tak ditemukan.\n"
 
-msgid "Got Message #%"
+#, fuzzy, c-format
+msgid "Got message #%u from element \"%s\" (%s): "
+msgstr "Mendapat Pesan dari elemen \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u from pad \"%s:%s\" (%s): "
+msgstr "Mendapat Pesan dari elemen \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u from object \"%s\" (%s): "
+msgstr "Mendapat Pesan dari elemen \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u (%s): "
 msgstr "Dapat Pesan #%"
 
 #, c-format
@@ -845,6 +864,17 @@ msgstr "Mendapat EOS dari elemen \"%s\".\n"
 #, c-format
 msgid "FOUND TAG      : found by element \"%s\".\n"
 msgstr "MENEMUKAN TAG      : ditemukan oleh elemen \"%s\".\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by pad \"%s:%s\".\n"
+msgstr "MENEMUKAN TAG      : ditemukan oleh elemen \"%s\".\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by object \"%s\".\n"
+msgstr "MENEMUKAN TAG      : ditemukan oleh elemen \"%s\".\n"
+
+msgid "FOUND TAG\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -975,11 +1005,17 @@ msgstr "Mengatur baris pipa ke KOSONG ...\n"
 msgid "Freeing pipeline ...\n"
 msgstr "Membebaskan baris pipa ...\n"
 
+#~ msgid "Internal GStreamer error: state change failed."
+#~ msgstr "Galat GStreamer internal: mengubah kondisi gagal."
+
+#~ msgid "Error while writing to file descriptor \"%d\"."
+#~ msgstr "Galat ketika menulis ke penjelas berkas \"%d\"."
+
+#~ msgid "File descriptor \"%d\" is not valid."
+#~ msgstr "Penjelas berkas \"%d\" tidak sah."
+
 #~ msgid "FREEING pipeline ...\n"
 #~ msgstr "MEMBEBASKAN baris pipa...\n"
-
-#~ msgid "Got Message from element \"%s\" (%s): "
-#~ msgstr "Mendapat Pesan dari elemen \"%s\" (%s): "
 
 #~ msgid "original location of file as a URI"
 #~ msgstr "lokasi asli berkas dalam bentuk URI"

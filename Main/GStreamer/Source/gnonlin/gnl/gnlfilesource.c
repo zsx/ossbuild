@@ -57,16 +57,6 @@ enum
   ARG_LOCATION,
 };
 
-struct _GnlFileSourcePrivate
-{
-  gboolean dispose_has_run;
-  GstElement *filesource;
-};
-
-static void gnl_filesource_dispose (GObject * object);
-
-static void gnl_filesource_finalize (GObject * object);
-
 static void
 gnl_filesource_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec);
@@ -101,9 +91,6 @@ gnl_filesource_class_init (GnlFileSourceClass * klass)
   GST_DEBUG_CATEGORY_INIT (gnlfilesource, "gnlfilesource",
       GST_DEBUG_FG_BLUE | GST_DEBUG_BOLD, "GNonLin File Source Element");
 
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gnl_filesource_dispose);
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gnl_filesource_finalize);
-
   gobject_class->set_property = GST_DEBUG_FUNCPTR (gnl_filesource_set_property);
   gobject_class->get_property = GST_DEBUG_FUNCPTR (gnl_filesource_get_property);
 
@@ -118,66 +105,74 @@ static void
 gnl_filesource_init (GnlFileSource * filesource,
     GnlFileSourceClass * klass G_GNUC_UNUSED)
 {
-  GstElement *filesrc, *decodebin;
+  GstElement *filesrc = NULL, *decodebin = NULL;
 
   GST_OBJECT_FLAG_SET (filesource, GNL_OBJECT_SOURCE);
-  filesource->private = g_new0 (GnlFileSourcePrivate, 1);
 
   /* We create a bin with source and decodebin within */
+  if ((decodebin =
+          gst_element_factory_make ("uridecodebin", "internal-uridecodebin"))) {
+    GST_DEBUG ("Using uridecodebin");
 
-  if (!(filesrc =
-          gst_element_factory_make ("gnomevfssrc", "internal-filesource")))
+    gst_bin_add (GST_BIN (filesource), decodebin);
+  } else {
+
+
     if (!(filesrc =
-            gst_element_factory_make ("filesrc", "internal-filesource")))
+            gst_element_factory_make ("gnomevfssrc", "internal-filesource")))
+      if (!(filesrc =
+              gst_element_factory_make ("filesrc", "internal-filesource")))
+        g_warning
+            ("Could not create a gnomevfssrc or filesource element, are you sure you have any of them installed ?");
+    if (!(decodebin =
+            gst_element_factory_make ("decodebin2", "internal-decodebin"))
+        && !(decodebin =
+            gst_element_factory_make ("decodebin", "internal-decodebin")))
       g_warning
-          ("Could not create a gnomevfssrc or filesource element, are you sure you have any of them installed ?");
-  if (!(decodebin =
-          gst_element_factory_make ("decodebin2", "internal-decodebin"))
-      || !(decodebin =
-          gst_element_factory_make ("decodebin", "internal-decodebin")))
-    g_warning
-        ("Could not create a decodebin element, are you sure you have decodebin installed ?");
+          ("Could not create a decodebin element, are you sure you have decodebin installed ?");
 
-  filesource->private->filesource = filesrc;
+    if (filesrc && decodebin) {
+      gst_bin_add_many (GST_BIN (filesource), filesrc, decodebin, NULL);
+      if (!(gst_element_link (filesrc, decodebin)))
+        g_warning ("Could not link the file source element to decodebin");
+    }
 
-  if (filesrc && decodebin) {
-    gst_bin_add_many (GST_BIN (filesource), filesrc, decodebin, NULL);
-    if (!(gst_element_link (filesrc, decodebin)))
-      g_warning ("Could not link the file source element to decodebin");
+    if (decodebin) {
+      GNL_SOURCE_GET_CLASS (filesource)->control_element (
+          (GnlSource *) filesource, decodebin);
+    }
   }
 
   if (decodebin) {
     GNL_SOURCE_GET_CLASS (filesource)->control_element (
         (GnlSource *) filesource, decodebin);
+    filesource->filesource = filesrc;
+    filesource->decodebin = decodebin;
   }
 
   GST_DEBUG_OBJECT (filesource, "done");
 }
 
 static void
-gnl_filesource_dispose (GObject * object)
+gnl_filesource_set_location (GnlFileSource * fs, const gchar * location)
 {
-  GnlFileSource *filesource = (GnlFileSource *) object;
+  GST_DEBUG_OBJECT (fs, "location: '%s'", location);
 
-  if (filesource->private->dispose_has_run)
-    return;
+  GST_DEBUG_OBJECT (fs, "%p %p", fs->filesource, fs->decodebin);
 
-  GST_INFO_OBJECT (object, "dispose");
-  filesource->private->dispose_has_run = TRUE;
+  if (fs->filesource) {
+    g_object_set (G_OBJECT (fs->filesource), "location", location, NULL);
+  } else {
+    gchar *tmp;
 
-  G_OBJECT_CLASS (parent_class)->dispose (object);
-  GST_INFO_OBJECT (object, "dispose END");
-}
-
-static void
-gnl_filesource_finalize (GObject * object)
-{
-  GnlFileSource *filesource = (GnlFileSource *) object;
-
-  GST_INFO_OBJECT (object, "finalize");
-  g_free (filesource->private);
-
-  G_OBJECT_CLASS (parent_class)->finalize (object);
+    if (g_ascii_strncasecmp (location, "file://", 7))
+      tmp = g_strdup_printf ("file://%s", location);
+    else
+      tmp = g_strdup (location);
+    GST_DEBUG (tmp);
+    g_object_set (G_OBJECT (fs->decodebin), "uri", tmp, NULL);
+    g_free (tmp);
+  }
 }
 
 static void
@@ -189,8 +184,7 @@ gnl_filesource_set_property (GObject * object, guint prop_id,
   switch (prop_id) {
     case ARG_LOCATION:
       /* proxy to gnomevfssrc */
-      g_object_set_property (G_OBJECT (fs->private->filesource), "location",
-          value);
+      gnl_filesource_set_location (fs, g_value_get_string (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -207,8 +201,7 @@ gnl_filesource_get_property (GObject * object, guint prop_id,
   switch (prop_id) {
     case ARG_LOCATION:
       /* proxy from gnomevfssrc */
-      g_object_get_property (G_OBJECT (fs->private->filesource), "location",
-          value);
+      g_object_get_property (G_OBJECT (fs->filesource), "location", value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);

@@ -3,22 +3,22 @@ AC_PREREQ(2.52)
 dnl please read gstreamer/docs/random/autotools before changing this file
 
 dnl initialize autoconf
-dnl releases only do -Wall, cvs and prerelease does -Werror too
-dnl use a three digit version number for releases, and four for cvs/prerelease
-AC_INIT(GStreamer Base Plug-ins, 0.10.23,
+dnl releases only do -Wall, git and prerelease does -Werror too
+dnl use a three digit version number for releases, and four for git/prerelease
+AC_INIT(GStreamer Base Plug-ins, 0.10.24,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-base)
 
 AG_GST_INIT
 
 dnl initialize automake
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wno-portability])
 
 dnl define PACKAGE_VERSION_* variables
 AS_VERSION
 
 dnl check if this is a release version
-AS_NANO(GST_CVS="no", GST_CVS="yes")
+AS_NANO(GST_GIT="no", GST_GIT="yes")
 
 dnl can autoconf find the source ?
 AC_CONFIG_SRCDIR([gst/audiotestsrc/gstaudiotestsrc.c])
@@ -44,7 +44,7 @@ dnl - interfaces added/removed/changed -> increment CURRENT, REVISION = 0
 dnl - interfaces added -> increment AGE
 dnl - interfaces removed -> AGE = 0
 dnl sets GST_LT_LDFLAGS
-AS_LIBTOOL(GST, 16, 0, 16)
+AS_LIBTOOL(GST, 17, 0, 17)
 
 dnl FIXME: this macro doesn't actually work;
 dnl the generated libtool script has no support for the listed tags.
@@ -55,7 +55,7 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.21.1
+GST_REQ=0.10.23.1
 
 dnl *** autotools stuff ****
 
@@ -217,9 +217,6 @@ dnl *** checks for structures ***
 
 dnl *** checks for compiler characteristics ***
 
-dnl make sure we can use "inline" from C code
-AC_C_INLINE
-
 dnl *** checks for library functions ***
 
 dnl check for fseeko()
@@ -243,7 +240,7 @@ AC_CHECK_FUNC(gethostbyname,,[AC_CHECK_LIB(nsl,gethostbyname)])
 dnl *** checks for dependency libraries ***
 
 dnl GLib is required
-AG_GST_GLIB_CHECK([2.14])
+AG_GST_GLIB_CHECK([2.16])
 
 dnl liboil is required
 PKG_CHECK_MODULES(LIBOIL, liboil-0.3 >= 0.3.14, HAVE_LIBOIL=yes, HAVE_LIBOIL=no)
@@ -267,11 +264,11 @@ AC_SUBST(GLIB_PREFIX)
 AC_SUBST(GST_PREFIX)
 
 dnl GTK is optional and only used in examples
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.12.0, HAVE_GTK=yes, HAVE_GTK=no)
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.14.0, HAVE_GTK=yes, HAVE_GTK=no)
 AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
 
 dnl some examples need gtk+-x11
-PKG_CHECK_MODULES(GTK_X11, gtk+-x11-2.0 >= 2.12.0,
+PKG_CHECK_MODULES(GTK_X11, gtk+-x11-2.0 >= 2.14.0,
     HAVE_GTK_X11=yes, HAVE_GTK_X11=no)
 AM_CONDITIONAL(HAVE_GTK_X11, test "x$HAVE_GTK_X11" = "xyes")
 
@@ -286,10 +283,10 @@ dnl set location of plugin directory
 AG_GST_SET_PLUGINDIR
 
 dnl define an ERROR_CFLAGS Makefile variable
-AG_GST_SET_ERROR_CFLAGS($GST_CVS)
+AG_GST_SET_ERROR_CFLAGS($GST_GIT)
 
 dnl define correct level for debugging messages
-AG_GST_SET_LEVEL_DEFAULT($GST_CVS)
+AG_GST_SET_LEVEL_DEFAULT($GST_GIT)
 
 dnl used in examples
 AG_GST_DEFAULT_ELEMENTS
@@ -439,6 +436,29 @@ AG_GST_CHECK_FEATURE(GST_V4L, [Video 4 Linux], video4linux, [
   fi
 ])
 
+# Optional gudev for device probing
+AC_ARG_WITH([gudev],
+  AC_HELP_STRING([--with-gudev],
+    [device detection with gudev]),
+  [],
+  [with_gudev=check])
+if test x$HAVE_GST_V4L = xyes; then
+  if test x$with_gudev != xno; then
+      PKG_CHECK_MODULES(GUDEV, [ gudev-1.0 >= 143 ],
+          [ have_gudev=yes
+            AC_DEFINE(HAVE_GUDEV, 1,
+               [Whether gudev is available for device detection])
+            AC_DEFINE([G_UDEV_API_IS_SUBJECT_TO_CHANGE], 1, [I know the API is subject to change.])
+          ], [
+          have_gudev=no
+          ])
+  else
+    have_gudev=no
+  fi
+fi
+AC_SUBST(GUDEV_CFLAGS)
+AC_SUBST(GUDEV_LIBS)
+
 dnl *** ext plug-ins ***
 dnl keep this list sorted alphabetically !
 
@@ -483,6 +503,14 @@ AG_GST_CHECK_FEATURE(CDPARANOIA, [CDParanoia], cdparanoia, [
     AC_DEFINE_UNQUOTED(CDPARANOIA_HEADERS_IN_DIR, ,
                        defined if cdda headers are in a cdda/ directory)
   fi
+  if test "x$FOUND_CDPARANOIA" = "xyes";
+  then
+    AC_CHECK_LIB(cdda_paranoia,
+                 paranoia_cachemodel_size,
+                 : ,
+                 HAVE_CDPARANOIA=no)
+  fi
+
   AC_SUBST(CDPARANOIA_LIBS)
 ])
 dnl FIXME : add second check somehow if that is necessary
@@ -506,7 +534,6 @@ AG_GST_CHECK_FEATURE(GNOME_VFS, [GNOME VFS], gnomevfs, [
 ])
 
 dnl *** libgio ***
-USE_GIO=$BUILD_EXPERIMENTAL
 translit(dnm, m, l) AM_CONDITIONAL(USE_GIO, true)
 AG_GST_CHECK_FEATURE(GIO, [GIO library], gio, [
   PKG_CHECK_MODULES(GIO, gio-2.0 >= 2.15.2, [
@@ -652,7 +679,7 @@ fi
 AC_SUBST(PROFILE_CFLAGS)
 
 if test "x$PACKAGE_VERSION_NANO" = "x1"; then
-  dnl Define _only_ during CVS (not pre-releases or releases)
+  dnl Define _only_ when compiling a git version (not pre-releases or releases)
   DEPRECATED_CFLAGS="-DGST_DISABLE_DEPRECATED"
 else
   DEPRECATED_CFLAGS=""
@@ -793,6 +820,8 @@ tests/examples/dynamic/Makefile
 tests/examples/seek/Makefile
 tests/examples/volume/Makefile
 tests/examples/snapshot/Makefile
+tests/examples/gio/Makefile
+tests/examples/v4l/Makefile
 tests/icles/Makefile
 docs/Makefile
 docs/design/Makefile

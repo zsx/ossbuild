@@ -1,5 +1,5 @@
 /* GStreamer
- * Copyright (C) <2005,2006> Wim Taymans <wim@fluendo.com>
+ * Copyright (C) <2005,2009> Wim Taymans <wim.taymans@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -45,6 +45,7 @@
 
 #include <glib.h>
 
+#include <gst/gstconfig.h>
 #include <gst/rtsp/gstrtspdefs.h>
 #include <gst/rtsp/gstrtspurl.h>
 #include <gst/rtsp/gstrtspmessage.h>
@@ -150,7 +151,7 @@ typedef struct _GstRTSPWatch GstRTSPWatch;
 typedef struct {
   GstRTSPResult     (*message_received) (GstRTSPWatch *watch, GstRTSPMessage *message,
                                          gpointer user_data);
-  GstRTSPResult     (*message_sent)     (GstRTSPWatch *watch, guint cseq, 
+  GstRTSPResult     (*message_sent)     (GstRTSPWatch *watch, guint id,
                                          gpointer user_data);
   GstRTSPResult     (*closed)           (GstRTSPWatch *watch, gpointer user_data);
   GstRTSPResult     (*error)            (GstRTSPWatch *watch, GstRTSPResult result,
@@ -172,6 +173,9 @@ void               gst_rtsp_watch_unref              (GstRTSPWatch *watch);
 guint              gst_rtsp_watch_attach             (GstRTSPWatch *watch,
                                                       GMainContext *context);
 
+guint              gst_rtsp_watch_queue_data         (GstRTSPWatch * watch,
+                                                      const guint8 * data,
+                                                      guint size);
 guint              gst_rtsp_watch_queue_message      (GstRTSPWatch *watch,
                                                       GstRTSPMessage *message);
 

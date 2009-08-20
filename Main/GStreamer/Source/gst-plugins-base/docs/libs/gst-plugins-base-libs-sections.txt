@@ -390,6 +390,7 @@ gst_color_balance_list_channels
 gst_color_balance_get_value
 gst_color_balance_set_value
 gst_color_balance_value_changed
+gst_color_balance_get_balance_type
 <SUBSECTION Standard>
 GST_COLOR_BALANCE
 GST_COLOR_BALANCE_CLASS
@@ -443,6 +444,7 @@ gst_mixer_get_option
 gst_mixer_mixer_changed
 
 gst_mixer_get_mixer_flags
+gst_mixer_get_mixer_type
 
 gst_mixer_message_get_type
 gst_mixer_message_parse_mute_toggled
@@ -452,7 +454,6 @@ gst_mixer_message_parse_volume_changed
 gst_mixer_message_parse_options_list_changed
 
 <SUBSECTION Standard>
-GstMixer
 GstMixerClass
 GST_TYPE_MIXER
 GST_TYPE_MIXER_TYPE
@@ -694,15 +695,24 @@ gst_x_overlay_get_type
 <INCLUDE>gst/netbuffer/gstnetbuffer.h</INCLUDE>
 GstNetBuffer
 GstNetType
+GST_NETADDRESS_MAX_LEN
 GstNetAddress
 
 gst_netbuffer_new
-gst_netaddress_get_ip4_address
-gst_netaddress_get_ip6_address
 gst_netaddress_get_net_type
+
 gst_netaddress_set_ip4_address
+gst_netaddress_get_ip4_address
+
 gst_netaddress_set_ip6_address
+gst_netaddress_get_ip6_address
+
+gst_netaddress_get_address_bytes
+gst_netaddress_set_address_bytes
+
 gst_netaddress_equal
+
+gst_netaddress_to_string
 <SUBSECTION Standard>
 GstNetBufferClass
 GST_TYPE_NETBUFFER
@@ -989,6 +999,7 @@ GST_BASE_RTP_PAYLOAD_SRCPAD
 
 gst_basertppayload_is_filled
 gst_basertppayload_push
+gst_basertppayload_push_list
 gst_basertppayload_set_options
 gst_basertppayload_set_outcaps
 <SUBSECTION Standard>
@@ -1198,6 +1209,24 @@ gst_rtp_buffer_get_payload
 gst_rtp_buffer_default_clock_rate
 gst_rtp_buffer_compare_seqnum
 gst_rtp_buffer_ext_timestamp
+gst_rtp_buffer_set_extension_data
+
+gst_rtp_buffer_list_validate
+
+gst_rtp_buffer_list_get_payload_len
+
+gst_rtp_buffer_list_get_payload_type
+gst_rtp_buffer_list_set_payload_type
+
+gst_rtp_buffer_list_get_seq
+gst_rtp_buffer_list_set_seq
+
+gst_rtp_buffer_list_get_ssrc
+gst_rtp_buffer_list_set_ssrc
+
+gst_rtp_buffer_list_get_timestamp
+gst_rtp_buffer_list_set_timestamp
+
 </SECTION>
 
 # rtsp
@@ -1688,9 +1717,6 @@ gst_video_sink_get_type
 <SECTION>
 <FILE>private</FILE>
 <SUBSECTION Private>
-sha_init
-sha_final
-sha_update
 bind_textdomain_codeset
 bindtextdomain
 dcgettext
@@ -1701,13 +1727,6 @@ gettext
 gettext_noop
 ngettext
 textdomain
-SHA_BLOCKSIZE
-SHA_BYTE
-SHA_BYTE_ORDER
-SHA_DIGESTSIZE
-SHA_INFO
-SHA_LONG
-SHA_VERSION
 _
 N_
 </SECTION>

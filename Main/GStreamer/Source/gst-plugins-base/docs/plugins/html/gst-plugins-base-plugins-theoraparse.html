@@ -52,10 +52,14 @@
 <a name="gst-plugins-base-plugins-theoraparse.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstTheoraParse
 </pre>
 </div>
@@ -63,7 +67,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-theoraparse.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-theoraparse.html#GstTheoraParse--synchronization-points" title='The "synchronization-points" property'>synchronization-points</a>"   <a
-href="../gobject/gobject-Value-arrays.html#GValueArray"
+href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
 >GValueArray</a>*          : Read / Write
 </pre>
 </div>
@@ -93,7 +97,7 @@ that offset from the value array whenever a keyframe is processed.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2584633"></a><h3>Example pipelines</h3>
+<a name="id2623593"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=video.ogg ! oggdemux ! theoraparse ! fakesink
 </pre></div> This pipeline shows that the streamheader is set in the caps, and that each
@@ -111,7 +115,7 @@ Last reviewed on 2008-05-28 (0.10.20)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2632468"></a><h3>Element Information</h3>
+<a name="id2646386"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -134,7 +138,78 @@ Last reviewed on 2008-05-28 (0.10.20)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2681896"></a><h3>Element Pads</h3>
+<a name="id2695183"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>video/x-theora</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>video/x-theora</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2695323"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-base-plugins-plugin-theora.html#plugin-theora">theora</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Andy Wingo &lt;wingo@pobox.com&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Codec/Parser/Video</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2695384"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -198,7 +273,7 @@ Opaque data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstTheoraParse--synchronization-points"></a><h3>The <code class="literal">"synchronization-points"</code> property</h3>
 <pre class="programlisting">  "synchronization-points"   <a
-href="../gobject/gobject-Value-arrays.html#GValueArray"
+href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
 >GValueArray</a>*          : Read / Write</pre>
 <p>An array of (granuletime, buffertime) pairs.</p>
 </div>

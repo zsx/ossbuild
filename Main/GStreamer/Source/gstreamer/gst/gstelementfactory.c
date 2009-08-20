@@ -79,6 +79,9 @@ static GstPluginFeatureClass *parent_class = NULL;
 
 /* static guint gst_element_factory_signals[LAST_SIGNAL] = { 0 }; */
 
+/* this is defined in gstelement.c */
+extern GQuark _gst_elementclass_factory;
+
 #define _do_init \
 { \
   GST_DEBUG_CATEGORY_INIT (element_factory_debug, "GST_ELEMENT_FACTORY", \
@@ -193,8 +196,7 @@ gst_element_factory_cleanup (GstElementFactory * factory)
 
   __gst_element_details_clear (&factory->details);
   if (factory->type) {
-    g_type_class_unref (g_type_class_peek (factory->type));
-    factory->type = 0;
+    factory->type = G_TYPE_INVALID;
   }
 
   for (item = factory->staticpadtemplates; item; item = item->next) {
@@ -249,6 +251,8 @@ gboolean
 gst_element_register (GstPlugin * plugin, const gchar * name, guint rank,
     GType type)
 {
+  GstPluginFeature *existing_feature;
+  GstRegistry *registry;
   GstElementFactory *factory;
   GType *interfaces;
   guint n_interfaces, i;
@@ -258,8 +262,27 @@ gst_element_register (GstPlugin * plugin, const gchar * name, guint rank,
   g_return_val_if_fail (name != NULL, FALSE);
   g_return_val_if_fail (g_type_is_a (type, GST_TYPE_ELEMENT), FALSE);
 
-  factory = GST_ELEMENT_FACTORY (g_object_new (GST_TYPE_ELEMENT_FACTORY, NULL));
-  gst_plugin_feature_set_name (GST_PLUGIN_FEATURE (factory), name);
+  registry = gst_registry_get_default ();
+
+  /* check if feature already exists, if it exists there is no need to update it
+   * when the registry is getting updated, outdated plugins and all there
+   * feature are removed and readded.
+   */
+  existing_feature = gst_registry_lookup_feature (registry, name);
+  if (existing_feature) {
+    GST_DEBUG_OBJECT (registry, "update existing feature %p (%s)",
+        existing_feature, name);
+    factory = GST_ELEMENT_FACTORY_CAST (existing_feature);
+    factory->type = type;
+    existing_feature->loaded = TRUE;
+    g_type_set_qdata (type, _gst_elementclass_factory, factory);
+    gst_object_unref (existing_feature);
+    return TRUE;
+  }
+
+  factory =
+      GST_ELEMENT_FACTORY_CAST (g_object_new (GST_TYPE_ELEMENT_FACTORY, NULL));
+  gst_plugin_feature_set_name (GST_PLUGIN_FEATURE_CAST (factory), name);
   GST_LOG_OBJECT (factory, "Created new elementfactory for type %s",
       g_type_name (type));
 
@@ -283,7 +306,7 @@ gst_element_register (GstPlugin * plugin, const gchar * name, guint rank,
         g_list_append (factory->staticpadtemplates, newt);
   }
   factory->numpadtemplates = klass->numpadtemplates;
-  klass->elementfactory = factory;
+  g_type_set_qdata (type, _gst_elementclass_factory, factory);
 
   /* special stuff for URI handling */
   if (g_type_is_a (type, GST_TYPE_URI_HANDLER)) {
@@ -314,15 +337,14 @@ gst_element_register (GstPlugin * plugin, const gchar * name, guint rank,
   g_free (interfaces);
 
   if (plugin && plugin->desc.name) {
-    GST_PLUGIN_FEATURE (factory)->plugin_name = plugin->desc.name;
+    GST_PLUGIN_FEATURE_CAST (factory)->plugin_name = plugin->desc.name;
   } else {
-    GST_PLUGIN_FEATURE (factory)->plugin_name = "NULL";
+    GST_PLUGIN_FEATURE_CAST (factory)->plugin_name = "NULL";
   }
-  gst_plugin_feature_set_rank (GST_PLUGIN_FEATURE (factory), rank);
-  GST_PLUGIN_FEATURE (factory)->loaded = TRUE;
+  gst_plugin_feature_set_rank (GST_PLUGIN_FEATURE_CAST (factory), rank);
+  GST_PLUGIN_FEATURE_CAST (factory)->loaded = TRUE;
 
-  gst_registry_add_feature (gst_registry_get_default (),
-      GST_PLUGIN_FEATURE (factory));
+  gst_registry_add_feature (registry, GST_PLUGIN_FEATURE_CAST (factory));
 
   return TRUE;
 
@@ -388,16 +410,16 @@ gst_element_factory_create (GstElementFactory * factory, const gchar * name)
 
   /* fill in the pointer to the factory in the element class. The
    * class will not be unreffed currently. 
-   * FIXME: This isn't safe and may leak a refcount on the factory if 2 threads
-   * create the first instance of an element at the same moment */
+   * Be thread safe as there might be 2 threads creating the first instance of
+   * an element at the same moment
+   */
   oclass = GST_ELEMENT_GET_CLASS (element);
-  if (G_UNLIKELY (oclass->elementfactory == NULL))
-    oclass->elementfactory = factory;
-  else
+  if (!g_atomic_pointer_compare_and_exchange (
+          (gpointer) & oclass->elementfactory, NULL, factory))
     gst_object_unref (factory);
 
   if (name)
-    gst_object_set_name (GST_OBJECT (element), name);
+    gst_object_set_name (GST_OBJECT_CAST (element), name);
 
   GST_DEBUG ("created element \"%s\"", GST_PLUGIN_FEATURE_NAME (factory));
 
@@ -406,7 +428,8 @@ gst_element_factory_create (GstElementFactory * factory, const gchar * name)
   /* ERRORS */
 load_failed:
   {
-    GST_WARNING_OBJECT (factory, "loading plugin returned NULL!");
+    GST_WARNING_OBJECT (factory,
+        "loading plugin containing feature %s returned NULL!", name);
     return NULL;
   }
 no_type:

@@ -351,12 +351,17 @@ top_srcdir = @top_srcdir@
 
 # adapter test needs sys/times.h and unistd.h
 @HAVE_SYS_TIMES_H_AND_UNISTD_H_TRUE@ADAPTER_TEST_DIR = adapter
+@HAVE_PTHREAD_H_FALSE@STREAMS_TEST_DIR = 
+
+# streams test needs pthreads
+@HAVE_PTHREAD_H_TRUE@STREAMS_TEST_DIR = streams
 always_dirs = \
 	controller \
 	helloworld \
 	manual     \
 	metadata   \
-	queue
+	queue      \
+	stepping
 
 
 #appreader
@@ -377,10 +382,11 @@ always_dirs = \
 SUBDIRS = \
 	$(always_dirs)			\
 	$(ADAPTER_TEST_DIR)		\
+	$(STREAMS_TEST_DIR)		\
 	$(GST_PARSE_DIRS)		\
 	$(GST_LOADSAVE_DIRS)
 
-DIST_SUBDIRS = $(always_dirs) adapter xml typefind launch
+DIST_SUBDIRS = $(always_dirs) adapter streams xml typefind launch
 all: all-recursive
 
 .SUFFIXES:

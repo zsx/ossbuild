@@ -134,6 +134,7 @@ gst_bus_sync_reply_get_type
 GstBusPrivate
 </SECTION>
 
+
 <SECTION>
 <FILE>gstbuffer</FILE>
 <TITLE>GstBuffer</TITLE>
@@ -208,6 +209,53 @@ gst_buffer_flag_get_type
 gst_buffer_copy_flags_get_type
 </SECTION>
 
+<SECTION>
+<FILE>gstbufferlist</FILE>
+<TITLE>GstBufferList</TITLE>
+GstBufferList
+GstBufferListIterator
+GstBufferListDoFunction
+
+gst_buffer_list_new
+gst_buffer_list_ref
+gst_buffer_list_unref
+gst_buffer_list_copy
+gst_buffer_list_is_writable
+gst_buffer_list_make_writable
+
+gst_buffer_list_n_groups
+
+GstBufferListItem
+GstBufferListFunc
+gst_buffer_list_foreach
+gst_buffer_list_get
+
+gst_buffer_list_iterate
+gst_buffer_list_iterator_free
+gst_buffer_list_iterator_n_buffers
+gst_buffer_list_iterator_add
+gst_buffer_list_iterator_add_group
+gst_buffer_list_iterator_next
+gst_buffer_list_iterator_next_group
+gst_buffer_list_iterator_remove
+gst_buffer_list_iterator_steal
+gst_buffer_list_iterator_take
+gst_buffer_list_iterator_do
+gst_buffer_list_iterator_merge_group
+<SUBSECTION Standard>
+GstBufferListClass
+GST_BUFFER_LIST
+GST_BUFFER_LIST_CLASS
+GST_BUFFER_LIST_GET_CLASS
+GST_IS_BUFFER_LIST
+GST_IS_BUFFER_LIST_CLASS
+GST_TYPE_BUFFER_LIST
+GST_BUFFER_LIST_CAST
+GST_TYPE_BUFFER_LIST_ITEM
+<SUBSECTION Private>
+gst_buffer_list_item_get_type
+gst_buffer_list_get_type
+</SECTION>
 
 <SECTION>
 <FILE>gstcaps</FILE>
@@ -374,6 +422,7 @@ GST_TYPE_CLOCK_FLAGS
 GST_TYPE_CLOCK_RETURN
 GST_TYPE_CLOCK_TIME
 <SUBSECTION Private>
+GstClockPrivate
 GST_CLOCK_SLAVE_LOCK
 GST_CLOCK_SLAVE_UNLOCK
 gst_clock_get_type
@@ -441,6 +490,7 @@ GST_ELEMENT_PARENT
 GST_ELEMENT_BUS
 GST_ELEMENT_CLOCK
 GST_ELEMENT_PADS
+GST_ELEMENT_START_TIME
 GST_ELEMENT_ERROR
 GST_ELEMENT_WARNING
 GST_ELEMENT_INFO
@@ -482,6 +532,8 @@ gst_element_link_filtered
 <SUBSECTION element-properties>
 gst_element_set_base_time
 gst_element_get_base_time
+gst_element_set_start_time
+gst_element_get_start_time
 gst_element_set_bus
 gst_element_get_bus
 gst_element_get_factory
@@ -508,6 +560,7 @@ gst_element_is_locked_state
 gst_element_abort_state
 gst_element_continue_state
 gst_element_lost_state
+gst_element_lost_state_full
 gst_element_state_get_name
 gst_element_state_change_return_get_name
 gst_element_sync_state_with_parent
@@ -698,6 +751,9 @@ gst_event_new_navigation
 
 gst_event_new_latency
 gst_event_parse_latency
+
+gst_event_new_step
+gst_event_parse_step
 <SUBSECTION Standard>
 GstEventClass
 GST_EVENT
@@ -914,6 +970,7 @@ GST_DEBUG_CATEGORY
 GST_DEBUG_CATEGORY_EXTERN
 GST_DEBUG_CATEGORY_STATIC
 GST_DEBUG_CATEGORY_INIT
+GST_DEBUG_CATEGORY_GET
 gst_debug_category_free
 gst_debug_category_set_threshold
 gst_debug_category_reset_threshold
@@ -1043,8 +1100,8 @@ gst_iterator_result_get_type
 <TITLE>GstMessage</TITLE>
 GstMessage
 GstMessageType
-GstStructureChangeType
 GST_MESSAGE_SRC
+GST_MESSAGE_SRC_NAME
 GST_MESSAGE_TIMESTAMP
 GST_MESSAGE_TYPE
 GST_MESSAGE_TYPE_NAME
@@ -1067,7 +1124,9 @@ gst_message_parse_warning
 gst_message_new_info
 gst_message_parse_info
 gst_message_new_tag
+gst_message_new_tag_full
 gst_message_parse_tag
+gst_message_parse_tag_full
 gst_message_new_buffering
 gst_message_parse_buffering
 gst_message_set_buffering_stats
@@ -1075,6 +1134,8 @@ gst_message_parse_buffering_stats
 gst_message_new_state_changed
 gst_message_parse_state_changed
 gst_message_new_state_dirty
+gst_message_new_step_done
+gst_message_parse_step_done
 gst_message_new_clock_provide
 gst_message_parse_clock_provide
 gst_message_new_clock_lost
@@ -1094,10 +1155,21 @@ gst_message_new_latency
 gst_message_new_async_start
 gst_message_parse_async_start
 gst_message_new_async_done
+gst_message_new_step_start
+gst_message_parse_step_start
+
+GstStructureChangeType
 gst_message_new_structure_change
 gst_message_parse_structure_change
 gst_message_new_request_state
 gst_message_parse_request_state
+
+GstStreamStatusType
+gst_message_new_stream_status
+gst_message_parse_stream_status
+gst_message_set_stream_status_object
+gst_message_get_stream_status_object
+
 <SUBSECTION Standard>
 GstMessageClass
 GST_MESSAGE
@@ -1109,10 +1181,12 @@ GST_IS_MESSAGE_CLASS
 GST_MESSAGE_GET_CLASS
 GST_TYPE_MESSAGE_TYPE
 GST_TYPE_STRUCTURE_CHANGE_TYPE
+GST_TYPE_STREAM_STATUS_TYPE
 <SUBSECTION Private>
 gst_message_get_type
 gst_message_type_get_type
 gst_structure_change_type_get_type
+gst_stream_status_type_get_type
 GST_MESSAGE_COND
 GST_MESSAGE_GET_LOCK
 GST_MESSAGE_LOCK
@@ -1214,6 +1288,7 @@ gst_object_save_thyself
 gst_object_restore_thyself
 gst_object_ref
 gst_object_unref
+gst_object_ref_sink
 gst_object_sink
 gst_object_replace
 gst_object_get_path_string
@@ -1304,6 +1379,9 @@ GstPadBufferAllocFunction
 gst_pad_set_chain_function
 GstPadChainFunction
 
+gst_pad_set_chain_list_function
+GstPadChainListFunction
+
 gst_pad_set_checkgetrange_function
 GstPadCheckGetRangeFunction
 
@@ -1348,6 +1426,7 @@ GstPadActivateModeFunction
 
 gst_pad_push
 gst_pad_push_event
+gst_pad_push_list
 gst_pad_check_pull_range
 gst_pad_pull_range
 gst_pad_activate_pull
@@ -1391,6 +1470,7 @@ gst_pad_get_element_private
 
 <SUBSECTION Core>
 gst_pad_chain
+gst_pad_chain_list
 
 gst_pad_start_task
 gst_pad_pause_task
@@ -1412,6 +1492,7 @@ GST_FLOW_IS_SUCCESS
 
 <SUBSECTION Standard>
 GstPadClass
+GstPadPrivate
 GST_PAD
 GST_IS_PAD
 GST_PAD_CLASS
@@ -1632,6 +1713,7 @@ GstPluginError
 GstPlugin
 GstPluginDesc
 GstPluginInitFunc
+GstPluginInitFullFunc
 GST_PLUGIN_DEFINE
 GST_PLUGIN_DEFINE_STATIC
 GST_LICENSE_UNKNOWN
@@ -1646,12 +1728,15 @@ gst_plugin_get_source
 gst_plugin_get_version
 gst_plugin_get_module
 gst_plugin_is_loaded
+gst_plugin_get_cache_data
+gst_plugin_set_cache_data
 gst_plugin_name_filter
 gst_plugin_load_file
 gst_plugin_load
 gst_plugin_load_by_name
 gst_plugin_list_free
 gst_plugin_register_static
+gst_plugin_register_static_full
 <SUBSECTION>
 GstPluginDependencyFlags
 gst_plugin_add_dependency
@@ -1912,6 +1997,8 @@ gst_segment_set_newsegment_full
 gst_segment_set_seek
 gst_segment_to_running_time
 gst_segment_to_stream_time
+gst_segment_to_position
+gst_segment_set_running_time
 <SUBSECTION Standard>
 GST_TYPE_SEGMENT
 gst_segment_get_type
@@ -1929,14 +2016,19 @@ gst_structure_empty_new
 gst_structure_id_empty_new
 gst_structure_new
 gst_structure_new_valist
+gst_structure_id_new
 gst_structure_copy
 gst_structure_free
 gst_structure_get_name
 gst_structure_has_name
 gst_structure_set_name
 gst_structure_get_name_id
+gst_structure_id_get
+gst_structure_id_get_valist
 gst_structure_id_get_value
 gst_structure_id_set_value
+gst_structure_get
+gst_structure_get_valist
 gst_structure_get_value
 gst_structure_set_value
 gst_structure_set
@@ -2041,6 +2133,7 @@ GST_TAG_CODEC
 GST_TAG_VIDEO_CODEC
 GST_TAG_AUDIO_CODEC
 GST_TAG_SUBTITLE_CODEC
+GST_TAG_CONTAINER_FORMAT
 GST_TAG_BITRATE
 GST_TAG_NOMINAL_BITRATE
 GST_TAG_MINIMUM_BITRATE
@@ -2074,6 +2167,8 @@ gst_tag_get_description
 gst_tag_get_flag
 gst_tag_is_fixed
 gst_tag_list_new
+gst_tag_list_new_full
+gst_tag_list_new_full_valist
 gst_is_tag_list
 gst_tag_list_is_empty
 gst_tag_list_copy
@@ -2082,6 +2177,7 @@ gst_tag_list_merge
 gst_tag_list_free
 gst_tag_list_get_tag_size
 gst_tag_list_add
+gst_tag_list_add_value
 gst_tag_list_add_values
 gst_tag_list_add_valist
 gst_tag_list_add_valist_values
@@ -2142,6 +2238,7 @@ GstTagSetterIFace
 gst_tag_setter_reset_tags
 gst_tag_setter_merge_tags
 gst_tag_setter_add_tags
+gst_tag_setter_add_tag_value
 gst_tag_setter_add_tag_values
 gst_tag_setter_add_tag_valist
 gst_tag_setter_add_tag_valist_values
@@ -2155,6 +2252,29 @@ GST_TAG_SETTER_GET_IFACE
 GST_TYPE_TAG_SETTER
 <SUBSECTION Private>
 gst_tag_setter_get_type
+</SECTION>
+
+<SECTION>
+<FILE>gsttaskpool</FILE>
+<TITLE>GstTaskPool</TITLE>
+GstTaskPool
+GstTaskPoolClass
+GstTaskPoolFunction
+gst_task_pool_new
+gst_task_pool_prepare
+gst_task_pool_push
+gst_task_pool_join
+gst_task_pool_cleanup
+<SUBSECTION Standard>
+GST_IS_TASK_POOL
+GST_IS_TASK_POOL_CLASS
+GST_TASK_POOL
+GST_TASK_POOL_CAST
+GST_TASK_POOL_CLASS
+GST_TASK_POOL_GET_CLASS
+GST_TYPE_TASK_POOL
+<SUBSECTION Private>
+gst_task_pool_get_type
 </SECTION>
 
 
@@ -2172,17 +2292,28 @@ GST_TASK_SIGNAL
 GST_TASK_STATE
 GST_TASK_WAIT
 
-gst_task_cleanup_all
 gst_task_create
-gst_task_get_state
-gst_task_join
-gst_task_pause
 gst_task_set_lock
+gst_task_set_priority
+
+gst_task_set_pool
+gst_task_get_pool
+
+GstTaskThreadCallbacks
+gst_task_set_thread_callbacks
+
+gst_task_get_state
+gst_task_set_state
+gst_task_pause
 gst_task_start
 gst_task_stop
+gst_task_join
+
+gst_task_cleanup_all
 
 <SUBSECTION Standard>
 GstTaskClass
+GstTaskPrivate
 GST_TASK
 GST_IS_TASK
 GST_TYPE_TASK

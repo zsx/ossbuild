@@ -118,7 +118,7 @@ struct _GstBaseRTPPayloadClass
   /* receive caps on the sink pad, configure the payloader. */
   gboolean      (*set_caps)             (GstBaseRTPPayload *payload, GstCaps *caps);
   /* handle a buffer, perform 0 or more gst_basertppayload_push() on
-   * the RTP buffers */
+   * the RTP buffers. This function takes ownership of the buffer. */
   GstFlowReturn (*handle_buffer)        (GstBaseRTPPayload *payload, 
                                          GstBuffer *buffer);
   gboolean      (*handle_event)         (GstPad * pad, GstEvent * event);
@@ -143,6 +143,9 @@ gboolean        gst_basertppayload_is_filled            (GstBaseRTPPayload *payl
 
 GstFlowReturn   gst_basertppayload_push                 (GstBaseRTPPayload *payload, 
                                                          GstBuffer *buffer);
+
+GstFlowReturn   gst_basertppayload_push_list            (GstBaseRTPPayload *payload,
+                                                         GstBufferList *list);
 
 G_END_DECLS
 

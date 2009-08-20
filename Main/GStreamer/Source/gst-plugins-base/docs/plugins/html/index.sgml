@@ -3,9 +3,12 @@
 <ANCHOR id="gst-plugins-base-plugins-adder.synopsis" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#gst-plugins-base-plugins-adder.synopsis">
 <ANCHOR id="GstAdder" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#GstAdder">
 <ANCHOR id="gst-plugins-base-plugins-adder.object-hierarchy" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#gst-plugins-base-plugins-adder.object-hierarchy">
+<ANCHOR id="gst-plugins-base-plugins-adder.properties" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#gst-plugins-base-plugins-adder.properties">
 <ANCHOR id="gst-plugins-base-plugins-adder.description" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#gst-plugins-base-plugins-adder.description">
 <ANCHOR id="gst-plugins-base-plugins-adder.details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#gst-plugins-base-plugins-adder.details">
 <ANCHOR id="GstAdder-struct" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#GstAdder-struct">
+<ANCHOR id="gst-plugins-base-plugins-adder.property-details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#gst-plugins-base-plugins-adder.property-details">
+<ANCHOR id="GstAdder--caps" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-adder.html#GstAdder--caps">
 <ANCHOR id="gst-plugins-base-plugins-appsrc" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html">
 <ANCHOR id="gst-plugins-base-plugins-appsrc.synopsis" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#gst-plugins-base-plugins-appsrc.synopsis">
 <ANCHOR id="GstAppSrc" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#GstAppSrc">
@@ -26,6 +29,7 @@
 <ANCHOR id="GstAppSrc--min-latency" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#GstAppSrc--min-latency">
 <ANCHOR id="GstAppSrc--size" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#GstAppSrc--size">
 <ANCHOR id="GstAppSrc--stream-type" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#GstAppSrc--stream-type">
+<ANCHOR id="GstAppSrc--emit-signals" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#GstAppSrc--emit-signals">
 <ANCHOR id="gst-plugins-base-plugins-appsrc.signal-details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#gst-plugins-base-plugins-appsrc.signal-details">
 <ANCHOR id="GstAppSrc-end-of-stream" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#GstAppSrc-end-of-stream">
 <ANCHOR id="GstAppSrc-enough-data" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsrc.html#GstAppSrc-enough-data">
@@ -36,6 +40,7 @@
 <ANCHOR id="gst-plugins-base-plugins-appsink.synopsis" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#gst-plugins-base-plugins-appsink.synopsis">
 <ANCHOR id="GstAppSink" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#GstAppSink">
 <ANCHOR id="gst-plugins-base-plugins-appsink.object-hierarchy" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#gst-plugins-base-plugins-appsink.object-hierarchy">
+<ANCHOR id="gst-plugins-base-plugins-appsink.implemented-interfaces" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#gst-plugins-base-plugins-appsink.implemented-interfaces">
 <ANCHOR id="gst-plugins-base-plugins-appsink.properties" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#gst-plugins-base-plugins-appsink.properties">
 <ANCHOR id="gst-plugins-base-plugins-appsink.signals" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#gst-plugins-base-plugins-appsink.signals">
 <ANCHOR id="gst-plugins-base-plugins-appsink.description" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#gst-plugins-base-plugins-appsink.description">
@@ -53,6 +58,8 @@
 <ANCHOR id="GstAppSink-new-preroll" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#GstAppSink-new-preroll">
 <ANCHOR id="GstAppSink-pull-buffer" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#GstAppSink-pull-buffer">
 <ANCHOR id="GstAppSink-pull-preroll" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#GstAppSink-pull-preroll">
+<ANCHOR id="GstAppSink-new-buffer-list" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#GstAppSink-new-buffer-list">
+<ANCHOR id="GstAppSink-pull-buffer-list" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-appsink.html#GstAppSink-pull-buffer-list">
 <ANCHOR id="gst-plugins-base-plugins-alsamixer" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-alsamixer.html">
 <ANCHOR id="gst-plugins-base-plugins-alsamixer.synopsis" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-alsamixer.html#gst-plugins-base-plugins-alsamixer.synopsis">
 <ANCHOR id="GstAlsaMixerElement" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-alsamixer.html#GstAlsaMixerElement">
@@ -149,6 +156,7 @@
 <ANCHOR id="GstCdParanoiaSrc--paranoia-mode" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--paranoia-mode">
 <ANCHOR id="GstCdParanoiaSrc--read-speed" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--read-speed">
 <ANCHOR id="GstCdParanoiaSrc--search-overlap" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--search-overlap">
+<ANCHOR id="GstCdParanoiaSrc--cache-size" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--cache-size">
 <ANCHOR id="gst-plugins-base-plugins-cdparanoiasrc.signal-details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-cdparanoiasrc.html#gst-plugins-base-plugins-cdparanoiasrc.signal-details">
 <ANCHOR id="GstCdParanoiaSrc-transport-error" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc-transport-error">
 <ANCHOR id="GstCdParanoiaSrc-uncorrected-error" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc-uncorrected-error">
@@ -348,6 +356,9 @@
 <ANCHOR id="GstMultiFdSink--units-max" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--units-max">
 <ANCHOR id="GstMultiFdSink--units-soft-max" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--units-soft-max">
 <ANCHOR id="GstMultiFdSink--qos-dscp" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--qos-dscp">
+<ANCHOR id="GstMultiFdSink--handle-read" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--handle-read">
+<ANCHOR id="GstMultiFdSink--resend-streamheader" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--resend-streamheader">
+<ANCHOR id="GstMultiFdSink--num-fds" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--num-fds">
 <ANCHOR id="gst-plugins-base-plugins-multifdsink.signal-details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#gst-plugins-base-plugins-multifdsink.signal-details">
 <ANCHOR id="GstMultiFdSink-add" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink-add">
 <ANCHOR id="GstMultiFdSink-clear" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink-clear">
@@ -371,6 +382,7 @@
 <ANCHOR id="gst-plugins-base-plugins-oggmux.synopsis" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-oggmux.html#gst-plugins-base-plugins-oggmux.synopsis">
 <ANCHOR id="GstOggMux" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-oggmux.html#GstOggMux">
 <ANCHOR id="gst-plugins-base-plugins-oggmux.object-hierarchy" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-oggmux.html#gst-plugins-base-plugins-oggmux.object-hierarchy">
+<ANCHOR id="gst-plugins-base-plugins-oggmux.implemented-interfaces" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-oggmux.html#gst-plugins-base-plugins-oggmux.implemented-interfaces">
 <ANCHOR id="gst-plugins-base-plugins-oggmux.properties" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-oggmux.html#gst-plugins-base-plugins-oggmux.properties">
 <ANCHOR id="gst-plugins-base-plugins-oggmux.description" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-oggmux.html#gst-plugins-base-plugins-oggmux.description">
 <ANCHOR id="gst-plugins-base-plugins-oggmux.details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-oggmux.html#gst-plugins-base-plugins-oggmux.details">
@@ -429,6 +441,8 @@
 <ANCHOR id="GstPlayBin2--mute" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2--mute">
 <ANCHOR id="GstPlayBin2--buffer-duration" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2--buffer-duration">
 <ANCHOR id="GstPlayBin2--buffer-size" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2--buffer-size">
+<ANCHOR id="GstPlayBin2--text-sink" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2--text-sink">
+<ANCHOR id="GstPlayBin2--subpic-sink" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2--subpic-sink">
 <ANCHOR id="gst-plugins-base-plugins-playbin2.signal-details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#gst-plugins-base-plugins-playbin2.signal-details">
 <ANCHOR id="GstPlayBin2-about-to-finish" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2-about-to-finish">
 <ANCHOR id="GstPlayBin2-audio-changed" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2-audio-changed">
@@ -441,6 +455,9 @@
 <ANCHOR id="GstPlayBin2-get-audio-pad" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2-get-audio-pad">
 <ANCHOR id="GstPlayBin2-get-text-pad" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2-get-text-pad">
 <ANCHOR id="GstPlayBin2-get-video-pad" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2-get-video-pad">
+<ANCHOR id="GstPlayBin2-audio-tags-changed" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2-audio-tags-changed">
+<ANCHOR id="GstPlayBin2-text-tags-changed" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2-text-tags-changed">
+<ANCHOR id="GstPlayBin2-video-tags-changed" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#GstPlayBin2-video-tags-changed">
 <ANCHOR id="gst-plugins-base-plugins-tcpclientsrc" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tcpclientsrc.html">
 <ANCHOR id="gst-plugins-base-plugins-tcpclientsrc.synopsis" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tcpclientsrc.html#gst-plugins-base-plugins-tcpclientsrc.synopsis">
 <ANCHOR id="GstTCPClientSrc" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tcpclientsrc.html#GstTCPClientSrc">
@@ -530,6 +547,11 @@
 <ANCHOR id="GstTextRender-struct" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#GstTextRender-struct">
 <ANCHOR id="gst-plugins-base-plugins-textrender.property-details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#gst-plugins-base-plugins-textrender.property-details">
 <ANCHOR id="GstTextRender--font-desc" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#GstTextRender--font-desc">
+<ANCHOR id="GstTextRender--halignment" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#GstTextRender--halignment">
+<ANCHOR id="GstTextRender--line-alignment" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#GstTextRender--line-alignment">
+<ANCHOR id="GstTextRender--valignment" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#GstTextRender--valignment">
+<ANCHOR id="GstTextRender--xpad" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#GstTextRender--xpad">
+<ANCHOR id="GstTextRender--ypad" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#GstTextRender--ypad">
 <ANCHOR id="gst-plugins-base-plugins-textrender.see-also" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-textrender.html#gst-plugins-base-plugins-textrender.see-also">
 <ANCHOR id="gst-plugins-base-plugins-theoradec" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoradec.html">
 <ANCHOR id="gst-plugins-base-plugins-theoradec.synopsis" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoradec.html#gst-plugins-base-plugins-theoradec.synopsis">
@@ -546,6 +568,7 @@
 <ANCHOR id="gst-plugins-base-plugins-theoraenc.synopsis" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoraenc.html#gst-plugins-base-plugins-theoraenc.synopsis">
 <ANCHOR id="GstTheoraEnc" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoraenc.html#GstTheoraEnc">
 <ANCHOR id="gst-plugins-base-plugins-theoraenc.object-hierarchy" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoraenc.html#gst-plugins-base-plugins-theoraenc.object-hierarchy">
+<ANCHOR id="gst-plugins-base-plugins-theoraenc.implemented-interfaces" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoraenc.html#gst-plugins-base-plugins-theoraenc.implemented-interfaces">
 <ANCHOR id="gst-plugins-base-plugins-theoraenc.properties" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoraenc.html#gst-plugins-base-plugins-theoraenc.properties">
 <ANCHOR id="gst-plugins-base-plugins-theoraenc.description" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoraenc.html#gst-plugins-base-plugins-theoraenc.description">
 <ANCHOR id="gst-plugins-base-plugins-theoraenc.details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-theoraenc.html#gst-plugins-base-plugins-theoraenc.details">
@@ -604,6 +627,7 @@
 <ANCHOR id="GstURIDecodeBin--source" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-uridecodebin.html#GstURIDecodeBin--source">
 <ANCHOR id="GstURIDecodeBin--buffer-duration" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-uridecodebin.html#GstURIDecodeBin--buffer-duration">
 <ANCHOR id="GstURIDecodeBin--buffer-size" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-uridecodebin.html#GstURIDecodeBin--buffer-size">
+<ANCHOR id="GstURIDecodeBin--download" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-uridecodebin.html#GstURIDecodeBin--download">
 <ANCHOR id="gst-plugins-base-plugins-uridecodebin.signal-details" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-uridecodebin.html#gst-plugins-base-plugins-uridecodebin.signal-details">
 <ANCHOR id="GstURIDecodeBin-autoplug-continue" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-uridecodebin.html#GstURIDecodeBin-autoplug-continue">
 <ANCHOR id="GstURIDecodeBin-autoplug-factories" href="gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-uridecodebin.html#GstURIDecodeBin-autoplug-factories">

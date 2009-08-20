@@ -383,6 +383,53 @@ GST_START_TEST (test_buffer_tags)
 
 GST_END_TEST;
 
+GST_START_TEST (test_empty_tags)
+{
+  GstTagList *tags;
+
+  /* only get g_warnings() with git */
+  if (GST_VERSION_NANO != 1)
+    return;
+
+  tags = gst_tag_list_new ();
+  ASSERT_WARNING (gst_tag_list_add (tags, GST_TAG_MERGE_APPEND,
+          GST_TAG_ARTIST, NULL, NULL));
+  ASSERT_WARNING (gst_tag_list_add (tags, GST_TAG_MERGE_APPEND,
+          GST_TAG_ARTIST, "", NULL));
+  gst_tag_list_add (tags, GST_TAG_MERGE_APPEND, GST_TAG_ARTIST, "xyz", NULL);
+  gst_tag_list_free (tags);
+}
+
+GST_END_TEST;
+
+GST_START_TEST (test_new_full)
+{
+  GstTagList *tags;
+  gchar *artist, *title;
+  gdouble track_gain;
+  guint track_num;
+
+  tags = gst_tag_list_new_full (GST_TAG_ARTIST, "Arty Ist",
+      GST_TAG_TRACK_NUMBER, 9, GST_TAG_TRACK_GAIN, 4.242, GST_TAG_TITLE,
+      "Title!", NULL);
+
+  fail_unless (gst_tag_list_get_string (tags, GST_TAG_ARTIST, &artist));
+  fail_unless_equals_string (artist, "Arty Ist");
+  fail_unless (gst_tag_list_get_string (tags, GST_TAG_TITLE, &title));
+  fail_unless_equals_string (title, "Title!");
+  fail_unless (gst_tag_list_get_uint (tags, GST_TAG_TRACK_NUMBER, &track_num));
+  fail_unless_equals_int (track_num, 9);
+  fail_unless (gst_tag_list_get_double (tags, GST_TAG_TRACK_GAIN, &track_gain));
+  fail_unless_equals_float (track_gain, 4.242);
+  fail_unless (tags != NULL);
+
+  gst_tag_list_free (tags);
+  g_free (artist);
+  g_free (title);
+}
+
+GST_END_TEST;
+
 static Suite *
 gst_tag_suite (void)
 {
@@ -397,6 +444,8 @@ gst_tag_suite (void)
   tcase_add_test (tc_chain, test_type);
   tcase_add_test (tc_chain, test_set_non_utf8_string);
   tcase_add_test (tc_chain, test_buffer_tags);
+  tcase_add_test (tc_chain, test_empty_tags);
+  tcase_add_test (tc_chain, test_new_full);
 
   return s;
 }

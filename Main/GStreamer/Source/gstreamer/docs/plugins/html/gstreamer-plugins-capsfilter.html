@@ -51,18 +51,26 @@
 <a name="gstreamer-plugins-capsfilter.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseTransform
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
+>GstBaseTransform</a>
                      +----GstCapsFilter
 </pre>
 </div>
 <div class="refsect1" lang="en">
 <a name="gstreamer-plugins-capsfilter.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gstreamer-plugins-capsfilter.html#GstCapsFilter--caps" title='The "caps" property'>caps</a>"                     GstCaps*              : Read / Write
+  "<a class="link" href="gstreamer-plugins-capsfilter.html#GstCapsFilter--caps" title='The "caps" property'>caps</a>"                     <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+>GstCaps</a>*              : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -73,7 +81,7 @@ data format.</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2590964"></a><h3>Element Information</h3>
+<a name="id2908216"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -96,7 +104,78 @@ data format.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2518116"></a><h3>Element Pads</h3>
+<a name="id2829064"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2829205"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gstreamer-plugins-plugin-coreelements.html#plugin-coreelements">coreelements</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>David Schleef &lt;ds@schleef.org&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Generic</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2829267"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -159,7 +238,9 @@ The opaque <a class="link" href="gstreamer-plugins-capsfilter.html#GstCapsFilter
 <a name="gstreamer-plugins-capsfilter.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
 <a name="GstCapsFilter--caps"></a><h3>The <code class="literal">"caps"</code> property</h3>
-<pre class="programlisting">  "caps"                     GstCaps*              : Read / Write</pre>
+<pre class="programlisting">  "caps"                     <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+>GstCaps</a>*              : Read / Write</pre>
 <p>Restrict the possible allowed capabilities (NULL means ANY). Setting this property takes a reference to the supplied GstCaps object.</p>
 </div>
 </div>

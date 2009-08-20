@@ -198,6 +198,8 @@ GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GTK_X11_CFLAGS = @GTK_X11_CFLAGS@
 GTK_X11_LIBS = @GTK_X11_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HAVE_CDPARANOIA = @HAVE_CDPARANOIA@
 HAVE_X = @HAVE_X@
 HAVE_XSHM = @HAVE_XSHM@
@@ -356,8 +358,9 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 @HAVE_FT2_FALSE@FT2_SUBDIRS = 
 @HAVE_FT2_TRUE@FT2_SUBDIRS = seek snapshot
-SUBDIRS = app $(FT2_SUBDIRS) volume dynamic
-DIST_SUBDIRS = app seek volume dynamic snapshot
+@USE_GIO_TRUE@GIO_SUBDIRS = gio
+SUBDIRS = app $(FT2_SUBDIRS) $(GIO_SUBDIRS) volume dynamic v4l
+DIST_SUBDIRS = app seek volume dynamic snapshot gio v4l
 all: all-recursive
 
 .SUFFIXES:

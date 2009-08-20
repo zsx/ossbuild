@@ -919,7 +919,8 @@ win32-check-crlf:
 	@echo Checking win32 files for CR LF line endings ...; \
 	fail=0 ; \
 	for each in $(win32crlf) ; do \
-	  if ! (file $$each | grep CRLF >/dev/null) ; then \
+	  result=`perl -e 'print grep(/\r\n/,<>)' "$$each" | wc -l`; \
+	  if test "$$result" = 0 ; then \
 	    echo $$each must be fixed to have CRLF line endings ; \
 	    fail=1; \
 	  fi ; \
@@ -1029,6 +1030,39 @@ win32-update:
 	$(top_srcdir)/tools/gst-indent win32/common/gstenumtypes.c
 	cp $(top_builddir)/win32/common/config.h-new \
 		$(top_srcdir)/win32/common/config.h
+
+check-enum-gettypes: $(top_builddir)/gst/gstenumtypes.h
+	echo 'Checking if all enum and flag _get_type() funcs are inited in gst_init()';                         \
+	FUNCS=`grep '_get_type (' gst/gstenumtypes.h | sed -e 's/^.*gst_/gst_/' -e 's/_get_type.*$$/_get_type/'`;\
+	MISSING_FUNCS='';                                                                                        \
+	for f in $$FUNCS; do                                                                                     \
+	  INIT_LINE=`grep $$f $(top_srcdir)/gst/*.c | grep g_type_class_ref`;                                    \
+	  if test "x$$INIT_LINE" = "x"; then                                                                     \
+	    MISSING_FUNCS="$$MISSING_FUNCS $$f";                                                                 \
+	  fi;                                                                                                    \
+	done;                                                                                                    \
+	if test "x$$MISSING_FUNCS" != "x"; then                                                                  \
+	  echo "FIXME: please add to the following to gst/gst.c init_post():";                                   \
+	  for f in $$MISSING_FUNCS; do                                                                           \
+	    echo "  g_type_class_ref ($$f ());";                                                                 \
+	  done;                                                                                                  \
+	  exit 1;                                                                                                \
+	fi;                                                                                                      \
+	echo 'Checking if all enum and flag _get_type() funcs are deinited in gst_deinit()';                     \
+	MISSING_FUNCS='';                                                                                        \
+	for f in $$FUNCS; do                                                                                     \
+	  INIT_LINE=`grep $$f $(top_srcdir)/gst/*.c | grep g_type_class_unref`;                                  \
+	  if test "x$$INIT_LINE" = "x"; then                                                                     \
+	    MISSING_FUNCS="$$MISSING_FUNCS $$f";                                                                 \
+	  fi;                                                                                                    \
+	done;                                                                                                    \
+	if test "x$$MISSING_FUNCS" != "x"; then                                                                  \
+	  echo "FIXME: please add to the following to gst/gst.c gst_deinit():";                                  \
+	  for f in $$MISSING_FUNCS; do                                                                           \
+	    echo "  g_type_class_unref (g_type_class_peek ($$f ()));";                                           \
+	  done;                                                                                                  \
+	  exit 1;                                                                                                \
+	fi
 .PHONY: lcov-reset lcov lcov-run lcov-report lcov-upload
 
 # run lcov from scratch, always
@@ -1067,7 +1101,7 @@ lcov:
 @GST_GCOV_ENABLED_FALSE@lcov-report:
 @GST_GCOV_ENABLED_FALSE@	echo "Need to reconfigure with --enable-gcov"
 
-check: check-exports
+check: check-exports check-enum-gettypes
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

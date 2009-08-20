@@ -1,9 +1,207 @@
-=== release 0.10.11 ===
+=== release 0.10.12 ===
 
-2009-05-24 Edward Hervey  <bilboed@bilboed.com>
+2009-08-10 Edward Hervey  <bilboed@bilboed.com>
 
 	* configure.ac:
-	  releasing 0.10.11, "How about green for the bikeshed?"
+	  releasing 0.10.12, "Lots of people on the clothesline"
+
+2009-08-10 16:28:38 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlfilesource.c:
+	* gnl/gnlfilesource.h:
+	  gnlfilesource: Use uridecodebin and remove dead code.
+	  Using decodebin2 directly fails because it blocks its own pads (therefore
+	  making it impossible for us to block them ourselves.
+
+2009-08-06 17:35:21 +0200  Alessandro Decina <alessandro.d@gmail.com>
+
+	* gnl/gnlghostpad.c:
+	  When ghosting a pad that has negotiated caps, set those caps to the ghost as well.
+
+2009-08-04 17:47:34 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* configure.ac:
+	  configure.ac: 0.10.11.3 pre-release
+
+2009-07-29 20:40:25 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	  gnlcomposition: Only remove top-level pad if removed pad is a source pad.
+	  "Wow, not all objects in the timeline are sources ?"
+
+2009-07-29 15:58:25 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlsource.c:
+	  gnlsource: Properly reset internal state when controlled pad has gone.
+	  We weren't resetting pendingblock, resulting in some cases where a new pad
+	  to control would appear, but would not be used because pendingblock was still TRUE.
+
+2009-07-01 18:53:43 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnloperation.c:
+	* gnl/gnloperation.h:
+	  gnloperation: TEMPORARY COMMIT ! REBASE ME !
+	  Added the signal, the next step is to emit it from the composition
+	  which requires replacing the gst_element_link with gst_pad_link...
+	  which we should have been using ages ago :)
+
+2009-07-01 16:56:27 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/Makefile.am:
+	* gnl/gnlmarshal.list:
+	* gnl/gnloperation.c:
+	  gnl: Adding signal marshaller
+
+2009-07-27 20:07:21 +0200  Adam Dingle <adam@yorba.org>
+
+	* gnl/gnlfilesource.c:
+	  gnlfilesource: Really use decodebin2. Fixes #589525
+
+2009-07-24 00:43:47 +0300  Stefan Kost <ensonic@users.sf.net>
+
+	* common:
+	  Automatic update of common submodule
+	  From fedaaee to 94f95e3
+
+2009-07-16 10:20:08 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* configure.ac:
+	  0.10.11.2 pre-release
+
+2009-07-13 12:24:46 -0400  Olivier Crête <olivier.crete@collabora.co.uk>
+
+	* common:
+	  Automatic update of common submodule
+	  From 5845b63 to fedaaee
+
+2009-06-26 13:44:04 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* common:
+	  Automatic update of common submodule
+	  From f810030 to 5845b63
+
+2009-06-24 19:15:30 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	  gnlcomposition: Remove bogus debug statement.
+
+2009-06-24 15:16:42 +0100  Jan Schmidt <jan.schmidt@sun.com>
+
+	* common:
+	  Automatic update of common submodule
+	  From f3bb51b to f810030
+
+2009-06-14 11:35:52 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnlfilesource.c:
+	* gnl/gnlfilesource.h:
+	  gnlcomposition/gnlfilesource: Don't use 'private' keyword.
+	  This avoids build errors with C++ compilers.
+
+2009-06-12 20:00:00 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnloperation.c:
+	  gnloperation: Don't forget to lower the pad count when removing one.
+
+2009-06-12 18:48:59 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	  gnlcomposition: rewrite from scratch of pipeline unlinking/linking.
+	  We currently weren't handling operations in general (and dynamic multi-sinkpad
+	  operations in particular) in a safe fashion.
+	  This rewrite makes sure that when redoing the pipeline:
+	  * no streaming threads are flowing between elements when deactivating
+	  * all source pads are blocked (asynchronously)
+	  * flush start/stop is sent out if this is the consequence of a seek
+
+2009-06-12 18:46:34 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	  gnlcomposition: When receiving a seek, let update_pipeline send the flush events.
+
+2009-06-12 18:44:46 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	  gnlcomposition: *always* update pipeline when removing objects.
+	  The object might currently have a streaming thread flowing out/through
+	  of it. We therefore need to properly stop that by forcing a refresh of
+	  the internal pipeline before calling the parent class remove_object()
+
+2009-06-12 18:43:51 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	  gnlcomposition: Recheck for ghostpad existence in critical codepath.
+
+2009-06-12 18:42:25 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlghostpad.c:
+	  gnlghostpad: add G_UNLIKELY and remove useless warning
+
+2009-06-12 18:41:21 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnloperation.c:
+	  gnloperation: Unset sink ghostpad targets and fix pad-synch for dynamic operations.
+
+2009-06-10 19:42:11 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	* gnl/gnlobject.h:
+	  gnlcomposition: Simplify IN_ACTIVE_SEGMENT macro
+	  It also fixes the issue when the object would start before the segment
+	  start and end after the segment stop.
+
+2009-06-11 13:51:06 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* common:
+	* docs/Makefile.am:
+	* docs/libs/Makefile.am:
+	* docs/upload.mak:
+	  docs: Bump common. Remove extra upload.mak. Fix comment.
+
+2009-05-30 17:57:53 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlcomposition.c:
+	* tests/check/complex.c:
+	* tests/check/gnloperation.c:
+	  GnlComposition: Use expandable GnlObject property.
+
+2009-05-29 19:47:43 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/gnlobject.c:
+	* gnl/gnlobject.h:
+	  GnlObject: Add an 'expandable' property/flag.
+	  This indicates that when the given object is used in a GnlComposition,
+	  it should expand to the full extent of the composition's start/duration.
+
+2009-05-29 19:35:52 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* tests/check/complex.c:
+	  checks: Don't check for gstreamer 0.10.4 anymore.
+	  We already depend on a much recent version.
+
+2009-05-30 17:59:39 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* common:
+	* configure.ac:
+	  configure.ac: Back to development.
+
+2009-05-26 17:20:52 +0100  Jan Schmidt <thaytan@noraisin.net>
+
+	* common:
+	  Automatic update of common submodule
+	  From 888e0a2 to c572721
+
+=== release 0.10.11 ===
+
+2009-05-24 11:08:00 +0200  Edward Hervey <bilboed@bilboed.com>
+
+	* ChangeLog:
+	* NEWS:
+	* RELEASE:
+	* configure.ac:
+	  0.10.11 release "How about green for the bikeshed?"
 
 2009-05-22 10:21:31 +0100  Jan Schmidt <thaytan@noraisin.net>
 
@@ -2570,4 +2768,1345 @@
 	  Original commit message from CVS:
 	  * gnl/gnlfilesource.c: (pad_blocked_cb):
 	  Do this hack from another thread.
+
+2005-12-02 10:36:31 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  configure.ac: Preparation for oh ten oh
+	  Original commit message from CVS:
+	  * configure.ac:
+	  Preparation for oh ten oh
+
+2005-12-01 17:47:35 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlcomposition.c: Wow, that was some stupid error :)
+	  Original commit message from CVS:
+	  * gnl/gnlcomposition.c: (gnl_composition_sync_handler),
+	  (objects_start_compare), (objects_stop_compare),
+	  (update_start_stop_duration), (update_pipeline),
+	  (object_start_changed), (object_stop_changed),
+	  (gnl_composition_add_object):
+	  Wow, that was some stupid error :)
+	  * gnl/gnlobject.c: (translate_incoming_seek),
+	  (internalpad_event_function), (flush_hack_check),
+	  (ghostpad_event_function), (control_internal_pad),
+	  (gnl_object_ghost_pad_full), (gnl_object_ghost_pad_no_target):
+	  Better flush handling.
+
+2005-11-26 13:25:22 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/: Update for latest API changes
+	  Original commit message from CVS:
+	  * gnl/gnlcomposition.c: (gnl_composition_put_sync_handler),
+	  (gnl_composition_ghost_pad_set_target):
+	  * gnl/gnlobject.c: (gnl_object_put_sync_handler),
+	  (translate_outgoing_new_segment), (internalpad_event_function),
+	  (gnl_object_ghost_pad_full), (gnl_object_ghost_pad_no_target):
+	  * gnl/gnlobject.h:
+	  Update for latest API changes
+
+2005-11-18 13:06:11 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlfilesource.c: Better behaviour as standalone element
+	  Original commit message from CVS:
+	  * gnl/gnlfilesource.c: (gnl_filesource_class_init),
+	  (pad_blocked_cb), (gnl_filesource_prepare):
+	  Better behaviour as standalone element
+	  * gnl/gnlobject.c: (translate_incoming_seek):
+	  Added debug
+
+2005-11-04 14:47:20 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlcomposition.c: Fixed problem in stack traversal
+	  Original commit message from CVS:
+	  * gnl/gnlcomposition.c: (gnl_composition_sync_handler),
+	  (get_stack_list), (send_initial_seek),
+	  (gnl_composition_change_state), (compare_relink_stack),
+	  (update_pipeline), (object_start_changed), (object_stop_changed),
+	  (object_priority_changed), (object_active_changed),
+	  (gnl_composition_add_object), (gnl_composition_remove_object):
+	  Fixed problem in stack traversal
+	  Better State-Lock handling of elements
+	  * gnl/gnlfilesource.c: (ghost_seek_pad):
+	  * gnl/gnlobject.c: (gnl_object_init), (internalpad_event_function),
+	  (flush_hack_check), (ghostpad_event_function),
+	  (control_internal_pad), (gnl_object_ghost_pad_full),
+	  (gnl_object_ghost_pad):
+	  * gnl/gnlobject.h:
+	  Added fields for segment seeking at the base GnlObject class level
+	  Added hack for a flushing seek issue, we get deadlocks otherwise
+
+2005-11-03 17:43:14 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlcomposition.c: Override bin sync-bus, first step to rebuilding pipeline after segment-done
+	  Original commit message from CVS:
+	  * gnl/gnlcomposition.c: (gnl_composition_put_sync_handler),
+	  (gnl_composition_init), (gnl_composition_dispose),
+	  (gnl_composition_sync_handler),
+	  (gnl_composition_ghost_pad_set_target), (get_stack_list),
+	  (update_start_stop_duration), (compare_relink_stack):
+	  Override bin sync-bus, first step to rebuilding pipeline after
+	  segment-done
+	  * gnl/gnlfilesource.c: (ghost_seek_pad), (pad_blocked_cb),
+	  (decodebin_new_pad_cb), (gnl_filesource_init):
+	  Use 'new-pad' signal from decodebin instead of 'no-more-pads'
+	  * gnl/gnlobject.c: (gnl_object_put_sync_handler),
+	  (gnl_object_init), (translate_incoming_seek),
+	  (translate_outgoing_newsegment), (translate_message_segment_start),
+	  (translate_message_segment_done), (gnl_object_sync_handler),
+	  (update_values):
+	  * gnl/gnlobject.h:
+	  Added sync bus override, with functions to time-shift segment-start
+	  and segment-done messages
+
+2005-11-02 19:07:55 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/: Second part of using dynamic pads. Solves deadlocks.
+	  Original commit message from CVS:
+	  * gnl/gnlcomposition.c: (gnl_composition_init),
+	  (gnl_composition_finalize), (gnl_composition_reset),
+	  (gnl_composition_ghost_pad_set_target),
+	  (gnl_composition_find_object_full), (send_initial_seek),
+	  (gnl_composition_change_state), (no_more_pads_object_cb),
+	  (compare_relink_stack), (update_pipeline),
+	  (gnl_composition_add_object), (gnl_composition_remove_object):
+	  * gnl/gnlfilesource.c: (gnl_filesource_class_init),
+	  (ghost_seek_pad), (pad_blocked_cb), (decodebin_no_more_pads_cb),
+	  (gnl_filesource_init), (gnl_filesource_send_event):
+	  * gnl/gnlobject.c: (internalpad_event_function),
+	  (internalpad_query_function), (ghostpad_event_function),
+	  (ghostpad_query_function), (ghostpad_link_function):
+	  * gnl/gnlsource.c: (no_more_pads_in_child),
+	  (gnl_source_add_element):
+	  Second part of using dynamic pads. Solves deadlocks.
+	  Most of the work is down in sources.
+
+2005-11-02 08:41:35 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  configure.ac: up to 0.9.4.1
+	  Original commit message from CVS:
+	  * configure.ac:
+	  up to 0.9.4.1
+	  * gnl/gnl.c:
+	  gnonlin and not GNonLin for plugin name
+	  * gnl/gnlcomposition.c: (hash_value_destroy),
+	  (gnl_composition_init), (gnl_composition_finalize),
+	  (gnl_composition_find_object_full), (update_pipeline),
+	  (gnl_composition_add_object), (gnl_composition_remove_object):
+	  Use a GMutex instead of a GStaticMutex
+	  First step to using dynamic pads : don't add ghostpad at startup
+	  * gnl/gnlfilesource.c: (gnl_filesource_class_init):
+	  beautification
+
+2005-10-31 18:45:06 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/: Added GnlFileSource, a higher-level decodebin-based source
+	  Original commit message from CVS:
+	  * gnl/Makefile.am:
+	  * gnl/gnl.c:
+	  * gnl/gnl.h:
+	  * gnl/gnltypes.h:
+	  * gnl/gnlfilesource.c: (gnl_filesource_base_init),
+	  (gnl_filesource_class_init), (compare_src_pad),
+	  (get_valid_src_pad), (decodebin_no_more_pads_cb),
+	  (gnl_filesource_init), (gnl_filesource_dispose),
+	  (gnl_filesource_finalize), (gnl_filesource_set_property),
+	  (gnl_filesource_get_property):
+	  * gnl/gnlfilesource.h:
+	  Added GnlFileSource, a higher-level decodebin-based source
+	  * gnl/gnlcomposition.c: (gnl_composition_class_init),
+	  (gnl_composition_init), (gnl_composition_dispose),
+	  (gnl_composition_reset), (gnl_composition_bus_watch),
+	  (priority_comp), (get_stack_list), (get_clean_toplevel_stack),
+	  (gnl_composition_find_object_full), (gnl_composition_find_object),
+	  (get_src_pad), (gnl_composition_prepare),
+	  (gnl_composition_change_state), (compare_relink_stack),
+	  (update_pipeline), (object_start_changed), (object_stop_changed),
+	  (object_priority_changed), (object_active_changed),
+	  (gnl_composition_add_object), (gnl_composition_remove_object):
+	  * gnl/gnlcomposition.h:
+	  Added the supa-doopa traversal-with-stack functionnality for figuring out
+	  quickly what should be played at any given moment. Why didn't I come up
+	  with this before ??
+	  Removed deprecated pieces of code
+	  * gnl/gnlobject.c: (gnl_object_class_init),
+	  (gnl_object_to_media_time), (gnl_media_to_object_time),
+	  (gnl_object_covers), (gnl_object_prepare_func),
+	  (translate_incoming_seek), (translate_outgoing_seek),
+	  (control_internal_pad), (ghostpad_link_function),
+	  (ghostpad_unlink_function), (gnl_object_ghost_pad),
+	  (gnl_object_ghost_pad_notarget), (gnl_object_ghost_pad_set_target),
+	  (update_values), (gnl_object_change_state):
+	  * gnl/gnlobject.h:
+	  Fixes to the GhostPad system
+	  Indentation beautification
+	  * gnl/gnlsource.c: (gnl_source_class_init),
+	  (no_more_pads_in_child), (gnl_source_remove_element):
+	  * gnl/gnlsource.h:
+	  Removed unused/useless code
+	  * gnl/gnlelements.c:
+	  bye bye
+
+2005-10-27 17:02:24 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlobject.*: Added two functions to be able to create GnlGhostPad without a target, and be able to set it later on.
+	  Original commit message from CVS:
+	  * gnl/gnlobject.c: (translate_incoming_seek),
+	  (ghostpad_unlink_function), (gnl_object_ghost_pad),
+	  (gnl_object_ghost_pad_notarget), (gnl_object_ghost_pad_set_target):
+	  * gnl/gnlobject.h:
+	  Added two functions to be able to create GnlGhostPad without a target,
+	  and be able to set it later on.
+
+2005-10-27 14:27:59 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlcomposition.*: Initial Cleanup
+	  Original commit message from CVS:
+	  * gnl/gnlcomposition.c: (gnl_composition_class_init),
+	  (hash_value_destroy), (gnl_composition_init),
+	  (gnl_composition_dispose), (gnl_composition_finalize),
+	  (objects_start_compare), (objects_stop_compare),
+	  (update_start_stop_duration), (object_start_changed),
+	  (object_stop_changed), (object_priority_changed),
+	  (object_active_changed), (gnl_composition_add_object),
+	  (gnl_composition_remove_object):
+	  * gnl/gnlcomposition.h:
+	  Initial Cleanup
+	  Added new threadsafe way of handling objects
+	  * gnl/gnlobject.c: (gnl_object_base_init), (gnl_object_class_init),
+	  (gnl_object_init), (gnl_object_prepare_func), (gnl_object_prepare),
+	  (gnl_object_release_pad), (translate_incoming_seek),
+	  (translate_outgoing_newsegment), (update_values),
+	  (gnl_object_set_property), (gnl_object_get_property),
+	  (gnl_object_change_state):
+	  * gnl/gnlobject.h:
+	  stop position for object and media are now read-only
+	  Added read/write duration for object and media
+	  Saner event time modifications
+	  Added GstObjectFlags for GnlObject for figuring out if the object is a
+	  source or an operation
+	  Re-added prepare virtual method, still have to see if it's useful, I'd
+	  prefer to avoid using it...
+	  * gnl/gnlsource.c: (gnl_source_class_init), (gnl_source_init),
+	  (gnl_source_dispose), (gnl_source_finalize),
+	  (no_more_pads_in_child), (gnl_source_remove_element):
+	  * gnl/gnlsource.h:
+	  Cleanups and proper finalize
+
+2005-10-25 16:27:19 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  Object and Source are now useable and do proper time-shifting
+	  Original commit message from CVS:
+	  * gnl/gnlobject.c: (gnl_object_base_init), (gnl_object_class_init),
+	  (gnl_object_init), (gnl_object_to_media_time),
+	  (gnl_media_to_object_time), (gnl_object_covers_func),
+	  (gnl_object_covers), (gnl_object_release_pad),
+	  (translate_incoming_seek), (translate_outgoing_seek),
+	  (translate_outgoing_newsegment), (internalpad_event_function),
+	  (internalpad_query_function), (ghostpad_event_function),
+	  (ghostpad_query_function), (control_internal_pad),
+	  (ghostpad_link_function), (ghostpad_unlink_function),
+	  (gnl_object_ghost_pad), (gnl_object_set_caps),
+	  (gnl_object_set_property), (gnl_object_get_property):
+	  * gnl/gnlobject.h:
+	  * gnl/gnloperation.h:
+	  * gnl/gnlsource.c: (gnl_source_base_init), (gnl_source_class_init),
+	  (gnl_source_init), (compare_src_pad), (get_valid_src_pad),
+	  (no_more_pads_in_child), (gnl_source_add_element),
+	  (gnl_source_remove_element), (gnl_source_set_property),
+	  (gnl_source_get_property):
+	  * gnl/gnlsource.h:
+	  * test/Makefile.am:
+	  Object and Source are now useable and do proper time-shifting
+
+2005-10-20 14:30:15 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  Part II of non-linear world domination.
+	  Original commit message from CVS:
+	  Part II of non-linear world domination.
+	  * Makefile.am:
+	  * docs/Makefile.am:
+	  * gnl/Makefile.am:
+	  * gnl/gnl.c: (plugin_init):
+	  * gnl/gnl.h:
+	  * gnl/gnlcomposition.c: (gnl_composition_class_init),
+	  (gnl_composition_init):
+	  * gnl/gnlcomposition.h:
+	  * gnl/gnlobject.c: (gnl_object_base_init), (gnl_object_class_init),
+	  (gnl_object_init), (gnl_object_get_property):
+	  * gnl/gnlobject.h:
+	  * gnl/gnloperation.c: (gnl_operation_class_init),
+	  (gnl_operation_init):
+	  * gnl/gnloperation.h:
+	  * gnl/gnlsource.c: (gnl_source_class_init), (gnl_source_init),
+	  (gnl_source_set_element), (gnl_source_get_property):
+	  * gnl/gnlsource.h:
+	  * gnl/gnltimeline.c: (gnl_timeline_base_init),
+	  (gnl_timeline_class_init), (gnl_timeline_init):
+	  * gnl/gnltimeline.h:
+	  Plugin and ElementFactory are now 0.9 compatible and installable
+	  Commented out almost everything, gradually adding features
+
+2005-10-20 14:28:14 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* ABOUT-NLS:
+	  removed ABOUT-NLS
+	  Original commit message from CVS:
+	  removed ABOUT-NLS
+
+2005-10-20 10:16:08 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  Make gnonlin more gst-0.9 friendly
+	  Original commit message from CVS:
+	  * .cvsignore:
+	  * Makefile.am:
+	  * autogen.sh:
+	  * configure.ac:
+	  * docs/Makefile.am:
+	  * m4/Makefile.am:
+	  * m4/codeset.m4:
+	  * m4/gettext.m4:
+	  * m4/glibc21.m4:
+	  * m4/iconv.m4:
+	  * m4/intdiv0.m4:
+	  * m4/inttypes-pri.m4:
+	  * m4/inttypes.m4:
+	  * m4/inttypes_h.m4:
+	  * m4/isc-posix.m4:
+	  * m4/lcmessage.m4:
+	  * m4/lib-ld.m4:
+	  * m4/lib-link.m4:
+	  * m4/lib-prefix.m4:
+	  * m4/progtest.m4:
+	  * m4/stdint_h.m4:
+	  * m4/uintmax_t.m4:
+	  * m4/ulonglong.m4:
+	  * makeconfigure:
+	  * po/Makefile.in.in:
+	  * po/Rules-quot:
+	  * po/boldquot.sed:
+	  * po/en@boldquot.header:
+	  * po/en@quot.header:
+	  * po/insert-header.sin:
+	  * po/quot.sed:
+	  * po/remove-potcdate.sin:
+	  * test/Makefile.am:
+	  Make gnonlin more gst-0.9 friendly
+
+2005-07-14 13:07:24 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  Updated to 0.9 dependency, removed gnonlin-config
+	  Original commit message from CVS:
+	  * Makefile.am:
+	  * configure.ac:
+	  * gnonlin-config.1:
+	  * gnonlin-config.in:
+	  * gnonlin.spec.in: (Group):
+	  * gnonlin.pc.in: (Cflags):
+	  Updated to 0.9 dependency,
+	  removed gnonlin-config
+
+2005-06-27 08:41:44 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* gnonlin.spec.in:
+	  fix spec
+	  Original commit message from CVS:
+	  fix spec
+
+2005-06-27 08:36:32 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* gnonlin.spec.in:
+	  cleanup of spec
+	  Original commit message from CVS:
+	  cleanup of spec
+
+2005-06-27 08:31:12 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* .gitignore:
+	* docs/.gitignore:
+	* docs/libs/.gitignore:
+	* gnl/.gitignore:
+	* test/.gitignore:
+	  ignore more
+	  Original commit message from CVS:
+	  ignore more
+
+2005-06-27 08:27:43 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* configure.ac:
+	  we're in cvs mode
+	  Original commit message from CVS:
+	  we're in cvs mode
+
+2005-06-21 09:31:08 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/: Removed buggy GST_INFO
+	  Original commit message from CVS:
+	  * gnl/gnltimeline.c: (gnl_timeline_new):
+	  * gnl/gnlcomposition.c: (gnl_composition_new):
+	  * gnl/gnloperation.c: (gnl_operation_new):
+	  * gnl/gnlsource.c: (gnl_source_new):
+	  Removed buggy GST_INFO
+
+2005-06-09 10:42:15 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	  ac/: remove
+	  Original commit message from CVS:
+	  * acconfig.h:
+	  * acinclude.m4:
+	  remove
+	  * common/m4/as-compiler-flag.m4:
+	  * common/m4/as-compiler.m4:
+	  * common/m4/as-libtool.m4:
+	  * common/m4/as-scrub-include.m4:
+	  * common/m4/as-version.m4:
+	  * common/m4/ax_create_stdint_h.m4:
+	  sync with upstream
+	  * configure.ac:
+	  * gnonlin-uninstalled.pc.in:
+	  fix up in sync with the installed copy
+	  * gnonlin.pc.in:
+	  typos
+
+2005-06-09 09:45:42 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* ChangeLog:
+	* docs/libs/Makefile.am:
+	  comment out the overrides for gtk-doc
+	  Original commit message from CVS:
+	  comment out the overrides for gtk-doc
+
+2005-06-08 16:55:06 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnltimeline.c: avoid outputting 2 EOS events if there's only one composition
+	  Original commit message from CVS:
+	  * gnl/gnltimeline.c: (gnl_timeline_timer_loop):
+	  avoid outputting 2 EOS events if there's only one composition
+
+2005-06-03 16:00:36 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  Forgot to add some files to the dist
+	  Original commit message from CVS:
+	  * configure.ac:
+	  * Makefile.am:
+	  * common/Makefile.am:
+	  Forgot to add some files to the dist
+
+2005-05-26 09:58:10 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  configure.ac: Releasing 0.2.2
+	  Original commit message from CVS:
+	  * configure.ac:	Releasing 0.2.2
+
+2005-05-25 21:05:33 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* configure.ac:
+	* gnonlin.spec.in:
+	  fix build files and spec file
+	  Original commit message from CVS:
+	  fix build files and spec file
+
+2005-05-25 20:58:48 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* gnonlin.spec.in:
+	  fix spec file
+	  Original commit message from CVS:
+	  fix spec file
+
+2005-05-25 20:47:02 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  Makefile.am: added normal equivalent of .in files
+	  Original commit message from CVS:
+	  * Makefile.am: (EXTRA_DIST):
+	  added normal equivalent of .in files
+
+2005-05-25 20:35:09 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* ChangeLog:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlsource.c:
+	* gnl/gnltimeline.c:
+	  GCC4 bugfixes
+	  Original commit message from CVS:
+	  GCC4 bugfixes
+
+2005-05-25 20:02:30 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlsource.c: Handle case where the seek is delayed (using pending_seek)
+	  Original commit message from CVS:
+	  * gnl/gnlsource.c:
+	  Handle case where the seek is delayed (using pending_seek)
+	  * docs/libs/gnonlin-sections.txt:
+	  * gnl/gnltimeline.h:
+	  * gnl/gnlsource.h:
+	  * gnl/gnloperation.h:
+	  * gnl/gnlcomposition.h:
+	  removed extern _details
+	  * configure.ac : Releasing 0.2.1
+
+2005-05-25 16:12:12 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  configure.ac: Releasing 0.2.1
+	  Original commit message from CVS:
+	  * configure.ac : Releasing 0.2.1
+
+2005-05-25 10:38:40 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlsource.c: missing closing parenthisis removed unused 'filled' variable
+	  Original commit message from CVS:
+	  * gnl/gnlsource.c: (source_queue_media):
+	  missing closing parenthisis
+	  removed unused 'filled' variable
+
+2005-05-25 10:20:43 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlsource.c: memleak bugfix
+	  Original commit message from CVS:
+	  Reviewed by : Edward Hervey  <bilboed@bilboed.com>
+	  * gnl/gnlsource.c: (source_queue_media):
+	  memleak bugfix
+
+2005-05-23 16:37:52 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlsource.c: safer pre-rolling
+	  Original commit message from CVS:
+	  * gnl/gnlsource.c:
+	  safer pre-rolling
+	  * gnl/gnltimeline.c:
+	  add query/event handling to timeline timer's pads
+	  fixed bug in request pad handling
+
+2005-05-06 19:47:57 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlsource.c: No more using global "gnonlin" debug category, using element specific categories
+	  Original commit message from CVS:
+	  * gnl/gnlsource.c:
+	  No more using global "gnonlin" debug category, using element specific categories
+
+2005-05-06 19:46:04 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnltimeline.c: Added "src_%s" PadTemplate so _request_new_pad() works...
+	  Original commit message from CVS:
+	  * gnl/gnltimeline.c:
+	  Added "src_%s" PadTemplate so _request_new_pad() works...
+	  * gnl/gnl.c:
+	  * gnl/gnl.h:
+	  * gnl/gnlcomposition.c:
+	  * gnl/gnlobject.c:
+	  * gnl/gnloperation.c:
+	  * gnl/gnltimeline.c:
+	  No more using global "gnonlin" debug category, using element specific categories
+	  * docs/libs/tmpl/gnloperation.sgml: added "element" property documentation
+	  * docs/libs/gnonlin-sections.txt: removed GST_CAT_DEFAULT
+
+2005-05-06 17:08:16 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnltimeline.c: Implemented GstElement->request_new_pad() in order to get a pad corresponding to a composition usi...
+	  Original commit message from CVS:
+	  * gnl/gnltimeline.c:
+	  Implemented GstElement->request_new_pad() in order to get a pad
+	  corresponding to a composition using standard API.
+	  Implement GstBin->add_element() in order to add a composition to the
+	  timeline using standard API.
+	  * gnl/gnloperation.c:
+	  GstElement of a GnlOperation can now be set/get using the "element"
+	  property
+
+2005-04-19 11:23:00 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlcomposition.c: gnl_composition_dispose was superfluous, now removed
+	  Original commit message from CVS:
+	  * gnl/gnlcomposition.c:
+	  gnl_composition_dispose was superfluous, now removed
+
+2005-04-12 09:27:28 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  configure.ac: releasing 0.2.0 !!
+	  Original commit message from CVS:
+	  * configure.ac: releasing 0.2.0 !!
+
+2005-04-06 14:06:17 +0000  Wouter Paesen <wouter@kangaroot.net>
+
+	  gnl/gnltimeline.c: Prevent a segfault when querying position before anything is scheduled.
+	  Original commit message from CVS:
+	  * gnl/gnltimeline.c: (gnl_timeline_query):
+	  Prevent a segfault when querying position before anything is scheduled.
+	  Patch by Wouter Paesen.
+	  * gnl/gnlcomposition.c: (gnl_composition_schedule_operation):
+	  Fixe scheduling when there's a gap between the operation's priority and
+	  the child object's priority. Patch by Wouter Paesen.
+
+2005-04-06 12:12:26 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnonlin-config.in: forgot to update it with new values
+	  Original commit message from CVS:
+	  * gnonlin-config.in:
+	  forgot to update it with new values
+	  * gnl/gnlsource.c: (source_getfunction):
+	  gcc-2.95.* compilation error
+
+2005-04-04 17:17:24 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  test/: updated to new api
+	  Original commit message from CVS:
+	  * test/sourcetest2.c:
+	  * test/pipelines.c:
+	  updated to new api
+	  * test/Makefile.am: commenting out extra tests
+	  * gnl/gnlobject.c: (gnl_object_covers):
+	  added gtk-doc comment
+	  * docs/libs/Makefile.am: corrections for distcheck
+
+2005-03-31 09:50:22 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  docs/libs/tmpl/: Added documentation on GnlFindMethod, GnlCoverType and GnlDirection
+	  Original commit message from CVS:
+	  * docs/libs/tmpl/gnlcomposition.sgml:
+	  * docs/libs/tmpl/gnlobject.sgml:
+	  Added documentation on GnlFindMethod, GnlCoverType and GnlDirection
+
+2005-03-31 09:44:17 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  docs/random/design: Updated explanatory documentation
+	  Original commit message from CVS:
+	  * docs/random/design:
+	  Updated explanatory documentation
+
+2005-03-31 09:41:07 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* docs/random/srctree:
+	  removing docs/random/srctree
+	  Original commit message from CVS:
+	  removing docs/random/srctree
+
+2005-03-30 15:27:15 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  typo error in gnlobject.h, removed documentation for gnl_object_nearest_change()
+	  Original commit message from CVS:
+	  * gnl/gnl.h:
+	  * gnl/gnlobject.h:
+	  * docs/libs/gnonlin-sections.txt:
+	  * docs/libs/tmpl/gnlobject.sgml:
+	  typo error in gnlobject.h,
+	  removed documentation for gnl_object_nearest_change()
+
+2005-03-30 15:07:38 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnl/gnlobject.*: Removed gnl_object_nearest_change() and cleanup of commented code
+	  Original commit message from CVS:
+	  * gnl/gnlobject.h:
+	  * gnl/gnlobject.c:
+	  Removed gnl_object_nearest_change() and cleanup of commented code
+
+2005-03-30 10:52:18 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* ChangeLog:
+	* docs/libs/tmpl/gnlobject.sgml:
+	  Typo in changelog
+	  Original commit message from CVS:
+	  Typo in changelog
+
+2005-03-30 10:48:50 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  Removing GnlGroup docs/libs/gnonlin-docs.sgml docs/libs/gnonlin-sections.txt docs/libs/tmpl/gnlobject.sgml
+	  Original commit message from CVS:
+	  * gnl/Makefile.am:
+	  * gnl/gnl.h:
+	  * gnl/gnltypes.h:
+	  * gnl/gnlgroup.c:
+	  * gnl/gnlgroup.h:
+	  * gnl/gnltimeline.h:
+	  * gnl/gnltimeline.c:
+	  * gnl/gnlelements.c:
+	  * docs/libs/gnonlin-docs.sgml:
+	  * docs/libs/gnonlin-sections.txt:
+	  * docs/libs/gnonlin.types:
+	  * docs/libs/tmpl/gnltimeline.sgml:
+	  * docs/libs/tmpl/gnlgroup.sgml:
+	  Removing GnlGroup
+	  * docs/libs/gnonlin-docs.sgml
+	  * docs/libs/gnonlin-sections.txt
+	  * docs/libs/tmpl/gnlobject.sgml
+	  * gnl/gnlobject.h:
+	  * gnl/gnlobject.c:
+	  Removing rate control property for GnlObject
+
+2005-03-29 14:32:55 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  test/Makefile.am: added EXTRA_DIST=pipelines.c and -I$(top_srcdir) to build flags
+	  Original commit message from CVS:
+	  * test/Makefile.am:
+	  added EXTRA_DIST=pipelines.c and -I$(top_srcdir) to build flags
+	  * gnl/Makefile.am: (gnl_headers): forgot to add gnlobject.h
+	  * docs/libs/Makefile.am: (GTKDOC_CFLAGS): added -I$(top_srcdir) for build
+	  * Makefile.am: (EXTRA_DIST): removed gnonlin.m4
+
+2005-03-24 17:38:39 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  docs/libs/tmpl/: Added sgml file templates for documentation
+	  Original commit message from CVS:
+	  * docs/libs/tmpl/gnl.sgml:
+	  * docs/libs/tmpl/gnlcomposition.sgml:
+	  * docs/libs/tmpl/gnlgroup.sgml:
+	  * docs/libs/tmpl/gnlobject.sgml:
+	  * docs/libs/tmpl/gnloperation.sgml:
+	  * docs/libs/tmpl/gnlsource.sgml:
+	  * docs/libs/tmpl/gnltimeline.sgml:
+	  Added sgml file templates for documentation
+	  * docs/libs/gnonlin.types:
+	  * docs/libs/gnonlin-sections.txt:
+	  * docs/libs/gnonlin-docs.sgml:
+	  Added files for better hierarchy of documentation
+	  * configure.ac:
+	  * docs/Makefile.am:
+	  * docs/version.entities.in:
+	  * docs/libs/Makefile.am:
+	  Added version.entities for documentation
+	  * docs/libs/Makefile.am: (GTKDOC_LIBS): added libgnl.la dependency
+	  * gnl/gnlsource.c: (source_getfunction): typo mistake
+	  * gnonlin.pc.in: more corrections from Wouter Paesen for correct
+	  dependency checks
+	  * configure.ac: (GST_PLUGIN_LDFLAGS), (GST_REQ):
+	  sanity corrections from Wouter Paesen
+
+2005-03-24 13:48:56 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  docs/libs/Makefile.am: added libgnl.la dependency
+	  Original commit message from CVS:
+	  * docs/libs/Makefile.am: (GTKDOC_LIBS): added libgnl.la dependency
+	  * gnl/gnlsource.c: (source_getfunction): typo mistake
+	  * gnonlin.pc.in: more corrections from Wouter Paesen for correct
+	  dependency checks
+	  * configure.ac: (GST_PLUGIN_LDFLAGS), (GST_REQ):
+	  sanity corrections from Wouter Paesen
+
+2005-03-24 10:53:36 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  gnonlin.pc.in: more corrections from Wouter Paesen for correct dependency checks
+	  Original commit message from CVS:
+	  * gnonlin.pc.in: more corrections from Wouter Paesen for correct
+	  dependency checks
+	  * configure.ac: (GST_PLUGIN_LDFLAGS), (GST_REQ):
+	  sanity corrections from Wouter Paesen
+
+2005-03-23 17:38:03 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  docs/Makefile.am: Make doc build depend on ./configure choice gnl/gnl.c, gnl/gnlcomposition.c, gnl/gnlelements.c, gnl...
+	  Original commit message from CVS:
+	  * docs/Makefile.am: Make doc build depend on ./configure choice
+	  * gnl/gnl.c, gnl/gnlcomposition.c, gnl/gnlelements.c,
+	  gnl/gnlgroup.c, gnl/gnlgroup.h, gnl/gnlobject.c, gnl/gnlobject.h,
+	  gnl/gnloperation.c, gnl/gnloperation.h, gnl/gnlsource.c,
+	  gnl/gnlsource.h, gnl/gnltimeline.c, gnl/gnltimeline.h:
+	  Modifications so that elements are registered as gst-plugins
+	  * gnl/Makefile.am: (plugin_LTLIBRARIES):
+	  use plugin_ instead of lib_ so that it's installed in the gst-plugins
+	  directory
+	  * Makefile.am: removed useless lines
+	  * gnl/gnlobject.c: (gnl_object_get_property):
+	  was setting an enum instead of an int
+	  * configure.ac: No spaces in value assignment !!
+	  * test/sourcetest1.c: modified datarate of fakesrc
+	  * gnl/gnl*.[ch]: correction for GST_DEBUG_* functions
+	  * gnonlin.pc.in: updated file to correct dependencies versions
+
+2005-03-23 12:49:22 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	  test/sourcetest1.c: modified datarate of fakesrc
+	  Original commit message from CVS:
+	  * test/sourcetest1.c: modified datarate of fakesrc
+	  * gnl/gnl*.[ch]: correction for GST_DEBUG_* functions
+	  * gnonlin.pc.in: updated file to correct dependencies versions
+
+2005-03-23 10:08:48 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* ChangeLog:
+	* gnonlin.pc.in:
+	  updated gnonlin.pc.in to correct dependencies versions
+	  Original commit message from CVS:
+	  updated gnonlin.pc.in to correct dependencies versions
+
+2005-03-22 17:47:39 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* ChangeLog:
+	* Makefile.am:
+	* configure.ac:
+	* docs/Makefile.am:
+	* docs/libs/Makefile.am:
+	* docs/upload.mak:
+	  Added gtk-doc API documentation autofoo and skeleton
+	  Original commit message from CVS:
+	  Added gtk-doc API documentation autofoo and skeleton
+
+2005-03-22 16:28:08 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* ChangeLog:
+	* Makefile.am:
+	* gnl/Makefile.am:
+	* gnl/gnl.h:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnlelements.c:
+	* gnl/gnlgroup.c:
+	* gnl/gnlgroup.h:
+	* gnl/gnlobject.c:
+	* gnl/gnlobject.h:
+	* gnl/gnloperation.c:
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	* gnl/gnltypes.h:
+	* test/Makefile.am:
+	* test/sourcetest1.c:
+	* test/sourcetest2.c:
+	* test/sourcetest3.c:
+	* test/sourcetest4.c:
+	  Corrected header files dependencies , deactivated all tests except the sourcetest[1234].c ones which are converted to...
+	  Original commit message from CVS:
+	  Corrected header files dependencies , deactivated all tests except the sourcetest[1234].c ones which are converted to the new API
+
+2005-03-22 12:00:53 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* gnl/Makefile.am:
+	* gnl/gnltypes.h:
+	  Updated gnl/Makefile.am and forgot to add gnltypes.h
+	  Original commit message from CVS:
+	  Updated gnl/Makefile.am and forgot to add gnltypes.h
+
+2005-03-21 18:00:30 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* AUTHORS:
+	* LICENSE:
+	* Makefile.am:
+	* REQUIREMENTS:
+	* autogen.sh:
+	* common:
+	* configure.ac:
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnlelements.c:
+	* gnl/gnlgroup.c:
+	* gnl/gnlgroup.h:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnlobject.c:
+	* gnl/gnlobject.h:
+	* gnl/gnloperation.c:
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	* gnl/gnlversion.h.in:
+	* gnl/gnlvlayer.c:
+	* gnl/gnlvlayer.h:
+	* gnonlin.spec.in:
+	  Backport from the pitivi repository... expect borkage
+	  Original commit message from CVS:
+	  Backport from the pitivi repository... expect borkage
+
+2004-05-10 16:00:25 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* autogen.sh:
+	* common:
+	  updated autogen.sh to new common/ files
+	  Original commit message from CVS:
+	  updated autogen.sh to new common/ files
+
+2004-03-26 13:05:40 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* autogen.sh:
+	* common:
+	* configure.ac:
+	  cleanup of autogen.sh/configure.ac/Makefile.am and update of common/
+	  Original commit message from CVS:
+	  cleanup of autogen.sh/configure.ac/Makefile.am and update of common/
+
+2004-02-16 16:30:46 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* Makefile.am:
+	* common:
+	* configure.ac:
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnlelements.c:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnlvlayer.c:
+	* test/Makefile.am:
+	  Updates to make gnonlin work with the cvs version of gstreamer. Includes a patch from Roman Kaliakine
+	  Original commit message from CVS:
+	  Updates to make gnonlin work with the cvs version of gstreamer. Includes a patch from Roman Kaliakine
+
+2004-02-10 15:04:59 +0000  Edward Hervey <bilboed@bilboed.com>
+
+	* common:
+	* configure.ac:
+	* gnl/gnlsource.c:
+	  Update to Gstreamer v0.6.*
+	  Original commit message from CVS:
+	  Update to Gstreamer v0.6.*
+
+2002-10-11 19:11:45 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* gnl/gnlsource.c:
+	* gnl/gnltimeline.c:
+	  Do caps negotiation for groups
+	  Original commit message from CVS:
+	  Do caps negotiation for groups
+	  Don't send buffers outside of the requested range
+
+2002-10-10 22:12:26 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* test/Makefile.am:
+	* test/composition.c:
+	* test/composition2.c:
+	* test/dynamic1.c:
+	* test/dynamic2.c:
+	* test/layertest.c:
+	* test/layertest2.c:
+	* test/layertest3.c:
+	* test/layertest4.c:
+	* test/pipelines.c:
+	* test/pipelines.h:
+	* test/simple.c:
+	* test/simple1.c:
+	* test/simple2.c:
+	* test/simple3.c:
+	* test/simple4.c:
+	* test/simple5.c:
+	* test/sourcetest1.c:
+	* test/sourcetest2.c:
+	* test/sourcetest3.c:
+	* test/sourcetest4.c:
+	* test/vlayertest.c:
+	  Added a bunch of tests
+	  Original commit message from CVS:
+	  Added a bunch of tests
+
+2002-10-10 22:07:27 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* common:
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnlelements.c:
+	* gnl/gnlgroup.c:
+	* gnl/gnlgroup.h:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnlmarshal.list:
+	* gnl/gnloperation.c:
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	* gnl/gnltimer.c:
+	* gnl/gnltimer.h:
+	* gnl/gnlvlayer.c:
+	* gnl/gnlvlayer.h:
+	  Rewrite 2. This one can schedule a bit more, compositions are broken.
+	  Original commit message from CVS:
+	  Rewrite 2. This one can schedule a bit more, compositions are broken.
+
+2002-09-15 18:01:43 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* common:
+	* gnl/gnllayer.c:
+	* gnl/gnloperation.c:
+	  const fixes
+	  Original commit message from CVS:
+	  const fixes
+
+2002-06-30 14:14:49 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* test/composition.c:
+	* test/composition2.c:
+	* test/group.c:
+	* test/layertest.c:
+	* test/layertest2.c:
+	* test/simple.c:
+	* test/simple2.c:
+	* test/simple3.c:
+	* test/simple4.c:
+	  Compile fixes against latest CVS
+	  Original commit message from CVS:
+	  Compile fixes against latest CVS
+
+2002-06-30 14:14:25 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* common:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlgroup.c:
+	* gnl/gnlsource.c:
+	* gnl/gnltimer.c:
+	* gnl/gnltimer.h:
+	  Compile fixed for latest gst CVS
+	  Original commit message from CVS:
+	  Compile fixed for latest gst CVS
+
+2002-03-13 21:34:51 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* test/group.c:
+	* test/simple4.c:
+	  Added group.c
+	  Original commit message from CVS:
+	  Added group.c
+
+2002-03-05 21:18:08 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* test/Makefile.am:
+	* test/simple4.c:
+	  Added a composition inside a composition example.
+	  Original commit message from CVS:
+	  Added a composition inside a composition example.
+
+2002-03-05 19:45:16 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* common:
+	* gnl/gnlcomposition.c:
+	  Implement occupies_time on compositions.
+	  Original commit message from CVS:
+	  Implement occupies_time on compositions.
+
+2002-03-03 23:08:22 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* docs/random/design:
+	* docs/random/srctree:
+	  Updated docs.
+	  Original commit message from CVS:
+	  Updated docs.
+
+2002-03-03 23:07:58 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* test/Makefile.am:
+	* test/composition.c:
+	* test/composition2.c:
+	* test/layertest.c:
+	* test/layertest2.c:
+	* test/simple.c:
+	* test/simple2.c:
+	* test/simple3.c:
+	  Updated the examples
+	  Original commit message from CVS:
+	  Updated the examples
+	  Added a simple composition test
+
+2002-03-03 23:07:15 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* common:
+	* gnl/Makefile.am:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnlgroup.c:
+	* gnl/gnlgroup.h:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnloperation.c:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	* gnl/gnltimer.c:
+	  Added groups
+	  Original commit message from CVS:
+	  Added groups
+	  Reworked the scheduling using callbacks
+
+2002-03-01 22:03:01 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* Makefile.am:
+	* configure.ac:
+	  build fixes
+	  Original commit message from CVS:
+	  build fixes
+
+2002-03-01 21:57:35 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* test/composition.c:
+	  Updated the composition test
+	  Original commit message from CVS:
+	  Updated the composition test
+
+2002-03-01 21:57:11 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnloperation.c:
+	* gnl/gnloperation.h:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	  Added a first attempt on adding operations.
+	  Original commit message from CVS:
+	  Added a first attempt on adding operations.
+
+2002-03-01 21:54:46 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* docs/random/design:
+	  My current line of thought.
+	  Original commit message from CVS:
+	  My current line of thought.
+
+2002-03-01 21:50:34 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* docs/random/design:
+	  Updated docs
+	  Original commit message from CVS:
+	  Updated docs
+
+2002-03-01 21:48:02 +0000  Thomas Vander Stichele <thomas@apestaart.org>
+
+	* Makefile.am:
+	* configure.ac:
+	  no docs yet generate config debian typo fix (?)
+	  Original commit message from CVS:
+	  no docs yet
+	  generate config
+	  debian typo fix (?)
+
+2002-03-01 21:42:51 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* configure.ac:
+	  Added gnlversion.h
+	  Original commit message from CVS:
+	  Added gnlversion.h
+
+2002-03-01 21:35:23 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* configure.ac:
+	  added configure.ac
+	  Original commit message from CVS:
+	  added configure.ac
+
+2002-02-27 19:44:18 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* test/Makefile.am:
+	* test/layertest2.c:
+	* test/simple3.c:
+	  Added another testcase
+	  Original commit message from CVS:
+	  Added another testcase
+
+2002-02-27 19:43:44 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* gnl/gnlcomposition.c:
+	* gnl/gnllayer.c:
+	  More cleanups
+	  Original commit message from CVS:
+	  More cleanups
+	  Handle more cases.
+
+2002-02-26 22:34:33 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* test/Makefile.am:
+	* test/layertest.c:
+	* test/layertest2.c:
+	* test/simple.c:
+	* test/simple2.c:
+	  Updated the simple examples.
+	  Original commit message from CVS:
+	  Updated the simple examples.
+
+2002-02-26 22:33:35 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* gnl/Makefile.am:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnloperation.c:
+	* gnl/gnlsource.c:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	* gnl/gnltimer.c:
+	* gnl/gnltimer.h:
+	  This one can do some simple scheduling, see tests
+	  Original commit message from CVS:
+	  This one can do some simple scheduling, see tests
+
+2002-02-23 13:13:29 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* docs/random/design:
+	* gnl/Makefile.am:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnlsource.c:
+	* gnl/gnltimeline.h:
+	* gnl/gnltimer.c:
+	* gnl/gnltimer.h:
+	* test/Makefile.am:
+	* test/layertest.c:
+	* test/layertest2.c:
+	  Sources are scheduled at the right time.
+	  Original commit message from CVS:
+	  Sources are scheduled at the right time.
+	  Added a timer plugin that monitors stream timestamps and performs
+	  seeking.
+	  Added layertest2 to mp3 seeking and timing.
+	  This requires some gst core changes
+
+2002-02-22 17:25:08 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* .gitmodules:
+	* Makefile.am:
+	* acconfig.h:
+	* autogen.sh:
+	* common:
+	* configure.base:
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnlcomposition.c:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnlsource.c:
+	* test/Makefile.am:
+	* test/layertest.c:
+	  Automake 1.5 fixes another test app.
+	  Original commit message from CVS:
+	  Automake 1.5 fixes
+	  another test app.
+	  use pkg-config to find gstreamer
+
+2001-07-30 19:14:45 +0000  Steve Baker <steve@stevebaker.org>
+
+	* AUTHORS:
+	  vanity
+	  Original commit message from CVS:
+	  vanity
+
+2001-07-30 15:19:52 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* gnl/.gitignore:
+	* gnl/gnl.c:
+	* gnl/gnlcomposition.c:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnlsource.c:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	* test/simple.c:
+	  More silly changes.. testing the commit log features...
+	  Original commit message from CVS:
+	  More silly changes.. testing the commit log features...
+
+2001-07-29 20:01:14 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* gnl/.gitignore:
+	  Added .cvsignore.
+	  Original commit message from CVS:
+	  Added .cvsignore.
+
+2001-07-29 20:00:20 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* gnl/gnloperation.c:
+	* gnl/gnloperation.h:
+	  Added the operation object that will be responsible for applying effects on N other layers.
+	  Original commit message from CVS:
+	  Added the operation object that will be responsible for applying effects
+	  on N other layers.
+
+2001-07-29 19:59:20 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* configure.base:
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnlcomposition.c:
+	* gnl/gnlcomposition.h:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	* test/composition.c:
+	* test/simple.c:
+	  Lots of compile fixes
+	  Original commit message from CVS:
+	  Lots of compile fixes
+	  Added an empty composition object.
+
+2001-07-29 15:01:42 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* .gitignore:
+	  Added....
+	  Original commit message from CVS:
+	  Added....
+
+2001-07-29 15:00:42 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* gnonlin-uninstalled.pc.in:
+	* gnonlin.pc.in:
+	  Some small changes..
+	  Original commit message from CVS:
+	  Some small changes..
+
+2001-07-29 14:54:07 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* ABOUT-NLS:
+	* AUTHORS:
+	* COPYING:
+	* COPYING.LIB:
+	* ChangeLog:
+	* INSTALL:
+	* LICENSE:
+	* Makefile.am:
+	* NEWS:
+	* README:
+	* REQUIREMENTS:
+	* acconfig.h:
+	* acinclude.m4:
+	* autogen.sh:
+	* configure.base:
+	* gnl/Makefile.am:
+	* gnl/gnl.c:
+	* gnl/gnl.h:
+	* gnl/gnlversion.h.in:
+	* gnonlin-config.1:
+	* gnonlin-config.in:
+	* gnonlin-uninstalled.pc.in:
+	* gnonlin.pc.in:
+	* makeconfigure:
+	* stamp.h.in:
+	* test/Makefile.am:
+	  Added the initial build system.
+	  Original commit message from CVS:
+	  Added the initial build system.
+	  Code to build against uninstalled gstreamer is not added yet.
+
+2001-07-29 11:40:55 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	  Initial import
+	  Original commit message from CVS:
+	  Initial import
+
+2001-07-29 11:40:55 +0000  Wim Taymans <wim.taymans@gmail.com>
+
+	* docs/random/design:
+	* docs/random/srctree:
+	* gnl/gnlcomposition.h:
+	* gnl/gnllayer.c:
+	* gnl/gnllayer.h:
+	* gnl/gnlobject.h:
+	* gnl/gnlsource.c:
+	* gnl/gnlsource.h:
+	* gnl/gnltimeline.c:
+	* gnl/gnltimeline.h:
+	* test/composition.c:
+	* test/simple.c:
+	  Initial revision
+	  Original commit message from CVS:
+	  Initial revision
 

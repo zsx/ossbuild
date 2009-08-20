@@ -49,8 +49,8 @@
 #define lseek _lseeki64
 #undef off_t
 #define off_t guint64
-#ifdef _MSC_VER
-#define fileno _fileno
+#ifdef _MSC_VER                 /* Check if we are using MSVC, fileno is deprecated in favour */
+#define fileno _fileno          /* of _fileno */
 #endif
 #endif
 
@@ -254,8 +254,8 @@ gst_file_sink_set_location (GstFileSink * sink, const gchar * location)
   /* ERRORS */
 was_open:
   {
-    g_warning ("Changing the `location' property on filesink when "
-        "a file is open not supported.");
+    g_warning ("Changing the `location' property on filesink when a file is "
+        "open is not supported.");
     return FALSE;
   }
 }

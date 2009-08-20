@@ -327,6 +327,39 @@ gst_object_unref (gpointer object)
 }
 
 /**
+ * gst_object_ref_sink:
+ * @object: a #GstObject to sink
+ *
+ * Increase the reference count of @object, and possibly remove the floating
+ * reference, if @object has a floating reference.
+ *
+ * In other words, if the object is floating, then this call "assumes ownership"
+ * of the floating reference, converting it to a normal reference by clearing
+ * the floating flag while leaving the reference count unchanged. If the object
+ * is not floating, then this call adds a new normal reference increasing the
+ * reference count by one.
+ *
+ * MT safe. This function grabs and releases @object lock.
+ *
+ * Since: 0.10.24
+ */
+void
+gst_object_ref_sink (gpointer object)
+{
+  g_return_if_fail (GST_IS_OBJECT (object));
+
+  GST_OBJECT_LOCK (object);
+  if (G_LIKELY (GST_OBJECT_IS_FLOATING (object))) {
+    GST_CAT_LOG_OBJECT (GST_CAT_REFCOUNTING, object, "unsetting floating flag");
+    GST_OBJECT_FLAG_UNSET (object, GST_OBJECT_FLOATING);
+    GST_OBJECT_UNLOCK (object);
+  } else {
+    GST_OBJECT_UNLOCK (object);
+    gst_object_ref (object);
+  }
+}
+
+/**
  * gst_object_sink:
  * @object: a #GstObject to sink
  *
@@ -383,10 +416,10 @@ gst_object_replace (GstObject ** oldobj, GstObject * newobj)
   g_return_if_fail (newobj == NULL || GST_IS_OBJECT (newobj));
 
 #ifdef DEBUG_REFCOUNT
-  GST_CAT_LOG (GST_CAT_REFCOUNTING, "replace %s (%d) with %s (%d)",
-      *oldobj ? GST_STR_NULL (GST_OBJECT_NAME (*oldobj)) : "(NONE)",
+  GST_CAT_LOG (GST_CAT_REFCOUNTING, "replace %p %s (%d) with %p %s (%d)",
+      *oldobj, *oldobj ? GST_STR_NULL (GST_OBJECT_NAME (*oldobj)) : "(NONE)",
       *oldobj ? G_OBJECT (*oldobj)->ref_count : 0,
-      newobj ? GST_STR_NULL (GST_OBJECT_NAME (newobj)) : "(NONE)",
+      newobj, newobj ? GST_STR_NULL (GST_OBJECT_NAME (newobj)) : "(NONE)",
       newobj ? G_OBJECT (newobj)->ref_count : 0);
 #endif
 
@@ -472,12 +505,8 @@ gst_object_dispatch_properties_changed (GObject * object,
   guint i;
   gchar *name, *debug_name;
 
-  /* we fail when this is not a GstObject */
-  g_return_if_fail (GST_IS_OBJECT (object));
-
   /* do the standard dispatching */
-  G_OBJECT_CLASS (parent_class)->dispatch_properties_changed (object, n_pspecs,
-      pspecs);
+  parent_class->dispatch_properties_changed (object, n_pspecs, pspecs);
 
   gst_object = GST_OBJECT_CAST (object);
   name = gst_object_get_name (gst_object);
@@ -491,8 +520,7 @@ gst_object_dispatch_properties_changed (GObject * object,
           "deep notification from %s (%s)", debug_name, pspecs[i]->name);
 
       g_signal_emit (parent, gst_object_signals[DEEP_NOTIFY],
-          g_quark_from_string (pspecs[i]->name), GST_OBJECT_CAST (object),
-          pspecs[i]);
+          g_quark_from_string (pspecs[i]->name), gst_object, pspecs[i]);
     }
 
     old_parent = parent;
@@ -766,7 +794,7 @@ gst_object_set_parent (GstObject * object, GstObject * parent)
     gst_object_ref (object);
   }
 
-  g_signal_emit (G_OBJECT (object), gst_object_signals[PARENT_SET], 0, parent);
+  g_signal_emit (object, gst_object_signals[PARENT_SET], 0, parent);
 
   return TRUE;
 
@@ -832,8 +860,7 @@ gst_object_unparent (GstObject * object)
     object->parent = NULL;
     GST_OBJECT_UNLOCK (object);
 
-    g_signal_emit (G_OBJECT (object), gst_object_signals[PARENT_UNSET], 0,
-        parent);
+    g_signal_emit (object, gst_object_signals[PARENT_UNSET], 0, parent);
 
     gst_object_unref (object);
   } else {
@@ -938,8 +965,7 @@ gst_object_save_thyself (GstObject * object, xmlNodePtr parent)
   if (oclass->save_thyself)
     oclass->save_thyself (object, parent);
 
-  g_signal_emit (G_OBJECT (object), gst_object_signals[OBJECT_SAVED], 0,
-      parent);
+  g_signal_emit (object, gst_object_signals[OBJECT_SAVED], 0, parent);
 
   return parent;
 }

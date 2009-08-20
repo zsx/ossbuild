@@ -246,6 +246,8 @@ GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GTK_X11_CFLAGS = @GTK_X11_CFLAGS@
 GTK_X11_LIBS = @GTK_X11_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HAVE_CDPARANOIA = @HAVE_CDPARANOIA@
 HAVE_X = @HAVE_X@
 HAVE_XSHM = @HAVE_XSHM@
@@ -412,10 +414,14 @@ built_headers = video-enumtypes.h
 BUILT_SOURCES = $(built_sources) $(built_headers)
 lib_LTLIBRARIES = libgstvideo-@GST_MAJORMINOR@.la
 CLEANFILES = $(BUILT_SOURCES)
-libgstvideo_@GST_MAJORMINOR@_la_SOURCES = video.c gstvideosink.c gstvideofilter.c
+libgstvideo_@GST_MAJORMINOR@_la_SOURCES = \
+	video.c gstvideosink.c gstvideofilter.c
+
 nodist_libgstvideo_@GST_MAJORMINOR@_la_SOURCES = $(BUILT_SOURCES)
 libgstvideo_@GST_MAJORMINOR@includedir = $(includedir)/gstreamer-@GST_MAJORMINOR@/gst/video
-libgstvideo_@GST_MAJORMINOR@include_HEADERS = video.h gstvideosink.h gstvideofilter.h
+libgstvideo_@GST_MAJORMINOR@include_HEADERS = \
+	video.h gstvideosink.h gstvideofilter.h
+
 nodist_libgstvideo_@GST_MAJORMINOR@include_HEADERS = $(built_headers)
 libgstvideo_@GST_MAJORMINOR@_la_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_CFLAGS)
 libgstvideo_@GST_MAJORMINOR@_la_LIBADD = $(GST_BASE_LIBS) $(GST_LIBS)
@@ -800,9 +806,9 @@ uninstall-am: uninstall-libLTLIBRARIES \
 	glib-mkenums \
 	--fhead "#include \"$*-enumtypes.h\"\n$(enum_headers)" \
 	--fprod "\n/* enumerations from \"@filename@\" */" \
-	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"     \
+	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static volatile gsize g_define_type_id__volatile = 0;\n  if (g_once_init_enter (&g_define_type_id__volatile)) {\n    static const G@Type@Value values[] = {"     \
 	--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
-	--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
+	--vtail "      { 0, NULL, NULL }\n    };\n    GType g_define_type_id = g_@type@_register_static (\"@EnumName@\", values);\n    g_once_init_leave (&g_define_type_id__volatile, g_define_type_id);\n  }\n  return g_define_type_id__volatile;\n}\n" \
 	$^ > $@
 
 # a hack rule to make sure .Plo files exist because they get include'd

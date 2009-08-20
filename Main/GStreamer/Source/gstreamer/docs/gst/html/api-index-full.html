@@ -57,6 +57,11 @@
 <dt><a class="link" href="gstreamer-GstBuffer.html#GstBufferCopyFlags" title="enum GstBufferCopyFlags">GstBufferCopyFlags</a></dt>
 <dt><a class="link" href="gstreamer-GstBuffer.html#GstBufferFlag" title="enum GstBufferFlag">GstBufferFlag</a></dt>
 <dt><a class="link" href="gstreamer-GstQuery.html#GstBufferingMode" title="enum GstBufferingMode">GstBufferingMode</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#GstBufferList" title="GstBufferList">GstBufferList</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#GstBufferListDoFunction" title="GstBufferListDoFunction ()">GstBufferListDoFunction</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#GstBufferListFunc" title="GstBufferListFunc ()">GstBufferListFunc</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#GstBufferListItem" title="enum GstBufferListItem">GstBufferListItem</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#GstBufferListIterator" title="GstBufferListIterator">GstBufferListIterator</a></dt>
 <dt><a class="link" href="GstBus.html" title="GstBus">GstBus</a></dt>
 <dt><a class="link" href="GstBus.html#GstBus-message" title='The "message" signal'>GstBus::message</a></dt>
 <dt><a class="link" href="GstBus.html#GstBus-sync-message" title='The "sync-message" signal'>GstBus::sync-message</a></dt>
@@ -159,6 +164,7 @@
 <dt><a class="link" href="GstPad.html#GstPadBlockCallback" title="GstPadBlockCallback ()">GstPadBlockCallback</a></dt>
 <dt><a class="link" href="GstPad.html#GstPadBufferAllocFunction" title="GstPadBufferAllocFunction ()">GstPadBufferAllocFunction</a></dt>
 <dt><a class="link" href="GstPad.html#GstPadChainFunction" title="GstPadChainFunction ()">GstPadChainFunction</a></dt>
+<dt><a class="link" href="GstPad.html#GstPadChainListFunction" title="GstPadChainListFunction ()">GstPadChainListFunction</a></dt>
 <dt><a class="link" href="GstPad.html#GstPadCheckGetRangeFunction" title="GstPadCheckGetRangeFunction ()">GstPadCheckGetRangeFunction</a></dt>
 <dt><a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection">GstPadDirection</a></dt>
 <dt><a class="link" href="GstPad.html#GstPadDispatcherFunction" title="GstPadDispatcherFunction ()">GstPadDispatcherFunction</a></dt>
@@ -199,6 +205,7 @@
 <dt><a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a></dt>
 <dt><a class="link" href="GstPluginFeature.html#GstPluginFeatureFilter" title="GstPluginFeatureFilter ()">GstPluginFeatureFilter</a></dt>
 <dt><a class="link" href="GstPlugin.html#GstPluginFilter" title="GstPluginFilter ()">GstPluginFilter</a></dt>
+<dt><a class="link" href="GstPlugin.html#GstPluginInitFullFunc" title="GstPluginInitFullFunc ()">GstPluginInitFullFunc</a></dt>
 <dt><a class="link" href="GstPlugin.html#GstPluginInitFunc" title="GstPluginInitFunc ()">GstPluginInitFunc</a></dt>
 <dt><a class="link" href="gstreamer-GstPoll.html#GstPoll" title="GstPoll">GstPoll</a></dt>
 <dt><a class="link" href="gstreamer-GstPoll.html#GstPollFD" title="GstPollFD">GstPollFD</a></dt>
@@ -222,6 +229,7 @@
 <dt><a class="link" href="gstreamer-GstCaps.html#GstStaticCaps" title="GstStaticCaps">GstStaticCaps</a></dt>
 <dt><a class="link" href="GstPadTemplate.html#GstStaticPadTemplate" title="GstStaticPadTemplate">GstStaticPadTemplate</a></dt>
 <dt><a class="link" href="gstreamer-GstGError.html#GstStreamError" title="enum GstStreamError">GstStreamError</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#GstStreamStatusType" title="enum GstStreamStatusType">GstStreamStatusType</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#GstStructureChangeType" title="enum GstStructureChangeType">GstStructureChangeType</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#GstStructureForeachFunc" title="GstStructureForeachFunc ()">GstStructureForeachFunc</a></dt>
@@ -237,7 +245,11 @@
 <dt><a class="link" href="GstTagSetter.html#GstTagSetterIFace" title="GstTagSetterIFace">GstTagSetterIFace</a></dt>
 <dt><a class="link" href="GstTask.html" title="GstTask">GstTask</a></dt>
 <dt><a class="link" href="GstTask.html#GstTaskFunction" title="GstTaskFunction ()">GstTaskFunction</a></dt>
+<dt><a class="link" href="GstTaskPool.html" title="GstTaskPool">GstTaskPool</a></dt>
+<dt><a class="link" href="GstTaskPool.html#GstTaskPoolClass" title="GstTaskPoolClass">GstTaskPoolClass</a></dt>
+<dt><a class="link" href="GstTaskPool.html#GstTaskPoolFunction" title="GstTaskPoolFunction ()">GstTaskPoolFunction</a></dt>
 <dt><a class="link" href="GstTask.html#GstTaskState" title="enum GstTaskState">GstTaskState</a></dt>
+<dt><a class="link" href="GstTask.html#GstTaskThreadCallbacks" title="GstTaskThreadCallbacks">GstTaskThreadCallbacks</a></dt>
 <dt><a class="link" href="gstreamer-GstTrace.html#GstTrace" title="GstTrace">GstTrace</a></dt>
 <dt><a class="link" href="gstreamer-GstTypeFind.html#GstTypeFind" title="GstTypeFind">GstTypeFind</a></dt>
 <dt><a class="link" href="GstTypeFindFactory.html" title="GstTypeFindFactory">GstTypeFindFactory</a></dt>
@@ -312,6 +324,27 @@
 <dt><a class="link" href="gstreamer-GstBuffer.html#gst-buffer-is-span-fast" title="gst_buffer_is_span_fast ()">gst_buffer_is_span_fast</a></dt>
 <dt><a class="link" href="gstreamer-GstBuffer.html#gst-buffer-is-writable" title="gst_buffer_is_writable()">gst_buffer_is_writable</a></dt>
 <dt><a class="link" href="gstreamer-GstBuffer.html#gst-buffer-join" title="gst_buffer_join ()">gst_buffer_join</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-copy" title="gst_buffer_list_copy ()">gst_buffer_list_copy</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-foreach" title="gst_buffer_list_foreach ()">gst_buffer_list_foreach</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-get" title="gst_buffer_list_get ()">gst_buffer_list_get</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-is-writable" title="gst_buffer_list_is_writable()">gst_buffer_list_is_writable</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterate" title="gst_buffer_list_iterate ()">gst_buffer_list_iterate</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-add" title="gst_buffer_list_iterator_add ()">gst_buffer_list_iterator_add</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-add-group" title="gst_buffer_list_iterator_add_group ()">gst_buffer_list_iterator_add_group</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-do" title="gst_buffer_list_iterator_do ()">gst_buffer_list_iterator_do</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-free" title="gst_buffer_list_iterator_free ()">gst_buffer_list_iterator_free</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-merge-group" title="gst_buffer_list_iterator_merge_group ()">gst_buffer_list_iterator_merge_group</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-next" title="gst_buffer_list_iterator_next ()">gst_buffer_list_iterator_next</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-next-group" title="gst_buffer_list_iterator_next_group ()">gst_buffer_list_iterator_next_group</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-n-buffers" title="gst_buffer_list_iterator_n_buffers ()">gst_buffer_list_iterator_n_buffers</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-remove" title="gst_buffer_list_iterator_remove ()">gst_buffer_list_iterator_remove</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-steal" title="gst_buffer_list_iterator_steal ()">gst_buffer_list_iterator_steal</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-iterator-take" title="gst_buffer_list_iterator_take ()">gst_buffer_list_iterator_take</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-make-writable" title="gst_buffer_list_make_writable()">gst_buffer_list_make_writable</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-new" title="gst_buffer_list_new ()">gst_buffer_list_new</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-n-groups" title="gst_buffer_list_n_groups ()">gst_buffer_list_n_groups</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-ref" title="gst_buffer_list_ref ()">gst_buffer_list_ref</a></dt>
+<dt><a class="link" href="gstreamer-GstBufferList.html#gst-buffer-list-unref" title="gst_buffer_list_unref ()">gst_buffer_list_unref</a></dt>
 <dt><a class="link" href="gstreamer-GstBuffer.html#gst-buffer-make-metadata-writable" title="gst_buffer_make_metadata_writable ()">gst_buffer_make_metadata_writable</a></dt>
 <dt><a class="link" href="gstreamer-GstBuffer.html#gst-buffer-make-writable" title="gst_buffer_make_writable()">gst_buffer_make_writable</a></dt>
 <dt><a class="link" href="gstreamer-GstBuffer.html#GST-BUFFER-MALLOCDATA--CAPS" title="GST_BUFFER_MALLOCDATA()">GST_BUFFER_MALLOCDATA</a></dt>
@@ -478,6 +511,7 @@
 <dt><a class="link" href="gstreamer-GstInfo.html#GST-DEBUG-CATEGORY--CAPS" title="GST_DEBUG_CATEGORY()">GST_DEBUG_CATEGORY</a></dt>
 <dt><a class="link" href="gstreamer-GstInfo.html#GST-DEBUG-CATEGORY-EXTERN--CAPS" title="GST_DEBUG_CATEGORY_EXTERN()">GST_DEBUG_CATEGORY_EXTERN</a></dt>
 <dt><a class="link" href="gstreamer-GstInfo.html#gst-debug-category-free" title="gst_debug_category_free ()">gst_debug_category_free</a></dt>
+<dt><a class="link" href="gstreamer-GstInfo.html#GST-DEBUG-CATEGORY-GET--CAPS" title="GST_DEBUG_CATEGORY_GET()">GST_DEBUG_CATEGORY_GET</a></dt>
 <dt><a class="link" href="gstreamer-GstInfo.html#gst-debug-category-get-color" title="gst_debug_category_get_color ()">gst_debug_category_get_color</a></dt>
 <dt><a class="link" href="gstreamer-GstInfo.html#gst-debug-category-get-description" title="gst_debug_category_get_description ()">gst_debug_category_get_description</a></dt>
 <dt><a class="link" href="gstreamer-GstInfo.html#gst-debug-category-get-name" title="gst_debug_category_get_name ()">gst_debug_category_get_name</a></dt>
@@ -570,6 +604,7 @@
 <dt><a class="link" href="GstElement.html#gst-element-get-parent" title="gst_element_get_parent()">gst_element_get_parent</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-get-query-types" title="gst_element_get_query_types ()">gst_element_get_query_types</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-get-request-pad" title="gst_element_get_request_pad ()">gst_element_get_request_pad</a></dt>
+<dt><a class="link" href="GstElement.html#gst-element-get-start-time" title="gst_element_get_start_time ()">gst_element_get_start_time</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-get-state" title="gst_element_get_state ()">gst_element_get_state</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-get-static-pad" title="gst_element_get_static_pad ()">gst_element_get_static_pad</a></dt>
 <dt><a class="link" href="GstImplementsInterface.html#gst-element-implements-interface" title="gst_element_implements_interface ()">gst_element_implements_interface</a></dt>
@@ -586,6 +621,7 @@
 <dt><a class="link" href="GstElement.html#gst-element-link-pads" title="gst_element_link_pads ()">gst_element_link_pads</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-link-pads-filtered" title="gst_element_link_pads_filtered ()">gst_element_link_pads_filtered</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-lost-state" title="gst_element_lost_state ()">gst_element_lost_state</a></dt>
+<dt><a class="link" href="GstElement.html#gst-element-lost-state-full" title="gst_element_lost_state_full ()">gst_element_lost_state_full</a></dt>
 <dt><a class="link" href="gstreamer-GstUriHandler.html#gst-element-make-from-uri" title="gst_element_make_from_uri ()">gst_element_make_from_uri</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-message-full" title="gst_element_message_full ()">gst_element_message_full</a></dt>
 <dt><a class="link" href="GstElement.html#GST-ELEMENT-NAME--CAPS" title="GST_ELEMENT_NAME()">GST_ELEMENT_NAME</a></dt>
@@ -613,7 +649,9 @@
 <dt><a class="link" href="GstElement.html#gst-element-set-locked-state" title="gst_element_set_locked_state ()">gst_element_set_locked_state</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-set-name" title="gst_element_set_name()">gst_element_set_name</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-set-parent" title="gst_element_set_parent()">gst_element_set_parent</a></dt>
+<dt><a class="link" href="GstElement.html#gst-element-set-start-time" title="gst_element_set_start_time ()">gst_element_set_start_time</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-set-state" title="gst_element_set_state ()">gst_element_set_state</a></dt>
+<dt><a class="link" href="GstElement.html#GST-ELEMENT-START-TIME--CAPS" title="GST_ELEMENT_START_TIME()">GST_ELEMENT_START_TIME</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-state-change-return-get-name" title="gst_element_state_change_return_get_name ()">gst_element_state_change_return_get_name</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-state-get-name" title="gst_element_state_get_name ()">gst_element_state_get_name</a></dt>
 <dt><a class="link" href="GstElement.html#gst-element-sync-state-with-parent" title="gst_element_sync_state_with_parent ()">gst_element_sync_state_with_parent</a></dt>
@@ -644,6 +682,7 @@
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-new-new-segment-full" title="gst_event_new_new_segment_full ()">gst_event_new_new_segment_full</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-new-qos" title="gst_event_new_qos ()">gst_event_new_qos</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-new-seek" title="gst_event_new_seek ()">gst_event_new_seek</a></dt>
+<dt><a class="link" href="gstreamer-GstEvent.html#gst-event-new-step" title="gst_event_new_step ()">gst_event_new_step</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-new-tag" title="gst_event_new_tag ()">gst_event_new_tag</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-parse-buffer-size" title="gst_event_parse_buffer_size ()">gst_event_parse_buffer_size</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-parse-latency" title="gst_event_parse_latency ()">gst_event_parse_latency</a></dt>
@@ -651,6 +690,7 @@
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-parse-new-segment-full" title="gst_event_parse_new_segment_full ()">gst_event_parse_new_segment_full</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-parse-qos" title="gst_event_parse_qos ()">gst_event_parse_qos</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-parse-seek" title="gst_event_parse_seek ()">gst_event_parse_seek</a></dt>
+<dt><a class="link" href="gstreamer-GstEvent.html#gst-event-parse-step" title="gst_event_parse_step ()">gst_event_parse_step</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-parse-tag" title="gst_event_parse_tag ()">gst_event_parse_tag</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-ref" title="gst_event_ref ()">gst_event_ref</a></dt>
 <dt><a class="link" href="gstreamer-GstEvent.html#gst-event-replace" title="gst_event_replace()">gst_event_replace</a></dt>
@@ -763,6 +803,7 @@
 <dt><a class="link" href="gstreamer-GstInfo.html#GST-MEMDUMP-OBJECT--CAPS" title="GST_MEMDUMP_OBJECT()">GST_MEMDUMP_OBJECT</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-copy" title="gst_message_copy ()">gst_message_copy</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-get-seqnum" title="gst_message_get_seqnum ()">gst_message_get_seqnum</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-get-stream-status-object" title="gst_message_get_stream_status_object ()">gst_message_get_stream_status_object</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-get-structure" title="gst_message_get_structure ()">gst_message_get_structure</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-make-writable" title="gst_message_make_writable()">gst_message_make_writable</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-application" title="gst_message_new_application ()">gst_message_new_application</a></dt>
@@ -784,8 +825,12 @@
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-segment-start" title="gst_message_new_segment_start ()">gst_message_new_segment_start</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-state-changed" title="gst_message_new_state_changed ()">gst_message_new_state_changed</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-state-dirty" title="gst_message_new_state_dirty ()">gst_message_new_state_dirty</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-step-done" title="gst_message_new_step_done ()">gst_message_new_step_done</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-step-start" title="gst_message_new_step_start ()">gst_message_new_step_start</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-stream-status" title="gst_message_new_stream_status ()">gst_message_new_stream_status</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-structure-change" title="gst_message_new_structure_change ()">gst_message_new_structure_change</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-tag" title="gst_message_new_tag ()">gst_message_new_tag</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-tag-full" title="gst_message_new_tag_full ()">gst_message_new_tag_full</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-new-warning" title="gst_message_new_warning ()">gst_message_new_warning</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-async-start" title="gst_message_parse_async_start ()">gst_message_parse_async_start</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-buffering" title="gst_message_parse_buffering ()">gst_message_parse_buffering</a></dt>
@@ -800,13 +845,19 @@
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-segment-done" title="gst_message_parse_segment_done ()">gst_message_parse_segment_done</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-segment-start" title="gst_message_parse_segment_start ()">gst_message_parse_segment_start</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-state-changed" title="gst_message_parse_state_changed ()">gst_message_parse_state_changed</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-step-done" title="gst_message_parse_step_done ()">gst_message_parse_step_done</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-step-start" title="gst_message_parse_step_start ()">gst_message_parse_step_start</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-stream-status" title="gst_message_parse_stream_status ()">gst_message_parse_stream_status</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-structure-change" title="gst_message_parse_structure_change ()">gst_message_parse_structure_change</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-tag" title="gst_message_parse_tag ()">gst_message_parse_tag</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-tag-full" title="gst_message_parse_tag_full ()">gst_message_parse_tag_full</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-parse-warning" title="gst_message_parse_warning ()">gst_message_parse_warning</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-ref" title="gst_message_ref ()">gst_message_ref</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-set-buffering-stats" title="gst_message_set_buffering_stats ()">gst_message_set_buffering_stats</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#gst-message-set-seqnum" title="gst_message_set_seqnum ()">gst_message_set_seqnum</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#gst-message-set-stream-status-object" title="gst_message_set_stream_status_object ()">gst_message_set_stream_status_object</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-SRC--CAPS" title="GST_MESSAGE_SRC()">GST_MESSAGE_SRC</a></dt>
+<dt><a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-SRC-NAME--CAPS" title="GST_MESSAGE_SRC_NAME()">GST_MESSAGE_SRC_NAME</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-TIMESTAMP--CAPS" title="GST_MESSAGE_TIMESTAMP()">GST_MESSAGE_TIMESTAMP</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-TRACE-NAME--CAPS" title="GST_MESSAGE_TRACE_NAME">GST_MESSAGE_TRACE_NAME</a></dt>
 <dt><a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-TYPE--CAPS" title="GST_MESSAGE_TYPE()">GST_MESSAGE_TYPE</a></dt>
@@ -850,6 +901,7 @@
 <dt><a class="link" href="GstObject.html#gst-object-ref" title="gst_object_ref ()">gst_object_ref</a></dt>
 <dt><a class="link" href="GstObject.html#GST-OBJECT-REFCOUNT--CAPS" title="GST_OBJECT_REFCOUNT()">GST_OBJECT_REFCOUNT</a></dt>
 <dt><a class="link" href="GstObject.html#GST-OBJECT-REFCOUNT-VALUE--CAPS" title="GST_OBJECT_REFCOUNT_VALUE()">GST_OBJECT_REFCOUNT_VALUE</a></dt>
+<dt><a class="link" href="GstObject.html#gst-object-ref-sink" title="gst_object_ref_sink ()">gst_object_ref_sink</a></dt>
 <dt><a class="link" href="GstObject.html#gst-object-replace" title="gst_object_replace ()">gst_object_replace</a></dt>
 <dt><a class="link" href="GstObject.html#gst-object-restore-thyself" title="gst_object_restore_thyself ()">gst_object_restore_thyself</a></dt>
 <dt><a class="link" href="GstObject.html#gst-object-save-thyself" title="gst_object_save_thyself ()">gst_object_save_thyself</a></dt>
@@ -875,6 +927,7 @@
 <dt><a class="link" href="GstPad.html#gst-pad-can-link" title="gst_pad_can_link ()">gst_pad_can_link</a></dt>
 <dt><a class="link" href="GstPad.html#GST-PAD-CAPS--CAPS" title="GST_PAD_CAPS()">GST_PAD_CAPS</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-chain" title="gst_pad_chain ()">gst_pad_chain</a></dt>
+<dt><a class="link" href="GstPad.html#gst-pad-chain-list" title="gst_pad_chain_list ()">gst_pad_chain_list</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-check-pull-range" title="gst_pad_check_pull_range ()">gst_pad_check_pull_range</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-dispatcher" title="gst_pad_dispatcher ()">gst_pad_dispatcher</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-event-default" title="gst_pad_event_default ()">gst_pad_event_default</a></dt>
@@ -919,6 +972,7 @@
 <dt><a class="link" href="GstPad.html#gst-pad-pull-range" title="gst_pad_pull_range ()">gst_pad_pull_range</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-push" title="gst_pad_push ()">gst_pad_push</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-push-event" title="gst_pad_push_event ()">gst_pad_push_event</a></dt>
+<dt><a class="link" href="GstPad.html#gst-pad-push-list" title="gst_pad_push_list ()">gst_pad_push_list</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-query" title="gst_pad_query ()">gst_pad_query</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-query-convert" title="gst_pad_query_convert ()">gst_pad_query_convert</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-query-default" title="gst_pad_query_default ()">gst_pad_query_default</a></dt>
@@ -942,6 +996,7 @@
 <dt><a class="link" href="GstPad.html#gst-pad-set-bufferalloc-function" title="gst_pad_set_bufferalloc_function ()">gst_pad_set_bufferalloc_function</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-set-caps" title="gst_pad_set_caps ()">gst_pad_set_caps</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-set-chain-function" title="gst_pad_set_chain_function ()">gst_pad_set_chain_function</a></dt>
+<dt><a class="link" href="GstPad.html#gst-pad-set-chain-list-function" title="gst_pad_set_chain_list_function ()">gst_pad_set_chain_list_function</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-set-checkgetrange-function" title="gst_pad_set_checkgetrange_function ()">gst_pad_set_checkgetrange_function</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-set-element-private" title="gst_pad_set_element_private ()">gst_pad_set_element_private</a></dt>
 <dt><a class="link" href="GstPad.html#gst-pad-set-event-function" title="gst_pad_set_event_function ()">gst_pad_set_event_function</a></dt>
@@ -1016,6 +1071,7 @@
 <dt><a class="link" href="GstPluginFeature.html#gst-plugin-feature-set-name" title="gst_plugin_feature_set_name ()">gst_plugin_feature_set_name</a></dt>
 <dt><a class="link" href="GstPluginFeature.html#gst-plugin-feature-set-rank" title="gst_plugin_feature_set_rank ()">gst_plugin_feature_set_rank</a></dt>
 <dt><a class="link" href="GstPluginFeature.html#gst-plugin-feature-type-name-filter" title="gst_plugin_feature_type_name_filter ()">gst_plugin_feature_type_name_filter</a></dt>
+<dt><a class="link" href="GstPlugin.html#gst-plugin-get-cache-data" title="gst_plugin_get_cache_data ()">gst_plugin_get_cache_data</a></dt>
 <dt><a class="link" href="GstPlugin.html#gst-plugin-get-description" title="gst_plugin_get_description ()">gst_plugin_get_description</a></dt>
 <dt><a class="link" href="GstPlugin.html#gst-plugin-get-filename" title="gst_plugin_get_filename ()">gst_plugin_get_filename</a></dt>
 <dt><a class="link" href="GstPlugin.html#gst-plugin-get-license" title="gst_plugin_get_license ()">gst_plugin_get_license</a></dt>
@@ -1032,6 +1088,8 @@
 <dt><a class="link" href="GstPlugin.html#gst-plugin-load-file" title="gst_plugin_load_file ()">gst_plugin_load_file</a></dt>
 <dt><a class="link" href="GstPlugin.html#gst-plugin-name-filter" title="gst_plugin_name_filter ()">gst_plugin_name_filter</a></dt>
 <dt><a class="link" href="GstPlugin.html#gst-plugin-register-static" title="gst_plugin_register_static ()">gst_plugin_register_static</a></dt>
+<dt><a class="link" href="GstPlugin.html#gst-plugin-register-static-full" title="gst_plugin_register_static_full ()">gst_plugin_register_static_full</a></dt>
+<dt><a class="link" href="GstPlugin.html#gst-plugin-set-cache-data" title="gst_plugin_set_cache_data ()">gst_plugin_set_cache_data</a></dt>
 <dt><a class="link" href="gstreamer-GstPoll.html#gst-poll-add-fd" title="gst_poll_add_fd ()">gst_poll_add_fd</a></dt>
 <dt><a class="link" href="gstreamer-GstPoll.html#gst-poll-fd-can-read" title="gst_poll_fd_can_read ()">gst_poll_fd_can_read</a></dt>
 <dt><a class="link" href="gstreamer-GstPoll.html#gst-poll-fd-can-write" title="gst_poll_fd_can_write ()">gst_poll_fd_can_write</a></dt>
@@ -1168,7 +1226,9 @@
 <dt><a class="link" href="gstreamer-GstSegment.html#gst-segment-set-last-stop" title="gst_segment_set_last_stop ()">gst_segment_set_last_stop</a></dt>
 <dt><a class="link" href="gstreamer-GstSegment.html#gst-segment-set-newsegment" title="gst_segment_set_newsegment ()">gst_segment_set_newsegment</a></dt>
 <dt><a class="link" href="gstreamer-GstSegment.html#gst-segment-set-newsegment-full" title="gst_segment_set_newsegment_full ()">gst_segment_set_newsegment_full</a></dt>
+<dt><a class="link" href="gstreamer-GstSegment.html#gst-segment-set-running-time" title="gst_segment_set_running_time ()">gst_segment_set_running_time</a></dt>
 <dt><a class="link" href="gstreamer-GstSegment.html#gst-segment-set-seek" title="gst_segment_set_seek ()">gst_segment_set_seek</a></dt>
+<dt><a class="link" href="gstreamer-GstSegment.html#gst-segment-to-position" title="gst_segment_to_position ()">gst_segment_to_position</a></dt>
 <dt><a class="link" href="gstreamer-GstSegment.html#gst-segment-to-running-time" title="gst_segment_to_running_time ()">gst_segment_to_running_time</a></dt>
 <dt><a class="link" href="gstreamer-GstSegment.html#gst-segment-to-stream-time" title="gst_segment_to_stream_time ()">gst_segment_to_stream_time</a></dt>
 <dt><a class="link" href="gstreamer-Gst.html#gst-segtrap-is-enabled" title="gst_segtrap_is_enabled ()">gst_segtrap_is_enabled</a></dt>
@@ -1201,6 +1261,7 @@
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-foreach" title="gst_structure_foreach ()">gst_structure_foreach</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-free" title="gst_structure_free ()">gst_structure_free</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-from-string" title="gst_structure_from_string ()">gst_structure_from_string</a></dt>
+<dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get" title="gst_structure_get ()">gst_structure_get</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get-boolean" title="gst_structure_get_boolean ()">gst_structure_get_boolean</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get-clock-time" title="gst_structure_get_clock_time ()">gst_structure_get_clock_time</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get-date" title="gst_structure_get_date ()">gst_structure_get_date</a></dt>
@@ -1214,12 +1275,16 @@
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get-name-id" title="gst_structure_get_name_id ()">gst_structure_get_name_id</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get-string" title="gst_structure_get_string ()">gst_structure_get_string</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get-uint" title="gst_structure_get_uint ()">gst_structure_get_uint</a></dt>
+<dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get-valist" title="gst_structure_get_valist ()">gst_structure_get_valist</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-get-value" title="gst_structure_get_value ()">gst_structure_get_value</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-has-field" title="gst_structure_has_field ()">gst_structure_has_field</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-has-field-typed" title="gst_structure_has_field_typed ()">gst_structure_has_field_typed</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-has-name" title="gst_structure_has_name ()">gst_structure_has_name</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-id-empty-new" title="gst_structure_id_empty_new ()">gst_structure_id_empty_new</a></dt>
+<dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get" title="gst_structure_id_get ()">gst_structure_id_get</a></dt>
+<dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get-valist" title="gst_structure_id_get_valist ()">gst_structure_id_get_valist</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get-value" title="gst_structure_id_get_value ()">gst_structure_id_get_value</a></dt>
+<dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-id-new" title="gst_structure_id_new ()">gst_structure_id_new</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set" title="gst_structure_id_set ()">gst_structure_id_set</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set-valist" title="gst_structure_id_set_valist ()">gst_structure_id_set_valist</a></dt>
 <dt><a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set-value" title="gst_structure_id_set_value ()">gst_structure_id_set_value</a></dt>
@@ -1257,6 +1322,7 @@
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-COMMENT--CAPS" title="GST_TAG_COMMENT">GST_TAG_COMMENT</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-COMPOSER--CAPS" title="GST_TAG_COMPOSER">GST_TAG_COMPOSER</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-CONTACT--CAPS" title="GST_TAG_CONTACT">GST_TAG_CONTACT</a></dt>
+<dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-CONTAINER-FORMAT--CAPS" title="GST_TAG_CONTAINER_FORMAT">GST_TAG_CONTAINER_FORMAT</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-COPYRIGHT--CAPS" title="GST_TAG_COPYRIGHT">GST_TAG_COPYRIGHT</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-COPYRIGHT-URI--CAPS" title="GST_TAG_COPYRIGHT_URI">GST_TAG_COPYRIGHT_URI</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-DATE--CAPS" title="GST_TAG_DATE">GST_TAG_DATE</a></dt>
@@ -1286,6 +1352,7 @@
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-add" title="gst_tag_list_add ()">gst_tag_list_add</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-add-valist" title="gst_tag_list_add_valist ()">gst_tag_list_add_valist</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-add-valist-values" title="gst_tag_list_add_valist_values ()">gst_tag_list_add_valist_values</a></dt>
+<dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-add-value" title="gst_tag_list_add_value ()">gst_tag_list_add_value</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-add-values" title="gst_tag_list_add_values ()">gst_tag_list_add_values</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-copy" title="gst_tag_list_copy ()">gst_tag_list_copy</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-copy-value" title="gst_tag_list_copy_value ()">gst_tag_list_copy_value</a></dt>
@@ -1327,6 +1394,8 @@
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-is-empty" title="gst_tag_list_is_empty ()">gst_tag_list_is_empty</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-merge" title="gst_tag_list_merge ()">gst_tag_list_merge</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-new" title="gst_tag_list_new ()">gst_tag_list_new</a></dt>
+<dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-new-full" title="gst_tag_list_new_full ()">gst_tag_list_new_full</a></dt>
+<dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-new-full-valist" title="gst_tag_list_new_full_valist ()">gst_tag_list_new_full_valist</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#gst-tag-list-remove-tag" title="gst_tag_list_remove_tag ()">gst_tag_list_remove_tag</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-LOCATION--CAPS" title="GST_TAG_LOCATION">GST_TAG_LOCATION</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-MAXIMUM-BITRATE--CAPS" title="GST_TAG_MAXIMUM_BITRATE">GST_TAG_MAXIMUM_BITRATE</a></dt>
@@ -1343,6 +1412,7 @@
 <dt><a class="link" href="GstTagSetter.html#gst-tag-setter-add-tags" title="gst_tag_setter_add_tags ()">gst_tag_setter_add_tags</a></dt>
 <dt><a class="link" href="GstTagSetter.html#gst-tag-setter-add-tag-valist" title="gst_tag_setter_add_tag_valist ()">gst_tag_setter_add_tag_valist</a></dt>
 <dt><a class="link" href="GstTagSetter.html#gst-tag-setter-add-tag-valist-values" title="gst_tag_setter_add_tag_valist_values ()">gst_tag_setter_add_tag_valist_values</a></dt>
+<dt><a class="link" href="GstTagSetter.html#gst-tag-setter-add-tag-value" title="gst_tag_setter_add_tag_value ()">gst_tag_setter_add_tag_value</a></dt>
 <dt><a class="link" href="GstTagSetter.html#gst-tag-setter-add-tag-values" title="gst_tag_setter_add_tag_values ()">gst_tag_setter_add_tag_values</a></dt>
 <dt><a class="link" href="GstTagSetter.html#gst-tag-setter-get-tag-list" title="gst_tag_setter_get_tag_list ()">gst_tag_setter_get_tag_list</a></dt>
 <dt><a class="link" href="GstTagSetter.html#gst-tag-setter-get-tag-merge-mode" title="gst_tag_setter_get_tag_merge_mode ()">gst_tag_setter_get_tag_merge_mode</a></dt>
@@ -1363,10 +1433,20 @@
 <dt><a class="link" href="GstTask.html#gst-task-create" title="gst_task_create ()">gst_task_create</a></dt>
 <dt><a class="link" href="GstTask.html#GST-TASK-GET-COND--CAPS" title="GST_TASK_GET_COND()">GST_TASK_GET_COND</a></dt>
 <dt><a class="link" href="GstTask.html#GST-TASK-GET-LOCK--CAPS" title="GST_TASK_GET_LOCK()">GST_TASK_GET_LOCK</a></dt>
+<dt><a class="link" href="GstTask.html#gst-task-get-pool" title="gst_task_get_pool ()">gst_task_get_pool</a></dt>
 <dt><a class="link" href="GstTask.html#gst-task-get-state" title="gst_task_get_state ()">gst_task_get_state</a></dt>
 <dt><a class="link" href="GstTask.html#gst-task-join" title="gst_task_join ()">gst_task_join</a></dt>
 <dt><a class="link" href="GstTask.html#gst-task-pause" title="gst_task_pause ()">gst_task_pause</a></dt>
+<dt><a class="link" href="GstTaskPool.html#gst-task-pool-cleanup" title="gst_task_pool_cleanup ()">gst_task_pool_cleanup</a></dt>
+<dt><a class="link" href="GstTaskPool.html#gst-task-pool-join" title="gst_task_pool_join ()">gst_task_pool_join</a></dt>
+<dt><a class="link" href="GstTaskPool.html#gst-task-pool-new" title="gst_task_pool_new ()">gst_task_pool_new</a></dt>
+<dt><a class="link" href="GstTaskPool.html#gst-task-pool-prepare" title="gst_task_pool_prepare ()">gst_task_pool_prepare</a></dt>
+<dt><a class="link" href="GstTaskPool.html#gst-task-pool-push" title="gst_task_pool_push ()">gst_task_pool_push</a></dt>
 <dt><a class="link" href="GstTask.html#gst-task-set-lock" title="gst_task_set_lock ()">gst_task_set_lock</a></dt>
+<dt><a class="link" href="GstTask.html#gst-task-set-pool" title="gst_task_set_pool ()">gst_task_set_pool</a></dt>
+<dt><a class="link" href="GstTask.html#gst-task-set-priority" title="gst_task_set_priority ()">gst_task_set_priority</a></dt>
+<dt><a class="link" href="GstTask.html#gst-task-set-state" title="gst_task_set_state ()">gst_task_set_state</a></dt>
+<dt><a class="link" href="GstTask.html#gst-task-set-thread-callbacks" title="gst_task_set_thread_callbacks ()">gst_task_set_thread_callbacks</a></dt>
 <dt><a class="link" href="GstTask.html#GST-TASK-SIGNAL--CAPS" title="GST_TASK_SIGNAL()">GST_TASK_SIGNAL</a></dt>
 <dt><a class="link" href="GstTask.html#gst-task-start" title="gst_task_start ()">gst_task_start</a></dt>
 <dt><a class="link" href="GstTask.html#GST-TASK-STATE--CAPS" title="GST_TASK_STATE()">GST_TASK_STATE</a></dt>

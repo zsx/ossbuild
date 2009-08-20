@@ -106,7 +106,8 @@ static GstStaticPadTemplate sink_factory = GST_STATIC_PAD_TEMPLATE ("sink_%d",
     GST_STATIC_CAPS ("video/x-theora; "
         "audio/x-vorbis; audio/x-flac; audio/x-speex; audio/x-celt; "
         "application/x-ogm-video; application/x-ogm-audio; video/x-dirac; "
-        "video/x-smoke; text/x-cmml, encoded = (boolean) TRUE")
+        "video/x-smoke; text/x-cmml, encoded = (boolean) TRUE; "
+        "subtitle/x-kate; application/x-kate")
     );
 
 static void gst_ogg_mux_base_init (gpointer g_class);
@@ -149,10 +150,17 @@ gst_ogg_mux_get_type (void)
       0,
       (GInstanceInitFunc) gst_ogg_mux_init,
     };
+    static const GInterfaceInfo preset_info = {
+      NULL,
+      NULL,
+      NULL
+    };
 
     ogg_mux_type =
         g_type_register_static (GST_TYPE_ELEMENT, "GstOggMux", &ogg_mux_info,
         0);
+
+    g_type_add_interface_static (ogg_mux_type, GST_TYPE_PRESET, &preset_info);
   }
   return ogg_mux_type;
 }
@@ -1293,6 +1301,7 @@ gst_ogg_mux_process_best_pad (GstOggMux * ogg_mux, GstOggPad * best)
     }
 
     if (GST_BUFFER_IS_DISCONT (buf)) {
+      GST_LOG_OBJECT (pad->collect.pad, "got discont");
       packet.packetno++;
       /* No public API for this; hack things in */
       pad->stream.pageno++;
@@ -1675,6 +1684,6 @@ gst_ogg_mux_plugin_init (GstPlugin * plugin)
 {
   GST_DEBUG_CATEGORY_INIT (gst_ogg_mux_debug, "oggmux", 0, "ogg muxer");
 
-  return gst_element_register (plugin, "oggmux", GST_RANK_NONE,
+  return gst_element_register (plugin, "oggmux", GST_RANK_PRIMARY,
       GST_TYPE_OGG_MUX);
 }

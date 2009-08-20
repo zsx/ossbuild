@@ -131,6 +131,7 @@ am_libgstplaybin_la_OBJECTS = libgstplaybin_la-gstplayback.lo \
 	libgstplaybin_la-gstplaybasebin.lo \
 	libgstplaybin_la-gstplay-enum.lo \
 	libgstplaybin_la-gstfactorylists.lo \
+	libgstplaybin_la-gstinputselector.lo \
 	libgstplaybin_la-gstscreenshot.lo \
 	libgstplaybin_la-gststreaminfo.lo \
 	libgstplaybin_la-gststreamselector.lo
@@ -339,6 +340,8 @@ GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 GTK_X11_CFLAGS = @GTK_X11_CFLAGS@
 GTK_X11_LIBS = @GTK_X11_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HAVE_CDPARANOIA = @HAVE_CDPARANOIA@
 HAVE_X = @HAVE_X@
 HAVE_XSHM = @HAVE_XSHM@
@@ -508,6 +511,7 @@ libgstplaybin_la_SOURCES = \
 	gstplaybasebin.c \
 	gstplay-enum.c \
 	gstfactorylists.c \
+	gstinputselector.c \
 	gstscreenshot.c \
 	gststreaminfo.c \
 	gststreamselector.c
@@ -549,6 +553,7 @@ noinst_HEADERS = \
 	gstplaysink.h \
 	gststreaminfo.h \
 	gstfactorylists.h \
+	gstinputselector.h \
 	gstplay-enum.h \
 	gstscreenshot.h \
 	gststreamselector.h
@@ -689,6 +694,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstdecodebin_la-gstdecodebin.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstdecodebin_la-gstplay-marshal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstplaybin_la-gstfactorylists.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstplaybin_la-gstinputselector.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstplaybin_la-gstplay-enum.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstplaybin_la-gstplay-marshal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstplaybin_la-gstplayback.Plo@am__quote@
@@ -827,6 +833,13 @@ libgstplaybin_la-gstfactorylists.lo: gstfactorylists.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstfactorylists.c' object='libgstplaybin_la-gstfactorylists.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstplaybin_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstplaybin_la_CFLAGS) $(CFLAGS) -c -o libgstplaybin_la-gstfactorylists.lo `test -f 'gstfactorylists.c' || echo '$(srcdir)/'`gstfactorylists.c
+
+libgstplaybin_la-gstinputselector.lo: gstinputselector.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgstplaybin_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstplaybin_la_CFLAGS) $(CFLAGS) -MT libgstplaybin_la-gstinputselector.lo -MD -MP -MF $(DEPDIR)/libgstplaybin_la-gstinputselector.Tpo -c -o libgstplaybin_la-gstinputselector.lo `test -f 'gstinputselector.c' || echo '$(srcdir)/'`gstinputselector.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgstplaybin_la-gstinputselector.Tpo $(DEPDIR)/libgstplaybin_la-gstinputselector.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstinputselector.c' object='libgstplaybin_la-gstinputselector.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstplaybin_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstplaybin_la_CFLAGS) $(CFLAGS) -c -o libgstplaybin_la-gstinputselector.lo `test -f 'gstinputselector.c' || echo '$(srcdir)/'`gstinputselector.c
 
 libgstplaybin_la-gstscreenshot.lo: gstscreenshot.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgstplaybin_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstplaybin_la_CFLAGS) $(CFLAGS) -MT libgstplaybin_la-gstscreenshot.lo -MD -MP -MF $(DEPDIR)/libgstplaybin_la-gstscreenshot.Tpo -c -o libgstplaybin_la-gstscreenshot.lo `test -f 'gstscreenshot.c' || echo '$(srcdir)/'`gstscreenshot.c
@@ -1196,9 +1209,9 @@ uninstall-am: uninstall-pluginLTLIBRARIES
 	glib-mkenums \
 	--fhead "#include \"$*-enumtypes.h\"\n$(enum_headers)" \
 	--fprod "\n/* enumerations from \"@filename@\" */" \
-	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"     \
+	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static volatile gsize g_define_type_id__volatile = 0;\n  if (g_once_init_enter (&g_define_type_id__volatile)) {\n    static const G@Type@Value values[] = {"     \
 	--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
-	--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
+	--vtail "      { 0, NULL, NULL }\n    };\n    GType g_define_type_id = g_@type@_register_static (\"@EnumName@\", values);\n    g_once_init_leave (&g_define_type_id__volatile, g_define_type_id);\n  }\n  return g_define_type_id__volatile;\n}\n" \
 	$^ > $@
 
 # a hack rule to make sure .Plo files exist because they get include'd

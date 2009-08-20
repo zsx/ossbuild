@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.10.22.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-10 22:30+0100\n"
+"POT-Creation-Date: 2009-08-04 23:00+0100\n"
 "PO-Revision-Date: 2009-05-01 11:53中国标准时间\n"
 "Last-Translator: Ji ZhengYu <zhengyuji@gmail.com>\n"
 "Language-Team: Chinese (simplified) <translation-team-zh-cn@lists."
@@ -118,8 +118,10 @@ msgstr "GStreamer 开发者未对此错误指派错误代码。"
 msgid "Internal GStreamer error: code not implemented."
 msgstr "GStreamer 内部错误：代码未实现。"
 
-msgid "Internal GStreamer error: state change failed."
-msgstr "GStreamer 内部错误：状态更改失败。"
+msgid ""
+"GStreamer error: state change failed and some element failed to post a "
+"proper error message with the reason for the failure."
+msgstr ""
 
 #, fuzzy
 msgid "Internal GStreamer error: pad problem."
@@ -445,6 +447,14 @@ msgstr "字幕编码"
 msgid "codec the subtitle data is stored in"
 msgstr "字幕编码数据保存在"
 
+#, fuzzy
+msgid "container format"
+msgstr "联系人信息"
+
+#, fuzzy
+msgid "container format the data is stored in"
+msgstr "数据以...编码存储"
+
 msgid "bitrate"
 msgstr "比特率"
 
@@ -556,8 +566,9 @@ msgstr "逗号分隔的描述数据内容的简要文本"
 msgid "geo location name"
 msgstr "地理位置名称"
 
+#, fuzzy
 msgid ""
-"human readable descriptive location or where the media has been recorded or "
+"human readable descriptive location of where the media has been recorded or "
 "produced"
 msgstr "易懂的位置描述或是此媒体在哪里录制或是产生"
 
@@ -655,6 +666,9 @@ msgstr "内部时钟错误。"
 msgid "Internal data flow error."
 msgstr "内部数据流错误。"
 
+msgid "A lot of buffers are being dropped."
+msgstr ""
+
 msgid "Internal data flow problem."
 msgstr "内部数据流问题。"
 
@@ -670,14 +684,6 @@ msgid ""
 msgstr ""
 "限制所允许的功能 (NULL 表示无限制)。此属性可以为所提供的 GstCaps 对象设置一个"
 "关联应用。"
-
-#, c-format
-msgid "Error while writing to file descriptor \"%d\"."
-msgstr "写入文件描述符“%d”时出错。"
-
-#, c-format
-msgid "File descriptor \"%d\" is not valid."
-msgstr "文件描述符“%d”无效。"
 
 msgid "No file name specified for writing."
 msgstr "未指定写入的文件名。"
@@ -813,7 +819,20 @@ msgstr "错误: 无法解析命令行参数 %d: %s。\n"
 msgid "WARNING: element named '%s' not found.\n"
 msgstr "警告: 组件名‘%s’未找到。\n"
 
-msgid "Got Message #%"
+#, fuzzy, c-format
+msgid "Got message #%u from element \"%s\" (%s): "
+msgstr "从组件“%s”中获取信息(%s):"
+
+#, fuzzy, c-format
+msgid "Got message #%u from pad \"%s:%s\" (%s): "
+msgstr "从组件“%s”中获取信息(%s):"
+
+#, fuzzy, c-format
+msgid "Got message #%u from object \"%s\" (%s): "
+msgstr "从组件“%s”中获取信息(%s):"
+
+#, fuzzy, c-format
+msgid "Got message #%u (%s): "
 msgstr "获取信息 #%"
 
 #, c-format
@@ -823,6 +842,17 @@ msgstr "收到来自组件“%s”的 EOS 信号。\n"
 #, c-format
 msgid "FOUND TAG      : found by element \"%s\".\n"
 msgstr "找到标识    :由组件“%s”找到。\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by pad \"%s:%s\".\n"
+msgstr "找到标识    :由组件“%s”找到。\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by object \"%s\".\n"
+msgstr "找到标识    :由组件“%s”找到。\n"
+
+msgid "FOUND TAG\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -954,11 +984,17 @@ msgstr "设置 NULL 管道 ...\n"
 msgid "Freeing pipeline ...\n"
 msgstr "释放管道资源 ...\n"
 
+#~ msgid "Internal GStreamer error: state change failed."
+#~ msgstr "GStreamer 内部错误：状态更改失败。"
+
+#~ msgid "Error while writing to file descriptor \"%d\"."
+#~ msgstr "写入文件描述符“%d”时出错。"
+
+#~ msgid "File descriptor \"%d\" is not valid."
+#~ msgstr "文件描述符“%d”无效。"
+
 #~ msgid "FREEING pipeline ...\n"
 #~ msgstr "正在释放管道 ...\n"
-
-#~ msgid "Got Message from element \"%s\" (%s): "
-#~ msgstr "从组件“%s”中获取信息(%s):"
 
 #~ msgid "original location of file as a URI"
 #~ msgstr "文件原始位置作为 URI 地址"

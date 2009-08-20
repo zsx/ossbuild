@@ -9,11 +9,7 @@ endif
 if GST_DISABLE_REGISTRY
 GST_REGISTRY_SRC =
 else
-if USE_BINARY_REGISTRY
 GST_REGISTRY_SRC = gstregistrybinary.c
-else
-GST_REGISTRY_SRC = gstregistryxml.c
-endif
 endif
 
 if GST_DISABLE_PARSE
@@ -49,7 +45,7 @@ built_source_make = gstenumtypes.c gstmarshal.c
 
 EXTRA_libgstreamer_@GST_MAJORMINOR@_la_SOURCES = \
 	gstmarshal.list gsttrace.c gstxml.c \
-	gstregistryxml.c gstregistrybinary.c
+	gstregistrybinary.c
 
 
 # temporarily not used
@@ -60,6 +56,7 @@ libgstreamer_@GST_MAJORMINOR@_la_SOURCES = \
 	gstobject.c		\
 	gstbin.c		\
 	gstbuffer.c		\
+	gstbufferlist.c		\
 	gstbus.c		\
 	gstcaps.c		\
 	gstchildproxy.c		\
@@ -96,6 +93,7 @@ libgstreamer_@GST_MAJORMINOR@_la_SOURCES = \
 	gsttaglist.c		\
 	gsttagsetter.c		\
 	gsttask.c		\
+	gsttaskpool.c		\
 	$(GST_TRACE_SRC)	\
 	gsttypefind.c		\
 	gsttypefindfactory.c	\
@@ -145,6 +143,7 @@ gst_headers =			\
 	gstobject.h		\
 	gstbin.h		\
 	gstbuffer.h		\
+	gstbufferlist.h		\
 	gstbus.h		\
 	gstcaps.h		\
 	gstchildproxy.h		\
@@ -181,6 +180,7 @@ gst_headers =			\
 	gsttaglist.h		\
 	gsttagsetter.h		\
 	gsttask.h		\
+	gsttaskpool.h		\
 	gsttrace.h		\
 	gsttypefind.h		\
 	gsttypefindfactory.h	\

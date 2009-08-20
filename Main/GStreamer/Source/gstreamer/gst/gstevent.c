@@ -231,7 +231,7 @@ gst_event_finalize (GstEvent * event)
     gst_structure_free (event->structure);
   }
 
-  GST_MINI_OBJECT_CLASS (parent_class)->finalize (GST_MINI_OBJECT (event));
+/*   GST_MINI_OBJECT_CLASS (parent_class)->finalize (GST_MINI_OBJECT (event)); */
 }
 
 static GstEvent *
@@ -542,7 +542,8 @@ gst_event_parse_new_segment (GstEvent * event, gboolean * update,
  * The newsegment event marks the range of buffers to be processed. All
  * data not within the segment range is not to be processed. This can be
  * used intelligently by plugins to apply more efficient methods of skipping
- * unneeded data.
+ * unneeded data. The valid range is expressed with the @start and @stop
+ * values.
  *
  * The position value of the segment is used in conjunction with the start
  * value to convert the buffer timestamps into the stream time. This is 
@@ -601,8 +602,7 @@ gst_event_new_new_segment_full (gboolean update, gdouble rate,
   if (stop != -1)
     g_return_val_if_fail (start <= stop, NULL);
 
-  structure = gst_structure_empty_new ("GstEventNewsegment");
-  gst_structure_id_set (structure,
+  structure = gst_structure_id_new (GST_QUARK (EVENT_NEWSEGMENT),
       GST_QUARK (UPDATE), G_TYPE_BOOLEAN, update,
       GST_QUARK (RATE), G_TYPE_DOUBLE, rate,
       GST_QUARK (APPLIED_RATE), G_TYPE_DOUBLE, applied_rate,
@@ -733,8 +733,7 @@ gst_event_new_buffer_size (GstFormat format, gint64 minsize,
       ", maxsize %" G_GINT64_FORMAT ", async %d", gst_format_get_name (format),
       minsize, maxsize, async);
 
-  structure = gst_structure_empty_new ("GstEventBufferSize");
-  gst_structure_id_set (structure,
+  structure = gst_structure_id_new (GST_QUARK (EVENT_BUFFER_SIZE),
       GST_QUARK (FORMAT), GST_TYPE_FORMAT, format,
       GST_QUARK (MINSIZE), G_TYPE_INT64, minsize,
       GST_QUARK (MAXSIZE), G_TYPE_INT64, maxsize,
@@ -839,8 +838,7 @@ gst_event_new_qos (gdouble proportion, GstClockTimeDiff diff,
       ", timestamp %" GST_TIME_FORMAT, proportion,
       diff, GST_TIME_ARGS (timestamp));
 
-  structure = gst_structure_empty_new ("GstEventQOS");
-  gst_structure_id_set (structure,
+  structure = gst_structure_id_new (GST_QUARK (EVENT_QOS),
       GST_QUARK (PROPORTION), G_TYPE_DOUBLE, proportion,
       GST_QUARK (DIFF), G_TYPE_INT64, diff,
       GST_QUARK (TIMESTAMP), G_TYPE_UINT64, timestamp, NULL);
@@ -952,8 +950,7 @@ gst_event_new_seek (gdouble rate, GstFormat format, GstSeekFlags flags,
         stop);
   }
 
-  structure = gst_structure_empty_new ("GstEventSeek");
-  gst_structure_id_set (structure,
+  structure = gst_structure_id_new (GST_QUARK (EVENT_SEEK),
       GST_QUARK (RATE), G_TYPE_DOUBLE, rate,
       GST_QUARK (FORMAT), GST_TYPE_FORMAT, format,
       GST_QUARK (FLAGS), GST_TYPE_SEEK_FLAGS, flags,
@@ -1043,7 +1040,7 @@ gst_event_new_navigation (GstStructure * structure)
  *
  * Create a new latency event. The event is sent upstream from the sinks and
  * notifies elements that they should add an additional @latency to the
- * timestamps before synchronising against the clock.
+ * running time before synchronising against the clock.
  *
  * The latency is mostly used in live sinks and is always expressed in
  * the time format.
@@ -1061,8 +1058,7 @@ gst_event_new_latency (GstClockTime latency)
   GST_CAT_INFO (GST_CAT_EVENT,
       "creating latency event %" GST_TIME_FORMAT, GST_TIME_ARGS (latency));
 
-  structure = gst_structure_empty_new ("GstEventLatency");
-  gst_structure_id_set (structure,
+  structure = gst_structure_id_new (GST_QUARK (EVENT_LATENCY),
       GST_QUARK (LATENCY), G_TYPE_UINT64, latency, NULL);
   event = gst_event_new_custom (GST_EVENT_LATENCY, structure);
 
@@ -1091,4 +1087,91 @@ gst_event_parse_latency (GstEvent * event, GstClockTime * latency)
     *latency =
         g_value_get_uint64 (gst_structure_id_get_value (structure,
             GST_QUARK (LATENCY)));
+}
+
+/**
+ * gst_event_new_step:
+ * @format: the format of @amount
+ * @amount: the amount of data to step
+ * @rate: the step rate
+ * @flush: flushing steps
+ * @intermediate: intermediate steps
+ *
+ * Create a new step event. The purpose of the step event is to instruct a sink
+ * to skip @amount (expressed in @format) of media. It can be used to implement
+ * stepping through the video frame by frame or for doing fast trick modes.
+ *
+ * A rate of <= 0.0 is not allowed, pause the pipeline or reverse the playback
+ * direction of the pipeline to get the same effect.
+ *
+ * The @flush flag will clear any pending data in the pipeline before starting
+ * the step operation.
+ *
+ * The @intermediate flag instructs the pipeline that this step operation is
+ * part of a larger step operation.
+ *
+ * Returns: a new #GstEvent
+ *
+ * Since: 0.10.24
+ */
+GstEvent *
+gst_event_new_step (GstFormat format, guint64 amount, gdouble rate,
+    gboolean flush, gboolean intermediate)
+{
+  GstEvent *event;
+  GstStructure *structure;
+
+  g_return_val_if_fail (rate > 0.0, NULL);
+
+  GST_CAT_INFO (GST_CAT_EVENT, "creating step event");
+
+  structure = gst_structure_id_new (GST_QUARK (EVENT_STEP),
+      GST_QUARK (FORMAT), GST_TYPE_FORMAT, format,
+      GST_QUARK (AMOUNT), G_TYPE_UINT64, amount,
+      GST_QUARK (RATE), G_TYPE_DOUBLE, rate,
+      GST_QUARK (FLUSH), G_TYPE_BOOLEAN, flush,
+      GST_QUARK (INTERMEDIATE), G_TYPE_BOOLEAN, intermediate, NULL);
+  event = gst_event_new_custom (GST_EVENT_STEP, structure);
+
+  return event;
+}
+
+/**
+ * gst_event_parse_step:
+ * @event: The event to query
+ * @format: A pointer to store the format in.
+ * @amount: A pointer to store the amount in.
+ * @rate: A pointer to store the rate in.
+ * @flush: A pointer to store the flush boolean in.
+ * @intermediate: A pointer to store the intermediate boolean in.
+ *
+ * Parse the step event.
+ *
+ * Since: 0.10.24
+ */
+void
+gst_event_parse_step (GstEvent * event, GstFormat * format, guint64 * amount,
+    gdouble * rate, gboolean * flush, gboolean * intermediate)
+{
+  const GstStructure *structure;
+
+  g_return_if_fail (GST_IS_EVENT (event));
+  g_return_if_fail (GST_EVENT_TYPE (event) == GST_EVENT_STEP);
+
+  structure = gst_event_get_structure (event);
+  if (format)
+    *format = g_value_get_enum (gst_structure_id_get_value (structure,
+            GST_QUARK (FORMAT)));
+  if (amount)
+    *amount = g_value_get_uint64 (gst_structure_id_get_value (structure,
+            GST_QUARK (AMOUNT)));
+  if (rate)
+    *rate = g_value_get_double (gst_structure_id_get_value (structure,
+            GST_QUARK (RATE)));
+  if (flush)
+    *flush = g_value_get_boolean (gst_structure_id_get_value (structure,
+            GST_QUARK (FLUSH)));
+  if (intermediate)
+    *intermediate = g_value_get_boolean (gst_structure_id_get_value (structure,
+            GST_QUARK (INTERMEDIATE)));
 }

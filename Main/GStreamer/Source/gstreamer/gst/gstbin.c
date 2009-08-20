@@ -831,12 +831,16 @@ bin_replace_message (GstBin * bin, GstMessage * message, GstMessageType types)
   if ((src = GST_MESSAGE_SRC (message))) {
     /* first find the previous message posted by this element */
     if ((previous = find_message (bin, src, types))) {
+      GstMessage *previous_msg;
+
       /* if we found a previous message, replace it */
-      gst_message_unref (previous->data);
+      previous_msg = previous->data;
       previous->data = message;
 
-      GST_DEBUG_OBJECT (bin, "replace old message %s from %s",
-          name, GST_ELEMENT_NAME (src));
+      GST_DEBUG_OBJECT (bin, "replace old message %s from %s with %s message",
+          GST_MESSAGE_TYPE_NAME (previous_msg), GST_ELEMENT_NAME (src), name);
+
+      gst_message_unref (previous_msg);
     } else {
       /* keep new message */
       bin->messages = g_list_prepend (bin->messages, message);
@@ -985,8 +989,9 @@ gst_bin_add_func (GstBin * bin, GstElement * element)
   /* distribute the bus */
   gst_element_set_bus (element, bin->child_bus);
 
-  /* propagate the current base_time and clock */
+  /* propagate the current base_time, start_time and clock */
   gst_element_set_base_time (element, GST_ELEMENT (bin)->base_time);
+  gst_element_set_start_time (element, GST_ELEMENT_START_TIME (bin));
   /* it's possible that the element did not accept the clock but
    * that is not important right now. When the pipeline goes to PLAYING,
    * a new clock will be selected */
@@ -1129,6 +1134,8 @@ gst_bin_remove_func (GstBin * bin, GstElement * element)
   GstIterator *it;
   gboolean is_sink, othersink, found;
   GstMessage *clock_message = NULL;
+  GstClock **provided_clock_p;
+  GstElement **clock_provider_p;
   GList *walk, *next;
   gboolean other_async, this_async, have_no_preroll;
   GstStateChangeReturn ret;
@@ -1206,6 +1213,10 @@ gst_bin_remove_func (GstBin * bin, GstElement * element)
     bin->clock_dirty = TRUE;
     clock_message =
         gst_message_new_clock_lost (GST_OBJECT_CAST (bin), bin->provided_clock);
+    provided_clock_p = &bin->provided_clock;
+    clock_provider_p = &bin->clock_provider;
+    gst_object_replace ((GstObject **) provided_clock_p, NULL);
+    gst_object_replace ((GstObject **) clock_provider_p, NULL);
   }
 
   /* remove messages for the element, if there was a pending ASYNC_START
@@ -1965,19 +1976,20 @@ gst_bin_iterate_sorted (GstBin * bin)
 
 static GstStateChangeReturn
 gst_bin_element_set_state (GstBin * bin, GstElement * element,
-    GstClockTime base_time, GstState current, GstState next)
+    GstClockTime base_time, GstClockTime start_time, GstState current,
+    GstState next)
 {
   GstStateChangeReturn ret;
   gboolean locked;
   GList *found;
 
-  /* set base_time on child */
-  gst_element_set_base_time (element, base_time);
-
   GST_STATE_LOCK (element);
 
-  /* peel off the locked flag */
   GST_OBJECT_LOCK (element);
+  /* set base_time and start time on child */
+  GST_ELEMENT_START_TIME (element) = start_time;
+  element->base_time = base_time;
+  /* peel off the locked flag */
   locked = GST_OBJECT_FLAG_IS_SET (element, GST_ELEMENT_LOCKED_STATE);
   /* get previous state return */
   ret = GST_STATE_RETURN (element);
@@ -2229,7 +2241,7 @@ gst_bin_change_state_func (GstElement * element, GstStateChange transition)
   GstState current, next;
   gboolean have_async;
   gboolean have_no_preroll;
-  GstClockTime base_time;
+  GstClockTime base_time, start_time;
   GstIterator *it;
   gboolean done;
 
@@ -2303,6 +2315,7 @@ gst_bin_change_state_func (GstElement * element, GstStateChange transition)
 restart:
   /* take base_time */
   base_time = gst_element_get_base_time (element);
+  start_time = gst_element_get_start_time (element);
 
   have_no_preroll = FALSE;
 
@@ -2318,7 +2331,9 @@ restart:
         child = GST_ELEMENT_CAST (data);
 
         /* set state and base_time now */
-        ret = gst_bin_element_set_state (bin, child, base_time, current, next);
+        ret =
+            gst_bin_element_set_state (bin, child, base_time, start_time,
+            current, next);
 
         switch (ret) {
           case GST_STATE_CHANGE_SUCCESS:
@@ -2373,8 +2388,13 @@ restart:
     goto done;
 
   if (have_no_preroll) {
+    GST_CAT_DEBUG (GST_CAT_STATES,
+        "we have NO_PREROLL elements %s -> NO_PREROLL",
+        gst_element_state_change_return_get_name (ret));
     ret = GST_STATE_CHANGE_NO_PREROLL;
   } else if (have_async) {
+    GST_CAT_DEBUG (GST_CAT_STATES, "we have ASYNC elements %s -> ASYNC",
+        gst_element_state_change_return_get_name (ret));
     ret = GST_STATE_CHANGE_ASYNC;
   }
 
@@ -2383,12 +2403,13 @@ done:
 
   GST_OBJECT_LOCK (bin);
   bin->polling = FALSE;
-  /* it's possible that we did not get ASYNC form the children while the bin is
+  /* it's possible that we did not get ASYNC from the children while the bin is
    * simulating ASYNC behaviour by posting an ASYNC_DONE message on the bus with
    * itself as the source. In that case we still want to check if the state
    * change completed. */
   if (ret != GST_STATE_CHANGE_ASYNC && !bin->priv->pending_async_done) {
-    /* no element returned ASYNC, we can just complete. */
+    /* no element returned ASYNC and there are no pending async_done messages,
+     * we can just complete. */
     GST_DEBUG_OBJECT (bin, "no async elements");
     goto state_end;
   }
@@ -2714,6 +2735,11 @@ bin_handle_async_done (GstBin * bin, GstStateChangeReturn ret,
     /* update current state */
     current = GST_STATE (bin) = old_next;
   } else {
+    GST_CAT_INFO_OBJECT (GST_CAT_STATES, bin,
+        "setting state from %s to %s, pending %s",
+        gst_element_state_get_name (old_state),
+        gst_element_state_get_name (old_state),
+        gst_element_state_get_name (pending));
     current = old_state;
   }
 
@@ -2745,7 +2771,7 @@ bin_handle_async_done (GstBin * bin, GstStateChangeReturn ret,
     cont->pending = pending;
     /* mark busy */
     GST_STATE_RETURN (bin) = GST_STATE_CHANGE_ASYNC;
-    GST_STATE_NEXT (bin) = pending;
+    GST_STATE_NEXT (bin) = GST_STATE_GET_NEXT (old_state, pending);
   }
 
   if (old_next != GST_STATE_PLAYING) {
@@ -3607,12 +3633,12 @@ gst_bin_save_thyself (GstObject * object, xmlNodePtr parent)
   GST_CAT_INFO (GST_CAT_XML, "[%s]: saving %d children",
       GST_ELEMENT_NAME (bin), bin->numchildren);
 
-  children = bin->children;
+  children = g_list_last (bin->children);
   while (children) {
     child = GST_ELEMENT (children->data);
     elementnode = xmlNewChild (childlist, NULL, (xmlChar *) "element", NULL);
     gst_object_save_thyself (GST_OBJECT (child), elementnode);
-    children = g_list_next (children);
+    children = g_list_previous (children);
   }
   return childlist;
 }

@@ -24,6 +24,7 @@
 #endif
 
 #include "gnl.h"
+#include "gnlmarshal.h"
 
 /**
  * SECTION:element-gnloperation
@@ -66,6 +67,14 @@ enum
   ARG_0,
   ARG_SINKS,
 };
+
+enum
+{
+  INPUT_PRIORITY_CHANGED,
+  LAST_SIGNAL
+};
+
+static guint gnl_operation_signals[LAST_SIGNAL] = { 0 };
 
 static void gnl_operation_finalize (GObject * object);
 
@@ -122,6 +131,20 @@ gnl_operation_class_init (GnlOperationClass * klass)
       g_param_spec_int ("sinks", "Sinks",
           "Number of input sinks (-1 for automatic handling)", -1, G_MAXINT, -1,
           G_PARAM_READWRITE));
+
+  /**
+   * GnlOperation:input-priority-changed:
+   * @pad: The operation's input pad whose priority changed.
+   * @priority: The new priority
+   *
+   * Signals that the @priority of the stream being fed to the given @pad
+   * might have changed.
+   */
+  gnl_operation_signals[INPUT_PRIORITY_CHANGED] =
+      g_signal_new ("input-priority-changed", G_TYPE_FROM_CLASS (klass),
+      G_SIGNAL_RUN_LAST, G_STRUCT_OFFSET (GnlOperationClass,
+          input_priority_changed), NULL, NULL, gnl_marshal_VOID__OBJECT_UINT,
+      G_TYPE_NONE, 1, G_TYPE_UINT);
 
   gstelement_class->request_new_pad =
       GST_DEBUG_FUNCPTR (gnl_operation_request_new_pad);
@@ -492,7 +515,7 @@ get_unused_static_sink_pad (GnlOperation * operation)
   return ret;
 }
 
-static GstPad *
+GstPad *
 get_unlinked_sink_ghost_pad (GnlOperation * operation)
 {
   GstIterator *pads;
@@ -645,9 +668,11 @@ remove_sink_pad (GnlOperation * operation, GstPad * sinkpad)
     GstPad *target = gst_ghost_pad_get_target ((GstGhostPad *) sinkpad);
 
     /* release the target pad */
+    gnl_object_ghost_pad_set_target ((GnlObject *) operation, sinkpad, NULL);
     gst_element_release_request_pad (operation->element, target);
     operation->sinks = g_list_remove (operation->sinks, sinkpad);
     gnl_object_remove_ghost_pad ((GnlObject *) operation, sinkpad);
+    operation->realsinks--;
   }
 
 beach:
@@ -658,10 +683,10 @@ static void
 synchronize_sinks (GnlOperation * operation)
 {
 
-  GST_DEBUG_OBJECT (operation, "num_sinks:%d , realsinks:%d",
-      operation->num_sinks, operation->realsinks);
-  if ((operation->dynamicsinks) ||
-      (operation->num_sinks == operation->realsinks))
+  GST_DEBUG_OBJECT (operation, "num_sinks:%d , realsinks:%d, dynamicsinks:%d",
+      operation->num_sinks, operation->realsinks, operation->dynamicsinks);
+
+  if (operation->num_sinks == operation->realsinks)
     return;
 
   if (operation->num_sinks > operation->realsinks) {

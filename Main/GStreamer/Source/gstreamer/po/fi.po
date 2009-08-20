@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.10.22.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-10 22:30+0100\n"
+"POT-Creation-Date: 2009-08-04 23:00+0100\n"
 "PO-Revision-Date: 2009-04-19 21:15+0300\n"
 "Last-Translator: Tommi Vainikainen <Tommi.Vainikainen@iki.fi>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
@@ -128,8 +128,10 @@ msgstr ""
 msgid "Internal GStreamer error: code not implemented."
 msgstr "Sisäinen GStreamer-virhe: koodia ei toteutettu."
 
-msgid "Internal GStreamer error: state change failed."
-msgstr "Sisäinen GStreamer-virhe: tilasiirtymä epäonnistui."
+msgid ""
+"GStreamer error: state change failed and some element failed to post a "
+"proper error message with the reason for the failure."
+msgstr ""
 
 msgid "Internal GStreamer error: pad problem."
 msgstr "Sisäinen GStreamer-virhe: täyteongelma."
@@ -464,6 +466,14 @@ msgstr "tekstityskoodekki"
 msgid "codec the subtitle data is stored in"
 msgstr "koodekki, jolla tekstitystiedot on tallennettu"
 
+#, fuzzy
+msgid "container format"
+msgstr "yhteystiedot"
+
+#, fuzzy
+msgid "container format the data is stored in"
+msgstr "koodekki, jolla data on tallennettu"
+
 msgid "bitrate"
 msgstr "bittinopeus"
 
@@ -575,8 +585,9 @@ msgstr "pilkuilla erotellut avainsanat,jotka kuvaavat sisältöä"
 msgid "geo location name"
 msgstr "maantietellisen sijainnin nimi"
 
+#, fuzzy
 msgid ""
-"human readable descriptive location or where the media has been recorded or "
+"human readable descriptive location of where the media has been recorded or "
 "produced"
 msgstr ""
 "ihmisluettava kuvaus sijainnista tai paikasta, jossa media on nauhoitettu "
@@ -680,6 +691,9 @@ msgstr "Sisäinen kellovirhe."
 msgid "Internal data flow error."
 msgstr "Sisäinen tiedon virtausvirhe."
 
+msgid "A lot of buffers are being dropped."
+msgstr ""
+
 msgid "Internal data flow problem."
 msgstr "Sisäinen tiedon virtausongelma."
 
@@ -695,14 +709,6 @@ msgid ""
 msgstr ""
 "Rajoita mahdollisia sallittuja kykyjä (NULL tarkoittaa mitä tahansa). Tämän "
 "ominaisuuden asettaminen ottaa kahvan annettuun GstCaps-olioon."
-
-#, c-format
-msgid "Error while writing to file descriptor \"%d\"."
-msgstr "Virhe kirjoitettaessa tiedostokahvaan \"%d\"."
-
-#, c-format
-msgid "File descriptor \"%d\" is not valid."
-msgstr "Tiedostokahva \"%d\" on virheellinen."
 
 msgid "No file name specified for writing."
 msgstr "Kirjoitusta varten ei määritetty tiedostonimeä."
@@ -843,7 +849,20 @@ msgstr "VIRHE: ei voitu jäsentää komentoriviargumenttia %d: %s.\n"
 msgid "WARNING: element named '%s' not found.\n"
 msgstr "VAROITUS: elementtiä nimeltä \"%s\" ei löytynyt.\n"
 
-msgid "Got Message #%"
+#, fuzzy, c-format
+msgid "Got message #%u from element \"%s\" (%s): "
+msgstr "Saatiin Viesti elementiltä \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u from pad \"%s:%s\" (%s): "
+msgstr "Saatiin Viesti elementiltä \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u from object \"%s\" (%s): "
+msgstr "Saatiin Viesti elementiltä \"%s\" (%s): "
+
+#, fuzzy, c-format
+msgid "Got message #%u (%s): "
 msgstr "Saatiin viesti #%"
 
 #, c-format
@@ -853,6 +872,17 @@ msgstr "Saatiin EOS (virran loppu) elementiltä \"%s\".\n"
 #, c-format
 msgid "FOUND TAG      : found by element \"%s\".\n"
 msgstr "LÖYTYI MERKINTÄ: sen löysi elementti \"%s\".\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by pad \"%s:%s\".\n"
+msgstr "LÖYTYI MERKINTÄ: sen löysi elementti \"%s\".\n"
+
+#, fuzzy, c-format
+msgid "FOUND TAG      : found by object \"%s\".\n"
+msgstr "LÖYTYI MERKINTÄ: sen löysi elementti \"%s\".\n"
+
+msgid "FOUND TAG\n"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -985,11 +1015,17 @@ msgstr "Asetetaan liukuhihna tilaan TYHJÄ...\n"
 msgid "Freeing pipeline ...\n"
 msgstr "Vapautetaan liukuhihna...\n"
 
+#~ msgid "Internal GStreamer error: state change failed."
+#~ msgstr "Sisäinen GStreamer-virhe: tilasiirtymä epäonnistui."
+
+#~ msgid "Error while writing to file descriptor \"%d\"."
+#~ msgstr "Virhe kirjoitettaessa tiedostokahvaan \"%d\"."
+
+#~ msgid "File descriptor \"%d\" is not valid."
+#~ msgstr "Tiedostokahva \"%d\" on virheellinen."
+
 #~ msgid "FREEING pipeline ...\n"
 #~ msgstr "VAPAUTETAAN liukuhihna...\n"
-
-#~ msgid "Got Message from element \"%s\" (%s): "
-#~ msgstr "Saatiin Viesti elementiltä \"%s\" (%s): "
 
 #~ msgid "original location of file as a URI"
 #~ msgstr "tiedoston alkuperäinen sijainti URI:na"

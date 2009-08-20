@@ -232,6 +232,9 @@ struct _GstBaseSrcPrivate
 
   /* stream sequence number */
   guint32 seqnum;
+
+  /* pending tags to be pushed in the data stream */
+  GList *pending_tags;
 };
 
 static GstElementClass *parent_class = NULL;
@@ -437,6 +440,11 @@ gst_base_src_finalize (GObject * object)
 
   event_p = &basesrc->data.ABI.pending_seek;
   gst_event_replace (event_p, NULL);
+
+  if (basesrc->priv->pending_tags) {
+    g_list_foreach (basesrc->priv->pending_tags, (GFunc) gst_event_unref, NULL);
+    g_list_free (basesrc->priv->pending_tags);
+  }
 
   G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -842,9 +850,20 @@ gst_base_src_default_query (GstBaseSrc * src, GstQuery * query)
 
     case GST_QUERY_SEEKING:
     {
-      gst_query_set_seeking (query, src->segment.format,
-          gst_base_src_seekable (src), 0, src->segment.duration);
-      res = TRUE;
+      GstFormat format;
+
+      gst_query_parse_seeking (query, &format, NULL, NULL, NULL);
+      if (format == src->segment.format) {
+        gst_query_set_seeking (query, src->segment.format,
+            gst_base_src_seekable (src), 0, src->segment.duration);
+        res = TRUE;
+      } else {
+        /* FIXME 0.11: return TRUE + seekable=FALSE for SEEKING query here */
+        /* Don't reply to the query to make up for demuxers which don't
+         * handle the SEEKING query yet. Players like Totem will fall back
+         * to the duration when the SEEKING query isn't answered. */
+        res = FALSE;
+      }
       break;
     }
     case GST_QUERY_SEGMENT:
@@ -1147,7 +1166,7 @@ gst_base_src_prepare_seek_segment (GstBaseSrc * src, GstEvent * event,
 static gboolean
 gst_base_src_perform_seek (GstBaseSrc * src, GstEvent * event, gboolean unlock)
 {
-  gboolean res = TRUE;
+  gboolean res = TRUE, tres;
   gdouble rate;
   GstFormat seek_format, dest_format;
   GstSeekFlags flags;
@@ -1334,8 +1353,10 @@ gst_base_src_perform_seek (GstBaseSrc * src, GstEvent * event, gboolean unlock)
   src->data.ABI.running = TRUE;
   /* and restart the task in case it got paused explicitely or by
    * the FLUSH_START event we pushed out. */
-  gst_pad_start_task (src->srcpad, (GstTaskFunction) gst_base_src_loop,
+  tres = gst_pad_start_task (src->srcpad, (GstTaskFunction) gst_base_src_loop,
       src->srcpad);
+  if (res && !tres)
+    res = FALSE;
 
   /* and release the lock again so we can continue streaming */
   GST_PAD_STREAM_UNLOCK (src->srcpad);
@@ -1435,7 +1456,12 @@ gst_base_src_send_event (GstElement * element, GstEvent * event)
       /* sending random NEWSEGMENT downstream can break sync. */
       break;
     case GST_EVENT_TAG:
-      /* sending tags could be useful, FIXME insert in dataflow */
+      /* Insert tag in the dataflow */
+      GST_OBJECT_LOCK (src);
+      src->priv->pending_tags = g_list_append (src->priv->pending_tags, event);
+      GST_OBJECT_UNLOCK (src);
+      event = NULL;
+      result = TRUE;
       break;
     case GST_EVENT_BUFFERSIZE:
       /* does not seem to make much sense currently */
@@ -1456,6 +1482,7 @@ gst_base_src_send_event (GstElement * element, GstEvent * event)
       GST_OBJECT_UNLOCK (src->srcpad);
 
       if (started) {
+        GST_DEBUG_OBJECT (src, "performing seek");
         /* when we are running in push mode, we can execute the
          * seek right now, we need to unlock. */
         result = gst_base_src_perform_seek (src, event, TRUE);
@@ -1465,6 +1492,7 @@ gst_base_src_send_event (GstElement * element, GstEvent * event)
         /* else we store the event and execute the seek when we
          * get activated */
         GST_OBJECT_LOCK (src);
+        GST_DEBUG_OBJECT (src, "queueing seek");
         event_p = &src->data.ABI.pending_seek;
         gst_event_replace ((GstEvent **) event_p, event);
         GST_OBJECT_UNLOCK (src);
@@ -2149,6 +2177,7 @@ gst_base_src_loop (GstPad * pad)
   gint64 position;
   gboolean eos;
   gulong blocksize;
+  GList *tags, *tmp;
 
   eos = FALSE;
 
@@ -2202,6 +2231,21 @@ gst_base_src_loop (GstPad * pad)
   if (G_UNLIKELY (src->priv->start_segment)) {
     gst_pad_push_event (pad, src->priv->start_segment);
     src->priv->start_segment = NULL;
+  }
+
+  GST_OBJECT_LOCK (src);
+  /* take the tags */
+  tags = src->priv->pending_tags;
+  src->priv->pending_tags = NULL;
+  GST_OBJECT_UNLOCK (src);
+
+  /* Push out pending tags if any */
+  if (G_UNLIKELY (tags != NULL)) {
+    for (tmp = tags; tmp; tmp = g_list_next (tmp)) {
+      GstEvent *ev = (GstEvent *) tmp->data;
+      gst_pad_push_event (pad, ev);
+    }
+    g_list_free (tags);
   }
 
   /* figure out the new position */

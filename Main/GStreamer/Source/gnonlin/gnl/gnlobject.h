@@ -33,6 +33,7 @@ G_BEGIN_DECLS
   (gnl_object_get_type())
 #define GNL_OBJECT(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST((obj),GNL_TYPE_OBJECT,GnlObject))
+#define GNL_OBJECT_CAST(obj) ((GnlObject*) (obj))
 #define GNL_OBJECT_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_CAST((klass),GNL_TYPE_OBJECT,GnlObjectClass))
 #define GNL_OBJECT_GET_CLASS(obj) \
@@ -46,6 +47,7 @@ G_BEGIN_DECLS
  * GnlObjectFlags:
  * @GNL_OBJECT_IS_SOURCE:
  * @GNL_OBJECT_IS_OPERATION:
+ * @GNL_OBJECT_IS_EXPANDABLE: The #GnlObject start/stop will extend accross the full composition.
  * @GNL_OBJECT_LAST_FLAG:
 */
 
@@ -53,6 +55,7 @@ typedef enum
 {
   GNL_OBJECT_SOURCE = (GST_BIN_FLAG_LAST << 0),
   GNL_OBJECT_OPERATION = (GST_BIN_FLAG_LAST << 1),
+  GNL_OBJECT_EXPANDABLE = (GST_BIN_FLAG_LAST << 2),
   /* padding */
   GNL_OBJECT_LAST_FLAG = (GST_BIN_FLAG_LAST << 16)
 } GnlObjectFlags;
@@ -62,6 +65,8 @@ typedef enum
   (GST_OBJECT_FLAG_IS_SET(obj, GNL_OBJECT_SOURCE))
 #define GNL_OBJECT_IS_OPERATION(obj) \
   (GST_OBJECT_FLAG_IS_SET(obj, GNL_OBJECT_OPERATION))
+#define GNL_OBJECT_IS_EXPANDABLE(obj) \
+  (GST_OBJECT_FLAG_IS_SET(obj, GNL_OBJECT_EXPANDABLE))
 
 struct _GnlObject
 {

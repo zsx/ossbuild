@@ -8,7 +8,7 @@
 <link rel="up" href="gstreamer-video.html" title="Video Library">
 <link rel="prev" href="gst-plugins-base-libs-gstvideo.html" title="gstvideo">
 <link rel="next" href="gst-plugins-base-libs-gstvideofilter.html" title="gstvideofilter">
-<meta name="generator" content="GTK-Doc V1.10 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="part" href="gstreamer-plugins-base.html" title="Part I. GStreamer Base Plugins Libraries">
 <link rel="chapter" href="gstreamer-app.html" title="App Library">
@@ -37,11 +37,13 @@
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Library Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-base-libs-gstvideofilter.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
-<tr><td colspan="5" class="shortcuts"><nobr><a href="#gst-plugins-base-libs-gstvideosink.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#gst-plugins-base-libs-gstvideosink.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#gst-plugins-base-libs-gstvideosink.object-hierarchy" class="shortcut">Object Hierarchy</a></nobr></td></tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-libs-gstvideosink.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-base-libs-gstvideosink.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-base-libs-gstvideosink.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
 </table>
 <div class="refentry" lang="en">
 <a name="gst-plugins-base-libs-gstvideosink"></a><div class="titlepage"></div>
@@ -61,14 +63,14 @@
                     <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoSink-struct" title="GstVideoSink">GstVideoSink</a>;
                     <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoSinkClass" title="GstVideoSinkClass">GstVideoSinkClass</a>;
                     <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoRectangle" title="GstVideoRectangle">GstVideoRectangle</a>;
-#define             <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GST-VIDEO-SINK-HEIGHT:CAPS" title="GST_VIDEO_SINK_HEIGHT()">GST_VIDEO_SINK_HEIGHT</a>               (obj)
-#define             <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GST-VIDEO-SINK-PAD:CAPS" title="GST_VIDEO_SINK_PAD()">GST_VIDEO_SINK_PAD</a>                  (obj)
-#define             <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GST-VIDEO-SINK-WIDTH:CAPS" title="GST_VIDEO_SINK_WIDTH()">GST_VIDEO_SINK_WIDTH</a>                (obj)
+#define             <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GST-VIDEO-SINK-HEIGHT--CAPS" title="GST_VIDEO_SINK_HEIGHT()">GST_VIDEO_SINK_HEIGHT</a>               (obj)
+#define             <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GST-VIDEO-SINK-PAD--CAPS" title="GST_VIDEO_SINK_PAD()">GST_VIDEO_SINK_PAD</a>                  (obj)
+#define             <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GST-VIDEO-SINK-WIDTH--CAPS" title="GST_VIDEO_SINK_WIDTH()">GST_VIDEO_SINK_WIDTH</a>                (obj)
 void                <a class="link" href="gst-plugins-base-libs-gstvideosink.html#gst-video-sink-center-rect" title="gst_video_sink_center_rect ()">gst_video_sink_center_rect</a>          (<a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoRectangle" title="GstVideoRectangle">GstVideoRectangle</a> src,
                                                          <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoRectangle" title="GstVideoRectangle">GstVideoRectangle</a> dst,
                                                          <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoRectangle" title="GstVideoRectangle">GstVideoRectangle</a> *result,
                                                          <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> scaling);
 </pre>
 </div>
@@ -76,11 +78,17 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <a name="gst-plugins-base-libs-gstvideosink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSink
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
+>GstBaseSink</a>
                      +----GstVideoSink
 </pre>
 </div>
@@ -89,7 +97,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3120875"></a><p>
+<a name="id3359547"></a><p>
 Provides useful functions and a base class for video sinks. 
 </p>
 <p>
@@ -99,7 +107,6 @@ observing out-of-sync frames.
 </p>
 </div>
 <p>
-
 </p>
 </div>
 <div class="refsect1" lang="en">
@@ -108,7 +115,6 @@ observing out-of-sync frames.
 <a name="GstVideoSink-struct"></a><h3>GstVideoSink</h3>
 <pre class="programlisting">typedef struct _GstVideoSink GstVideoSink;</pre>
 <p>
-
 </p>
 </div>
 <hr>
@@ -121,7 +127,6 @@ observing out-of-sync frames.
 } GstVideoSinkClass;
 </pre>
 <p>
-
 </p>
 </div>
 <hr>
@@ -137,35 +142,34 @@ observing out-of-sync frames.
 <p>
 Helper structure representing a rectangular area.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
 <td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a> <em class="structfield"><code>x</code></em>;</span></p></td>
 <td> X coordinate of rectangle's top-left point
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a> <em class="structfield"><code>y</code></em>;</span></p></td>
 <td> Y coordinate of rectangle's top-left point
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a> <em class="structfield"><code>w</code></em>;</span></p></td>
 <td> width of the rectangle
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a> <em class="structfield"><code>h</code></em>;</span></p></td>
 <td> height of the rectangle
 </td>
@@ -175,32 +179,30 @@ href="../glib/glib-Basic-Types.html#gint"
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="GST-VIDEO-SINK-HEIGHT:CAPS"></a><h3>GST_VIDEO_SINK_HEIGHT()</h3>
+<a name="GST-VIDEO-SINK-HEIGHT--CAPS"></a><h3>GST_VIDEO_SINK_HEIGHT()</h3>
 <pre class="programlisting">#define GST_VIDEO_SINK_HEIGHT(obj) (GST_VIDEO_SINK_CAST (obj)-&gt;height)
 </pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="GST-VIDEO-SINK-PAD:CAPS"></a><h3>GST_VIDEO_SINK_PAD()</h3>
+<a name="GST-VIDEO-SINK-PAD--CAPS"></a><h3>GST_VIDEO_SINK_PAD()</h3>
 <pre class="programlisting">#define GST_VIDEO_SINK_PAD(obj) GST_BASE_SINK_PAD(obj)
 </pre>
 <p>
-Get the sink <span class="type">GstPad</span> of <em class="parameter"><code>obj</code></em>.</p>
+Get the sink <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPad.html"
+><span class="type">GstPad</span></a> of <em class="parameter"><code>obj</code></em>.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -213,19 +215,16 @@ Get the sink <span class="type">GstPad</span> of <em class="parameter"><code>obj
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="GST-VIDEO-SINK-WIDTH:CAPS"></a><h3>GST_VIDEO_SINK_WIDTH()</h3>
+<a name="GST-VIDEO-SINK-WIDTH--CAPS"></a><h3>GST_VIDEO_SINK_WIDTH()</h3>
 <pre class="programlisting">#define GST_VIDEO_SINK_WIDTH(obj) (GST_VIDEO_SINK_CAST (obj)-&gt;width)
 </pre>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>obj</code></em> :</span></p></td>
 <td>
-
-
 </td>
 </tr></tbody>
 </table></div>
@@ -237,14 +236,13 @@ Get the sink <span class="type">GstPad</span> of <em class="parameter"><code>obj
                                                          <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoRectangle" title="GstVideoRectangle">GstVideoRectangle</a> dst,
                                                          <a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoRectangle" title="GstVideoRectangle">GstVideoRectangle</a> *result,
                                                          <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a> scaling);</pre>
 <p>
 Takes <em class="parameter"><code>src</code></em> rectangle and position it at the center of <em class="parameter"><code>dst</code></em> rectangle with or
 without <em class="parameter"><code>scaling</code></em>. It handles clipping if the <em class="parameter"><code>src</code></em> rectangle is bigger than
 the <em class="parameter"><code>dst</code></em> one and <em class="parameter"><code>scaling</code></em> is set to FALSE.</p>
 <p>
-
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -267,7 +265,7 @@ the <em class="parameter"><code>dst</code></em> one and <em class="parameter"><c
 <tr>
 <td><p><span class="term"><em class="parameter"><code>scaling</code></em> :</span></p></td>
 <td> a <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 ><span class="type">gboolean</span></a> indicating if scaling should be applied or not
 </td>
 </tr>
@@ -278,6 +276,6 @@ href="../glib/glib-Basic-Types.html#gboolean"
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.10</div>
+          Generated by GTK-Doc V1.11</div>
 </body>
 </html>

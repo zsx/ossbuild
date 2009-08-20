@@ -373,7 +373,8 @@ gst_file_src_set_location (GstFileSrc * src, const gchar * location)
   /* ERROR */
 wrong_state:
   {
-    GST_DEBUG_OBJECT (src, "setting location in wrong state");
+    g_warning ("Changing the `location' property on filesink when a file is "
+        "open is not supported.");
     GST_OBJECT_UNLOCK (src);
     return FALSE;
   }
@@ -1132,6 +1133,7 @@ gst_file_src_uri_set_uri (GstURIHandler * handler, const gchar * uri)
   gchar *location, *hostname = NULL;
   gboolean ret = FALSE;
   GstFileSrc *src = GST_FILE_SRC (handler);
+  GError *error = NULL;
 
   if (strcmp (uri, "file://") == 0) {
     /* Special case for "file://" as this is used by some applications
@@ -1141,10 +1143,16 @@ gst_file_src_uri_set_uri (GstURIHandler * handler, const gchar * uri)
     return TRUE;
   }
 
-  location = g_filename_from_uri (uri, &hostname, NULL);
+  location = g_filename_from_uri (uri, &hostname, &error);
 
-  if (!location) {
-    GST_WARNING_OBJECT (src, "Invalid URI '%s' for filesrc", uri);
+  if (!location || error) {
+    if (error) {
+      GST_WARNING_OBJECT (src, "Invalid URI '%s' for filesrc: %s", uri,
+          error->message);
+      g_error_free (error);
+    } else {
+      GST_WARNING_OBJECT (src, "Invalid URI '%s' for filesrc", uri);
+    }
     goto beach;
   }
 

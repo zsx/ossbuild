@@ -59,11 +59,17 @@ enum                <a class="link" href="gst-plugins-base-plugins-multifdsink.h
 <a name="gst-plugins-base-plugins-multifdsink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSink
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
+>GstBaseSink</a>
                      +----GstMultiFdSink
                            +----<a class="link" href="gst-plugins-base-plugins-tcpserversink.html#GstTCPServerSink">GstTCPServerSink</a>
 </pre>
@@ -72,53 +78,62 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-multifdsink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--buffers-max" title='The "buffers-max" property'>buffers-max</a>"              <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--buffers-queued" title='The "buffers-queued" property'>buffers-queued</a>"           <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--buffers-soft-max" title='The "buffers-soft-max" property'>buffers-soft-max</a>"         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--bytes-served" title='The "bytes-served" property'>bytes-served</a>"             <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--bytes-to-serve" title='The "bytes-to-serve" property'>bytes-to-serve</a>"           <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--mode" title='The "mode" property'>mode</a>"                     GstFDSetMode          : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--protocol" title='The "protocol" property'>protocol</a>"                 <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstTCPProtocol" title="enum GstTCPProtocol">GstTCPProtocol</a>        : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--recover-policy" title='The "recover-policy" property'>recover-policy</a>"           <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstRecoverPolicy" title="enum GstRecoverPolicy">GstRecoverPolicy</a>      : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--sync-clients" title='The "sync-clients" property'>sync-clients</a>"             <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--sync-method" title='The "sync-method" property'>sync-method</a>"              <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstSyncMethod" title="enum GstSyncMethod">GstSyncMethod</a>         : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--timeout" title='The "timeout" property'>timeout</a>"                  <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--buffers-min" title='The "buffers-min" property'>buffers-min</a>"              <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--burst-unit" title='The "burst-unit" property'>burst-unit</a>"               <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstTCPUnitType" title="enum GstTCPUnitType">GstTCPUnitType</a>        : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--burst-value" title='The "burst-value" property'>burst-value</a>"              <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--bytes-min" title='The "bytes-min" property'>bytes-min</a>"                <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--time-min" title='The "time-min" property'>time-min</a>"                 <a
-href="../glib/glib-Basic-Types.html#gint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--unit-type" title='The "unit-type" property'>unit-type</a>"                <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstTCPUnitType" title="enum GstTCPUnitType">GstTCPUnitType</a>        : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--units-max" title='The "units-max" property'>units-max</a>"                <a
-href="../glib/glib-Basic-Types.html#gint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--units-soft-max" title='The "units-soft-max" property'>units-soft-max</a>"           <a
-href="../glib/glib-Basic-Types.html#gint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--qos-dscp" title='The "qos-dscp" property'>qos-dscp</a>"                 <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--handle-read" title='The "handle-read" property'>handle-read</a>"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--resend-streamheader" title='The "resend-streamheader" property'>resend-streamheader</a>"      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink--num-fds" title='The "num-fds" property'>num-fds</a>"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -224,7 +239,7 @@ Last reviewed on 2006-09-12 (0.10.10)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2669547"></a><h3>Element Information</h3>
+<a name="id2675167"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -247,7 +262,57 @@ Last reviewed on 2006-09-12 (0.10.10)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2669610"></a><h3>Element Pads</h3>
+<a name="id2675231"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2675308"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-base-plugins-plugin-tcp.html#plugin-tcp">tcp</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Thomas Vander Stichele &lt;thomas at apestaart dot org&gt;, Wim Taymans &lt;wim@fluendo.com&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Sink/Network</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2675372"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -527,7 +592,7 @@ The units used to specify limits.</p>
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--buffers-max"></a><h3>The <code class="literal">"buffers-max"</code> property</h3>
 <pre class="programlisting">  "buffers-max"              <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>max number of buffers to queue for a client (-1 = no limit).</p>
 <p>Allowed values: &gt;= -1</p>
@@ -537,7 +602,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--buffers-queued"></a><h3>The <code class="literal">"buffers-queued"</code> property</h3>
 <pre class="programlisting">  "buffers-queued"           <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read</pre>
 <p>Number of buffers currently queued.</p>
 <p>Default value: 0</p>
@@ -546,7 +611,7 @@ href="../glib/glib-Basic-Types.html#guint"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--buffers-soft-max"></a><h3>The <code class="literal">"buffers-soft-max"</code> property</h3>
 <pre class="programlisting">  "buffers-soft-max"         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Recover client when going over this limit (-1 = no limit).</p>
 <p>Allowed values: &gt;= -1</p>
@@ -556,7 +621,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--bytes-served"></a><h3>The <code class="literal">"bytes-served"</code> property</h3>
 <pre class="programlisting">  "bytes-served"             <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read</pre>
 <p>Total number of bytes send to all clients.</p>
 <p>Default value: 0</p>
@@ -565,7 +630,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--bytes-to-serve"></a><h3>The <code class="literal">"bytes-to-serve"</code> property</h3>
 <pre class="programlisting">  "bytes-to-serve"           <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read</pre>
 <p>Number of bytes received to serve to clients.</p>
 <p>Default value: 0</p>
@@ -595,7 +660,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--sync-clients"></a><h3>The <code class="literal">"sync-clients"</code> property</h3>
 <pre class="programlisting">  "sync-clients"             <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>(DEPRECATED) Sync clients to a keyframe.</p>
 <p>Default value: FALSE</p>
@@ -611,7 +676,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--timeout"></a><h3>The <code class="literal">"timeout"</code> property</h3>
 <pre class="programlisting">  "timeout"                  <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>Maximum inactivity timeout in nanoseconds for a client (0 = no limit).</p>
 <p>Default value: 0</p>
@@ -620,7 +685,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--buffers-min"></a><h3>The <code class="literal">"buffers-min"</code> property</h3>
 <pre class="programlisting">  "buffers-min"              <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>min number of buffers to queue (-1 = as few as possible).</p>
 <p>Allowed values: &gt;= -1</p>
@@ -637,7 +702,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--burst-value"></a><h3>The <code class="literal">"burst-value"</code> property</h3>
 <pre class="programlisting">  "burst-value"              <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>The amount of burst expressed in burst-unit.</p>
 <p>Default value: 0</p>
@@ -646,7 +711,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--bytes-min"></a><h3>The <code class="literal">"bytes-min"</code> property</h3>
 <pre class="programlisting">  "bytes-min"                <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>min number of bytes to queue (-1 = as little as possible).</p>
 <p>Allowed values: &gt;= -1</p>
@@ -656,7 +721,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--time-min"></a><h3>The <code class="literal">"time-min"</code> property</h3>
 <pre class="programlisting">  "time-min"                 <a
-href="../glib/glib-Basic-Types.html#gint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
 <p>min number of time to queue (-1 = as little as possible).</p>
 <p>Allowed values: &gt;= -1</p>
@@ -673,7 +738,7 @@ href="../glib/glib-Basic-Types.html#gint64"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--units-max"></a><h3>The <code class="literal">"units-max"</code> property</h3>
 <pre class="programlisting">  "units-max"                <a
-href="../glib/glib-Basic-Types.html#gint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
 <p>max number of units to queue (-1 = no limit).</p>
 <p>Allowed values: &gt;= -1</p>
@@ -683,7 +748,7 @@ href="../glib/glib-Basic-Types.html#gint64"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--units-soft-max"></a><h3>The <code class="literal">"units-soft-max"</code> property</h3>
 <pre class="programlisting">  "units-soft-max"           <a
-href="../glib/glib-Basic-Types.html#gint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
 <p>Recover client when going over this limit (-1 = no limit).</p>
 <p>Allowed values: &gt;= -1</p>
@@ -693,11 +758,38 @@ href="../glib/glib-Basic-Types.html#gint64"
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink--qos-dscp"></a><h3>The <code class="literal">"qos-dscp"</code> property</h3>
 <pre class="programlisting">  "qos-dscp"                 <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Quality of Service, differentiated services code point (-1 default).</p>
 <p>Allowed values: [-1,63]</p>
 <p>Default value: -1</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstMultiFdSink--handle-read"></a><h3>The <code class="literal">"handle-read"</code> property</h3>
+<pre class="programlisting">  "handle-read"              <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Handle client reads and discard the data.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstMultiFdSink--resend-streamheader"></a><h3>The <code class="literal">"resend-streamheader"</code> property</h3>
+<pre class="programlisting">  "resend-streamheader"      <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Resend the streamheader if it changes in the caps.</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstMultiFdSink--num-fds"></a><h3>The <code class="literal">"num-fds"</code> property</h3>
+<pre class="programlisting">  "num-fds"                  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read</pre>
+<p>The current number of client file descriptors.</p>
+<p>Default value: 0</p>
 </div>
 </div>
 <div class="refsect1" lang="en">
@@ -706,10 +798,10 @@ href="../glib/glib-Basic-Types.html#gint"
 <a name="GstMultiFdSink-add"></a><h3>The <code class="literal">"add"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>            fd,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last / Action</pre>
 <p>
 Hand the given open file descriptor to multifdsink to write to.</p>
@@ -740,7 +832,7 @@ Hand the given open file descriptor to multifdsink to write to.</p>
 <a name="GstMultiFdSink-clear"></a><h3>The <code class="literal">"clear"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last / Action</pre>
 <p>
 Remove all file descriptors from multifdsink.  Since multifdsink did not
@@ -768,10 +860,10 @@ should do so by connecting to the client-fd-removed callback.</p>
 <a name="GstMultiFdSink-client-added"></a><h3>The <code class="literal">"client-added"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>            fd,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last</pre>
 <p>
 The given file descriptor was added to multifdsink. This signal will
@@ -804,11 +896,11 @@ for that.</p>
 <a name="GstMultiFdSink-client-removed"></a><h3>The <code class="literal">"client-removed"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>            fd,
                                                         <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstClientStatus" title="enum GstClientStatus">GstClientStatus</a> status,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last</pre>
 <p>
 The given file descriptor is about to be removed from multifdsink. This
@@ -850,13 +942,13 @@ not safe to <code class="function">close()</code> and reuse <em class="parameter
 <div class="refsect2" lang="en">
 <a name="GstMultiFdSink-get-stats"></a><h3>The <code class="literal">"get-stats"</code> signal</h3>
 <pre class="programlisting"><a
-href="../gobject/gobject-Value-arrays.html#GValueArray"
+href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
 >GValueArray</a>*        user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>            fd,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last / Action</pre>
 <p>
 Get statistics about <em class="parameter"><code>fd</code></em>. This function returns a GValueArray to ease
@@ -899,10 +991,10 @@ automatic wrapping for bindings.</p>
 <a name="GstMultiFdSink-remove"></a><h3>The <code class="literal">"remove"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>            fd,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last / Action</pre>
 <p>
 Remove the given open file descriptor from multifdsink.</p>
@@ -933,10 +1025,10 @@ Remove the given open file descriptor from multifdsink.</p>
 <a name="GstMultiFdSink-client-fd-removed"></a><h3>The <code class="literal">"client-fd-removed"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>            fd,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last</pre>
 <p>
 The given file descriptor was removed from multifdsink. This signal will
@@ -975,21 +1067,19 @@ with <em class="parameter"><code>fd</code></em>. It is however safe to <code cla
 <a name="GstMultiFdSink-add-full"></a><h3>The <code class="literal">"add-full"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>            fd,
-                                                        <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>        sync,
+                                                        <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstSyncMethod" title="enum GstSyncMethod">GstSyncMethod</a>   sync,
                                                         <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstTCPUnitType" title="enum GstTCPUnitType">GstTCPUnitType</a>  unit_type_min,
                                                         <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>         value_min,
                                                         <a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstTCPUnitType" title="enum GstTCPUnitType">GstTCPUnitType</a>  unit_type_max,
                                                         <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>         value_max,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last / Action</pre>
 <p>
 Hand the given open file descriptor to multifdsink to write to and
@@ -1048,10 +1138,10 @@ specify the burst parameters for the new connection.</p>
 <a name="GstMultiFdSink-remove-flush"></a><h3>The <code class="literal">"remove-flush"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-multifdsink.html#GstMultiFdSink">GstMultiFdSink</a> *gstmultifdsink,
                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>            fd,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>        user_data)           : Run Last / Action</pre>
 <p>
 Remove the given open file descriptor from multifdsink after flushing all

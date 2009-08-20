@@ -2,6 +2,7 @@ EXPORTS
 	GST_CAT_AUTOPLUG DATA
 	GST_CAT_AUTOPLUG_ATTEMPT DATA
 	GST_CAT_BUFFER DATA
+	GST_CAT_BUFFER_LIST DATA
 	GST_CAT_BUS DATA
 	GST_CAT_CALL_TRACE DATA
 	GST_CAT_CAPS DATA
@@ -16,6 +17,7 @@ EXPORTS
 	GST_CAT_PADS DATA
 	GST_CAT_PARAMS DATA
 	GST_CAT_PARENTAGE DATA
+	GST_CAT_PERFORMANCE DATA
 	GST_CAT_PIPELINE DATA
 	GST_CAT_PLUGIN_INFO DATA
 	GST_CAT_PLUGIN_LOADING DATA
@@ -32,15 +34,19 @@ EXPORTS
 	__gst_debug_enabled DATA
 	__gst_debug_min DATA
 	_gst_alloc_trace_register
+	_gst_buffer_list_initialize
 	_gst_debug_bin_to_dot_file
 	_gst_debug_bin_to_dot_file_with_ts
 	_gst_debug_category_new
 	_gst_debug_dump_mem
+	_gst_debug_get_category
 	_gst_debug_nameof_funcptr
 	_gst_debug_register_funcptr
 	_gst_element_error_printf
+	_gst_elementclass_factory DATA
 	_gst_plugin_register_static
 	_gst_trace_add_entry
+	_gst_trace_mutex DATA
 	_gst_trace_on DATA
 	gst_activate_mode_get_type
 	gst_alloc_trace_available
@@ -84,6 +90,24 @@ EXPORTS
 	gst_buffer_is_metadata_writable
 	gst_buffer_is_span_fast
 	gst_buffer_join
+	gst_buffer_list_foreach
+	gst_buffer_list_get
+	gst_buffer_list_get_type
+	gst_buffer_list_item_get_type
+	gst_buffer_list_iterate
+	gst_buffer_list_iterator_add
+	gst_buffer_list_iterator_add_group
+	gst_buffer_list_iterator_do
+	gst_buffer_list_iterator_free
+	gst_buffer_list_iterator_merge_group
+	gst_buffer_list_iterator_n_buffers
+	gst_buffer_list_iterator_next
+	gst_buffer_list_iterator_next_group
+	gst_buffer_list_iterator_remove
+	gst_buffer_list_iterator_steal
+	gst_buffer_list_iterator_take
+	gst_buffer_list_n_groups
+	gst_buffer_list_new
 	gst_buffer_make_metadata_writable
 	gst_buffer_merge
 	gst_buffer_new
@@ -273,6 +297,7 @@ EXPORTS
 	gst_element_get_pad
 	gst_element_get_query_types
 	gst_element_get_request_pad
+	gst_element_get_start_time
 	gst_element_get_state
 	gst_element_get_static_pad
 	gst_element_get_type
@@ -288,6 +313,7 @@ EXPORTS
 	gst_element_link_pads
 	gst_element_link_pads_filtered
 	gst_element_lost_state
+	gst_element_lost_state_full
 	gst_element_make_from_uri
 	gst_element_message_full
 	gst_element_no_more_pads
@@ -311,6 +337,7 @@ EXPORTS
 	gst_element_set_clock
 	gst_element_set_index
 	gst_element_set_locked_state
+	gst_element_set_start_time
 	gst_element_set_state
 	gst_element_state_change_return_get_name
 	gst_element_state_get_name
@@ -334,6 +361,7 @@ EXPORTS
 	gst_event_new_new_segment_full
 	gst_event_new_qos
 	gst_event_new_seek
+	gst_event_new_step
 	gst_event_new_tag
 	gst_event_parse_buffer_size
 	gst_event_parse_latency
@@ -341,6 +369,7 @@ EXPORTS
 	gst_event_parse_new_segment_full
 	gst_event_parse_qos
 	gst_event_parse_seek
+	gst_event_parse_step
 	gst_event_parse_tag
 	gst_event_set_seqnum
 	gst_event_type_flags_get_type
@@ -446,6 +475,7 @@ EXPORTS
 	gst_marshal_VOID__POINTER_OBJECT
 	gst_marshal_VOID__UINT_BOXED
 	gst_message_get_seqnum
+	gst_message_get_stream_status_object
 	gst_message_get_structure
 	gst_message_get_type
 	gst_message_new_application
@@ -467,8 +497,12 @@ EXPORTS
 	gst_message_new_segment_start
 	gst_message_new_state_changed
 	gst_message_new_state_dirty
+	gst_message_new_step_done
+	gst_message_new_step_start
+	gst_message_new_stream_status
 	gst_message_new_structure_change
 	gst_message_new_tag
+	gst_message_new_tag_full
 	gst_message_new_warning
 	gst_message_parse_async_start
 	gst_message_parse_buffering
@@ -483,11 +517,16 @@ EXPORTS
 	gst_message_parse_segment_done
 	gst_message_parse_segment_start
 	gst_message_parse_state_changed
+	gst_message_parse_step_done
+	gst_message_parse_step_start
+	gst_message_parse_stream_status
 	gst_message_parse_structure_change
 	gst_message_parse_tag
+	gst_message_parse_tag_full
 	gst_message_parse_warning
 	gst_message_set_buffering_stats
 	gst_message_set_seqnum
+	gst_message_set_stream_status_object
 	gst_message_type_get_name
 	gst_message_type_get_type
 	gst_message_type_to_quark
@@ -511,6 +550,7 @@ EXPORTS
 	gst_object_get_type
 	gst_object_has_ancestor
 	gst_object_ref
+	gst_object_ref_sink
 	gst_object_replace
 	gst_object_restore_thyself
 	gst_object_save_thyself
@@ -533,6 +573,7 @@ EXPORTS
 	gst_pad_alloc_buffer_and_set_caps
 	gst_pad_can_link
 	gst_pad_chain
+	gst_pad_chain_list
 	gst_pad_check_pull_range
 	gst_pad_direction_get_type
 	gst_pad_dispatcher
@@ -577,6 +618,7 @@ EXPORTS
 	gst_pad_pull_range
 	gst_pad_push
 	gst_pad_push_event
+	gst_pad_push_list
 	gst_pad_query
 	gst_pad_query_convert
 	gst_pad_query_default
@@ -600,6 +642,7 @@ EXPORTS
 	gst_pad_set_bufferalloc_function
 	gst_pad_set_caps
 	gst_pad_set_chain_function
+	gst_pad_set_chain_list_function
 	gst_pad_set_checkgetrange_function
 	gst_pad_set_element_private
 	gst_pad_set_event_function
@@ -667,6 +710,7 @@ EXPORTS
 	gst_plugin_feature_set_rank
 	gst_plugin_feature_type_name_filter
 	gst_plugin_flags_get_type
+	gst_plugin_get_cache_data
 	gst_plugin_get_description
 	gst_plugin_get_filename
 	gst_plugin_get_license
@@ -684,6 +728,8 @@ EXPORTS
 	gst_plugin_load_file
 	gst_plugin_name_filter
 	gst_plugin_register_static
+	gst_plugin_register_static_full
+	gst_plugin_set_cache_data
 	gst_poll_add_fd
 	gst_poll_fd_can_read
 	gst_poll_fd_can_write
@@ -799,7 +845,9 @@ EXPORTS
 	gst_segment_set_last_stop
 	gst_segment_set_newsegment
 	gst_segment_set_newsegment_full
+	gst_segment_set_running_time
 	gst_segment_set_seek
+	gst_segment_to_position
 	gst_segment_to_running_time
 	gst_segment_to_stream_time
 	gst_segtrap_is_enabled
@@ -814,6 +862,7 @@ EXPORTS
 	gst_static_pad_template_get_type
 	gst_stream_error_get_type
 	gst_stream_error_quark
+	gst_stream_status_type_get_type
 	gst_structure_change_type_get_type
 	gst_structure_copy
 	gst_structure_empty_new
@@ -824,6 +873,7 @@ EXPORTS
 	gst_structure_foreach
 	gst_structure_free
 	gst_structure_from_string
+	gst_structure_get
 	gst_structure_get_boolean
 	gst_structure_get_clock_time
 	gst_structure_get_date
@@ -838,12 +888,16 @@ EXPORTS
 	gst_structure_get_string
 	gst_structure_get_type
 	gst_structure_get_uint
+	gst_structure_get_valist
 	gst_structure_get_value
 	gst_structure_has_field
 	gst_structure_has_field_typed
 	gst_structure_has_name
 	gst_structure_id_empty_new
+	gst_structure_id_get
+	gst_structure_id_get_valist
 	gst_structure_id_get_value
+	gst_structure_id_new
 	gst_structure_id_set
 	gst_structure_id_set_valist
 	gst_structure_id_set_value
@@ -874,6 +928,7 @@ EXPORTS
 	gst_tag_list_add
 	gst_tag_list_add_valist
 	gst_tag_list_add_valist_values
+	gst_tag_list_add_value
 	gst_tag_list_add_values
 	gst_tag_list_copy
 	gst_tag_list_copy_value
@@ -916,6 +971,8 @@ EXPORTS
 	gst_tag_list_is_empty
 	gst_tag_list_merge
 	gst_tag_list_new
+	gst_tag_list_new_full
+	gst_tag_list_new_full_valist
 	gst_tag_list_remove_tag
 	gst_tag_merge_mode_get_type
 	gst_tag_merge_strings_with_comma
@@ -923,6 +980,7 @@ EXPORTS
 	gst_tag_register
 	gst_tag_setter_add_tag_valist
 	gst_tag_setter_add_tag_valist_values
+	gst_tag_setter_add_tag_value
 	gst_tag_setter_add_tag_values
 	gst_tag_setter_add_tags
 	gst_tag_setter_get_tag_list
@@ -933,11 +991,22 @@ EXPORTS
 	gst_tag_setter_set_tag_merge_mode
 	gst_task_cleanup_all
 	gst_task_create
+	gst_task_get_pool
 	gst_task_get_state
 	gst_task_get_type
 	gst_task_join
 	gst_task_pause
+	gst_task_pool_cleanup
+	gst_task_pool_get_type
+	gst_task_pool_join
+	gst_task_pool_new
+	gst_task_pool_prepare
+	gst_task_pool_push
 	gst_task_set_lock
+	gst_task_set_pool
+	gst_task_set_priority
+	gst_task_set_state
+	gst_task_set_thread_callbacks
 	gst_task_start
 	gst_task_state_get_type
 	gst_task_stop

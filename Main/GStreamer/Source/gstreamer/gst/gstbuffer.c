@@ -165,8 +165,8 @@ gst_buffer_finalize (GstBuffer * buffer)
 
   gst_caps_replace (&GST_BUFFER_CAPS (buffer), NULL);
 
-  GST_MINI_OBJECT_CLASS (gst_buffer_parent_class)->finalize
-      (GST_MINI_OBJECT_CAST (buffer));
+/*   ((GstMiniObjectClass *) */
+/*       gst_buffer_parent_class)->finalize (GST_MINI_OBJECT_CAST (buffer)); */
 }
 
 /**
@@ -193,6 +193,10 @@ gst_buffer_copy_metadata (GstBuffer * dest, const GstBuffer * src,
   g_return_if_fail (dest != NULL);
   g_return_if_fail (src != NULL);
 
+  /* nothing to copy if the buffers are the same */
+  if (G_UNLIKELY (dest == src))
+    return;
+
   GST_CAT_LOG (GST_CAT_BUFFER, "copy %p to %p", src, dest);
 
   if (flags & GST_BUFFER_COPY_FLAGS) {
@@ -201,7 +205,8 @@ gst_buffer_copy_metadata (GstBuffer * dest, const GstBuffer * src,
     /* copy relevant flags */
     mask = GST_BUFFER_FLAG_PREROLL | GST_BUFFER_FLAG_IN_CAPS |
         GST_BUFFER_FLAG_DELTA_UNIT | GST_BUFFER_FLAG_DISCONT |
-        GST_BUFFER_FLAG_GAP;
+        GST_BUFFER_FLAG_GAP | GST_BUFFER_FLAG_MEDIA1 |
+        GST_BUFFER_FLAG_MEDIA2 | GST_BUFFER_FLAG_MEDIA3;
     GST_MINI_OBJECT_FLAGS (dest) |= GST_MINI_OBJECT_FLAGS (src) & mask;
   }
 
@@ -213,10 +218,7 @@ gst_buffer_copy_metadata (GstBuffer * dest, const GstBuffer * src,
   }
 
   if (flags & GST_BUFFER_COPY_CAPS) {
-    if (GST_BUFFER_CAPS (src))
-      GST_BUFFER_CAPS (dest) = gst_caps_ref (GST_BUFFER_CAPS (src));
-    else
-      GST_BUFFER_CAPS (dest) = NULL;
+    gst_caps_replace (&GST_BUFFER_CAPS (dest), GST_BUFFER_CAPS (src));
   }
 }
 
@@ -483,7 +485,7 @@ gst_subbuffer_finalize (GstSubBuffer * buffer)
 {
   gst_buffer_unref (buffer->parent);
 
-  GST_MINI_OBJECT_CLASS (gst_subbuffer_parent_class)->finalize
+  ((GstMiniObjectClass *) gst_subbuffer_parent_class)->finalize
       (GST_MINI_OBJECT_CAST (buffer));
 }
 

@@ -10,6 +10,7 @@
       <sub name="Gst" link="gstreamer-Gst.html"/>
       <sub name="GstBin" link="GstBin.html"/>
       <sub name="GstBuffer" link="gstreamer-GstBuffer.html"/>
+      <sub name="GstBufferList" link="gstreamer-GstBufferList.html"/>
       <sub name="GstBus" link="GstBus.html"/>
       <sub name="GstCaps" link="gstreamer-GstCaps.html"/>
       <sub name="GstChildProxy" link="GstChildProxy.html"/>
@@ -46,6 +47,7 @@
       <sub name="GstTagList" link="gstreamer-GstTagList.html"/>
       <sub name="GstTagSetter" link="GstTagSetter.html"/>
       <sub name="GstTask" link="GstTask.html"/>
+      <sub name="GstTaskPool" link="GstTaskPool.html"/>
       <sub name="GstTypeFind" link="gstreamer-GstTypeFind.html"/>
       <sub name="GstTypeFindFactory" link="GstTypeFindFactory.html"/>
       <sub name="GstUriHandler" link="gstreamer-GstUriHandler.html"/>
@@ -63,7 +65,7 @@
     <sub name="Index of deprecated API" link="api-index-deprecated.html"/>
   </chapters>
   <functions>
-    <function name="Environment variables" link="gst-running.html#id2793560"/>
+    <function name="Environment variables" link="gst-running.html#id3034674"/>
     <function name="gst_init ()" link="gstreamer-Gst.html#gst-init"/>
     <function name="gst_init_check ()" link="gstreamer-Gst.html#gst-init-check"/>
     <function name="gst_init_get_option_group ()" link="gstreamer-Gst.html#gst-init-get-option-group"/>
@@ -75,7 +77,7 @@
     <function name="gst_registry_fork_is_enabled ()" link="gstreamer-Gst.html#gst-registry-fork-is-enabled"/>
     <function name="gst_registry_fork_set_enabled ()" link="gstreamer-Gst.html#gst-registry-fork-set-enabled"/>
     <function name="gst_update_registry ()" link="gstreamer-Gst.html#gst-update-registry"/>
-    <function name="Notes" link="GstBin.html#id2765330"/>
+    <function name="Notes" link="GstBin.html#id2976399"/>
     <function name="GstBin" link="GstBin.html#GstBin-struct"/>
     <function name="GstBinClass" link="GstBin.html#GstBinClass"/>
     <function name="gst_bin_new ()" link="GstBin.html#gst-bin-new"/>
@@ -148,6 +150,32 @@
     <function name="gst_buffer_stamp ()" link="gstreamer-GstBuffer.html#gst-buffer-stamp"/>
     <function name="gst_buffer_join ()" link="gstreamer-GstBuffer.html#gst-buffer-join"/>
     <function name="gst_buffer_merge ()" link="gstreamer-GstBuffer.html#gst-buffer-merge"/>
+    <function name="GstBufferList" link="gstreamer-GstBufferList.html#GstBufferList"/>
+    <function name="GstBufferListIterator" link="gstreamer-GstBufferList.html#GstBufferListIterator"/>
+    <function name="GstBufferListDoFunction ()" link="gstreamer-GstBufferList.html#GstBufferListDoFunction"/>
+    <function name="gst_buffer_list_new ()" link="gstreamer-GstBufferList.html#gst-buffer-list-new"/>
+    <function name="gst_buffer_list_ref ()" link="gstreamer-GstBufferList.html#gst-buffer-list-ref"/>
+    <function name="gst_buffer_list_unref ()" link="gstreamer-GstBufferList.html#gst-buffer-list-unref"/>
+    <function name="gst_buffer_list_copy ()" link="gstreamer-GstBufferList.html#gst-buffer-list-copy"/>
+    <function name="gst_buffer_list_is_writable()" link="gstreamer-GstBufferList.html#gst-buffer-list-is-writable"/>
+    <function name="gst_buffer_list_make_writable()" link="gstreamer-GstBufferList.html#gst-buffer-list-make-writable"/>
+    <function name="gst_buffer_list_n_groups ()" link="gstreamer-GstBufferList.html#gst-buffer-list-n-groups"/>
+    <function name="enum GstBufferListItem" link="gstreamer-GstBufferList.html#GstBufferListItem"/>
+    <function name="GstBufferListFunc ()" link="gstreamer-GstBufferList.html#GstBufferListFunc"/>
+    <function name="gst_buffer_list_foreach ()" link="gstreamer-GstBufferList.html#gst-buffer-list-foreach"/>
+    <function name="gst_buffer_list_get ()" link="gstreamer-GstBufferList.html#gst-buffer-list-get"/>
+    <function name="gst_buffer_list_iterate ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterate"/>
+    <function name="gst_buffer_list_iterator_free ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-free"/>
+    <function name="gst_buffer_list_iterator_n_buffers ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-n-buffers"/>
+    <function name="gst_buffer_list_iterator_add ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-add"/>
+    <function name="gst_buffer_list_iterator_add_group ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-add-group"/>
+    <function name="gst_buffer_list_iterator_next ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-next"/>
+    <function name="gst_buffer_list_iterator_next_group ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-next-group"/>
+    <function name="gst_buffer_list_iterator_remove ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-remove"/>
+    <function name="gst_buffer_list_iterator_steal ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-steal"/>
+    <function name="gst_buffer_list_iterator_take ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-take"/>
+    <function name="gst_buffer_list_iterator_do ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-do"/>
+    <function name="gst_buffer_list_iterator_merge_group ()" link="gstreamer-GstBufferList.html#gst-buffer-list-iterator-merge-group"/>
     <function name="GstBus" link="GstBus.html#GstBus-struct"/>
     <function name="enum GstBusFlags" link="GstBus.html#GstBusFlags"/>
     <function name="enum GstBusSyncReply" link="GstBus.html#GstBusSyncReply"/>
@@ -333,6 +361,7 @@
     <function name="GST_ELEMENT_BUS()" link="GstElement.html#GST-ELEMENT-BUS--CAPS"/>
     <function name="GST_ELEMENT_CLOCK()" link="GstElement.html#GST-ELEMENT-CLOCK--CAPS"/>
     <function name="GST_ELEMENT_PADS()" link="GstElement.html#GST-ELEMENT-PADS--CAPS"/>
+    <function name="GST_ELEMENT_START_TIME()" link="GstElement.html#GST-ELEMENT-START-TIME--CAPS"/>
     <function name="GST_ELEMENT_ERROR()" link="GstElement.html#GST-ELEMENT-ERROR--CAPS"/>
     <function name="GST_ELEMENT_WARNING()" link="GstElement.html#GST-ELEMENT-WARNING--CAPS"/>
     <function name="GST_ELEMENT_INFO()" link="GstElement.html#GST-ELEMENT-INFO--CAPS"/>
@@ -366,6 +395,8 @@
     <function name="gst_element_link_filtered ()" link="GstElement.html#gst-element-link-filtered"/>
     <function name="gst_element_set_base_time ()" link="GstElement.html#gst-element-set-base-time"/>
     <function name="gst_element_get_base_time ()" link="GstElement.html#gst-element-get-base-time"/>
+    <function name="gst_element_set_start_time ()" link="GstElement.html#gst-element-set-start-time"/>
+    <function name="gst_element_get_start_time ()" link="GstElement.html#gst-element-get-start-time"/>
     <function name="gst_element_set_bus ()" link="GstElement.html#gst-element-set-bus"/>
     <function name="gst_element_get_bus ()" link="GstElement.html#gst-element-get-bus"/>
     <function name="gst_element_get_factory ()" link="GstElement.html#gst-element-get-factory"/>
@@ -388,6 +419,7 @@
     <function name="gst_element_abort_state ()" link="GstElement.html#gst-element-abort-state"/>
     <function name="gst_element_continue_state ()" link="GstElement.html#gst-element-continue-state"/>
     <function name="gst_element_lost_state ()" link="GstElement.html#gst-element-lost-state"/>
+    <function name="gst_element_lost_state_full ()" link="GstElement.html#gst-element-lost-state-full"/>
     <function name="gst_element_state_get_name ()" link="GstElement.html#gst-element-state-get-name"/>
     <function name="gst_element_state_change_return_get_name ()" link="GstElement.html#gst-element-state-change-return-get-name"/>
     <function name="gst_element_sync_state_with_parent ()" link="GstElement.html#gst-element-sync-state-with-parent"/>
@@ -482,6 +514,8 @@
     <function name="gst_event_new_navigation ()" link="gstreamer-GstEvent.html#gst-event-new-navigation"/>
     <function name="gst_event_new_latency ()" link="gstreamer-GstEvent.html#gst-event-new-latency"/>
     <function name="gst_event_parse_latency ()" link="gstreamer-GstEvent.html#gst-event-parse-latency"/>
+    <function name="gst_event_new_step ()" link="gstreamer-GstEvent.html#gst-event-new-step"/>
+    <function name="gst_event_parse_step ()" link="gstreamer-GstEvent.html#gst-event-parse-step"/>
     <function name="GstFilterFunc ()" link="gstreamer-GstFilter.html#GstFilterFunc"/>
     <function name="gst_filter_run ()" link="gstreamer-GstFilter.html#gst-filter-run"/>
     <function name="enum GstFormat" link="gstreamer-GstFormat.html#GstFormat"/>
@@ -584,8 +618,8 @@
     <function name="gst_iterator_find_custom ()" link="gstreamer-GstIterator.html#gst-iterator-find-custom"/>
     <function name="GstMessage" link="gstreamer-GstMessage.html#GstMessage"/>
     <function name="enum GstMessageType" link="gstreamer-GstMessage.html#GstMessageType"/>
-    <function name="enum GstStructureChangeType" link="gstreamer-GstMessage.html#GstStructureChangeType"/>
     <function name="GST_MESSAGE_SRC()" link="gstreamer-GstMessage.html#GST-MESSAGE-SRC--CAPS"/>
+    <function name="GST_MESSAGE_SRC_NAME()" link="gstreamer-GstMessage.html#GST-MESSAGE-SRC-NAME--CAPS"/>
     <function name="GST_MESSAGE_TIMESTAMP()" link="gstreamer-GstMessage.html#GST-MESSAGE-TIMESTAMP--CAPS"/>
     <function name="GST_MESSAGE_TYPE()" link="gstreamer-GstMessage.html#GST-MESSAGE-TYPE--CAPS"/>
     <function name="GST_MESSAGE_TYPE_NAME()" link="gstreamer-GstMessage.html#GST-MESSAGE-TYPE-NAME--CAPS"/>
@@ -607,7 +641,9 @@
     <function name="gst_message_new_info ()" link="gstreamer-GstMessage.html#gst-message-new-info"/>
     <function name="gst_message_parse_info ()" link="gstreamer-GstMessage.html#gst-message-parse-info"/>
     <function name="gst_message_new_tag ()" link="gstreamer-GstMessage.html#gst-message-new-tag"/>
+    <function name="gst_message_new_tag_full ()" link="gstreamer-GstMessage.html#gst-message-new-tag-full"/>
     <function name="gst_message_parse_tag ()" link="gstreamer-GstMessage.html#gst-message-parse-tag"/>
+    <function name="gst_message_parse_tag_full ()" link="gstreamer-GstMessage.html#gst-message-parse-tag-full"/>
     <function name="gst_message_new_buffering ()" link="gstreamer-GstMessage.html#gst-message-new-buffering"/>
     <function name="gst_message_parse_buffering ()" link="gstreamer-GstMessage.html#gst-message-parse-buffering"/>
     <function name="gst_message_set_buffering_stats ()" link="gstreamer-GstMessage.html#gst-message-set-buffering-stats"/>
@@ -615,6 +651,8 @@
     <function name="gst_message_new_state_changed ()" link="gstreamer-GstMessage.html#gst-message-new-state-changed"/>
     <function name="gst_message_parse_state_changed ()" link="gstreamer-GstMessage.html#gst-message-parse-state-changed"/>
     <function name="gst_message_new_state_dirty ()" link="gstreamer-GstMessage.html#gst-message-new-state-dirty"/>
+    <function name="gst_message_new_step_done ()" link="gstreamer-GstMessage.html#gst-message-new-step-done"/>
+    <function name="gst_message_parse_step_done ()" link="gstreamer-GstMessage.html#gst-message-parse-step-done"/>
     <function name="gst_message_new_clock_provide ()" link="gstreamer-GstMessage.html#gst-message-new-clock-provide"/>
     <function name="gst_message_parse_clock_provide ()" link="gstreamer-GstMessage.html#gst-message-parse-clock-provide"/>
     <function name="gst_message_new_clock_lost ()" link="gstreamer-GstMessage.html#gst-message-new-clock-lost"/>
@@ -634,10 +672,18 @@
     <function name="gst_message_new_async_start ()" link="gstreamer-GstMessage.html#gst-message-new-async-start"/>
     <function name="gst_message_parse_async_start ()" link="gstreamer-GstMessage.html#gst-message-parse-async-start"/>
     <function name="gst_message_new_async_done ()" link="gstreamer-GstMessage.html#gst-message-new-async-done"/>
+    <function name="gst_message_new_step_start ()" link="gstreamer-GstMessage.html#gst-message-new-step-start"/>
+    <function name="gst_message_parse_step_start ()" link="gstreamer-GstMessage.html#gst-message-parse-step-start"/>
+    <function name="enum GstStructureChangeType" link="gstreamer-GstMessage.html#GstStructureChangeType"/>
     <function name="gst_message_new_structure_change ()" link="gstreamer-GstMessage.html#gst-message-new-structure-change"/>
     <function name="gst_message_parse_structure_change ()" link="gstreamer-GstMessage.html#gst-message-parse-structure-change"/>
     <function name="gst_message_new_request_state ()" link="gstreamer-GstMessage.html#gst-message-new-request-state"/>
     <function name="gst_message_parse_request_state ()" link="gstreamer-GstMessage.html#gst-message-parse-request-state"/>
+    <function name="enum GstStreamStatusType" link="gstreamer-GstMessage.html#GstStreamStatusType"/>
+    <function name="gst_message_new_stream_status ()" link="gstreamer-GstMessage.html#gst-message-new-stream-status"/>
+    <function name="gst_message_parse_stream_status ()" link="gstreamer-GstMessage.html#gst-message-parse-stream-status"/>
+    <function name="gst_message_set_stream_status_object ()" link="gstreamer-GstMessage.html#gst-message-set-stream-status-object"/>
+    <function name="gst_message_get_stream_status_object ()" link="gstreamer-GstMessage.html#gst-message-get-stream-status-object"/>
     <function name="GstMiniObject" link="gstreamer-GstMiniObject.html#GstMiniObject"/>
     <function name="enum GstMiniObjectFlags" link="gstreamer-GstMiniObject.html#GstMiniObjectFlags"/>
     <function name="GstMiniObjectCopyFunction ()" link="gstreamer-GstMiniObject.html#GstMiniObjectCopyFunction"/>
@@ -696,6 +742,7 @@
     <function name="gst_object_restore_thyself ()" link="GstObject.html#gst-object-restore-thyself"/>
     <function name="gst_object_ref ()" link="GstObject.html#gst-object-ref"/>
     <function name="gst_object_unref ()" link="GstObject.html#gst-object-unref"/>
+    <function name="gst_object_ref_sink ()" link="GstObject.html#gst-object-ref-sink"/>
     <function name="gst_object_sink ()" link="GstObject.html#gst-object-sink"/>
     <function name="gst_object_replace ()" link="GstObject.html#gst-object-replace"/>
     <function name="gst_object_get_path_string ()" link="GstObject.html#gst-object-get-path-string"/>
@@ -756,6 +803,8 @@
     <function name="GstPadBufferAllocFunction ()" link="GstPad.html#GstPadBufferAllocFunction"/>
     <function name="gst_pad_set_chain_function ()" link="GstPad.html#gst-pad-set-chain-function"/>
     <function name="GstPadChainFunction ()" link="GstPad.html#GstPadChainFunction"/>
+    <function name="gst_pad_set_chain_list_function ()" link="GstPad.html#gst-pad-set-chain-list-function"/>
+    <function name="GstPadChainListFunction ()" link="GstPad.html#GstPadChainListFunction"/>
     <function name="gst_pad_set_checkgetrange_function ()" link="GstPad.html#gst-pad-set-checkgetrange-function"/>
     <function name="GstPadCheckGetRangeFunction ()" link="GstPad.html#GstPadCheckGetRangeFunction"/>
     <function name="gst_pad_get_range ()" link="GstPad.html#gst-pad-get-range"/>
@@ -788,6 +837,7 @@
     <function name="GstPadActivateModeFunction ()" link="GstPad.html#GstPadActivateModeFunction"/>
     <function name="gst_pad_push ()" link="GstPad.html#gst-pad-push"/>
     <function name="gst_pad_push_event ()" link="GstPad.html#gst-pad-push-event"/>
+    <function name="gst_pad_push_list ()" link="GstPad.html#gst-pad-push-list"/>
     <function name="gst_pad_check_pull_range ()" link="GstPad.html#gst-pad-check-pull-range"/>
     <function name="gst_pad_pull_range ()" link="GstPad.html#gst-pad-pull-range"/>
     <function name="gst_pad_activate_pull ()" link="GstPad.html#gst-pad-activate-pull"/>
@@ -823,6 +873,7 @@
     <function name="gst_pad_set_element_private ()" link="GstPad.html#gst-pad-set-element-private"/>
     <function name="gst_pad_get_element_private ()" link="GstPad.html#gst-pad-get-element-private"/>
     <function name="gst_pad_chain ()" link="GstPad.html#gst-pad-chain"/>
+    <function name="gst_pad_chain_list ()" link="GstPad.html#gst-pad-chain-list"/>
     <function name="gst_pad_start_task ()" link="GstPad.html#gst-pad-start-task"/>
     <function name="gst_pad_pause_task ()" link="GstPad.html#gst-pad-pause-task"/>
     <function name="gst_pad_stop_task ()" link="GstPad.html#gst-pad-stop-task"/>
@@ -905,6 +956,7 @@
     <function name="GstPlugin" link="GstPlugin.html#GstPlugin-struct"/>
     <function name="GstPluginDesc" link="GstPlugin.html#GstPluginDesc"/>
     <function name="GstPluginInitFunc ()" link="GstPlugin.html#GstPluginInitFunc"/>
+    <function name="GstPluginInitFullFunc ()" link="GstPlugin.html#GstPluginInitFullFunc"/>
     <function name="GST_PLUGIN_DEFINE()" link="GstPlugin.html#GST-PLUGIN-DEFINE--CAPS"/>
     <function name="GST_PLUGIN_DEFINE_STATIC()" link="GstPlugin.html#GST-PLUGIN-DEFINE-STATIC--CAPS"/>
     <function name="GST_LICENSE_UNKNOWN" link="GstPlugin.html#GST-LICENSE-UNKNOWN--CAPS"/>
@@ -919,12 +971,15 @@
     <function name="gst_plugin_get_version ()" link="GstPlugin.html#gst-plugin-get-version"/>
     <function name="gst_plugin_get_module ()" link="GstPlugin.html#gst-plugin-get-module"/>
     <function name="gst_plugin_is_loaded ()" link="GstPlugin.html#gst-plugin-is-loaded"/>
+    <function name="gst_plugin_get_cache_data ()" link="GstPlugin.html#gst-plugin-get-cache-data"/>
+    <function name="gst_plugin_set_cache_data ()" link="GstPlugin.html#gst-plugin-set-cache-data"/>
     <function name="gst_plugin_name_filter ()" link="GstPlugin.html#gst-plugin-name-filter"/>
     <function name="gst_plugin_load_file ()" link="GstPlugin.html#gst-plugin-load-file"/>
     <function name="gst_plugin_load ()" link="GstPlugin.html#gst-plugin-load"/>
     <function name="gst_plugin_load_by_name ()" link="GstPlugin.html#gst-plugin-load-by-name"/>
     <function name="gst_plugin_list_free ()" link="GstPlugin.html#gst-plugin-list-free"/>
     <function name="gst_plugin_register_static ()" link="GstPlugin.html#gst-plugin-register-static"/>
+    <function name="gst_plugin_register_static_full ()" link="GstPlugin.html#gst-plugin-register-static-full"/>
     <function name="enum GstPluginDependencyFlags" link="GstPlugin.html#GstPluginDependencyFlags"/>
     <function name="gst_plugin_add_dependency ()" link="GstPlugin.html#gst-plugin-add-dependency"/>
     <function name="gst_plugin_add_dependency_simple ()" link="GstPlugin.html#gst-plugin-add-dependency-simple"/>
@@ -1069,6 +1124,8 @@
     <function name="gst_segment_set_seek ()" link="gstreamer-GstSegment.html#gst-segment-set-seek"/>
     <function name="gst_segment_to_running_time ()" link="gstreamer-GstSegment.html#gst-segment-to-running-time"/>
     <function name="gst_segment_to_stream_time ()" link="gstreamer-GstSegment.html#gst-segment-to-stream-time"/>
+    <function name="gst_segment_to_position ()" link="gstreamer-GstSegment.html#gst-segment-to-position"/>
+    <function name="gst_segment_set_running_time ()" link="gstreamer-GstSegment.html#gst-segment-set-running-time"/>
     <function name="GstStructure" link="gstreamer-GstStructure.html#GstStructure"/>
     <function name="GstStructureForeachFunc ()" link="gstreamer-GstStructure.html#GstStructureForeachFunc"/>
     <function name="GstStructureMapFunc ()" link="gstreamer-GstStructure.html#GstStructureMapFunc"/>
@@ -1076,14 +1133,19 @@
     <function name="gst_structure_id_empty_new ()" link="gstreamer-GstStructure.html#gst-structure-id-empty-new"/>
     <function name="gst_structure_new ()" link="gstreamer-GstStructure.html#gst-structure-new"/>
     <function name="gst_structure_new_valist ()" link="gstreamer-GstStructure.html#gst-structure-new-valist"/>
+    <function name="gst_structure_id_new ()" link="gstreamer-GstStructure.html#gst-structure-id-new"/>
     <function name="gst_structure_copy ()" link="gstreamer-GstStructure.html#gst-structure-copy"/>
     <function name="gst_structure_free ()" link="gstreamer-GstStructure.html#gst-structure-free"/>
     <function name="gst_structure_get_name ()" link="gstreamer-GstStructure.html#gst-structure-get-name"/>
     <function name="gst_structure_has_name ()" link="gstreamer-GstStructure.html#gst-structure-has-name"/>
     <function name="gst_structure_set_name ()" link="gstreamer-GstStructure.html#gst-structure-set-name"/>
     <function name="gst_structure_get_name_id ()" link="gstreamer-GstStructure.html#gst-structure-get-name-id"/>
+    <function name="gst_structure_id_get ()" link="gstreamer-GstStructure.html#gst-structure-id-get"/>
+    <function name="gst_structure_id_get_valist ()" link="gstreamer-GstStructure.html#gst-structure-id-get-valist"/>
     <function name="gst_structure_id_get_value ()" link="gstreamer-GstStructure.html#gst-structure-id-get-value"/>
     <function name="gst_structure_id_set_value ()" link="gstreamer-GstStructure.html#gst-structure-id-set-value"/>
+    <function name="gst_structure_get ()" link="gstreamer-GstStructure.html#gst-structure-get"/>
+    <function name="gst_structure_get_valist ()" link="gstreamer-GstStructure.html#gst-structure-get-valist"/>
     <function name="gst_structure_get_value ()" link="gstreamer-GstStructure.html#gst-structure-get-value"/>
     <function name="gst_structure_set_value ()" link="gstreamer-GstStructure.html#gst-structure-set-value"/>
     <function name="gst_structure_set ()" link="gstreamer-GstStructure.html#gst-structure-set"/>
@@ -1159,6 +1221,7 @@
     <function name="GST_TAG_VIDEO_CODEC" link="gstreamer-GstTagList.html#GST-TAG-VIDEO-CODEC--CAPS"/>
     <function name="GST_TAG_AUDIO_CODEC" link="gstreamer-GstTagList.html#GST-TAG-AUDIO-CODEC--CAPS"/>
     <function name="GST_TAG_SUBTITLE_CODEC" link="gstreamer-GstTagList.html#GST-TAG-SUBTITLE-CODEC--CAPS"/>
+    <function name="GST_TAG_CONTAINER_FORMAT" link="gstreamer-GstTagList.html#GST-TAG-CONTAINER-FORMAT--CAPS"/>
     <function name="GST_TAG_BITRATE" link="gstreamer-GstTagList.html#GST-TAG-BITRATE--CAPS"/>
     <function name="GST_TAG_NOMINAL_BITRATE" link="gstreamer-GstTagList.html#GST-TAG-NOMINAL-BITRATE--CAPS"/>
     <function name="GST_TAG_MINIMUM_BITRATE" link="gstreamer-GstTagList.html#GST-TAG-MINIMUM-BITRATE--CAPS"/>
@@ -1191,6 +1254,8 @@
     <function name="gst_tag_get_flag ()" link="gstreamer-GstTagList.html#gst-tag-get-flag"/>
     <function name="gst_tag_is_fixed ()" link="gstreamer-GstTagList.html#gst-tag-is-fixed"/>
     <function name="gst_tag_list_new ()" link="gstreamer-GstTagList.html#gst-tag-list-new"/>
+    <function name="gst_tag_list_new_full ()" link="gstreamer-GstTagList.html#gst-tag-list-new-full"/>
+    <function name="gst_tag_list_new_full_valist ()" link="gstreamer-GstTagList.html#gst-tag-list-new-full-valist"/>
     <function name="gst_is_tag_list ()" link="gstreamer-GstTagList.html#gst-is-tag-list"/>
     <function name="gst_tag_list_is_empty ()" link="gstreamer-GstTagList.html#gst-tag-list-is-empty"/>
     <function name="gst_tag_list_copy ()" link="gstreamer-GstTagList.html#gst-tag-list-copy"/>
@@ -1199,6 +1264,7 @@
     <function name="gst_tag_list_free ()" link="gstreamer-GstTagList.html#gst-tag-list-free"/>
     <function name="gst_tag_list_get_tag_size ()" link="gstreamer-GstTagList.html#gst-tag-list-get-tag-size"/>
     <function name="gst_tag_list_add ()" link="gstreamer-GstTagList.html#gst-tag-list-add"/>
+    <function name="gst_tag_list_add_value ()" link="gstreamer-GstTagList.html#gst-tag-list-add-value"/>
     <function name="gst_tag_list_add_values ()" link="gstreamer-GstTagList.html#gst-tag-list-add-values"/>
     <function name="gst_tag_list_add_valist ()" link="gstreamer-GstTagList.html#gst-tag-list-add-valist"/>
     <function name="gst_tag_list_add_valist_values ()" link="gstreamer-GstTagList.html#gst-tag-list-add-valist-values"/>
@@ -1241,6 +1307,7 @@
     <function name="gst_tag_setter_reset_tags ()" link="GstTagSetter.html#gst-tag-setter-reset-tags"/>
     <function name="gst_tag_setter_merge_tags ()" link="GstTagSetter.html#gst-tag-setter-merge-tags"/>
     <function name="gst_tag_setter_add_tags ()" link="GstTagSetter.html#gst-tag-setter-add-tags"/>
+    <function name="gst_tag_setter_add_tag_value ()" link="GstTagSetter.html#gst-tag-setter-add-tag-value"/>
     <function name="gst_tag_setter_add_tag_values ()" link="GstTagSetter.html#gst-tag-setter-add-tag-values"/>
     <function name="gst_tag_setter_add_tag_valist ()" link="GstTagSetter.html#gst-tag-setter-add-tag-valist"/>
     <function name="gst_tag_setter_add_tag_valist_values ()" link="GstTagSetter.html#gst-tag-setter-add-tag-valist-values"/>
@@ -1256,14 +1323,28 @@
     <function name="GST_TASK_SIGNAL()" link="GstTask.html#GST-TASK-SIGNAL--CAPS"/>
     <function name="GST_TASK_STATE()" link="GstTask.html#GST-TASK-STATE--CAPS"/>
     <function name="GST_TASK_WAIT()" link="GstTask.html#GST-TASK-WAIT--CAPS"/>
-    <function name="gst_task_cleanup_all ()" link="GstTask.html#gst-task-cleanup-all"/>
     <function name="gst_task_create ()" link="GstTask.html#gst-task-create"/>
-    <function name="gst_task_get_state ()" link="GstTask.html#gst-task-get-state"/>
-    <function name="gst_task_join ()" link="GstTask.html#gst-task-join"/>
-    <function name="gst_task_pause ()" link="GstTask.html#gst-task-pause"/>
     <function name="gst_task_set_lock ()" link="GstTask.html#gst-task-set-lock"/>
+    <function name="gst_task_set_priority ()" link="GstTask.html#gst-task-set-priority"/>
+    <function name="gst_task_set_pool ()" link="GstTask.html#gst-task-set-pool"/>
+    <function name="gst_task_get_pool ()" link="GstTask.html#gst-task-get-pool"/>
+    <function name="GstTaskThreadCallbacks" link="GstTask.html#GstTaskThreadCallbacks"/>
+    <function name="gst_task_set_thread_callbacks ()" link="GstTask.html#gst-task-set-thread-callbacks"/>
+    <function name="gst_task_get_state ()" link="GstTask.html#gst-task-get-state"/>
+    <function name="gst_task_set_state ()" link="GstTask.html#gst-task-set-state"/>
+    <function name="gst_task_pause ()" link="GstTask.html#gst-task-pause"/>
     <function name="gst_task_start ()" link="GstTask.html#gst-task-start"/>
     <function name="gst_task_stop ()" link="GstTask.html#gst-task-stop"/>
+    <function name="gst_task_join ()" link="GstTask.html#gst-task-join"/>
+    <function name="gst_task_cleanup_all ()" link="GstTask.html#gst-task-cleanup-all"/>
+    <function name="GstTaskPool" link="GstTaskPool.html#GstTaskPool-struct"/>
+    <function name="GstTaskPoolClass" link="GstTaskPool.html#GstTaskPoolClass"/>
+    <function name="GstTaskPoolFunction ()" link="GstTaskPool.html#GstTaskPoolFunction"/>
+    <function name="gst_task_pool_new ()" link="GstTaskPool.html#gst-task-pool-new"/>
+    <function name="gst_task_pool_prepare ()" link="GstTaskPool.html#gst-task-pool-prepare"/>
+    <function name="gst_task_pool_push ()" link="GstTaskPool.html#gst-task-pool-push"/>
+    <function name="gst_task_pool_join ()" link="GstTaskPool.html#gst-task-pool-join"/>
+    <function name="gst_task_pool_cleanup ()" link="GstTaskPool.html#gst-task-pool-cleanup"/>
     <function name="GstTypeFind" link="gstreamer-GstTypeFind.html#GstTypeFind"/>
     <function name="GstTypeFindFunction ()" link="gstreamer-GstTypeFind.html#GstTypeFindFunction"/>
     <function name="enum GstTypeFindProbability" link="gstreamer-GstTypeFind.html#GstTypeFindProbability"/>
@@ -1497,6 +1578,7 @@
     <function name="GST_DEBUG_CATEGORY_EXTERN()" link="gstreamer-GstInfo.html#GST-DEBUG-CATEGORY-EXTERN--CAPS"/>
     <function name="GST_DEBUG_CATEGORY_STATIC()" link="gstreamer-GstInfo.html#GST-DEBUG-CATEGORY-STATIC--CAPS"/>
     <function name="GST_DEBUG_CATEGORY_INIT()" link="gstreamer-GstInfo.html#GST-DEBUG-CATEGORY-INIT--CAPS"/>
+    <function name="GST_DEBUG_CATEGORY_GET()" link="gstreamer-GstInfo.html#GST-DEBUG-CATEGORY-GET--CAPS"/>
     <function name="gst_debug_category_free ()" link="gstreamer-GstInfo.html#gst-debug-category-free"/>
     <function name="gst_debug_category_set_threshold ()" link="gstreamer-GstInfo.html#gst-debug-category-set-threshold"/>
     <function name="gst_debug_category_reset_threshold ()" link="gstreamer-GstInfo.html#gst-debug-category-reset-threshold"/>

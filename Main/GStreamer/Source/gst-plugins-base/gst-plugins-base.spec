@@ -4,7 +4,7 @@
 %define gst_minver  0.10.0
 
 Name: 		%{gstreamer}-plugins-base
-Version: 	0.10.23
+Version: 	0.10.24
 Release: 	1.gst
 Summary: 	GStreamer streaming media framework plug-ins
 
@@ -135,7 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gstreamer-%{majorminor}/libgstxvimagesink.so
 %{_libdir}/gstreamer-%{majorminor}/libgstlibvisual.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpango.so
-%{_libdir}/gstreamer-%{majorminor}/libgstcdparanoia.so                                                                     
+%{_libdir}/gstreamer-%{majorminor}/libgstcdparanoia.so
+%{_libdir}/gstreamer-%{majorminor}/libgstgio.so
+# @USE_SCHRO_TRUE@%{_libdir}/gstreamer-%{majorminor}/libgstschro.so                                                                     
 %package devel
 Summary: 	GStreamer Plugin Library Headers
 Group: 		Development/Libraries

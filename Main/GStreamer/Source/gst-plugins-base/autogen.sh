@@ -34,11 +34,11 @@ CONFIGURE_DEF_OPT='--enable-maintainer-mode --enable-gtk-doc --enable-plugin-doc
 
 autogen_options $@
 
-echo -n "+ check for build tools"
+printf "+ check for build tools"
 if test ! -z "$NOCHECK"; then echo " skipped"; else  echo; fi
 version_check "autoconf" "$AUTOCONF autoconf autoconf259 autoconf257 autoconf-2.54 autoconf-2.53 autoconf-2.52" \
               "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 52 || DIE=1
-version_check "automake" "$AUTOMAKE automake automake-1.9 automake19 automake-1.7 automake-1.6 automake-1.5" \
+version_check "automake" "$AUTOMAKE automake automake-1.11 automake-1.10 automake-1.9 automake19 automake-1.7 automake-1.6 automake-1.5" \
               "ftp://ftp.gnu.org/pub/gnu/automake/" 1 7 || DIE=1
 version_check "autopoint" "autopoint" \
               "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 17 || DIE=1
@@ -77,15 +77,15 @@ fi
 tool_run "$autopoint --force"
 patch -p0 < common/gettext.patch
 
-tool_run "$aclocal" "-I m4 -I common/m4 $ACLOCAL_FLAGS"
 tool_run "$libtoolize" "--copy --force"
+tool_run "$aclocal" "-I m4 -I common/m4 $ACLOCAL_FLAGS"
 tool_run "$autoheader"
 
 # touch the stamp-h.in build stamp so we don't re-run autoheader in maintainer mode -- wingo
 echo timestamp > stamp-h.in 2> /dev/null
 
 tool_run "$autoconf"
-tool_run "$automake" "-a -c -Wno-portability"
+tool_run "$automake" "-a -c"
 
 # if enable exists, add an -enable option for each of the lines in that file
 if test -f enable; then

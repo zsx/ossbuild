@@ -38,15 +38,14 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GNL_TYPE_FILESOURCE))
 #define GNL_IS_FILESOURCE_CLASS(obj) \
   (G_TYPE_CHECK_CLASS_TYPE((klass),GNL_TYPE_FILESOURCE))
-typedef struct _GnlFileSourcePrivate GnlFileSourcePrivate;
 
 struct _GnlFileSource
 {
   GnlSource parent;
 
   /*< private >*/
-
-  GnlFileSourcePrivate *private;
+  GstElement *filesource;
+  GstElement *decodebin;
 };
 
 struct _GnlFileSourceClass

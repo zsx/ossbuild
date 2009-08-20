@@ -554,14 +554,18 @@ flac_type_find (GstTypeFind * tf, gpointer unused)
 {
   DataScanCtx c = { 0, NULL, 0 };
 
-  if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 6)))
+  if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 4)))
     return;
 
-  /* standard flac */
+  /* standard flac (also old/broken flac-in-ogg with an initial 4-byte marker
+   * packet and without the usual packet framing) */
   if (memcmp (c.data, "fLaC", 4) == 0) {
     gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, FLAC_CAPS);
     return;
   }
+
+  if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 6)))
+    return;
 
   /* flac-in-ogg, see http://flac.sourceforge.net/ogg_mapping.html */
   if (memcmp (c.data, "\177FLAC\001", 6) == 0) {
@@ -931,6 +935,10 @@ mp3_type_find_at_offset (GstTypeFind * tf, guint64 start_off,
         offset += length;
       }
       g_assert (found <= GST_MP3_TYPEFIND_TRY_HEADERS);
+      if (head_data == NULL &&
+          gst_type_find_peek (tf, offset + start_off - 1, 1) == NULL)
+        /* Incomplete last frame - don't count it. */
+        found--;
       if (found == GST_MP3_TYPEFIND_TRY_HEADERS ||
           (found >= GST_MP3_TYPEFIND_MIN_HEADERS && head_data == NULL)) {
         /* we can make a valid guess */
@@ -1739,8 +1747,7 @@ h264_video_type_find (GstTypeFind * tf, gpointer unused)
 
       if ((stat_slice > 4 || (stat_dpa > 4 && stat_dpb > 4 && stat_dpc > 4)) &&
           stat_idr >= 1 && stat_sps >= 1 && stat_pps >= 1) {
-        gst_type_find_suggest (tf, GST_TYPE_FIND_NEARLY_CERTAIN,
-            H264_VIDEO_CAPS);
+        gst_type_find_suggest (tf, GST_TYPE_FIND_LIKELY, H264_VIDEO_CAPS);
         return;
       }
 
@@ -2581,8 +2588,10 @@ dv_type_find (GstTypeFind * tf, gpointer private)
 /*** application/ogg and application/x-annodex ***/
 static GstStaticCaps ogg_caps = GST_STATIC_CAPS ("application/ogg");
 static GstStaticCaps annodex_caps = GST_STATIC_CAPS ("application/x-annodex");
+static GstStaticCaps ogg_annodex_caps =
+    GST_STATIC_CAPS ("application/ogg;application/x-annodex");
 
-#define OGGANX_CAPS (gst_static_caps_get(&annodex_caps))
+#define OGGANX_CAPS (gst_static_caps_get(&ogg_annodex_caps))
 
 static void
 ogganx_type_find (GstTypeFind * tf, gpointer private)
@@ -2594,7 +2603,8 @@ ogganx_type_find (GstTypeFind * tf, gpointer private)
     /* Check for an annodex fishbone header */
     data = gst_type_find_peek (tf, 28, 8);
     if (data && memcmp (data, "fishead\0", 8) == 0)
-      gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, OGGANX_CAPS);
+      gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM,
+          gst_static_caps_get (&annodex_caps));
 
     gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM,
         gst_static_caps_get (&ogg_caps));
@@ -2663,6 +2673,35 @@ theora_type_find (GstTypeFind * tf, gpointer private)
     /* FIXME: make this more reliable when specs are out */
 
     gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, THEORA_CAPS);
+  }
+}
+
+/*** kate ***/
+static void
+kate_type_find (GstTypeFind * tf, gpointer private)
+{
+  guint8 *data = gst_type_find_peek (tf, 0, 64);
+  gchar category[16] = { 0, };
+
+  if (G_UNLIKELY (data == NULL))
+    return;
+
+  /* see: http://wiki.xiph.org/index.php/OggKate#Format_specification */
+  if (G_LIKELY (memcmp (data, "\200kate\0\0\0", 8) != 0))
+    return;
+
+  /* make sure we always have a NUL-terminated string */
+  memcpy (category, data + 48, 15);
+  GST_LOG ("kate category: %s", category);
+  /* canonical categories for subtitles: subtitles, spu-subtitles, SUB, K-SPU */
+  if (strcmp (category, "subtitles") == 0 || strcmp (category, "SUB") == 0 ||
+      strcmp (category, "spu-subtitles") == 0 ||
+      strcmp (category, "K-SPU") == 0) {
+    gst_type_find_suggest_simple (tf, GST_TYPE_FIND_MAXIMUM,
+        "subtitle/x-kate", NULL);
+  } else {
+    gst_type_find_suggest_simple (tf, GST_TYPE_FIND_MAXIMUM,
+        "application/x-kate", NULL);
   }
 }
 
@@ -3410,8 +3449,8 @@ plugin_init (GstPlugin * plugin)
       zip_exts, "PK\003\004", 4, GST_TYPE_FIND_LIKELY);
   TYPE_FIND_REGISTER_START_WITH (plugin, "application/x-compress",
       GST_RANK_SECONDARY, compress_exts, "\037\235", 2, GST_TYPE_FIND_LIKELY);
-  TYPE_FIND_REGISTER_START_WITH (plugin, "application/x-kate",
-      GST_RANK_MARGINAL, NULL, "\200kate\0\0\0", 8, GST_TYPE_FIND_LIKELY);
+  TYPE_FIND_REGISTER (plugin, "subtitle/x-kate", GST_RANK_MARGINAL,
+      kate_type_find, NULL, NULL, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "audio/x-flac", GST_RANK_PRIMARY,
       flac_type_find, flac_exts, FLAC_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "audio/x-vorbis", GST_RANK_PRIMARY,

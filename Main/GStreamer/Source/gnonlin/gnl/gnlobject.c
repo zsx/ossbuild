@@ -57,6 +57,7 @@ enum
   ARG_PRIORITY,
   ARG_ACTIVE,
   ARG_CAPS,
+  ARG_EXPANDABLE
 };
 
 static void gnl_object_dispose (GObject * object);
@@ -234,6 +235,17 @@ gnl_object_class_init (GnlObjectClass * klass)
       g_param_spec_boxed ("caps", "Caps",
           "Caps used to filter/choose the output stream",
           GST_TYPE_CAPS, G_PARAM_READWRITE));
+
+  /**
+   * GnlObject:expandable
+   *
+   * Indicates whether this object should expand to the full duration of its
+   * container #GnlComposition.
+   */
+  g_object_class_install_property (gobject_class, ARG_EXPANDABLE,
+      g_param_spec_boolean ("expandable", "Expandable",
+          "Expand to the full duration of the container composition", FALSE,
+          G_PARAM_READWRITE));
 }
 
 static void
@@ -522,6 +534,12 @@ gnl_object_set_property (GObject * object, guint prop_id,
     case ARG_CAPS:
       gnl_object_set_caps (gnlobject, gst_value_get_caps (value));
       break;
+    case ARG_EXPANDABLE:
+      if (g_value_get_boolean (value))
+        GST_OBJECT_FLAG_SET (gnlobject, GNL_OBJECT_EXPANDABLE);
+      else
+        GST_OBJECT_FLAG_UNSET (gnlobject, GNL_OBJECT_EXPANDABLE);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -564,6 +582,9 @@ gnl_object_get_property (GObject * object, guint prop_id,
       break;
     case ARG_CAPS:
       gst_value_set_caps (value, gnlobject->caps);
+      break;
+    case ARG_EXPANDABLE:
+      g_value_set_boolean (value, GNL_OBJECT_IS_EXPANDABLE (object));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);

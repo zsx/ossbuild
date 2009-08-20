@@ -86,6 +86,22 @@ extern void gst_play_marshal_OBJECT__INT (GClosure     *closure,
                                           gpointer      invocation_hint,
                                           gpointer      marshal_data);
 
+/* INT64:VOID */
+extern void gst_play_marshal_INT64__VOID (GClosure     *closure,
+                                          GValue       *return_value,
+                                          guint         n_param_values,
+                                          const GValue *param_values,
+                                          gpointer      invocation_hint,
+                                          gpointer      marshal_data);
+
+/* VOID:OBJECT,INT64,INT64 */
+extern void gst_play_marshal_VOID__OBJECT_INT64_INT64 (GClosure     *closure,
+                                                       GValue       *return_value,
+                                                       guint         n_param_values,
+                                                       const GValue *param_values,
+                                                       gpointer      invocation_hint,
+                                                       gpointer      marshal_data);
+
 G_END_DECLS
 
 #endif /* __gst_play_marshal_MARSHAL_H__ */

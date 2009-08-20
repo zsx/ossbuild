@@ -54,10 +54,14 @@
 <a name="gst-plugins-base-plugins-alsamixer.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstAlsaMixerElement
 </pre>
 </div>
@@ -65,20 +69,22 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-alsamixer.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstAlsaMixerElement implements
- GstImplementsInterface,  <a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstmixer.html#GstMixer"
+ <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstImplementsInterface.html"
+>GstImplementsInterface</a>,  <a
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstmixer.html#GstMixer"
 >GstMixer</a> and  <a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
 >GstPropertyProbe</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-alsamixer.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-alsamixer.html#GstAlsaMixerElement--device" title='The "device" property'>device</a>"                   <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-alsamixer.html#GstAlsaMixerElement--device-name" title='The "device-name" property'>device-name</a>"              <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read
 </pre>
 </div>
@@ -97,7 +103,7 @@ Last reviewed on 2006-03-01 (0.10.4)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2649707"></a><h3>Element Information</h3>
+<a name="id2611815"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -120,7 +126,36 @@ Last reviewed on 2006-03-01 (0.10.4)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2649769"></a><h3>Element Pads</h3>
+<a name="id2648891"></a><h3>Element Pads</h3>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2648904"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-base-plugins-plugin-alsa.html#plugin-alsa">alsa</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Leif Johnson &lt;leif@ambient.2y.net&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Generic/Audio</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2648966"></a><h3>Element Pads</h3>
 </div>
 </div>
 <p>
@@ -142,7 +177,7 @@ Opaque datastructure.</p>
 <div class="refsect2" lang="en">
 <a name="GstAlsaMixerElement--device"></a><h3>The <code class="literal">"device"</code> property</h3>
 <pre class="programlisting">  "device"                   <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>ALSA device, as defined in an asound configuration file.</p>
 <p>Default value: "default"</p>
@@ -151,7 +186,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="GstAlsaMixerElement--device-name"></a><h3>The <code class="literal">"device-name"</code> property</h3>
 <pre class="programlisting">  "device-name"              <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read</pre>
 <p>Human-readable name of the sound device.</p>
 <p>Default value: ""</p>

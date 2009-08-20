@@ -94,7 +94,8 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 am_libgstcheck_@GST_MAJORMINOR@_la_OBJECTS =  \
 	libgstcheck_@GST_MAJORMINOR@_la-gstbufferstraw.lo \
-	libgstcheck_@GST_MAJORMINOR@_la-gstcheck.lo
+	libgstcheck_@GST_MAJORMINOR@_la-gstcheck.lo \
+	libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.lo
 libgstcheck_@GST_MAJORMINOR@_la_OBJECTS =  \
 	$(am_libgstcheck_@GST_MAJORMINOR@_la_OBJECTS)
 libgstcheck_@GST_MAJORMINOR@_la_LINK = $(LIBTOOL) --tag=CC \
@@ -377,7 +378,8 @@ libgstcheck_@GST_MAJORMINOR@_la_DEPENDENCIES = \
 
 libgstcheck_@GST_MAJORMINOR@_la_SOURCES = \
 	gstbufferstraw.c			\
-	gstcheck.c
+	gstcheck.c				\
+	gstconsistencychecker.c
 
 libgstcheck_@GST_MAJORMINOR@_la_CFLAGS = $(GST_OBJ_CFLAGS) $(CHECK_CFLAGS)
 libgstcheck_@GST_MAJORMINOR@_la_LIBADD = $(GST_OBJ_LIBS) $(CHECK_LIBS) $(LIBM)
@@ -389,7 +391,8 @@ libgstcheck_@GST_MAJORMINOR@includedir = \
 
 libgstcheck_@GST_MAJORMINOR@include_HEADERS = \
 	gstbufferstraw.h			\
-	gstcheck.h
+	gstcheck.h				\
+	gstconsistencychecker.h
 
 CLEANFILES = *.gcno *.gcda *.gcov
 all: all-am
@@ -463,6 +466,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstcheck_@GST_MAJORMINOR@_la-gstbufferstraw.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstcheck_@GST_MAJORMINOR@_la-gstcheck.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -498,6 +502,13 @@ libgstcheck_@GST_MAJORMINOR@_la-gstcheck.lo: gstcheck.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstcheck.c' object='libgstcheck_@GST_MAJORMINOR@_la-gstcheck.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstcheck_@GST_MAJORMINOR@_la_CFLAGS) $(CFLAGS) -c -o libgstcheck_@GST_MAJORMINOR@_la-gstcheck.lo `test -f 'gstcheck.c' || echo '$(srcdir)/'`gstcheck.c
+
+libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.lo: gstconsistencychecker.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstcheck_@GST_MAJORMINOR@_la_CFLAGS) $(CFLAGS) -MT libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.lo -MD -MP -MF $(DEPDIR)/libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.Tpo -c -o libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.lo `test -f 'gstconsistencychecker.c' || echo '$(srcdir)/'`gstconsistencychecker.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.Tpo $(DEPDIR)/libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstconsistencychecker.c' object='libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstcheck_@GST_MAJORMINOR@_la_CFLAGS) $(CFLAGS) -c -o libgstcheck_@GST_MAJORMINOR@_la-gstconsistencychecker.lo `test -f 'gstconsistencychecker.c' || echo '$(srcdir)/'`gstconsistencychecker.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

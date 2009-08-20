@@ -80,13 +80,17 @@ enum
 #define DEFAULT_PROVIDE_CLOCK   TRUE
 #define DEFAULT_SLAVE_METHOD    GST_BASE_AUDIO_SINK_SLAVE_SKEW
 
+/* FIXME, enable pull mode when clock slaving and trick modes are figured out */
+#define DEFAULT_CAN_ACTIVATE_PULL FALSE
+
 enum
 {
   PROP_0,
   PROP_BUFFER_TIME,
   PROP_LATENCY_TIME,
   PROP_PROVIDE_CLOCK,
-  PROP_SLAVE_METHOD
+  PROP_SLAVE_METHOD,
+  PROP_CAN_ACTIVATE_PULL
 };
 
 GType
@@ -200,6 +204,11 @@ gst_base_audio_sink_class_init (GstBaseAudioSinkClass * klass)
           GST_TYPE_BASE_AUDIO_SINK_SLAVE_METHOD, DEFAULT_SLAVE_METHOD,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
+  g_object_class_install_property (gobject_class, PROP_CAN_ACTIVATE_PULL,
+      g_param_spec_boolean ("can-activate-pull", "Allow Pull Scheduling",
+          "Allow pull-based scheduling", DEFAULT_CAN_ACTIVATE_PULL,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
   gstelement_class->change_state =
       GST_DEBUG_FUNCPTR (gst_base_audio_sink_change_state);
   gstelement_class->provide_clock =
@@ -239,9 +248,7 @@ gst_base_audio_sink_init (GstBaseAudioSink * baseaudiosink,
       (GstAudioClockGetTimeFunc) gst_base_audio_sink_get_time, baseaudiosink);
 
   GST_BASE_SINK (baseaudiosink)->can_activate_push = TRUE;
-  /* FIXME, enable pull mode when segments, latency, state changes, negotiation
-   * and clock slaving are figured out */
-  GST_BASE_SINK (baseaudiosink)->can_activate_pull = FALSE;
+  GST_BASE_SINK (baseaudiosink)->can_activate_pull = DEFAULT_CAN_ACTIVATE_PULL;
 
   /* install some custom pad_query functions */
   gst_pad_set_query_function (GST_BASE_SINK_PAD (baseaudiosink),
@@ -574,6 +581,9 @@ gst_base_audio_sink_set_property (GObject * object, guint prop_id,
     case PROP_SLAVE_METHOD:
       gst_base_audio_sink_set_slave_method (sink, g_value_get_enum (value));
       break;
+    case PROP_CAN_ACTIVATE_PULL:
+      GST_BASE_SINK (sink)->can_activate_pull = g_value_get_boolean (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -600,6 +610,9 @@ gst_base_audio_sink_get_property (GObject * object, guint prop_id,
       break;
     case PROP_SLAVE_METHOD:
       g_value_set_enum (value, gst_base_audio_sink_get_slave_method (sink));
+      break;
+    case PROP_CAN_ACTIVATE_PULL:
+      g_value_set_boolean (value, GST_BASE_SINK (sink)->can_activate_pull);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -1489,7 +1502,7 @@ no_sync:
       break;
 
     /* else something interrupted us and we wait for preroll. */
-    if (gst_base_sink_wait_preroll (bsink) != GST_FLOW_OK)
+    if ((ret = gst_base_sink_wait_preroll (bsink)) != GST_FLOW_OK)
       goto stopping;
 
     /* if we got interrupted, we cannot assume that the next sample should
@@ -1498,9 +1511,10 @@ no_sync:
 
     /* update the output samples. FIXME, this will just skip them when pausing
      * during trick mode */
-    if (out_samples > written)
+    if (out_samples > written) {
       out_samples -= written;
-    else
+      accum = 0;
+    } else
       break;
 
     samples -= written;
@@ -1548,8 +1562,9 @@ wrong_size:
   }
 stopping:
   {
-    GST_DEBUG_OBJECT (sink, "ringbuffer is stopping");
-    return GST_FLOW_WRONG_STATE;
+    GST_DEBUG_OBJECT (sink, "preroll got interrupted: %d (%s)", ret,
+        gst_flow_get_name (ret));
+    return ret;
   }
 sync_latency_failed:
   {
@@ -1789,12 +1804,10 @@ gst_base_audio_sink_change_state (GstElement * element,
       gst_ring_buffer_activate (sink->ringbuffer, FALSE);
       gst_ring_buffer_release (sink->ringbuffer);
       gst_ring_buffer_close_device (sink->ringbuffer);
-#if 0
       GST_OBJECT_LOCK (sink);
       gst_object_unparent (GST_OBJECT_CAST (sink->ringbuffer));
       sink->ringbuffer = NULL;
       GST_OBJECT_UNLOCK (sink);
-#endif
       break;
     default:
       break;

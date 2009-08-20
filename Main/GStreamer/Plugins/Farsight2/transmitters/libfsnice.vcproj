@@ -286,6 +286,14 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstreamer.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{EB5D7598-7014-42D3-886C-9B9EC38167C3}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Farsight2\gst-libs\libgstfarsight.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter

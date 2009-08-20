@@ -78,9 +78,9 @@ G_STMT_START { \
  * @GST_RTSP_ENET: a network problem occured, h_errno contains more details
  * @GST_RTSP_ENOTIP: the host is not an IP host
  * @GST_RTSP_ETIMEOUT: a timeout occured
- * @GST_RTSP_ELAST: last error
  * @GST_RTSP_ETGET: the tunnel GET request has been performed
  * @GST_RTSP_ETPOST: the tunnel POST request has been performed
+ * @GST_RTSP_ELAST: last error
  *
  * Result codes from the RTSP functions.
  */
@@ -308,7 +308,10 @@ typedef enum {
   GST_RTSP_HDR_X_PROXY_CLIENT_VERB, /* X-Proxy-Client-Verb */
   GST_RTSP_HDR_X_RECEDING_PLAYLISTCHANGE, /* X-Receding-PlaylistChange */
   GST_RTSP_HDR_X_RTP_INFO,          /* X-RTP-Info */
-  GST_RTSP_HDR_X_STARTUPPROFILE     /* X-StartupProfile */
+  GST_RTSP_HDR_X_STARTUPPROFILE,    /* X-StartupProfile */
+
+  /* Since 0.10.24 */
+  GST_RTSP_HDR_TIMESTAMP            /* Timestamp */
 
 } GstRTSPHeaderField;
 

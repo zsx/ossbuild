@@ -55,6 +55,7 @@ typedef struct
   GstElement *conv;
   GstElement *resample;
   GstElement *volume;           /* element with the volume property */
+  gboolean sink_volume;         /* if the volume was provided by the sink */
   GstElement *mute;             /* element with the mute property */
   GstElement *sink;
 } GstPlayAudioChain;
@@ -123,6 +124,7 @@ struct _GstPlaySink
   GMutex *lock;
 
   gboolean async_pending;
+  gboolean need_async_start;
 
   GstPlayFlags flags;
 
@@ -160,6 +162,8 @@ struct _GstPlaySink
   gchar *font_desc;             /* font description */
   guint connection_speed;       /* connection speed in bits/sec (0 = unknown) */
   gint count;
+  gboolean volume_changed;      /* volume/mute changed while no audiochain */
+  gboolean mute_changed;        /* ... has been reated yet */
 };
 
 struct _GstPlaySinkClass
@@ -172,12 +176,6 @@ struct _GstPlaySinkClass
 enum
 {
   PROP_0,
-  PROP_AUDIO_SINK,
-  PROP_VIDEO_SINK,
-  PROP_VIS_PLUGIN,
-  PROP_VOLUME,
-  PROP_FRAME,
-  PROP_FONT_DESC,
   PROP_LAST
 };
 
@@ -196,6 +194,8 @@ static gboolean gst_play_sink_send_event (GstElement * element,
     GstEvent * event);
 static GstStateChangeReturn gst_play_sink_change_state (GstElement * element,
     GstStateChange transition);
+
+static void gst_play_sink_handle_message (GstBin * bin, GstMessage * message);
 
 /* static guint gst_play_sink_signals[LAST_SIGNAL] = { 0 }; */
 
@@ -227,6 +227,9 @@ gst_play_sink_class_init (GstPlaySinkClass * klass)
       GST_DEBUG_FUNCPTR (gst_play_sink_change_state);
   gstelement_klass->send_event = GST_DEBUG_FUNCPTR (gst_play_sink_send_event);
 
+  gstbin_klass->handle_message =
+      GST_DEBUG_FUNCPTR (gst_play_sink_handle_message);
+
   GST_DEBUG_CATEGORY_INIT (gst_play_sink_debug, "playsink", 0, "play bin");
 }
 
@@ -243,6 +246,8 @@ gst_play_sink_init (GstPlaySink * playsink)
   playsink->flags = GST_PLAY_FLAG_SOFT_VOLUME;
 
   playsink->lock = g_mutex_new ();
+  playsink->need_async_start = TRUE;
+  GST_OBJECT_FLAG_SET (playsink, GST_ELEMENT_IS_SINK);
 }
 
 static void
@@ -330,70 +335,94 @@ gst_play_sink_finalize (GObject * object)
 }
 
 void
-gst_play_sink_set_video_sink (GstPlaySink * playsink, GstElement * sink)
+gst_play_sink_set_sink (GstPlaySink * playsink, GstPlaySinkType type,
+    GstElement * sink)
 {
-  GST_PLAY_SINK_LOCK (playsink);
-  if (playsink->video_sink)
-    gst_object_unref (playsink->video_sink);
+  GstElement **elem = NULL, *old = NULL;
 
-  if (sink) {
-    gst_object_ref (sink);
-    gst_object_sink (sink);
+  GST_LOG ("Setting sink %" GST_PTR_FORMAT " as sink type %d", sink, type);
+
+  GST_PLAY_SINK_LOCK (playsink);
+  switch (type) {
+    case GST_PLAY_SINK_TYPE_AUDIO:
+    case GST_PLAY_SINK_TYPE_AUDIO_RAW:
+      elem = &playsink->audio_sink;
+      break;
+    case GST_PLAY_SINK_TYPE_VIDEO:
+    case GST_PLAY_SINK_TYPE_VIDEO_RAW:
+      elem = &playsink->video_sink;
+      break;
+    case GST_PLAY_SINK_TYPE_TEXT:
+      elem = &playsink->text_sink;
+      break;
+    case GST_PLAY_SINK_TYPE_SUBPIC:
+      elem = &playsink->subp_sink;
+      break;
+    default:
+      break;
   }
-  playsink->video_sink = sink;
+  if (elem) {
+    old = *elem;
+    if (sink)
+      gst_object_ref (sink);
+    *elem = sink;
+  }
   GST_PLAY_SINK_UNLOCK (playsink);
+
+  if (old)
+    gst_object_unref (old);
 }
 
 GstElement *
-gst_play_sink_get_video_sink (GstPlaySink * playsink)
+gst_play_sink_get_sink (GstPlaySink * playsink, GstPlaySinkType type)
 {
   GstElement *result = NULL;
-  GstPlayVideoChain *chain;
+  GstElement *elem = NULL, *chainp = NULL;
 
   GST_PLAY_SINK_LOCK (playsink);
-  if ((chain = (GstPlayVideoChain *) playsink->videochain)) {
-    /* we have an active chain, get the sink */
-    if (chain->sink)
-      result = gst_object_ref (chain->sink);
+  switch (type) {
+    case GST_PLAY_SINK_TYPE_AUDIO:
+    {
+      GstPlayAudioChain *chain;
+      if ((chain = (GstPlayAudioChain *) playsink->audiochain))
+        chainp = chain->sink;
+      elem = playsink->audio_sink;
+      break;
+    }
+    case GST_PLAY_SINK_TYPE_VIDEO:
+    {
+      GstPlayVideoChain *chain;
+      if ((chain = (GstPlayVideoChain *) playsink->videochain))
+        chainp = chain->sink;
+      elem = playsink->video_sink;
+      break;
+    }
+    case GST_PLAY_SINK_TYPE_TEXT:
+    {
+      GstPlayTextChain *chain;
+      if ((chain = (GstPlayTextChain *) playsink->textchain))
+        chainp = chain->sink;
+      elem = playsink->text_sink;
+      break;
+    }
+    case GST_PLAY_SINK_TYPE_SUBPIC:
+    {
+      GstPlaySubpChain *chain;
+      if ((chain = (GstPlaySubpChain *) playsink->subpchain))
+        chainp = chain->sink;
+      elem = playsink->subp_sink;
+      break;
+    }
+    default:
+      break;
+  }
+  if (chainp) {
+    /* we have an active chain with a sink, get the sink */
+    result = gst_object_ref (chainp);
   }
   /* nothing found, return last configured sink */
-  if (result == NULL && playsink->video_sink)
-    result = gst_object_ref (playsink->video_sink);
-  GST_PLAY_SINK_UNLOCK (playsink);
-
-  return result;
-}
-
-void
-gst_play_sink_set_audio_sink (GstPlaySink * playsink, GstElement * sink)
-{
-  GST_PLAY_SINK_LOCK (playsink);
-  if (playsink->audio_sink)
-    gst_object_unref (playsink->audio_sink);
-
-  if (sink) {
-    gst_object_ref (sink);
-    gst_object_sink (sink);
-  }
-  playsink->audio_sink = sink;
-  GST_PLAY_SINK_UNLOCK (playsink);
-}
-
-GstElement *
-gst_play_sink_get_audio_sink (GstPlaySink * playsink)
-{
-  GstElement *result = NULL;
-  GstPlayAudioChain *chain;
-
-  GST_PLAY_SINK_LOCK (playsink);
-  if ((chain = (GstPlayAudioChain *) playsink->audiochain)) {
-    /* we have an active chain, get the sink */
-    if (chain->sink)
-      result = gst_object_ref (chain->sink);
-  }
-  /* nothing found, return last configured sink */
-  if (result == NULL && playsink->audio_sink)
-    result = gst_object_ref (playsink->audio_sink);
+  if (result == NULL && elem)
+    result = gst_object_ref (elem);
   GST_PLAY_SINK_UNLOCK (playsink);
 
   return result;
@@ -519,76 +548,6 @@ gst_play_sink_get_vis_plugin (GstPlaySink * playsink)
 }
 
 void
-gst_play_sink_set_text_sink (GstPlaySink * playsink, GstElement * sink)
-{
-  GST_PLAY_SINK_LOCK (playsink);
-  if (playsink->text_sink)
-    gst_object_unref (playsink->text_sink);
-
-  if (sink) {
-    gst_object_ref (sink);
-    gst_object_sink (sink);
-  }
-  playsink->text_sink = sink;
-  GST_PLAY_SINK_UNLOCK (playsink);
-}
-
-GstElement *
-gst_play_sink_get_text_sink (GstPlaySink * playsink)
-{
-  GstElement *result = NULL;
-  GstPlayTextChain *chain;
-
-  GST_PLAY_SINK_LOCK (playsink);
-  if ((chain = (GstPlayTextChain *) playsink->textchain)) {
-    /* we have an active chain, get the sink */
-    if (chain->sink)
-      result = gst_object_ref (chain->sink);
-  }
-  /* nothing found, return last configured sink */
-  if (result == NULL && playsink->text_sink)
-    result = gst_object_ref (playsink->text_sink);
-  GST_PLAY_SINK_UNLOCK (playsink);
-
-  return result;
-}
-
-void
-gst_play_sink_set_subp_sink (GstPlaySink * playsink, GstElement * sink)
-{
-  GST_PLAY_SINK_LOCK (playsink);
-  if (playsink->subp_sink)
-    gst_object_unref (playsink->subp_sink);
-
-  if (sink) {
-    gst_object_ref (sink);
-    gst_object_sink (sink);
-  }
-  playsink->subp_sink = sink;
-  GST_PLAY_SINK_UNLOCK (playsink);
-}
-
-GstElement *
-gst_play_sink_get_subp_sink (GstPlaySink * playsink)
-{
-  GstElement *result = NULL;
-  GstPlaySubpChain *chain;
-
-  GST_PLAY_SINK_LOCK (playsink);
-  if ((chain = (GstPlaySubpChain *) playsink->subpchain)) {
-    /* we have an active chain, get the sink */
-    if (chain->sink)
-      result = gst_object_ref (chain->sink);
-  }
-  /* nothing found, return last configured sink */
-  if (result == NULL && playsink->subp_sink)
-    result = gst_object_ref (playsink->subp_sink);
-  GST_PLAY_SINK_UNLOCK (playsink);
-
-  return result;
-}
-
-void
 gst_play_sink_set_volume (GstPlaySink * playsink, gdouble volume)
 {
   GstPlayAudioChain *chain;
@@ -597,9 +556,15 @@ gst_play_sink_set_volume (GstPlaySink * playsink, gdouble volume)
   playsink->volume = volume;
   chain = (GstPlayAudioChain *) playsink->audiochain;
   if (chain && chain->volume) {
+    GST_LOG_OBJECT (playsink, "elements: volume=%" GST_PTR_FORMAT ", mute=%"
+        GST_PTR_FORMAT "; new volume=%.03f, mute=%d", chain->volume,
+        chain->mute, volume, playsink->mute);
     /* if there is a mute element or we are not muted, set the volume */
     if (chain->mute || !playsink->mute)
       g_object_set (chain->volume, "volume", volume, NULL);
+  } else {
+    GST_LOG_OBJECT (playsink, "no volume element");
+    playsink->volume_changed = TRUE;
   }
   GST_PLAY_SINK_UNLOCK (playsink);
 }
@@ -642,6 +607,8 @@ gst_play_sink_set_mute (GstPlaySink * playsink, gboolean mute)
         g_object_set (chain->volume, "volume", (gdouble) playsink->volume,
             NULL);
     }
+  } else {
+    playsink->mute_changed = TRUE;
   }
   GST_PLAY_SINK_UNLOCK (playsink);
 }
@@ -801,8 +768,12 @@ do_async_start (GstPlaySink * playsink)
 {
   GstMessage *message;
 
+  if (!playsink->need_async_start)
+    return;
+
   playsink->async_pending = TRUE;
 
+  GST_INFO_OBJECT (playsink, "Sending async_start message");
   message = gst_message_new_async_start (GST_OBJECT_CAST (playsink), FALSE);
   GST_BIN_CLASS (gst_play_sink_parent_class)->handle_message (GST_BIN_CAST
       (playsink), message);
@@ -814,12 +785,15 @@ do_async_done (GstPlaySink * playsink)
   GstMessage *message;
 
   if (playsink->async_pending) {
+    GST_INFO_OBJECT (playsink, "Sending async_done message");
     message = gst_message_new_async_done (GST_OBJECT_CAST (playsink));
     GST_BIN_CLASS (gst_play_sink_parent_class)->handle_message (GST_BIN_CAST
         (playsink), message);
 
     playsink->async_pending = FALSE;
   }
+
+  playsink->need_async_start = FALSE;
 }
 
 /* try to change the state of an element. This function returns the element when
@@ -1164,6 +1138,8 @@ gen_text_chain (GstPlaySink * playsink)
      * overlay. the only thing we can do is insert an identity and ghost the src
      * and sink pads. */
     chain->conv = gst_element_factory_make ("identity", "tidentity");
+    g_object_set (chain->conv, "signal-handoffs", FALSE, NULL);
+    g_object_set (chain->conv, "silent", TRUE, NULL);
     gst_bin_add (bin, chain->conv);
     srcpad = gst_element_get_static_pad (chain->conv, "src");
     videosinkpad = gst_element_get_static_pad (chain->conv, "sink");
@@ -1356,7 +1332,8 @@ gen_audio_chain (GstPlaySink * playsink, gboolean raw, gboolean queue)
   GST_DEBUG_OBJECT (playsink, "making audio chain %p", chain);
 
   if (playsink->audio_sink) {
-    GST_DEBUG_OBJECT (playsink, "trying configured audiosink");
+    GST_DEBUG_OBJECT (playsink, "trying configured audiosink %" GST_PTR_FORMAT,
+        playsink->audio_sink);
     chain->sink = try_element (playsink, playsink->audio_sink, FALSE);
   }
   if (chain->sink == NULL) {
@@ -1399,8 +1376,7 @@ gen_audio_chain (GstPlaySink * playsink, gboolean raw, gboolean queue)
 
     GST_DEBUG_OBJECT (playsink, "the sink has a volume property");
     have_volume = TRUE;
-    /* use the sink to control the volume */
-    g_object_set (G_OBJECT (chain->volume), "volume", playsink->volume, NULL);
+    chain->sink_volume = TRUE;
     /* if the sink also has a mute property we can use this as well. We'll only
      * use the mute property if there is a volume property. We can simulate the
      * mute with the volume otherwise. */
@@ -1409,10 +1385,23 @@ gen_audio_chain (GstPlaySink * playsink, gboolean raw, gboolean queue)
     if (chain->mute) {
       GST_DEBUG_OBJECT (playsink, "the sink has a mute property");
     }
+    /* use the sink to control the volume and mute */
+    if (playsink->volume_changed) {
+      g_object_set (G_OBJECT (chain->volume), "volume", playsink->volume, NULL);
+    }
+    if (playsink->mute_changed) {
+      if (chain->mute) {
+        g_object_set (chain->mute, "mute", playsink->mute, NULL);
+      } else {
+        if (playsink->mute)
+          g_object_set (chain->volume, "volume", (gdouble) 0.0, NULL);
+      }
+    }
   } else {
     /* no volume, we need to add a volume element when we can */
     GST_DEBUG_OBJECT (playsink, "the sink has no volume property");
     have_volume = FALSE;
+    chain->sink_volume = FALSE;
   }
 
   if (raw && !(playsink->flags & GST_PLAY_FLAG_NATIVE_AUDIO)) {
@@ -1557,9 +1546,12 @@ setup_audio_chain (GstPlaySink * playsink, gboolean raw, gboolean queue)
   if (elem) {
     chain->volume = elem;
 
-    GST_DEBUG_OBJECT (playsink, "the sink has a volume property");
-    /* use the sink to control the volume */
-    g_object_set (G_OBJECT (chain->volume), "volume", playsink->volume, NULL);
+    if (playsink->volume_changed) {
+      GST_DEBUG_OBJECT (playsink, "the sink has a volume property, setting %f",
+          playsink->volume);
+      /* use the sink to control the volume */
+      g_object_set (G_OBJECT (chain->volume), "volume", playsink->volume, NULL);
+    }
     /* if the sink also has a mute property we can use this as well. We'll only
      * use the mute property if there is a volume property. We can simulate the
      * mute with the volume otherwise. */
@@ -1571,8 +1563,22 @@ setup_audio_chain (GstPlaySink * playsink, gboolean raw, gboolean queue)
   } else {
     /* no volume, we need to add a volume element when we can */
     GST_DEBUG_OBJECT (playsink, "the sink has no volume property");
-    chain->volume = NULL;
-    chain->mute = NULL;
+    if (!raw) {
+      GST_LOG_OBJECT (playsink, "non-raw format, can't do soft volume control");
+      chain->volume = NULL;
+      chain->mute = NULL;
+    } else {
+      /* both last and current chain are raw audio, there should be a volume
+       * element already, unless the sink changed from one with a volume
+       * property to one that hasn't got a volume property, in which case we
+       * re-generate the chain */
+      if (chain->volume == NULL) {
+        GST_DEBUG_OBJECT (playsink, "no existing volume element to re-use");
+        return FALSE;
+      }
+
+      GST_DEBUG_OBJECT (playsink, "reusing existing volume element");
+    }
   }
   return TRUE;
 }
@@ -1810,8 +1816,7 @@ gst_play_sink_reconfigure (GstPlaySink * playsink)
           playsink->audio_tee_vissrc = NULL;
         }
         srcpad =
-            gst_element_get_static_pad (GST_ELEMENT_CAST (playsink->
-                vischain->chain.bin), "src");
+            gst_element_get_static_pad (playsink->vischain->chain.bin, "src");
         gst_pad_unlink (srcpad, playsink->videochain->sinkpad);
       }
       add_chain (GST_PLAY_CHAIN (playsink->videochain), FALSE);
@@ -1861,7 +1866,7 @@ gst_play_sink_reconfigure (GstPlaySink * playsink)
       gst_ghost_pad_set_target (GST_GHOST_PAD_CAST (playsink->text_pad), NULL);
   }
 
-  if (need_subp) {
+  if (need_subp && playsink->videochain) {
     GST_DEBUG_OBJECT (playsink, "adding subpicture");
     if (!playsink->subpchain) {
       GST_DEBUG_OBJECT (playsink, "creating subpicture chain");
@@ -1928,8 +1933,11 @@ gst_play_sink_reconfigure (GstPlaySink * playsink)
         }
         add_chain (GST_PLAY_CHAIN (playsink->audiochain), FALSE);
         activate_chain (GST_PLAY_CHAIN (playsink->audiochain), FALSE);
+        playsink->audiochain->volume = NULL;
+        playsink->audiochain->mute = NULL;
         free_chain ((GstPlayChain *) playsink->audiochain);
         playsink->audiochain = NULL;
+        playsink->volume_changed = playsink->mute_changed = FALSE;
       }
     }
 
@@ -1960,6 +1968,10 @@ gst_play_sink_reconfigure (GstPlaySink * playsink)
         gst_object_unref (playsink->audio_tee_asrc);
         playsink->audio_tee_asrc = NULL;
       }
+      if (playsink->audiochain->sink_volume) {
+        playsink->audiochain->volume = NULL;
+        playsink->audiochain->mute = NULL;
+      }
       add_chain (GST_PLAY_CHAIN (playsink->audiochain), FALSE);
       activate_chain (GST_PLAY_CHAIN (playsink->audiochain), FALSE);
     }
@@ -1976,8 +1988,7 @@ gst_play_sink_reconfigure (GstPlaySink * playsink)
     if (playsink->vischain) {
       GST_DEBUG_OBJECT (playsink, "setting up vis chain");
       srcpad =
-          gst_element_get_static_pad (GST_ELEMENT_CAST (playsink->
-              vischain->chain.bin), "src");
+          gst_element_get_static_pad (playsink->vischain->chain.bin, "src");
       add_chain (GST_PLAY_CHAIN (playsink->vischain), TRUE);
       activate_chain (GST_PLAY_CHAIN (playsink->vischain), TRUE);
       if (playsink->audio_tee_vissrc == NULL) {
@@ -2291,6 +2302,51 @@ gst_play_sink_release_pad (GstPlaySink * playsink, GstPad * pad)
   }
 }
 
+static void
+gst_play_sink_handle_message (GstBin * bin, GstMessage * message)
+{
+  GstPlaySink *playsink;
+
+  playsink = GST_PLAY_SINK_CAST (bin);
+
+  switch (GST_MESSAGE_TYPE (message)) {
+    case GST_MESSAGE_STEP_DONE:
+    {
+      GstFormat format;
+      guint64 amount;
+      gdouble rate;
+      gboolean flush, intermediate, res, eos;
+      guint64 duration;
+
+      GST_INFO_OBJECT (playsink, "Handling step-done message");
+      gst_message_parse_step_done (message, &format, &amount, &rate, &flush,
+          &intermediate, &duration, &eos);
+
+      if (format == GST_FORMAT_BUFFERS) {
+        /* for the buffer format, we align the other streams */
+        if (playsink->audiochain) {
+          GstEvent *event;
+
+          event =
+              gst_event_new_step (GST_FORMAT_TIME, duration, rate, flush,
+              intermediate);
+
+          if (!(res =
+                  gst_element_send_event (playsink->audiochain->chain.bin,
+                      event))) {
+            GST_DEBUG_OBJECT (playsink, "Event failed when sent to audio sink");
+          }
+        }
+      }
+      GST_BIN_CLASS (gst_play_sink_parent_class)->handle_message (bin, message);
+      break;
+    }
+    default:
+      GST_BIN_CLASS (gst_play_sink_parent_class)->handle_message (bin, message);
+      break;
+  }
+}
+
 /* Send an event to our sinks until one of them works; don't then send to the
  * remaining sinks (unlike GstBin)
  */
@@ -2328,12 +2384,36 @@ gst_play_sink_send_event (GstElement * element, GstEvent * event)
 {
   gboolean res = FALSE;
   GstEventType event_type = GST_EVENT_TYPE (event);
+  GstPlaySink *playsink;
+
+  playsink = GST_PLAY_SINK_CAST (element);
 
   switch (event_type) {
     case GST_EVENT_SEEK:
-      GST_DEBUG_OBJECT (element, "Sending seek event to a sink");
-      res = gst_play_sink_send_event_to_sink (GST_PLAY_SINK (element), event);
+      GST_DEBUG_OBJECT (element, "Sending event to a sink");
+      res = gst_play_sink_send_event_to_sink (playsink, event);
       break;
+    case GST_EVENT_STEP:
+    {
+      GstFormat format;
+      guint64 amount;
+      gdouble rate;
+      gboolean flush, intermediate;
+
+      gst_event_parse_step (event, &format, &amount, &rate, &flush,
+          &intermediate);
+
+      if (format == GST_FORMAT_BUFFERS) {
+        /* for buffers, we will try to step video frames, for other formats we
+         * send the step to all sinks */
+        res = gst_play_sink_send_event_to_sink (playsink, event);
+      } else {
+        res =
+            GST_ELEMENT_CLASS (gst_play_sink_parent_class)->send_event (element,
+            event);
+      }
+      break;
+    }
     default:
       res =
           GST_ELEMENT_CLASS (gst_play_sink_parent_class)->send_event (element,
@@ -2359,6 +2439,16 @@ gst_play_sink_change_state (GstElement * element, GstStateChange transition)
        * sinks */
       do_async_start (playsink);
       ret = GST_STATE_CHANGE_ASYNC;
+      break;
+    case GST_STATE_CHANGE_PAUSED_TO_READY:
+    case GST_STATE_CHANGE_READY_TO_NULL:
+      if (playsink->audiochain && playsink->audiochain->sink_volume) {
+        /* remove our links to the mute and volume elements when they were
+         * provided by a sink */
+        playsink->audiochain->volume = NULL;
+        playsink->audiochain->mute = NULL;
+      }
+      ret = GST_STATE_CHANGE_SUCCESS;
       break;
     default:
       /* all other state changes return SUCCESS by default, this value can be
@@ -2396,8 +2486,10 @@ gst_play_sink_change_state (GstElement * element, GstStateChange transition)
       break;
     case GST_STATE_CHANGE_PLAYING_TO_PAUSED:
       /* FIXME Release audio device when we implement that */
+      playsink->need_async_start = TRUE;
       break;
     case GST_STATE_CHANGE_PAUSED_TO_READY:
+    case GST_STATE_CHANGE_READY_TO_NULL:
       /* remove sinks we added */
       if (playsink->videochain) {
         activate_chain (GST_PLAY_CHAIN (playsink->videochain), FALSE);
@@ -2415,12 +2507,15 @@ gst_play_sink_change_state (GstElement * element, GstStateChange transition)
         activate_chain (GST_PLAY_CHAIN (playsink->textchain), FALSE);
         add_chain (GST_PLAY_CHAIN (playsink->textchain), FALSE);
       }
+      if (playsink->subpchain) {
+        activate_chain (GST_PLAY_CHAIN (playsink->subpchain), FALSE);
+        add_chain (GST_PLAY_CHAIN (playsink->subpchain), FALSE);
+      }
       do_async_done (playsink);
       break;
     default:
       break;
   }
-
   return ret;
 
   /* ERRORS */

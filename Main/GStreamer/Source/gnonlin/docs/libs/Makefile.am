@@ -6,7 +6,7 @@ GST_DOC_SCANOBJ = $(top_srcdir)/common/gstdoc-scangobj
 MODULE=gnonlin
 DOC_MODULE=$(MODULE)
 
-# for upload.mak
+# for upload-doc.mak
 DOC=$(MODULE)
 FORMATS=html
 html: html-build.stamp

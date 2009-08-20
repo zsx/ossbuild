@@ -235,6 +235,7 @@ G_STMT_START {						\
 typedef struct _GstClockEntry	GstClockEntry;
 typedef struct _GstClock	GstClock;
 typedef struct _GstClockClass	GstClockClass;
+typedef struct _GstClockPrivate	GstClockPrivate;
 
 /* --- prototype for async callbacks --- */
 /**
@@ -447,7 +448,10 @@ struct _GstClock {
   GstClockID     clockid;
 
   /*< private >*/
-  GstClockTime	 _gst_reserved[GST_PADDING];
+  union {
+    GstClockPrivate *priv;
+    GstClockTime     _gst_reserved[GST_PADDING];
+  } ABI;
 };
 
 /**

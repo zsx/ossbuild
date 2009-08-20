@@ -56,11 +56,17 @@
 <a name="gst-plugins-base-plugins-gnomevfssink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSink
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
+>GstBaseSink</a>
                      +----GstGnomeVFSSink
 </pre>
 </div>
@@ -68,17 +74,19 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-base-plugins-gnomevfssink.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstGnomeVFSSink implements
- GstURIHandler.</p>
+ <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstUriHandler.html#GstURIHandler"
+>GstURIHandler</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-gnomevfssink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-gnomevfssink.html#GstGnomeVFSSink--handle" title='The "handle" property'>handle</a>"                   GnomeVFSHandle*       : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-gnomevfssink.html#GstGnomeVFSSink--location" title='The "location" property'>location</a>"                 <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-base-plugins-gnomevfssink.html#GstGnomeVFSSink--uri" title='The "uri" property'>uri</a>"                      <a
-href="../gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
+href="/usr/share/gtk-doc/html/gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
 >GnomeVFSURI</a>*          : Read / Write
 </pre>
 </div>
@@ -104,7 +112,7 @@ resource or abort with an error.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2664712"></a><h3>Example launch lines</h3>
+<a name="id2669840"></a><h3>Example launch lines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=input.xyz ! gnomevfssink location=file:///home/joe/out.xyz
 </pre></div> The above pipeline will simply copy a local file. Instead of gnomevfssink,
@@ -121,7 +129,7 @@ Last reviewed on 2006-02-28 (0.10.4)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2664748"></a><h3>Element Information</h3>
+<a name="id2669878"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -144,7 +152,57 @@ Last reviewed on 2006-02-28 (0.10.4)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2664811"></a><h3>Element Pads</h3>
+<a name="id2669940"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2670326"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-base-plugins-plugin-gnomevfs.html#plugin-gnomevfs">gnomevfs</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Bastien Nocera &lt;hadess@hadess.net&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Sink/File</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2670388"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -193,7 +251,7 @@ Opaque data structure.</p>
 <div class="refsect2" lang="en">
 <a name="GstGnomeVFSSink--location"></a><h3>The <code class="literal">"location"</code> property</h3>
 <pre class="programlisting">  "location"                 <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>Location of the file to write.</p>
 <p>Default value: NULL</p>
@@ -202,7 +260,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="GstGnomeVFSSink--uri"></a><h3>The <code class="literal">"uri"</code> property</h3>
 <pre class="programlisting">  "uri"                      <a
-href="../gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
+href="/usr/share/gtk-doc/html/gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
 >GnomeVFSURI</a>*          : Read / Write</pre>
 <p>URI for GnomeVFS.</p>
 </div>
@@ -212,13 +270,13 @@ href="../gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
 <div class="refsect2" lang="en">
 <a name="GstGnomeVFSSink-allow-overwrite"></a><h3>The <code class="literal">"allow-overwrite"</code> signal</h3>
 <pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            user_function                      (<a class="link" href="gst-plugins-base-plugins-gnomevfssink.html#GstGnomeVFSSink">GstGnomeVFSSink</a> *sink,
                                                         <a
-href="../gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
+href="/usr/share/gtk-doc/html/gnome-vfs-2.0/gnome-vfs-20-gnome-vfs-uri.html#GnomeVFSURI"
 >GnomeVFSURI</a>     *uri,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>         user_data)      : Cleanup</pre>
 <p>
 This signal is fired when gnomevfssink is about to overwrite an

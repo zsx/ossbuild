@@ -455,3 +455,79 @@ gst_play_marshal_OBJECT__INT (GClosure     *closure,
   g_value_take_object (return_value, v_return);
 }
 
+/* INT64:VOID */
+void
+gst_play_marshal_INT64__VOID (GClosure     *closure,
+                              GValue       *return_value G_GNUC_UNUSED,
+                              guint         n_param_values,
+                              const GValue *param_values,
+                              gpointer      invocation_hint G_GNUC_UNUSED,
+                              gpointer      marshal_data)
+{
+  typedef gint64 (*GMarshalFunc_INT64__VOID) (gpointer     data1,
+                                              gpointer     data2);
+  register GMarshalFunc_INT64__VOID callback;
+  register GCClosure *cc = (GCClosure*) closure;
+  register gpointer data1, data2;
+  gint64 v_return;
+
+  g_return_if_fail (return_value != NULL);
+  g_return_if_fail (n_param_values == 1);
+
+  if (G_CCLOSURE_SWAP_DATA (closure))
+    {
+      data1 = closure->data;
+      data2 = g_value_peek_pointer (param_values + 0);
+    }
+  else
+    {
+      data1 = g_value_peek_pointer (param_values + 0);
+      data2 = closure->data;
+    }
+  callback = (GMarshalFunc_INT64__VOID) (marshal_data ? marshal_data : cc->callback);
+
+  v_return = callback (data1,
+                       data2);
+
+  g_value_set_int64 (return_value, v_return);
+}
+
+/* VOID:OBJECT,INT64,INT64 */
+void
+gst_play_marshal_VOID__OBJECT_INT64_INT64 (GClosure     *closure,
+                                           GValue       *return_value G_GNUC_UNUSED,
+                                           guint         n_param_values,
+                                           const GValue *param_values,
+                                           gpointer      invocation_hint G_GNUC_UNUSED,
+                                           gpointer      marshal_data)
+{
+  typedef void (*GMarshalFunc_VOID__OBJECT_INT64_INT64) (gpointer     data1,
+                                                         gpointer     arg_1,
+                                                         gint64       arg_2,
+                                                         gint64       arg_3,
+                                                         gpointer     data2);
+  register GMarshalFunc_VOID__OBJECT_INT64_INT64 callback;
+  register GCClosure *cc = (GCClosure*) closure;
+  register gpointer data1, data2;
+
+  g_return_if_fail (n_param_values == 4);
+
+  if (G_CCLOSURE_SWAP_DATA (closure))
+    {
+      data1 = closure->data;
+      data2 = g_value_peek_pointer (param_values + 0);
+    }
+  else
+    {
+      data1 = g_value_peek_pointer (param_values + 0);
+      data2 = closure->data;
+    }
+  callback = (GMarshalFunc_VOID__OBJECT_INT64_INT64) (marshal_data ? marshal_data : cc->callback);
+
+  callback (data1,
+            g_marshal_value_peek_object (param_values + 1),
+            g_marshal_value_peek_int64 (param_values + 2),
+            g_marshal_value_peek_int64 (param_values + 3),
+            data2);
+}
+
