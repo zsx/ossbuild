@@ -1,0 +1,27 @@
+--- agent\interfaces-orig.c	Fri Jul 31 13:48:07 2009
++++ agent\interfaces.c	Fri Aug 21 20:02:01 2009
+@@ -320,6 +320,24 @@
+ #include <winsock2.h>
+ #include <Iphlpapi.h>
+ 
++#if (defined(__CYGWIN__) || defined(__MINGW32__) || defined(_UWIN))
++#define MIB_IPADDR_DISCONNECTED 0x0008
++#define MIB_IPADDR_DELETED 0x0040
++#define IF_INDEX unsigned long
++/* Fixes incorrect mingw definition in iprtrmib.h */
++typedef struct {
++  DWORD dwAddr;
++  DWORD dwIndex;
++  DWORD dwMask;
++  DWORD dwBCastAddr;
++  DWORD dwReasmSize;
++  unsigned short unused1;
++  unsigned short wType;
++} MIB_IPADDRROW_CURRENT, *PMIB_IPADDRROW_CURRENT;
++#define MIB_IPADDRROW MIB_IPADDRROW_CURRENT
++#define PMIB_IPADDRROW PMIB_IPADDRROW_CURRENT
++#endif
++
+ static gboolean started_wsa_engine = FALSE;
+ 
+ /*

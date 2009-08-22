@@ -1,0 +1,12 @@
+--- stun\usages\bind.c	Mon Mar  9 13:34:55 2009
++++ stun\usages\bind.c	Fri Aug 21 19:39:02 2009
+@@ -41,7 +41,9 @@
+ #include <winsock2.h>
+ #include <ws2tcpip.h>
+ #include "win32_common.h"
++#if !(defined(__CYGWIN__) || defined(__MINGW32__) || defined(_UWIN))
+ #define close closesocket
++#endif
+ #else
+ #include <sys/types.h>
+ #include <sys/socket.h>

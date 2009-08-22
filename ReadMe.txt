@@ -92,3 +92,9 @@ Licenses
 Please see the licenses in the Licenses/ folder for details on each library/application used.
 
 For copyright information, please see COPYING.
+
+For legal purposes, you must inspect the individual licenses of all packages to determine if 
+they fit your legal constraints. OSSBuild or any of its developers are NOT legally responsible 
+for any failure to ensure compliance or any legal action resulting from the use of this 
+software. It is solely the responsibility of the recipient and user to determine legal 
+eligibility for use.

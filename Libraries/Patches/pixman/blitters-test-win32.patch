@@ -1,0 +1,13 @@
+--- test\blitters-test.c	Mon Aug 10 23:04:40 2009
++++ test\blitters-test.c	Fri Aug 21 15:44:57 2009
+@@ -25,6 +25,10 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <malloc.h>
++#ifdef _WIN32
++#include <mm_malloc.h>
++#define memalign _mm_malloc
++#endif
+ #include "pixman.h"
+ 
+ /* A primitive pseudorandom number generator, taken from POSIX.1-2001 example */
