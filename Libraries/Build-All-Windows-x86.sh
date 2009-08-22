@@ -142,17 +142,17 @@ if [ ! -f "$BinDir/libbz2.dll" ]; then
 fi
 
 #expat
-if [ ! -f "$BinDir/libexpat-1.dll" ]; then
-	unpack_gzip_and_move "expat.tar.gz" "$PKG_DIR_EXPAT"
-	mkdir_and_move "$IntDir/expat"
-	
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	make && make install
-	
-	copy_files_to_dir "$PKG_DIR/lib/libexpat.def" "$IntDir/expat"
-	$MSLIB /name:libexpat-1.dll /out:expat.lib /machine:$MSLibMachine /def:libexpat.def
-	move_files_to_dir "*.exp *.lib" "$LibDir"
-fi
+#if [ ! -f "$BinDir/libexpat-1.dll" ]; then
+#	unpack_gzip_and_move "expat.tar.gz" "$PKG_DIR_EXPAT"
+#	mkdir_and_move "$IntDir/expat"
+#	
+#	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+#	make && make install
+#	
+#	copy_files_to_dir "$PKG_DIR/lib/libexpat.def" "$IntDir/expat"
+#	$MSLIB /name:libexpat-1.dll /out:expat.lib /machine:$MSLibMachine /def:libexpat.def
+#	move_files_to_dir "*.exp *.lib" "$LibDir"
+#fi
 
 #libxml2
 if [ ! -f "$BinDir/libxml2-2.dll" ]; then 
@@ -366,7 +366,7 @@ if [ ! -f "$BinDir/libneon-27.dll" ]; then
 	unpack_gzip_and_move "neon.tar.gz" "$PKG_DIR_NEON"
 	mkdir_and_move "$IntDir/neon"
 	
-	#$PKG_DIR/configure --with-libxml2 --with-ssl=gnutls --disable-webdav --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --with-libxml2 --with-ssl=gnutls --disable-webdav --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install
 	
 	$MSLIB /name:libneon-27.dll /out:neon.lib /machine:$MSLibMachine /def:src/.libs/libneon-27.dll.def
@@ -444,7 +444,7 @@ if [ ! -f "$BinDir/libpango-1.0-0.dll" ]; then
 	#Need to get rid of MS build tools b/c the makefile call is incorrectly passing it msys-style paths.
 	reset_path
 	
-	#$PKG_DIR/configure --with-included-modules --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --with-included-modules --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	
 	#Pango incorrectly creates pango-enum-types.h by running glib-mkenums and it's somehow inserting a path in the fprods like: C:/msys
 	#Since it already has pre-made ones, we just copy those over and use them
@@ -898,7 +898,7 @@ fi
 #faac
 if [ ! -f "$BinDir/libfaac-0.dll" ]; then 
 
-	unpack_bzip2_and_move "faac.tar.gz" "$PKG_DIR_FAAC"
+	unpack_bzip2_and_move "faac.tar.bz2" "$PKG_DIR_FAAC"
 	
 	mkdir_and_move "$IntDir/faac"
 	 
@@ -918,7 +918,7 @@ fi
 #faad
 if [ ! -f "$BinDir/libfaad-2.dll" ]; then 
 
-	unpack_bzip2_and_move "faad2.tar.gz" "$PKG_DIR_FAAD2"
+	unpack_bzip2_and_move "faad2.tar.bz2" "$PKG_DIR_FAAD2"
 	
 	mkdir_and_move "$IntDir/faad2"
 	 
@@ -948,7 +948,7 @@ if [ ! -f "$BinDir/libdvdread-4.dll" ]; then
 	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl"
 	make && make install
 
-	cp "$LIBRARIES_PATCH_DIR/dvdread/dvd_reader.h" "$IncludeDir/dvdread" 
+	cp -f "$LIBRARIES_PATCH_DIR/dvdread/dvd_reader.h" "$IncludeDir/dvdread"/ 
 
 	cd src/.libs
 	$MSLIB /name:libdvdread-4.dll /out:dvdread.lib /machine:$MSLibMachine /def:libdvdread-4.dll.def
