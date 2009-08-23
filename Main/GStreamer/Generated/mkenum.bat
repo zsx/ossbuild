@@ -5,7 +5,8 @@ set MY_TOPDIR=%MY_DIR%\..\..\..
 set MY_TOOLSDIR=%MY_TOPDIR%\Tools
 set MY_SHAREDDIR=%MY_TOPDIR%\Shared
 set MY_SHAREDBIN=%MY_SHAREDDIR%\Build\Windows\Win32\bin
-set PATH=%MY_SHAREDBINDIR%;%MY_TOOLSDIR%;%PATH%
+set MY_BUILDBINDIR=%MY_TOPDIR%\Build\Windows\Win32\Release\bin
+set PATH=%MY_BUILDBINDIR%;%MY_SHAREDBINDIR%;%MY_TOOLSDIR%;%PATH%
 
 set MY_NAME=%1
 set MY_WORKINGDIR=%2
@@ -42,7 +43,14 @@ set MY_H_ARGS=%MY_H_FHEAD% %MY_H_FPROD% %MY_H_FTAIL% %MY_H_EPROD% %MY_H_VHEAD% %
 set MY_S_ARGS=%MY_S_FHEAD% %MY_S_FPROD% %MY_S_FTAIL% %MY_S_EPROD% %MY_S_VHEAD% %MY_S_VPROD% %MY_S_VTAIL% %MY_S_COMMENTS%
 
 
-set MY_MK_ENUMS=perl "%MY_SHAREDBIN%\glib-mkenums"
+set MY_MK_ENUMS=perl "%MY_BUILDBINDIR%\glib-mkenums"
+if not exist "%MY_BUILDBINDIR%\glib-mkenums" (
+	set MY_MK_ENUMS=perl "%MY_SHAREDBIN%\glib-mkenums"
+	if not exist "%MY_SHAREDBIN%\glib-mkenums" (
+		echo Missing glib-mkenums
+		goto error
+	)
+)
 
 if "%MY_WORKINGDIR%" == "" (
     echo Missing working directory

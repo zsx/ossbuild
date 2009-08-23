@@ -22,6 +22,12 @@ setup_ms_build_env_path
 #clear_flags
 
 
+#gcc_dw2
+if [ ! -f "$BinDir/libgcc_s_dw2-1.dll" ]; then
+	#Needed for new dwarf2 exception handling
+	copy_files_to_dir "$LIBRARIES_PATCH_DIR/gcc_dw2/libgcc_s_dw2-1.dll" "$BinDir"
+fi
+
 #proxy-libintl
 if [ ! -f "$LibDir/intl.lib" ]; then 
 	unpack_zip_and_move_windows "proxy-libintl.zip" "proxy-libintl" "proxy-libintl"
@@ -141,6 +147,30 @@ if [ ! -f "$BinDir/libbz2.dll" ]; then
 	copy_files_to_dir "bzlib.h" "$IncludeDir"
 fi
 
+#glew
+if [ ! -f "$BinDir/glew32.dll" ]; then
+	unpack_gzip_and_move "glew.tar.gz" "$PKG_DIR_GLEW"
+	mkdir_and_move "$IntDir/glew"
+	
+	cd "$PKG_DIR"
+	make
+	
+	cd "lib"
+	strip "libglew32.dll.a"
+	
+	pexports "glew32.dll" > in.def
+	sed -e '/LIBRARY glew32/d' -e 's/DATA//g' in.def > in-mod.def
+	$MSLIB /name:glew32.dll /out:glew32.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
+	
+	cp -f "glew32.dll" "$BinDir"
+	cp -f "libglew32.dll.a" "$LibDir"
+	
+	cd "../include/GL/"
+	mkdir -p "$IncludeDir/GL/"
+	copy_files_to_dir "glew.h wglew.h" "$IncludeDir/GL/"
+fi
+
 #expat
 #if [ ! -f "$BinDir/libexpat-1.dll" ]; then
 #	unpack_gzip_and_move "expat.tar.gz" "$PKG_DIR_EXPAT"
@@ -257,6 +287,10 @@ if [ ! -f "$BinDir/libglib-2.0-0.dll" ]; then
 	
 	cd "$LibDir"
 	remove_files_from_dir "g*-2.0.def"
+	
+	#This is silly - but glib 2.21.4 (at least) doesn't copy this config file even when it's needed.
+	#See bug 592773 for more information: http://bugzilla.gnome.org/show_bug.cgi?id=592773
+	cp -f "$PKG_DIR/glibconfig.h.win32" "$IncludeDir/glib-2.0/glibconfig.h"
 fi
 
 #openssl

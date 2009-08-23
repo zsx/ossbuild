@@ -737,28 +737,29 @@ gst_pngdec_libpng_clear (GstPngDec * pngdec)
 static gboolean
 gst_pngdec_libpng_init (GstPngDec * pngdec)
 {
+	GST_WARNING ("GOT HERE 1");
   g_return_val_if_fail (GST_IS_PNGDEC (pngdec), FALSE);
-
+GST_WARNING ("GOT HERE 2");
   if (pngdec->setup)
     return TRUE;
-
+GST_WARNING ("GOT HERE 3");
   GST_LOG ("init libpng structures");
-
+GST_WARNING ("GOT HERE 4");
   /* initialize png struct stuff */
   pngdec->png = png_create_read_struct (PNG_LIBPNG_VER_STRING,
       (png_voidp) NULL, user_error_fn, user_warning_fn);
-
+GST_WARNING ("GOT HERE 5");
   if (pngdec->png == NULL)
     goto init_failed;
-
+GST_WARNING ("GOT HERE 6");
   pngdec->info = png_create_info_struct (pngdec->png);
   if (pngdec->info == NULL)
     goto info_failed;
-
+GST_WARNING ("GOT HERE 7");
   pngdec->endinfo = png_create_info_struct (pngdec->png);
   if (pngdec->endinfo == NULL)
     goto endinfo_failed;
-
+GST_WARNING ("GOT HERE 8");
   pngdec->setup = TRUE;
 
   return TRUE;

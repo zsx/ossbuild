@@ -46,8 +46,10 @@ export PKG_VER_A52DEC=0.7.4
 export PKG_VER_DLFCN=r11
 export PKG_VER_FAAC=1.28
 export PKG_VER_FAAD2=2.7
+export PKG_VER_GLEW=1.5.1
 
 export PKG_DIR_ZLIB=.
+export PKG_DIR_GLEW=glew
 export PKG_DIR_LIBMMS=LibMms
 export PKG_DIR_PROXY_LIBINTL=.
 export PKG_DIR_WIN_ICONV=Win-Iconv

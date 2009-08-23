@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="GStreamer OpenGL Plugins"
-	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin.vsprops;..\..\..\Shared\MSVC\Properties\Libraries\GLEW.vsprops"
 	>
 	<Tool
 		Name="VCCLCompilerTool"

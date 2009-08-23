@@ -1,6 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{9C442D52-5C3A-4139-9774-3E96A52061E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{A0AE4328-2CEE-458D-9B32-5E1A18F82698}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{FB3C7DEF-FBD0-44D4-935E-532D539C5674}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Good", "Good", "{C0372440-7D47-45AF-8DD5-3BC235AE9467}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ugly", "Ugly", "{7E7853F8-06A3-4D7E-BBB4-66F7A7DED12A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bad", "Bad", "{303EB0A8-443F-4593-9EB9-F042E7945EBE}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstreamer", "Main\GStreamer\Libraries\libgstreamer.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstbase", "Main\GStreamer\Libraries\libgstbase.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
@@ -39,7 +53,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-launch", "Main\GStreame
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-xmlinspect", "Main\GStreamer\Applications\gst-xmlinspect.vcproj", "{F987873B-2B88-4B1B-B627-E70DF4F91E57}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{159F4FF4-7C87-4878-846C-56C347D40788}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstadder", "Main\GStreamer\Plugins\Base\gst\libgstadder.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{651994CA-EA11-4F53-B9B5-91CCF4A4C46D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstaudio", "Main\GStreamer\Plugins\Base\gst-libs\libgstaudio.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -139,6 +157,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvideotestsrc", "Main\GSt
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvolume", "Main\GStreamer\Plugins\Base\gst\libgstvolume.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F28}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{D1BB4E59-5FD4-4B09-AD6A-28701A507050}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstgio", "Main\GStreamer\Plugins\Base\ext\libgstgio.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F29}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstpango", "Main\GStreamer\Plugins\Base\ext\libgstpango.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F30}"
@@ -162,6 +182,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvorbis", "Main\GStreamer
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{605D951F-5D22-4AAF-99E7-F5F1AA429520}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{60091039-790A-4D1D-9566-314D62E3AE2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sys", "sys", "{CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstalpha", "Main\GStreamer\Plugins\Good\gst\libgstalpha.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A03}"
 EndProject
@@ -306,6 +332,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvideofilterflip", "Main\
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FFmpeg", "FFmpeg", "{4A3588FE-548D-4D01-8BF3-F8CD704AE953}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{257EBB00-F5E5-4296-A6C0-23BB8748639B}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstffmpeg", "Main\GStreamer\Plugins\FFmpeg\ext\libgstffmpeg.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92000}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdirectsound", "Main\GStreamer\Plugins\Good\sys\libgstdirectsound.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92001}"
@@ -324,7 +354,21 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstpng", "Main\GStreamer\Pl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsoup", "Main\GStreamer\Plugins\Good\ext\libgstsoup.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92008}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GStreamer", "GStreamer", "{2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{E2273E8E-71C8-4604-AA37-355C47543E40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{9FD26CEB-D029-4819-A438-AFF7AB591097}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sys", "sys", "{505E1481-6A3D-4189-B216-9FA83AA9742A}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstneon", "Main\GStreamer\Plugins\Bad\ext\libgstneon.vcproj", "{ECA7C701-FB88-4BFE-CE27-F70DF4F90001}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{9A756397-7323-4566-98AF-9D55C9227FC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{CDB27022-AD35-4D8F-99FE-B13AE3564346}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstasfdemux", "Main\GStreamer\Plugins\Ugly\gst\libgstasfdemux.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0002}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -512,6 +556,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstappplugin", "Main\GStrea
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F03} = {AB87873B-2B88-4B1B-B627-F70DF4F91F03}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Farsight", "Farsight", "{D1845284-1A64-454F-A1B1-6CE297F2574D}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtpnetsim", "Main\GStreamer\Plugins\Farsight\gst\libgstrtnetsim.vcproj", "{313836D8-F6ED-4F08-AF71-4165FC86B2CC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtprtpdemux", "Main\GStreamer\Plugins\Farsight\gst\libgstrtpdemux.vcproj", "{B805B3DB-7D69-490A-91E3-A89646E69F1F}"
@@ -520,6 +566,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtpjitterbuffer", "Main\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtppayloads", "Main\GStreamer\Plugins\Farsight\gst\libgstrtppayloads.vcproj", "{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfsselector", "Main\GStreamer\Plugins\Farsight\gst\libgstselector.vcproj", "{6D6E96B4-23EA-453E-9156-4F149871ACBB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Farsight2", "Farsight2", "{FFE0F9D0-2B38-4B5A-A375-D2C83FBB161F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{E91C6FAE-F637-4F8A-86B7-D25AFFF94E29}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfarsight", "Main\GStreamer\Plugins\Farsight2\gst-libs\libgstfarsight.vcproj", "{EB5D7598-7014-42D3-886C-9B9EC38167C3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
@@ -527,6 +579,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfarsight", "Main\GStream
 		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
 		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{43DFE288-BB89-4C6B-8114-7675475C3DBB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{E33F9179-6CEE-48DA-9FD5-14D6F26A34FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "transmitters", "transmitters", "{8598E004-C213-409C-B1CB-3DDF2D640B7A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fsfunnel", "Main\GStreamer\Plugins\Farsight2\gst\libfsfunel.vcproj", "{6E8D09D7-99A2-4640-AEB5-80EE26FA745A}"
 EndProject
@@ -554,10 +612,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rawudp-transmitter", "Main\
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3} = {EB5D7598-7014-42D3-886C-9B9EC38167C3}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GNonLin", "GNonLin", "{E3E23CAF-3BA2-485B-887B-71C9CE8615E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gnl", "gnl", "{71252AE1-E351-48A1-AAB1-02AC0A5D9971}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gnl", "Main\GStreamer\Plugins\GNonLin\gnl\libgnl.vcproj", "{4288EE5A-D59E-44AE-A1F6-001D58DD708A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{426FBABE-16AD-4C2D-893D-8542FCEC28E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python", "Python", "{78FE20E2-2242-4ADB-B492-1B592D1D58FB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "video", "Main\GStreamer\Bindings\Python\video.vcproj", "{39C85775-F04E-415A-ADE9-89B10D85F5D0}"
 EndProject
@@ -575,7 +641,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tag", "Main\GStreamer\Bindi
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3} = {EB5D7598-7014-42D3-886C-9B9EC38167C3}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL", "GL", "{79C181D0-9230-4CCF-A108-EB26C1D9377A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{E025DAEC-46F6-4E0E-ADAE-0F51F60CA74D}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstgl", "Main\GStreamer\Plugins\GL\gst-libs\libgstgl.vcproj", "{09475780-CDE5-45AD-BF90-BE489DD12A23}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{E3D83F9F-F87A-4CA9-B8A6-0B11162F2A28}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstopengl", "Main\GStreamer\Plugins\GL\gst\libgstgl-plg.vcproj", "{0597EA2B-A46C-4CF1-B534-011D6DB91B96}"
 EndProject
@@ -614,11 +686,43 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfaad", "Main\GStreamer\P
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfaac", "Main\GStreamer\Plugins\Bad\ext\libgstfaac.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1011}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installers", "Installers", "{40965633-5859-4EE1-A066-ACC69B91FAB8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{258A6BEF-29FF-47D7-A0ED-27F05FADC2B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{22A97583-2340-4D15-AEFD-B7CE505AE3D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x86", "x86", "{7FF1C73F-530D-447A-BDC3-6EB73889B55C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{E6360C05-CCCD-4E61-AD61-F6F1922A577F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Merge Modules", "Merge Modules", "{D9D67A81-71AA-41E9-9CB6-8F97D8700763}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{F1FEF9F1-CEEB-4FB4-8362-BF1DB7517654}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x86", "x86", "{EB396A7B-C60E-48E8-9D4C-613406514638}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Libraries-LGPL", "Main\GStreamer\Install\Merge Modules\Win32\Libraries-LGPL.vdproj", "{5F0DCB24-9888-488E-B1AB-CE603C6E113E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Libraries-GPL", "Main\GStreamer\Install\Merge Modules\Win32\Libraries-GPL.vdproj", "{1F827F1E-5BDA-4B60-BA25-B88417471C3C}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Bindings-Python", "Main\GStreamer\Install\Merge Modules\Win32\Bindings-Python.vdproj", "{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Applications", "Main\GStreamer\Install\Merge Modules\Win32\Applications.vdproj", "{94406C90-E4BB-4E92-AB94-0A3726E31DC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{C818C931-0264-4C8E-85E0-20845538798E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Complete-LGPL", "Main\GStreamer\Install\Setup\Win32\Complete-LGPL.vdproj", "{34602330-BF16-47D8-B4BE-1262A6C226D1}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Complete-GPL", "Main\GStreamer\Install\Setup\Win32\Complete-GPL.vdproj", "{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdirectdraw", "Main\GStreamer\Plugins\Bad\sys\libgstdirectdraw.vcproj", "{464A3D96-D0E5-4F79-8FE3-508F09153E62}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsiren", "Main\GStreamer\Plugins\Bad\gst\libgstsiren.vcproj", "{03545116-2F4A-415F-B096-47BFC0C6AE82}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Custom Actions", "Custom Actions", "{26CAD8A1-A578-40E5-97BC-C300C93D684A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nice", "Main\GStreamer\Libraries\ext\libnice.vcproj", "{6D935778-C3CD-4A93-9434-58CBCF2D85DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Actions", "Main\GStreamer\Install\Custom Actions\Actions.csproj", "{BF422A99-C74B-4104-9A31-5D397D22B46F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsiren", "Main\GStreamer\Plugins\Bad\gst\libgstsiren.vcproj", "{03545116-2F4A-415F-B096-47BFC0C6AE82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2382,6 +2486,18 @@ Global
 		{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803}.Release|Win32.ActiveCfg = Release|Win32
 		{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803}.Release|Win32.Build.0 = Release|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Debug|Win32.Build.0 = Debug|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release|Win32.ActiveCfg = Release|Win32
+		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release|Win32.Build.0 = Release|Win32
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -2744,6 +2860,68 @@ Global
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1011}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1011}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1011}.Release|Win32.ActiveCfg = Release|Win32
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Debug|Mixed Platforms.ActiveCfg = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Debug|Mixed Platforms.Build.0 = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Debug|Win32.ActiveCfg = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Debug|Win32.Build.0 = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Release (GPL)|Mixed Platforms.ActiveCfg = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Release (GPL)|Mixed Platforms.Build.0 = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Release (GPL)|Win32.ActiveCfg = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Release (GPL)|Win32.Build.0 = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Release|Mixed Platforms.ActiveCfg = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Release|Mixed Platforms.Build.0 = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Release|Win32.ActiveCfg = Release
+		{5F0DCB24-9888-488E-B1AB-CE603C6E113E}.Release|Win32.Build.0 = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Debug|Mixed Platforms.ActiveCfg = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Debug|Win32.ActiveCfg = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Debug|Win32.Build.0 = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Release (GPL)|Mixed Platforms.ActiveCfg = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Release (GPL)|Mixed Platforms.Build.0 = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Release (GPL)|Win32.ActiveCfg = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Release (GPL)|Win32.Build.0 = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Release|Mixed Platforms.ActiveCfg = Release
+		{1F827F1E-5BDA-4B60-BA25-B88417471C3C}.Release|Win32.ActiveCfg = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Debug|Mixed Platforms.ActiveCfg = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Debug|Win32.ActiveCfg = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Debug|Win32.Build.0 = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Release (GPL)|Mixed Platforms.ActiveCfg = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Release (GPL)|Mixed Platforms.Build.0 = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Release (GPL)|Win32.ActiveCfg = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Release (GPL)|Win32.Build.0 = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Release|Mixed Platforms.ActiveCfg = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Release|Mixed Platforms.Build.0 = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Release|Win32.ActiveCfg = Release
+		{C3D7D426-6F9C-49E8-9CEF-DA24D1EA4257}.Release|Win32.Build.0 = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Debug|Mixed Platforms.ActiveCfg = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Debug|Win32.ActiveCfg = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Debug|Win32.Build.0 = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Release (GPL)|Mixed Platforms.ActiveCfg = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Release (GPL)|Mixed Platforms.Build.0 = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Release (GPL)|Win32.ActiveCfg = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Release (GPL)|Win32.Build.0 = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Release|Mixed Platforms.ActiveCfg = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Release|Win32.ActiveCfg = Release
+		{94406C90-E4BB-4E92-AB94-0A3726E31DC6}.Release|Win32.Build.0 = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Debug|Mixed Platforms.ActiveCfg = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Debug|Mixed Platforms.Build.0 = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Debug|Win32.ActiveCfg = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Release (GPL)|Mixed Platforms.ActiveCfg = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Release (GPL)|Mixed Platforms.Build.0 = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Release (GPL)|Win32.ActiveCfg = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Release (GPL)|Win32.Build.0 = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Release|Mixed Platforms.ActiveCfg = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Release|Mixed Platforms.Build.0 = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Release|Win32.ActiveCfg = Release
+		{34602330-BF16-47D8-B4BE-1262A6C226D1}.Release|Win32.Build.0 = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Debug|Mixed Platforms.ActiveCfg = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Debug|Mixed Platforms.Build.0 = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Debug|Win32.ActiveCfg = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Release (GPL)|Mixed Platforms.ActiveCfg = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Release (GPL)|Mixed Platforms.Build.0 = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Release (GPL)|Win32.ActiveCfg = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Release (GPL)|Win32.Build.0 = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Release|Mixed Platforms.ActiveCfg = Release
+		{FCF53FAA-F466-49F0-9B0B-CAD2FBD93F44}.Release|Win32.ActiveCfg = Release
 		{464A3D96-D0E5-4F79-8FE3-508F09153E62}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{464A3D96-D0E5-4F79-8FE3-508F09153E62}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{464A3D96-D0E5-4F79-8FE3-508F09153E62}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -2756,6 +2934,17 @@ Global
 		{464A3D96-D0E5-4F79-8FE3-508F09153E62}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{464A3D96-D0E5-4F79-8FE3-508F09153E62}.Release|Win32.ActiveCfg = Release|Win32
 		{464A3D96-D0E5-4F79-8FE3-508F09153E62}.Release|Win32.Build.0 = Release|Win32
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Release (GPL)|Mixed Platforms.Build.0 = Release|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Release (GPL)|Win32.Build.0 = Release|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Release|Win32.ActiveCfg = Release|Any CPU
+		{BF422A99-C74B-4104-9A31-5D397D22B46F}.Release|Win32.Build.0 = Release|Any CPU
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -2768,18 +2957,6 @@ Global
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Release|Win32.ActiveCfg = Release|Win32
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Release|Win32.Build.0 = Release|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Debug|Win32.Build.0 = Debug|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Release|Win32.ActiveCfg = Release|Win32
-		{6D935778-C3CD-4A93-9434-58CBCF2D85DB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

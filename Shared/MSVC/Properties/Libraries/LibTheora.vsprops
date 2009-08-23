@@ -6,7 +6,7 @@
 	>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="theora.lib"
+		AdditionalDependencies="theora.lib theoradec.lib theoraenc.lib"
 	/>
 	<UserMacro
 		Name="LibTheoraMajorVersion"

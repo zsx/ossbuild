@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibNice"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\stun&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\stun&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="nice.lib"
+	/>
+	<UserMacro
+		Name="LibNiceMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibNiceMinorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibNiceMicroVersion"
+		Value="9"
+	/>
+	<UserMacro
+		Name="LibNiceVersionString"
+		Value="$(LibNiceMajorVersion).$(LibNiceMinorVersion).$(LibNiceMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibNiceApiVersionString"
+		Value="$(LibNiceMajorVersion).$(LibNiceMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

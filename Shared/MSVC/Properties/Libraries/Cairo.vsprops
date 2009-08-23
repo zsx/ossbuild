@@ -5,6 +5,10 @@
 	Name="Cairo"
 	>
 	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\cairo&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\cairo&quot;"
+	/>
+	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="cairo.lib"
 	/>

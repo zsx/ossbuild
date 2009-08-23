@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gstopengl"
 	ProjectGUID="{0597EA2B-A46C-4CF1-B534-011D6DB91B96}"
 	RootNamespace="libgstgl"
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-gl.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\Properties\gstreamer-plugin-gl.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibPng.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -121,7 +121,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="glu32.lib opengl32.lib glew32.lib libpng12.dll.a gstinterfaces.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
@@ -156,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-gl.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-gl.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibPng.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -253,7 +252,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="glu32.lib opengl32.lib glew32.lib libpng12.dll.a gstinterfaces.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"

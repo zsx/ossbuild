@@ -305,59 +305,59 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\breakmydata.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\breakmydata.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\gstdebug.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\gstdebug.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\gstnavseek.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\gstnavseek.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\gstnavseek.h"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\gstnavseek.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\gstpushfilesrc.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\gstpushfilesrc.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\gstpushfilesrc.h"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\gstpushfilesrc.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\gsttaginject.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\gsttaginject.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\gsttaginject.h"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\gsttaginject.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\progressreport.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\progressreport.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\progressreport.h"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\progressreport.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\rndbuffersize.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\rndbuffersize.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\testplugin.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\testplugin.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\tests.c"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\tests.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-good\gst\debug\tests.h"
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\debugutils\tests.h"
 			>
 		</File>
 	</Files>

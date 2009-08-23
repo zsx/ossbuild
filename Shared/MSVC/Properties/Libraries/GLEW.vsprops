@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GLEW"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="glew32.lib opengl32.lib glu32.lib"
+	/>
+	<UserMacro
+		Name="GLEWMajorVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="GLEWMinorVersion"
+		Value="5"
+	/>
+	<UserMacro
+		Name="GLEWMicroVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="GLEWVersionString"
+		Value="$(GLEWMajorVersion).$(GLEWMinorVersion).$(GLEWMicroVersion)"
+	/>
+	<UserMacro
+		Name="GLEWApiVersionString"
+		Value="$(GLEWMajorVersion).$(GLEWMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

@@ -48,3 +48,4 @@ wavpack 	- 	4.50.1 		- 	http://www.wavpack.com/wavpack-4.50.1.tar.bz2
 libdca 		- 	0.0.5 		- 	http://download.videolan.org/pub/videolan/libdca/0.0.5/libdca-0.0.5.tar.bz2
 faad2 		- 	2.7 		- 	http://downloads.sourceforge.net/faac/faad2-2.7.tar.bz2
 faac 		- 	1.28 		- 	http://downloads.sourceforge.net/faac/faac-1.28.tar.bz2
+glew 		- 	1.5.1 		- 	https://sourceforge.net/project/downloading.php?group_id=67586&filename=glew-1.5.1-src.tgz
