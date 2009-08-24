@@ -310,6 +310,22 @@
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-good\ext\soup\gstsouphttpsrc.c"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ForcedIncludeFiles=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ForcedIncludeFiles=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-good\ext\soup\gstsouphttpsrc.h"

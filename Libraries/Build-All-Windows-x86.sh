@@ -243,15 +243,16 @@ fi
 #libpng
 if [ ! -f "$BinDir/libpng12-0.dll" ]; then 
 	unpack_gzip_and_move "libpng.tar.gz" "$PKG_DIR_LIBPNG"
-	mkdir_and_move "$IntDir/libpng"
+	mkdir_and_move "$IntDir/libpng"	
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install
 	remove_files_from_dir "$BinDir/libpng-3.dll"
 	remove_files_from_dir "$LibDir/libpng.dll.a"
 	
-	cd "$PKG_DIR/scripts/"
-	$MSLIB /name:libpng12-0.dll /out:png12.lib /machine:$MSLibMachine /def:pngw32.def
+	pexports "$BinDir/libpng12-0.dll" > in.def
+	sed -e '/LIBRARY libpng/d' -e '/DATA/d' in.def > in-mod.def
+	$MSLIB /name:libpng12-0.dll /out:png12.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 fi
 
@@ -428,7 +429,7 @@ if [ ! -f "$BinDir/libfontconfig-1.dll" ]; then
 	mkdir_and_move "$IntDir/fontconfig"
 	
 	CFLAGS="-D_WIN32_WINNT=0x0501"
-	$PKG_DIR/configure --disable-debug --disable-static --disable-docs --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --enable-libxml2 --disable-debug --disable-static --disable-docs --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install RUN_FC_CACHE_TEST=false
 	
 	#Automagically creates .lib file
