@@ -35,7 +35,8 @@ subdir = common
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/shave-libtool.in $(srcdir)/shave.in ChangeLog
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/check-checks.m4 \
+	$(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/as-auto-alt.m4 \
 	$(top_srcdir)/common/m4/as-compiler-flag.m4 \
 	$(top_srcdir)/common/m4/as-docbook.m4 \
@@ -43,7 +44,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/as-python.m4 \
 	$(top_srcdir)/common/m4/as-scrub-include.m4 \
 	$(top_srcdir)/common/m4/as-version.m4 \
-	$(top_srcdir)/common/m4/check.m4 \
+	$(top_srcdir)/common/m4/ax_create_stdint_h.m4 \
 	$(top_srcdir)/common/m4/gettext.m4 \
 	$(top_srcdir)/common/m4/gst-arch.m4 \
 	$(top_srcdir)/common/m4/gst-args.m4 \
@@ -62,6 +63,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
 	$(top_srcdir)/common/m4/iconv.m4 \
 	$(top_srcdir)/common/m4/intlmacosx.m4 \
+	$(top_srcdir)/common/m4/introspection.m4 \
 	$(top_srcdir)/common/m4/lib-ld.m4 \
 	$(top_srcdir)/common/m4/lib-link.m4 \
 	$(top_srcdir)/common/m4/lib-prefix.m4 \
@@ -112,8 +114,10 @@ CCASDEPMODE = @CCASDEPMODE@
 CCASFLAGS = @CCASFLAGS@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-CHECK_CFLAGS = @CHECK_CFLAGS@
-CHECK_LIBS = @CHECK_LIBS@
+CHECK_MAJOR_VERSION = @CHECK_MAJOR_VERSION@
+CHECK_MICRO_VERSION = @CHECK_MICRO_VERSION@
+CHECK_MINOR_VERSION = @CHECK_MINOR_VERSION@
+CHECK_VERSION = @CHECK_VERSION@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -149,14 +153,15 @@ GLIB_ONLY_CFLAGS = @GLIB_ONLY_CFLAGS@
 GLIB_ONLY_LIBS = @GLIB_ONLY_LIBS@
 GLIB_PREFIX = @GLIB_PREFIX@
 GLIB_REQ = @GLIB_REQ@
+GMP_LIBS = @GMP_LIBS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GSL_LIBS = @GSL_LIBS@
 GST_AGE = @GST_AGE@
 GST_ALL_CFLAGS = @GST_ALL_CFLAGS@
 GST_ALL_LDFLAGS = @GST_ALL_LDFLAGS@
 GST_ALL_LIBS = @GST_ALL_LIBS@
-GST_CHECK_LIB_LDFLAGS = @GST_CHECK_LIB_LDFLAGS@
 GST_CURRENT = @GST_CURRENT@
 GST_DISABLE_ALLOC_TRACE_DEFINE = @GST_DISABLE_ALLOC_TRACE_DEFINE@
 GST_DISABLE_GST_DEBUG_DEFINE = @GST_DISABLE_GST_DEBUG_DEFINE@
@@ -197,6 +202,8 @@ HAVE_DOCBOOK2PS = @HAVE_DOCBOOK2PS@
 HAVE_DVIPS = @HAVE_DVIPS@
 HAVE_EPSTOPDF = @HAVE_EPSTOPDF@
 HAVE_FIG2DEV = @HAVE_FIG2DEV@
+HAVE_GMP = @HAVE_GMP@
+HAVE_GSL = @HAVE_GSL@
 HAVE_JADETEX = @HAVE_JADETEX@
 HAVE_PNGTOPNM = @HAVE_PNGTOPNM@
 HAVE_PNMTOPS = @HAVE_PNMTOPS@
@@ -212,6 +219,11 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDIR = @LIBDIR@

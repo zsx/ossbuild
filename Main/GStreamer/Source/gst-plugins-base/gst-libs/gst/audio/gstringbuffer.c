@@ -91,11 +91,9 @@ static void
 gst_ring_buffer_class_init (GstRingBufferClass * klass)
 {
   GObjectClass *gobject_class;
-  GstObjectClass *gstobject_class;
   GstRingBufferClass *gstringbuffer_class;
 
   gobject_class = (GObjectClass *) klass;
-  gstobject_class = (GstObjectClass *) klass;
   gstringbuffer_class = (GstRingBufferClass *) klass;
 
   parent_class = g_type_class_peek_parent (klass);
@@ -225,6 +223,65 @@ build_linear_format (int depth, int width, int unsignd, int big_endian)
   return formats;
 }
 
+#ifndef GST_DISABLE_GST_DEBUG
+static const gchar *format_type_names[] = {
+  "linear",
+  "float",
+  "mu law",
+  "a law",
+  "ima adpcm",
+  "mpeg",
+  "gsm",
+  "iec958",
+  "ac3",
+  "eac3",
+  "dts"
+};
+
+static const gchar *format_names[] = {
+  "unknown",
+  "s8",
+  "u8",
+  "s16_le",
+  "s16_be",
+  "u16_le",
+  "u16_be",
+  "s24_le",
+  "s24_be",
+  "u24_le",
+  "u24_be",
+  "s32_le",
+  "s32_be",
+  "u32_le",
+  "u32_be",
+  "s24_3le",
+  "s24_3be",
+  "u24_3le",
+  "u24_3be",
+  "s20_3le",
+  "s20_3be",
+  "u20_3le",
+  "u20_3be",
+  "s18_3le",
+  "s18_3be",
+  "u18_3le",
+  "u18_3be",
+  "float32_le",
+  "float32_be",
+  "float64_le",
+  "float64_be",
+  "mu_law",
+  "a_law",
+  "ima_adpcm",
+  "mpeg",
+  "gsm",
+  "iec958",
+  "ac3",
+  "eac3",
+  "dts"
+};
+#endif
+
 /**
  * gst_ring_buffer_debug_spec_caps:
  * @spec: the spec to debug
@@ -237,8 +294,10 @@ gst_ring_buffer_debug_spec_caps (GstRingBufferSpec * spec)
   gint i, bytes;
 
   GST_DEBUG ("spec caps: %p %" GST_PTR_FORMAT, spec->caps, spec->caps);
-  GST_DEBUG ("parsed caps: type:         %d", spec->type);
-  GST_DEBUG ("parsed caps: format:       %d", spec->format);
+  GST_DEBUG ("parsed caps: type:         %d, '%s'", spec->type,
+      format_type_names[spec->type]);
+  GST_DEBUG ("parsed caps: format:       %d, '%s'", spec->format,
+      format_names[spec->format]);
   GST_DEBUG ("parsed caps: width:        %d", spec->width);
   GST_DEBUG ("parsed caps: depth:        %d", spec->depth);
   GST_DEBUG ("parsed caps: sign:         %d", spec->sign);
@@ -1401,6 +1460,9 @@ gst_ring_buffer_clear_all (GstRingBuffer * buf)
 static gboolean
 wait_segment (GstRingBuffer * buf)
 {
+  gint segments;
+  gboolean wait = TRUE;
+
   /* buffer must be started now or we deadlock since nobody is reading */
   if (G_UNLIKELY (g_atomic_int_get (&buf->state) !=
           GST_RING_BUFFER_STATE_STARTED)) {
@@ -1409,7 +1471,13 @@ wait_segment (GstRingBuffer * buf)
       goto no_start;
 
     GST_DEBUG_OBJECT (buf, "start!");
+    segments = g_atomic_int_get (&buf->segdone);
     gst_ring_buffer_start (buf);
+
+    /* After starting, the writer may have wrote segments already and then we
+     * don't need to wait anymore */
+    if (G_LIKELY (g_atomic_int_get (&buf->segdone) != segments))
+      wait = FALSE;
   }
 
   /* take lock first, then update our waiting flag */
@@ -1421,16 +1489,18 @@ wait_segment (GstRingBuffer * buf)
           GST_RING_BUFFER_STATE_STARTED))
     goto not_started;
 
-  if (g_atomic_int_compare_and_exchange (&buf->waiting, 0, 1)) {
-    GST_DEBUG_OBJECT (buf, "waiting..");
-    GST_RING_BUFFER_WAIT (buf);
+  if (G_LIKELY (wait)) {
+    if (g_atomic_int_compare_and_exchange (&buf->waiting, 0, 1)) {
+      GST_DEBUG_OBJECT (buf, "waiting..");
+      GST_RING_BUFFER_WAIT (buf);
 
-    if (G_UNLIKELY (buf->abidata.ABI.flushing))
-      goto flushing;
+      if (G_UNLIKELY (buf->abidata.ABI.flushing))
+        goto flushing;
 
-    if (G_UNLIKELY (g_atomic_int_get (&buf->state) !=
-            GST_RING_BUFFER_STATE_STARTED))
-      goto not_started;
+      if (G_UNLIKELY (g_atomic_int_get (&buf->state) !=
+              GST_RING_BUFFER_STATE_STARTED))
+        goto not_started;
+    }
   }
   GST_OBJECT_UNLOCK (buf);
 
@@ -1603,8 +1673,8 @@ default_commit (GstRingBuffer * buf, guint64 * sample,
       diff = writeseg - segdone;
 
       GST_DEBUG
-          ("pointer at %d, write to %d-%d, diff %d, segtotal %d, segsize %d",
-          segdone, writeseg, sampleoff, diff, segtotal, segsize);
+          ("pointer at %d, write to %d-%d, diff %d, segtotal %d, segsize %d, base %d",
+          segdone, writeseg, sampleoff, diff, segtotal, segsize, buf->segbase);
 
       /* segment too far ahead, writer too slow, we need to drop, hopefully UNLIKELY */
       if (G_UNLIKELY (diff < 0)) {

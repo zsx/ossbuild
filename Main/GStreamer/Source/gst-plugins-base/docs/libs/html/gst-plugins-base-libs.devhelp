@@ -41,6 +41,7 @@
         <sub name="gstmixertrack" link="gst-plugins-base-libs-gstmixertrack.html"/>
         <sub name="gstnavigation" link="gst-plugins-base-libs-gstnavigation.html"/>
         <sub name="gstpropertyprobe" link="gst-plugins-base-libs-gstpropertyprobe.html"/>
+        <sub name="gststreamvolume" link="gst-plugins-base-libs-gststreamvolume.html"/>
         <sub name="gsttuner" link="gst-plugins-base-libs-gsttuner.html"/>
         <sub name="gsttunerchannel" link="gst-plugins-base-libs-gsttunerchannel.html"/>
         <sub name="gsttunernorm" link="gst-plugins-base-libs-gsttunernorm.html"/>
@@ -147,7 +148,7 @@
     <function name="GstAudioFilter" link="gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter-struct"/>
     <function name="GstAudioFilterClass" link="gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilterClass"/>
     <function name="gst_audio_filter_class_add_pad_templates ()" link="gst-plugins-base-libs-gstaudiofilter.html#gst-audio-filter-class-add-pad-templates"/>
-    <function name="" link="gst-plugins-base-libs-gstaudiomixerutils.html#id3110583"/>
+    <function name="" link="gst-plugins-base-libs-gstaudiomixerutils.html#id2703048"/>
     <function name="GstAudioMixerFilterFunc ()" link="gst-plugins-base-libs-gstaudiomixerutils.html#GstAudioMixerFilterFunc"/>
     <function name="gst_audio_default_registry_mixer_filter ()" link="gst-plugins-base-libs-gstaudiomixerutils.html#gst-audio-default-registry-mixer-filter"/>
     <function name="GstBaseAudioSink" link="gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink-struct"/>
@@ -189,7 +190,7 @@
     <function name="gst_audio_set_channel_positions ()" link="gst-plugins-base-libs-gstmultichannel.html#gst-audio-set-channel-positions"/>
     <function name="gst_audio_set_structure_channel_positions_list ()" link="gst-plugins-base-libs-gstmultichannel.html#gst-audio-set-structure-channel-positions-list"/>
     <function name="gst_audio_check_channel_positions ()" link="gst-plugins-base-libs-gstmultichannel.html#gst-audio-check-channel-positions"/>
-    <function name="" link="gst-plugins-base-libs-gstringbuffer.html#id3123926"/>
+    <function name="" link="gst-plugins-base-libs-gstringbuffer.html#id2716391"/>
     <function name="GstRingBuffer" link="gst-plugins-base-libs-gstringbuffer.html#GstRingBuffer-struct"/>
     <function name="GstRingBufferClass" link="gst-plugins-base-libs-gstringbuffer.html#GstRingBufferClass"/>
     <function name="GstRingBufferSpec" link="gst-plugins-base-libs-gstringbuffer.html#GstRingBufferSpec"/>
@@ -228,7 +229,7 @@
     <function name="gst_ring_buffer_may_start ()" link="gst-plugins-base-libs-gstringbuffer.html#gst-ring-buffer-may-start"/>
     <function name="gst_ring_buffer_parse_caps ()" link="gst-plugins-base-libs-gstringbuffer.html#gst-ring-buffer-parse-caps"/>
     <function name="gst_ring_buffer_set_flushing ()" link="gst-plugins-base-libs-gstringbuffer.html#gst-ring-buffer-set-flushing"/>
-    <function name="Using GstCddaBaseSrc-based elements in applications" link="gst-plugins-base-libs-gstcddabasesrc.html#id3135460"/>
+    <function name="Using GstCddaBaseSrc-based elements in applications" link="gst-plugins-base-libs-gstcddabasesrc.html#id2727925"/>
     <function name="GstCddaBaseSrc" link="gst-plugins-base-libs-gstcddabasesrc.html#GstCddaBaseSrc-struct"/>
     <function name="GstCddaBaseSrcClass" link="gst-plugins-base-libs-gstcddabasesrc.html#GstCddaBaseSrcClass"/>
     <function name="GstCddaBaseSrcTrack" link="gst-plugins-base-libs-gstcddabasesrc.html#GstCddaBaseSrcTrack"/>
@@ -269,7 +270,7 @@
     <function name="gst_fft_f64_free ()" link="gst-plugins-base-libs-gstfftf64.html#gst-fft-f64-free"/>
     <function name="gst_cast_double()" link="gst-plugins-base-libs-gstfloatcast.html#gst-cast-double"/>
     <function name="gst_cast_float()" link="gst-plugins-base-libs-gstfloatcast.html#gst-cast-float"/>
-    <function name="" link="gst-plugins-base-libs-gstcolorbalance.html#id3149461"/>
+    <function name="" link="gst-plugins-base-libs-gstcolorbalance.html#id2741926"/>
     <function name="GstColorBalance" link="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance-struct"/>
     <function name="GstColorBalanceClass" link="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceClass"/>
     <function name="enum GstColorBalanceType" link="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceType"/>
@@ -279,7 +280,7 @@
     <function name="gst_color_balance_value_changed ()" link="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-value-changed"/>
     <function name="gst_color_balance_get_balance_type ()" link="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-get-balance-type"/>
     <function name="The &quot;value-changed&quot; signal" link="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance-value-changed"/>
-    <function name="" link="gst-plugins-base-libs-gstcolorbalancechannel.html#id3152043"/>
+    <function name="" link="gst-plugins-base-libs-gstcolorbalancechannel.html#id2744508"/>
     <function name="GstColorBalanceChannel" link="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel-struct"/>
     <function name="GstColorBalanceChannelClass" link="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannelClass"/>
     <function name="The &quot;value-changed&quot; signal" link="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel-value-changed"/>
@@ -367,7 +368,17 @@
     <function name="gst_property_probe_probe_property ()" link="gst-plugins-base-libs-gstpropertyprobe.html#gst-property-probe-probe-property"/>
     <function name="gst_property_probe_probe_property_name ()" link="gst-plugins-base-libs-gstpropertyprobe.html#gst-property-probe-probe-property-name"/>
     <function name="The &quot;probe-needed&quot; signal" link="gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe-probe-needed"/>
-    <function name="" link="gst-plugins-base-libs-gsttuner.html#id3178145"/>
+    <function name="" link="gst-plugins-base-libs-gststreamvolume.html#id2770404"/>
+    <function name="GstStreamVolume" link="gst-plugins-base-libs-gststreamvolume.html#GstStreamVolume-struct"/>
+    <function name="enum GstStreamVolumeFormat" link="gst-plugins-base-libs-gststreamvolume.html#GstStreamVolumeFormat"/>
+    <function name="gst_stream_volume_get_volume ()" link="gst-plugins-base-libs-gststreamvolume.html#gst-stream-volume-get-volume"/>
+    <function name="gst_stream_volume_set_volume ()" link="gst-plugins-base-libs-gststreamvolume.html#gst-stream-volume-set-volume"/>
+    <function name="gst_stream_volume_get_mute ()" link="gst-plugins-base-libs-gststreamvolume.html#gst-stream-volume-get-mute"/>
+    <function name="gst_stream_volume_set_mute ()" link="gst-plugins-base-libs-gststreamvolume.html#gst-stream-volume-set-mute"/>
+    <function name="gst_stream_volume_convert_volume ()" link="gst-plugins-base-libs-gststreamvolume.html#gst-stream-volume-convert-volume"/>
+    <function name="The &quot;mute&quot; property" link="gst-plugins-base-libs-gststreamvolume.html#GstStreamVolume--mute"/>
+    <function name="The &quot;volume&quot; property" link="gst-plugins-base-libs-gststreamvolume.html#GstStreamVolume--volume"/>
+    <function name="" link="gst-plugins-base-libs-gsttuner.html#id2773576"/>
     <function name="GstTuner" link="gst-plugins-base-libs-gsttuner.html#GstTuner-struct"/>
     <function name="GstTunerClass" link="gst-plugins-base-libs-gsttuner.html#GstTunerClass"/>
     <function name="gst_tuner_list_channels ()" link="gst-plugins-base-libs-gsttuner.html#gst-tuner-list-channels"/>
@@ -389,13 +400,13 @@
     <function name="The &quot;frequency-changed&quot; signal" link="gst-plugins-base-libs-gsttuner.html#GstTuner-frequency-changed"/>
     <function name="The &quot;norm-changed&quot; signal" link="gst-plugins-base-libs-gsttuner.html#GstTuner-norm-changed"/>
     <function name="The &quot;signal-changed&quot; signal" link="gst-plugins-base-libs-gsttuner.html#GstTuner-signal-changed"/>
-    <function name="" link="gst-plugins-base-libs-gsttunerchannel.html#id3184225"/>
+    <function name="" link="gst-plugins-base-libs-gsttunerchannel.html#id2779656"/>
     <function name="GstTunerChannel" link="gst-plugins-base-libs-gsttunerchannel.html#GstTunerChannel-struct"/>
     <function name="enum GstTunerChannelFlags" link="gst-plugins-base-libs-gsttunerchannel.html#GstTunerChannelFlags"/>
     <function name="GST_TUNER_CHANNEL_HAS_FLAG()" link="gst-plugins-base-libs-gsttunerchannel.html#GST-TUNER-CHANNEL-HAS-FLAG--CAPS"/>
     <function name="The &quot;frequency-changed&quot; signal" link="gst-plugins-base-libs-gsttunerchannel.html#GstTunerChannel-frequency-changed"/>
     <function name="The &quot;signal-changed&quot; signal" link="gst-plugins-base-libs-gsttunerchannel.html#GstTunerChannel-signal-changed"/>
-    <function name="" link="gst-plugins-base-libs-gsttunernorm.html#id3186041"/>
+    <function name="" link="gst-plugins-base-libs-gsttunernorm.html#id2781473"/>
     <function name="GstTunerNorm" link="gst-plugins-base-libs-gsttunernorm.html#GstTunerNorm-struct"/>
     <function name="GstVideoOrientation" link="gst-plugins-base-libs-gstvideoorientation.html#GstVideoOrientation-struct"/>
     <function name="GstVideoOrientationInterface" link="gst-plugins-base-libs-gstvideoorientation.html#GstVideoOrientationInterface"/>
@@ -407,7 +418,7 @@
     <function name="gst_video_orientation_set_hflip ()" link="gst-plugins-base-libs-gstvideoorientation.html#gst-video-orientation-set-hflip"/>
     <function name="gst_video_orientation_set_vcenter ()" link="gst-plugins-base-libs-gstvideoorientation.html#gst-video-orientation-set-vcenter"/>
     <function name="gst_video_orientation_set_vflip ()" link="gst-plugins-base-libs-gstvideoorientation.html#gst-video-orientation-set-vflip"/>
-    <function name="" link="gst-plugins-base-libs-gstxoverlay.html#id3190353"/>
+    <function name="" link="gst-plugins-base-libs-gstxoverlay.html#id2785784"/>
     <function name="GstXOverlay" link="gst-plugins-base-libs-gstxoverlay.html#GstXOverlay-struct"/>
     <function name="GstXOverlayClass" link="gst-plugins-base-libs-gstxoverlay.html#GstXOverlayClass"/>
     <function name="gst_x_overlay_set_xwindow_id ()" link="gst-plugins-base-libs-gstxoverlay.html#gst-x-overlay-set-xwindow-id"/>
@@ -627,7 +638,7 @@
     <function name="gst_riff_strf_iavs" link="gst-plugins-base-libs-gstriff.html#gst-riff-strf-iavs"/>
     <function name="gst_riff_strf_vids" link="gst-plugins-base-libs-gstriff.html#gst-riff-strf-vids"/>
     <function name="gst_riff_strh" link="gst-plugins-base-libs-gstriff.html#gst-riff-strh"/>
-    <function name="Usage" link="gst-plugins-base-libs-gstbasertpaudiopayload.html#id3217912"/>
+    <function name="Usage" link="gst-plugins-base-libs-gstbasertpaudiopayload.html#id2813344"/>
     <function name="GstBaseRTPAudioPayload" link="gst-plugins-base-libs-gstbasertpaudiopayload.html#GstBaseRTPAudioPayload-struct"/>
     <function name="GstBaseRTPAudioPayloadClass" link="gst-plugins-base-libs-gstbasertpaudiopayload.html#GstBaseRTPAudioPayloadClass"/>
     <function name="gst_base_rtp_audio_payload_set_frame_based ()" link="gst-plugins-base-libs-gstbasertpaudiopayload.html#gst-base-rtp-audio-payload-set-frame-based"/>
@@ -636,7 +647,7 @@
     <function name="gst_base_rtp_audio_payload_set_sample_options ()" link="gst-plugins-base-libs-gstbasertpaudiopayload.html#gst-base-rtp-audio-payload-set-sample-options"/>
     <function name="gst_base_rtp_audio_payload_get_adapter ()" link="gst-plugins-base-libs-gstbasertpaudiopayload.html#gst-base-rtp-audio-payload-get-adapter"/>
     <function name="gst_base_rtp_audio_payload_push ()" link="gst-plugins-base-libs-gstbasertpaudiopayload.html#gst-base-rtp-audio-payload-push"/>
-    <function name="" link="gst-plugins-base-libs-gstbasertpdepayload.html#id3220231"/>
+    <function name="" link="gst-plugins-base-libs-gstbasertpdepayload.html#id2815664"/>
     <function name="GstBaseRTPDepayload" link="gst-plugins-base-libs-gstbasertpdepayload.html#GstBaseRTPDepayload-struct"/>
     <function name="GstBaseRTPDepayloadClass" link="gst-plugins-base-libs-gstbasertpdepayload.html#GstBaseRTPDepayloadClass"/>
     <function name="GST_BASE_RTP_DEPAYLOAD_SINKPAD()" link="gst-plugins-base-libs-gstbasertpdepayload.html#GST-BASE-RTP-DEPAYLOAD-SINKPAD--CAPS"/>
@@ -644,7 +655,7 @@
     <function name="gst_base_rtp_depayload_push ()" link="gst-plugins-base-libs-gstbasertpdepayload.html#gst-base-rtp-depayload-push"/>
     <function name="gst_base_rtp_depayload_push_ts ()" link="gst-plugins-base-libs-gstbasertpdepayload.html#gst-base-rtp-depayload-push-ts"/>
     <function name="The &quot;queue-delay&quot; property" link="gst-plugins-base-libs-gstbasertpdepayload.html#GstBaseRTPDepayload--queue-delay"/>
-    <function name="" link="gst-plugins-base-libs-gstbasertppayload.html#id3222334"/>
+    <function name="" link="gst-plugins-base-libs-gstbasertppayload.html#id2817784"/>
     <function name="GstBaseRTPPayload" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload-struct"/>
     <function name="GstBaseRTPPayloadClass" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayloadClass"/>
     <function name="GST_BASE_RTP_PAYLOAD_MTU()" link="gst-plugins-base-libs-gstbasertppayload.html#GST-BASE-RTP-PAYLOAD-MTU--CAPS"/>
@@ -659,19 +670,20 @@
     <function name="The &quot;max-ptime&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--max-ptime"/>
     <function name="The &quot;min-ptime&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--min-ptime"/>
     <function name="The &quot;mtu&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--mtu"/>
+    <function name="The &quot;perfect-rtptime&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--perfect-rtptime"/>
     <function name="The &quot;pt&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--pt"/>
     <function name="The &quot;seqnum&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--seqnum"/>
     <function name="The &quot;seqnum-offset&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--seqnum-offset"/>
     <function name="The &quot;ssrc&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--ssrc"/>
     <function name="The &quot;timestamp&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--timestamp"/>
     <function name="The &quot;timestamp-offset&quot; property" link="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--timestamp-offset"/>
-    <function name="" link="gst-plugins-base-libs-gstrtppayloads.html#id3226810"/>
+    <function name="" link="gst-plugins-base-libs-gstrtppayloads.html#id2822367"/>
     <function name="enum GstRTPPayload" link="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayload"/>
     <function name="GST_RTP_PAYLOAD_IS_DYNAMIC()" link="gst-plugins-base-libs-gstrtppayloads.html#GST-RTP-PAYLOAD-IS-DYNAMIC--CAPS"/>
     <function name="GstRTPPayloadInfo" link="gst-plugins-base-libs-gstrtppayloads.html#GstRTPPayloadInfo"/>
     <function name="gst_rtp_payload_info_for_name ()" link="gst-plugins-base-libs-gstrtppayloads.html#gst-rtp-payload-info-for-name"/>
     <function name="gst_rtp_payload_info_for_pt ()" link="gst-plugins-base-libs-gstrtppayloads.html#gst-rtp-payload-info-for-pt"/>
-    <function name="" link="gst-plugins-base-libs-gstrtpbuffer.html#id3230908"/>
+    <function name="" link="gst-plugins-base-libs-gstrtpbuffer.html#id2826463"/>
     <function name="GST_RTP_VERSION" link="gst-plugins-base-libs-gstrtpbuffer.html#GST-RTP-VERSION--CAPS"/>
     <function name="gst_rtp_buffer_allocate_data ()" link="gst-plugins-base-libs-gstrtpbuffer.html#gst-rtp-buffer-allocate-data"/>
     <function name="gst_rtp_buffer_new_take_data ()" link="gst-plugins-base-libs-gstrtpbuffer.html#gst-rtp-buffer-new-take-data"/>
@@ -725,7 +737,7 @@
     <function name="gst_rtp_buffer_list_set_ssrc ()" link="gst-plugins-base-libs-gstrtpbuffer.html#gst-rtp-buffer-list-set-ssrc"/>
     <function name="gst_rtp_buffer_list_get_timestamp ()" link="gst-plugins-base-libs-gstrtpbuffer.html#gst-rtp-buffer-list-get-timestamp"/>
     <function name="gst_rtp_buffer_list_set_timestamp ()" link="gst-plugins-base-libs-gstrtpbuffer.html#gst-rtp-buffer-list-set-timestamp"/>
-    <function name="" link="gst-plugins-base-libs-gstrtcpbuffer.html#id3246797"/>
+    <function name="" link="gst-plugins-base-libs-gstrtcpbuffer.html#id2842352"/>
     <function name="GST_RTCP_VERSION" link="gst-plugins-base-libs-gstrtcpbuffer.html#GST-RTCP-VERSION--CAPS"/>
     <function name="GST_RTCP_MAX_SDES" link="gst-plugins-base-libs-gstrtcpbuffer.html#GST-RTCP-MAX-SDES--CAPS"/>
     <function name="GST_RTCP_MAX_BYE_SSRC_COUNT" link="gst-plugins-base-libs-gstrtcpbuffer.html#GST-RTCP-MAX-BYE-SSRC-COUNT--CAPS"/>
@@ -787,7 +799,7 @@
     <function name="gst_rtcp_unix_to_ntp ()" link="gst-plugins-base-libs-gstrtcpbuffer.html#gst-rtcp-unix-to-ntp"/>
     <function name="gst_rtsp_base64_encode ()" link="gst-plugins-base-libs-gstrtspbase64.html#gst-rtsp-base64-encode"/>
     <function name="gst_rtsp_base64_decode_ip ()" link="gst-plugins-base-libs-gstrtspbase64.html#gst-rtsp-base64-decode-ip"/>
-    <function name="" link="gst-plugins-base-libs-gstrtspconnection.html#id3264605"/>
+    <function name="" link="gst-plugins-base-libs-gstrtspconnection.html#id2860156"/>
     <function name="GstRTSPConnection" link="gst-plugins-base-libs-gstrtspconnection.html#GstRTSPConnection"/>
     <function name="gst_rtsp_connection_create ()" link="gst-plugins-base-libs-gstrtspconnection.html#gst-rtsp-connection-create"/>
     <function name="gst_rtsp_connection_accept ()" link="gst-plugins-base-libs-gstrtspconnection.html#gst-rtsp-connection-accept"/>
@@ -820,7 +832,7 @@
     <function name="gst_rtsp_watch_attach ()" link="gst-plugins-base-libs-gstrtspconnection.html#gst-rtsp-watch-attach"/>
     <function name="gst_rtsp_watch_reset ()" link="gst-plugins-base-libs-gstrtspconnection.html#gst-rtsp-watch-reset"/>
     <function name="gst_rtsp_watch_queue_message ()" link="gst-plugins-base-libs-gstrtspconnection.html#gst-rtsp-watch-queue-message"/>
-    <function name="" link="gst-plugins-base-libs-gstrtspdefs.html#id3274903"/>
+    <function name="" link="gst-plugins-base-libs-gstrtspdefs.html#id2870650"/>
     <function name="GST_RTSP_CHECK()" link="gst-plugins-base-libs-gstrtspdefs.html#GST-RTSP-CHECK--CAPS"/>
     <function name="enum GstRTSPResult" link="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPResult"/>
     <function name="enum GstRTSPFamily" link="gst-plugins-base-libs-gstrtspdefs.html#GstRTSPFamily"/>
@@ -839,7 +851,7 @@
     <function name="gst_rtsp_options_as_text ()" link="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-options-as-text"/>
     <function name="gst_rtsp_find_header_field ()" link="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-find-header-field"/>
     <function name="gst_rtsp_find_method ()" link="gst-plugins-base-libs-gstrtspdefs.html#gst-rtsp-find-method"/>
-    <function name="" link="gst-plugins-base-libs-gstrtspmessage.html#id3281065"/>
+    <function name="" link="gst-plugins-base-libs-gstrtspmessage.html#id2876992"/>
     <function name="enum GstRTSPMsgType" link="gst-plugins-base-libs-gstrtspmessage.html#GstRTSPMsgType"/>
     <function name="GstRTSPMessage" link="gst-plugins-base-libs-gstrtspmessage.html#GstRTSPMessage"/>
     <function name="gst_rtsp_message_new ()" link="gst-plugins-base-libs-gstrtspmessage.html#gst-rtsp-message-new"/>
@@ -866,7 +878,7 @@
     <function name="gst_rtsp_message_get_body ()" link="gst-plugins-base-libs-gstrtspmessage.html#gst-rtsp-message-get-body"/>
     <function name="gst_rtsp_message_steal_body ()" link="gst-plugins-base-libs-gstrtspmessage.html#gst-rtsp-message-steal-body"/>
     <function name="gst_rtsp_message_dump ()" link="gst-plugins-base-libs-gstrtspmessage.html#gst-rtsp-message-dump"/>
-    <function name="" link="gst-plugins-base-libs-gstrtsprange.html#id3290262"/>
+    <function name="" link="gst-plugins-base-libs-gstrtsprange.html#id2886273"/>
     <function name="enum GstRTSPRangeUnit" link="gst-plugins-base-libs-gstrtsprange.html#GstRTSPRangeUnit"/>
     <function name="GstRTSPTimeRange" link="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTimeRange"/>
     <function name="GstRTSPTime" link="gst-plugins-base-libs-gstrtsprange.html#GstRTSPTime"/>
@@ -874,7 +886,7 @@
     <function name="gst_rtsp_range_parse ()" link="gst-plugins-base-libs-gstrtsprange.html#gst-rtsp-range-parse"/>
     <function name="gst_rtsp_range_to_string ()" link="gst-plugins-base-libs-gstrtsprange.html#gst-rtsp-range-to-string"/>
     <function name="gst_rtsp_range_free ()" link="gst-plugins-base-libs-gstrtsprange.html#gst-rtsp-range-free"/>
-    <function name="" link="gst-plugins-base-libs-gstrtsptransport.html#id3292350"/>
+    <function name="" link="gst-plugins-base-libs-gstrtsptransport.html#id2888362"/>
     <function name="enum GstRTSPTransMode" link="gst-plugins-base-libs-gstrtsptransport.html#GstRTSPTransMode"/>
     <function name="enum GstRTSPProfile" link="gst-plugins-base-libs-gstrtsptransport.html#GstRTSPProfile"/>
     <function name="enum GstRTSPLowerTrans" link="gst-plugins-base-libs-gstrtsptransport.html#GstRTSPLowerTrans"/>
@@ -886,7 +898,7 @@
     <function name="gst_rtsp_transport_get_mime ()" link="gst-plugins-base-libs-gstrtsptransport.html#gst-rtsp-transport-get-mime"/>
     <function name="gst_rtsp_transport_get_manager ()" link="gst-plugins-base-libs-gstrtsptransport.html#gst-rtsp-transport-get-manager"/>
     <function name="gst_rtsp_transport_free ()" link="gst-plugins-base-libs-gstrtsptransport.html#gst-rtsp-transport-free"/>
-    <function name="" link="gst-plugins-base-libs-gstrtspurl.html#id3296118"/>
+    <function name="" link="gst-plugins-base-libs-gstrtspurl.html#id2892130"/>
     <function name="GST_RTSP_DEFAULT_PORT" link="gst-plugins-base-libs-gstrtspurl.html#GST-RTSP-DEFAULT-PORT--CAPS"/>
     <function name="GstRTSPUrl" link="gst-plugins-base-libs-gstrtspurl.html#GstRTSPUrl"/>
     <function name="gst_rtsp_url_parse ()" link="gst-plugins-base-libs-gstrtspurl.html#gst-rtsp-url-parse"/>
@@ -895,7 +907,7 @@
     <function name="gst_rtsp_url_get_request_uri ()" link="gst-plugins-base-libs-gstrtspurl.html#gst-rtsp-url-get-request-uri"/>
     <function name="gst_rtsp_url_set_port ()" link="gst-plugins-base-libs-gstrtspurl.html#gst-rtsp-url-set-port"/>
     <function name="gst_rtsp_url_get_port ()" link="gst-plugins-base-libs-gstrtspurl.html#gst-rtsp-url-get-port"/>
-    <function name="" link="gst-plugins-base-libs-gstsdpmessage.html#id3300662"/>
+    <function name="" link="gst-plugins-base-libs-gstsdpmessage.html#id2896674"/>
     <function name="enum GstSDPResult" link="gst-plugins-base-libs-gstsdpmessage.html#GstSDPResult"/>
     <function name="GstSDPOrigin" link="gst-plugins-base-libs-gstsdpmessage.html#GstSDPOrigin"/>
     <function name="GstSDPConnection" link="gst-plugins-base-libs-gstsdpmessage.html#GstSDPConnection"/>
@@ -981,7 +993,7 @@
     <function name="gst_sdp_media_get_attribute_val ()" link="gst-plugins-base-libs-gstsdpmessage.html#gst-sdp-media-get-attribute-val"/>
     <function name="gst_sdp_media_get_attribute_val_n ()" link="gst-plugins-base-libs-gstsdpmessage.html#gst-sdp-media-get-attribute-val-n"/>
     <function name="gst_sdp_media_add_attribute ()" link="gst-plugins-base-libs-gstsdpmessage.html#gst-sdp-media-add-attribute"/>
-    <function name="" link="gst-plugins-base-libs-gsttag.html#id3324422"/>
+    <function name="" link="gst-plugins-base-libs-gsttag.html#id2920435"/>
     <function name="GST_TAG_MUSICBRAINZ_TRACKID" link="gst-plugins-base-libs-gsttag.html#GST-TAG-MUSICBRAINZ-TRACKID--CAPS"/>
     <function name="GST_TAG_MUSICBRAINZ_ARTISTID" link="gst-plugins-base-libs-gsttag.html#GST-TAG-MUSICBRAINZ-ARTISTID--CAPS"/>
     <function name="GST_TAG_MUSICBRAINZ_ALBUMID" link="gst-plugins-base-libs-gsttag.html#GST-TAG-MUSICBRAINZ-ALBUMID--CAPS"/>
@@ -1000,27 +1012,27 @@
     <function name="gst_tag_freeform_string_to_utf8 ()" link="gst-plugins-base-libs-gsttag.html#gst-tag-freeform-string-to-utf8"/>
     <function name="gst_tag_parse_extended_comment ()" link="gst-plugins-base-libs-gsttag.html#gst-tag-parse-extended-comment"/>
     <function name="enum GstTagImageType" link="gst-plugins-base-libs-gsttag.html#GstTagImageType"/>
-    <function name="" link="gst-plugins-base-libs-gsttagvorbis.html#id3328047"/>
+    <function name="" link="gst-plugins-base-libs-gsttagvorbis.html#id2924060"/>
     <function name="gst_tag_from_vorbis_tag ()" link="gst-plugins-base-libs-gsttagvorbis.html#gst-tag-from-vorbis-tag"/>
     <function name="gst_tag_to_vorbis_tag ()" link="gst-plugins-base-libs-gsttagvorbis.html#gst-tag-to-vorbis-tag"/>
     <function name="gst_vorbis_tag_add ()" link="gst-plugins-base-libs-gsttagvorbis.html#gst-vorbis-tag-add"/>
     <function name="gst_tag_to_vorbis_comments ()" link="gst-plugins-base-libs-gsttagvorbis.html#gst-tag-to-vorbis-comments"/>
     <function name="gst_tag_list_from_vorbiscomment_buffer ()" link="gst-plugins-base-libs-gsttagvorbis.html#gst-tag-list-from-vorbiscomment-buffer"/>
     <function name="gst_tag_list_to_vorbiscomment_buffer ()" link="gst-plugins-base-libs-gsttagvorbis.html#gst-tag-list-to-vorbiscomment-buffer"/>
-    <function name="" link="gst-plugins-base-libs-gsttagid3.html#id3330146"/>
+    <function name="" link="gst-plugins-base-libs-gsttagid3.html#id2926158"/>
     <function name="gst_tag_id3_genre_count ()" link="gst-plugins-base-libs-gsttagid3.html#gst-tag-id3-genre-count"/>
     <function name="gst_tag_id3_genre_get ()" link="gst-plugins-base-libs-gsttagid3.html#gst-tag-id3-genre-get"/>
     <function name="gst_tag_list_new_from_id3v1 ()" link="gst-plugins-base-libs-gsttagid3.html#gst-tag-list-new-from-id3v1"/>
     <function name="gst_tag_from_id3_tag ()" link="gst-plugins-base-libs-gsttagid3.html#gst-tag-from-id3-tag"/>
     <function name="gst_tag_from_id3_user_tag ()" link="gst-plugins-base-libs-gsttagid3.html#gst-tag-from-id3-user-tag"/>
     <function name="gst_tag_to_id3_tag ()" link="gst-plugins-base-libs-gsttagid3.html#gst-tag-to-id3-tag"/>
-    <function name="Deriving from GstTagDemux" link="gst-plugins-base-libs-gsttagdemux.html#id3331514"/>
+    <function name="Deriving from GstTagDemux" link="gst-plugins-base-libs-gsttagdemux.html#id2927526"/>
     <function name="GstTagDemux" link="gst-plugins-base-libs-gsttagdemux.html#GstTagDemux"/>
     <function name="GstTagDemuxClass" link="gst-plugins-base-libs-gsttagdemux.html#GstTagDemuxClass"/>
     <function name="enum GstTagDemuxResult" link="gst-plugins-base-libs-gsttagdemux.html#GstTagDemuxResult"/>
-    <function name="Linking to this library" link="gst-plugins-base-libs-gstpbutils.html#id3332722"/>
+    <function name="Linking to this library" link="gst-plugins-base-libs-gstpbutils.html#id2928735"/>
     <function name="gst_pb_utils_init ()" link="gst-plugins-base-libs-gstpbutils.html#gst-pb-utils-init"/>
-    <function name="" link="gst-plugins-base-libs-gstpbutilsdescriptions.html#id3333418"/>
+    <function name="" link="gst-plugins-base-libs-gstpbutilsdescriptions.html#id2929431"/>
     <function name="gst_pb_utils_get_source_description ()" link="gst-plugins-base-libs-gstpbutilsdescriptions.html#gst-pb-utils-get-source-description"/>
     <function name="gst_pb_utils_get_sink_description ()" link="gst-plugins-base-libs-gstpbutilsdescriptions.html#gst-pb-utils-get-sink-description"/>
     <function name="gst_pb_utils_get_decoder_description ()" link="gst-plugins-base-libs-gstpbutilsdescriptions.html#gst-pb-utils-get-decoder-description"/>
@@ -1028,7 +1040,7 @@
     <function name="gst_pb_utils_get_element_description ()" link="gst-plugins-base-libs-gstpbutilsdescriptions.html#gst-pb-utils-get-element-description"/>
     <function name="gst_pb_utils_add_codec_description_to_tag_list ()" link="gst-plugins-base-libs-gstpbutilsdescriptions.html#gst-pb-utils-add-codec-description-to-tag-list"/>
     <function name="gst_pb_utils_get_codec_description ()" link="gst-plugins-base-libs-gstpbutilsdescriptions.html#gst-pb-utils-get-codec-description"/>
-    <function name="" link="gst-plugins-base-libs-gstpbutilsmissingplugins.html#id3336094"/>
+    <function name="" link="gst-plugins-base-libs-gstpbutilsmissingplugins.html#id2932106"/>
     <function name="gst_missing_plugin_message_get_installer_detail ()" link="gst-plugins-base-libs-gstpbutilsmissingplugins.html#gst-missing-plugin-message-get-installer-detail"/>
     <function name="gst_missing_plugin_message_get_description ()" link="gst-plugins-base-libs-gstpbutilsmissingplugins.html#gst-missing-plugin-message-get-description"/>
     <function name="gst_is_missing_plugin_message ()" link="gst-plugins-base-libs-gstpbutilsmissingplugins.html#gst-is-missing-plugin-message"/>
@@ -1042,7 +1054,7 @@
     <function name="gst_missing_element_installer_detail_new ()" link="gst-plugins-base-libs-gstpbutilsmissingplugins.html#gst-missing-element-installer-detail-new"/>
     <function name="gst_missing_decoder_installer_detail_new ()" link="gst-plugins-base-libs-gstpbutilsmissingplugins.html#gst-missing-decoder-installer-detail-new"/>
     <function name="gst_missing_encoder_installer_detail_new ()" link="gst-plugins-base-libs-gstpbutilsmissingplugins.html#gst-missing-encoder-installer-detail-new"/>
-    <function name="Overview" link="gst-plugins-base-libs-gstpbutilsinstallplugins.html#id3340320"/>
+    <function name="Overview" link="gst-plugins-base-libs-gstpbutilsinstallplugins.html#id2936334"/>
     <function name="enum GstInstallPluginsReturn" link="gst-plugins-base-libs-gstpbutilsinstallplugins.html#GstInstallPluginsReturn"/>
     <function name="GstInstallPluginsResultFunc ()" link="gst-plugins-base-libs-gstpbutilsinstallplugins.html#GstInstallPluginsResultFunc"/>
     <function name="gst_install_plugins_async ()" link="gst-plugins-base-libs-gstpbutilsinstallplugins.html#gst-install-plugins-async"/>
@@ -1054,7 +1066,7 @@
     <function name="gst_install_plugins_context_new ()" link="gst-plugins-base-libs-gstpbutilsinstallplugins.html#gst-install-plugins-context-new"/>
     <function name="gst_install_plugins_context_free ()" link="gst-plugins-base-libs-gstpbutilsinstallplugins.html#gst-install-plugins-context-free"/>
     <function name="gst_install_plugins_context_set_xid ()" link="gst-plugins-base-libs-gstpbutilsinstallplugins.html#gst-install-plugins-context-set-xid"/>
-    <function name="" link="gst-plugins-base-libs-gstvideo.html#id3346669"/>
+    <function name="" link="gst-plugins-base-libs-gstvideo.html#id2942683"/>
     <function name="GST_VIDEO_BLUE_MASK_15" link="gst-plugins-base-libs-gstvideo.html#GST-VIDEO-BLUE-MASK-15--CAPS"/>
     <function name="GST_VIDEO_BLUE_MASK_15_INT" link="gst-plugins-base-libs-gstvideo.html#GST-VIDEO-BLUE-MASK-15-INT--CAPS"/>
     <function name="GST_VIDEO_BLUE_MASK_16" link="gst-plugins-base-libs-gstvideo.html#GST-VIDEO-BLUE-MASK-16--CAPS"/>
@@ -1123,7 +1135,7 @@
     <function name="gst_video_format_parse_caps_interlaced ()" link="gst-plugins-base-libs-gstvideo.html#gst-video-format-parse-caps-interlaced"/>
     <function name="gst_video_parse_caps_framerate ()" link="gst-plugins-base-libs-gstvideo.html#gst-video-parse-caps-framerate"/>
     <function name="gst_video_parse_caps_pixel_aspect_ratio ()" link="gst-plugins-base-libs-gstvideo.html#gst-video-parse-caps-pixel-aspect-ratio"/>
-    <function name="" link="gst-plugins-base-libs-gstvideosink.html#id3359547"/>
+    <function name="" link="gst-plugins-base-libs-gstvideosink.html#id2955601"/>
     <function name="GstVideoSink" link="gst-plugins-base-libs-gstvideosink.html#GstVideoSink-struct"/>
     <function name="GstVideoSinkClass" link="gst-plugins-base-libs-gstvideosink.html#GstVideoSinkClass"/>
     <function name="GstVideoRectangle" link="gst-plugins-base-libs-gstvideosink.html#GstVideoRectangle"/>
@@ -1131,7 +1143,8 @@
     <function name="GST_VIDEO_SINK_PAD()" link="gst-plugins-base-libs-gstvideosink.html#GST-VIDEO-SINK-PAD--CAPS"/>
     <function name="GST_VIDEO_SINK_WIDTH()" link="gst-plugins-base-libs-gstvideosink.html#GST-VIDEO-SINK-WIDTH--CAPS"/>
     <function name="gst_video_sink_center_rect ()" link="gst-plugins-base-libs-gstvideosink.html#gst-video-sink-center-rect"/>
-    <function name="" link="gst-plugins-base-libs-gstvideofilter.html#id3361135"/>
+    <function name="The &quot;show-preroll-frame&quot; property" link="gst-plugins-base-libs-gstvideosink.html#GstVideoSink--show-preroll-frame"/>
+    <function name="" link="gst-plugins-base-libs-gstvideofilter.html#id2957589"/>
     <function name="GstVideoFilter" link="gst-plugins-base-libs-gstvideofilter.html#GstVideoFilter-struct"/>
     <function name="GstVideoFilterClass" link="gst-plugins-base-libs-gstvideofilter.html#GstVideoFilterClass"/>
   </functions>

@@ -73,12 +73,23 @@ GST_START_TEST (segment_seek_nosize)
   fail_unless (cstart == 100);
   fail_unless (cstop == 150);
 
-  /* special case, 0 duration */
+  /* special case, 0 duration and outside segment */
+  res = gst_segment_clip (&segment, GST_FORMAT_BYTES, 90, 90, &cstart, &cstop);
+  fail_unless (res == FALSE);
+
+  /* special case, 0 duration and touching lower bound, i.e. inside segment */
   res = gst_segment_clip (&segment, GST_FORMAT_BYTES,
       100, 100, &cstart, &cstop);
   fail_unless (res == TRUE);
   fail_unless (cstart == 100);
   fail_unless (cstop == 100);
+
+  /* special case, 0 duration and inside the segment */
+  res = gst_segment_clip (&segment, GST_FORMAT_BYTES,
+      120, 120, &cstart, &cstop);
+  fail_unless (res == TRUE);
+  fail_unless (cstart == 120);
+  fail_unless (cstop == 120);
 
   /* completely inside */
   res = gst_segment_clip (&segment, GST_FORMAT_BYTES,

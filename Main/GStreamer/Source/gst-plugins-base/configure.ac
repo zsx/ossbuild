@@ -5,7 +5,7 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, git and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for git/prerelease
-AC_INIT(GStreamer Base Plug-ins, 0.10.24,
+AC_INIT(GStreamer Base Plug-ins, 0.10.25,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-base)
 
@@ -44,7 +44,7 @@ dnl - interfaces added/removed/changed -> increment CURRENT, REVISION = 0
 dnl - interfaces added -> increment AGE
 dnl - interfaces removed -> AGE = 0
 dnl sets GST_LT_LDFLAGS
-AS_LIBTOOL(GST, 17, 0, 17)
+AS_LIBTOOL(GST, 18, 0, 18)
 
 dnl FIXME: this macro doesn't actually work;
 dnl the generated libtool script has no support for the listed tags.
@@ -55,7 +55,7 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.23.1
+GST_REQ=0.10.25
 
 dnl *** autotools stuff ****
 
@@ -134,6 +134,9 @@ AM_PROG_CC_C_O
 AC_PATH_PROG(VALGRIND_PATH, valgrind, no)
 AM_CONDITIONAL(HAVE_VALGRIND, test ! "x$VALGRIND_PATH" = "xno")
 
+dnl check for gobject-introspection
+GOBJECT_INTROSPECTION_CHECK([0.6.3])
+
 dnl check for documentation tools
 GTK_DOC_CHECK([1.3])
 AS_PATH_PYTHON([2.1])
@@ -154,25 +157,17 @@ dnl used in gst/ffmpegcolorspace/mem.c
 dnl FIXME: could be fixed by redefining av_malloc and av_free to GLib's
 AC_CHECK_HEADERS([malloc.h])
 
-dnl used in gst/subparse/gstsubparse.c
-AC_CHECK_HEADERS([regex.h], HAVE_REGEX_H="yes", HAVE_REGEX_H="no")
-AM_CONDITIONAL(HAVE_REGEX_H, test "x$HAVE_REGEX_H" = "xyes")
-
-if test "x$HAVE_REGEX_H" = "xyes"; then
-  ac_cppflags_save="$CPPFLAGS"
-  CPPFLAGS="`$PKG_CONFIG --cflags libxml-2.0`"
-  AC_COMPILE_IFELSE(
-    AC_LANG_PROGRAM([
+ac_cppflags_save="$CPPFLAGS"
+CPPFLAGS="`$PKG_CONFIG --cflags libxml-2.0`"
+AC_COMPILE_IFELSE(
+  AC_LANG_PROGRAM([
 #include <libxml/HTMLparser.h>
                      ],[
 #ifndef LIBXML_HTML_ENABLED
 #error libxml2 has no HTML support
 #endif /* LIBXML_HTML_ENABLED */
-                     ]), HAVE_LIBXML_HTML="yes", HAVE_LIBXML_HTML="no")
-  CPPFLAGS="$ac_cppflags_save"
-else
-  HAVE_LIBXML_HTML="no"
-fi
+                   ]), HAVE_LIBXML_HTML="yes", HAVE_LIBXML_HTML="no")
+CPPFLAGS="$ac_cppflags_save"
 AM_CONDITIONAL(HAVE_LIBXML_HTML, test "x$HAVE_LIBXML_HTML" = "xyes")
 
 dnl used in gst/tcp
@@ -536,7 +531,7 @@ AG_GST_CHECK_FEATURE(GNOME_VFS, [GNOME VFS], gnomevfs, [
 dnl *** libgio ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_GIO, true)
 AG_GST_CHECK_FEATURE(GIO, [GIO library], gio, [
-  PKG_CHECK_MODULES(GIO, gio-2.0 >= 2.15.2, [
+  PKG_CHECK_MODULES(GIO, gio-2.0 >= 2.16, [
     HAVE_GIO="yes"
     GIO_MODULE_DIR="`$PKG_CONFIG --variable=giomoduledir gio-2.0`"
     AC_DEFINE_UNQUOTED(GIO_MODULE_DIR, "$GIO_MODULE_DIR",
@@ -590,7 +585,8 @@ AG_GST_CHECK_FEATURE(OGG, [Xiph Ogg library], ogg, [
 dnl *** pango ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_PANGO, true)
 AG_GST_CHECK_FEATURE(PANGO, [Pango font rendering], pango, [
-  AG_GST_PKG_CHECK_MODULES(PANGO, pango pangoft2)
+  AG_GST_PKG_CHECK_MODULES(PANGO, pango pangocairo)
+  PKG_CHECK_MODULES(PANGOCAIRO_1_15_4, pangocairo >= 1.15.4, [ AC_DEFINE(HAVE_PANGO_VERTICAL_WRITING, 1, [Defined if pango can write vertically])])
 ])
 
 dnl *** theora ***

@@ -794,9 +794,11 @@ fail_free_list:
     for (walk = to_write; walk; walk = g_list_next (walk)) {
       GstBinaryChunk *cur = walk->data;
 
-      if (!(cur->flags & GST_BINARY_REGISTRY_FLAG_CONST))
-        g_free (cur->data);
-      g_free (cur);
+      if (cur) {
+        if (!(cur->flags & GST_BINARY_REGISTRY_FLAG_CONST))
+          g_free (cur->data);
+        g_free (cur);
+      }
     }
     g_list_free (to_write);
 
@@ -1264,7 +1266,7 @@ gst_registry_binary_read_cache (GstRegistry * registry, const char *location)
   in = contents;
   GST_DEBUG ("File data at address %p", in);
   if (G_UNLIKELY (size < sizeof (GstBinaryRegistryMagic))) {
-    GST_ERROR ("No or broken registry header");
+    GST_ERROR ("No or broken registry header for file at %s", location);
     goto Error;
   }
 

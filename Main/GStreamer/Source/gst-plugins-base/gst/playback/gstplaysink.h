@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
- 
+
 #ifndef __GST_PLAY_SINK_H__
 #define __GST_PLAY_SINK_H__
 
@@ -94,6 +94,8 @@ gchar *          gst_play_sink_get_font_desc  (GstPlaySink *playsink);
 GstBuffer *      gst_play_sink_get_last_frame (GstPlaySink * playsink);
 
 gboolean         gst_play_sink_reconfigure    (GstPlaySink * playsink);
+
+gboolean         gst_play_sink_plugin_init    (GstPlugin * plugin);
 
 G_END_DECLS
 

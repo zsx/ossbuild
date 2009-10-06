@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include <check.h>
+#include <gst/check/internal-check.h>
 
 #include <gst/gst.h>
 
@@ -121,7 +121,9 @@ static void __testname (int __i__)\
   GST_DEBUG ("test start"); \
   tcase_fn_start (""# __testname, __FILE__, __LINE__);
 
-#define GST_END_TEST END_TEST
+#define GST_END_TEST GST_LOG ("cleaning up tasks"); \
+                     gst_task_cleanup_all (); \
+                     END_TEST
 #else
 #define GST_START_TEST(__testname) \
 static void __testname ()\
@@ -129,7 +131,9 @@ static void __testname ()\
   GST_DEBUG ("test start"); \
   tcase_fn_start (""# __testname, __FILE__, __LINE__);
 
-#define GST_END_TEST END_TEST
+#define GST_END_TEST GST_LOG ("cleaning up tasks"); \
+                     gst_task_cleanup_all (); \
+                     END_TEST
 #endif
 
 

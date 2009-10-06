@@ -9,7 +9,7 @@
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more 
+ * Library General Public License for more
  */
 
 /**
@@ -45,6 +45,7 @@ struct _GstBaseRTPPayloadPrivate
   gboolean seqnum_offset_random;
   gboolean ssrc_random;
   guint16 next_seqnum;
+  gboolean perfect_rtptime;
 };
 
 /* BaseRTPPayload signals and args */
@@ -54,7 +55,7 @@ enum
   LAST_SIGNAL
 };
 
-/* FIXME 0.11, a better default is the Ethernet MTU of 
+/* FIXME 0.11, a better default is the Ethernet MTU of
  * 1500 - sizeof(headers) as pointed out by marcelm in IRC:
  * So an Ethernet MTU of 1500, minus 60 for the max IP, minus 8 for UDP, gives
  * 1432 bytes or so.  And that should be adjusted downward further for other
@@ -67,6 +68,7 @@ enum
 #define DEFAULT_SEQNUM_OFFSET           -1
 #define DEFAULT_MAX_PTIME               -1
 #define DEFAULT_MIN_PTIME               0
+#define DEFAULT_PERFECT_RTPTIME         TRUE
 
 enum
 {
@@ -79,7 +81,9 @@ enum
   PROP_MAX_PTIME,
   PROP_MIN_PTIME,
   PROP_TIMESTAMP,
-  PROP_SEQNUM
+  PROP_SEQNUM,
+  PROP_PERFECT_RTPTIME,
+  PROP_LAST
 };
 
 static void gst_basertppayload_class_init (GstBaseRTPPayloadClass * klass);
@@ -204,6 +208,21 @@ gst_basertppayload_class_init (GstBaseRTPPayloadClass * klass)
           "The RTP sequence number of the last processed packet",
           0, G_MAXUINT16, 0, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
+  /**
+   * GstBaseRTPAudioPayload:perfect-rtptime:
+   *
+   * Try to use the offset fields to generate perfect RTP timestamps. when this
+   * option is disabled, RTP timestamps are generated from the GStreamer
+   * timestamps, which could result in RTP timestamps that don't increment with
+   * the amount of data in the packet.
+   *
+   * Since: 0.10.25
+   */
+  g_object_class_install_property (G_OBJECT_CLASS (klass), PROP_PERFECT_RTPTIME,
+      g_param_spec_boolean ("perfect-rtptime", "Perfect RTP Time",
+          "Generate perfect RTP timestamps when possible",
+          DEFAULT_PERFECT_RTPTIME, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
   gstelement_class->change_state = gst_basertppayload_change_state;
 
   GST_DEBUG_CATEGORY_INIT (basertppayload_debug, "basertppayload", 0,
@@ -241,9 +260,9 @@ gst_basertppayload_init (GstBaseRTPPayload * basertppayload, gpointer g_class)
       gst_basertppayload_chain);
   gst_element_add_pad (GST_ELEMENT (basertppayload), basertppayload->sinkpad);
 
-  basertppayload->seq_rand = g_rand_new ();
-  basertppayload->ssrc_rand = g_rand_new ();
-  basertppayload->ts_rand = g_rand_new ();
+  basertppayload->seq_rand = g_rand_new_with_seed (g_random_int ());
+  basertppayload->ssrc_rand = g_rand_new_with_seed (g_random_int ());
+  basertppayload->ts_rand = g_rand_new_with_seed (g_random_int ());
 
   basertppayload->mtu = DEFAULT_MTU;
   basertppayload->pt = DEFAULT_PT;
@@ -256,6 +275,7 @@ gst_basertppayload_init (GstBaseRTPPayload * basertppayload, gpointer g_class)
 
   basertppayload->max_ptime = DEFAULT_MAX_PTIME;
   basertppayload->min_ptime = DEFAULT_MIN_PTIME;
+  basertppayload->priv->perfect_rtptime = DEFAULT_PERFECT_RTPTIME;
 
   basertppayload->media = NULL;
   basertppayload->encoding_name = NULL;
@@ -418,7 +438,7 @@ no_function:
  * @payload: a #GstBaseRTPPayload
  * @media: the media type (typically "audio" or "video")
  * @dynamic: if the payload type is dynamic
- * @encoding_name: the encoding name 
+ * @encoding_name: the encoding name
  * @clock_rate: the clock rate of the media
  *
  * Set the rtp options of the payloader. These options will be set in the caps
@@ -621,6 +641,7 @@ typedef struct
   guint8 pt;
   GstCaps *caps;
   GstClockTime timestamp;
+  guint64 offset;
   guint32 rtptime;
 } HeaderData;
 
@@ -628,9 +649,10 @@ static GstBufferListItem
 find_timestamp (GstBuffer ** buffer, guint group, guint idx, HeaderData * data)
 {
   data->timestamp = GST_BUFFER_TIMESTAMP (*buffer);
+  data->offset = GST_BUFFER_OFFSET (*buffer);
 
-  /* stop when we find a timestamp */
-  if (data->timestamp != -1)
+  /* stop when we find a timestamp and duration */
+  if (data->timestamp != -1 && data->offset != -1)
     return GST_BUFFER_LIST_END;
   else
     return GST_BUFFER_LIST_CONTINUE;
@@ -644,6 +666,7 @@ set_headers (GstBuffer ** buffer, guint group, guint idx, HeaderData * data)
   gst_rtp_buffer_set_seq (*buffer, data->seqnum);
   gst_rtp_buffer_set_timestamp (*buffer, data->rtptime);
   gst_buffer_set_caps (*buffer, data->caps);
+  /* increment the seqnum for each buffer */
   data->seqnum++;
 
   return GST_BUFFER_LIST_SKIP_GROUP;
@@ -681,20 +704,33 @@ gst_basertppayload_prepare_push (GstBaseRTPPayload * payload,
         (GstBufferListFunc) find_timestamp, &data);
   } else {
     data.timestamp = GST_BUFFER_TIMESTAMP (GST_BUFFER_CAST (obj));
+    data.offset = GST_BUFFER_OFFSET (GST_BUFFER_CAST (obj));
   }
 
   /* convert to RTP time */
-  if (GST_CLOCK_TIME_IS_VALID (data.timestamp)) {
+  if (priv->perfect_rtptime && data.offset != GST_BUFFER_OFFSET_NONE) {
+    /* if we have an offset, use that for making an RTP timestamp */
+    data.rtptime = payload->ts_base + data.offset;
+    GST_LOG_OBJECT (payload,
+        "Using offset %" G_GUINT64_FORMAT " for RTP timestamp", data.offset);
+  } else if (GST_CLOCK_TIME_IS_VALID (data.timestamp)) {
     gint64 rtime;
 
+    /* no offset, use the gstreamer timestamp */
     rtime = gst_segment_to_running_time (&payload->segment, GST_FORMAT_TIME,
         data.timestamp);
+
+    GST_LOG_OBJECT (payload,
+        "Using running_time %" GST_TIME_FORMAT " for RTP timestamp",
+        GST_TIME_ARGS (rtime));
 
     rtime = gst_util_uint64_scale_int (rtime, payload->clock_rate, GST_SECOND);
 
     /* add running_time in clock-rate units to the base timestamp */
     data.rtptime = payload->ts_base + rtime;
   } else {
+    GST_LOG_OBJECT (payload,
+        "Using previous RTP timestamp %" G_GUINT32_FORMAT, payload->timestamp);
     /* no timestamp to convert, take previous timestamp */
     data.rtptime = payload->timestamp;
   }
@@ -764,7 +800,7 @@ gst_basertppayload_push_list (GstBaseRTPPayload * payload, GstBufferList * list)
  *
  * Push @buffer to the peer element of the payloader. The SSRC, payload type,
  * seqnum and timestamp of the RTP buffer will be updated first.
- * 
+ *
  * This function takes ownership of @buffer.
  *
  * Returns: a #GstFlowReturn.
@@ -825,6 +861,9 @@ gst_basertppayload_set_property (GObject * object, guint prop_id,
     case PROP_MIN_PTIME:
       basertppayload->min_ptime = g_value_get_int64 (value);
       break;
+    case PROP_PERFECT_RTPTIME:
+      priv->perfect_rtptime = g_value_get_boolean (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -878,6 +917,9 @@ gst_basertppayload_get_property (GObject * object, guint prop_id,
     case PROP_SEQNUM:
       g_value_set_uint (value, basertppayload->seqnum);
       break;
+    case PROP_PERFECT_RTPTIME:
+      g_value_set_boolean (value, priv->perfect_rtptime);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -902,20 +944,19 @@ gst_basertppayload_change_state (GstElement * element,
       gst_segment_init (&basertppayload->segment, GST_FORMAT_UNDEFINED);
 
       if (priv->seqnum_offset_random)
-        basertppayload->seqnum_base =
-            g_rand_int_range (basertppayload->seq_rand, 0, G_MAXUINT16);
+        basertppayload->seqnum_base = g_random_int_range (0, G_MAXUINT16);
       else
         basertppayload->seqnum_base = basertppayload->seqnum_offset;
       priv->next_seqnum = basertppayload->seqnum_base;
       basertppayload->seqnum = basertppayload->seqnum_base;
 
       if (priv->ssrc_random)
-        basertppayload->current_ssrc = g_rand_int (basertppayload->ssrc_rand);
+        basertppayload->current_ssrc = g_random_int ();
       else
         basertppayload->current_ssrc = basertppayload->ssrc;
 
       if (priv->ts_offset_random)
-        basertppayload->ts_base = g_rand_int (basertppayload->ts_rand);
+        basertppayload->ts_base = g_random_int ();
       else
         basertppayload->ts_base = basertppayload->ts_offset;
       basertppayload->timestamp = basertppayload->ts_base;

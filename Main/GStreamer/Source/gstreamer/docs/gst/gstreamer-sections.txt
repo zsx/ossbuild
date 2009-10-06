@@ -298,6 +298,7 @@ gst_caps_is_equal
 gst_caps_is_equal_fixed
 gst_caps_is_always_compatible
 gst_caps_is_subset
+gst_caps_can_intersect
 gst_caps_intersect
 gst_caps_union
 gst_caps_normalize
@@ -1068,6 +1069,7 @@ GstIteratorItemFunction
 GstIteratorResyncFunction
 GstIteratorFreeFunction
 GstIteratorFoldFunction
+GstCopyFunction
 
 GST_ITERATOR
 GST_ITERATOR_LOCK
@@ -1076,6 +1078,7 @@ GST_ITERATOR_ORIG_COOKIE
 
 gst_iterator_new
 gst_iterator_new_list
+gst_iterator_new_single
 
 gst_iterator_next
 gst_iterator_resync
@@ -2107,6 +2110,8 @@ GST_TAG_ARTIST
 GST_TAG_ARTIST_SORTNAME
 GST_TAG_ALBUM
 GST_TAG_ALBUM_SORTNAME
+GST_TAG_ALBUM_ARTIST
+GST_TAG_ALBUM_ARTIST_SORTNAME
 GST_TAG_DATE
 GST_TAG_GENRE
 GST_TAG_COMMENT
@@ -2504,7 +2509,11 @@ gst_gdouble_to_guint64
 gst_type_register_static_full
 gst_util_dump_mem
 gst_util_uint64_scale
+gst_util_uint64_scale_round
+gst_util_uint64_scale_ceil
 gst_util_uint64_scale_int
+gst_util_uint64_scale_int_round
+gst_util_uint64_scale_int_ceil
 gst_util_seqnum_next
 gst_util_seqnum_compare
 gst_util_set_object_arg

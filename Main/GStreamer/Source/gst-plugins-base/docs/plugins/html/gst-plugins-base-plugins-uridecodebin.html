@@ -121,11 +121,12 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-uridecodebin.description"></a><h2>Description</h2>
 <p>
-Decodes data from a URI into raw media.</p>
+Decodes data from a URI into raw media. It selects a source element that can
+handle the given <a class="link" href="gst-plugins-base-plugins-uridecodebin.html#GstURIDecodeBin--uri" title='The "uri" property'><span class="type">"uri"</span></a> scheme and connects it to a decodebin2.</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2693933"></a><h3>Element Information</h3>
+<a name="id2641651"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -148,7 +149,7 @@ Decodes data from a URI into raw media.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2693996"></a><h3>Element Pads</h3>
+<a name="id2645470"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -175,7 +176,7 @@ Decodes data from a URI into raw media.</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2694073"></a><h3>Element Information</h3>
+<a name="id2645547"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -198,7 +199,7 @@ Decodes data from a URI into raw media.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2697739"></a><h3>Element Pads</h3>
+<a name="id2645610"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -321,7 +322,7 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 <pre class="programlisting">  "buffer-duration"          <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
-<p>Buffer duration when buffering network streams.</p>
+<p>Buffer duration when buffering network streams (-1 queue2 default value).</p>
 <p>Allowed values: &gt;= -1</p>
 <p>Default value: -1</p>
 </div>
@@ -331,7 +332,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 <pre class="programlisting">  "buffer-size"              <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
-<p>Buffer size when buffering network streams.</p>
+<p>Buffer size when buffering network streams (-1 queue2 default value).</p>
 <p>Allowed values: &gt;= -1</p>
 <p>Default value: -1</p>
 </div>

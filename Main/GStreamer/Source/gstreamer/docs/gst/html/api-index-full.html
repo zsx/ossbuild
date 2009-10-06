@@ -90,6 +90,7 @@
 <dt><a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a></dt>
 <dt><a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff">GstClockTimeDiff</a></dt>
 <dt><a class="link" href="GstSystemClock.html#GstClockType" title="enum GstClockType">GstClockType</a></dt>
+<dt><a class="link" href="gstreamer-GstIterator.html#GstCopyFunction" title="GstCopyFunction ()">GstCopyFunction</a></dt>
 <dt><a class="link" href="gstreamer-GstGError.html#GstCoreError" title="enum GstCoreError">GstCoreError</a></dt>
 <dt><a class="link" href="gstreamer-GstInfo.html#GstDebugCategory" title="GstDebugCategory">GstDebugCategory</a></dt>
 <dt><a class="link" href="gstreamer-GstInfo.html#GstDebugColorFlags" title="enum GstDebugColorFlags">GstDebugColorFlags</a></dt>
@@ -394,6 +395,7 @@
 <dt><a class="link" href="gstreamer-GstCaps.html#GST-CAPS-ANY--CAPS" title="GST_CAPS_ANY">GST_CAPS_ANY</a></dt>
 <dt><a class="link" href="gstreamer-GstCaps.html#gst-caps-append" title="gst_caps_append ()">gst_caps_append</a></dt>
 <dt><a class="link" href="gstreamer-GstCaps.html#gst-caps-append-structure" title="gst_caps_append_structure ()">gst_caps_append_structure</a></dt>
+<dt><a class="link" href="gstreamer-GstCaps.html#gst-caps-can-intersect" title="gst_caps_can_intersect ()">gst_caps_can_intersect</a></dt>
 <dt><a class="link" href="gstreamer-GstCaps.html#gst-caps-copy" title="gst_caps_copy ()">gst_caps_copy</a></dt>
 <dt><a class="link" href="gstreamer-GstCaps.html#gst-caps-copy-nth" title="gst_caps_copy_nth ()">gst_caps_copy_nth</a></dt>
 <dt><a class="link" href="gstreamer-GstCaps.html#gst-caps-do-simplify" title="gst_caps_do_simplify ()">gst_caps_do_simplify</a></dt>
@@ -789,6 +791,7 @@
 <dt><a class="link" href="gstreamer-GstIterator.html#GST-ITERATOR-LOCK--CAPS" title="GST_ITERATOR_LOCK()">GST_ITERATOR_LOCK</a></dt>
 <dt><a class="link" href="gstreamer-GstIterator.html#gst-iterator-new" title="gst_iterator_new ()">gst_iterator_new</a></dt>
 <dt><a class="link" href="gstreamer-GstIterator.html#gst-iterator-new-list" title="gst_iterator_new_list ()">gst_iterator_new_list</a></dt>
+<dt><a class="link" href="gstreamer-GstIterator.html#gst-iterator-new-single" title="gst_iterator_new_single ()">gst_iterator_new_single</a></dt>
 <dt><a class="link" href="gstreamer-GstIterator.html#gst-iterator-next" title="gst_iterator_next ()">gst_iterator_next</a></dt>
 <dt><a class="link" href="gstreamer-GstIterator.html#GST-ITERATOR-ORIG-COOKIE--CAPS" title="GST_ITERATOR_ORIG_COOKIE()">GST_ITERATOR_ORIG_COOKIE</a></dt>
 <dt><a class="link" href="gstreamer-GstIterator.html#gst-iterator-push" title="gst_iterator_push ()">gst_iterator_push</a></dt>
@@ -1307,6 +1310,8 @@
 <dt><a class="link" href="gstreamer-GstInfo.html#GST-STR-NULL--CAPS" title="GST_STR_NULL()">GST_STR_NULL</a></dt>
 <dt><a class="link" href="GstSystemClock.html#gst-system-clock-obtain" title="gst_system_clock_obtain ()">gst_system_clock_obtain</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-ALBUM--CAPS" title="GST_TAG_ALBUM">GST_TAG_ALBUM</a></dt>
+<dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-ALBUM-ARTIST--CAPS" title="GST_TAG_ALBUM_ARTIST">GST_TAG_ALBUM_ARTIST</a></dt>
+<dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-ALBUM-ARTIST-SORTNAME--CAPS" title="GST_TAG_ALBUM_ARTIST_SORTNAME">GST_TAG_ALBUM_ARTIST_SORTNAME</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-ALBUM-GAIN--CAPS" title="GST_TAG_ALBUM_GAIN">GST_TAG_ALBUM_GAIN</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-ALBUM-PEAK--CAPS" title="GST_TAG_ALBUM_PEAK">GST_TAG_ALBUM_PEAK</a></dt>
 <dt><a class="link" href="gstreamer-GstTagList.html#GST-TAG-ALBUM-SORTNAME--CAPS" title="GST_TAG_ALBUM_SORTNAME">GST_TAG_ALBUM_SORTNAME</a></dt>
@@ -1513,7 +1518,11 @@
 <dt><a class="link" href="gstreamer-GstUtils.html#gst-util-set-object-arg" title="gst_util_set_object_arg ()">gst_util_set_object_arg</a></dt>
 <dt><a class="link" href="gstreamer-GstUtils.html#gst-util-set-value-from-string" title="gst_util_set_value_from_string ()">gst_util_set_value_from_string</a></dt>
 <dt><a class="link" href="gstreamer-GstUtils.html#gst-util-uint64-scale" title="gst_util_uint64_scale ()">gst_util_uint64_scale</a></dt>
+<dt><a class="link" href="gstreamer-GstUtils.html#gst-util-uint64-scale-ceil" title="gst_util_uint64_scale_ceil ()">gst_util_uint64_scale_ceil</a></dt>
 <dt><a class="link" href="gstreamer-GstUtils.html#gst-util-uint64-scale-int" title="gst_util_uint64_scale_int ()">gst_util_uint64_scale_int</a></dt>
+<dt><a class="link" href="gstreamer-GstUtils.html#gst-util-uint64-scale-int-ceil" title="gst_util_uint64_scale_int_ceil ()">gst_util_uint64_scale_int_ceil</a></dt>
+<dt><a class="link" href="gstreamer-GstUtils.html#gst-util-uint64-scale-int-round" title="gst_util_uint64_scale_int_round ()">gst_util_uint64_scale_int_round</a></dt>
+<dt><a class="link" href="gstreamer-GstUtils.html#gst-util-uint64-scale-round" title="gst_util_uint64_scale_round ()">gst_util_uint64_scale_round</a></dt>
 <dt><a class="link" href="gstreamer-GstValue.html#gst-value-array-append-value" title="gst_value_array_append_value ()">gst_value_array_append_value</a></dt>
 <dt><a class="link" href="gstreamer-GstValue.html#gst-value-array-get-size" title="gst_value_array_get_size ()">gst_value_array_get_size</a></dt>
 <dt><a class="link" href="gstreamer-GstValue.html#gst-value-array-get-value" title="gst_value_array_get_value ()">gst_value_array_get_value</a></dt>

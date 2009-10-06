@@ -70,7 +70,8 @@ REGISTRY_CHECKS =				\
 	libs/basesrc				\
 	libs/controller				\
 	libs/typefindhelper			\
-	pipelines/stress
+	pipelines/stress			\
+	pipelines/queue-error
 endif
 
 check_PROGRAMS =				\
@@ -141,6 +142,8 @@ AM_CFLAGS = $(GST_OBJ_CFLAGS) $(CHECK_CFLAGS)
 LDADD = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
 	$(GST_OBJ_LIBS) \
 	$(CHECK_LIBS)
+
+gst_gstutils_LDADD = $(LDADD) $(GSL_LIBS) $(GMP_LIBS)
 
 libs_gdp_SOURCES = \
 	libs/gdp.c

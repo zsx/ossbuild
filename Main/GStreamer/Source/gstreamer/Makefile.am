@@ -5,22 +5,23 @@ all-local: gst-element-check-@GST_MAJORMINOR@.m4
 gst-element-check-@GST_MAJORMINOR@.m4: gst-element-check.m4
 	cp gst-element-check.m4 gst-element-check-@GST_MAJORMINOR@.m4
 
-ACLOCAL_AMFLAGS = -I common/m4
+# note: keep in sync with configure.ac
+ACLOCAL_AMFLAGS = -I common/m4 -I .
 
 aclocaldir = $(datadir)/aclocal
 aclocal_DATA = gst-element-check-@GST_MAJORMINOR@.m4
 
-SUBDIRS = \
+SUBDIRS = pkgconfig \
 	gst libs plugins tools tests \
 	docs \
-	pkgconfig po \
+	po \
 	common
 
 # These are all the possible subdirs
-DIST_SUBDIRS = \
+DIST_SUBDIRS = pkgconfig \
 	gst libs plugins tools tests \
 	docs \
-	pkgconfig po \
+	po \
 	common
 
 # include before EXTRA_DIST for win32 assignment
@@ -28,12 +29,15 @@ include $(top_srcdir)/common/win32.mak
 
 EXTRA_DIST = \
 	gstreamer.spec gstreamer.spec.in \
+	check-checks.m4 \
 	gst-element-check.m4.in \
 	configure.ac autogen.sh depcomp \
 	MAINTAINERS ABOUT-NLS RELEASE gstreamer.doap \
 	$(win32)
 
 CLEANFILES = gst-element-check-@GST_MAJORMINOR@.m4
+
+DISTCLEANFILES = _stdint.h
 
 include $(top_srcdir)/common/release.mak
 include $(top_srcdir)/common/po.mak

@@ -69,6 +69,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst-x11.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
+	$(top_srcdir)/common/m4/introspection.m4 \
 	$(top_srcdir)/common/m4/pkg.m4 \
 	$(top_srcdir)/common/m4/shave.m4 $(top_srcdir)/m4/freetype2.m4 \
 	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/gst-alsa.m4 \
@@ -237,6 +238,11 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
@@ -282,6 +288,8 @@ PACKAGE_VERSION_MICRO = @PACKAGE_VERSION_MICRO@
 PACKAGE_VERSION_MINOR = @PACKAGE_VERSION_MINOR@
 PACKAGE_VERSION_NANO = @PACKAGE_VERSION_NANO@
 PACKAGE_VERSION_RELEASE = @PACKAGE_VERSION_RELEASE@
+PANGOCAIRO_1_15_4_CFLAGS = @PANGOCAIRO_1_15_4_CFLAGS@
+PANGOCAIRO_1_15_4_LIBS = @PANGOCAIRO_1_15_4_LIBS@
 PANGO_CFLAGS = @PANGO_CFLAGS@
 PANGO_LIBS = @PANGO_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
@@ -385,6 +393,7 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-gtk-doc
 @BUILD_EXTERNAL_FALSE@SUBDIRS_EXT = 
 @BUILD_EXTERNAL_TRUE@SUBDIRS_EXT = ext
 SUBDIRS = \
+	pkgconfig		\
 	gst-libs 		\
 	gst sys $(SUBDIRS_EXT) 	\
 	tools 			\
@@ -392,10 +401,10 @@ SUBDIRS = \
 	docs			\
 	po 			\
 	common 			\
-	m4 			\
-	pkgconfig
+	m4
 
 DIST_SUBDIRS = \
+	pkgconfig		\
 	docs			\
 	gst-libs		\
 	gst sys ext		\
@@ -403,8 +412,7 @@ DIST_SUBDIRS = \
 	tests 			\
 	po 			\
 	common 			\
-	m4 			\
-	pkgconfig
+	m4
 
 
 # the MANIFEST contains all win32 related files that should be disted
@@ -930,6 +938,17 @@ check-exports:
 	  echo 'Run this to update the .def files:'; \
 	  echo 'make check-exports 2>&1 | patch -p1'; \
 	  echo '-----------------------------------------------------------'; \
+	fi; \
+	exit $$fail
+
+# complain about nonportable 64-bit printf format strings (%lld, %llu etc.)
+check-nonportable-int64-print-format:
+	fail=0 ; \
+	loc=`find "$(top_srcdir)" -name '*.c' | xargs grep -n -e '%[0-9]*ll[udx]'`; \
+	if test "x$$loc" != "x"; then \
+	  echo "Please fix the following print format strings:" ; \
+	  find "$(top_srcdir)" -name '*.c' | xargs grep -n -e '%[0-9]*ll[udx]'; \
+	  fail=1; \
 	fi; \
 	exit $$fail
 

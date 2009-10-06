@@ -141,12 +141,21 @@ typedef enum {
 
 #define GST_TAG_FLAG_IS_VALID(flag)     (((flag) > GST_TAG_FLAG_UNDEFINED) && ((flag) < GST_TAG_FLAG_COUNT))
 
+/* FIXME 0.11: Don't typedef GstTagList to be a GstStructure, they're
+ *             internally the same but not from an API point of view.
+ *             See bug #518934.
+ */
 /**
  * GstTagList:
  *
  * Opaque #GstTagList data structure.
  */
+#ifdef IN_GOBJECT_INTROSPECTION
+typedef struct _GstTagList GstTagList;
+#else
 typedef GstStructure GstTagList;
+#endif
+
 #define GST_TAG_LIST(x)       ((GstTagList *) (x))
 #define GST_IS_TAG_LIST(x)    ((x) != NULL && gst_is_tag_list (GST_TAG_LIST (x)))
 #define GST_TYPE_TAG_LIST     (gst_tag_list_get_type ())
@@ -412,6 +421,22 @@ gboolean     gst_tag_list_get_buffer_index  (const GstTagList * list,
  * Since: 0.10.15
  */
 #define GST_TAG_ALBUM_SORTNAME         "album-sortname"
+/**
+ * GST_TAG_ALBUM_ARTIST
+ *
+ * The artist of the entire album, as it should be displayed.
+ *
+ * Since: 0.10.25
+ */
+#define GST_TAG_ALBUM_ARTIST           "album-artist"
+/**
+ * GST_TAG_ALBUM_ARTIST_SORTNAME
+ *
+ * The artist of the entire album, as it should be sorted.
+ *
+ * Since: 0.10.25
+ */
+#define GST_TAG_ALBUM_ARTIST_SORTNAME  "album-artist-sortname"
 /**
  * GST_TAG_COMPOSER:
  *

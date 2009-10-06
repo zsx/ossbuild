@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -33,11 +34,13 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@HAVE_INTROSPECTION_TRUE@am__append_1 = $(BUILT_GIRSOURCES) $(typelibs_DATA)
 subdir = libs/gst/net
 DIST_COMMON = $(libgstnet_@GST_MAJORMINOR@_include_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/check-checks.m4 \
+	$(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/as-auto-alt.m4 \
 	$(top_srcdir)/common/m4/as-compiler-flag.m4 \
 	$(top_srcdir)/common/m4/as-docbook.m4 \
@@ -45,7 +48,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/as-python.m4 \
 	$(top_srcdir)/common/m4/as-scrub-include.m4 \
 	$(top_srcdir)/common/m4/as-version.m4 \
-	$(top_srcdir)/common/m4/check.m4 \
+	$(top_srcdir)/common/m4/ax_create_stdint_h.m4 \
 	$(top_srcdir)/common/m4/gettext.m4 \
 	$(top_srcdir)/common/m4/gst-arch.m4 \
 	$(top_srcdir)/common/m4/gst-args.m4 \
@@ -64,6 +67,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
 	$(top_srcdir)/common/m4/iconv.m4 \
 	$(top_srcdir)/common/m4/intlmacosx.m4 \
+	$(top_srcdir)/common/m4/introspection.m4 \
 	$(top_srcdir)/common/m4/lib-ld.m4 \
 	$(top_srcdir)/common/m4/lib-link.m4 \
 	$(top_srcdir)/common/m4/lib-prefix.m4 \
@@ -87,7 +91,8 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(libdir)" \
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
+	"$(DESTDIR)$(typelibsdir)" \
 	"$(DESTDIR)$(libgstnet_@GST_MAJORMINOR@_includedir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
@@ -118,6 +123,9 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libgstnet_@GST_MAJORMINOR@_la_SOURCES)
 DIST_SOURCES = $(libgstnet_@GST_MAJORMINOR@_la_SOURCES)
+girDATA_INSTALL = $(INSTALL_DATA)
+typelibsDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(gir_DATA) $(typelibs_DATA)
 libgstnet_@GST_MAJORMINOR@_includeHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(libgstnet_@GST_MAJORMINOR@_include_HEADERS)
 ETAGS = etags
@@ -142,8 +150,10 @@ CCASDEPMODE = @CCASDEPMODE@
 CCASFLAGS = @CCASFLAGS@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-CHECK_CFLAGS = @CHECK_CFLAGS@
-CHECK_LIBS = @CHECK_LIBS@
+CHECK_MAJOR_VERSION = @CHECK_MAJOR_VERSION@
+CHECK_MICRO_VERSION = @CHECK_MICRO_VERSION@
+CHECK_MINOR_VERSION = @CHECK_MINOR_VERSION@
+CHECK_VERSION = @CHECK_VERSION@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -179,14 +189,15 @@ GLIB_ONLY_CFLAGS = @GLIB_ONLY_CFLAGS@
 GLIB_ONLY_LIBS = @GLIB_ONLY_LIBS@
 GLIB_PREFIX = @GLIB_PREFIX@
 GLIB_REQ = @GLIB_REQ@
+GMP_LIBS = @GMP_LIBS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GSL_LIBS = @GSL_LIBS@
 GST_AGE = @GST_AGE@
 GST_ALL_CFLAGS = @GST_ALL_CFLAGS@
 GST_ALL_LDFLAGS = @GST_ALL_LDFLAGS@
 GST_ALL_LIBS = @GST_ALL_LIBS@
-GST_CHECK_LIB_LDFLAGS = @GST_CHECK_LIB_LDFLAGS@
 GST_CURRENT = @GST_CURRENT@
 GST_DISABLE_ALLOC_TRACE_DEFINE = @GST_DISABLE_ALLOC_TRACE_DEFINE@
 GST_DISABLE_GST_DEBUG_DEFINE = @GST_DISABLE_GST_DEBUG_DEFINE@
@@ -227,6 +238,8 @@ HAVE_DOCBOOK2PS = @HAVE_DOCBOOK2PS@
 HAVE_DVIPS = @HAVE_DVIPS@
 HAVE_EPSTOPDF = @HAVE_EPSTOPDF@
 HAVE_FIG2DEV = @HAVE_FIG2DEV@
+HAVE_GMP = @HAVE_GMP@
+HAVE_GSL = @HAVE_GSL@
 HAVE_JADETEX = @HAVE_JADETEX@
 HAVE_PNGTOPNM = @HAVE_PNGTOPNM@
 HAVE_PNMTOPS = @HAVE_PNMTOPS@
@@ -242,6 +255,11 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDIR = @LIBDIR@
@@ -390,7 +408,18 @@ libgstnet_@GST_MAJORMINOR@_la_SOURCES = \
 libgstnet_@GST_MAJORMINOR@_la_CFLAGS = $(GST_OBJ_CFLAGS)
 libgstnet_@GST_MAJORMINOR@_la_LIBADD = $(GST_OBJ_LIBS) $(INET_ATON_LIBS) $(WIN32_LIBS)
 libgstnet_@GST_MAJORMINOR@_la_LDFLAGS = $(GST_LIB_LDFLAGS) $(GST_ALL_LDFLAGS) $(GST_LT_LDFLAGS)
-CLEANFILES = *.gcno *.gcda *.gcov
+CLEANFILES = *.gcno *.gcda *.gcov $(am__append_1)
+@HAVE_INTROSPECTION_TRUE@BUILT_GIRSOURCES = GstNet-@GST_MAJORMINOR@.gir
+@HAVE_INTROSPECTION_TRUE@gir_headers = $(patsubst %,$(srcdir)/%, $(libgstnet_@GST_MAJORMINOR@_include_HEADERS))
+@HAVE_INTROSPECTION_TRUE@gir_sources = $(patsubst %,$(srcdir)/%, $(libgstnet_@GST_MAJORMINOR@_la_SOURCES))
+@HAVE_INTROSPECTION_TRUE@gir_cincludes = $(patsubst %,--c-include='gst/net/%',$(libgstbase_@GST_MAJORMINOR@_include_HEADERS))
+
+# INTROSPECTION_GIRDIR/INTROSPECTION_TYPELIBDIR aren't the right place to
+# install anything - we need to install inside our prefix.
+@HAVE_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
+@HAVE_INTROSPECTION_TRUE@gir_DATA = $(BUILT_GIRSOURCES)
+@HAVE_INTROSPECTION_TRUE@typelibsdir = $(libdir)/girepository-1.0/
+@HAVE_INTROSPECTION_TRUE@typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
 all: all-am
 
 .SUFFIXES:
@@ -511,6 +540,40 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-girDATA: $(gir_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(girdir)" || $(MKDIR_P) "$(DESTDIR)$(girdir)"
+	@list='$(gir_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(girDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(girdir)/$$f'"; \
+	  $(girDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(girdir)/$$f"; \
+	done
+
+uninstall-girDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(gir_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(girdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(girdir)/$$f"; \
+	done
+install-typelibsDATA: $(typelibs_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(typelibsdir)" || $(MKDIR_P) "$(DESTDIR)$(typelibsdir)"
+	@list='$(typelibs_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(typelibsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(typelibsdir)/$$f'"; \
+	  $(typelibsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(typelibsdir)/$$f"; \
+	done
+
+uninstall-typelibsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(typelibs_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(typelibsdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(typelibsdir)/$$f"; \
+	done
 install-libgstnet_@GST_MAJORMINOR@_includeHEADERS: $(libgstnet_@GST_MAJORMINOR@_include_HEADERS)
 	@$(NORMAL_INSTALL)
 	test -z "$(libgstnet_@GST_MAJORMINOR@_includedir)" || $(MKDIR_P) "$(DESTDIR)$(libgstnet_@GST_MAJORMINOR@_includedir)"
@@ -604,9 +667,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libgstnet_@GST_MAJORMINOR@_includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibsdir)" "$(DESTDIR)$(libgstnet_@GST_MAJORMINOR@_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -655,7 +718,9 @@ info: info-am
 
 info-am:
 
-install-data-am: install-libgstnet_@GST_MAJORMINOR@_includeHEADERS
+install-data-am: install-girDATA \
+	install-libgstnet_@GST_MAJORMINOR@_includeHEADERS \
+	install-typelibsDATA
 
 install-dvi: install-dvi-am
 
@@ -691,8 +756,9 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES \
-	uninstall-libgstnet_@GST_MAJORMINOR@_includeHEADERS
+uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
+	uninstall-libgstnet_@GST_MAJORMINOR@_includeHEADERS \
+	uninstall-typelibsDATA
 
 .MAKE: install-am install-strip
 
@@ -701,23 +767,44 @@ uninstall-am: uninstall-libLTLIBRARIES \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
+	install-dvi-am install-exec install-exec-am install-girDATA \
+	install-html install-html-am install-info install-info-am \
 	install-libLTLIBRARIES \
 	install-libgstnet_@GST_MAJORMINOR@_includeHEADERS install-man \
 	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags uninstall uninstall-am \
+	install-strip install-typelibsDATA installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-girDATA \
 	uninstall-libLTLIBRARIES \
-	uninstall-libgstnet_@GST_MAJORMINOR@_includeHEADERS
+	uninstall-libgstnet_@GST_MAJORMINOR@_includeHEADERS \
+	uninstall-typelibsDATA
 
 
 %.c.gcov: .libs/libgstnet_@GST_MAJORMINOR@_la-%.gcda %.c
 	$(GCOV) -b -f -o $^ > $@.out
 
 gcov: $(libgstnet_@GST_MAJORMINOR@_la_SOURCES:=.gcov)
+
+@HAVE_INTROSPECTION_TRUE@GstNet-@GST_MAJORMINOR@.gir: $(INTROSPECTION_SCANNER) libgstnet-@GST_MAJORMINOR@.la
+@HAVE_INTROSPECTION_TRUE@	PKG_CONFIG_PATH="$(PKG_CONFIG_PATH):$(top_builddir)/pkgconfig" \
+@HAVE_INTROSPECTION_TRUE@		$(INTROSPECTION_SCANNER) -v --namespace GstNet \
+@HAVE_INTROSPECTION_TRUE@		--strip-prefix=Gst \
+@HAVE_INTROSPECTION_TRUE@		--nsversion=@GST_MAJORMINOR@ \
+@HAVE_INTROSPECTION_TRUE@		-I$(top_srcdir) \
+@HAVE_INTROSPECTION_TRUE@		$(gir_cincludes) \
+@HAVE_INTROSPECTION_TRUE@		--add-include-path=$(top_builddir)/gst \
+@HAVE_INTROSPECTION_TRUE@		--library=gstnet-0.10 \
+@HAVE_INTROSPECTION_TRUE@		--include=Gst-0.10 \
+@HAVE_INTROSPECTION_TRUE@		--libtool="$(top_builddir)/libtool" \
+@HAVE_INTROSPECTION_TRUE@		--pkg gstreamer-0.10 \
+@HAVE_INTROSPECTION_TRUE@		--output $@ \
+@HAVE_INTROSPECTION_TRUE@		$(gir_headers) \
+@HAVE_INTROSPECTION_TRUE@		$(gir_sources)
+
+@HAVE_INTROSPECTION_TRUE@%.typelib: %.gir $(INTROSPECTION_COMPILER)
+@HAVE_INTROSPECTION_TRUE@	$(INTROSPECTION_COMPILER) --includedir=$(srcdir) --includedir=$(builddir) --includedir=$(top_builddir)/gst $(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

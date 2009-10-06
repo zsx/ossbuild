@@ -211,6 +211,7 @@
 <ANCHOR id="gst-caps-is-equal-fixed" href="gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-is-equal-fixed">
 <ANCHOR id="gst-caps-is-always-compatible" href="gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-is-always-compatible">
 <ANCHOR id="gst-caps-is-subset" href="gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-is-subset">
+<ANCHOR id="gst-caps-can-intersect" href="gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-can-intersect">
 <ANCHOR id="gst-caps-intersect" href="gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-intersect">
 <ANCHOR id="gst-caps-union" href="gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-union">
 <ANCHOR id="gst-caps-normalize" href="gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-normalize">
@@ -663,12 +664,14 @@
 <ANCHOR id="GstIteratorResyncFunction" href="gstreamer-0.10/gstreamer-GstIterator.html#GstIteratorResyncFunction">
 <ANCHOR id="GstIteratorFreeFunction" href="gstreamer-0.10/gstreamer-GstIterator.html#GstIteratorFreeFunction">
 <ANCHOR id="GstIteratorFoldFunction" href="gstreamer-0.10/gstreamer-GstIterator.html#GstIteratorFoldFunction">
+<ANCHOR id="GstCopyFunction" href="gstreamer-0.10/gstreamer-GstIterator.html#GstCopyFunction">
 <ANCHOR id="GST-ITERATOR--CAPS" href="gstreamer-0.10/gstreamer-GstIterator.html#GST-ITERATOR--CAPS">
 <ANCHOR id="GST-ITERATOR-LOCK--CAPS" href="gstreamer-0.10/gstreamer-GstIterator.html#GST-ITERATOR-LOCK--CAPS">
 <ANCHOR id="GST-ITERATOR-COOKIE--CAPS" href="gstreamer-0.10/gstreamer-GstIterator.html#GST-ITERATOR-COOKIE--CAPS">
 <ANCHOR id="GST-ITERATOR-ORIG-COOKIE--CAPS" href="gstreamer-0.10/gstreamer-GstIterator.html#GST-ITERATOR-ORIG-COOKIE--CAPS">
 <ANCHOR id="gst-iterator-new" href="gstreamer-0.10/gstreamer-GstIterator.html#gst-iterator-new">
 <ANCHOR id="gst-iterator-new-list" href="gstreamer-0.10/gstreamer-GstIterator.html#gst-iterator-new-list">
+<ANCHOR id="gst-iterator-new-single" href="gstreamer-0.10/gstreamer-GstIterator.html#gst-iterator-new-single">
 <ANCHOR id="gst-iterator-next" href="gstreamer-0.10/gstreamer-GstIterator.html#gst-iterator-next">
 <ANCHOR id="gst-iterator-resync" href="gstreamer-0.10/gstreamer-GstIterator.html#gst-iterator-resync">
 <ANCHOR id="gst-iterator-free" href="gstreamer-0.10/gstreamer-GstIterator.html#gst-iterator-free">
@@ -1369,6 +1372,8 @@
 <ANCHOR id="GST-TAG-ARTIST-SORTNAME--CAPS" href="gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ARTIST-SORTNAME--CAPS">
 <ANCHOR id="GST-TAG-ALBUM--CAPS" href="gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ALBUM--CAPS">
 <ANCHOR id="GST-TAG-ALBUM-SORTNAME--CAPS" href="gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ALBUM-SORTNAME--CAPS">
+<ANCHOR id="GST-TAG-ALBUM-ARTIST--CAPS" href="gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ALBUM-ARTIST--CAPS">
+<ANCHOR id="GST-TAG-ALBUM-ARTIST-SORTNAME--CAPS" href="gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ALBUM-ARTIST-SORTNAME--CAPS">
 <ANCHOR id="GST-TAG-DATE--CAPS" href="gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-DATE--CAPS">
 <ANCHOR id="GST-TAG-GENRE--CAPS" href="gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-GENRE--CAPS">
 <ANCHOR id="GST-TAG-COMMENT--CAPS" href="gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-COMMENT--CAPS">
@@ -1652,7 +1657,11 @@
 <ANCHOR id="gst-type-register-static-full" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-type-register-static-full">
 <ANCHOR id="gst-util-dump-mem" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-dump-mem">
 <ANCHOR id="gst-util-uint64-scale" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-uint64-scale">
+<ANCHOR id="gst-util-uint64-scale-round" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-uint64-scale-round">
+<ANCHOR id="gst-util-uint64-scale-ceil" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-uint64-scale-ceil">
 <ANCHOR id="gst-util-uint64-scale-int" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-uint64-scale-int">
+<ANCHOR id="gst-util-uint64-scale-int-round" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-uint64-scale-int-round">
+<ANCHOR id="gst-util-uint64-scale-int-ceil" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-uint64-scale-int-ceil">
 <ANCHOR id="gst-util-seqnum-next" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-seqnum-next">
 <ANCHOR id="gst-util-seqnum-compare" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-seqnum-compare">
 <ANCHOR id="gst-util-set-object-arg" href="gstreamer-0.10/gstreamer-GstUtils.html#gst-util-set-object-arg">

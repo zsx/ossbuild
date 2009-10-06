@@ -139,6 +139,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
   "<a class="link" href="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--mtu" title='The "mtu" property'>mtu</a>"                      <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
+  "<a class="link" href="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--perfect-rtptime" title='The "perfect-rtptime" property'>perfect-rtptime</a>"          <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload--pt" title='The "pt" property'>pt</a>"                       <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
@@ -164,7 +167,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3222334"></a><p>
+<a name="id2817784"></a><p>
 Provides a base class for RTP payloaders
 </p>
 </div>
@@ -189,7 +192,7 @@ Provides a base class for RTP payloaders
   gboolean      (*set_caps)             (GstBaseRTPPayload *payload, GstCaps *caps);
   /* handle a buffer, perform 0 or more gst_basertppayload_push() on
    * the RTP buffers. This function takes ownership of the buffer. */
-  GstFlowReturn (*handle_buffer)        (GstBaseRTPPayload *payload, 
+  GstFlowReturn (*handle_buffer)        (GstBaseRTPPayload *payload,
                                          GstBuffer *buffer);
   gboolean      (*handle_event)         (GstPad * pad, GstEvent * event);
   GstCaps *     (*get_caps)             (GstBaseRTPPayload *payload, GstPad * pad);
@@ -444,7 +447,7 @@ of the payloader. Subclasses must call this method before calling
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>encoding_name</code></em> :</span></p></td>
-<td> the encoding name 
+<td> the encoding name
 </td>
 </tr>
 <tr>
@@ -534,6 +537,15 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <p>Maximum size of one packet.</p>
 <p>Allowed values: &gt;= 28</p>
 <p>Default value: 1400</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstBaseRTPPayload--perfect-rtptime"></a><h3>The <code class="literal">"perfect-rtptime"</code> property</h3>
+<pre class="programlisting">  "perfect-rtptime"          <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Generate perfect RTP timestamps when possible.</p>
+<p>Default value: TRUE</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">

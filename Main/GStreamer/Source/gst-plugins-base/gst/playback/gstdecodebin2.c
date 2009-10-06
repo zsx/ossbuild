@@ -397,11 +397,9 @@ gst_decode_bin_class_init (GstDecodeBinClass * klass)
 {
   GObjectClass *gobject_klass;
   GstElementClass *gstelement_klass;
-  GstBinClass *gstbin_klass;
 
   gobject_klass = (GObjectClass *) klass;
   gstelement_klass = (GstElementClass *) klass;
-  gstbin_klass = (GstBinClass *) klass;
 
   parent_class = g_type_class_peek_parent (klass);
 
@@ -1117,20 +1115,26 @@ unknown_type:
       do_async_done (dbin);
     }
 
+    gst_element_post_message (GST_ELEMENT_CAST (dbin),
+        gst_missing_decoder_message_new (GST_ELEMENT_CAST (dbin), caps));
+
     if (src == dbin->typefind) {
       gchar *desc;
 
-      desc = gst_pb_utils_get_decoder_description (caps);
-      GST_ELEMENT_ERROR (dbin, STREAM, CODEC_NOT_FOUND,
-          (_("A %s plugin is required to play this stream, but not installed."),
-              desc),
-          ("No decoder to handle media type '%s'",
-              gst_structure_get_name (gst_caps_get_structure (caps, 0))));
-      g_free (desc);
+      if (caps && !gst_caps_is_empty (caps)) {
+        desc = gst_pb_utils_get_decoder_description (caps);
+        GST_ELEMENT_ERROR (dbin, STREAM, CODEC_NOT_FOUND,
+            (_("A %s plugin is required to play this stream, "
+                    "but not installed."), desc),
+            ("No decoder to handle media type '%s'",
+                gst_structure_get_name (gst_caps_get_structure (caps, 0))));
+        g_free (desc);
+      } else {
+        GST_ELEMENT_ERROR (dbin, STREAM, TYPE_NOT_FOUND,
+            (_("Could not determine type of stream")),
+            ("Stream caps %" GST_PTR_FORMAT, caps));
+      }
     }
-
-    gst_element_post_message (GST_ELEMENT_CAST (dbin),
-        gst_missing_decoder_message_new (GST_ELEMENT_CAST (dbin), caps));
     return;
   }
 non_fixed:
@@ -1668,7 +1672,7 @@ is_demuxer_element (GstElement * srcelement)
 {
   GstElementFactory *srcfactory;
   GstElementClass *elemclass;
-  GList *templates, *walk;
+  GList *walk;
   const gchar *klass;
   gint potential_src_pads = 0;
 
@@ -1683,7 +1687,7 @@ is_demuxer_element (GstElement * srcelement)
    * might produce */
   elemclass = GST_ELEMENT_GET_CLASS (srcelement);
 
-  walk = templates = gst_element_class_get_pad_template_list (elemclass);
+  walk = gst_element_class_get_pad_template_list (elemclass);
   while (walk != NULL) {
     GstPadTemplate *templ;
 

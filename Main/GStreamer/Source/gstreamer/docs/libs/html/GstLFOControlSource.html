@@ -63,7 +63,7 @@ enum                <a class="link" href="GstLFOControlSource.html#GstLFOWavefor
 <a name="GstLFOControlSource.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a class="link" href="GstControlSource.html" title="GstControlSource">GstControlSource</a>
          +----GstLFOControlSource
@@ -73,16 +73,16 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="GstLFOControlSource.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="GstLFOControlSource.html#GstLFOControlSource--amplitude" title='The "amplitude" property'>amplitude</a>"                <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"
+href="../gobject/gobject-Generic-values.html#GValue"
 >GValue</a>*               : Read / Write
   "<a class="link" href="GstLFOControlSource.html#GstLFOControlSource--frequency" title='The "frequency" property'>frequency</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="GstLFOControlSource.html#GstLFOControlSource--offset" title='The "offset" property'>offset</a>"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"
+href="../gobject/gobject-Generic-values.html#GValue"
 >GValue</a>*               : Read / Write
   "<a class="link" href="GstLFOControlSource.html#GstLFOControlSource--timeshift" title='The "timeshift" property'>timeshift</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
   "<a class="link" href="GstLFOControlSource.html#GstLFOControlSource--waveform" title='The "waveform" property'>waveform</a>"                 <a class="link" href="GstLFOControlSource.html#GstLFOWaveform" title="enum GstLFOWaveform">GstLFOWaveform</a>        : Read / Write
 </pre>
@@ -96,7 +96,7 @@ as control values. It supports all fundamental, numeric GValue types as property
 <p>
 To use <a class="link" href="GstLFOControlSource.html" title="GstLFOControlSource"><span class="type">GstLFOControlSource</span></a> get a new instance by calling <a class="link" href="GstLFOControlSource.html#gst-lfo-control-source-new" title="gst_lfo_control_source_new ()"><code class="function">gst_lfo_control_source_new()</code></a>,
 bind it to a <a
-href="/usr/share/gtk-doc/html/gobject/gobject-GParamSpec.html#GParamSpec"
+href="../gobject/gobject-GParamSpec.html#GParamSpec"
 ><span class="type">GParamSpec</span></a> and set the relevant properties or use
 gst_lfo_control_source_set_waveform.
 </p>
@@ -185,14 +185,14 @@ This returns a new, unbound <a class="link" href="GstLFOControlSource.html" titl
 <div class="refsect2" lang="en">
 <a name="GstLFOControlSource--amplitude"></a><h3>The <code class="literal">"amplitude"</code> property</h3>
 <pre class="programlisting">  "amplitude"                <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"
+href="../gobject/gobject-Generic-values.html#GValue"
 >GValue</a>*               : Read / Write</pre>
 <p>
 Specifies the amplitude for the waveform of this <a class="link" href="GstLFOControlSource.html" title="GstLFOControlSource"><span class="type">GstLFOControlSource</span></a>.
 </p>
 <p>
 It should be given as a <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"
+href="../gobject/gobject-Generic-values.html#GValue"
 ><span class="type">GValue</span></a> with a type that can be transformed
 to the type of the bound property.</p>
 <p>
@@ -202,7 +202,7 @@ to the type of the bound property.</p>
 <div class="refsect2" lang="en">
 <a name="GstLFOControlSource--frequency"></a><h3>The <code class="literal">"frequency"</code> property</h3>
 <pre class="programlisting">  "frequency"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>
 Specifies the frequency that should be used for the waveform
@@ -217,14 +217,14 @@ so that the period is longer than one nanosecond.</p>
 <div class="refsect2" lang="en">
 <a name="GstLFOControlSource--offset"></a><h3>The <code class="literal">"offset"</code> property</h3>
 <pre class="programlisting">  "offset"                   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"
+href="../gobject/gobject-Generic-values.html#GValue"
 >GValue</a>*               : Read / Write</pre>
 <p>
 Specifies the offset for the waveform of this <a class="link" href="GstLFOControlSource.html" title="GstLFOControlSource"><span class="type">GstLFOControlSource</span></a>.
 </p>
 <p>
 It should be given as a <a
-href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"
+href="../gobject/gobject-Generic-values.html#GValue"
 ><span class="type">GValue</span></a> with a type that can be transformed
 to the type of the bound property.</p>
 <p>
@@ -234,7 +234,7 @@ to the type of the bound property.</p>
 <div class="refsect2" lang="en">
 <a name="GstLFOControlSource--timeshift"></a><h3>The <code class="literal">"timeshift"</code> property</h3>
 <pre class="programlisting">  "timeshift"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>
 Specifies the timeshift to the right that should be used for the waveform

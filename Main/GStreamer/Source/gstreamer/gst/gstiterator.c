@@ -658,3 +658,82 @@ gst_iterator_find_custom (GstIterator * it, GCompareFunc func,
   /* no need to unset, it's just a pointer */
   return g_value_get_pointer (&ret);
 }
+
+typedef struct
+{
+  GstIterator parent;
+  gpointer object;
+  GstCopyFunction copy;
+  GFreeFunc free;
+  gboolean visited;
+} GstSingleObjectIterator;
+
+static guint32 _single_object_dummy_cookie = 0;
+
+static GstIteratorResult
+gst_single_object_iterator_iterator_next (GstSingleObjectIterator * it,
+    gpointer * result)
+{
+  if (it->visited || !it->object) {
+    *result = NULL;
+    return GST_ITERATOR_DONE;
+  }
+
+  *result = it->copy (it->object);
+  it->visited = TRUE;
+  return GST_ITERATOR_OK;
+}
+
+static void
+gst_single_object_iterator_resync (GstSingleObjectIterator * it)
+{
+  it->visited = FALSE;
+}
+
+static void
+gst_single_object_iterator_free (GstSingleObjectIterator * it)
+{
+  if (it->object)
+    it->free (it->object);
+  g_free (it);
+}
+
+/**
+ * gst_iterator_new_single:
+ * @type: #GType of the passed object
+ * @object: object that this iterator should return
+ * @copy: Function that returns a copy of @object or increases its refcount
+ * @free: Function to be called for freeing @object
+ *
+ * This #GstIterator is a convenient iterator for the common
+ * case where a #GstIterator needs to be returned but only
+ * a single object has the be considered. This happens often
+ * for the #GstPadIterIntLinkFunction.
+ *
+ * Returns: the new #GstIterator for @object.
+ *
+ * Since: 0.10.25
+ */
+GstIterator *
+gst_iterator_new_single (GType type, gpointer object, GstCopyFunction copy,
+    GFreeFunc free)
+{
+  GstSingleObjectIterator *result;
+
+  g_return_val_if_fail (copy != NULL, NULL);
+  g_return_val_if_fail (free != NULL, NULL);
+
+  result = (GstSingleObjectIterator *)
+      gst_iterator_new (sizeof (GstSingleObjectIterator),
+      type, NULL, &_single_object_dummy_cookie,
+      (GstIteratorNextFunction) gst_single_object_iterator_iterator_next, NULL,
+      (GstIteratorResyncFunction) gst_single_object_iterator_resync,
+      (GstIteratorFreeFunction) gst_single_object_iterator_free);
+
+  result->object = (object) ? copy (object) : NULL;
+  result->copy = copy;
+  result->free = free;
+  result->visited = FALSE;
+
+  return (GstIterator *) result;
+}

@@ -65,7 +65,7 @@
     <sub name="Index of deprecated API" link="api-index-deprecated.html"/>
   </chapters>
   <functions>
-    <function name="Environment variables" link="gst-running.html#id3034674"/>
+    <function name="Environment variables" link="gst-running.html#id2933885"/>
     <function name="gst_init ()" link="gstreamer-Gst.html#gst-init"/>
     <function name="gst_init_check ()" link="gstreamer-Gst.html#gst-init-check"/>
     <function name="gst_init_get_option_group ()" link="gstreamer-Gst.html#gst-init-get-option-group"/>
@@ -77,7 +77,7 @@
     <function name="gst_registry_fork_is_enabled ()" link="gstreamer-Gst.html#gst-registry-fork-is-enabled"/>
     <function name="gst_registry_fork_set_enabled ()" link="gstreamer-Gst.html#gst-registry-fork-set-enabled"/>
     <function name="gst_update_registry ()" link="gstreamer-Gst.html#gst-update-registry"/>
-    <function name="Notes" link="GstBin.html#id2976399"/>
+    <function name="Notes" link="GstBin.html#id2906551"/>
     <function name="GstBin" link="GstBin.html#GstBin-struct"/>
     <function name="GstBinClass" link="GstBin.html#GstBinClass"/>
     <function name="gst_bin_new ()" link="GstBin.html#gst-bin-new"/>
@@ -240,6 +240,7 @@
     <function name="gst_caps_is_equal_fixed ()" link="gstreamer-GstCaps.html#gst-caps-is-equal-fixed"/>
     <function name="gst_caps_is_always_compatible ()" link="gstreamer-GstCaps.html#gst-caps-is-always-compatible"/>
     <function name="gst_caps_is_subset ()" link="gstreamer-GstCaps.html#gst-caps-is-subset"/>
+    <function name="gst_caps_can_intersect ()" link="gstreamer-GstCaps.html#gst-caps-can-intersect"/>
     <function name="gst_caps_intersect ()" link="gstreamer-GstCaps.html#gst-caps-intersect"/>
     <function name="gst_caps_union ()" link="gstreamer-GstCaps.html#gst-caps-union"/>
     <function name="gst_caps_normalize ()" link="gstreamer-GstCaps.html#gst-caps-normalize"/>
@@ -602,12 +603,14 @@
     <function name="GstIteratorResyncFunction ()" link="gstreamer-GstIterator.html#GstIteratorResyncFunction"/>
     <function name="GstIteratorFreeFunction ()" link="gstreamer-GstIterator.html#GstIteratorFreeFunction"/>
     <function name="GstIteratorFoldFunction ()" link="gstreamer-GstIterator.html#GstIteratorFoldFunction"/>
+    <function name="GstCopyFunction ()" link="gstreamer-GstIterator.html#GstCopyFunction"/>
     <function name="GST_ITERATOR()" link="gstreamer-GstIterator.html#GST-ITERATOR--CAPS"/>
     <function name="GST_ITERATOR_LOCK()" link="gstreamer-GstIterator.html#GST-ITERATOR-LOCK--CAPS"/>
     <function name="GST_ITERATOR_COOKIE()" link="gstreamer-GstIterator.html#GST-ITERATOR-COOKIE--CAPS"/>
     <function name="GST_ITERATOR_ORIG_COOKIE()" link="gstreamer-GstIterator.html#GST-ITERATOR-ORIG-COOKIE--CAPS"/>
     <function name="gst_iterator_new ()" link="gstreamer-GstIterator.html#gst-iterator-new"/>
     <function name="gst_iterator_new_list ()" link="gstreamer-GstIterator.html#gst-iterator-new-list"/>
+    <function name="gst_iterator_new_single ()" link="gstreamer-GstIterator.html#gst-iterator-new-single"/>
     <function name="gst_iterator_next ()" link="gstreamer-GstIterator.html#gst-iterator-next"/>
     <function name="gst_iterator_resync ()" link="gstreamer-GstIterator.html#gst-iterator-resync"/>
     <function name="gst_iterator_free ()" link="gstreamer-GstIterator.html#gst-iterator-free"/>
@@ -1195,6 +1198,8 @@
     <function name="GST_TAG_ARTIST_SORTNAME" link="gstreamer-GstTagList.html#GST-TAG-ARTIST-SORTNAME--CAPS"/>
     <function name="GST_TAG_ALBUM" link="gstreamer-GstTagList.html#GST-TAG-ALBUM--CAPS"/>
     <function name="GST_TAG_ALBUM_SORTNAME" link="gstreamer-GstTagList.html#GST-TAG-ALBUM-SORTNAME--CAPS"/>
+    <function name="GST_TAG_ALBUM_ARTIST" link="gstreamer-GstTagList.html#GST-TAG-ALBUM-ARTIST--CAPS"/>
+    <function name="GST_TAG_ALBUM_ARTIST_SORTNAME" link="gstreamer-GstTagList.html#GST-TAG-ALBUM-ARTIST-SORTNAME--CAPS"/>
     <function name="GST_TAG_DATE" link="gstreamer-GstTagList.html#GST-TAG-DATE--CAPS"/>
     <function name="GST_TAG_GENRE" link="gstreamer-GstTagList.html#GST-TAG-GENRE--CAPS"/>
     <function name="GST_TAG_COMMENT" link="gstreamer-GstTagList.html#GST-TAG-COMMENT--CAPS"/>
@@ -1439,7 +1444,11 @@
     <function name="gst_type_register_static_full ()" link="gstreamer-GstUtils.html#gst-type-register-static-full"/>
     <function name="gst_util_dump_mem ()" link="gstreamer-GstUtils.html#gst-util-dump-mem"/>
     <function name="gst_util_uint64_scale ()" link="gstreamer-GstUtils.html#gst-util-uint64-scale"/>
+    <function name="gst_util_uint64_scale_round ()" link="gstreamer-GstUtils.html#gst-util-uint64-scale-round"/>
+    <function name="gst_util_uint64_scale_ceil ()" link="gstreamer-GstUtils.html#gst-util-uint64-scale-ceil"/>
     <function name="gst_util_uint64_scale_int ()" link="gstreamer-GstUtils.html#gst-util-uint64-scale-int"/>
+    <function name="gst_util_uint64_scale_int_round ()" link="gstreamer-GstUtils.html#gst-util-uint64-scale-int-round"/>
+    <function name="gst_util_uint64_scale_int_ceil ()" link="gstreamer-GstUtils.html#gst-util-uint64-scale-int-ceil"/>
     <function name="gst_util_seqnum_next ()" link="gstreamer-GstUtils.html#gst-util-seqnum-next"/>
     <function name="gst_util_seqnum_compare ()" link="gstreamer-GstUtils.html#gst-util-seqnum-compare"/>
     <function name="gst_util_set_object_arg ()" link="gstreamer-GstUtils.html#gst-util-set-object-arg"/>

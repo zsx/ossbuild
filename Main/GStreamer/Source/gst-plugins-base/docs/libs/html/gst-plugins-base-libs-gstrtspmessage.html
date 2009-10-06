@@ -174,7 +174,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3281065"></a><p>
+<a name="id2876992"></a><p>
 Provides methods for creating and parsing request, response and data messages.
 </p>
 </div>
@@ -193,6 +193,8 @@ Last reviewed on 2007-07-25 (0.10.14)</p>
   GST_RTSP_MESSAGE_INVALID,
   GST_RTSP_MESSAGE_REQUEST,
   GST_RTSP_MESSAGE_RESPONSE,
+  GST_RTSP_MESSAGE_HTTP_REQUEST,
+  GST_RTSP_MESSAGE_HTTP_RESPONSE,
   GST_RTSP_MESSAGE_DATA
 } GstRTSPMsgType;
 </pre>
@@ -210,12 +212,22 @@ The type of a message.</p>
 </tr>
 <tr>
 <td><p><a name="GST-RTSP-MESSAGE-REQUEST--CAPS"></a><span class="term"><code class="literal">GST_RTSP_MESSAGE_REQUEST</code></span></p></td>
-<td> request message
+<td> RTSP request message
 </td>
 </tr>
 <tr>
 <td><p><a name="GST-RTSP-MESSAGE-RESPONSE--CAPS"></a><span class="term"><code class="literal">GST_RTSP_MESSAGE_RESPONSE</code></span></p></td>
-<td> response message
+<td> RTSP response message
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-RTSP-MESSAGE-HTTP-REQUEST--CAPS"></a><span class="term"><code class="literal">GST_RTSP_MESSAGE_HTTP_REQUEST</code></span></p></td>
+<td> HTTP request message. Since 0.10.25
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-RTSP-MESSAGE-HTTP-RESPONSE--CAPS"></a><span class="term"><code class="literal">GST_RTSP_MESSAGE_HTTP_RESPONSE</code></span></p></td>
+<td> HTTP response message. Since 0.10.25
 </td>
 </tr>
 <tr>

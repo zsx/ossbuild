@@ -585,7 +585,7 @@ apply_buffer (GstQueue * queue, GstBuffer * buffer, GstSegment * segment,
   timestamp = GST_BUFFER_TIMESTAMP (buffer);
   duration = GST_BUFFER_DURATION (buffer);
 
-  /* if no timestamp is set, assume it's continuous with the previous 
+  /* if no timestamp is set, assume it's continuous with the previous
    * time */
   if (timestamp == GST_CLOCK_TIME_NONE)
     timestamp = segment->last_stop;
@@ -640,7 +640,7 @@ gst_queue_locked_enqueue (GstQueue * queue, gpointer item)
     /* if this is the first buffer update the end side as well, but without the
      * duration. */
     /* FIXME : This will only be useful for current time level if the
-     * source task is running, which is not the case for ex in 
+     * source task is running, which is not the case for ex in
      * gstplaybasebin when pre-rolling.
      * See #482147 */
     /*     if (queue->cur_level.buffers == 1) */
@@ -1021,7 +1021,6 @@ next:
     GstCaps *caps;
 
     buffer = GST_BUFFER_CAST (data);
-    caps = GST_BUFFER_CAPS (buffer);
 
     if (queue->head_needs_discont) {
       GstBuffer *subbuffer = gst_buffer_make_metadata_writable (buffer);
@@ -1034,6 +1033,8 @@ next:
       }
       queue->head_needs_discont = FALSE;
     }
+
+    caps = GST_BUFFER_CAPS (buffer);
 
     GST_QUEUE_MUTEX_UNLOCK (queue);
     /* set the right caps on the pad now. We do this before pushing the buffer
@@ -1158,11 +1159,24 @@ gst_queue_loop (GstPad * pad)
   /* ERRORS */
 out_flushing:
   {
+    gboolean eos = queue->eos;
+    GstFlowReturn ret = queue->srcresult;
+
     gst_pad_pause_task (queue->srcpad);
     GST_CAT_LOG_OBJECT (queue_dataflow, queue,
-        "pause task, reason:  %s", gst_flow_get_name (queue->srcresult));
+        "pause task, reason:  %s", gst_flow_get_name (ret));
     GST_QUEUE_SIGNAL_DEL (queue);
     GST_QUEUE_MUTEX_UNLOCK (queue);
+    /* let app know about us giving up if upstream is not expected to do so */
+    /* UNEXPECTED is already taken care of elsewhere */
+    if (eos && (GST_FLOW_IS_FATAL (ret) || ret == GST_FLOW_NOT_LINKED) &&
+        (ret != GST_FLOW_UNEXPECTED)) {
+      GST_ELEMENT_ERROR (queue, STREAM, FAILED,
+          (_("Internal data flow error.")),
+          ("streaming task paused, reason %s (%d)",
+              gst_flow_get_name (ret), ret));
+      gst_pad_push_event (queue->srcpad, gst_event_new_eos ());
+    }
     return;
   }
 }

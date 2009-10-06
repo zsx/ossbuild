@@ -40,12 +40,12 @@
  * <title>Using an element factory</title>
  * <programlisting language="c">
  *   #include &lt;gst/gst.h&gt;
- *   
+ *
  *   GstElement *src;
  *   GstElementFactory *srcfactory;
- *   
+ *
  *   gst_init (&amp;argc, &amp;argv);
- *   
+ *
  *   srcfactory = gst_element_factory_find ("filesrc");
  *   g_return_if_fail (srcfactory != NULL);
  *   src = gst_element_factory_create (srcfactory, "src");
@@ -286,6 +286,8 @@ gst_element_register (GstPlugin * plugin, const gchar * name, guint rank,
   GST_LOG_OBJECT (factory, "Created new elementfactory for type %s",
       g_type_name (type));
 
+  /* provide info needed during class structure setup */
+  g_type_set_qdata (type, _gst_elementclass_factory, factory);
   klass = GST_ELEMENT_CLASS (g_type_class_ref (type));
   if ((klass->details.longname == NULL) ||
       (klass->details.klass == NULL) || (klass->details.author == NULL))
@@ -306,7 +308,6 @@ gst_element_register (GstPlugin * plugin, const gchar * name, guint rank,
         g_list_append (factory->staticpadtemplates, newt);
   }
   factory->numpadtemplates = klass->numpadtemplates;
-  g_type_set_qdata (type, _gst_elementclass_factory, factory);
 
   /* special stuff for URI handling */
   if (g_type_is_a (type, GST_TYPE_URI_HANDLER)) {
@@ -409,7 +410,7 @@ gst_element_factory_create (GstElementFactory * factory, const gchar * name)
     goto no_element;
 
   /* fill in the pointer to the factory in the element class. The
-   * class will not be unreffed currently. 
+   * class will not be unreffed currently.
    * Be thread safe as there might be 2 threads creating the first instance of
    * an element at the same moment
    */

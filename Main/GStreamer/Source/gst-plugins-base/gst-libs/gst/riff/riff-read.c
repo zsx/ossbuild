@@ -113,11 +113,11 @@ too_small:
  *          by the read size by this function.
  * @fourcc: fourcc (returned by this function0 of the chunk.
  * @chunk_data: buffer (returned by the function) containing the
- *              chunk data.
+ *              chunk data, which may be NULL if chunksize == 0
  *
  * Reads a single chunk.
  *
- * Returns: the fourcc tag of this chunk, or FALSE on error
+ * Returns: FALSE on error, TRUE otherwise
  */
 gboolean
 gst_riff_parse_chunk (GstElement * element, GstBuffer * buf,
@@ -226,7 +226,7 @@ gst_riff_parse_file_header (GstElement * element,
 
   data = GST_BUFFER_DATA (buf);
   tag = GST_READ_UINT32_LE (data);
-  if (tag != GST_RIFF_TAG_RIFF)
+  if (tag != GST_RIFF_TAG_RIFF && tag != GST_RIFF_TAG_AVF0)
     goto not_riff;
 
   *doctype = GST_READ_UINT32_LE (data + 8);

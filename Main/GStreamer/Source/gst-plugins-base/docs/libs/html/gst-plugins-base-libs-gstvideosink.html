@@ -43,6 +43,8 @@
                 <a href="#gst-plugins-base-libs-gstvideosink.description" class="shortcut">Description</a>
                  | 
                 <a href="#gst-plugins-base-libs-gstvideosink.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-base-libs-gstvideosink.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
 <div class="refentry" lang="en">
@@ -93,11 +95,19 @@ href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
 </pre>
 </div>
 <div class="refsect1" lang="en">
+<a name="gst-plugins-base-libs-gstvideosink.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="gst-plugins-base-libs-gstvideosink.html#GstVideoSink--show-preroll-frame" title='The "show-preroll-frame" property'>show-preroll-frame</a>"       <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct
+</pre>
+</div>
+<div class="refsect1" lang="en">
 <a name="gst-plugins-base-libs-gstvideosink.description"></a><h2>Description</h2>
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3359547"></a><p>
+<a name="id2955601"></a><p>
 Provides useful functions and a base class for video sinks. 
 </p>
 <p>
@@ -115,19 +125,51 @@ observing out-of-sync frames.
 <a name="GstVideoSink-struct"></a><h3>GstVideoSink</h3>
 <pre class="programlisting">typedef struct _GstVideoSink GstVideoSink;</pre>
 <p>
+The video sink instance structure. Derived video sinks should set the
+<em class="parameter"><code>height</code></em> and <em class="parameter"><code>width</code></em> members.</p>
+<p>
 </p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody></tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
 <a name="GstVideoSinkClass"></a><h3>GstVideoSinkClass</h3>
 <pre class="programlisting">typedef struct {
   GstBaseSinkClass parent_class;
-      
-  gpointer _gst_reserved[GST_PADDING];
+
+  GstFlowReturn  (*show_frame) (GstVideoSink *video_sink, GstBuffer *buf);
 } GstVideoSinkClass;
 </pre>
 <p>
+The video sink class structure. Derived classes should override the
+<em class="parameter"><code>show_frame</code></em> virtual function.</p>
+<p>
 </p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html#GstBaseSinkClass"
+>GstBaseSinkClass</a> <em class="structfield"><code>parent_class</code></em>;</span></p></td>
+<td> the parent class structure
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code>show_frame</code></em> ()</span></p></td>
+<td> render a video frame. Maps to <span class="type">"render"</span> and
+    <span class="type">"preroll"</span> vfuncs. Rendering during preroll will be
+    suppressed if the 'show-preroll-frame' property is set to <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+><span class="type">FALSE</span></a>.
+    Since: 0.10.25
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <hr>
 <div class="refsect2" lang="en">
@@ -271,6 +313,24 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 </tr>
 </tbody>
 </table></div>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-base-libs-gstvideosink.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="GstVideoSink--show-preroll-frame"></a><h3>The <code class="literal">"show-preroll-frame"</code> property</h3>
+<pre class="programlisting">  "show-preroll-frame"       <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write / Construct</pre>
+<p>
+Whether to show video frames during preroll. If set to <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
+><span class="type">FALSE</span></a>, video
+frames will only be rendered in PLAYING state.</p>
+<p>
+</p>
+<p>Default value: TRUE</p>
+<p>Since 0.10.25</p>
 </div>
 </div>
 </div>

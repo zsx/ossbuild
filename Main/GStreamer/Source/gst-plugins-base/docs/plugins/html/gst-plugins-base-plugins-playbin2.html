@@ -80,7 +80,9 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPipeline.html"
 GstPlayBin2 implements
  <a
 href="/usr/share/gtk-doc/html/gstreamer-0.10/GstChildProxy.html"
->GstChildProxy</a>.</p>
+>GstChildProxy</a> and  <a
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gststreamvolume.html#GstStreamVolume"
+>GstStreamVolume</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-base-plugins-playbin2.properties"></a><h2>Properties</h2>
@@ -220,7 +222,7 @@ volume control with mute option
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2682726"></a><h3>Usage</h3>
+<a name="id2630312"></a><h3>Usage</h3>
 <p>
 A playbin element can be created just like any other element using
 <a
@@ -253,7 +255,7 @@ completely asynchroneous.
 When playback has finished (an EOS message has been received on the bus)
 or an error has occured (an ERROR message has been received on the bus) or
 the user wants to play a different track, playbin should be set back to
-READY or NULL state, then the <a class="link" href="gst-plugins-base-plugins-playbin2.html#GstPlayBin2--uri" title='The "uri" property'><span class="type">"uri"</span></a> property should be set to the 
+READY or NULL state, then the <a class="link" href="gst-plugins-base-plugins-playbin2.html#GstPlayBin2--uri" title='The "uri" property'><span class="type">"uri"</span></a> property should be set to the
 new location and then playbin be set to PLAYING state again.
 </p>
 <p>
@@ -286,7 +288,7 @@ the duration or position will have been returned in units of nanoseconds.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2682875"></a><h3>Advanced Usage: specifying the audio and video sink</h3>
+<a name="id2630462"></a><h3>Advanced Usage: specifying the audio and video sink</h3>
 <p>
 By default, if no audio sink or video sink has been specified via the
 <a class="link" href="gst-plugins-base-plugins-playbin2.html#GstPlayBin2--audio-sink" title='The "audio-sink" property'><span class="type">"audio-sink"</span></a> or <a class="link" href="gst-plugins-base-plugins-playbin2.html#GstPlayBin2--video-sink" title='The "video-sink" property'><span class="type">"video-sink"</span></a> property, playbin will use the autoaudiosink
@@ -333,7 +335,7 @@ It is also possible to 'suppress' audio and/or video output by using
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2682978"></a><h3>Retrieving Tags and Other Meta Data</h3>
+<a name="id2630564"></a><h3>Retrieving Tags and Other Meta Data</h3>
 <p>
 Most of the common meta data (artist, title, etc.) can be retrieved by
 watching for TAG messages on the pipeline's bus (see above).
@@ -348,7 +350,7 @@ from the negotiated caps on the sink pads of the sinks.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2682999"></a><h3>Buffering</h3>
+<a name="id2630585"></a><h3>Buffering</h3>
 Playbin handles buffering automatically for the most part, but applications
 need to handle parts of the buffering process as well. Whenever playbin is
 buffering, it will post BUFFERING messages on the bus with a percentage
@@ -377,7 +379,7 @@ of 100 percent is received (if PLAYING is the desired state, that is).
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2683031"></a><h3>Embedding the video window in your application</h3>
+<a name="id2630617"></a><h3>Embedding the video window in your application</h3>
 By default, playbin (or rather the video sinks used) will create their own
 window. Applications will usually want to force output to a window of their
 own, however. This can be done using the <a
@@ -389,7 +391,7 @@ video sinks implement. See the documentation there for more details.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2683050"></a><h3>Specifying which CD/DVD device to use</h3>
+<a name="id2630637"></a><h3>Specifying which CD/DVD device to use</h3>
 The device to use for CDs/DVDs needs to be set on the source element
 playbin creates before it is opened. The only way to do this at the moment
 is to connect to playbin's "notify::source" signal, which will be emitted
@@ -403,7 +405,7 @@ possible yet.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2683067"></a><h3>Handling redirects</h3>
+<a name="id2630654"></a><h3>Handling redirects</h3>
 <p>
 Some elements may post 'redirect' messages on the bus to tell the
 application to open another location. These are element messages containing
@@ -416,7 +418,7 @@ for such redirects can be found in many quicktime movie trailers.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2683084"></a><h3>Examples</h3>
+<a name="id2630671"></a><h3>Examples</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v playbin uri=file:///path/to/somefile.avi
 </pre></div> This will play back the given AVI video file, given that the video and
@@ -436,7 +438,7 @@ the drive is detected automatically by the plugin).
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2683130"></a><h3>Element Information</h3>
+<a name="id2630716"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -459,13 +461,13 @@ the drive is detected automatically by the plugin).
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2683193"></a><h3>Element Pads</h3>
+<a name="id2630779"></a><h3>Element Pads</h3>
 </div>
 </div>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2683206"></a><h3>Element Information</h3>
+<a name="id2630792"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -488,7 +490,7 @@ the drive is detected automatically by the plugin).
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2683269"></a><h3>Element Pads</h3>
+<a name="id2630855"></a><h3>Element Pads</h3>
 </div>
 </div>
 <p>
@@ -771,7 +773,11 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 <pre class="programlisting">  "volume"                   <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
-<p>The audio volume, 1.0=100%.</p>
+<p>
+Get or set the current audio stream volume. 1.0 means 100%,
+0.0 means mute. This uses a linear volume scale.</p>
+<p>
+</p>
 <p>Allowed values: [0,10]</p>
 <p>Default value: 1</p>
 </div>
@@ -1128,7 +1134,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run Last / Action</pre>
 <p>
-Action signal to retrieve the stream-selector sinkpad for a specific 
+Action signal to retrieve the stream-selector sinkpad for a specific
 audio stream.
 This pad can be used for notifications of caps changes, stream-specific
 queries, etc.</p>
@@ -1174,7 +1180,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run Last / Action</pre>
 <p>
-Action signal to retrieve the stream-selector sinkpad for a specific 
+Action signal to retrieve the stream-selector sinkpad for a specific
 text stream.
 This pad can be used for notifications of caps changes, stream-specific
 queries, etc.</p>
@@ -1220,7 +1226,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>     user_data)      : Run Last / Action</pre>
 <p>
-Action signal to retrieve the stream-selector sinkpad for a specific 
+Action signal to retrieve the stream-selector sinkpad for a specific
 video stream.
 This pad can be used for notifications of caps changes, stream-specific
 queries, etc.</p>

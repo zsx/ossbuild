@@ -57,13 +57,13 @@
 
                     <a class="link" href="GstNetTimeProvider.html#GstNetTimeProvider-struct" title="GstNetTimeProvider">GstNetTimeProvider</a>;
 <a class="link" href="GstNetTimeProvider.html" title="GstNetTimeProvider">GstNetTimeProvider</a>* <a class="link" href="GstNetTimeProvider.html#gst-net-time-provider-new" title="gst_net_time_provider_new ()">gst_net_time_provider_new</a>           (<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
+href="../gstreamer-0.10/GstClock.html"
 >GstClock</a> *clock,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *address,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> port);
 </pre>
 </div>
@@ -71,10 +71,10 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 <a name="GstNetTimeProvider.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+href="../gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----GstNetTimeProvider
 </pre>
@@ -83,16 +83,16 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 <a name="GstNetTimeProvider.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="GstNetTimeProvider.html#GstNetTimeProvider--active" title='The "active" property'>active</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="GstNetTimeProvider.html#GstNetTimeProvider--address" title='The "address" property'>address</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="GstNetTimeProvider.html#GstNetTimeProvider--clock" title='The "clock" property'>clock</a>"                    <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
+href="../gstreamer-0.10/GstClock.html"
 >GstClock</a>*             : Read / Write
   "<a class="link" href="GstNetTimeProvider.html#GstNetTimeProvider--port" title='The "port" property'>port</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
 </pre>
 </div>
@@ -100,13 +100,13 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 <a name="GstNetTimeProvider.description"></a><h2>Description</h2>
 <p>
 This object exposes the time of a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
+href="../gstreamer-0.10/GstClock.html"
 ><span class="type">GstClock</span></a> on the network.
 </p>
 <p>
 A <a class="link" href="GstNetTimeProvider.html" title="GstNetTimeProvider"><span class="type">GstNetTimeProvider</span></a> is created with <a class="link" href="GstNetTimeProvider.html#gst-net-time-provider-new" title="gst_net_time_provider_new ()"><code class="function">gst_net_time_provider_new()</code></a> which
 takes a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
+href="../gstreamer-0.10/GstClock.html"
 ><span class="type">GstClock</span></a>, an address and a port number as arguments.
 </p>
 <p>
@@ -115,7 +115,7 @@ query the exposed clock over the network for its values.
 </p>
 <p>
 The <a class="link" href="GstNetTimeProvider.html" title="GstNetTimeProvider"><span class="type">GstNetTimeProvider</span></a> typically wraps the clock used by a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPipeline.html"
+href="../gstreamer-0.10/GstPipeline.html"
 ><span class="type">GstPipeline</span></a>.
 </p>
 <p>
@@ -141,13 +141,13 @@ Opaque <a class="link" href="GstNetTimeProvider.html" title="GstNetTimeProvider"
 <div class="refsect2" lang="en">
 <a name="gst-net-time-provider-new"></a><h3>gst_net_time_provider_new ()</h3>
 <pre class="programlisting"><a class="link" href="GstNetTimeProvider.html" title="GstNetTimeProvider">GstNetTimeProvider</a>* gst_net_time_provider_new           (<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
+href="../gstreamer-0.10/GstClock.html"
 >GstClock</a> *clock,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *address,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a> port);</pre>
 <p>
 Allows network clients to get the current time of <em class="parameter"><code>clock</code></em>.</p>
@@ -159,7 +159,7 @@ Allows network clients to get the current time of <em class="parameter"><code>cl
 <tr>
 <td><p><span class="term"><em class="parameter"><code>clock</code></em> :</span></p></td>
 <td> a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
+href="../gstreamer-0.10/GstClock.html"
 ><span class="type">GstClock</span></a> to export over the network
 </td>
 </tr>
@@ -188,7 +188,7 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
 <div class="refsect2" lang="en">
 <a name="GstNetTimeProvider--active"></a><h3>The <code class="literal">"active"</code> property</h3>
 <pre class="programlisting">  "active"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>TRUE if the clock will respond to queries over the network.</p>
 <p>Default value: TRUE</p>
@@ -197,7 +197,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" lang="en">
 <a name="GstNetTimeProvider--address"></a><h3>The <code class="literal">"address"</code> property</h3>
 <pre class="programlisting">  "address"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>The address to bind on, as a dotted quad (x.x.x.x).</p>
 <p>Default value: "0.0.0.0"</p>
@@ -206,7 +206,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" lang="en">
 <a name="GstNetTimeProvider--clock"></a><h3>The <code class="literal">"clock"</code> property</h3>
 <pre class="programlisting">  "clock"                    <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
+href="../gstreamer-0.10/GstClock.html"
 >GstClock</a>*             : Read / Write</pre>
 <p>The clock to export over the network.</p>
 </div>
@@ -214,7 +214,7 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html"
 <div class="refsect2" lang="en">
 <a name="GstNetTimeProvider--port"></a><h3>The <code class="literal">"port"</code> property</h3>
 <pre class="programlisting">  "port"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>The port to receive the packets from, 0=allocate.</p>
 <p>Allowed values: [0,65535]</p>
@@ -224,7 +224,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 <div class="refsect1" lang="en">
 <a name="GstNetTimeProvider.see-also"></a><h2>See Also</h2>
 #GstClock, <a class="link" href="GstNetClientClock.html" title="GstNetClientClock"><span class="type">GstNetClientClock</span></a>, <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPipeline.html"
+href="../gstreamer-0.10/GstPipeline.html"
 ><span class="type">GstPipeline</span></a>
 </div>
 </div>

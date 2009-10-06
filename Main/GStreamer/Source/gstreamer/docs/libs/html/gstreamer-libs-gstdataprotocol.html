@@ -58,167 +58,167 @@ enum                <a class="link" href="gstreamer-libs-gstdataprotocol.html#Gs
 #define             <a class="link" href="gstreamer-libs-gstdataprotocol.html#GST-DP-VERSION-MINOR--CAPS" title="GST_DP_VERSION_MINOR">GST_DP_VERSION_MINOR</a>
 void                <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-init" title="gst_dp_init ()">gst_dp_init</a>                         (void);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            (<a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFromBufferFunction" title="GstDPHeaderFromBufferFunction ()">*GstDPHeaderFromBufferFunction</a>)    (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 >GstBuffer</a> *buffer,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            (<a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPPacketFromCapsFunction" title="GstDPPacketFromCapsFunction ()">*GstDPPacketFromCapsFunction</a>)      (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a> *caps,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **payload);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            (<a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPPacketFromEventFunction" title="GstDPPacketFromEventFunction ()">*GstDPPacketFromEventFunction</a>)     (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 >GstEvent</a> *event,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **payload);
                     <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPPacketizer" title="GstDPPacketizer">GstDPPacketizer</a>;
 <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPPacketizer" title="GstDPPacketizer">GstDPPacketizer</a> *   <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-packetizer-new" title="gst_dp_packetizer_new ()">gst_dp_packetizer_new</a>               (<a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPVersion" title="enum GstDPVersion">GstDPVersion</a> version);
 void                <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-packetizer-free" title="gst_dp_packetizer_free ()">gst_dp_packetizer_free</a>              (<a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPPacketizer" title="GstDPPacketizer">GstDPPacketizer</a> *packetizer);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint16"
+href="../glib/glib-Basic-Types.html#guint16"
 >guint16</a>             <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-crc" title="gst_dp_crc ()">gst_dp_crc</a>                          (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *buffer,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> length);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="../glib/glib-Basic-Types.html#guint32"
 >guint32</a>             <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-header-payload-length" title="gst_dp_header_payload_length ()">gst_dp_header_payload_length</a>        (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header);
 <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPPayloadType" title="enum GstDPPayloadType">GstDPPayloadType</a>    <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-header-payload-type" title="gst_dp_header_payload_type ()">gst_dp_header_payload_type</a>          (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-header-from-buffer" title="gst_dp_header_from_buffer ()">gst_dp_header_from_buffer</a>           (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 >GstBuffer</a> *buffer,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-packet-from-caps" title="gst_dp_packet_from_caps ()">gst_dp_packet_from_caps</a>             (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a> *caps,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **payload);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-packet-from-event" title="gst_dp_packet_from_event ()">gst_dp_packet_from_event</a>            (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 >GstEvent</a> *event,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **payload);
 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 >GstBuffer</a> *         <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-buffer-from-header" title="gst_dp_buffer_from_header ()">gst_dp_buffer_from_header</a>           (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header);
 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a> *           <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-caps-from-packet" title="gst_dp_caps_from_packet ()">gst_dp_caps_from_packet</a>             (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *payload);
 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 >GstEvent</a> *          <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-event-from-packet" title="gst_dp_event_from_packet ()">gst_dp_event_from_packet</a>            (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *payload);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-validate-header" title="gst_dp_validate_header ()">gst_dp_validate_header</a>              (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-validate-payload" title="gst_dp_validate_payload ()">gst_dp_validate_payload</a>             (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *payload);
 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            <a class="link" href="gstreamer-libs-gstdataprotocol.html#gst-dp-validate-packet" title="gst_dp_validate_packet ()">gst_dp_validate_packet</a>              (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *payload);
 </pre>
 </div>
@@ -329,7 +329,7 @@ header flags for the dataprotocol.</p>
 </pre>
 <p>
 The GDP payload types. a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 ><span class="type">GstEvent</span></a> payload type is encoded with the
 event type number starting from <em class="parameter"><code>GST_DP_PAYLOAD_EVENT_NONE</code></em>.</p>
 <p>
@@ -345,21 +345,21 @@ event type number starting from <em class="parameter"><code>GST_DP_PAYLOAD_EVENT
 <tr>
 <td><p><a name="GST-DP-PAYLOAD-BUFFER--CAPS"></a><span class="term"><code class="literal">GST_DP_PAYLOAD_BUFFER</code></span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 ><span class="type">GstBuffer</span></a> payload packet.
 </td>
 </tr>
 <tr>
 <td><p><a name="GST-DP-PAYLOAD-CAPS--CAPS"></a><span class="term"><code class="literal">GST_DP_PAYLOAD_CAPS</code></span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 ><span class="type">GstCaps</span></a> payload packet.
 </td>
 </tr>
 <tr>
 <td><p><a name="GST-DP-PAYLOAD-EVENT-NONE--CAPS"></a><span class="term"><code class="literal">GST_DP_PAYLOAD_EVENT_NONE</code></span></p></td>
 <td> First value of <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 ><span class="type">GstEvent</span></a> payload packets.
 </td>
 </tr>
@@ -441,16 +441,16 @@ to this source file.</p>
 <div class="refsect2" lang="en">
 <a name="GstDPHeaderFromBufferFunction"></a><h3>GstDPHeaderFromBufferFunction ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            (*GstDPHeaderFromBufferFunction)    (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 >GstBuffer</a> *buffer,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header);</pre>
 <p>
 </p>
@@ -489,19 +489,19 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
 <div class="refsect2" lang="en">
 <a name="GstDPPacketFromCapsFunction"></a><h3>GstDPPacketFromCapsFunction ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            (*GstDPPacketFromCapsFunction)      (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a> *caps,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **payload);</pre>
 <p>
 </p>
@@ -545,19 +545,19 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
 <div class="refsect2" lang="en">
 <a name="GstDPPacketFromEventFunction"></a><h3>GstDPPacketFromEventFunction ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            (*GstDPPacketFromEventFunction)     (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 >GstEvent</a> *event,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **payload);</pre>
 <p>
 </p>
@@ -656,12 +656,12 @@ Free the given packetizer.</p>
 <div class="refsect2" lang="en">
 <a name="gst-dp-crc"></a><h3>gst_dp_crc ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint16"
+href="../glib/glib-Basic-Types.html#guint16"
 >guint16</a>             gst_dp_crc                          (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *buffer,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> length);</pre>
 <p>
 Calculate a CRC for the given buffer over the given number of bytes.
@@ -694,9 +694,9 @@ will not need this function.</p>
 <div class="refsect2" lang="en">
 <a name="gst-dp-header-payload-length"></a><h3>gst_dp_header_payload_length ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
+href="../glib/glib-Basic-Types.html#guint32"
 >guint32</a>             gst_dp_header_payload_length        (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header);</pre>
 <p>
 Get the length of the payload described by <em class="parameter"><code>header</code></em>.</p>
@@ -722,7 +722,7 @@ Get the length of the payload described by <em class="parameter"><code>header</c
 <div class="refsect2" lang="en">
 <a name="gst-dp-header-payload-type"></a><h3>gst_dp_header_payload_type ()</h3>
 <pre class="programlisting"><a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPPayloadType" title="enum GstDPPayloadType">GstDPPayloadType</a>    gst_dp_header_payload_type          (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header);</pre>
 <p>
 Get the type of the payload described by <em class="parameter"><code>header</code></em>.</p>
@@ -748,16 +748,16 @@ Get the type of the payload described by <em class="parameter"><code>header</cod
 <div class="refsect2" lang="en">
 <a name="gst-dp-header-from-buffer"></a><h3>gst_dp_header_from_buffer ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_dp_header_from_buffer           (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 >GstBuffer</a> *buffer,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header);</pre>
 <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
 <h3 class="title">Warning</h3>
@@ -773,7 +773,7 @@ Creates a GDP header from the given buffer.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
 <td> a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 ><span class="type">GstBuffer</span></a> to create a header for
 </td>
 </tr>
@@ -795,7 +795,7 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if the header was successfully created.
 </td>
 </tr>
@@ -806,19 +806,19 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 <div class="refsect2" lang="en">
 <a name="gst-dp-packet-from-caps"></a><h3>gst_dp_packet_from_caps ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_dp_packet_from_caps             (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a> *caps,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **payload);</pre>
 <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
 <h3 class="title">Warning</h3>
@@ -834,7 +834,7 @@ Creates a GDP packet from the given caps.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>caps</code></em> :</span></p></td>
 <td> a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 ><span class="type">GstCaps</span></a> to create a packet for
 </td>
 </tr>
@@ -861,7 +861,7 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if the packet was successfully created.
 </td>
 </tr>
@@ -872,19 +872,19 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 <div class="refsect2" lang="en">
 <a name="gst-dp-packet-from-event"></a><h3>gst_dp_packet_from_event ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_dp_packet_from_event            (const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 >GstEvent</a> *event,
                                                          <a class="link" href="gstreamer-libs-gstdataprotocol.html#GstDPHeaderFlag" title="enum GstDPHeaderFlag">GstDPHeaderFlag</a> flags,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> *length,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **header,
                                                          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> **payload);</pre>
 <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
 <h3 class="title">Warning</h3>
@@ -900,7 +900,7 @@ Creates a GDP packet from the given event.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>event</code></em> :</span></p></td>
 <td> a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 ><span class="type">GstEvent</span></a> to create a packet for
 </td>
 </tr>
@@ -927,7 +927,7 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if the packet was successfully created.
 </td>
 </tr>
@@ -938,16 +938,16 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 <div class="refsect2" lang="en">
 <a name="gst-dp-buffer-from-header"></a><h3>gst_dp_buffer_from_header ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 >GstBuffer</a> *         gst_dp_buffer_from_header           (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header);</pre>
 <p>
 Creates a newly allocated <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 ><span class="type">GstBuffer</span></a> from the given header.
 The buffer data needs to be copied into it before validating.
 </p>
@@ -976,7 +976,7 @@ This function does not check the header passed to it, use
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> A <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 ><span class="type">GstBuffer</span></a> if the buffer was successfully created, or NULL.
 </td>
 </tr>
@@ -987,19 +987,19 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 <div class="refsect2" lang="en">
 <a name="gst-dp-caps-from-packet"></a><h3>gst_dp_caps_from_packet ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a> *           gst_dp_caps_from_packet             (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *payload);</pre>
 <p>
 Creates a newly allocated <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 ><span class="type">GstCaps</span></a> from the given packet.
 </p>
 <p>
@@ -1029,7 +1029,7 @@ unchecked.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> A <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 ><span class="type">GstCaps</span></a> containing the caps represented in the packet,
          or NULL if the packet could not be converted.
 </td>
@@ -1041,19 +1041,19 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 <div class="refsect2" lang="en">
 <a name="gst-dp-event-from-packet"></a><h3>gst_dp_event_from_packet ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 >GstEvent</a> *          gst_dp_event_from_packet            (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *payload);</pre>
 <p>
 Creates a newly allocated <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 ><span class="type">GstEvent</span></a> from the given packet.
 </p>
 <p>
@@ -1083,7 +1083,7 @@ unchecked.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> A <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 ><span class="type">GstEvent</span></a> if the event was successfully created,
          or NULL if an event could not be read from the payload.
 </td>
@@ -1095,12 +1095,12 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 <div class="refsect2" lang="en">
 <a name="gst-dp-validate-header"></a><h3>gst_dp_validate_header ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_dp_validate_header              (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header);</pre>
 <p>
 Validates the given packet header by checking the CRC checksum.</p>
@@ -1122,7 +1122,7 @@ Validates the given packet header by checking the CRC checksum.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if the CRC matches, or no CRC checksum is present.
 </td>
 </tr>
@@ -1133,15 +1133,15 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 <div class="refsect2" lang="en">
 <a name="gst-dp-validate-payload"></a><h3>gst_dp_validate_payload ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_dp_validate_payload             (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *payload);</pre>
 <p>
 Validates the given packet payload using the given packet header
@@ -1169,7 +1169,7 @@ by checking the CRC checksum.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if the CRC matches, or no CRC checksum is present.
 </td>
 </tr>
@@ -1180,15 +1180,15 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 <div class="refsect2" lang="en">
 <a name="gst-dp-validate-packet"></a><h3>gst_dp_validate_packet ()</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            gst_dp_validate_packet              (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a> header_length,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *header,
                                                          const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"
+href="../glib/glib-Basic-Types.html#guint8"
 >guint8</a> *payload);</pre>
 <p>
 Validates the given packet by checking version information and checksums.</p>
@@ -1215,7 +1215,7 @@ Validates the given packet by checking version information and checksums.</p>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> if the packet validates.
 </td>
 </tr>
@@ -1226,9 +1226,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 <div class="refsect1" lang="en">
 <a name="gstreamer-libs-gstdataprotocol.see-also"></a><h2>See Also</h2>
 #GstCaps, <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
+href="../gstreamer-0.10/gstreamer-GstEvent.html#GstEvent"
 ><span class="type">GstEvent</span></a>, <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 ><span class="type">GstBuffer</span></a>
 </div>
 </div>

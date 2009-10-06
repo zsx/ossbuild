@@ -2,7 +2,7 @@
 <SECTION>
 <FILE>gstappsrc</FILE>
 <TITLE>appsrc</TITLE>
-<INCLUDE>gst/app/appsrc.h</INCLUDE>
+<INCLUDE>gst/app/gstappsrc.h</INCLUDE>
 GstAppSrc
 GstAppStreamType
 gst_app_src_set_caps
@@ -47,7 +47,7 @@ gst_app_buffer_new
 <SECTION>
 <FILE>gstappsink</FILE>
 <TITLE>appsink</TITLE>
-<INCLUDE>gst/app/appsink.h</INCLUDE>
+<INCLUDE>gst/app/gstappsink.h</INCLUDE>
 GstAppSink
 gst_app_sink_set_caps
 gst_app_sink_get_caps
@@ -577,6 +577,31 @@ GST_PROPERTY_PROBE
 GST_PROPERTY_PROBE_GET_IFACE
 GST_IS_PROPERTY_PROBE
 gst_property_probe_get_type
+</SECTION>
+
+<SECTION>
+<FILE>gststreamvolume</FILE>
+<INCLUDE>gst/interfaces/streamvolume.h</INCLUDE>
+GstStreamVolume
+GstStreamVolumeFormat
+
+gst_stream_volume_get_volume
+gst_stream_volume_set_volume
+
+gst_stream_volume_get_mute
+gst_stream_volume_set_mute
+
+gst_stream_volume_convert_volume
+
+<SUBSECTION Standard>
+GstStreamVolumeInterface
+GST_TYPE_STREAM_VOLUME
+GST_STREAM_VOLUME
+GST_STREAM_VOLUME_INTERFACE
+GST_STREAM_VOLUME_GET_INTERFACE
+GST_IS_STREAM_VOLUME
+GST_IS_STREAM_VOLUME_INTERFACE
+gst_stream_volume_get_type
 </SECTION>
 
 <SECTION>

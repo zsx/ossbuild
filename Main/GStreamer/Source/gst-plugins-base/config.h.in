@@ -215,6 +215,9 @@
 /* Define to enable Pango font rendering (used by pango). */
 #undef HAVE_PANGO
 
+/* Defined if pango can write vertically */
+#undef HAVE_PANGO_VERTICAL_WRITING
+
 /* defined if the compiler implements __PRETTY_FUNCTION__ */
 #undef HAVE_PRETTY_FUNCTION
 
@@ -223,9 +226,6 @@
 
 /* Define if RDTSC is available */
 #undef HAVE_RDTSC
-
-/* Define to 1 if you have the <regex.h> header file. */
-#undef HAVE_REGEX_H
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H

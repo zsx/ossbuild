@@ -99,7 +99,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3274903"></a><p>
+<a name="id2870650"></a><p>
 Provides common defines for the RTSP library. 
 </p>
 </div>
@@ -352,7 +352,8 @@ The different RTSP states.</p>
 <a name="GstRTSPVersion"></a><h3>enum GstRTSPVersion</h3>
 <pre class="programlisting">typedef enum {
   GST_RTSP_VERSION_INVALID = 0x00,
-  GST_RTSP_VERSION_1_0     = 0x10
+  GST_RTSP_VERSION_1_0     = 0x10,
+  GST_RTSP_VERSION_1_1     = 0x11
 } GstRTSPVersion;
 </pre>
 <p>
@@ -370,6 +371,11 @@ The supported RTSP versions.</p>
 <tr>
 <td><p><a name="GST-RTSP-VERSION-1-0--CAPS"></a><span class="term"><code class="literal">GST_RTSP_VERSION_1_0</code></span></p></td>
 <td> version 1.0
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-RTSP-VERSION-1-1--CAPS"></a><span class="term"><code class="literal">GST_RTSP_VERSION_1_1</code></span></p></td>
+<td> version 1.1. Since 0.10.25
 </td>
 </tr>
 </tbody>
@@ -390,7 +396,9 @@ The supported RTSP versions.</p>
   GST_RTSP_REDIRECT         = (1 &lt;&lt;  7),
   GST_RTSP_SETUP            = (1 &lt;&lt;  8),
   GST_RTSP_SET_PARAMETER    = (1 &lt;&lt;  9),
-  GST_RTSP_TEARDOWN         = (1 &lt;&lt; 10)
+  GST_RTSP_TEARDOWN         = (1 &lt;&lt; 10),
+  GST_RTSP_GET              = (1 &lt;&lt; 11),
+  GST_RTSP_POST             = (1 &lt;&lt; 12)
 } GstRTSPMethod;
 </pre>
 <p>
@@ -458,6 +466,16 @@ The different supported RTSP methods.</p>
 <tr>
 <td><p><a name="GST-RTSP-TEARDOWN--CAPS"></a><span class="term"><code class="literal">GST_RTSP_TEARDOWN</code></span></p></td>
 <td> the TEARDOWN method
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-RTSP-GET--CAPS"></a><span class="term"><code class="literal">GST_RTSP_GET</code></span></p></td>
+<td> the GET method (HTTP). Since 0.10.25
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-RTSP-POST--CAPS"></a><span class="term"><code class="literal">GST_RTSP_POST</code></span></p></td>
+<td> the POST method (HTTP). Since 0.10.25
 </td>
 </tr>
 </tbody>
@@ -603,8 +621,16 @@ Strongest available authentication method</p>
   GST_RTSP_HDR_X_STARTUPPROFILE,    /* X-StartupProfile */
 
   /* Since 0.10.24 */
-  GST_RTSP_HDR_TIMESTAMP            /* Timestamp */
+  GST_RTSP_HDR_TIMESTAMP,           /* Timestamp */
 
+  /* Since 0.10.25 */
+  GST_RTSP_HDR_AUTHENTICATION_INFO, /* Authentication-Info */
+  GST_RTSP_HDR_HOST,                /* Host */
+  GST_RTSP_HDR_PRAGMA,              /* Pragma */
+  GST_RTSP_HDR_X_SERVER_IP_ADDRESS, /* X-Server-IP-Address */
+  GST_RTSP_HDR_X_SESSIONCOOKIE,     /* X-Sessioncookie */
+
+  GST_RTSP_HDR_LAST
 } GstRTSPHeaderField;
 </pre>
 <p>

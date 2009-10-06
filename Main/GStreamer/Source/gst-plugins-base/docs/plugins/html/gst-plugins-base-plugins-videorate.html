@@ -84,6 +84,9 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
   "<a class="link" href="gst-plugins-base-plugins-videorate.html#GstVideoRate--silent" title='The "silent" property'>silent</a>"                   <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-videorate.html#GstVideoRate--skip-to-first" title='The "skip-to-first" property'>skip-to-first</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
 </pre>
 </div>
 <div class="refsect1" lang="en">
@@ -131,7 +134,7 @@ applications should be prepared for this.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2669677"></a><h3>Example pipelines</h3>
+<a name="id2596801"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=videotestsrc.ogg ! oggdemux ! theoradec ! videorate ! video/x-raw-yuv,framerate=15/1 ! xvimagesink
 </pre></div> Decode an Ogg/Theora file and adjust the framerate to 15 fps before playing.
@@ -148,7 +151,7 @@ Last reviewed on 2006-09-02 (0.10.11)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2694213"></a><h3>Element Information</h3>
+<a name="id2644469"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -171,7 +174,7 @@ Last reviewed on 2006-09-02 (0.10.11)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2694275"></a><h3>Element Pads</h3>
+<a name="id2644532"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -243,7 +246,7 @@ Last reviewed on 2006-09-02 (0.10.11)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2695856"></a><h3>Element Information</h3>
+<a name="id2644754"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -266,7 +269,7 @@ Last reviewed on 2006-09-02 (0.10.11)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2695918"></a><h3>Element Pads</h3>
+<a name="id2644816"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -404,6 +407,19 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Don't emit notify for dropped and duplicated frames.</p>
 <p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstVideoRate--skip-to-first"></a><h3>The <code class="literal">"skip-to-first"</code> property</h3>
+<pre class="programlisting">  "skip-to-first"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>
+Don't produce buffers before the first one we receive.</p>
+<p>
+</p>
+<p>Default value: FALSE</p>
+<p>Since 0.10.25</p>
 </div>
 </div>
 </div>

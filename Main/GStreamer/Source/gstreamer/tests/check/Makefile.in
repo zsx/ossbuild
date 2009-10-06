@@ -54,7 +54,8 @@ noinst_PROGRAMS = gst/gstpipeline$(EXEEXT) libs/collectpads$(EXEEXT) \
 	elements/queue$(EXEEXT)
 subdir = tests/check
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/check-checks.m4 \
+	$(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/as-auto-alt.m4 \
 	$(top_srcdir)/common/m4/as-compiler-flag.m4 \
 	$(top_srcdir)/common/m4/as-docbook.m4 \
@@ -62,7 +63,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/as-python.m4 \
 	$(top_srcdir)/common/m4/as-scrub-include.m4 \
 	$(top_srcdir)/common/m4/as-version.m4 \
-	$(top_srcdir)/common/m4/check.m4 \
+	$(top_srcdir)/common/m4/ax_create_stdint_h.m4 \
 	$(top_srcdir)/common/m4/gettext.m4 \
 	$(top_srcdir)/common/m4/gst-arch.m4 \
 	$(top_srcdir)/common/m4/gst-args.m4 \
@@ -81,6 +82,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
 	$(top_srcdir)/common/m4/iconv.m4 \
 	$(top_srcdir)/common/m4/intlmacosx.m4 \
+	$(top_srcdir)/common/m4/introspection.m4 \
 	$(top_srcdir)/common/m4/lib-ld.m4 \
 	$(top_srcdir)/common/m4/lib-link.m4 \
 	$(top_srcdir)/common/m4/lib-prefix.m4 \
@@ -130,19 +132,20 @@ CONFIG_CLEAN_FILES =
 @GST_DISABLE_REGISTRY_FALSE@	libs/basesrc$(EXEEXT) \
 @GST_DISABLE_REGISTRY_FALSE@	libs/controller$(EXEEXT) \
 @GST_DISABLE_REGISTRY_FALSE@	libs/typefindhelper$(EXEEXT) \
-@GST_DISABLE_REGISTRY_FALSE@	pipelines/stress$(EXEEXT)
+@GST_DISABLE_REGISTRY_FALSE@	pipelines/stress$(EXEEXT) \
+@GST_DISABLE_REGISTRY_FALSE@	pipelines/queue-error$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 elements_capsfilter_SOURCES = elements/capsfilter.c
 elements_capsfilter_OBJECTS = capsfilter.$(OBJEXT)
 elements_capsfilter_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
 elements_capsfilter_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
 elements_fakesink_SOURCES = elements/fakesink.c
 elements_fakesink_OBJECTS = fakesink.$(OBJEXT)
 am__DEPENDENCIES_2 = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 elements_fakesink_DEPENDENCIES =  \
 	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
 	$(am__DEPENDENCIES_2)
@@ -150,12 +153,12 @@ elements_fakesrc_SOURCES = elements/fakesrc.c
 elements_fakesrc_OBJECTS = fakesrc.$(OBJEXT)
 elements_fakesrc_LDADD = $(LDADD)
 elements_fakesrc_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 elements_fdsrc_SOURCES = elements/fdsrc.c
 elements_fdsrc_OBJECTS = elements_fdsrc-fdsrc.$(OBJEXT)
 elements_fdsrc_LDADD = $(LDADD)
 elements_fdsrc_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 elements_fdsrc_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(elements_fdsrc_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -163,12 +166,12 @@ elements_filesink_SOURCES = elements/filesink.c
 elements_filesink_OBJECTS = filesink.$(OBJEXT)
 elements_filesink_LDADD = $(LDADD)
 elements_filesink_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 elements_filesrc_SOURCES = elements/filesrc.c
 elements_filesrc_OBJECTS = elements_filesrc-filesrc.$(OBJEXT)
 elements_filesrc_LDADD = $(LDADD)
 elements_filesrc_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 elements_filesrc_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(elements_filesrc_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -176,207 +179,206 @@ elements_identity_SOURCES = elements/identity.c
 elements_identity_OBJECTS = identity.$(OBJEXT)
 elements_identity_LDADD = $(LDADD)
 elements_identity_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 elements_multiqueue_SOURCES = elements/multiqueue.c
 elements_multiqueue_OBJECTS = multiqueue.$(OBJEXT)
 elements_multiqueue_LDADD = $(LDADD)
 elements_multiqueue_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 elements_queue_SOURCES = elements/queue.c
 elements_queue_OBJECTS = queue.$(OBJEXT)
 elements_queue_LDADD = $(LDADD)
 elements_queue_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 elements_tee_SOURCES = elements/tee.c
 elements_tee_OBJECTS = tee.$(OBJEXT)
 elements_tee_LDADD = $(LDADD)
 elements_tee_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 generic_sinks_SOURCES = generic/sinks.c
 generic_sinks_OBJECTS = sinks.$(OBJEXT)
 generic_sinks_LDADD = $(LDADD)
 generic_sinks_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 generic_states_SOURCES = generic/states.c
 generic_states_OBJECTS = states.$(OBJEXT)
 generic_states_LDADD = $(LDADD)
 generic_states_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gst_SOURCES = gst/gst.c
 gst_gst_OBJECTS = gst.$(OBJEXT)
 gst_gst_LDADD = $(LDADD)
 gst_gst_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstabi_SOURCES = gst/gstabi.c
 gst_gstabi_OBJECTS = gstabi.$(OBJEXT)
 gst_gstabi_LDADD = $(LDADD)
 gst_gstabi_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstbin_SOURCES = gst/gstbin.c
 gst_gstbin_OBJECTS = gstbin.$(OBJEXT)
 gst_gstbin_LDADD = $(LDADD)
 gst_gstbin_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstbuffer_SOURCES = gst/gstbuffer.c
 gst_gstbuffer_OBJECTS = gstbuffer.$(OBJEXT)
 gst_gstbuffer_LDADD = $(LDADD)
 gst_gstbuffer_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstbufferlist_SOURCES = gst/gstbufferlist.c
 gst_gstbufferlist_OBJECTS = gstbufferlist.$(OBJEXT)
 gst_gstbufferlist_LDADD = $(LDADD)
 gst_gstbufferlist_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstbus_SOURCES = gst/gstbus.c
 gst_gstbus_OBJECTS = gstbus.$(OBJEXT)
 gst_gstbus_LDADD = $(LDADD)
 gst_gstbus_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstcaps_SOURCES = gst/gstcaps.c
 gst_gstcaps_OBJECTS = gstcaps.$(OBJEXT)
 gst_gstcaps_LDADD = $(LDADD)
 gst_gstcaps_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstelement_SOURCES = gst/gstelement.c
 gst_gstelement_OBJECTS = gstelement.$(OBJEXT)
 gst_gstelement_LDADD = $(LDADD)
 gst_gstelement_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstevent_SOURCES = gst/gstevent.c
 gst_gstevent_OBJECTS = gstevent.$(OBJEXT)
 gst_gstevent_LDADD = $(LDADD)
 gst_gstevent_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstghostpad_SOURCES = gst/gstghostpad.c
 gst_gstghostpad_OBJECTS = gstghostpad.$(OBJEXT)
 gst_gstghostpad_LDADD = $(LDADD)
 gst_gstghostpad_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstindex_SOURCES = gst/gstindex.c
 gst_gstindex_OBJECTS = gstindex.$(OBJEXT)
 gst_gstindex_LDADD = $(LDADD)
 gst_gstindex_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstinfo_SOURCES = gst/gstinfo.c
 gst_gstinfo_OBJECTS = gstinfo.$(OBJEXT)
 gst_gstinfo_LDADD = $(LDADD)
 gst_gstinfo_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstinterface_SOURCES = gst/gstinterface.c
 gst_gstinterface_OBJECTS = gstinterface.$(OBJEXT)
 gst_gstinterface_LDADD = $(LDADD)
 gst_gstinterface_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstiterator_SOURCES = gst/gstiterator.c
 gst_gstiterator_OBJECTS = gstiterator.$(OBJEXT)
 gst_gstiterator_LDADD = $(LDADD)
 gst_gstiterator_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstmessage_SOURCES = gst/gstmessage.c
 gst_gstmessage_OBJECTS = gstmessage.$(OBJEXT)
 gst_gstmessage_LDADD = $(LDADD)
 gst_gstmessage_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstminiobject_SOURCES = gst/gstminiobject.c
 gst_gstminiobject_OBJECTS = gstminiobject.$(OBJEXT)
 gst_gstminiobject_LDADD = $(LDADD)
 gst_gstminiobject_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstobject_SOURCES = gst/gstobject.c
 gst_gstobject_OBJECTS = gstobject.$(OBJEXT)
 gst_gstobject_LDADD = $(LDADD)
 gst_gstobject_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstpad_SOURCES = gst/gstpad.c
 gst_gstpad_OBJECTS = gstpad.$(OBJEXT)
 gst_gstpad_LDADD = $(LDADD)
 gst_gstpad_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstparamspecs_SOURCES = gst/gstparamspecs.c
 gst_gstparamspecs_OBJECTS = gstparamspecs.$(OBJEXT)
 gst_gstparamspecs_LDADD = $(LDADD)
 gst_gstparamspecs_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstpipeline_SOURCES = gst/gstpipeline.c
 gst_gstpipeline_OBJECTS = gstpipeline.$(OBJEXT)
 gst_gstpipeline_LDADD = $(LDADD)
 gst_gstpipeline_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstplugin_SOURCES = gst/gstplugin.c
 gst_gstplugin_OBJECTS = gstplugin.$(OBJEXT)
 gst_gstplugin_LDADD = $(LDADD)
 gst_gstplugin_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstpoll_SOURCES = gst/gstpoll.c
 gst_gstpoll_OBJECTS = gstpoll.$(OBJEXT)
 gst_gstpoll_LDADD = $(LDADD)
 gst_gstpoll_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstpreset_SOURCES = gst/gstpreset.c
 gst_gstpreset_OBJECTS = gstpreset.$(OBJEXT)
 gst_gstpreset_LDADD = $(LDADD)
 gst_gstpreset_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstquery_SOURCES = gst/gstquery.c
 gst_gstquery_OBJECTS = gstquery.$(OBJEXT)
 gst_gstquery_LDADD = $(LDADD)
 gst_gstquery_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstregistry_SOURCES = gst/gstregistry.c
 gst_gstregistry_OBJECTS = gstregistry.$(OBJEXT)
 gst_gstregistry_LDADD = $(LDADD)
 gst_gstregistry_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstsegment_SOURCES = gst/gstsegment.c
 gst_gstsegment_OBJECTS = gstsegment.$(OBJEXT)
 gst_gstsegment_LDADD = $(LDADD)
 gst_gstsegment_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gststructure_SOURCES = gst/gststructure.c
 gst_gststructure_OBJECTS = gststructure.$(OBJEXT)
 gst_gststructure_LDADD = $(LDADD)
 gst_gststructure_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstsystemclock_SOURCES = gst/gstsystemclock.c
 gst_gstsystemclock_OBJECTS = gstsystemclock.$(OBJEXT)
 gst_gstsystemclock_LDADD = $(LDADD)
 gst_gstsystemclock_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gsttag_SOURCES = gst/gsttag.c
 gst_gsttag_OBJECTS = gsttag.$(OBJEXT)
 gst_gsttag_LDADD = $(LDADD)
 gst_gsttag_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gsttagsetter_SOURCES = gst/gsttagsetter.c
 gst_gsttagsetter_OBJECTS = gsttagsetter.$(OBJEXT)
 gst_gsttagsetter_LDADD = $(LDADD)
 gst_gsttagsetter_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gsttask_SOURCES = gst/gsttask.c
 gst_gsttask_OBJECTS = gsttask.$(OBJEXT)
 gst_gsttask_LDADD = $(LDADD)
 gst_gsttask_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gsturi_SOURCES = gst/gsturi.c
 gst_gsturi_OBJECTS = gsturi.$(OBJEXT)
 gst_gsturi_LDADD = $(LDADD)
 gst_gsturi_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstutils_SOURCES = gst/gstutils.c
 gst_gstutils_OBJECTS = gstutils.$(OBJEXT)
-gst_gstutils_LDADD = $(LDADD)
-gst_gstutils_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
+gst_gstutils_DEPENDENCIES = $(am__DEPENDENCIES_2) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 gst_gstvalue_SOURCES = gst/gstvalue.c
 gst_gstvalue_OBJECTS = gstvalue.$(OBJEXT)
 gst_gstvalue_LDADD = $(LDADD)
 gst_gstvalue_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 gst_gstxml_SOURCES = gst/gstxml.c
 gst_gstxml_OBJECTS = gstxml.$(OBJEXT)
 gst_gstxml_LDADD = $(LDADD)
 gst_gstxml_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 libs_adapter_SOURCES = libs/adapter.c
 libs_adapter_OBJECTS = adapter.$(OBJEXT)
 libs_adapter_DEPENDENCIES =  \
@@ -427,7 +429,7 @@ libs_libsabi_SOURCES = libs/libsabi.c
 libs_libsabi_OBJECTS = libsabi.$(OBJEXT)
 libs_libsabi_LDADD = $(LDADD)
 libs_libsabi_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 libs_transform1_SOURCES = libs/transform1.c
 libs_transform1_OBJECTS = transform1.$(OBJEXT)
 libs_transform1_DEPENDENCIES =  \
@@ -442,28 +444,33 @@ pipelines_cleanup_SOURCES = pipelines/cleanup.c
 pipelines_cleanup_OBJECTS = cleanup.$(OBJEXT)
 pipelines_cleanup_LDADD = $(LDADD)
 pipelines_cleanup_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 pipelines_parse_disabled_SOURCES = pipelines/parse-disabled.c
 pipelines_parse_disabled_OBJECTS = parse-disabled.$(OBJEXT)
 pipelines_parse_disabled_LDADD = $(LDADD)
 pipelines_parse_disabled_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 pipelines_parse_launch_SOURCES = pipelines/parse-launch.c
 pipelines_parse_launch_OBJECTS = parse-launch.$(OBJEXT)
 pipelines_parse_launch_LDADD = $(LDADD)
 pipelines_parse_launch_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
+pipelines_queue_error_SOURCES = pipelines/queue-error.c
+pipelines_queue_error_OBJECTS = queue-error.$(OBJEXT)
+pipelines_queue_error_LDADD = $(LDADD)
+pipelines_queue_error_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
+	$(am__DEPENDENCIES_1)
 pipelines_simple_launch_lines_SOURCES =  \
 	pipelines/simple-launch-lines.c
 pipelines_simple_launch_lines_OBJECTS = simple-launch-lines.$(OBJEXT)
 pipelines_simple_launch_lines_LDADD = $(LDADD)
 pipelines_simple_launch_lines_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 pipelines_stress_SOURCES = pipelines/stress.c
 pipelines_stress_OBJECTS = stress.$(OBJEXT)
 pipelines_stress_LDADD = $(LDADD)
 pipelines_stress_DEPENDENCIES = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -495,8 +502,8 @@ SOURCES = elements/capsfilter.c elements/fakesink.c elements/fakesrc.c \
 	libs/gstnetclientclock.c libs/gstnettimeprovider.c \
 	libs/libsabi.c libs/transform1.c libs/typefindhelper.c \
 	pipelines/cleanup.c pipelines/parse-disabled.c \
-	pipelines/parse-launch.c pipelines/simple-launch-lines.c \
-	pipelines/stress.c
+	pipelines/parse-launch.c pipelines/queue-error.c \
+	pipelines/simple-launch-lines.c pipelines/stress.c
 DIST_SOURCES = elements/capsfilter.c elements/fakesink.c \
 	elements/fakesrc.c elements/fdsrc.c elements/filesink.c \
 	elements/filesrc.c elements/identity.c elements/multiqueue.c \
@@ -517,8 +524,8 @@ DIST_SOURCES = elements/capsfilter.c elements/fakesink.c \
 	libs/gstnetclientclock.c libs/gstnettimeprovider.c \
 	libs/libsabi.c libs/transform1.c libs/typefindhelper.c \
 	pipelines/cleanup.c pipelines/parse-disabled.c \
-	pipelines/parse-launch.c pipelines/simple-launch-lines.c \
-	pipelines/stress.c
+	pipelines/parse-launch.c pipelines/queue-error.c \
+	pipelines/simple-launch-lines.c pipelines/stress.c
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -542,8 +549,10 @@ CCASDEPMODE = @CCASDEPMODE@
 CCASFLAGS = @CCASFLAGS@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-CHECK_CFLAGS = @CHECK_CFLAGS@
-CHECK_LIBS = @CHECK_LIBS@
+CHECK_MAJOR_VERSION = @CHECK_MAJOR_VERSION@
+CHECK_MICRO_VERSION = @CHECK_MICRO_VERSION@
+CHECK_MINOR_VERSION = @CHECK_MINOR_VERSION@
+CHECK_VERSION = @CHECK_VERSION@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -579,14 +588,15 @@ GLIB_ONLY_CFLAGS = @GLIB_ONLY_CFLAGS@
 GLIB_ONLY_LIBS = @GLIB_ONLY_LIBS@
 GLIB_PREFIX = @GLIB_PREFIX@
 GLIB_REQ = @GLIB_REQ@
+GMP_LIBS = @GMP_LIBS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GSL_LIBS = @GSL_LIBS@
 GST_AGE = @GST_AGE@
 GST_ALL_CFLAGS = @GST_ALL_CFLAGS@
 GST_ALL_LDFLAGS = @GST_ALL_LDFLAGS@
 GST_ALL_LIBS = @GST_ALL_LIBS@
-GST_CHECK_LIB_LDFLAGS = @GST_CHECK_LIB_LDFLAGS@
 GST_CURRENT = @GST_CURRENT@
 GST_DISABLE_ALLOC_TRACE_DEFINE = @GST_DISABLE_ALLOC_TRACE_DEFINE@
 GST_DISABLE_GST_DEBUG_DEFINE = @GST_DISABLE_GST_DEBUG_DEFINE@
@@ -627,6 +637,8 @@ HAVE_DOCBOOK2PS = @HAVE_DOCBOOK2PS@
 HAVE_DVIPS = @HAVE_DVIPS@
 HAVE_EPSTOPDF = @HAVE_EPSTOPDF@
 HAVE_FIG2DEV = @HAVE_FIG2DEV@
+HAVE_GMP = @HAVE_GMP@
+HAVE_GSL = @HAVE_GSL@
 HAVE_JADETEX = @HAVE_JADETEX@
 HAVE_PNGTOPNM = @HAVE_PNGTOPNM@
 HAVE_PNMTOPS = @HAVE_PNMTOPS@
@@ -642,6 +654,11 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDIR = @LIBDIR@
@@ -825,7 +842,8 @@ SUPPRESSIONS = $(top_srcdir)/common/gst.supp
 @GST_DISABLE_REGISTRY_FALSE@	libs/basesrc				\
 @GST_DISABLE_REGISTRY_FALSE@	libs/controller				\
 @GST_DISABLE_REGISTRY_FALSE@	libs/typefindhelper			\
-@GST_DISABLE_REGISTRY_FALSE@	pipelines/stress
+@GST_DISABLE_REGISTRY_FALSE@	pipelines/stress			\
+@GST_DISABLE_REGISTRY_FALSE@	pipelines/queue-error
 
 
 # if it's calling gst_element_factory_make(), it will probably not work without
@@ -858,6 +876,7 @@ LDADD = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
 	$(GST_OBJ_LIBS) \
 	$(CHECK_LIBS)
 
+gst_gstutils_LDADD = $(LDADD) $(GSL_LIBS) $(GMP_LIBS)
 libs_gdp_SOURCES = \
 	libs/gdp.c
 
@@ -1197,6 +1216,9 @@ pipelines/parse-disabled$(EXEEXT): $(pipelines_parse_disabled_OBJECTS) $(pipelin
 pipelines/parse-launch$(EXEEXT): $(pipelines_parse_launch_OBJECTS) $(pipelines_parse_launch_DEPENDENCIES) pipelines/$(am__dirstamp)
 	@rm -f pipelines/parse-launch$(EXEEXT)
 	$(LINK) $(pipelines_parse_launch_OBJECTS) $(pipelines_parse_launch_LDADD) $(LIBS)
+pipelines/queue-error$(EXEEXT): $(pipelines_queue_error_OBJECTS) $(pipelines_queue_error_DEPENDENCIES) pipelines/$(am__dirstamp)
+	@rm -f pipelines/queue-error$(EXEEXT)
+	$(LINK) $(pipelines_queue_error_OBJECTS) $(pipelines_queue_error_LDADD) $(LIBS)
 pipelines/simple-launch-lines$(EXEEXT): $(pipelines_simple_launch_lines_OBJECTS) $(pipelines_simple_launch_lines_DEPENDENCIES) pipelines/$(am__dirstamp)
 	@rm -f pipelines/simple-launch-lines$(EXEEXT)
 	$(LINK) $(pipelines_simple_launch_lines_OBJECTS) $(pipelines_simple_launch_lines_LDADD) $(LIBS)
@@ -1266,6 +1288,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/multiqueue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-disabled.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse-launch.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue-error.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/simple-launch-lines.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sinks.Po@am__quote@
@@ -2163,6 +2186,20 @@ parse-launch.obj: pipelines/parse-launch.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pipelines/parse-launch.c' object='parse-launch.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o parse-launch.obj `if test -f 'pipelines/parse-launch.c'; then $(CYGPATH_W) 'pipelines/parse-launch.c'; else $(CYGPATH_W) '$(srcdir)/pipelines/parse-launch.c'; fi`
+
+queue-error.o: pipelines/queue-error.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT queue-error.o -MD -MP -MF $(DEPDIR)/queue-error.Tpo -c -o queue-error.o `test -f 'pipelines/queue-error.c' || echo '$(srcdir)/'`pipelines/queue-error.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/queue-error.Tpo $(DEPDIR)/queue-error.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pipelines/queue-error.c' object='queue-error.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o queue-error.o `test -f 'pipelines/queue-error.c' || echo '$(srcdir)/'`pipelines/queue-error.c
+
+queue-error.obj: pipelines/queue-error.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT queue-error.obj -MD -MP -MF $(DEPDIR)/queue-error.Tpo -c -o queue-error.obj `if test -f 'pipelines/queue-error.c'; then $(CYGPATH_W) 'pipelines/queue-error.c'; else $(CYGPATH_W) '$(srcdir)/pipelines/queue-error.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/queue-error.Tpo $(DEPDIR)/queue-error.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pipelines/queue-error.c' object='queue-error.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o queue-error.obj `if test -f 'pipelines/queue-error.c'; then $(CYGPATH_W) 'pipelines/queue-error.c'; else $(CYGPATH_W) '$(srcdir)/pipelines/queue-error.c'; fi`
 
 simple-launch-lines.o: pipelines/simple-launch-lines.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT simple-launch-lines.o -MD -MP -MF $(DEPDIR)/simple-launch-lines.Tpo -c -o simple-launch-lines.o `test -f 'pipelines/simple-launch-lines.c' || echo '$(srcdir)/'`pipelines/simple-launch-lines.c

@@ -59,6 +59,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst-x11.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
+	$(top_srcdir)/common/m4/introspection.m4 \
 	$(top_srcdir)/common/m4/pkg.m4 \
 	$(top_srcdir)/common/m4/shave.m4 $(top_srcdir)/m4/freetype2.m4 \
 	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/gst-alsa.m4 \
@@ -242,6 +243,11 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
@@ -287,6 +293,8 @@ PACKAGE_VERSION_MICRO = @PACKAGE_VERSION_MICRO@
 PACKAGE_VERSION_MINOR = @PACKAGE_VERSION_MINOR@
 PACKAGE_VERSION_NANO = @PACKAGE_VERSION_NANO@
 PACKAGE_VERSION_RELEASE = @PACKAGE_VERSION_RELEASE@
+PANGOCAIRO_1_15_4_CFLAGS = @PANGOCAIRO_1_15_4_CFLAGS@
+PANGOCAIRO_1_15_4_LIBS = @PANGOCAIRO_1_15_4_LIBS@
 PANGO_CFLAGS = @PANGO_CFLAGS@
 PANGO_LIBS = @PANGO_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
@@ -704,6 +712,30 @@ uninstall-am: uninstall-libLTLIBRARIES \
 	uninstall-libLTLIBRARIES \
 	uninstall-libgstcdda_@GST_MAJORMINOR@includeHEADERS
 
+
+#GstCdda-@GST_MAJORMINOR@.gir: $(INTROSPECTION_SCANNER) libgstcdda-@GST_MAJORMINOR@.la
+#	PKG_CONFIG_PATH="$(PKG_CONFIG_PATH):$(top_builddir)/pkgconfig" \
+#		$(INTROSPECTION_SCANNER) -v --namespace GstCdda \
+#		--nsversion=@GST_MAJORMINOR@ \
+#		--strip-prefix=Gst \
+#		$(gir_cincludes) \
+#		--add-include-path=`$(PKG_CONFIG) --variable=libdir gstreamer-0.10`/gst \
+#		--add-include-path=`$(PKG_CONFIG) --variable=libdir gstreamer-base-0.10` \
+#		--add-include-path=$(builddir)/../tag \
+#		--library=gstcdda-0.10 \
+#		--include=Gst-0.10 \
+#		--include=GstBase-0.10 \
+#		--include=GstTag-0.10 \
+#		--libtool="$(top_builddir)/libtool" \
+#		--pkg gstreamer-0.10 \
+#		--pkg gstreamer-base-0.10 \
+#		--pkg gstreamer-tag-0.10 \
+#		--output $@ \
+#		$(gir_headers) \
+#		$(gir_sources)
+
+#%.typelib: %.gir $(INTROSPECTION_COMPILER)
+#	$(INTROSPECTION_COMPILER) --includedir=$(srcdir) --includedir=$(builddir) $(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -186,7 +186,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3264605"></a><p>
+<a name="id2860156"></a><p>
 This object manages the RTSP connection to the server. It provides function
 to receive and send bytes and messages.
 </p>
@@ -1044,7 +1044,13 @@ the second tunnel connection, link the two connections together so that
 </p>
 <p>
 After this call, <em class="parameter"><code>conn2</code></em> cannot be used anymore and must be freed with
-<a class="link" href="gst-plugins-base-libs-gstrtspconnection.html#gst-rtsp-connection-free" title="gst_rtsp_connection_free ()"><code class="function">gst_rtsp_connection_free()</code></a>.</p>
+<a class="link" href="gst-plugins-base-libs-gstrtspconnection.html#gst-rtsp-connection-free" title="gst_rtsp_connection_free ()"><code class="function">gst_rtsp_connection_free()</code></a>.
+</p>
+<p>
+If <em class="parameter"><code>conn2</code></em> is <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+><code class="literal">NULL</code></a> then only the base64 decoding context will be setup for
+<em class="parameter"><code>conn</code></em>.</p>
 <p>
 </p>
 <div class="variablelist"><table border="0">
@@ -1057,7 +1063,9 @@ After this call, <em class="parameter"><code>conn2</code></em> cannot be used an
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>conn2</code></em> :</span></p></td>
-<td> a <a class="link" href="gst-plugins-base-libs-gstrtspconnection.html#GstRTSPConnection" title="GstRTSPConnection"><span class="type">GstRTSPConnection</span></a>
+<td> a <a class="link" href="gst-plugins-base-libs-gstrtspconnection.html#GstRTSPConnection" title="GstRTSPConnection"><span class="type">GstRTSPConnection</span></a> or <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
+><code class="literal">NULL</code></a>
 </td>
 </tr>
 <tr>
@@ -1093,6 +1101,9 @@ operations.</p>
                                          gpointer user_data);
   GstRTSPStatusCode (*tunnel_start)     (GstRTSPWatch *watch, gpointer user_data);
   GstRTSPResult     (*tunnel_complete)  (GstRTSPWatch *watch, gpointer user_data);
+  GstRTSPResult     (*error_full)       (GstRTSPWatch *watch, GstRTSPResult result,
+                                         GstRTSPMessage *message, guint id,
+                                         gpointer user_data);
 } GstRTSPWatchFuncs;
 </pre>
 <p>
@@ -1133,6 +1144,12 @@ Callback functions from a <a class="link" href="gst-plugins-base-libs-gstrtspcon
 <td> a client finished a tunneled connection. In this callback
   you usually pair the tunnelid of this connection with the saved one using
   <a class="link" href="gst-plugins-base-libs-gstrtspconnection.html#gst-rtsp-connection-do-tunnel" title="gst_rtsp_connection_do_tunnel ()"><code class="function">gst_rtsp_connection_do_tunnel()</code></a>.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code>error_full</code></em> ()</span></p></td>
+<td> callback when an error occured with more information than
+  the <em class="parameter"><code>error</code></em> callback. Since 0.10.25
 </td>
 </tr>
 </tbody>
@@ -1277,6 +1294,10 @@ when the file descriptors of the connection might have changed.</p>
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               gst_rtsp_watch_queue_message        (<a class="link" href="gst-plugins-base-libs-gstrtspconnection.html#GstRTSPWatch" title="GstRTSPWatch">GstRTSPWatch</a> *watch,
                                                          <a class="link" href="gst-plugins-base-libs-gstrtspmessage.html#GstRTSPMessage" title="GstRTSPMessage">GstRTSPMessage</a> *message);</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Warning</h3>
+<p><code class="literal">gst_rtsp_watch_queue_message</code> is deprecated and should not be used in newly-written code. Use <code class="function">gst_rtsp_watch_send_message()</code></p>
+</div>
 <p>
 Queue a <em class="parameter"><code>message</code></em> for transmission in <em class="parameter"><code>watch</code></em>. The contents of this
 message will be serialized and transmitted when the connection of the

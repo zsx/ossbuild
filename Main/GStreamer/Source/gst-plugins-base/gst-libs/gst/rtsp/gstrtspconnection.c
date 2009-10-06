@@ -80,8 +80,8 @@
 #define WINVER 0x0501
 #endif
 #ifdef _MSC_VER
-#include <io.h>
-#define close _close
+	#include <io.h>
+	#define close(x) _close(x)
 #endif
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -100,7 +100,6 @@
 
 #include "gstrtspconnection.h"
 #include "gstrtspbase64.h"
-#include "md5.h"
 
 union gst_sockaddr
 {
@@ -118,12 +117,6 @@ typedef struct
   guint cout;
   guint coutl;
 } DecodeCtx;
-
-static GstRTSPResult read_line (gint fd, guint8 * buffer, guint * idx,
-    guint size, DecodeCtx * ctxp);
-static GstRTSPResult parse_key_value (guint8 * buffer, gchar * key,
-    guint keysize, gchar ** value);
-static void parse_string (gchar * dest, gint size, gchar ** src);
 
 #ifdef G_OS_WIN32
 #define READ_SOCKET(fd, buf, len) recv (fd, (char *)buf, len, 0)
@@ -184,12 +177,19 @@ struct _GstRTSPConnection
   GstPollFD *readfd;
   GstPollFD *writefd;
 
+  gboolean manual_http;
+
   gchar tunnelid[TUNNELID_LEN];
   gboolean tunneled;
   GstRTSPTunnelState tstate;
 
   GstPoll *fdset;
   gchar *ip;
+
+  gint read_ahead;
+
+  gchar *initial_buffer;
+  gsize initial_buffer_offset;
 
   /* Session state */
   gint cseq;                    /* sequence number */
@@ -220,10 +220,18 @@ enum
   STATE_LAST
 };
 
+enum
+{
+  READ_AHEAD_EOH = -1,          /* end of headers */
+  READ_AHEAD_CRLF = -2,
+  READ_AHEAD_CRLFCR = -3
+};
+
 /* a structure for constructing RTSPMessages */
 typedef struct
 {
   gint state;
+  GstRTSPResult status;
   guint8 buffer[4096];
   guint offset;
 
@@ -320,6 +328,75 @@ no_fdset:
 }
 
 /**
+ * gst_rtsp_connection_create_from_fd:
+ * @fd: a file descriptor
+ * @ip: the IP address of the other end
+ * @port: the port used by the other end
+ * @initial_buffer: data already read from @fd
+ * @conn: storage for a #GstRTSPConnection
+ *
+ * Create a new #GstRTSPConnection for handling communication on the existing
+ * file descriptor @fd. The @initial_buffer contains any data already read from
+ * @fd which should be used before starting to read new data.
+ *
+ * Returns: #GST_RTSP_OK when @conn contains a valid connection.
+ *
+ * Since: 0.10.25
+ */
+GstRTSPResult
+gst_rtsp_connection_create_from_fd (gint fd, const gchar * ip, guint16 port,
+    const gchar * initial_buffer, GstRTSPConnection ** conn)
+{
+  GstRTSPConnection *newconn = NULL;
+  GstRTSPUrl *url;
+#ifdef G_OS_WIN32
+  gulong flags = 1;
+#endif
+  GstRTSPResult res;
+
+  g_return_val_if_fail (fd >= 0, GST_RTSP_EINVAL);
+  g_return_val_if_fail (ip != NULL, GST_RTSP_EINVAL);
+  g_return_val_if_fail (conn != NULL, GST_RTSP_EINVAL);
+
+  /* set to non-blocking mode so that we can cancel the communication */
+#ifndef G_OS_WIN32
+  fcntl (fd, F_SETFL, O_NONBLOCK);
+#else
+  ioctlsocket (fd, FIONBIO, &flags);
+#endif /* G_OS_WIN32 */
+
+  /* create a url for the client address */
+  url = g_new0 (GstRTSPUrl, 1);
+  url->host = g_strdup (ip);
+  url->port = port;
+
+  /* now create the connection object */
+  GST_RTSP_CHECK (gst_rtsp_connection_create (url, &newconn), newconn_failed);
+  gst_rtsp_url_free (url);
+
+  ADD_POLLFD (newconn->fdset, &newconn->fd0, fd);
+
+  /* both read and write initially */
+  newconn->readfd = &newconn->fd0;
+  newconn->writefd = &newconn->fd0;
+
+  newconn->ip = g_strdup (ip);
+
+  newconn->initial_buffer = g_strdup (initial_buffer);
+
+  *conn = newconn;
+
+  return GST_RTSP_OK;
+
+  /* ERRORS */
+newconn_failed:
+  {
+    gst_rtsp_url_free (url);
+    return res;
+  }
+}
+
+/**
  * gst_rtsp_connection_accept:
  * @sock: a socket
  * @conn: storage for a #GstRTSPConnection
@@ -335,14 +412,13 @@ GstRTSPResult
 gst_rtsp_connection_accept (gint sock, GstRTSPConnection ** conn)
 {
   int fd;
-  GstRTSPConnection *newconn = NULL;
   union gst_sockaddr sa;
   socklen_t slen = sizeof (sa);
   gchar ip[INET6_ADDRSTRLEN];
-  GstRTSPUrl *url;
-#ifdef G_OS_WIN32
-  gulong flags = 1;
-#endif
+  guint16 port;
+
+  g_return_val_if_fail (sock >= 0, GST_RTSP_EINVAL);
+  g_return_val_if_fail (conn != NULL, GST_RTSP_EINVAL);
 
   memset (&sa, 0, slen);
 
@@ -356,37 +432,15 @@ gst_rtsp_connection_accept (gint sock, GstRTSPConnection ** conn)
 
   if (getnameinfo (&sa.sa, slen, ip, sizeof (ip), NULL, 0, NI_NUMERICHOST) != 0)
     goto getnameinfo_failed;
-  if (sa.sa.sa_family != AF_INET && sa.sa.sa_family != AF_INET6)
+
+  if (sa.sa.sa_family == AF_INET)
+    port = sa.sa_in.sin_port;
+  else if (sa.sa.sa_family == AF_INET6)
+    port = sa.sa_in6.sin6_port;
+  else
     goto wrong_family;
 
-  /* set to non-blocking mode so that we can cancel the communication */
-#ifndef G_OS_WIN32
-  fcntl (fd, F_SETFL, O_NONBLOCK);
-#else
-  ioctlsocket (fd, FIONBIO, &flags);
-#endif /* G_OS_WIN32 */
-
-  /* create a url for the client address */
-  url = g_new0 (GstRTSPUrl, 1);
-  url->host = g_strdup (ip);
-  if (sa.sa.sa_family == AF_INET)
-    url->port = sa.sa_in.sin_port;
-  else
-    url->port = sa.sa_in6.sin6_port;
-
-  /* now create the connection object */
-  gst_rtsp_connection_create (url, &newconn);
-  gst_rtsp_url_free (url);
-
-  ADD_POLLFD (newconn->fdset, &newconn->fd0, fd);
-
-  /* both read and write initially */
-  newconn->readfd = &newconn->fd0;
-  newconn->writefd = &newconn->fd0;
-
-  *conn = newconn;
-
-  return GST_RTSP_OK;
+  return gst_rtsp_connection_create_from_fd (fd, ip, port, NULL, conn);
 
   /* ERRORS */
 accept_failed:
@@ -396,7 +450,7 @@ accept_failed:
 getnameinfo_failed:
 wrong_family:
   {
-    _close (fd);
+    close (fd);
     return GST_RTSP_ERROR;
   }
 }
@@ -579,16 +633,18 @@ setup_tunneling (GstRTSPConnection * conn, GTimeVal * timeout)
 {
   gint i;
   GstRTSPResult res;
-  gchar *str;
-  guint idx, line;
-  gint retval;
-  GstClockTime to;
-  gchar *ip, *url_port_str;
+  gchar *ip;
+  gchar *uri;
+  gchar *value;
   guint16 port, url_port;
-  gchar codestr[4], *resultstr;
-  gint code;
   GstRTSPUrl *url;
   gchar *hostparam;
+  GstRTSPMessage *msg;
+  GstRTSPMessage response;
+  gboolean old_http;
+
+  memset (&response, 0, sizeof (response));
+  gst_rtsp_message_init (&response);
 
   /* create a random sessionid */
   for (i = 0; i < TUNNELID_LEN; i++)
@@ -600,126 +656,72 @@ setup_tunneling (GstRTSPConnection * conn, GTimeVal * timeout)
   gst_rtsp_url_get_port (url, &url_port);
 
   if (conn->proxy_host) {
-    hostparam = g_strdup_printf ("Host: %s:%d\r\n", url->host, url_port);
-    url_port_str = g_strdup_printf (":%d", url_port);
+    uri = g_strdup_printf ("http://%s:%d%s%s%s", url->host, url_port,
+        url->abspath, url->query ? "?" : "", url->query ? url->query : "");
+    hostparam = g_strdup_printf ("%s:%d", url->host, url_port);
     ip = conn->proxy_host;
     port = conn->proxy_port;
   } else {
+    uri = g_strdup_printf ("%s%s%s", url->abspath, url->query ? "?" : "",
+        url->query ? url->query : "");
     hostparam = NULL;
-    url_port_str = NULL;
     ip = conn->ip;
     port = url_port;
   }
 
-  /* */
-  str = g_strdup_printf ("GET %s%s%s%s%s%s HTTP/1.0\r\n"
-      "%s"
-      "x-sessioncookie: %s\r\n"
-      "Accept: application/x-rtsp-tunnelled\r\n"
-      "Pragma: no-cache\r\n"
-      "Cache-Control: no-cache\r\n" "\r\n",
-      conn->proxy_host ? "http://" : "",
-      conn->proxy_host ? url->host : "",
-      conn->proxy_host ? url_port_str : "",
-      url->abspath, url->query ? "?" : "", url->query ? url->query : "",
-      hostparam ? hostparam : "", conn->tunnelid);
+  /* create the GET request for the read connection */
+  GST_RTSP_CHECK (gst_rtsp_message_new_request (&msg, GST_RTSP_GET, uri),
+      no_message);
+  msg->type = GST_RTSP_MESSAGE_HTTP_REQUEST;
+
+  if (hostparam != NULL)
+    gst_rtsp_message_add_header (msg, GST_RTSP_HDR_HOST, hostparam);
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_X_SESSIONCOOKIE,
+      conn->tunnelid);
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_ACCEPT,
+      "application/x-rtsp-tunnelled");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_CACHE_CONTROL, "no-cache");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_PRAGMA, "no-cache");
 
   /* we start by writing to this fd */
   conn->writefd = &conn->fd0;
 
-  res = gst_rtsp_connection_write (conn, (guint8 *) str, strlen (str), timeout);
-  g_free (str);
-  if (res != GST_RTSP_OK)
-    goto write_failed;
+  /* we need to temporarily set conn->tunneled to FALSE to prevent the HTTP
+   * request from being base64 encoded */
+  conn->tunneled = FALSE;
+  GST_RTSP_CHECK (gst_rtsp_connection_send (conn, msg, timeout), write_failed);
+  gst_rtsp_message_free (msg);
+  conn->tunneled = TRUE;
 
-  gst_poll_fd_ctl_write (conn->fdset, &conn->fd0, FALSE);
-  gst_poll_fd_ctl_read (conn->fdset, &conn->fd0, TRUE);
+  /* receive the response to the GET request */
+  /* we need to temporarily set manual_http to TRUE since
+   * gst_rtsp_connection_receive() will treat the HTTP response as a parsing
+   * failure otherwise */
+  old_http = conn->manual_http;
+  conn->manual_http = TRUE;
+  GST_RTSP_CHECK (gst_rtsp_connection_receive (conn, &response, timeout),
+      read_failed);
+  conn->manual_http = old_http;
 
-  to = timeout ? GST_TIMEVAL_TO_TIME (*timeout) : GST_CLOCK_TIME_NONE;
+  if (response.type != GST_RTSP_MESSAGE_HTTP_RESPONSE ||
+      response.type_data.response.code != GST_RTSP_STS_OK)
+    goto wrong_result;
 
-  line = 0;
-  while (TRUE) {
-    guint8 buffer[4096];
-
-    idx = 0;
-    while (TRUE) {
-      res = read_line (conn->fd0.fd, buffer, &idx, sizeof (buffer), NULL);
-      if (res == GST_RTSP_EEOF)
-        goto eof;
-      if (res == GST_RTSP_OK)
-        break;
-      if (res != GST_RTSP_EINTR)
-        goto read_error;
-
-      do {
-        retval = gst_poll_wait (conn->fdset, to);
-      } while (retval == -1 && (errno == EINTR || errno == EAGAIN));
-
-      /* check for timeout */
-      if (retval == 0)
-        goto timeout;
-
-      if (retval == -1) {
-        if (errno == EBUSY)
-          goto stopped;
-        else
-          goto select_error;
-      }
-    }
-
-    /* check for last line */
-    if (buffer[0] == '\r')
-      buffer[0] = '\0';
-    if (buffer[0] == '\0')
-      break;
-
-    if (line == 0) {
-      /* first line, parse response */
-      gchar versionstr[20];
-      gchar *bptr;
-
-      bptr = (gchar *) buffer;
-
-      parse_string (versionstr, sizeof (versionstr), &bptr);
-      parse_string (codestr, sizeof (codestr), &bptr);
-      code = atoi (codestr);
-
-      while (g_ascii_isspace (*bptr))
-        bptr++;
-
-      resultstr = bptr;
-
-      if (code != GST_RTSP_STS_OK)
-        goto wrong_result;
+  if (gst_rtsp_message_get_header (&response, GST_RTSP_HDR_X_SERVER_IP_ADDRESS,
+          &value, 0) != GST_RTSP_OK) {
+    if (conn->proxy_host) {
+      /* if we use a proxy we need to change the destination url */
+      g_free (url->host);
+      url->host = g_strdup (value);
+      g_free (hostparam);
+      hostparam = g_strdup_printf ("%s:%d", url->host, url_port);
     } else {
-      gchar key[32];
-      gchar *value;
-
-      /* other lines, parse key/value */
-      res = parse_key_value (buffer, key, sizeof (key), &value);
-      if (res == GST_RTSP_OK) {
-        /* we got a new ip address */
-        if (g_ascii_strcasecmp (key, "x-server-ip-address") == 0) {
-          if (conn->proxy_host) {
-            /* if we use a proxy we need to change the destination url */
-            g_free (url->host);
-            url->host = g_strdup (value);
-            g_free (hostparam);
-            g_free (url_port_str);
-            hostparam =
-                g_strdup_printf ("Host: %s:%d\r\n", url->host, url_port);
-            url_port_str = g_strdup_printf (":%d", url_port);
-          } else {
-            /* and resolve the new ip address */
-            if (!(ip = do_resolve (conn->ip)))
-              goto not_resolved;
-            g_free (conn->ip);
-            conn->ip = ip;
-          }
-        }
-      }
+      /* and resolve the new ip address */
+      if (!(ip = do_resolve (conn->ip)))
+        goto not_resolved;
+      g_free (conn->ip);
+      conn->ip = ip;
     }
-    line++;
   }
 
   /* connect to the host/port */
@@ -730,66 +732,60 @@ setup_tunneling (GstRTSPConnection * conn, GTimeVal * timeout)
   /* this is now our writing socket */
   conn->writefd = &conn->fd1;
 
-  /* */
-  str = g_strdup_printf ("POST %s%s%s%s%s%s HTTP/1.0\r\n"
-      "%s"
-      "x-sessioncookie: %s\r\n"
-      "Content-Type: application/x-rtsp-tunnelled\r\n"
-      "Pragma: no-cache\r\n"
-      "Cache-Control: no-cache\r\n"
-      "Content-Length: 32767\r\n"
-      "Expires: Sun, 9 Jan 1972 00:00:00 GMT\r\n"
-      "\r\n",
-      conn->proxy_host ? "http://" : "",
-      conn->proxy_host ? url->host : "",
-      conn->proxy_host ? url_port_str : "",
-      url->abspath, url->query ? "?" : "", url->query ? url->query : "",
-      hostparam ? hostparam : "", conn->tunnelid);
+  /* create the POST request for the write connection */
+  GST_RTSP_CHECK (gst_rtsp_message_new_request (&msg, GST_RTSP_POST, uri),
+      no_message);
+  msg->type = GST_RTSP_MESSAGE_HTTP_REQUEST;
 
-  res = gst_rtsp_connection_write (conn, (guint8 *) str, strlen (str), timeout);
-  g_free (str);
-  if (res != GST_RTSP_OK)
-    goto write_failed;
+  if (hostparam != NULL)
+    gst_rtsp_message_add_header (msg, GST_RTSP_HDR_HOST, hostparam);
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_X_SESSIONCOOKIE,
+      conn->tunnelid);
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_ACCEPT,
+      "application/x-rtsp-tunnelled");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_CACHE_CONTROL, "no-cache");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_PRAGMA, "no-cache");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_EXPIRES,
+      "Sun, 9 Jan 1972 00:00:00 GMT");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_CONTENT_LENGTH, "32767");
+
+  /* we need to temporarily set conn->tunneled to FALSE to prevent the HTTP
+   * request from being base64 encoded */
+  conn->tunneled = FALSE;
+  GST_RTSP_CHECK (gst_rtsp_connection_send (conn, msg, timeout), write_failed);
+  gst_rtsp_message_free (msg);
+  conn->tunneled = TRUE;
 
 exit:
+  gst_rtsp_message_unset (&response);
   g_free (hostparam);
-  g_free (url_port_str);
+  g_free (uri);
 
   return res;
 
   /* ERRORS */
+no_message:
+  {
+    GST_ERROR ("failed to create request (%d)", res);
+    goto exit;
+  }
 write_failed:
   {
     GST_ERROR ("write failed (%d)", res);
+    gst_rtsp_message_free (msg);
+    conn->tunneled = TRUE;
     goto exit;
   }
-eof:
+read_failed:
   {
-    res = GST_RTSP_EEOF;
-    goto exit;
-  }
-read_error:
-  {
-    goto exit;
-  }
-timeout:
-  {
-    res = GST_RTSP_ETIMEOUT;
-    goto exit;
-  }
-select_error:
-  {
-    res = GST_RTSP_ESYS;
-    goto exit;
-  }
-stopped:
-  {
-    res = GST_RTSP_EINTR;
+    GST_ERROR ("read failed (%d)", res);
+    conn->manual_http = FALSE;
     goto exit;
   }
 wrong_result:
   {
-    GST_ERROR ("got failure response %d %s", code, resultstr);
+    GST_ERROR ("got failure response %d %s", response.type_data.response.code,
+        response.type_data.response.reason);
     res = GST_RTSP_ERROR;
     goto exit;
   }
@@ -889,33 +885,23 @@ tunneling_failed:
 }
 
 static void
-md5_digest_to_hex_string (unsigned char digest[16], char string[33])
-{
-  static const char hexdigits[] = "0123456789abcdef";
-  int i;
-
-  for (i = 0; i < 16; i++) {
-    string[i * 2] = hexdigits[(digest[i] >> 4) & 0x0f];
-    string[i * 2 + 1] = hexdigits[digest[i] & 0x0f];
-  }
-  string[32] = 0;
-}
-
-static void
 auth_digest_compute_hex_urp (const gchar * username,
     const gchar * realm, const gchar * password, gchar hex_urp[33])
 {
-  struct MD5Context md5_context;
-  unsigned char digest[16];
+  GChecksum *md5_context = g_checksum_new (G_CHECKSUM_MD5);
+  const gchar *digest_string;
 
-  MD5Init (&md5_context);
-  MD5Update (&md5_context, username, strlen (username));
-  MD5Update (&md5_context, ":", 1);
-  MD5Update (&md5_context, realm, strlen (realm));
-  MD5Update (&md5_context, ":", 1);
-  MD5Update (&md5_context, password, strlen (password));
-  MD5Final (digest, &md5_context);
-  md5_digest_to_hex_string (digest, hex_urp);
+  g_checksum_update (md5_context, (const guchar *) username, strlen (username));
+  g_checksum_update (md5_context, (const guchar *) ":", 1);
+  g_checksum_update (md5_context, (const guchar *) realm, strlen (realm));
+  g_checksum_update (md5_context, (const guchar *) ":", 1);
+  g_checksum_update (md5_context, (const guchar *) password, strlen (password));
+  digest_string = g_checksum_get_string (md5_context);
+
+  memset (hex_urp, 0, 33);
+  memcpy (hex_urp, digest_string, strlen (digest_string));
+
+  g_checksum_free (md5_context);
 }
 
 static void
@@ -923,28 +909,35 @@ auth_digest_compute_response (const gchar * method,
     const gchar * uri, const gchar * hex_a1, const gchar * nonce,
     gchar response[33])
 {
-  char hex_a2[33];
-  struct MD5Context md5_context;
-  unsigned char digest[16];
+  char hex_a2[33] = { 0, };
+  GChecksum *md5_context = g_checksum_new (G_CHECKSUM_MD5);
+  const gchar *digest_string;
 
   /* compute A2 */
-  MD5Init (&md5_context);
-  MD5Update (&md5_context, method, strlen (method));
-  MD5Update (&md5_context, ":", 1);
-  MD5Update (&md5_context, uri, strlen (uri));
-  MD5Final (digest, &md5_context);
-  md5_digest_to_hex_string (digest, hex_a2);
+  g_checksum_update (md5_context, (const guchar *) method, strlen (method));
+  g_checksum_update (md5_context, (const guchar *) ":", 1);
+  g_checksum_update (md5_context, (const guchar *) uri, strlen (uri));
+  digest_string = g_checksum_get_string (md5_context);
+  memcpy (hex_a2, digest_string, strlen (digest_string));
 
   /* compute KD */
-  MD5Init (&md5_context);
-  MD5Update (&md5_context, hex_a1, strlen (hex_a1));
-  MD5Update (&md5_context, ":", 1);
-  MD5Update (&md5_context, nonce, strlen (nonce));
-  MD5Update (&md5_context, ":", 1);
+#if GLIB_CHECK_VERSION (2, 18, 0)
+  g_checksum_reset (md5_context);
+#else
+  g_checksum_free (md5_context);
+  md5_context = g_checksum_new (G_CHECKSUM_MD5);
+#endif
+  g_checksum_update (md5_context, (const guchar *) hex_a1, strlen (hex_a1));
+  g_checksum_update (md5_context, (const guchar *) ":", 1);
+  g_checksum_update (md5_context, (const guchar *) nonce, strlen (nonce));
+  g_checksum_update (md5_context, (const guchar *) ":", 1);
 
-  MD5Update (&md5_context, hex_a2, 32);
-  MD5Final (digest, &md5_context);
-  md5_digest_to_hex_string (digest, response);
+  g_checksum_update (md5_context, (const guchar *) hex_a2, 32);
+  digest_string = g_checksum_get_string (md5_context);
+  memset (response, 0, 33);
+  memcpy (response, digest_string, strlen (digest_string));
+
+  g_checksum_free (md5_context);
 }
 
 static void
@@ -1065,8 +1058,42 @@ write_bytes (gint fd, const guint8 * buffer, guint * idx, guint size)
 }
 
 static gint
-fill_bytes (gint fd, guint8 * buffer, guint size, DecodeCtx * ctx)
+fill_raw_bytes (GstRTSPConnection * conn, guint8 * buffer, guint size)
 {
+  gint out = 0;
+
+  if (G_UNLIKELY (conn->initial_buffer != NULL)) {
+    gsize left = strlen (&conn->initial_buffer[conn->initial_buffer_offset]);
+
+    out = MIN (left, size);
+    memcpy (buffer, &conn->initial_buffer[conn->initial_buffer_offset], out);
+
+    if (left == (gsize) out) {
+      g_free (conn->initial_buffer);
+      conn->initial_buffer = NULL;
+      conn->initial_buffer_offset = 0;
+    } else
+      conn->initial_buffer_offset += out;
+  }
+
+  if (G_LIKELY (size > (guint) out)) {
+    gint r;
+
+    r = READ_SOCKET (conn->readfd->fd, &buffer[out], size - out);
+    if (r <= 0) {
+      if (out == 0)
+        out = r;
+    } else
+      out += r;
+  }
+
+  return out;
+}
+
+static gint
+fill_bytes (GstRTSPConnection * conn, guint8 * buffer, guint size)
+{
+  DecodeCtx *ctx = conn->ctxp;
   gint out = 0;
 
   if (ctx) {
@@ -1086,7 +1113,7 @@ fill_bytes (gint fd, guint8 * buffer, guint size, DecodeCtx * ctx)
         break;
 
       /* try to read more bytes */
-      r = READ_SOCKET (fd, in, sizeof (in));
+      r = fill_raw_bytes (conn, in, sizeof (in));
       if (r <= 0) {
         if (out == 0)
           out = r;
@@ -1099,14 +1126,14 @@ fill_bytes (gint fd, guint8 * buffer, guint size, DecodeCtx * ctx)
           &ctx->save);
     }
   } else {
-    out = READ_SOCKET (fd, buffer, size);
+    out = fill_raw_bytes (conn, buffer, size);
   }
 
   return out;
 }
 
 static GstRTSPResult
-read_bytes (gint fd, guint8 * buffer, guint * idx, guint size, DecodeCtx * ctx)
+read_bytes (GstRTSPConnection * conn, guint8 * buffer, guint * idx, guint size)
 {
   guint left;
 
@@ -1118,7 +1145,7 @@ read_bytes (gint fd, guint8 * buffer, guint * idx, guint size, DecodeCtx * ctx)
   while (left) {
     gint r;
 
-    r = fill_bytes (fd, &buffer[*idx], left, ctx);
+    r = fill_bytes (conn, &buffer[*idx], left);
     if (G_UNLIKELY (r == 0)) {
       return GST_RTSP_EEOF;
     } else if (G_UNLIKELY (r < 0)) {
@@ -1134,30 +1161,124 @@ read_bytes (gint fd, guint8 * buffer, guint * idx, guint size, DecodeCtx * ctx)
   return GST_RTSP_OK;
 }
 
+/* The code below tries to handle clients using \r, \n or \r\n to indicate the
+ * end of a line. It even does its best to handle clients which mix them (even
+ * though this is a really stupid idea (tm).) It also handles Line White Space
+ * (LWS), where a line end followed by whitespace is considered LWS. This is
+ * the method used in RTSP (and HTTP) to break long lines.
+ */
 static GstRTSPResult
-read_line (gint fd, guint8 * buffer, guint * idx, guint size, DecodeCtx * ctx)
+read_line (GstRTSPConnection * conn, guint8 * buffer, guint * idx, guint size)
 {
   while (TRUE) {
     guint8 c;
     gint r;
 
-    r = fill_bytes (fd, &c, 1, ctx);
-    if (G_UNLIKELY (r == 0)) {
-      return GST_RTSP_EEOF;
-    } else if (G_UNLIKELY (r < 0)) {
-      if (ERRNO_IS_EAGAIN)
-        return GST_RTSP_EINTR;
-      if (!ERRNO_IS_EINTR)
-        return GST_RTSP_ESYS;
+    if (conn->read_ahead == READ_AHEAD_EOH) {
+      /* the last call to read_line() already determined that we have reached
+       * the end of the headers, so convey that information now */
+      conn->read_ahead = 0;
+      break;
+    } else if (conn->read_ahead == READ_AHEAD_CRLF) {
+      /* the last call to read_line() left off after having read \r\n */
+      c = '\n';
+    } else if (conn->read_ahead == READ_AHEAD_CRLFCR) {
+      /* the last call to read_line() left off after having read \r\n\r */
+      c = '\r';
+    } else if (conn->read_ahead != 0) {
+      /* the last call to read_line() left us with a character to start with */
+      c = (guint8) conn->read_ahead;
+      conn->read_ahead = 0;
     } else {
-      if (c == '\n')            /* end on \n */
-        break;
-      if (c == '\r')            /* ignore \r */
+      /* read the next character */
+      r = fill_bytes (conn, &c, 1);
+      if (G_UNLIKELY (r == 0)) {
+        return GST_RTSP_EEOF;
+      } else if (G_UNLIKELY (r < 0)) {
+        if (ERRNO_IS_EAGAIN)
+          return GST_RTSP_EINTR;
+        if (!ERRNO_IS_EINTR)
+          return GST_RTSP_ESYS;
         continue;
-
-      if (G_LIKELY (*idx < size - 1))
-        buffer[(*idx)++] = c;
+      }
     }
+
+    /* special treatment of line endings */
+    if (c == '\r' || c == '\n') {
+      guint8 read_ahead;
+
+    retry:
+      /* need to read ahead one more character to know what to do... */
+      r = fill_bytes (conn, &read_ahead, 1);
+      if (G_UNLIKELY (r == 0)) {
+        return GST_RTSP_EEOF;
+      } else if (G_UNLIKELY (r < 0)) {
+        if (ERRNO_IS_EAGAIN) {
+          /* remember the original character we read and try again next time */
+          if (conn->read_ahead == 0)
+            conn->read_ahead = c;
+          return GST_RTSP_EINTR;
+        }
+        if (!ERRNO_IS_EINTR)
+          return GST_RTSP_ESYS;
+        goto retry;
+      }
+
+      if (read_ahead == ' ' || read_ahead == '\t') {
+        if (conn->read_ahead == READ_AHEAD_CRLFCR) {
+          /* got \r\n\r followed by whitespace, treat it as a normal line
+           * followed by one starting with LWS */
+          conn->read_ahead = read_ahead;
+          break;
+        } else {
+          /* got LWS, change the line ending to a space and continue */
+          c = ' ';
+          conn->read_ahead = read_ahead;
+        }
+      } else if (conn->read_ahead == READ_AHEAD_CRLFCR) {
+        if (read_ahead == '\r' || read_ahead == '\n') {
+          /* got \r\n\r\r or \r\n\r\n, treat it as the end of the headers */
+          conn->read_ahead = READ_AHEAD_EOH;
+          break;
+        } else {
+          /* got \r\n\r followed by something else, this is not really
+           * supported since we have probably just eaten the first character
+           * of the body or the next message, so just ignore the second \r
+           * and live with it... */
+          conn->read_ahead = read_ahead;
+          break;
+        }
+      } else if (conn->read_ahead == READ_AHEAD_CRLF) {
+        if (read_ahead == '\r') {
+          /* got \r\n\r so far, need one more character... */
+          conn->read_ahead = READ_AHEAD_CRLFCR;
+          goto retry;
+        } else if (read_ahead == '\n') {
+          /* got \r\n\n, treat it as the end of the headers */
+          conn->read_ahead = READ_AHEAD_EOH;
+          break;
+        } else {
+          /* found the end of a line, keep read_ahead for the next line */
+          conn->read_ahead = read_ahead;
+          break;
+        }
+      } else if (c == read_ahead) {
+        /* got double \r or \n, treat it as the end of the headers */
+        conn->read_ahead = READ_AHEAD_EOH;
+        break;
+      } else if (c == '\r' && read_ahead == '\n') {
+        /* got \r\n so far, still need more to know what to do... */
+        conn->read_ahead = READ_AHEAD_CRLF;
+        goto retry;
+      } else {
+        /* found the end of a line, keep read_ahead for the next line */
+        conn->read_ahead = read_ahead;
+        break;
+      }
+    }
+
+    if (G_LIKELY (*idx < size - 1))
+      buffer[(*idx)++] = c;
   }
   buffer[*idx] = '\0';
 
@@ -1263,6 +1384,7 @@ message_to_string (GstRTSPConnection * conn, GstRTSPMessage * message)
           message->type_data.request.uri, conn->cseq++);
       /* add session id if we have one */
       if (conn->session_id[0] != '\0') {
+        gst_rtsp_message_remove_header (message, GST_RTSP_HDR_SESSION, -1);
         gst_rtsp_message_add_header (message, GST_RTSP_HDR_SESSION,
             conn->session_id);
       }
@@ -1272,6 +1394,21 @@ message_to_string (GstRTSPConnection * conn, GstRTSPMessage * message)
     case GST_RTSP_MESSAGE_RESPONSE:
       /* create response string */
       g_string_append_printf (str, "RTSP/1.0 %d %s\r\n",
+          message->type_data.response.code, message->type_data.response.reason);
+      break;
+    case GST_RTSP_MESSAGE_HTTP_REQUEST:
+      /* create request string */
+      g_string_append_printf (str, "%s %s HTTP/%s\r\n",
+          gst_rtsp_method_as_text (message->type_data.request.method),
+          message->type_data.request.uri,
+          gst_rtsp_version_as_text (message->type_data.request.version));
+      /* add any authentication headers */
+      add_auth_header (conn, message);
+      break;
+    case GST_RTSP_MESSAGE_HTTP_RESPONSE:
+      /* create response string */
+      g_string_append_printf (str, "HTTP/%s %d %s\r\n",
+          gst_rtsp_version_as_text (message->type_data.request.version),
           message->type_data.response.code, message->type_data.response.reason);
       break;
     case GST_RTSP_MESSAGE_DATA:
@@ -1304,6 +1441,7 @@ message_to_string (GstRTSPConnection * conn, GstRTSPMessage * message)
     gen_date_string (date_string, sizeof (date_string));
 
     /* add date header */
+    gst_rtsp_message_remove_header (message, GST_RTSP_HDR_DATE, -1);
     gst_rtsp_message_add_header (message, GST_RTSP_HDR_DATE, date_string);
 
     /* append headers */
@@ -1384,9 +1522,10 @@ no_message:
   }
 }
 
-static void
+static GstRTSPResult
 parse_string (gchar * dest, gint size, gchar ** src)
 {
+  GstRTSPResult res = GST_RTSP_OK;
   gint idx;
 
   idx = 0;
@@ -1397,31 +1536,64 @@ parse_string (gchar * dest, gint size, gchar ** src)
   while (!g_ascii_isspace (**src) && **src != '\0') {
     if (idx < size - 1)
       dest[idx++] = **src;
+    else
+      res = GST_RTSP_EPARSE;
     (*src)++;
   }
   if (size > 0)
     dest[idx] = '\0';
+
+  return res;
 }
 
-static void
-parse_key (gchar * dest, gint size, gchar ** src)
+static GstRTSPResult
+parse_protocol_version (gchar * protocol, GstRTSPMsgType * type,
+    GstRTSPVersion * version)
 {
-  gint idx;
+  GstRTSPResult res = GST_RTSP_OK;
+  gchar *ver;
 
-  idx = 0;
-  while (**src != ':' && **src != '\0') {
-    if (idx < size - 1)
-      dest[idx++] = **src;
-    (*src)++;
-  }
-  if (size > 0)
-    dest[idx] = '\0';
+  if (G_LIKELY ((ver = strchr (protocol, '/')) != NULL)) {
+    guint major;
+    guint minor;
+    gchar dummychar;
+
+    *ver++ = '\0';
+
+    /* the version number must be formatted as X.Y with nothing following */
+    if (sscanf (ver, "%u.%u%c", &major, &minor, &dummychar) != 2)
+      res = GST_RTSP_EPARSE;
+
+    if (g_ascii_strcasecmp (protocol, "RTSP") == 0) {
+      if (major != 1 || minor != 0) {
+        *version = GST_RTSP_VERSION_INVALID;
+        res = GST_RTSP_ERROR;
+      }
+    } else if (g_ascii_strcasecmp (protocol, "HTTP") == 0) {
+      if (*type == GST_RTSP_MESSAGE_REQUEST)
+        *type = GST_RTSP_MESSAGE_HTTP_REQUEST;
+      else if (*type == GST_RTSP_MESSAGE_RESPONSE)
+        *type = GST_RTSP_MESSAGE_HTTP_RESPONSE;
+
+      if (major == 1 && minor == 1) {
+        *version = GST_RTSP_VERSION_1_1;
+      } else if (major != 1 || minor != 0) {
+        *version = GST_RTSP_VERSION_INVALID;
+        res = GST_RTSP_ERROR;
+      }
+    } else
+      res = GST_RTSP_EPARSE;
+  } else
+    res = GST_RTSP_EPARSE;
+
+  return res;
 }
 
 static GstRTSPResult
 parse_response_status (guint8 * buffer, GstRTSPMessage * msg)
 {
-  GstRTSPResult res;
+  GstRTSPResult res = GST_RTSP_OK;
+  GstRTSPResult res2;
   gchar versionstr[20];
   gchar codestr[4];
   gint code;
@@ -1429,164 +1601,216 @@ parse_response_status (guint8 * buffer, GstRTSPMessage * msg)
 
   bptr = (gchar *) buffer;
 
-  parse_string (versionstr, sizeof (versionstr), &bptr);
-  parse_string (codestr, sizeof (codestr), &bptr);
+  if (parse_string (versionstr, sizeof (versionstr), &bptr) != GST_RTSP_OK)
+    res = GST_RTSP_EPARSE;
+
+  if (parse_string (codestr, sizeof (codestr), &bptr) != GST_RTSP_OK)
+    res = GST_RTSP_EPARSE;
   code = atoi (codestr);
+  if (G_UNLIKELY (*codestr == '\0' || code < 0 || code >= 600))
+    res = GST_RTSP_EPARSE;
 
   while (g_ascii_isspace (*bptr))
     bptr++;
 
-  if (strcmp (versionstr, "RTSP/1.0") == 0)
-    GST_RTSP_CHECK (gst_rtsp_message_init_response (msg, code, bptr, NULL),
-        parse_error);
-  else if (strncmp (versionstr, "RTSP/", 5) == 0) {
-    GST_RTSP_CHECK (gst_rtsp_message_init_response (msg, code, bptr, NULL),
-        parse_error);
-    msg->type_data.response.version = GST_RTSP_VERSION_INVALID;
-  } else
-    goto parse_error;
+  if (G_UNLIKELY (gst_rtsp_message_init_response (msg, code, bptr,
+              NULL) != GST_RTSP_OK))
+    res = GST_RTSP_EPARSE;
 
-  return GST_RTSP_OK;
+  res2 = parse_protocol_version (versionstr, &msg->type,
+      &msg->type_data.response.version);
+  if (G_LIKELY (res == GST_RTSP_OK))
+    res = res2;
 
-parse_error:
-  {
-    return GST_RTSP_EPARSE;
-  }
+  return res;
 }
 
 static GstRTSPResult
-parse_request_line (GstRTSPConnection * conn, guint8 * buffer,
-    GstRTSPMessage * msg)
+parse_request_line (guint8 * buffer, GstRTSPMessage * msg)
 {
   GstRTSPResult res = GST_RTSP_OK;
+  GstRTSPResult res2;
   gchar versionstr[20];
   gchar methodstr[20];
   gchar urlstr[4096];
   gchar *bptr;
   GstRTSPMethod method;
-  GstRTSPTunnelState tstate = TUNNEL_STATE_NONE;
 
   bptr = (gchar *) buffer;
 
-  parse_string (methodstr, sizeof (methodstr), &bptr);
+  if (parse_string (methodstr, sizeof (methodstr), &bptr) != GST_RTSP_OK)
+    res = GST_RTSP_EPARSE;
   method = gst_rtsp_find_method (methodstr);
-  if (method == GST_RTSP_INVALID) {
-    /* a tunnel request is allowed when we don't have one yet */
-    if (conn->tstate != TUNNEL_STATE_NONE)
-      goto invalid_method;
-    /* we need GET or POST for a valid tunnel request */
-    if (!strcmp (methodstr, "GET"))
-      tstate = TUNNEL_STATE_GET;
-    else if (!strcmp (methodstr, "POST"))
-      tstate = TUNNEL_STATE_POST;
-    else
-      goto invalid_method;
-  }
 
-  parse_string (urlstr, sizeof (urlstr), &bptr);
+  if (parse_string (urlstr, sizeof (urlstr), &bptr) != GST_RTSP_OK)
+    res = GST_RTSP_EPARSE;
   if (G_UNLIKELY (*urlstr == '\0'))
-    goto invalid_url;
+    res = GST_RTSP_EPARSE;
 
-  parse_string (versionstr, sizeof (versionstr), &bptr);
+  if (parse_string (versionstr, sizeof (versionstr), &bptr) != GST_RTSP_OK)
+    res = GST_RTSP_EPARSE;
 
   if (G_UNLIKELY (*bptr != '\0'))
-    goto invalid_version;
-
-  if (strcmp (versionstr, "RTSP/1.0") == 0) {
-    res = gst_rtsp_message_init_request (msg, method, urlstr);
-  } else if (strncmp (versionstr, "RTSP/", 5) == 0) {
-    res = gst_rtsp_message_init_request (msg, method, urlstr);
-    msg->type_data.request.version = GST_RTSP_VERSION_INVALID;
-  } else if (strcmp (versionstr, "HTTP/1.0") == 0) {
-    /* tunnel request, we need a tunnel method */
-    if (tstate == TUNNEL_STATE_NONE) {
-      res = GST_RTSP_EPARSE;
-    } else {
-      conn->tstate = tstate;
-    }
-  } else {
     res = GST_RTSP_EPARSE;
+
+  if (G_UNLIKELY (gst_rtsp_message_init_request (msg, method,
+              urlstr) != GST_RTSP_OK))
+    res = GST_RTSP_EPARSE;
+
+  res2 = parse_protocol_version (versionstr, &msg->type,
+      &msg->type_data.request.version);
+  if (G_LIKELY (res == GST_RTSP_OK))
+    res = res2;
+
+  if (G_LIKELY (msg->type == GST_RTSP_MESSAGE_REQUEST)) {
+    /* GET and POST are not allowed as RTSP methods */
+    if (msg->type_data.request.method == GST_RTSP_GET ||
+        msg->type_data.request.method == GST_RTSP_POST) {
+      msg->type_data.request.method = GST_RTSP_INVALID;
+      if (res == GST_RTSP_OK)
+        res = GST_RTSP_ERROR;
+    }
+  } else if (msg->type == GST_RTSP_MESSAGE_HTTP_REQUEST) {
+    /* only GET and POST are allowed as HTTP methods */
+    if (msg->type_data.request.method != GST_RTSP_GET &&
+        msg->type_data.request.method != GST_RTSP_POST) {
+      msg->type_data.request.method = GST_RTSP_INVALID;
+      if (res == GST_RTSP_OK)
+        res = GST_RTSP_ERROR;
+    }
   }
 
   return res;
-
-  /* ERRORS */
-invalid_method:
-  {
-    GST_ERROR ("invalid method %s", methodstr);
-    return GST_RTSP_EPARSE;
-  }
-invalid_url:
-  {
-    GST_ERROR ("invalid url %s", urlstr);
-    return GST_RTSP_EPARSE;
-  }
-invalid_version:
-  {
-    GST_ERROR ("invalid version");
-    return GST_RTSP_EPARSE;
-  }
-}
-
-static GstRTSPResult
-parse_key_value (guint8 * buffer, gchar * key, guint keysize, gchar ** value)
-{
-  gchar *bptr;
-
-  bptr = (gchar *) buffer;
-
-  /* read key */
-  parse_key (key, keysize, &bptr);
-  if (G_UNLIKELY (*bptr != ':'))
-    goto no_column;
-
-  bptr++;
-  while (g_ascii_isspace (*bptr))
-    bptr++;
-
-  *value = bptr;
-
-  return GST_RTSP_OK;
-
-  /* ERRORS */
-no_column:
-  {
-    return GST_RTSP_EPARSE;
-  }
 }
 
 /* parsing lines means reading a Key: Value pair */
 static GstRTSPResult
-parse_line (GstRTSPConnection * conn, guint8 * buffer, GstRTSPMessage * msg)
+parse_line (guint8 * buffer, GstRTSPMessage * msg)
 {
-  GstRTSPResult res;
-  gchar key[32];
-  gchar *value;
   GstRTSPHeaderField field;
+  gchar *line = (gchar *) buffer;
+  gchar *value;
 
-  res = parse_key_value (buffer, key, sizeof (key), &value);
-  if (G_UNLIKELY (res != GST_RTSP_OK))
+  if ((value = strchr (line, ':')) == NULL || value == line)
     goto parse_error;
 
-  if (conn->tstate == TUNNEL_STATE_GET || conn->tstate == TUNNEL_STATE_POST) {
-    /* save the tunnel session in the connection */
-    if (!strcmp (key, "x-sessioncookie")) {
-      strncpy (conn->tunnelid, value, TUNNELID_LEN);
-      conn->tunnelid[TUNNELID_LEN - 1] = '\0';
-      conn->tunneled = TRUE;
+  /* trim space before the colon */
+  if (value[-1] == ' ')
+    value[-1] = '\0';
+
+  /* replace the colon with a NUL */
+  *value++ = '\0';
+
+  /* find the header */
+  field = gst_rtsp_find_header_field (line);
+  if (field == GST_RTSP_HDR_INVALID)
+    goto done;
+
+  /* split up the value in multiple key:value pairs if it contains comma(s) */
+  while (*value != '\0') {
+    gchar *next_value;
+    gchar *comma = NULL;
+    gboolean quoted = FALSE;
+    guint comment = 0;
+
+    /* trim leading space */
+    if (*value == ' ')
+      value++;
+
+    /* for headers which may not appear multiple times, and thus may not
+     * contain multiple values on the same line, we can short-circuit the loop
+     * below and the entire value results in just one key:value pair*/
+    if (!gst_rtsp_header_allow_multiple (field))
+      next_value = value + strlen (value);
+    else
+      next_value = value;
+
+    /* find the next value, taking special care of quotes and comments */
+    while (*next_value != '\0') {
+      if ((quoted || comment != 0) && *next_value == '\\' &&
+          next_value[1] != '\0')
+        next_value++;
+      else if (comment == 0 && *next_value == '"')
+        quoted = !quoted;
+      else if (!quoted && *next_value == '(')
+        comment++;
+      else if (comment != 0 && *next_value == ')')
+        comment--;
+      else if (!quoted && comment == 0) {
+        /* To quote RFC 2068: "User agents MUST take special care in parsing
+         * the WWW-Authenticate field value if it contains more than one
+         * challenge, or if more than one WWW-Authenticate header field is
+         * provided, since the contents of a challenge may itself contain a
+         * comma-separated list of authentication parameters."
+         *
+         * What this means is that we cannot just look for an unquoted comma
+         * when looking for multiple values in Proxy-Authenticate and
+         * WWW-Authenticate headers. Instead we need to look for the sequence
+         * "comma [space] token space token" before we can split after the
+         * comma...
+         */
+        if (field == GST_RTSP_HDR_PROXY_AUTHENTICATE ||
+            field == GST_RTSP_HDR_WWW_AUTHENTICATE) {
+          if (*next_value == ',') {
+            if (next_value[1] == ' ') {
+              /* skip any space following the comma so we do not mistake it for
+               * separating between two tokens */
+              next_value++;
+            }
+            comma = next_value;
+          } else if (*next_value == ' ' && next_value[1] != ',' &&
+              next_value[1] != '=' && comma != NULL) {
+            next_value = comma;
+            comma = NULL;
+            break;
+          }
+        } else if (*next_value == ',')
+          break;
+      }
+
+      next_value++;
     }
-  } else {
-    field = gst_rtsp_find_header_field (key);
-    if (field != GST_RTSP_HDR_INVALID)
+
+    /* trim space */
+    if (value != next_value && next_value[-1] == ' ')
+      next_value[-1] = '\0';
+
+    if (*next_value != '\0')
+      *next_value++ = '\0';
+
+    /* add the key:value pair */
+    if (*value != '\0')
       gst_rtsp_message_add_header (msg, field, value);
+
+    value = next_value;
   }
 
+done:
   return GST_RTSP_OK;
 
   /* ERRORS */
 parse_error:
   {
-    return res;
+    return GST_RTSP_EPARSE;
+  }
+}
+
+/* convert all consecutive whitespace to a single space */
+static void
+normalize_line (guint8 * buffer)
+{
+  while (*buffer) {
+    if (g_ascii_isspace (*buffer)) {
+      guint8 *tmp;
+
+      *buffer++ = ' ';
+      for (tmp = buffer; g_ascii_isspace (*tmp); tmp++) {
+      }
+      if (buffer != tmp)
+        memmove (buffer, tmp, strlen ((gchar *) tmp) + 1);
+    } else {
+      buffer++;
+    }
   }
 }
 
@@ -1607,8 +1831,7 @@ build_next (GstRTSPBuilder * builder, GstRTSPMessage * message,
       case STATE_START:
         builder->offset = 0;
         res =
-            read_bytes (conn->readfd->fd, (guint8 *) builder->buffer,
-            &builder->offset, 1, conn->ctxp);
+            read_bytes (conn, (guint8 *) builder->buffer, &builder->offset, 1);
         if (res != GST_RTSP_OK)
           goto done;
 
@@ -1625,8 +1848,7 @@ build_next (GstRTSPBuilder * builder, GstRTSPMessage * message,
       case STATE_DATA_HEADER:
       {
         res =
-            read_bytes (conn->readfd->fd, (guint8 *) builder->buffer,
-            &builder->offset, 4, conn->ctxp);
+            read_bytes (conn, (guint8 *) builder->buffer, &builder->offset, 4);
         if (res != GST_RTSP_OK)
           goto done;
 
@@ -1642,8 +1864,8 @@ build_next (GstRTSPBuilder * builder, GstRTSPMessage * message,
       case STATE_DATA_BODY:
       {
         res =
-            read_bytes (conn->readfd->fd, builder->body_data, &builder->offset,
-            builder->body_len, conn->ctxp);
+            read_bytes (conn, builder->body_data, &builder->offset,
+            builder->body_len);
         if (res != GST_RTSP_OK)
           goto done;
 
@@ -1659,23 +1881,24 @@ build_next (GstRTSPBuilder * builder, GstRTSPMessage * message,
       }
       case STATE_READ_LINES:
       {
-        res = read_line (conn->readfd->fd, builder->buffer, &builder->offset,
-            sizeof (builder->buffer), conn->ctxp);
+        res = read_line (conn, builder->buffer, &builder->offset,
+            sizeof (builder->buffer));
         if (res != GST_RTSP_OK)
           goto done;
 
         /* we have a regular response */
-        if (builder->buffer[0] == '\r') {
-          builder->buffer[0] = '\0';
-        }
-
         if (builder->buffer[0] == '\0') {
           gchar *hdrval;
 
           /* empty line, end of message header */
-          /* see if there is a Content-Length header */
+          /* see if there is a Content-Length header, but ignore it if this
+           * is a POST request with an x-sessioncookie header */
           if (gst_rtsp_message_get_header (message,
-                  GST_RTSP_HDR_CONTENT_LENGTH, &hdrval, 0) == GST_RTSP_OK) {
+                  GST_RTSP_HDR_CONTENT_LENGTH, &hdrval, 0) == GST_RTSP_OK &&
+              (message->type != GST_RTSP_MESSAGE_HTTP_REQUEST ||
+                  message->type_data.request.method != GST_RTSP_POST ||
+                  gst_rtsp_message_get_header (message,
+                      GST_RTSP_HDR_X_SESSIONCOOKIE, NULL, 0) != GST_RTSP_OK)) {
             /* there is, prepare to read the body */
             builder->body_len = atol (hdrval);
             builder->body_data = g_malloc (builder->body_len + 1);
@@ -1689,19 +1912,20 @@ build_next (GstRTSPBuilder * builder, GstRTSPMessage * message,
         }
 
         /* we have a line */
+        normalize_line (builder->buffer);
         if (builder->line == 0) {
           /* first line, check for response status */
-          if (memcmp (builder->buffer, "RTSP", 4) == 0) {
-            res = parse_response_status (builder->buffer, message);
+          if (memcmp (builder->buffer, "RTSP", 4) == 0 ||
+              memcmp (builder->buffer, "HTTP", 4) == 0) {
+            builder->status = parse_response_status (builder->buffer, message);
           } else {
-            res = parse_request_line (conn, builder->buffer, message);
+            builder->status = parse_request_line (builder->buffer, message);
           }
-          /* the first line must parse without errors */
-          if (res != GST_RTSP_OK)
-            goto done;
         } else {
-          /* else just parse the line, ignore errors */
-          parse_line (conn, builder->buffer, message);
+          /* else just parse the line */
+          res = parse_line (builder->buffer, message);
+          if (res != GST_RTSP_OK)
+            builder->status = res;
         }
         builder->line++;
         builder->offset = 0;
@@ -1709,20 +1933,24 @@ build_next (GstRTSPBuilder * builder, GstRTSPMessage * message,
       }
       case STATE_END:
       {
+        gchar *session_cookie;
         gchar *session_id;
-
-        if (conn->tstate == TUNNEL_STATE_GET) {
-          res = GST_RTSP_ETGET;
-          goto done;
-        } else if (conn->tstate == TUNNEL_STATE_POST) {
-          res = GST_RTSP_ETPOST;
-          goto done;
-        }
 
         if (message->type == GST_RTSP_MESSAGE_DATA) {
           /* data messages don't have headers */
           res = GST_RTSP_OK;
           goto done;
+        }
+
+        /* save the tunnel session in the connection */
+        if (message->type == GST_RTSP_MESSAGE_HTTP_REQUEST &&
+            !conn->manual_http &&
+            conn->tstate == TUNNEL_STATE_NONE &&
+            gst_rtsp_message_get_header (message, GST_RTSP_HDR_X_SESSIONCOOKIE,
+                &session_cookie, 0) == GST_RTSP_OK) {
+          strncpy (conn->tunnelid, session_cookie, TUNNELID_LEN);
+          conn->tunnelid[TUNNELID_LEN - 1] = '\0';
+          conn->tunneled = TRUE;
         }
 
         /* save session id in the connection for further use */
@@ -1756,7 +1984,7 @@ build_next (GstRTSPBuilder * builder, GstRTSPMessage * message,
           strncpy (conn->session_id, session_id, maxlen);
           conn->session_id[maxlen] = '\0';
         }
-        res = GST_RTSP_OK;
+        res = builder->status;
         goto done;
       }
       default:
@@ -1809,7 +2037,7 @@ gst_rtsp_connection_read (GstRTSPConnection * conn, guint8 * data, guint size,
   gst_poll_fd_ctl_read (conn->fdset, conn->readfd, TRUE);
 
   while (TRUE) {
-    res = read_bytes (conn->readfd->fd, data, &offset, size, conn->ctxp);
+    res = read_bytes (conn, data, &offset, size);
     if (G_UNLIKELY (res == GST_RTSP_EEOF))
       goto eof;
     if (G_LIKELY (res == GST_RTSP_OK))
@@ -1858,38 +2086,40 @@ read_error:
   }
 }
 
-static GString *
-gen_tunnel_reply (GstRTSPConnection * conn, GstRTSPStatusCode code)
+static GstRTSPMessage *
+gen_tunnel_reply (GstRTSPConnection * conn, GstRTSPStatusCode code,
+    const GstRTSPMessage * request)
 {
-  GString *str;
-  gchar date_string[100];
-  const gchar *status;
+  GstRTSPMessage *msg;
+  GstRTSPResult res;
 
-  gen_date_string (date_string, sizeof (date_string));
-
-  status = gst_rtsp_status_as_text (code);
-  if (status == NULL) {
+  if (gst_rtsp_status_as_text (code) == NULL)
     code = GST_RTSP_STS_INTERNAL_SERVER_ERROR;
-    status = "Internal Server Error";
-  }
 
-  str = g_string_new ("");
+  GST_RTSP_CHECK (gst_rtsp_message_new_response (&msg, code, NULL, request),
+      no_message);
 
-  /* */
-  g_string_append_printf (str, "HTTP/1.0 %d %s\r\n", code, status);
-  g_string_append_printf (str,
-      "Server: GStreamer RTSP Server\r\n"
-      "Date: %s\r\n"
-      "Connection: close\r\n"
-      "Cache-Control: no-store\r\n" "Pragma: no-cache\r\n", date_string);
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_SERVER,
+      "GStreamer RTSP Server");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_CONNECTION, "close");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_CACHE_CONTROL, "no-store");
+  gst_rtsp_message_add_header (msg, GST_RTSP_HDR_PRAGMA, "no-cache");
+
   if (code == GST_RTSP_STS_OK) {
     if (conn->ip)
-      g_string_append_printf (str, "x-server-ip-address: %s\r\n", conn->ip);
-    g_string_append_printf (str,
-        "Content-Type: application/x-rtsp-tunnelled\r\n");
+      gst_rtsp_message_add_header (msg, GST_RTSP_HDR_X_SERVER_IP_ADDRESS,
+          conn->ip);
+    gst_rtsp_message_add_header (msg, GST_RTSP_HDR_CONTENT_TYPE,
+        "application/x-rtsp-tunnelled");
   }
-  g_string_append_printf (str, "\r\n");
-  return str;
+
+  return msg;
+
+  /* ERRORS */
+no_message:
+  {
+    return NULL;
+  }
 }
 
 /**
@@ -1931,20 +2161,40 @@ gst_rtsp_connection_receive (GstRTSPConnection * conn, GstRTSPMessage * message,
     res = build_next (&builder, message, conn);
     if (G_UNLIKELY (res == GST_RTSP_EEOF))
       goto eof;
-    if (G_LIKELY (res == GST_RTSP_OK))
-      break;
-    if (res == GST_RTSP_ETGET) {
-      GString *str;
+    else if (G_LIKELY (res == GST_RTSP_OK)) {
+      if (!conn->manual_http) {
+        if (message->type == GST_RTSP_MESSAGE_HTTP_REQUEST) {
+          if (conn->tstate == TUNNEL_STATE_NONE &&
+              message->type_data.request.method == GST_RTSP_GET) {
+            GstRTSPMessage *response;
 
-      /* tunnel GET request, we can reply now */
-      str = gen_tunnel_reply (conn, GST_RTSP_STS_OK);
-      res =
-          gst_rtsp_connection_write (conn, (guint8 *) str->str, str->len,
-          timeout);
-      g_string_free (str, TRUE);
-    } else if (res == GST_RTSP_ETPOST) {
-      /* tunnel POST request, return the value, the caller now has to link the
-       * two connections. */
+            conn->tstate = TUNNEL_STATE_GET;
+
+            /* tunnel GET request, we can reply now */
+            response = gen_tunnel_reply (conn, GST_RTSP_STS_OK, message);
+            res = gst_rtsp_connection_send (conn, response, timeout);
+            gst_rtsp_message_free (response);
+            if (res == GST_RTSP_OK)
+              res = GST_RTSP_ETGET;
+            goto cleanup;
+          } else if (conn->tstate == TUNNEL_STATE_NONE &&
+              message->type_data.request.method == GST_RTSP_POST) {
+            conn->tstate = TUNNEL_STATE_POST;
+
+            /* tunnel POST request, the caller now has to link the two
+             * connections. */
+            res = GST_RTSP_ETPOST;
+            goto cleanup;
+          } else {
+            res = GST_RTSP_EPARSE;
+            goto cleanup;
+          }
+        } else if (message->type == GST_RTSP_MESSAGE_HTTP_RESPONSE) {
+          res = GST_RTSP_EPARSE;
+          goto cleanup;
+        }
+      }
+
       break;
     } else if (G_UNLIKELY (res != GST_RTSP_EINTR))
       goto read_error;
@@ -2017,6 +2267,12 @@ gst_rtsp_connection_close (GstRTSPConnection * conn)
 
   g_free (conn->ip);
   conn->ip = NULL;
+
+  conn->read_ahead = 0;
+
+  g_free (conn->initial_buffer);
+  conn->initial_buffer = NULL;
+  conn->initial_buffer_offset = 0;
 
   REMOVE_POLLFD (conn->fdset, &conn->fd0);
   REMOVE_POLLFD (conn->fdset, &conn->fd1);
@@ -2552,6 +2808,24 @@ gst_rtsp_connection_get_writefd (const GstRTSPConnection * conn)
   return conn->writefd->fd;
 }
 
+/**
+ * gst_rtsp_connection_set_http_mode:
+ * @conn: a #GstRTSPConnection
+ * @enable: %TRUE to enable manual HTTP mode
+ *
+ * By setting the HTTP mode to %TRUE the message parsing will support HTTP
+ * messages in addition to the RTSP messages. It will also disable the
+ * automatic handling of setting up an HTTP tunnel.
+ *
+ * Since: 0.10.25
+ */
+void
+gst_rtsp_connection_set_http_mode (GstRTSPConnection * conn, gboolean enable)
+{
+  g_return_if_fail (conn != NULL);
+
+  conn->manual_http = enable;
+}
 
 /**
  * gst_rtsp_connection_set_tunneled:
@@ -2615,7 +2889,7 @@ gst_rtsp_connection_get_tunnelid (const GstRTSPConnection * conn)
 /**
  * gst_rtsp_connection_do_tunnel:
  * @conn: a #GstRTSPConnection
- * @conn2: a #GstRTSPConnection
+ * @conn2: a #GstRTSPConnection or %NULL
  *
  * If @conn received the first tunnel connection and @conn2 received
  * the second tunnel connection, link the two connections together so that
@@ -2623,6 +2897,9 @@ gst_rtsp_connection_get_tunnelid (const GstRTSPConnection * conn)
  *
  * After this call, @conn2 cannot be used anymore and must be freed with
  * gst_rtsp_connection_free().
+ *
+ * If @conn2 is %NULL then only the base64 decoding context will be setup for
+ * @conn.
  *
  * Returns: return GST_RTSP_OK on success.
  *
@@ -2633,26 +2910,28 @@ gst_rtsp_connection_do_tunnel (GstRTSPConnection * conn,
     GstRTSPConnection * conn2)
 {
   g_return_val_if_fail (conn != NULL, GST_RTSP_EINVAL);
-  g_return_val_if_fail (conn2 != NULL, GST_RTSP_EINVAL);
-  g_return_val_if_fail (conn->tstate == TUNNEL_STATE_GET, GST_RTSP_EINVAL);
-  g_return_val_if_fail (conn2->tstate == TUNNEL_STATE_POST, GST_RTSP_EINVAL);
-  g_return_val_if_fail (!memcmp (conn2->tunnelid, conn->tunnelid, TUNNELID_LEN),
-      GST_RTSP_EINVAL);
 
-  /* both connections have fd0 as the read/write socket. start by taking the
-   * socket from conn2 and set it as the socket in conn */
-  conn->fd1 = conn2->fd0;
+  if (conn2 != NULL) {
+    g_return_val_if_fail (conn->tstate == TUNNEL_STATE_GET, GST_RTSP_EINVAL);
+    g_return_val_if_fail (conn2->tstate == TUNNEL_STATE_POST, GST_RTSP_EINVAL);
+    g_return_val_if_fail (!memcmp (conn2->tunnelid, conn->tunnelid,
+            TUNNELID_LEN), GST_RTSP_EINVAL);
 
-  /* clean up some of the state of conn2 */
-  gst_poll_remove_fd (conn2->fdset, &conn2->fd0);
-  conn2->fd0.fd = -1;
-  conn2->readfd = conn2->writefd = NULL;
+    /* both connections have fd0 as the read/write socket. start by taking the
+     * socket from conn2 and set it as the socket in conn */
+    conn->fd1 = conn2->fd0;
 
-  /* We make fd0 the write socket and fd1 the read socket. */
-  conn->writefd = &conn->fd0;
-  conn->readfd = &conn->fd1;
+    /* clean up some of the state of conn2 */
+    gst_poll_remove_fd (conn2->fdset, &conn2->fd0);
+    conn2->fd0.fd = -1;
+    conn2->readfd = conn2->writefd = NULL;
 
-  conn->tstate = TUNNEL_STATE_COMPLETE;
+    /* We make fd0 the write socket and fd1 the read socket. */
+    conn->writefd = &conn->fd0;
+    conn->readfd = &conn->fd1;
+
+    conn->tstate = TUNNEL_STATE_COMPLETE;
+  }
 
   /* we need base64 decoding for the readfd */
   conn->ctx.state = 0;
@@ -2690,7 +2969,8 @@ struct _GstRTSPWatch
 
   /* queued message for transmission */
   guint id;
-  GAsyncQueue *messages;
+  GMutex *mutex;
+  GQueue *messages;
   guint8 *write_data;
   guint write_off;
   guint write_size;
@@ -2706,6 +2986,9 @@ static gboolean
 gst_rtsp_source_prepare (GSource * source, gint * timeout)
 {
   GstRTSPWatch *watch = (GstRTSPWatch *) source;
+
+  if (watch->conn->initial_buffer != NULL)
+    return TRUE;
 
   *timeout = (watch->conn->timeout * 1000);
 
@@ -2734,54 +3017,91 @@ gst_rtsp_source_dispatch (GSource * source, GSourceFunc callback G_GNUC_UNUSED,
   GstRTSPResult res;
 
   /* first read as much as we can */
-  if (watch->readfd.revents & READ_COND) {
+  if (watch->readfd.revents & READ_COND || watch->conn->initial_buffer != NULL) {
     do {
       res = build_next (&watch->builder, &watch->message, watch->conn);
       if (res == GST_RTSP_EINTR)
         break;
-      if (G_UNLIKELY (res == GST_RTSP_EEOF))
+      else if (G_UNLIKELY (res == GST_RTSP_EEOF))
         goto eof;
-      if (res == GST_RTSP_ETGET) {
-        GString *str;
-        GstRTSPStatusCode code;
-        guint size;
+      else if (G_LIKELY (res == GST_RTSP_OK)) {
+        if (!watch->conn->manual_http &&
+            watch->message.type == GST_RTSP_MESSAGE_HTTP_REQUEST) {
+          if (watch->conn->tstate == TUNNEL_STATE_NONE &&
+              watch->message.type_data.request.method == GST_RTSP_GET) {
+            GstRTSPMessage *response;
+            GstRTSPStatusCode code;
 
-        if (watch->funcs.tunnel_start)
-          code = watch->funcs.tunnel_start (watch, watch->user_data);
-        else
-          code = GST_RTSP_STS_OK;
+            watch->conn->tstate = TUNNEL_STATE_GET;
 
-        /* queue the response string */
-        str = gen_tunnel_reply (watch->conn, code);
-        size = str->len;
-        gst_rtsp_watch_queue_data (watch, (guint8 *) g_string_free (str, FALSE),
-            size);
-      } else if (res == GST_RTSP_ETPOST) {
-        /* in the callback the connection should be tunneled with the
-         * GET connection */
-        if (watch->funcs.tunnel_complete)
-          watch->funcs.tunnel_complete (watch, watch->user_data);
-      } else if (G_UNLIKELY (res != GST_RTSP_OK))
-        goto error;
+            if (watch->funcs.tunnel_start)
+              code = watch->funcs.tunnel_start (watch, watch->user_data);
+            else
+              code = GST_RTSP_STS_OK;
+
+            /* queue the response */
+            response = gen_tunnel_reply (watch->conn, code, &watch->message);
+            gst_rtsp_watch_send_message (watch, response, NULL);
+            gst_rtsp_message_free (response);
+            goto read_done;
+          } else if (watch->conn->tstate == TUNNEL_STATE_NONE &&
+              watch->message.type_data.request.method == GST_RTSP_POST) {
+            watch->conn->tstate = TUNNEL_STATE_POST;
+
+            /* in the callback the connection should be tunneled with the
+             * GET connection */
+            if (watch->funcs.tunnel_complete)
+              watch->funcs.tunnel_complete (watch, watch->user_data);
+            goto read_done;
+          }
+        }
+      }
+
+      if (!watch->conn->manual_http) {
+        /* if manual HTTP support is not enabled, then restore the message to
+         * what it would have looked like without the support for parsing HTTP
+         * messages being present */
+        if (watch->message.type == GST_RTSP_MESSAGE_HTTP_REQUEST) {
+          watch->message.type = GST_RTSP_MESSAGE_REQUEST;
+          watch->message.type_data.request.method = GST_RTSP_INVALID;
+          if (watch->message.type_data.request.version != GST_RTSP_VERSION_1_0)
+            watch->message.type_data.request.version = GST_RTSP_VERSION_INVALID;
+          res = GST_RTSP_EPARSE;
+        } else if (watch->message.type == GST_RTSP_MESSAGE_HTTP_RESPONSE) {
+          watch->message.type = GST_RTSP_MESSAGE_RESPONSE;
+          if (watch->message.type_data.response.version != GST_RTSP_VERSION_1_0)
+            watch->message.type_data.response.version =
+                GST_RTSP_VERSION_INVALID;
+          res = GST_RTSP_EPARSE;
+        }
+      }
 
       if (G_LIKELY (res == GST_RTSP_OK)) {
         if (watch->funcs.message_received)
           watch->funcs.message_received (watch, &watch->message,
               watch->user_data);
-
-        gst_rtsp_message_unset (&watch->message);
+      } else {
+        if (watch->funcs.error_full)
+          GST_RTSP_CHECK (watch->funcs.error_full (watch, res, &watch->message,
+                  0, watch->user_data), error);
+        else
+          goto error;
       }
+
+    read_done:
+      gst_rtsp_message_unset (&watch->message);
       build_reset (&watch->builder);
     } while (FALSE);
   }
 
   if (watch->writefd.revents & WRITE_COND) {
+    g_mutex_lock (watch->mutex);
     do {
       if (watch->write_data == NULL) {
         GstRTSPRec *rec;
 
         /* get a new message from the queue */
-        rec = g_async_queue_try_pop (watch->messages);
+        rec = g_queue_pop_tail (watch->messages);
         if (rec == NULL)
           goto done;
 
@@ -2795,25 +3115,36 @@ gst_rtsp_source_dispatch (GSource * source, GSourceFunc callback G_GNUC_UNUSED,
 
       res = write_bytes (watch->writefd.fd, watch->write_data,
           &watch->write_off, watch->write_size);
+      g_mutex_unlock (watch->mutex);
       if (res == GST_RTSP_EINTR)
-        break;
-      if (G_UNLIKELY (res != GST_RTSP_OK))
-        goto error;
-
-      if (watch->funcs.message_sent)
-        watch->funcs.message_sent (watch, watch->write_id, watch->user_data);
-
-    done:
-      if (g_async_queue_length (watch->messages) == 0 && watch->write_added) {
-        g_source_remove_poll ((GSource *) watch, &watch->writefd);
-        watch->write_added = FALSE;
-        watch->writefd.revents = 0;
+        goto write_blocked;
+      else if (G_LIKELY (res == GST_RTSP_OK)) {
+        if (watch->funcs.message_sent)
+          watch->funcs.message_sent (watch, watch->write_id, watch->user_data);
+      } else {
+        if (watch->funcs.error_full)
+          GST_RTSP_CHECK (watch->funcs.error_full (watch, res, NULL,
+                  watch->write_id, watch->user_data), error);
+        else
+          goto error;
       }
+      g_mutex_lock (watch->mutex);
+
       g_free (watch->write_data);
       watch->write_data = NULL;
-    } while (FALSE);
+    } while (TRUE);
+
+  done:
+    if (watch->write_added) {
+      g_source_remove_poll ((GSource *) watch, &watch->writefd);
+      watch->write_added = FALSE;
+      watch->writefd.revents = 0;
+    }
+
+    g_mutex_unlock (watch->mutex);
   }
 
+write_blocked:
   return TRUE;
 
   /* ERRORS */
@@ -2848,8 +3179,11 @@ gst_rtsp_source_finalize (GSource * source)
   build_reset (&watch->builder);
   gst_rtsp_message_unset (&watch->message);
 
-  g_async_queue_unref (watch->messages);
+  g_queue_foreach (watch->messages, (GFunc) gst_rtsp_rec_free, NULL);
+  g_queue_free (watch->messages);
   watch->messages = NULL;
+
+  g_mutex_free (watch->mutex);
 
   g_free (watch->write_data);
 
@@ -2903,7 +3237,8 @@ gst_rtsp_watch_new (GstRTSPConnection * conn,
   result->conn = conn;
   result->builder.state = STATE_START;
 
-  result->messages = g_async_queue_new_full (gst_rtsp_rec_free);
+  result->mutex = g_mutex_new ();
+  result->messages = g_queue_new ();
 
   result->readfd.fd = -1;
   result->writefd.fd = -1;
@@ -2987,6 +3322,119 @@ gst_rtsp_watch_unref (GstRTSPWatch * watch)
 }
 
 /**
+ * gst_rtsp_watch_write_data:
+ * @watch: a #GstRTSPWatch
+ * @data: the data to queue
+ * @size: the size of @data
+ * @id: location for a message ID or %NULL
+ *
+ * Write @data using the connection of the @watch. If it cannot be sent
+ * immediately, it will be queued for transmission in @watch. The contents of
+ * @message will then be serialized and transmitted when the connection of the
+ * @watch becomes writable. In case the @message is queued, the ID returned in
+ * @id will be non-zero and used as the ID argument in the message_sent
+ * callback.
+ *
+ * This function will take ownership of @data and g_free() it after use.
+ *
+ * Returns: #GST_RTSP_OK on success.
+ *
+ * Since: 0.10.25
+ */
+GstRTSPResult
+gst_rtsp_watch_write_data (GstRTSPWatch * watch, const guint8 * data,
+    guint size, guint * id)
+{
+  GstRTSPResult res;
+  GstRTSPRec *rec;
+  guint off = 0;
+
+  g_return_val_if_fail (watch != NULL, GST_RTSP_EINVAL);
+  g_return_val_if_fail (data != NULL, GST_RTSP_EINVAL);
+  g_return_val_if_fail (size != 0, GST_RTSP_EINVAL);
+
+  g_mutex_lock (watch->mutex);
+
+  if (watch->messages->length == 0) {
+    res = write_bytes (watch->writefd.fd, data, &off, size);
+    if (res != GST_RTSP_EINTR) {
+      if (id != NULL)
+        *id = 0;
+      g_free ((gpointer) data);
+      goto done;
+    }
+  }
+
+  /* make a record with the data and id */
+  rec = g_slice_new (GstRTSPRec);
+  if (off == 0) {
+    rec->data = (guint8 *) data;
+    rec->size = size;
+  } else {
+    rec->data = g_memdup (data + off, size - off);
+    rec->size = size - off;
+    g_free ((gpointer) data);
+  }
+
+  do {
+    /* make sure rec->id is never 0 */
+    rec->id = ++watch->id;
+  } while (G_UNLIKELY (rec->id == 0));
+
+  /* add the record to a queue. FIXME we would like to have an upper limit here */
+  g_queue_push_head (watch->messages, rec);
+
+  /* make sure the main context will now also check for writability on the
+   * socket */
+  if (!watch->write_added) {
+    g_source_add_poll ((GSource *) watch, &watch->writefd);
+    watch->write_added = TRUE;
+  }
+
+  if (id != NULL)
+    *id = rec->id;
+  res = GST_RTSP_OK;
+
+done:
+  g_mutex_unlock (watch->mutex);
+  return res;
+}
+
+/**
+ * gst_rtsp_watch_send_message:
+ * @watch: a #GstRTSPWatch
+ * @message: a #GstRTSPMessage
+ * @id: location for a message ID or %NULL
+ *
+ * Send a @message using the connection of the @watch. If it cannot be sent
+ * immediately, it will be queued for transmission in @watch. The contents of
+ * @message will then be serialized and transmitted when the connection of the
+ * @watch becomes writable. In case the @message is queued, the ID returned in
+ * @id will be non-zero and used as the ID argument in the message_sent
+ * callback.
+ *
+ * Returns: #GST_RTSP_OK on success.
+ *
+ * Since: 0.10.25
+ */
+GstRTSPResult
+gst_rtsp_watch_send_message (GstRTSPWatch * watch, GstRTSPMessage * message,
+    guint * id)
+{
+  GString *str;
+  guint size;
+
+  g_return_val_if_fail (watch != NULL, GST_RTSP_EINVAL);
+  g_return_val_if_fail (message != NULL, GST_RTSP_EINVAL);
+
+  /* make a record with the message as a string and id */
+  str = message_to_string (watch->conn, message);
+  size = str->len;
+  return gst_rtsp_watch_write_data (watch,
+      (guint8 *) g_string_free (str, FALSE), size, id);
+}
+
+/**
  * gst_rtsp_watch_queue_data:
  * @watch: a #GstRTSPWatch
  * @data: the data to queue
@@ -3000,10 +3448,13 @@ gst_rtsp_watch_unref (GstRTSPWatch * watch)
  * The return value of this function will be used as the id argument in the
  * message_sent callback.
  *
+ * Deprecated: Use gst_rtsp_watch_write_data()
+ *
  * Returns: an id.
  *
  * Since: 0.10.24
  */
+#ifndef GST_REMOVE_DEPRECATED
 guint
 gst_rtsp_watch_queue_data (GstRTSPWatch * watch, const guint8 * data,
     guint size)
@@ -3013,6 +3464,8 @@ gst_rtsp_watch_queue_data (GstRTSPWatch * watch, const guint8 * data,
   g_return_val_if_fail (watch != NULL, GST_RTSP_EINVAL);
   g_return_val_if_fail (data != NULL, GST_RTSP_EINVAL);
   g_return_val_if_fail (size != 0, GST_RTSP_EINVAL);
+
+  g_mutex_lock (watch->mutex);
 
   /* make a record with the data and id */
   rec = g_slice_new (GstRTSPRec);
@@ -3024,10 +3477,8 @@ gst_rtsp_watch_queue_data (GstRTSPWatch * watch, const guint8 * data,
   } while (G_UNLIKELY (rec->id == 0));
 
   /* add the record to a queue. FIXME we would like to have an upper limit here */
-  g_async_queue_push (watch->messages, rec);
+  g_queue_push_head (watch->messages, rec);
 
-  /* FIXME: does the following need to be made thread-safe? (this might be
-   * called from a streaming thread, like appsink's render function) */
   /* make sure the main context will now also check for writability on the
    * socket */
   if (!watch->write_added) {
@@ -3035,8 +3486,10 @@ gst_rtsp_watch_queue_data (GstRTSPWatch * watch, const guint8 * data,
     watch->write_added = TRUE;
   }
 
+  g_mutex_unlock (watch->mutex);
   return rec->id;
 }
+#endif /* GST_REMOVE_DEPRECATED */
 
 /**
  * gst_rtsp_watch_queue_message:
@@ -3050,10 +3503,13 @@ gst_rtsp_watch_queue_data (GstRTSPWatch * watch, const guint8 * data,
  * The return value of this function will be used as the id argument in the
  * message_sent callback.
  *
+ * Deprecated: Use gst_rtsp_watch_send_message()
+ *
  * Returns: an id.
  *
  * Since: 0.10.23
  */
+#ifndef GST_REMOVE_DEPRECATED
 guint
 gst_rtsp_watch_queue_message (GstRTSPWatch * watch, GstRTSPMessage * message)
 {
@@ -3069,3 +3525,4 @@ gst_rtsp_watch_queue_message (GstRTSPWatch * watch, GstRTSPMessage * message)
   return gst_rtsp_watch_queue_data (watch,
       (guint8 *) g_string_free (str, FALSE), size);
 }
+#endif /* GST_REMOVE_DEPRECATED */

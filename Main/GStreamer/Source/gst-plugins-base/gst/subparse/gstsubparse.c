@@ -27,7 +27,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <glib.h>
-#include <regex.h>
 
 #include "gstsubparse.h"
 #include "gstssaparse.h"
@@ -58,7 +57,7 @@ GST_ELEMENT_DETAILS ("Subtitle parser",
     "Codec/Parser/Subtitle",
     "Parses subtitle (.sub) files into text streams",
     "Gustavo J. A. M. Carneiro <gjc@inescporto.pt>\n"
-    "Ronald S. Bultje <rbultje@ronald.bitfreak.net>");
+    "GStreamer maintainers <gstreamer-devel@lists.sourceforge.net>");
 
 #ifndef GST_DISABLE_XML
 static GstStaticPadTemplate sink_templ = GST_STATIC_PAD_TEMPLATE ("sink",
@@ -86,6 +85,7 @@ static void gst_sub_parse_class_init (GstSubParseClass * klass);
 static void gst_sub_parse_init (GstSubParse * subparse);
 
 static gboolean gst_sub_parse_src_event (GstPad * pad, GstEvent * event);
+static gboolean gst_sub_parse_src_query (GstPad * pad, GstQuery * query);
 static gboolean gst_sub_parse_sink_event (GstPad * pad, GstEvent * event);
 
 static GstStateChangeReturn gst_sub_parse_change_state (GstElement * element,
@@ -150,7 +150,7 @@ gst_sub_parse_dispose (GObject * object)
   }
 
   if (subparse->adapter) {
-    gst_object_unref (subparse->adapter);
+    g_object_unref (subparse->adapter);
     subparse->adapter = NULL;
   }
 
@@ -201,6 +201,8 @@ gst_sub_parse_init (GstSubParse * subparse)
   subparse->srcpad = gst_pad_new_from_static_template (&src_templ, "src");
   gst_pad_set_event_function (subparse->srcpad,
       GST_DEBUG_FUNCPTR (gst_sub_parse_src_event));
+  gst_pad_set_query_function (subparse->srcpad,
+      GST_DEBUG_FUNCPTR (gst_sub_parse_src_query));
   gst_element_add_pad (GST_ELEMENT (subparse), subparse->srcpad);
 
   subparse->textbuf = g_string_new (NULL);
@@ -216,6 +218,58 @@ gst_sub_parse_init (GstSubParse * subparse)
 /*
  * Source pad functions.
  */
+
+static gboolean
+gst_sub_parse_src_query (GstPad * pad, GstQuery * query)
+{
+  GstSubParse *self = GST_SUBPARSE (gst_pad_get_parent (pad));
+  gboolean ret = FALSE;
+
+  GST_DEBUG ("Handling %s query", GST_QUERY_TYPE_NAME (query));
+
+  switch (GST_QUERY_TYPE (query)) {
+    case GST_QUERY_POSITION:{
+      GstFormat fmt;
+
+      gst_query_parse_position (query, &fmt, NULL);
+      if (fmt != GST_FORMAT_TIME) {
+        ret = gst_pad_peer_query (self->sinkpad, query);
+      } else {
+        ret = TRUE;
+        gst_query_set_position (query, GST_FORMAT_TIME,
+            self->segment.last_stop);
+      }
+    }
+    case GST_QUERY_SEEKING:
+    {
+      GstFormat fmt;
+      gboolean seekable = FALSE;
+
+      ret = TRUE;
+
+      gst_query_parse_seeking (query, &fmt, NULL, NULL, NULL);
+      if (fmt == GST_FORMAT_TIME) {
+        GstQuery *peerquery = gst_query_new_seeking (GST_FORMAT_BYTES);
+
+        seekable = gst_pad_peer_query (self->sinkpad, peerquery);
+        if (seekable)
+          gst_query_parse_seeking (peerquery, NULL, &seekable, NULL, NULL);
+        gst_query_unref (peerquery);
+      }
+
+      gst_query_set_seeking (query, fmt, seekable, seekable ? 0 : -1, -1);
+
+      break;
+    }
+    default:
+      ret = gst_pad_peer_query (self->sinkpad, query);
+      break;
+  }
+
+  gst_object_unref (self);
+
+  return ret;
+}
 
 static gboolean
 gst_sub_parse_src_event (GstPad * pad, GstEvent * event)
@@ -776,11 +830,13 @@ parse_subrip_time (const gchar * ts_string, GstClockTime * t)
    * hh:mm:ss, 5  =  50ms
    * hh:mm:ss, 50 =  50ms
    * hh:mm:ss,5   = 500ms
-   * and sscanf() doesn't differentiate between '  5' and '5' so munge
+   * and the same with . instead of ,.
+   * sscanf() doesn't differentiate between '  5' and '5' so munge
    * the white spaces within the timestamp to '0' (I'm sure there's a
    * way to make sscanf() do this for us, but how?)
    */
   g_strdelimit (s, " ", '0');
+  g_strdelimit (s, ".", ',');
 
   /* make sure we have exactly three digits after he comma */
   p = strchr (s, ',');
@@ -1070,8 +1126,8 @@ gst_sub_parse_data_format_autodetect_regex_once (GstSubParseRegex regtype)
       break;
     case GST_SUB_PARSE_REGEX_SUBRIP:
       result = (gpointer) g_regex_new ("^([ 0-9]){0,3}[0-9]\\s*(\x0d)?\x0a"
-          "[ 0-9][0-9]:[ 0-9][0-9]:[ 0-9][0-9],[ 0-9]{0,2}[0-9]"
-          " +--> +([ 0-9])?[0-9]:[ 0-9][0-9]:[ 0-9][0-9],[ 0-9]{0,2}[0-9]",
+          "[ 0-9][0-9]:[ 0-9][0-9]:[ 0-9][0-9][,.][ 0-9]{0,2}[0-9]"
+          " +--> +([ 0-9])?[0-9]:[ 0-9][0-9]:[ 0-9][0-9][,.][ 0-9]{0,2}[0-9]",
           0, 0, &gerr);
       if (result == NULL) {
         g_warning ("Compilation of subrip regex failed: %s", gerr->message);

@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, git and prerelease does Werror too
-AC_INIT(GStreamer, 0.10.24,
+AC_INIT(GStreamer, 0.10.25,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gstreamer)
 AG_GST_INIT
@@ -43,7 +43,7 @@ dnl - interfaces added/removed/changed -> increment CURRENT, REVISION = 0
 dnl - interfaces added -> increment AGE
 dnl - interfaces removed -> AGE = 0
 dnl sets GST_LT_LDFLAGS
-AS_LIBTOOL(GST, 21, 0, 21)
+AS_LIBTOOL(GST, 22, 0, 22)
 
 dnl FIXME: this macro doesn't actually work;
 dnl the generated libtool script has no support for the listed tags.
@@ -58,8 +58,8 @@ dnl *** autotools stuff ****
 dnl allow for different autotools
 AS_AUTOTOOLS_ALTERNATE
 
-dnl Add parameters for aclocal
-AC_SUBST(ACLOCAL_AMFLAGS, "-I common/m4")
+dnl Add parameters for aclocal (keep in sync with Makefile.am)
+AC_SUBST(ACLOCAL_AMFLAGS, "-I common/m4 -I .")
 
 dnl set up gettext
 dnl the version check needs to stay here because autopoint greps for it
@@ -204,6 +204,7 @@ case $host_os in
      darwin*)
 	AC_DEFINE_UNQUOTED(GST_EXTRA_MODULE_SUFFIX, [".dylib"], [Extra platform specific plugin suffix])
         AC_DEFINE_UNQUOTED(GST_HAVE_UNSAFE_FORK, 1, [Defined when registry scanning through fork is unsafe])
+        AC_DEFINE_UNQUOTED(HAVE_OSX, 1, [Defined if compiling for OSX])
 	;;
      cygwin*)
 	AC_DEFINE_UNQUOTED(GST_HAVE_UNSAFE_FORK, 1, [Defined when registry scanning through fork is unsafe])
@@ -267,6 +268,9 @@ fi
 AC_PATH_PROG(VALGRIND_PATH, valgrind, no)
 AM_CONDITIONAL(HAVE_VALGRIND, test ! "x$VALGRIND_PATH" = "xno")
 
+dnl check for gobject-introspection
+GOBJECT_INTROSPECTION_CHECK([0.6.3])
+
 dnl check for documentation tools
 AG_GST_DOCBOOK_CHECK
 GTK_DOC_CHECK([1.3])
@@ -322,11 +326,41 @@ if test "x$HAVE_WINSOCK2_H" = "xyes"; then
   AC_SUBST(WIN32_LIBS)
 fi
 
+dnl check for GMP/GSL, used by the gst_util_uint64_scale unit test only
+AG_GST_CHECK_LIBHEADER(GMP, gmp,
+                        __gmpz_init_set_d, ,
+                        gmp.h,
+                        GMP_LIBS="-lgmp"
+                        AC_SUBST(GMP_LIBS)
+			AC_DEFINE(HAVE_GMP, [1],[Have GMP library]))
+AG_GST_CHECK_LIBHEADER(GSL, gsl,
+                        gsl_rng_uniform_int, -lgslcblas,
+                        gsl/gsl_rng.h,
+                        GSL_LIBS="-lgsl -lgslcblas"
+                        AC_SUBST(GSL_LIBS)
+			AC_DEFINE(HAVE_GSL, [1],[Have GSL library]))
+
 dnl *** checks for types/defines ***
 
 dnl *** checks for structures ***
 
 dnl *** checks for compiler characteristics ***
+
+dnl check if the compiler supports __uint128_t (gcc)
+AC_CACHE_CHECK(for __uint128_t, gst_cv_uint128_t,
+    AC_TRY_COMPILE([ ], [
+      __uint128_t u = 0;
+
+      return 0;
+    ], [
+      gst_cv_uint128_t=yes
+    ], [
+      gst_cv_uint128_t=no
+    ])
+)
+if test x$gst_cv_uint128_t = xyes; then
+  AC_DEFINE(HAVE_UINT128_T, 1, [Have __uint128_t type])
+fi
 
 OPT_CFLAGS=
 dnl Check for some compiler flags that optimize our code.
@@ -491,8 +525,8 @@ dnl Check for documentation xrefs
 GLIB_PREFIX="`$PKG_CONFIG --variable=prefix glib-2.0`"
 AC_SUBST(GLIB_PREFIX)
 
-dnl libxml 2 is optional in some cases
-if test "x$GST_DISABLE_LOADSAVE" = "xyes" -a "x$GST_DISABLE_REGISTRY" = "xyes"
+dnl libxml2 is only needed for xml loading/saving of pipelines these days
+if test "x$GST_DISABLE_LOADSAVE" = "xyes"
 then
   AC_MSG_NOTICE([XML registry and load/save are disabled, not checking for libxml2])
   GST_DISABLE_XML_DEFINE="#define GST_DISABLE_XML 1"
@@ -503,22 +537,26 @@ else
 fi
 AC_SUBST(GST_DISABLE_XML_DEFINE)
 
-dnl check for "check", unit testing library/header
-if test "$cross_compiling" != yes; then
-  AM_PATH_CHECK(0.9.2,
-      HAVE_CHECK=yes,
-      HAVE_CHECK=no)
-else
-  HAVE_CHECK=no
-fi
-AM_CONDITIONAL(HAVE_CHECK, test "x$HAVE_CHECK" = "xyes")
+dnl building of unit test libraries
+AC_ARG_ENABLE(check,
+  AC_HELP_STRING([--disable-check], [disable building unit test libraries]),
+  [
+    case "${enableval}" in
+      yes) BUILD_CHECK=yes ;;
+      no)  BUILD_CHECK=no ;;
+      *)   AC_MSG_ERROR(bad value ${enableval} for --disable-check) ;;
+    esac
+  ], [
+    dnl Default value
+    case $host_os in
+      mingw* | msvc* | mks*) BUILD_CHECK=no ;;
+      *) BUILD_CHECK=yes ;;
+    esac
+])
+dnl bit of a misnomer, but keep the conditional named like this so we don't
+dnl have to change too much elsewhere
+AM_CONDITIONAL(HAVE_CHECK, test "x$BUILD_CHECK" = "xyes")
 
-dnl pkg-config check that for libcheck that works for cross-compiling
-dnl but not normal compilation on Fedora & Ubuntu:
-dnl PKG_CHECK_MODULES(CHECK, check >= 0.9.2,
-dnl   AM_CONDITIONAL(HAVE_CHECK, true),
-dnl   AM_CONDITIONAL(HAVE_CHECK, false)
-dnl )
 
 dnl *** set variables based on configure arguments
 
@@ -587,7 +625,7 @@ dnl - src and build dirs need to be added because every piece that gets built
 dnl   will need the GStreamer source and generated headers
 dnl LIBS: XML doesn't need to be added because we don't explicitly use symbols
 dnl       from LibXML except for in the core library
-GST_ALL_CFLAGS="-I\$(top_srcdir)/libs -I\$(top_srcdir) -I\$(top_builddir) $GLIB_CFLAGS $XML_CFLAGS \$(GST_OPTION_CFLAGS)"
+GST_ALL_CFLAGS="-I\$(top_srcdir)/libs -I\$(top_srcdir) -I\$(top_builddir)/libs -I\$(top_builddir) $GLIB_CFLAGS $XML_CFLAGS \$(GST_OPTION_CFLAGS)"
 
 dnl FIXME: check if LTLIBINTL is needed everywhere
 dnl I presume it is given that it contains the symbols that _() stuff maps to
@@ -606,13 +644,6 @@ dnl linker flags shared by all libraries
 dnl LDFLAGS modifier defining exported symbols from built libraries
 GST_LIB_LDFLAGS="-export-symbols-regex \^[_]*\(gst_\|Gst\|GST_\).*"
 AC_SUBST(GST_LIB_LDFLAGS)
-dnl Version of the linker flags specifically for libgstcheck to support the boonky extra symbols it exports.
-GST_CHECK_LIB_LDFLAGS="-export-symbols-regex \^\([_]*\(gst_\|Gst\|GST_\).*\|check_\(debug\|mutex\|cond\)\|buffers\|mutex\|start_cond\|sync_cond\|thread_list\)$"
-dnl HACK: add non-portable --export-dynamic if we have GNU ld (needed on my debian stable, tpm)
-if test "x$ac_cv_prog_gnu_ld" = "xyes" -o "x$acl_cv_prog_gnu_ld" = "xyes" ; then
-  GST_CHECK_LIB_LDFLAGS="-Wl,--export-dynamic $GST_CHECK_LIB_LDFLAGS"
-fi
-AC_SUBST(GST_CHECK_LIB_LDFLAGS)
 
 dnl GST_OBJ_*
 dnl default vars for all internal objects built on libgstreamer
@@ -629,6 +660,11 @@ AC_SUBST(GST_PLUGIN_LDFLAGS, "$GST_PLUGIN_LDFLAGS")
 
 SHAVE_INIT([common],[enable])
 
+dnl things for our internal libcheck
+if test "x$BUILD_CHECK" = "xyes"; then
+  AG_GST_CHECK_CHECKS()
+fi
+
 AC_CONFIG_FILES(
 Makefile
 common/shave
@@ -641,6 +677,8 @@ libs/Makefile
 libs/gst/Makefile
 libs/gst/base/Makefile
 libs/gst/check/Makefile
+libs/gst/check/libcheck/Makefile
+libs/gst/check/libcheck/check.h
 libs/gst/controller/Makefile
 libs/gst/dataprotocol/Makefile
 libs/gst/net/Makefile
@@ -767,6 +805,7 @@ Configuration
 	Plugin registry            : ${enable_registry}
 	Plugin support	           : ${enable_plugin}
 	Network support            : ${enable_net}
+	Unit testing support       : ${BUILD_CHECK}
 
 	Debug                      : ${USE_DEBUG}
 	Profiling                  : ${USE_PROFILING}

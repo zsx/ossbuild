@@ -56,7 +56,7 @@
 <a name="gst-plugins-base-libs-appsrc.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
-#include &lt;gst/app/appsrc.h&gt;
+#include &lt;gst/app/gstappsrc.h&gt;
 
                     <a class="link" href="gst-plugins-base-libs-appsrc.html#GstAppSrc" title="GstAppSrc">GstAppSrc</a>;
 enum                <a class="link" href="gst-plugins-base-libs-appsrc.html#GstAppStreamType" title="enum GstAppStreamType">GstAppStreamType</a>;
@@ -133,14 +133,15 @@ GStreamer pipeline. Unlike most GStreamer elements, Appsrc provides
 external API functions.
 </p>
 <p>
-appsrc can be used by linking to the gstappsrc.h header file to access the
-methods or by using the appsrc action signals. For the API
-documentation, see the documentation for libgstapp in the
-GStreamer Base Plugins Library reference...
+appsrc can be used by linking with the libgstapp library to access the
+methods directly or by using the appsrc action signals.
 </p>
 <p>
 Before operating appsrc, the caps property must be set to a fixed caps
-describing the format of the data that will be pushed with appsrc.
+describing the format of the data that will be pushed with appsrc. An
+exception to this is when pushing buffers with unknown caps, in which case no
+caps should be set. This is typically true of file-like sources that push raw
+byte buffers.
 </p>
 <p>
 The main way of handing data to the appsrc element is by calling the

@@ -136,6 +136,12 @@
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
 
+/* Have GMP library */
+#undef HAVE_GMP
+
+/* Have GSL library */
+#undef HAVE_GSL
+
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
 
@@ -162,6 +168,9 @@
 
 /* Have a monotonic clock */
 #undef HAVE_MONOTONIC_CLOCK
+
+/* Defined if compiling for OSX */
+#undef HAVE_OSX
 
 /* Define to 1 if you have the `poll' function. */
 #undef HAVE_POLL
@@ -232,6 +241,9 @@
 /* Define to 1 if you have the <ucontext.h> header file. */
 #undef HAVE_UCONTEXT_H
 
+/* Have __uint128_t type */
+#undef HAVE_UINT128_T
+
 /* defined if unaligned memory access works correctly */
 #undef HAVE_UNALIGNED_ACCESS
 
@@ -289,6 +301,21 @@
 
 /* directory where plugins are located */
 #undef PLUGINDIR
+
+/* The size of `char', as computed by sizeof. */
+#undef SIZEOF_CHAR
+
+/* The size of `int', as computed by sizeof. */
+#undef SIZEOF_INT
+
+/* The size of `long', as computed by sizeof. */
+#undef SIZEOF_LONG
+
+/* The size of `short', as computed by sizeof. */
+#undef SIZEOF_SHORT
+
+/* The size of `void*', as computed by sizeof. */
+#undef SIZEOF_VOIDP
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS

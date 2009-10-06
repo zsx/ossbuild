@@ -565,7 +565,7 @@ avpicture_get_size (int pix_fmt, int width, int height)
   AVPicture dummy_pict;
 
   return gst_ffmpegcsp_avpicture_fill (&dummy_pict, NULL, pix_fmt, width,
-      height);
+      height, FALSE);
 }
 
 /**
@@ -827,8 +827,6 @@ yuv422_to_yuv420p (AVPicture * dst, const AVPicture * src,
       lum[0] = p[0];
       cb[0] = p[1];
       cr[0] = p[3];
-      cb++;
-      cr++;
     }
     p1 += src->linesize[0];
     lum1 += dst->linesize[0];
@@ -910,8 +908,6 @@ uyvy422_to_yuv420p (AVPicture * dst, const AVPicture * src,
       lum[0] = p[1];
       cb[0] = p[0];
       cr[0] = p[2];
-      cb++;
-      cr++;
     }
     p1 += src->linesize[0];
     lum1 += dst->linesize[0];
@@ -1028,8 +1024,6 @@ yvyu422_to_yuv420p (AVPicture * dst, const AVPicture * src,
       lum[0] = p[0];
       cb[0] = p[3];
       cr[0] = p[1];
-      cb++;
-      cr++;
     }
     p1 += src->linesize[0];
     lum1 += dst->linesize[0];
@@ -1873,6 +1867,10 @@ grow41_line (uint8_t * dst, const uint8_t * src, int width)
     s1++;
     d += 4;
   }
+  for (; w >= 0; w--) {
+    d[0] = s1[0];
+    d++;
+  }
 }
 
 /* 1x1 -> 2x1 */
@@ -2683,6 +2681,18 @@ static ConvertEntry convert_table[] = {
   {PIX_FMT_UYVY422, PIX_FMT_YUV420P, uyvy422_to_yuv420p},
   {PIX_FMT_UYVY422, PIX_FMT_YUV422P, uyvy422_to_yuv422p},
   {PIX_FMT_UYVY422, PIX_FMT_GRAY8, uyvy422_to_gray},
+  {PIX_FMT_UYVY422, PIX_FMT_RGB555, uyvy422_to_rgb555},
+  {PIX_FMT_UYVY422, PIX_FMT_RGB565, uyvy422_to_rgb565},
+  {PIX_FMT_UYVY422, PIX_FMT_BGR24, uyvy422_to_bgr24},
+  {PIX_FMT_UYVY422, PIX_FMT_RGB24, uyvy422_to_rgb24},
+  {PIX_FMT_UYVY422, PIX_FMT_RGB32, uyvy422_to_rgb32},
+  {PIX_FMT_UYVY422, PIX_FMT_BGR32, uyvy422_to_bgr32},
+  {PIX_FMT_UYVY422, PIX_FMT_xRGB32, uyvy422_to_xrgb32},
+  {PIX_FMT_UYVY422, PIX_FMT_BGRx32, uyvy422_to_bgrx32},
+  {PIX_FMT_UYVY422, PIX_FMT_RGBA32, uyvy422_to_rgba32},
+  {PIX_FMT_UYVY422, PIX_FMT_BGRA32, uyvy422_to_bgra32},
+  {PIX_FMT_UYVY422, PIX_FMT_ARGB32, uyvy422_to_argb32},
+  {PIX_FMT_UYVY422, PIX_FMT_ABGR32, uyvy422_to_abgr32},
 
   {PIX_FMT_YVYU422, PIX_FMT_YUV420P, yvyu422_to_yuv420p},
   {PIX_FMT_YVYU422, PIX_FMT_YUV422P, yvyu422_to_yuv422p},
@@ -2908,7 +2918,8 @@ get_convert_table_entry (int src_pix_fmt, int dst_pix_fmt)
 }
 
 static int
-avpicture_alloc (AVPicture * picture, int pix_fmt, int width, int height)
+avpicture_alloc (AVPicture * picture, int pix_fmt, int width, int height,
+    int interlaced)
 {
   unsigned int size;
   void *ptr;
@@ -2917,7 +2928,8 @@ avpicture_alloc (AVPicture * picture, int pix_fmt, int width, int height)
   ptr = av_malloc (size);
   if (!ptr)
     goto fail;
-  gst_ffmpegcsp_avpicture_fill (picture, ptr, pix_fmt, width, height);
+  gst_ffmpegcsp_avpicture_fill (picture, ptr, pix_fmt, width, height,
+      interlaced);
   return 0;
 fail:
   memset (picture, 0, sizeof (AVPicture));
@@ -3021,21 +3033,9 @@ img_convert (AVPicture * dst, int dst_pix_fmt,
 
   /* YUV to YUV planar */
   if (is_yuv_planar (dst_pix) && is_yuv_planar (src_pix)) {
-    int x_shift, y_shift, w, h, xy_shift;
+    int x_shift, y_shift, xy_shift;
     void (*resize_func) (uint8_t * dst, int dst_wrap,
         const uint8_t * src, int src_wrap, int width, int height);
-
-    /* compute chroma size of the smallest dimensions */
-    w = dst_width;
-    h = dst_height;
-    if (dst_pix->x_chroma_shift >= src_pix->x_chroma_shift)
-      w >>= dst_pix->x_chroma_shift;
-    else
-      w >>= src_pix->x_chroma_shift;
-    if (dst_pix->y_chroma_shift >= src_pix->y_chroma_shift)
-      h >>= dst_pix->y_chroma_shift;
-    else
-      h >>= src_pix->y_chroma_shift;
 
     x_shift = (dst_pix->x_chroma_shift - src_pix->x_chroma_shift);
     y_shift = (dst_pix->y_chroma_shift - src_pix->y_chroma_shift);
@@ -3159,7 +3159,8 @@ no_chroma_filter:
     else
       int_pix_fmt = PIX_FMT_RGB24;
   }
-  if (avpicture_alloc (tmp, int_pix_fmt, dst_width, dst_height) < 0)
+  if (avpicture_alloc (tmp, int_pix_fmt, dst_width, dst_height,
+          dst->interlaced) < 0)
     return -1;
   ret = -1;
   if (img_convert (tmp, int_pix_fmt,

@@ -2147,12 +2147,12 @@ Reads a single chunk.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>chunk_data</code></em> :</span></p></td>
 <td> buffer (returned by the function) containing the
-             chunk data.
+             chunk data, which may be NULL if chunksize == 0
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the fourcc tag of this chunk, or FALSE on error
+<td> FALSE on error, TRUE otherwise
 </td>
 </tr>
 </tbody>

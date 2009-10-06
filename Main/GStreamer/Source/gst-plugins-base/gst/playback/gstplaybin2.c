@@ -80,7 +80,7 @@
  * When playback has finished (an EOS message has been received on the bus)
  * or an error has occured (an ERROR message has been received on the bus) or
  * the user wants to play a different track, playbin should be set back to
- * READY or NULL state, then the #GstPlayBin2:uri property should be set to the 
+ * READY or NULL state, then the #GstPlayBin2:uri property should be set to the
  * new location and then playbin be set to PLAYING state again.
  *
  * Seeking can be done using gst_element_seek_simple() or gst_element_seek()
@@ -225,6 +225,7 @@
 
 #include <gst/gst-i18n-plugin.h>
 #include <gst/pbutils/pbutils.h>
+#include <gst/interfaces/streamvolume.h>
 
 #include "gstplay-enum.h"
 #include "gstplay-marshal.h"
@@ -421,7 +422,7 @@ struct _GstPlayBinClass
 #define DEFAULT_SUBURI            NULL
 #define DEFAULT_SOURCE            NULL
 #define DEFAULT_FLAGS             GST_PLAY_FLAG_AUDIO | GST_PLAY_FLAG_VIDEO | GST_PLAY_FLAG_TEXT | \
-	                          GST_PLAY_FLAG_SOFT_VOLUME
+                                  GST_PLAY_FLAG_SOFT_VOLUME
 #define DEFAULT_N_VIDEO           0
 #define DEFAULT_CURRENT_VIDEO     -1
 #define DEFAULT_N_AUDIO           0
@@ -581,9 +582,15 @@ gst_play_bin_get_type (void)
       (GInstanceInitFunc) gst_play_bin_init,
       NULL
     };
+    static const GInterfaceInfo svol_info = {
+      NULL, NULL, NULL
+    };
 
     gst_play_bin_type = g_type_register_static (GST_TYPE_PIPELINE,
         "GstPlayBin2", &gst_play_bin_info, 0);
+
+    g_type_add_interface_static (gst_play_bin_type, GST_TYPE_STREAM_VOLUME,
+        &svol_info);
   }
 
   return gst_play_bin_type;
@@ -644,7 +651,7 @@ gst_play_bin_class_init (GstPlayBinClass * klass)
   /**
    * GstPlayBin2:n-video
    *
-   * Get the total number of available video streams. 
+   * Get the total number of available video streams.
    */
   g_object_class_install_property (gobject_klass, PROP_N_VIDEO,
       g_param_spec_int ("n-video", "Number Video",
@@ -663,7 +670,7 @@ gst_play_bin_class_init (GstPlayBinClass * klass)
   /**
    * GstPlayBin2:n-audio
    *
-   * Get the total number of available audio streams. 
+   * Get the total number of available audio streams.
    */
   g_object_class_install_property (gobject_klass, PROP_N_AUDIO,
       g_param_spec_int ("n-audio", "Number Audio",
@@ -682,7 +689,7 @@ gst_play_bin_class_init (GstPlayBinClass * klass)
   /**
    * GstPlayBin2:n-text
    *
-   * Get the total number of available subtitle streams. 
+   * Get the total number of available subtitle streams.
    */
   g_object_class_install_property (gobject_klass, PROP_N_TEXT,
       g_param_spec_int ("n-text", "Number Text",
@@ -728,6 +735,13 @@ gst_play_bin_class_init (GstPlayBinClass * klass)
           "the subpicture output element to use (NULL = default dvdspu)",
           GST_TYPE_ELEMENT, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
+  /**
+   * GstPlayBin2:volume:
+   *
+   * Get or set the current audio stream volume. 1.0 means 100%,
+   * 0.0 means mute. This uses a linear volume scale.
+   *
+   */
   g_object_class_install_property (gobject_klass, PROP_VOLUME,
       g_param_spec_double ("volume", "Volume", "The audio volume, 1.0=100%",
           0.0, VOLUME_MAX_DOUBLE, 1.0,
@@ -931,7 +945,7 @@ gst_play_bin_class_init (GstPlayBinClass * klass)
    * If @caps is %NULL, no conversion will be performed and this function is
    * equivalent to the #GstPlayBin::frame property.
    *
-   * Returns: a #GstBuffer of the current video frame converted to #caps. 
+   * Returns: a #GstBuffer of the current video frame converted to #caps.
    * The caps on the buffer will describe the final layout of the buffer data.
    * %NULL is returned when no current buffer can be retrieved or when the
    * conversion failed.
@@ -947,7 +961,7 @@ gst_play_bin_class_init (GstPlayBinClass * klass)
    * @playbin: a #GstPlayBin2
    * @stream: a video stream number
    *
-   * Action signal to retrieve the stream-selector sinkpad for a specific 
+   * Action signal to retrieve the stream-selector sinkpad for a specific
    * video stream.
    * This pad can be used for notifications of caps changes, stream-specific
    * queries, etc.
@@ -964,7 +978,7 @@ gst_play_bin_class_init (GstPlayBinClass * klass)
    * @playbin: a #GstPlayBin2
    * @stream: an audio stream number
    *
-   * Action signal to retrieve the stream-selector sinkpad for a specific 
+   * Action signal to retrieve the stream-selector sinkpad for a specific
    * audio stream.
    * This pad can be used for notifications of caps changes, stream-specific
    * queries, etc.
@@ -981,7 +995,7 @@ gst_play_bin_class_init (GstPlayBinClass * klass)
    * @playbin: a #GstPlayBin2
    * @stream: a text stream number
    *
-   * Action signal to retrieve the stream-selector sinkpad for a specific 
+   * Action signal to retrieve the stream-selector sinkpad for a specific
    * text stream.
    * This pad can be used for notifications of caps changes, stream-specific
    * queries, etc.
@@ -1618,8 +1632,12 @@ gst_play_bin_get_current_sink (GstPlayBin * playbin, GstElement ** elem,
       GST_PTR_FORMAT ", the originally set %s sink is %" GST_PTR_FORMAT,
       dbg, sink, dbg, *elem);
 
-  if (sink == NULL)
-    sink = *elem;
+  if (sink == NULL) {
+    GST_PLAY_BIN_LOCK (playbin);
+    if ((sink = *elem))
+      gst_object_ref (sink);
+    GST_PLAY_BIN_UNLOCK (playbin);
+  }
 
   return sink;
 }
@@ -1720,26 +1738,26 @@ gst_play_bin_get_property (GObject * object, guint prop_id, GValue * value,
       GST_PLAY_BIN_UNLOCK (playbin);
       break;
     case PROP_VIDEO_SINK:
-      g_value_set_object (value,
+      g_value_take_object (value,
           gst_play_bin_get_current_sink (playbin, &playbin->video_sink,
               "video", GST_PLAY_SINK_TYPE_VIDEO));
       break;
     case PROP_AUDIO_SINK:
-      g_value_set_object (value,
+      g_value_take_object (value,
           gst_play_bin_get_current_sink (playbin, &playbin->audio_sink,
               "audio", GST_PLAY_SINK_TYPE_AUDIO));
       break;
     case PROP_VIS_PLUGIN:
-      g_value_set_object (value,
+      g_value_take_object (value,
           gst_play_sink_get_vis_plugin (playbin->playsink));
       break;
     case PROP_TEXT_SINK:
-      g_value_set_object (value,
+      g_value_take_object (value,
           gst_play_bin_get_current_sink (playbin, &playbin->text_sink,
               "text", GST_PLAY_SINK_TYPE_TEXT));
       break;
     case PROP_SUBPIC_SINK:
-      g_value_set_object (value,
+      g_value_take_object (value,
           gst_play_bin_get_current_sink (playbin, &playbin->subpic_sink,
               "subpicture", GST_PLAY_SINK_TYPE_SUBPIC));
       break;

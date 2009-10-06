@@ -75,6 +75,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst-x11.m4 \
 	$(top_srcdir)/common/m4/gst.m4 \
 	$(top_srcdir)/common/m4/gtk-doc.m4 \
+	$(top_srcdir)/common/m4/introspection.m4 \
 	$(top_srcdir)/common/m4/pkg.m4 \
 	$(top_srcdir)/common/m4/shave.m4 $(top_srcdir)/m4/freetype2.m4 \
 	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/gst-alsa.m4 \
@@ -220,6 +221,11 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
@@ -265,6 +271,8 @@ PACKAGE_VERSION_MICRO = @PACKAGE_VERSION_MICRO@
 PACKAGE_VERSION_MINOR = @PACKAGE_VERSION_MINOR@
 PACKAGE_VERSION_NANO = @PACKAGE_VERSION_NANO@
 PACKAGE_VERSION_RELEASE = @PACKAGE_VERSION_RELEASE@
+PANGOCAIRO_1_15_4_CFLAGS = @PANGOCAIRO_1_15_4_CFLAGS@
+PANGOCAIRO_1_15_4_LIBS = @PANGOCAIRO_1_15_4_LIBS@
 PANGO_CFLAGS = @PANGO_CFLAGS@
 PANGO_LIBS = @PANGO_LIBS@
 PATH_SEPARATOR = @PATH_SEPARATOR@
@@ -787,7 +795,21 @@ upload: $(FORMATS)
 	    echo "make upload can only be used if srcdir == builddir"; \
 	    exit 1; \
 	  fi; \
-	  gtkdoc-rebase --online --html-dir=$(builddir)/html ; \
+	  # gtkdoc-rebase sometimes gets confused, so reset everything to \
+	  # local links before rebasing to online links                   \
+	  gtkdoc-rebase --html-dir=$(builddir)/html 2>/dev/null 2>/dev/null ; \
+	  rebase=`gtkdoc-rebase --verbose --online --html-dir=$(builddir)/html` ; \
+	  echo "$$rebase" | grep -e "On-*line"; \
+	  for req in glib gobject gstreamer gstreamer-libs gst-plugins-base-libs; do \
+	    if ! ( echo "$$rebase" | grep -i -e "On-*line.*/$$req/" ); then \
+	      echo "===============================================================================" ; \
+	      echo " Could not determine online location for $$req docs. Cross-referencing will be " ; \
+	      echo " broken, so not uploading. Make sure the library's gtk-doc documentation is    " ; \
+	      echo " installed somewhere in /usr/share/gtk-doc.                                    " ; \
+	      echo "===============================================================================" ; \
+	      exit 1; \
+	    fi; \
+	  done; \
 	  export SRC="$$SRC html"; \
 	fi; \
 	if echo $(FORMATS) | grep ps > /dev/null; then export SRC="$$SRC $(DOC).ps"; fi; \

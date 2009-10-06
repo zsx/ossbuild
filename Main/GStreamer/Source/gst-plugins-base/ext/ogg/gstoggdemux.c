@@ -127,6 +127,7 @@ static GstClockTime gst_annodex_granule_to_time (gint64 granulepos,
 
 static GstFlowReturn gst_ogg_demux_combine_flows (GstOggDemux * ogg,
     GstOggPad * pad, GstFlowReturn ret);
+static void gst_ogg_demux_sync_streams (GstOggDemux * ogg);
 
 G_DEFINE_TYPE (GstOggPad, gst_ogg_pad, GST_TYPE_PAD);
 
@@ -160,6 +161,8 @@ gst_ogg_pad_init (GstOggPad * pad)
 
   pad->start_time = GST_CLOCK_TIME_NONE;
   pad->first_time = GST_CLOCK_TIME_NONE;
+
+  pad->last_stop = GST_CLOCK_TIME_NONE;
 
   pad->have_type = FALSE;
   pad->continued = NULL;
@@ -266,10 +269,8 @@ gst_ogg_pad_src_query (GstPad * pad, GstQuery * query)
 {
   gboolean res = TRUE;
   GstOggDemux *ogg;
-  GstOggPad *cur;
 
   ogg = GST_OGG_DEMUX (gst_pad_get_parent (pad));
-  cur = GST_OGG_PAD (pad);
 
   switch (GST_QUERY_TYPE (query)) {
     case GST_QUERY_DURATION:
@@ -368,10 +369,8 @@ gst_ogg_pad_event (GstPad * pad, GstEvent * event)
 {
   gboolean res;
   GstOggDemux *ogg;
-  GstOggPad *cur;
 
   ogg = GST_OGG_DEMUX (gst_pad_get_parent (pad));
-  cur = GST_OGG_PAD (pad);
 
   switch (GST_EVENT_TYPE (event)) {
     case GST_EVENT_SEEK:
@@ -419,6 +418,7 @@ gst_ogg_pad_reset (GstOggPad * pad)
   pad->continued = NULL;
 
   pad->last_ret = GST_FLOW_OK;
+  pad->last_stop = GST_CLOCK_TIME_NONE;
 }
 
 /* the filter function for selecting the elements we can use in
@@ -643,11 +643,9 @@ static GstFlowReturn
 gst_ogg_pad_internal_chain (GstPad * pad, GstBuffer * buffer)
 {
   GstOggPad *oggpad;
-  GstOggDemux *ogg;
   GstClockTime timestamp;
 
   oggpad = gst_pad_get_element_private (pad);
-  ogg = GST_OGG_DEMUX (oggpad->ogg);
 
   timestamp = GST_BUFFER_TIMESTAMP (buffer);
   GST_DEBUG_OBJECT (oggpad, "received buffer from internal pad, TS=%"
@@ -879,6 +877,8 @@ gst_ogg_demux_chain_peer (GstOggPad * pad, ogg_packet * packet)
     GST_BUFFER_FLAG_SET (buf, GST_BUFFER_FLAG_DISCONT);
     pad->discont = FALSE;
   }
+
+  pad->last_stop = ogg->segment.last_stop;
 
   ret = gst_pad_push (GST_PAD_CAST (pad), buf);
 
@@ -1818,6 +1818,16 @@ gst_ogg_demux_activate_chain (GstOggDemux * ogg, GstOggChain * chain,
       pad->discont = TRUE;
       pad->last_ret = GST_FLOW_OK;
 
+      pad->is_sparse =
+          gst_structure_has_name (gst_caps_get_structure (GST_PAD_CAPS (pad),
+              0), "application/x-ogm-text") ||
+          gst_structure_has_name (gst_caps_get_structure (GST_PAD_CAPS (pad),
+              0), "text/x-cmml") ||
+          gst_structure_has_name (gst_caps_get_structure (GST_PAD_CAPS (pad),
+              0), "subtitle/x-kate") ||
+          gst_structure_has_name (gst_caps_get_structure (GST_PAD_CAPS (pad),
+              0), "application/x-kate");
+
       /* activate first */
       gst_pad_set_active (GST_PAD_CAST (pad), TRUE);
 
@@ -2607,7 +2617,9 @@ gst_ogg_demux_read_end_chain (GstOggDemux * ogg, GstOggChain * chain)
             last_granule = granulepos;
             last_pad = pad;
           }
-          done = TRUE;
+          if (last_granule != -1) {
+            done = TRUE;
+          }
           break;
         }
       }
@@ -2924,7 +2936,7 @@ static GstFlowReturn
 gst_ogg_demux_chain (GstPad * pad, GstBuffer * buffer)
 {
   GstOggDemux *ogg;
-  gint ret;
+  gint ret = 0;
   GstFlowReturn result = GST_FLOW_OK;
 
   ogg = GST_OGG_DEMUX (GST_OBJECT_PARENT (pad));
@@ -2945,6 +2957,9 @@ gst_ogg_demux_chain (GstPad * pad, GstBuffer * buffer)
     } else {
       result = gst_ogg_demux_handle_page (ogg, &page);
     }
+  }
+  if (ret == 0 || result == GST_FLOW_OK) {
+    gst_ogg_demux_sync_streams (ogg);
   }
   return result;
 }
@@ -3096,6 +3111,41 @@ done:
   return ret;
 }
 
+static void
+gst_ogg_demux_sync_streams (GstOggDemux * ogg)
+{
+  GstClockTime cur;
+  GstOggChain *chain;
+  guint i;
+
+  chain = ogg->current_chain;
+  cur = ogg->segment.last_stop;
+  if (chain == NULL || cur == -1)
+    return;
+
+  for (i = 0; i < chain->streams->len; i++) {
+    GstOggPad *stream = g_array_index (chain->streams, GstOggPad *, i);
+
+    /* Theoretically, we should be doing this for all streams, but we're only
+     * doing it for known-to-be-sparse streams at the moment in order not to
+     * break things for wrongly-muxed streams (like we used to produce once) */
+    if (stream->is_sparse && stream->last_stop != GST_CLOCK_TIME_NONE) {
+
+      /* Does this stream lag? Random threshold of 2 seconds */
+      if (GST_CLOCK_DIFF (stream->last_stop, cur) > (2 * GST_SECOND)) {
+        GST_DEBUG_OBJECT (stream, "synchronizing stream with others by "
+            "advancing time from %" GST_TIME_FORMAT " to %" GST_TIME_FORMAT,
+            GST_TIME_ARGS (stream->last_stop), GST_TIME_ARGS (cur));
+        stream->last_stop = cur;
+        /* advance stream time (FIXME: is this right, esp. time_pos?) */
+        gst_pad_push_event (GST_PAD_CAST (stream),
+            gst_event_new_new_segment (TRUE, ogg->segment.rate,
+                GST_FORMAT_TIME, stream->last_stop, -1, stream->last_stop));
+      }
+    }
+  }
+}
+
 /* random access code
  *
  * - first find all the chains and streams by scanning the file.
@@ -3146,6 +3196,7 @@ gst_ogg_demux_loop (GstOggPad * pad)
   if (ret != GST_FLOW_OK)
     goto pause;
 
+  gst_ogg_demux_sync_streams (ogg);
   return;
 
   /* ERRORS */

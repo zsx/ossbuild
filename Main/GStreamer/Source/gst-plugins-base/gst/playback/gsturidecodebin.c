@@ -20,7 +20,8 @@
 /**
  * SECTION:element-uridecodebin
  *
- * Decodes data from a URI into raw media.
+ * Decodes data from a URI into raw media. It selects a source element that can
+ * handle the given #GstURIDecodeBin:uri scheme and connects it to a decodebin2.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -31,6 +32,8 @@
 
 #include <gst/gst.h>
 #include <gst/gst-i18n-plugin.h>
+
+#include <gst/pbutils/missing-plugins.h>
 
 #include "gstfactorylists.h"
 #include "gstplay-marshal.h"
@@ -141,8 +144,8 @@ enum
 };
 
 /* properties */
-#define DEFAULT_PROP_URI	    NULL
-#define DEFAULT_PROP_SOURCE	    NULL
+#define DEFAULT_PROP_URI            NULL
+#define DEFAULT_PROP_SOURCE         NULL
 #define DEFAULT_CONNECTION_SPEED    0
 #define DEFAULT_CAPS                NULL
 #define DEFAULT_SUBTITLE_ENCODING   NULL
@@ -302,12 +305,12 @@ gst_uri_decode_bin_class_init (GstURIDecodeBinClass * klass)
 
   g_object_class_install_property (gobject_class, PROP_BUFFER_SIZE,
       g_param_spec_int ("buffer-size", "Buffer size (bytes)",
-          "Buffer size when buffering network streams",
+          "Buffer size when buffering network streams (-1 queue2 default value)",
           -1, G_MAXINT, DEFAULT_BUFFER_SIZE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_BUFFER_DURATION,
       g_param_spec_int64 ("buffer-duration", "Buffer duration (ns)",
-          "Buffer duration when buffering network streams",
+          "Buffer duration when buffering network streams (-1 queue2 default value)",
           -1, G_MAXINT64, DEFAULT_BUFFER_DURATION,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
@@ -619,10 +622,14 @@ static void
 unknown_type_cb (GstElement * element, GstPad * pad, GstCaps * caps,
     GstURIDecodeBin * decoder)
 {
+  GstMessage *msg;
   gchar *capsstr;
 
+  msg = gst_missing_decoder_message_new (GST_ELEMENT_CAST (decoder), caps);
+  gst_element_post_message (GST_ELEMENT_CAST (decoder), msg);
+
   capsstr = gst_caps_to_string (caps);
-  GST_ELEMENT_WARNING (decoder, STREAM, WRONG_TYPE,
+  GST_ELEMENT_WARNING (decoder, CORE, MISSING_PLUGIN,
       (_("No decoder available for type \'%s\'."), capsstr), (NULL));
   g_free (capsstr);
 }
@@ -782,7 +789,8 @@ array_has_uri_value (const gchar * values[], const gchar * value)
 /* list of URIs that we consider to be streams and that need buffering.
  * We have no mechanism yet to figure this out with a query. */
 static const gchar *stream_uris[] = { "http://", "mms://", "mmsh://",
-  "mmsu://", "mmst://", "fd://", NULL
+  "mmsu://", "mmst://", "fd://", "myth://", "ssh://", "ftp://", "sftp://",
+  NULL
 };
 
 /* list of URIs that need a queue because they are pretty bursty */

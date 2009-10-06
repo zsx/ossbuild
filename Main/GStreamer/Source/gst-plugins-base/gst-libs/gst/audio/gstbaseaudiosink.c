@@ -2,7 +2,7 @@
  * Copyright (C) 1999,2000 Erik Walthinsen <omega@cse.ogi.edu>
  *                    2005 Wim Taymans <wim@fluendo.com>
  *
- * gstbaseaudiosink.c: 
+ * gstbaseaudiosink.c:
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -56,6 +56,8 @@ struct _GstBaseAudioSinkPrivate
   gboolean sync_latency;
 
   GstClockTime eos_time;
+
+  gboolean do_time_offset;
 };
 
 /* BaseAudioSink signals and args */
@@ -67,7 +69,7 @@ enum
 
 /* we tollerate half a second diff before we start resyncing. This
  * should be enough to compensate for various rounding errors in the timestamp
- * and sample offset position. 
+ * and sample offset position.
  * This is an emergency resync fallback since buffers marked as DISCONT will
  * always lock to the correct timestamp immediatly and buffers not marked as
  * DISCONT are contiguous by definition.
@@ -231,12 +233,15 @@ gst_base_audio_sink_class_init (GstBaseAudioSinkClass * klass)
    * thread-safety in GObject */
   g_type_class_ref (GST_TYPE_AUDIO_CLOCK);
   g_type_class_ref (GST_TYPE_RING_BUFFER);
+
 }
 
 static void
 gst_base_audio_sink_init (GstBaseAudioSink * baseaudiosink,
     GstBaseAudioSinkClass * g_class)
 {
+  GstPluginFeature *feature;
+
   baseaudiosink->priv = GST_BASE_AUDIO_SINK_GET_PRIVATE (baseaudiosink);
 
   baseaudiosink->buffer_time = DEFAULT_BUFFER_TIME;
@@ -253,6 +258,24 @@ gst_base_audio_sink_init (GstBaseAudioSink * baseaudiosink,
   /* install some custom pad_query functions */
   gst_pad_set_query_function (GST_BASE_SINK_PAD (baseaudiosink),
       GST_DEBUG_FUNCPTR (gst_base_audio_sink_query_pad));
+
+  baseaudiosink->priv->do_time_offset = TRUE;
+
+  /* check the factory, pulsesink < 0.10.17 does the timestamp offset itself so
+   * we should not do ourselves */
+  feature =
+      GST_PLUGIN_FEATURE_CAST (GST_ELEMENT_CLASS (g_class)->elementfactory);
+  GST_DEBUG ("created from factory %p", feature);
+
+  /* HACK for old pulsesink that did the time_offset themselves */
+  if (feature) {
+    if (strcmp (gst_plugin_feature_get_name (feature), "pulsesink") == 0) {
+      if (!gst_plugin_feature_check_version (feature, 0, 10, 17)) {
+        /* we're dealing with an old pulsesink, we need to disable time corection */
+        baseaudiosink->priv->do_time_offset = FALSE;
+      }
+    }
+  }
 }
 
 static void
@@ -474,7 +497,7 @@ gst_base_audio_sink_get_time (GstClock * clock, GstBaseAudioSink * sink)
  * @sink: a #GstBaseAudioSink
  * @provide: new state
  *
- * Controls whether @sink will provide a clock or not. If @provide is %TRUE, 
+ * Controls whether @sink will provide a clock or not. If @provide is %TRUE,
  * gst_element_provide_clock() will return a clock that reflects the datarate
  * of @sink. If @provide is %FALSE, gst_element_provide_clock() will return NULL.
  *
@@ -521,7 +544,7 @@ gst_base_audio_sink_get_provide_clock (GstBaseAudioSink * sink)
  * @sink: a #GstBaseAudioSink
  * @method: the new slave method
  *
- * Controls how clock slaving will be performed in @sink. 
+ * Controls how clock slaving will be performed in @sink.
  *
  * Since: 0.10.16
  */
@@ -625,6 +648,7 @@ gst_base_audio_sink_setcaps (GstBaseSink * bsink, GstCaps * caps)
 {
   GstBaseAudioSink *sink = GST_BASE_AUDIO_SINK (bsink);
   GstRingBufferSpec *spec;
+  GstClockTime now;
 
   if (!sink->ringbuffer)
     return FALSE;
@@ -632,6 +656,11 @@ gst_base_audio_sink_setcaps (GstBaseSink * bsink, GstCaps * caps)
   spec = &sink->ringbuffer->spec;
 
   GST_DEBUG_OBJECT (sink, "release old ringbuffer");
+
+  /* get current time, updates the last_time */
+  now = gst_clock_get_time (sink->provided_clock);
+
+  GST_DEBUG_OBJECT (sink, "time was %" GST_TIME_FORMAT, GST_TIME_ARGS (now));
 
   /* release old ringbuffer */
   gst_ring_buffer_pause (sink->ringbuffer);
@@ -658,7 +687,7 @@ gst_base_audio_sink_setcaps (GstBaseSink * bsink, GstCaps * caps)
     gst_ring_buffer_activate (sink->ringbuffer, TRUE);
   }
 
-  /* calculate actual latency and buffer times. 
+  /* calculate actual latency and buffer times.
    * FIXME: In 0.11, store the latency_time internally in ns */
   spec->latency_time = gst_util_uint64_scale (spec->segsize,
       (GST_SECOND / GST_USECOND), spec->rate * spec->bytes_per_sample);
@@ -1115,7 +1144,7 @@ gst_base_audio_sink_sync_latency (GstBaseSink * bsink, GstMiniObject * obj)
     GST_DEBUG_OBJECT (sink, "possibly waiting for clock to reach %"
         GST_TIME_FORMAT, GST_TIME_ARGS (time));
 
-    /* wait for the clock, this can be interrupted because we got shut down or 
+    /* wait for the clock, this can be interrupted because we got shut down or
      * we PAUSED. */
     status = gst_base_sink_wait_clock (bsink, time, &jitter);
 
@@ -1220,6 +1249,7 @@ gst_base_audio_sink_render (GstBaseSink * bsink, GstBuffer * buf)
   gboolean sync, slaved, align_next;
   GstFlowReturn ret;
   GstSegment clip_seg;
+  gint64 time_offset;
 
   sink = GST_BASE_AUDIO_SINK (bsink);
 
@@ -1310,8 +1340,8 @@ gst_base_audio_sink_render (GstBaseSink * bsink, GstBuffer * buf)
   }
 
   /* samples should be rendered based on their timestamp. All samples
-   * arriving before the segment.start or after segment.stop are to be 
-   * thrown away. All samples should also be clipped to the segment 
+   * arriving before the segment.start or after segment.stop are to be
+   * thrown away. All samples should also be clipped to the segment
    * boundaries */
   if (!gst_segment_clip (&clip_seg, GST_FORMAT_TIME, time, stop, &ctime,
           &cstop))
@@ -1399,6 +1429,20 @@ gst_base_audio_sink_render (GstBaseSink * bsink, GstBuffer * buf)
      * parameters */
     gst_base_audio_sink_none_slaving (sink, render_start, render_stop,
         &render_start, &render_stop);
+  }
+
+  /* bring to position in the ringbuffer */
+  if (sink->priv->do_time_offset) {
+    time_offset =
+        GST_AUDIO_CLOCK_CAST (sink->provided_clock)->abidata.ABI.time_offset;
+    if (render_start > time_offset)
+      render_start -= time_offset;
+    else
+      render_start = 0;
+    if (render_stop > time_offset)
+      render_stop -= time_offset;
+    else
+      render_stop = 0;
   }
 
   /* and bring the time to the rate corrected offset in the buffer */
