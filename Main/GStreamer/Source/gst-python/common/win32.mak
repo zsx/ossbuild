@@ -24,7 +24,8 @@ win32-check-crlf:
 	@echo Checking win32 files for CR LF line endings ...; \
 	fail=0 ; \
 	for each in $(win32crlf) ; do \
-	  if ! (file $$each | grep CRLF >/dev/null) ; then \
+	  result=`perl -e 'print grep(/\r\n/,<>)' "$$each" | wc -l`; \
+	  if test "$$result" = 0 ; then \
 	    echo $$each must be fixed to have CRLF line endings ; \
 	    fail=1; \
 	  fi ; \
@@ -55,6 +56,16 @@ check-exports:
 	fi; \
 	exit $$fail
 
+# complain about nonportable 64-bit printf format strings (%lld, %llu etc.)
+check-nonportable-int64-print-format:
+	fail=0 ; \
+	loc=`find "$(top_srcdir)" -name '*.c' | xargs grep -n -e '%[0-9]*ll[udx]'`; \
+	if test "x$$loc" != "x"; then \
+	  echo "Please fix the following print format strings:" ; \
+	  find "$(top_srcdir)" -name '*.c' | xargs grep -n -e '%[0-9]*ll[udx]'; \
+	  fail=1; \
+	fi; \
+	exit $$fail
 
 dist-hook: check-exports win32-check-crlf
 

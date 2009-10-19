@@ -48,6 +48,9 @@
 /* We can use the videoorientation interface */
 #define HAVE_VIDEO_ORIENTATION_INTERFACE 1
 
+/* We can use the streamvolume interface */
+#define HAVE_STREAM_VOLUME_INTERFACE 1
+
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 #undef NO_MINUS_C_MINUS_O
 
@@ -61,19 +64,19 @@
 #define PACKAGE_NAME "GStreamer Python Bindings"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "GStreamer Python Bindings 0.10.15"
+#define PACKAGE_STRING "GStreamer Python Bindings 0.10.17"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "gst-python"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.10.15"
+#define PACKAGE_VERSION "0.10.17"
 
 /* PyGst major version */
 #define PYGST_MAJOR_VERSION 0
 
 /* PyGst micro version */
-#define PYGST_MICRO_VERSION 15
+#define PYGST_MICRO_VERSION 17
 
 /* PyGst minor version */
 #define PYGST_MINOR_VERSION 10
@@ -85,4 +88,4 @@
 #undef STDC_HEADERS
 
 /* Version number of package */
-#define VERSION "0.10.15"
+#define VERSION "0.10.17"

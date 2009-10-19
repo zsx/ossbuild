@@ -298,6 +298,14 @@
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstinterfaces.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{A01C663D-CFBB-4444-A4C1-7D8F91E76F59}"
+			RelativePathToProject=".\Main\GStreamer\Bindings\Python\_gst.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter

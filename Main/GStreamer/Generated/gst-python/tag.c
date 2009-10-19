@@ -169,6 +169,47 @@ _wrap_gst_vorbis_tag_add(PyObject *self, PyObject *args, PyObject *kwargs)
     return Py_None;
 }
 
+#line 68 "..\\..\\Source\\gst-python\\gst\\tag.override"
+static PyObject *
+_wrap_gst_tag_to_vorbis_comments(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+    PyObject *py_taglist;
+    const GstTagList *taglist;
+    const gchar *tag;
+
+    const GList *list;
+    const GList *l;
+    PyObject *py_list;
+
+    if (!PyArg_ParseTuple(args, "Os", &py_taglist, &tag))
+        return NULL;
+
+    if (pyg_boxed_check(py_taglist, GST_TYPE_TAG_LIST))
+        taglist = pyg_boxed_get(py_taglist, GstTagList);
+    else {
+        PyErr_SetString(PyExc_TypeError, "list should be a GstTagList");
+        return NULL;
+    }
+
+
+    pyg_begin_allow_threads;
+    list = gst_tag_to_vorbis_comments (taglist, tag);
+    pyg_end_allow_threads;
+
+    py_list = PyList_New(0);
+
+    for (l = list; l; l = l->next) {
+        gchar *pair = (gchar *)l->data;
+        PyObject *py_pair = PyString_FromString(pair);
+        PyList_Append(py_list, py_pair);
+        Py_DECREF(py_pair);
+    }
+    return py_list;
+
+} 
+#line 211 "..\\..\\Source\\gst-python\\gst\\tag.c"
+
+
 static PyObject *
 _wrap_gst_tag_id3_genre_count(PyObject *self)
 {
@@ -250,6 +291,8 @@ const PyMethodDef pytag_functions[] = {
     { "to_vorbis_tag", (PyCFunction)_wrap_gst_tag_to_vorbis_tag, METH_VARARGS|METH_KEYWORDS,
       NULL },
     { "gst_vorbis_tag_add", (PyCFunction)_wrap_gst_vorbis_tag_add, METH_VARARGS|METH_KEYWORDS,
+      NULL },
+    { "to_vorbis_comments", (PyCFunction)_wrap_gst_tag_to_vorbis_comments, METH_VARARGS,
       NULL },
     { "id3_genre_count", (PyCFunction)_wrap_gst_tag_id3_genre_count, METH_NOARGS,
       NULL },
@@ -361,6 +404,6 @@ pytag_register_classes(PyObject *d)
     }
 
 
-#line 365 "..\\..\\Source\\gst-python\\gst\\tag.c"
+#line 408 "..\\..\\Source\\gst-python\\gst\\tag.c"
     pygobject_register_class(d, "GstTagDemux", GST_TYPE_TAG_DEMUX, &PyGstTagDemux_Type, Py_BuildValue("(O)", &PyGstElement_Type));
 }

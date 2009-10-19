@@ -1,4 +1,29 @@
-This is GStreamer Python Bindings 0.10.15, "We built a wall"
+This is GStreamer Python Bindings 0.10.17, "Shiny new button"
+
+Changes since 0.10.16:
+    
+      * Fix leak in gst_base_sink_get_last_buffer()
+      * Fix linking of pygstminiobject
+      * Add test_audio.py example
+      * Fix deadlocks calling gst_pad_link()
+
+Bugs fixed since 0.10.16:
+     
+      * 590348 : [audio (and other modules)] can't use pygstminiobject !
+      * 590803 : checks fail in non-English locale
+      * 592447 : memory leak on certain pipelines with appsink
+
+Changes since 0.10.15:
+    
+      * Update bindings for GStreamer 0.10.24
+      * Fixes for the python plugin loader
+
+Bugs fixed since 0.10.15:
+     
+      * 580992 : gst_preset_get_preset_names not wrapped in gst-python
+      * 583378 : libgstpython.so causes a segfault
+      * 583607 : Error when building from tarball
+      * 584445 : gst.TagList getters and setters should convert unicode ob...
 
 Changes since 0.10.14:
     

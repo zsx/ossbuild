@@ -86,11 +86,9 @@ _gst_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(_gst_la_LDFLAGS) $(LDFLAGS) -o $@
 @HAVE_GST_AUDIO_TRUE@audio_la_DEPENDENCIES = $(am__DEPENDENCIES_2) \
 @HAVE_GST_AUDIO_TRUE@	$(am__DEPENDENCIES_1)
-am__audio_la_SOURCES_DIST = audiomodule.c gst-argtypes.c \
-	pygstminiobject.c
+am__audio_la_SOURCES_DIST = audiomodule.c gst-argtypes.c
 @HAVE_GST_AUDIO_TRUE@am_audio_la_OBJECTS = audio_la-audiomodule.lo \
-@HAVE_GST_AUDIO_TRUE@	audio_la-gst-argtypes.lo \
-@HAVE_GST_AUDIO_TRUE@	audio_la-pygstminiobject.lo
+@HAVE_GST_AUDIO_TRUE@	audio_la-gst-argtypes.lo
 @HAVE_GST_AUDIO_TRUE@nodist_audio_la_OBJECTS = audio_la-audio.lo
 audio_la_OBJECTS = $(am_audio_la_OBJECTS) $(nodist_audio_la_OBJECTS)
 audio_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -107,7 +105,7 @@ interfaces_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(CFLAGS) $(interfaces_la_LDFLAGS) $(LDFLAGS) -o $@
 pbutils_la_DEPENDENCIES = $(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1)
 am_pbutils_la_OBJECTS = pbutils_la-pbutilsmodule.lo \
-	pbutils_la-gst-argtypes.lo pbutils_la-pygstminiobject.lo
+	pbutils_la-gst-argtypes.lo
 nodist_pbutils_la_OBJECTS = pbutils_la-pbutils.lo
 pbutils_la_OBJECTS = $(am_pbutils_la_OBJECTS) \
 	$(nodist_pbutils_la_OBJECTS)
@@ -116,10 +114,9 @@ pbutils_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(CFLAGS) $(pbutils_la_LDFLAGS) $(LDFLAGS) -o $@
 @HAVE_GST_TAG_TRUE@tag_la_DEPENDENCIES = $(am__DEPENDENCIES_2) \
 @HAVE_GST_TAG_TRUE@	$(am__DEPENDENCIES_1)
-am__tag_la_SOURCES_DIST = tagmodule.c gst-argtypes.c pygstminiobject.c
+am__tag_la_SOURCES_DIST = tagmodule.c gst-argtypes.c
 @HAVE_GST_TAG_TRUE@am_tag_la_OBJECTS = tag_la-tagmodule.lo \
-@HAVE_GST_TAG_TRUE@	tag_la-gst-argtypes.lo \
-@HAVE_GST_TAG_TRUE@	tag_la-pygstminiobject.lo
+@HAVE_GST_TAG_TRUE@	tag_la-gst-argtypes.lo
 @HAVE_GST_TAG_TRUE@nodist_tag_la_OBJECTS = tag_la-tag.lo
 tag_la_OBJECTS = $(am_tag_la_OBJECTS) $(nodist_tag_la_OBJECTS)
 tag_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -128,11 +125,9 @@ tag_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 @HAVE_GST_TAG_TRUE@am_tag_la_rpath = -rpath $(pygstexecdir)
 @HAVE_GST_VIDEO_TRUE@video_la_DEPENDENCIES = $(am__DEPENDENCIES_2) \
 @HAVE_GST_VIDEO_TRUE@	$(am__DEPENDENCIES_1)
-am__video_la_SOURCES_DIST = videomodule.c gst-argtypes.c \
-	pygstminiobject.c
+am__video_la_SOURCES_DIST = videomodule.c gst-argtypes.c
 @HAVE_GST_VIDEO_TRUE@am_video_la_OBJECTS = video_la-videomodule.lo \
-@HAVE_GST_VIDEO_TRUE@	video_la-gst-argtypes.lo \
-@HAVE_GST_VIDEO_TRUE@	video_la-pygstminiobject.lo
+@HAVE_GST_VIDEO_TRUE@	video_la-gst-argtypes.lo
 @HAVE_GST_VIDEO_TRUE@nodist_video_la_OBJECTS = video_la-video.lo
 video_la_OBJECTS = $(am_video_la_OBJECTS) $(nodist_video_la_OBJECTS)
 video_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -254,11 +249,14 @@ IGNORE_GST_0_10_20 = @IGNORE_GST_0_10_20@
 IGNORE_GST_0_10_21 = @IGNORE_GST_0_10_21@
 IGNORE_GST_0_10_22 = @IGNORE_GST_0_10_22@
 IGNORE_GST_0_10_23 = @IGNORE_GST_0_10_23@
+IGNORE_GST_0_10_24 = @IGNORE_GST_0_10_24@
+IGNORE_GST_0_10_25 = @IGNORE_GST_0_10_25@
 IGNORE_GST_LOADSAVE = @IGNORE_GST_LOADSAVE@
 IGNORE_GST_PB_0_10_14 = @IGNORE_GST_PB_0_10_14@
 IGNORE_GST_PB_0_10_16 = @IGNORE_GST_PB_0_10_16@
 IGNORE_GST_PB_0_10_18 = @IGNORE_GST_PB_0_10_18@
 IGNORE_GST_PB_0_10_23 = @IGNORE_GST_PB_0_10_23@
+IGNORE_GST_PB_0_10_25 = @IGNORE_GST_PB_0_10_25@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -413,10 +411,13 @@ versioned_overrides = \
 	gst-0.10.21.ignore 	\
 	gst-0.10.22.ignore 	\
 	gst-0.10.23.ignore 	\
+	gst-0.10.24.ignore 	\
+	gst-0.10.25.ignore 	\
 	gst-pb-0.10.14.ignore	\
 	gst-pb-0.10.16.ignore	\
 	gst-pb-0.10.18.ignore	\
 	gst-pb-0.10.23.ignore	\
+	gst-pb-0.10.25.ignore	\
 	gst-disable-loadsave.ignore
 
 INCLUDES = $(PYTHON_INCLUDES)
@@ -431,7 +432,7 @@ GEN_FILES = arg-types.py gst-types.defs libs.defs base.defs \
 # GStreamer bindings
 _gst_la_CFLAGS = $(common_cflags)
 _gst_la_LIBADD = $(common_libadd) $(GST_BASE_LIBS)
-_gst_la_LDFLAGS = $(common_ldflags) -export-symbols-regex "^(init_gst|_PyGObject_API).*" \
+_gst_la_LDFLAGS = $(common_ldflags) -export-symbols-regex "^(init_gst|_PyGObject_API|pygstminiobject_).*" \
 	$(GST_BASE_LIBS) $(GST_CONTROLLER_LIBS) $(GST_NET_LIBS) $(GST_DP_LIBS)
 
 _gst_la_SOURCES = \
@@ -481,7 +482,7 @@ pbutils_la_LIBADD = $(common_libadd) $(GST_PLUGINS_BASE_LIBS) -lgstpbutils-0.10
 pbutils_la_LDFLAGS = $(common_ldflags) \
 	-export-symbols-regex "^(initpbutils|_PyGObject_API).*" $(GST_PLUGINS_BASE_LIBS)
 
-pbutils_la_SOURCES = pbutilsmodule.c gst-argtypes.c pygstminiobject.c
+pbutils_la_SOURCES = pbutilsmodule.c gst-argtypes.c
 nodist_pbutils_la_SOURCES = pbutils.c
 PBUTILS_OVERRIDES = pbutils.override
 PBUTILS_DEFS = pbutils.defs
@@ -495,7 +496,7 @@ AUDIO_DEFS = audio.defs
 @HAVE_GST_AUDIO_TRUE@audio_la_LDFLAGS = $(common_ldflags) \
 @HAVE_GST_AUDIO_TRUE@	-export-symbols-regex "^(initaudio|_PyGObject_API).*" $(GST_PLUGINS_BASE_LIBS)
 
-@HAVE_GST_AUDIO_TRUE@audio_la_SOURCES = audiomodule.c gst-argtypes.c pygstminiobject.c
+@HAVE_GST_AUDIO_TRUE@audio_la_SOURCES = audiomodule.c gst-argtypes.c
 @HAVE_GST_AUDIO_TRUE@nodist_audio_la_SOURCES = audio.c
 
 # GStreamer video bindings
@@ -507,7 +508,7 @@ VIDEO_DEFS = video.defs
 @HAVE_GST_VIDEO_TRUE@video_la_LDFLAGS = $(common_ldflags) \
 @HAVE_GST_VIDEO_TRUE@	-export-symbols-regex "^(initvideo|_PyGObject_API).*" $(GST_PLUGINS_BASE_LIBS)
 
-@HAVE_GST_VIDEO_TRUE@video_la_SOURCES = videomodule.c gst-argtypes.c pygstminiobject.c
+@HAVE_GST_VIDEO_TRUE@video_la_SOURCES = videomodule.c gst-argtypes.c
 @HAVE_GST_VIDEO_TRUE@nodist_video_la_SOURCES = video.c
 
 # GStreamer tag bindings
@@ -519,7 +520,7 @@ TAG_DEFS = tag.defs
 @HAVE_GST_TAG_TRUE@tag_la_LDFLAGS = $(common_ldflags) \
 @HAVE_GST_TAG_TRUE@	-export-symbols-regex "^(inittag|_PyGObject_API).*" $(GST_PLUGINS_BASE_LIBS)
 
-@HAVE_GST_TAG_TRUE@tag_la_SOURCES = tagmodule.c gst-argtypes.c pygstminiobject.c
+@HAVE_GST_TAG_TRUE@tag_la_SOURCES = tagmodule.c gst-argtypes.c
 @HAVE_GST_TAG_TRUE@nodist_tag_la_SOURCES = tag.c
 SUBDIRS = extend
 all: all-recursive
@@ -613,19 +614,15 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio_la-audio.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio_la-audiomodule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio_la-gst-argtypes.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio_la-pygstminiobject.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interfaces_la-interfaces.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interfaces_la-interfacesmodule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pbutils_la-gst-argtypes.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pbutils_la-pbutils.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pbutils_la-pbutilsmodule.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pbutils_la-pygstminiobject.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tag_la-gst-argtypes.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tag_la-pygstminiobject.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tag_la-tag.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tag_la-tagmodule.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video_la-gst-argtypes.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video_la-pygstminiobject.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video_la-video.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video_la-videomodule.Plo@am__quote@
 
@@ -713,13 +710,6 @@ audio_la-gst-argtypes.lo: gst-argtypes.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(audio_la_CFLAGS) $(CFLAGS) -c -o audio_la-gst-argtypes.lo `test -f 'gst-argtypes.c' || echo '$(srcdir)/'`gst-argtypes.c
 
-audio_la-pygstminiobject.lo: pygstminiobject.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(audio_la_CFLAGS) $(CFLAGS) -MT audio_la-pygstminiobject.lo -MD -MP -MF $(DEPDIR)/audio_la-pygstminiobject.Tpo -c -o audio_la-pygstminiobject.lo `test -f 'pygstminiobject.c' || echo '$(srcdir)/'`pygstminiobject.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/audio_la-pygstminiobject.Tpo $(DEPDIR)/audio_la-pygstminiobject.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pygstminiobject.c' object='audio_la-pygstminiobject.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(audio_la_CFLAGS) $(CFLAGS) -c -o audio_la-pygstminiobject.lo `test -f 'pygstminiobject.c' || echo '$(srcdir)/'`pygstminiobject.c
-
 audio_la-audio.lo: audio.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(audio_la_CFLAGS) $(CFLAGS) -MT audio_la-audio.lo -MD -MP -MF $(DEPDIR)/audio_la-audio.Tpo -c -o audio_la-audio.lo `test -f 'audio.c' || echo '$(srcdir)/'`audio.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/audio_la-audio.Tpo $(DEPDIR)/audio_la-audio.Plo
@@ -755,13 +745,6 @@ pbutils_la-gst-argtypes.lo: gst-argtypes.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbutils_la_CFLAGS) $(CFLAGS) -c -o pbutils_la-gst-argtypes.lo `test -f 'gst-argtypes.c' || echo '$(srcdir)/'`gst-argtypes.c
 
-pbutils_la-pygstminiobject.lo: pygstminiobject.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbutils_la_CFLAGS) $(CFLAGS) -MT pbutils_la-pygstminiobject.lo -MD -MP -MF $(DEPDIR)/pbutils_la-pygstminiobject.Tpo -c -o pbutils_la-pygstminiobject.lo `test -f 'pygstminiobject.c' || echo '$(srcdir)/'`pygstminiobject.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pbutils_la-pygstminiobject.Tpo $(DEPDIR)/pbutils_la-pygstminiobject.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pygstminiobject.c' object='pbutils_la-pygstminiobject.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbutils_la_CFLAGS) $(CFLAGS) -c -o pbutils_la-pygstminiobject.lo `test -f 'pygstminiobject.c' || echo '$(srcdir)/'`pygstminiobject.c
-
 pbutils_la-pbutils.lo: pbutils.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(pbutils_la_CFLAGS) $(CFLAGS) -MT pbutils_la-pbutils.lo -MD -MP -MF $(DEPDIR)/pbutils_la-pbutils.Tpo -c -o pbutils_la-pbutils.lo `test -f 'pbutils.c' || echo '$(srcdir)/'`pbutils.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/pbutils_la-pbutils.Tpo $(DEPDIR)/pbutils_la-pbutils.Plo
@@ -783,13 +766,6 @@ tag_la-gst-argtypes.lo: gst-argtypes.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tag_la_CFLAGS) $(CFLAGS) -c -o tag_la-gst-argtypes.lo `test -f 'gst-argtypes.c' || echo '$(srcdir)/'`gst-argtypes.c
 
-tag_la-pygstminiobject.lo: pygstminiobject.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tag_la_CFLAGS) $(CFLAGS) -MT tag_la-pygstminiobject.lo -MD -MP -MF $(DEPDIR)/tag_la-pygstminiobject.Tpo -c -o tag_la-pygstminiobject.lo `test -f 'pygstminiobject.c' || echo '$(srcdir)/'`pygstminiobject.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/tag_la-pygstminiobject.Tpo $(DEPDIR)/tag_la-pygstminiobject.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pygstminiobject.c' object='tag_la-pygstminiobject.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tag_la_CFLAGS) $(CFLAGS) -c -o tag_la-pygstminiobject.lo `test -f 'pygstminiobject.c' || echo '$(srcdir)/'`pygstminiobject.c
-
 tag_la-tag.lo: tag.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tag_la_CFLAGS) $(CFLAGS) -MT tag_la-tag.lo -MD -MP -MF $(DEPDIR)/tag_la-tag.Tpo -c -o tag_la-tag.lo `test -f 'tag.c' || echo '$(srcdir)/'`tag.c
 @am__fastdepCC_TRUE@	mv -f $(DEPDIR)/tag_la-tag.Tpo $(DEPDIR)/tag_la-tag.Plo
@@ -810,13 +786,6 @@ video_la-gst-argtypes.lo: gst-argtypes.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gst-argtypes.c' object='video_la-gst-argtypes.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(video_la_CFLAGS) $(CFLAGS) -c -o video_la-gst-argtypes.lo `test -f 'gst-argtypes.c' || echo '$(srcdir)/'`gst-argtypes.c
-
-video_la-pygstminiobject.lo: pygstminiobject.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(video_la_CFLAGS) $(CFLAGS) -MT video_la-pygstminiobject.lo -MD -MP -MF $(DEPDIR)/video_la-pygstminiobject.Tpo -c -o video_la-pygstminiobject.lo `test -f 'pygstminiobject.c' || echo '$(srcdir)/'`pygstminiobject.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/video_la-pygstminiobject.Tpo $(DEPDIR)/video_la-pygstminiobject.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='pygstminiobject.c' object='video_la-pygstminiobject.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(video_la_CFLAGS) $(CFLAGS) -c -o video_la-pygstminiobject.lo `test -f 'pygstminiobject.c' || echo '$(srcdir)/'`pygstminiobject.c
 
 video_la-video.lo: video.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(video_la_CFLAGS) $(CFLAGS) -MT video_la-video.lo -MD -MP -MF $(DEPDIR)/video_la-video.Tpo -c -o video_la-video.lo `test -f 'video.c' || echo '$(srcdir)/'`video.c

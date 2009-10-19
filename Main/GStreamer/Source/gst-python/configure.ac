@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, cvs and prerelease does Werror too
-AC_INIT(GStreamer Python Bindings, 0.10.15,
+AC_INIT(GStreamer Python Bindings, 0.10.17,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-python)
 
@@ -167,6 +167,20 @@ then
     IGNORE_GST_0_10_23=""
   fi
 
+  if test $GST_MINOR_VERSION -lt "24"
+  then
+    IGNORE_GST_0_10_24="gst-0.10.24.ignore"
+  else
+    IGNORE_GST_0_10_24=""
+  fi
+
+  if test $GST_MINOR_VERSION -lt "25"
+  then
+    IGNORE_GST_0_10_25="gst-0.10.25.ignore"
+  else
+    IGNORE_GST_0_10_25=""
+  fi
+
   dnl plugins base
   if test $GST_PB_MINOR_VERSION -lt "14"
   then
@@ -203,6 +217,14 @@ then
   else
     IGNORE_GST_PB_0_10_23=""
   fi
+
+  if test $GST_PB_MINOR_VERSION -lt "25"
+  then
+    IGNORE_GST_PB_0_10_25="gst-pb-0.10.25.ignore"
+  else
+    IGNORE_GST_PB_0_10_25=""
+    AC_DEFINE_UNQUOTED(HAVE_STREAM_VOLUME_INTERFACE, 1, [We can use the streamvolume interface])
+  fi
 else
   IGNORE_GST_0_10_13=""
   IGNORE_GST_0_10_14=""
@@ -213,16 +235,20 @@ else
   IGNORE_GST_0_10_21=""
   IGNORE_GST_0_10_22=""
   IGNORE_GST_0_10_23=""
+  IGNORE_GST_0_10_24=""
+  IGNORE_GST_0_10_25=""
   IGNORE_GST_PB_0_10_14=""
   IGNORE_GST_PB_0_10_16=""
   IGNORE_GST_PB_0_10_18=""
   IGNORE_GST_PB_0_10_23=""
+  IGNORE_GST_PB_0_10_25=""
   AC_DEFINE_UNQUOTED(HAVE_PLUGINS_INSTALL, 1, [We can use the plugins-install methods])
   AC_DEFINE_UNQUOTED(HAVE_GST_AUDIO, 1, [We can use the gst-audio library])
   AC_DEFINE_UNQUOTED(HAVE_GST_VIDEO, 1, [We can use the gst-video library])
   AC_DEFINE_UNQUOTED(HAVE_GST_TAG, 1, [We can use the gst-tag library])
 fi
 AC_DEFINE_UNQUOTED(HAVE_VIDEO_ORIENTATION_INTERFACE, 1, [We can use the videoorientation interface])
+AC_DEFINE_UNQUOTED(HAVE_STREAM_VOLUME_INTERFACE, 1, [We can use the streamvolume interface])
 AC_SUBST(IGNORE_GST_0_10_13)
 AC_SUBST(IGNORE_GST_0_10_14)
 AC_SUBST(IGNORE_GST_0_10_15)
@@ -232,10 +258,13 @@ AC_SUBST(IGNORE_GST_0_10_20)
 AC_SUBST(IGNORE_GST_0_10_21)
 AC_SUBST(IGNORE_GST_0_10_22)
 AC_SUBST(IGNORE_GST_0_10_23)
+AC_SUBST(IGNORE_GST_0_10_24)
+AC_SUBST(IGNORE_GST_0_10_25)
 AC_SUBST(IGNORE_GST_PB_0_10_14)
 AC_SUBST(IGNORE_GST_PB_0_10_16)
 AC_SUBST(IGNORE_GST_PB_0_10_18)
 AC_SUBST(IGNORE_GST_PB_0_10_23)
+AC_SUBST(IGNORE_GST_PB_0_10_25)
 AC_SUBST(HAVE_VIDEO_ORIENTATION)
 AC_SUBST(HAVE_PLUGINS_INSTALL)
 AM_CONDITIONAL(HAVE_GST_AUDIO, $HAVE_GST_AUDIO)

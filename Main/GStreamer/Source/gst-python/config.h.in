@@ -39,6 +39,9 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
+/* We can use the streamvolume interface */
+#undef HAVE_STREAM_VOLUME_INTERFACE
+
 /* Define to 1 if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
 

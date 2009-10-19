@@ -4,7 +4,7 @@
 %define		_gst		0.10.12
 
 Name:           %{gstreamer}-python
-Version:        0.10.15
+Version:        0.10.17
 Release:        1
 Summary:        Python bindings for GStreamer.
 
@@ -66,6 +66,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/python?.?/site-packages/pygst.pyc
 %{_libdir}/python?.?/site-packages/pygst.pyo
 %{_libdir}/python?.?/site-packages/gst-%{majorminor}/gst/pbutils.so
+%{_libdir}/gstreamer-%{majorminor}/libgstpython.so
+%{_libdir}/python?.?/site-packages/gst-%{majorminor}/gst/audio.so
+%{_libdir}/python?.?/site-packages/gst-%{majorminor}/gst/tag.so
+%{_libdir}/python?.?/site-packages/gst-%{majorminor}/gst/video.so
+%{_libdir}/python?.?/site-packages/gstoption.so
+
 
 %{_datadir}/gst-python
 %{_libdir}/pkgconfig/gst-python-%{majorminor}.pc

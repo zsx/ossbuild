@@ -120,7 +120,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gsttag.lib"
 				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -252,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gsttag.lib"
 				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -297,6 +295,10 @@
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F05}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgsttag.vcproj"
 		/>
 	</References>
 	<Files>

@@ -34,10 +34,13 @@ versioned_overrides = \
 	gst-0.10.21.ignore 	\
 	gst-0.10.22.ignore 	\
 	gst-0.10.23.ignore 	\
+	gst-0.10.24.ignore 	\
+	gst-0.10.25.ignore 	\
 	gst-pb-0.10.14.ignore	\
 	gst-pb-0.10.16.ignore	\
 	gst-pb-0.10.18.ignore	\
 	gst-pb-0.10.23.ignore	\
+	gst-pb-0.10.25.ignore	\
 	gst-disable-loadsave.ignore
 
 INCLUDES = $(PYTHON_INCLUDES)
@@ -47,7 +50,7 @@ GEN_FILES = arg-types.py gst-types.defs libs.defs base.defs pbutils.defs
 # GStreamer bindings
 _gst_la_CFLAGS = $(common_cflags)
 _gst_la_LIBADD = $(common_libadd) $(GST_BASE_LIBS)
-_gst_la_LDFLAGS = $(common_ldflags) -export-symbols-regex "^(init_gst|_PyGObject_API).*" \
+_gst_la_LDFLAGS = $(common_ldflags) -export-symbols-regex "^(init_gst|_PyGObject_API|pygstminiobject_).*" \
 	$(GST_BASE_LIBS) $(GST_CONTROLLER_LIBS) $(GST_NET_LIBS) $(GST_DP_LIBS)
 _gst_la_SOURCES = 		\
 	gst-argtypes.c 		\
@@ -99,7 +102,7 @@ pbutils_la_CFLAGS = $(common_cflags) $(GST_PLUGINS_BASE_CFLAGS)
 pbutils_la_LIBADD = $(common_libadd) $(GST_PLUGINS_BASE_LIBS) -lgstpbutils-0.10
 pbutils_la_LDFLAGS = $(common_ldflags) \
 	-export-symbols-regex "^(initpbutils|_PyGObject_API).*" $(GST_PLUGINS_BASE_LIBS)
-pbutils_la_SOURCES = pbutilsmodule.c gst-argtypes.c pygstminiobject.c
+pbutils_la_SOURCES = pbutilsmodule.c gst-argtypes.c
 nodist_pbutils_la_SOURCES = pbutils.c
 PBUTILS_OVERRIDES = pbutils.override
 PBUTILS_DEFS = pbutils.defs
@@ -123,7 +126,7 @@ if HAVE_GST_AUDIO
  audio_la_LIBADD = $(common_libadd) $(GST_PLUGINS_BASE_LIBS) -lgstaudio-0.10
  audio_la_LDFLAGS = $(common_ldflags) \
 	-export-symbols-regex "^(initaudio|_PyGObject_API).*" $(GST_PLUGINS_BASE_LIBS)
- audio_la_SOURCES = audiomodule.c gst-argtypes.c pygstminiobject.c
+ audio_la_SOURCES = audiomodule.c gst-argtypes.c
  nodist_audio_la_SOURCES = audio.c
 audio.c: $(AUDIO_DEFS) $(AUDIO_OVERRIDES) $(GEN_FILES)
 
@@ -145,7 +148,7 @@ if HAVE_GST_VIDEO
  video_la_LIBADD = $(common_libadd) $(GST_PLUGINS_BASE_LIBS) -lgstvideo-0.10
  video_la_LDFLAGS = $(common_ldflags) \
 	-export-symbols-regex "^(initvideo|_PyGObject_API).*" $(GST_PLUGINS_BASE_LIBS)
- video_la_SOURCES = videomodule.c gst-argtypes.c pygstminiobject.c
+ video_la_SOURCES = videomodule.c gst-argtypes.c
  nodist_video_la_SOURCES = video.c
 video.c: $(VIDEO_DEFS) $(VIDEO_OVERRIDES) $(GEN_FILES)
 
@@ -167,7 +170,7 @@ if HAVE_GST_TAG
  tag_la_LIBADD = $(common_libadd) $(GST_PLUGINS_BASE_LIBS) -lgsttag-0.10
  tag_la_LDFLAGS = $(common_ldflags) \
 	-export-symbols-regex "^(inittag|_PyGObject_API).*" $(GST_PLUGINS_BASE_LIBS)
- tag_la_SOURCES = tagmodule.c gst-argtypes.c pygstminiobject.c
+ tag_la_SOURCES = tagmodule.c gst-argtypes.c
  nodist_tag_la_SOURCES = tag.c
 tag.c: $(TAG_DEFS) $(TAG_OVERRIDES) $(GEN_FILES)
 

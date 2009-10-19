@@ -120,7 +120,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstvideo.lib"
 				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -252,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstvideo.lib"
 				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
