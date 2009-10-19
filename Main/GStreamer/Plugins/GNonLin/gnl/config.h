@@ -80,13 +80,13 @@
 #define PACKAGE_NAME "GStreamer GNonLin"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "GStreamer GNonLin 0.10.11"
+#define PACKAGE_STRING "GStreamer GNonLin 0.10.13"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "gnonlin"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.10.11"
+#define PACKAGE_VERSION "0.10.13"
 
 /* directory where plugins are located */
 #define PLUGINDIR "\\lib\\gstreamer-0.10"
@@ -95,4 +95,4 @@
 #undef STDC_HEADERS
 
 /* Version number of package */
-#define VERSION "0.10.11"
+#define VERSION "0.10.13"

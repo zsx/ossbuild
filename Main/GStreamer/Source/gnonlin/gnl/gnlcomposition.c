@@ -118,6 +118,7 @@ struct _GnlCompositionPrivate
 
   /* Seek segment handler */
   GstSegment *segment;
+  GstSegment *outside_segment;
 
   /* number of pads we are waiting to appear so be can do proper linking */
   guint waitingpads;
@@ -162,9 +163,9 @@ static gint objects_stop_compare (GnlObject * a, GnlObject * b);
 static GstClockTime get_current_position (GnlComposition * comp);
 
 static void gnl_composition_set_update (GnlComposition * comp, gboolean update);
-static gboolean
-update_pipeline (GnlComposition * comp, GstClockTime currenttime,
-    gboolean initial, gboolean change_state, gboolean modify);
+static gboolean update_pipeline (GnlComposition * comp,
+    GstClockTime currenttime, gboolean initial, gboolean change_state,
+    gboolean modify);
 
 
 #define COMP_REAL_START(comp) \
@@ -324,6 +325,7 @@ gnl_composition_init (GnlComposition * comp,
   comp->priv->pending_idle = 0;
 
   comp->priv->segment = gst_segment_new ();
+  comp->priv->outside_segment = gst_segment_new ();
 
   comp->priv->waitingpads = 0;
 
@@ -388,6 +390,7 @@ gnl_composition_finalize (GObject * object)
 
   g_mutex_free (comp->priv->objects_lock);
   gst_segment_free (comp->priv->segment);
+  gst_segment_free (comp->priv->outside_segment);
 
   g_mutex_free (comp->priv->flushing_lock);
 
@@ -522,6 +525,7 @@ gnl_composition_reset (GnlComposition * comp)
   comp->priv->segment_stop = GST_CLOCK_TIME_NONE;
 
   gst_segment_init (comp->priv->segment, GST_FORMAT_TIME);
+  gst_segment_init (comp->priv->outside_segment, GST_FORMAT_TIME);
 
   if (comp->priv->current)
     g_node_destroy (comp->priv->current);
@@ -886,7 +890,6 @@ seek_handling (GnlComposition * comp, gboolean initial, gboolean update)
 static void
 handle_seek_event (GnlComposition * comp, GstEvent * event)
 {
-  gboolean update;
   gdouble rate;
   GstFormat format;
   GstSeekFlags flags;
@@ -901,7 +904,9 @@ handle_seek_event (GnlComposition * comp, GstEvent * event)
       GST_TIME_ARGS (cur), GST_TIME_ARGS (stop), flags);
 
   gst_segment_set_seek (comp->priv->segment,
-      rate, format, flags, cur_type, cur, stop_type, stop, &update);
+      rate, format, flags, cur_type, cur, stop_type, stop, NULL);
+  gst_segment_set_seek (comp->priv->outside_segment,
+      rate, format, flags, cur_type, cur, stop_type, stop, NULL);
 
   GST_DEBUG_OBJECT (comp, "Segment now has flags:%d",
       comp->priv->segment->flags);
@@ -943,27 +948,85 @@ gnl_composition_event_handler (GstPad * ghostpad, GstEvent * event)
       gdouble prop;
       GstClockTimeDiff diff;
       GstClockTime timestamp;
+      GstClockTimeDiff curdiff;
 
       gst_event_parse_qos (event, &prop, &diff, &timestamp);
-      GST_INFO_OBJECT (comp, "timestamp:%" GST_TIME_FORMAT,
-          GST_TIME_ARGS (timestamp));
-      /* else we let it go through (gnlobject will take care of time-shifting) */
+
+      GST_INFO_OBJECT (comp,
+          "timestamp:%" GST_TIME_FORMAT " segment.start:%" GST_TIME_FORMAT
+          " segment_start%" GST_TIME_FORMAT, GST_TIME_ARGS (timestamp),
+          GST_TIME_ARGS (comp->priv->outside_segment->start),
+          GST_TIME_ARGS (comp->priv->segment_start));
+
+      /* The problem with QoS events is the following:
+       * At each new internal segment (i.e. when we re-arrange our internal
+       * elements) we send flushing seeks to those elements (to properly
+       * configure their playback range) but don't let the FLUSH events get
+       * downstream.
+       *
+       * The problem is that the QoS running timestamps we receive from
+       * downstream will not have taken into account those flush.
+       *
+       * What we need to do is to translate to our internal running timestamps
+       * which for each configured segment starts at 0 for those elements.
+       *
+       * The generic algorithm for the incoming running timestamp translation
+       * is therefore:
+       *     (original_seek_time : original seek position received from usptream)
+       *     (current_segment_start : Start position of the currently configured
+       *                              timeline segment)
+       *
+       *     difference = original_seek_time - current_segment_start
+       *     new_qos_position = upstream_qos_position - difference
+       *
+       * The new_qos_position is only valid when:
+       *    * it applies to the current segment (difference > 0)
+       *    * The QoS difference + timestamp is greater than the difference
+       *
+       */
+
+      if (GST_CLOCK_TIME_IS_VALID (comp->priv->outside_segment->start)) {
+        /* We'll either create a new event or discard it */
+        gst_event_unref (event);
+
+        curdiff =
+            comp->priv->segment_start - comp->priv->outside_segment->start;
+        if ((timestamp < curdiff) || (curdiff < timestamp - diff)) {
+          GST_DEBUG_OBJECT (comp,
+              "QoS event outside of current segment, discarding");
+          /* The QoS timestamp is before the currently set-up pipeline */
+          goto beach;
+        }
+
+        /* Substract the amount of running time we've already outputted
+         * until the currently configured pipeline from the QoS timestamp.*/
+        timestamp -= curdiff;
+        GST_INFO_OBJECT (comp,
+            "Creating new QoS event with timestamp %" GST_TIME_FORMAT,
+            GST_TIME_ARGS (timestamp));
+        event = gst_event_new_qos (prop, diff, timestamp);
+      }
       break;
     }
     default:
       break;
   }
 
-  /* FIXME : What should we do here if waitingpads != 0 ?? */
-  /*            Delay ? Ignore ? Refuse ? */
-
   if (res && comp->priv->ghostpad) {
-    GST_DEBUG_OBJECT (comp, "About to call gnl_event_pad_func()");
     COMP_OBJECTS_LOCK (comp);
-    res = comp->priv->gnl_event_pad_func (comp->priv->ghostpad, event);
+    /* If the timeline isn't entirely reconstructed, we silently ignore the 
+     * event. In the case of seeks the pipeline will already be correctly 
+     * configured at this point*/
+    if (comp->priv->waitingpads == 0) {
+      GST_DEBUG_OBJECT (comp, "About to call gnl_event_pad_func()");
+      res = comp->priv->gnl_event_pad_func (comp->priv->ghostpad, event);
+      GST_DEBUG_OBJECT (comp, "Done calling gnl_event_pad_func() %d", res);
+    } else
+      gst_event_unref (event);
     COMP_OBJECTS_UNLOCK (comp);
-    GST_DEBUG_OBJECT (comp, "Done calling gnl_event_pad_func() %d", res);
   }
+
+beach:
   gst_object_unref (comp);
   return res;
 }
@@ -1604,14 +1667,29 @@ no_more_pads_object_cb (GstElement * element, GnlComposition * comp)
         comp->priv->waitingpads);
 
     if (tmp->parent) {
-      /* child, link to parent */
-      /* FIXME, shouldn't we check the order in which we link to the parent ? */
-      if (!(gst_element_link (element, GST_ELEMENT (tmp->parent->data)))) {
-        GST_WARNING_OBJECT (comp, "Couldn't link %s to %s",
-            GST_ELEMENT_NAME (element),
-            GST_ELEMENT_NAME (GST_ELEMENT (tmp->parent->data)));
+      GstElement *parent = (GstElement *) tmp->parent->data;
+      GstPad *sinkpad;
+
+      /* Get an unlinked sinkpad from the parent */
+      sinkpad = get_unlinked_sink_ghost_pad ((GnlOperation *) parent);
+      if (G_UNLIKELY (sinkpad == NULL)) {
+        GST_WARNING_OBJECT (comp, "Couldn't find an unlinked sinkpad from %s",
+            GST_ELEMENT_NAME (parent));
         goto done;
       }
+
+      /* Link pad to parent sink pad */
+      if (G_UNLIKELY (gst_pad_link (pad, sinkpad) != GST_PAD_LINK_OK)) {
+        GST_WARNING_OBJECT (comp, "Failed to link pads, error:");
+        gst_object_unref (sinkpad);
+        goto done;
+      }
+
+      /* inform operation of incoming stream priority */
+      gnl_operation_signal_input_priority_changed ((GnlOperation *) parent,
+          sinkpad, object->priority);
+
+      gst_object_unref (sinkpad);
       gst_pad_set_blocked_async (pad, FALSE, (GstPadBlockCallback) pad_blocked,
           comp);
     }
@@ -1744,17 +1822,34 @@ compare_relink_single_node (GnlComposition * comp, GNode * node,
 
       /* relink to new parent in required order */
       if (newparent) {
+        GstPad *sinkpad;
+
         GST_LOG_OBJECT (comp, "Linking %s and %s",
             GST_ELEMENT_NAME (GST_ELEMENT (newobj)),
             GST_ELEMENT_NAME (GST_ELEMENT (newparent)));
-        /* FIXME : do it in required order */
-        if (!(gst_element_link ((GstElement *) newobj,
-                    (GstElement *) newparent)))
-          GST_ERROR_OBJECT (comp, "Couldn't link %s to %s",
-              GST_ELEMENT_NAME (newobj), GST_ELEMENT_NAME (newparent));
+
+        sinkpad = get_unlinked_sink_ghost_pad ((GnlOperation *) newparent);
+        if (G_UNLIKELY (sinkpad == NULL)) {
+          GST_WARNING_OBJECT (comp, "Couldn't find an unlinked sinkpad from %s",
+              GST_ELEMENT_NAME (newparent));
+        } else {
+          if (G_UNLIKELY (gst_pad_link (srcpad, sinkpad) != GST_PAD_LINK_OK)) {
+            GST_WARNING_OBJECT (comp, "Failed to link pads");
+          }
+          gst_object_unref (sinkpad);
+        }
       }
     } else
       GST_LOG_OBJECT (newobj, "Same parent and same position in the new stack");
+
+    /* If there's an operation, inform it about priority changes */
+    if (newparent) {
+      GstPad *sinkpad = gst_pad_get_peer (srcpad);
+      gnl_operation_signal_input_priority_changed ((GnlOperation *) newparent,
+          sinkpad, newobj->priority);
+      gst_object_unref (sinkpad);
+    }
+
   } else {
     GnlCompositionEntry *entry = COMP_ENTRY (comp, newobj);
 

@@ -1,5 +1,5 @@
 
-Release notes for GNonLin Non-Linear Editing Plug-ins 0.10.12 "Lots of people on the clothesline"
+Release notes for GNonLin Non-Linear Editing Plug-ins 0.10.13 "Service of Quality"
         
 
 
@@ -29,11 +29,13 @@ An element for using filters in a GnlComposition
 
 Features of this release
     
-      * New property for faster composition updates
-      * Speedups
-      * various fixes
-There were no bugs fixed in this release
-    
+      * Fix QoS event handling
+      * Fix racyness in source pad handlings
+      * GnlOperation: Add signal to know input stream priorities
+
+Bugs fixed in this release
+     
+      * 583145 : Seeking on pending pipelines should return True.
 
 Download
 

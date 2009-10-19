@@ -144,7 +144,7 @@ gnl_operation_class_init (GnlOperationClass * klass)
       g_signal_new ("input-priority-changed", G_TYPE_FROM_CLASS (klass),
       G_SIGNAL_RUN_LAST, G_STRUCT_OFFSET (GnlOperationClass,
           input_priority_changed), NULL, NULL, gnl_marshal_VOID__OBJECT_UINT,
-      G_TYPE_NONE, 1, G_TYPE_UINT);
+      G_TYPE_NONE, 2, GST_TYPE_PAD, G_TYPE_UINT);
 
   gstelement_class->request_new_pad =
       GST_DEBUG_FUNCPTR (gnl_operation_request_new_pad);
@@ -737,4 +737,14 @@ gnl_operation_release_pad (GstElement * element, GstPad * pad)
   GST_DEBUG ("pad %s:%s", GST_DEBUG_PAD_NAME (pad));
 
   remove_sink_pad ((GnlOperation *) element, pad);
+}
+
+void
+gnl_operation_signal_input_priority_changed (GnlOperation * operation,
+    GstPad * pad, guint32 priority)
+{
+  GST_DEBUG_OBJECT (operation, "pad:%s:%s, priority:%d",
+      GST_DEBUG_PAD_NAME (pad), priority);
+  g_signal_emit (operation, gnl_operation_signals[INPUT_PRIORITY_CHANGED],
+      0, pad, priority);
 }

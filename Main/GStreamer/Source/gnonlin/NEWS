@@ -1,3 +1,11 @@
+This is GNonLin 0.10.13 "Service of Quality"
+
+Features of this release
+
+      * Fix QoS event handling
+      * Fix racyness in source pad handlings
+      * GnlOperation: Add signal to know input stream priorities
+
 This is GNonLin 0.10.12 "Lots of people on the clothesline"
 
 Features of this release

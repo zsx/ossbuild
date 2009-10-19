@@ -73,6 +73,11 @@ struct _GnlOperationClass
 
 GstPad * get_unlinked_sink_ghost_pad (GnlOperation * operation);
 
+void
+gnl_operation_signal_input_priority_changed(GnlOperation * operation, GstPad *pad,
+					    guint32 priority);
+
+
 /* normal GOperation stuff */
 GType gnl_operation_get_type (void);
 

@@ -246,25 +246,29 @@ static void
 element_pad_removed_cb (GstElement * element G_GNUC_UNUSED, GstPad * pad,
     GnlSource * source)
 {
-  GST_DEBUG_OBJECT (source, "pad %s:%s", GST_DEBUG_PAD_NAME (pad));
+  GST_DEBUG_OBJECT (source, "pad %s:%s (controlled pad %s:%s)",
+      GST_DEBUG_PAD_NAME (pad), GST_DEBUG_PAD_NAME (source->priv->ghostedpad));
 
-  if (source->priv->ghostpad) {
-    GstPad *target =
-        gst_ghost_pad_get_target (GST_GHOST_PAD (source->priv->ghostpad));
+  if (pad == source->priv->ghostedpad) {
+    GST_DEBUG_OBJECT (source,
+        "The removed pad is the controlled pad, clearing up");
 
-    if (target == pad) {
-      gst_pad_set_blocked_async (target, FALSE,
+    if (source->priv->ghostpad) {
+      GST_DEBUG_OBJECT (source, "Clearing up ghostpad");
+
+      gst_pad_set_blocked_async (pad, FALSE,
           (GstPadBlockCallback) pad_blocked_cb, source);
 
 
       gnl_object_remove_ghost_pad ((GnlObject *) source,
           source->priv->ghostpad);
       source->priv->ghostpad = NULL;
-      source->priv->pendingblock = FALSE;
-      gst_object_unref (target);
-    } else {
-      GST_DEBUG_OBJECT (source, "The removed pad wasn't our ghostpad target");
     }
+
+    source->priv->pendingblock = FALSE;
+    source->priv->ghostedpad = NULL;
+  } else {
+    GST_DEBUG_OBJECT (source, "The removed pad is NOT our controlled pad");
   }
 }
 
@@ -576,6 +580,7 @@ gnl_source_change_state (GstElement * element, GstStateChange transition)
             source->priv->ghostpad);
         source->priv->ghostpad = NULL;
         source->priv->ghostedpad = NULL;
+        source->priv->pendingblock = FALSE;
       }
     default:
       break;

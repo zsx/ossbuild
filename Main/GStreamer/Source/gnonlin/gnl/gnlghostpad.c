@@ -37,63 +37,6 @@ struct _GnlPadPrivate
   GstPadQueryFunction queryfunc;
 };
 
-
-static GstEvent *
-translate_incoming_qos (GnlObject * object, GstEvent * event)
-{
-  gdouble prop;
-  GstClockTimeDiff diff;
-  GstClockTime timestamp, timestamp2;
-  GstEvent *event2 = NULL;
-
-  gst_event_parse_qos (event, &prop, &diff, &timestamp);
-
-  GST_DEBUG_OBJECT (object,
-      "incoming qos prop:%f, diff:%" G_GINT64_FORMAT
-      ", timestamp:%" GST_TIME_FORMAT, prop, diff, GST_TIME_ARGS (timestamp));
-
-  if (!(gnl_object_to_media_time (object, timestamp, &timestamp2)) ||
-      ((diff < 0) && (-diff > timestamp))) {
-    GST_DEBUG ("Invalid timestamp, discarding event");
-    gst_event_unref (event);
-  } else {
-    GST_DEBUG_OBJECT (object,
-        "translated qos prop:%f, diff:%" G_GINT64_FORMAT
-        ", timestamp:%" GST_TIME_FORMAT, prop, diff,
-        GST_TIME_ARGS (timestamp2));
-    event2 = gst_event_new_qos (prop, diff, timestamp2);
-  }
-  return event2;
-}
-
-static GstEvent *
-translate_outgoing_qos (GnlObject * object, GstEvent * event)
-{
-  gdouble prop;
-  GstClockTimeDiff diff;
-  GstClockTime timestamp, timestamp2;
-  GstEvent *event2 = NULL;
-
-  gst_event_parse_qos (event, &prop, &diff, &timestamp);
-
-  GST_DEBUG_OBJECT (object,
-      "incoming qos prop:%f, diff:%" G_GINT64_FORMAT
-      ", timestamp:%" GST_TIME_FORMAT, prop, diff, GST_TIME_ARGS (timestamp));
-
-  if (!(gnl_media_to_object_time (object, timestamp, &timestamp2)) ||
-      ((diff < 0) && (-diff > timestamp))) {
-    GST_DEBUG ("Invalid timestamp, discarding event");
-    gst_event_unref (event);
-  } else {
-    GST_DEBUG_OBJECT (object,
-        "translated qos prop:%f, diff:%" G_GINT64_FORMAT
-        ", timestamp:%" GST_TIME_FORMAT, prop, diff,
-        GST_TIME_ARGS (timestamp2));
-    event2 = gst_event_new_qos (prop, diff, timestamp2);
-  }
-  return event2;
-}
-
 static GstEvent *
 translate_incoming_seek (GnlObject * object, GstEvent * event)
 {
@@ -397,8 +340,6 @@ internalpad_event_function (GstPad * internal, GstEvent * event)
         case GST_EVENT_SEEK:
           event = translate_outgoing_seek (object, event);
           break;
-        case GST_EVENT_QOS:
-          event = translate_outgoing_qos (object, event);
         default:
           break;
       }
@@ -550,9 +491,6 @@ ghostpad_event_function (GstPad * ghostpad, GstEvent * event)
       switch (GST_EVENT_TYPE (event)) {
         case GST_EVENT_SEEK:
           event = translate_incoming_seek (object, event);
-          break;
-        case GST_EVENT_QOS:
-          event = translate_incoming_qos (object, event);
           break;
         default:
           break;
