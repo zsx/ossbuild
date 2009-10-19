@@ -14,6 +14,7 @@
 #include "tunernorm.h"
 #include "tunerchannel.h"
 #include "videoorientation.h"
+#include "streamvolume.h"
 #include "xoverlay.h"
 
 /* enumerations from "colorbalance.h" */
@@ -201,6 +202,23 @@ gst_tuner_channel_flags_get_type (void)
       { 0, NULL, NULL }
     };
     etype = g_flags_register_static ("GstTunerChannelFlags", values);
+  }
+  return etype;
+}
+
+/* enumerations from "streamvolume.h" */
+GType
+gst_stream_volume_format_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GEnumValue values[] = {
+      { GST_STREAM_VOLUME_FORMAT_LINEAR, "GST_STREAM_VOLUME_FORMAT_LINEAR", "linear" },
+      { GST_STREAM_VOLUME_FORMAT_CUBIC, "GST_STREAM_VOLUME_FORMAT_CUBIC", "cubic" },
+      { GST_STREAM_VOLUME_FORMAT_DB, "GST_STREAM_VOLUME_FORMAT_DB", "db" },
+      { 0, NULL, NULL }
+    };
+    etype = g_enum_register_static ("GstStreamVolumeFormat", values);
   }
   return etype;
 }
