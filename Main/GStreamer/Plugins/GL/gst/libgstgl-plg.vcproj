@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstopengl"
 	ProjectGUID="{0597EA2B-A46C-4CF1-B534-011D6DB91B96}"
 	RootNamespace="libgstgl"
@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="&quot;..\Source\gst-plugins-base\gst\gl&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\gl&quot;"
+				AdditionalIncludeDirectories="&quot;..\Source\gst-plugins-base\gst\gl&quot;;.;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\gl&quot;"
 				PreprocessorDefinitions="LIBgstgl_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;..\Source\gst-plugins-base\gst\gl&quot;;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\gl&quot;"
+				AdditionalIncludeDirectories="&quot;..\Source\gst-plugins-base\gst\gl&quot;;.\..\;&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\gl&quot;;./"
 				PreprocessorDefinitions="LIBgstgl_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -331,6 +331,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Source\gst-plugins-gl\gst\gl\gstglcolorscale.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-gl\gst\gl\gstgldeinterlace.h"
 				>
 			</File>
 			<File
@@ -467,6 +471,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Source\gst-plugins-gl\gst\gl\gstglcolorscale.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-gl\gst\gl\gstgldeinterlace.c"
 				>
 			</File>
 			<File

@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>gltestsrc</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="GStreamer OpenGL Plugins 0.10 Plugins Reference Manual">
+<link rel="up" href="ch01.html" title="gst-plugins-gl Elements">
+<link rel="prev" href="gst-plugins-gl-plugins-glimagesink.html" title="glimagesink">
+<link rel="next" href="gst-plugins-gl-plugins-glupload.html" title="glupload">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="gst-plugins-gl Elements">
+<link rel="chapter" href="ch02.html" title="gst-plugins-gl Plugins">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gst-plugins-gl-plugins-glimagesink.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GStreamer OpenGL Plugins 0.10 Plugins Reference Manual</th>
+<td><a accesskey="n" href="gst-plugins-gl-plugins-glupload.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-gl-plugins-gltestsrc.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-gl-plugins-gltestsrc.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-gl-plugins-gltestsrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-gl-plugins-gltestsrc.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="gst-plugins-gl-plugins-gltestsrc"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gst-plugins-gl-plugins-gltestsrc.top_of_page"></a>gltestsrc</span></h2>
+<p>gltestsrc — Creates a test video stream</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="gst-plugins-gl-plugins-gltestsrc.synopsis"></a><h2>Synopsis</h2>
+<a name="GstGLTestSrc"></a><pre class="synopsis">
+enum                GstGLTestSrcPattern;
+                    GstGLTestSrc;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-gltestsrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseSrc.html"
+>GstBaseSrc</a>
+                     +----<a
+href="../gstreamer-libs-0.10/GstPushSrc.html"
+>GstPushSrc</a>
+                           +----GstGLTestSrc
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-gltestsrc.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "is-live"                  <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "pattern"                  GstGLTestSrcPattern   : Read / Write
+  "timestamp-offset"         <a
+href="../glib/glib-Basic-Types.html#gint64"
+>gint64</a>                : Read / Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-gltestsrc.description"></a><h2>Description</h2>
+<p>
+</p>
+<div class="refsect2" lang="en">
+<a name="id3087350"></a><h3>Example launch line</h3>
+<p>
+The gltestsrc element is used to produce test video texture.
+The video test produced can be controlled with the "pattern"
+property.
+</p>
+<p>
+</p>
+<pre class="programlisting">
+gst-launch -v gltestsrc pattern=smpte ! glimagesink
+</pre>
+<p>
+Shows original SMPTE color bars in a window.
+</p>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id3087376"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-gl-plugins-plugin-opengl.html#plugin-opengl">opengl</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>David A. Schleef &lt;ds@schleef.org&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Source/Video</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3087438"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>video/x-raw-gl, width=(int)[ 1, 8000 ], height=(int)[ 1, 6000 ], pixel-aspect-ratio=(fraction)1/1, framerate=(fraction)[ 0/1, 100/1 ]</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<p>
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-gltestsrc.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="GstGLTestSrcPattern"></a><h3>enum GstGLTestSrcPattern</h3>
+<pre class="programlisting">typedef enum {
+    GST_GL_TEST_SRC_SMPTE,
+    GST_GL_TEST_SRC_SNOW,
+    GST_GL_TEST_SRC_BLACK,
+    GST_GL_TEST_SRC_WHITE,
+    GST_GL_TEST_SRC_RED,
+    GST_GL_TEST_SRC_GREEN,
+    GST_GL_TEST_SRC_BLUE,
+    GST_GL_TEST_SRC_CHECKERS1,
+    GST_GL_TEST_SRC_CHECKERS2,
+    GST_GL_TEST_SRC_CHECKERS4,
+    GST_GL_TEST_SRC_CHECKERS8,
+    GST_GL_TEST_SRC_CIRCULAR,
+    GST_GL_TEST_SRC_BLINK
+} GstGLTestSrcPattern;
+</pre>
+<p>
+The test pattern to produce.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-SMPTE--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_SMPTE</code></span></p></td>
+<td> A standard SMPTE test pattern
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-SNOW--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_SNOW</code></span></p></td>
+<td> Random noise
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-BLACK--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_BLACK</code></span></p></td>
+<td> A black image
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-WHITE--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_WHITE</code></span></p></td>
+<td> A white image
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-RED--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_RED</code></span></p></td>
+<td> A red image
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-GREEN--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_GREEN</code></span></p></td>
+<td> A green image
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-BLUE--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_BLUE</code></span></p></td>
+<td> A blue image
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-CHECKERS1--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_CHECKERS1</code></span></p></td>
+<td> Checkers pattern (1px)
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-CHECKERS2--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_CHECKERS2</code></span></p></td>
+<td> Checkers pattern (2px)
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-CHECKERS4--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_CHECKERS4</code></span></p></td>
+<td> Checkers pattern (4px)
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-CHECKERS8--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_CHECKERS8</code></span></p></td>
+<td> Checkers pattern (8px)
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-CIRCULAR--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_CIRCULAR</code></span></p></td>
+<td> Circular pattern
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-GL-TEST-SRC-BLINK--CAPS"></a><span class="term"><code class="literal">GST_GL_TEST_SRC_BLINK</code></span></p></td>
+<td> Alternate between black and white
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstGLTestSrc-struct"></a><h3>GstGLTestSrc</h3>
+<pre class="programlisting">typedef struct _GstGLTestSrc GstGLTestSrc;</pre>
+<p>
+Opaque data structure.</p>
+<p>
+</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-gltestsrc.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="GstGLTestSrc--is-live"></a><h3>The <code class="literal">"is-live"</code> property</h3>
+<pre class="programlisting">  "is-live"                  <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Whether to act as a live source.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstGLTestSrc--pattern"></a><h3>The <code class="literal">"pattern"</code> property</h3>
+<pre class="programlisting">  "pattern"                  GstGLTestSrcPattern   : Read / Write</pre>
+<p>Type of test pattern to generate.</p>
+<p>Default value: SMPTE 100% color bars</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstGLTestSrc--timestamp-offset"></a><h3>The <code class="literal">"timestamp-offset"</code> property</h3>
+<pre class="programlisting">  "timestamp-offset"         <a
+href="../glib/glib-Basic-Types.html#gint64"
+>gint64</a>                : Read / Write</pre>
+<p>An offset added to timestamps set on buffers (in ns).</p>
+<p>Default value: 0</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.11</div>
+</body>
+</html>

@@ -11,7 +11,7 @@ libgstopengl_la_SOURCES = \
 	gstglupload.c \
 	gstglupload.h \
 	gstglbumper.c \
-	gstglbumber.h \
+	gstglbumper.h \
 	gstgldownload.c \
 	gstgldownload.h \
 	gstglfilterblur.c \
@@ -26,6 +26,8 @@ libgstopengl_la_SOURCES = \
 	gstglfilterapp.h \
 	gstglcolorscale.c \
 	gstglcolorscale.h \
+  gstgldeinterlace.c \
+  gstgldeinterlace.h \
 	gstgldifferencematte.c \
 	gstgloverlay.c \
 	gltestsrc.c \
@@ -64,7 +66,7 @@ libgstopengl_la_CFLAGS = $(GST_CFLAGS) $(X_CFLAGS) $(GST_BASE_CFLAGS) \
 libgstopengl_la_LIBADD = \
 	$(top_builddir)/gst-libs/gst/gl/libgstgl-$(GST_MAJORMINOR).la \
 	$(GST_BASE_LIBS) \
-	$(GST_PLUGINS_BASE_LIBS) -lgstinterfaces-$(GST_MAJORMINOR) \
+	$(GST_PLUGINS_BASE_LIBS) -lgstvideo-$(GST_MAJORMINOR) -lgstinterfaces-$(GST_MAJORMINOR) \
 	$(GL_LIBS) \
 	$(LIBPNG_LIBS)
 

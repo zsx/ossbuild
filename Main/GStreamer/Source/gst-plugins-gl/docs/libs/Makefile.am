@@ -7,11 +7,11 @@ DOCS_ARE_INCOMPLETE_PLEASE_FIXME=yespleasedo
 #DOC_MODULE=gst-plugins-libs-@GST_MAJORMINOR@
 DOC_MODULE=gst-plugins-gl-libs
 
-# for upload.mak
+# for upload-doc.mak
 DOC=gst-plugins-gl-libs
 FORMATS=html
 html: html-build.stamp
-include $(top_srcdir)/common/upload.mak
+include $(top_srcdir)/common/upload-doc.mak
 
 # generated basefiles
 #basefiles = \
@@ -83,7 +83,7 @@ extra_files =
 # CFLAGS and LDFLAGS for compiling scan program. Only needed if your app/lib
 # contains GtkObjects/GObjects and you want to document signals and properties.
 GTKDOC_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_BASE_CFLAGS) \
-	-I$(top_builddir)/gst-libs/gst/gl
+	-I$(top_srcdir)/gst-libs/gst/gl
 GTKDOC_LIBS = $(SCANOBJ_DEPS) $(GST_BASE_LIBS) \
 	$(top_builddir)/gst-libs/gst/gl/libgstgl-@GST_MAJORMINOR@.la
 

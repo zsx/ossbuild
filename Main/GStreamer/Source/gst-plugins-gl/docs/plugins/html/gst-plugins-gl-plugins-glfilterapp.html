@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>glfilterapp</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="GStreamer OpenGL Plugins 0.10 Plugins Reference Manual">
+<link rel="up" href="ch01.html" title="gst-plugins-gl Elements">
+<link rel="prev" href="gst-plugins-gl-plugins-gleffects.html" title="gleffects">
+<link rel="next" href="gst-plugins-gl-plugins-glfiltercube.html" title="glfiltercube">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="gst-plugins-gl Elements">
+<link rel="chapter" href="ch02.html" title="gst-plugins-gl Plugins">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gst-plugins-gl-plugins-gleffects.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GStreamer OpenGL Plugins 0.10 Plugins Reference Manual</th>
+<td><a accesskey="n" href="gst-plugins-gl-plugins-glfiltercube.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-gl-plugins-glfilterapp.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#gst-plugins-gl-plugins-glfilterapp.description" class="shortcut">Description</a>
+                 | 
+                <a href="#gst-plugins-gl-plugins-glfilterapp.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                 | 
+                <a href="#gst-plugins-gl-plugins-glfilterapp.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="gst-plugins-gl-plugins-glfilterapp"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gst-plugins-gl-plugins-glfilterapp.top_of_page"></a>glfilterapp</span></h2>
+<p>glfilterapp — Use client callbacks to define the scene</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="gst-plugins-gl-plugins-glfilterapp.synopsis"></a><h2>Synopsis</h2>
+<a name="GstGLFilterApp"></a><pre class="synopsis">
+                    GstGLFilterApp;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-glfilterapp.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+>GObject</a>
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseTransform.html"
+>GstBaseTransform</a>
+                     +----GstGLFilter
+                           +----GstGLFilterApp
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-glfilterapp.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "client-draw-callback"     <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>              : Write
+  "client-reshape-callback"  <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>              : Write
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-glfilterapp.description"></a><h2>Description</h2>
+<p>
+The resize and redraw callbacks can be set from a client code.
+</p>
+<p>
+</p>
+<div class="refsect2" lang="en">
+<a name="id3028585"></a><h3>CLient callbacks</h3>
+<p>
+The graphic scene can be written from a client code through the 
+two glfilterapp properties.
+</p>
+</div>
+<p>
+</p>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3028567"></a><h3>Examples</h3>
+see gst-plugins-gl/tests/examples/generic/recordgraphic
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id3027313"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-gl-plugins-plugin-opengl.html#plugin-opengl">opengl</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Julien Isorce &lt;julien.isorce@gmail.com&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Filter/Effect</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id3053224"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>video/x-raw-gl, width=(int)[ 1, 8000 ], height=(int)[ 1, 6000 ], pixel-aspect-ratio=(fraction)1/1, framerate=(fraction)[ 0/1, 100/1 ]</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>video/x-raw-gl, width=(int)[ 1, 8000 ], height=(int)[ 1, 6000 ], pixel-aspect-ratio=(fraction)1/1, framerate=(fraction)[ 0/1, 100/1 ]</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<p>
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-glfilterapp.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="GstGLFilterApp-struct"></a><h3>GstGLFilterApp</h3>
+<pre class="programlisting">typedef struct _GstGLFilterApp GstGLFilterApp;</pre>
+<p>
+</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="gst-plugins-gl-plugins-glfilterapp.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="GstGLFilterApp--client-draw-callback"></a><h3>The <code class="literal">"client-draw-callback"</code> property</h3>
+<pre class="programlisting">  "client-draw-callback"     <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>              : Write</pre>
+<p>Define a custom draw callback in a client code.</p>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="GstGLFilterApp--client-reshape-callback"></a><h3>The <code class="literal">"client-reshape-callback"</code> property</h3>
+<pre class="programlisting">  "client-reshape-callback"  <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>              : Write</pre>
+<p>Define a custom reshape callback in a client code.</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.11</div>
+</body>
+</html>

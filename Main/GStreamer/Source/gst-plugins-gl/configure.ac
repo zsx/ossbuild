@@ -5,7 +5,7 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, cvs and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for cvs/prerelease
-AC_INIT(GStreamer OpenGL Plug-ins, 0.10.0.1,
+AC_INIT(GStreamer OpenGL Plug-ins, 0.10.1,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-gl)
 
@@ -439,6 +439,7 @@ tests/examples/gtk/gtkxoverlay/Makefile
 tests/examples/gtk/filternoxoverlay/Makefile
 tests/examples/gtk/filterxoverlay/Makefile
 tests/examples/gtk/fxtest/Makefile
+tests/examples/gtk/switchxoverlay/Makefile
 tests/examples/qt/Makefile
 tests/examples/wx/Makefile
 tests/icles/Makefile

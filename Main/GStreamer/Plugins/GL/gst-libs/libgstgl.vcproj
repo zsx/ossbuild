@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstgl"
 	ProjectGUID="{09475780-CDE5-45AD-BF90-BE489DD12A23}"
 	RootNamespace="libgsgl"
@@ -127,7 +127,7 @@
 				ExecutionBucket="23"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl&quot;;&quot;$(SolutionDir)\shared\sdks\msvcrt\include&quot;;&quot;..\..\..\Generated\gst-plugins-gl\gst-libs\gst\gl&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl&quot;;.\..\;&quot;$(SolutionDir)\shared\sdks\msvcrt\include&quot;;&quot;..\..\..\Generated\gst-plugins-gl\gst-libs\gst\gl&quot;"
 				PreprocessorDefinitions="LIBGSTGL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -294,7 +294,7 @@
 				Name="VCCLCompilerTool"
 				ExecutionBucket="23"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl&quot;;&quot;$(SolutionDir)\shared\sdks\msvcrt\include&quot;;&quot;..\..\..\Generated\gst-plugins-gl\gst-libs\gst\gl&quot;"
+				AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl&quot;;.\..\;&quot;$(SolutionDir)\shared\sdks\msvcrt\include&quot;;&quot;..\..\..\Generated\gst-plugins-gl\gst-libs\gst\gl&quot;"
 				PreprocessorDefinitions="LIBGSTGL_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -412,24 +412,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstgles2.h"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="Header Installer Tool"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Header Installer Tool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglfilter.h"
 					>
 					<FileConfiguration
@@ -488,6 +470,26 @@
 		<Filter
 			Name="Source Files"
 			>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglbuffer.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstgldisplay.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglfilter.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglshader.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglwindow_win32.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -497,26 +499,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglbuffer.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstgldisplay.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglfilter.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglshader.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-gl\gst-libs\gst\gl\gstglwindow_win32.c"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
