@@ -99,6 +99,8 @@ gst_mixer_track_flags_get_type (void)
       { GST_MIXER_TRACK_NO_RECORD, "GST_MIXER_TRACK_NO_RECORD", "no-record" },
       { GST_MIXER_TRACK_NO_MUTE, "GST_MIXER_TRACK_NO_MUTE", "no-mute" },
       { GST_MIXER_TRACK_WHITELIST, "GST_MIXER_TRACK_WHITELIST", "whitelist" },
+      { GST_MIXER_TRACK_READONLY, "GST_MIXER_TRACK_READONLY", "readonly" },
+      { GST_MIXER_TRACK_WRITEONLY, "GST_MIXER_TRACK_WRITEONLY", "writeonly" },
       { 0, NULL, NULL }
     };
     etype = g_flags_register_static ("GstMixerTrackFlags", values);
