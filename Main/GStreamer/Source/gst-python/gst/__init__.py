@@ -226,4 +226,4 @@ if gstlibtoolimporter is not None:
     import video
     gstlibtoolimporter.uninstall()
     import sys
-    del sys.modules["gstlibtoolimporter"]
+    #del sys.modules["gstlibtoolimporter"]
