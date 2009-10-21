@@ -334,11 +334,30 @@ gst_ffmpegenc_getcaps (GstPad * pad)
     /* override looping all pixfmt if codec declares pixfmts;
      * these may not properly check and report supported pixfmt during _init */
     if (oclass->in_plugin->pix_fmts) {
-      if ((pixfmt = oclass->in_plugin->pix_fmts[i++]) == PIX_FMT_NONE)
+      if ((pixfmt = oclass->in_plugin->pix_fmts[i++]) == PIX_FMT_NONE) {
+        GST_DEBUG_OBJECT (ffmpegenc,
+            "At the end of official pixfmt for this codec, breaking out");
         break;
+      }
+      GST_DEBUG_OBJECT (ffmpegenc,
+          "Got an official pixfmt [%d], attempting to get caps", pixfmt);
+      tmpcaps = gst_ffmpeg_pixfmt_to_caps (pixfmt, NULL, oclass->in_plugin->id);
+      if (tmpcaps) {
+        GST_DEBUG_OBJECT (ffmpegenc, "Got caps, breaking out");
+        if (!caps)
+          caps = gst_caps_new_empty ();
+        gst_caps_append (caps, tmpcaps);
+        continue;
+      }
+      GST_DEBUG_OBJECT (ffmpegenc,
+          "Couldn't figure out caps without context, trying again with a context");
     }
-    if (pixfmt >= PIX_FMT_NB)
+
+    GST_DEBUG_OBJECT (ffmpegenc, "pixfmt :%d", pixfmt);
+    if (pixfmt >= PIX_FMT_NB) {
+      GST_WARNING ("Invalid pixfmt, breaking out");
       break;
+    }
 
     /* need to start with a fresh codec_context each time around, since
      * codec_close may have released stuff causing the next pass to segfault */
@@ -359,6 +378,8 @@ gst_ffmpegenc_getcaps (GstPad * pad)
     ctx->strict_std_compliance = -1;
 
     ctx->pix_fmt = pixfmt;
+
+    GST_DEBUG ("Attempting to open codec");
     if (gst_ffmpeg_avcodec_open (ctx, oclass->in_plugin) >= 0 &&
         ctx->pix_fmt == pixfmt) {
       ctx->width = -1;
@@ -373,6 +394,9 @@ gst_ffmpegenc_getcaps (GstPad * pad)
             "Couldn't get caps for oclass->in_plugin->name:%s",
             oclass->in_plugin->name);
       gst_ffmpeg_avcodec_close (ctx);
+    } else {
+      GST_DEBUG_OBJECT (ffmpegenc, "Opening codec failed with pixfmt : %d",
+          pixfmt);
     }
     if (ctx->priv_data)
       gst_ffmpeg_avcodec_close (ctx);
@@ -1159,7 +1183,8 @@ gst_ffmpegenc_register (GstPlugin * plugin)
 
     /* first make sure we've got a supported type */
     if (!(srccaps = gst_ffmpeg_codecid_to_caps (in_plugin->id, NULL, TRUE))) {
-      GST_WARNING ("Couldn't get source caps for encoder %s", in_plugin->name);
+      GST_DEBUG ("Couldn't get source caps for encoder '%s', skipping codec",
+          in_plugin->name);
       goto next;
     }
 
@@ -1171,7 +1196,8 @@ gst_ffmpegenc_register (GstPlugin * plugin)
           in_plugin->id, TRUE, in_plugin);
     }
     if (!sinkcaps) {
-      GST_WARNING ("Couldn't get sink caps for encoder %s", in_plugin->name);
+      GST_DEBUG ("Couldn't get sink caps for encoder '%s', skipping codec",
+          in_plugin->name);
       goto next;
     }
     /* construct the type */

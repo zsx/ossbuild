@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, cvs and prerelease does Werror too
-AC_INIT(GStreamer FFMpeg, 0.10.8,
+AC_INIT(GStreamer FFMpeg, 0.10.9,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-ffmpeg)
 
@@ -54,6 +54,7 @@ AC_SUBST(ACLOCAL_AMFLAGS, "-I m4 -I common/m4")
 
 dnl *** check for arguments to configure ***
 
+AG_GST_ARG_WITH_PKG_CONFIG_PATH
 AG_GST_ARG_WITH_PACKAGE_NAME
 AG_GST_ARG_WITH_PACKAGE_ORIGIN
 AG_GST_ARG_VALGRIND
@@ -306,7 +307,7 @@ else
   embffmpeg_configure_args="--prefix=$prefix"
 
   # Enable shared and static so that we get .a files, but with PIC code.
-  embffmpeg_configure_args="$embffmpeg_configure_args --disable-ffserver --disable-ffplay --enable-postproc --enable-gpl --enable-static --enable-shared --disable-encoder=flac --disable-decoder=cavs --disable-protocols --disable-devices --disable-network"
+  embffmpeg_configure_args="$embffmpeg_configure_args --disable-ffserver --disable-ffplay --enable-postproc --enable-gpl --enable-static --enable-shared --disable-encoder=flac --disable-decoder=cavs --disable-protocols --disable-devices --disable-network --disable-vhook"
 
   # if we are cross-compiling, tell ffmpeg so
   if test "x$cross_compiling" = xyes; then
@@ -407,6 +408,7 @@ docs/Makefile
 docs/version.entities
 tests/Makefile
 tests/check/Makefile
+tests/files/Makefile
 )
 AC_OUTPUT
 

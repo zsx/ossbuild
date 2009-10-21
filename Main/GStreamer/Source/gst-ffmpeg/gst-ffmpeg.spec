@@ -5,7 +5,7 @@
 
 
 Name: 		%{gstreamer}-ffmpeg
-Version: 	0.10.8
+Version: 	0.10.9
 Release:	1	
 Summary: 	GStreamer Streaming-media framework plug-in using FFmpeg.
 

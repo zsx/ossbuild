@@ -809,14 +809,15 @@ gst_ffmpegmux_register (GstPlugin * plugin)
     /* Try to find the caps that belongs here */
     srccaps = gst_ffmpeg_formatid_to_caps (in_plugin->name);
     if (!srccaps) {
-      GST_WARNING ("Couldn't get source caps for muxer %s", in_plugin->name);
+      GST_DEBUG ("Couldn't get source caps for muxer '%s', skipping format",
+          in_plugin->name);
       goto next;
     }
     if (!gst_ffmpeg_formatid_get_codecids (in_plugin->name,
             &video_ids, &audio_ids, in_plugin)) {
       gst_caps_unref (srccaps);
-      GST_WARNING
-          ("Couldn't get sink caps for muxer %s. Most likely because no input format mapping exists.",
+      GST_DEBUG
+          ("Couldn't get sink caps for muxer '%s'. Most likely because no input format mapping exists.",
           in_plugin->name);
       goto next;
     }
@@ -861,16 +862,17 @@ gst_ffmpegmux_register (GstPlugin * plugin)
       type = g_type_register_static (GST_TYPE_ELEMENT, type_name, &typeinfo, 0);
       g_type_set_qdata (type, GST_FFMUX_PARAMS_QDATA, (gpointer) params);
       g_type_add_interface_static (type, GST_TYPE_TAG_SETTER, &tag_setter_info);
-
+    } else {
+      gst_caps_replace (&srccaps, NULL);
+      gst_caps_replace (&audiosinkcaps, NULL);
+      gst_caps_replace (&videosinkcaps, NULL);
     }
 
     if (!gst_element_register (plugin, type_name, GST_RANK_NONE, type)) {
       g_free (type_name);
-      gst_caps_unref (srccaps);
-      if (audiosinkcaps)
-        gst_caps_unref (audiosinkcaps);
-      if (videosinkcaps)
-        gst_caps_unref (videosinkcaps);
+      gst_caps_replace (&srccaps, NULL);
+      gst_caps_replace (&audiosinkcaps, NULL);
+      gst_caps_replace (&videosinkcaps, NULL);
       return FALSE;
     }
 

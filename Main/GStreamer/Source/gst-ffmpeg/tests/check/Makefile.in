@@ -35,7 +35,8 @@ host_triplet = @host@
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/common/check.mak
 check_PROGRAMS = generic/plugin-test$(EXEEXT) \
-	generic/libavcodec-locking$(EXEEXT)
+	generic/libavcodec-locking$(EXEEXT) \
+	elements/ffdec_adpcm$(EXEEXT) elements/ffdemux_ape$(EXEEXT)
 noinst_PROGRAMS =
 subdir = tests/check
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -68,12 +69,20 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
+elements_ffdec_adpcm_SOURCES = elements/ffdec_adpcm.c
+elements_ffdec_adpcm_OBJECTS = ffdec_adpcm.$(OBJEXT)
+elements_ffdec_adpcm_LDADD = $(LDADD)
+am__DEPENDENCIES_1 =
+elements_ffdec_adpcm_DEPENDENCIES = $(am__DEPENDENCIES_1)
+am__dirstamp = $(am__leading_dot)dirstamp
+elements_ffdemux_ape_SOURCES = elements/ffdemux_ape.c
+elements_ffdemux_ape_OBJECTS = ffdemux_ape.$(OBJEXT)
+elements_ffdemux_ape_LDADD = $(LDADD)
+elements_ffdemux_ape_DEPENDENCIES = $(am__DEPENDENCIES_1)
 generic_libavcodec_locking_SOURCES = generic/libavcodec-locking.c
 generic_libavcodec_locking_OBJECTS = libavcodec-locking.$(OBJEXT)
 generic_libavcodec_locking_LDADD = $(LDADD)
-am__DEPENDENCIES_1 =
 generic_libavcodec_locking_DEPENDENCIES = $(am__DEPENDENCIES_1)
-am__dirstamp = $(am__leading_dot)dirstamp
 generic_plugin_test_SOURCES = generic/plugin-test.c
 generic_plugin_test_OBJECTS = plugin-test.$(OBJEXT)
 generic_plugin_test_LDADD = $(LDADD)
@@ -90,8 +99,10 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = generic/libavcodec-locking.c generic/plugin-test.c
-DIST_SOURCES = generic/libavcodec-locking.c generic/plugin-test.c
+SOURCES = elements/ffdec_adpcm.c elements/ffdemux_ape.c \
+	generic/libavcodec-locking.c generic/plugin-test.c
+DIST_SOURCES = elements/ffdec_adpcm.c elements/ffdemux_ape.c \
+	generic/libavcodec-locking.c generic/plugin-test.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -299,23 +310,27 @@ LOOPS = 10
 # inspect every plugin feature
 GST_INSPECT = $(GST_TOOLS_DIR)/gst-inspect-$(GST_MAJORMINOR)
 CHECK_REGISTRY = $(top_builddir)/tests/check/test-registry.xml
+TEST_FILES_DIRECTORY = $(top_srcdir)/tests/files
 REGISTRY_ENVIRONMENT = \
 	GST_REGISTRY=$(CHECK_REGISTRY)
 
 TESTS_ENVIRONMENT = \
 	$(REGISTRY_ENVIRONMENT)					\
 	GST_PLUGIN_SYSTEM_PATH=					\
-	GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/ext:$(GSTPB_PLUGINS_DIR):$(GST_PLUGINS_DIR)
+	GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/ext:$(top_builddir)/../gst-plugins-good/gst:$(GSTPB_PLUGINS_DIR):$(GST_PLUGINS_DIR)
 
 
 # ths core dumps of some machines have PIDs appended
 CLEANFILES = core.* test-registry.xml
 VALGRIND_TO_FIX = \
 	generic/plugin-test \
-	generic/libavcodec-locking
+	generic/libavcodec-locking \
+	elements/ffdemux_ape
 
 TESTS = $(check_PROGRAMS)
-AM_CFLAGS = $(GST_OBJ_CFLAGS) $(GST_CHECK_CFLAGS) $(CHECK_CFLAGS)
+AM_CFLAGS = $(GST_OBJ_CFLAGS) $(GST_CHECK_CFLAGS) $(CHECK_CFLAGS) \
+	$(GST_OPTION_CFLAGS) -DGST_TEST_FILES_PATH="\"$(TEST_FILES_DIRECTORY)\""
+
 LDADD = $(GST_OBJ_LIBS) $(GST_CHECK_LIBS) $(CHECK_LIBS)
 
 # valgrind testing
@@ -369,6 +384,15 @@ clean-noinstPROGRAMS:
 	  echo " rm -f $$p $$f"; \
 	  rm -f $$p $$f ; \
 	done
+elements/$(am__dirstamp):
+	@$(MKDIR_P) elements
+	@: > elements/$(am__dirstamp)
+elements/ffdec_adpcm$(EXEEXT): $(elements_ffdec_adpcm_OBJECTS) $(elements_ffdec_adpcm_DEPENDENCIES) elements/$(am__dirstamp)
+	@rm -f elements/ffdec_adpcm$(EXEEXT)
+	$(LINK) $(elements_ffdec_adpcm_OBJECTS) $(elements_ffdec_adpcm_LDADD) $(LIBS)
+elements/ffdemux_ape$(EXEEXT): $(elements_ffdemux_ape_OBJECTS) $(elements_ffdemux_ape_DEPENDENCIES) elements/$(am__dirstamp)
+	@rm -f elements/ffdemux_ape$(EXEEXT)
+	$(LINK) $(elements_ffdemux_ape_OBJECTS) $(elements_ffdemux_ape_LDADD) $(LIBS)
 generic/$(am__dirstamp):
 	@$(MKDIR_P) generic
 	@: > generic/$(am__dirstamp)
@@ -385,6 +409,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ffdec_adpcm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ffdemux_ape.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libavcodec-locking.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plugin-test.Po@am__quote@
 
@@ -408,6 +434,34 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
+
+ffdec_adpcm.o: elements/ffdec_adpcm.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ffdec_adpcm.o -MD -MP -MF $(DEPDIR)/ffdec_adpcm.Tpo -c -o ffdec_adpcm.o `test -f 'elements/ffdec_adpcm.c' || echo '$(srcdir)/'`elements/ffdec_adpcm.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/ffdec_adpcm.Tpo $(DEPDIR)/ffdec_adpcm.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elements/ffdec_adpcm.c' object='ffdec_adpcm.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ffdec_adpcm.o `test -f 'elements/ffdec_adpcm.c' || echo '$(srcdir)/'`elements/ffdec_adpcm.c
+
+ffdec_adpcm.obj: elements/ffdec_adpcm.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ffdec_adpcm.obj -MD -MP -MF $(DEPDIR)/ffdec_adpcm.Tpo -c -o ffdec_adpcm.obj `if test -f 'elements/ffdec_adpcm.c'; then $(CYGPATH_W) 'elements/ffdec_adpcm.c'; else $(CYGPATH_W) '$(srcdir)/elements/ffdec_adpcm.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/ffdec_adpcm.Tpo $(DEPDIR)/ffdec_adpcm.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elements/ffdec_adpcm.c' object='ffdec_adpcm.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ffdec_adpcm.obj `if test -f 'elements/ffdec_adpcm.c'; then $(CYGPATH_W) 'elements/ffdec_adpcm.c'; else $(CYGPATH_W) '$(srcdir)/elements/ffdec_adpcm.c'; fi`
+
+ffdemux_ape.o: elements/ffdemux_ape.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ffdemux_ape.o -MD -MP -MF $(DEPDIR)/ffdemux_ape.Tpo -c -o ffdemux_ape.o `test -f 'elements/ffdemux_ape.c' || echo '$(srcdir)/'`elements/ffdemux_ape.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/ffdemux_ape.Tpo $(DEPDIR)/ffdemux_ape.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elements/ffdemux_ape.c' object='ffdemux_ape.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ffdemux_ape.o `test -f 'elements/ffdemux_ape.c' || echo '$(srcdir)/'`elements/ffdemux_ape.c
+
+ffdemux_ape.obj: elements/ffdemux_ape.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT ffdemux_ape.obj -MD -MP -MF $(DEPDIR)/ffdemux_ape.Tpo -c -o ffdemux_ape.obj `if test -f 'elements/ffdemux_ape.c'; then $(CYGPATH_W) 'elements/ffdemux_ape.c'; else $(CYGPATH_W) '$(srcdir)/elements/ffdemux_ape.c'; fi`
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/ffdemux_ape.Tpo $(DEPDIR)/ffdemux_ape.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='elements/ffdemux_ape.c' object='ffdemux_ape.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o ffdemux_ape.obj `if test -f 'elements/ffdemux_ape.c'; then $(CYGPATH_W) 'elements/ffdemux_ape.c'; else $(CYGPATH_W) '$(srcdir)/elements/ffdemux_ape.c'; fi`
 
 libavcodec-locking.o: generic/libavcodec-locking.c
 @am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libavcodec-locking.o -MD -MP -MF $(DEPDIR)/libavcodec-locking.Tpo -c -o libavcodec-locking.o `test -f 'generic/libavcodec-locking.c' || echo '$(srcdir)/'`generic/libavcodec-locking.c
@@ -442,6 +496,7 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+	-rm -rf elements/.libs elements/_libs
 	-rm -rf generic/.libs generic/_libs
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -630,6 +685,7 @@ clean-generic:
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
+	-rm -f elements/$(am__dirstamp)
 	-rm -f generic/$(am__dirstamp)
 
 maintainer-clean-generic:

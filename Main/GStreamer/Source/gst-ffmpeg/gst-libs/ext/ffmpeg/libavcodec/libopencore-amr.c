@@ -19,36 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
- /** @file
- * Adaptive Multi-Rate (AMR) Audio decoder stub.
- *
- * This code implements both an AMR-NarrowBand (AMR-NB) and an AMR-WideBand
- * (AMR-WB) audio encoder/decoder through external reference code from
- * http://www.3gpp.org/. The license of the code from 3gpp is unclear so you
- * have to download the code separately.
- *
- * \section AMR-NB
- *
- * The float version (default) can be downloaded from:
- * http://www.3gpp.org/ftp/Specs/archive/26_series/26.104/26104-610.zip
- *
- * \subsection Specification
- * The specification for AMR-NB can be found in TS 26.071
- * (http://www.3gpp.org/ftp/Specs/html-info/26071.htm) and some other
- * info at http://www.3gpp.org/ftp/Specs/html-info/26-series.htm.
- *
- * \section AMR-WB
- *
- * The reference code can be downloaded from:
- * http://www.3gpp.org/ftp/Specs/archive/26_series/26.204/26204-600.zip
- *
- * \subsection Specification
- * The specification for AMR-WB can be found in TS 26.171
- * (http://www.3gpp.org/ftp/Specs/html-info/26171.htm) and some other
- * info at http://www.3gpp.org/ftp/Specs/html-info/26-series.htm.
- *
- */
-
 #include "avcodec.h"
 
 static void amr_decode_fix_avctx(AVCodecContext *avctx)
@@ -65,14 +35,15 @@ static void amr_decode_fix_avctx(AVCodecContext *avctx)
     avctx->sample_fmt = SAMPLE_FMT_S16;
 }
 
-#if CONFIG_LIBAMR_NB
+#if CONFIG_LIBOPENCORE_AMRNB
 
-#include <amrnb/interf_dec.h>
-#include <amrnb/interf_enc.h>
+#include <opencore-amrnb/interf_dec.h>
+#include <opencore-amrnb/interf_enc.h>
 
 static const char nb_bitrate_unsupported[] =
     "bitrate not supported: use one of 4.75k, 5.15k, 5.9k, 6.7k, 7.4k, 7.95k, 10.2k or 12.2k\n";
 
+/* Common code for fixed and float version*/
 typedef struct AMR_bitrates {
     int       rate;
     enum Mode mode;
@@ -167,8 +138,8 @@ static int amr_nb_decode_frame(AVCodecContext *avctx, void *data,
     return packet_size;
 }
 
-AVCodec libamr_nb_decoder = {
-    "libamr_nb",
+AVCodec libopencore_amrnb_decoder = {
+    "libopencore_amrnb",
     CODEC_TYPE_AUDIO,
     CODEC_ID_AMR_NB,
     sizeof(AMRContext),
@@ -176,7 +147,7 @@ AVCodec libamr_nb_decoder = {
     NULL,
     amr_nb_decode_close,
     amr_nb_decode_frame,
-    .long_name = NULL_IF_CONFIG_SMALL("libamr-nb Adaptive Multi-Rate (AMR) Narrow-Band"),
+    .long_name = NULL_IF_CONFIG_SMALL("OpenCORE Adaptive Multi-Rate (AMR) Narrow-Band"),
 };
 
 static av_cold int amr_nb_encode_init(AVCodecContext *avctx)
@@ -241,8 +212,8 @@ static int amr_nb_encode_frame(AVCodecContext *avctx,
     return written;
 }
 
-AVCodec libamr_nb_encoder = {
-    "libamr_nb",
+AVCodec libopencore_amrnb_encoder = {
+    "libopencore_amrnb",
     CODEC_TYPE_AUDIO,
     CODEC_ID_AMR_NB,
     sizeof(AMRContext),
@@ -251,25 +222,26 @@ AVCodec libamr_nb_encoder = {
     amr_nb_encode_close,
     NULL,
     .sample_fmts = (enum SampleFormat[]){SAMPLE_FMT_S16,SAMPLE_FMT_NONE},
-    .long_name = NULL_IF_CONFIG_SMALL("libamr-nb Adaptive Multi-Rate (AMR) Narrow-Band"),
+    .long_name = NULL_IF_CONFIG_SMALL("OpenCORE Adaptive Multi-Rate (AMR) Narrow-Band"),
 };
 
 #endif
 
 /* -----------AMR wideband ------------*/
-#if CONFIG_LIBAMR_WB
+#if CONFIG_LIBOPENCORE_AMRWB
 
 #ifdef _TYPEDEF_H
 //To avoid duplicate typedefs from typedef in amr-nb
 #define typedef_h
 #endif
 
-#include <amrwb/dec_if.h>
-#include <amrwb/if_rom.h>
+#include <opencore-amrwb/dec_if.h>
+#include <opencore-amrwb/if_rom.h>
 
 static const char wb_bitrate_unsupported[] =
     "bitrate not supported: use one of 6.6k, 8.85k, 12.65k, 14.25k, 15.85k, 18.25k, 19.85k, 23.05k, or 23.85k\n";
 
+/* Common code for fixed and float version*/
 typedef struct AMRWB_bitrates {
     int rate;
     int mode;
@@ -281,101 +253,6 @@ typedef struct AMRWBContext {
     int    mode;
     Word16 allow_dtx;
 } AMRWBContext;
-
-#if CONFIG_LIBAMR_WB_ENCODER
-
-#include <amrwb/enc_if.h>
-
-static int getWBBitrateMode(int bitrate)
-{
-    /* make the correspondance between bitrate and mode */
-    AMRWB_bitrates rates[] = { { 6600, 0},
-                               { 8850, 1},
-                               {12650, 2},
-                               {14250, 3},
-                               {15850, 4},
-                               {18250, 5},
-                               {19850, 6},
-                               {23050, 7},
-                               {23850, 8}, };
-    int i;
-
-    for (i = 0; i < 9; i++)
-        if (rates[i].rate == bitrate)
-            return rates[i].mode;
-    /* no bitrate matching, return an error */
-    return -1;
-}
-
-static av_cold int amr_wb_encode_init(AVCodecContext *avctx)
-{
-    AMRWBContext *s = avctx->priv_data;
-
-    s->frameCount = 0;
-
-    if (avctx->sample_rate != 16000) {
-        av_log(avctx, AV_LOG_ERROR, "Only 16000Hz sample rate supported\n");
-        return -1;
-    }
-
-    if (avctx->channels != 1) {
-        av_log(avctx, AV_LOG_ERROR, "Only mono supported\n");
-        return -1;
-    }
-
-    if ((s->mode = getWBBitrateMode(avctx->bit_rate)) < 0) {
-        av_log(avctx, AV_LOG_ERROR, wb_bitrate_unsupported);
-        return -1;
-    }
-
-    avctx->frame_size  = 320;
-    avctx->coded_frame = avcodec_alloc_frame();
-
-    s->state     = E_IF_init();
-    s->allow_dtx = 0;
-
-    return 0;
-}
-
-static int amr_wb_encode_close(AVCodecContext *avctx)
-{
-    AMRWBContext *s = avctx->priv_data;
-
-    E_IF_exit(s->state);
-    av_freep(&avctx->coded_frame);
-    s->frameCount++;
-    return 0;
-}
-
-static int amr_wb_encode_frame(AVCodecContext *avctx,
-                               unsigned char *frame/*out*/,
-                               int buf_size, void *data/*in*/)
-{
-    AMRWBContext *s = avctx->priv_data;
-    int size;
-
-    if ((s->mode = getWBBitrateMode(avctx->bit_rate)) < 0) {
-        av_log(avctx, AV_LOG_ERROR, wb_bitrate_unsupported);
-        return -1;
-    }
-    size = E_IF_encode(s->state, s->mode, data, frame, s->allow_dtx);
-    return size;
-}
-
-AVCodec libamr_wb_encoder = {
-    "libamr_wb",
-    CODEC_TYPE_AUDIO,
-    CODEC_ID_AMR_WB,
-    sizeof(AMRWBContext),
-    amr_wb_encode_init,
-    amr_wb_encode_frame,
-    amr_wb_encode_close,
-    NULL,
-    .sample_fmts = (enum SampleFormat[]){SAMPLE_FMT_S16,SAMPLE_FMT_NONE},
-    .long_name = NULL_IF_CONFIG_SMALL("libamr-wb Adaptive Multi-Rate (AMR) Wide-Band"),
-};
-
-#endif
 
 static av_cold int amr_wb_decode_init(AVCodecContext *avctx)
 {
@@ -431,8 +308,8 @@ static int amr_wb_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-AVCodec libamr_wb_decoder = {
-    "libamr_wb",
+AVCodec libopencore_amrwb_decoder = {
+    "libopencore_amrwb",
     CODEC_TYPE_AUDIO,
     CODEC_ID_AMR_WB,
     sizeof(AMRWBContext),
@@ -440,7 +317,7 @@ AVCodec libamr_wb_decoder = {
     NULL,
     amr_wb_decode_close,
     amr_wb_decode_frame,
-    .long_name = NULL_IF_CONFIG_SMALL("libamr-wb Adaptive Multi-Rate (AMR) Wide-Band"),
+    .long_name = NULL_IF_CONFIG_SMALL("OpenCORE Adaptive Multi-Rate (AMR) Wide-Band"),
 };
 
-#endif //CONFIG_LIBAMR_WB
+#endif /* CONFIG_LIBOPENCORE_AMRWB */

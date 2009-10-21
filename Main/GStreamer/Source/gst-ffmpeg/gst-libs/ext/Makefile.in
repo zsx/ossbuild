@@ -290,6 +290,7 @@ DIST_SUBDIRS = ffmpeg
 TMP_DIST_DIR = ffmpeg-dist
 DIST_DIR = $(TMP_DIST_DIR)/.ffmpeg
 EXTRA_DIST = Makefile.am
+MAINTAINERCLEANDIRS = $(DIST_SUBDIRS)
 all: all-recursive
 
 .SUFFIXES:
@@ -521,8 +522,6 @@ install-ps: install-ps-recursive
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-recursive
-	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
@@ -564,11 +563,16 @@ clean-local:
 	cd ffmpeg && $(MAKE) clean
 
 dist-clean:
+	cd ffmpeg && $(MAKE) distclean
 	rm -rf $(TMP_DIST_DIR)
-	rm -rf ffmpeg/
 	rm -f Makefile
 
 distclean: dist-clean
+
+maintainer-clean: distclean
+	rm -rf $(MAINTAINERCLEANDIRS)
+
+maintainerclean: maintainer-clean
 
 dist-local:
 	svn -r $(FFMPEG_REVISION) co $(FFMPEG_SVN) $(TMP_DIST_DIR)
