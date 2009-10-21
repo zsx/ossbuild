@@ -5,6 +5,10 @@
 	Name="LibSchrodinger"
 	>
 	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\schroedinger-1.0&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\schroedinger-1.0&quot;"
+	/>
+	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="schroedinger-$(LibSchroedingerLibVersionString).lib"
 	/>
