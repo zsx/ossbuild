@@ -250,7 +250,10 @@
 #undef HAVE_SHOUT2
 
 /* Define to 1 if you have the `sinh' function. */
-#undef HAVE_SINH
+#define HAVE_SINH 1
+
+/* Define to 1 if you have the `cosh' function. */
+#define HAVE_COSH 1
 
 /* Define to enable soup http client plugin (2.4) (used by souphttpsrc). */
 #undef HAVE_SOUP
