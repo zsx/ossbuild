@@ -65,16 +65,16 @@ fs_rtp_dtmf_event_source_build (FsRtpSpecialSource *source,
     FsCodec *selected_codec);
 
 
-static gboolean fs_rtp_dtmf_event_source_class_want_source (
-    FsRtpSpecialSourceClass *klass,
-    GList *negotiated_codecs,
-    FsCodec *selected_codec);
 static GList *fs_rtp_dtmf_event_source_class_add_blueprint (
     FsRtpSpecialSourceClass *klass,
     GList *blueprints);
 static GList *fs_rtp_dtmf_event_source_negotiation_filter (
     FsRtpSpecialSourceClass *klass,
     GList *codec_associations);
+static  FsCodec *fs_rtp_dtmf_event_source_get_codec (
+    FsRtpSpecialSourceClass *klass,
+    GList *negotiated_codecs,
+    FsCodec *codec);
 
 static void
 fs_rtp_dtmf_event_source_class_init (FsRtpDtmfEventSourceClass *klass)
@@ -82,10 +82,10 @@ fs_rtp_dtmf_event_source_class_init (FsRtpDtmfEventSourceClass *klass)
   FsRtpSpecialSourceClass *spsource_class = FS_RTP_SPECIAL_SOURCE_CLASS (klass);
 
   spsource_class->build = fs_rtp_dtmf_event_source_build;
-  spsource_class->want_source = fs_rtp_dtmf_event_source_class_want_source;
   spsource_class->add_blueprint = fs_rtp_dtmf_event_source_class_add_blueprint;
   spsource_class->negotiation_filter =
     fs_rtp_dtmf_event_source_negotiation_filter;
+  spsource_class->get_codec = fs_rtp_dtmf_event_source_get_codec;
 
   g_type_class_add_private (klass, sizeof (FsRtpDtmfEventSourcePrivate));
 }
@@ -197,7 +197,8 @@ _is_telephony_codec (CodecAssociation *ca, gpointer user_data)
 {
   guint clock_rate = GPOINTER_TO_UINT (user_data);
 
-  if (ca->codec->media_type == FS_MEDIA_TYPE_AUDIO &&
+  if (codec_association_is_valid_for_sending (ca, FALSE) &&
+      ca->codec->media_type == FS_MEDIA_TYPE_AUDIO &&
       !g_ascii_strcasecmp (ca->codec->encoding_name, "telephone-event") &&
       ca->codec->clock_rate == clock_rate)
     return TRUE;
@@ -206,41 +207,31 @@ _is_telephony_codec (CodecAssociation *ca, gpointer user_data)
 }
 
 /**
- * get_telephone_event_codec:
- * @codecs: a #GList of #FsCodec
- * @clock_rate: The clock rate to look for
+ * fs_rtp_dtmf_event_source_get_codec:
+ * @negotiated_codecs: a #GList of currently negotiated #FsCodec
+ * @selected_codec: The current #FsCodec
  *
  * Find the telephone-event codec with the proper clock rate in the list
  *
  * Returns: The #FsCodec of type "telephone-event" with the requested clock-rate
  *   from the list, or %NULL
  */
-static FsCodec *
-get_telephone_event_codec (GList *codecs, guint clock_rate)
+static  FsCodec *
+fs_rtp_dtmf_event_source_get_codec (FsRtpSpecialSourceClass *klass,
+    GList *negotiated_codecs, FsCodec *selected_codec)
 {
   CodecAssociation *ca = NULL;
 
-  ca = lookup_codec_association_custom (codecs, _is_telephony_codec,
-      GUINT_TO_POINTER (clock_rate));
+  if (selected_codec->media_type != FS_MEDIA_TYPE_AUDIO)
+    return NULL;
+
+  ca = lookup_codec_association_custom (negotiated_codecs, _is_telephony_codec,
+      GUINT_TO_POINTER (selected_codec->clock_rate));
 
   if (ca)
     return ca->codec;
   else
     return NULL;
-}
-
-static gboolean
-fs_rtp_dtmf_event_source_class_want_source (FsRtpSpecialSourceClass *klass,
-    GList *negotiated_codecs,
-    FsCodec *selected_codec)
-{
-  if (selected_codec->media_type != FS_MEDIA_TYPE_AUDIO)
-    return FALSE;
-
-  if (get_telephone_event_codec (negotiated_codecs, selected_codec->clock_rate))
-    return TRUE;
-  else
-    return FALSE;
 }
 
 static GstElement *
@@ -256,12 +247,18 @@ fs_rtp_dtmf_event_source_build (FsRtpSpecialSource *source,
   GstPad *ghostpad = NULL;
   GstElement *bin = NULL;
 
-  telephony_codec = get_telephone_event_codec (negotiated_codecs,
-      selected_codec->clock_rate);
+  telephony_codec = fs_rtp_dtmf_event_source_get_codec (
+      FS_RTP_SPECIAL_SOURCE_GET_CLASS(source), negotiated_codecs,
+      selected_codec);
 
   g_return_val_if_fail (telephony_codec, NULL);
 
+  source->codec = fs_codec_copy (telephony_codec);
+
   bin = gst_bin_new (NULL);
+
+  GST_DEBUG ("Creating telephone-event source for " FS_CODEC_FORMAT,
+      FS_CODEC_ARGS (telephony_codec));
 
   dtmfsrc = gst_element_factory_make ("rtpdtmfsrc", NULL);
   if (!dtmfsrc)

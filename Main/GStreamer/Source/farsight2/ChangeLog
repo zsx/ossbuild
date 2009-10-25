@@ -1,3 +1,340 @@
+commit 30889433aec2a3ac9e91c69235bb91a920df1fe1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Oct 6 14:23:32 2009 -0400
+
+    Version 0.0.16
+
+commit d0b400225cbbac0b7f2dfd40b4430b4cd203c30a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Oct 5 15:07:15 2009 -0400
+
+    rtpspecialsource: Remove want_source() method
+    
+    get_codec() function does the same thing
+
+commit 43ed724ee47ce1f80c7b3a2947ffa1499c51fe8a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Oct 5 15:01:15 2009 -0400
+
+    rtpdtmfsoundsource: Implement get_codec method
+
+commit cdddd7835fe1dbf5d308f59be9eb5badc67c90cf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Oct 5 14:52:22 2009 -0400
+
+    rtpdtmfeventsource: Implement get_codec method
+
+commit 6227b7d59b5319db449cd5243661407749af9ec0
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Oct 5 14:45:15 2009 -0400
+
+    rtpspecialsource: Add new get_codec method
+
+commit 94e51ff396f980e94b301877d560ba918fa9e15c
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Sep 30 19:05:30 2009 -0400
+
+    rtp: Check if the codec changed when removing special sources
+
+commit dc374fec5d6ba1d6ccb998febb720985b57c84ae
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Sep 30 18:55:26 2009 -0400
+
+    rtp: Allow checking if a codec is valid for sending even if it has no way to build a codecbin
+
+commit 28ca580d77444830cc525093eade4aabc15ddc5a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Sep 30 15:31:19 2009 -0400
+
+    rtpcodecnego: Fix doc string
+
+commit 152a26550bf8dd2f08de5f91bb2977104b5a5bbf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Sep 30 15:13:10 2009 -0400
+
+    rtpspecialsource: Move static function closer to its use place
+
+commit 260cea17e20a4eb77d207712790fc8a041ca0574
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Sep 30 14:25:17 2009 -0400
+
+    rtpspecialsource: Fix over-80 line
+
+commit 0d10afe4ff342f988c69916d2510bbd2bc7f6161
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Sep 30 14:24:51 2009 -0400
+
+    rtpsession: Check/update secondary sources even if the primary one doesn't change
+
+commit 269568e6c30797e02c122b0d0ce1ff1d1a0677c2
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 29 19:19:32 2009 -0400
+
+    tests: Tests changing the dtmf PT mid-call
+
+commit 0747362705098acd5336eaddb4f071c5f95231ac
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 29 18:46:40 2009 -0400
+
+    tests: Make sure dtmf events are really received
+
+commit dc7c9df2fdf8e27abe5ccfc6201cec2e1f0354f9
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 29 18:45:13 2009 -0400
+
+    test: Test changing the dtmf_id
+
+commit 02eaccd14eb2def5148d9302e8647309eaa36b46
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 29 18:07:18 2009 -0400
+
+    tests: dtmf method is not always auto
+
+commit e90f83853a8affa655dcfabdffcdb0dbb16ccc99
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 29 18:05:48 2009 -0400
+
+    rtpsession: Only emit send-codec-changed message after the special codecs have been changed
+
+commit a12ecea8e3187ef38bb254794d573c4b579e8e71
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 24 20:57:20 2009 -0400
+
+    rtpsession: Don't leak iterator on linking failure
+
+commit d6f3c3b7d88db29d455eb4b5a20e558075d822a6
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 24 20:57:06 2009 -0400
+
+    rtpsession: Cleanup send codecbin on failure
+
+commit 3cc35a8592ef7ca083b9dea658ea24bf5f90656e
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 24 20:55:51 2009 -0400
+
+    rtpsession: Print error on session dispose problems
+
+commit ccb7cac69c5f07479c603f6776a01eb0571414ec
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 24 17:25:10 2009 -0400
+
+    rtpdtmfsoundsource: Correctly check the presence of elements
+
+commit 8407fc8b6c280712d11ade59db34661f1e95aa49
+Author: Sjoerd Simons <sjoerd.simons@collabora.co.uk>
+Date:   Sat Sep 19 18:15:59 2009 +0100
+
+    rawudp: Use %d for ints, not %s
+
+commit 1c8f9c12c9de884362287e89dc51da37ca1cc467
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Sep 18 15:46:53 2009 -0400
+
+    configure: quiet automake portability bs
+
+commit c7c7e355a20b4a0e117232d733407dc656cc6652
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 17 21:58:07 2009 -0400
+
+    msnstream: Make send sink async=false for now
+
+commit b51c1f8559bf9704857c5483294b68eca3a02701
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 17 21:44:35 2009 -0400
+
+    msnstream: Don't keep lock into set_remote_candidates
+
+commit a8393dbb09aca8902c94996cc0061acbc48d8bc9
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 17 12:46:27 2009 -0400
+
+    tests: Test invalid property name in fs_element_added_notifier_from_keyfile
+
+commit 1f2685d2335eae0bcb6547e49410afec466f5355
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 17 12:47:10 2009 -0400
+
+    element-added-notifier: Don't crash on invalid property
+
+commit 928e4a5f785507d98cdb467a4e1e7feafb18e326
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Sep 14 17:38:26 2009 -0400
+
+    rtpconference: Don't assert on non-existing sdes parts
+
+commit c884c30b8157f184c9e2aa39c20ca0aeffe808ba
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 10 17:33:49 2009 -0400
+
+    rtpspecialsource: Dispose is not always called twice, cleanup in finalize
+
+commit e893ed9ae9b533cf0910dfc9d179979dcff5730a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 8 19:28:20 2009 -0400
+
+    rtpsession: Remove useless ref
+
+commit c581896d27c1838f8f4df74587ee3f7144b14bc1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 3 18:44:23 2009 -0400
+
+    Version 0.0.15.1
+
+commit 0c0baf1e171afb2e9f3622486398a957f11fece2
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 3 18:24:08 2009 -0400
+
+    Version 0.0.15
+
+commit 3453a584cea2c7272e0a5cc5b3b42d130d91e5ba
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 3 18:17:25 2009 -0400
+
+    Require gst-p-bad 0.10.14 for mimic
+
+commit e3708e794bc68c482fd76fbf57b503913ea38d30
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 3 17:56:53 2009 -0400
+
+    tests: Unlock src before setting it to playing
+
+commit b1019f6c98f2a10b1eb975d3ebab8d281f565d87
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 3 17:55:57 2009 -0400
+
+    tests: Refrain from using the thread unsafe version of failure in the nice test
+
+commit 32fe84dae17f4fc5fd4816bc4f13454b683e727d
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 3 15:20:10 2009 -0400
+
+    rtpsession: Keep ref on stream while associating substreams to it
+
+commit 46f89ab40e611a5ed0697fe4592935e70b19a0da
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Sep 3 14:22:00 2009 -0400
+
+    rtpsubstream: Remove another double-unlock in error case
+
+commit 304e7ac095e8c539b917fccc3e771231dae5c0ee
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 1 19:38:01 2009 -0400
+
+    rtpsession: Don't double-unlock
+
+commit eeae1d72e8b95d416f1c96f9de624cab4223760d
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 1 19:35:32 2009 -0400
+
+    rtpsession: Fix leaking caps on signals after dispose
+
+commit 67f291df926ffc381abb571bdb7f5f3d88093c74
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 1 18:51:05 2009 -0400
+
+    rtpsession: Fix potential leak if already disposed
+
+commit 9432e1e2d57bfe7a3f1bd94ce7b302162c1d3ad0
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Sep 1 18:50:51 2009 -0400
+
+    rtpsubstrea: Remove unused variable
+
+commit 9c6f5e1b9bbc7543e527a088a27bda9563e407c1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Aug 31 15:01:32 2009 -0400
+
+    elementaddednotifier: Use g_connect_signal_object
+    
+    Otherwise each element had a ref on the notifier and relied on the not thread
+    safe weak references.
+
+commit 8d102cfee303c77020f7c3ddd6370c88792e5bb9
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Aug 20 10:19:40 2009 -0400
+
+    rawudp: Emit local candidates if there are no local interfaces suitable for UPnP
+
+commit c6b9fd4eda3cbf2082ac5b07a6e9dc5f9f8cf534
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Thu Aug 20 10:19:13 2009 -0400
+
+    rawudp: Add some UPnP debug messages
+
+commit 5bbd242795b143f862b775220f89a2e652bd9ee0
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Aug 17 17:03:37 2009 -0400
+
+    glib-gen: Use single = instead of == for portability
+
+commit 160cea00257fcce1924f1696725208c79dab50f9
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Aug 12 14:48:47 2009 -0400
+
+    msnconnection: Check return values from recv()
+
+commit e71f86bc3ab0185c0e1ef00406bdb48fd1dbc050
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Aug 12 14:28:26 2009 -0400
+
+    msnsession: Conference must always set before get_property
+
+commit c8aac249cd1aa38882644bde1c78ddd76c5cb2b5
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Aug 12 14:27:14 2009 -0400
+
+    msnsession: Only try to lock conference if it has been set
+
+commit f61c6fdfcd7763fa0e640455c6b67ed51b600faf
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Aug 12 14:24:14 2009 -0400
+
+    rtpsession: Initialise variable to NULL
+    
+    Makes coverity happy
+
+commit cc0c86bd6a3cb4cad5da753ed57e40fd3d17db84
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Wed Aug 12 14:23:52 2009 -0400
+
+    msnconnection: Remove unused variables
+
+commit 5872086d4d3d72dc675c190206138231b0edf26f
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Aug 7 19:14:13 2009 -0400
+
+    rtpstream: Correct documentation
+
+commit 84161b32250d847e4b200b99589b1359b7822f9a
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Aug 7 16:43:40 2009 -0400
+
+    rtpsession: Unref transmitter src/sink in dispose
+    
+    Unref element from g_object_get(), fixes leak
+
+commit bdc51c5a3d829bd2fcf041ce06e6ff3a35c80ebd
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Fri Aug 7 16:43:11 2009 -0400
+
+    elementaddednotifier: Unref element in iterator loop
+    
+    Fixes leak
+
+commit 4f698cbfecb89258397d29ffb82e8c8e3b6c8de1
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Tue Aug 4 15:37:36 2009 -0400
+
+    elementadded: Use gst_value_deserialize to read properties
+    
+    Use the existing function instead of having our own less-capable re-implementation
+
+commit 9ecc88b7d54d2037053bb3e5beba1c5f491598a5
+Author: Olivier Crête <olivier.crete@collabora.co.uk>
+Date:   Mon Aug 3 16:47:44 2009 -0400
+
+    Version 0.0.14.1
+
 commit 20ffe3888a03c9e762b03419eba46d55ad56ceb7
 Author: Olivier Crête <olivier.crete@collabora.co.uk>
 Date:   Mon Aug 3 16:32:19 2009 -0400

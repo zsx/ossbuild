@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsConference</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch01.html" title="Farsight GStreamer Interfaces">
 <link rel="prev" href="ch01.html" title="Farsight GStreamer Interfaces">
 <link rel="next" href="ch02.html" title="Farsight Core Library">
@@ -40,7 +40,7 @@
                 <a href="#FsConference.implementations" class="shortcut">Known Implementations</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsConference">
 <a name="FsConference"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -49,7 +49,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="FsConference.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -73,14 +73,14 @@ enum                <a class="link" href="FsConference.html#FsError" title="enum
 #define             <a class="link" href="FsConference.html#FS-ERROR-IS-FATAL--CAPS" title="FS_ERROR_IS_FATAL()">FS_ERROR_IS_FATAL</a>                   (error)
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="FsConference.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   GInterface
    +----FsConference
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Prerequisites">
 <a name="FsConference.prerequisites"></a><h2>Prerequisites</h2>
 <p>
 FsConference requires
@@ -90,13 +90,13 @@ href="../gstreamer-0.10/GstImplementsInterface.html"
 href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Known Implementations">
 <a name="FsConference.implementations"></a><h2>Known Implementations</h2>
 <p>
 FsConference is implemented by
  <a class="link" href="FsBaseConference.html" title="FsBaseConference">FsBaseConference</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="FsConference.description"></a><h2>Description</h2>
 <p>
 This interface is implemented by the FsBaseConference base class element. A
@@ -114,8 +114,8 @@ of type <span class="type">GST_MESSAGE_ELEMENT</span> sent over the <a
 href="../gstreamer-0.10/GstBus.html"
 ><span class="type">GstBus</span></a>.
 </p>
-<div class="refsect2" lang="en">
-<a name="id2847504"></a><h3>The "<code class="literal">farsight-error</code>" message</h3>
+<div class="refsect2" title='The "farsight-error" message'>
+<a name="id2993728"></a><h3>The "<code class="literal">farsight-error</code>" message</h3>
 <div class="informalexample"><pre class="programlisting">
 "src-object"       <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
@@ -136,9 +136,9 @@ The message is sent on asynchronous errors.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="FsConference.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsConference">
 <a name="FsConference-struct"></a><h3>FsConference</h3>
 <pre class="programlisting">typedef struct _FsConference FsConference;</pre>
 <p>
@@ -147,7 +147,7 @@ Opaque <a class="link" href="FsConference.html" title="FsConference"><span class
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_conference_new_session ()">
 <a name="fs-conference-new-session"></a><h3>fs_conference_new_session ()</h3>
 <pre class="programlisting"><a class="link" href="FsSession.html" title="FsSession">FsSession</a> *         fs_conference_new_session           (<a class="link" href="FsConference.html" title="FsConference">FsConference</a> *conference,
                                                          <a class="link" href="farsight2-libs-FsCodec.html#FsMediaType" title="enum FsMediaType">FsMediaType</a> media_type,
@@ -192,7 +192,7 @@ unref'd by the user when closing the session.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_conference_new_participant ()">
 <a name="fs-conference-new-participant"></a><h3>fs_conference_new_participant ()</h3>
 <pre class="programlisting"><a class="link" href="FsParticipant.html" title="FsParticipant">FsParticipant</a> *     fs_conference_new_participant       (<a class="link" href="FsConference.html" title="FsConference">FsConference</a> *conference,
                                                          const <a
@@ -239,7 +239,7 @@ is owned by the user and he must unref it when he is done with it.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FS_ERROR">
 <a name="FS-ERROR--CAPS"></a><h3>FS_ERROR</h3>
 <pre class="programlisting">#define FS_ERROR (fs_error_quark ())
 </pre>
@@ -249,7 +249,7 @@ This quark is used to denote errors coming from Farsight objects</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum FsError">
 <a name="FsError"></a><h3>enum FsError</h3>
 <pre class="programlisting">typedef enum {
   FS_ERROR_CONSTRUCTION = 1,
@@ -356,7 +356,7 @@ codec preferences, one should try less strict codec preferences.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FS_ERROR_IS_FATAL()">
 <a name="FS-ERROR-IS-FATAL--CAPS"></a><h3>FS_ERROR_IS_FATAL()</h3>
 <pre class="programlisting">#define             FS_ERROR_IS_FATAL(error)</pre>
 <p>

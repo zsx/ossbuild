@@ -900,8 +900,7 @@ fs_rtp_sub_stream_set_codecbin_unlock (FsRtpSubStream *substream,
   if (substream->priv->codecbin)
   {
     FsCodec *saved_codec = substream->codec;
-
-    FS_RTP_SESSION_UNLOCK (substream->priv->session);
+    GstElement *old_codecbin;
 
     gst_element_set_locked_state (substream->priv->codecbin, TRUE);
     if (gst_element_set_state (substream->priv->codecbin, GST_STATE_NULL) !=
@@ -922,9 +921,11 @@ fs_rtp_sub_stream_set_codecbin_unlock (FsRtpSubStream *substream,
       return FALSE;
     }
 
-    gst_bin_remove (GST_BIN (substream->priv->conference),
-        substream->priv->codecbin);
+    old_codecbin = substream->priv->codecbin;
     substream->priv->codecbin = NULL;
+    FS_RTP_SESSION_UNLOCK (substream->priv->session);
+
+    gst_bin_remove (GST_BIN (substream->priv->conference), old_codecbin);
 
     FS_RTP_SESSION_LOCK (substream->priv->session);
     if (substream->codec == saved_codec)
@@ -1170,7 +1171,6 @@ fs_rtp_sub_stream_add_output_ghostpad_unlock (FsRtpSubStream *substream,
   GstPad *valve_srcpad;
   gchar *padname = NULL;
   GstPad *ghostpad = NULL;
-  gboolean receiving;
   FsCodec *codec = NULL;
 
   if (substream->priv->adding_output_ghostpad)
@@ -1238,7 +1238,6 @@ fs_rtp_sub_stream_add_output_ghostpad_unlock (FsRtpSubStream *substream,
       substream->ssrc, substream->pt,
       FS_CODEC_ARGS (substream->codec));
 
-  receiving = substream->priv->receiving;
   codec = fs_codec_copy (substream->codec);
 
   FS_RTP_SESSION_UNLOCK (substream->priv->session);

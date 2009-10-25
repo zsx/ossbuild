@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsCandidate</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch02.html" title="Farsight Core Library">
 <link rel="prev" href="FsStream.html" title="FsStream">
 <link rel="next" href="farsight2-libs-FsCodec.html" title="FsCodec">
@@ -34,7 +34,7 @@
                 <a href="#farsight2-libs-FsCandidate.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsCandidate">
 <a name="farsight2-libs-FsCandidate"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -43,7 +43,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="farsight2-libs-FsCandidate.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -79,7 +79,7 @@ href="../glib/glib-Doubly-Linked-Lists.html#GList"
 >GList</a> *candidate_list);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="farsight2-libs-FsCandidate.description"></a><h2>Description</h2>
 <p>
 An FsCandidate is a way to exchange candidate information between the client
@@ -90,9 +90,9 @@ information exchanged in the signaling.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="farsight2-libs-FsCandidate.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsCandidate">
 <a name="FsCandidate"></a><h3>FsCandidate</h3>
 <pre class="programlisting">typedef struct {
   gchar *foundation;
@@ -202,7 +202,7 @@ href="../glib/glib-Basic-Types.html#guint"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum FsCandidateType">
 <a name="FsCandidateType"></a><h3>enum FsCandidateType</h3>
 <pre class="programlisting">typedef enum
 {
@@ -249,7 +249,7 @@ An enum for the type of candidate used/reported</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum FsNetworkProtocol">
 <a name="FsNetworkProtocol"></a><h3>enum FsNetworkProtocol</h3>
 <pre class="programlisting">typedef enum
 {
@@ -278,7 +278,7 @@ An enum for the base IP protocol</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum FsComponentType">
 <a name="FsComponentType"></a><h3>enum FsComponentType</h3>
 <pre class="programlisting">typedef enum
 {
@@ -313,7 +313,7 @@ This enum contains the component IDs defined in ICE-19</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_candidate_new ()">
 <a name="fs-candidate-new"></a><h3>fs_candidate_new ()</h3>
 <pre class="programlisting"><a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title="FsCandidate">FsCandidate</a> *       fs_candidate_new                    (const <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -377,7 +377,7 @@ filled manually.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_candidate_destroy ()">
 <a name="fs-candidate-destroy"></a><h3>fs_candidate_destroy ()</h3>
 <pre class="programlisting">void                fs_candidate_destroy                (<a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title="FsCandidate">FsCandidate</a> *cand);</pre>
 <p>
@@ -394,7 +394,7 @@ Frees a <a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_candidate_copy ()">
 <a name="fs-candidate-copy"></a><h3>fs_candidate_copy ()</h3>
 <pre class="programlisting"><a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title="FsCandidate">FsCandidate</a> *       fs_candidate_copy                   (const <a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title="FsCandidate">FsCandidate</a> *cand);</pre>
 <p>
@@ -418,7 +418,7 @@ Copies a <a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" titl
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_candidate_list_destroy ()">
 <a name="fs-candidate-list-destroy"></a><h3>fs_candidate_list_destroy ()</h3>
 <pre class="programlisting">void                fs_candidate_list_destroy           (<a
 href="../glib/glib-Doubly-Linked-Lists.html#GList"
@@ -437,7 +437,7 @@ Deletes a GList of <a class="link" href="farsight2-libs-FsCandidate.html#FsCandi
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_candidate_list_copy ()">
 <a name="fs-candidate-list-copy"></a><h3>fs_candidate_list_copy ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Doubly-Linked-Lists.html#GList"

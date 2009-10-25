@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsStreamTransmitter</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch05.html" title="Farsight Transmitter Classes">
 <link rel="prev" href="FsTransmitter.html" title="FsTransmitter">
 <link rel="next" href="ch06.html" title="Farsight Plugins Infrastructure">
@@ -40,7 +40,7 @@
                 <a href="#FsStreamTransmitter.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsStreamTransmitter">
 <a name="FsStreamTransmitter"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -50,7 +50,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="FsStreamTransmitter.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -98,7 +98,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *debug_msg);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="FsStreamTransmitter.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -107,7 +107,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
    +----FsStreamTransmitter
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="FsStreamTransmitter.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="FsStreamTransmitter.html#FsStreamTransmitter--associate-on-source" title='The "associate-on-source" property'>associate-on-source</a>"      <a
@@ -119,7 +119,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="FsStreamTransmitter.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="FsStreamTransmitter.html#FsStreamTransmitter-error" title='The "error" signal'>error</a>"                                          : Run Last
@@ -130,7 +130,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
   "<a class="link" href="FsStreamTransmitter.html#FsStreamTransmitter-state-changed" title='The "state-changed" signal'>state-changed</a>"                                  : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="FsStreamTransmitter.description"></a><h2>Description</h2>
 <p>
 This object is the base implementation of a Farsight Stream Transmitter.
@@ -140,9 +140,9 @@ to a transmitter, this is mostly local and remote candidates</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="FsStreamTransmitter.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsStreamTransmitter">
 <a name="FsStreamTransmitter-struct"></a><h3>FsStreamTransmitter</h3>
 <pre class="programlisting">typedef struct _FsStreamTransmitter FsStreamTransmitter;</pre>
 <p>
@@ -151,7 +151,7 @@ All members are private, access them using methods and properties</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsStreamTransmitterClass">
 <a name="FsStreamTransmitterClass"></a><h3>FsStreamTransmitterClass</h3>
 <pre class="programlisting">typedef struct {
   GObjectClass parent_class;
@@ -207,7 +207,7 @@ that needs to be done)
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_transmitter_set_remote_candidates ()">
 <a name="fs-stream-transmitter-set-remote-candidates"></a><h3>fs_stream_transmitter_set_remote_candidates ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -257,7 +257,7 @@ href="../glib/glib-Error-Reporting.html#GError"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_transmitter_gather_local_candidates ()">
 <a name="fs-stream-transmitter-gather-local-candidates"></a><h3>fs_stream_transmitter_gather_local_candidates ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -298,7 +298,7 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_transmitter_force_remote_candidates ()">
 <a name="fs-stream-transmitter-force-remote-candidates"></a><h3>fs_stream_transmitter_force_remote_candidates ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -351,7 +351,7 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_transmitter_stop ()">
 <a name="fs-stream-transmitter-stop"></a><h3>fs_stream_transmitter_stop ()</h3>
 <pre class="programlisting">void                fs_stream_transmitter_stop          (<a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> *streamtransmitter);</pre>
 <p>
@@ -369,7 +369,7 @@ the last reference is dropped.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_transmitter_emit_error ()">
 <a name="fs-stream-transmitter-emit-error"></a><h3>fs_stream_transmitter_emit_error ()</h3>
 <pre class="programlisting">void                fs_stream_transmitter_emit_error    (<a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> *streamtransmitter,
                                                          <a
@@ -413,9 +413,9 @@ only be called by subclasses.</p>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="FsStreamTransmitter.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "associate-on-source" property'>
 <a name="FsStreamTransmitter--associate-on-source"></a><h3>The <code class="literal">"associate-on-source"</code> property</h3>
 <pre class="programlisting">  "associate-on-source"      <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -428,13 +428,13 @@ based on the source without looking at the content if possible.</p>
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "preferred-local-candidates" property'>
 <a name="FsStreamTransmitter--preferred-local-candidates"></a><h3>The <code class="literal">"preferred-local-candidates"</code> property</h3>
 <pre class="programlisting">  "preferred-local-candidates" FsCandidateList*      : Read / Write / Construct Only</pre>
 <p>A GList of FsCandidates.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "sending" property'>
 <a name="FsStreamTransmitter--sending"></a><h3>The <code class="literal">"sending"</code> property</h3>
 <pre class="programlisting">  "sending"                  <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -448,9 +448,9 @@ href="../gstreamer-0.10/GstElement.html"
 <p>Default value: TRUE</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="FsStreamTransmitter.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "error" signal'>
 <a name="FsStreamTransmitter-error"></a><h3>The <code class="literal">"error"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> *self,
                                                         <a class="link" href="FsConference.html#FsError" title="enum FsError">FsError</a>              errorno,
@@ -498,7 +498,7 @@ This signal is emitted in any error condition</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "known-source-packet-received" signal'>
 <a name="FsStreamTransmitter-known-source-packet-received"></a><h3>The <code class="literal">"known-source-packet-received"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> *self,
                                                         <a
@@ -543,7 +543,7 @@ href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "local-candidates-prepared" signal'>
 <a name="FsStreamTransmitter-local-candidates-prepared"></a><h3>The <code class="literal">"local-candidates-prepared"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> *self,
                                                         <a
@@ -570,7 +570,7 @@ prepared, an ICE implementation would send its SDP offer or answer.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "new-active-candidate-pair" signal'>
 <a name="FsStreamTransmitter-new-active-candidate-pair"></a><h3>The <code class="literal">"new-active-candidate-pair"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> *self,
                                                         <a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title="FsCandidate">FsCandidate</a>         *local_candidate,
@@ -612,7 +612,7 @@ outside the callback scope.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "new-local-candidate" signal'>
 <a name="FsStreamTransmitter-new-local-candidate"></a><h3>The <code class="literal">"new-local-candidate"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> *self,
                                                         <a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title="FsCandidate">FsCandidate</a>         *local_candidate,
@@ -644,7 +644,7 @@ This signal is emitted when a new local candidate is discovered.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "state-changed" signal'>
 <a name="FsStreamTransmitter-state-changed"></a><h3>The <code class="literal">"state-changed"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> *self,
                                                         <a

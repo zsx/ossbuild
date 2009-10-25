@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsTransmitter</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch05.html" title="Farsight Transmitter Classes">
 <link rel="prev" href="ch05.html" title="Farsight Transmitter Classes">
 <link rel="next" href="FsStreamTransmitter.html" title="FsStreamTransmitter">
@@ -40,7 +40,7 @@
                 <a href="#FsTransmitter.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsTransmitter">
 <a name="FsTransmitter"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -49,7 +49,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="FsTransmitter.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -104,7 +104,7 @@ href="../glib/glib-Basic-Types.html#guint"
 char **             <a class="link" href="FsTransmitter.html#fs-transmitter-list-available" title="fs_transmitter_list_available ()">fs_transmitter_list_available</a>       (void);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="FsTransmitter.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -113,7 +113,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
    +----FsTransmitter
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="FsTransmitter.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="FsTransmitter.html#FsTransmitter--components" title='The "components" property'>components</a>"               <a
@@ -130,14 +130,14 @@ href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="FsTransmitter.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="FsTransmitter.html#FsTransmitter-error" title='The "error" signal'>error</a>"                                          : Run Last
   "<a class="link" href="FsTransmitter.html#FsTransmitter-get-recvonly-filter" title='The "get-recvonly-filter" signal'>get-recvonly-filter</a>"                            : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="FsTransmitter.description"></a><h2>Description</h2>
 <p>
 This object is the base implementation of a Farsight Transmitter.
@@ -148,9 +148,9 @@ used to set the different per-stream properties</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="FsTransmitter.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsTransmitter">
 <a name="FsTransmitter-struct"></a><h3>FsTransmitter</h3>
 <pre class="programlisting">typedef struct _FsTransmitter FsTransmitter;</pre>
 <p>
@@ -159,7 +159,7 @@ All members are private, access them using methods and properties</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsTransmitterClass">
 <a name="FsTransmitterClass"></a><h3>FsTransmitterClass</h3>
 <pre class="programlisting">typedef struct {
   GObjectClass parent_class;
@@ -204,7 +204,7 @@ href="../gobject/gobject-Type-Information.html#GType"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_transmitter_new ()">
 <a name="fs-transmitter-new"></a><h3>fs_transmitter_new ()</h3>
 <pre class="programlisting"><a class="link" href="FsTransmitter.html" title="FsTransmitter">FsTransmitter</a> *     fs_transmitter_new                  (const <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -258,7 +258,7 @@ href="../glib/glib-Error-Reporting.html#GError"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_transmitter_new_stream_transmitter ()">
 <a name="fs-transmitter-new-stream-transmitter"></a><h3>fs_transmitter_new_stream_transmitter ()</h3>
 <pre class="programlisting"><a class="link" href="FsStreamTransmitter.html" title="FsStreamTransmitter">FsStreamTransmitter</a> * fs_transmitter_new_stream_transmitter
                                                         (<a class="link" href="FsTransmitter.html" title="FsTransmitter">FsTransmitter</a> *transmitter,
@@ -320,7 +320,7 @@ href="../glib/glib-Error-Reporting.html#GError"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_transmitter_get_stream_transmitter_type ()">
 <a name="fs-transmitter-get-stream-transmitter-type"></a><h3>fs_transmitter_get_stream_transmitter_type ()</h3>
 <pre class="programlisting"><a
 href="../gobject/gobject-Type-Information.html#GType"
@@ -351,7 +351,7 @@ href="../gobject/gobject-Type-Information.html#GType"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_transmitter_emit_error ()">
 <a name="fs-transmitter-emit-error"></a><h3>fs_transmitter_emit_error ()</h3>
 <pre class="programlisting">void                fs_transmitter_emit_error           (<a class="link" href="FsTransmitter.html" title="FsTransmitter">FsTransmitter</a> *transmitter,
                                                          <a
@@ -395,7 +395,7 @@ only be called by subclasses.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_transmitter_get_recvonly_filter ()">
 <a name="fs-transmitter-get-recvonly-filter"></a><h3>fs_transmitter_get_recvonly_filter ()</h3>
 <pre class="programlisting"><a
 href="../gstreamer-0.10/GstElement.html"
@@ -436,7 +436,7 @@ href="../glib/glib-Standard-Macros.html#NULL--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_transmitter_list_available ()">
 <a name="fs-transmitter-list-available"></a><h3>fs_transmitter_list_available ()</h3>
 <pre class="programlisting">char **             fs_transmitter_list_available       (void);</pre>
 <p>
@@ -459,9 +459,9 @@ href="../glib/glib-String-Utility-Functions.html#g-strfreev"
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="FsTransmitter.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "components" property'>
 <a name="FsTransmitter--components"></a><h3>The <code class="literal">"components"</code> property</h3>
 <pre class="programlisting">  "components"               <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -474,7 +474,7 @@ The number of components to create</p>
 <p>Default value: 1</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "gst-sink" property'>
 <a name="FsTransmitter--gst-sink"></a><h3>The <code class="literal">"gst-sink"</code> property</h3>
 <pre class="programlisting">  "gst-sink"                 <a
 href="../gstreamer-0.10/GstElement.html"
@@ -492,7 +492,7 @@ These pads MUST be static pads.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "gst-src" property'>
 <a name="FsTransmitter--gst-src"></a><h3>The <code class="literal">"gst-src"</code> property</h3>
 <pre class="programlisting">  "gst-src"                  <a
 href="../gstreamer-0.10/GstElement.html"
@@ -509,7 +509,7 @@ These pads MUST be static pads.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "tos" property'>
 <a name="FsTransmitter--tos"></a><h3>The <code class="literal">"tos"</code> property</h3>
 <pre class="programlisting">  "tos"                      <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -522,9 +522,9 @@ Sets the IP ToS field (and if possible the IPv6 TCLASS field</p>
 <p>Default value: 0</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="FsTransmitter.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "error" signal'>
 <a name="FsTransmitter-error"></a><h3>The <code class="literal">"error"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsTransmitter.html" title="FsTransmitter">FsTransmitter</a> *self,
                                                         <a class="link" href="FsConference.html#FsError" title="enum FsError">FsError</a>        errorno,
@@ -572,7 +572,7 @@ This signal is emitted in any error condition</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "get-recvonly-filter" signal'>
 <a name="FsTransmitter-get-recvonly-filter"></a><h3>The <code class="literal">"get-recvonly-filter"</code> signal</h3>
 <pre class="programlisting"><a
 href="../gstreamer-0.10/GstElement.html"

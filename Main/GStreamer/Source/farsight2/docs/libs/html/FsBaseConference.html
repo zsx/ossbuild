@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsBaseConference</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch04.html" title="Farsight Classes Base Implementations">
 <link rel="prev" href="ch04.html" title="Farsight Classes Base Implementations">
 <link rel="next" href="ch05.html" title="Farsight Transmitter Classes">
@@ -38,7 +38,7 @@
                 <a href="#FsBaseConference.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsBaseConference">
 <a name="FsBaseConference"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -47,7 +47,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="FsBaseConference.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -57,7 +57,7 @@
                     <a class="link" href="FsBaseConference.html#FsBaseConferenceClass" title="FsBaseConferenceClass">FsBaseConferenceClass</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="FsBaseConference.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -75,17 +75,17 @@ href="../gstreamer-0.10/GstBin.html"
                      +----FsBaseConference
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="FsBaseConference.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 FsBaseConference implements
  <a
 href="../gstreamer-0.10/GstImplementsInterface.html"
->GstImplementsInterface</a>,  <a class="link" href="FsConference.html" title="FsConference">FsConference</a> and  <a
+>GstImplementsInterface</a>,  <a
 href="../gstreamer-0.10/GstChildProxy.html"
->GstChildProxy</a>.</p>
+>GstChildProxy</a> and  <a class="link" href="FsConference.html" title="FsConference">FsConference</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="FsBaseConference.description"></a><h2>Description</h2>
 <p>
 This base class must be subclassed by all Farsight Conference elements. It makes
@@ -94,9 +94,9 @@ the API.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="FsBaseConference.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsBaseConference">
 <a name="FsBaseConference-struct"></a><h3>FsBaseConference</h3>
 <pre class="programlisting">typedef struct _FsBaseConference FsBaseConference;</pre>
 <p>
@@ -105,7 +105,7 @@ The <a class="link" href="FsBaseConference.html" title="FsBaseConference"><span 
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsBaseConferenceClass">
 <a name="FsBaseConferenceClass"></a><h3>FsBaseConferenceClass</h3>
 <pre class="programlisting">typedef struct {
   GstBinClass parent_class;

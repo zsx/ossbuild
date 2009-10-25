@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsStream</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch02.html" title="Farsight Core Library">
 <link rel="prev" href="FsSession.html" title="FsSession">
 <link rel="next" href="farsight2-libs-FsCandidate.html" title="FsCandidate">
@@ -40,7 +40,7 @@
                 <a href="#FsStream.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsStream">
 <a name="FsStream"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -49,7 +49,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="FsStream.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -107,7 +107,7 @@ href="../gstreamer-0.10/GstPad.html"
                                                          <a class="link" href="farsight2-libs-FsCodec.html#FsCodec" title="FsCodec">FsCodec</a> *codec);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="FsStream.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -116,7 +116,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
    +----FsStream
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="FsStream.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="FsStream.html#FsStream--current-recv-codecs" title='The "current-recv-codecs" property'>current-recv-codecs</a>"      FsCodecGList*         : Read
@@ -127,21 +127,22 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
   "<a class="link" href="FsStream.html#FsStream--session" title='The "session" property'>session</a>"                  <a class="link" href="FsSession.html" title="FsSession">FsSession</a>*            : Read / Write / Construct Only
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="FsStream.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="FsStream.html#FsStream-error" title='The "error" signal'>error</a>"                                          : Run Last
   "<a class="link" href="FsStream.html#FsStream-src-pad-added" title='The "src-pad-added" signal'>src-pad-added</a>"                                  : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="FsStream.description"></a><h2>Description</h2>
 <p>
 This object is the base implementation of a Farsight Stream. It
-needs to be derived and implemented by a farsight conference gstreamer
-element. A Farsight Stream is a media stream originating from a participant
-inside a session. In fact, a FarsightStream instance is obtained by adding a
-participant into a session using <span class="type">fs_session_add_participant</span>.
+needs to be derived and implemented by a Farsight conference GStreamer
+element. A Farsight Stream is a media stream originating from a
+<a class="link" href="FsParticipant.html" title="FsParticipant"><span class="type">FsParticipant</span></a> inside a <a class="link" href="FsSession.html" title="FsSession"><span class="type">FsSession</span></a>. In fact, a <a class="link" href="FsStream.html" title="FsStream"><span class="type">FsStream</span></a> instance is
+obtained by adding a participant into a session using
+<a class="link" href="FsSession.html#fs-session-new-stream" title="fs_session_new_stream ()"><code class="function">fs_session_new_stream()</code></a>.
 </p>
 <p>
 This will communicate asynchronous events to the user through <a
@@ -151,8 +152,8 @@ of type <span class="type">GST_MESSAGE_ELEMENT</span> sent over the <a
 href="../gstreamer-0.10/GstBus.html"
 ><span class="type">GstBus</span></a>.
 </p>
-<div class="refsect2" lang="en">
-<a name="id2912365"></a><h3>The "<code class="literal">farsight-new-local-candidate</code>" message</h3>
+<div class="refsect2" title='The "farsight-new-local-candidate" message'>
+<a name="id3084467"></a><h3>The "<code class="literal">farsight-new-local-candidate</code>" message</h3>
 <div class="informalexample"><pre class="programlisting">
 "stream"           <a class="link" href="FsStream.html" title="FsStream">FsStream</a>          The stream that emits the message
 "candidate"        <a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title="FsCandidate">FsCandidate</a>       The new candidate
@@ -162,8 +163,8 @@ This message is emitted when a new local candidate is discovered.
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2912402"></a><h3>The "<code class="literal">farsight-local-candidates-prepared</code>" message</h3>
+<div class="refsect2" title='The "farsight-local-candidates-prepared" message'>
+<a name="id3084503"></a><h3>The "<code class="literal">farsight-local-candidates-prepared</code>" message</h3>
 <div class="informalexample"><pre class="programlisting">
 "stream"           <a class="link" href="FsStream.html" title="FsStream">FsStream</a>          The stream that emits the message
 </pre></div>
@@ -173,8 +174,8 @@ prepared, an ICE implementation would send its SDP offer or answer.
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2912434"></a><h3>The "<code class="literal">farsight-new-active-candidate-pair</code>" message</h3>
+<div class="refsect2" title='The "farsight-new-active-candidate-pair" message'>
+<a name="id3058320"></a><h3>The "<code class="literal">farsight-new-active-candidate-pair</code>" message</h3>
 <div class="informalexample"><pre class="programlisting">
 "stream"           <a class="link" href="FsStream.html" title="FsStream">FsStream</a>          The stream that emits the message
 "local-candidate"  <a class="link" href="farsight2-libs-FsCandidate.html#FsCandidate" title="FsCandidate">FsCandidate</a>       Local candidate being used
@@ -189,8 +190,8 @@ outside the callback scope. This message is emitted once per component.
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2912483"></a><h3>The "<code class="literal">farsight-recv-codecs-changed</code>" message</h3>
+<div class="refsect2" title='The "farsight-recv-codecs-changed" message'>
+<a name="id3058369"></a><h3>The "<code class="literal">farsight-recv-codecs-changed</code>" message</h3>
 <div class="informalexample"><pre class="programlisting">
 "stream"           <a class="link" href="FsStream.html" title="FsStream">FsStream</a>          The stream that emits the message
 "codecs"           FsCodecGList      A <a
@@ -207,8 +208,8 @@ The list of new recv-codecs is included in the message
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2912551"></a><h3>The "<code class="literal">farsight-component-state-changed</code>" message</h3>
+<div class="refsect2" title='The "farsight-component-state-changed" message'>
+<a name="id3058437"></a><h3>The "<code class="literal">farsight-component-state-changed</code>" message</h3>
 <div class="informalexample"><pre class="programlisting">
 "stream"           <a class="link" href="FsStream.html" title="FsStream">FsStream</a>          The stream that emits the message
 "component"        <a
@@ -224,9 +225,9 @@ This message is emitted the state of a component of a stream changes.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="FsStream.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsStream">
 <a name="FsStream-struct"></a><h3>FsStream</h3>
 <pre class="programlisting">typedef struct _FsStream FsStream;</pre>
 <p>
@@ -235,7 +236,7 @@ All members are private, access them using methods and properties</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsStreamClass">
 <a name="FsStreamClass"></a><h3>FsStreamClass</h3>
 <pre class="programlisting">typedef struct {
   GObjectClass parent_class;
@@ -295,7 +296,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum FsStreamDirection">
 <a name="FsStreamDirection"></a><h3>enum FsStreamDirection</h3>
 <pre class="programlisting">typedef enum
 {
@@ -336,7 +337,7 @@ An enum for specifying the direction of a stream</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum FsStreamState">
 <a name="FsStreamState"></a><h3>enum FsStreamState</h3>
 <pre class="programlisting">typedef enum
 {
@@ -392,7 +393,7 @@ An stream using an ICE transmitter would use all of these.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_set_remote_candidates ()">
 <a name="fs-stream-set-remote-candidates"></a><h3>fs_stream_set_remote_candidates ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -443,7 +444,7 @@ href="../glib/glib-Standard-Macros.html#NULL--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_set_remote_codecs ()">
 <a name="fs-stream-set-remote-codecs"></a><h3>fs_stream_set_remote_codecs ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -499,7 +500,7 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_force_remote_candidates ()">
 <a name="fs-stream-force-remote-candidates"></a><h3>fs_stream_force_remote_candidates ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -553,7 +554,7 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_add_id ()">
 <a name="fs-stream-add-id"></a><h3>fs_stream_add_id ()</h3>
 <pre class="programlisting">void                fs_stream_add_id                    (<a class="link" href="FsStream.html" title="FsStream">FsStream</a> *stream,
                                                          <a
@@ -594,7 +595,7 @@ if one is using multicast or is behind a muxer server.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_emit_error ()">
 <a name="fs-stream-emit-error"></a><h3>fs_stream_emit_error ()</h3>
 <pre class="programlisting">void                fs_stream_emit_error                (<a class="link" href="FsStream.html" title="FsStream">FsStream</a> *stream,
                                                          <a
@@ -638,7 +639,7 @@ called by subclasses.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_stream_emit_src_pad_added ()">
 <a name="fs-stream-emit-src-pad-added"></a><h3>fs_stream_emit_src_pad_added ()</h3>
 <pre class="programlisting">void                fs_stream_emit_src_pad_added        (<a class="link" href="FsStream.html" title="FsStream">FsStream</a> *stream,
                                                          <a
@@ -674,9 +675,9 @@ href="../gstreamer-0.10/GstPad.html"
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="FsStream.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "current-recv-codecs" property'>
 <a name="FsStream--current-recv-codecs"></a><h3>The <code class="literal">"current-recv-codecs"</code> property</h3>
 <pre class="programlisting">  "current-recv-codecs"      FsCodecGList*         : Read</pre>
 <p>
@@ -694,7 +695,7 @@ will come to it is different.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "direction" property'>
 <a name="FsStream--direction"></a><h3>The <code class="literal">"direction"</code> property</h3>
 <pre class="programlisting">  "direction"                <a class="link" href="FsStream.html#FsStreamDirection" title="enum FsStreamDirection">FsStreamDirection</a>     : Read / Write / Construct</pre>
 <p>
@@ -705,7 +706,7 @@ required by setting this property.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "negotiated-codecs" property'>
 <a name="FsStream--negotiated-codecs"></a><h3>The <code class="literal">"negotiated-codecs"</code> property</h3>
 <pre class="programlisting">  "negotiated-codecs"        FsCodecGList*         : Read</pre>
 <p>
@@ -720,7 +721,7 @@ href="../glib/glib-Doubly-Linked-Lists.html#GList"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "participant" property'>
 <a name="FsStream--participant"></a><h3>The <code class="literal">"participant"</code> property</h3>
 <pre class="programlisting">  "participant"              <a class="link" href="FsParticipant.html" title="FsParticipant">FsParticipant</a>*        : Read / Write / Construct Only</pre>
 <p>
@@ -730,7 +731,7 @@ is read-only construction.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "remote-codecs" property'>
 <a name="FsStream--remote-codecs"></a><h3>The <code class="literal">"remote-codecs"</code> property</h3>
 <pre class="programlisting">  "remote-codecs"            FsCodecGList*         : Read</pre>
 <p>
@@ -743,7 +744,7 @@ href="../glib/glib-Doubly-Linked-Lists.html#GList"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "session" property'>
 <a name="FsStream--session"></a><h3>The <code class="literal">"session"</code> property</h3>
 <pre class="programlisting">  "session"                  <a class="link" href="FsSession.html" title="FsSession">FsSession</a>*            : Read / Write / Construct Only</pre>
 <p>
@@ -753,9 +754,9 @@ is read-only construction.</p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="FsStream.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "error" signal'>
 <a name="FsStream-error"></a><h3>The <code class="literal">"error"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsStream.html" title="FsStream">FsStream</a> *self,
                                                         <a class="link" href="FsConference.html#FsError" title="enum FsError">FsError</a>   errorno,
@@ -803,7 +804,7 @@ This signal is emitted in any error condition</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "src-pad-added" signal'>
 <a name="FsStream-src-pad-added"></a><h3>The <code class="literal">"src-pad-added"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsStream.html" title="FsStream">FsStream</a> *self,
                                                         <a

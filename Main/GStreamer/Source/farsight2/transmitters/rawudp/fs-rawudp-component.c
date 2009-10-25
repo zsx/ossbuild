@@ -1111,6 +1111,10 @@ _upnp_mapped_external_port (GUPnPSimpleIgdThread *igd, gchar *proto,
       external_ip,
       external_port);
 
+  GST_DEBUG ("Got UPnP Candidate c:%d ext-ip:%s ext-port:%u"
+      " int-ip:%s int-port:%u", self->priv->component, external_ip,
+      external_port, local_ip, local_port);
+
   FS_RAWUDP_COMPONENT_UNLOCK (self);
 
   fs_rawudp_component_maybe_emit_local_candidates (self);
@@ -1120,6 +1124,8 @@ static gboolean
 _upnp_discovery_timeout (gpointer user_data)
 {
   FsRawUdpComponent *self = user_data;
+
+  GST_DEBUG ("UPnP timed out on component %d", self->priv->component);
 
   FS_RAWUDP_COMPONENT_LOCK (self);
   g_source_unref (self->priv->upnp_discovery_timeout_src);
@@ -1195,6 +1201,8 @@ fs_rawudp_component_gather_local_candidates (FsRawUdpComponent *self,
         FS_RAWUDP_COMPONENT_UNLOCK (self);
       }
 
+      GST_DEBUG ("Doing UPnP Discovery for local ip:%s port:%u", ip, port);
+
       gupnp_simple_igd_add_port (GUPNP_SIMPLE_IGD (self->priv->upnp_igd),
           "UDP", port, ip, port, self->priv->upnp_mapping_timeout,
           "Farsight Raw UDP transmitter");
@@ -1212,6 +1220,12 @@ fs_rawudp_component_gather_local_candidates (FsRawUdpComponent *self,
         FS_RAWUDP_COMPONENT_UNLOCK (self);
       }
     }
+    else
+    {
+      FS_RAWUDP_COMPONENT_LOCK (self);
+      fs_rawudp_component_stop_upnp_discovery_locked (self);
+      FS_RAWUDP_COMPONENT_UNLOCK (self);
+    }
 
     /* free list of ips */
     g_list_foreach (ips, (GFunc) g_free, NULL);
@@ -1223,7 +1237,7 @@ fs_rawudp_component_gather_local_candidates (FsRawUdpComponent *self,
   if (self->priv->stun_ip && self->priv->stun_port)
     return fs_rawudp_component_start_stun (self, error);
 #ifdef HAVE_GUPNP
-  else if (!self->priv->upnp_igd || !self->priv->upnp_discovery)
+  else if (!self->priv->upnp_signal_id)
     return fs_rawudp_component_emit_local_candidates (self, error);
   else
     return TRUE;

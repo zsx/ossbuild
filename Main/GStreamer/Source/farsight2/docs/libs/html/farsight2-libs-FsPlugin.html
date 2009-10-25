@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsPlugin</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch06.html" title="Farsight Plugins Infrastructure">
 <link rel="prev" href="ch06.html" title="Farsight Plugins Infrastructure">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
@@ -33,7 +33,7 @@
                 <a href="#farsight2-libs-FsPlugin.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsPlugin">
 <a name="farsight2-libs-FsPlugin"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,7 +42,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="farsight2-libs-FsPlugin.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -87,7 +87,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *type_suffix);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="farsight2-libs-FsPlugin.description"></a><h2>Description</h2>
 <p>
 This class is a generic class to load GType plugins based on their name.
@@ -95,9 +95,9 @@ With this simple class, you can only have one type per plugin.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="farsight2-libs-FsPlugin.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsPlugin">
 <a name="FsPlugin"></a><h3>FsPlugin</h3>
 <pre class="programlisting">typedef struct {
   GTypeModule parent;
@@ -119,7 +119,7 @@ href="../gobject/GTypeModule.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_plugin_create_valist ()">
 <a name="fs-plugin-create-valist"></a><h3>fs_plugin_create_valist ()</h3>
 <pre class="programlisting"><a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
@@ -181,7 +181,7 @@ href="../glib/glib-Error-Reporting.html#GError"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_plugin_create ()">
 <a name="fs-plugin-create"></a><h3>fs_plugin_create ()</h3>
 <pre class="programlisting"><a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
@@ -243,7 +243,7 @@ href="../glib/glib-Error-Reporting.html#GError"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FS_INIT_PLUGIN()">
 <a name="FS-INIT-PLUGIN--CAPS"></a><h3>FS_INIT_PLUGIN()</h3>
 <pre class="programlisting">#define             FS_INIT_PLUGIN(type_register_func)</pre>
 <p>
@@ -263,7 +263,7 @@ href="../gobject/gobject-Type-Information.html#GType"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_plugin_list_available ()">
 <a name="fs-plugin-list-available"></a><h3>fs_plugin_list_available ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gchar"

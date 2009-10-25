@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsSession</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch02.html" title="Farsight Core Library">
 <link rel="prev" href="FsParticipant.html" title="FsParticipant">
 <link rel="next" href="FsStream.html" title="FsStream">
@@ -40,7 +40,7 @@
                 <a href="#FsSession.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsSession">
 <a name="FsSession"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -49,7 +49,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="FsSession.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -126,7 +126,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a> *debug_msg);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="FsSession.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -135,7 +135,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
    +----FsSession
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="FsSession.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="FsSession.html#FsSession--codec-preferences" title='The "codec-preferences" property'>codec-preferences</a>"        FsCodecGList*         : Read
@@ -157,13 +157,13 @@ href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="FsSession.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="FsSession.html#FsSession-error" title='The "error" signal'>error</a>"                                          : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="FsSession.description"></a><h2>Description</h2>
 <p>
 This object is the base implementation of a Farsight Session. It needs to be
@@ -182,8 +182,8 @@ of type <span class="type">GST_MESSAGE_ELEMENT</span> sent over the <a
 href="../gstreamer-0.10/GstBus.html"
 ><span class="type">GstBus</span></a>.
 </p>
-<div class="refsect2" lang="en">
-<a name="id2908447"></a><h3>The "<code class="literal">farsight-send-codec-changed</code>"
+<div class="refsect2" title='The "farsight-send-codec-changed" message'>
+<a name="id2988963"></a><h3>The "<code class="literal">farsight-send-codec-changed</code>"
   message</h3>
 <div class="informalexample"><pre class="programlisting">
 "session"          <a class="link" href="FsSession.html" title="FsSession">FsSession</a>          The session that emits the message
@@ -195,8 +195,8 @@ This message is sent on the bus when the value of the
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2908491"></a><h3>The "<code class="literal">farsight-codecs-changed</code>"
+<div class="refsect2" title='The "farsight-codecs-changed" message'>
+<a name="id2989007"></a><h3>The "<code class="literal">farsight-codecs-changed</code>"
  message</h3>
 <div class="informalexample"><pre class="programlisting">
 "session"          <a class="link" href="FsSession.html" title="FsSession">FsSession</a>          The session that emits the message
@@ -217,9 +217,9 @@ next "farsight-codecs-changed" message until reading the codecs.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="FsSession.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum FsDTMFEvent">
 <a name="FsDTMFEvent"></a><h3>enum FsDTMFEvent</h3>
 <pre class="programlisting">typedef enum
 {
@@ -250,7 +250,7 @@ http://www.iana.org/assignments/audio-telephone-event-registry</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum FsDTMFMethod">
 <a name="FsDTMFMethod"></a><h3>enum FsDTMFMethod</h3>
 <pre class="programlisting">typedef enum
 {
@@ -286,7 +286,7 @@ An enum that represents the different ways a DTMF event can be sent</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsSession">
 <a name="FsSession-struct"></a><h3>FsSession</h3>
 <pre class="programlisting">typedef struct _FsSession FsSession;</pre>
 <p>
@@ -295,7 +295,7 @@ All members are private, access them using methods and properties</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsSessionClass">
 <a name="FsSessionClass"></a><h3>FsSessionClass</h3>
 <pre class="programlisting">typedef struct {
   GObjectClass parent_class;
@@ -378,7 +378,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_session_new_stream ()">
 <a name="fs-session-new-stream"></a><h3>fs_session_new_stream ()</h3>
 <pre class="programlisting"><a class="link" href="FsStream.html" title="FsStream">FsStream</a> *          fs_session_new_stream               (<a class="link" href="FsSession.html" title="FsSession">FsSession</a> *session,
                                                          <a class="link" href="FsParticipant.html" title="FsParticipant">FsParticipant</a> *participant,
@@ -457,7 +457,7 @@ href="../glib/glib-Standard-Macros.html#NULL--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_session_start_telephony_event ()">
 <a name="fs-session-start-telephony-event"></a><h3>fs_session_start_telephony_event ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -516,7 +516,7 @@ does not support this telephony event.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_session_stop_telephony_event ()">
 <a name="fs-session-stop-telephony-event"></a><h3>fs_session_stop_telephony_event ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -557,7 +557,7 @@ does not support telephony events or if no telephony event is being sent
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_session_set_send_codec ()">
 <a name="fs-session-set-send-codec"></a><h3>fs_session_set_send_codec ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -609,7 +609,7 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_session_set_codec_preferences ()">
 <a name="fs-session-set-codec-preferences"></a><h3>fs_session_set_codec_preferences ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -678,7 +678,7 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_session_list_transmitters ()">
 <a name="fs-session-list-transmitters"></a><h3>fs_session_list_transmitters ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -712,7 +712,7 @@ href="../glib/glib-String-Utility-Functions.html#g-strfreev"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_session_get_stream_transmitter_type ()">
 <a name="fs-session-get-stream-transmitter-type"></a><h3>fs_session_get_stream_transmitter_type ()</h3>
 <pre class="programlisting"><a
 href="../gobject/gobject-Type-Information.html#GType"
@@ -750,7 +750,7 @@ href="../gobject/gobject-Type-Information.html#GType"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_session_emit_error ()">
 <a name="fs-session-emit-error"></a><h3>fs_session_emit_error ()</h3>
 <pre class="programlisting">void                fs_session_emit_error               (<a class="link" href="FsSession.html" title="FsSession">FsSession</a> *session,
                                                          <a
@@ -794,9 +794,9 @@ called by subclasses.</p>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="FsSession.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "codec-preferences" property'>
 <a name="FsSession--codec-preferences"></a><h3>The <code class="literal">"codec-preferences"</code> property</h3>
 <pre class="programlisting">  "codec-preferences"        FsCodecGList*         : Read</pre>
 <p>
@@ -817,7 +817,7 @@ dynamically assigned payload type.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "codecs" property'>
 <a name="FsSession--codecs"></a><h3>The <code class="literal">"codecs"</code> property</h3>
 <pre class="programlisting">  "codecs"                   FsCodecGList*         : Read</pre>
 <p>
@@ -848,7 +848,7 @@ href="../glib/glib-Doubly-Linked-Lists.html#GList"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "codecs-ready" property'>
 <a name="FsSession--codecs-ready"></a><h3>The <code class="literal">"codecs-ready"</code> property</h3>
 <pre class="programlisting">  "codecs-ready"             <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -872,7 +872,7 @@ the value of this property when you receive the message.</p>
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "codecs-without-config" property'>
 <a name="FsSession--codecs-without-config"></a><h3>The <code class="literal">"codecs-without-config"</code> property</h3>
 <pre class="programlisting">  "codecs-without-config"    FsCodecGList*         : Read</pre>
 <p>
@@ -901,7 +901,7 @@ href="../glib/glib-Doubly-Linked-Lists.html#GList"
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "current-send-codec" property'>
 <a name="FsSession--current-send-codec"></a><h3>The <code class="literal">"current-send-codec"</code> property</h3>
 <pre class="programlisting">  "current-send-codec"       <a class="link" href="farsight2-libs-FsCodec.html#FsCodec" title="FsCodec">FsCodec</a>*              : Read</pre>
 <p>
@@ -915,7 +915,7 @@ the value of this property changes.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "id" property'>
 <a name="FsSession--id"></a><h3>The <code class="literal">"id"</code> property</h3>
 <pre class="programlisting">  "id"                       <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -928,7 +928,7 @@ will be this id</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "media-type" property'>
 <a name="FsSession--media-type"></a><h3>The <code class="literal">"media-type"</code> property</h3>
 <pre class="programlisting">  "media-type"               <a class="link" href="farsight2-libs-FsCodec.html#FsMediaType" title="enum FsMediaType">FsMediaType</a>           : Read / Write / Construct Only</pre>
 <p>
@@ -939,7 +939,7 @@ This is a constructor parameter that cannot be changed.</p>
 <p>Default value: FS_MEDIA_TYPE_AUDIO</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "sink-pad" property'>
 <a name="FsSession--sink-pad"></a><h3>The <code class="literal">"sink-pad"</code> property</h3>
 <pre class="programlisting">  "sink-pad"                 <a
 href="../gstreamer-0.10/GstPad.html"
@@ -951,7 +951,7 @@ session. User must unref this GstPad when done with it.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "tos" property'>
 <a name="FsSession--tos"></a><h3>The <code class="literal">"tos"</code> property</h3>
 <pre class="programlisting">  "tos"                      <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -964,9 +964,9 @@ Sets the IP ToS field (and if possible the IPv6 TCLASS field</p>
 <p>Default value: 0</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="FsSession.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "error" signal'>
 <a name="FsSession-error"></a><h3>The <code class="literal">"error"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsSession.html" title="FsSession">FsSession</a> *self,
                                                         <a

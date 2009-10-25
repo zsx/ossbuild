@@ -1,0 +1,34 @@
+<plugin>
+  <name>fsrtcpfilter</name>
+  <description>RtcpFilter</description>
+  <filename>../../gst/rtcpfilter/.libs/libfsrtcpfilter.so</filename>
+  <basename>libfsrtcpfilter.so</basename>
+  <version>0.0.13</version>
+  <license>LGPL</license>
+  <source>farsight2</source>
+  <package>Farsight</package>
+  <origin>http://farsight.sf.net</origin>
+  <elements>
+    <element>
+      <name>fsrtcpfilter</name>
+      <longname>RTCP Filter element</longname>
+      <class>Filter</class>
+      <description>This element removes unneeded parts of rtcp buffers</description>
+      <author>Olivier Crete &lt;olivier.crete@collabora.co.uk&gt;</author>
+      <pads>
+        <caps>
+          <name>sink</name>
+          <direction>sink</direction>
+          <presence>always</presence>
+          <details>application/x-rtcp</details>
+        </caps>
+        <caps>
+          <name>src</name>
+          <direction>source</direction>
+          <presence>always</presence>
+          <details>application/x-rtcp</details>
+        </caps>
+      </pads>
+    </element>
+  </elements>
+</plugin>

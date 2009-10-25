@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsParticipant</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch02.html" title="Farsight Core Library">
 <link rel="prev" href="ch02.html" title="Farsight Core Library">
 <link rel="next" href="FsSession.html" title="FsSession">
@@ -40,7 +40,7 @@
                 <a href="#FsParticipant.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsParticipant">
 <a name="FsParticipant"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -49,7 +49,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="FsParticipant.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -61,7 +61,7 @@
 #define             <a class="link" href="FsParticipant.html#FS-PARTICIPANT-DATA-UNLOCK--CAPS" title="FS_PARTICIPANT_DATA_UNLOCK()">FS_PARTICIPANT_DATA_UNLOCK</a>          (participant)
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="FsParticipant.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -70,7 +70,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
    +----FsParticipant
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="FsParticipant.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="FsParticipant.html#FsParticipant--cname" title='The "cname" property'>cname</a>"                    <a
@@ -78,13 +78,13 @@ href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="FsParticipant.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="FsParticipant.html#FsParticipant-error" title='The "error" signal'>error</a>"                                          : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="FsParticipant.description"></a><h2>Description</h2>
 <p>
 This object is the base implementation of a Farsight Participant. It needs to be
@@ -94,9 +94,9 @@ human-participant or an automaton.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="FsParticipant.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsParticipant">
 <a name="FsParticipant-struct"></a><h3>FsParticipant</h3>
 <pre class="programlisting">typedef struct _FsParticipant FsParticipant;</pre>
 <p>
@@ -105,7 +105,7 @@ All members are private (access them using the properties)</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsParticipantClass">
 <a name="FsParticipantClass"></a><h3>FsParticipantClass</h3>
 <pre class="programlisting">typedef struct {
   GObjectClass parent_class;
@@ -130,7 +130,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FS_PARTICIPANT_DATA_LOCK()">
 <a name="FS-PARTICIPANT-DATA-LOCK--CAPS"></a><h3>FS_PARTICIPANT_DATA_LOCK()</h3>
 <pre class="programlisting">#define             FS_PARTICIPANT_DATA_LOCK(participant)</pre>
 <p>
@@ -152,7 +152,7 @@ href="../gobject/gobject-The-Base-Object-Type.html#g-object-set-qdata"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FS_PARTICIPANT_DATA_UNLOCK()">
 <a name="FS-PARTICIPANT-DATA-UNLOCK--CAPS"></a><h3>FS_PARTICIPANT_DATA_UNLOCK()</h3>
 <pre class="programlisting">#define             FS_PARTICIPANT_DATA_UNLOCK(participant)</pre>
 <p>
@@ -174,9 +174,9 @@ href="../gobject/gobject-The-Base-Object-Type.html#g-object-set-qdata"
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="FsParticipant.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "cname" property'>
 <a name="FsParticipant--cname"></a><h3>The <code class="literal">"cname"</code> property</h3>
 <pre class="programlisting">  "cname"                    <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -189,9 +189,9 @@ User must free the string after getting it.</p>
 <p>Default value: NULL</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="FsParticipant.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "error" signal'>
 <a name="FsParticipant-error"></a><h3>The <code class="literal">"error"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsParticipant.html" title="FsParticipant">FsParticipant</a> *self,
                                                         <a

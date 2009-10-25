@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FsMsnSession</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
+<link rel="start" href="index.html" title="Farsight2 Plugins Manual">
+<link rel="up" href="ch03.html" title="MSN Webcam plugin">
+<link rel="prev" href="farsight2-plugins-FsMsnParticipant.html" title="FsMsnParticipant">
+<link rel="next" href="farsight2-plugins-FsMsnStream.html" title="FsMsnStream">
+<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="part" href="pt01.html" title="Part I. RTP Plugin">
+<link rel="chapter" href="ch01.html" title="Core interface classes">
+<link rel="chapter" href="ch02.html" title="Transmitters">
+<link rel="part" href="pt02.html" title="Part II. MSN plugins">
+<link rel="chapter" href="ch03.html" title="MSN Webcam plugin">
+<link rel="part" href="pt03.html" title="Part III. Utility elements">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="farsight2-plugins-FsMsnParticipant.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch03.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">Farsight2 Plugins Manual</th>
+<td><a accesskey="n" href="farsight2-plugins-FsMsnStream.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#farsight2-plugins-FsMsnSession.synopsis" class="shortcut">Top</a>
+                 | 
+                <a href="#farsight2-plugins-FsMsnSession.description" class="shortcut">Description</a>
+                 | 
+                <a href="#farsight2-plugins-FsMsnSession.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry" lang="en">
+<a name="farsight2-plugins-FsMsnSession"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="farsight2-plugins-FsMsnSession.top_of_page"></a>FsMsnSession</span></h2>
+<p>FsMsnSession — A  MSN session in a <a class="link" href="farsight2-plugins-FsMsnConference.html#FsMsnConference" title="FsMsnConference"><span class="type">FsMsnConference</span></a></p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="farsight2-plugins-FsMsnSession.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+                    <a class="link" href="farsight2-plugins-FsMsnSession.html#FsMsnSession" title="FsMsnSession">FsMsnSession</a>;
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsMsnSession.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="farsight2-plugins-FsMsnSession.html#FsMsnSession--conference" title='The "conference" property'>conference</a>"               <a class="link" href="farsight2-plugins-FsMsnConference.html#FsMsnConference" title="FsMsnConference">FsMsnConference</a>*      : Read / Write / Construct Only
+</pre>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsMsnSession.description"></a><h2>Description</h2>
+<p>
+There can be only one stream per session.
+</p>
+<p>
+It can afterwards be modified to pause sending (or receiving) by modifying
+the <span class="type">"direction"</span> property.
+</p>
+<p>
+The transmitter parameters to the <a
+href="../farsight2-libs-0.10/FsSession.html#fs-session-new-stream"
+><code class="function">fs_session_new_stream()</code></a> function are
+used to set the initial value of the construct properties of the stream
+object. This plugin does not use transmitter plugins, so the transmitter
+parameter itself is ignored.
+</p>
+<p>
+The codecs preferences can not be modified and the codec is a fixed value.
+It is always "MIMIC".</p>
+<p>
+</p>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsMsnSession.details"></a><h2>Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsMsnSession"></a><h3>FsMsnSession</h3>
+<pre class="programlisting">typedef struct {
+  FsSession parent;
+
+  /* Protected by the conf lock */
+  GstElement *valve;
+} FsMsnSession;
+</pre>
+<p>
+</p>
+<p>
+</p>
+</div>
+</div>
+<div class="refsect1" lang="en">
+<a name="farsight2-plugins-FsMsnSession.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" lang="en">
+<a name="FsMsnSession--conference"></a><h3>The <code class="literal">"conference"</code> property</h3>
+<pre class="programlisting">  "conference"               <a class="link" href="farsight2-plugins-FsMsnConference.html#FsMsnConference" title="FsMsnConference">FsMsnConference</a>*      : Read / Write / Construct Only</pre>
+<p>This is a convience pointer for the Conference.</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.11</div>
+</body>
+</html>

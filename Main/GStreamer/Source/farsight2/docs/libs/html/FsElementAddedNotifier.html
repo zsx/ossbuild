@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>FsElementAddedNotifier</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="Farsight2 Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="Farsight2 Reference Manual">
 <link rel="up" href="ch03.html" title="Farsight Utility Functions and Objects">
 <link rel="prev" href="ch03.html" title="Farsight Utility Functions and Objects">
 <link rel="next" href="farsight2-libs-Network-interfaces-discovery.html" title="Network interfaces discovery">
@@ -38,7 +38,7 @@
                 <a href="#FsElementAddedNotifier.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="FsElementAddedNotifier">
 <a name="FsElementAddedNotifier"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -47,7 +47,7 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="FsElementAddedNotifier.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
 
@@ -82,7 +82,7 @@ href="../glib/glib-Error-Reporting.html#GError"
 >GError</a> **error);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="FsElementAddedNotifier.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
@@ -91,13 +91,13 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
    +----FsElementAddedNotifier
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="FsElementAddedNotifier.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="FsElementAddedNotifier.html#FsElementAddedNotifier-element-added" title='The "element-added" signal'>element-added</a>"                                  : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="FsElementAddedNotifier.description"></a><h2>Description</h2>
 <p>
 This object can be attach to any <a
@@ -112,9 +112,9 @@ set the properties of elements based on a GKeyfile.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="FsElementAddedNotifier.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="FsElementAddedNotifier">
 <a name="FsElementAddedNotifier-struct"></a><h3>FsElementAddedNotifier</h3>
 <pre class="programlisting">typedef struct _FsElementAddedNotifier FsElementAddedNotifier;</pre>
 <p>
@@ -127,7 +127,7 @@ All members are private</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_element_added_notifier_new ()">
 <a name="fs-element-added-notifier-new"></a><h3>fs_element_added_notifier_new ()</h3>
 <pre class="programlisting"><a class="link" href="FsElementAddedNotifier.html" title="FsElementAddedNotifier">FsElementAddedNotifier</a> * fs_element_added_notifier_new  (void);</pre>
 <p>
@@ -144,7 +144,7 @@ Creates a new <a class="link" href="FsElementAddedNotifier.html" title="FsElemen
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_element_added_notifier_add ()">
 <a name="fs-element-added-notifier-add"></a><h3>fs_element_added_notifier_add ()</h3>
 <pre class="programlisting">void                fs_element_added_notifier_add       (<a class="link" href="FsElementAddedNotifier.html" title="FsElementAddedNotifier">FsElementAddedNotifier</a> *notifier,
                                                          <a
@@ -177,7 +177,7 @@ href="../gstreamer-0.10/GstBin.html"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_element_added_notifier_remove ()">
 <a name="fs-element-added-notifier-remove"></a><h3>fs_element_added_notifier_remove ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -219,7 +219,7 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_element_added_notifier_set_properties_from_keyfile ()">
 <a name="fs-element-added-notifier-set-properties-from-keyfile"></a><h3>fs_element_added_notifier_set_properties_from_keyfile ()</h3>
 <pre class="programlisting">void                fs_element_added_notifier_set_properties_from_keyfile
                                                         (<a class="link" href="FsElementAddedNotifier.html" title="FsElementAddedNotifier">FsElementAddedNotifier</a> *notifier,
@@ -254,7 +254,7 @@ href="../glib/glib-Key-value-file-parser.html#GKeyFile"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="fs_element_added_notifier_set_properties_from_file ()">
 <a name="fs-element-added-notifier-set-properties-from-file"></a><h3>fs_element_added_notifier_set_properties_from_file ()</h3>
 <pre class="programlisting"><a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -308,9 +308,9 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="FsElementAddedNotifier.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "element-added" signal'>
 <a name="FsElementAddedNotifier-element-added"></a><h3>The <code class="literal">"element-added"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="FsElementAddedNotifier.html" title="FsElementAddedNotifier">FsElementAddedNotifier</a> *self,
                                                         <a

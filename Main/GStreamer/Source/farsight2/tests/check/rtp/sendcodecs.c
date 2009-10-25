@@ -38,8 +38,10 @@ gint digit = 0;
 gboolean sending = FALSE;
 gboolean received = FALSE;
 gboolean ready_to_send = FALSE;
+gboolean change_codec = FALSE;
 
 struct SimpleTestConference *dat = NULL;
+FsStream *stream = NULL;
 
 static gboolean
 _start_pipeline (gpointer user_data)
@@ -192,6 +194,7 @@ set_codecs (struct SimpleTestConference *dat, FsStream *stream)
   GList *filtered_codecs = NULL;
   GList *item = NULL;
   GError *error = NULL;
+  FsCodec *dtmf_codec = NULL;
 
   g_object_get (dat->session, "codecs", &codecs, NULL);
 
@@ -207,8 +210,9 @@ set_codecs (struct SimpleTestConference *dat, FsStream *stream)
     else if (codec->clock_rate == 8000 &&
         !g_ascii_strcasecmp (codec->encoding_name, "telephone-event"))
     {
-      ts_fail_unless (dtmf_id == 0, "More than one copy of telephone-event");
-      dtmf_id = codec->id;
+      ts_fail_unless (dtmf_codec == NULL,
+          "More than one copy of telephone-event");
+      dtmf_codec = codec;
       filtered_codecs = g_list_append (filtered_codecs, codec);
     }
   }
@@ -216,6 +220,8 @@ set_codecs (struct SimpleTestConference *dat, FsStream *stream)
   ts_fail_if (filtered_codecs == NULL, "PCMA and PCMU are not in the codecs"
       " you must install gst-plugins-good");
 
+  ts_fail_unless (dtmf_codec != NULL);
+  dtmf_codec->id = dtmf_id;
 
   if (!fs_stream_set_remote_codecs (stream, filtered_codecs, &error))
   {
@@ -235,7 +241,6 @@ set_codecs (struct SimpleTestConference *dat, FsStream *stream)
 static void
 one_way (GCallback havedata_handler, gpointer data)
 {
-  FsStream *stream = NULL;
   FsParticipant *participant = NULL;
   GError *error = NULL;
   gint port = 0;
@@ -243,8 +248,7 @@ one_way (GCallback havedata_handler, gpointer data)
   GList *candidates = NULL;
   GstBus *bus = NULL;
 
-  method = FS_DTMF_METHOD_AUTO;
-  dtmf_id = 0;
+  dtmf_id = 105;
   digit = 0;
   sending = FALSE;
   received = FALSE;
@@ -354,9 +358,8 @@ start_stop_sending_dtmf (gpointer data)
 
     ts_fail_unless (received == TRUE, "Did not receive any buffer for digit %d",
         digit);
-    received = FALSE;
 
-    if (digit > FS_DTMF_EVENT_D)
+    if (digit >= FS_DTMF_EVENT_D && !change_codec)
     {
       g_main_loop_quit (loop);
       return FALSE;
@@ -364,8 +367,18 @@ start_stop_sending_dtmf (gpointer data)
   }
   else
   {
+    if (digit >= FS_DTMF_EVENT_D)
+    {
+      digit = 0;
+      dtmf_id++;
+      ready_to_send = FALSE;
+      change_codec = FALSE;
+      set_codecs (dat, stream);
+      return TRUE;
+    }
     digit++;
 
+    received = FALSE;
     ts_fail_unless (fs_session_start_telephony_event (dat->session,
             digit, digit, method),
         "Could not start telephony event");
@@ -392,13 +405,22 @@ GST_START_TEST (test_senddtmf_auto)
 }
 GST_END_TEST;
 
+GST_START_TEST (test_senddtmf_change_auto)
+{
+  method = FS_DTMF_METHOD_AUTO;
+  change_codec = TRUE;
+  g_timeout_add (200, start_stop_sending_dtmf, NULL);
+  one_way (G_CALLBACK (send_dmtf_havedata_handler), NULL);
+}
+GST_END_TEST;
+
+gboolean checked = FALSE;
 
 static void
 change_ssrc_handler (GstPad *pad, GstBuffer *buf, gpointer user_data)
 {
   guint sess_ssrc;
   guint buf_ssrc;
-  static gboolean checked = FALSE;
 
   ts_fail_unless (gst_rtp_buffer_validate (buf));
 
@@ -433,6 +455,7 @@ change_ssrc_handler (GstPad *pad, GstBuffer *buf, gpointer user_data)
 
 GST_START_TEST (test_change_ssrc)
 {
+  checked = FALSE;
   one_way (G_CALLBACK (change_ssrc_handler), NULL);
 }
 GST_END_TEST;
@@ -456,6 +479,10 @@ fsrtpsendcodecs_suite (void)
 
   tc_chain = tcase_create ("fsrtpsenddtmf_auto");
   tcase_add_test (tc_chain, test_senddtmf_auto);
+  suite_add_tcase (s, tc_chain);
+
+  tc_chain = tcase_create ("fsrtpsenddtmf_change_auto");
+  tcase_add_test (tc_chain, test_senddtmf_change_auto);
   suite_add_tcase (s, tc_chain);
 
   tc_chain = tcase_create ("fsrtpchangessrc");
