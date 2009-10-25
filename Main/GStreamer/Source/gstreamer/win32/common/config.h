@@ -44,10 +44,10 @@
 #define GST_MAJORMINOR "0.10"
 
 /* package name in plugins */
-#define GST_PACKAGE_NAME "GStreamer git/prerelease"
+#define GST_PACKAGE_NAME "GStreamer"
 
 /* package origin */
-#define GST_PACKAGE_ORIGIN "Unknown package origin"
+#define GST_PACKAGE_ORIGIN "gstreamer.freedesktop.org"
 
 /* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. */
