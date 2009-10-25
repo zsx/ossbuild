@@ -200,6 +200,7 @@ gst_aacparse_finalize (GObject * object)
 /**
  * gst_aacparse_set_src_caps:
  * @aacparse: #GstAacParse.
+ * @sink_caps: (proposed) caps of sink pad
  *
  * Set source pad caps according to current knowledge about the
  * audio stream.
@@ -207,13 +208,12 @@ gst_aacparse_finalize (GObject * object)
  * Returns: TRUE if caps were successfully set.
  */
 static gboolean
-gst_aacparse_set_src_caps (GstAacParse * aacparse)
+gst_aacparse_set_src_caps (GstAacParse * aacparse, GstCaps * sink_caps)
 {
   GstStructure *s;
-  GstCaps *sink_caps, *src_caps = NULL;
+  GstCaps *src_caps = NULL;
   gboolean res = FALSE;
 
-  sink_caps = GST_PAD_CAPS (GST_BASE_PARSE (aacparse)->sinkpad);
   GST_DEBUG_OBJECT (aacparse, "sink caps: %" GST_PTR_FORMAT, sink_caps);
   if (sink_caps)
     src_caps = gst_caps_copy (sink_caps);
@@ -282,6 +282,10 @@ gst_aacparse_sink_setcaps (GstBaseParse * parse, GstCaps * caps)
 
       GST_DEBUG ("codec_data: object_type=%d, sample_rate=%d, channels=%d",
           aacparse->object_type, aacparse->sample_rate, aacparse->channels);
+
+      /* arrange for metadata and get out of the way */
+      gst_aacparse_set_src_caps (aacparse, caps);
+      gst_base_parse_set_passthrough (parse, TRUE);
     } else
       return FALSE;
   }
@@ -664,8 +668,12 @@ gst_aacparse_parse_frame (GstBaseParse * parse, GstBuffer * buffer)
     }
   }
 
-  GST_BUFFER_DURATION (buffer) = AAC_FRAME_DURATION (aacparse);
-  GST_BUFFER_TIMESTAMP (buffer) = aacparse->ts;
+  /* ADIF: only send an initial 0 timestamp downstream,
+   * then admit we have no idea and let downstream (decoder) handle it */
+  if (aacparse->header_type != DSPAAC_HEADER_ADIF || !aacparse->ts) {
+    GST_BUFFER_DURATION (buffer) = AAC_FRAME_DURATION (aacparse);
+    GST_BUFFER_TIMESTAMP (buffer) = aacparse->ts;
+  }
 
   if (GST_CLOCK_TIME_IS_VALID (aacparse->ts))
     aacparse->ts += GST_BUFFER_DURATION (buffer);
@@ -676,7 +684,8 @@ gst_aacparse_parse_frame (GstBaseParse * parse, GstBuffer * buffer)
   aacparse->bytecount += GST_BUFFER_SIZE (buffer);
 
   if (!aacparse->src_caps_set) {
-    if (!gst_aacparse_set_src_caps (aacparse)) {
+    if (!gst_aacparse_set_src_caps (aacparse,
+            GST_PAD_CAPS (GST_BASE_PARSE (aacparse)->sinkpad))) {
       /* If linking fails, we need to return appropriate error */
       ret = GST_FLOW_NOT_LINKED;
     }
@@ -709,6 +718,7 @@ gst_aacparse_start (GstBaseParse * parse)
   aacparse->ts = 0;
   aacparse->sync = FALSE;
   aacparse->eos = FALSE;
+  gst_base_parse_set_passthrough (parse, FALSE);
   return TRUE;
 }
 
@@ -799,7 +809,8 @@ gst_aacparse_convert (GstBaseParse * parse,
 
       if (aacparse->framecount && aacparse->frames_per_sec) {
         *dest_value = AAC_FRAME_DURATION (aacparse) * src_value / bpf;
-        GST_DEBUG ("conversion result: %lld ms", *dest_value / GST_MSECOND);
+        GST_DEBUG ("conversion result: %" G_GINT64_FORMAT " ms",
+            *dest_value / GST_MSECOND);
         ret = TRUE;
       }
     } else if (dest_format == GST_FORMAT_BYTES) {
@@ -812,8 +823,8 @@ gst_aacparse_convert (GstBaseParse * parse,
     if (dest_format == GST_FORMAT_BYTES) {
       if (aacparse->framecount && aacparse->frames_per_sec) {
         *dest_value = bpf * src_value / AAC_FRAME_DURATION (aacparse);
-        GST_DEBUG ("time %lld ms in bytes = %lld", src_value / GST_MSECOND,
-            *dest_value);
+        GST_DEBUG ("time %" G_GINT64_FORMAT " ms in bytes = %" G_GINT64_FORMAT,
+            src_value / GST_MSECOND, *dest_value);
         ret = TRUE;
       }
     }

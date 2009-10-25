@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>matroskademux</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-matroskamux.html" title="matroskamux">
 <link rel="next" href="gst-plugins-good-plugins-monoscope.html" title="monoscope">
@@ -31,7 +31,7 @@
                 <a href="#gst-plugins-good-plugins-matroskademux.object-hierarchy" class="shortcut">Object Hierarchy</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="matroskademux">
 <a name="gst-plugins-good-plugins-matroskademux"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -40,41 +40,45 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-matroskademux.synopsis"></a><h2>Synopsis</h2>
 <a name="GstMatroskaDemux"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-matroskademux.html#GstMatroskaDemux-struct" title="GstMatroskaDemux">GstMatroskaDemux</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-matroskademux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstEbmlRead
                      +----GstMatroskaDemux
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-matroskademux.description"></a><h2>Description</h2>
 <p>
 matroskademux demuxes a Matroska file into the different contained streams.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2742759"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id536556"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=/path/to/mkv ! matroskademux ! vorbisdec ! audioconvert ! audioresample ! autoaudiosink
 </pre></div> This pipeline demuxes a Matroska file and outputs the contained Vorbis audio.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2769795"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id538835"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -96,8 +100,8 @@ gst-launch -v filesrc location=/path/to/mkv ! matroskademux ! vorbisdec ! audioc
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2809344"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id529390"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -156,6 +160,14 @@ gst-launch -v filesrc location=/path/to/mkv ! matroskademux ! vorbisdec ! audioc
 </tr>
 <tr>
 <td><p><span class="term"></span></p></td>
+<td> subpicture/x-pgs</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
+<td> subtitle/x-kate</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
 <td> application/x-subtitle-unknown</td>
 </tr>
 </tbody>
@@ -207,9 +219,9 @@ gst-launch -v filesrc location=/path/to/mkv ! matroskademux ! vorbisdec ! audioc
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-matroskademux.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstMatroskaDemux">
 <a name="GstMatroskaDemux-struct"></a><h3>GstMatroskaDemux</h3>
 <pre class="programlisting">typedef struct _GstMatroskaDemux GstMatroskaDemux;</pre>
 <p>

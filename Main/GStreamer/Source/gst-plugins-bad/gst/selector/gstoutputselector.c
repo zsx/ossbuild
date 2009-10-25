@@ -152,7 +152,7 @@ gst_output_selector_init (GstOutputSelector * sel,
   /* srcpad management */
   sel->active_srcpad = NULL;
   sel->nb_srcpads = 0;
-  gst_segment_init (&sel->segment, GST_FORMAT_UNDEFINED);
+  gst_segment_init (&sel->segment, GST_FORMAT_TIME);
   sel->pending_srcpad = NULL;
 
   sel->resend_latest = FALSE;
@@ -238,7 +238,8 @@ gst_output_selector_get_property (GObject * object, guint prop_id,
   switch (prop_id) {
     case PROP_ACTIVE_PAD:
       GST_OBJECT_LOCK (object);
-      g_value_set_object (value, sel->active_srcpad);
+      g_value_set_object (value,
+          sel->pending_srcpad ? sel->pending_srcpad : sel->active_srcpad);
       GST_OBJECT_UNLOCK (object);
       break;
     case PROP_RESEND_LATEST:{

@@ -7,7 +7,7 @@ GST_DOC_SCANOBJ = $(top_srcdir)/common/gstdoc-scangobj
 MODULE=gst-plugins-bad
 DOC_MODULE=$(MODULE)-plugins
 
-# for upload.mak
+# for upload-doc.mak
 DOC=$(MODULE)-plugins
 FORMATS=html
 html: html-build.stamp
@@ -89,17 +89,22 @@ EXAMPLE_CFILES = \
         $(top_srcdir)/ext/directfb/dfb-example.c
 
 EXTRA_HFILES = \
-	$(top_srcdir)/ext/amrwb/gstamrwbdec.h \
-	$(top_srcdir)/ext/amrwb/gstamrwbenc.h \
-	$(top_srcdir)/ext/amrwb/gstamrwbparse.h \
+	$(top_srcdir)/ext/amrwbenc/gstamrwbenc.h \
 	$(top_srcdir)/ext/celt/gstceltdec.h \
 	$(top_srcdir)/ext/celt/gstceltenc.h \
 	$(top_srcdir)/ext/dc1394/gstdc1394.h \
 	$(top_srcdir)/ext/directfb/dfbvideosink.h \
 	$(top_srcdir)/ext/dts/gstdtsdec.h \
 	$(top_srcdir)/ext/ivorbis/vorbisdec.h \
+	$(top_srcdir)/ext/faac/gstfaac.h \
 	$(top_srcdir)/ext/jack/gstjackaudiosrc.h \
 	$(top_srcdir)/ext/jack/gstjackaudiosink.h \
+	$(top_srcdir)/ext/kate/gstkateenc.h \
+	$(top_srcdir)/ext/kate/gstkatedec.h \
+	$(top_srcdir)/ext/kate/gstkateparse.h \
+	$(top_srcdir)/ext/kate/gstkatetag.h \
+	$(top_srcdir)/ext/kate/gstkatetiger.h \
+        	$(top_srcdir)/ext/ladspa/gstladspa.h \
 	$(top_srcdir)/ext/musicbrainz/gsttrm.h \
 	$(top_srcdir)/ext/metadata/gstbasemetadata.h \
 	$(top_srcdir)/ext/metadata/gstmetadatademux.h \
@@ -115,6 +120,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/ext/theora/theoradec.h \
 	$(top_srcdir)/ext/timidity/gsttimidity.h \
 	$(top_srcdir)/ext/timidity/gstwildmidi.h \
+	$(top_srcdir)/ext/zbar/gstzbar.h \
 	$(top_srcdir)/gst/aacparse/gstaacparse.h \
 	$(top_srcdir)/gst/amrparse/gstamrparse.h \
 	$(top_srcdir)/gst/autoconvert/gstautoconvert.h \
@@ -124,6 +130,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/dccp/gstdccpserversink.h \
 	$(top_srcdir)/gst/dccp/gstdccpserversrc.h \
 	$(top_srcdir)/gst/debugutils/fpsdisplaysink.h \
+	$(top_srcdir)/gst/debugutils/gstcapssetter.h \
 	$(top_srcdir)/gst/dtmf/gstdtmfsrc.h \
 	$(top_srcdir)/gst/dtmf/gstrtpdtmfsrc.h \
 	$(top_srcdir)/gst/dtmf/gstrtpdtmfdepay.h \
@@ -134,14 +141,9 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/mxf/mxfdemux.h \
 	$(top_srcdir)/gst/mxf/mxfmux.h \
 	$(top_srcdir)/gst/nuvdemux/gstnuvdemux.h \
+	$(top_srcdir)/gst/pcapparse/gstpcapparse.h \
 	$(top_srcdir)/gst/rawparse/gstaudioparse.h \
 	$(top_srcdir)/gst/rawparse/gstvideoparse.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpbin.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpclient.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpjitterbuffer.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpptdemux.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpsession.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpssrcdemux.h \
 	$(top_srcdir)/gst/rtpmux/gstrtpmux.h \
 	$(top_srcdir)/gst/rtpmux/gstrtpdtmfmux.h \
 	$(top_srcdir)/gst/scaletempo/gstscaletempo.h \

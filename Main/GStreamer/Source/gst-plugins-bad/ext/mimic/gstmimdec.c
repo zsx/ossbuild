@@ -113,16 +113,12 @@ gst_mimdec_class_init (GstMimDecClass * klass)
 static void
 gst_mimdec_init (GstMimDec * mimdec, GstMimDecClass * klass)
 {
-  mimdec->sinkpad =
-      gst_pad_new_from_template (gst_static_pad_template_get (&sink_factory),
-      "sink");
+  mimdec->sinkpad = gst_pad_new_from_static_template (&sink_factory, "sink");
   gst_element_add_pad (GST_ELEMENT (mimdec), mimdec->sinkpad);
   gst_pad_set_chain_function (mimdec->sinkpad, gst_mimdec_chain);
   gst_pad_set_event_function (mimdec->sinkpad, gst_mimdec_sink_event);
 
-  mimdec->srcpad =
-      gst_pad_new_from_template (gst_static_pad_template_get (&src_factory),
-      "src");
+  mimdec->srcpad = gst_pad_new_from_static_template (&src_factory, "src");
   gst_element_add_pad (GST_ELEMENT (mimdec), mimdec->srcpad);
 
   mimdec->adapter = gst_adapter_new ();
@@ -141,6 +137,8 @@ gst_mimdec_finalize (GObject * object)
 
   gst_adapter_clear (mimdec->adapter);
   g_object_unref (mimdec->adapter);
+
+  GST_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
 }
 
 static GstFlowReturn
@@ -154,6 +152,7 @@ gst_mimdec_chain (GstPad * pad, GstBuffer * in)
   gint width, height;
   GstCaps *caps;
   GstFlowReturn res = GST_FLOW_OK;
+  GstClockTime in_time = GST_BUFFER_TIMESTAMP (in);
 
   GST_DEBUG ("in gst_mimdec_chain");
 
@@ -172,7 +171,7 @@ gst_mimdec_chain (GstPad * pad, GstBuffer * in)
       (mimdec->have_header ? mimdec->payload_size : 24)) {
     if (!mimdec->have_header) {
       header = (guchar *) gst_adapter_peek (mimdec->adapter, 24);
-      header_size = GUINT16_FROM_LE (*(guint16 *) (header + 0));
+      header_size = header[0];
       if (header_size != 24) {
         GST_WARNING_OBJECT (mimdec,
             "invalid frame: header size %d incorrect", header_size);
@@ -181,10 +180,16 @@ gst_mimdec_chain (GstPad * pad, GstBuffer * in)
         goto out;
       }
 
-      fourcc = GST_MAKE_FOURCC ('M', 'L', '2', '0');
-      if (GUINT32_FROM_LE (*((guint32 *) (header + 12))) != fourcc) {
-        GST_WARNING_OBJECT (mimdec, "invalid frame: unknown FOURCC code %d",
-            fourcc);
+      if (header[1] == 1) {
+        /* This is a a paused frame, skip it */
+        gst_adapter_flush (mimdec->adapter, 24);
+        continue;
+      }
+
+      fourcc = GUINT32_FROM_LE (*((guint32 *) (header + 12)));
+      if (GST_MAKE_FOURCC ('M', 'L', '2', '0') != fourcc) {
+        GST_WARNING_OBJECT (mimdec, "invalid frame: unknown FOURCC code"
+            " %X (%" GST_FOURCC_FORMAT ")", fourcc, GST_FOURCC_ARGS (fourcc));
         gst_adapter_flush (mimdec->adapter, 24);
         res = GST_FLOW_ERROR;
         goto out;
@@ -283,7 +288,10 @@ gst_mimdec_chain (GstPad * pad, GstBuffer * in)
       goto out;
     }
 
-    GST_BUFFER_TIMESTAMP (out_buf) = mimdec->current_ts * GST_MSECOND;
+    if (GST_CLOCK_TIME_IS_VALID (in_time))
+      GST_BUFFER_TIMESTAMP (out_buf) = in_time;
+    else
+      GST_BUFFER_TIMESTAMP (out_buf) = mimdec->current_ts * GST_MSECOND;
 
     mimic_get_property (mimdec->dec, "width", &width);
     mimic_get_property (mimdec->dec, "height", &height);
@@ -325,6 +333,7 @@ gst_mimdec_change_state (GstElement * element, GstStateChange transition)
 
   switch (transition) {
     case GST_STATE_CHANGE_READY_TO_NULL:
+      GST_OBJECT_LOCK (element);
       if (mimdec->dec != NULL) {
         mimic_close (mimdec->dec);
         mimdec->dec = NULL;
@@ -332,8 +341,8 @@ gst_mimdec_change_state (GstElement * element, GstStateChange transition)
         mimdec->have_header = FALSE;
         mimdec->payload_size = -1;
         mimdec->current_ts = -1;
-        GST_OBJECT_UNLOCK (element);
       }
+      GST_OBJECT_UNLOCK (element);
       break;
     case GST_STATE_CHANGE_READY_TO_PAUSED:
       GST_OBJECT_LOCK (element);

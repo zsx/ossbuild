@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, cvs and prerelease does Werror too
-AC_INIT(GStreamer Bad Plug-ins, 0.10.13,
+AC_INIT(GStreamer Bad Plug-ins, 0.10.16,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-bad)
 
@@ -45,8 +45,8 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.23
-GSTPB_REQ=0.10.23
+GST_REQ=0.10.25
+GSTPB_REQ=0.10.25
 
 dnl *** autotools stuff ****
 
@@ -124,7 +124,6 @@ dnl check for libm, for sin() etc.
 AC_CHECK_LIBM
 AC_SUBST(LIBM)
 
-dnl needed for gst/xdgmime
 AC_FUNC_MMAP
 
 dnl *** checks for header files ***
@@ -172,7 +171,7 @@ AC_CHECK_FUNC(socket,,[AC_CHECK_LIB(socket,socket)])
 AC_CHECK_FUNC(gethostbyname,,[AC_CHECK_LIB(nsl,gethostbyname)])
 
 dnl GLib is required
-AG_GST_GLIB_CHECK([2.6])
+AG_GST_GLIB_CHECK([2.16])
 
 dnl liboil is required
 PKG_CHECK_MODULES(LIBOIL, liboil-0.3 >= 0.3.8, HAVE_LIBOIL=yes, HAVE_LIBOIL=no)
@@ -204,7 +203,7 @@ AC_SUBST(GSTPB_PREFIX)
 
 dnl GTK is optional and used in examples
 HAVE_GTK=NO
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.8.0, HAVE_GTK=yes, HAVE_GTK=no)
+PKG_CHECK_MODULES(GTK, gtk+-x11-2.0 >= 2.8.0, HAVE_GTK=yes, HAVE_GTK=no)
 AM_CONDITIONAL(HAVE_GTK, test "x$HAVE_GTK" = "xyes")
 
 dnl libglade is optional and only used in examples
@@ -254,6 +253,7 @@ AG_GST_CHECK_PLUGIN(aacparse)
 AG_GST_CHECK_PLUGIN(adpcmdec)
 AG_GST_CHECK_PLUGIN(aiffparse)
 AG_GST_CHECK_PLUGIN(amrparse)
+AG_GST_CHECK_PLUGIN(asfmux)
 AG_GST_CHECK_PLUGIN(autoconvert)
 AG_GST_CHECK_PLUGIN(camerabin)
 AG_GST_CHECK_PLUGIN(legacyresample)
@@ -265,6 +265,7 @@ AG_GST_CHECK_PLUGIN(dtmf)
 AG_GST_CHECK_PLUGIN(dvdspu)
 AG_GST_CHECK_PLUGIN(festival)
 AG_GST_CHECK_PLUGIN(freeze)
+AG_GST_CHECK_PLUGIN(frei0r)
 AG_GST_CHECK_PLUGIN(h264parse)
 AG_GST_CHECK_PLUGIN(hdvparse)
 AG_GST_CHECK_PLUGIN(id3tag)
@@ -272,6 +273,7 @@ AG_GST_CHECK_PLUGIN(librfb)
 AG_GST_CHECK_PLUGIN(liveadder)
 AG_GST_CHECK_PLUGIN(mpegdemux)
 AG_GST_CHECK_PLUGIN(mpegtsmux)
+AG_GST_CHECK_PLUGIN(mpegpsmux)
 AG_GST_CHECK_PLUGIN(mpeg4videoparse)
 AG_GST_CHECK_PLUGIN(mpegvideoparse)
 AG_GST_CHECK_PLUGIN(mve)
@@ -279,10 +281,10 @@ AG_GST_CHECK_PLUGIN(mxf)
 AG_GST_CHECK_PLUGIN(nsf)
 AG_GST_CHECK_PLUGIN(nuvdemux)
 AG_GST_CHECK_PLUGIN(pcapparse)
+AG_GST_CHECK_PLUGIN(pnm)
 AG_GST_CHECK_PLUGIN(qtmux)
 AG_GST_CHECK_PLUGIN(rawparse)
 AG_GST_CHECK_PLUGIN(real)
-AG_GST_CHECK_PLUGIN(rtpmanager)
 AG_GST_CHECK_PLUGIN(rtpmux)
 AG_GST_CHECK_PLUGIN(scaletempo)
 AG_GST_CHECK_PLUGIN(sdp)
@@ -294,9 +296,9 @@ AG_GST_CHECK_PLUGIN(subenc)
 AG_GST_CHECK_PLUGIN(stereo)
 AG_GST_CHECK_PLUGIN(tta)
 AG_GST_CHECK_PLUGIN(valve)
+AG_GST_CHECK_PLUGIN(videomeasure)
 AG_GST_CHECK_PLUGIN(videosignal)
 AG_GST_CHECK_PLUGIN(vmnc)
-AG_GST_CHECK_PLUGIN(xdgmime)
 
 dnl *** plug-ins to exclude ***
 
@@ -307,12 +309,11 @@ if test "x$HAVE_CPU_I386" != "xyes" && test "x$HAVE_CPU_X86_64" != "xyes"; then
 fi
 
 dnl disable experimental plug-ins
-#if test "x$BUILD_EXPERIMENTAL" != "xyes"; then
-#fi
+dnl if test "x$BUILD_EXPERIMENTAL" != "xyes"; then
+dnl fi
 
-# For xdgmime, to use g_content_type_guess()
+# This will always succeed because we depend on GLib >= 2.16
 PKG_CHECK_MODULES(GIO, gio-2.0 >= 2.16, HAVE_GIO=yes, HAVE_GIO=no)
-AM_CONDITIONAL(HAVE_GIO, test "x$HAVE_GIO" = "xyes")
 AC_SUBST(GIO_CFLAGS)
 AC_SUBST(GIO_LIBS)
 
@@ -352,6 +353,47 @@ fi
 
 dnl *** sys plug-ins ***
 
+dnl DirectSound
+translit(dnm, m, l) AM_CONDITIONAL(USE_DIRECTSOUND, true)
+AG_GST_CHECK_FEATURE(DIRECTSOUND, [DirectSound], directsoundsrc, [
+  HAVE_DIRECTSOUND="no"
+  save_CFLAGS="$CFLAGS"
+  save_LDFLAGS="$LDFLAGS"
+  save_LIBS="$LIBS"
+  CFLAGS="$CFLAGS $DIRECTX_CFLAGS"
+  LDFLAGS="$LDFLAGS $DIRECTX_LDFLAGS"
+  LIBS="$LIBS -ldsound -ldxerr9 -luser32"
+  AC_MSG_CHECKING(for DirectSound LDFLAGS)
+  AC_LINK_IFELSE([
+#include <windows.h>
+#include <dxerr9.h>
+#include <dsound.h>
+
+int main ()
+{
+  DXGetErrorString9 (0);
+  DirectSoundCreate(NULL, NULL, NULL);
+
+  return 0;
+}
+],
+    [HAVE_DIRECTSOUND="yes"],
+    [HAVE_DIRECTSOUND="no"])
+  AC_MSG_RESULT($HAVE_DIRECTSOUND)
+  CFLAGS=$save_CFLAGS
+  LDFLAGS=$save_LDFLAGS
+  LIBS=$save_LIBS
+
+  if test "x$HAVE_DIRECTSOUND" = "xyes";  then
+    dnl this is much more than we want
+    DIRECTSOUND_LIBS="-ldsound -ldxerr9 -luser32"
+    AC_SUBST(DIRECTX_CFLAGS)
+    AC_SUBST(DIRECTX_LDFLAGS)
+    AC_SUBST(DIRECTSOUND_LIBS)
+  fi
+  AC_SUBST(HAVE_DIRECTSOUND)
+])
+
 dnl DirectDraw
 translit(dnm, m, l) AM_CONDITIONAL(USE_DIRECTDRAW, true)
 AG_GST_CHECK_FEATURE(DIRECTDRAW, [DirectDraw plug-in], directdrawsink, [
@@ -359,8 +401,8 @@ AG_GST_CHECK_FEATURE(DIRECTDRAW, [DirectDraw plug-in], directdrawsink, [
   save_CFLAGS="$CFLAGS"
   save_LDFLAGS="$LDFLAGS"
   save_LIBS="$LIBS"
-  CFLAGS="$CFLAGS $DIRECTDRAW_CFLAGS"
-  LDFLAGS="$LDFLAGS $DIRECTDRAW_LDFLAGS"
+  CFLAGS="$CFLAGS $DIRECTX_CFLAGS"
+  LDFLAGS="$LDFLAGS $DIRECTX_LDFLAGS"
   LIBS="$LIBS -lddraw -lgdi32"
   AC_MSG_CHECKING(for DirectDraw LDFLAGS)
   AC_LINK_IFELSE([
@@ -385,8 +427,8 @@ int main ()
   if test "x$HAVE_DIRECTDRAW" = "xyes";  then
     dnl this is much more than we want
     DIRECTDRAW_LIBS="-lddraw -ldxguid -lgdi32"
-    AC_SUBST(DIRECTDRAW_CFLAGS)
-    AC_SUBST(DIRECTDRAW_LDFLAGS)
+    AC_SUBST(DIRECTX_CFLAGS)
+    AC_SUBST(DIRECTX_LDFLAGS)
     AC_SUBST(DIRECTDRAW_LIBS)
   fi
   AC_SUBST(HAVE_DIRECTDRAW)
@@ -440,7 +482,8 @@ AG_GST_CHECK_FEATURE(ALSA, [alsa plug-ins], gstalsa, [
 dnl *** assrender ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_ASSRENDER, true)
 AG_GST_CHECK_FEATURE(ASSRENDER, [ASS/SSA renderer], assrender, [
-  PKG_CHECK_MODULES(ASSRENDER, libass >= 0.9.4, HAVE_ASSRENDER="yes", [
+  PKG_CHECK_MODULES(ASSRENDER, libass >= 0.9.4, [
+    HAVE_ASSRENDER="yes" ], [
     HAVE_ASSRENDER="no"
     AC_MSG_RESULT(no)
   ])
@@ -450,10 +493,10 @@ AC_SUBST(ASSRENDER_LIBS)
 
 dnl *** amrwb ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_AMRWB, true)
-AG_GST_CHECK_FEATURE(AMRWB, [amrwb library], amrwb, [
+AG_GST_CHECK_FEATURE(AMRWB, [amrwb library], amrwbenc, [
   AG_GST_CHECK_LIBHEADER(AMRWB, amrwb,
-                        GP3D_IF_decode, ,
-                        amrwb/dec.h,
+                        GP3E_IF_encode, ,
+                        amrwb/enc.h,
                         AMRWB_LIBS="-lamrwb"
                         AC_SUBST(AMRWB_LIBS))
 ])
@@ -627,6 +670,22 @@ AG_GST_CHECK_FEATURE(CELT, [celt], celt, [
   ])
   AC_SUBST(CELT_CFLAGS)
   AC_SUBST(CELT_LIBS)
+])
+
+dnl *** Cog ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_COG, true)
+AG_GST_CHECK_FEATURE(COG, [Cog plugin], cog, [
+  PKG_CHECK_MODULES(COG, libpng12 orc-0.4 >= 0.4.2.1, HAVE_COG="yes", [
+    HAVE_COG="no"
+    AC_MSG_RESULT(no)
+  ])
+  AC_SUBST(COG_CFLAGS)
+  AC_SUBST(COG_LIBS)
+  ORCC=`$PKG_CONFIG --variable=orcc orc-0.4`
+  if test "x$ORCC" = x ; then
+    ORCC=orcc
+  fi
+  AC_SUBST(ORCC)
 ])
 
 dnl *** dc1394  ***
@@ -943,6 +1002,30 @@ AG_GST_CHECK_FEATURE(JP2K, [jp2k], jp2kdec jp2kenc, [
   AC_SUBST(JP2K_LIBS)
 ])
 
+dnl *** kate ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_KATE, true)
+AG_GST_CHECK_FEATURE(KATE, [Kate], kate, [
+  PKG_CHECK_MODULES(KATE, kate >= 0.1.7, HAVE_KATE="yes", [
+    HAVE_KATE="no"
+    AC_MSG_RESULT(no)
+  ])
+  AC_SUBST(KATE_CFLAGS)
+  AC_SUBST(KATE_LIBS)
+  PKG_CHECK_MODULES(TIGER, tiger >= 0.3.2,
+    [
+      HAVE_TIGER="yes"
+      AC_DEFINE(HAVE_TIGER, 1, [Define if libtiger is available])
+    ],
+    [
+      HAVE_TIGER="no"
+      AC_MSG_RESULT(no)
+    ]
+  )
+  AM_CONDITIONAL(USE_TIGER, test "x$HAVE_TIGER" = "xyes")
+  AC_SUBST(TIGER_CFLAGS)
+  AC_SUBST(TIGER_LIBS)
+],,,[AM_CONDITIONAL(USE_TIGER, false)])
+
 dnl *** ladspa ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_LADSPA, true)
 AG_GST_CHECK_FEATURE(LADSPA, [ladspa], ladspa, [
@@ -954,6 +1037,14 @@ AG_GST_CHECK_FEATURE(LADSPA, [ladspa], ladspa, [
   fi
   AC_SUBST(LRDF_LIBS)
   AC_SUBST(LRDF_CFLAGS)
+])
+
+dnl *** LV2 ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_LV2, true)
+AG_GST_CHECK_FEATURE(LV2, [lv2], lv2, [
+  PKG_CHECK_MODULES(SLV2, slv2 >= 0.6.6, HAVE_LV2="yes", HAVE_LV2="no")
+  AC_SUBST(SLV2_CFLAGS)
+  AC_SUBST(SLV2_LIBS)
 ])
 
 dnl *** libmms ***
@@ -980,7 +1071,7 @@ AG_GST_CHECK_FEATURE(MODPLUG, modplug, modplug, [
   AC_SUBST(MODPLUG_LIBS)
 ])
 
-dnl check for libmimic
+dnl *** mimic ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_MIMIC, true)
 AG_GST_CHECK_FEATURE(MIMIC, [libmimic library], mimic, [
   MIMDEC_REQUIRED=1.0
@@ -1209,7 +1300,7 @@ AG_GST_CHECK_FEATURE(NAS, [nas plug-in], nassink, [
 dnl *** neon ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_NEON, true)
 AG_GST_CHECK_FEATURE(NEON, [neon http client plugins], neonhttpsrc, [
-  PKG_CHECK_MODULES(NEON, neon >= 0.26.0  neon <= 0.28.99, HAVE_NEON="yes", [
+  PKG_CHECK_MODULES(NEON, neon >= 0.26.0  neon <= 0.29.99, HAVE_NEON="yes", [
     HAVE_NEON="no"
     AC_MSG_RESULT(no)
   ])
@@ -1226,6 +1317,17 @@ AG_GST_CHECK_FEATURE(OFA, [ofa plugins], ofa, [
   ])
   AC_SUBST(OFA_CFLAGS)
   AC_SUBST(OFA_LIBS)
+])
+
+dnl *** rsvg ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_RSVG, true)
+AG_GST_CHECK_FEATURE(RSVG, [rsvg decoder], rsvg, [
+  PKG_CHECK_MODULES(RSVG, librsvg-2.0 >= 2.14 cairo, HAVE_RSVG="yes", [
+    HAVE_RSVG="no"
+    AC_MSG_RESULT(no)
+  ])
+  AC_SUBST(RSVG_CFLAGS)
+  AC_SUBST(RSVG_LIBS)
 ])
 
 dnl *** timidity ***
@@ -1337,6 +1439,28 @@ AG_GST_CHECK_FEATURE(SPC, [spc decoder], spc, [
   ])
 ])
 
+dnl *** gme ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_GME, true)
+AG_GST_CHECK_FEATURE(GME, [gme decoder], gme, [
+  AC_CHECK_HEADER(gme/gme.h, [
+    AC_CHECK_LIB(gme, gme_new_emu, [
+      GME_LIBS="-lgme"
+      AC_SUBST(GME_LIBS)
+      HAVE_GME=yes
+    ], [
+      HAVE_GME=no
+    ])
+  ], [
+    HAVE_GME=no
+  ])
+
+  if test "x$HAVE_GME" = "xyes"; then
+    AC_CHECK_LIB(gme, gme_enable_accuracy, [
+      AC_DEFINE(HAVE_LIBGME_ACCURACY, 1, [Define if gme 0.5.6 or newer is available])
+      ])
+  fi
+])
+
 dnl *** swfdec ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_SWFDEC, true)
 AG_GST_CHECK_FEATURE(SWFDEC, [swfdec plug-in], swfdec, [
@@ -1421,13 +1545,68 @@ AG_GST_CHECK_FEATURE(ACM, [Windows ACM library], acm, [
       ], [HAVE_ACM="no"])
 ])
 
+dnl *** vdpau ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_VDPAU, true)
+AG_GST_CHECK_FEATURE(VDPAU, [VDPAU], vdpau, [
+  VDPAU_CFLAGS=
+  VDPAU_LIBS=-lvdpau
+  HAVE_VDPAU=no
+
+  PKG_CHECK_MODULES(VDPAU, vdpau, [HAVE_VDPAU="yes"],
+  [
+    if test "$HAVE_VDPAU" = "no"; then
+      saved_CPPFLAGS="$CPPFLAGS"
+      AC_CHECK_HEADER([vdpau/vdpau.h], [HAVE_VDPAU_H=yes])
+      
+      if test -z "$HAVE_VDPAU_H"; then
+        dnl Didn't find VDPAU header straight away.
+        dnl Try /usr/include/nvidia. Need to clear caching vars first
+        AC_MSG_NOTICE([VDPAU header not in standard path. Checking /usr/include/nvidia])
+        unset ac_cv_header_vdpau_vdpau_h
+        unset ac_cv_header_vdpau_vdpau_x11_h
+        VDPAU_CFLAGS="-I/usr/include/nvidia"
+        VDPAU_LIBS="-L/usr/lib/nvidia -lvdpau"
+        CPPFLAGS="$VDPAU_CFLAGS $saved_CPPFLAGS"
+        AC_CHECK_HEADER([vdpau/vdpau.h], [HAVE_VDPAU_H=yes])
+      fi
+      
+      AC_CHECK_HEADER([vdpau/vdpau_x11.h], [HAVE_VDPAU_X11_H=yes])
+  
+      if test "x$HAVE_VDPAU_H" = "xyes" -a "x$HAVE_VDPAU_X11_H" = "xyes"; then
+        dnl Found the headers - look for the lib
+        AC_MSG_NOTICE([VDPAU headers found. Checking libraries])
+        saved_LIBS="$LIBS"
+        LIBS="$VDPAU_LIBS $saved_LIBS"
+        AC_CHECK_LIB(vdpau,vdp_device_create_x11,[HAVE_VDPAU="yes"])
+        LIBS="$saved_LIBS"
+      fi
+    fi
+  ])
+
+  if test "$HAVE_VDPAU" = "yes"; then
+    AC_MSG_NOTICE([Found up to date VDPAU installation])
+    AC_SUBST(VDPAU_CFLAGS)
+    AC_SUBST(VDPAU_LIBS)
+  fi
+])
+
+dnl *** schroedinger ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_SCHRO, true)
+AG_GST_CHECK_FEATURE(SCHRO, [Schroedinger video codec], schro, [
+  AG_GST_PKG_CHECK_MODULES(SCHRO, schroedinger-1.0 >= 1.0.7)
+])
+
+dnl *** zbar ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_ZBAR, true)
+AG_GST_CHECK_FEATURE(ZBAR, [ZBar barcode detector], zbar, [
+  AG_GST_PKG_CHECK_MODULES(ZBAR, zbar >= 0.9)
+])
+
 else
 
 dnl not building plugins with external dependencies,
 dnl but we still need to set the conditionals
 
-AM_CONDITIONAL(USE_QUICKTIME, false)
-AM_CONDITIONAL(USE_VCD, false)
 AM_CONDITIONAL(USE_ALSA, false)
 AM_CONDITIONAL(USE_ASSRENDER, false)
 AM_CONDITIONAL(USE_AMRWB, false)
@@ -1435,14 +1614,14 @@ AM_CONDITIONAL(USE_APEXSINK, false)
 AM_CONDITIONAL(USE_BZ2, false)
 AM_CONDITIONAL(USE_CDAUDIO, false)
 AM_CONDITIONAL(USE_CELT, false)
+AM_CONDITIONAL(USE_COG, false)
 AM_CONDITIONAL(USE_DC1394, false)
 AM_CONDITIONAL(USE_DIRECTFB, false)
-AM_CONDITIONAL(USE_DIRECTDRAW, false)
-AM_CONDITIONAL(USE_DTS, false)
 AM_CONDITIONAL(USE_DIRAC, false)
+AM_CONDITIONAL(USE_DTS, false)
 AM_CONDITIONAL(USE_DIVX, false)
-AM_CONDITIONAL(USE_DVB, false)
 AM_CONDITIONAL(USE_DVDNAV, false)
+AM_CONDITIONAL(USE_METADATA, false)
 AM_CONDITIONAL(USE_FAAC, false)
 AM_CONDITIONAL(USE_FAAD, false)
 AM_CONDITIONAL(USE_FBDEV, false)
@@ -1450,12 +1629,14 @@ AM_CONDITIONAL(USE_GSM, false)
 AM_CONDITIONAL(USE_IVORBIS, false)
 AM_CONDITIONAL(USE_JACK, false)
 AM_CONDITIONAL(USE_JP2K, false)
+AM_CONDITIONAL(USE_KATE, false)
+AM_CONDITIONAL(USE_TIGER, false)
 AM_CONDITIONAL(USE_LADSPA, false)
+AM_CONDITIONAL(USE_LV2, false)
 AM_CONDITIONAL(USE_LIBMMS, false)
 AM_CONDITIONAL(USE_MODPLUG, false)
-AM_CONDITIONAL(USE_METADATA, false)
-AM_CONDITIONAL(USE_MPEG2ENC, false)
 AM_CONDITIONAL(USE_MIMIC, false)
+AM_CONDITIONAL(USE_MPEG2ENC, false)
 AM_CONDITIONAL(USE_MPLEX, false)
 AM_CONDITIONAL(USE_MUSEPACK, false)
 AM_CONDITIONAL(USE_MUSICBRAINZ, false)
@@ -1463,18 +1644,24 @@ AM_CONDITIONAL(USE_MYTHTV, false)
 AM_CONDITIONAL(USE_NAS, false)
 AM_CONDITIONAL(USE_NEON, false)
 AM_CONDITIONAL(USE_OFA, false)
-AM_CONDITIONAL(USE_OSS4, false)
+AM_CONDITIONAL(USE_RSVG, false)
+AM_CONDITIONAL(USE_TIMIDITY, false)
+AM_CONDITIONAL(USE_WILDMIDI, false)
 AM_CONDITIONAL(USE_SDL, false)
 AM_CONDITIONAL(USE_SNDFILE, false)
 AM_CONDITIONAL(USE_SOUNDTOUCH, false)
 AM_CONDITIONAL(USE_SPC, false)
+AM_CONDITIONAL(USE_GME, false)
 AM_CONDITIONAL(USE_SWFDEC, false)
 AM_CONDITIONAL(USE_THEORADEC, false)
-AM_CONDITIONAL(USE_TIMIDITY, false)
 AM_CONDITIONAL(USE_XVID, false)
-AM_CONDITIONAL(USE_WILDMIDI, false)
+AM_CONDITIONAL(USE_DVB, false)
+AM_CONDITIONAL(USE_OSS4, false)
 AM_CONDITIONAL(USE_WININET, false)
 AM_CONDITIONAL(USE_ACM, false)
+AM_CONDITIONAL(USE_VDPAU, false)
+AM_CONDITIONAL(USE_SCHRO, false)
+AM_CONDITIONAL(USE_ZBAR, false)
 
 fi dnl of EXT plugins
 
@@ -1537,17 +1724,18 @@ dnl po/Makefile.in
 
 AC_CONFIG_FILES(
 Makefile
+common/Makefile
 common/shave
 common/shave-libtool
+common/m4/Makefile
 gst-plugins-bad.spec
 gst/Makefile
 gst/aacparse/Makefile
 gst/adpcmdec/Makefile
 gst/aiffparse/Makefile
 gst/amrparse/Makefile
+gst/asfmux/Makefile
 gst/autoconvert/Makefile
-gst/legacyresample/Makefile
-gst/liveadder/Makefile
 gst/bayer/Makefile
 gst/camerabin/Makefile
 gst/cdxaparse/Makefile
@@ -1557,13 +1745,17 @@ gst/dtmf/Makefile
 gst/dvdspu/Makefile
 gst/festival/Makefile
 gst/freeze/Makefile
+gst/frei0r/Makefile
 gst/h264parse/Makefile
 gst/hdvparse/Makefile
 gst/id3tag/Makefile
+gst/legacyresample/Makefile
 gst/librfb/Makefile
+gst/liveadder/Makefile
 gst/mpegdemux/Makefile
 gst/mpegtsmux/Makefile
 gst/mpegtsmux/tsmux/Makefile
+gst/mpegpsmux/Makefile
 gst/mpeg4videoparse/Makefile
 gst/mpegvideoparse/Makefile
 gst/mve/Makefile
@@ -1571,9 +1763,10 @@ gst/mxf/Makefile
 gst/nsf/Makefile
 gst/nuvdemux/Makefile
 gst/pcapparse/Makefile
+gst/pnm/Makefile
 gst/qtmux/Makefile
 gst/rawparse/Makefile
-gst/rtpmanager/Makefile
+gst/real/Makefile
 gst/rtpmux/Makefile
 gst/scaletempo/Makefile
 gst/sdp/Makefile
@@ -1585,19 +1778,20 @@ gst/subenc/Makefile
 gst/stereo/Makefile
 gst/tta/Makefile
 gst/valve/Makefile
+gst/videomeasure/Makefile
 gst/videosignal/Makefile
 gst/vmnc/Makefile
-gst/real/Makefile
-gst/xdgmime/Makefile
 gst-libs/Makefile
 gst-libs/gst/Makefile
-gst-libs/gst/dshow/Makefile
 gst-libs/gst/interfaces/Makefile
+gst-libs/gst/signalprocessor/Makefile
+gst-libs/gst/video/Makefile
 sys/Makefile
 sys/dshowdecwrapper/Makefile
 sys/acmenc/Makefile
 sys/acmmp3dec/Makefile
 sys/directdraw/Makefile
+sys/directsound/Makefile
 sys/dshowsrcwrapper/Makefile
 sys/dshowvideosink/Makefile
 sys/dvb/Makefile
@@ -1606,39 +1800,46 @@ sys/oss4/Makefile
 sys/osxvideo/Makefile
 sys/qtwrapper/Makefile
 sys/vcd/Makefile
+sys/vdpau/Makefile
 sys/wasapi/Makefile
 sys/wininet/Makefile
 sys/winks/Makefile
 sys/winscreencap/Makefile
+tests/Makefile
+tests/check/Makefile
 tests/examples/Makefile
+tests/examples/camerabin/Makefile
 tests/examples/directfb/Makefile
 tests/examples/mxf/Makefile
-tests/examples/shapewipe/Makefile
 tests/examples/scaletempo/Makefile
+tests/examples/shapewipe/Makefile
 tests/examples/switch/Makefile
-ext/amrwb/Makefile
+tests/icles/Makefile
 ext/alsaspdif/Makefile
+ext/amrwbenc/Makefile
 ext/assrender/Makefile
 ext/apexsink/Makefile
 ext/bz2/Makefile
 ext/cdaudio/Makefile
 ext/celt/Makefile
+ext/cog/Makefile
 ext/dc1394/Makefile
 ext/dirac/Makefile
 ext/directfb/Makefile
 ext/divx/Makefile
 ext/dts/Makefile
-ext/metadata/Makefile
 ext/faac/Makefile
 ext/faad/Makefile
 ext/gsm/Makefile
 ext/ivorbis/Makefile
 ext/jack/Makefile
 ext/jp2k/Makefile
+ext/kate/Makefile
 ext/ladspa/Makefile
+ext/lv2/Makefile
 ext/libmms/Makefile
 ext/Makefile
-ext/nas/Makefile
+ext/metadata/Makefile
 ext/modplug/Makefile
 ext/mpeg2enc/Makefile
 ext/mimic/Makefile
@@ -1646,28 +1847,28 @@ ext/mplex/Makefile
 ext/musepack/Makefile
 ext/musicbrainz/Makefile
 ext/mythtv/Makefile
+ext/nas/Makefile
 ext/neon/Makefile
 ext/ofa/Makefile
+ext/rsvg/Makefile
 ext/resindvd/Makefile
+ext/schroedinger/Makefile
 ext/sdl/Makefile
 ext/sndfile/Makefile
 ext/soundtouch/Makefile
+ext/gme/Makefile
 ext/spc/Makefile
 ext/swfdec/Makefile
 ext/theora/Makefile
 ext/timidity/Makefile
 ext/xvid/Makefile
+ext/zbar/Makefile
 po/Makefile.in
 docs/Makefile
 docs/plugins/Makefile
 docs/plugins/figures/Makefile
 docs/version.entities
-common/Makefile
-common/m4/Makefile
 m4/Makefile
-tests/Makefile
-tests/check/Makefile
-tests/icles/Makefile
 win32/common/config.h
 )
 AC_OUTPUT

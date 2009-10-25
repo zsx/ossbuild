@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>wavpackparse</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-wavpackenc.html" title="wavpackenc">
 <link rel="next" href="gst-plugins-good-plugins-wavparse.html" title="wavparse">
@@ -31,7 +31,7 @@
                 <a href="#gst-plugins-good-plugins-wavpackparse.object-hierarchy" class="shortcut">Object Hierarchy</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="wavpackparse">
 <a name="gst-plugins-good-plugins-wavpackparse"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -40,24 +40,28 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-wavpackparse.synopsis"></a><h2>Synopsis</h2>
 <a name="GstWavpackParse"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-wavpackparse.html#GstWavpackParse-struct" title="GstWavpackParse">GstWavpackParse</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-wavpackparse.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstWavpackParse
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-wavpackparse.description"></a><h2>Description</h2>
 <p>
 WavpackParse takes raw, unframed Wavpack streams and splits them into
@@ -68,16 +72,16 @@ audio codec that features both lossless and lossy encoding.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2830660"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id603426"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=test.wv ! wavpackparse ! wavpackdec ! fakesink
 </pre></div> This pipeline decodes the Wavpack file test.wv into raw audio buffers.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2791606"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id609295"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -99,8 +103,8 @@ gst-launch filesrc location=test.wv ! wavpackparse ! wavpackdec ! fakesink
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2800133"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id580957"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -173,9 +177,9 @@ gst-launch filesrc location=test.wv ! wavpackparse ! wavpackdec ! fakesink
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-wavpackparse.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstWavpackParse">
 <a name="GstWavpackParse-struct"></a><h3>GstWavpackParse</h3>
 <pre class="programlisting">typedef struct _GstWavpackParse GstWavpackParse;</pre>
 <p>

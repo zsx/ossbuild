@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>wavpackenc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-wavpackdec.html" title="wavpackdec">
 <link rel="next" href="gst-plugins-good-plugins-wavpackparse.html" title="wavpackparse">
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-wavpackenc.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="wavpackenc">
 <a name="gst-plugins-good-plugins-wavpackenc"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,30 +44,36 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-wavpackenc.synopsis"></a><h2>Synopsis</h2>
 <a name="GstWavpackEnc"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc-struct" title="GstWavpackEnc">GstWavpackEnc</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-wavpackenc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstWavpackEnc
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-wavpackenc.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstWavpackEnc implements
- GstPreset.</p>
+ <a
+href="../gstreamer-0.10/GstPreset.html"
+>GstPreset</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-wavpackenc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--bitrate" title='The "bitrate" property'>bitrate</a>"                  <a
@@ -87,7 +93,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
   "<a class="link" href="gst-plugins-good-plugins-wavpackenc.html#GstWavpackEnc--mode" title='The "mode" property'>mode</a>"                     GstWavpackEncMode     : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-wavpackenc.description"></a><h2>Description</h2>
 <p>
 WavpackEnc encodes raw audio into a framed Wavpack stream.
@@ -96,8 +102,8 @@ audio codec that features both lossless and lossy encoding.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2748671"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id580950"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc num-buffers=500 ! audioconvert ! wavpackenc ! filesink location=sinewave.wv
 </pre></div> This pipeline encodes audio from audiotestsrc into a Wavpack file. The audioconvert element is needed
@@ -111,10 +117,10 @@ gst-launch cdda://1 ! audioconvert ! wavpackenc bitrate=128000 ! filesink locati
 </pre></div> This pipeline encodes audio from an audio CD into a Wavpack file using
 lossy encoding at a certain bitrate (the file will be fairly small).
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2829943"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id602226"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -136,8 +142,8 @@ lossy encoding at a certain bitrate (the file will be fairly small).
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2816331"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id610052"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -206,18 +212,18 @@ lossy encoding at a certain bitrate (the file will be fairly small).
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-wavpackenc.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstWavpackEnc">
 <a name="GstWavpackEnc-struct"></a><h3>GstWavpackEnc</h3>
 <pre class="programlisting">typedef struct _GstWavpackEnc GstWavpackEnc;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-wavpackenc.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "bitrate" property'>
 <a name="GstWavpackEnc--bitrate"></a><h3>The <code class="literal">"bitrate"</code> property</h3>
 <pre class="programlisting">  "bitrate"                  <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -227,7 +233,7 @@ href="../glib/glib-Basic-Types.html#guint"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "bits-per-sample" property'>
 <a name="GstWavpackEnc--bits-per-sample"></a><h3>The <code class="literal">"bits-per-sample"</code> property</h3>
 <pre class="programlisting">  "bits-per-sample"          <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -237,14 +243,14 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "correction-mode" property'>
 <a name="GstWavpackEnc--correction-mode"></a><h3>The <code class="literal">"correction-mode"</code> property</h3>
 <pre class="programlisting">  "correction-mode"          GstWavpackEncCorrectionMode  : Read / Write</pre>
 <p>Use this mode for the correction stream. Only works in lossy mode!.</p>
 <p>Default value: Create no correction file</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "extra-processing" property'>
 <a name="GstWavpackEnc--extra-processing"></a><h3>The <code class="literal">"extra-processing"</code> property</h3>
 <pre class="programlisting">  "extra-processing"         <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -254,14 +260,14 @@ href="../glib/glib-Basic-Types.html#guint"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "joint-stereo-mode" property'>
 <a name="GstWavpackEnc--joint-stereo-mode"></a><h3>The <code class="literal">"joint-stereo-mode"</code> property</h3>
 <pre class="programlisting">  "joint-stereo-mode"        GstWavpackEncJSMode   : Read / Write</pre>
 <p>Use this joint-stereo mode.</p>
 <p>Default value: auto</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "md5" property'>
 <a name="GstWavpackEnc--md5"></a><h3>The <code class="literal">"md5"</code> property</h3>
 <pre class="programlisting">  "md5"                      <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -270,7 +276,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mode" property'>
 <a name="GstWavpackEnc--mode"></a><h3>The <code class="literal">"mode"</code> property</h3>
 <pre class="programlisting">  "mode"                     GstWavpackEncMode     : Read / Write</pre>
 <p>Speed versus compression tradeoff.</p>

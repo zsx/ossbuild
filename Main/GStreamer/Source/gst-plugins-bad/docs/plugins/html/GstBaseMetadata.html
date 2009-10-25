@@ -67,8 +67,12 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"
   <a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstBaseMetadata
                      +----<a class="link" href="gst-plugins-bad-plugins-metadatademux.html#GstMetadataDemux">GstMetadataDemux</a>
                      +----<a class="link" href="gst-plugins-bad-plugins-metadatamux.html#GstMetadataMux">GstMetadataMux</a>
@@ -92,7 +96,7 @@ types of elements are supported:
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3082360"></a><p>
+<a name="id2935099"></a><p>
 This a abstract element that parses a stream and find chunks and offset
 where new chunks could be injected into it.
 Basically, the only thing need by implementors (parsers, (de)muxers) is to
@@ -105,7 +109,9 @@ and add chunks to be injected (using the helper function
 </p>
 <p>
 This can work in 'pull' and 'push' scheduling modes. In case of push mode,
-the stream will be parsed during sink activation if <span class="type">gst_pad_get_range</span> is
+the stream will be parsed during sink activation if <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPad.html#gst-pad-get-range"
+><span class="type">gst_pad_get_range</span></a> is
 available on upstream element. If get_range function is not available
 upstream, then the data will be hold until the stream is completly parsed,
 and then after that the fisrt buffer will be pushed downstream. The same

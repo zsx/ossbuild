@@ -12,7 +12,20 @@ TESTS_ENVIRONMENT = \
 	GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/ext:$(top_builddir)/sys:$(GSTPB_PLUGINS_DIR):$(GST_PLUGINS_DIR)			\
 	STATE_IGNORE_ELEMENTS="aasink autoaudiosrc autoaudiosink autovideosrc autovideosink cacasink cairotextoverlay gconfaudiosrc gconfvideosrc gconfaudiosink gconfvideosink halaudiosrc halaudiosink v4l2src osssrc osssink pulsesink pulsesrc pulsemixer"
 
-# ths core dumps of some machines have PIDs appended
+# fake device drivers: we could run hardware element tests against dummy drivers
+# v4l2: vivo (part of normal kernel)
+#   modprobe vivo;
+#   gst-launch v4l2src device="/dev/video1" ! xvimagesink;
+#   rmmod vivo
+#
+# alsa: snd-dummy (part of normal alsa, not removable)
+#   modprobe snd-dummy;
+#   gst-launch alsasrc device="hw:2" ! fakesink
+#   gst-launch fakesrc ! alsasink device="hw:2"
+#
+# need a way to figure out value for the device property
+
+# the core dumps of some machines have PIDs appended
 CLEANFILES = core.* test-registry.*
 
 clean-local: clean-local-check
@@ -23,6 +36,12 @@ check_annodex = \
 	elements/cmmlenc
 else
 check_annodex = 
+endif
+
+if USE_FLAC
+check_flac = pipelines/flacdec
+else
+check_flac =
 endif
 
 if USE_GDK_PIXBUF
@@ -81,6 +100,8 @@ check_PROGRAMS = \
 	elements/avisubtitle \
 	elements/deinterleave \
 	elements/equalizer \
+	elements/flvdemux \
+	elements/flvmux \
 	elements/icydemux \
 	elements/id3demux \
 	elements/interleave \
@@ -91,12 +112,16 @@ check_PROGRAMS = \
 	elements/rglimiter \
 	elements/rgvolume \
 	elements/rtp-payloading \
+	elements/rtpbin \
+	elements/rtpbin_buffer_list \
 	elements/spectrum \
+	elements/udpsink \
 	elements/videocrop \
 	elements/videofilter \
 	elements/y4menc \
 	pipelines/simple-launch-lines \
-	pipelines/flacdec \
+	pipelines/effectv \
+	$(check_flac) \
 	$(check_gdkpixbuf) \
 	$(check_soup) \
 	$(check_sunaudio) \
@@ -145,6 +170,13 @@ elements_deinterleave_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(CFLAGS) $(AM_CFLAGS)
 elements_deinterleave_LDADD = $(GST_PLUGINS_BASE_LIBS) -lgstaudio-$(GST_MAJORMINOR) $(LDADD)
 elements_interleave_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(CFLAGS) $(AM_CFLAGS)
 elements_interleave_LDADD = $(GST_PLUGINS_BASE_LIBS) -lgstaudio-$(GST_MAJORMINOR) $(LDADD)
+
+elements_rtpbin_buffer_list_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_CFLAGS) \
+	$(ERROR_CFLAGS) $(GST_CHECK_CFLAGS)
+elements_rtpbin_buffer_list_LDADD = $(GST_PLUGINS_BASE_LIBS) \
+             -lgstnetbuffer-@GST_MAJORMINOR@ -lgstrtp-@GST_MAJORMINOR@ \
+             $(GST_BASE_LIBS) $(GST_LIBS_LIBS) $(GST_CHECK_LIBS)
+elements_rtpbin_buffer_list_SOURCES = elements/rtpbin_buffer_list.c
 
 elements_souphttpsrc_CFLAGS = $(SOUP_CFLAGS) $(AM_CFLAGS)
 elements_souphttpsrc_LDADD = $(SOUP_LIBS) $(LDADD)

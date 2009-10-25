@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gst-plugins-good 0.10.14.2\n"
+"Project-Id-Version: gst-plugins-good 0.10.15.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-20 21:09+0100\n"
-"PO-Revision-Date: 2009-05-14 22:01+0700\n"
+"POT-Creation-Date: 2009-08-28 23:17+0100\n"
+"PO-Revision-Date: 2009-08-24 11:15-0400\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr "Tak dapat menghubungi server"
 msgid "No or invalid input audio, AVI stream will be corrupt."
 msgstr "Masukan audio tidak ada atau tidak sah, arus AVI akan rusak."
 
-msgid "This file contains no playable streams."
-msgstr "Berkas ini tidak berisi arus yang dapat diputar."
-
 msgid "This file is invalid and cannot be played."
 msgstr "Berkas ini tidak sah dan tak dapat diputar."
+
+msgid "This file contains no playable streams."
+msgstr "Berkas ini tidak berisi arus yang dapat diputar."
 
 msgid "This file is incomplete and cannot be played."
 msgstr "Berkas ini tidak lengkap dan tak dapat diputar."
@@ -173,6 +173,24 @@ msgstr "Tak dapat membuka divais audio untuk merekam."
 msgid "Gain"
 msgstr "Gain"
 
+msgid "Built-in Speaker"
+msgstr "Pengeras Suara Terbina"
+
+msgid "Headphone"
+msgstr "Headphone"
+
+msgid "Line Out"
+msgstr "Jalur Keluar"
+
+msgid "SPDIF Out"
+msgstr "SPDIF Keluar"
+
+msgid "AUX 1 Out"
+msgstr "AUX 1 Keluar"
+
+msgid "AUX 2 Out"
+msgstr "AUX 2 Keluar"
+
 #, c-format
 msgid "Error reading %d bytes from device '%s'."
 msgstr "Galat membaca %d bita dari divais '%s'."
@@ -226,6 +244,10 @@ msgid "Device '%s' is not a capture device."
 msgstr "Divais '%s' bukan divais penangkap."
 
 #, c-format
+msgid "Device '%s' is not a output device."
+msgstr "Divais '%s' bukan divais keluaran."
+
+#, c-format
 msgid "Failed to set norm for device '%s'."
 msgstr "Gagal mengatur standar untuk divais '%s'."
 
@@ -263,43 +285,12 @@ msgid "Could not enqueue buffers in device '%s'."
 msgstr "Tak dapat mengantrekan penyangga di divais '%s'."
 
 #, c-format
-msgid "Failed to enumerate possible video formats device '%s' can work with"
-msgstr ""
-"Gagal menyebutkan kemungkinan format video yang dapat bekerja dengan divais "
-"'%s'."
-
-#, c-format
 msgid "Failed trying to get video frames from device '%s'."
 msgstr "Gagal mencoba untuk mendapatkan bingkai video dari divais '%s'."
 
 #, c-format
-msgid ""
-"The buffer type is not supported, or the index is out of bounds, or no "
-"buffers have been allocated yet, or the userptr or length are invalid. "
-"device %s"
-msgstr ""
-"Tipe penyangga tidak didukung, atau indeks di luar batas, atau tak ada "
-"penyangga yang telah dialokasikan, atau userptr atau panjang tidak sah. "
-"divais %s"
-
-#, c-format
-msgid "Failed trying to get video frames from device '%s'. Not enough memory."
-msgstr ""
-"Gagal mencoba untuk mendapatkan bingkai video dari divais '%s'. Tak cukup "
-"memori."
-
-#, c-format
-msgid "insufficient memory to enqueue a user pointer buffer. device %s."
-msgstr ""
-"kekurangan memori untuk mengantrekan penyangga penunjuk pengguna. divais %s."
-
-#, c-format
 msgid "Failed after %d tries. device %s. system error: %s"
 msgstr "Gagal setelah %d percobaan. divais %s. galat sistem: %s"
-
-#, c-format
-msgid "No free buffers found in the pool at index %d."
-msgstr "Tak ada penyangga bebas ditemukan di lubuk pada indeks %d."
 
 #, c-format
 msgid "Could not get parameters on device '%s'"
@@ -307,26 +298,6 @@ msgstr "Tak bisa mendapatkan parameter di divais '%s'"
 
 msgid "Video input device did not accept new frame rate setting."
 msgstr "Divais masukan video tak menerima pengaturan rasio bingkai baru."
-
-#, c-format
-msgid "Device '%s' does not support video capture"
-msgstr "Divais '%s' tak mendukung penangkap video"
-
-#, c-format
-msgid "Device '%s' cannot capture at %dx%d"
-msgstr "Divais '%s' tak dapat menangkap di %dx%d"
-
-#, c-format
-msgid "Device '%s' cannot capture in the specified format"
-msgstr "Divais '%s' tak dapat menangkap dalam format yang ditentukan"
-
-#, c-format
-msgid "Could not get buffers from device '%s'."
-msgstr "Tak bisa mendapatkan penyangga dari divais '%s'."
-
-#, c-format
-msgid "Could not get enough buffers from device '%s'."
-msgstr "Tak bisa mendapatkan penyangga yang cukup dari divais '%s'."
 
 #, c-format
 msgid "Could not map buffers from device '%s'"
@@ -337,19 +308,60 @@ msgid "The driver of device '%s' does not support any known capture method."
 msgstr ""
 "Driver dari divais '%s' tak mendukung metode penangkap apapun yang dikenal."
 
-#, c-format
-msgid "Error starting streaming capture from device '%s'."
-msgstr "Galat memulai penangkapan arus dari divais '%s'."
-
-#, c-format
-msgid "Error stopping streaming capture from device '%s'."
-msgstr "Galat menghentikan penangkapan arus dari divais '%s'."
-
 msgid "Changing resolution at runtime is not yet supported."
 msgstr "Mengubah resolusi saat waktu berjalan belum didukung."
 
 msgid "Cannot operate without a clock"
 msgstr "Tak dapat beroperasi tanpa jam"
+
+#~ msgid "Failed to enumerate possible video formats device '%s' can work with"
+#~ msgstr ""
+#~ "Gagal menyebutkan kemungkinan format video yang dapat bekerja dengan "
+#~ "divais '%s'."
+
+#~ msgid ""
+#~ "The buffer type is not supported, or the index is out of bounds, or no "
+#~ "buffers have been allocated yet, or the userptr or length are invalid. "
+#~ "device %s"
+#~ msgstr ""
+#~ "Tipe penyangga tidak didukung, atau indeks di luar batas, atau tak ada "
+#~ "penyangga yang telah dialokasikan, atau userptr atau panjang tidak sah. "
+#~ "divais %s"
+
+#~ msgid ""
+#~ "Failed trying to get video frames from device '%s'. Not enough memory."
+#~ msgstr ""
+#~ "Gagal mencoba untuk mendapatkan bingkai video dari divais '%s'. Tak cukup "
+#~ "memori."
+
+#~ msgid "insufficient memory to enqueue a user pointer buffer. device %s."
+#~ msgstr ""
+#~ "kekurangan memori untuk mengantrekan penyangga penunjuk pengguna. divais %"
+#~ "s."
+
+#~ msgid "No free buffers found in the pool at index %d."
+#~ msgstr "Tak ada penyangga bebas ditemukan di lubuk pada indeks %d."
+
+#~ msgid "Device '%s' does not support video capture"
+#~ msgstr "Divais '%s' tak mendukung penangkap video"
+
+#~ msgid "Device '%s' cannot capture at %dx%d"
+#~ msgstr "Divais '%s' tak dapat menangkap di %dx%d"
+
+#~ msgid "Device '%s' cannot capture in the specified format"
+#~ msgstr "Divais '%s' tak dapat menangkap dalam format yang ditentukan"
+
+#~ msgid "Could not get buffers from device '%s'."
+#~ msgstr "Tak bisa mendapatkan penyangga dari divais '%s'."
+
+#~ msgid "Could not get enough buffers from device '%s'."
+#~ msgstr "Tak bisa mendapatkan penyangga yang cukup dari divais '%s'."
+
+#~ msgid "Error starting streaming capture from device '%s'."
+#~ msgstr "Galat memulai penangkapan arus dari divais '%s'."
+
+#~ msgid "Error stopping streaming capture from device '%s'."
+#~ msgstr "Galat menghentikan penangkapan arus dari divais '%s'."
 
 #~ msgid "Failed getting controls attributes on device '%s.'"
 #~ msgstr "Gagal mendapatkan kendali atribut di divais '%s.'"

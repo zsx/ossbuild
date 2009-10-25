@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>audiofirfilter</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-audiocheblimit.html" title="audiocheblimit">
 <link rel="next" href="gst-plugins-good-plugins-audioiirfilter.html" title="audioiirfilter">
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-audiofirfilter.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="audiofirfilter">
 <a name="gst-plugins-good-plugins-audiofirfilter"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,21 +44,27 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-audiofirfilter.synopsis"></a><h2>Synopsis</h2>
 <a name="GstAudioFIRFilter"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-audiofirfilter.html#GstAudioFIRFilter-struct" title="GstAudioFIRFilter">GstAudioFIRFilter</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-audiofirfilter.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseTransform
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseTransform.html"
+>GstBaseTransform</a>
                      +----<a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
@@ -66,7 +72,7 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
                                  +----GstAudioFIRFilter
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-audiofirfilter.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-audiofirfilter.html#GstAudioFIRFilter--kernel" title='The "kernel" property'>kernel</a>"                   <a
@@ -77,13 +83,13 @@ href="../glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="gst-plugins-good-plugins-audiofirfilter.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-audiofirfilter.html#GstAudioFIRFilter-rate-changed" title='The "rate-changed" signal'>rate-changed</a>"                                   : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-audiofirfilter.description"></a><h2>Description</h2>
 <p>
 audiofirfilter implements a generic audio <a class="ulink" href="http://en.wikipedia.org/wiki/Finite_impulse_response" target="_top">FIR filter</a>. Before usage the
@@ -105,8 +111,8 @@ FIR filters as they're depending on the sampling rate.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2745535"></a><h3>Example application</h3>
+<div class="refsect2" title="Example application">
+<a name="id499671"></a><h3>Example application</h3>
 <div class="informalexample"><pre class="programlisting">
 /* GStreamer
  * Copyright (C) 2009 Sebastian Droege &lt;sebastian.droege@collabora.co.uk&gt;
@@ -272,10 +278,10 @@ main (gint argc, gchar * argv[])
 
 </pre></div>
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2753051"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id477054"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -297,8 +303,8 @@ main (gint argc, gchar * argv[])
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2749052"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id509356"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -346,9 +352,9 @@ main (gint argc, gchar * argv[])
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-audiofirfilter.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstAudioFIRFilter">
 <a name="GstAudioFIRFilter-struct"></a><h3>GstAudioFIRFilter</h3>
 <pre class="programlisting">typedef struct _GstAudioFIRFilter GstAudioFIRFilter;</pre>
 <p>
@@ -357,9 +363,9 @@ Opaque data structure.</p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-audiofirfilter.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "kernel" property'>
 <a name="GstAudioFIRFilter--kernel"></a><h3>The <code class="literal">"kernel"</code> property</h3>
 <pre class="programlisting">  "kernel"                   <a
 href="../gobject/gobject-Value-arrays.html#GValueArray"
@@ -367,7 +373,7 @@ href="../gobject/gobject-Value-arrays.html#GValueArray"
 <p>Filter kernel for the FIR filter.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "latency" property'>
 <a name="GstAudioFIRFilter--latency"></a><h3>The <code class="literal">"latency"</code> property</h3>
 <pre class="programlisting">  "latency"                  <a
 href="../glib/glib-Basic-Types.html#guint64"
@@ -376,9 +382,9 @@ href="../glib/glib-Basic-Types.html#guint64"
 <p>Default value: 0</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="gst-plugins-good-plugins-audiofirfilter.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "rate-changed" signal'>
 <a name="GstAudioFIRFilter-rate-changed"></a><h3>The <code class="literal">"rate-changed"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-audiofirfilter.html#GstAudioFIRFilter">GstAudioFIRFilter</a> *filter,
                                                         <a

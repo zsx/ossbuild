@@ -306,12 +306,12 @@ gst_base_metadata_dispose_members (GstBaseMetadata * filter)
   /* adapter used during parsing process */
 
   if (filter->adapter_parsing) {
-    gst_object_unref (filter->adapter_parsing);
+    g_object_unref (filter->adapter_parsing);
     filter->adapter_parsing = NULL;
   }
 
   if (filter->adapter_holding) {
-    gst_object_unref (filter->adapter_holding);
+    g_object_unref (filter->adapter_holding);
     filter->adapter_holding = NULL;
   }
 
@@ -1151,8 +1151,8 @@ gst_base_metadata_calculate_offsets (GstBaseMetadata * base)
     goto done;
   }
 
-  metadata_chunk_array_remove_zero_size (&META_DATA_INJECT_CHUNKS (base->
-          metadata));
+  metadata_chunk_array_remove_zero_size (&META_DATA_INJECT_CHUNKS
+      (base->metadata));
 
   metadata_lazy_update (base->metadata);
 
@@ -1420,7 +1420,7 @@ gst_base_metadata_change_state (GstElement * element, GstStateChange transition)
   switch (transition) {
     case GST_STATE_CHANGE_PAUSED_TO_READY:
       gst_base_metadata_reset_streaming (filter);
-      if (filter->state != MT_STATE_PARSED)
+      if (filter->state == MT_STATE_PARSED)
         gst_base_metadata_reset_parsing (filter);
       break;
     default:

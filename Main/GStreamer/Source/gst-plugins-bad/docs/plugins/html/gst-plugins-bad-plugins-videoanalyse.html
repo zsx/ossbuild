@@ -54,9 +54,15 @@
   <a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseTransform
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
+>GstBaseTransform</a>
                      +----<a
 href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideofilter.html#GstVideoFilter"
 >GstVideoFilter</a>
@@ -85,22 +91,30 @@ The message's structure contains these fields:
 </p>
 <div class="itemizedlist"><ul type="disc">
 <li><p>
-  <span class="type">GstClockTime</span>
+  <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
   <code class="classname">"timestamp"</code>:
   the timestamp of the buffer that triggered the message.
   </p></li>
 <li><p>
-  <span class="type">GstClockTime</span>
+  <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
   <code class="classname">"stream-time"</code>:
   the stream time of the buffer.
   </p></li>
 <li><p>
-  <span class="type">GstClockTime</span>
+  <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
   <code class="classname">"running-time"</code>:
   the running_time of the buffer.
   </p></li>
 <li><p>
-  <span class="type">GstClockTime</span>
+  <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
   <code class="classname">"duration"</code>:
   the duration of the buffer.
   </p></li>
@@ -124,7 +138,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id3074469"></a><h3>Example launch line</h3>
+<a name="id2917987"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -m videotestsrc ! videoanalyse ! ffmpegcolorspace ! ximagesink
 </pre></div> This pipeline emits messages to the console for each frame that has been analysed. 
@@ -136,7 +150,7 @@ Last reviewed on 2007-05-30 (0.10.5)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3074494"></a><h3>Element Information</h3>
+<a name="id2918013"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -159,7 +173,78 @@ Last reviewed on 2007-05-30 (0.10.5)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3074556"></a><h3>Element Pads</h3>
+<a name="id2918074"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>video/x-raw-yuv, format=(fourcc){ I420, YV12 }, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>video/x-raw-yuv, format=(fourcc){ I420, YV12 }, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2918218"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-bad-plugins-plugin-videosignal.html#plugin-videosignal">videosignal</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Wim Taymans &lt;wim@fluendo.com&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Filter/Effect/Video</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2918279"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>

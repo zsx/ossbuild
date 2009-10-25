@@ -14,12 +14,11 @@ GObject
         RsnDvdBin
         DvbBaseBin
         GstAutoConvert
-        GstRtpBin
-        GstRtpClient
         GstSDPDemux
         GstFPSDisplaySink
       GstBz2enc
       GstBz2dec
+      GstGmeDec
       GstMplex
       GstBaseSrc
         GstPushSrc
@@ -56,11 +55,16 @@ GObject
         GstFBDEVSink
         GstDCCPServerSink
         GstDCCPClientSink
+      GstKateDec
+      GstKateEnc
+      GstKateParse
+        GstKateTag
       GstFaad
       GstCeltEnc
       GstCeltDec
       GstSpcDec
       GstWildmidi
+      GstRsvgDec
       GstBaseTransform
         GstAudioFilter
           GstOFA
@@ -74,8 +78,10 @@ GObject
           GstVideoAnalyse
           GstVideoDetect
           GstVideoMark
+        GstCapsSetter
         GstIIR
         GstLegacyresample
+        GstMeasureCollector
       GstSignalProcessor
         ladspa-noise-white
         ladspa-delay-5s
@@ -92,12 +98,16 @@ GObject
       GstPitch
       GstMusepackDec
       GstMpeg2enc
+      GstMimEnc
+      GstMimDec
       GstGSMEnc
       GstGSMDec
       GstFaac
       GstDtsDec
       Gstassrender
-      GstDiracEnc
+      GstBaseVideoCodec
+        GstBaseVideoEncoder
+          GstDiracEnc
       GstTRM
       GstBaseMetadata
         GstMetadataDemux
@@ -105,6 +115,10 @@ GObject
       GstOss4Mixer
       GstAmrBaseParse
         GstAmrParse
+      GstAsfMux
+      GstBaseRTPPayload
+        GstRtpAsfPay
+      GstAsfParse
       GstFestival
       GstModPlug
       ADPCMDec
@@ -125,10 +139,6 @@ GObject
       GstRawParse
         GstVideoParse
         GstAudioParse
-      GstRtpJitterBuffer
-      GstRtpPtDemux
-      GstRtpSession
-      GstRtpSsrcDemux
       GstPcapParse
       GstInputSelector
       GstOutputSelector
@@ -152,10 +162,14 @@ GObject
       GstTtaParse
       GstTtaDec
       GstLiveAdder
+      MpegPsMux
       GstValve
       GstBaseRTPDepayload
         GstRtpDTMFDepay
+      GstSSim
       GstNuvDemux
+      GstPnmdec
+      GstPnmenc
       GstShapeWipe
       GstFLVDemux
       GstFlvMux
@@ -165,21 +179,23 @@ GObject
       GstDeinterlace2
     GstBus
     GstTask
+    GstTaskPool
     GstClock
       GstSystemClock
         GstAudioClock
     GstPlugin
     GstRegistry
     GstRingBuffer
+      GstAudioSinkRingBuffer
+      GstAudioSrcRingBuffer
       GstJackAudioSrcRingBuffer
       GstJackAudioSinkRingBuffer
   GstSignalObject
+  MpegTsPatInfo
+  MpegTsPmtInfo
   GstColorBalanceChannel
   GstMixerTrack
     GstMixerOptions
-  RTPSession
-  MpegTsPatInfo
-  MpegTsPmtInfo
 GInterface
   GTypePlugin
   GstChildProxy

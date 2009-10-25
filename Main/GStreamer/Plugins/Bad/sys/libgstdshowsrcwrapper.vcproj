@@ -157,6 +157,7 @@
 			ConfigurationType="2"
 			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\Shared\MSVC\Properties\SDKs\DirectShow.vsprops;$(SolutionDir)Main\GStreamer\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
+			ManagedExtensions="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -235,11 +236,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories="&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\gst\dshow&quot;"
-				PreprocessorDefinitions="CINTERFACE;COBJMACROS"
+				PreprocessorDefinitions="COBJMACROS"
 				RuntimeLibrary="2"
+				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -301,8 +304,8 @@
 			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstaudio.vcproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}"
-			RelativePathToProject=".\Main\GStreamer\Plugins\Bad\gst-libs\libgstdshow.vcproj"
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstvideo.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
@@ -311,23 +314,15 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiomixer.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshow.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiomixer.h"
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshow.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiomixertrack.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiomixertrack.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiosrc.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowaudiosrc.cpp"
 			>
 		</File>
 		<File
@@ -335,7 +330,15 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowsrcwrapper.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowfakesink.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowfakesink.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowsrcwrapper.cpp"
 			>
 		</File>
 		<File
@@ -343,7 +346,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowvideosrc.c"
+			RelativePath="..\..\..\Source\gst-plugins-bad\sys\dshowsrcwrapper\gstdshowvideosrc.cpp"
 			>
 		</File>
 		<File

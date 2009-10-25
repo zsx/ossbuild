@@ -25,6 +25,7 @@
 G_BEGIN_DECLS
 
 #define FOURCC_ftyp     GST_MAKE_FOURCC('f','t','y','p')
+#define FOURCC_qt__     GST_MAKE_FOURCC('q','t',' ',' ')
 #define FOURCC_moov     GST_MAKE_FOURCC('m','o','o','v')
 #define FOURCC_mvhd     GST_MAKE_FOURCC('m','v','h','d')
 #define FOURCC_clip     GST_MAKE_FOURCC('c','l','i','p')
@@ -75,6 +76,7 @@ G_BEGIN_DECLS
 #define FOURCC_wave     GST_MAKE_FOURCC('w','a','v','e')
 #define FOURCC_appl     GST_MAKE_FOURCC('a','p','p','l')
 #define FOURCC_esds     GST_MAKE_FOURCC('e','s','d','s')
+#define FOURCC_pasp     GST_MAKE_FOURCC('p','a','s','p')
 #define FOURCC_hnti     GST_MAKE_FOURCC('h','n','t','i')
 #define FOURCC_rtp_     GST_MAKE_FOURCC('r','t','p',' ')
 #define FOURCC_sdp_     GST_MAKE_FOURCC('s','d','p',' ')
@@ -125,6 +127,8 @@ G_BEGIN_DECLS
 #define FOURCC_twos     GST_MAKE_FOURCC('t','w','o','s')
 #define FOURCC_sowt     GST_MAKE_FOURCC('s','o','w','t')
 #define FOURCC_raw_     GST_MAKE_FOURCC('r','a','w',' ')
+#define FOURCC_in24     GST_MAKE_FOURCC('i','n','2','4')
+#define FOURCC_enda     GST_MAKE_FOURCC('e','n','d','a')
 #define FOURCC_QDM2     GST_MAKE_FOURCC('Q','D','M','2')
 #define FOURCC_alac     GST_MAKE_FOURCC('a','l','a','c')
 #define FOURCC_samr     GST_MAKE_FOURCC('s','a','m','r')
@@ -140,6 +144,7 @@ G_BEGIN_DECLS
 #define FOURCC_ctts     GST_MAKE_FOURCC('c','t','t','s')
 #define FOURCC_keyw     GST_MAKE_FOURCC('k','e','y','w')
 #define FOURCC_kywd     GST_MAKE_FOURCC('k','y','w','d')
+#define FOURCC_agsm     GST_MAKE_FOURCC('a','g','s','m')
 
 /* 3gpp asset meta data fourcc */
 #define FOURCC_titl     GST_MAKE_FOURCC('t','i','t','l')

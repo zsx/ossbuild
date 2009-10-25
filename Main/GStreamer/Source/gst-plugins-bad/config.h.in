@@ -46,7 +46,7 @@
 /* Define to enable alsa plug-ins (used by gstalsa). */
 #undef HAVE_ALSA
 
-/* Define to enable amrwb library (used by amrwb). */
+/* Define to enable amrwb library (used by amrwbenc). */
 #undef HAVE_AMRWB
 
 /* Define to enable AirPort Express Wireless sink (used by apexsink). */
@@ -74,6 +74,9 @@
 /* Define to 1 if you have the MacOS X function CFPreferencesCopyAppValue in
    the CoreFoundation framework. */
 #undef HAVE_CFPREFERENCESCOPYAPPVALUE
+
+/* Define to enable Cog plugin (used by cog). */
+#undef HAVE_COG
 
 /* Define if the host CPU is an Alpha */
 #undef HAVE_CPU_ALPHA
@@ -133,6 +136,9 @@
 /* Define to enable directfb (used by dfbvideosink ). */
 #undef HAVE_DIRECTFB
 
+/* Define to enable DirectSound (used by directsoundsrc). */
+#undef HAVE_DIRECTSOUND
+
 /* Define to enable divx plugins (used by divx). */
 #undef HAVE_DIVX
 
@@ -181,6 +187,9 @@
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
 
+/* Define to enable gme decoder (used by gme). */
+#undef HAVE_GME
+
 /* Define to 1 if you have the `gmtime_r' function. */
 #undef HAVE_GMTIME_R
 
@@ -202,6 +211,9 @@
 /* Define to enable jp2k (used by jp2kdec jp2kenc). */
 #undef HAVE_JP2K
 
+/* Define to enable Kate (used by kate). */
+#undef HAVE_KATE
+
 /* Define to enable ladspa (used by ladspa). */
 #undef HAVE_LADSPA
 
@@ -214,6 +226,9 @@
 /* Define to 1 if you have the `divxencore' library (-ldivxencore). */
 #undef HAVE_LIBDIVXENCORE
 
+/* Define if gme 0.5.6 or newer is available */
+#undef HAVE_LIBGME_ACCURACY
+
 /* Define to enable mms protocol library (used by libmms). */
 #undef HAVE_LIBMMS
 
@@ -225,6 +240,9 @@
 
 /* Define if we have liblrdf */
 #undef HAVE_LRDF
+
+/* Define to enable lv2 (used by lv2). */
+#undef HAVE_LV2
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
@@ -283,6 +301,12 @@
 /* Define if RDTSC is available */
 #undef HAVE_RDTSC
 
+/* Define to enable rsvg decoder (used by rsvg). */
+#undef HAVE_RSVG
+
+/* Define to enable Schroedinger video codec (used by schro). */
+#undef HAVE_SCHRO
+
 /* Define to enable SDL plug-in (used by sdlvideosink sdlaudiosink). */
 #undef HAVE_SDL
 
@@ -334,6 +358,9 @@
 /* Define to enable ogg theora codec (used by theoraexpdec). */
 #undef HAVE_THEORADEC
 
+/* Define if libtiger is available */
+#undef HAVE_TIGER
+
 /* Define to enable timidity midi soft synth plugin (used by timidity). */
 #undef HAVE_TIMIDITY
 
@@ -345,6 +372,9 @@
 
 /* Define to enable Video CD (used by vcdsrc). */
 #undef HAVE_VCD
+
+/* Define to enable VDPAU (used by vdpau). */
+#undef HAVE_VDPAU
 
 /* Define to enable wildmidi midi soft synth plugin (used by wildmidi). */
 #undef HAVE_WILDMIDI
@@ -366,6 +396,9 @@
 
 /* Define to enable xvid plugins (used by xvid). */
 #undef HAVE_XVID
+
+/* Define to enable ZBar barcode detector (used by zbar). */
+#undef HAVE_ZBAR
 
 /* the host CPU */
 #undef HOST_CPU

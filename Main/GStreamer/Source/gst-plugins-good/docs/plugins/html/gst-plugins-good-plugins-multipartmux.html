@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>multipartmux</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-multipartdemux.html" title="multipartdemux">
 <link rel="next" href="gst-plugins-good-plugins-multiudpsink.html" title="multiudpsink">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-multipartmux.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="multipartmux">
 <a name="gst-plugins-good-plugins-multipartmux"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,24 +42,28 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-multipartmux.synopsis"></a><h2>Synopsis</h2>
 <a name="GstMultipartMux"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-multipartmux.html#GstMultipartMux-struct" title="GstMultipartMux">GstMultipartMux</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-multipartmux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstMultipartMux
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-multipartmux.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-multipartmux.html#GstMultipartMux--boundary" title='The "boundary" property'>boundary</a>"                 <a
@@ -67,26 +71,28 @@ href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-multipartmux.description"></a><h2>Description</h2>
 <p>
-MultipartMux uses the <span class="type">GstCaps</span> of the sink pad as the Content-type field for
+MultipartMux uses the <a
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+><span class="type">GstCaps</span></a> of the sink pad as the Content-type field for
 incoming buffers when muxing them to a multipart stream. Most of the time 
 multipart streams are sequential JPEG frames.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2790440"></a><h3>Sample pipelines</h3>
+<div class="refsect2" title="Sample pipelines">
+<a name="id538881"></a><h3>Sample pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch videotestsrc ! video/x-raw-yuv, framerate='(fraction)'5/1 ! jpegenc ! multipartmux ! filesink location=/tmp/test.multipart
 </pre></div> a pipeline to mux 5 JPEG frames per second into a multipart stream
 stored to a file.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2761994"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id483680"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -108,8 +114,8 @@ stored to a file.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2788993"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id532121"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -157,9 +163,9 @@ stored to a file.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-multipartmux.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstMultipartMux">
 <a name="GstMultipartMux-struct"></a><h3>GstMultipartMux</h3>
 <pre class="programlisting">typedef struct _GstMultipartMux GstMultipartMux;</pre>
 <p>
@@ -168,9 +174,9 @@ The opaque <a class="link" href="gst-plugins-good-plugins-multipartmux.html#GstM
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-multipartmux.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "boundary" property'>
 <a name="GstMultipartMux--boundary"></a><h3>The <code class="literal">"boundary"</code> property</h3>
 <pre class="programlisting">  "boundary"                 <a
 href="../glib/glib-Basic-Types.html#gchar"

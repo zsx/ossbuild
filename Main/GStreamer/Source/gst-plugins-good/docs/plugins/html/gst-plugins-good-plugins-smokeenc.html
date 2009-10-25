@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>smokeenc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-smokedec.html" title="smokedec">
 <link rel="next" href="gst-plugins-good-plugins-smpte.html" title="smpte">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-smokeenc.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="smokeenc">
 <a name="gst-plugins-good-plugins-smokeenc"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,24 +42,28 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-smokeenc.synopsis"></a><h2>Synopsis</h2>
 <a name="GstSmokeEnc"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-smokeenc.html#GstSmokeEnc-struct" title="GstSmokeEnc">GstSmokeEnc</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-smokeenc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstSmokeEnc
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-smokeenc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-smokeenc.html#GstSmokeEnc--keyframe" title='The "keyframe" property'>keyframe</a>"                 <a
@@ -76,14 +80,14 @@ href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-smokeenc.description"></a><h2>Description</h2>
 <p>
 Encodes images in smoke format.</p>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2811471"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id548290"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -105,8 +109,8 @@ Encodes images in smoke format.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2817435"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id590463"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -154,18 +158,18 @@ Encodes images in smoke format.</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-smokeenc.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstSmokeEnc">
 <a name="GstSmokeEnc-struct"></a><h3>GstSmokeEnc</h3>
 <pre class="programlisting">typedef struct _GstSmokeEnc GstSmokeEnc;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-smokeenc.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "keyframe" property'>
 <a name="GstSmokeEnc--keyframe"></a><h3>The <code class="literal">"keyframe"</code> property</h3>
 <pre class="programlisting">  "keyframe"                 <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -175,7 +179,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 20</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "qmax" property'>
 <a name="GstSmokeEnc--qmax"></a><h3>The <code class="literal">"qmax"</code> property</h3>
 <pre class="programlisting">  "qmax"                     <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -185,7 +189,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 85</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "qmin" property'>
 <a name="GstSmokeEnc--qmin"></a><h3>The <code class="literal">"qmin"</code> property</h3>
 <pre class="programlisting">  "qmin"                     <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -195,7 +199,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 10</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "threshold" property'>
 <a name="GstSmokeEnc--threshold"></a><h3>The <code class="literal">"threshold"</code> property</h3>
 <pre class="programlisting">  "threshold"                <a
 href="../glib/glib-Basic-Types.html#gint"

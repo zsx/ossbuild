@@ -11,7 +11,7 @@ ASSRENDER_DIR =
 endif
 
 if USE_AMRWB
-AMRWB_DIR = amrwb
+AMRWB_DIR = amrwbenc
 else
 AMRWB_DIR =
 endif
@@ -62,6 +62,12 @@ if USE_CELT
 CELT_DIR=celt
 else
 CELT_DIR=
+endif
+
+if USE_COG
+COG_DIR=cog
+else
+COG_DIR=
 endif
 
 if USE_DC1394
@@ -148,10 +154,22 @@ else
 JP2K_DIR =
 endif
 
+if USE_KATE
+KATE_DIR=kate
+else
+KATE_DIR=
+endif
+
 if USE_LADSPA
 LADSPA_DIR = ladspa
 else
 LADSPA_DIR =
+endif
+
+if USE_LV2
+LV2_DIR = lv2
+else
+LV2_DIR =
 endif
 
 # if USE_LCS
@@ -238,6 +256,12 @@ else
 OFA_DIR=
 endif
 
+if USE_RSVG
+RSVG_DIR=rsvg
+else
+RSVG_DIR=
+endif
+
 if USE_TIMIDITY
 TIMIDITY_DIR=timidity
 endif
@@ -257,6 +281,12 @@ endif
 # else
 POLYP_DIR=
 # endif
+
+if USE_SCHRO
+SCHRO_DIR=schroedinger
+else
+SCHRO_DIR=
+endif
 
 if USE_SDL
 SDL_DIR=sdl
@@ -294,6 +324,12 @@ else
 SPC_DIR=
 endif
 
+if USE_GME
+GME_DIR=gme
+else
+GME_DIR=
+endif
+
 if USE_SWFDEC
 #SWFDEC_DIR=swfdec
 else
@@ -324,6 +360,12 @@ else
 XVID_DIR=
 endif
 
+if USE_ZBAR
+ZBAR_DIR=zbar
+else
+ZBAR_DIR=
+endif
+
 SUBDIRS=\
 	$(ALSASPDIF_DIR) \
 	$(ASSRENDER_DIR) \
@@ -336,6 +378,7 @@ SUBDIRS=\
 	$(BZ2_DIR) \
 	$(CDAUDIO_DIR) \
 	$(CELT_DIR) \
+	$(COG_DIR) \
 	$(DC1394_DIR) \
 	$(DIRAC_DIR) \
 	$(DIRECTFB_DIR) \
@@ -350,7 +393,9 @@ SUBDIRS=\
 	$(IVORBIS_DIR) \
 	$(JACK_DIR) \
 	$(JP2K_DIR) \
+	$(KATE_DIR) \
 	$(LADSPA_DIR) \
+	$(LV2_DIR) \
 	$(LCS_DIR) \
 	$(LIBFAME_DIR) \
 	$(LIBMMS_DIR) \
@@ -365,28 +410,33 @@ SUBDIRS=\
 	$(NAS_DIR) \
 	$(NEON_DIR) \
 	$(OFA_DIR) \
+	$(RSVG_DIR) \
 	$(POLYP_DIR) \
+	$(SCHRO_DIR) \
 	$(SDL_DIR) \
 	$(SHOUT_DIR) \
 	$(SMOOTHWAVE_DIR) \
 	$(SNDFILE_DIR) \
 	$(SOUNDTOUCH_DIR) \
+	$(GME_DIR) \
 	$(SPC_DIR) \
 	$(SWFDEC_DIR) \
 	$(TARKIN_DIR) \
 	$(THEORA_DIR) \
 	$(TIMIDITY_DIR) \
 	$(XINE_DIR) \
-	$(XVID_DIR)
+	$(XVID_DIR) \
+	$(ZBAR_DIR)
 
 DIST_SUBDIRS = \
 	alsaspdif \
-	amrwb \
+	amrwbenc \
 	assrender \
 	apexsink \
 	bz2 \
 	cdaudio \
 	celt \
+	cog \
 	dc1394 \
 	dirac \
 	directfb \
@@ -397,7 +447,9 @@ DIST_SUBDIRS = \
 	ladspa \
 	jack \
 	jp2k \
+	kate \
 	libmms \
+	lv2 \
 	dts \
 	divx \
 	modplug \
@@ -411,12 +463,16 @@ DIST_SUBDIRS = \
 	nas \
 	neon \
 	ofa \
+	rsvg \
 	resindvd \
+	schroedinger \
 	sdl \
 	sndfile \
 	soundtouch \
 	spc \
+	gme \
 	swfdec \
 	theora \
 	timidity \
-	xvid
+	xvid \
+        	zbar

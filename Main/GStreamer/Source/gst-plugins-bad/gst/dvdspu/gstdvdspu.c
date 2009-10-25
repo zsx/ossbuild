@@ -117,7 +117,7 @@ gst_dvd_spu_base_init (gpointer gclass)
 {
   static GstElementDetails element_details =
       GST_ELEMENT_DETAILS ("GStreamer Sub-picture Overlay",
-      "Mixer/Video/Overlay/DVD/Bluray",
+      "Mixer/Video/Overlay/SubPicture/DVD/Bluray",
       "Parses Sub-Picture command streams and renders the SPU overlay "
       "onto the video as it passes through",
       "Jan Schmidt <thaytan@noraisin.net>");
@@ -716,12 +716,11 @@ gst_dvd_spu_redraw_still (GstDVDSpu * dvdspu, gboolean force)
 static void
 gst_dvd_spu_handle_dvd_event (GstDVDSpu * dvdspu, GstEvent * event)
 {
-  const GstStructure *structure = gst_event_get_structure (event);
-  const gchar *event_type = gst_structure_get_string (structure, "event");
   gboolean hl_change = FALSE;
 
   GST_INFO_OBJECT (dvdspu, "DVD event of type %s on subp pad OOB=%d",
-      event_type, (GST_EVENT_TYPE (event) == GST_EVENT_CUSTOM_DOWNSTREAM_OOB));
+      gst_structure_get_string (event->structure, "event"),
+      (GST_EVENT_TYPE (event) == GST_EVENT_CUSTOM_DOWNSTREAM_OOB));
 
   switch (dvdspu->spu_input_type) {
     case SPU_INPUT_TYPE_VOBSUB:
@@ -1200,7 +1199,7 @@ gst_dvd_spu_plugin_init (GstPlugin * plugin)
       0, "Sub-picture Overlay decoder/renderer");
 
   return gst_element_register (plugin, "dvdspu",
-      GST_RANK_NONE, GST_TYPE_DVD_SPU);
+      GST_RANK_PRIMARY, GST_TYPE_DVD_SPU);
 }
 
 GST_PLUGIN_DEFINE (GST_VERSION_MAJOR,

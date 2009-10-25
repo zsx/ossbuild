@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>souphttpsrc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-smptealpha.html" title="smptealpha">
 <link rel="next" href="gst-plugins-good-plugins-spectrum.html" title="spectrum">
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-souphttpsrc.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="souphttpsrc">
 <a name="gst-plugins-good-plugins-souphttpsrc"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,32 +44,42 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-souphttpsrc.synopsis"></a><h2>Synopsis</h2>
 <a name="GstSoupHTTPSrc"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc-struct" title="GstSoupHTTPSrc">GstSoupHTTPSrc</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-souphttpsrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSrc
-                     +----GstPushSrc
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseSrc.html"
+>GstBaseSrc</a>
+                     +----<a
+href="../gstreamer-libs-0.10/GstPushSrc.html"
+>GstPushSrc</a>
                            +----GstSoupHTTPSrc
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-souphttpsrc.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstSoupHTTPSrc implements
- GstURIHandler.</p>
+ <a
+href="../gstreamer-0.10/gstreamer-GstUriHandler.html#GstURIHandler"
+>GstURIHandler</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-souphttpsrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--automatic-redirect" title='The "automatic-redirect" property'>automatic-redirect</a>"       <a
@@ -117,13 +127,15 @@ href="../glib/glib-Basic-Types.html#gchar"
   "<a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--user-pw" title='The "user-pw" property'>user-pw</a>"                  <a
 href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
-  "<a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--extra-headers" title='The "extra-headers" property'>extra-headers</a>"            GstStructure*         : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--extra-headers" title='The "extra-headers" property'>extra-headers</a>"            <a
+href="../gstreamer-0.10/gstreamer-GstStructure.html#GstStructure"
+>GstStructure</a>*         : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-souphttpsrc.html#GstSoupHTTPSrc--timeout" title='The "timeout" property'>timeout</a>"                  <a
 href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-souphttpsrc.description"></a><h2>Description</h2>
 <p>
 This plugin reads data from a remote location specified by a URI.
@@ -148,8 +160,8 @@ metadata and to determine the underlying media type.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2805053"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id537180"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v souphttpsrc location=https://some.server.org/index.html
     ! filesink location=/home/joe/server.html
@@ -180,10 +192,10 @@ These are used by the mime/multipart demultiplexer to emit timestamps
 on the JPEG-encoded video frame buffers. This allows the Matroska
 multiplexer to timestamp the frames in the resulting file.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2769938"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id591784"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -205,8 +217,8 @@ multiplexer to timestamp the frames in the resulting file.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2835682"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id572142"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -233,18 +245,18 @@ multiplexer to timestamp the frames in the resulting file.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-souphttpsrc.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstSoupHTTPSrc">
 <a name="GstSoupHTTPSrc-struct"></a><h3>GstSoupHTTPSrc</h3>
 <pre class="programlisting">typedef struct _GstSoupHTTPSrc GstSoupHTTPSrc;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-souphttpsrc.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "automatic-redirect" property'>
 <a name="GstSoupHTTPSrc--automatic-redirect"></a><h3>The <code class="literal">"automatic-redirect"</code> property</h3>
 <pre class="programlisting">  "automatic-redirect"       <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -253,7 +265,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "cookies" property'>
 <a name="GstSoupHTTPSrc--cookies"></a><h3>The <code class="literal">"cookies"</code> property</h3>
 <pre class="programlisting">  "cookies"                  <a
 href="../gobject/gobject-Boxed-Types.html#GStrv"
@@ -261,7 +273,7 @@ href="../gobject/gobject-Boxed-Types.html#GStrv"
 <p>HTTP request cookies.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "iradio-genre" property'>
 <a name="GstSoupHTTPSrc--iradio-genre"></a><h3>The <code class="literal">"iradio-genre"</code> property</h3>
 <pre class="programlisting">  "iradio-genre"             <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -270,7 +282,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "iradio-mode" property'>
 <a name="GstSoupHTTPSrc--iradio-mode"></a><h3>The <code class="literal">"iradio-mode"</code> property</h3>
 <pre class="programlisting">  "iradio-mode"              <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -279,7 +291,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "iradio-name" property'>
 <a name="GstSoupHTTPSrc--iradio-name"></a><h3>The <code class="literal">"iradio-name"</code> property</h3>
 <pre class="programlisting">  "iradio-name"              <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -288,7 +300,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "iradio-title" property'>
 <a name="GstSoupHTTPSrc--iradio-title"></a><h3>The <code class="literal">"iradio-title"</code> property</h3>
 <pre class="programlisting">  "iradio-title"             <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -297,7 +309,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "iradio-url" property'>
 <a name="GstSoupHTTPSrc--iradio-url"></a><h3>The <code class="literal">"iradio-url"</code> property</h3>
 <pre class="programlisting">  "iradio-url"               <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -306,7 +318,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "location" property'>
 <a name="GstSoupHTTPSrc--location"></a><h3>The <code class="literal">"location"</code> property</h3>
 <pre class="programlisting">  "location"                 <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -315,7 +327,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "proxy" property'>
 <a name="GstSoupHTTPSrc--proxy"></a><h3>The <code class="literal">"proxy"</code> property</h3>
 <pre class="programlisting">  "proxy"                    <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -324,7 +336,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "user-agent" property'>
 <a name="GstSoupHTTPSrc--user-agent"></a><h3>The <code class="literal">"user-agent"</code> property</h3>
 <pre class="programlisting">  "user-agent"               <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -333,7 +345,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: "GStreamer souphttpsrc "</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "is-live" property'>
 <a name="GstSoupHTTPSrc--is-live"></a><h3>The <code class="literal">"is-live"</code> property</h3>
 <pre class="programlisting">  "is-live"                  <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -342,7 +354,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "proxy-id" property'>
 <a name="GstSoupHTTPSrc--proxy-id"></a><h3>The <code class="literal">"proxy-id"</code> property</h3>
 <pre class="programlisting">  "proxy-id"                 <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -351,7 +363,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "proxy-pw" property'>
 <a name="GstSoupHTTPSrc--proxy-pw"></a><h3>The <code class="literal">"proxy-pw"</code> property</h3>
 <pre class="programlisting">  "proxy-pw"                 <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -360,7 +372,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "user-id" property'>
 <a name="GstSoupHTTPSrc--user-id"></a><h3>The <code class="literal">"user-id"</code> property</h3>
 <pre class="programlisting">  "user-id"                  <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -369,7 +381,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "user-pw" property'>
 <a name="GstSoupHTTPSrc--user-pw"></a><h3>The <code class="literal">"user-pw"</code> property</h3>
 <pre class="programlisting">  "user-pw"                  <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -378,13 +390,15 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "extra-headers" property'>
 <a name="GstSoupHTTPSrc--extra-headers"></a><h3>The <code class="literal">"extra-headers"</code> property</h3>
-<pre class="programlisting">  "extra-headers"            GstStructure*         : Read / Write</pre>
+<pre class="programlisting">  "extra-headers"            <a
+href="../gstreamer-0.10/gstreamer-GstStructure.html#GstStructure"
+>GstStructure</a>*         : Read / Write</pre>
 <p>Extra headers to append to the HTTP request.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "timeout" property'>
 <a name="GstSoupHTTPSrc--timeout"></a><h3>The <code class="literal">"timeout"</code> property</h3>
 <pre class="programlisting">  "timeout"                  <a
 href="../glib/glib-Basic-Types.html#guint"

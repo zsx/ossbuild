@@ -91,7 +91,7 @@ libresindvd_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am_libresindvd_la_OBJECTS = libresindvd_la-plugin.lo \
 	libresindvd_la-resindvdbin.lo libresindvd_la-rsnaudiomunge.lo \
-	libresindvd_la-rsnaudiodec.lo libresindvd_la-rsnbasesrc.lo \
+	libresindvd_la-rsndec.lo libresindvd_la-rsnbasesrc.lo \
 	libresindvd_la-rsnpushsrc.lo \
 	libresindvd_la-rsnstreamselector.lo \
 	libresindvd_la-resindvdsrc.lo libresindvd_la-gstmpegdesc.lo \
@@ -150,6 +150,8 @@ CDAUDIO_LIBS = @CDAUDIO_LIBS@
 CELT_CFLAGS = @CELT_CFLAGS@
 CELT_LIBS = @CELT_LIBS@
 CFLAGS = @CFLAGS@
+COG_CFLAGS = @COG_CFLAGS@
+COG_LIBS = @COG_LIBS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -163,11 +165,12 @@ DEPDIR = @DEPDIR@
 DEPRECATED_CFLAGS = @DEPRECATED_CFLAGS@
 DIRAC_CFLAGS = @DIRAC_CFLAGS@
 DIRAC_LIBS = @DIRAC_LIBS@
-DIRECTDRAW_CFLAGS = @DIRECTDRAW_CFLAGS@
-DIRECTDRAW_LDFLAGS = @DIRECTDRAW_LDFLAGS@
 DIRECTDRAW_LIBS = @DIRECTDRAW_LIBS@
 DIRECTFB_CFLAGS = @DIRECTFB_CFLAGS@
 DIRECTFB_LIBS = @DIRECTFB_LIBS@
+DIRECTSOUND_LIBS = @DIRECTSOUND_LIBS@
+DIRECTX_CFLAGS = @DIRECTX_CFLAGS@
+DIRECTX_LDFLAGS = @DIRECTX_LDFLAGS@
 DIVXDEC_LIBS = @DIVXDEC_LIBS@
 DIVXENC_LIBS = @DIVXENC_LIBS@
 DLLTOOL = @DLLTOOL@
@@ -206,6 +209,7 @@ GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
 GLIB_PREFIX = @GLIB_PREFIX@
 GLIB_REQ = @GLIB_REQ@
+GME_LIBS = @GME_LIBS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GMYTH_CFLAGS = @GMYTH_CFLAGS@
@@ -248,6 +252,7 @@ HAVE_AMRWB = @HAVE_AMRWB@
 HAVE_BZ2 = @HAVE_BZ2@
 HAVE_CXX = @HAVE_CXX@
 HAVE_DIRECTDRAW = @HAVE_DIRECTDRAW@
+HAVE_DIRECTSOUND = @HAVE_DIRECTSOUND@
 HAVE_DTS = @HAVE_DTS@
 HAVE_FAAC = @HAVE_FAAC@
 HAVE_FAAD = @HAVE_FAAD@
@@ -272,6 +277,8 @@ IVORBIS_LIBS = @IVORBIS_LIBS@
 JACK_CFLAGS = @JACK_CFLAGS@
 JACK_LIBS = @JACK_LIBS@
 JP2K_LIBS = @JP2K_LIBS@
+KATE_CFLAGS = @KATE_CFLAGS@
+KATE_LIBS = @KATE_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDC1394_CFLAGS = @LIBDC1394_CFLAGS@
@@ -330,6 +337,7 @@ OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OFA_CFLAGS = @OFA_CFLAGS@
 OFA_LIBS = @OFA_LIBS@
+ORCC = @ORCC@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -355,12 +363,18 @@ PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
 Q = @Q@
 RANLIB = @RANLIB@
+RSVG_CFLAGS = @RSVG_CFLAGS@
+RSVG_LIBS = @RSVG_LIBS@
+SCHRO_CFLAGS = @SCHRO_CFLAGS@
+SCHRO_LIBS = @SCHRO_LIBS@
 SDL_CFLAGS = @SDL_CFLAGS@
 SDL_CONFIG = @SDL_CONFIG@
 SDL_LIBS = @SDL_LIBS@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SLV2_CFLAGS = @SLV2_CFLAGS@
+SLV2_LIBS = @SLV2_LIBS@
 SNDFILE_CFLAGS = @SNDFILE_CFLAGS@
 SNDFILE_LIBS = @SNDFILE_LIBS@
 SOUNDTOUCH_CFLAGS = @SOUNDTOUCH_CFLAGS@
@@ -371,6 +385,8 @@ SWFDEC_CFLAGS = @SWFDEC_CFLAGS@
 SWFDEC_LIBS = @SWFDEC_LIBS@
 THEORADEC_CFLAGS = @THEORADEC_CFLAGS@
 THEORADEC_LIBS = @THEORADEC_LIBS@
+TIGER_CFLAGS = @TIGER_CFLAGS@
+TIGER_LIBS = @TIGER_LIBS@
 TIMIDITY_CFLAGS = @TIMIDITY_CFLAGS@
 TIMIDITY_LIBS = @TIMIDITY_LIBS@
 USE_NLS = @USE_NLS@
@@ -378,6 +394,8 @@ V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
+VDPAU_CFLAGS = @VDPAU_CFLAGS@
+VDPAU_LIBS = @VDPAU_LIBS@
 VERSION = @VERSION@
 WILDMIDI_CFLAGS = @WILDMIDI_CFLAGS@
 WILDMIDI_LIBS = @WILDMIDI_LIBS@
@@ -398,6 +416,8 @@ X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+ZBAR_CFLAGS = @ZBAR_CFLAGS@
+ZBAR_LIBS = @ZBAR_LIBS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -463,7 +483,7 @@ libresindvd_la_SOURCES = \
         plugin.c \
         resindvdbin.c \
 	rsnaudiomunge.c \
-	rsnaudiodec.c \
+	rsndec.c \
 	rsnbasesrc.c \
 	rsnpushsrc.c \
 	rsnstreamselector.c \
@@ -477,15 +497,16 @@ libresindvd_la_SOURCES = \
 libresindvd_la_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_BASE_CFLAGS) \
 $(GST_CFLAGS) $(DVDNAV_CFLAGS)
 
-libresindvd_la_LIBADD = $(GST_PLUGINS_BASE_CFLAGS) \
+libresindvd_la_LIBADD = $(GST_PLUGINS_BASE_LIBS) \
 -lgstinterfaces-$(GST_MAJORMINOR) -lgstvideo-$(GST_MAJORMINOR) \
+-lgstpbutils-$(GST_MAJORMINOR) \
 $(GST_BASE_LIBS) $(GST_LIBS) $(DVDNAV_LIBS)
 
 libresindvd_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 libresindvd_la_LIBTOOLFLAGS = --tag=disable-static
 noinst_HEADERS = resindvdbin.h \
 	rsnaudiomunge.h \
-	rsnaudiodec.h \
+	rsndec.h \
 	rsnbasesrc.h \
 	rsnpushsrc.h \
 	rsnstreamselector.h \
@@ -573,9 +594,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-plugin.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-resindvdbin.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-resindvdsrc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-rsnaudiodec.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-rsnaudiomunge.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-rsnbasesrc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-rsndec.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-rsnparsetter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-rsnpushsrc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libresindvd_la-rsnstreamselector.Plo@am__quote@
@@ -623,12 +644,12 @@ libresindvd_la-rsnaudiomunge.lo: rsnaudiomunge.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libresindvd_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libresindvd_la_CFLAGS) $(CFLAGS) -c -o libresindvd_la-rsnaudiomunge.lo `test -f 'rsnaudiomunge.c' || echo '$(srcdir)/'`rsnaudiomunge.c
 
-libresindvd_la-rsnaudiodec.lo: rsnaudiodec.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libresindvd_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libresindvd_la_CFLAGS) $(CFLAGS) -MT libresindvd_la-rsnaudiodec.lo -MD -MP -MF $(DEPDIR)/libresindvd_la-rsnaudiodec.Tpo -c -o libresindvd_la-rsnaudiodec.lo `test -f 'rsnaudiodec.c' || echo '$(srcdir)/'`rsnaudiodec.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libresindvd_la-rsnaudiodec.Tpo $(DEPDIR)/libresindvd_la-rsnaudiodec.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rsnaudiodec.c' object='libresindvd_la-rsnaudiodec.lo' libtool=yes @AMDEPBACKSLASH@
+libresindvd_la-rsndec.lo: rsndec.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libresindvd_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libresindvd_la_CFLAGS) $(CFLAGS) -MT libresindvd_la-rsndec.lo -MD -MP -MF $(DEPDIR)/libresindvd_la-rsndec.Tpo -c -o libresindvd_la-rsndec.lo `test -f 'rsndec.c' || echo '$(srcdir)/'`rsndec.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libresindvd_la-rsndec.Tpo $(DEPDIR)/libresindvd_la-rsndec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rsndec.c' object='libresindvd_la-rsndec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libresindvd_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libresindvd_la_CFLAGS) $(CFLAGS) -c -o libresindvd_la-rsnaudiodec.lo `test -f 'rsnaudiodec.c' || echo '$(srcdir)/'`rsnaudiodec.c
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libresindvd_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libresindvd_la_CFLAGS) $(CFLAGS) -c -o libresindvd_la-rsndec.lo `test -f 'rsndec.c' || echo '$(srcdir)/'`rsndec.c
 
 libresindvd_la-rsnbasesrc.lo: rsnbasesrc.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libresindvd_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libresindvd_la_CFLAGS) $(CFLAGS) -MT libresindvd_la-rsnbasesrc.lo -MD -MP -MF $(DEPDIR)/libresindvd_la-rsnbasesrc.Tpo -c -o libresindvd_la-rsnbasesrc.lo `test -f 'rsnbasesrc.c' || echo '$(srcdir)/'`rsnbasesrc.c

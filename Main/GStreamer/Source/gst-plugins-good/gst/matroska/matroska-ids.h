@@ -377,7 +377,9 @@
 #define GST_MATROSKA_CODEC_ID_SUBTITLE_ASS       "S_TEXT/ASS" 
 #define GST_MATROSKA_CODEC_ID_SUBTITLE_USF       "S_TEXT/USF"
 #define GST_MATROSKA_CODEC_ID_SUBTITLE_VOBSUB    "S_VOBSUB"
+#define GST_MATROSKA_CODEC_ID_SUBTITLE_HDMVPGS   "S_HDMV/PGS"
 #define GST_MATROSKA_CODEC_ID_SUBTITLE_BMP       "S_IMAGE/BMP"
+#define GST_MATROSKA_CODEC_ID_SUBTITLE_KATE      "S_KATE"
 
 /*
  * Matroska tags. Strings.
@@ -467,11 +469,13 @@ struct _GstMatroskaTrackContext {
 
   GArray       *index_table;
 
+  gint          index_writer_id;
+
   /* some often-used info */
   gchar        *codec_id, *codec_name, *name, *language;
-  gpointer      codec_priv;
+  guint8       *codec_priv;
   guint         codec_priv_size;
-  gpointer      codec_state;
+  guint8       *codec_state;
   guint         codec_state_size;
   GstMatroskaTrackType type;
   guint         uid, num;

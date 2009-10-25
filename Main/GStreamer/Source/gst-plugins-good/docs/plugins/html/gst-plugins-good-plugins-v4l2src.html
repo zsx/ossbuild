@@ -3,11 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>v4l2src</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-udpsink.html" title="udpsink">
-<link rel="next" href="gst-plugins-good-plugins-videobalance.html" title="videobalance">
+<link rel="next" href="gst-plugins-good-plugins-vertigotv.html" title="vertigotv">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
@@ -21,7 +21,7 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-good-plugins-videobalance.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-good-plugins-vertigotv.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-good-plugins-v4l2src.synopsis" class="shortcut">Top</a>
@@ -35,41 +35,51 @@
                 <a href="#gst-plugins-good-plugins-v4l2src.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="v4l2src">
 <a name="gst-plugins-good-plugins-v4l2src"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
 <h2><span class="refentrytitle"><a name="gst-plugins-good-plugins-v4l2src.top_of_page"></a>v4l2src</span></h2>
-<p>v4l2src — Reads raw frames from a video4linux2 (BT8x8) device</p>
+<p>v4l2src — Reads frames from a video4linux2 (BT8x8) device</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-v4l2src.synopsis"></a><h2>Synopsis</h2>
 <a name="GstV4l2Src"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src-struct" title="GstV4l2Src">GstV4l2Src</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-v4l2src.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSrc
-                     +----GstPushSrc
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseSrc.html"
+>GstBaseSrc</a>
+                     +----<a
+href="../gstreamer-libs-0.10/GstPushSrc.html"
+>GstPushSrc</a>
                            +----GstV4l2Src
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-v4l2src.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstV4l2Src implements
- GstImplementsInterface,  <a
+ <a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
 >GstPropertyProbe</a>,  <a
+href="../gstreamer-0.10/GstImplementsInterface.html"
+>GstImplementsInterface</a>,  <a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gsttuner.html#GstTuner"
 >GstTuner</a>,  <a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"
@@ -77,7 +87,7 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstcolorbalance.html#G
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideoorientation.html#GstVideoOrientation"
 >GstVideoOrientation</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-v4l2src.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-v4l2src.html#GstV4l2Src--device" title='The "device" property'>device</a>"                   <a
@@ -98,7 +108,7 @@ href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-v4l2src.description"></a><h2>Description</h2>
 <p>
 v4l2src can be used to capture video from v4l2 devices, like webcams and tv
@@ -106,8 +116,8 @@ cards.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2768481"></a><h3>Example launch lines</h3>
+<div class="refsect2" title="Example launch lines">
+<a name="id591535"></a><h3>Example launch lines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch v4l2src ! xvimagesink
 </pre></div> This pipeline shows the video captured from /dev/video0 tv card and for
@@ -117,10 +127,10 @@ gst-launch v4l2src ! jpegdec ! xvimagesink
 </pre></div> This pipeline shows the video captured from a webcam that delivers jpeg
 images.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2846518"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id607886"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -132,7 +142,7 @@ images.
 </tr>
 <tr>
 <td><p><span class="term">author</span></p></td>
-<td>Ronald Bultje &lt;rbultje@ronald.bitfreak.net&gt;, Edgard Lima &lt;edgard.lima@indt.org.br&gt;</td>
+<td>Ronald Bultje &lt;rbultje@ronald.bitfreak.net&gt;, Edgard Lima &lt;edgard.lima@indt.org.br&gt;, Stefan Kost &lt;ensonic@users.sf.net&gt;</td>
 </tr>
 <tr>
 <td><p><span class="term">class</span></p></td>
@@ -142,8 +152,8 @@ images.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2846453"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id590442"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -282,9 +292,9 @@ images.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-v4l2src.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstV4l2Src">
 <a name="GstV4l2Src-struct"></a><h3>GstV4l2Src</h3>
 <pre class="programlisting">typedef struct _GstV4l2Src GstV4l2Src;</pre>
 <p>
@@ -297,9 +307,9 @@ Opaque object.</p>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-v4l2src.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "device" property'>
 <a name="GstV4l2Src--device"></a><h3>The <code class="literal">"device"</code> property</h3>
 <pre class="programlisting">  "device"                   <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -308,7 +318,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: "/dev/video0"</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "device-name" property'>
 <a name="GstV4l2Src--device-name"></a><h3>The <code class="literal">"device-name"</code> property</h3>
 <pre class="programlisting">  "device-name"              <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -317,23 +327,23 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "flags" property'>
 <a name="GstV4l2Src--flags"></a><h3>The <code class="literal">"flags"</code> property</h3>
 <pre class="programlisting">  "flags"                    GstV4l2DeviceTypeFlags  : Read</pre>
 <p>Device type flags.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "queue-size" property'>
 <a name="GstV4l2Src--queue-size"></a><h3>The <code class="literal">"queue-size"</code> property</h3>
 <pre class="programlisting">  "queue-size"               <a
 href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
-<p>Number of buffers to be enqueud in the driver.</p>
-<p>Allowed values: [2,16]</p>
+<p>Number of buffers to be enqueud in the driver in streaming mode.</p>
+<p>Allowed values: [1,16]</p>
 <p>Default value: 2</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "always-copy" property'>
 <a name="GstV4l2Src--always-copy"></a><h3>The <code class="literal">"always-copy"</code> property</h3>
 <pre class="programlisting">  "always-copy"              <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -342,13 +352,13 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "device-fd" property'>
 <a name="GstV4l2Src--device-fd"></a><h3>The <code class="literal">"device-fd"</code> property</h3>
 <pre class="programlisting">  "device-fd"                <a
 href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read</pre>
 <p>File descriptor of the device.</p>
-<p>Allowed values: &gt;= -1</p>
+<p>Allowed values: &gt;= G_MAXULONG</p>
 <p>Default value: -1</p>
 </div>
 </div>

@@ -3,10 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>equalizer-10bands</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
-<link rel="prev" href="gst-plugins-good-plugins-dvdemux.html" title="dvdemux">
+<link rel="prev" href="gst-plugins-good-plugins-edgetv.html" title="edgetv">
 <link rel="next" href="gst-plugins-good-plugins-equalizer-3bands.html" title="equalizer-3bands">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -17,7 +17,7 @@
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="gst-plugins-good-plugins-dvdemux.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="gst-plugins-good-plugins-edgetv.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-equalizer-10bands.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="equalizer-10bands">
 <a name="gst-plugins-good-plugins-equalizer-10bands"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,21 +44,27 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-equalizer-10bands.synopsis"></a><h2>Synopsis</h2>
 <a name="GstIirEqualizer10Bands"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands-struct" title="GstIirEqualizer10Bands">GstIirEqualizer10Bands</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-equalizer-10bands.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseTransform
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseTransform.html"
+>GstBaseTransform</a>
                      +----<a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
@@ -66,13 +72,17 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
                                  +----GstIirEqualizer10Bands
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-equalizer-10bands.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstIirEqualizer10Bands implements
- GstChildProxy and  GstPreset.</p>
+ <a
+href="../gstreamer-0.10/GstChildProxy.html"
+>GstChildProxy</a> and  <a
+href="../gstreamer-0.10/GstPreset.html"
+>GstPreset</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-equalizer-10bands.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-equalizer-10bands.html#GstIirEqualizer10Bands--band0" title='The "band0" property'>band0</a>"                    <a
@@ -107,7 +117,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-equalizer-10bands.description"></a><h2>Description</h2>
 <p>
 The 10 band equalizer element allows to change the gain of 10 equally distributed
@@ -115,16 +125,16 @@ frequency bands between 30 Hz and 15 kHz.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2763831"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id542841"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equalizer-10bands band2=3.0 ! alsasink
 </pre></div> This raises the volume of the 3rd band which is at 119 Hz by 3 db.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2735230"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id522797"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -146,8 +156,8 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equ
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2791327"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id528418"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -203,18 +213,18 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equ
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-equalizer-10bands.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstIirEqualizer10Bands">
 <a name="GstIirEqualizer10Bands-struct"></a><h3>GstIirEqualizer10Bands</h3>
 <pre class="programlisting">typedef struct _GstIirEqualizer10Bands GstIirEqualizer10Bands;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-equalizer-10bands.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band0" property'>
 <a name="GstIirEqualizer10Bands--band0"></a><h3>The <code class="literal">"band0"</code> property</h3>
 <pre class="programlisting">  "band0"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -224,7 +234,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band1" property'>
 <a name="GstIirEqualizer10Bands--band1"></a><h3>The <code class="literal">"band1"</code> property</h3>
 <pre class="programlisting">  "band1"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -234,7 +244,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band2" property'>
 <a name="GstIirEqualizer10Bands--band2"></a><h3>The <code class="literal">"band2"</code> property</h3>
 <pre class="programlisting">  "band2"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -244,7 +254,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band3" property'>
 <a name="GstIirEqualizer10Bands--band3"></a><h3>The <code class="literal">"band3"</code> property</h3>
 <pre class="programlisting">  "band3"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -254,7 +264,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band4" property'>
 <a name="GstIirEqualizer10Bands--band4"></a><h3>The <code class="literal">"band4"</code> property</h3>
 <pre class="programlisting">  "band4"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -264,7 +274,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band5" property'>
 <a name="GstIirEqualizer10Bands--band5"></a><h3>The <code class="literal">"band5"</code> property</h3>
 <pre class="programlisting">  "band5"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -274,7 +284,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band6" property'>
 <a name="GstIirEqualizer10Bands--band6"></a><h3>The <code class="literal">"band6"</code> property</h3>
 <pre class="programlisting">  "band6"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -284,7 +294,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band7" property'>
 <a name="GstIirEqualizer10Bands--band7"></a><h3>The <code class="literal">"band7"</code> property</h3>
 <pre class="programlisting">  "band7"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -294,7 +304,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band8" property'>
 <a name="GstIirEqualizer10Bands--band8"></a><h3>The <code class="literal">"band8"</code> property</h3>
 <pre class="programlisting">  "band8"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -304,7 +314,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "band9" property'>
 <a name="GstIirEqualizer10Bands--band9"></a><h3>The <code class="literal">"band9"</code> property</h3>
 <pre class="programlisting">  "band9"                    <a
 href="../glib/glib-Basic-Types.html#gdouble"

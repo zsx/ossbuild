@@ -46,6 +46,9 @@
 #include "gstv4l2colorbalance.h"
 
 #include "gstv4l2src.h"
+#include "gstv4l2sink.h"
+
+#include "gst/gst-i18n-plugin.h"
 
 /* Those are ioctl calls */
 #ifndef V4L2_CID_HCENTER
@@ -442,14 +445,20 @@ gst_v4l2_open (GstV4l2Object * v4l2object)
   if (libv4l2_fd != -1)
     v4l2object->video_fd = libv4l2_fd;
 
+  v4l2object->can_poll_device = TRUE;
+
   /* get capabilities, error will be posted */
   if (!gst_v4l2_get_capabilities (v4l2object))
     goto error;
 
   /* do we need to be a capture device? */
-  if (GST_IS_V4L2SRC (v4l2object) &&
+  if (GST_IS_V4L2SRC (v4l2object->element) &&
       !(v4l2object->vcap.capabilities & V4L2_CAP_VIDEO_CAPTURE))
     goto not_capture;
+
+  if (GST_IS_V4L2SINK (v4l2object->element) &&
+      !(v4l2object->vcap.capabilities & V4L2_CAP_VIDEO_OUTPUT))
+    goto not_output;
 
   /* create enumerations, posts errors. */
   if (!gst_v4l2_fill_lists (v4l2object))
@@ -491,6 +500,14 @@ not_capture:
   {
     GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, NOT_FOUND,
         (_("Device '%s' is not a capture device."),
+            v4l2object->videodev),
+        ("Capabilities: 0x%x", v4l2object->vcap.capabilities));
+    goto error;
+  }
+not_output:
+  {
+    GST_ELEMENT_ERROR (v4l2object->element, RESOURCE, NOT_FOUND,
+        (_("Device '%s' is not a output device."),
             v4l2object->videodev),
         ("Capabilities: 0x%x", v4l2object->vcap.capabilities));
     goto error;
@@ -603,7 +620,7 @@ gboolean
 gst_v4l2_get_frequency (GstV4l2Object * v4l2object,
     gint tunernum, gulong * frequency)
 {
-  struct v4l2_frequency freq;
+  struct v4l2_frequency freq = { 0, };
 
   GstTunerChannel *channel;
 
@@ -642,7 +659,7 @@ gboolean
 gst_v4l2_set_frequency (GstV4l2Object * v4l2object,
     gint tunernum, gulong frequency)
 {
-  struct v4l2_frequency freq;
+  struct v4l2_frequency freq = { 0, };
 
   GstTunerChannel *channel;
 
@@ -683,7 +700,7 @@ gboolean
 gst_v4l2_signal_strength (GstV4l2Object * v4l2object,
     gint tunernum, gulong * signal_strength)
 {
-  struct v4l2_tuner tuner;
+  struct v4l2_tuner tuner = { 0, };
 
   GST_DEBUG_OBJECT (v4l2object->element, "trying to get signal strength");
 
@@ -717,7 +734,7 @@ gboolean
 gst_v4l2_get_attribute (GstV4l2Object * v4l2object,
     int attribute_num, int *value)
 {
-  struct v4l2_control control;
+  struct v4l2_control control = { 0, };
 
   GST_DEBUG_OBJECT (v4l2object->element, "getting value of attribute %d",
       attribute_num);
@@ -754,7 +771,7 @@ gboolean
 gst_v4l2_set_attribute (GstV4l2Object * v4l2object,
     int attribute_num, const int value)
 {
-  struct v4l2_control control;
+  struct v4l2_control control = { 0, };
 
   GST_DEBUG_OBJECT (v4l2object->element, "setting value of attribute %d to %d",
       attribute_num, value);

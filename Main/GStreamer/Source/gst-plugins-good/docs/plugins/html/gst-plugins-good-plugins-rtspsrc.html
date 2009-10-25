@@ -3,11 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>rtspsrc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-rtpjpegpay.html" title="rtpjpegpay">
-<link rel="next" href="gst-plugins-good-plugins-smokedec.html" title="smokedec">
+<link rel="next" href="gst-plugins-good-plugins-shagadelictv.html" title="shagadelictv">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-good Elements">
@@ -21,7 +21,7 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-good-plugins-smokedec.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-good-plugins-shagadelictv.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-good-plugins-rtspsrc.synopsis" class="shortcut">Top</a>
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-rtspsrc.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="rtspsrc">
 <a name="gst-plugins-good-plugins-rtspsrc"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,31 +44,41 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-rtspsrc.synopsis"></a><h2>Synopsis</h2>
 <a name="GstRTSPSrc"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc-struct" title="GstRTSPSrc">GstRTSPSrc</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-rtspsrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBin
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-0.10/GstBin.html"
+>GstBin</a>
                      +----GstRTSPSrc
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-rtspsrc.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstRTSPSrc implements
- GstChildProxy and  GstURIHandler.</p>
+ <a
+href="../gstreamer-0.10/gstreamer-GstUriHandler.html#GstURIHandler"
+>GstURIHandler</a> and  <a
+href="../gstreamer-0.10/GstChildProxy.html"
+>GstChildProxy</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-rtspsrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--debug" title='The "debug" property'>debug</a>"                    <a
@@ -102,9 +112,12 @@ href="../glib/glib-Basic-Types.html#gboolean"
   "<a class="link" href="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--proxy" title='The "proxy" property'>proxy</a>"                    <a
 href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct
+  "<a class="link" href="gst-plugins-good-plugins-rtspsrc.html#GstRTSPSrc--rtp-blocksize" title='The "rtp-blocksize" property'>rtp-blocksize</a>"            <a
+href="../glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-rtspsrc.description"></a><h2>Description</h2>
 <p>
 Makes a connection to an RTSP server and read the data.
@@ -137,8 +150,8 @@ PLAYING state.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2831875"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id530503"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch rtspsrc location=rtsp://some.server/url ! fakesink
 </pre></div> Establish a connection to an RTSP server and send the raw RTP packets to a
@@ -148,10 +161,10 @@ fakesink.
 </p>
 <p>
 Last reviewed on 2006-08-18 (0.10.5)</p>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2806732"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id576922"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -175,8 +188,8 @@ Last reviewed on 2006-08-18 (0.10.5)</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2806183"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id571333"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -207,18 +220,18 @@ Last reviewed on 2006-08-18 (0.10.5)</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-rtspsrc.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstRTSPSrc">
 <a name="GstRTSPSrc-struct"></a><h3>GstRTSPSrc</h3>
 <pre class="programlisting">typedef struct _GstRTSPSrc GstRTSPSrc;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-rtspsrc.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "debug" property'>
 <a name="GstRTSPSrc--debug"></a><h3>The <code class="literal">"debug"</code> property</h3>
 <pre class="programlisting">  "debug"                    <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -227,7 +240,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "location" property'>
 <a name="GstRTSPSrc--location"></a><h3>The <code class="literal">"location"</code> property</h3>
 <pre class="programlisting">  "location"                 <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -236,7 +249,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "protocols" property'>
 <a name="GstRTSPSrc--protocols"></a><h3>The <code class="literal">"protocols"</code> property</h3>
 <pre class="programlisting">  "protocols"                <a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstrtsptransport.html#GstRTSPLowerTrans"
@@ -245,7 +258,7 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstrtsptransport.html#
 <p>Default value: UDP Unicast Mode|UDP Multicast Mode|TCP interleaved mode</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "retry" property'>
 <a name="GstRTSPSrc--retry"></a><h3>The <code class="literal">"retry"</code> property</h3>
 <pre class="programlisting">  "retry"                    <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -255,7 +268,7 @@ href="../glib/glib-Basic-Types.html#guint"
 <p>Default value: 20</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "timeout" property'>
 <a name="GstRTSPSrc--timeout"></a><h3>The <code class="literal">"timeout"</code> property</h3>
 <pre class="programlisting">  "timeout"                  <a
 href="../glib/glib-Basic-Types.html#guint64"
@@ -264,7 +277,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <p>Default value: 5000000</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "latency" property'>
 <a name="GstRTSPSrc--latency"></a><h3>The <code class="literal">"latency"</code> property</h3>
 <pre class="programlisting">  "latency"                  <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -273,7 +286,7 @@ href="../glib/glib-Basic-Types.html#guint"
 <p>Default value: 3000</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "tcp-timeout" property'>
 <a name="GstRTSPSrc--tcp-timeout"></a><h3>The <code class="literal">"tcp-timeout"</code> property</h3>
 <pre class="programlisting">  "tcp-timeout"              <a
 href="../glib/glib-Basic-Types.html#guint64"
@@ -282,7 +295,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <p>Default value: 20000000</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "connection-speed" property'>
 <a name="GstRTSPSrc--connection-speed"></a><h3>The <code class="literal">"connection-speed"</code> property</h3>
 <pre class="programlisting">  "connection-speed"         <a
 href="../glib/glib-Basic-Types.html#guint"
@@ -292,14 +305,14 @@ href="../glib/glib-Basic-Types.html#guint"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "nat-method" property'>
 <a name="GstRTSPSrc--nat-method"></a><h3>The <code class="literal">"nat-method"</code> property</h3>
 <pre class="programlisting">  "nat-method"               GstRTSPNatMethod      : Read / Write / Construct</pre>
 <p>Method to use for traversing firewalls and NAT.</p>
 <p>Default value: Send Dummy packets</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "do-rtcp" property'>
 <a name="GstRTSPSrc--do-rtcp"></a><h3>The <code class="literal">"do-rtcp"</code> property</h3>
 <pre class="programlisting">  "do-rtcp"                  <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -308,13 +321,23 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "proxy" property'>
 <a name="GstRTSPSrc--proxy"></a><h3>The <code class="literal">"proxy"</code> property</h3>
 <pre class="programlisting">  "proxy"                    <a
 href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write / Construct</pre>
 <p>Proxy settings for HTTP tunneling. Format: [http://][user:passwd@]host[:port].</p>
 <p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2" title='The "rtp-blocksize" property'>
+<a name="GstRTSPSrc--rtp-blocksize"></a><h3>The <code class="literal">"rtp-blocksize"</code> property</h3>
+<pre class="programlisting">  "rtp-blocksize"            <a
+href="../glib/glib-Basic-Types.html#guint"
+>guint</a>                 : Read / Write / Construct</pre>
+<p>RTP package size to suggest to server (0 = disabled).</p>
+<p>Allowed values: &lt;= 65536</p>
+<p>Default value: 0</p>
 </div>
 </div>
 </div>

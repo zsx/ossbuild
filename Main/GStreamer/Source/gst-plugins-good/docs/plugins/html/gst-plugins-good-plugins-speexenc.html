@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>speexenc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-spectrum.html" title="spectrum">
 <link rel="next" href="gst-plugins-good-plugins-speexdec.html" title="speexdec">
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-speexenc.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="speexenc">
 <a name="gst-plugins-good-plugins-speexenc"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,30 +44,38 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-speexenc.synopsis"></a><h2>Synopsis</h2>
 <a name="GstSpeexEnc"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc-struct" title="GstSpeexEnc">GstSpeexEnc</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-speexenc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstSpeexEnc
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-speexenc.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstSpeexEnc implements
- GstTagSetter and  GstPreset.</p>
+ <a
+href="../gstreamer-0.10/GstPreset.html"
+>GstPreset</a> and  <a
+href="../gstreamer-0.10/GstTagSetter.html"
+>GstTagSetter</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-speexenc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--abr" title='The "abr" property'>abr</a>"                      <a
@@ -100,7 +108,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
   "<a class="link" href="gst-plugins-good-plugins-speexenc.html#GstSpeexEnc--mode" title='The "mode" property'>mode</a>"                     GstSpeexEncMode       : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-speexenc.description"></a><h2>Description</h2>
 <p>
 This element encodes audio as a Speex stream.
@@ -110,16 +118,16 @@ Foundation</a>.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2802144"></a><h3>Example pipelines</h3>
+<div class="refsect2" title="Example pipelines">
+<a name="id579480"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc num-buffers=100 ! speexenc ! oggmux ! filesink location=beep.ogg
 </pre></div> Encode an Ogg/Speex file.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2817195"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id594702"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -141,8 +149,8 @@ gst-launch audiotestsrc num-buffers=100 ! speexenc ! oggmux ! filesink location=
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2784219"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id588891"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -190,18 +198,18 @@ gst-launch audiotestsrc num-buffers=100 ! speexenc ! oggmux ! filesink location=
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-speexenc.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstSpeexEnc">
 <a name="GstSpeexEnc-struct"></a><h3>GstSpeexEnc</h3>
 <pre class="programlisting">typedef struct _GstSpeexEnc GstSpeexEnc;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-speexenc.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "abr" property'>
 <a name="GstSpeexEnc--abr"></a><h3>The <code class="literal">"abr"</code> property</h3>
 <pre class="programlisting">  "abr"                      <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -211,7 +219,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "bitrate" property'>
 <a name="GstSpeexEnc--bitrate"></a><h3>The <code class="literal">"bitrate"</code> property</h3>
 <pre class="programlisting">  "bitrate"                  <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -221,7 +229,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "complexity" property'>
 <a name="GstSpeexEnc--complexity"></a><h3>The <code class="literal">"complexity"</code> property</h3>
 <pre class="programlisting">  "complexity"               <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -231,7 +239,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 3</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "dtx" property'>
 <a name="GstSpeexEnc--dtx"></a><h3>The <code class="literal">"dtx"</code> property</h3>
 <pre class="programlisting">  "dtx"                      <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -240,7 +248,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "last-message" property'>
 <a name="GstSpeexEnc--last-message"></a><h3>The <code class="literal">"last-message"</code> property</h3>
 <pre class="programlisting">  "last-message"             <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -249,7 +257,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "nframes" property'>
 <a name="GstSpeexEnc--nframes"></a><h3>The <code class="literal">"nframes"</code> property</h3>
 <pre class="programlisting">  "nframes"                  <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -259,7 +267,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 1</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "quality" property'>
 <a name="GstSpeexEnc--quality"></a><h3>The <code class="literal">"quality"</code> property</h3>
 <pre class="programlisting">  "quality"                  <a
 href="../glib/glib-Basic-Types.html#gfloat"
@@ -269,7 +277,7 @@ href="../glib/glib-Basic-Types.html#gfloat"
 <p>Default value: 8</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "vad" property'>
 <a name="GstSpeexEnc--vad"></a><h3>The <code class="literal">"vad"</code> property</h3>
 <pre class="programlisting">  "vad"                      <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -278,7 +286,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "vbr" property'>
 <a name="GstSpeexEnc--vbr"></a><h3>The <code class="literal">"vbr"</code> property</h3>
 <pre class="programlisting">  "vbr"                      <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -287,14 +295,14 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mode" property'>
 <a name="GstSpeexEnc--mode"></a><h3>The <code class="literal">"mode"</code> property</h3>
 <pre class="programlisting">  "mode"                     GstSpeexEncMode       : Read / Write</pre>
 <p>The encoding mode.</p>
 <p>Default value: Auto</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-good-plugins-speexenc.see-also"></a><h2>See Also</h2>
 speexdec, oggmux
 </div>

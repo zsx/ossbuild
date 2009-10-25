@@ -21,6 +21,7 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <string.h>
 
 #include <gst/gst.h>
@@ -1069,9 +1070,8 @@ rsn_dvdsrc_step (resinDvdSrc * src, gboolean have_dvd_lock)
       break;
     }
     case DVDNAV_HIGHLIGHT:{
-      dvdnav_highlight_event_t *event = (dvdnav_highlight_event_t *) data;
       GST_DEBUG_OBJECT (src, "highlight change event, button %d",
-          event->buttonN);
+          ((dvdnav_highlight_event_t *) data)->buttonN);
       rsn_dvdsrc_update_highlight (src);
       break;
     }
@@ -1814,6 +1814,7 @@ rsn_dvdsrc_prepare_streamsinfo_event (resinDvdSrc * src)
   audio_attr_t *a_attrs;
   subp_attr_t *s_attrs;
   gint n_audio, n_subp;
+  int8_t cur_audio;
   GstStructure *s;
   GstEvent *e;
   gint i;
@@ -1868,6 +1869,8 @@ rsn_dvdsrc_prepare_streamsinfo_event (resinDvdSrc * src)
       NULL);
 
   /* audio */
+  cur_audio = dvdnav_get_active_audio_stream (src->dvdnav);
+
   have_audio = FALSE;
   for (i = 0; i < n_audio; i++) {
     const audio_attr_t *a = a_attrs + i;
@@ -1881,7 +1884,11 @@ rsn_dvdsrc_prepare_streamsinfo_event (resinDvdSrc * src)
 
     GST_DEBUG_OBJECT (src, "mapped logical audio %d to MPEG substream %d",
         i, phys_id);
-
+    /* Force audio stream reselection in case format changed ... */
+    if (i == cur_audio) {
+      src->cur_audio_phys_stream = -1;
+      rsn_dvdsrc_prepare_audio_stream_event (src, i, phys_id);
+    }
 #if 0
     /* FIXME: Only output A52 streams for now, until the decoder switching
      * is ready */
@@ -1890,9 +1897,11 @@ rsn_dvdsrc_prepare_streamsinfo_event (resinDvdSrc * src)
           (int) a->audio_format);
       continue;
     }
-#endif
     if (a->audio_format == 0)
       have_audio = TRUE;
+#else
+    have_audio = TRUE;
+#endif
 
     GST_DEBUG_OBJECT (src, "Audio stream %d is format %d, substream %d", i,
         (int) a->audio_format, phys_id);
@@ -1905,7 +1914,9 @@ rsn_dvdsrc_prepare_streamsinfo_event (resinDvdSrc * src)
     gst_structure_set (s, t, G_TYPE_INT, (int) a->audio_format, NULL);
     g_free (t);
 
-    if (a->lang_type) {
+    /* Check that the language code is flagged and at least somewhat valid
+     * before putting it in the output structure */
+    if (a->lang_type && a->lang_code > 0x100) {
       t = g_strdup_printf ("audio-%d-language", i);
       lang_code[0] = (a->lang_code >> 8) & 0xff;
       lang_code[1] = a->lang_code & 0xff;
@@ -1914,7 +1925,7 @@ rsn_dvdsrc_prepare_streamsinfo_event (resinDvdSrc * src)
 
       GST_DEBUG_OBJECT (src, "Audio stream %d is language %s", i, lang_code);
     } else
-      GST_DEBUG_OBJECT (src, "Audio stream %d - no language %s", i, lang_code);
+      GST_DEBUG_OBJECT (src, "Audio stream %d - no language", i);
   }
 
   if (have_audio == FALSE) {
@@ -1948,7 +1959,7 @@ rsn_dvdsrc_prepare_streamsinfo_event (resinDvdSrc * src)
     g_free (t);
 
     t = g_strdup_printf ("subpicture-%d-language", i);
-    if (u->type) {
+    if (u->type && u->lang_code > 0x100) {
       lang_code[0] = (u->lang_code >> 8) & 0xff;
       lang_code[1] = u->lang_code & 0xff;
       gst_structure_set (s, t, G_TYPE_STRING, lang_code, NULL);

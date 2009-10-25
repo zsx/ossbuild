@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>jpegenc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-jpegdec.html" title="jpegdec">
 <link rel="next" href="gst-plugins-good-plugins-level.html" title="level">
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-jpegenc.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="jpegenc">
 <a name="gst-plugins-good-plugins-jpegenc"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,55 +44,60 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-jpegenc.synopsis"></a><h2>Synopsis</h2>
 <a name="GstJpegEnc"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc-struct" title="GstJpegEnc">GstJpegEnc</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-jpegenc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstJpegEnc
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-jpegenc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc--quality" title='The "quality" property'>quality</a>"                  <a
 href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc--idct-method" title='The "idct-method" property'>idct-method</a>"              GstIDCTMethod         : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="gst-plugins-good-plugins-jpegenc.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc-frame-encoded" title='The "frame-encoded" signal'>frame-encoded</a>"                                  : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-jpegenc.description"></a><h2>Description</h2>
 <p>
 Encodes jpeg images.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2732743"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id516189"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch videotestsrc num-buffers=50 ! video/x-raw-yuv, framerate='(fraction)'5/1 ! jpegenc ! avimux ! filesink location=mjpeg.avi
 </pre></div> a pipeline to mux 5 JPEG frames per second into a 10 sec. long motion jpeg
 avi.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2760673"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id537959"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -114,8 +119,8 @@ avi.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2726853"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id444361"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -163,18 +168,18 @@ avi.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-jpegenc.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstJpegEnc">
 <a name="GstJpegEnc-struct"></a><h3>GstJpegEnc</h3>
 <pre class="programlisting">typedef struct _GstJpegEnc GstJpegEnc;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-jpegenc.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "quality" property'>
 <a name="GstJpegEnc--quality"></a><h3>The <code class="literal">"quality"</code> property</h3>
 <pre class="programlisting">  "quality"                  <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -183,10 +188,17 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Allowed values: [0,100]</p>
 <p>Default value: 85</p>
 </div>
+<hr>
+<div class="refsect2" title='The "idct-method" property'>
+<a name="GstJpegEnc--idct-method"></a><h3>The <code class="literal">"idct-method"</code> property</h3>
+<pre class="programlisting">  "idct-method"              GstIDCTMethod         : Read / Write</pre>
+<p>The IDCT algorithm to use.</p>
+<p>Default value: Faster, less accurate integer method</p>
 </div>
-<div class="refsect1" lang="en">
+</div>
+<div class="refsect1" title="Signal Details">
 <a name="gst-plugins-good-plugins-jpegenc.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "frame-encoded" signal'>
 <a name="GstJpegEnc-frame-encoded"></a><h3>The <code class="literal">"frame-encoded"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc">GstJpegEnc</a> *gstjpegenc,
                                                         <a

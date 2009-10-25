@@ -97,7 +97,7 @@ id3demux_calc_id3v2_tag_size (GstBuffer * buf)
   return size;
 }
 
-static guint8 *
+guint8 *
 id3demux_ununsync_data (const guint8 * unsync_data, guint32 * size)
 {
   const guint8 *end;
@@ -195,7 +195,10 @@ id3demux_read_id3v2_tag (GstBuffer * buffer, guint * id3v2_size,
   else
     work.hdr.frame_data_size = read_size - ID3V2_HDR_SIZE;
 
-  if ((flags & ID3V2_HDR_FLAG_UNSYNC)) {
+  /* in v2.3 the frame sizes are not syncsafe, so the entire tag had to be
+   * unsynced. In v2.4 the frame sizes are syncsafe so it's just the frame
+   * data that needs un-unsyncing, but not the frame headers. */
+  if ((flags & ID3V2_HDR_FLAG_UNSYNC) != 0 && ID3V2_VER_MAJOR (version) <= 3) {
     GST_DEBUG ("Un-unsyncing entire tag");
     uu_data = id3demux_ununsync_data (work.hdr.frame_data,
         &work.hdr.frame_data_size);
@@ -480,7 +483,7 @@ id3demux_id3v2_frames_to_tag_list (ID3TagsWorking * work, guint size)
         flag_string (ID3V2_FRAME_FORMAT_COMPRESSION, "COMPRESSION"),
         flag_string (ID3V2_FRAME_FORMAT_ENCRYPTION, "ENCRYPTION"),
         flag_string (ID3V2_FRAME_FORMAT_UNSYNCHRONISATION, "UNSYNC"),
-        flag_string (ID3V2_FRAME_FORMAT_DATA_LENGTH_INDICATOR, "LENGHT_IND"));
+        flag_string (ID3V2_FRAME_FORMAT_DATA_LENGTH_INDICATOR, "LENGTH_IND"));
 #undef flag_str
 #endif
 

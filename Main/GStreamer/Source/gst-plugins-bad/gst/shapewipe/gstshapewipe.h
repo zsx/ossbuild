@@ -59,7 +59,12 @@ struct _GstShapeWipe
   GCond *mask_cond;
   gint mask_bpp;
 
+  GstVideoFormat fmt;
   gint width, height;
+
+  gdouble proportion;
+  GstClockTime earliest_time;
+  GstClockTime frame_duration;
 };
 
 struct _GstShapeWipeClass

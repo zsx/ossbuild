@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>rtpjpegpay</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-rtpdec.html" title="rtpdec">
 <link rel="next" href="gst-plugins-good-plugins-rtspsrc.html" title="rtspsrc">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-rtpjpegpay.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="rtpjpegpay">
 <a name="gst-plugins-good-plugins-rtpjpegpay"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,27 +42,31 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-rtpjpegpay.synopsis"></a><h2>Synopsis</h2>
 <a name="GstRtpJPEGPay"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-rtpjpegpay.html#GstRtpJPEGPay-struct" title="GstRtpJPEGPay">GstRtpJPEGPay</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-rtpjpegpay.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----<a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbasertppayload.html#GstBaseRTPPayload"
 >GstBaseRTPPayload</a>
                      +----GstRtpJPEGPay
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-rtpjpegpay.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-rtpjpegpay.html#GstRtpJPEGPay--quality" title='The "quality" property'>quality</a>"                  <a
@@ -71,14 +75,17 @@ href="../glib/glib-Basic-Types.html#gint"
   "<a class="link" href="gst-plugins-good-plugins-rtpjpegpay.html#GstRtpJPEGPay--type" title='The "type" property'>type</a>"                     <a
 href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-rtpjpegpay.html#GstRtpJPEGPay--buffer-list" title='The "buffer-list" property'>buffer-list</a>"              <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-rtpjpegpay.description"></a><h2>Description</h2>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2728418"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id567809"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -100,8 +107,8 @@ href="../glib/glib-Basic-Types.html#gint"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2803311"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id549591"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -153,18 +160,18 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-rtpjpegpay.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstRtpJPEGPay">
 <a name="GstRtpJPEGPay-struct"></a><h3>GstRtpJPEGPay</h3>
 <pre class="programlisting">typedef struct _GstRtpJPEGPay GstRtpJPEGPay;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-rtpjpegpay.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "quality" property'>
 <a name="GstRtpJPEGPay--quality"></a><h3>The <code class="literal">"quality"</code> property</h3>
 <pre class="programlisting">  "quality"                  <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -174,7 +181,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 255</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "type" property'>
 <a name="GstRtpJPEGPay--type"></a><h3>The <code class="literal">"type"</code> property</h3>
 <pre class="programlisting">  "type"                     <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -182,6 +189,15 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default JPEG Type, overwritten by SOF when present.</p>
 <p>Allowed values: [0,255]</p>
 <p>Default value: 1</p>
+</div>
+<hr>
+<div class="refsect2" title='The "buffer-list" property'>
+<a name="GstRtpJPEGPay--buffer-list"></a><h3>The <code class="literal">"buffer-list"</code> property</h3>
+<pre class="programlisting">  "buffer-list"              <a
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Use Buffer Lists.</p>
+<p>Default value: FALSE</p>
 </div>
 </div>
 </div>

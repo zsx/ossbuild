@@ -4,7 +4,7 @@
 help:
 	@echo
 	@echo "If you are a doc maintainer, run 'make update' to update"
-	@echo "the documentation files maintained in CVS"
+	@echo "the documentation files maintained in git"
 	@echo
 	@echo Other useful make targets:
 	@echo
@@ -46,7 +46,7 @@ MAINTAINER_DOC_STAMPS =			\
 	inspect.stamp
 
 # we don't add inspect-build.stamp and scanobj-build.stamp here since they are
-# built manually by docs maintainers and result is commited to CVS
+# built manually by docs maintainers and result is commited to git
 DOC_STAMPS =				\
 	scan-build.stamp		\
 	tmpl-build.stamp		\
@@ -236,11 +236,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@for f in $(content_files); do cp $(srcdir)/$$f html; done
 	cp -pr xml html
 	cp ../version.entities html
-	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE) \
-	    2>&1 | tee ../html-build.log
-	@if grep "warning:" html-build.log > /dev/null; then \
-		echo "ERROR"; grep "warning:" html-build.log; exit 1; fi
-	@rm html-build.log
+	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
 	mv html/index.sgml html/index.sgml.bak
 	$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
 	rm -f html/index.sgml.bak

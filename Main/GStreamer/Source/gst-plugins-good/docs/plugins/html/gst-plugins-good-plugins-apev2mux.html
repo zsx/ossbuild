@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>apev2mux</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-apedemux.html" title="apedemux">
 <link rel="next" href="gst-plugins-good-plugins-aspectratiocrop.html" title="aspectratiocrop">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-apev2mux.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="apev2mux">
 <a name="gst-plugins-good-plugins-apev2mux"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,45 +42,53 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-apev2mux.synopsis"></a><h2>Synopsis</h2>
 <a name="GstApev2Mux"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-apev2mux.html#GstApev2Mux-struct" title="GstApev2Mux">GstApev2Mux</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-apev2mux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstTagLibMux
                      +----GstApev2Mux
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-apev2mux.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstApev2Mux implements
- GstTagSetter.</p>
+ <a
+href="../gstreamer-0.10/GstTagSetter.html"
+>GstTagSetter</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-apev2mux.description"></a><h2>Description</h2>
 <p>
 This element adds APEv2 tags to the beginning of a stream using the taglib
 library.
 </p>
 <p>
-Applications can set the tags to write using the <span class="type">GstTagSetter</span> interface.
+Applications can set the tags to write using the <a
+href="../gstreamer-0.10/GstTagSetter.html"
+><span class="type">GstTagSetter</span></a> interface.
 Tags sent by upstream elements will be picked up automatically (and merged
 according to the merge mode set via the tag setter interface).
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2746784"></a><h3>Example pipelines</h3>
+<div class="refsect2" title="Example pipelines">
+<a name="id489975"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=foo.ogg ! decodebin ! audioconvert ! lame ! apev2mux ! filesink location=foo.mp3
 </pre></div> A pipeline that transcodes a file from Ogg/Vorbis to mp3 format with an
@@ -90,10 +98,10 @@ Ogg/Vorbis file actually has comments to preserve.
 gst-launch -m filesrc location=foo.mp3 ! apedemux ! fakesink silent=TRUE 2&gt; /dev/null | grep taglist
 </pre></div> Verify that tags have been written.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2727082"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id504624"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -115,8 +123,8 @@ gst-launch -m filesrc location=foo.mp3 ! apedemux ! fakesink silent=TRUE 2&gt; /
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2750820"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id483459"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -164,16 +172,16 @@ gst-launch -m filesrc location=foo.mp3 ! apedemux ! fakesink silent=TRUE 2&gt; /
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-apev2mux.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstApev2Mux">
 <a name="GstApev2Mux-struct"></a><h3>GstApev2Mux</h3>
 <pre class="programlisting">typedef struct _GstApev2Mux GstApev2Mux;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-good-plugins-apev2mux.see-also"></a><h2>See Also</h2>
 #GstTagSetter
 </div>

@@ -43,6 +43,9 @@
 /* struct v4l2_buffer missing */
 #undef GST_V4L2_MISSING_BUFDECL
 
+/* I know the API is subject to change. */
+#undef G_UDEV_API_IS_SUBJECT_TO_CHANGE
+
 /* Define to enable aalib ASCII Art library (used by aasink). */
 #undef HAVE_AALIB
 
@@ -121,6 +124,9 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* define for working do while(0) macros */
+#undef HAVE_DOWHILE_MACROS
+
 /* Define to enable raw1394 and avc1394 library (used by 1394). */
 #undef HAVE_DV1394
 
@@ -162,6 +168,9 @@
 
 /* Define to enable Video 4 Linux 2 (used by v4l2src). */
 #undef HAVE_GST_V4L2
+
+/* Whether gudev is available for device detection */
+#undef HAVE_GUDEV
 
 /* Define to enable HAL libraries (used by halelements). */
 #undef HAVE_HAL
@@ -234,6 +243,9 @@
 
 /* defined if pulseaudio >= 0.9.13 is available */
 #undef HAVE_PULSE_0_9_13
+
+/* defined if pulseaudio >= 0.9.15 is available */
+#undef HAVE_PULSE_0_9_15
 
 /* Define if RDTSC is available */
 #undef HAVE_RDTSC
@@ -334,6 +346,9 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION

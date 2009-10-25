@@ -302,6 +302,16 @@ gst_rtp_dtmf_src_class_init (GstRTPDTMFSrcClass * klass)
 }
 
 static void
+gst_rtp_dtmf_src_event_free (GstRTPDTMFSrcEvent * event)
+{
+  if (event) {
+    if (event->payload)
+      g_slice_free (GstRTPDTMFPayload, event->payload);
+    g_slice_free (GstRTPDTMFSrcEvent, event);
+  }
+}
+
+static void
 gst_rtp_dtmf_src_init (GstRTPDTMFSrc * object, GstRTPDTMFSrcClass * g_class)
 {
   gst_base_src_set_format (GST_BASE_SRC (object), GST_FORMAT_TIME);
@@ -315,7 +325,8 @@ gst_rtp_dtmf_src_init (GstRTPDTMFSrc * object, GstRTPDTMFSrcClass * g_class)
   object->interval = DEFAULT_PACKET_INTERVAL;
   object->packet_redundancy = DEFAULT_PACKET_REDUNDANCY;
 
-  object->event_queue = g_async_queue_new ();
+  object->event_queue =
+      g_async_queue_new_full ((GDestroyNotify) gst_rtp_dtmf_src_event_free);
   object->payload = NULL;
 
   GST_DEBUG_OBJECT (object, "init done");
@@ -557,10 +568,10 @@ gst_rtp_dtmf_src_add_start_event (GstRTPDTMFSrc * dtmfsrc, gint event_number,
     gint event_volume)
 {
 
-  GstRTPDTMFSrcEvent *event = g_malloc (sizeof (GstRTPDTMFSrcEvent));
+  GstRTPDTMFSrcEvent *event = g_slice_new0 (GstRTPDTMFSrcEvent);
   event->event_type = RTP_DTMF_EVENT_TYPE_START;
 
-  event->payload = g_new0 (GstRTPDTMFPayload, 1);
+  event->payload = g_slice_new0 (GstRTPDTMFPayload);
   event->payload->event = CLAMP (event_number, MIN_EVENT, MAX_EVENT);
   event->payload->volume = CLAMP (event_volume, MIN_VOLUME, MAX_VOLUME);
   event->payload->duration = dtmfsrc->interval * dtmfsrc->clock_rate / 1000;
@@ -572,7 +583,7 @@ static void
 gst_rtp_dtmf_src_add_stop_event (GstRTPDTMFSrc * dtmfsrc)
 {
 
-  GstRTPDTMFSrcEvent *event = g_malloc (sizeof (GstRTPDTMFSrcEvent));
+  GstRTPDTMFSrcEvent *event = g_slice_new0 (GstRTPDTMFSrcEvent);
   event->event_type = RTP_DTMF_EVENT_TYPE_STOP;
 
   g_async_queue_push (dtmfsrc->event_queue, event);
@@ -690,6 +701,7 @@ gst_rtp_dtmf_src_create (GstBaseSrc * basesrc, guint64 offset,
           gst_rtp_dtmf_src_set_stream_lock (dtmfsrc, TRUE);
 
           dtmfsrc->payload = event->payload;
+          event->payload = NULL;
           break;
 
         case RTP_DTMF_EVENT_TYPE_PAUSE_TASK:
@@ -706,7 +718,7 @@ gst_rtp_dtmf_src_create (GstBaseSrc * basesrc, guint64 offset,
           break;
       }
 
-      g_free (event);
+      gst_rtp_dtmf_src_event_free (event);
     } else if (!dtmfsrc->first_packet && !dtmfsrc->last_packet &&
         (dtmfsrc->timestamp - dtmfsrc->start_timestamp) / GST_MSECOND >=
         MIN_PULSE_DURATION) {
@@ -744,7 +756,7 @@ gst_rtp_dtmf_src_create (GstBaseSrc * basesrc, guint64 offset,
             GST_OBJECT_UNLOCK (dtmfsrc);
             break;
         }
-        g_free (event);
+        gst_rtp_dtmf_src_event_free (event);
       }
     }
   } while (dtmfsrc->payload == NULL);
@@ -804,7 +816,7 @@ send_last:
     /* Don't forget to release the stream lock */
     gst_rtp_dtmf_src_set_stream_lock (dtmfsrc, FALSE);
 
-    g_free (dtmfsrc->payload);
+    g_slice_free (GstRTPDTMFPayload, dtmfsrc->payload);
     dtmfsrc->payload = NULL;
 
     dtmfsrc->last_packet = FALSE;
@@ -997,7 +1009,7 @@ gst_rtp_dtmf_src_change_state (GstElement * element, GstStateChange transition)
 
       /* Flushing the event queue */
       while ((event = g_async_queue_try_pop (dtmfsrc->event_queue)) != NULL)
-        g_free (event);
+        gst_rtp_dtmf_src_event_free (event);
 
       no_preroll = TRUE;
       break;
@@ -1018,7 +1030,7 @@ gst_rtp_dtmf_src_change_state (GstElement * element, GstStateChange transition)
 
       /* Flushing the event queue */
       while ((event = g_async_queue_try_pop (dtmfsrc->event_queue)) != NULL)
-        g_free (event);
+        gst_rtp_dtmf_src_event_free (event);
 
       /* Indicate that we don't do PRE_ROLL */
       break;
@@ -1057,7 +1069,7 @@ gst_rtp_dtmf_src_unlock (GstBaseSrc * src)
   GST_OBJECT_UNLOCK (dtmfsrc);
 
   GST_DEBUG_OBJECT (dtmfsrc, "Pushing the PAUSE_TASK event on unlock request");
-  event = g_malloc (sizeof (GstRTPDTMFSrcEvent));
+  event = g_slice_new0 (GstRTPDTMFSrcEvent);
   event->event_type = RTP_DTMF_EVENT_TYPE_PAUSE_TASK;
   g_async_queue_push (dtmfsrc->event_queue, event);
 

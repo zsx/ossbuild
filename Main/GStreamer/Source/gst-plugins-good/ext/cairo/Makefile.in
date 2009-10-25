@@ -50,6 +50,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst-args.m4 \
 	$(top_srcdir)/common/m4/gst-check.m4 \
 	$(top_srcdir)/common/m4/gst-default.m4 \
+	$(top_srcdir)/common/m4/gst-dowhile.m4 \
 	$(top_srcdir)/common/m4/gst-error.m4 \
 	$(top_srcdir)/common/m4/gst-feature.m4 \
 	$(top_srcdir)/common/m4/gst-gettext.m4 \
@@ -91,7 +92,8 @@ libgstcairo_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am_libgstcairo_la_OBJECTS = libgstcairo_la-gstcairo.lo \
 	libgstcairo_la-gsttimeoverlay.lo \
-	libgstcairo_la-gsttextoverlay.lo
+	libgstcairo_la-gsttextoverlay.lo \
+	libgstcairo_la-gstcairorender.lo
 libgstcairo_la_OBJECTS = $(am_libgstcairo_la_OBJECTS)
 libgstcairo_la_LINK = $(LIBTOOL) --tag=CC \
 	$(libgstcairo_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
@@ -230,6 +232,8 @@ GST_TOOLS_DIR = @GST_TOOLS_DIR@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HAL_CFLAGS = @HAL_CFLAGS@
 HAL_LIBS = @HAL_LIBS@
 HAVE_AVC1394 = @HAVE_AVC1394@
@@ -299,6 +303,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PACKAGE_VERSION_MAJOR = @PACKAGE_VERSION_MAJOR@
 PACKAGE_VERSION_MICRO = @PACKAGE_VERSION_MICRO@
@@ -316,6 +321,8 @@ PULSE_0_9_12_CFLAGS = @PULSE_0_9_12_CFLAGS@
 PULSE_0_9_12_LIBS = @PULSE_0_9_12_LIBS@
 PULSE_0_9_13_CFLAGS = @PULSE_0_9_13_CFLAGS@
 PULSE_0_9_13_LIBS = @PULSE_0_9_13_LIBS@
+PULSE_0_9_15_CFLAGS = @PULSE_0_9_15_CFLAGS@
+PULSE_0_9_15_LIBS = @PULSE_0_9_15_LIBS@
 PULSE_CFLAGS = @PULSE_CFLAGS@
 PULSE_LIBS = @PULSE_LIBS@
 PYTHON = @PYTHON@
@@ -425,11 +432,12 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 plugin_LTLIBRARIES = libgstcairo.la
-noinst_HEADERS = gsttimeoverlay.h gsttextoverlay.h
+noinst_HEADERS = gsttimeoverlay.h gsttextoverlay.h gstcairorender.h
 libgstcairo_la_SOURCES = \
 	gstcairo.c \
 	gsttimeoverlay.c \
-	gsttextoverlay.c
+	gsttextoverlay.c \
+	gstcairorender.c
 
 libgstcairo_la_CFLAGS = \
         $(GST_PLUGINS_BASE_CFLAGS) \
@@ -512,6 +520,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstcairo_la-gstcairo.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstcairo_la-gstcairorender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstcairo_la-gsttextoverlay.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstcairo_la-gsttimeoverlay.Plo@am__quote@
 
@@ -556,6 +565,13 @@ libgstcairo_la-gsttextoverlay.lo: gsttextoverlay.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gsttextoverlay.c' object='libgstcairo_la-gsttextoverlay.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstcairo_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstcairo_la_CFLAGS) $(CFLAGS) -c -o libgstcairo_la-gsttextoverlay.lo `test -f 'gsttextoverlay.c' || echo '$(srcdir)/'`gsttextoverlay.c
+
+libgstcairo_la-gstcairorender.lo: gstcairorender.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgstcairo_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstcairo_la_CFLAGS) $(CFLAGS) -MT libgstcairo_la-gstcairorender.lo -MD -MP -MF $(DEPDIR)/libgstcairo_la-gstcairorender.Tpo -c -o libgstcairo_la-gstcairorender.lo `test -f 'gstcairorender.c' || echo '$(srcdir)/'`gstcairorender.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgstcairo_la-gstcairorender.Tpo $(DEPDIR)/libgstcairo_la-gstcairorender.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstcairorender.c' object='libgstcairo_la-gstcairorender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstcairo_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstcairo_la_CFLAGS) $(CFLAGS) -c -o libgstcairo_la-gstcairorender.lo `test -f 'gstcairorender.c' || echo '$(srcdir)/'`gstcairorender.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

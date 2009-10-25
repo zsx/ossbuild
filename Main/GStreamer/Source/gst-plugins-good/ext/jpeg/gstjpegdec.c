@@ -48,11 +48,11 @@ GST_ELEMENT_DETAILS ("JPEG image decoder",
     "Wim Taymans <wim@fluendo.com>");
 
 #define MIN_WIDTH  16
-#define MAX_WIDTH  4096
+#define MAX_WIDTH  65535
 #define MIN_HEIGHT 8
-#define MAX_HEIGHT 4096
+#define MAX_HEIGHT 65535
 
-#define DEFAULT_IDCT_METHOD	JDCT_FASTEST
+#define JPEG_DEFAULT_IDCT_METHOD	JDCT_FASTEST
 
 enum
 {
@@ -60,23 +60,8 @@ enum
   PROP_IDCT_METHOD
 };
 
+extern GType gst_idct_method_get_type (void);
 #define GST_TYPE_IDCT_METHOD (gst_idct_method_get_type())
-static GType
-gst_idct_method_get_type (void)
-{
-  static GType idct_method_type = 0;
-  static const GEnumValue idct_method[] = {
-    {JDCT_ISLOW, "Slow but accurate integer algorithm", "islow"},
-    {JDCT_IFAST, "Faster, less accurate integer method", "ifast"},
-    {JDCT_FLOAT, "Floating-point: accurate, fast on fast HW", "float"},
-    {0, NULL, NULL},
-  };
-
-  if (!idct_method_type) {
-    idct_method_type = g_enum_register_static ("GstIDCTMethod", idct_method);
-  }
-  return idct_method_type;
-}
 
 static GstStaticPadTemplate gst_jpeg_dec_src_pad_template =
 GST_STATIC_PAD_TEMPLATE ("src",
@@ -200,7 +185,7 @@ gst_jpeg_dec_class_init (GstJpegDecClass * klass)
   g_object_class_install_property (gobject_class, PROP_IDCT_METHOD,
       g_param_spec_enum ("idct-method", "IDCT Method",
           "The IDCT algorithm to use", GST_TYPE_IDCT_METHOD,
-          DEFAULT_IDCT_METHOD, G_PARAM_READWRITE));
+          JPEG_DEFAULT_IDCT_METHOD, G_PARAM_READWRITE));
 
   gstelement_class->change_state =
       GST_DEBUG_FUNCPTR (gst_jpeg_dec_change_state);
@@ -325,7 +310,7 @@ gst_jpeg_dec_init (GstJpegDec * dec)
   dec->jsrc.dec = dec;
 
   /* init properties */
-  dec->idct_method = DEFAULT_IDCT_METHOD;
+  dec->idct_method = JPEG_DEFAULT_IDCT_METHOD;
 }
 
 static inline gboolean
@@ -448,6 +433,10 @@ gst_jpeg_dec_parse_image_data (GstJpegDec * dec)
       /* at the very least we expect 0xff 0xNN, thus end-1 */
       while (*data != 0xff && data < end - 1)
         ++data;
+      if (G_UNLIKELY (*data != 0xff)) {
+        GST_DEBUG ("at end of input and no next marker found, need more data");
+        return 0;
+      }
     }
     /* Skip over extra 0xff */
     while (*data == 0xff && data < end)

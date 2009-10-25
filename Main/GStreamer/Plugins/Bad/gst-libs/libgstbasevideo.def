@@ -1,0 +1,43 @@
+EXPORTS
+	gst_base_video_codec_get_type
+	gst_base_video_codec_new_frame
+	gst_base_video_codec_free_frame
+	
+	gst_base_video_decoder_get_type
+	gst_base_video_decoder_get_width
+	gst_base_video_decoder_get_height
+	gst_base_video_decoder_get_frame
+	gst_base_video_decoder_add_to_frame
+	gst_base_video_decoder_finish_frame
+	gst_base_video_decoder_end_of_stream
+	gst_base_video_decoder_have_frame
+	gst_base_video_decoder_get_state
+	gst_base_video_decoder_set_state
+	gst_base_video_decoder_lost_sync
+	gst_base_video_decoder_set_sync_point
+	gst_base_video_decoder_set_src_caps
+
+	gst_base_video_encoder_get_type
+	gst_base_video_encoder_get_width
+	gst_base_video_encoder_get_height
+	gst_base_video_encoder_get_state
+	gst_base_video_encoder_finish_frame
+	gst_base_video_encoder_end_of_stream
+	gst_base_video_encoder_set_latency
+	gst_base_video_encoder_set_latency_fields
+
+	gst_base_video_parse_get_type	
+	gst_base_video_parse_get_state
+	gst_base_video_parse_set_state	
+	gst_base_video_parse_set_src_caps
+	gst_base_video_parse_lost_sync
+	gst_base_video_parse_get_frame
+	gst_base_video_parse_add_to_frame
+	gst_base_video_parse_finish_frame
+	gst_base_video_parse_set_sync_point
+	gst_base_video_parse_push
+	
+	gst_base_video_rawvideo_convert
+	gst_base_video_encoded_video_convert
+	gst_base_video_state_from_caps
+	gst_video_state_get_timestamp

@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
 <link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
-<link rel="prev" href="gst-plugins-bad-plugins-wildmidi.html" title="wildmidi">
+<link rel="prev" href="gst-plugins-bad-plugins-zbar.html" title="zbar">
 <link rel="next" href="gst-plugins-bad-plugins-plugin-aacparse.html" title="aacparse">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -16,7 +16,7 @@
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2"><tr valign="middle">
-<td><a accesskey="p" href="gst-plugins-bad-plugins-wildmidi.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="gst-plugins-bad-plugins-zbar.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td> </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Bad Plugins 0.10 Plugins Reference Manual</th>
@@ -24,7 +24,7 @@
 </tr></table>
 <div class="chapter" lang="en">
 <div class="titlepage"><div><div><h2 class="title">
-<a name="id2895533"></a>gst-plugins-bad Plugins</h2></div></div></div>
+<a name="id2772051"></a>gst-plugins-bad Plugins</h2></div></div></div>
 <div class="toc"><dl>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-aacparse.html">aacparse</a></span><span class="refpurpose"> — Advanced Audio Coding Parser</span>
@@ -42,7 +42,7 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-alsaspdif.html">alsaspdif</a></span><span class="refpurpose"> — Alsa plugin for S/PDIF output</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-amrwb.html">amrwb</a></span><span class="refpurpose"> — Adaptive Multi-Rate Wide-Band</span>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-amrwbenc.html">amrwbenc</a></span><span class="refpurpose"> — Adaptive Multi-Rate Wide-Band Encoder</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-bayer.html">bayer</a></span><span class="refpurpose"> — Elements to convert Bayer images</span>
@@ -111,10 +111,10 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-freeze.html">freeze</a></span><span class="refpurpose"> — Stream freezer</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-gsm.html">gsm</a></span><span class="refpurpose"> — GSM encoder/decoder</span>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-frei0r.html">frei0r</a></span><span class="refpurpose"> — frei0r plugin library</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-gstrtpmanager.html">gstrtpmanager</a></span><span class="refpurpose"> — RTP session management plugin library</span>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-gsm.html">gsm</a></span><span class="refpurpose"> — GSM encoder/decoder</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-h264parse.html">h264parse</a></span><span class="refpurpose"> — Element parsing raw h264 streams</span>
@@ -123,10 +123,16 @@
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-jack.html">jack</a></span><span class="refpurpose"> — Jack elements</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-kate.html">kate</a></span><span class="refpurpose"> — Kate plugin</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-ladspa.html">ladspa</a></span><span class="refpurpose"> — All LADSPA plugins</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-liveadder.html">liveadder</a></span><span class="refpurpose"> — Adds multiple live discontinuous streams</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-lv2.html">lv2</a></span><span class="refpurpose"> — All LV2 plugins</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-metadata.html">metadata</a></span><span class="refpurpose"> — Metadata (EXIF, IPTC and XMP) image (JPEG, TIFF) demuxer and muxer</span>
@@ -178,6 +184,9 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-nuvdemux.html">nuvdemux</a></span><span class="refpurpose"> — Demuxes and muxes audio and video</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-pcapparse.html">pcapparse</a></span><span class="refpurpose"> — Element parsing raw pcap streams</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-rawparse.html">rawparse</a></span><span class="refpurpose"> — Parses byte streams into raw frames</span>
@@ -250,6 +259,9 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-xvid.html">xvid</a></span><span class="refpurpose"> — XviD plugin library</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-bad-plugins-plugin-zbar.html">zbar</a></span><span class="refpurpose"> — zbar barcode scanner</span>
 </dt>
 </dl></div>
 </div>

@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>progressreport</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-pngenc.html" title="pngenc">
 <link rel="next" href="gst-plugins-good-plugins-pulsesink.html" title="pulsesink">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-progressreport.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="progressreport">
 <a name="gst-plugins-good-plugins-progressreport"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,25 +42,31 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-progressreport.synopsis"></a><h2>Synopsis</h2>
 <a name="GstProgressReport"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-progressreport.html#GstProgressReport-struct" title="GstProgressReport">GstProgressReport</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-progressreport.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseTransform
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseTransform.html"
+>GstBaseTransform</a>
                      +----GstProgressReport
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-progressreport.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-progressreport.html#GstProgressReport--silent" title='The "silent" property'>silent</a>"                   <a
@@ -74,7 +80,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-progressreport.description"></a><h2>Description</h2>
 <p>
 The progressreport element can be put into a pipeline to report progress,
@@ -115,8 +121,8 @@ a whole).
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2734526"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id569921"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -m filesrc location=foo.ogg ! decodebin ! progressreport update-freq=1 ! audioconvert ! audioresample ! autoaudiosink
 </pre></div> This shows a progress query where a duration is available.
@@ -124,10 +130,10 @@ gst-launch -m filesrc location=foo.ogg ! decodebin ! progressreport update-freq=
 gst-launch -m audiotestsrc ! progressreport update-freq=1 ! audioconvert ! autoaudiosink
 </pre></div> This shows a progress query where no duration is available.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2789596"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id572118"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -149,8 +155,8 @@ gst-launch -m audiotestsrc ! progressreport update-freq=1 ! audioconvert ! autoa
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2815140"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id528434"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -198,18 +204,18 @@ gst-launch -m audiotestsrc ! progressreport update-freq=1 ! audioconvert ! autoa
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-progressreport.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstProgressReport">
 <a name="GstProgressReport-struct"></a><h3>GstProgressReport</h3>
 <pre class="programlisting">typedef struct _GstProgressReport GstProgressReport;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-progressreport.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "silent" property'>
 <a name="GstProgressReport--silent"></a><h3>The <code class="literal">"silent"</code> property</h3>
 <pre class="programlisting">  "silent"                   <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -218,7 +224,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "update-freq" property'>
 <a name="GstProgressReport--update-freq"></a><h3>The <code class="literal">"update-freq"</code> property</h3>
 <pre class="programlisting">  "update-freq"              <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -228,7 +234,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 5</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "format" property'>
 <a name="GstProgressReport--format"></a><h3>The <code class="literal">"format"</code> property</h3>
 <pre class="programlisting">  "format"                   <a
 href="../glib/glib-Basic-Types.html#gchar"

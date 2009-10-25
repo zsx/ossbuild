@@ -1,5 +1,5 @@
 
-Release notes for GStreamer Bad Plug-ins 0.10.13 "Supersonic Rocket"
+Release notes for GStreamer Bad Plug-ins 0.10.16 "Sensible Precaution"
         
 
 
@@ -60,31 +60,15 @@ contains a set of well-supported plug-ins, but might pose problems for
 
 Features of this release
     
-      * New shapewipe video transition plugin
-      * qtmux improvements
-      * camerabin improvements
-      * HDV MPEG-TS private streams support
-      * Output interlacing information in mpegvideoparse
-      * MS-ADPCM decoder
-      * RTP fixes and enhancements
-      * DTS decoder improvements
-      * New ID3 tagging plugin that supports v1, v2.3 and v2.4
-      * Support for PGS (BluRay) subtitles
-      * Many other bug fixes and enhancements
+      * Fix various bugs in the 0.10.15 release
+      * Fix a deadlock in starting DVD
+      * Fix compilation problems
+      * Allow libneon versions >= 29.x
 
 Bugs fixed in this release
      
-      * 584945 : camerabin unit tests failing
-      * 511097 : Support self-signed certificates in neonhttpsrc
-      * 561752 : GstRtpBin implement Release pad functions
-      * 584164 : gstspu-pgs.c warnings for format string args and uninitia...
-      * 584165 : rtpbin sdes message broken
-      * 584360 : gppmux ftyp
-      * 585015 : debugutils can't find libgstinterfaces
-      * 585660 : segfault in scaletempo plugin
-      * 584114 : gppmux and h263
-      * 583188 : Problem with sdp: bind failed or video disappear after fe...
-      * 583627 : statistic file name needs to be standardized
+      * 599272 : faac check fails, undefined symbol
+      * 599332 : [neonhttpsrc] fails to compile with libneon 0.29.0
 
 Download
 
@@ -113,18 +97,11 @@ Applications
   
 Contributors to this release
     
-      * Ali Sabil
-      * Christian Schaller
       * Edward Hervey
       * Jan Schmidt
-      * Lasse Laukkanen
-      * Mark Nauwelaerts
-      * Mathias Hasselmann
-      * Michael Smith
-      * Olivier Crête
+      * Julien Isorce
+      * Kaj-Michael Lang
       * Sebastian Dröge
-      * Stefan Kost
+      * Thomas Green
       * Tim-Philipp Müller
-      * Tristan Matthews
-      * Wim Taymans
  

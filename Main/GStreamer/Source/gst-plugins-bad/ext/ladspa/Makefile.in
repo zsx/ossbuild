@@ -84,10 +84,10 @@ am__installdirs = "$(DESTDIR)$(plugindir)"
 pluginLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libgstladspa_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am_libgstladspa_la_OBJECTS = libgstladspa_la-gstsignalprocessor.lo \
-	libgstladspa_la-gstladspa.lo
+libgstladspa_la_DEPENDENCIES = $(top_builddir)/gst-libs/gst/signalprocessor/libgstsignalprocessor-@GST_MAJORMINOR@.la \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+am_libgstladspa_la_OBJECTS = libgstladspa_la-gstladspa.lo
 libgstladspa_la_OBJECTS = $(am_libgstladspa_la_OBJECTS)
 libgstladspa_la_LINK = $(LIBTOOL) --tag=CC \
 	$(libgstladspa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
@@ -140,6 +140,8 @@ CDAUDIO_LIBS = @CDAUDIO_LIBS@
 CELT_CFLAGS = @CELT_CFLAGS@
 CELT_LIBS = @CELT_LIBS@
 CFLAGS = @CFLAGS@
+COG_CFLAGS = @COG_CFLAGS@
+COG_LIBS = @COG_LIBS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -153,11 +155,12 @@ DEPDIR = @DEPDIR@
 DEPRECATED_CFLAGS = @DEPRECATED_CFLAGS@
 DIRAC_CFLAGS = @DIRAC_CFLAGS@
 DIRAC_LIBS = @DIRAC_LIBS@
-DIRECTDRAW_CFLAGS = @DIRECTDRAW_CFLAGS@
-DIRECTDRAW_LDFLAGS = @DIRECTDRAW_LDFLAGS@
 DIRECTDRAW_LIBS = @DIRECTDRAW_LIBS@
 DIRECTFB_CFLAGS = @DIRECTFB_CFLAGS@
 DIRECTFB_LIBS = @DIRECTFB_LIBS@
+DIRECTSOUND_LIBS = @DIRECTSOUND_LIBS@
+DIRECTX_CFLAGS = @DIRECTX_CFLAGS@
+DIRECTX_LDFLAGS = @DIRECTX_LDFLAGS@
 DIVXDEC_LIBS = @DIVXDEC_LIBS@
 DIVXENC_LIBS = @DIVXENC_LIBS@
 DLLTOOL = @DLLTOOL@
@@ -196,6 +199,7 @@ GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
 GLIB_PREFIX = @GLIB_PREFIX@
 GLIB_REQ = @GLIB_REQ@
+GME_LIBS = @GME_LIBS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GMYTH_CFLAGS = @GMYTH_CFLAGS@
@@ -238,6 +242,7 @@ HAVE_AMRWB = @HAVE_AMRWB@
 HAVE_BZ2 = @HAVE_BZ2@
 HAVE_CXX = @HAVE_CXX@
 HAVE_DIRECTDRAW = @HAVE_DIRECTDRAW@
+HAVE_DIRECTSOUND = @HAVE_DIRECTSOUND@
 HAVE_DTS = @HAVE_DTS@
 HAVE_FAAC = @HAVE_FAAC@
 HAVE_FAAD = @HAVE_FAAD@
@@ -262,6 +267,8 @@ IVORBIS_LIBS = @IVORBIS_LIBS@
 JACK_CFLAGS = @JACK_CFLAGS@
 JACK_LIBS = @JACK_LIBS@
 JP2K_LIBS = @JP2K_LIBS@
+KATE_CFLAGS = @KATE_CFLAGS@
+KATE_LIBS = @KATE_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDC1394_CFLAGS = @LIBDC1394_CFLAGS@
@@ -320,6 +327,7 @@ OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OFA_CFLAGS = @OFA_CFLAGS@
 OFA_LIBS = @OFA_LIBS@
+ORCC = @ORCC@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -345,12 +353,18 @@ PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
 Q = @Q@
 RANLIB = @RANLIB@
+RSVG_CFLAGS = @RSVG_CFLAGS@
+RSVG_LIBS = @RSVG_LIBS@
+SCHRO_CFLAGS = @SCHRO_CFLAGS@
+SCHRO_LIBS = @SCHRO_LIBS@
 SDL_CFLAGS = @SDL_CFLAGS@
 SDL_CONFIG = @SDL_CONFIG@
 SDL_LIBS = @SDL_LIBS@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SLV2_CFLAGS = @SLV2_CFLAGS@
+SLV2_LIBS = @SLV2_LIBS@
 SNDFILE_CFLAGS = @SNDFILE_CFLAGS@
 SNDFILE_LIBS = @SNDFILE_LIBS@
 SOUNDTOUCH_CFLAGS = @SOUNDTOUCH_CFLAGS@
@@ -361,6 +375,8 @@ SWFDEC_CFLAGS = @SWFDEC_CFLAGS@
 SWFDEC_LIBS = @SWFDEC_LIBS@
 THEORADEC_CFLAGS = @THEORADEC_CFLAGS@
 THEORADEC_LIBS = @THEORADEC_LIBS@
+TIGER_CFLAGS = @TIGER_CFLAGS@
+TIGER_LIBS = @TIGER_LIBS@
 TIMIDITY_CFLAGS = @TIMIDITY_CFLAGS@
 TIMIDITY_LIBS = @TIMIDITY_LIBS@
 USE_NLS = @USE_NLS@
@@ -368,6 +384,8 @@ V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
+VDPAU_CFLAGS = @VDPAU_CFLAGS@
+VDPAU_LIBS = @VDPAU_LIBS@
 VERSION = @VERSION@
 WILDMIDI_CFLAGS = @WILDMIDI_CFLAGS@
 WILDMIDI_LIBS = @WILDMIDI_LIBS@
@@ -388,6 +406,8 @@ X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+ZBAR_CFLAGS = @ZBAR_CFLAGS@
+ZBAR_LIBS = @ZBAR_LIBS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -449,12 +469,20 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 plugin_LTLIBRARIES = libgstladspa.la
-libgstladspa_la_SOURCES = gstsignalprocessor.c gstladspa.c
-libgstladspa_la_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_CONTROLLER_CFLAGS) $(GST_CFLAGS) $(LRDF_CFLAGS)
-libgstladspa_la_LIBADD = $(GST_PLUGINS_BASE_LIBS) -lgstaudio-$(GST_MAJORMINOR) $(LIBM) $(LRDF_LIBS)
+libgstladspa_la_SOURCES = gstladspa.c
+libgstladspa_la_CFLAGS = \
+	-I$(top_builddir)/gst-libs \
+	$(GST_PLUGINS_BASE_CFLAGS) \
+	$(GST_CONTROLLER_CFLAGS) $(GST_CFLAGS) $(LRDF_CFLAGS)
+
+libgstladspa_la_LIBADD = \
+	$(top_builddir)/gst-libs/gst/signalprocessor/libgstsignalprocessor-@GST_MAJORMINOR@.la \
+	$(GST_PLUGINS_BASE_LIBS) -lgstaudio-$(GST_MAJORMINOR) \
+	$(LIBM) $(LRDF_LIBS)
+
 libgstladspa_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 libgstladspa_la_LIBTOOLFLAGS = --tag=disable-static
-noinst_HEADERS = gstsignalprocessor.h gstladspa.h
+noinst_HEADERS = gstladspa.h
 all: all-am
 
 .SUFFIXES:
@@ -525,7 +553,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstladspa_la-gstladspa.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstladspa_la-gstsignalprocessor.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -547,13 +574,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
-
-libgstladspa_la-gstsignalprocessor.lo: gstsignalprocessor.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgstladspa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstladspa_la_CFLAGS) $(CFLAGS) -MT libgstladspa_la-gstsignalprocessor.lo -MD -MP -MF $(DEPDIR)/libgstladspa_la-gstsignalprocessor.Tpo -c -o libgstladspa_la-gstsignalprocessor.lo `test -f 'gstsignalprocessor.c' || echo '$(srcdir)/'`gstsignalprocessor.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgstladspa_la-gstsignalprocessor.Tpo $(DEPDIR)/libgstladspa_la-gstsignalprocessor.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstsignalprocessor.c' object='libgstladspa_la-gstsignalprocessor.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstladspa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstladspa_la_CFLAGS) $(CFLAGS) -c -o libgstladspa_la-gstsignalprocessor.lo `test -f 'gstsignalprocessor.c' || echo '$(srcdir)/'`gstsignalprocessor.c
 
 libgstladspa_la-gstladspa.lo: gstladspa.c
 @am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgstladspa_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstladspa_la_CFLAGS) $(CFLAGS) -MT libgstladspa_la-gstladspa.lo -MD -MP -MF $(DEPDIR)/libgstladspa_la-gstladspa.Tpo -c -o libgstladspa_la-gstladspa.lo `test -f 'gstladspa.c' || echo '$(srcdir)/'`gstladspa.c

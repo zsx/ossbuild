@@ -48,6 +48,8 @@
 #include <math.h>
 #include <string.h>
 
+#include <gst/riff/riff-media.h>
+
 #include "matroska-mux.h"
 #include "matroska-ids.h"
 
@@ -115,7 +117,8 @@ static GstStaticPadTemplate videosink_templ =
         COMMON_VIDEO_CAPS "; "
         "video/x-raw-yuv, "
         "format = (fourcc) { YUY2, I420, YV12, UYVY, AYUV }, "
-        COMMON_VIDEO_CAPS)
+        COMMON_VIDEO_CAPS "; "
+        "video/x-wmv, " "wmvversion = (int) [ 1, 3 ], " COMMON_VIDEO_CAPS)
     );
 
 #define COMMON_AUDIO_CAPS \
@@ -175,7 +178,10 @@ static GstStaticPadTemplate audiosink_templ =
         "width = (int) { 8, 16, 24 }, "
         "channels = (int) { 1, 2 }, " "rate = (int) [ 8000, 96000 ]; "
         "audio/x-pn-realaudio, "
-        "raversion = (int) { 1, 2, 8 }, " COMMON_AUDIO_CAPS ";")
+        "raversion = (int) { 1, 2, 8 }, " COMMON_AUDIO_CAPS "; "
+        "audio/x-wma, " "wmaversion = (int) [ 1, 3 ], "
+        "block_align = (int) [ 0, 65535 ], bitrate = (int) [ 0, 524288 ], "
+        COMMON_AUDIO_CAPS)
     );
 
 static GstStaticPadTemplate subtitlesink_templ =
@@ -227,6 +233,8 @@ static gboolean theora_streamheader_to_codecdata (const GValue * streamheader,
 static gboolean vorbis_streamheader_to_codecdata (const GValue * streamheader,
     GstMatroskaTrackContext * context);
 static gboolean speex_streamheader_to_codecdata (const GValue * streamheader,
+    GstMatroskaTrackContext * context);
+static gboolean kate_streamheader_to_codecdata (const GValue * streamheader,
     GstMatroskaTrackContext * context);
 static gboolean flac_streamheader_to_codecdata (const GValue * streamheader,
     GstMatroskaTrackContext * context);
@@ -708,7 +716,8 @@ skip_details:
       || !strcmp (mimetype, "video/x-divx")
       || !strcmp (mimetype, "video/x-dv")
       || !strcmp (mimetype, "video/x-h263")
-      || !strcmp (mimetype, "video/x-msmpeg")) {
+      || !strcmp (mimetype, "video/x-msmpeg")
+      || !strcmp (mimetype, "video/x-wmv")) {
     BITMAPINFOHEADER *bih;
     gint size = sizeof (BITMAPINFOHEADER);
     guint32 fourcc = 0;
@@ -750,6 +759,20 @@ skip_details:
         case 43:
           goto msmpeg43;
           break;
+      }
+    } else if (!strcmp (mimetype, "video/x-wmv")) {
+      gint wmvversion;
+      guint32 format;
+      if (gst_structure_get_fourcc (structure, "format", &format)) {
+        fourcc = format;
+      } else if (gst_structure_get_int (structure, "wmvversion", &wmvversion)) {
+        if (wmvversion == 2) {
+          fourcc = GST_MAKE_FOURCC ('W', 'M', 'V', '2');
+        } else if (wmvversion == 1) {
+          fourcc = GST_MAKE_FOURCC ('W', 'M', 'V', '1');
+        } else if (wmvversion == 3) {
+          fourcc = GST_MAKE_FOURCC ('W', 'M', 'V', '3');
+        }
       }
     }
 
@@ -897,6 +920,109 @@ skip_details:
   return FALSE;
 }
 
+/* N > 0 to expect a particular number of headers, negative if the
+   number of headers is variable */
+static gboolean
+xiphN_streamheader_to_codecdata (const GValue * streamheader,
+    GstMatroskaTrackContext * context, GstBuffer ** p_buf0, int N)
+{
+  GstBuffer **buf = NULL;
+  GArray *bufarr;
+  guint8 *priv_data;
+  guint bufi, i, offset, priv_data_size;
+
+  if (streamheader == NULL)
+    goto no_stream_headers;
+
+  if (G_VALUE_TYPE (streamheader) != GST_TYPE_ARRAY)
+    goto wrong_type;
+
+  bufarr = g_value_peek_pointer (streamheader);
+  if (bufarr->len <= 0 || bufarr->len > 255)    /* at least one header, and count stored in a byte */
+    goto wrong_count;
+  if (N > 0 && bufarr->len != N)
+    goto wrong_count;
+
+  context->xiph_headers_to_skip = bufarr->len;
+
+  buf = (GstBuffer **) g_malloc0 (sizeof (GstBuffer *) * bufarr->len);
+  for (i = 0; i < bufarr->len; i++) {
+    GValue *bufval = &g_array_index (bufarr, GValue, i);
+
+    if (G_VALUE_TYPE (bufval) != GST_TYPE_BUFFER) {
+      g_free (buf);
+      goto wrong_content_type;
+    }
+
+    buf[i] = g_value_peek_pointer (bufval);
+  }
+
+  priv_data_size = 1;
+  if (bufarr->len > 0) {
+    for (i = 0; i < bufarr->len - 1; i++) {
+      priv_data_size += GST_BUFFER_SIZE (buf[i]) / 0xff + 1;
+    }
+  }
+
+  for (i = 0; i < bufarr->len; ++i) {
+    priv_data_size += GST_BUFFER_SIZE (buf[i]);
+  }
+
+  priv_data = g_malloc0 (priv_data_size);
+
+  priv_data[0] = bufarr->len - 1;
+  offset = 1;
+
+  if (bufarr->len > 0) {
+    for (bufi = 0; bufi < bufarr->len - 1; bufi++) {
+      for (i = 0; i < GST_BUFFER_SIZE (buf[bufi]) / 0xff; ++i) {
+        priv_data[offset++] = 0xff;
+      }
+      priv_data[offset++] = GST_BUFFER_SIZE (buf[bufi]) % 0xff;
+    }
+  }
+
+  for (i = 0; i < bufarr->len; ++i) {
+    memcpy (priv_data + offset, GST_BUFFER_DATA (buf[i]),
+        GST_BUFFER_SIZE (buf[i]));
+    offset += GST_BUFFER_SIZE (buf[i]);
+  }
+
+  context->codec_priv = priv_data;
+  context->codec_priv_size = priv_data_size;
+
+  if (p_buf0)
+    *p_buf0 = gst_buffer_ref (buf[0]);
+
+  g_free (buf);
+
+  return TRUE;
+
+/* ERRORS */
+no_stream_headers:
+  {
+    GST_WARNING ("required streamheaders missing in sink caps!");
+    return FALSE;
+  }
+wrong_type:
+  {
+    GST_WARNING ("streamheaders are not a GST_TYPE_ARRAY, but a %s",
+        G_VALUE_TYPE_NAME (streamheader));
+    return FALSE;
+  }
+wrong_count:
+  {
+    GST_WARNING ("got %u streamheaders, not 3 as expected", bufarr->len);
+    return FALSE;
+  }
+wrong_content_type:
+  {
+    GST_WARNING ("streamheaders array does not contain GstBuffers");
+    return FALSE;
+  }
+}
+
+/* FIXME: after release make all code use xiph3_streamheader_to_codecdata() */
 static gboolean
 xiph3_streamheader_to_codecdata (const GValue * streamheader,
     GstMatroskaTrackContext * context, GstBuffer ** p_buf0)
@@ -994,6 +1120,7 @@ vorbis_streamheader_to_codecdata (const GValue * streamheader,
 {
   GstBuffer *buf0 = NULL;
 
+  /* FIXME: change to use xiphN_streamheader_to_codecdata() after release */
   if (!xiph3_streamheader_to_codecdata (streamheader, context, &buf0))
     return FALSE;
 
@@ -1023,6 +1150,7 @@ theora_streamheader_to_codecdata (const GValue * streamheader,
 {
   GstBuffer *buf0 = NULL;
 
+  /* FIXME: change to use xiphN_streamheader_to_codecdata() after release */
   if (!xiph3_streamheader_to_codecdata (streamheader, context, &buf0))
     return FALSE;
 
@@ -1066,6 +1194,27 @@ theora_streamheader_to_codecdata (const GValue * streamheader,
       videocontext->display_height = 0;
     }
     hdr += 3 + 3;
+  }
+
+  if (buf0)
+    gst_buffer_unref (buf0);
+
+  return TRUE;
+}
+
+static gboolean
+kate_streamheader_to_codecdata (const GValue * streamheader,
+    GstMatroskaTrackContext * context)
+{
+  GstBuffer *buf0 = NULL;
+
+  if (!xiphN_streamheader_to_codecdata (streamheader, context, &buf0, -1))
+    return FALSE;
+
+  if (buf0 == NULL || GST_BUFFER_SIZE (buf0) < 64) {    /* Kate ID header is 64 bytes */
+    GST_WARNING ("First kate header too small, ignoring");
+  } else if (memcmp (GST_BUFFER_DATA (buf0), "\200kate\0\0\0", 8) != 0) {
+    GST_WARNING ("First header not a kate identification header, ignoring");
   }
 
   if (buf0)
@@ -1260,6 +1409,8 @@ gst_matroska_mux_audio_pad_setcaps (GstPad * pad, GstCaps * caps)
   const gchar *mimetype;
   gint samplerate = 0, channels = 0;
   GstStructure *structure;
+  const GValue *codec_data = NULL;
+  const GstBuffer *buf = NULL;
 
   mux = GST_MATROSKA_MUX (GST_PAD_PARENT (pad));
 
@@ -1283,6 +1434,10 @@ gst_matroska_mux_audio_pad_setcaps (GstPad * pad, GstCaps * caps)
   audiocontext->bitdepth = 0;
   context->default_duration = 0;
 
+  codec_data = gst_structure_get_value (structure, "codec_data");
+  if (codec_data)
+    buf = gst_value_get_buffer (codec_data);
+
   /* TODO: - check if we handle all codecs by the spec, i.e. codec private
    *         data and other settings
    *       - add new formats
@@ -1290,12 +1445,6 @@ gst_matroska_mux_audio_pad_setcaps (GstPad * pad, GstCaps * caps)
 
   if (!strcmp (mimetype, "audio/mpeg")) {
     gint mpegversion = 0;
-    const GValue *codec_data;
-    const GstBuffer *buf = NULL;
-
-    codec_data = gst_structure_get_value (structure, "codec_data");
-    if (codec_data)
-      buf = gst_value_get_buffer (codec_data);
 
     gst_structure_get_int (structure, "mpegversion", &mpegversion);
     switch (mpegversion) {
@@ -1515,6 +1664,69 @@ gst_matroska_mux_audio_pad_setcaps (GstPad * pad, GstCaps * caps)
     }
 
     return TRUE;
+  } else if (!strcmp (mimetype, "audio/x-wma")) {
+    guint8 *codec_priv;
+    guint codec_priv_size;
+    guint16 format;
+    gint block_align;
+    gint bitrate;
+    gint wmaversion;
+    gint depth;
+
+    if (!gst_structure_get_int (structure, "wmaversion", &wmaversion)
+        || !gst_structure_get_int (structure, "block_align", &block_align)
+        || !gst_structure_get_int (structure, "bitrate", &bitrate)
+        || samplerate == 0 || channels == 0) {
+      GST_WARNING_OBJECT (mux, "Missing wmaversion/block_align/bitrate/"
+          "channels/rate on WMA caps");
+      return FALSE;
+    }
+
+    switch (wmaversion) {
+      case 1:
+        format = GST_RIFF_WAVE_FORMAT_WMAV1;
+        break;
+      case 2:
+        format = GST_RIFF_WAVE_FORMAT_WMAV2;
+        break;
+      case 3:
+        format = GST_RIFF_WAVE_FORMAT_WMAV3;
+        break;
+      default:
+        GST_WARNING_OBJECT (mux, "Unexpected WMA version: %d", wmaversion);
+        return FALSE;
+    }
+
+    if (gst_structure_get_int (structure, "depth", &depth))
+      audiocontext->bitdepth = depth;
+
+    codec_priv_size = WAVEFORMATEX_SIZE;
+    if (buf)
+      codec_priv_size += GST_BUFFER_SIZE (buf);
+
+    /* serialize waveformatex structure */
+    codec_priv = g_malloc0 (codec_priv_size);
+    GST_WRITE_UINT16_LE (codec_priv, format);
+    GST_WRITE_UINT16_LE (codec_priv + 2, channels);
+    GST_WRITE_UINT32_LE (codec_priv + 4, samplerate);
+    GST_WRITE_UINT32_LE (codec_priv + 8, bitrate / 8);
+    GST_WRITE_UINT16_LE (codec_priv + 12, block_align);
+    GST_WRITE_UINT16_LE (codec_priv + 14, 0);
+    if (buf)
+      GST_WRITE_UINT16_LE (codec_priv + 16, GST_BUFFER_SIZE (buf));
+    else
+      GST_WRITE_UINT16_LE (codec_priv + 16, 0);
+
+    /* process codec private/initialization data, if any */
+    if (buf) {
+      memcpy ((guint8 *) codec_priv + WAVEFORMATEX_SIZE,
+          GST_BUFFER_DATA (buf), GST_BUFFER_SIZE (buf));
+    }
+
+    context->codec_id = g_strdup (GST_MATROSKA_CODEC_ID_AUDIO_ACM);
+    context->codec_priv = (gpointer) codec_priv;
+    context->codec_priv_size = codec_priv_size;
+    return TRUE;
   }
 
   return FALSE;
@@ -1537,6 +1749,57 @@ gst_matroska_mux_subtitle_pad_setcaps (GstPad * pad, GstCaps * caps)
    * Consider this as boilerplate code for now. There is
    * no single subtitle creation element in GStreamer,
    * neither do I know how subtitling works at all. */
+
+  /* There is now (at least) one such alement (kateenc), and I'm going
+     to handle it here and claim it works when it can be piped back
+     through GStreamer and VLC */
+
+  GstMatroskaTrackContext *context = NULL;
+  GstMatroskaTrackSubtitleContext *scontext;
+  GstMatroskaMux *mux;
+  GstMatroskaPad *collect_pad;
+  const gchar *mimetype;
+  GstStructure *structure;
+
+  mux = GST_MATROSKA_MUX (GST_PAD_PARENT (pad));
+
+  /* find context */
+  collect_pad = (GstMatroskaPad *) gst_pad_get_element_private (pad);
+  g_assert (collect_pad);
+  context = collect_pad->track;
+  g_assert (context);
+  g_assert (context->type == GST_MATROSKA_TRACK_TYPE_SUBTITLE);
+  scontext = (GstMatroskaTrackSubtitleContext *) context;
+
+  structure = gst_caps_get_structure (caps, 0);
+  mimetype = gst_structure_get_name (structure);
+
+  /* general setup */
+  scontext->check_utf8 = 1;
+  scontext->invalid_utf8 = 0;
+  context->default_duration = 0;
+
+  /* TODO: - other format than Kate */
+
+  if (!strcmp (mimetype, "subtitle/x-kate")) {
+    const GValue *streamheader;
+
+    context->codec_id = g_strdup (GST_MATROSKA_CODEC_ID_SUBTITLE_KATE);
+
+    if (context->codec_priv != NULL) {
+      g_free (context->codec_priv);
+      context->codec_priv = NULL;
+      context->codec_priv_size = 0;
+    }
+
+    streamheader = gst_structure_get_value (structure, "streamheader");
+    if (!kate_streamheader_to_codecdata (streamheader, context)) {
+      GST_ELEMENT_ERROR (mux, STREAM, MUX, (NULL),
+          ("kate stream headers missing or malformed"));
+      return FALSE;
+    }
+    return TRUE;
+  }
 
   return FALSE;
 }

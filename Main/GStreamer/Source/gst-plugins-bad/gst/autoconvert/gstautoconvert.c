@@ -46,13 +46,6 @@ GST_DEBUG_CATEGORY (autoconvert_debug);
 #define GST_CAT_DEFAULT (autoconvert_debug)
 
 /* elementfactory information */
-static const GstElementDetails gst_auto_convert_details =
-GST_ELEMENT_DETAILS ("Select convertor based on caps",
-    "Generic/Bin",
-    "Selects the right transform element based on the caps",
-    "Olivier Crete <olivier.crete@collabora.co.uk>");
-
-
 static GstStaticPadTemplate sinktemplate = GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_SINK,
     GST_PAD_ALWAYS,
@@ -62,7 +55,6 @@ static GstStaticPadTemplate srctemplate = GST_STATIC_PAD_TEMPLATE ("src",
     GST_PAD_SRC,
     GST_PAD_ALWAYS,
     GST_STATIC_CAPS_ANY);
-
 
 static GstStaticPadTemplate sink_internal_template =
 GST_STATIC_PAD_TEMPLATE ("sink_internal",
@@ -86,15 +78,17 @@ enum
 enum
 {
   PROP_0,
-  PROP_FACTORIES,
+  PROP_FACTORIES
 };
-
 
 static void gst_auto_convert_set_property (GObject * object,
     guint prop_id, const GValue * value, GParamSpec * pspec);
 static void gst_auto_convert_get_property (GObject * object,
     guint prop_id, GValue * value, GParamSpec * pspec);
 static void gst_auto_convert_dispose (GObject * object);
+
+static GstStateChangeReturn gst_auto_convert_change_state (GstElement * element,
+    GstStateChange transition);
 
 static GstElement *gst_auto_convert_get_subelement (GstAutoConvert *
     autoconvert);
@@ -118,7 +112,6 @@ static gboolean gst_auto_convert_src_event (GstPad * pad, GstEvent * event);
 static gboolean gst_auto_convert_src_query (GstPad * pad, GstQuery * query);
 static const GstQueryType *gst_auto_convert_src_query_type (GstPad * pad);
 
-
 static GstFlowReturn gst_auto_convert_internal_sink_chain (GstPad * pad,
     GstBuffer * buffer);
 static gboolean gst_auto_convert_internal_sink_event (GstPad * pad,
@@ -140,18 +133,21 @@ static gboolean gst_auto_convert_internal_src_query (GstPad * pad,
 static const GstQueryType *gst_auto_convert_internal_src_query_type (GstPad *
     pad);
 
+static GList *gst_auto_convert_load_factories (GstAutoConvert * autoconvert);
 
-static void gst_auto_convert_load_factories (GstAutoConvert * autoconvert);
-
-GQuark internal_srcpad_quark = 0;
-GQuark internal_sinkpad_quark = 0;
-GQuark parent_quark = 0;
+static GQuark internal_srcpad_quark = 0;
+static GQuark internal_sinkpad_quark = 0;
+static GQuark parent_quark = 0;
 
 static void
 gst_auto_convert_do_init (GType type)
 {
   GST_DEBUG_CATEGORY_INIT (autoconvert_debug, "autoconvert", 0,
       "Auto convert based on caps");
+
+  internal_srcpad_quark = g_quark_from_static_string ("internal_srcpad");
+  internal_sinkpad_quark = g_quark_from_static_string ("internal_sinkpad");
+  parent_quark = g_quark_from_static_string ("parent");
 }
 
 GST_BOILERPLATE_FULL (GstAutoConvert, gst_auto_convert, GstBin,
@@ -167,52 +163,42 @@ gst_auto_convert_base_init (gpointer klass)
   gst_element_class_add_pad_template (element_class,
       gst_static_pad_template_get (&sinktemplate));
 
-  gst_element_class_set_details (element_class, &gst_auto_convert_details);
+  gst_element_class_set_details_simple (element_class,
+      "Select convertor based on caps", "Generic/Bin",
+      "Selects the right transform element based on the caps",
+      "Olivier Crete <olivier.crete@collabora.co.uk>");
 }
 
 static void
 gst_auto_convert_class_init (GstAutoConvertClass * klass)
 {
-  GObjectClass *gobject_class;
-  GstElementClass *gstelement_class;
-  GstBinClass *gstbin_class;
+  GObjectClass *gobject_class = (GObjectClass *) klass;
+  GstElementClass *gstelement_class = (GstElementClass *) klass;
 
-  gobject_class = (GObjectClass *) klass;
-  gstelement_class = (GstElementClass *) klass;
-  gstbin_class = (GstBinClass *) klass;
+  gobject_class->dispose = gst_auto_convert_dispose;
 
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_auto_convert_dispose);
-
-  gobject_class->set_property =
-      GST_DEBUG_FUNCPTR (gst_auto_convert_set_property);
-  gobject_class->get_property =
-      GST_DEBUG_FUNCPTR (gst_auto_convert_get_property);
+  gobject_class->set_property = gst_auto_convert_set_property;
+  gobject_class->get_property = gst_auto_convert_get_property;
 
   g_object_class_install_property (gobject_class, PROP_FACTORIES,
       g_param_spec_pointer ("factories",
           "GList of GstElementFactory",
           "GList of GstElementFactory objects to pick from (the element takes"
           " ownership of the list (NULL means it will go through all possible"
-          " elements), can only be set once", G_PARAM_READWRITE));
+          " elements), can only be set once",
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
-  parent_class = g_type_class_peek_parent (klass);
-
-  internal_srcpad_quark = g_quark_from_static_string ("internal_srcpad");
-  internal_sinkpad_quark = g_quark_from_static_string ("internal_sinkpad");
-  parent_quark = g_quark_from_static_string ("parent");
+  gstelement_class->change_state =
+      GST_DEBUG_FUNCPTR (gst_auto_convert_change_state);
 }
 
 static void
 gst_auto_convert_init (GstAutoConvert * autoconvert,
     GstAutoConvertClass * klass)
 {
-
   autoconvert->sinkpad =
       gst_pad_new_from_static_template (&sinktemplate, "sink");
   autoconvert->srcpad = gst_pad_new_from_static_template (&srctemplate, "src");
-
-  gst_element_add_pad (GST_ELEMENT (autoconvert), autoconvert->sinkpad);
-  gst_element_add_pad (GST_ELEMENT (autoconvert), autoconvert->srcpad);
 
   gst_pad_set_setcaps_function (autoconvert->sinkpad,
       GST_DEBUG_FUNCPTR (gst_auto_convert_sink_setcaps));
@@ -235,6 +221,9 @@ gst_auto_convert_init (GstAutoConvert * autoconvert,
       GST_DEBUG_FUNCPTR (gst_auto_convert_src_query));
   gst_pad_set_query_type_function (autoconvert->srcpad,
       GST_DEBUG_FUNCPTR (gst_auto_convert_src_query_type));
+
+  gst_element_add_pad (GST_ELEMENT (autoconvert), autoconvert->sinkpad);
+  gst_element_add_pad (GST_ELEMENT (autoconvert), autoconvert->srcpad);
 }
 
 static void
@@ -251,6 +240,11 @@ gst_auto_convert_dispose (GObject * object)
     autoconvert->current_internal_sinkpad = NULL;
     autoconvert->current_internal_srcpad = NULL;
   }
+
+  g_list_foreach (autoconvert->cached_events, (GFunc) gst_mini_object_unref,
+      NULL);
+  g_list_free (autoconvert->cached_events);
+  autoconvert->cached_events = NULL;
   GST_OBJECT_UNLOCK (object);
 
   G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -295,6 +289,35 @@ gst_auto_convert_get_property (GObject * object,
       GST_OBJECT_UNLOCK (autoconvert);
       break;
   }
+}
+
+static GstStateChangeReturn
+gst_auto_convert_change_state (GstElement * element, GstStateChange transition)
+{
+  GstAutoConvert *autoconvert = GST_AUTO_CONVERT (element);
+  GstStateChangeReturn ret;
+
+  switch (transition) {
+    default:
+      break;
+  }
+
+  ret = GST_ELEMENT_CLASS (parent_class)->change_state (element, transition);
+  if (ret == GST_STATE_CHANGE_FAILURE)
+    return ret;
+
+  switch (transition) {
+    case GST_STATE_CHANGE_PAUSED_TO_READY:
+      g_list_foreach (autoconvert->cached_events, (GFunc) gst_mini_object_unref,
+          NULL);
+      g_list_free (autoconvert->cached_events);
+      autoconvert->cached_events = NULL;
+      break;
+    default:
+      break;
+  }
+
+  return ret;
 }
 
 static GstElement *
@@ -669,7 +692,7 @@ gst_auto_convert_sink_setcaps (GstPad * pad, GstCaps * caps)
 
   subelement = gst_auto_convert_get_subelement (autoconvert);
   if (subelement) {
-    if (gst_pad_set_caps (autoconvert->current_internal_srcpad, caps)) {
+    if (gst_pad_peer_accept_caps (autoconvert->current_internal_srcpad, caps)) {
       /* If we can set the new caps on the current element,
        * then we just get out
        */
@@ -705,13 +728,8 @@ gst_auto_convert_sink_setcaps (GstPad * pad, GstCaps * caps)
   factories = autoconvert->factories;
   GST_OBJECT_UNLOCK (autoconvert);
 
-  if (!factories) {
-    gst_auto_convert_load_factories (autoconvert);
-
-    GST_OBJECT_LOCK (autoconvert);
-    factories = autoconvert->factories;
-    GST_OBJECT_UNLOCK (autoconvert);
-  }
+  if (!factories)
+    factories = gst_auto_convert_load_factories (autoconvert);
 
   for (elem = factories; elem; elem = g_list_next (elem)) {
     GstElementFactory *factory = GST_ELEMENT_FACTORY (elem->data);
@@ -754,7 +772,7 @@ gst_auto_convert_sink_setcaps (GstPad * pad, GstCaps * caps)
         internal_sinkpad_quark);
 
     /* Now we check if the element can really accept said caps */
-    if (!gst_pad_set_caps (internal_srcpad, caps)) {
+    if (!gst_pad_peer_accept_caps (internal_srcpad, caps)) {
       GST_DEBUG_OBJECT (autoconvert, "Could not set %s:%s to %" GST_PTR_FORMAT,
           GST_DEBUG_PAD_NAME (internal_srcpad), caps);
       goto next_element;
@@ -869,10 +887,11 @@ compare_ranks (GstPluginFeature * f1, GstPluginFeature * f2)
   return diff;
 }
 
-static void
+static GList *
 gst_auto_convert_load_factories (GstAutoConvert * autoconvert)
 {
   GList *all_factories;
+  GList *out_factories;
 
   all_factories =
       gst_default_registry_feature_filter (gst_auto_convert_default_filter_func,
@@ -887,12 +906,15 @@ gst_auto_convert_load_factories (GstAutoConvert * autoconvert)
     autoconvert->factories = all_factories;
     all_factories = NULL;
   }
+  out_factories = autoconvert->factories;
   GST_OBJECT_UNLOCK (autoconvert);
 
   if (all_factories) {
     /* In this case, someone set the property while we were looking! */
     gst_plugin_feature_list_free (all_factories);
   }
+
+  return out_factories;
 }
 
 /* In this case, we should almost always have an internal element, because
@@ -908,6 +930,23 @@ gst_auto_convert_sink_chain (GstPad * pad, GstBuffer * buffer)
 
   internal_srcpad = gst_auto_convert_get_internal_srcpad (autoconvert);
   if (internal_srcpad) {
+    GList *events = NULL;
+    GList *l;
+
+    GST_OBJECT_LOCK (autoconvert);
+    if (autoconvert->cached_events) {
+      events = g_list_reverse (autoconvert->cached_events);
+      autoconvert->cached_events = NULL;
+    }
+    GST_OBJECT_UNLOCK (autoconvert);
+
+    if (events) {
+      GST_DEBUG_OBJECT (autoconvert, "Sending cached events downstream");
+      for (l = events; l; l = l->next)
+        gst_pad_push_event (internal_srcpad, l->data);
+      g_list_free (events);
+    }
+
     ret = gst_pad_push (internal_srcpad, buffer);
     gst_object_unref (internal_srcpad);
   } else {
@@ -932,9 +971,26 @@ gst_auto_convert_sink_event (GstPad * pad, GstEvent * event)
     ret = gst_pad_push_event (internal_srcpad, event);
     gst_object_unref (internal_srcpad);
   } else {
-    GST_WARNING_OBJECT (autoconvert, "Got event while no element was selected,"
-        "letting through");
-    ret = gst_pad_push_event (autoconvert->srcpad, event);
+    switch (GST_EVENT_TYPE (event)) {
+      case GST_EVENT_FLUSH_STOP:
+        GST_OBJECT_LOCK (autoconvert);
+        g_list_foreach (autoconvert->cached_events,
+            (GFunc) gst_mini_object_unref, NULL);
+        g_list_free (autoconvert->cached_events);
+        autoconvert->cached_events = NULL;
+        GST_OBJECT_UNLOCK (autoconvert);
+        /* fall through */
+      case GST_EVENT_FLUSH_START:
+        ret = gst_pad_push_event (autoconvert->srcpad, event);
+        break;
+      default:
+        GST_OBJECT_LOCK (autoconvert);
+        autoconvert->cached_events =
+            g_list_prepend (autoconvert->cached_events, event);
+        ret = TRUE;
+        GST_OBJECT_UNLOCK (autoconvert);
+        break;
+    }
   }
 
   gst_object_unref (autoconvert);
@@ -961,7 +1017,7 @@ gst_auto_convert_sink_query (GstPad * pad, GstQuery * query)
   } else {
     GST_WARNING_OBJECT (autoconvert, "Got query while no element was selected,"
         "letting through");
-    ret = gst_pad_query_default (pad, query);
+    ret = gst_pad_peer_query (autoconvert->srcpad, query);
   }
 
   gst_object_unref (autoconvert);
@@ -1049,13 +1105,8 @@ gst_auto_convert_sink_getcaps (GstPad * pad)
   factories = autoconvert->factories;
   GST_OBJECT_UNLOCK (autoconvert);
 
-  if (!factories) {
-    gst_auto_convert_load_factories (autoconvert);
-
-    GST_OBJECT_LOCK (autoconvert);
-    factories = autoconvert->factories;
-    GST_OBJECT_UNLOCK (autoconvert);
-  }
+  if (!factories)
+    factories = gst_auto_convert_load_factories (autoconvert);
 
   for (elem = factories; elem; elem = g_list_next (elem)) {
     GstElementFactory *factory = GST_ELEMENT_FACTORY (elem->data);
@@ -1199,7 +1250,7 @@ gst_auto_convert_src_query (GstPad * pad, GstQuery * query)
   } else {
     GST_WARNING_OBJECT (autoconvert, "Got query while not element was selected,"
         "letting through");
-    ret = gst_pad_query_default (pad, query);
+    ret = gst_pad_peer_query (autoconvert->sinkpad, query);
   }
 
   gst_object_unref (autoconvert);

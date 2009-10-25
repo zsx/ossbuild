@@ -13,7 +13,7 @@ TESTS_ENVIRONMENT = \
         $(REGISTRY_ENVIRONMENT)                                 \
         GST_PLUGIN_SYSTEM_PATH=					\
         GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/../gst-ffmpeg/ext/ffmpeg:$(top_builddir)/../gst-plugins-good/gst:$(top_builddir)/../gst-plugins-good/sys:$(top_builddir)/../gst-plugins-good/ext:$(top_builddir)/../gst-plugins-ugly/gst:$(top_builddir)/../gst-plugins-ugly/sys:$(top_builddir)/../gst-plugins-ugly/ext:$(GSTPB_PLUGINS_DIR):$(GST_PLUGINS_DIR) \
-        STATE_IGNORE_ELEMENTS="alsaspdifsink apexsink camerabin cdaudio dc1394src dccpclientsrc dccpclientsink dccpserversrc dccpserversink dvbsrc dvbbasebin dfbvideosink festival nassink rsndvdbin sdlaudiosink sdlvideosink vcdsrc rfbsrc"
+        STATE_IGNORE_ELEMENTS="alsaspdifsink apexsink camerabin cdaudio dc1394src dccpclientsrc dccpclientsink dccpserversrc dccpserversink dvbsrc dvbbasebin dfbvideosink festival nassink rsndvdbin sdlaudiosink sdlvideosink vcdsrc rfbsrc vdpauyuvvideo vdpauvideoyuv vdpaumpegdec"
 
 plugindir = $(libdir)/gstreamer-@GST_MAJORMINOR@
 
@@ -26,6 +26,12 @@ CLEANFILES = core.* test-registry.*
 SUPPRESSIONS = $(top_srcdir)/common/gst.supp $(srcdir)/gst-plugins-bad.supp
 
 clean-local: clean-local-check
+
+if USE_FAAC
+check_faac = elements/faac
+else
+check_faac =
+endif
 
 if USE_METADATA
 check_metadata = pipelines/metadata
@@ -63,6 +69,19 @@ else
 check_timidity=
 endif
 
+if USE_KATE
+check_kate=elements/kate
+else
+check_kate=
+endif
+
+if USE_MIMIC
+check_mimic=pipelines/mimic
+else
+check_mimic=
+endif
+
+
 VALGRIND_TO_FIX = \
 	elements/mpeg2enc \
 	elements/mplex
@@ -71,25 +90,36 @@ VALGRIND_TO_FIX = \
 VALGRIND_TESTS_DISABLE = \
 	$(VALGRIND_TO_FIX)
 
+# these tests don't even pass
+# camerabin: temporarily disabled because it fails with current core -git
+# (which will be release before the next -bad release though, and chances are
+# changes to fix this are needed in the camerabin test)
+# neon: too flaky (almost always fails 'the first time')
+noinst_PROGRAMS = \
+	$(check_neon)      \
+	elements/camerabin
+
 check_PROGRAMS = \
 	generic/states \
+	$(check_faac)  \
 	$(check_mpeg2enc)  \
 	$(check_mplex)     \
-	$(check_neon)      \
 	$(check_ofa)        \
 	$(check_timidity)  \
+	$(check_kate)  \
 	elements/aacparse \
 	elements/amrparse \
-	elements/camerabin \
+	elements/asfmux \
+	elements/capssetter \
 	elements/legacyresample \
 	elements/qtmux \
-	elements/rtpbin \
 	elements/selector \
 	elements/shapewipe \
 	elements/mxfdemux \
 	elements/mxfmux \
 	pipelines/mxf \
-	$(check_metadata)
+	$(check_metadata) \
+	$(check_mimic)
 
 noinst_HEADERS = elements/mxfdemux.h elements/amrparse_data.h elements/aacparse_data.h
 
@@ -110,5 +140,8 @@ elements_camerabin_SOURCES = elements/camerabin.c
 
 elements_timidity_CFLAGS = $(GST_BASE_CFLAGS) $(AM_CFLAGS)
 elements_timidity_LDADD = $(GST_BASE_LIBS) $(LDADD)
+
+elements_kate_CFLAGS = $(GST_BASE_CFLAGS) $(AM_CFLAGS)
+elements_kate_LDADD = $(GST_BASE_LIBS) $(LDADD)
 
 EXTRA_DIST = gst-plugins-bad.supp

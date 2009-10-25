@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
 <link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
-<link rel="prev" href="gst-plugins-bad-plugins-gstrtpssrcdemux.html" title="gstrtpssrcdemux">
+<link rel="prev" href="gst-plugins-bad-plugins-fpsdisplaysink.html" title="fpsdisplaysink">
 <link rel="next" href="gst-plugins-bad-plugins-ivorbisdec.html" title="ivorbisdec">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -17,7 +17,7 @@
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="gst-plugins-bad-plugins-gstrtpssrcdemux.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="gst-plugins-bad-plugins-fpsdisplaysink.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Bad Plugins 0.10 Plugins Reference Manual</th>
@@ -56,15 +56,21 @@
   <a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstInputSelector
 </pre>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-input-selector.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-bad-plugins-input-selector.html#GstInputSelector--active-pad" title='The "active-pad" property'>active-pad</a>"               GstPad*               : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-input-selector.html#GstInputSelector--active-pad" title='The "active-pad" property'>active-pad</a>"               <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPad.html"
+>GstPad</a>*               : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-input-selector.html#GstInputSelector--n-pads" title='The "n-pads" property'>n-pads</a>"                   <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read
@@ -87,7 +93,7 @@ Direct one out of N input streams to the output pad.</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3034835"></a><h3>Element Information</h3>
+<a name="id2839554"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -113,7 +119,81 @@ Direct one out of N input streams to the output pad.</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3051420"></a><h3>Element Pads</h3>
+<a name="id2878785"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink%d</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>request</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>ANY</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2878925"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-bad-plugins-plugin-selector.html#plugin-selector">selector</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Julien Moutte &lt;julien@moutte.net&gt;
+    Ronald S. Bultje &lt;rbultje@ronald.bitfreak.net&gt;
+    Jan Schmidt &lt;thaytan@mad.scientist.com&gt;
+    Wim Taymans &lt;wim.taymans@gmail.com&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Generic</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2878990"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -174,7 +254,9 @@ Direct one out of N input streams to the output pad.</p>
 <a name="gst-plugins-bad-plugins-input-selector.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" lang="en">
 <a name="GstInputSelector--active-pad"></a><h3>The <code class="literal">"active-pad"</code> property</h3>
-<pre class="programlisting">  "active-pad"               GstPad*               : Read / Write</pre>
+<pre class="programlisting">  "active-pad"               <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPad.html"
+>GstPad</a>*               : Read / Write</pre>
 <p>The currently active sink pad.</p>
 </div>
 <hr>
@@ -231,7 +313,9 @@ active pad or the current active pad never received data.</p>
 <div class="refsect2" lang="en">
 <a name="GstInputSelector-switch"></a><h3>The <code class="literal">"switch"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-input-selector.html#GstInputSelector">GstInputSelector</a> *inputselector,
-                                                        GstPad           *pad,
+                                                        <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPad.html"
+>GstPad</a>           *pad,
                                                         <a
 href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>            stop_time,

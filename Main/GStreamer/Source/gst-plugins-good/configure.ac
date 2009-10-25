@@ -5,14 +5,14 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, cvs and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for cvs/pre
-AC_INIT(GStreamer Good Plug-ins, 0.10.15,
+AC_INIT(GStreamer Good Plug-ins, 0.10.16,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-good)
 
 AG_GST_INIT
 
 dnl initialize automake
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wno-portability])
 
 dnl define PACKAGE_VERSION_* variables
 AS_VERSION
@@ -47,8 +47,8 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.23
-GSTPB_REQ=0.10.23
+GST_REQ=0.10.24
+GSTPB_REQ=0.10.24
 
 dnl *** autotools stuff ****
 
@@ -115,6 +115,9 @@ AM_PROG_CC_C_O
 
 dnl find an assembler
 AM_PROG_AS
+
+dnl check if the compiler supports do while(0) macros
+AG_GST_CHECK_DOWHILE_MACROS
 
 AC_PATH_PROG(VALGRIND_PATH, valgrind, no)
 AM_CONDITIONAL(HAVE_VALGRIND, test ! "x$VALGRIND_PATH" = "xno")
@@ -188,7 +191,7 @@ AC_CHECK_TYPE([struct ip_mreqn], [
 dnl *** checks for dependency libraries ***
 
 dnl GLib is required
-AG_GST_GLIB_CHECK([2.12])
+AG_GST_GLIB_CHECK([2.16])
 
 dnl liboil is required
 PKG_CHECK_MODULES(LIBOIL, liboil-0.3 >= 0.3.8, HAVE_LIBOIL=yes, HAVE_LIBOIL=no)
@@ -299,6 +302,7 @@ AG_GST_CHECK_PLUGIN(multipart)
 AG_GST_CHECK_PLUGIN(qtdemux)
 AG_GST_CHECK_PLUGIN(replaygain)
 AG_GST_CHECK_PLUGIN(rtp)
+AG_GST_CHECK_PLUGIN(rtpmanager)
 AG_GST_CHECK_PLUGIN(rtsp)
 AG_GST_CHECK_PLUGIN(smpte)
 AG_GST_CHECK_PLUGIN(spectrum)
@@ -504,6 +508,29 @@ return 0;
     AG_GST_CHECK_XV
   fi
 ])
+
+# Optional gudev for device probing
+AC_ARG_WITH([gudev],
+  AC_HELP_STRING([--with-gudev],
+    [device detection with gudev]),
+  [],
+  [with_gudev=check])
+if test x$HAVE_GST_V4L2 = xyes; then
+  if test x$with_gudev != xno; then
+      PKG_CHECK_MODULES(GUDEV, [ gudev-1.0 >= 143 ],
+          [ have_gudev=yes
+            AC_DEFINE(HAVE_GUDEV, 1,
+               [Whether gudev is available for device detection])
+            AC_DEFINE([G_UDEV_API_IS_SUBJECT_TO_CHANGE], 1, [I know the API is subject to change.])
+          ], [
+          have_gudev=no
+          ])
+  else
+    have_gudev=no
+  fi
+fi
+AC_SUBST(GUDEV_CFLAGS)
+AC_SUBST(GUDEV_LIBS)
 
 # Make libv4l2 non-automagic
 AC_ARG_WITH([libv4l2],
@@ -733,6 +760,10 @@ AG_GST_CHECK_FEATURE(PULSE, [pulseaudio plug-in], pulseaudio, [
   if test x$HAVE_PULSE_0_9_13 = xyes; then
     AC_DEFINE(HAVE_PULSE_0_9_13, 1, [defined if pulseaudio >= 0.9.13 is available])
   fi
+  AG_GST_PKG_CHECK_MODULES(PULSE_0_9_15, libpulse >= 0.9.15)
+  if test x$HAVE_PULSE_0_9_15 = xyes; then
+    AC_DEFINE(HAVE_PULSE_0_9_15, 1, [defined if pulseaudio >= 0.9.15 is available])
+  fi
 ])
 
 dnl *** dv1394 ***
@@ -804,7 +835,7 @@ AG_GST_CHECK_FEATURE(SOUP, [soup http client plugin (2.4)], souphttpsrc, [
     HAVE_SOUP="yes"
     AC_DEFINE(HAVE_LIBSOUP_GNOME, 1, [soup gnome integration])
   ],[
-    PKG_CHECK_MODULES(SOUP, libsoup-2.4 >= 2.3.2, HAVE_SOUP="yes", [
+    PKG_CHECK_MODULES(SOUP, libsoup-2.4 >= 2.26, HAVE_SOUP="yes", [
       HAVE_SOUP="no"
       AC_MSG_RESULT(no)
     ])
@@ -1035,6 +1066,7 @@ gst/multipart/Makefile
 gst/qtdemux/Makefile
 gst/replaygain/Makefile
 gst/rtp/Makefile
+gst/rtpmanager/Makefile
 gst/rtsp/Makefile
 gst/smpte/Makefile
 gst/spectrum/Makefile
@@ -1086,6 +1118,7 @@ tests/examples/equalizer/Makefile
 tests/examples/level/Makefile
 tests/examples/rtp/Makefile
 tests/examples/spectrum/Makefile
+tests/examples/v4l2/Makefile
 tests/files/Makefile
 tests/icles/Makefile
 gconf/Makefile

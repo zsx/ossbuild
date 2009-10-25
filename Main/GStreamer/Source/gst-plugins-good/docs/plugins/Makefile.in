@@ -25,7 +25,7 @@
 # - FORMATS: the formats in which DOC is output
 #            (html ps pdf)
 
-# if you want to use it, make sure your ..sh/config file contains the
+# if you want to use it, make sure your $HOME/.ssh/config file contains the
 # correct User entry for the Host entry for the DOC_SERVER
 
 # This is an include file specifically tuned for building documentation
@@ -48,8 +48,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-DIST_COMMON = $(srcdir)/../upload.mak $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(top_srcdir)/common/gtk-doc-plugins.mak
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(top_srcdir)/common/gtk-doc-plugins.mak \
+	$(top_srcdir)/common/upload-doc.mak
 subdir = docs/plugins
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
@@ -65,6 +66,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst-args.m4 \
 	$(top_srcdir)/common/m4/gst-check.m4 \
 	$(top_srcdir)/common/m4/gst-default.m4 \
+	$(top_srcdir)/common/m4/gst-dowhile.m4 \
 	$(top_srcdir)/common/m4/gst-error.m4 \
 	$(top_srcdir)/common/m4/gst-feature.m4 \
 	$(top_srcdir)/common/m4/gst-gettext.m4 \
@@ -209,6 +211,8 @@ GST_TOOLS_DIR = @GST_TOOLS_DIR@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HAL_CFLAGS = @HAL_CFLAGS@
 HAL_LIBS = @HAL_LIBS@
 HAVE_AVC1394 = @HAVE_AVC1394@
@@ -278,6 +282,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PACKAGE_VERSION_MAJOR = @PACKAGE_VERSION_MAJOR@
 PACKAGE_VERSION_MICRO = @PACKAGE_VERSION_MICRO@
@@ -295,6 +300,8 @@ PULSE_0_9_12_CFLAGS = @PULSE_0_9_12_CFLAGS@
 PULSE_0_9_12_LIBS = @PULSE_0_9_12_LIBS@
 PULSE_0_9_13_CFLAGS = @PULSE_0_9_13_CFLAGS@
 PULSE_0_9_13_LIBS = @PULSE_0_9_13_LIBS@
+PULSE_0_9_15_CFLAGS = @PULSE_0_9_15_CFLAGS@
+PULSE_0_9_15_LIBS = @PULSE_0_9_15_LIBS@
 PULSE_CFLAGS = @PULSE_CFLAGS@
 PULSE_LIBS = @PULSE_LIBS@
 PYTHON = @PYTHON@
@@ -410,7 +417,7 @@ GST_DOC_SCANOBJ = $(top_srcdir)/common/gstdoc-scangobj
 MODULE = gst-plugins-good
 DOC_MODULE = $(MODULE)-plugins
 
-# for upload.mak
+# for upload-doc.mak
 DOC = $(MODULE)-plugins
 FORMATS = html
 
@@ -418,7 +425,6 @@ FORMATS = html
 DOC_SERVER = gstreamer.freedesktop.org
 DOC_BASE = /srv/gstreamer.freedesktop.org/www/data/doc
 DOC_URL = $(DOC_SERVER):$(DOC_BASE)
-GST_VERSION_NANO = $(GST_PLUGINS_GOOD_VERSION_NANO)
 
 # generated basefiles
 #basefiles = \
@@ -485,6 +491,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/ext/annodex/gstcmmlenc.h \
 	$(top_srcdir)/ext/cairo/gsttextoverlay.h \
 	$(top_srcdir)/ext/cairo/gsttimeoverlay.h \
+	$(top_srcdir)/ext/cairo/gstcairorender.h \
 	$(top_srcdir)/ext/dv/gstdvdec.h \
 	$(top_srcdir)/ext/dv/gstdvdemux.h \
 	$(top_srcdir)/ext/esd/esdsink.h \
@@ -543,6 +550,18 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/debugutils/gsttaginject.h \
 	$(top_srcdir)/gst/debugutils/progressreport.h \
 	$(top_srcdir)/gst/deinterlace/gstdeinterlace.h \
+	$(top_srcdir)/gst/effectv/gstaging.h \
+	$(top_srcdir)/gst/effectv/gstdice.h \
+	$(top_srcdir)/gst/effectv/gstedge.h \
+	$(top_srcdir)/gst/effectv/gstquark.h \
+	$(top_srcdir)/gst/effectv/gstrev.h \
+	$(top_srcdir)/gst/effectv/gstshagadelic.h \
+	$(top_srcdir)/gst/effectv/gstvertigo.h \
+	$(top_srcdir)/gst/effectv/gstwarp.h \
+	$(top_srcdir)/gst/effectv/gststreak.h \
+	$(top_srcdir)/gst/effectv/gstripple.h \
+	$(top_srcdir)/gst/effectv/gstop.h \
+	$(top_srcdir)/gst/effectv/gstradioac.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer3bands.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer10bands.h \
@@ -572,6 +591,11 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/replaygain/gstrglimiter.h \
 	$(top_srcdir)/gst/replaygain/gstrgvolume.h \
 	$(top_srcdir)/gst/rtp/gstrtpjpegpay.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpbin.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpjitterbuffer.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpptdemux.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpsession.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpssrcdemux.h \
 	$(top_srcdir)/gst/rtsp/gstrtpdec.h \
 	$(top_srcdir)/gst/rtsp/gstrtspsrc.h \
 	$(top_srcdir)/gst/smpte/gstsmpte.h \
@@ -661,7 +685,7 @@ MAINTAINER_DOC_STAMPS = \
 
 
 # we don't add inspect-build.stamp and scanobj-build.stamp here since they are
-# built manually by docs maintainers and result is commited to CVS
+# built manually by docs maintainers and result is commited to git
 DOC_STAMPS = \
 	scan-build.stamp		\
 	tmpl-build.stamp		\
@@ -726,7 +750,7 @@ inspect_files = $(shell find $(srcdir)/inspect -name '*.xml')
 all: all-am
 
 .SUFFIXES:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../upload.mak $(top_srcdir)/common/gtk-doc-plugins.mak $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(top_srcdir)/common/upload-doc.mak $(top_srcdir)/common/gtk-doc-plugins.mak $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -897,24 +921,36 @@ uninstall-am: uninstall-local
 html: html-build.stamp
 
 upload: $(FORMATS)
-	@if test "x$(GST_VERSION_NANO)" = x0; then \
+	@if test "x$(PACKAGE_VERSION_NANO)" = x0; then \
             export DOCVERSION=$(VERSION); \
         else export DOCVERSION=head; \
         fi; \
         export DIR=$(DOC_BASE)/gstreamer/$$DOCVERSION/$(DOC); \
 	ssh $(DOC_SERVER) mkdir -p $$DIR; \
-	if echo $(FORMATS) | grep html > /dev/null; then export SRC="$$SRC html"; fi; \
+	if echo $(FORMATS) | grep html > /dev/null; then \
+	  echo "Preparing docs for upload (rebasing cross-references) ..." ; \
+	  if test x$(builddir) != x$(srcdir); then \
+	    echo "make upload can only be used if srcdir == builddir"; \
+	    exit 1; \
+	  fi; \
+	  gtkdoc-rebase --online --html-dir=$(builddir)/html ; \
+	  export SRC="$$SRC html"; \
+	fi; \
 	if echo $(FORMATS) | grep ps > /dev/null; then export SRC="$$SRC $(DOC).ps"; fi; \
 	if echo $(FORMATS) | grep pdf > /dev/null; then export SRC="$$SRC $(DOC).pdf"; fi; \
 	echo Uploading $$SRC to $(DOC_SERVER):$$DIR; \
 	rsync -rv -e ssh --delete $$SRC $(DOC_SERVER):$$DIR; \
 	ssh $(DOC_SERVER) chmod -R g+w $$DIR; \
+	if echo $(FORMATS) | grep html > /dev/null; then \
+	  echo "Un-preparing docs for upload (rebasing cross-references) ..." ; \
+	  gtkdoc-rebase --html-dir=$(builddir)/html ; \
+	fi; \
 	echo Done
 
 help:
 	@echo
 	@echo "If you are a doc maintainer, run 'make update' to update"
-	@echo "the documentation files maintained in CVS"
+	@echo "the documentation files maintained in git"
 	@echo
 	@echo Other useful make targets:
 	@echo
@@ -1060,11 +1096,7 @@ update:
 @ENABLE_GTK_DOC_TRUE@	@for f in $(content_files); do cp $(srcdir)/$$f html; done
 @ENABLE_GTK_DOC_TRUE@	cp -pr xml html
 @ENABLE_GTK_DOC_TRUE@	cp ../version.entities html
-@ENABLE_GTK_DOC_TRUE@	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE) \
-@ENABLE_GTK_DOC_TRUE@	    2>&1 | tee ../html-build.log
-@ENABLE_GTK_DOC_TRUE@	@if grep "warning:" html-build.log > /dev/null; then \
-@ENABLE_GTK_DOC_TRUE@		echo "ERROR"; grep "warning:" html-build.log; exit 1; fi
-@ENABLE_GTK_DOC_TRUE@	@rm html-build.log
+@ENABLE_GTK_DOC_TRUE@	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
 @ENABLE_GTK_DOC_TRUE@	mv html/index.sgml html/index.sgml.bak
 @ENABLE_GTK_DOC_TRUE@	$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
 @ENABLE_GTK_DOC_TRUE@	rm -f html/index.sgml.bak

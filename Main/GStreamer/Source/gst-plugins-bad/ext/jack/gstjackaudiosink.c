@@ -442,9 +442,17 @@ gst_jack_ring_buffer_acquire (GstRingBuffer * buf, GstRingBufferSpec * spec)
       (GST_SECOND / GST_USECOND), spec->rate * spec->bytes_per_sample);
   /* segtotal based on buffer-time latency */
   spec->segtotal = spec->buffer_time / spec->latency_time;
+  if (spec->segtotal < 2) {
+    spec->segtotal = 2;
+    spec->buffer_time = spec->latency_time * spec->segtotal;
+  }
 
-  GST_DEBUG_OBJECT (sink, "segsize %d, segtotal %d", spec->segsize,
-      spec->segtotal);
+  GST_DEBUG_OBJECT (sink, "buffer time: %" G_GINT64_FORMAT " usec",
+      spec->buffer_time);
+  GST_DEBUG_OBJECT (sink, "latency time: %" G_GINT64_FORMAT " usec",
+      spec->latency_time);
+  GST_DEBUG_OBJECT (sink, "buffer_size %d, segsize %d, segtotal %d",
+      buffer_size, spec->segsize, spec->segtotal);
 
   /* allocate the ringbuffer memory now */
   buf->data = gst_buffer_new_and_alloc (spec->segtotal * spec->segsize);

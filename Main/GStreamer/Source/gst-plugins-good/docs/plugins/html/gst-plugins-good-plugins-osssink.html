@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>osssink</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-ossmixer.html" title="ossmixer">
 <link rel="next" href="gst-plugins-good-plugins-osssrc.html" title="osssrc">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-osssink.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="osssink">
 <a name="gst-plugins-good-plugins-osssink"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,21 +42,27 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-osssink.synopsis"></a><h2>Synopsis</h2>
 <a name="GstOssSink"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-osssink.html#GstOssSink-struct" title="GstOssSink">GstOssSink</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-osssink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSink
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseSink.html"
+>GstBaseSink</a>
                      +----<a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink"
 >GstBaseAudioSink</a>
@@ -66,7 +72,7 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiosink.html#GstA
                                  +----GstOssSink
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-osssink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-osssink.html#GstOssSink--device" title='The "device" property'>device</a>"                   <a
@@ -74,7 +80,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-osssink.description"></a><h2>Description</h2>
 <p>
 This element lets you output sound using the Open Sound System (OSS).
@@ -87,8 +93,8 @@ act in passthrough-mode if no conversion is necessary).
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2789824"></a><h3>Example pipelines</h3>
+<div class="refsect2" title="Example pipelines">
+<a name="id570806"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.1 ! osssink
 </pre></div> will output a sine wave (continuous beep sound) to your sound card (with
@@ -97,10 +103,10 @@ a very low volume as precaution).
 gst-launch -v filesrc location=music.ogg ! decodebin ! audioconvert ! audioresample ! osssink
 </pre></div> will play an Ogg/Vorbis audio file and output it using the Open Sound System.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2751028"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id495936"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -122,8 +128,8 @@ gst-launch -v filesrc location=music.ogg ! decodebin ! audioconvert ! audioresam
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2815131"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id548804"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -154,18 +160,18 @@ gst-launch -v filesrc location=music.ogg ! decodebin ! audioconvert ! audioresam
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-osssink.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstOssSink">
 <a name="GstOssSink-struct"></a><h3>GstOssSink</h3>
 <pre class="programlisting">typedef struct _GstOssSink GstOssSink;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-osssink.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "device" property'>
 <a name="GstOssSink--device"></a><h3>The <code class="literal">"device"</code> property</h3>
 <pre class="programlisting">  "device"                   <a
 href="../glib/glib-Basic-Types.html#gchar"

@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>gst-plugins-good Elements</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="prev" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="next" href="gst-plugins-good-plugins-aasink.html" title="aasink">
@@ -22,12 +22,15 @@
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
 <td><a accesskey="n" href="gst-plugins-good-plugins-aasink.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr></table>
-<div class="chapter" lang="en">
+<div class="chapter" title="gst-plugins-good Elements">
 <div class="titlepage"><div><div><h2 class="title">
-<a name="id2714152"></a>gst-plugins-good Elements</h2></div></div></div>
+<a name="id467655"></a>gst-plugins-good Elements</h2></div></div></div>
 <div class="toc"><dl>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-aasink.html">aasink</a></span><span class="refpurpose"> — An ASCII art videosink</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-agingtv.html">agingtv</a></span><span class="refpurpose"> — AgingTV adds age to video input using scratches and dust</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-alphacolor.html">alphacolor</a></span><span class="refpurpose"> — RGBA to AYUV colorspace conversion preserving the alpha channel</span>
@@ -114,6 +117,9 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-cairotimeoverlay.html">cairotimeoverlay</a></span><span class="refpurpose"> — Overlays the time on a video stream</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-cairorender.html">cairorender</a></span><span class="refpurpose"> — Encodes streams using Cairo</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-cmmldec.html">cmmldec</a></span><span class="refpurpose"> — Decodes CMML streams</span>
 </dt>
 <dt>
@@ -129,6 +135,9 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-deinterleave.html">deinterleave</a></span><span class="refpurpose"> — Splits one interleaved multichannel audio stream into many mono audio streams</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-dicetv.html">dicetv</a></span><span class="refpurpose"> — 'Dices' the screen up into many small squares</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-directsoundsink.html">directsoundsink</a></span><span class="refpurpose"> — DirectSound audio sink</span>
 </dt>
 <dt>
@@ -139,6 +148,9 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-dvdemux.html">dvdemux</a></span><span class="refpurpose"> — Uses libdv to separate DV audio from DV video (libdv.sourceforge.net)</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-edgetv.html">edgetv</a></span><span class="refpurpose"> — Apply edge detect on video</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-equalizer-10bands.html">equalizer-10bands</a></span><span class="refpurpose"> — Direct Form 10 band IIR equalizer</span>
@@ -190,6 +202,21 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-goom2k1.html">goom2k1</a></span><span class="refpurpose"> — Takes frames of data and outputs video frames using the GOOM 2k1 filter</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-gstrtpbin.html">gstrtpbin</a></span><span class="refpurpose"> — Implement an RTP bin</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-gstrtpjitterbuffer.html">gstrtpjitterbuffer</a></span><span class="refpurpose"> — A buffer that deals with network jitter and other transmission faults</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-gstrtpptdemux.html">gstrtpptdemux</a></span><span class="refpurpose"> — Parses codec streams transmitted in the same RTP session</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-gstrtpsession.html">gstrtpsession</a></span><span class="refpurpose"> — Implement an RTP session</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-gstrtpssrcdemux.html">gstrtpssrcdemux</a></span><span class="refpurpose"> — Splits RTP streams based on the SSRC</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-halaudiosink.html">halaudiosink</a></span><span class="refpurpose"> — Audio sink for sound device access via HAL</span>
@@ -252,6 +279,9 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-multiudpsink.html">multiudpsink</a></span><span class="refpurpose"> — Send data over the network via UDP</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-optv.html">optv</a></span><span class="refpurpose"> — Optical art meets real-time video effect</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-ossmixer.html">ossmixer</a></span><span class="refpurpose"> — Control sound input and output levels with OSS</span>
 </dt>
 <dt>
@@ -288,7 +318,16 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-pulsemixer.html">pulsemixer</a></span><span class="refpurpose"> — Control sound input and output levels for PulseAudio</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-quarktv.html">quarktv</a></span><span class="refpurpose"> — Motion dissolver</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-qtdemux.html">qtdemux</a></span><span class="refpurpose"> — Demultiplex a QuickTime file into audio and video streams</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-radioactv.html">radioactv</a></span><span class="refpurpose"> — motion-enlightment effect</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-revtv.html">revtv</a></span><span class="refpurpose"> — A video waveform monitor for each line of video processed</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-rganalysis.html">rganalysis</a></span><span class="refpurpose"> — Perform the ReplayGain analysis</span>
@@ -300,6 +339,9 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-rgvolume.html">rgvolume</a></span><span class="refpurpose"> — Apply ReplayGain volume adjustment</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-rippletv.html">rippletv</a></span><span class="refpurpose"> — RippleTV does ripple mark effect on the video input</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-rtpdec.html">rtpdec</a></span><span class="refpurpose"> — Accepts raw RTP and RTCP packets and sends them forward</span>
 </dt>
 <dt>
@@ -307,6 +349,9 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-rtspsrc.html">rtspsrc</a></span><span class="refpurpose"> — Receive data over the network via RTSP (RFC 2326)</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-shagadelictv.html">shagadelictv</a></span><span class="refpurpose"> — Oh behave, ShagedelicTV makes images shagadelic!</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-smokedec.html">smokedec</a></span><span class="refpurpose"> — Decode video from Smoke format</span>
@@ -333,6 +378,9 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-speexdec.html">speexdec</a></span><span class="refpurpose"> — decode speex streams to audio</span>
 </dt>
 <dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-streaktv.html">streaktv</a></span><span class="refpurpose"> — StreakTV makes after images of moving objects</span>
+</dt>
+<dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-taginject.html">taginject</a></span><span class="refpurpose"> — inject metadata tags</span>
 </dt>
 <dt>
@@ -342,7 +390,10 @@
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-udpsink.html">udpsink</a></span><span class="refpurpose"> — Send data over the network via UDP</span>
 </dt>
 <dt>
-<span class="refentrytitle"><a href="gst-plugins-good-plugins-v4l2src.html">v4l2src</a></span><span class="refpurpose"> — Reads raw frames from a video4linux2 (BT8x8) device</span>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-v4l2src.html">v4l2src</a></span><span class="refpurpose"> — Reads frames from a video4linux2 (BT8x8) device</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-vertigotv.html">vertigotv</a></span><span class="refpurpose"> — A loopback alpha blending effector with rotating and scaling</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-videobalance.html">videobalance</a></span><span class="refpurpose"> — Adjusts brightness, contrast, hue, saturation on a video stream</span>
@@ -358,6 +409,9 @@
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-videomixer.html">videomixer</a></span><span class="refpurpose"> — Mix multiple video streams</span>
+</dt>
+<dt>
+<span class="refentrytitle"><a href="gst-plugins-good-plugins-warptv.html">warptv</a></span><span class="refpurpose"> — WarpTV does realtime goo'ing of the video input</span>
 </dt>
 <dt>
 <span class="refentrytitle"><a href="gst-plugins-good-plugins-wavenc.html">wavenc</a></span><span class="refpurpose"> — Encode raw audio into WAV</span>

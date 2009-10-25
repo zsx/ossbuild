@@ -405,7 +405,6 @@ gst_dshowvideosink_handle_event (GstDshowVideoSink *sink)
   if (sink->filter_media_event) {
     long evCode;
     LONG_PTR param1, param2;
-    HRESULT hr;
     while (SUCCEEDED (sink->filter_media_event->GetEvent(&evCode, &param1, &param2, 0)))
     {
       GST_INFO_OBJECT (sink, "Received DirectShow graph event code 0x%x", evCode);
@@ -1607,7 +1606,7 @@ plugin_init (GstPlugin * plugin)
 {
   /* PRIMARY: this is the best videosink to use on windows */
   if (!gst_element_register (plugin, "dshowvideosink",
-          GST_RANK_NONE, GST_TYPE_DSHOWVIDEOSINK))
+          GST_RANK_PRIMARY, GST_TYPE_DSHOWVIDEOSINK))
     return FALSE;
 
   return TRUE;

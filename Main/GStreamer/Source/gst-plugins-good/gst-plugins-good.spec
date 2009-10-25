@@ -4,7 +4,7 @@
 %define gst_minver   0.10.0
 
 Name: 		%{gstreamer}-plugins-good
-Version: 	0.10.15
+Version: 	0.10.16
 Release: 	1.gst
 Summary: 	GStreamer plug-ins with good code and licensing
 
@@ -100,6 +100,7 @@ gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/gstreamer-%{maj
 %{_libdir}/gstreamer-%{majorminor}/libgstmulaw.so
 %{_libdir}/gstreamer-%{majorminor}/libgstqtdemux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrtp.so
+%{_libdir}/gstreamer-%{majorminor}/libgstrtpmanager.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrtsp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsmpte.so
 %{_libdir}/gstreamer-%{majorminor}/libgstudp.so
@@ -134,6 +135,9 @@ gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/gstreamer-%{maj
 %{_libdir}/gstreamer-%{majorminor}/libgstgoom2k1.so
 %{_libdir}/gstreamer-%{majorminor}/libgstinterleave.so
 %{_libdir}/gstreamer-%{majorminor}/libgstreplaygain.so
+%{_libdir}/gstreamer-%{majorminor}/libgstdeinterlace.so
+%{_libdir}/gstreamer-%{majorminor}/libgstflv.so
+%{_libdir}/gstreamer-%{majorminor}/libgsty4menc.so
 
 # sys plugins
 %{_libdir}/gstreamer-%{majorminor}/libgstvideo4linux2.so

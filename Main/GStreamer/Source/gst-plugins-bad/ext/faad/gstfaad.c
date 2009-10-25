@@ -346,7 +346,7 @@ gst_faad_setcaps (GstPad * pad, GstCaps * caps)
     }
 
     GST_DEBUG_OBJECT (faad, "codec_data init: channels=%u, rate=%u", channels,
-        samplerate);
+        (guint32) samplerate);
 
     /* not updating these here, so they are updated in the
      * chain function, and new caps are created etc. */
@@ -393,17 +393,20 @@ gst_faad_setcaps (GstPad * pad, GstCaps * caps)
   if (!faad->packetised)
     gst_faad_send_tags (faad);
 
+  gst_object_unref (faad);
   return TRUE;
 
   /* ERRORS */
 wrong_length:
   {
     GST_DEBUG_OBJECT (faad, "codec_data less than 2 bytes long");
+    gst_object_unref (faad);
     return FALSE;
   }
 init_failed:
   {
     GST_DEBUG_OBJECT (faad, "faacDecInit2() failed");
+    gst_object_unref (faad);
     return FALSE;
   }
 }
@@ -1310,15 +1313,15 @@ gst_faad_chain (GstPad * pad, GstBuffer * buffer)
       if (faacDecInit (faad->handle, input_data, input_size, &rate, &ch) < 0)
         goto init_failed;
 
-      GST_DEBUG_OBJECT (faad, "faacDecInit() ok: rate=%u,channels=%u", rate,
-          ch);
+      GST_DEBUG_OBJECT (faad, "faacDecInit() ok: rate=%u,channels=%u",
+          (guint32) rate, ch);
     } else {
       if ((gint8) faacDecInit2 (faad->handle, faad->fake_codec_data, 2,
               &rate, &ch) < 0) {
         goto init2_failed;
       }
-      GST_DEBUG_OBJECT (faad, "faacDecInit2() ok: rate=%u,channels=%u", rate,
-          ch);
+      GST_DEBUG_OBJECT (faad, "faacDecInit2() ok: rate=%u,channels=%u",
+          (guint32) rate, ch);
     }
 
     skip_bytes = 0;

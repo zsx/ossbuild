@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>smptealpha</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-smpte.html" title="smpte">
 <link rel="next" href="gst-plugins-good-plugins-souphttpsrc.html" title="souphttpsrc">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-smptealpha.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="smptealpha">
 <a name="gst-plugins-good-plugins-smptealpha"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,28 +42,34 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-smptealpha.synopsis"></a><h2>Synopsis</h2>
 <a name="GstSMPTEAlpha"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-smptealpha.html#GstSMPTEAlpha-struct" title="GstSMPTEAlpha">GstSMPTEAlpha</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-smptealpha.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseTransform
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseTransform.html"
+>GstBaseTransform</a>
                      +----<a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideofilter.html#GstVideoFilter"
 >GstVideoFilter</a>
                            +----GstSMPTEAlpha
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-smptealpha.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-smptealpha.html#GstSMPTEAlpha--border" title='The "border" property'>border</a>"                   <a
@@ -78,7 +84,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
   "<a class="link" href="gst-plugins-good-plugins-smptealpha.html#GstSMPTEAlpha--type" title='The "type" property'>type</a>"                     GstSMPTEAlphaTransitionType  : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-smptealpha.description"></a><h2>Description</h2>
 <p>
 smptealpha can accept an I420 or AYUV video stream. An alpha channel is added
@@ -98,8 +104,8 @@ avoid banding.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2811129"></a><h3>Sample pipelines</h3>
+<div class="refsect2" title="Sample pipelines">
+<a name="id570399"></a><h3>Sample pipelines</h3>
 <p>
 Here is a pipeline to demonstrate the smpte transition :
 </p>
@@ -113,10 +119,10 @@ transparent image. The edges of the transition are smoothed with a
 20000 big border.
 </p>
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2814856"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id541019"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -138,8 +144,8 @@ transparent image. The edges of the transition are smoothed with a
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2835363"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id585366"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -191,18 +197,18 @@ transparent image. The edges of the transition are smoothed with a
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-smptealpha.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstSMPTEAlpha">
 <a name="GstSMPTEAlpha-struct"></a><h3>GstSMPTEAlpha</h3>
 <pre class="programlisting">typedef struct _GstSMPTEAlpha GstSMPTEAlpha;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-smptealpha.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "border" property'>
 <a name="GstSMPTEAlpha--border"></a><h3>The <code class="literal">"border"</code> property</h3>
 <pre class="programlisting">  "border"                   <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -212,7 +218,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "depth" property'>
 <a name="GstSMPTEAlpha--depth"></a><h3>The <code class="literal">"depth"</code> property</h3>
 <pre class="programlisting">  "depth"                    <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -222,7 +228,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 16</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "position" property'>
 <a name="GstSMPTEAlpha--position"></a><h3>The <code class="literal">"position"</code> property</h3>
 <pre class="programlisting">  "position"                 <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -232,7 +238,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "type" property'>
 <a name="GstSMPTEAlpha--type"></a><h3>The <code class="literal">"type"</code> property</h3>
 <pre class="programlisting">  "type"                     GstSMPTEAlphaTransitionType  : Read / Write</pre>
 <p>The type of transition to use.</p>

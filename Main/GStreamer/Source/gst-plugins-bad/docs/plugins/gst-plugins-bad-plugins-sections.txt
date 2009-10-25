@@ -27,20 +27,6 @@ gst_amrparse_get_type
 </SECTION>
 
 <SECTION>
-<FILE>element-amrwbdec</FILE>
-<TITLE>amrwbdec</TITLE>
-GstAmrwbDec
-<SUBSECTION Standard>
-GstAmrwbDecClass
-GST_AMRWBDEC
-GST_AMRWBDEC_CLASS
-GST_IS_AMRWBDEC
-GST_IS_AMRWBDEC_CLASS
-GST_TYPE_AMRWBDEC
-gst_amrwbdec_get_type
-</SECTION>
-
-<SECTION>
 <FILE>element-amrwbenc</FILE>
 <TITLE>amrwbenc</TITLE>
 GstAmrwbEnc
@@ -52,20 +38,6 @@ GST_IS_AMRWBENC
 GST_IS_AMRWBENC_CLASS
 GST_TYPE_AMRWBENC
 gst_amrwbenc_get_type
-</SECTION>
-
-<SECTION>
-<FILE>element-amrwbparse</FILE>
-<TITLE>amrwbparse</TITLE>
-GstAmrwbParse
-<SUBSECTION Standard>
-GstAmrwbParseClass
-GST_AMRWBPARSE
-GST_AMRWBPARSE_CLASS
-GST_IS_AMRWBPARSE
-GST_IS_AMRWBPARSE_CLASS
-GST_TYPE_AMRWBPARSE
-gst_amrwbparse_get_type
 </SECTION>
 
 <SECTION>
@@ -109,6 +81,20 @@ GST_TYPE_CAMERABIN
 GST_CAMERABIN_CLASS
 GST_IS_CAMERABIN_CLASS
 gst_camerabin_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-capssetter</FILE>
+<TITLE>capssetter</TITLE>
+GstCapsSetter
+<SUBSECTION Standard>
+GstCapsSetterClass
+GST_TYPE_CAPS_SETTER
+GST_CAPS_SETTER
+GST_IS_CAPS_SETTER
+GST_CAPS_SETTER_CLASS
+GST_IS_CAPS_SETTER_CLASS
+gst_caps_setter_get_type
 </SECTION>
 
 <SECTION>
@@ -330,6 +316,20 @@ SPU_STATE_FLAGS_MASK
 </SECTION>
 
 <SECTION>
+<FILE>element-faac</FILE>
+<TITLE>faac</TITLE>
+GstFaac
+<SUBSECTION Standard>
+GstFaacClass
+GST_TYPE_FAAC
+GST_FAAC
+GST_IS_FAAC
+GST_FAAC_CLASS
+GST_IS_FAAC_CLASS
+gst_faac_get_type
+</SECTION>
+
+<SECTION>
 <FILE>element-festival</FILE>
 <TITLE>festival</TITLE>
 GstFestival
@@ -458,6 +458,84 @@ gst_live_adder_get_type
 </SECTION>
 
 <SECTION>
+<FILE>element-katedec</FILE>
+<TITLE>katedec</TITLE>
+GstKateDec
+<SUBSECTION Standard>
+GstKateDecClass
+GST_KATE_DEC
+GST_KATE_DEC_CLASS
+GST_IS_KATE_DEC
+GST_IS_KATE_DEC_CLASS
+GST_TYPE_KATE_DEC
+gst_kate_dec_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-kateenc</FILE>
+<TITLE>kateenc</TITLE>
+GstKateEnc
+<SUBSECTION Standard>
+GstKateEncClass
+GST_KATE_ENC
+GST_KATE_ENC_CLASS
+GST_IS_KATE_ENC
+GST_IS_KATE_ENC_CLASS
+GST_TYPE_KATE_ENC
+gst_kate_enc_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-kateparse</FILE>
+<TITLE>kateparse</TITLE>
+GstKateParse
+<SUBSECTION Standard>
+GstKateParseClass
+GST_KATE_PARSE
+GST_KATE_PARSE_CLASS
+GST_IS_KATE_PARSE
+GST_IS_KATE_PARSE_CLASS
+GST_TYPE_KATE_PARSE
+gst_kate_parse_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-katetag</FILE>
+<TITLE>katetag</TITLE>
+GstKateTag
+<SUBSECTION Standard>
+GstKateTagClass
+GST_KATE_TAG
+GST_KATE_TAG_CLASS
+GST_IS_KATE_TAG
+GST_IS_KATE_TAG_CLASS
+GST_TYPE_KATE_TAG
+gst_kate_tag_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-tiger</FILE>
+<TITLE>tiger</TITLE>
+GstKateTiger
+<SUBSECTION Standard>
+GstKateTigerClass
+GST_KATE_TIGER
+GST_KATE_TIGER_CLASS
+GST_IS_KATE_TIGER
+GST_IS_KATE_TIGER_CLASS
+GST_TYPE_KATE_TIGER
+gst_kate_tiger_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-ladspa</FILE>
+<TITLE>ladspa</TITLE>
+GstLADSPA
+<SUBSECTION Standard>
+GstLADSPAClass
+</SECTION>
+
+<SECTION>
 <FILE>gstbasemetadata</FILE>
 <TITLE>GstBaseMetadata</TITLE>
 GstBaseMetadata
@@ -510,6 +588,34 @@ GST_IS_METADATA_MUX
 GST_IS_METADATA_MUX_CLASS
 GST_TYPE_METADATA_MUX
 gst_metadata_mux_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-mimdec</FILE>
+<TITLE>mimdec</TITLE>
+GstMimDec
+<SUBSECTION Standard>
+GstMimDecClass
+GST_IS_MIMDEC
+GST_IS_MIMDEC_CLASS
+GST_MIMDEC
+GST_MIMDEC_CLASS
+GST_TYPE_MIMDEC
+gst_mimdec_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-mimenc</FILE>
+<TITLE>mimenc</TITLE>
+GstMimEnc
+<SUBSECTION Standard>
+GstMimEncClass
+GST_IS_MIMENC
+GST_IS_MIMENC_CLASS
+GST_MIMENC
+GST_MIMENC_CLASS
+GST_TYPE_MIMENC
+gst_mimenc_get_type
 </SECTION>
 
 <SECTION>
@@ -636,6 +742,21 @@ gst_output_selector_get_type
 </SECTION>
 
 <SECTION>
+<FILE>element-pcapparse</FILE>
+<TITLE>pcapparse</TITLE>
+GstPcapParse
+<SUBSECTION Standard>
+GstPcapParseClass
+GST_PCAP_PARSE
+GST_PCAP_PARSE_CLASS
+GST_IS_PCAP_PARSE
+GST_IS_PCAP_PARSE_CLASS
+GST_TYPE_PCAP_PARSE
+GstPcapParseState
+gst_pcap_parse_get_type
+</SECTION>
+
+<SECTION>
 <FILE>element-rtpdtmfdepay</FILE>
 <TITLE>rtpdtmfdepay</TITLE>
 GstRtpDTMFDepay
@@ -699,97 +820,6 @@ GstRTPMuxClass
 gst_rtp_mux_get_type
 gst_rtp_mux_plugin_init
 gst_rtp_session_set_ssrc
-</SECTION>
-
-<SECTION>
-<FILE>element-gstrtpbin</FILE>
-<TITLE>gstrtpbin</TITLE>
-GstRtpBin
-<SUBSECTION Standard>
-GstRtpBinPrivate
-GstRtpBinClass
-GST_RTP_BIN 
-GST_IS_RTP_BIN
-GST_TYPE_RTP_BIN
-gst_rtp_bin_get_type
-GST_RTP_BIN_CLASS
-GST_IS_RTP_BIN_CLASS
-</SECTION>
-
-<SECTION>
-<FILE>element-gstrtpclient</FILE>
-<TITLE>gstrtpclient</TITLE>
-GstRtpClient
-<SUBSECTION Standard>
-GstRtpClientClass
-GstRtpClientPrivate
-GST_RTP_CLIENT
-GST_IS_RTP_CLIENT
-GST_TYPE_RTP_CLIENT
-gst_rtp_client_get_type
-GST_RTP_CLIENT_CLASS
-GST_IS_RTP_CLIENT_CLASS
-</SECTION>
-
-<SECTION>
-<FILE>element-gstrtpjitterbuffer</FILE>
-<TITLE>gstrtpjitterbuffer</TITLE>
-GstRtpJitterBuffer
-<SUBSECTION Standard>
-GstRtpJitterBufferClass
-GstRtpJitterBufferPrivate
-GST_RTP_JITTER_BUFFER
-GST_IS_RTP_JITTER_BUFFER
-GST_TYPE_RTP_JITTER_BUFFER
-gst_rtp_jitter_buffer_get_type
-GST_RTP_JITTER_BUFFER_CLASS
-GST_IS_RTP_JITTER_BUFFER_CLASS
-</SECTION>
-
-<SECTION>
-<FILE>element-gstrtpptdemux</FILE>
-<TITLE>gstrtpptdemux</TITLE>
-GstRtpPtDemux
-<SUBSECTION Standard>
-GstRtpPtDemuxClass
-GstRtpPtDemuxPad
-GST_RTP_PT_DEMUX
-GST_IS_RTP_PT_DEMUX
-GST_TYPE_RTP_PT_DEMUX
-gst_rtp_pt_demux_get_type
-GST_RTP_PT_DEMUX_CLASS
-GST_IS_RTP_PT_DEMUX_CLASS
-</SECTION>
-
-<SECTION>
-<FILE>element-gstrtpsession</FILE>
-<TITLE>gstrtpsession</TITLE>
-GstRtpSession
-<SUBSECTION Standard>
-GstRtpSessionClass
-GstRtpSessionPrivate
-GST_RTP_SESSION
-GST_IS_RTP_SESSION
-GST_TYPE_RTP_SESSION
-gst_rtp_session_get_type
-GST_RTP_SESSION_CLASS
-GST_IS_RTP_SESSION_CLASS
-GST_RTP_SESSION_CAST
-</SECTION>
-
-<SECTION>
-<FILE>element-gstrtpssrcdemux</FILE>
-<TITLE>gstrtpssrcdemux</TITLE>
-GstRtpSsrcDemux
-<SUBSECTION Standard>
-GstRtpSsrcDemuxClass
-GstRtpSsrcDemuxPad
-GST_RTP_SSRC_DEMUX
-GST_IS_RTP_SSRC_DEMUX
-GST_TYPE_RTP_SSRC_DEMUX
-gst_rtp_ssrc_demux_get_type
-GST_RTP_SSRC_DEMUX_CLASS
-GST_IS_RTP_SSRC_DEMUX_CLASS
 </SECTION>
 
 <SECTION>
@@ -1027,29 +1057,15 @@ GST_TYPE_WILDMIDI
 </SECTION>
 
 <SECTION>
-<FILE>element-mimdec</FILE>
-<TITLE>mimdec</TITLE>
-GstMimDec
+<FILE>element-zbar</FILE>
+<TITLE>zbar</TITLE>
+GstZBar
 <SUBSECTION Standard>
-GstMimDecClass
-GST_IS_MIMDEC
-GST_IS_MIMDEC_CLASS
-GST_MIMDEC
-GST_MIMDEC_CLASS
-GST_TYPE_MIMDEC
-gst_mimdec_get_type
+GstZBarClass
+GST_ZBAR
+GST_ZBAR_CLASS
+GST_IS_ZBAR
+GST_IS_ZBAR_CLASS
+GST_TYPE_ZBAR
 </SECTION>
 
-<SECTION>
-<FILE>element-mimenc</FILE>
-<TITLE>mimenc</TITLE>
-GstMimEnc
-<SUBSECTION Standard>
-GstMimEncClass
-GST_IS_MIMENC
-GST_IS_MIMENC_CLASS
-GST_MIMENC
-GST_MIMENC_CLASS
-GST_TYPE_MIMENC
-gst_mimenc_get_type
-</SECTION>

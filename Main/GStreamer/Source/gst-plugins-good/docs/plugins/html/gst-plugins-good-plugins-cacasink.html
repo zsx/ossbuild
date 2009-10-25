@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>cacasink</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-avisubtitle.html" title="avisubtitle">
 <link rel="next" href="gst-plugins-good-plugins-cairotextoverlay.html" title="cairotextoverlay">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-cacasink.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="cacasink">
 <a name="gst-plugins-good-plugins-cacasink"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,25 +42,31 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-cacasink.synopsis"></a><h2>Synopsis</h2>
 <a name="GstCACASink"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-cacasink.html#GstCACASink-struct" title="GstCACASink">GstCACASink</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-cacasink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSink
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseSink.html"
+>GstBaseSink</a>
                      +----GstCACASink
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-cacasink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-cacasink.html#GstCACASink--anti-aliasing" title='The "anti-aliasing" property'>anti-aliasing</a>"            <a
@@ -75,15 +81,15 @@ href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-cacasink.description"></a><h2>Description</h2>
 <p>
 Displays video as color ascii art.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2753621"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id477316"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 CACA_GEOMETRY=160x60 CACA_FONT=5x7 gst-launch filesrc location=test.avi ! decodebin ! ffmpegcolorspace ! cacasink
 </pre></div> This pipeline renders a video to ascii art into a separate window using a
@@ -92,10 +98,10 @@ small font and specifying the ascii resolution.
 CACA_DRIVER=ncurses gst-launch filesrc location=test.avi ! decodebin ! ffmpegcolorspace ! cacasink
 </pre></div> This pipeline renders a video to ascii art into the current terminal.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2748297"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id498379"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -117,8 +123,8 @@ CACA_DRIVER=ncurses gst-launch filesrc location=test.avi ! decodebin ! ffmpegcol
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2699565"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id487341"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -157,18 +163,18 @@ CACA_DRIVER=ncurses gst-launch filesrc location=test.avi ! decodebin ! ffmpegcol
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-cacasink.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstCACASink">
 <a name="GstCACASink-struct"></a><h3>GstCACASink</h3>
 <pre class="programlisting">typedef struct _GstCACASink GstCACASink;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-cacasink.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "anti-aliasing" property'>
 <a name="GstCACASink--anti-aliasing"></a><h3>The <code class="literal">"anti-aliasing"</code> property</h3>
 <pre class="programlisting">  "anti-aliasing"            <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -177,14 +183,14 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "dither" property'>
 <a name="GstCACASink--dither"></a><h3>The <code class="literal">"dither"</code> property</h3>
 <pre class="programlisting">  "dither"                   GstCACASinkDithering  : Read / Write</pre>
 <p>Set type of Dither.</p>
 <p>Default value: No dithering</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "screen-height" property'>
 <a name="GstCACASink--screen-height"></a><h3>The <code class="literal">"screen-height"</code> property</h3>
 <pre class="programlisting">  "screen-height"            <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -194,7 +200,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 25</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "screen-width" property'>
 <a name="GstCACASink--screen-width"></a><h3>The <code class="literal">"screen-width"</code> property</h3>
 <pre class="programlisting">  "screen-width"             <a
 href="../glib/glib-Basic-Types.html#gint"
@@ -204,7 +210,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <p>Default value: 80</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-good-plugins-cacasink.see-also"></a><h2>See Also</h2>
 #GstAASink
 </div>

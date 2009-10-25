@@ -54,6 +54,13 @@ struct _GstMimEnc
   gint buffer_size;
   guint32 frames;
   guint16 height, width;
+
+  gboolean paused_mode;
+  GstSegment segment;
+  gboolean need_newsegment;
+  GstClockTime last_buffer;
+  GstClockID clock_id;
+  gboolean stop_paused_mode;
 };
 
 struct _GstMimEncClass

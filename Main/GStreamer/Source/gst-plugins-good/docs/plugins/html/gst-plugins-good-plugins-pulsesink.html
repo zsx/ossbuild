@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>pulsesink</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-progressreport.html" title="progressreport">
 <link rel="next" href="gst-plugins-good-plugins-pulsesrc.html" title="pulsesrc">
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-pulsesink.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="pulsesink">
 <a name="gst-plugins-good-plugins-pulsesink"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,36 +44,44 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-pulsesink.synopsis"></a><h2>Synopsis</h2>
 <a name="GstPulseSink"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-pulsesink.html#GstPulseSink-struct" title="GstPulseSink">GstPulseSink</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-pulsesink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBaseSink
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-libs-0.10/GstBaseSink.html"
+>GstBaseSink</a>
                      +----<a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink"
 >GstBaseAudioSink</a>
                            +----GstPulseSink
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-pulsesink.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstPulseSink implements
- GstImplementsInterface and  <a
+ <a
 href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
->GstPropertyProbe</a>.</p>
+>GstPropertyProbe</a> and  <a
+href="../gstreamer-0.10/GstImplementsInterface.html"
+>GstImplementsInterface</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-pulsesink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-pulsesink.html#GstPulseSink--device" title='The "device" property'>device</a>"                   <a
@@ -90,7 +98,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-pulsesink.description"></a><h2>Description</h2>
 <p>
 This element outputs audio to a
@@ -98,8 +106,8 @@ This element outputs audio to a
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2781572"></a><h3>Example pipelines</h3>
+<div class="refsect2" title="Example pipelines">
+<a name="id584795"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=sine.ogg ! oggdemux ! vorbisdec ! audioconvert ! audioresample ! pulsesink
 </pre></div> Play an Ogg/Vorbis file.
@@ -107,10 +115,10 @@ gst-launch -v filesrc location=sine.ogg ! oggdemux ! vorbisdec ! audioconvert ! 
 gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.4 ! pulsesink
 </pre></div> Play a 440Hz sine wave.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2780444"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id548784"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -132,8 +140,8 @@ gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.4 ! pulsesink
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2790529"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id575759"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -163,6 +171,14 @@ gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.4 ! pulsesink
 </tr>
 <tr>
 <td><p><span class="term"></span></p></td>
+<td> audio/x-raw-int, endianness=(int){ 1234, 4321 }, signed=(boolean)true, width=(int)24, depth=(int)24, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 32 ]</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
+<td> audio/x-raw-int, endianness=(int){ 1234, 4321 }, signed=(boolean)true, width=(int)32, depth=(int)24, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 32 ]</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
 <td> audio/x-raw-int, signed=(boolean)false, width=(int)8, depth=(int)8, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 32 ]</td>
 </tr>
 <tr>
@@ -180,18 +196,18 @@ gst-launch -v audiotestsrc ! audioconvert ! volume volume=0.4 ! pulsesink
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-pulsesink.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstPulseSink">
 <a name="GstPulseSink-struct"></a><h3>GstPulseSink</h3>
 <pre class="programlisting">typedef struct _GstPulseSink GstPulseSink;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-pulsesink.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "device" property'>
 <a name="GstPulseSink--device"></a><h3>The <code class="literal">"device"</code> property</h3>
 <pre class="programlisting">  "device"                   <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -200,7 +216,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "server" property'>
 <a name="GstPulseSink--server"></a><h3>The <code class="literal">"server"</code> property</h3>
 <pre class="programlisting">  "server"                   <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -209,7 +225,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "device-name" property'>
 <a name="GstPulseSink--device-name"></a><h3>The <code class="literal">"device-name"</code> property</h3>
 <pre class="programlisting">  "device-name"              <a
 href="../glib/glib-Basic-Types.html#gchar"
@@ -218,17 +234,17 @@ href="../glib/glib-Basic-Types.html#gchar"
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "volume" property'>
 <a name="GstPulseSink--volume"></a><h3>The <code class="literal">"volume"</code> property</h3>
 <pre class="programlisting">  "volume"                   <a
 href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
-<p>Volume of this stream.</p>
-<p>Allowed values: [0,1000]</p>
+<p>Volume of this stream, 1.0=100%.</p>
+<p>Allowed values: [0,10]</p>
 <p>Default value: 1</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-good-plugins-pulsesink.see-also"></a><h2>See Also</h2>
 pulsesrc, pulsemixer
 </div>

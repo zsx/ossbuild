@@ -68,6 +68,10 @@ struct _GstCameraBin
   gint fps_n;
   gint fps_d;
 
+  /* Image capture resolution */
+  gint image_width;
+  gint image_height;
+
   /* Image tags are collected here first before sending to imgbin */
   GstTagList *event_tags;
 
@@ -90,6 +94,7 @@ struct _GstCameraBin
   GMutex *capture_mutex;
   GCond *cond;
   gboolean capturing;
+  gboolean eos_handled;
 
   /* pad names for output and input selectors */
   GstPad *pad_src_view;

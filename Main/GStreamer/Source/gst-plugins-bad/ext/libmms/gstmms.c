@@ -24,6 +24,7 @@
 #endif
 
 #include <gst/gst.h>
+#include <stdio.h>
 #include <string.h>
 #include "gstmms.h"
 
@@ -240,23 +241,22 @@ gst_mms_prepare_seek_segment (GstBaseSrc * src, GstEvent * event,
   GstSeekFlags flags;
   GstFormat seek_format;
   gdouble rate;
-  GstMMS *mmssrc = GST_MMS (src);
 
   gst_event_parse_seek (event, &rate, &seek_format, &flags,
       &cur_type, &cur, &stop_type, &stop);
 
   if (seek_format != GST_FORMAT_BYTES && seek_format != GST_FORMAT_TIME) {
-    GST_LOG_OBJECT (mmssrc, "Only byte or time seeking is supported");
+    GST_LOG_OBJECT (src, "Only byte or time seeking is supported");
     return FALSE;
   }
 
   if (stop_type != GST_SEEK_TYPE_NONE) {
-    GST_LOG_OBJECT (mmssrc, "Stop seeking not supported");
+    GST_LOG_OBJECT (src, "Stop seeking not supported");
     return FALSE;
   }
 
   if (cur_type != GST_SEEK_TYPE_NONE && cur_type != GST_SEEK_TYPE_SET) {
-    GST_LOG_OBJECT (mmssrc, "Only absolute seeking is supported");
+    GST_LOG_OBJECT (src, "Only absolute seeking is supported");
     return FALSE;
   }
 
@@ -298,8 +298,9 @@ gst_mms_do_seek (GstBaseSrc * src, GstSegment * segment)
       GST_DEBUG_OBJECT (mmssrc, "connection broken during seek");
       return FALSE;
     }
-    GST_DEBUG_OBJECT (mmssrc, "sought to: %llu bytes, result: %lld",
-        segment->start, start);
+    GST_DEBUG_OBJECT (mmssrc,
+        "sought to: %" G_GINT64_FORMAT " bytes, result: %lld", segment->start,
+        start);
   } else {
     GST_DEBUG_OBJECT (mmssrc, "unsupported seek segment format: %d",
         (int) segment->format);

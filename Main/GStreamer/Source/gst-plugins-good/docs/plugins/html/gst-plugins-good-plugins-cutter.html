@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>cutter</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-cmmlenc.html" title="cmmlenc">
 <link rel="next" href="gst-plugins-good-plugins-deinterlace.html" title="deinterlace">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-cutter.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="cutter">
 <a name="gst-plugins-good-plugins-cutter"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,24 +42,28 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-cutter.synopsis"></a><h2>Synopsis</h2>
 <a name="GstCutter"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-cutter.html#GstCutter-struct" title="GstCutter">GstCutter</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-cutter.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstCutter
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-cutter.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-cutter.html#GstCutter--leaky" title='The "leaky" property'>leaky</a>"                    <a
@@ -79,7 +83,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-cutter.description"></a><h2>Description</h2>
 <p>
 Analyses the audio signal for periods of silence. The start and end of
@@ -87,13 +91,15 @@ silence is signalled by bus messages named
 <code class="classname">"cutter"</code>.
 The message's structure contains two fields:
 </p>
-<div class="itemizedlist"><ul type="disc">
-<li><p>
-  <span class="type">GstClockTime</span>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+  <a
+href="../gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
   <code class="classname">"timestamp"</code>:
   the timestamp of the buffer that triggered the message.
   </p></li>
-<li><p>
+<li class="listitem"><p>
   gboolean
   <code class="classname">"above"</code>:
   <a
@@ -107,16 +113,16 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2759149"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id501175"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -m filesrc location=foo.ogg ! decodebin ! audioconvert ! cutter ! autoaudiosink
 </pre></div> Show cut messages.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2791584"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id525289"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -138,8 +144,8 @@ gst-launch -m filesrc location=foo.ogg ! decodebin ! audioconvert ! cutter ! aut
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2751782"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id521787"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -187,18 +193,18 @@ gst-launch -m filesrc location=foo.ogg ! decodebin ! audioconvert ! cutter ! aut
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-cutter.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstCutter">
 <a name="GstCutter-struct"></a><h3>GstCutter</h3>
 <pre class="programlisting">typedef struct _GstCutter GstCutter;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-cutter.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "leaky" property'>
 <a name="GstCutter--leaky"></a><h3>The <code class="literal">"leaky"</code> property</h3>
 <pre class="programlisting">  "leaky"                    <a
 href="../glib/glib-Basic-Types.html#gboolean"
@@ -207,7 +213,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "pre-length" property'>
 <a name="GstCutter--pre-length"></a><h3>The <code class="literal">"pre-length"</code> property</h3>
 <pre class="programlisting">  "pre-length"               <a
 href="../glib/glib-Basic-Types.html#guint64"
@@ -216,7 +222,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "run-length" property'>
 <a name="GstCutter--run-length"></a><h3>The <code class="literal">"run-length"</code> property</h3>
 <pre class="programlisting">  "run-length"               <a
 href="../glib/glib-Basic-Types.html#guint64"
@@ -225,7 +231,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "threshold" property'>
 <a name="GstCutter--threshold"></a><h3>The <code class="literal">"threshold"</code> property</h3>
 <pre class="programlisting">  "threshold"                <a
 href="../glib/glib-Basic-Types.html#gdouble"
@@ -234,7 +240,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "threshold-dB" property'>
 <a name="GstCutter--threshold-dB"></a><h3>The <code class="literal">"threshold-dB"</code> property</h3>
 <pre class="programlisting">  "threshold-dB"             <a
 href="../glib/glib-Basic-Types.html#gdouble"

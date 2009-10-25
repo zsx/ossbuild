@@ -50,6 +50,7 @@ am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
 	$(top_srcdir)/common/m4/gst-args.m4 \
 	$(top_srcdir)/common/m4/gst-check.m4 \
 	$(top_srcdir)/common/m4/gst-default.m4 \
+	$(top_srcdir)/common/m4/gst-dowhile.m4 \
 	$(top_srcdir)/common/m4/gst-error.m4 \
 	$(top_srcdir)/common/m4/gst-feature.m4 \
 	$(top_srcdir)/common/m4/gst-gettext.m4 \
@@ -88,13 +89,15 @@ LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libgsteffectv_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libgsteffectv_la_OBJECTS = libgsteffectv_la-gsteffectv.lo \
 	libgsteffectv_la-gstedge.lo libgsteffectv_la-gstaging.lo \
 	libgsteffectv_la-gstdice.lo libgsteffectv_la-gstwarp.lo \
 	libgsteffectv_la-gstshagadelic.lo \
 	libgsteffectv_la-gstvertigo.lo libgsteffectv_la-gstrev.lo \
-	libgsteffectv_la-gstquark.lo
+	libgsteffectv_la-gstquark.lo libgsteffectv_la-gstop.lo \
+	libgsteffectv_la-gstradioac.lo libgsteffectv_la-gststreak.lo \
+	libgsteffectv_la-gstripple.lo
 libgsteffectv_la_OBJECTS = $(am_libgsteffectv_la_OBJECTS)
 libgsteffectv_la_LINK = $(LIBTOOL) --tag=CC \
 	$(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
@@ -233,6 +236,8 @@ GST_TOOLS_DIR = @GST_TOOLS_DIR@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
+GUDEV_CFLAGS = @GUDEV_CFLAGS@
+GUDEV_LIBS = @GUDEV_LIBS@
 HAL_CFLAGS = @HAL_CFLAGS@
 HAL_LIBS = @HAL_LIBS@
 HAVE_AVC1394 = @HAVE_AVC1394@
@@ -302,6 +307,7 @@ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
 PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
+PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PACKAGE_VERSION_MAJOR = @PACKAGE_VERSION_MAJOR@
 PACKAGE_VERSION_MICRO = @PACKAGE_VERSION_MICRO@
@@ -319,6 +325,8 @@ PULSE_0_9_12_CFLAGS = @PULSE_0_9_12_CFLAGS@
 PULSE_0_9_12_LIBS = @PULSE_0_9_12_LIBS@
 PULSE_0_9_13_CFLAGS = @PULSE_0_9_13_CFLAGS@
 PULSE_0_9_13_LIBS = @PULSE_0_9_13_LIBS@
+PULSE_0_9_15_CFLAGS = @PULSE_0_9_15_CFLAGS@
+PULSE_0_9_15_LIBS = @PULSE_0_9_15_LIBS@
 PULSE_CFLAGS = @PULSE_CFLAGS@
 PULSE_LIBS = @PULSE_LIBS@
 PYTHON = @PYTHON@
@@ -430,23 +438,29 @@ top_srcdir = @top_srcdir@
 plugin_LTLIBRARIES = libgsteffectv.la
 libgsteffectv_la_SOURCES = \
 	gsteffectv.c gstedge.c gstaging.c gstdice.c gstwarp.c \
-	gstshagadelic.c gstvertigo.c gstrev.c gstquark.c
+	gstshagadelic.c gstvertigo.c gstrev.c gstquark.c gstop.c \
+	gstradioac.c gststreak.c gstripple.c
 
 libgsteffectv_la_CFLAGS = \
 	$(GST_PLUGINS_BASE_CFLAGS) \
+	$(GST_CONTROLLER_CFLAGS) \
 	$(GST_BASE_CFLAGS) \
 	$(GST_CFLAGS) \
 	-I$(top_srcdir)/gst/videofilter
 
 libgsteffectv_la_LIBADD = \
 	$(GST_PLUGINS_BASE_LIBS) -lgstvideo-@GST_MAJORMINOR@ \
+	$(GST_CONTROLLER_LIBS) \
 	$(GST_BASE_LIBS) \
 	$(GST_LIBS) \
 	$(LIBM)
 
 libgsteffectv_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 libgsteffectv_la_LIBTOOLFLAGS = --tag=disable-static
-noinst_HEADERS = gsteffectv.h
+noinst_HEADERS = gsteffectv.h gstaging.h gstdice.h gstedge.h \
+        gstquark.h gstrev.h gstshagadelic.h gstvertigo.h gstwarp.h gstop.h \
+	gstradioac.h gststreak.h gstripple.h
+
 all: all-am
 
 .SUFFIXES:
@@ -520,9 +534,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstdice.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstedge.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gsteffectv.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstop.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstquark.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstradioac.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstrev.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstripple.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstshagadelic.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gststreak.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstvertigo.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgsteffectv_la-gstwarp.Plo@am__quote@
 
@@ -609,6 +627,34 @@ libgsteffectv_la-gstquark.lo: gstquark.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstquark.c' object='libgsteffectv_la-gstquark.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -c -o libgsteffectv_la-gstquark.lo `test -f 'gstquark.c' || echo '$(srcdir)/'`gstquark.c
+
+libgsteffectv_la-gstop.lo: gstop.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -MT libgsteffectv_la-gstop.lo -MD -MP -MF $(DEPDIR)/libgsteffectv_la-gstop.Tpo -c -o libgsteffectv_la-gstop.lo `test -f 'gstop.c' || echo '$(srcdir)/'`gstop.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgsteffectv_la-gstop.Tpo $(DEPDIR)/libgsteffectv_la-gstop.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstop.c' object='libgsteffectv_la-gstop.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -c -o libgsteffectv_la-gstop.lo `test -f 'gstop.c' || echo '$(srcdir)/'`gstop.c
+
+libgsteffectv_la-gstradioac.lo: gstradioac.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -MT libgsteffectv_la-gstradioac.lo -MD -MP -MF $(DEPDIR)/libgsteffectv_la-gstradioac.Tpo -c -o libgsteffectv_la-gstradioac.lo `test -f 'gstradioac.c' || echo '$(srcdir)/'`gstradioac.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgsteffectv_la-gstradioac.Tpo $(DEPDIR)/libgsteffectv_la-gstradioac.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstradioac.c' object='libgsteffectv_la-gstradioac.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -c -o libgsteffectv_la-gstradioac.lo `test -f 'gstradioac.c' || echo '$(srcdir)/'`gstradioac.c
+
+libgsteffectv_la-gststreak.lo: gststreak.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -MT libgsteffectv_la-gststreak.lo -MD -MP -MF $(DEPDIR)/libgsteffectv_la-gststreak.Tpo -c -o libgsteffectv_la-gststreak.lo `test -f 'gststreak.c' || echo '$(srcdir)/'`gststreak.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgsteffectv_la-gststreak.Tpo $(DEPDIR)/libgsteffectv_la-gststreak.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gststreak.c' object='libgsteffectv_la-gststreak.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -c -o libgsteffectv_la-gststreak.lo `test -f 'gststreak.c' || echo '$(srcdir)/'`gststreak.c
+
+libgsteffectv_la-gstripple.lo: gstripple.c
+@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -MT libgsteffectv_la-gstripple.lo -MD -MP -MF $(DEPDIR)/libgsteffectv_la-gstripple.Tpo -c -o libgsteffectv_la-gstripple.lo `test -f 'gstripple.c' || echo '$(srcdir)/'`gstripple.c
+@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgsteffectv_la-gstripple.Tpo $(DEPDIR)/libgsteffectv_la-gstripple.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gstripple.c' object='libgsteffectv_la-gstripple.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgsteffectv_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgsteffectv_la_CFLAGS) $(CFLAGS) -c -o libgsteffectv_la-gstripple.lo `test -f 'gstripple.c' || echo '$(srcdir)/'`gstripple.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

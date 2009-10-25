@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-good 0.10.13.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-05-20 21:09+0100\n"
+"POT-Creation-Date: 2009-08-28 23:17+0100\n"
 "PO-Revision-Date: 2009-02-12 14:35+0200\n"
 "Last-Translator: Pavel Maryanov <acid_jack@ukr.net>\n"
 "Language-Team: Russian <gnu@mx.ru>\n"
@@ -35,11 +35,11 @@ msgstr ""
 "Входящие аудио-данные отсутствуют или недействительны, поток AVI будет "
 "повреждён."
 
-msgid "This file contains no playable streams."
-msgstr "Файл не содержит воспроизводимых потоков."
-
 msgid "This file is invalid and cannot be played."
 msgstr "Файл некорректен и не может быть воспроизведён."
+
+msgid "This file contains no playable streams."
+msgstr "Файл не содержит воспроизводимых потоков."
 
 msgid "This file is incomplete and cannot be played."
 msgstr "Файл не полон и не может быть воспроизведён."
@@ -173,6 +173,25 @@ msgstr "Не удалось открыть аудио-устройство дл�
 msgid "Gain"
 msgstr "Усиление"
 
+#, fuzzy
+msgid "Built-in Speaker"
+msgstr "Внутренний динамик"
+
+msgid "Headphone"
+msgstr ""
+
+msgid "Line Out"
+msgstr ""
+
+msgid "SPDIF Out"
+msgstr ""
+
+msgid "AUX 1 Out"
+msgstr ""
+
+msgid "AUX 2 Out"
+msgstr ""
+
 #, c-format
 msgid "Error reading %d bytes from device '%s'."
 msgstr "Ошибка чтения %d байт из устройства «%s»."
@@ -225,6 +244,10 @@ msgstr "Не удалось открыть устройство «%s» для ч
 msgid "Device '%s' is not a capture device."
 msgstr "Устройство «%s» не является устройством захвата."
 
+#, fuzzy, c-format
+msgid "Device '%s' is not a output device."
+msgstr "Устройство «%s» не является устройством захвата."
+
 #, c-format
 msgid "Failed to set norm for device '%s'."
 msgstr "Ошибка установки стандарта устройства «%s»."
@@ -265,43 +288,12 @@ msgid "Could not enqueue buffers in device '%s'."
 msgstr "Не удалось добавить в очередь буферы устройства «%s»"
 
 #, c-format
-msgid "Failed to enumerate possible video formats device '%s' can work with"
-msgstr ""
-"Не удалось создать список видео-форматов, с которыми может работать "
-"устройство «%s»"
-
-#, c-format
 msgid "Failed trying to get video frames from device '%s'."
 msgstr "Ошибка при попытке получения кадров видео с устройства «%s»."
 
 #, c-format
-msgid ""
-"The buffer type is not supported, or the index is out of bounds, or no "
-"buffers have been allocated yet, or the userptr or length are invalid. "
-"device %s"
-msgstr ""
-"Неподдерживаемый тип буфера, либо индекс вне диапазона, либо буферы не были "
-"распределены, либо неверные значения длины или userptr (устройство %s)"
-
-#, c-format
-msgid "Failed trying to get video frames from device '%s'. Not enough memory."
-msgstr ""
-"Ошибка при попытке получения кадров видео с устройства «%s». Не хватает "
-"памяти."
-
-#, c-format
-msgid "insufficient memory to enqueue a user pointer buffer. device %s."
-msgstr ""
-"не хватает памяти для постановки в очередь буфера пользовательского "
-"указателя (устройство %s)"
-
-#, c-format
 msgid "Failed after %d tries. device %s. system error: %s"
 msgstr "Ошибка после %d попыток. Устройство: %s. Системная ошибка: %s"
-
-#, c-format
-msgid "No free buffers found in the pool at index %d."
-msgstr "В пуле не найдено свободных буферов для индекса %d."
 
 #, c-format
 msgid "Could not get parameters on device '%s'"
@@ -309,26 +301,6 @@ msgstr "Не удалось получить параметры устройст
 
 msgid "Video input device did not accept new frame rate setting."
 msgstr "Устройство видео-захвата не приняло новый параметр кадровой частоты."
-
-#, c-format
-msgid "Device '%s' does not support video capture"
-msgstr "Устройство «%s» не поддерживает захват видео"
-
-#, c-format
-msgid "Device '%s' cannot capture at %dx%d"
-msgstr "Устройство «%s» не может осуществлять захват в разрешении %dx%d"
-
-#, c-format
-msgid "Device '%s' cannot capture in the specified format"
-msgstr "Устройство «%s» не может осуществлять захват в указанном формате"
-
-#, c-format
-msgid "Could not get buffers from device '%s'."
-msgstr "Не удалось получить буферы устройства «%s»"
-
-#, c-format
-msgid "Could not get enough buffers from device '%s'."
-msgstr "Не удалось получить необходимое количество буферов устройства «%s»"
 
 #, c-format
 msgid "Could not map buffers from device '%s'"
@@ -339,14 +311,6 @@ msgid "The driver of device '%s' does not support any known capture method."
 msgstr ""
 "Драйвер устройства «%s» не поддерживает ни один из известных методов захвата."
 
-#, c-format
-msgid "Error starting streaming capture from device '%s'."
-msgstr "Ошибка при запуске потокового захвата с устройства «%s»."
-
-#, c-format
-msgid "Error stopping streaming capture from device '%s'."
-msgstr "Ошибка при остановке потокового захвата с устройства «%s»."
-
 msgid "Changing resolution at runtime is not yet supported."
 msgstr ""
 "Изменение разрешения видео во время выполнения не поддерживается в настоящий "
@@ -354,6 +318,55 @@ msgstr ""
 
 msgid "Cannot operate without a clock"
 msgstr "Операция невозможна без часов"
+
+#~ msgid "Failed to enumerate possible video formats device '%s' can work with"
+#~ msgstr ""
+#~ "Не удалось создать список видео-форматов, с которыми может работать "
+#~ "устройство «%s»"
+
+#~ msgid ""
+#~ "The buffer type is not supported, or the index is out of bounds, or no "
+#~ "buffers have been allocated yet, or the userptr or length are invalid. "
+#~ "device %s"
+#~ msgstr ""
+#~ "Неподдерживаемый тип буфера, либо индекс вне диапазона, либо буферы не "
+#~ "были распределены, либо неверные значения длины или userptr (устройство %"
+#~ "s)"
+
+#~ msgid ""
+#~ "Failed trying to get video frames from device '%s'. Not enough memory."
+#~ msgstr ""
+#~ "Ошибка при попытке получения кадров видео с устройства «%s». Не хватает "
+#~ "памяти."
+
+#~ msgid "insufficient memory to enqueue a user pointer buffer. device %s."
+#~ msgstr ""
+#~ "не хватает памяти для постановки в очередь буфера пользовательского "
+#~ "указателя (устройство %s)"
+
+#~ msgid "No free buffers found in the pool at index %d."
+#~ msgstr "В пуле не найдено свободных буферов для индекса %d."
+
+#~ msgid "Device '%s' does not support video capture"
+#~ msgstr "Устройство «%s» не поддерживает захват видео"
+
+#~ msgid "Device '%s' cannot capture at %dx%d"
+#~ msgstr "Устройство «%s» не может осуществлять захват в разрешении %dx%d"
+
+#~ msgid "Device '%s' cannot capture in the specified format"
+#~ msgstr "Устройство «%s» не может осуществлять захват в указанном формате"
+
+#~ msgid "Could not get buffers from device '%s'."
+#~ msgstr "Не удалось получить буферы устройства «%s»"
+
+#~ msgid "Could not get enough buffers from device '%s'."
+#~ msgstr "Не удалось получить необходимое количество буферов устройства «%s»"
+
+#~ msgid "Error starting streaming capture from device '%s'."
+#~ msgstr "Ошибка при запуске потокового захвата с устройства «%s»."
+
+#~ msgid "Error stopping streaming capture from device '%s'."
+#~ msgstr "Ошибка при остановке потокового захвата с устройства «%s»."
 
 #~ msgid "Could not read from CD."
 #~ msgstr "Не удалось прочитать CD."

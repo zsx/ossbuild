@@ -278,6 +278,7 @@ mpegvideoparse_handle_sequence (MpegVideoParse * mpegvideoparse,
   return TRUE;
 }
 
+#ifndef GST_DISABLE_GST_DEBUG
 static const gchar *
 picture_start_code_name (guint8 psc)
 {
@@ -333,6 +334,7 @@ picture_type_name (guint8 pct)
 
   return "Reserved/Unknown";
 }
+#endif /* GST_DISABLE_GST_DEBUG */
 
 static gboolean
 mpegvideoparse_handle_picture (MpegVideoParse * mpegvideoparse, GstBuffer * buf)
@@ -597,7 +599,8 @@ scan_keyframe (MpegVideoParse * mpegvideoparse)
   if (count)
     scanword = (scanword << (8 * (8 - count)));
 
-  GST_LOG_OBJECT (mpegvideoparse, "scanword 0x%016llx", scanword);
+  GST_LOG_OBJECT (mpegvideoparse, "scanword 0x%016" G_GINT64_MODIFIER "x",
+      scanword);
 
   data = GST_BUFFER_DATA (head);
   size = GST_BUFFER_SIZE (head);
@@ -605,8 +608,8 @@ scan_keyframe (MpegVideoParse * mpegvideoparse)
   while (size > 0) {
     scanword = (((guint64) data[size - 1]) << 56) | (scanword >> 8);
 
-    GST_LOG_OBJECT (mpegvideoparse, "scanword at %d 0x%016llx", size - 1,
-        scanword);
+    GST_LOG_OBJECT (mpegvideoparse,
+        "scanword at %d 0x%016" G_GINT64_MODIFIER "x", size - 1, scanword);
 
     /* check picture start and picture type */
     if ((scanword & G_GUINT64_CONSTANT (0xffffffff00380000)) ==
@@ -959,7 +962,7 @@ plugin_init (GstPlugin * plugin)
       "MPEG Video Parser");
 
   return gst_element_register (plugin, "mpegvideoparse",
-      GST_RANK_SECONDARY - 1, GST_TYPE_MPEGVIDEOPARSE);
+      GST_RANK_PRIMARY, GST_TYPE_MPEGVIDEOPARSE);
 }
 
 GST_PLUGIN_DEFINE (GST_VERSION_MAJOR,

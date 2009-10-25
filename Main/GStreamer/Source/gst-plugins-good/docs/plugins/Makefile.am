@@ -7,11 +7,11 @@ GST_DOC_SCANOBJ = $(top_srcdir)/common/gstdoc-scangobj
 MODULE=gst-plugins-good
 DOC_MODULE=$(MODULE)-plugins
 
-# for upload.mak
+# for upload-doc.mak
 DOC=$(MODULE)-plugins
 FORMATS=html
 html: html-build.stamp
-include $(srcdir)/../upload.mak
+include $(top_srcdir)/common/upload-doc.mak
 
 # generated basefiles
 #basefiles = \
@@ -80,6 +80,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/ext/annodex/gstcmmlenc.h \
 	$(top_srcdir)/ext/cairo/gsttextoverlay.h \
 	$(top_srcdir)/ext/cairo/gsttimeoverlay.h \
+	$(top_srcdir)/ext/cairo/gstcairorender.h \
 	$(top_srcdir)/ext/dv/gstdvdec.h \
 	$(top_srcdir)/ext/dv/gstdvdemux.h \
 	$(top_srcdir)/ext/esd/esdsink.h \
@@ -138,6 +139,18 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/debugutils/gsttaginject.h \
 	$(top_srcdir)/gst/debugutils/progressreport.h \
 	$(top_srcdir)/gst/deinterlace/gstdeinterlace.h \
+	$(top_srcdir)/gst/effectv/gstaging.h \
+	$(top_srcdir)/gst/effectv/gstdice.h \
+	$(top_srcdir)/gst/effectv/gstedge.h \
+	$(top_srcdir)/gst/effectv/gstquark.h \
+	$(top_srcdir)/gst/effectv/gstrev.h \
+	$(top_srcdir)/gst/effectv/gstshagadelic.h \
+	$(top_srcdir)/gst/effectv/gstvertigo.h \
+	$(top_srcdir)/gst/effectv/gstwarp.h \
+	$(top_srcdir)/gst/effectv/gststreak.h \
+	$(top_srcdir)/gst/effectv/gstripple.h \
+	$(top_srcdir)/gst/effectv/gstop.h \
+	$(top_srcdir)/gst/effectv/gstradioac.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer3bands.h \
 	$(top_srcdir)/gst/equalizer/gstiirequalizer10bands.h \
@@ -167,6 +180,11 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/replaygain/gstrglimiter.h \
 	$(top_srcdir)/gst/replaygain/gstrgvolume.h \
 	$(top_srcdir)/gst/rtp/gstrtpjpegpay.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpbin.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpjitterbuffer.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpptdemux.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpsession.h \
+	$(top_srcdir)/gst/rtpmanager/gstrtpssrcdemux.h \
 	$(top_srcdir)/gst/rtsp/gstrtpdec.h \
 	$(top_srcdir)/gst/rtsp/gstrtspsrc.h \
 	$(top_srcdir)/gst/smpte/gstsmpte.h \

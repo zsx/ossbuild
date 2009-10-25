@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>flactag</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-flacenc.html" title="flacenc">
 <link rel="next" href="gst-plugins-good-plugins-flvdemux.html" title="flvdemux">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-good-plugins-flactag.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="flactag">
 <a name="gst-plugins-good-plugins-flactag"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,30 +42,36 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-flactag.synopsis"></a><h2>Synopsis</h2>
 <a name="GstFlacTag"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-flactag.html#GstFlacTag-struct" title="GstFlacTag">GstFlacTag</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-flactag.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstFlacTag
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-flactag.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstFlacTag implements
- GstTagSetter.</p>
+ <a
+href="../gstreamer-0.10/GstTagSetter.html"
+>GstTagSetter</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-flactag.description"></a><h2>Description</h2>
 <p>
 The flactag element can change the tag contained within a raw
@@ -73,25 +79,29 @@ FLAC stream. Specifically, it modifies the comments header packet
 of the FLAC stream.
 </p>
 <p>
-Applications can set the tags to write using the <span class="type">GstTagSetter</span> interface.
+Applications can set the tags to write using the <a
+href="../gstreamer-0.10/GstTagSetter.html"
+><span class="type">GstTagSetter</span></a> interface.
 Tags contained withing the FLAC bitstream will be picked up
 automatically (and merged according to the merge mode set via the tag
 setter interface).
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2742144"></a><h3>Example pipelines</h3>
+<div class="refsect2" title="Example pipelines">
+<a name="id509329"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=foo.flac ! flactag ! filesink location=bar.flac
 </pre></div> This element is not useful with gst-launch, because it does not support
-setting the tags on a <span class="type">GstTagSetter</span> interface. Conceptually, the element
+setting the tags on a <a
+href="../gstreamer-0.10/GstTagSetter.html"
+><span class="type">GstTagSetter</span></a> interface. Conceptually, the element
 will usually be used in this order though.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2754946"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id524314"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -113,8 +123,8 @@ will usually be used in this order though.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2742921"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id545273"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -162,18 +172,20 @@ will usually be used in this order though.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-flactag.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstFlacTag">
 <a name="GstFlacTag-struct"></a><h3>GstFlacTag</h3>
 <pre class="programlisting">typedef struct _GstFlacTag GstFlacTag;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-good-plugins-flactag.see-also"></a><h2>See Also</h2>
-#flacenc, <span class="type">flacdec</span>, <span class="type">GstTagSetter</span>
+#flacenc, <span class="type">flacdec</span>, <a
+href="../gstreamer-0.10/GstTagSetter.html"
+><span class="type">GstTagSetter</span></a>
 </div>
 </div>
 <div class="footer">

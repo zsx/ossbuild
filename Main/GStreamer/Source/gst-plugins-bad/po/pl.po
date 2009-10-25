@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gst-plugins-bad 0.10.9.3\n"
+"Project-Id-Version: gst-plugins-bad 0.10.13.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-06-17 21:54+0100\n"
-"PO-Revision-Date: 2009-01-12 20:15+0100\n"
+"POT-Creation-Date: 2009-10-23 23:15+0100\n"
+"PO-Revision-Date: 2009-08-26 16:52+0200\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -70,8 +70,206 @@ msgstr ""
 "Nie udało się otworzyć urządzenia dźwiękowego do sterowania mikserem. Ta "
 "wersja Open Sound System nie jest obsługiwana przez ten moduł."
 
+msgid "Volume"
+msgstr "Głośność"
+
+msgid "Master"
+msgstr "Główna"
+
+msgid "Front"
+msgstr "Przód"
+
+msgid "Rear"
+msgstr "Tył"
+
+msgid "Headphones"
+msgstr "Słuchawki"
+
+msgid "Center"
+msgstr "Środek"
+
+msgid "LFE"
+msgstr "LFE"
+
+msgid "Surround"
+msgstr "Otoczenie"
+
+msgid "Side"
+msgstr "Bok"
+
+msgid "Built-in Speaker"
+msgstr "Wbudowany głośniczek"
+
+msgid "AUX 1 Out"
+msgstr "Wyjście AUX 1"
+
+msgid "AUX 2 Out"
+msgstr "Wyjście AUX 2"
+
+msgid "AUX Out"
+msgstr "Wyjście AUX"
+
+msgid "Bass"
+msgstr "Tony niskie"
+
+msgid "Treble"
+msgstr "Tony wysokie"
+
+msgid "3D Depth"
+msgstr "Głębokość 3D"
+
+msgid "3D Center"
+msgstr "Środek 3D"
+
+msgid "3D Enhance"
+msgstr "Uwydatnienie 3D"
+
+msgid "Telephone"
+msgstr "Telefon"
+
+msgid "Microphone"
+msgstr "Mikrofon"
+
+msgid "Line Out"
+msgstr "Wyjście linii"
+
+msgid "Line In"
+msgstr "Wejście linii"
+
+msgid "Internal CD"
+msgstr "Wewnętrzne CD"
+
+msgid "Video In"
+msgstr "Wejście wideo"
+
+msgid "AUX 1 In"
+msgstr "Wejście AUX 1"
+
+msgid "AUX 2 In"
+msgstr "Wejście AUX 2"
+
+msgid "AUX In"
+msgstr "Wejście AUX"
+
+msgid "PCM"
+msgstr "PCM"
+
+msgid "Record Gain"
+msgstr "Wzmocnienie nagrywania"
+
+msgid "Output Gain"
+msgstr "Wzmocnienie wyjścia"
+
+msgid "Microphone Boost"
+msgstr "Podbicie mikrofonu"
+
+msgid "Loopback"
+msgstr "Pętla zwrotna"
+
+msgid "Diagnostic"
+msgstr "Diagnostyka"
+
+msgid "Bass Boost"
+msgstr "Podbicie basów"
+
+msgid "Playback Ports"
+msgstr "Porty playbacku"
+
+msgid "Input"
+msgstr "Wejście"
+
+msgid "Record Source"
+msgstr "Źródło nagrywania"
+
+msgid "Monitor Source"
+msgstr "Źródło monitora"
+
+msgid "Keyboard Beep"
+msgstr "Pisk klawiatury"
+
+msgid "Monitor"
+msgstr "Monitor"
+
+msgid "Simulate Stereo"
+msgstr "Symulacja stereo"
+
+msgid "Stereo"
+msgstr "Stereo"
+
+msgid "Surround Sound"
+msgstr "Dźwięk surround"
+
+msgid "Microphone Gain"
+msgstr "Wzmocnienie mikrofonu"
+
+msgid "Speaker Source"
+msgstr "Źródło głośniczka"
+
+msgid "Microphone Source"
+msgstr "Źródło mikrofonu"
+
+msgid "Jack"
+msgstr "Gniazdo"
+
+msgid "Center / LFE"
+msgstr "Środek / LFE"
+
+msgid "Stereo Mix"
+msgstr "Miksowanie stereo"
+
+msgid "Mono Mix"
+msgstr "Miksowanie mono"
+
+msgid "Input Mix"
+msgstr "Miksowanie wejścia"
+
+msgid "SPDIF In"
+msgstr "Wejście SPDIF"
+
+msgid "SPDIF Out"
+msgstr "Wyjście SPDIF"
+
+msgid "Microphone 1"
+msgstr "Mikrofon 1"
+
+msgid "Microphone 2"
+msgstr "Mikrofon 2"
+
+msgid "Digital Out"
+msgstr "Wyjście cyfrowe"
+
+msgid "Digital In"
+msgstr "Wejście cyfrowe"
+
+msgid "HDMI"
+msgstr "HDMI"
+
+msgid "Modem"
+msgstr "Modem"
+
+msgid "Handset"
+msgstr "Zestaw słuchawkowy"
+
+msgid "Other"
+msgstr "Inne"
+
+msgid "None"
+msgstr "Brak"
+
+msgid "On"
+msgstr "Włączone"
+
+msgid "Off"
+msgstr "Wyłączone"
+
+msgid "Mute"
+msgstr "Wyciszenie"
+
 msgid "Fast"
 msgstr "Szybka"
+
+msgid "Very Low"
+msgstr "Bardzo niska"
 
 msgid "Low"
 msgstr "Niska"
@@ -82,191 +280,100 @@ msgstr "Średnia"
 msgid "High"
 msgstr "Wysoka"
 
-msgid "Very high"
+msgid "Very High"
 msgstr "Bardzo wysoka"
 
 msgid "Production"
 msgstr "Produkcyjna"
 
-msgid "Off"
-msgstr "Wyłączone"
-
-msgid "On"
-msgstr "Włączone"
-
-msgid "Stereo"
-msgstr "Stereo"
-
-msgid "Surround sound"
-msgstr "Dźwięk surround"
-
-msgid "Input mix"
-msgstr "Miksowanie wejścia"
-
-msgid "Front"
-msgstr "Przód"
-
-msgid "Rear"
-msgstr "Tył"
-
-msgid "Side"
-msgstr "Bok"
-
-msgid "Center / LFE"
-msgstr "Środek / LFE"
-
-msgid "Microphone"
-msgstr "Mikrofon"
-
-msgid "Front panel microphone"
+msgid "Front Panel Microphone"
 msgstr "Mikrofon na przednim panelu"
 
-msgid "Input"
-msgstr "Wejście"
-
-msgid "Line-in"
-msgstr "Wejście linii"
-
-msgid "PCM 1"
-msgstr "PCM 1"
-
-msgid "PCM 2"
-msgstr "PCM 2"
-
-msgid "PCM 3"
-msgstr "PCM 3"
-
-msgid "PCM 4"
-msgstr "PCM 4"
-
-msgid "Green connector"
-msgstr "Zielone gniazdo"
-
-msgid "Green front panel connector"
-msgstr "Zielone gniazdo na przednim panelu"
-
-msgid "Pink connector"
-msgstr "Różowe gniazdo"
-
-msgid "Pink front panel connector"
-msgstr "Różowe gniazdo na przednim panelu"
-
-msgid "Blue connector"
-msgstr "Niebieskie gniazdo"
-
-msgid "Blue front panel connector"
-msgstr "Niebieskie gniazdo na przednim panelu"
-
-msgid "Orange connector"
-msgstr "Pomarańczowe gniazdo"
-
-msgid "Orange front panel connector"
-msgstr "Pomarańczowe gniazdo na przednim panelu"
-
-msgid "Black connector"
-msgstr "Czarne gniazdo"
-
-msgid "Black front panel connector"
-msgstr "Czarne gniazdo na przednim panelu"
-
-msgid "Gray connector"
-msgstr "Szare gniazdo"
-
-msgid "Gray front panel connector"
-msgstr "Szare gniazdo na przednim panelu"
-
-msgid "White connector"
-msgstr "Białe gniazdo"
-
-msgid "White front panel connector"
-msgstr "Białe gniazdo na przednim panelu"
-
-msgid "Red connector"
-msgstr "Czerwone gniazdo"
-
-msgid "Red front panel connector"
-msgstr "Czerwone gniazdo na przednim panelu"
-
-msgid "Yellow connector"
-msgstr "Żółte gniazdo"
-
-msgid "Yellow front panel connector"
-msgstr "Żółte gniazdo na przednim panelu"
-
-msgid "Green connector function"
-msgstr "Funkcja zielonego gniazda"
-
-msgid "Green front panel connector function"
-msgstr "Funkcja zielonego gniazda na przednim panelu"
-
-msgid "Pink connector function"
-msgstr "Funkcja różowego gniazda"
-
-msgid "Pink front panel connector function"
-msgstr "Funkcja różowego gniazda na przednim panelu"
-
-msgid "Blue connector function"
-msgstr "Funkcja niebieskiego gniazda"
-
-msgid "Blue front panel connector function"
-msgstr "Funkcja niebieskiego gniazda na przednim panelu"
-
-msgid "Orange connector function"
-msgstr "Funkcja pomarańczowego gniazda"
-
-msgid "Orange front panel connector function"
-msgstr "Funkcja pomarańczowego gniazda na przednim panelu"
-
-msgid "Black connector function"
-msgstr "Funkcja czarnego gniazda"
-
-msgid "Black front panel connector function"
-msgstr "Funkcja czarnego gniazda na przednim panelu"
-
-msgid "Gray connector function"
-msgstr "Funkcja szarego gniazda"
-
-msgid "Gray front panel connector function"
-msgstr "Funkcja szarego gniazda na przednim panelu"
-
-msgid "White connector function"
-msgstr "Funkcja białego gniazda"
-
-msgid "White front panel connector function"
-msgstr "Funkcja białego gniazda na przednim panelu"
-
-msgid "Red connector function"
-msgstr "Funkcja czerwonego gniazda"
-
-msgid "Red front panel connector function"
-msgstr "Funkcja czerwonego gniazda na przednim panelu"
-
-msgid "Yellow connector function"
-msgstr "Funkcja żółtego gniazda"
-
-msgid "Yellow front panel connector function"
-msgstr "Funkcja żółtego gniazda na przednim panelu"
-
-msgid "Front panel line-in"
+msgid "Front Panel Line In"
 msgstr "Wejście linii na przednim panelu"
 
-msgid "Headphones"
-msgstr "Słuchawki"
-
-msgid "Front panel headphones"
+msgid "Front Panel Headphones"
 msgstr "Słuchawki na przednim panelu"
 
-msgid "PCM"
-msgstr "PCM"
+msgid "Front Panel Line Out"
+msgstr "Wyjście linii na przednim panelu"
 
-msgid "Virtual mixer input"
+msgid "Green Connector"
+msgstr "Zielone gniazdo"
+
+msgid "Pink Connector"
+msgstr "Różowe gniazdo"
+
+msgid "Blue Connector"
+msgstr "Niebieskie gniazdo"
+
+msgid "White Connector"
+msgstr "Białe gniazdo"
+
+msgid "Black Connector"
+msgstr "Czarne gniazdo"
+
+msgid "Gray Connector"
+msgstr "Szare gniazdo"
+
+msgid "Orange Connector"
+msgstr "Pomarańczowe gniazdo"
+
+msgid "Red Connector"
+msgstr "Czerwone gniazdo"
+
+msgid "Yellow Connector"
+msgstr "Żółte gniazdo"
+
+msgid "Green Front Panel Connector"
+msgstr "Zielone gniazdo na przednim panelu"
+
+msgid "Pink Front Panel Connector"
+msgstr "Różowe gniazdo na przednim panelu"
+
+msgid "Blue Front Panel Connector"
+msgstr "Niebieskie gniazdo na przednim panelu"
+
+msgid "White Front Panel Connector"
+msgstr "Białe gniazdo na przednim panelu"
+
+msgid "Black Front Panel Connector"
+msgstr "Czarne gniazdo na przednim panelu"
+
+msgid "Gray Front Panel Connector"
+msgstr "Szare gniazdo na przednim panelu"
+
+msgid "Orange Front Panel Connector"
+msgstr "Pomarańczowe gniazdo na przednim panelu"
+
+msgid "Red Front Panel Connector"
+msgstr "Czerwone gniazdo na przednim panelu"
+
+msgid "Yellow Front Panel Connector"
+msgstr "Żółte gniazdo na przednim panelu"
+
+msgid "Spread Output"
+msgstr "Wyjście przestrzenne"
+
+msgid "Downmix"
+msgstr "Miksowanie w dół"
+
+msgid "Virtual Mixer Input"
 msgstr "Wejście wirtualnego miksera"
 
-msgid "Virtual mixer output"
+msgid "Virtual Mixer Output"
 msgstr "Wyjście wirtualnego miksera"
 
-msgid "Virtual mixer channel configuration"
-msgstr "Konfiguracja kanałów wirtualnego miksera"
+msgid "Virtual Mixer Channels"
+msgstr "Kanały wirtualnego miksera"
+
+#, c-format
+msgid "%s Function"
+msgstr "Funkcja %s"
+
+#, c-format
+msgid "%s %d"
+msgstr "%s %d"
 
 msgid ""
 "Could not open audio device for playback. Device is being used by another "
@@ -303,15 +410,3 @@ msgstr "To urządzenie dźwiękowe nie obsługuje nagrywania."
 
 msgid "Error recording from audio device."
 msgstr "Błąd nagrywania z urządzenia dźwiękowego."
-
-#~ msgid "Failed to configure TwoLAME encoder. Check your encoding parameters."
-#~ msgstr ""
-#~ "Nie udało się skonfigurować kodera TwoLAME. Proszę sprawdzić parametry "
-#~ "kodowania."
-
-#~ msgid ""
-#~ "The requested bitrate %d kbit/s for property '%s' is not allowed. The "
-#~ "bitrate was changed to %d kbit/s."
-#~ msgstr ""
-#~ "Żądane bitrate %d kbit/s dla właściwości '%s' nie jest dozwolone - "
-#~ "zmieniono na %d kbit/s."

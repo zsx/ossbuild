@@ -100,6 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gstreamer-%{majorminor}/libgstmulaw.so
 %{_libdir}/gstreamer-%{majorminor}/libgstqtdemux.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrtp.so
+%{_libdir}/gstreamer-%{majorminor}/libgstrtpmanager.so
 %{_libdir}/gstreamer-%{majorminor}/libgstrtsp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstsmpte.so
 %{_libdir}/gstreamer-%{majorminor}/libgstudp.so
@@ -134,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gstreamer-%{majorminor}/libgstgoom2k1.so
 %{_libdir}/gstreamer-%{majorminor}/libgstinterleave.so
 %{_libdir}/gstreamer-%{majorminor}/libgstreplaygain.so
+%{_libdir}/gstreamer-%{majorminor}/libgstdeinterlace.so
+%{_libdir}/gstreamer-%{majorminor}/libgstflv.so
+%{_libdir}/gstreamer-%{majorminor}/libgsty4menc.so
 
 # sys plugins
 @USE_GST_V4L2_TRUE@%{_libdir}/gstreamer-%{majorminor}/libgstvideo4linux2.so

@@ -52,6 +52,9 @@ struct _GstRtpMP4VPay
   gint          profile;
   GstBuffer    *config;
   gboolean      send_config;
+  gboolean      need_config;
+
+  gboolean      buffer_list;
 
   GstPadEventFunction old_event_func;
 };

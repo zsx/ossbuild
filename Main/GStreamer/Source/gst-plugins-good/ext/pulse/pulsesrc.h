@@ -43,6 +43,8 @@ G_BEGIN_DECLS
   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_PULSESRC))
 #define GST_IS_PULSESRC_CLASS(obj) \
   (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_PULSESRC))
+#define GST_PULSESRC_CAST(obj) \
+  ((GstPulseSrc *)(obj))
 
 typedef struct _GstPulseSrc GstPulseSrc;
 typedef struct _GstPulseSrcClass GstPulseSrcClass;
@@ -68,8 +70,10 @@ struct _GstPulseSrc
   GstPulseMixerCtrl *mixer;
   GstPulseProbe *probe;
 
+  gboolean corked;
   gboolean operation_success;
-  gboolean did_reset, in_read;
+  gboolean paused;
+  gboolean in_read;
 };
 
 struct _GstPulseSrcClass

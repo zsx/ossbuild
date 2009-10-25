@@ -439,8 +439,8 @@ gst_mxf_demux_handle_partition_pack (GstMXFDemux * demux, const MXFUL * key,
   for (l = demux->partitions; l; l = l->next) {
     GstMXFDemuxPartition *a, *b;
 
-    if (l->next == NULL);
-    break;
+    if (l->next == NULL)
+      break;
 
     a = l->data;
     b = l->next->data;
@@ -483,32 +483,11 @@ gst_mxf_demux_handle_primer_pack (GstMXFDemux * demux, const MXFUL * key,
   return GST_FLOW_OK;
 }
 
-#if !GLIB_CHECK_VERSION (2, 16, 0)
-static void
-set_resolve_state_none (gpointer key, gpointer value, gpointer user_data)
-{
-  MXFMetadataBase *m = (MXFMetadataBase *) value;
-  m->resolved = MXF_METADATA_BASE_RESOLVE_STATE_NONE;
-}
-
-static void
-build_values_in_hash_table (gpointer key, gpointer value, gpointer user_data)
-{
-  GList **valuelist = (GList **) (user_data);
-
-  *valuelist = g_list_prepend (*valuelist, value);
-}
-#endif
-
 static GstFlowReturn
 gst_mxf_demux_resolve_references (GstMXFDemux * demux)
 {
   GstFlowReturn ret = GST_FLOW_OK;
-#if GLIB_CHECK_VERSION (2, 16, 0)
   GHashTableIter iter;
-#else
-  GList *l, *values = NULL;
-#endif
   MXFMetadataBase *m = NULL;
   GstStructure *structure;
   GstTagList *taglist;
@@ -523,26 +502,15 @@ gst_mxf_demux_resolve_references (GstMXFDemux * demux)
     g_static_rw_lock_writer_unlock (&demux->metadata_lock);
     return GST_FLOW_ERROR;
   }
-#if GLIB_CHECK_VERSION (2, 16, 0)
+
   g_hash_table_iter_init (&iter, demux->metadata);
   while (g_hash_table_iter_next (&iter, NULL, (gpointer) & m)) {
     m->resolved = MXF_METADATA_BASE_RESOLVE_STATE_NONE;
   }
-#else
-  g_hash_table_foreach (demux->metadata, set_resolve_state_none, NULL);
-#endif
 
-#if GLIB_CHECK_VERSION (2, 16, 0)
   g_hash_table_iter_init (&iter, demux->metadata);
   while (g_hash_table_iter_next (&iter, NULL, (gpointer) & m)) {
     gboolean resolved;
-#else
-  g_hash_table_foreach (demux->metadata, build_values_in_hash_table, &values);
-  for (l = values; l; l = l->next) {
-    gboolean resolved;
-
-    m = l->data;
-#endif
 
     resolved = mxf_metadata_base_resolve (m, demux->metadata);
 
@@ -564,19 +532,11 @@ gst_mxf_demux_resolve_references (GstMXFDemux * demux)
   gst_element_found_tags (GST_ELEMENT (demux), taglist);
   gst_structure_free (structure);
 
-#if !GLIB_CHECK_VERSION (2, 16, 0)
-  g_list_free (values);
-#endif
-
   g_static_rw_lock_writer_unlock (&demux->metadata_lock);
 
   return ret;
 
 error:
-#if !GLIB_CHECK_VERSION (2, 16, 0)
-  g_list_free (values);
-#endif
-
   demux->metadata_resolved = FALSE;
   g_static_rw_lock_writer_unlock (&demux->metadata_lock);
 
@@ -1921,8 +1881,8 @@ gst_mxf_demux_handle_random_index_pack (GstMXFDemux * demux, const MXFUL * key,
   for (l = demux->partitions; l; l = l->next) {
     GstMXFDemuxPartition *a, *b;
 
-    if (l->next == NULL);
-    break;
+    if (l->next == NULL)
+      break;
 
     a = l->data;
     b = l->next->data;
@@ -3453,6 +3413,7 @@ gst_mxf_demux_src_query_type (GstPad * pad)
   static const GstQueryType types[] = {
     GST_QUERY_POSITION,
     GST_QUERY_DURATION,
+    GST_QUERY_SEEKING,
     0
   };
 
@@ -3543,6 +3504,33 @@ gst_mxf_demux_src_query (GstPad * pad, GstQuery * query)
 
       gst_query_set_duration (query, format, duration);
       ret = TRUE;
+      break;
+    }
+    case GST_QUERY_SEEKING:{
+      GstFormat fmt;
+
+      ret = TRUE;
+      gst_query_parse_seeking (query, &fmt, NULL, NULL, NULL);
+      if (fmt != GST_FORMAT_TIME) {
+        gst_query_set_seeking (query, fmt, FALSE, -1, -1);
+        goto done;
+      }
+
+      if (demux->random_access) {
+        gst_query_set_seeking (query, GST_FORMAT_TIME, TRUE, 0, -1);
+      } else {
+        GstQuery *peerquery = gst_query_new_seeking (GST_FORMAT_BYTES);
+        gboolean seekable;
+
+        seekable = gst_pad_peer_query (demux->sinkpad, peerquery);
+        if (seekable)
+          gst_query_parse_seeking (peerquery, NULL, &seekable, NULL, NULL);
+        if (seekable)
+          gst_query_set_seeking (query, GST_FORMAT_TIME, TRUE, 0, -1);
+        else
+          gst_query_set_seeking (query, GST_FORMAT_TIME, FALSE, -1, -1);
+      }
+
       break;
     }
     default:
@@ -3804,6 +3792,33 @@ gst_mxf_demux_query (GstElement * element, GstQuery * query)
 
       gst_query_set_duration (query, format, duration);
       ret = TRUE;
+      break;
+    }
+    case GST_QUERY_SEEKING:{
+      GstFormat fmt;
+
+      ret = TRUE;
+      gst_query_parse_seeking (query, &fmt, NULL, NULL, NULL);
+      if (fmt != GST_FORMAT_TIME) {
+        gst_query_set_seeking (query, fmt, FALSE, -1, -1);
+        goto done;
+      }
+
+      if (demux->random_access) {
+        gst_query_set_seeking (query, GST_FORMAT_TIME, TRUE, 0, -1);
+      } else {
+        GstQuery *peerquery = gst_query_new_seeking (GST_FORMAT_BYTES);
+        gboolean seekable;
+
+        seekable = gst_pad_peer_query (demux->sinkpad, peerquery);
+        if (seekable)
+          gst_query_parse_seeking (peerquery, NULL, &seekable, NULL, NULL);
+        if (seekable)
+          gst_query_set_seeking (query, GST_FORMAT_TIME, TRUE, 0, -1);
+        else
+          gst_query_set_seeking (query, GST_FORMAT_TIME, FALSE, -1, -1);
+      }
+
       break;
     }
     default:

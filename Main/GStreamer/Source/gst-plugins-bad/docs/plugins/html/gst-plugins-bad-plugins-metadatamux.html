@@ -56,8 +56,12 @@
   <a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----<a class="link" href="GstBaseMetadata.html" title="GstBaseMetadata">GstBaseMetadata</a>
                      +----GstMetadataMux
 </pre>
@@ -66,7 +70,9 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-bad-plugins-metadatamux.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstMetadataMux implements
- GstTagSetter.</p>
+ <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
+>GstTagSetter</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-bad-plugins-metadatamux.properties"></a><h2>Properties</h2>
@@ -88,11 +94,13 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2987452"></a><h3>Example launch line</h3>
+<a name="id2876903"></a><h3>Example launch line</h3>
 <p>
 This element writes tags into metadata (EXIF, IPTC and XMP) chunks, and
 writes the chunks into image files (JPEG, PNG). Tags the are received as
-GST_EVENT_TAG event or set by the application using <span class="type">GstTagSetter</span> interface.
+GST_EVENT_TAG event or set by the application using <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
+><span class="type">GstTagSetter</span></a> interface.
 </p>
 <p>
 </p>
@@ -118,7 +126,7 @@ will be created from the scratch and then modified in same way.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id3055369"></a><h3>Element Information</h3>
+<a name="id2888168"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -141,7 +149,86 @@ will be created from the scratch and then modified in same way.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id3055431"></a><h3>Element Pads</h3>
+<a name="id2888230"></a><h3>Element Pads</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>sink</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>image/jpeg, tags-extracted=(boolean)true</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
+<td> image/png, tags-extracted=(boolean)true</td>
+</tr>
+</tbody>
+</table></div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">name</span></p></td>
+<td>src</td>
+</tr>
+<tr>
+<td><p><span class="term">direction</span></p></td>
+<td>source</td>
+</tr>
+<tr>
+<td><p><span class="term">presence</span></p></td>
+<td>always</td>
+</tr>
+<tr>
+<td><p><span class="term">details</span></p></td>
+<td>image/jpeg</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
+<td> image/png</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsynopsisdiv">
+<h2>Synopsis</h2>
+<div class="refsect2" lang="en">
+<a name="id2888397"></a><h3>Element Information</h3>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term">plugin</span></p></td>
+<td>
+            <a class="link" href="gst-plugins-bad-plugins-plugin-metadata.html#plugin-metadata">metadata</a>
+          </td>
+</tr>
+<tr>
+<td><p><span class="term">author</span></p></td>
+<td>Edgard Lima &lt;edgard.lima@indt.org.br&gt;</td>
+</tr>
+<tr>
+<td><p><span class="term">class</span></p></td>
+<td>Muxer/Extracter/Metadata</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" lang="en">
+<a name="id2888460"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>

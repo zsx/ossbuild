@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>aspectratiocrop</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-apev2mux.html" title="apev2mux">
 <link rel="next" href="gst-plugins-good-plugins-audioamplify.html" title="audioamplify">
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-aspectratiocrop.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="aspectratiocrop">
 <a name="gst-plugins-good-plugins-aspectratiocrop"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,37 +44,45 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-aspectratiocrop.synopsis"></a><h2>Synopsis</h2>
 <a name="GstAspectRatioCrop"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-aspectratiocrop.html#GstAspectRatioCrop-struct" title="GstAspectRatioCrop">GstAspectRatioCrop</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-aspectratiocrop.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBin
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-0.10/GstBin.html"
+>GstBin</a>
                      +----GstAspectRatioCrop
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-aspectratiocrop.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstAspectRatioCrop implements
- GstChildProxy.</p>
+ <a
+href="../gstreamer-0.10/GstChildProxy.html"
+>GstChildProxy</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-aspectratiocrop.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-aspectratiocrop.html#GstAspectRatioCrop--aspect-ratio" title='The "aspect-ratio" property'>aspect-ratio</a>"             GstFraction           : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-aspectratiocrop.description"></a><h2>Description</h2>
 <p>
 This element crops video frames to a specified <a class="link" href="gst-plugins-good-plugins-aspectratiocrop.html#GstAspectRatioCrop--aspect-ratio" title='The "aspect-ratio" property'><span class="type">"aspect-ratio"</span></a>.
@@ -85,16 +93,16 @@ in pass-through mode.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2743245"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id484214"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v videotestsrc ! video/x-raw-rgb,height=640,width=480 ! aspectratiocrop aspect-ratio=16/9 ! ximagesink
 </pre></div> This pipeline generates a videostream in 4/3 and crops it to 16/9.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2743232"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id517824"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -116,8 +124,8 @@ gst-launch -v videotestsrc ! video/x-raw-rgb,height=640,width=480 ! aspectratioc
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2743159"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id488701"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -309,24 +317,24 @@ gst-launch -v videotestsrc ! video/x-raw-rgb,height=640,width=480 ! aspectratioc
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-aspectratiocrop.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstAspectRatioCrop">
 <a name="GstAspectRatioCrop-struct"></a><h3>GstAspectRatioCrop</h3>
 <pre class="programlisting">typedef struct _GstAspectRatioCrop GstAspectRatioCrop;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-aspectratiocrop.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "aspect-ratio" property'>
 <a name="GstAspectRatioCrop--aspect-ratio"></a><h3>The <code class="literal">"aspect-ratio"</code> property</h3>
 <pre class="programlisting">  "aspect-ratio"             GstFraction           : Read / Write</pre>
 <p>Target aspect-ratio of video.</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-good-plugins-aspectratiocrop.see-also"></a><h2>See Also</h2>
 #GstVideoCrop
 </div>

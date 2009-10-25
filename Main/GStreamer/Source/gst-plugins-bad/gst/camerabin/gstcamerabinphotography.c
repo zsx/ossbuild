@@ -42,7 +42,7 @@ gst_camerabin_set_ev_compensation (GstPhotography * photo,
     gfloat ev_compensation)
 {
   GstCameraBin *camera;
-  gboolean ret = FALSE;
+  gboolean ret = TRUE;
 
   g_return_val_if_fail (photo != NULL, FALSE);
 
@@ -82,7 +82,7 @@ static gboolean
 gst_camerabin_set_iso_speed (GstPhotography * photo, guint iso_speed)
 {
   GstCameraBin *camera;
-  gboolean ret = FALSE;
+  gboolean ret = TRUE;
 
   g_return_val_if_fail (photo != NULL, FALSE);
 
@@ -120,7 +120,7 @@ gst_camerabin_set_white_balance_mode (GstPhotography * photo,
     GstWhiteBalanceMode white_balance_mode)
 {
   GstCameraBin *camera;
-  gboolean ret = FALSE;
+  gboolean ret = TRUE;
 
   g_return_val_if_fail (photo != NULL, FALSE);
 
@@ -161,7 +161,7 @@ gst_camerabin_set_colour_tone_mode (GstPhotography * photo,
     GstColourToneMode colour_tone_mode)
 {
   GstCameraBin *camera;
-  gboolean ret = FALSE;
+  gboolean ret = TRUE;
 
   g_return_val_if_fail (photo != NULL, FALSE);
 
@@ -201,7 +201,7 @@ static gboolean
 gst_camerabin_set_flash_mode (GstPhotography * photo, GstFlashMode flash_mode)
 {
   GstCameraBin *camera;
-  gboolean ret = FALSE;
+  gboolean ret = TRUE;
 
   g_return_val_if_fail (photo != NULL, FALSE);
 
@@ -269,7 +269,7 @@ static gboolean
 gst_camerabin_set_scene_mode (GstPhotography * photo, GstSceneMode scene_mode)
 {
   GstCameraBin *camera;
-  gboolean ret = FALSE;
+  gboolean ret = TRUE;
 
   g_return_val_if_fail (photo != NULL, FALSE);
 
@@ -283,6 +283,10 @@ gst_camerabin_set_scene_mode (GstPhotography * photo, GstSceneMode scene_mode)
   if (PHOTOGRAPHY_IS_OK (camera->src_vid_src)) {
     ret = gst_photography_set_scene_mode (GST_PHOTOGRAPHY (camera->src_vid_src),
         scene_mode);
+    if (ret) {
+      gst_photography_get_config (GST_PHOTOGRAPHY (camera->src_vid_src),
+          &camera->photo_settings);
+    }
   }
   return ret;
 }
@@ -345,7 +349,7 @@ static gboolean
 gst_camerabin_set_config (GstPhotography * photo, GstPhotoSettings * config)
 {
   GstCameraBin *camera;
-  gboolean ret = FALSE;
+  gboolean ret = TRUE;
   g_return_val_if_fail (photo != NULL, FALSE);
   camera = GST_CAMERABIN (photo);
 

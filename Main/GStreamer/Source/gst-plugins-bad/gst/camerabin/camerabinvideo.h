@@ -24,24 +24,19 @@
 #include <gst/gstbin.h>
 
 G_BEGIN_DECLS
-
 //#define USE_TIMEOVERLAY 1
-
 #define ARG_DEFAULT_MUTE FALSE
-
 #define GST_TYPE_CAMERABIN_VIDEO             (gst_camerabin_video_get_type())
 #define GST_CAMERABIN_VIDEO_CAST(obj)        ((GstCameraBinVideo*)(obj))
 #define GST_CAMERABIN_VIDEO(obj)             (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_CAMERABIN_VIDEO,GstCameraBinVideo))
 #define GST_CAMERABIN_VIDEO_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_CAMERABIN_VIDEO,GstCameraBinVideoClass))
 #define GST_IS_CAMERABIN_VIDEO(obj)          (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_CAMERABIN_VIDEO))
 #define GST_IS_CAMERABIN_VIDEO_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_CAMERABIN_VIDEO))
-
 /**
  * GstCameraBinVideo:
  *
  * The opaque #GstCameraBinVideo structure.
  */
-
 typedef struct _GstCameraBinVideo GstCameraBinVideo;
 typedef struct _GstCameraBinVideoClass GstCameraBinVideoClass;
 
@@ -86,6 +81,14 @@ struct _GstCameraBinVideo
   GstElement *muxer;            /* Muxer */
 
   GstEvent *pending_eos;
+
+  /* Probe IDs */
+  gulong aud_src_probe_id;
+  gulong vid_src_probe_id;
+  gulong vid_tee_probe_id;
+  gulong vid_sink_probe_id;
+
+  gboolean mute;
 };
 
 struct _GstCameraBinVideoClass
@@ -132,5 +135,4 @@ GstElement *gst_camerabin_video_get_muxer (GstCameraBinVideo * vid);
 GstElement *gst_camerabin_video_get_audio_src (GstCameraBinVideo * vid);
 
 G_END_DECLS
-
 #endif /* #ifndef __CAMERABIN_VIDEO_H__ */

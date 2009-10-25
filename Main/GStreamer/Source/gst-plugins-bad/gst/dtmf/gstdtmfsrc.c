@@ -287,6 +287,12 @@ gst_dtmf_src_class_init (GstDTMFSrcClass * klass)
   gstbasesrc_class->negotiate = GST_DEBUG_FUNCPTR (gst_dtmf_src_negotiate);
 }
 
+static void
+event_free (GstDTMFSrcEvent * event)
+{
+  if (event)
+    g_slice_free (GstDTMFSrcEvent, event);
+}
 
 static void
 gst_dtmf_src_init (GstDTMFSrc * dtmfsrc, GstDTMFSrcClass * g_class)
@@ -297,7 +303,7 @@ gst_dtmf_src_init (GstDTMFSrc * dtmfsrc, GstDTMFSrcClass * g_class)
 
   dtmfsrc->interval = DEFAULT_PACKET_INTERVAL;
 
-  dtmfsrc->event_queue = g_async_queue_new ();
+  dtmfsrc->event_queue = g_async_queue_new_full ((GDestroyNotify) event_free);
   dtmfsrc->last_event = NULL;
 
   dtmfsrc->sample_rate = DEFAULT_SAMPLE_RATE;
@@ -482,7 +488,7 @@ gst_dtmf_src_add_start_event (GstDTMFSrc * dtmfsrc, gint event_number,
     gint event_volume)
 {
 
-  GstDTMFSrcEvent *event = g_malloc (sizeof (GstDTMFSrcEvent));
+  GstDTMFSrcEvent *event = g_slice_new0 (GstDTMFSrcEvent);
   event->event_type = DTMF_EVENT_TYPE_START;
   event->sample = 0;
   event->event_number = CLAMP (event_number, MIN_EVENT, MAX_EVENT);
@@ -495,7 +501,7 @@ static void
 gst_dtmf_src_add_stop_event (GstDTMFSrc * dtmfsrc)
 {
 
-  GstDTMFSrcEvent *event = g_malloc (sizeof (GstDTMFSrcEvent));
+  GstDTMFSrcEvent *event = g_slice_new0 (GstDTMFSrcEvent);
   event->event_type = DTMF_EVENT_TYPE_STOP;
   event->sample = 0;
   event->event_number = 0;
@@ -658,7 +664,7 @@ gst_dtmf_src_create (GstBaseSrc * basesrc, guint64 offset,
           break;
       }
       if (event)
-        g_free (event);
+        g_slice_free (GstDTMFSrcEvent, event);
     } else if (dtmfsrc->last_event->packet_count * dtmfsrc->interval >=
         MIN_DUTY_CYCLE) {
       event = g_async_queue_try_pop (dtmfsrc->event_queue);
@@ -673,7 +679,7 @@ gst_dtmf_src_create (GstBaseSrc * basesrc, guint64 offset,
           case DTMF_EVENT_TYPE_STOP:
             gst_dtmf_src_set_stream_lock (dtmfsrc, FALSE);
 
-            g_free (dtmfsrc->last_event);
+            g_slice_free (GstDTMFSrcEvent, dtmfsrc->last_event);
             dtmfsrc->last_event = NULL;
             break;
           case DTMF_EVENT_TYPE_PAUSE_TASK:
@@ -692,7 +698,7 @@ gst_dtmf_src_create (GstBaseSrc * basesrc, guint64 offset,
 
             break;
         }
-        g_free (event);
+        g_slice_free (GstDTMFSrcEvent, event);
       }
     }
   } while (dtmfsrc->last_event == NULL);
@@ -748,7 +754,7 @@ paused:
     GST_DEBUG_OBJECT (dtmfsrc, "Stopping current event");
     /* Don't forget to release the stream lock */
     gst_dtmf_src_set_stream_lock (dtmfsrc, FALSE);
-    g_free (dtmfsrc->last_event);
+    g_slice_free (GstDTMFSrcEvent, dtmfsrc->last_event);
     dtmfsrc->last_event = NULL;
   }
 
@@ -772,7 +778,7 @@ gst_dtmf_src_unlock (GstBaseSrc * src)
   GST_OBJECT_UNLOCK (dtmfsrc);
 
   GST_DEBUG_OBJECT (dtmfsrc, "Pushing the PAUSE_TASK event on unlock request");
-  event = g_malloc (sizeof (GstDTMFSrcEvent));
+  event = g_slice_new0 (GstDTMFSrcEvent);
   event->event_type = DTMF_EVENT_TYPE_PAUSE_TASK;
   g_async_queue_push (dtmfsrc->event_queue, event);
 
@@ -875,7 +881,7 @@ gst_dtmf_src_change_state (GstElement * element, GstStateChange transition)
       event = g_async_queue_try_pop (dtmfsrc->event_queue);
 
       while (event != NULL) {
-        g_free (event);
+        g_slice_free (GstDTMFSrcEvent, event);
         event = g_async_queue_try_pop (dtmfsrc->event_queue);
       }
       no_preroll = TRUE;
@@ -899,7 +905,7 @@ gst_dtmf_src_change_state (GstElement * element, GstStateChange transition)
       event = g_async_queue_try_pop (dtmfsrc->event_queue);
 
       while (event != NULL) {
-        g_free (event);
+        g_slice_free (GstDTMFSrcEvent, event);
         event = g_async_queue_try_pop (dtmfsrc->event_queue);
       }
 

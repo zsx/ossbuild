@@ -149,6 +149,7 @@ enum
 #define DEFAULT_NAT_METHOD       GST_RTSP_NAT_DUMMY
 #define DEFAULT_DO_RTCP          TRUE
 #define DEFAULT_PROXY            NULL
+#define DEFAULT_RTP_BLOCKSIZE    0
 
 enum
 {
@@ -164,6 +165,7 @@ enum
   PROP_NAT_METHOD,
   PROP_DO_RTCP,
   PROP_PROXY,
+  PROP_RTP_BLOCKSIZE,
   PROP_LAST
 };
 
@@ -215,6 +217,10 @@ static void gst_rtspsrc_get_property (GObject * object, guint prop_id,
 
 static void gst_rtspsrc_uri_handler_init (gpointer g_iface,
     gpointer iface_data);
+
+static void gst_rtspsrc_sdp_attributes_to_caps (GArray * attributes,
+    GstCaps * caps);
+
 static GstCaps *gst_rtspsrc_media_to_caps (gint pt, const GstSDPMedia * media);
 
 static GstStateChangeReturn gst_rtspsrc_change_state (GstElement * element,
@@ -239,6 +245,7 @@ static void gst_rtspsrc_loop (GstRTSPSrc * src);
 static void gst_rtspsrc_stream_push_event (GstRTSPSrc * src,
     GstRTSPStream * stream, GstEvent * event);
 static void gst_rtspsrc_push_event (GstRTSPSrc * src, GstEvent * event);
+static gchar *gst_rtspsrc_dup_printf (const gchar * format, ...);
 
 /* commands we send to out loop to notify it of events */
 #define CMD_WAIT	0
@@ -366,6 +373,19 @@ gst_rtspsrc_class_init (GstRTSPSrcClass * klass)
       g_param_spec_string ("proxy", "Proxy",
           "Proxy settings for HTTP tunneling. Format: [http://][user:passwd@]host[:port]",
           DEFAULT_PROXY, G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+
+  /**
+   * GstRTSPSrc::rtp_blocksize
+   *
+   * RTP package size to suggest to server.
+   *
+   * Since: 0.10.16
+   */
+  g_object_class_install_property (gobject_class, PROP_RTP_BLOCKSIZE,
+      g_param_spec_uint ("rtp-blocksize", "RTP Blocksize",
+          "RTP package size to suggest to server (0 = disabled)",
+          0, 65536, DEFAULT_RTP_BLOCKSIZE,
+          G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
   gstelement_class->change_state = gst_rtspsrc_change_state;
 
@@ -542,6 +562,9 @@ gst_rtspsrc_set_property (GObject * object, guint prop_id, const GValue * value,
     case PROP_PROXY:
       gst_rtspsrc_set_proxy (rtspsrc, g_value_get_string (value));
       break;
+    case PROP_RTP_BLOCKSIZE:
+      rtspsrc->rtp_blocksize = g_value_get_uint (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -606,6 +629,9 @@ gst_rtspsrc_get_property (GObject * object, guint prop_id, GValue * value,
       g_value_take_string (value, str);
       break;
     }
+    case PROP_RTP_BLOCKSIZE:
+      g_value_set_uint (value, rtspsrc->rtp_blocksize);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -763,6 +789,11 @@ gst_rtspsrc_create_stream (GstRTSPSrc * src, GstSDPMessage * sdp, gint idx)
     stream->pt = atoi (payload);
     /* convert caps */
     stream->caps = gst_rtspsrc_media_to_caps (stream->pt, media);
+
+    GST_DEBUG ("mapping sdp session level attributes to caps");
+    gst_rtspsrc_sdp_attributes_to_caps (sdp->attributes, stream->caps);
+    GST_DEBUG ("mapping sdp media level attributes to caps");
+    gst_rtspsrc_sdp_attributes_to_caps (media->attributes, stream->caps);
 
     if (stream->pt >= 96) {
       /* If we have a dynamic payload type, see if we have a stream with the
@@ -977,6 +1008,54 @@ gst_rtspsrc_parse_rtpmap (const gchar * rtpmap, gint * payload, gchar ** name,
   *params = t;
 
   return TRUE;
+}
+
+/*
+ * Mapping SDP attributes to caps
+ *
+ * prepend 'a-' to IANA registered sdp attributes names
+ * (ie: not prefixed with 'x-') in order to avoid
+ * collision with gstreamer standard caps properties names
+ */
+static void
+gst_rtspsrc_sdp_attributes_to_caps (GArray * attributes, GstCaps * caps)
+{
+  if (attributes->len > 0) {
+    GstStructure *s;
+    guint i;
+
+    s = gst_caps_get_structure (caps, 0);
+
+    for (i = 0; i < attributes->len; i++) {
+      GstSDPAttribute *attr = &g_array_index (attributes, GstSDPAttribute, i);
+      gchar *tofree, *key;
+
+      key = attr->key;
+
+      /* skip some of the attribute we already handle */
+      if (!strcmp (key, "fmtp"))
+        continue;
+      if (!strcmp (key, "rtpmap"))
+        continue;
+      if (!strcmp (key, "control"))
+        continue;
+      if (!strcmp (key, "range"))
+        continue;
+
+      /* string must be valid UTF8 */
+      if (!g_utf8_validate (attr->value, -1, NULL))
+        continue;
+
+      if (!g_str_has_prefix (key, "x-"))
+        tofree = key = g_strdup_printf ("a-%s", key);
+      else
+        tofree = NULL;
+
+      GST_DEBUG ("adding caps: %s=%s", key, attr->value);
+      gst_structure_set (s, key, G_TYPE_STRING, attr->value, NULL);
+      g_free (tofree);
+    }
+  }
 }
 
 /*
@@ -1903,6 +1982,8 @@ gst_rtspsrc_stream_configure_manager (GstRTSPSrc * src, GstRTSPStream * stream,
 
     /* configure the manager */
     if (src->session == NULL) {
+      GstState target;
+
       if (!(src->session = gst_element_factory_make (manager, NULL))) {
         /* fallback */
         if (gst_rtsp_transport_get_manager (transport->trans, &manager, 1) < 0)
@@ -1918,7 +1999,11 @@ gst_rtspsrc_stream_configure_manager (GstRTSPSrc * src, GstRTSPStream * stream,
       /* we manage this element */
       gst_bin_add (GST_BIN_CAST (src), src->session);
 
-      ret = gst_element_set_state (src->session, GST_STATE_PAUSED);
+      GST_OBJECT_LOCK (src);
+      target = GST_STATE_TARGET (src);
+      GST_OBJECT_UNLOCK (src);
+
+      ret = gst_element_set_state (src->session, target);
       if (ret == GST_STATE_CHANGE_FAILURE)
         goto start_session_failure;
 
@@ -2263,7 +2348,7 @@ gst_rtspsrc_stream_configure_udp_sinks (GstRTSPSrc * src,
     g_object_set (G_OBJECT (stream->fakesrc), "filltype", 3, "num-buffers", 5,
         NULL);
     g_object_set (G_OBJECT (stream->fakesrc), "sizetype", 2, "sizemax", 200,
-        NULL);
+        "silent", TRUE, NULL);
 
     /* we don't want to consider this a sink */
     GST_OBJECT_FLAG_UNSET (stream->udpsink[0], GST_ELEMENT_IS_SINK);
@@ -2951,6 +3036,7 @@ server_eof:
     GST_ELEMENT_WARNING (src, RESOURCE, READ, (NULL),
         ("The server closed the connection."));
     src->connected = FALSE;
+    gst_rtsp_message_unset (&message);
     return GST_FLOW_UNEXPECTED;
   }
 interrupt:
@@ -3001,6 +3087,7 @@ gst_rtspsrc_loop_udp (GstRTSPSrc * src)
 {
   gboolean restart = FALSE;
   GstRTSPResult res;
+  GstRTSPMessage message = { 0 };
 
   GST_OBJECT_LOCK (src);
   if (src->loop_cmd == CMD_STOP)
@@ -3010,7 +3097,6 @@ gst_rtspsrc_loop_udp (GstRTSPSrc * src)
     GST_OBJECT_UNLOCK (src);
 
     while (TRUE) {
-      GstRTSPMessage message = { 0 };
       GTimeVal tv_timeout;
 
       /* get the next timeout interval */
@@ -3161,6 +3247,7 @@ handle_request_failed:
     GST_ELEMENT_ERROR (src, RESOURCE, WRITE, (NULL),
         ("Could not handle server message. (%s)", str));
     g_free (str);
+    gst_rtsp_message_unset (&message);
     return GST_FLOW_ERROR;
   }
 connect_error:
@@ -3197,6 +3284,7 @@ server_eof:
     GST_ELEMENT_WARNING (src, RESOURCE, READ, (NULL),
         ("The server closed the connection."));
     src->connected = FALSE;
+    gst_rtsp_message_unset (&message);
     return GST_FLOW_UNEXPECTED;
   }
 }
@@ -3647,6 +3735,7 @@ receive_error:
 handle_request_failed:
   {
     /* ERROR was posted */
+    gst_rtsp_message_unset (response);
     return res;
   }
 server_eof:
@@ -3654,6 +3743,7 @@ server_eof:
     GST_DEBUG_OBJECT (src, "we got an eof from the server");
     GST_ELEMENT_WARNING (src, RESOURCE, READ, (NULL),
         ("The server closed the connection."));
+    gst_rtsp_message_unset (response);
     return GST_FLOW_UNEXPECTED;
   }
 }
@@ -3745,6 +3835,7 @@ error_response:
       case GST_RTSP_STS_MOVE_TEMPORARILY:
       {
         gchar *new_location;
+        GstRTSPLowerTrans transports;
 
         GST_DEBUG_OBJECT (src, "got redirection");
         /* if we don't have a Location Header, we must error */
@@ -3757,7 +3848,17 @@ error_response:
          * a new setup when it detects this state change. */
         GST_DEBUG_OBJECT (src, "redirection to %s", new_location);
 
+        /* save current transports */
+        if (src->url)
+          transports = src->url->transports;
+        else
+          transports = GST_RTSP_LOWER_TRANS_UNKNOWN;
+
         gst_rtspsrc_uri_set_uri (GST_URI_HANDLER (src), new_location);
+
+        /* set old transports */
+        if (src->url && transports != GST_RTSP_LOWER_TRANS_UNKNOWN)
+          src->url->transports = transports;
 
         src->need_redirect = TRUE;
         src->state = GST_RTSP_STATE_INIT;
@@ -4063,6 +4164,7 @@ gst_rtspsrc_setup_streams (GstRTSPSrc * src)
   gboolean unsupported_real = FALSE;
   gint rtpport, rtcpport;
   GstRTSPUrl *url;
+  gchar *hval;
 
   url = gst_rtsp_connection_get_url (src->connection);
 
@@ -4149,6 +4251,14 @@ gst_rtspsrc_setup_streams (GstRTSPSrc * src)
     /* select transport, copy is made when adding to header so we can free it. */
     gst_rtsp_message_add_header (&request, GST_RTSP_HDR_TRANSPORT, transports);
     g_free (transports);
+
+    /* if the user wants a non default RTP packet size we add the blocksize
+     * parameter */
+    if (src->rtp_blocksize > 0) {
+      hval = gst_rtspsrc_dup_printf ("%d", src->rtp_blocksize);
+      gst_rtsp_message_add_header (&request, GST_RTSP_HDR_BLOCKSIZE, hval);
+      g_free (hval);
+    }
 
     /* handle the code ourselves */
     if ((res = gst_rtspsrc_send (src, &request, &response, &code) < 0))
@@ -4709,6 +4819,10 @@ gst_rtspsrc_close (GstRTSPSrc * src)
     GST_DEBUG_OBJECT (src, "not connected, doing cleanup");
     goto close;
   }
+  if (src->state < GST_RTSP_STATE_READY) {
+    GST_DEBUG_OBJECT (src, "not ready, doing cleanup");
+    goto close;
+  }
 
   if (src->methods & (GST_RTSP_PLAY | GST_RTSP_TEARDOWN)) {
     /* do TEARDOWN */
@@ -5112,10 +5226,10 @@ gst_rtspsrc_handle_message (GstBin * bin, GstMessage * message)
 
         /* we only act on the first udp timeout message, others are irrelevant
          * and can be ignored. */
-        if (ignore_timeout)
-          gst_message_unref (message);
-        else
+        if (!ignore_timeout)
           gst_rtspsrc_loop_send_cmd (rtspsrc, CMD_RECONNECT, TRUE);
+        /* eat and free */
+        gst_message_unref (message);
         return;
       }
       GST_BIN_CLASS (parent_class)->handle_message (bin, message);

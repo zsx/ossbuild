@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstmpegdemux"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0037}"
 	RootNamespace="libgstmpegdemux"
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>

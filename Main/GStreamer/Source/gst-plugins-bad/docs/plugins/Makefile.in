@@ -25,7 +25,7 @@
 # - FORMATS: the formats in which DOC is output
 #            (html ps pdf)
 
-# if you want to use it, make sure your ..sh/config file contains the
+# if you want to use it, make sure your $HOME/.ssh/config file contains the
 # correct User entry for the Host entry for the DOC_SERVER
 
 # This is an include file specifically tuned for building documentation
@@ -134,6 +134,8 @@ CDAUDIO_LIBS = @CDAUDIO_LIBS@
 CELT_CFLAGS = @CELT_CFLAGS@
 CELT_LIBS = @CELT_LIBS@
 CFLAGS = @CFLAGS@
+COG_CFLAGS = @COG_CFLAGS@
+COG_LIBS = @COG_LIBS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -147,11 +149,12 @@ DEPDIR = @DEPDIR@
 DEPRECATED_CFLAGS = @DEPRECATED_CFLAGS@
 DIRAC_CFLAGS = @DIRAC_CFLAGS@
 DIRAC_LIBS = @DIRAC_LIBS@
-DIRECTDRAW_CFLAGS = @DIRECTDRAW_CFLAGS@
-DIRECTDRAW_LDFLAGS = @DIRECTDRAW_LDFLAGS@
 DIRECTDRAW_LIBS = @DIRECTDRAW_LIBS@
 DIRECTFB_CFLAGS = @DIRECTFB_CFLAGS@
 DIRECTFB_LIBS = @DIRECTFB_LIBS@
+DIRECTSOUND_LIBS = @DIRECTSOUND_LIBS@
+DIRECTX_CFLAGS = @DIRECTX_CFLAGS@
+DIRECTX_LDFLAGS = @DIRECTX_LDFLAGS@
 DIVXDEC_LIBS = @DIVXDEC_LIBS@
 DIVXENC_LIBS = @DIVXENC_LIBS@
 DLLTOOL = @DLLTOOL@
@@ -190,6 +193,7 @@ GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
 GLIB_PREFIX = @GLIB_PREFIX@
 GLIB_REQ = @GLIB_REQ@
+GME_LIBS = @GME_LIBS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GMYTH_CFLAGS = @GMYTH_CFLAGS@
@@ -232,6 +236,7 @@ HAVE_AMRWB = @HAVE_AMRWB@
 HAVE_BZ2 = @HAVE_BZ2@
 HAVE_CXX = @HAVE_CXX@
 HAVE_DIRECTDRAW = @HAVE_DIRECTDRAW@
+HAVE_DIRECTSOUND = @HAVE_DIRECTSOUND@
 HAVE_DTS = @HAVE_DTS@
 HAVE_FAAC = @HAVE_FAAC@
 HAVE_FAAD = @HAVE_FAAD@
@@ -256,6 +261,8 @@ IVORBIS_LIBS = @IVORBIS_LIBS@
 JACK_CFLAGS = @JACK_CFLAGS@
 JACK_LIBS = @JACK_LIBS@
 JP2K_LIBS = @JP2K_LIBS@
+KATE_CFLAGS = @KATE_CFLAGS@
+KATE_LIBS = @KATE_LIBS@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBDC1394_CFLAGS = @LIBDC1394_CFLAGS@
@@ -314,6 +321,7 @@ OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 OFA_CFLAGS = @OFA_CFLAGS@
 OFA_LIBS = @OFA_LIBS@
+ORCC = @ORCC@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -339,12 +347,18 @@ PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_VERSION = @PYTHON_VERSION@
 Q = @Q@
 RANLIB = @RANLIB@
+RSVG_CFLAGS = @RSVG_CFLAGS@
+RSVG_LIBS = @RSVG_LIBS@
+SCHRO_CFLAGS = @SCHRO_CFLAGS@
+SCHRO_LIBS = @SCHRO_LIBS@
 SDL_CFLAGS = @SDL_CFLAGS@
 SDL_CONFIG = @SDL_CONFIG@
 SDL_LIBS = @SDL_LIBS@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SLV2_CFLAGS = @SLV2_CFLAGS@
+SLV2_LIBS = @SLV2_LIBS@
 SNDFILE_CFLAGS = @SNDFILE_CFLAGS@
 SNDFILE_LIBS = @SNDFILE_LIBS@
 SOUNDTOUCH_CFLAGS = @SOUNDTOUCH_CFLAGS@
@@ -355,6 +369,8 @@ SWFDEC_CFLAGS = @SWFDEC_CFLAGS@
 SWFDEC_LIBS = @SWFDEC_LIBS@
 THEORADEC_CFLAGS = @THEORADEC_CFLAGS@
 THEORADEC_LIBS = @THEORADEC_LIBS@
+TIGER_CFLAGS = @TIGER_CFLAGS@
+TIGER_LIBS = @TIGER_LIBS@
 TIMIDITY_CFLAGS = @TIMIDITY_CFLAGS@
 TIMIDITY_LIBS = @TIMIDITY_LIBS@
 USE_NLS = @USE_NLS@
@@ -362,6 +378,8 @@ V = @V@
 VALGRIND_CFLAGS = @VALGRIND_CFLAGS@
 VALGRIND_LIBS = @VALGRIND_LIBS@
 VALGRIND_PATH = @VALGRIND_PATH@
+VDPAU_CFLAGS = @VDPAU_CFLAGS@
+VDPAU_LIBS = @VDPAU_LIBS@
 VERSION = @VERSION@
 WILDMIDI_CFLAGS = @WILDMIDI_CFLAGS@
 WILDMIDI_LIBS = @WILDMIDI_LIBS@
@@ -382,6 +400,8 @@ X_CFLAGS = @X_CFLAGS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_LIBS = @X_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
+ZBAR_CFLAGS = @ZBAR_CFLAGS@
+ZBAR_LIBS = @ZBAR_LIBS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -449,7 +469,7 @@ GST_DOC_SCANOBJ = $(top_srcdir)/common/gstdoc-scangobj
 MODULE = gst-plugins-bad
 DOC_MODULE = $(MODULE)-plugins
 
-# for upload.mak
+# for upload-doc.mak
 DOC = $(MODULE)-plugins
 FORMATS = html
 
@@ -533,17 +553,22 @@ EXAMPLE_CFILES = \
         $(top_srcdir)/ext/directfb/dfb-example.c
 
 EXTRA_HFILES = \
-	$(top_srcdir)/ext/amrwb/gstamrwbdec.h \
-	$(top_srcdir)/ext/amrwb/gstamrwbenc.h \
-	$(top_srcdir)/ext/amrwb/gstamrwbparse.h \
+	$(top_srcdir)/ext/amrwbenc/gstamrwbenc.h \
 	$(top_srcdir)/ext/celt/gstceltdec.h \
 	$(top_srcdir)/ext/celt/gstceltenc.h \
 	$(top_srcdir)/ext/dc1394/gstdc1394.h \
 	$(top_srcdir)/ext/directfb/dfbvideosink.h \
 	$(top_srcdir)/ext/dts/gstdtsdec.h \
 	$(top_srcdir)/ext/ivorbis/vorbisdec.h \
+	$(top_srcdir)/ext/faac/gstfaac.h \
 	$(top_srcdir)/ext/jack/gstjackaudiosrc.h \
 	$(top_srcdir)/ext/jack/gstjackaudiosink.h \
+	$(top_srcdir)/ext/kate/gstkateenc.h \
+	$(top_srcdir)/ext/kate/gstkatedec.h \
+	$(top_srcdir)/ext/kate/gstkateparse.h \
+	$(top_srcdir)/ext/kate/gstkatetag.h \
+	$(top_srcdir)/ext/kate/gstkatetiger.h \
+        	$(top_srcdir)/ext/ladspa/gstladspa.h \
 	$(top_srcdir)/ext/musicbrainz/gsttrm.h \
 	$(top_srcdir)/ext/metadata/gstbasemetadata.h \
 	$(top_srcdir)/ext/metadata/gstmetadatademux.h \
@@ -559,6 +584,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/ext/theora/theoradec.h \
 	$(top_srcdir)/ext/timidity/gsttimidity.h \
 	$(top_srcdir)/ext/timidity/gstwildmidi.h \
+	$(top_srcdir)/ext/zbar/gstzbar.h \
 	$(top_srcdir)/gst/aacparse/gstaacparse.h \
 	$(top_srcdir)/gst/amrparse/gstamrparse.h \
 	$(top_srcdir)/gst/autoconvert/gstautoconvert.h \
@@ -568,6 +594,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/dccp/gstdccpserversink.h \
 	$(top_srcdir)/gst/dccp/gstdccpserversrc.h \
 	$(top_srcdir)/gst/debugutils/fpsdisplaysink.h \
+	$(top_srcdir)/gst/debugutils/gstcapssetter.h \
 	$(top_srcdir)/gst/dtmf/gstdtmfsrc.h \
 	$(top_srcdir)/gst/dtmf/gstrtpdtmfsrc.h \
 	$(top_srcdir)/gst/dtmf/gstrtpdtmfdepay.h \
@@ -578,14 +605,9 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/mxf/mxfdemux.h \
 	$(top_srcdir)/gst/mxf/mxfmux.h \
 	$(top_srcdir)/gst/nuvdemux/gstnuvdemux.h \
+	$(top_srcdir)/gst/pcapparse/gstpcapparse.h \
 	$(top_srcdir)/gst/rawparse/gstaudioparse.h \
 	$(top_srcdir)/gst/rawparse/gstvideoparse.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpbin.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpclient.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpjitterbuffer.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpptdemux.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpsession.h \
-	$(top_srcdir)/gst/rtpmanager/gstrtpssrcdemux.h \
 	$(top_srcdir)/gst/rtpmux/gstrtpmux.h \
 	$(top_srcdir)/gst/rtpmux/gstrtpdtmfmux.h \
 	$(top_srcdir)/gst/scaletempo/gstscaletempo.h \
@@ -709,7 +731,8 @@ CLEANFILES = \
 @ENABLE_GTK_DOC_TRUE@INSPECT_ENVIRONMENT = \
 @ENABLE_GTK_DOC_TRUE@        GST_PLUGIN_SYSTEM_PATH= \
 @ENABLE_GTK_DOC_TRUE@        GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/plugins:$(top_builddir)/src:$(top_builddir)/gnl \
-@ENABLE_GTK_DOC_TRUE@        GST_REGISTRY=$(INSPECT_REGISTRY)
+@ENABLE_GTK_DOC_TRUE@        GST_REGISTRY=$(INSPECT_REGISTRY) \
+@ENABLE_GTK_DOC_TRUE@	$(INSPECT_EXTRA_ENVIRONMENT)
 
 MAINTAINERCLEANFILES = $(MAINTAINER_DOC_STAMPS)
 
@@ -1036,18 +1059,44 @@ uninstall-am: uninstall-local
 html: html-build.stamp
 
 upload: $(FORMATS)
-	@if test "x$(GST_VERSION_NANO)" = x0; then \
+	@if test "x$(PACKAGE_VERSION_NANO)" = x0; then \
             export DOCVERSION=$(VERSION); \
         else export DOCVERSION=head; \
         fi; \
         export DIR=$(DOC_BASE)/gstreamer/$$DOCVERSION/$(DOC); \
 	ssh $(DOC_SERVER) mkdir -p $$DIR; \
-	if echo $(FORMATS) | grep html > /dev/null; then export SRC="$$SRC html"; fi; \
+	if echo $(FORMATS) | grep html > /dev/null; then \
+	  echo "Preparing docs for upload (rebasing cross-references) ..." ; \
+	  if test x$(builddir) != x$(srcdir); then \
+	    echo "make upload can only be used if srcdir == builddir"; \
+	    exit 1; \
+	  fi; \
+	  # gtkdoc-rebase sometimes gets confused, so reset everything to \
+	  # local links before rebasing to online links                   \
+	  gtkdoc-rebase --html-dir=$(builddir)/html 2>/dev/null 2>/dev/null ; \
+	  rebase=`gtkdoc-rebase --verbose --online --html-dir=$(builddir)/html` ; \
+	  echo "$$rebase" | grep -e "On-*line"; \
+	  for req in glib gobject gstreamer gstreamer-libs gst-plugins-base-libs; do \
+	    if ! ( echo "$$rebase" | grep -i -e "On-*line.*/$$req/" ); then \
+	      echo "===============================================================================" ; \
+	      echo " Could not determine online location for $$req docs. Cross-referencing will be " ; \
+	      echo " broken, so not uploading. Make sure the library's gtk-doc documentation is    " ; \
+	      echo " installed somewhere in /usr/share/gtk-doc.                                    " ; \
+	      echo "===============================================================================" ; \
+	      exit 1; \
+	    fi; \
+	  done; \
+	  export SRC="$$SRC html"; \
+	fi; \
 	if echo $(FORMATS) | grep ps > /dev/null; then export SRC="$$SRC $(DOC).ps"; fi; \
 	if echo $(FORMATS) | grep pdf > /dev/null; then export SRC="$$SRC $(DOC).pdf"; fi; \
 	echo Uploading $$SRC to $(DOC_SERVER):$$DIR; \
 	rsync -rv -e ssh --delete $$SRC $(DOC_SERVER):$$DIR; \
 	ssh $(DOC_SERVER) chmod -R g+w $$DIR; \
+	if echo $(FORMATS) | grep html > /dev/null; then \
+	  echo "Un-preparing docs for upload (rebasing cross-references) ..." ; \
+	  gtkdoc-rebase --html-dir=$(builddir)/html ; \
+	fi; \
 	echo Done
 
 help:
@@ -1199,11 +1248,7 @@ update:
 @ENABLE_GTK_DOC_TRUE@	@for f in $(content_files); do cp $(srcdir)/$$f html; done
 @ENABLE_GTK_DOC_TRUE@	cp -pr xml html
 @ENABLE_GTK_DOC_TRUE@	cp ../version.entities html
-@ENABLE_GTK_DOC_TRUE@	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE) \
-@ENABLE_GTK_DOC_TRUE@	    2>&1 | tee ../html-build.log
-@ENABLE_GTK_DOC_TRUE@	@if grep "warning:" html-build.log > /dev/null; then \
-@ENABLE_GTK_DOC_TRUE@		echo "ERROR"; grep "warning:" html-build.log; exit 1; fi
-@ENABLE_GTK_DOC_TRUE@	@rm html-build.log
+@ENABLE_GTK_DOC_TRUE@	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
 @ENABLE_GTK_DOC_TRUE@	mv html/index.sgml html/index.sgml.bak
 @ENABLE_GTK_DOC_TRUE@	$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
 @ENABLE_GTK_DOC_TRUE@	rm -f html/index.sgml.bak

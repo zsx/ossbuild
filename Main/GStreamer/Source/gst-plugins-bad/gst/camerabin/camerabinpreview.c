@@ -95,6 +95,8 @@ gst_camerabin_preview_create_pipeline (GstCameraBin * camera)
   gst_bin_add_many (GST_BIN (camera->preview_pipeline),
       src, csp, filter, vscale, sink, NULL);
 
+  GST_DEBUG ("preview format is: %" GST_PTR_FORMAT, camera->preview_caps);
+
   g_object_set (filter, "caps", camera->preview_caps, NULL);
   g_object_set (sink, "preroll-queue-len", 1, "signal-handoffs", TRUE, NULL);
   g_object_set (vscale, "method", 0, NULL);
@@ -183,7 +185,7 @@ gst_camerabin_preview_convert (GstCameraBin * camera, GstBuffer * buf)
 
   if (!src || !sink) {
     GST_WARNING ("pipeline doesn't have src / sink elements");
-    goto no_pipeline;
+    goto missing_elements;
   }
 
   g_object_set (src, "size", (gint64) GST_BUFFER_SIZE (buf),
@@ -195,7 +197,8 @@ gst_camerabin_preview_convert (GstCameraBin * camera, GstBuffer * buf)
   bflags = GST_BUFFER_FLAGS (buf);
   GST_BUFFER_FLAG_SET (buf, GST_BUFFER_FLAG_READONLY);
 
-  GST_DEBUG ("running conversion pipeline");
+  GST_DEBUG ("running conversion pipeline, source is: %" GST_PTR_FORMAT,
+      GST_BUFFER_CAPS (buf));
   gst_element_set_state (camera->preview_pipeline, GST_STATE_PLAYING);
 
   g_signal_emit_by_name (src, "push-buffer", buf, &fret);
@@ -234,6 +237,7 @@ gst_camerabin_preview_convert (GstCameraBin * camera, GstBuffer * buf)
         g_return_val_if_reached (NULL);
       }
     }
+    gst_message_unref (msg);
   } else {
     g_warning ("Could not make preview image: %s", "timeout during conversion");
     result = NULL;
@@ -245,9 +249,21 @@ gst_camerabin_preview_convert (GstCameraBin * camera, GstBuffer * buf)
 
   GST_BUFFER_FLAGS (buf) = bflags;
 
+done:
+  if (src)
+    gst_object_unref (src);
+  if (sink)
+    gst_object_unref (sink);
+
   return result;
 
   /* ERRORS */
+missing_elements:
+  {
+    g_warning ("Could not make preview image: %s",
+        "missing elements in pipeline (unknown error)");
+    goto done;
+  }
 no_pipeline:
   {
     g_warning ("Could not make preview image: %s",

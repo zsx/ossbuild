@@ -3,10 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>halaudiosink</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
-<link rel="prev" href="gst-plugins-good-plugins-goom2k1.html" title="goom2k1">
+<link rel="prev" href="gst-plugins-good-plugins-gstrtpssrcdemux.html" title="gstrtpssrcdemux">
 <link rel="next" href="gst-plugins-good-plugins-halaudiosrc.html" title="halaudiosrc">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -17,7 +17,7 @@
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="gst-plugins-good-plugins-goom2k1.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="gst-plugins-good-plugins-gstrtpssrcdemux.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Good Plugins 0.10 Plugins Reference Manual</th>
@@ -35,7 +35,7 @@
                 <a href="#gst-plugins-good-plugins-halaudiosink.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="halaudiosink">
 <a name="gst-plugins-good-plugins-halaudiosink"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -44,31 +44,39 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-good-plugins-halaudiosink.synopsis"></a><h2>Synopsis</h2>
 <a name="GstHalAudioSink"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-good-plugins-halaudiosink.html#GstHalAudioSink-struct" title="GstHalAudioSink">GstHalAudioSink</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-good-plugins-halaudiosink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
 href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
-               +----GstBin
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
+               +----<a
+href="../gstreamer-0.10/GstBin.html"
+>GstBin</a>
                      +----GstHalAudioSink
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-good-plugins-halaudiosink.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstHalAudioSink implements
- GstChildProxy.</p>
+ <a
+href="../gstreamer-0.10/GstChildProxy.html"
+>GstChildProxy</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-halaudiosink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-halaudiosink.html#GstHalAudioSink--udi" title='The "udi" property'>udi</a>"                      <a
@@ -76,7 +84,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-halaudiosink.description"></a><h2>Description</h2>
 <p>
 HalAudioSink allows access to output of sound devices by specifying the
@@ -88,8 +96,8 @@ OSS subdevices. If both are present ALSA is preferred.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2743547"></a><h3>Examples</h3>
+<div class="refsect2" title="Examples">
+<a name="id546480"></a><h3>Examples</h3>
 <div class="informalexample"><pre class="programlisting">
 hal-find-by-property --key alsa.type --string playback
 </pre></div> list the UDIs of all your ALSA output devices
@@ -97,10 +105,10 @@ hal-find-by-property --key alsa.type --string playback
 gst-launch -v audiotestsrc ! halaudiosink udi=/org/freedesktop/Hal/devices/pci_8086_27d8_alsa_playback_0
 </pre></div> test your soundcard by playing a test signal on the specified sound device.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2787146"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id526502"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -122,8 +130,8 @@ gst-launch -v audiotestsrc ! halaudiosink udi=/org/freedesktop/Hal/devices/pci_8
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2739770"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id548271"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -150,18 +158,18 @@ gst-launch -v audiotestsrc ! halaudiosink udi=/org/freedesktop/Hal/devices/pci_8
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-good-plugins-halaudiosink.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstHalAudioSink">
 <a name="GstHalAudioSink-struct"></a><h3>GstHalAudioSink</h3>
 <pre class="programlisting">typedef struct _GstHalAudioSink GstHalAudioSink;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-good-plugins-halaudiosink.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "udi" property'>
 <a name="GstHalAudioSink--udi"></a><h3>The <code class="literal">"udi"</code> property</h3>
 <pre class="programlisting">  "udi"                      <a
 href="../glib/glib-Basic-Types.html#gchar"

@@ -65,6 +65,8 @@ gst_flv_demux_query_types (GstPad * pad)
 {
   static const GstQueryType query_types[] = {
     GST_QUERY_DURATION,
+    GST_QUERY_POSITION,
+    GST_QUERY_SEEKING,
     0
   };
 
@@ -815,6 +817,7 @@ gst_flv_parse_video_negotiate (GstFLVDemux * demux, guint32 codec_tag)
     case 3:
       caps = gst_caps_new_simple ("video/x-flash-screen", NULL);
       codec_name = "Flash Screen Video";
+      break;
     case 4:
       caps = gst_caps_new_simple ("video/x-vp6-flash", NULL);
       codec_name = "On2 VP6 Video";
