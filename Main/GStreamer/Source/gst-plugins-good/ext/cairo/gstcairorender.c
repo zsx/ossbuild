@@ -305,10 +305,10 @@ static GstStaticPadTemplate t_snk = GST_STATIC_PAD_TEMPLATE ("sink",
         "width = " GST_VIDEO_SIZE_RANGE ", "
         "height = " GST_VIDEO_SIZE_RANGE ", " "framerate = " GST_VIDEO_FPS_RANGE
         " ; "
-#ifdef CAIRO_HAS_PNG_FUNCTIONS
+//#ifdef CAIRO_HAS_PNG_FUNCTIONS
         "image/png, "
         "width = " GST_VIDEO_SIZE_RANGE ", " "height = " GST_VIDEO_SIZE_RANGE
-#endif
+//#endif
     ));
 
 GST_BOILERPLATE (GstCairoRender, gst_cairo_render, GstElement,
