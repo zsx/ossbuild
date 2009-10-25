@@ -18,7 +18,7 @@
 		IgnoreAllDefaultLibraries="true"
 		ModuleDefinitionFile=""
 		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\$(TargetName).pdb"
-		ImportLibrary="$(OutDir)\lib\gstreamer\$(ProjectName).lib"
+		ImportLibrary="$(OutDir)\lib\gstreamer\$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).lib"
 	/>
 
 </VisualStudioPropertySheet>
