@@ -392,12 +392,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrawparse", "Main\GStream
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstreal", "Main\GStreamer\Plugins\Bad\gst\libgstreal.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0047}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtpmanager", "Main\GStreamer\Plugins\Bad\gst\libgstrtpmanager.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}"
-	ProjectSection(ProjectDependencies) = postProject
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F07} = {AB87873B-2B88-4B1B-B627-F70DF4F91F07}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F10} = {AB87873B-2B88-4B1B-B627-F70DF4F91F10}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstscaletempo", "Main\GStreamer\Plugins\Bad\gst\libgstscaletempo.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0049}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsdpplugin", "Main\GStreamer\Plugins\Bad\gst\libgstsdpplugin.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0050}"
@@ -447,8 +441,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtpmux", "Main\GStreamer
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvalve", "Main\GStreamer\Plugins\Bad\gst\libgstvalve.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0063}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdshow", "Main\GStreamer\Plugins\Bad\gst-libs\libgstdshow.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstphotography", "Main\GStreamer\Plugins\Bad\gst-libs\libgstphotography.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2000}"
 	ProjectSection(ProjectDependencies) = postProject
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {AB87873B-2B88-4B1B-B627-F70DF4F91F02}
@@ -461,20 +453,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstcamerabin", "Main\GStrea
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdshowdecwrapper", "Main\GStreamer\Plugins\Bad\sys\libgstdshowdecwrapper.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2004}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001} = {F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdshowsrcwrapper", "Main\GStreamer\Plugins\Bad\sys\libgstdshowsrcwrapper.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2005}"
 	ProjectSection(ProjectDependencies) = postProject
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001} = {F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {AB87873B-2B88-4B1B-B627-F70DF4F91F01}
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {AB87873B-2B88-4B1B-B627-F70DF4F91F02}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdshowvideosink", "Main\GStreamer\Plugins\Bad\sys\libgstdshowvideosink.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2006}"
 	ProjectSection(ProjectDependencies) = postProject
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001} = {F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {AB87873B-2B88-4B1B-B627-F70DF4F91F02}
 	EndProjectSection
 EndProject
@@ -623,6 +610,24 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstnice", "Main\GStreamer\Libraries\ext\libgstnice.vcproj", "{A79DE057-395C-4DEC-87C7-125E873C06B4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstnice-transmitter", "Main\GStreamer\Plugins\Farsight2\transmitters\libfsnice.vcproj", "{460B5301-2747-4E16-BC26-0D67F5A199ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstbasevideo", "Main\GStreamer\Plugins\Bad\gst-libs\libgstbasevideo.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsignalprocessor", "Main\GStreamer\Plugins\Bad\gst-libs\libgstsignalprocessor.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstasfmux", "Main\GStreamer\Plugins\Bad\gst\libgstasmux.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfrei0r", "Main\GStreamer\Plugins\Bad\gst\libgstfrei0r.vcproj", "{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstschroedinger", "Main\GStreamer\Plugins\Bad\ext\libgstschroedinger.vcproj", "{B11EA875-24C1-4EC0-AC19-296BF5541ABF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstmpegpsmux", "Main\GStreamer\Plugins\Bad\gst\libgstmpegpsmux.vcproj", "{85A7FE47-25D6-46C4-9D89-9FC2628C2442}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstpnm", "Main\GStreamer\Plugins\Bad\gst\libgstpnm.vcproj", "{64BE7973-009F-4147-A19F-B3DC9603E6A7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvideomesure", "Main\GStreamer\Plugins\Bad\gst\libgstvideomesure.vcproj", "{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtpmanager", "Main\GStreamer\Plugins\Good\gst\libgstrtpmanager.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1942,18 +1947,6 @@ Global
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0047}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0047}.Release|Win32.ActiveCfg = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0047}.Release|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Debug|Win32.Build.0 = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release|Win32.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0049}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0049}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0049}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -2134,18 +2127,6 @@ Global
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0063}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0063}.Release|Win32.ActiveCfg = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0063}.Release|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Debug|Win32.Build.0 = Debug|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Release|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2001}.Release|Win32.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2000}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2000}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2000}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -2819,6 +2800,114 @@ Global
 		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release|Win32.ActiveCfg = Release|Win32
 		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Debug|Win32.Build.0 = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Debug|Win32.Build.0 = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Debug|Win32.Build.0 = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release|Win32.Build.0 = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Debug|Win32.Build.0 = Debug|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release|Win32.ActiveCfg = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release|Win32.Build.0 = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Debug|Win32.Build.0 = Debug|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release|Win32.ActiveCfg = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release|Win32.Build.0 = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Debug|Win32.ActiveCfg = Debug|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Debug|Win32.Build.0 = Debug|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release|Win32.ActiveCfg = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release|Win32.Build.0 = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Debug|Win32.Build.0 = Debug|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release|Win32.ActiveCfg = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release|Win32.Build.0 = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Debug|Win32.Build.0 = Debug|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release|Win32.ActiveCfg = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Debug|Win32.Build.0 = Debug|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
