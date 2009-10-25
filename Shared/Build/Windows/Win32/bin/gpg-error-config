@@ -10,10 +10,10 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 
-prefix=/c/Work/OSSBuild/Build/Windows/Win32/Release
+prefix=/c/ossbuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
-includedir=/c/Work/OSSBuild/Build/Windows/Win32/Release/include
-libdir=/c/Work/OSSBuild/Build/Windows/Win32/Release/lib
+includedir=/c/ossbuild/Build/Windows/Win32/Release/include
+libdir=/c/ossbuild/Build/Windows/Win32/Release/lib
 
 output=""
 

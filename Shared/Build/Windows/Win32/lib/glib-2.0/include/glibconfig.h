@@ -82,6 +82,10 @@ typedef gint64 goffset;
 typedef signed int gintptr;
 typedef unsigned int guintptr;
 
+#define G_GINTPTR_MODIFIER      ""
+#define G_GINTPTR_FORMAT        "i"
+#define G_GUINTPTR_FORMAT       "u"
+
 #ifdef NeXT /* @#%@! NeXTStep */
 # define g_ATEXIT(proc)	(!atexit (proc))
 #else
@@ -91,8 +95,8 @@ typedef unsigned int guintptr;
 #define g_memmove(dest,src,len) G_STMT_START { memmove ((dest), (src), (len)); } G_STMT_END
 
 #define GLIB_MAJOR_VERSION 2
-#define GLIB_MINOR_VERSION 20
-#define GLIB_MICRO_VERSION 1
+#define GLIB_MINOR_VERSION 21
+#define GLIB_MICRO_VERSION 4
 
 #define G_OS_WIN32
 #define G_PLATFORM_WIN32
@@ -200,6 +204,14 @@ union _GSystemThread
  * not a process identifier.
  */
 typedef void * GPid;
+
+#define GLIB_SYSDEF_AF_UNIX 1
+#define GLIB_SYSDEF_AF_INET 2
+#define GLIB_SYSDEF_AF_INET6 23
+
+#define GLIB_SYSDEF_MSG_OOB 1
+#define GLIB_SYSDEF_MSG_PEEK 2
+#define GLIB_SYSDEF_MSG_DONTROUTE 4
 
 G_END_DECLS
 

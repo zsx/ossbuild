@@ -38,11 +38,11 @@ Usage: glib-gettextize [OPTION]... [package-dir]
   -f, --force          force writing of new files even if old exist
 Report bugs to http://bugzilla.gnome.org/."
 package=glib
-version=2.20.1
+version=2.21.4
 try_ln_s=:
 
 # Directory where the sources are stored.
-prefix=/c/Work/OSSBuild/Build/Windows/Win32/Release
+prefix=/c/ossbuild/Build/Windows/Win32/Release
 case `uname` in
 MINGW32*)
     prefix="`dirname $0`/.."

@@ -44,6 +44,15 @@ G_BEGIN_DECLS
  * Allows actions to be cancelled.
  */
 typedef struct _GCancellableClass   GCancellableClass;
+typedef struct _GCancellablePrivate GCancellablePrivate;
+
+struct _GCancellable
+{
+  GObject parent_instance;
+
+  /*< private >*/
+  GCancellablePrivate *priv;
+};
 
 struct _GCancellableClass
 {
@@ -77,6 +86,12 @@ GCancellable *g_cancellable_get_current            (void);
 void          g_cancellable_push_current           (GCancellable  *cancellable);
 void          g_cancellable_pop_current            (GCancellable  *cancellable);
 void          g_cancellable_reset                  (GCancellable  *cancellable);
+gulong        g_cancellable_connect                (GCancellable  *cancellable,
+						    GCallback      callback,
+						    gpointer       data,
+						    GDestroyNotify data_destroy_func);
+void          g_cancellable_disconnect             (GCancellable  *cancellable,
+						    gulong         handler_id);
 
 
 /* This is safe to call from another thread */

@@ -1,9 +1,9 @@
 #! /bin/sh
 
-prefix=/c/Work/OSSBuild/Build/Windows/Win32/Release
+prefix=/c/ossbuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
-includedir=/c/Work/OSSBuild/Build/Windows/Win32/Release/include
-libdir=/c/Work/OSSBuild/Build/Windows/Win32/Release/lib
+includedir=/c/ossbuild/Build/Windows/Win32/Release/include
+libdir=/c/ossbuild/Build/Windows/Win32/Release/lib
 
 usage()
 {
@@ -78,7 +78,7 @@ while test $# -gt 0; do
         ;;
 
     --modules)
-       	echo 0
+       	echo 1
        	;;
 
     --libs)
@@ -86,12 +86,12 @@ while test $# -gt 0; do
 	then
 	    if [ "-L${libdir}" = "-L/usr/lib" -o "-L${libdir}" = "-L/usr/lib64" ]
 	    then
-		echo -lxml2 -lz -lpthread    
+		echo -lxml2 -lz -lpthread  -liconv   
 	    else
-		echo -L${libdir} -lxml2 -lz -lpthread    
+		echo -L${libdir} -lxml2 -lz -lpthread  -liconv   
 	    fi
 	else
-	    echo -L${libdir} -lxml2 -lz -lpthread    -lws2_32
+	    echo -L${libdir} -lxml2 -lz -lpthread  -liconv   -lws2_32
 	fi
        	;;
 

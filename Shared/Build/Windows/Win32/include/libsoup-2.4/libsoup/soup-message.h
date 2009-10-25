@@ -146,6 +146,9 @@ void           soup_message_set_chunk_allocator (SoupMessage       *msg,
 						 gpointer           user_data,
 						 GDestroyNotify     destroy_notify);
 
+void           soup_message_disable_feature     (SoupMessage       *msg,
+						 GType              feature_type);
+
 void soup_message_wrote_informational (SoupMessage *msg);
 void soup_message_wrote_headers       (SoupMessage *msg);
 void soup_message_wrote_chunk         (SoupMessage *msg);
@@ -155,6 +158,7 @@ void soup_message_got_informational   (SoupMessage *msg);
 void soup_message_got_headers         (SoupMessage *msg);
 void soup_message_got_chunk           (SoupMessage *msg, SoupBuffer *chunk);
 void soup_message_got_body            (SoupMessage *msg);
+void soup_message_content_sniffed     (SoupMessage *msg, const char *content_type, GHashTable *params);
 void soup_message_restarted           (SoupMessage *msg);
 void soup_message_finished            (SoupMessage *msg);
 

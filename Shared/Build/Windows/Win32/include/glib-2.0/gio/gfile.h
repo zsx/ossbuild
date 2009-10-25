@@ -132,6 +132,26 @@ typedef struct _GFileIface    		GFileIface;
  * @mount_enclosing_volume_finish: Finishes mounting a specified location.
  * @monitor_dir: Creates a #GFileMonitor for the location.
  * @monitor_file: Creates a #GFileMonitor for the location.
+ * @open_readwrite: Open file read/write. Since 2.22.
+ * @open_readwrite_async: Asynchronously opens file read/write. Since 2.22.
+ * @open_readwrite_finish: Finishes an asynchronous open read/write. Since 2.22.
+ * @create_readwrite: Creates file read/write. Since 2.22.
+ * @create_readwrite_async: Asynchronously creates file read/write. Since 2.22.
+ * @create_readwrite_finish: Finishes an asynchronous creates read/write. Since 2.22.
+ * @replace_readwrite: Replaces file read/write. Since 2.22.
+ * @replace_readwrite_async: Asynchronously replaces file read/write. Since 2.22.
+ * @replace_readwrite_finish: Finishes an asynchronous replace read/write. Since 2.22.
+ * @start_mountable: Starts a mountable object. Since 2.22.
+ * @start_mountable_finish: Finishes an start operation. Since 2.22.
+ * @stop_mountable: Stops a mountable. Since 2.22.
+ * @stop_mountable_finish: Finishes an stop operation. Since 2.22.
+ * @supports_thread_contexts: a boolean that indicates whether the #GFile implementation supports thread-default contexts. Since 2.22.
+ * @unmount_mountable_with_operation: Unmounts a mountable object using a #GMountOperation. Since 2.22.
+ * @unmount_mountable_with_operation_finish: Finishes an unmount operation using a #GMountOperation. Since 2.22.
+ * @eject_mountable_with_operation: Ejects a mountable object using a #GMountOperation. Since 2.22.
+ * @eject_mountable_with_operation_finish: Finishes an eject operation using a #GMountOperation. Since 2.22.
+ * @poll_mountable: Polls a mountable object for media changes. Since 2.22.
+ * @poll_mountable_finish: Finishes an poll operation for media changes. Since 2.22.
  *
  * An interface for writing VFS file handles.
  **/
@@ -431,6 +451,98 @@ struct _GFileIface
                                                        GFileMonitorFlags     flags,
                                                        GCancellable         *cancellable,
                                                        GError              **error);
+
+  GFileIOStream *     (* open_readwrite)              (GFile                *file,
+                                                       GCancellable         *cancellable,
+                                                       GError              **error);
+  void                (* open_readwrite_async)        (GFile                *file,
+                                                       int                   io_priority,
+                                                       GCancellable         *cancellable,
+                                                       GAsyncReadyCallback   callback,
+                                                       gpointer              user_data);
+  GFileIOStream *     (* open_readwrite_finish)       (GFile                *file,
+                                                       GAsyncResult         *res,
+                                                       GError              **error);
+  GFileIOStream *     (* create_readwrite)            (GFile                *file,
+						       GFileCreateFlags      flags,
+                                                       GCancellable         *cancellable,
+                                                       GError              **error);
+  void                (* create_readwrite_async)      (GFile                *file,
+						       GFileCreateFlags      flags,
+                                                       int                   io_priority,
+                                                       GCancellable         *cancellable,
+                                                       GAsyncReadyCallback   callback,
+                                                       gpointer              user_data);
+  GFileIOStream *     (* create_readwrite_finish)      (GFile                *file,
+                                                       GAsyncResult         *res,
+                                                       GError              **error);
+  GFileIOStream *     (* replace_readwrite)           (GFile                *file,
+                                                       const char           *etag,
+                                                       gboolean              make_backup,
+                                                       GFileCreateFlags      flags,
+                                                       GCancellable         *cancellable,
+                                                       GError              **error);
+  void                (* replace_readwrite_async)     (GFile                *file,
+                                                       const char           *etag,
+                                                       gboolean              make_backup,
+                                                       GFileCreateFlags      flags,
+                                                       int                   io_priority,
+                                                       GCancellable         *cancellable,
+                                                       GAsyncReadyCallback   callback,
+                                                       gpointer              user_data);
+  GFileIOStream *     (* replace_readwrite_finish)    (GFile                *file,
+                                                       GAsyncResult         *res,
+                                                       GError              **error);
+
+  void                (* start_mountable)             (GFile                *file,
+                                                       GDriveStartFlags      flags,
+                                                       GMountOperation      *start_operation,
+                                                       GCancellable         *cancellable,
+                                                       GAsyncReadyCallback   callback,
+                                                       gpointer              user_data);
+  gboolean            (* start_mountable_finish)      (GFile                *file,
+                                                       GAsyncResult         *result,
+                                                       GError              **error);
+
+  void                (* stop_mountable)              (GFile                *file,
+                                                       GMountUnmountFlags    flags,
+                                                       GMountOperation      *mount_operation,
+                                                       GCancellable         *cancellable,
+                                                       GAsyncReadyCallback   callback,
+                                                       gpointer              user_data);
+  gboolean            (* stop_mountable_finish)       (GFile                *file,
+                                                       GAsyncResult         *result,
+                                                       GError              **error);
+
+  gboolean            supports_thread_contexts;
+
+  void                (* unmount_mountable_with_operation) (GFile           *file,
+                                                       GMountUnmountFlags    flags,
+                                                       GMountOperation      *mount_operation,
+                                                       GCancellable         *cancellable,
+                                                       GAsyncReadyCallback   callback,
+                                                       gpointer              user_data);
+  gboolean            (* unmount_mountable_with_operation_finish) (GFile    *file,
+                                                       GAsyncResult         *result,
+                                                       GError              **error);
+
+  void                (* eject_mountable_with_operation) (GFile             *file,
+                                                       GMountUnmountFlags    flags,
+                                                       GMountOperation      *mount_operation,
+                                                       GCancellable         *cancellable,
+                                                       GAsyncReadyCallback   callback,
+                                                       gpointer              user_data);
+  gboolean            (* eject_mountable_with_operation_finish) (GFile      *file,
+                                                       GAsyncResult         *result,
+                                                       GError              **error);
+
+  void                (* poll_mountable)              (GFile                *file,
+                                                       GCancellable         *cancellable,
+                                                       GAsyncReadyCallback   callback,
+                                                       gpointer              user_data);
+  gboolean            (* poll_mountable_finish)       (GFile                *file,
+                                                       GAsyncResult         *result,
+                                                       GError              **error);
 };
 
 GType                   g_file_get_type                   (void) G_GNUC_CONST;
@@ -515,6 +627,47 @@ void                    g_file_replace_async              (GFile                
 							   GAsyncReadyCallback         callback,
 							   gpointer                    user_data);
 GFileOutputStream *     g_file_replace_finish             (GFile                      *file,
+							   GAsyncResult               *res,
+							   GError                    **error);
+GFileIOStream *         g_file_open_readwrite             (GFile                      *file,
+							   GCancellable               *cancellable,
+							   GError                    **error);
+void                    g_file_open_readwrite_async       (GFile                      *file,
+							   int                         io_priority,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+GFileIOStream *         g_file_open_readwrite_finish      (GFile                      *file,
+							   GAsyncResult               *res,
+							   GError                    **error);
+GFileIOStream *         g_file_create_readwrite           (GFile                      *file,
+							   GFileCreateFlags            flags,
+							   GCancellable               *cancellable,
+							   GError                    **error);
+void                    g_file_create_readwrite_async     (GFile                      *file,
+							   GFileCreateFlags            flags,
+							   int                         io_priority,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+GFileIOStream *         g_file_create_readwrite_finish    (GFile                      *file,
+							   GAsyncResult               *res,
+							   GError                    **error);
+GFileIOStream *         g_file_replace_readwrite          (GFile                      *file,
+							   const char                 *etag,
+							   gboolean                    make_backup,
+							   GFileCreateFlags            flags,
+							   GCancellable               *cancellable,
+							   GError                    **error);
+void                    g_file_replace_readwrite_async    (GFile                      *file,
+							   const char                 *etag,
+							   gboolean                    make_backup,
+							   GFileCreateFlags            flags,
+							   int                         io_priority,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+GFileIOStream *         g_file_replace_readwrite_finish   (GFile                      *file,
 							   GAsyncResult               *res,
 							   GError                    **error);
 gboolean                g_file_query_exists               (GFile                      *file,
@@ -714,6 +867,7 @@ void                    g_file_mount_mountable            (GFile                
 GFile *                 g_file_mount_mountable_finish     (GFile                      *file,
 							   GAsyncResult               *result,
 							   GError                    **error);
+#ifndef G_DISABLE_DEPRECATED
 void                    g_file_unmount_mountable          (GFile                      *file,
 							   GMountUnmountFlags          flags,
 							   GCancellable               *cancellable,
@@ -722,12 +876,33 @@ void                    g_file_unmount_mountable          (GFile                
 gboolean                g_file_unmount_mountable_finish   (GFile                      *file,
 							   GAsyncResult               *result,
 							   GError                    **error);
+#endif
+void                    g_file_unmount_mountable_with_operation (GFile                *file,
+							   GMountUnmountFlags          flags,
+							   GMountOperation            *mount_operation,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+gboolean                g_file_unmount_mountable_with_operation_finish (GFile         *file,
+							   GAsyncResult               *result,
+							   GError                    **error);
+#ifndef G_DISABLE_DEPRECATED
 void                    g_file_eject_mountable            (GFile                      *file,
 							   GMountUnmountFlags          flags,
 							   GCancellable               *cancellable,
 							   GAsyncReadyCallback         callback,
 							   gpointer                    user_data);
 gboolean                g_file_eject_mountable_finish     (GFile                      *file,
+							   GAsyncResult               *result,
+							   GError                    **error);
+#endif
+void                    g_file_eject_mountable_with_operation (GFile                  *file,
+							   GMountUnmountFlags          flags,
+							   GMountOperation            *mount_operation,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+gboolean                g_file_eject_mountable_with_operation_finish (GFile           *file,
 							   GAsyncResult               *result,
 							   GError                    **error);
 
@@ -751,6 +926,32 @@ GFileMonitor*           g_file_monitor                    (GFile                
 							   GCancellable           *cancellable,
 							   GError                **error);
 
+void                    g_file_start_mountable            (GFile                      *file,
+							   GDriveStartFlags            flags,
+							   GMountOperation            *start_operation,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+gboolean                g_file_start_mountable_finish     (GFile                      *file,
+							   GAsyncResult               *result,
+							   GError                    **error);
+void                    g_file_stop_mountable             (GFile                      *file,
+							   GMountUnmountFlags          flags,
+                                                           GMountOperation            *mount_operation,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+gboolean                g_file_stop_mountable_finish      (GFile                      *file,
+							   GAsyncResult               *result,
+							   GError                    **error);
+
+void                    g_file_poll_mountable             (GFile                      *file,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+gboolean                g_file_poll_mountable_finish      (GFile                      *file,
+							   GAsyncResult               *result,
+							   GError                    **error);
 
 /* Utilities */
 
@@ -806,6 +1007,8 @@ gboolean g_file_replace_contents_finish      (GFile                  *file,
 					      GAsyncResult           *res,
 					      char                  **new_etag,
 					      GError                **error);
+
+gboolean g_file_supports_thread_contexts     (GFile                  *file);
 
 G_END_DECLS
 
