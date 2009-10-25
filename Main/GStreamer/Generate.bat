@@ -57,7 +57,6 @@ mkdir "%DESTDIR%" 2> NUL
 :start
 cd /d "%DIR%"
 
-
 rem gstreamer/win32/common/gstconfig.h
 echo "Copying gstconfig.h"
 copy "%SRC_GSTREAMER_DIR%\win32\common\gstconfig.h" "%GEN_GSTREAMER_DIR%\gst\gstconfig.h"
@@ -109,15 +108,14 @@ rem gst-plugins-good/gst/udp
 %MK_ENUMS_BAT% UDP "%SRC_GST_PLUGINS_GOOD_DIR%\gst\udp" "%GSTDIR%\Plugins\Good\gst\udp.mkenum.lst.txt" "%GEN_GST_PLUGINS_GOOD_DIR%\gst\udp\gstudp-enumtypes.h" "%GEN_GST_PLUGINS_GOOD_DIR%\gst\udp\gstudp-enumtypes.c"
 %GEN_MARSHAL_BAT% gst_udp_marshal "%SRC_GST_PLUGINS_GOOD_DIR%\gst\udp\gstudp-marshal.list" "%GEN_GST_PLUGINS_GOOD_DIR%\gst\udp\gstudp-marshal.h" "%GEN_GST_PLUGINS_GOOD_DIR%\gst\udp\gstudp-marshal.c"
 
+rem gst-plugins-good/gst/rtpmanager
+%GEN_MARSHAL_BAT% gst_rtp_bin_marshal "%SRC_GST_PLUGINS_GOOD_DIR%\gst\rtpmanager\gstrtpbin-marshal.list" "%GEN_GST_PLUGINS_GOOD_DIR%\gst\rtpmanager\gstrtpbin-marshal.h" "%GEN_GST_PLUGINS_GOOD_DIR%\gst\rtpmanager\gstrtpbin-marshal.c"
 
 rem gst-plugins-bad/gst-libs/gst/interfaces
 %MK_ENUMS_BAT% PHOTOGRAPHY "%SRC_GST_PLUGINS_BAD_DIR%\gst-libs\gst\interfaces" "%GSTDIR%\Plugins\Bad\gst-libs\photography.mkenum.lst.txt" "%GEN_GST_PLUGINS_BAD_DIR%\gst-libs\gst\interfaces\photography-enumtypes.h" "%GEN_GST_PLUGINS_BAD_DIR%\gst-libs\gst\interfaces\photography-enumtypes.c"
 
 rem gst-plugins-bad/gst/camerabin
 %GEN_MARSHAL_BAT% __gst_camerabin_marshal "%SRC_GST_PLUGINS_BAD_DIR%\gst\camerabin\gstcamerabin-marshal.list" "%GEN_GST_PLUGINS_BAD_DIR%\gst\camerabin\gstcamerabin-marshal.h" "%GEN_GST_PLUGINS_BAD_DIR%\gst\camerabin\gstcamerabin-marshal.c"
-
-rem gst-plugins-bad/gst/rtpmanager
-%GEN_MARSHAL_BAT% gst_rtp_bin_marshal "%SRC_GST_PLUGINS_BAD_DIR%\gst\rtpmanager\gstrtpbin-marshal.list" "%GEN_GST_PLUGINS_BAD_DIR%\gst\rtpmanager\gstrtpbin-marshal.h" "%GEN_GST_PLUGINS_BAD_DIR%\gst\rtpmanager\gstrtpbin-marshal.c"
 
 rem gst-plugins-bad/gst/selector
 %GEN_MARSHAL_BAT% gst_selector_marshal "%SRC_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.list" "%GEN_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.h" "%GEN_GST_PLUGINS_BAD_DIR%\gst\selector\gstselector-marshal.c"
