@@ -251,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib gstrtp.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -293,6 +292,10 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{EB5D7598-7014-42D3-886C-9B9EC38167C3}"
 			RelativePathToProject=".\Main\GStreamer\Plugins\Farsight2\gst-libs\libgstfarsight.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F10}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstrtp.vcproj"
 		/>
 	</References>
 	<Files>

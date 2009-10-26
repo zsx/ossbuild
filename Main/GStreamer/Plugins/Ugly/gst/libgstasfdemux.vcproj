@@ -314,6 +314,10 @@
 			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F05}"
 			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgsttag.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+		/>
 	</References>
 	<Files>
 		<File

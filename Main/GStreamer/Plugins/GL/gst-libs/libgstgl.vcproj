@@ -367,6 +367,10 @@
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstreamer.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter

@@ -255,7 +255,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstreamer.lib"
 				LinkIncremental="1"
 				ModuleDefinitionFile="..\Source\gstreamer\win32\common\libgstbase.def"
 				GenerateDebugInformation="true"

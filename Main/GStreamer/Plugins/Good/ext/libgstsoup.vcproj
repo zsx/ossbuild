@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstsoup"
 	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92008}"
 	RootNamespace="libgstsoup"
@@ -251,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gsttag.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -304,6 +303,10 @@
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgsttag.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
 	</References>
 	<Files>

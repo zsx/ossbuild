@@ -251,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib gstnetbuffer.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -297,6 +296,10 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{6D935778-C3CD-4A93-9434-58CBCF2D85DB}"
 			RelativePathToProject=".\Main\GStreamer\Libraries\ext\libnice.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F07}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstnetbuffer.vcproj"
 		/>
 	</References>
 	<Files>

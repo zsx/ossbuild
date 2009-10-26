@@ -12,7 +12,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="gstnet.lib gstdataprotocol.lib gstcontroller.lib gstbase.lib gstreamer.lib"
+		AdditionalDependencies="gstreamer-0.10.lib"
 		OutputFile="$(OutDir)\bin\gstreamer\plugins\lib$(ProjectName).dll"
 		AdditionalLibraryDirectories="$(OutDir)\lib\gstreamer\plugins\"
 		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\plugins\$(TargetName).pdb"

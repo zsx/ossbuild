@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstdirectsound"
 	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92001}"
 	RootNamespace="libgstdirectsound"
@@ -253,7 +253,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="DxErr9.lib dsound.lib gstinterfaces.lib gstaudio.lib"
+				AdditionalDependencies="DxErr9.lib dsound.lib "
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

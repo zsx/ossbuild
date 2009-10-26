@@ -251,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxguid.lib ddraw.lib gstinterfaces.lib gstvideo.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -304,6 +303,10 @@
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstvideo.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
 	</References>
 	<Files>

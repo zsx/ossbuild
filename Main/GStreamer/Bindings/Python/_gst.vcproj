@@ -297,6 +297,18 @@
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E54}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstnet.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E52}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstcontroller.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E53}"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstdataprotocol.vcproj"
+		/>
 	</References>
 	<Files>
 		<Filter

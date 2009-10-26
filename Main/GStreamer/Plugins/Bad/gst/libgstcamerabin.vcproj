@@ -253,7 +253,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstinterfaces.lib gstphotography.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -297,6 +296,14 @@
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstinterfaces.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2000}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Bad\gst-libs\libgstphotography.vcproj"
 		/>
 	</References>
 	<Files>
