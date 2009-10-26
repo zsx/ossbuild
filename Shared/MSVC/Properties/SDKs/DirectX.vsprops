@@ -14,6 +14,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
+		AdditionalDependencies="ddraw.lib dxguid.lib"
 		AdditionalLibraryDirectories="&quot;$(SolutionDir)\Shared\SDKs\DirectX\lib\$(PlatformName)&quot;"
 	/>
 	<UserMacro
