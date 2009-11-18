@@ -56,27 +56,33 @@ GST_BOILERPLATE (GstShagadelicTV, gst_shagadelictv, GstVideoFilter,
 
 static void gst_shagadelic_initialize (GstShagadelicTV * filter);
 
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
 static GstStaticPadTemplate gst_shagadelictv_src_template =
 GST_STATIC_PAD_TEMPLATE ("src",
     GST_PAD_SRC,
     GST_PAD_ALWAYS,
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
     GST_STATIC_CAPS (GST_VIDEO_CAPS_BGRx)
-#else
-    GST_STATIC_CAPS (GST_VIDEO_CAPS_xRGB)
-#endif
     );
-
 static GstStaticPadTemplate gst_shagadelictv_sink_template =
 GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_SINK,
     GST_PAD_ALWAYS,
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
     GST_STATIC_CAPS (GST_VIDEO_CAPS_BGRx)
-#else
-    GST_STATIC_CAPS (GST_VIDEO_CAPS_xRGB)
-#endif
     );
+#else
+static GstStaticPadTemplate gst_shagadelictv_src_template =
+GST_STATIC_PAD_TEMPLATE ("src",
+    GST_PAD_SRC,
+    GST_PAD_ALWAYS,
+	GST_STATIC_CAPS (GST_VIDEO_CAPS_xRGB)
+    );
+static GstStaticPadTemplate gst_shagadelictv_sink_template =
+GST_STATIC_PAD_TEMPLATE ("sink",
+    GST_PAD_SINK,
+    GST_PAD_ALWAYS,
+	GST_STATIC_CAPS (GST_VIDEO_CAPS_xRGB)
+    );
+#endif
 
 static gboolean
 gst_shagadelictv_set_caps (GstBaseTransform * btrans, GstCaps * incaps,

@@ -68,27 +68,33 @@ enum
 #define DEFAULT_PITS TRUE
 #define DEFAULT_DUSTS TRUE
 
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
 static GstStaticPadTemplate gst_agingtv_src_template =
     GST_STATIC_PAD_TEMPLATE ("src",
     GST_PAD_SRC,
     GST_PAD_ALWAYS,
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
     GST_STATIC_CAPS (GST_VIDEO_CAPS_BGRx ";" GST_VIDEO_CAPS_RGBx)
-#else
-    GST_STATIC_CAPS (GST_VIDEO_CAPS_xRGB ";" GST_VIDEO_CAPS_xBGR)
-#endif
     );
-
 static GstStaticPadTemplate gst_agingtv_sink_template =
     GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_SINK,
     GST_PAD_ALWAYS,
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
     GST_STATIC_CAPS (GST_VIDEO_CAPS_BGRx ";" GST_VIDEO_CAPS_RGBx)
-#else
-    GST_STATIC_CAPS (GST_VIDEO_CAPS_xRGB ";" GST_VIDEO_CAPS_xBGR)
-#endif
     );
+#else
+static GstStaticPadTemplate gst_agingtv_src_template =
+    GST_STATIC_PAD_TEMPLATE ("src",
+    GST_PAD_SRC,
+    GST_PAD_ALWAYS,
+    GST_STATIC_CAPS (GST_VIDEO_CAPS_xRGB ";" GST_VIDEO_CAPS_xBGR)
+    );
+static GstStaticPadTemplate gst_agingtv_sink_template =
+    GST_STATIC_PAD_TEMPLATE ("sink",
+    GST_PAD_SINK,
+    GST_PAD_ALWAYS,
+	GST_STATIC_CAPS (GST_VIDEO_CAPS_xRGB ";" GST_VIDEO_CAPS_xBGR)
+    );
+#endif
 
 GST_BOILERPLATE (GstAgingTV, gst_agingtv, GstVideoFilter,
     GST_TYPE_VIDEO_FILTER);
