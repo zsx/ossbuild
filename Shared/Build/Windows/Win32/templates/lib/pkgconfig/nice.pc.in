@@ -1,0 +1,12 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libnice
+Description: ICE library
+Requires: glib-2.0 >= 2.10.0
+Version: 0.0.10
+Libs: -L${libdir} -lnice -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lgobject-2.0 -lgthread-2.0 -lglib-2.0 -lintl  
+Cflags: -mms-bitfields -Id:/OSSBuild/Build/Windows/Win32/Release/include/glib-2.0 -Id:/OSSBuild/Build/Windows/Win32/Release/lib/glib-2.0/include   -I${includedir} -I${includedir}/nice
+

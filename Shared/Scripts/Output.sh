@@ -8,6 +8,7 @@ output_startup() {
 	export IntDir=$OutDir/obj
 	export LibDir=$OutDir/lib
 	export BinDir=$OutDir/bin
+	export EtcDir=$OutDir/etc
 	export IncludeDir=$OutDir/include
 	export TemplateDir=$OutDir/templates
 	export PkgConfigDir=$LibDir/pkgconfig
@@ -16,6 +17,7 @@ output_startup() {
 	export SharedOutDir=$SHARED_BUILD_DIR/$OperatingSystemName/$PlatformName
 	export SharedLibDir=$SharedOutDir/lib
 	export SharedBinDir=$SharedOutDir/bin
+	export SharedEtcDir=$SharedOutDir/etc
 	export SharedIncludeDir=$SharedOutDir/include
 	export SharedTemplateDir=$SharedOutDir/templates
 	export SharedPkgConfigDir=$SharedLibDir/pkgconfig
@@ -190,19 +192,23 @@ create_templates() {
 
 create_template_libtool_la() {
 	myla=$1
+	echo "Creating libtool template for $myla"
 	sedInstallDir=${InstallDir//\//\\\/}
 	sedSharedLibDir=${SharedLibDir//\//\\\/}
 	
 	sed "s/$sedInstallDir/@SHARED_BUILD_DIR@/g" "$myla" > "$TemplateLibDir/tmp.la"
 	sed "s/ -L$sedSharedLibDir//g" "$TemplateLibDir/tmp.la" > "$TemplateLibDir/$myla.in"
 	rm -f "$TemplateLibDir/tmp.la"
+	cp -p "$TemplateLibDir/$myla.in" "$SharedTemplateLibDir"
 }
 
 create_template_pkgconfig_pc() {
 	mypc=$1
+	echo "Creating pkg-config template for $mypc"
 	sedInstallDir=${InstallDir//\//\\\/}
 	
 	sed "s/$sedInstallDir/@SHARED_BUILD_DIR@/g" "$mypc" > "$TemplatePkgConfigDir/$mypc.in"
+	cp -p "$TemplatePkgConfigDir/$mypc.in" "$SharedTemplatePkgConfigDir"
 }
 
 expand_templates() {
@@ -256,4 +262,7 @@ create_shared() {
 	
 	#Create pkgconfig/libtool templates
 	create_templates
+	
+	#Etc
+	cd "$EtcDir/fonts" && cp -ru * "$SharedEtcDir/fonts"
 }

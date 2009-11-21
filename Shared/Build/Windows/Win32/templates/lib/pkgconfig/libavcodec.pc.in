@@ -6,9 +6,9 @@ includedir=@SHARED_BUILD_DIR@/include
 Name: libavcodec
 Description: FFmpeg codec library
 Version: 52.20.0
-Requires: libavutil = 49.15.0
-Requires.private: 
+Requires: 
+Requires.private: libavutil = 49.15.0
 Conflicts:
-Libs: -L${libdir} -lavcodec -lz -lbz2 -lm -lvfw32 -lmp3lame -lm -lopenjpeg -L@SHARED_BUILD_DIR@/lib -lschroedinger-1.0 -loil-0.3 -lm -lspeex -ltheora -logg -lvorbisenc -lvorbis -logg -lws2_32 -lvfw32
-Libs.private: 
+Libs: -L${libdir} -lavcodec 
+Libs.private: -lz -lbz2 -lm -lvfw32 -lmp3lame -lm -lopenjpeg -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lschroedinger-1.0 -loil-0.3 -lm -lspeex -ltheora -logg -lvorbisenc -lvorbis -logg -lws2_32 -lvfw32
 Cflags: -I${includedir}

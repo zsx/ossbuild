@@ -4,6 +4,7 @@
 
 common_startup() {
 	#Setup default configuration
+	export COMPUTERNAME=OSSBuild
 	export OperatingSystemName=Linux
 	export PlatformName=x86
 	export ConfigurationName=Release

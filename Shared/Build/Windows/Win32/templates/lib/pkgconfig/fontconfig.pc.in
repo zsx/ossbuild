@@ -5,7 +5,7 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: Fontconfig
 Description: Font configuration and customization library
-Version: 2.6.0
+Version: 2.7.3
 Libs: -L${libdir} -lfontconfig
-Libs.private:  -L@SHARED_BUILD_DIR@/lib -lfreetype -lz
+Libs.private: -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lxml2    -L@SHARED_BUILD_DIR@/lib -lfreetype -lz -liconv
 Cflags: -I${includedir}

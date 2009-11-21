@@ -1,0 +1,11 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libdvdread
+Description: Low level DVD access library
+Version: 4.1.3
+
+Cflags: -I${includedir}
+Libs: -L${libdir} -ldvdread

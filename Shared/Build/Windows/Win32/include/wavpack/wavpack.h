@@ -187,6 +187,7 @@ typedef struct {
 #define CONFIG_SKIP_WVX         0x4000000 // no wvx stream w/ floats & big ints
 #define CONFIG_MD5_CHECKSUM     0x8000000 // store MD5 signature
 #define CONFIG_MERGE_BLOCKS     0x10000000 // merge blocks of equal redundancy (for lossyWAV)
+#define CONFIG_PAIR_UNDEF_CHANS 0x20000000 // encode undefined channels in stereo pairs
 #define CONFIG_OPTIMIZE_MONO    0x80000000 // optimize for mono streams posing as stereo
 
 ////////////// Callbacks used for reading & writing WavPack streams //////////
@@ -274,7 +275,11 @@ double WavpackGetInstantBitrate (WavpackContext *wpc);
 int WavpackGetNumTagItems (WavpackContext *wpc);
 int WavpackGetTagItem (WavpackContext *wpc, const char *item, char *value, int size);
 int WavpackGetTagItemIndexed (WavpackContext *wpc, int index, char *item, int size);
+int WavpackGetNumBinaryTagItems (WavpackContext *wpc);
+int WavpackGetBinaryTagItem (WavpackContext *wpc, const char *item, char *value, int size);
+int WavpackGetBinaryTagItemIndexed (WavpackContext *wpc, int index, char *item, int size);
 int WavpackAppendTagItem (WavpackContext *wpc, const char *item, const char *value, int vsize);
+int WavpackAppendBinaryTagItem (WavpackContext *wpc, const char *item, const char *value, int vsize);
 int WavpackDeleteTagItem (WavpackContext *wpc, const char *item);
 int WavpackWriteTag (WavpackContext *wpc);
 

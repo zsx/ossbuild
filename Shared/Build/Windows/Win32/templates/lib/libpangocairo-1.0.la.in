@@ -17,15 +17,15 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib @SHARED_BUILD_DIR@/lib/libcairo.la @SHARED_BUILD_DIR@/lib/libpixman-1.la @SHARED_BUILD_DIR@/lib/libpng12.la -lmsimg32 @SHARED_BUILD_DIR@/lib/libpangowin32-1.0.la -lgdi32 @SHARED_BUILD_DIR@/lib/libpangoft2-1.0.la @SHARED_BUILD_DIR@/lib/libpango-1.0.la @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgmodule-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la -lole32 -lintl @SHARED_BUILD_DIR@/lib/libfontconfig.la @SHARED_BUILD_DIR@/lib/libfreetype.la @SHARED_BUILD_DIR@/lib/libxml2.la -lpthread -lz -liconv -lws2_32'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libcairo.la @SHARED_BUILD_DIR@/lib/libpixman-1.la @SHARED_BUILD_DIR@/lib/libpng12.la -lmsimg32 @SHARED_BUILD_DIR@/lib/libpangowin32-1.0.la -lgdi32 @SHARED_BUILD_DIR@/lib/libpangoft2-1.0.la @SHARED_BUILD_DIR@/lib/libpango-1.0.la @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgmodule-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la -lole32 -lintl @SHARED_BUILD_DIR@/lib/libfontconfig.la @SHARED_BUILD_DIR@/lib/libfreetype.la @SHARED_BUILD_DIR@/lib/libxml2.la -lpthread -lz -liconv -lws2_32'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
 
 # Version information for libpangocairo-1.0.
-current=2300
-age=2300
-revision=0
+current=2600
+age=2600
+revision=1
 
 # Is this an already installed library?
 installed=yes

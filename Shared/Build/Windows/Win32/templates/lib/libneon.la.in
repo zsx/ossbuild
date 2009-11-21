@@ -17,15 +17,15 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -R@SHARED_BUILD_DIR@/lib -L@SHARED_BUILD_DIR@/lib -lintl @SHARED_BUILD_DIR@/lib/libgnutls.la -lz @SHARED_BUILD_DIR@/lib/libgcrypt.la @SHARED_BUILD_DIR@/lib/libgpg-error.la -lws2_32'
+dependency_libs=' -R@SHARED_BUILD_DIR@/lib -L@SHARED_BUILD_DIR@/lib -lintl -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgnutls.la @SHARED_BUILD_DIR@/lib/libgcrypt.la @SHARED_BUILD_DIR@/lib/libgpg-error.la @SHARED_BUILD_DIR@/lib/libxml2.la -lz -lpthread -liconv -lws2_32'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
 
 # Version information for libneon.
-current=28
-age=1
-revision=4
+current=29
+age=2
+revision=0
 
 # Is this an already installed library?
 installed=yes

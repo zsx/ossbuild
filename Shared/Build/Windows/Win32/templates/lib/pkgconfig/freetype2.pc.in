@@ -5,7 +5,8 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: FreeType 2
 Description: A free, high-quality, and portable font engine.
-Version: 9.19.3
+Version: 9.22.3
 Requires:
-Libs: -L${libdir} -lfreetype -lz 
+Libs: -L${libdir} -lfreetype
+Libs.private: -lz 
 Cflags: -I${includedir}/freetype2 -I${includedir}

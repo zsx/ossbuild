@@ -1,9 +1,9 @@
 #!/bin/sh
 
-prefix=/c/ossbuild/Build/Windows/Win32/Release
+prefix=/D/OSSBuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
 exec_prefix_set=no
-libdir=/c/ossbuild/Build/Windows/Win32/Release/lib
+libdir=/D/OSSBuild/Build/Windows/Win32/Release/lib
 
 usage="\
 Usage: sdl-config [--prefix[=DIR]] [--exec-prefix[=DIR]] [--version] [--cflags] [--libs]"
@@ -39,17 +39,17 @@ while test $# -gt 0; do
       echo $exec_prefix
       ;;
     --version)
-      echo 1.2.13
+      echo 1.2.14
       ;;
     --cflags)
-      echo -I/c/ossbuild/Build/Windows/Win32/Release/include/SDL -D_GNU_SOURCE=1 -Dmain=SDL_main
+      echo -I/D/OSSBuild/Build/Windows/Win32/Release/include/SDL -D_GNU_SOURCE=1 -Dmain=SDL_main
       ;;
     --libs)
-      echo -L/c/ossbuild/Build/Windows/Win32/Release/lib  -lmingw32 -lSDLmain -lSDL  -mwindows
+      echo -L/D/OSSBuild/Build/Windows/Win32/Release/lib  -lmingw32 -lSDLmain -lSDL  -mwindows
       ;;
 #    --static-libs)
 ##    --libs|--static-libs)
-#      echo -L/c/ossbuild/Build/Windows/Win32/Release/lib  -lmingw32 -lSDLmain -lSDL  -mwindows
+#      echo -L/D/OSSBuild/Build/Windows/Win32/Release/lib  -lmingw32 -lSDLmain -lSDL  -mwindows  -lm -luser32 -lgdi32 -lwinmm
 #      ;;
     *)
       echo "${usage}" 1>&2

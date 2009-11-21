@@ -17,9 +17,9 @@ old_library=''
 dependency_libs=' -L@SHARED_BUILD_DIR@/lib'
 
 # Version information for libpixman-1.
-current=14
-age=14
-revision=0
+current=17
+age=17
+revision=2
 
 # Is this an already installed library?
 installed=yes

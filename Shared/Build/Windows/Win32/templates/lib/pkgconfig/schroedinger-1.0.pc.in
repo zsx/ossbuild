@@ -8,7 +8,7 @@ toolsdir=${exec_prefix}/bin
 Name: schroedinger-1.0
 Description: Dirac codec library
 Requires: liboil-0.3 >= 0.3.16
-Version: 1.0.6
+Version: 1.0.7
 Libs: -L${libdir} -lschroedinger-1.0  -lm
 Cflags: -I${includedir}
 

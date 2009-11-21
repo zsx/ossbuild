@@ -5,7 +5,7 @@ includedir=@SHARED_BUILD_DIR@/include/libpng12
 
 Name: libpng
 Description: Loads and saves PNG files
-Version: 1.2.35
+Version: 1.2.40
 Libs: -L${libdir} -lpng12
 Libs.private: -lz 
 Cflags: -I${includedir} -DPNG_NO_MMX_CODE

@@ -7,7 +7,7 @@
 	>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="libavutil-gpl.a libavfilter.a libavdevice.a libavformat-gpl.a libavcodec-gpl.a vfw32.lib wsock32.lib"
+		AdditionalDependencies="avutil-gpl.lib avfilter.lib avdevice.lib avformat-gpl.lib avcodec-gpl.lib vfw32.lib wsock32.lib"
 	/>
 	<UserMacro
 		Name="FFmpegMajorVersion"

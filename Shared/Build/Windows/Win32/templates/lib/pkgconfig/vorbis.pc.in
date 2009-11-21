@@ -7,7 +7,7 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: vorbis
 Description: vorbis is the primary Ogg Vorbis library
-Version: 1.2.0
+Version: 1.2.3
 Requires: ogg
 Conflicts:
 Libs: -L${libdir} -lvorbis -lm

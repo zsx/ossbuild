@@ -7,7 +7,7 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: vorbisenc
 Description: vorbisenc is a library that provides a convenient API for setting up an encoding environment using libvorbis
-Version: 1.2.0
+Version: 1.2.3
 Requires: vorbis
 Conflicts:
 Libs: -L${libdir} -lvorbisenc

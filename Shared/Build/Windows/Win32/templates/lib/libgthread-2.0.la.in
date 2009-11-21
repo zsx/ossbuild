@@ -23,9 +23,9 @@ dependency_libs=' -L@SHARED_BUILD_DIR@/lib @SHARED_BUILD_DIR@/lib/libglib-2.0.la
 weak_library_names=''
 
 # Version information for libgthread-2.0.
-current=2000
-age=2000
-revision=0
+current=2200
+age=2200
+revision=2
 
 # Is this an already installed library?
 installed=yes

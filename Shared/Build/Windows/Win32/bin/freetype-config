@@ -9,11 +9,11 @@
 # indicate that you have read the license and understand and accept it
 # fully.
 
-prefix=/c/ossbuild/Build/Windows/Win32/Release
+prefix=/D/OSSBuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
 exec_prefix_set=no
-includedir=/c/ossbuild/Build/Windows/Win32/Release/include
-libdir=/c/ossbuild/Build/Windows/Win32/Release/lib
+includedir=/D/OSSBuild/Build/Windows/Win32/Release/include
+libdir=/D/OSSBuild/Build/Windows/Win32/Release/lib
 enable_shared=
 wl=-Wl,
 hardcode_libdir_flag_spec='-L$libdir'
@@ -72,7 +72,7 @@ while test $# -gt 0 ; do
     echo_exec_prefix=yes
     ;;
   --version)
-    echo 9.20.3
+    echo 9.22.3
     exit 0
     ;;
   --ftversion)

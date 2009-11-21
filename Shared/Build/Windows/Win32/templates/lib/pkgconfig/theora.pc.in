@@ -7,7 +7,7 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: theora
 Description: Theora video codec
-Version: 1.0final
+Version: 1.1.1
 Requires: ogg >= 1.1
 Conflicts:
 Libs: -L${libdir} -ltheora

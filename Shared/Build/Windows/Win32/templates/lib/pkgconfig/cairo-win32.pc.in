@@ -5,7 +5,7 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: cairo-win32
 Description: Microsoft Windows surface backend for cairo graphics library
-Version: 1.8.6
+Version: 1.8.8
 
 Requires: cairo 
 Libs: 
