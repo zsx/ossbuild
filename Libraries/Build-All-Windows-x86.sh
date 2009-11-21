@@ -2,6 +2,12 @@
 
 TOP=$(dirname $0)/..
 
+CFLAGS="$CFLAGS -O2 -fno-strict-aliasing -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
+
+##GCC 4.4+ doesn't set the stack alignment how we'd like which causes problems when 
+##loading shared libraries such as the ffmpeg ones through Windows' LoadLibrary() function.
+##CPPFLAGS="$CPPFLAGS -mincoming-stack-boundary=2"
+
 #Call common startup routines to load a bunch of variables we'll need
 . $TOP/Shared/Scripts/Common.sh
 common_startup "Windows" "Win32" "Release" "x86"
@@ -21,12 +27,12 @@ setup_ms_build_env_path
 
 #clear_flags
 
-
-#gcc_dw2
-if [ ! -f "$BinDir/libgcc_s_dw2-1.dll" ]; then
-	#Needed for new dwarf2 exception handling
-	copy_files_to_dir "$LIBRARIES_PATCH_DIR/gcc_dw2/libgcc_s_dw2-1.dll" "$BinDir"
-fi
+#Not using dwarf2 yet
+###gcc_dw2
+##if [ ! -f "$BinDir/libgcc_s_dw2-1.dll" ]; then
+##	#Needed for new dwarf2 exception handling
+##	copy_files_to_dir "$LIBRARIES_PATCH_DIR/gcc_dw2/libgcc_s_dw2-1.dll" "$BinDir"
+##fi
 
 #proxy-libintl
 if [ ! -f "$LibDir/intl.lib" ]; then 
@@ -42,20 +48,9 @@ fi
 
 #Update flags to make sure we don't try and export intl (gettext) functions more than once
 #Setting it to ORIG_LDFLAGS ensures that any calls to reset_flags will include these changes.
-ORIG_LDFLAGS="$ORIG_LDFLAGS -Wl,--exclude-libs=libintl.a"
+ORIG_LDFLAGS="$ORIG_LDFLAGS -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias"
 reset_flags
 
-#libdl
-if [ ! -f "$BinDir/libdl.dll" ]; then 
-	unpack_bzip2_and_move "dlfcn.tar.bz2" "$PKG_DIR_DLFCN"
-	mkdir_and_move "$IntDir/libdl" 
-	 
-	cd "$PKG_DIR"
-	./configure --disable-static --enable-shared --prefix=$InstallDir --libdir=$LibDir --incdir=$IncludeDir
-
-	make && make install
-	mv "$LibDir/libdl.lib" "$LibDir/dl.lib"
-fi
 
 #liboil
 if [ ! -f "$BinDir/liboil-0.3-0.dll" ]; then
@@ -240,6 +235,22 @@ if [ ! -f "$BinDir/libjpeg-7.dll" ]; then
 	reset_flags
 fi
 
+#openjpeg
+if [ ! -f "$BinDir/libopenjpeg-2.dll" ]; then 
+	unpack_gzip_and_move "openjpeg.tar.gz" "$PKG_DIR_OPENJPEG"
+	mkdir_and_move "$IntDir/openjpeg"
+	
+	cd "$PKG_DIR"
+	cp "$LIBRARIES_PATCH_DIR/openjpeg/Makefile" .
+	make install LDFLAGS="-lm" PREFIX=$InstallDir
+	make clean
+	
+	cd "$IntDir/openjpeg"
+	pexports "$BinDir/libopenjpeg-2.dll" | sed "s/^_//" > in.def
+	$MSLIB /name:libopenjpeg-2.dll /out:openjpeg.lib /machine:$MSLibMachine /def:in.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+fi
+
 #libpng
 if [ ! -f "$BinDir/libpng12-0.dll" ]; then 
 	unpack_gzip_and_move "libpng.tar.gz" "$PKG_DIR_LIBPNG"
@@ -401,10 +412,15 @@ if [ ! -f "$BinDir/libneon-27.dll" ]; then
 	unpack_gzip_and_move "neon.tar.gz" "$PKG_DIR_NEON"
 	mkdir_and_move "$IntDir/neon"
 	
-	$PKG_DIR/configure --with-libxml2 --with-ssl=gnutls --disable-webdav --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	CPPFLAGS="$CPPFLAGS -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON -UHAVE_SETLOCALE"
+	
+	$PKG_DIR/configure --with-libxml2 --with-ssl=gnutls --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	make && make install
 	
-	$MSLIB /name:libneon-27.dll /out:neon.lib /machine:$MSLibMachine /def:src/.libs/libneon-27.dll.def
+	cd "src/.libs"
+	pexports "$BinDir/libneon-27.dll" | sed "s/^_//" > in.def
+	sed -e '/LIBRARY libneon-27.dll/d' in.def > in-mod.def
+	$MSLIB /name:libneon-27.dll /out:neon.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	reset_flags
@@ -497,6 +513,26 @@ if [ ! -f "$BinDir/libpango-1.0-0.dll" ]; then
 	$MSLIB /name:libpangowin32-1.0-0.dll /out:pangowin32-1.0.lib /machine:$MSLibMachine /def:libpangowin32-1.0-0.dll.def
 	$MSLIB /name:libpangocairo-1.0-0.dll /out:pangocairo-1.0.lib /machine:$MSLibMachine /def:libpangocairo-1.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+fi
+
+#sdl
+if [ ! -f "$BinDir/SDL.dll" ]; then 
+	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
+	mkdir_and_move "$IntDir/sdl"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
+	make && make install
+	
+	cp $PKG_DIR/include/SDL_config.h.default $IncludeDir/SDL/SDL_config.h
+	cp $PKG_DIR/include/SDL_config_win32.h $IncludeDir/SDL
+	
+	cd build/.libs
+	
+	pexports "$BinDir/SDL.dll" | sed "s/^_//" > in.def
+	sed -e '/LIBRARY SDL.dll/d' in.def > in-mod.def
+	$MSLIB /name:SDL.dll /out:sdl.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	reset_flags
 fi
 
 #libogg
@@ -654,22 +690,6 @@ fi
 #	#move_files_to_dir "*.exp *.lib" "$LibDir/"
 #fi
 
-#openjpeg
-if [ ! -f "$BinDir/libopenjpeg-2.dll" ]; then 
-	unpack_gzip_and_move "openjpeg.tar.gz" "$PKG_DIR_OPENJPEG"
-	mkdir_and_move "$IntDir/openjpeg"
-	
-	cd "$PKG_DIR"
-	cp "$LIBRARIES_PATCH_DIR/openjpeg/Makefile" .
-	make install LDFLAGS="-lm" PREFIX=$InstallDir
-	make clean
-	
-	cd "$IntDir/openjpeg"
-	pexports "$BinDir/libopenjpeg-2.dll" | sed "s/^_//" > in.def
-	$MSLIB /name:libopenjpeg-2.dll /out:openjpeg.lib /machine:$MSLibMachine /def:in.def
-	move_files_to_dir "*.exp *.lib" "$LibDir/"
-fi
-
 #mp3lame
 if [ ! -f "$BinDir/libmp3lame-0.dll" ]; then 
 	unpack_gzip_and_move "lame.tar.gz" "$PKG_DIR_MP3LAME"
@@ -685,86 +705,41 @@ if [ ! -f "$BinDir/libmp3lame-0.dll" ]; then
 fi
 
 #ffmpeg
-if [ ! -f "$LibDir/libavcodec.a" ]; then 
-	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
+if [ ! -f "$BinDir/avcodec-52.dll" ]; then 
+	#We want to use the GStreamer-supplied version of ffmpeg in case there are differences
+	PKG_DIR="$MAIN_DIR/GStreamer/Source/gst-ffmpeg/gst-libs/ext/ffmpeg"
+	
+	#unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
 	mkdir_and_move "$IntDir/ffmpeg"
 	
-	#CFLAGS=$ORIG_CFLAGS
-	#CPPFLAGS=$ORIG_CPPFLAGS
-	
 	#LGPL-compatible version
-	#On Windows, you have to link against the static lib
-	#$LIBRARIES_DIR/FFmpeg/Source/configure --extra-ldflags="-no-undefined" --extra-cflags="-mno-cygwin -mms-bitfields -fno-common" --enable-avisynth --enable-memalign-hack --target-os=mingw32 --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-zlib --enable-w32threads --enable-ipv6 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
-	#$LIBRARIES_DIR/FFmpeg/Source/configure --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-pthreads --enable-libvorbis --enable-libmp3lame --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-libx264 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
-	$PKG_DIR/configure --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-w32threads --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --disable-ffmpeg --disable-ffplay --disable-ffserver --enable-static --disable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
-	
-	reset_flags
+	#On Windows, you must disable the roq decoder in order to build shared libraries. This is a known bug.
+	$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -mno-cygwin -mms-bitfields -fno-common -fno-strict-aliasing -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON" --disable-encoder=roq_dpcm --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --enable-zlib --enable-bzlib --enable-w32threads --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
 	
 	make && make install
-	
-	strip -x "$LibDir/libavutil.a"
-	strip -x "$LibDir/libavfilter.a"
-	strip -x "$LibDir/libavdevice.a"
-	strip -x "$LibDir/libavformat.a"
-	strip -x "$LibDir/libavcodec.a"
 	
 	##If it built successfully, then the .lib and .dll files are all in the lib/ folder with 
 	##sym links. We want to take out the sym links and keep just the .lib and .dll files we need 
 	##for development and execution.
-	#
-	#mkdir -p "$LibDir/tmp/"
-	#
-	#remove_files_from_dir "$LibDir/av*-*.*.dll"
-	#move_files_to_dir "$LibDir/av*-*.dll" "$LibDir/tmp/"
-	#remove_files_from_dir "$LibDir/av*.dll"
-	#move_files_to_dir "$LibDir/tmp/av*-*.dll" "$BinDir/"
-	#
-	#remove_files_from_dir "$LibDir/av*-*.*.lib"
-	#move_files_to_dir "$LibDir/av*-*.lib" "$LibDir/tmp/"
-	#remove_files_from_dir "$LibDir/av*.lib"
-	#move_files_to_dir "$LibDir/tmp/av*-*.lib" "$LibDir/"
-	#
-	#rm -rf "$LibDir/tmp/"
-	#
-	##Create .dll.a versions of the libs
-	#cd "$IntDir/ffmpeg"
-	#pexports "$BinDir/avutil-49.dll" | sed "s/^_//" > avutil.def
-	#pexports "$BinDir/avcodec-52.dll" | sed "s/^_//" > avcodec.def
-	#pexports "$BinDir/avdevice-52.dll" | sed "s/^_//" > avdevice.def
-	##pexports "$BinDir/avfilter-0.dll" | sed "s/^_//" > avfilter.def
-	#pexports "$BinDir/avformat-52.dll" | sed "s/^_//" > avformat.def
-	#dlltool -U -d avutil.def -l libavutil.dll.a
-	#dlltool -U -d avcodec.def -l libavcodec.dll.a
-	#dlltool -U -d avdevice.def -l libavdevice.dll.a
-	##dlltool -U -d avfilter.def -l libavfilter.dll.a
-	#dlltool -U -d avformat.def -l libavformat.dll.a
-	#move_files_to_dir "*.dll.a" "$LibDir/"
-	#
-	#cd "$LibDir"
-	#mv avcodec-52.lib avcodec.lib
-	#mv avdevice-52.lib avdevice.lib
-	##mv avfilter-0.lib avfilter.lib
-	#mv avformat-52.lib avformat.lib
-	#mv avutil-49.lib avutil.lib
-fi
+	cd "$BinDir" && move_files_to_dir "av*.lib" "$LibDir"
+	cd "$BinDir" && remove_files_from_dir "avcodec-52.*.dll avcodec.dll avdevice-52.*.dll avdevice.dll avfilter-0.*.dll avfilter.dll avformat-52.*.dll avformat.dll avutil-49.*.dll avutil.dll"
+	cd "$LibDir" && remove_files_from_dir "avcodec-52.lib avdevice-52.lib avfilter-0.lib avformat-52.lib avutil-49.lib"
 
-#sdl
-if [ ! -f "$BinDir/SDL.dll" ]; then 
-	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
-	mkdir_and_move "$IntDir/sdl"
+	#Create .dll.a versions of the libs
+	cd "$IntDir/ffmpeg"
+	pexports "$BinDir/avutil-49.dll" | sed "s/^_//" > avutil.def
+	pexports "$BinDir/avcodec-52.dll" | sed "s/^_//" > avcodec.def
+	pexports "$BinDir/avdevice-52.dll" | sed "s/^_//" > avdevice.def
+	pexports "$BinDir/avfilter-0.dll" | sed "s/^_//" > avfilter.def
+	pexports "$BinDir/avformat-52.dll" | sed "s/^_//" > avformat.def
+	dlltool -U -d avutil.def -l libavutil.dll.a
+	dlltool -U -d avcodec.def -l libavcodec.dll.a
+	dlltool -U -d avdevice.def -l libavdevice.dll.a
+	dlltool -U -d avfilter.def -l libavfilter.dll.a
+	dlltool -U -d avformat.def -l libavformat.dll.a
 	
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
-	make && make install
+	move_files_to_dir "*.dll.a" "$LibDir/"
 	
-	cp $PKG_DIR/include/SDL_config.h.default $IncludeDir/SDL/SDL_config.h
-	cp $PKG_DIR/include/SDL_config_win32.h $IncludeDir/SDL
-	
-	cd build/.libs
-	
-	pexports "$BinDir/SDL.dll" | sed "s/^_//" > in.def
-	sed -e '/LIBRARY SDL.dll/d' in.def > in-mod.def
-	$MSLIB /name:SDL.dll /out:sdl.lib /machine:$MSLibMachine /def:in-mod.def
-	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	reset_flags
 fi
 
@@ -785,36 +760,18 @@ if [ ! -f "$BinDir/libnice-0.dll" ]; then
 	
 	mkdir_and_move "$IntDir/libnice"
 	
-	CFLAGS="$CFLAGS -D_SSIZE_T_ -D_WIN32_WINNT=0x0501 -I$PKG_DIR/stun/"
-	LDFLAGS="-lwsock32 -lws2_32"
+	CFLAGS="-D_SSIZE_T_ -I$PKG_DIR -I$PKG_DIR/stun -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
+	LDFLAGS="$LDFLAGS -lwsock32 -lws2_32 -liphlpapi -no-undefined -mno-cygwin -fno-common -fno-strict-aliasing -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias"
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	make
-	
-	#Create a shared library from the archive
-	cd "$IntDir/libnice"
-	cd "nice/.libs"
-	dlltool --export-all-symbols -D libnice-0.dll -l libnice.dll.a -z in.def libnice.a
-	ranlib libnice.dll.a
-	gcc -shared -s -mwindows -def in.def $LibFlags -o libnice-0.dll libnice.a -liphlpapi -lwsock32 -lws2_32 -lglib-2.0 -lgobject-2.0
-	
-	cd "../../"
-	make install
+	make && make install
 	
 	cd "nice/.libs/"
-	remove_files_from_dir "$LibDir/libnice.a"
-	copy_files_to_dir "libnice.dll.a" "$LibDir"
-	copy_files_to_dir "libnice-0.dll" "$BinDir"
 	
-	$MSLIB /name:libnice-0.dll /out:nice.lib /machine:$MSLibMachine /def:in.def
+	$MSLIB /name:libnice-0.dll /out:nice.lib /machine:$MSLibMachine /def:libnice-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
-	#Update .la to reflect shared lib we created
-	cd "$LibDir"
-	sed -e "s/library_names=''/library_names='libnice.dll.a'/g" -e "s/old_library='libnice.a'/old_library=''/g" -e "s/dlname=''/dlname='..\/bin\/libnice-0.dll'/g" libnice.la > libnice.mod.la
-	mv -f "libnice.mod.la" "libnice.la"
 	reset_flags
 fi
-
 
 if [ ! -f "$BinDir/xvidcore.dll" ]; then
 	echo "$PKG_DIR_XVIDCORE"
@@ -837,29 +794,6 @@ if [ ! -f "$BinDir/xvidcore.dll" ]; then
 
 	
 fi
-
-#ffmpeg GPL version
-if [ ! -f "$LibDir/libavcodec-gpl.a" ]; then 
-	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
-	mkdir_and_move "$IntDir/ffmpeg-gpl"
-	
-	
-	$PKG_DIR/configure --enable-gpl --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-w32threads --enable-libmp3lame --enable-libvorbis --enable-libxvid --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --disable-ffmpeg --disable-ffplay --disable-ffserver --enable-static --disable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$LibDir --incdir=$IncludeDir
-
-	
-	reset_flags
-	
-	make 
-
-	mv libavformat/libavformat.a "$LibDir/libavformat-gpl.a"
-	mv libavutil/libavutil.a "$LibDir/libavutil-gpl.a"
-	mv libavcodec/libavcodec.a "$LibDir/libavcodec-gpl.a"
-
-	strip -x "$LibDir/libavutil-gpl.a"
-	strip -x "$LibDir/libavformat-gpl.a"
-	strip -x "$LibDir/libavcodec-gpl.a"
-fi
-
 
 if [ ! -f "$BinDir/libwavpack-1.dll" ]; then 
 	unpack_bzip2_and_move "wavpack.tar.bz2" "$PKG_DIR_WAVPACK"
@@ -913,8 +847,6 @@ if [ ! -f "$BinDir/libmpeg2-0.dll" ]; then
 
 	reset_flags
 fi
-
-
 
 #libdca
 if [ ! -f "$BinDir/libdca-0.dll" ]; then 
@@ -972,6 +904,18 @@ if [ ! -f "$BinDir/libfaad-2.dll" ]; then
 
 fi
 
+#libdl
+#if [ ! -f "$BinDir/libdl.dll" ]; then 
+#	unpack_bzip2_and_move "dlfcn.tar.bz2" "$PKG_DIR_DLFCN"
+#	mkdir_and_move "$IntDir/libdl" 
+#	 
+#	cd "$PKG_DIR"
+#	./configure --disable-static --enable-shared --prefix=$InstallDir --libdir=$LibDir --incdir=$IncludeDir
+#
+#	make && make install
+#	mv "$LibDir/libdl.lib" "$LibDir/dl.lib"
+#fi
+
 #dvdread
 if [ ! -f "$BinDir/libdvdread-4.dll" ]; then 
 
@@ -980,7 +924,7 @@ if [ ! -f "$BinDir/libdvdread-4.dll" ]; then
 	mkdir_and_move "$IntDir/libdvdread"
 	
 	 
-	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl"
+	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS"
 	make && make install
 
 	cp -f "$LIBRARIES_PATCH_DIR/dvdread/dvd_reader.h" "$IncludeDir/dvdread"/ 
@@ -1000,7 +944,7 @@ if [ ! -f "$BinDir/libdvdnav-4.dll" ]; then
 	mkdir_and_move "$IntDir/libdvdnav"
 	
 	 
-	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl -ldvdread"
+	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldvdread"
 
 	make && make install
 
@@ -1034,13 +978,87 @@ if [ ! -f "$BinDir/libdvdcss-2.dll" ]; then
 
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	reset_flags
+fi
 
+#ffmpeg GPL version
+if [ ! -f "$BinDir/avcodec-gpl-52.dll" ]; then 
+	#We want to use the GStreamer-supplied version of ffmpeg in case there are differences
+	PKG_DIR="$MAIN_DIR/GStreamer/Source/gst-ffmpeg/gst-libs/ext/ffmpeg"
+	
+	#unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
+	mkdir_and_move "$IntDir/ffmpeg-gpl"
+	
+	$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -mno-cygwin -mms-bitfields -fno-common -fno-strict-aliasing -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON" --enable-gpl --enable-swscale --enable-libfaad --disable-encoder=roq_dpcm --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-w32threads --enable-libmp3lame --enable-libvorbis --enable-libxvid --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
+	
+	#Add a "gpl-" suffix to the shared libraries
+	cat "config.mak" | sed "s/^BUILDSUF=/BUILDSUF=-gpl/g" > config.mak.tmp
+	mv -f "config.mak.tmp" "config.mak"
+	
+	make 
+	
+	reset_flags
+
+	#Create .dll.a versions of the libs
+	cd "$IntDir/ffmpeg-gpl"
+	dlltool -U --dllname avutil-gpl-49.dll -d "libavutil/avutil-gpl-49.def" -l libavutil-gpl.dll.a
+	dlltool -U --dllname avcodec-gpl-52.dll -d "libavcodec/avcodec-gpl-52.def" -l libavcodec-gpl.dll.a
+	dlltool -U --dllname avdevice-gpl-52.dll -d "libavdevice/avdevice-gpl-52.def" -l libavdevice-gpl.dll.a
+	dlltool -U --dllname avfilter-gpl-0.dll -d "libavfilter/avfilter-gpl-0.def" -l libavfilter-gpl.dll.a
+	dlltool -U --dllname avformat-gpl-52.dll -d "libavformat/avformat-gpl-52.def" -l libavformat-gpl.dll.a
+	dlltool -U --dllname swscale-gpl-0.dll -d "libswscale/swscale-gpl-0.def" -l libswscale-gpl.dll.a
+	
+	move_files_to_dir "*.dll.a" "$LibDir/"
+	
+	cp -p "ffmpeg.exe" "$BinDir/ffmpeg-gpl.exe"
+	
+	cp -p "libavutil/avutil-gpl-49.dll" "."
+	cp -p "libavutil/avutil-gpl-49.dll" "$BinDir/"
+	cp -p "libavutil/avutil-gpl-49.lib" "$LibDir/avutil-gpl.lib"
+	
+	cp -p "libavcodec/avcodec-gpl-52.dll" "."
+	cp -p "libavcodec/avcodec-gpl-52.dll" "$BinDir/"
+	cp -p "libavcodec/avcodec-gpl-52.lib" "$LibDir/avcodec-gpl.lib"
+	
+	cp -p "libavdevice/avdevice-gpl-52.dll" "."
+	cp -p "libavdevice/avdevice-gpl-52.dll" "$BinDir/"
+	cp -p "libavdevice/avdevice-gpl-52.lib" "$LibDir/avdevice-gpl.lib"
+	
+	cp -p "libavfilter/avfilter-gpl-0.dll" "."
+	cp -p "libavfilter/avfilter-gpl-0.dll" "$BinDir/"
+	cp -p "libavfilter/avfilter-gpl-0.lib" "$LibDir/avfilter-gpl.lib"
+	
+	cp -p "libavformat/avformat-gpl-52.dll" "."
+	cp -p "libavformat/avformat-gpl-52.dll" "$BinDir/"
+	cp -p "libavformat/avformat-gpl-52.lib" "$LibDir/avformat-gpl.lib"
+	
+	cp -p "libswscale/swscale-gpl-0.dll" "."
+	cp -p "libswscale/swscale-gpl-0.dll" "$BinDir/"
+	cp -p "libswscale/swscale-gpl-0.lib" "$LibDir/swscale-gpl.lib"
+	
+	mkdir -p "$IncludeDir/libswscale"
+	cp -p "$PKG_DIR/libswscale/swscale.h" "$IncludeDir/libswscale"
+	
+	#Copy some other dlls for testing
+	cp -p "$BinDir/liboil-0.3-0.dll" "."
+	cp -p "$BinDir/libfaad-2.dll" "."
+	cp -p "$BinDir/libmp3lame-0.dll" "."
+	cp -p "$BinDir/libopenjpeg-2.dll" "."
+	cp -p "$BinDir/libschroedinger-1.0-0.dll" "."
+	cp -p "$BinDir/libspeex-1.dll" "."
+	cp -p "$BinDir/libogg-0.dll" "."
+	cp -p "$BinDir/libtheora-0.dll" "."
+	cp -p "$BinDir/libvorbis-0.dll" "."
+	cp -p "$BinDir/libvorbisenc-2.dll" "."
+	cp -p "$BinDir/zlib1.dll" "."
+	cp -p "$BinDir/xvidcore.dll" "."
+	
+	reset_flags
 fi
 
 reset_flags
 
 #Make sure the shared directory has all our updates
-#create_shared
+create_shared
 
 #Cleanup CRT
 crt_shutdown
