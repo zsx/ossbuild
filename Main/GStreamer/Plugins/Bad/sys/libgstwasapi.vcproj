@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gstwasapi"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2012}"
 	RootNamespace="libgstwasapi"
@@ -109,6 +109,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -241,6 +242,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

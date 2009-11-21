@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>audioinvert</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-audiodynamic.html" title="audiodynamic">
@@ -52,19 +52,19 @@
 <a name="gst-plugins-good-plugins-audioinvert.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
                            +----GstAudioInvert
 </pre>
@@ -73,7 +73,7 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
 <a name="gst-plugins-good-plugins-audioinvert.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-audioinvert.html#GstAudioInvert--degree" title='The "degree" property'>degree</a>"                   <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
 </pre>
 </div>
@@ -87,7 +87,7 @@ Creating a stereo sample from a mono source, with one channel inverted produces 
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id498322"></a><h3>Example launch line</h3>
+<a name="id2984010"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc wave=saw ! audioinvert invert=0.4 ! alsasink
 gst-launch filesrc location="melo1.ogg" ! oggdemux ! vorbisdec ! audioconvert ! audioinvert invert=0.4 ! alsasink
@@ -97,7 +97,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audioinvert invert=0.4 ! audio
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id492364"></a><h3>Element Information</h3>
+<a name="id3044579"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -120,7 +120,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audioinvert invert=0.4 ! audio
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id489806"></a><h3>Element Pads</h3>
+<a name="id3008816"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -190,7 +190,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audioinvert invert=0.4 ! audio
 <div class="refsect2" title='The "degree" property'>
 <a name="GstAudioInvert--degree"></a><h3>The <code class="literal">"degree"</code> property</h3>
 <pre class="programlisting">  "degree"                   <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Degree of inversion.</p>
 <p>Allowed values: [0,1]</p>

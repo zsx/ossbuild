@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>jpegenc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-jpegdec.html" title="jpegdec">
@@ -54,13 +54,13 @@
 <a name="gst-plugins-good-plugins-jpegenc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstJpegEnc
 </pre>
@@ -69,7 +69,7 @@ href="../gstreamer-0.10/GstElement.html"
 <a name="gst-plugins-good-plugins-jpegenc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc--quality" title='The "quality" property'>quality</a>"                  <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc--idct-method" title='The "idct-method" property'>idct-method</a>"              GstIDCTMethod         : Read / Write
 </pre>
@@ -88,7 +88,7 @@ Encodes jpeg images.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id516189"></a><h3>Example launch line</h3>
+<a name="id3072180"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch videotestsrc num-buffers=50 ! video/x-raw-yuv, framerate='(fraction)'5/1 ! jpegenc ! avimux ! filesink location=mjpeg.avi
 </pre></div> a pipeline to mux 5 JPEG frames per second into a 10 sec. long motion jpeg
@@ -97,7 +97,7 @@ avi.
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id537959"></a><h3>Element Information</h3>
+<a name="id3097981"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -120,7 +120,7 @@ avi.
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id444361"></a><h3>Element Pads</h3>
+<a name="id3077423"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -182,7 +182,7 @@ avi.
 <div class="refsect2" title='The "quality" property'>
 <a name="GstJpegEnc--quality"></a><h3>The <code class="literal">"quality"</code> property</h3>
 <pre class="programlisting">  "quality"                  <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Quality of encoding.</p>
 <p>Allowed values: [0,100]</p>
@@ -202,7 +202,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <a name="GstJpegEnc-frame-encoded"></a><h3>The <code class="literal">"frame-encoded"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-jpegenc.html#GstJpegEnc">GstJpegEnc</a> *gstjpegenc,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>    user_data)       : Run Last</pre>
 <p>
 </p>

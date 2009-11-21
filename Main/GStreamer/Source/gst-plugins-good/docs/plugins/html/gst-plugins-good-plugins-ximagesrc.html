@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ximagesrc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-wavparse.html" title="wavparse">
@@ -52,19 +52,19 @@
 <a name="gst-plugins-good-plugins-ximagesrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseSrc.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSrc.html"
 >GstBaseSrc</a>
                      +----<a
-href="../gstreamer-libs-0.10/GstPushSrc.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstPushSrc.html"
 >GstPushSrc</a>
                            +----GstXImageSrc
 </pre>
@@ -73,28 +73,28 @@ href="../gstreamer-libs-0.10/GstPushSrc.html"
 <a name="gst-plugins-good-plugins-ximagesrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--display-name" title='The "display-name" property'>display-name</a>"             <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--screen-num" title='The "screen-num" property'>screen-num</a>"               <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--show-pointer" title='The "show-pointer" property'>show-pointer</a>"             <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--endx" title='The "endx" property'>endx</a>"                     <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--endy" title='The "endy" property'>endy</a>"                     <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--startx" title='The "startx" property'>startx</a>"                   <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--starty" title='The "starty" property'>starty</a>"                   <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-ximagesrc.html#GstXImageSrc--use-damage" title='The "use-damage" property'>use-damage</a>"               <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
@@ -110,7 +110,7 @@ available to also capture your mouse pointer.  By default it will fixate to
 <p>
 </p>
 <div class="refsect2" title="Example pipelines">
-<a name="id614199"></a><h3>Example pipelines</h3>
+<a name="id3163448"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theoraenc ! oggmux ! filesink location=desktop.ogg
 </pre></div> Encodes your X display to an Ogg theora video at 5 frames per second.
@@ -118,7 +118,7 @@ gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theora
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id618015"></a><h3>Element Information</h3>
+<a name="id3069369"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -141,7 +141,7 @@ gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theora
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id599556"></a><h3>Element Pads</h3>
+<a name="id3150508"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -182,7 +182,7 @@ gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! theora
 <div class="refsect2" title='The "display-name" property'>
 <a name="GstXImageSrc--display-name"></a><h3>The <code class="literal">"display-name"</code> property</h3>
 <pre class="programlisting">  "display-name"             <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>X Display Name.</p>
 <p>Default value: NULL</p>
@@ -191,7 +191,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" title='The "screen-num" property'>
 <a name="GstXImageSrc--screen-num"></a><h3>The <code class="literal">"screen-num"</code> property</h3>
 <pre class="programlisting">  "screen-num"               <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>X Screen Number.</p>
 <p>Allowed values: &lt;= G_MAXINT</p>
@@ -201,7 +201,7 @@ href="../glib/glib-Basic-Types.html#guint"
 <div class="refsect2" title='The "show-pointer" property'>
 <a name="GstXImageSrc--show-pointer"></a><h3>The <code class="literal">"show-pointer"</code> property</h3>
 <pre class="programlisting">  "show-pointer"             <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Show mouse pointer (if XFixes extension enabled).</p>
 <p>Default value: TRUE</p>
@@ -210,7 +210,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" title='The "endx" property'>
 <a name="GstXImageSrc--endx"></a><h3>The <code class="literal">"endx"</code> property</h3>
 <pre class="programlisting">  "endx"                     <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>
 X coordinate of bottom right corner of area to be recorded
@@ -225,7 +225,7 @@ X coordinate of bottom right corner of area to be recorded
 <div class="refsect2" title='The "endy" property'>
 <a name="GstXImageSrc--endy"></a><h3>The <code class="literal">"endy"</code> property</h3>
 <pre class="programlisting">  "endy"                     <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>
 Y coordinate of bottom right corner of area to be recorded
@@ -240,7 +240,7 @@ Y coordinate of bottom right corner of area to be recorded
 <div class="refsect2" title='The "startx" property'>
 <a name="GstXImageSrc--startx"></a><h3>The <code class="literal">"startx"</code> property</h3>
 <pre class="programlisting">  "startx"                   <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>
 X coordinate of top left corner of area to be recorded
@@ -255,7 +255,7 @@ X coordinate of top left corner of area to be recorded
 <div class="refsect2" title='The "starty" property'>
 <a name="GstXImageSrc--starty"></a><h3>The <code class="literal">"starty"</code> property</h3>
 <pre class="programlisting">  "starty"                   <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>
 Y coordinate of top left corner of area to be recorded
@@ -270,7 +270,7 @@ Y coordinate of top left corner of area to be recorded
 <div class="refsect2" title='The "use-damage" property'>
 <a name="GstXImageSrc--use-damage"></a><h3>The <code class="literal">"use-damage"</code> property</h3>
 <pre class="programlisting">  "use-damage"               <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>
 Use XDamage (if the XDamage extension is enabled)</p>

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>audiowsinclimit</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-audiowsincband.html" title="audiowsincband">
@@ -52,19 +52,19 @@
 <a name="gst-plugins-good-plugins-audiowsinclimit.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
                            +----GstAudioFXBaseFIRFilter
                                  +----GstAudioWSincLimit
@@ -74,15 +74,15 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
 <a name="gst-plugins-good-plugins-audiowsinclimit.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--frequency" title='The "frequency" property'>frequency</a>"                <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--length" title='The "length" property'>length</a>"                   <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--mode" title='The "mode" property'>mode</a>"                     GstAudioWSincLimitMode  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--window" title='The "window" property'>window</a>"                   GstAudioWSincLimitWindow  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiowsinclimit.html#GstAudioWSincLimit--cutoff" title='The "cutoff" property'>cutoff</a>"                   <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
 </pre>
 </div>
@@ -102,7 +102,7 @@ disadvantage is the much slower execution time with larger kernels.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id506957"></a><h3>Example launch line</h3>
+<a name="id3011291"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc freq=1500 ! audioconvert ! audiowsinclimit mode=low-pass frequency=1000 length=501 ! audioconvert ! alsasink
 gst-launch filesrc location="melo1.ogg" ! oggdemux ! vorbisdec ! audioconvert ! audiowsinclimit mode=high-pass frequency=15000 length=501 ! audioconvert ! alsasink
@@ -112,7 +112,7 @@ gst-launch audiotestsrc wave=white-noise ! audioconvert ! audiowsinclimit mode=l
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id502925"></a><h3>Element Information</h3>
+<a name="id3059224"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -135,7 +135,7 @@ gst-launch audiotestsrc wave=white-noise ! audioconvert ! audiowsinclimit mode=l
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id485775"></a><h3>Element Pads</h3>
+<a name="id3059290"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -199,7 +199,7 @@ Opaque data structure.</p>
 <div class="refsect2" title='The "frequency" property'>
 <a name="GstAudioWSincLimit--frequency"></a><h3>The <code class="literal">"frequency"</code> property</h3>
 <pre class="programlisting">  "frequency"                <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>Cut-off Frequency (Hz).</p>
 <p>Allowed values: &gt;= 0</p>
@@ -209,7 +209,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <div class="refsect2" title='The "length" property'>
 <a name="GstAudioWSincLimit--length"></a><h3>The <code class="literal">"length"</code> property</h3>
 <pre class="programlisting">  "length"                   <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Filter kernel length, will be rounded to the next odd number.</p>
 <p>Allowed values: [3,50000]</p>
@@ -233,7 +233,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <div class="refsect2" title='The "cutoff" property'>
 <a name="GstAudioWSincLimit--cutoff"></a><h3>The <code class="literal">"cutoff"</code> property</h3>
 <pre class="programlisting">  "cutoff"                   <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Cut-off Frequency (Hz).</p>
 <p>Allowed values: [0,100000]</p>

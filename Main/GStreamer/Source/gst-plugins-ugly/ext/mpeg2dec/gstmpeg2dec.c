@@ -244,6 +244,12 @@ gst_mpeg2dec_finalize (GObject * object)
 {
   GstMpeg2dec *mpeg2dec = GST_MPEG2DEC (object);
 
+  if (mpeg2dec->index) {
+    gst_object_unref (mpeg2dec->index);
+    mpeg2dec->index = NULL;
+    mpeg2dec->index_id = 0;
+  }
+
   if (mpeg2dec->decoder) {
     GST_DEBUG_OBJECT (mpeg2dec, "closing decoder");
     mpeg2_close (mpeg2dec->decoder);
@@ -259,6 +265,12 @@ gst_mpeg2dec_finalize (GObject * object)
 static void
 gst_mpeg2dec_reset (GstMpeg2dec * mpeg2dec)
 {
+  if (mpeg2dec->index) {
+    gst_object_unref (mpeg2dec->index);
+    mpeg2dec->index = NULL;
+    mpeg2dec->index_id = 0;
+  }
+
   /* reset the initial video state */
   mpeg2dec->format = MPEG2DEC_FORMAT_NONE;
   mpeg2dec->width = -1;
@@ -289,9 +301,17 @@ gst_mpeg2dec_set_index (GstElement * element, GstIndex * index)
 {
   GstMpeg2dec *mpeg2dec = GST_MPEG2DEC (element);
 
-  mpeg2dec->index = index;
+  GST_OBJECT_LOCK (mpeg2dec);
+  if (mpeg2dec->index)
+    gst_object_unref (mpeg2dec->index);
+  mpeg2dec->index = NULL;
+  mpeg2dec->index_id = 0;
+  if (index) {
+    mpeg2dec->index = gst_object_ref (index);
+    gst_index_get_writer_id (index, GST_OBJECT (element), &mpeg2dec->index_id);
+  }
 
-  gst_index_get_writer_id (index, GST_OBJECT (element), &mpeg2dec->index_id);
+  GST_OBJECT_UNLOCK (mpeg2dec);
 }
 
 static GstIndex *
@@ -299,7 +319,7 @@ gst_mpeg2dec_get_index (GstElement * element)
 {
   GstMpeg2dec *mpeg2dec = GST_MPEG2DEC (element);
 
-  return mpeg2dec->index;
+  return (mpeg2dec->index) ? gst_object_ref (mpeg2dec->index) : NULL;
 }
 #endif
 
@@ -947,22 +967,26 @@ handle_slice (GstMpeg2dec * mpeg2dec, const mpeg2_info_t * info)
     GST_BUFFER_FLAG_SET (outbuf, GST_VIDEO_BUFFER_RFF);
 #endif
 
-#ifndef _MSC_VER 
   GST_DEBUG_OBJECT (mpeg2dec,
       "picture: %s %s %s %s %s fields:%d off:%" G_GINT64_FORMAT " ts:%"
       GST_TIME_FORMAT,
       (picture->flags & PIC_FLAG_PROGRESSIVE_FRAME ? "prog" : "    "),
       (picture->flags & PIC_FLAG_TOP_FIELD_FIRST ? "tff" : "   "),
-#if MPEG2_RELEASE >= MPEG2_VERSION(0,5,0)
+//
+//Modified for OSSBuild
+//
+//#if MPEG2_RELEASE >= MPEG2_VERSION(0,5,0)
       (picture->flags & PIC_FLAG_REPEAT_FIRST_FIELD ? "rff" : "   "),
-#else
-      "unknown rff",
-#endif
+//#else
+//      "unknown rff",
+//#endif
+//
+//End OSSBuild modification
+//
       (picture->flags & PIC_FLAG_SKIP ? "skip" : "    "),
       (picture->flags & PIC_FLAG_COMPOSITE_DISPLAY ? "composite" : "         "),
       picture->nb_fields, GST_BUFFER_OFFSET (outbuf),
-      GST_TIME_ARGS(GST_BUFFER_TIMESTAMP (outbuf)));
-#endif
+      GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (outbuf)));
 
 #ifndef GST_DISABLE_INDEX
   if (mpeg2dec->index) {
@@ -1521,7 +1545,8 @@ gst_mpeg2dec_src_query (GstPad * pad, GstQuery * query)
       gst_query_set_position (query, format, cur);
 
       GST_LOG_OBJECT (mpeg2dec,
-          "position query: we return %llu (format %u)", cur, format);
+          "position query: we return %" G_GUINT64_FORMAT " (format %u)", cur,
+          format);
       break;
     }
     case GST_QUERY_DURATION:
@@ -1557,8 +1582,8 @@ gst_mpeg2dec_src_query (GstPad * pad, GstQuery * query)
 
       /* get the returned format */
       gst_query_parse_duration (query, &rformat, &total_bytes);
-      GST_LOG_OBJECT (mpeg2dec, "peer pad returned total=%lld bytes",
-          total_bytes);
+      GST_LOG_OBJECT (mpeg2dec,
+          "peer pad returned total=%" G_GINT64_FORMAT " bytes", total_bytes);
 
       if (total_bytes != -1) {
         if (!gst_mpeg2dec_sink_convert (pad, GST_FORMAT_BYTES, total_bytes,
@@ -1571,7 +1596,8 @@ gst_mpeg2dec_src_query (GstPad * pad, GstQuery * query)
       gst_query_set_duration (query, format, total);
 
       GST_LOG_OBJECT (mpeg2dec,
-          "position query: we return %llu (format %u)", total, format);
+          "position query: we return %" G_GUINT64_FORMAT " (format %u)", total,
+          format);
       break;
     }
     default:

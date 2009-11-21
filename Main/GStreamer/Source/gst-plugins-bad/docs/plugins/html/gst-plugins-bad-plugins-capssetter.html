@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>capssetter</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-camerabin.html" title="camerabin">
 <link rel="next" href="gst-plugins-bad-plugins-celtdec.html" title="celtdec">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-bad-plugins-capssetter.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="capssetter">
 <a name="gst-plugins-bad-plugins-capssetter"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,50 +42,50 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-capssetter.synopsis"></a><h2>Synopsis</h2>
 <a name="GstCapsSetter"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter-struct" title="GstCapsSetter">GstCapsSetter</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-bad-plugins-capssetter.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+href="../gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
+href="../gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----GstCapsSetter
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-bad-plugins-capssetter.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter--caps" title='The "caps" property'>caps</a>"                     <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter--join" title='The "join" property'>join</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter--replace" title='The "replace" property'>replace</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-capssetter.description"></a><h2>Description</h2>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2834721"></a><p>
+<div class="refsect2">
+<a name="id2819195"></a><p>
 Sets or merges caps on a stream's buffers.
 That is, a buffer's caps are updated using (fields of)
 <a class="link" href="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter--caps" title='The "caps" property'>caps</a>.  Note that this may
@@ -111,10 +111,10 @@ or to modify a yuv fourcc value to effectively swap chroma components or such
 alike.
 </p>
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2795578"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2760081"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -136,8 +136,8 @@ alike.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2826281"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2822316"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -185,38 +185,38 @@ alike.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-capssetter.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstCapsSetter">
 <a name="GstCapsSetter-struct"></a><h3>GstCapsSetter</h3>
 <pre class="programlisting">typedef struct _GstCapsSetter GstCapsSetter;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-bad-plugins-capssetter.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "caps" property'>
 <a name="GstCapsSetter--caps"></a><h3>The <code class="literal">"caps"</code> property</h3>
 <pre class="programlisting">  "caps"                     <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read / Write</pre>
 <p>Merge these caps (thereby overwriting) in the stream.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "join" property'>
 <a name="GstCapsSetter--join"></a><h3>The <code class="literal">"join"</code> property</h3>
 <pre class="programlisting">  "join"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Match incoming caps' mime-type to mime-type of provided caps.</p>
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "replace" property'>
 <a name="GstCapsSetter--replace"></a><h3>The <code class="literal">"replace"</code> property</h3>
 <pre class="programlisting">  "replace"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Drop fields of incoming caps.</p>
 <p>Default value: FALSE</p>

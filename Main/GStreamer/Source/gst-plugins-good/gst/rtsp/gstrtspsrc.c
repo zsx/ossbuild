@@ -1614,6 +1614,7 @@ gst_rtspsrc_handle_src_event (GstPad * pad, GstEvent * event)
 {
   GstRTSPSrc *src;
   gboolean res = TRUE;
+  gboolean forward;
 
   src = GST_RTSPSRC_CAST (gst_pad_get_parent (pad));
 
@@ -1621,21 +1622,56 @@ gst_rtspsrc_handle_src_event (GstPad * pad, GstEvent * event)
       GST_DEBUG_PAD_NAME (pad), GST_EVENT_TYPE_NAME (event));
 
   switch (GST_EVENT_TYPE (event)) {
-    case GST_EVENT_QOS:
-      break;
     case GST_EVENT_SEEK:
       res = gst_rtspsrc_perform_seek (src, event);
+      forward = FALSE;
       break;
+    case GST_EVENT_QOS:
     case GST_EVENT_NAVIGATION:
-      break;
     case GST_EVENT_LATENCY:
-      break;
     default:
+      forward = TRUE;
       break;
   }
-  gst_event_unref (event);
+  if (forward) {
+    GstPad *target;
+
+    if ((target = gst_ghost_pad_get_target (GST_GHOST_PAD_CAST (pad)))) {
+      res = gst_pad_send_event (target, event);
+      gst_object_unref (target);
+    } else {
+      gst_event_unref (event);
+    }
+  } else {
+    gst_event_unref (event);
+  }
   gst_object_unref (src);
 
+  return res;
+}
+
+/* this is the final event function we receive on the internal source pad when
+ * we deal with TCP connections */
+static gboolean
+gst_rtspsrc_handle_internal_src_event (GstPad * pad, GstEvent * event)
+{
+  GstRTSPSrc *src;
+  gboolean res;
+
+  src = GST_RTSPSRC_CAST (gst_pad_get_element_private (pad));
+
+  GST_DEBUG_OBJECT (src, "pad %s:%s received event %s",
+      GST_DEBUG_PAD_NAME (pad), GST_EVENT_TYPE_NAME (event));
+
+  switch (GST_EVENT_TYPE (event)) {
+    case GST_EVENT_SEEK:
+    case GST_EVENT_QOS:
+    case GST_EVENT_NAVIGATION:
+    case GST_EVENT_LATENCY:
+    default:
+      res = TRUE;
+      break;
+  }
   return res;
 }
 
@@ -2129,6 +2165,7 @@ gst_rtspsrc_stream_configure_tcp (GstRTSPSrc * src, GstRTSPStream * stream,
     gst_pad_link (pad0, stream->channelpad[0]);
     gst_object_unref (stream->channelpad[0]);
     stream->channelpad[0] = pad0;
+    gst_pad_set_event_function (pad0, gst_rtspsrc_handle_internal_src_event);
     gst_pad_set_query_function (pad0, gst_rtspsrc_handle_internal_src_query);
     gst_pad_set_element_private (pad0, src);
     gst_pad_set_active (pad0, TRUE);
@@ -3489,6 +3526,7 @@ gst_rtspsrc_parse_digest_challenge (GstRTSPConnection * conn,
       value = NULL;
 
     gst_rtsp_connection_set_auth_param (conn, item, value);
+    g_free (item);
   }
 
   g_slist_free (list);
@@ -3981,6 +4019,15 @@ no_setup:
   }
 }
 
+/* masks to be kept in sync with the hardcoded protocol order of preference
+ * in code below */
+static guint protocol_masks[] = {
+  GST_RTSP_LOWER_TRANS_UDP,
+  GST_RTSP_LOWER_TRANS_UDP_MCAST,
+  GST_RTSP_LOWER_TRANS_TCP,
+  0
+};
+
 static GstRTSPResult
 gst_rtspsrc_create_transports_string (GstRTSPSrc * src,
     GstRTSPLowerTrans protocols, gchar ** transports)
@@ -4184,6 +4231,7 @@ gst_rtspsrc_setup_streams (GstRTSPSrc * src)
   for (walk = src->streams; walk; walk = g_list_next (walk)) {
     gchar *transports;
     gint retry = 0;
+    guint mask = 0;
 
     stream = (GstRTSPStream *) walk->data;
 
@@ -4224,9 +4272,18 @@ gst_rtspsrc_setup_streams (GstRTSPSrc * src)
     GST_DEBUG_OBJECT (src, "doing setup of stream %p with %s", stream,
         stream->setup_url);
 
+    /* first selectable protocol */
+    while (protocol_masks[mask] && !(protocols & protocol_masks[mask]))
+      mask++;
+    if (!protocol_masks[mask])
+      goto no_protocols;
+
   retry:
-    /* create a string with all the transports */
-    res = gst_rtspsrc_create_transports_string (src, protocols, &transports);
+    GST_DEBUG_OBJECT (src, "protocols = 0x%x, protocol mask = 0x%x", protocols,
+        protocol_masks[mask]);
+    /* create a string with first transport in line */
+    res = gst_rtspsrc_create_transports_string (src,
+        protocols & protocol_masks[mask], &transports);
     if (res < 0)
       goto setup_transport_failed;
 
@@ -4280,12 +4337,20 @@ gst_rtspsrc_setup_streams (GstRTSPSrc * src)
           retry++;
           goto retry;
         }
-        /* give up on this stream and move to the next stream,
-         * but not without doing some postprocessing so we can
+        /* this transport did not go down well, but we may have others to try
+         * that we did not send yet, try those and only give up then
+         * but not without checking for lost cause/extension so we can
          * post a nicer/more useful error message later */
         if (!unsupported_real)
           unsupported_real = gst_rtspsrc_stream_is_real_media (stream);
-        continue;
+        /* select next available protocol, give up on this stream if none */
+        mask++;
+        while (protocol_masks[mask] && !(protocols & protocol_masks[mask]))
+          mask++;
+        if (!protocol_masks[mask] || unsupported_real)
+          continue;
+        else
+          goto retry;
       default:
         /* cleanup of leftover transport and move to the next stream */
         gst_rtspsrc_stream_free_udp (stream);
@@ -4429,8 +4494,9 @@ nothing_to_activate:
           (NULL));
     } else {
       GST_ELEMENT_ERROR (src, STREAM, CODEC_NOT_FOUND,
-          (_("No supported stream was found. You might be missing the right "
-                  "GStreamer RTSP extension plugin.")), (NULL));
+          (_("No supported stream was found. You might need to allow "
+                  "more transport protocols or may otherwise be missing "
+                  "the right GStreamer RTSP extension plugin.")), (NULL));
     }
     return FALSE;
   }

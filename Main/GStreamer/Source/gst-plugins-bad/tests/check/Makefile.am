@@ -109,6 +109,7 @@ check_PROGRAMS = \
 	$(check_kate)  \
 	elements/aacparse \
 	elements/amrparse \
+	elements/autoconvert \
 	elements/asfmux \
 	elements/capssetter \
 	elements/legacyresample \
@@ -119,7 +120,8 @@ check_PROGRAMS = \
 	elements/mxfmux \
 	pipelines/mxf \
 	$(check_metadata) \
-	$(check_mimic)
+	$(check_mimic) \
+	elements/rtpmux
 
 noinst_HEADERS = elements/mxfdemux.h elements/amrparse_data.h elements/aacparse_data.h
 
@@ -130,11 +132,13 @@ LDADD = $(GST_OBJ_LIBS) $(GST_CHECK_LIBS) $(CHECK_LIBS)
 
 elements_camerabin_CFLAGS = \
         -I$(top_builddir)/gst-libs \
-        $(GST_CFLAGS) $(GST_BASE_CFLAGS) $(GST_CHECK_CFLAGS) \
+        $(GST_CFLAGS) $(GST_BASE_CFLAGS) $(GST_PLUGINS_BASE_CFLAGS) \
+        $(GST_CHECK_CFLAGS) \
         -DGST_USE_UNSTABLE_API
 elements_camerabin_LDADD = \
         $(top_builddir)/gst-libs/gst/interfaces/libgstphotography-@GST_MAJORMINOR@.la \
-        $(GST_LIBS) $(GST_BASE_LIBS) $(GST_CHECK_LIBS) \
+        $(GST_LIBS) $(GST_BASE_LIBS) $(GST_PLUGINS_BASE_LIBS) \
+        $(GST_CHECK_LIBS) \
          -lgstinterfaces-@GST_MAJORMINOR@
 elements_camerabin_SOURCES = elements/camerabin.c
 
@@ -143,5 +147,8 @@ elements_timidity_LDADD = $(GST_BASE_LIBS) $(LDADD)
 
 elements_kate_CFLAGS = $(GST_BASE_CFLAGS) $(AM_CFLAGS)
 elements_kate_LDADD = $(GST_BASE_LIBS) $(LDADD)
+
+elements_rtpmux_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_BASE_CFLAGS) $(AM_CFLAGS)
+elements_rtpmux_LDADD = $(GST_BASE_LIBS) $(LDADD) -lgstrtp-0.10
 
 EXTRA_DIST = gst-plugins-bad.supp

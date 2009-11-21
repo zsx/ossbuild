@@ -13,6 +13,35 @@ gst_aacparse_get_type
 </SECTION>
 
 <SECTION>
+<FILE>element-aiffmux</FILE>
+<TITLE>aiffmux</TITLE>
+GstAiffMux
+<SUBSECTION Standard>
+GST_AIFF_MUX
+GST_AIFF_MUX_CLASS
+GST_IS_AIFF_MUX
+GST_IS_AIFF_MUX_CLASS
+GST_TYPE_AIFF_MUX
+GstAiffMuxClass
+gst_aiff_mux_get_type
+</SECTION>
+
+<SECTION>
+<FILE>element-aiffparse</FILE>
+<TITLE>aiffparse</TITLE>
+GstAiffParse
+<SUBSECTION Standard>
+GST_AIFF_PARSE
+GST_AIFF_PARSE_CLASS
+GST_IS_AIFF_PARSE
+GST_IS_AIFF_PARSE_CLASS
+GST_TYPE_AIFF_PARSE
+GstAiffParseClass
+GstAiffParseState
+gst_aiff_parse_get_type
+</SECTION>
+
+<SECTION>
 <FILE>element-amrparse</FILE>
 <TITLE>amrparse</TITLE>
 GstAmrParse
@@ -251,6 +280,23 @@ GST_IS_DTMF_SRC
 GST_IS_DTMF_SRC_CLASS
 gst_dtmf_src_get_type
 gst_dtmf_src_plugin_init
+</SECTION>
+
+<SECTION>
+<FILE>element-dtmfdetect</FILE>
+<TITLE>dtmfdetect</TITLE>
+GstDtmfDetect
+<SUBSECTION Standard>
+GstDtmfDetectClass
+GST_TYPE_DTMF_DETECT
+GST_DTMF_DETECT
+GST_DTMF_DETECT_CAST
+GST_DTMF_DETECT_CLASS
+GST_DTMF_DETECT_GET_CLASS
+GST_IS_DTMF_DETECT
+GST_IS_DTMF_DETECT_CLASS
+gst_dtmf_detect_get_type
+gst_dtmf_detect_plugin_init
 </SECTION>
 
 <SECTION>
@@ -819,7 +865,6 @@ GST_TYPE_RTP_MUX
 GstRTPMuxClass
 gst_rtp_mux_get_type
 gst_rtp_mux_plugin_init
-gst_rtp_session_set_ssrc
 </SECTION>
 
 <SECTION>

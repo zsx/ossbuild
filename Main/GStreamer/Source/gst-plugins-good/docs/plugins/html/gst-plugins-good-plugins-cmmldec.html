@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>cmmldec</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-cairorender.html" title="cairorender">
@@ -52,13 +52,13 @@
 <a name="gst-plugins-good-plugins-cmmldec.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstCmmlDec
 </pre>
@@ -67,7 +67,7 @@ href="../gstreamer-0.10/GstElement.html"
 <a name="gst-plugins-good-plugins-cmmldec.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-cmmldec.html#GstCmmlDec--wait-clip-end-time" title='The "wait-clip-end-time" property'>wait-clip-end-time</a>"       <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
@@ -80,7 +80,7 @@ an XML markup language for time-continuous data maintained by the <a class="ulin
 <p>
 </p>
 <div class="refsect2" title="Example pipeline">
-<a name="id482395"></a><h3>Example pipeline</h3>
+<a name="id3013025"></a><h3>Example pipeline</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=annotated.ogg ! oggdemux ! cmmldec ! filesink location=annotations.cmml
 </pre></div>
@@ -88,7 +88,7 @@ gst-launch -v filesrc location=annotated.ogg ! oggdemux ! cmmldec ! filesink loc
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id510683"></a><h3>Element Information</h3>
+<a name="id3050285"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -111,7 +111,7 @@ gst-launch -v filesrc location=annotated.ogg ! oggdemux ! cmmldec ! filesink loc
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id496476"></a><h3>Element Pads</h3>
+<a name="id3019119"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -173,7 +173,7 @@ gst-launch -v filesrc location=annotated.ogg ! oggdemux ! cmmldec ! filesink loc
 <div class="refsect2" title='The "wait-clip-end-time" property'>
 <a name="GstCmmlDec--wait-clip-end-time"></a><h3>The <code class="literal">"wait-clip-end-time"</code> property</h3>
 <pre class="programlisting">  "wait-clip-end-time"       <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Send a tag for a clip when the clip ends, setting its end-time. Use when you need to know both clip's start-time and end-time.</p>
 <p>Default value: FALSE</p>

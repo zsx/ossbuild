@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gstsoup"
 	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92008}"
 	RootNamespace="libgstsoup"
@@ -102,12 +102,14 @@
 				Optimization="0"
 				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="SOUP_METHOD_GET=\&quot;GET\&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4133;4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -235,10 +237,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="SOUP_METHOD_GET=\&quot;GET\&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4133;4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -318,6 +322,7 @@
 				>
 				<Tool
 					Name="VCCLCompilerTool"
+					PreprocessorDefinitions="SOUP_METHOD_GET=\&quot;GET\&quot;"
 					ForcedIncludeFiles=""
 				/>
 			</FileConfiguration>
@@ -326,6 +331,7 @@
 				>
 				<Tool
 					Name="VCCLCompilerTool"
+					PreprocessorDefinitions="SOUP_METHOD_GET=\&quot;GET\&quot;"
 					ForcedIncludeFiles=""
 				/>
 			</FileConfiguration>

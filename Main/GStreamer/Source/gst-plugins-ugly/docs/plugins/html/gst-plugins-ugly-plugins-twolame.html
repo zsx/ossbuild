@@ -55,8 +55,12 @@
   <a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstTwoLame
 </pre>
 </div>
@@ -64,7 +68,9 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-ugly-plugins-twolame.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstTwoLame implements
- GstPreset.</p>
+ <a
+href="../gstreamer-0.10/GstPreset.html"
+>GstPreset</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-twolame.properties"></a><h2>Properties</h2>
@@ -118,7 +124,7 @@ This element encodes raw integer audio into an MPEG-1 layer 2 (MP2) stream.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2605063"></a><h3>Example pipelines</h3>
+<a name="id2996364"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! twolame ! filesink location=sine.mp2
 </pre></div> Encode a test sine signal to MP2.
@@ -135,7 +141,7 @@ gst-launch -v cdda://5 ! audioconvert ! twolame bitrate=192 ! filesink location=
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2605113"></a><h3>Element Information</h3>
+<a name="id2996413"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -158,7 +164,7 @@ gst-launch -v cdda://5 ! audioconvert ! twolame bitrate=192 ! filesink location=
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2605176"></a><h3>Element Pads</h3>
+<a name="id2996477"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>

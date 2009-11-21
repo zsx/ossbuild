@@ -7,7 +7,7 @@
 <link rel="start" href="index.html" title="GStreamer Ugly Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-ugly Elements">
 <link rel="prev" href="gst-plugins-ugly-plugins-amrnbdec.html" title="amrnbdec">
-<link rel="next" href="gst-plugins-ugly-plugins-amrnbparse.html" title="amrnbparse">
+<link rel="next" href="gst-plugins-ugly-plugins-amrwbdec.html" title="amrwbdec">
 <meta name="generator" content="GTK-Doc V1.11 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-ugly Elements">
@@ -20,7 +20,7 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Ugly Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-ugly-plugins-amrnbparse.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-ugly-plugins-amrwbdec.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-ugly-plugins-amrnbenc.synopsis" class="shortcut">Top</a>
@@ -55,12 +55,12 @@
 <a name="gst-plugins-ugly-plugins-amrnbenc.description"></a><h2>Description</h2>
 <p>
 AMR narrowband encoder based on the 
-<a class="ulink" href="http://www.penguin.cz/~utx/amr" target="_top">reference codec implementation</a>.
+<a class="ulink" href="http://sourceforge.net/projects/opencore-amr" target="_top">opencore codec implementation</a>.
 </p>
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2603581"></a><h3>Example launch line</h3>
+<a name="id2971357"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=abc.wav ! wavparse ! audioresample ! audioconvert ! amrnbenc ! filesink location=abc.amr
 </pre></div>
@@ -70,7 +70,7 @@ the stream.
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2603567"></a><h3>Element Information</h3>
+<a name="id2971343"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -93,7 +93,7 @@ the stream.
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2595207"></a><h3>Element Pads</h3>
+<a name="id2982120"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -179,7 +179,9 @@ the stream.
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-amrnbenc.see-also"></a><h2>See Also</h2>
-#GstAmrnbDec, <a class="link" href="gst-plugins-ugly-plugins-amrnbparse.html#GstAmrnbParse" title="GstAmrnbParse"><span class="type">GstAmrnbParse</span></a>
+#GstAmrnbDec, <a
+href="/usr/share/gtk-doc/html/gst-plugins-ugly-plugins-0.10/gst-plugins-ugly-plugins-amrnbparse.html#GstAmrnbParse"
+><span class="type">GstAmrnbParse</span></a>
 </div>
 </div>
 <div class="footer">

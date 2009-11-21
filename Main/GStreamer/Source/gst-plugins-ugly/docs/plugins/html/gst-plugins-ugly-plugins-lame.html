@@ -55,8 +55,12 @@
   <a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstLame
 </pre>
 </div>
@@ -64,7 +68,11 @@ href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 <a name="gst-plugins-ugly-plugins-lame.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstLame implements
- GstPreset and  GstTagSetter.</p>
+ <a
+href="../gstreamer-0.10/GstPreset.html"
+>GstPreset</a> and  <a
+href="../gstreamer-0.10/GstTagSetter.html"
+>GstTagSetter</a>.</p>
 </div>
 <div class="refsect1" lang="en">
 <a name="gst-plugins-ugly-plugins-lame.properties"></a><h2>Properties</h2>
@@ -170,7 +178,7 @@ for a royalty free (and often higher quality) alternative.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2575880"></a><h3>Note</h3>
+<a name="id2985146"></a><h3>Note</h3>
 This element is deprecated, use the lamemp3enc element instead
 which provides a much simpler interface and results in better MP3 files.
 </div>
@@ -179,7 +187,7 @@ which provides a much simpler interface and results in better MP3 files.
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2575894"></a><h3>Output sample rate</h3>
+<a name="id2985159"></a><h3>Output sample rate</h3>
 If no fixed output sample rate is negotiated on the element's src pad,
 the element will choose an optimal sample rate to resample to internally.
 For example, a 16-bit 44.1 KHz mono audio stream encoded at 48 kbit will
@@ -190,7 +198,7 @@ particular sample rate.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2575906"></a><h3>Writing metadata (tags)</h3>
+<a name="id2985172"></a><h3>Writing metadata (tags)</h3>
 Whilst the lame encoder element does claim to implement the GstTagSetter
 interface, it does so only for backwards compatibility reasons. Tag writing
 has been removed from lame. Use external elements like id3v2mux or apev2mux
@@ -201,7 +209,7 @@ xingmux element to add XING headers to your VBR mp3 file.
 </p>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2575919"></a><h3>Example pipelines</h3>
+<a name="id2985185"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v audiotestsrc wave=sine num-buffers=100 ! audioconvert ! lame ! filesink location=sine.mp3
 </pre></div> Encode a test sine signal to MP3.
@@ -225,7 +233,7 @@ Last reviewed on 2007-07-24 (0.10.7)</p>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2575983"></a><h3>Element Information</h3>
+<a name="id2985248"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -248,7 +256,7 @@ Last reviewed on 2007-07-24 (0.10.7)</p>
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2576046"></a><h3>Element Pads</h3>
+<a name="id2985312"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>

@@ -114,7 +114,10 @@ A52DEC_CFLAGS = @A52DEC_CFLAGS@
 A52DEC_LIBS = @A52DEC_LIBS@
 ACLOCAL = @ACLOCAL@
 ACLOCAL_AMFLAGS = -I m4 -I common/m4
+AMRNB_CFLAGS = @AMRNB_CFLAGS@
 AMRNB_LIBS = @AMRNB_LIBS@
+AMRWB_CFLAGS = @AMRWB_CFLAGS@
+AMRWB_LIBS = @AMRWB_LIBS@
 AMTAR = @AMTAR@
 AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
@@ -147,9 +150,6 @@ DEPRECATED_CFLAGS = @DEPRECATED_CFLAGS@
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
-DVDNAV_CFLAGS = @DVDNAV_CFLAGS@
-DVDNAV_CONFIG = @DVDNAV_CONFIG@
-DVDNAV_LIBS = @DVDNAV_LIBS@
 DVDREAD_LIBS = @DVDREAD_LIBS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
@@ -201,6 +201,7 @@ GST_PREFIX = @GST_PREFIX@
 GST_TOOLS_DIR = @GST_TOOLS_DIR@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 HAVE_AMRNB = @HAVE_AMRNB@
+HAVE_AMRWB = @HAVE_AMRWB@
 HAVE_CXX = @HAVE_CXX@
 HAVE_DVDREAD = @HAVE_DVDREAD@
 HAVE_LAME = @HAVE_LAME@
@@ -880,6 +881,17 @@ check-exports:
 	  echo 'Run this to update the .def files:'; \
 	  echo 'make check-exports 2>&1 | patch -p1'; \
 	  echo '-----------------------------------------------------------'; \
+	fi; \
+	exit $$fail
+
+# complain about nonportable 64-bit printf format strings (%lld, %llu etc.)
+check-nonportable-int64-print-format:
+	fail=0 ; \
+	loc=`find "$(top_srcdir)" -name '*.c' | xargs grep -n -e '%[0-9]*ll[udx]'`; \
+	if test "x$$loc" != "x"; then \
+	  echo "Please fix the following print format strings:" ; \
+	  find "$(top_srcdir)" -name '*.c' | xargs grep -n -e '%[0-9]*ll[udx]'; \
+	  fail=1; \
 	fi; \
 	exit $$fail
 

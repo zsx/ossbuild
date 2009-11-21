@@ -148,6 +148,9 @@
 /* Define to enable FLAC lossless audio (used by flac). */
 #undef HAVE_FLAC
 
+/* Define to 1 if you have the `fpclass' function. */
+#undef HAVE_FPCLASS
+
 /* Define if compiler supports gcc inline assembly */
 #undef HAVE_GCC_ASM
 
@@ -183,6 +186,9 @@
 
 /* Define if we have struct ip_mreqn */
 #undef HAVE_IP_MREQN
+
+/* Define to 1 if you have the `isinf' function. */
+#undef HAVE_ISINF
 
 /* Define to enable jpeg library (used by jpeg). */
 #undef HAVE_JPEG
@@ -246,6 +252,9 @@
 
 /* defined if pulseaudio >= 0.9.15 is available */
 #undef HAVE_PULSE_0_9_15
+
+/* defined if pulseaudio >= 0.9.20 is available */
+#undef HAVE_PULSE_0_9_20
 
 /* Define if RDTSC is available */
 #undef HAVE_RDTSC

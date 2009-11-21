@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>radioactv</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-qtdemux.html" title="qtdemux">
@@ -52,19 +52,19 @@
 <a name="gst-plugins-good-plugins-radioactv.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideofilter.html#GstVideoFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideofilter.html#GstVideoFilter"
 >GstVideoFilter</a>
                            +----GstRadioacTV
 </pre>
@@ -74,11 +74,11 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideofilter.html#Gs
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-radioactv.html#GstRadioacTV--color" title='The "color" property'>color</a>"                    GstRadioacTVColor     : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-radioactv.html#GstRadioacTV--interval" title='The "interval" property'>interval</a>"                 <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-radioactv.html#GstRadioacTV--mode" title='The "mode" property'>mode</a>"                     GstRadioacTVMode      : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-radioactv.html#GstRadioacTV--trigger" title='The "trigger" property'>trigger</a>"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
@@ -91,7 +91,7 @@ from previous frame and blurs it.
 <p>
 RadioacTV has 4 mode, normal, strobe1, strobe2 and trigger.
 In trigger mode, effect appears only when the trigger property is <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a>.
 </p>
 <p>
@@ -102,7 +102,7 @@ previous frame displayed. The effect of strobe2 is stronger than strobe1.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id551459"></a><h3>Example launch line</h3>
+<a name="id3015629"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v videotestsrc ! radioactv ! ffmpegcolorspace ! autovideosink
 </pre></div> This pipeline shows the effect of radioactv on a test stream.
@@ -110,7 +110,7 @@ gst-launch -v videotestsrc ! radioactv ! ffmpegcolorspace ! autovideosink
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id577564"></a><h3>Element Information</h3>
+<a name="id3114129"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -133,7 +133,7 @@ gst-launch -v videotestsrc ! radioactv ! ffmpegcolorspace ! autovideosink
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id574692"></a><h3>Element Pads</h3>
+<a name="id3111393"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -202,7 +202,7 @@ gst-launch -v videotestsrc ! radioactv ! ffmpegcolorspace ! autovideosink
 <div class="refsect2" title='The "interval" property'>
 <a name="GstRadioacTV--interval"></a><h3>The <code class="literal">"interval"</code> property</h3>
 <pre class="programlisting">  "interval"                 <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>Snapshot interval (in strobe mode).</p>
 <p>Allowed values: &lt;= G_MAXINT</p>
@@ -219,7 +219,7 @@ href="../glib/glib-Basic-Types.html#guint"
 <div class="refsect2" title='The "trigger" property'>
 <a name="GstRadioacTV--trigger"></a><h3>The <code class="literal">"trigger"</code> property</h3>
 <pre class="programlisting">  "trigger"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Trigger (in trigger mode).</p>
 <p>Default value: FALSE</p>

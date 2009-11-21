@@ -25,7 +25,7 @@
 # - FORMATS: the formats in which DOC is output
 #            (html ps pdf)
 
-# if you want to use it, make sure your ..sh/config file contains the
+# if you want to use it, make sure your $HOME/.ssh/config file contains the
 # correct User entry for the Host entry for the DOC_SERVER
 
 # This is an include file specifically tuned for building documentation
@@ -96,7 +96,10 @@ A52DEC_CFLAGS = @A52DEC_CFLAGS@
 A52DEC_LIBS = @A52DEC_LIBS@
 ACLOCAL = @ACLOCAL@
 ACLOCAL_AMFLAGS = @ACLOCAL_AMFLAGS@
+AMRNB_CFLAGS = @AMRNB_CFLAGS@
 AMRNB_LIBS = @AMRNB_LIBS@
+AMRWB_CFLAGS = @AMRWB_CFLAGS@
+AMRWB_LIBS = @AMRWB_LIBS@
 AMTAR = @AMTAR@
 AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
@@ -129,9 +132,6 @@ DEPRECATED_CFLAGS = @DEPRECATED_CFLAGS@
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
-DVDNAV_CFLAGS = @DVDNAV_CFLAGS@
-DVDNAV_CONFIG = @DVDNAV_CONFIG@
-DVDNAV_LIBS = @DVDNAV_LIBS@
 DVDREAD_LIBS = @DVDREAD_LIBS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
@@ -183,6 +183,7 @@ GST_PREFIX = @GST_PREFIX@
 GST_TOOLS_DIR = @GST_TOOLS_DIR@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 HAVE_AMRNB = @HAVE_AMRNB@
+HAVE_AMRWB = @HAVE_AMRWB@
 HAVE_CXX = @HAVE_CXX@
 HAVE_DVDREAD = @HAVE_DVDREAD@
 HAVE_LAME = @HAVE_LAME@
@@ -342,7 +343,7 @@ GST_DOC_SCANOBJ = $(top_srcdir)/common/gstdoc-scangobj
 MODULE = gst-plugins-ugly
 DOC_MODULE = $(MODULE)-plugins
 
-# for upload.mak
+# for upload-doc.mak
 DOC = $(MODULE)-plugins
 FORMATS = html
 
@@ -421,7 +422,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/ext/a52dec/gsta52dec.h \
 	$(top_srcdir)/ext/amrnb/amrnbdec.h \
 	$(top_srcdir)/ext/amrnb/amrnbenc.h \
-	$(top_srcdir)/ext/amrnb/amrnbparse.h \
+	$(top_srcdir)/ext/amrwbdec/amrwbdec.h \
 	$(top_srcdir)/ext/cdio/gstcdiocddasrc.h \
 	$(top_srcdir)/ext/lame/gstlame.h \
 	$(top_srcdir)/ext/lame/gstlamemp3enc.h \
@@ -543,7 +544,8 @@ CLEANFILES = \
 @ENABLE_GTK_DOC_TRUE@INSPECT_ENVIRONMENT = \
 @ENABLE_GTK_DOC_TRUE@        GST_PLUGIN_SYSTEM_PATH= \
 @ENABLE_GTK_DOC_TRUE@        GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/plugins:$(top_builddir)/src:$(top_builddir)/gnl \
-@ENABLE_GTK_DOC_TRUE@        GST_REGISTRY=$(INSPECT_REGISTRY)
+@ENABLE_GTK_DOC_TRUE@        GST_REGISTRY=$(INSPECT_REGISTRY) \
+@ENABLE_GTK_DOC_TRUE@	$(INSPECT_EXTRA_ENVIRONMENT)
 
 MAINTAINERCLEANFILES = $(MAINTAINER_DOC_STAMPS)
 
@@ -723,18 +725,44 @@ uninstall-am: uninstall-local
 html: html-build.stamp
 
 upload: $(FORMATS)
-	@if test "x$(GST_VERSION_NANO)" = x0; then \
+	@if test "x$(PACKAGE_VERSION_NANO)" = x0; then \
             export DOCVERSION=$(VERSION); \
         else export DOCVERSION=head; \
         fi; \
         export DIR=$(DOC_BASE)/gstreamer/$$DOCVERSION/$(DOC); \
 	ssh $(DOC_SERVER) mkdir -p $$DIR; \
-	if echo $(FORMATS) | grep html > /dev/null; then export SRC="$$SRC html"; fi; \
+	if echo $(FORMATS) | grep html > /dev/null; then \
+	  echo "Preparing docs for upload (rebasing cross-references) ..." ; \
+	  if test x$(builddir) != x$(srcdir); then \
+	    echo "make upload can only be used if srcdir == builddir"; \
+	    exit 1; \
+	  fi; \
+	  # gtkdoc-rebase sometimes gets confused, so reset everything to \
+	  # local links before rebasing to online links                   \
+	  gtkdoc-rebase --html-dir=$(builddir)/html 2>/dev/null 2>/dev/null ; \
+	  rebase=`gtkdoc-rebase --verbose --online --html-dir=$(builddir)/html` ; \
+	  echo "$$rebase" | grep -e "On-*line"; \
+	  for req in glib gobject gstreamer gstreamer-libs gst-plugins-base-libs; do \
+	    if ! ( echo "$$rebase" | grep -i -e "On-*line.*/$$req/" ); then \
+	      echo "===============================================================================" ; \
+	      echo " Could not determine online location for $$req docs. Cross-referencing will be " ; \
+	      echo " broken, so not uploading. Make sure the library's gtk-doc documentation is    " ; \
+	      echo " installed somewhere in /usr/share/gtk-doc.                                    " ; \
+	      echo "===============================================================================" ; \
+	      exit 1; \
+	    fi; \
+	  done; \
+	  export SRC="$$SRC html"; \
+	fi; \
 	if echo $(FORMATS) | grep ps > /dev/null; then export SRC="$$SRC $(DOC).ps"; fi; \
 	if echo $(FORMATS) | grep pdf > /dev/null; then export SRC="$$SRC $(DOC).pdf"; fi; \
 	echo Uploading $$SRC to $(DOC_SERVER):$$DIR; \
 	rsync -rv -e ssh --delete $$SRC $(DOC_SERVER):$$DIR; \
 	ssh $(DOC_SERVER) chmod -R g+w $$DIR; \
+	if echo $(FORMATS) | grep html > /dev/null; then \
+	  echo "Un-preparing docs for upload (rebasing cross-references) ..." ; \
+	  gtkdoc-rebase --html-dir=$(builddir)/html ; \
+	fi; \
 	echo Done
 	--extra-dir=$(GSTPB_PREFIX)/share/gtk-doc/html
 
@@ -887,11 +915,7 @@ update:
 @ENABLE_GTK_DOC_TRUE@	@for f in $(content_files); do cp $(srcdir)/$$f html; done
 @ENABLE_GTK_DOC_TRUE@	cp -pr xml html
 @ENABLE_GTK_DOC_TRUE@	cp ../version.entities html
-@ENABLE_GTK_DOC_TRUE@	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE) \
-@ENABLE_GTK_DOC_TRUE@	    2>&1 | tee ../html-build.log
-@ENABLE_GTK_DOC_TRUE@	@if grep "warning:" html-build.log > /dev/null; then \
-@ENABLE_GTK_DOC_TRUE@		echo "ERROR"; grep "warning:" html-build.log; exit 1; fi
-@ENABLE_GTK_DOC_TRUE@	@rm html-build.log
+@ENABLE_GTK_DOC_TRUE@	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
 @ENABLE_GTK_DOC_TRUE@	mv html/index.sgml html/index.sgml.bak
 @ENABLE_GTK_DOC_TRUE@	$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
 @ENABLE_GTK_DOC_TRUE@	rm -f html/index.sgml.bak

@@ -497,14 +497,24 @@ celt_dec_chain_parse_header (GstCeltDec * dec, GstBuffer * buf)
   if (memcmp (dec->header.codec_id, "CELT    ", 8) != 0)
     goto invalid_header;
 
+#ifdef HAVE_CELT_0_7
+  dec->mode =
+      celt_mode_create (dec->header.sample_rate,
+      dec->header.frame_size, &error);
+#else
   dec->mode =
       celt_mode_create (dec->header.sample_rate, dec->header.nb_channels,
       dec->header.frame_size, &error);
+#endif
   if (!dec->mode)
     goto mode_init_failed;
 
   /* initialize the decoder */
+#ifdef HAVE_CELT_0_7
+  dec->state = celt_decoder_create (dec->mode, dec->header.nb_channels, &error);
+#else
   dec->state = celt_decoder_create (dec->mode);
+#endif
   if (!dec->state)
     goto init_failed;
 
@@ -520,6 +530,9 @@ celt_dec_chain_parse_header (GstCeltDec * dec, GstBuffer * buf)
       "signed", G_TYPE_BOOLEAN, TRUE,
       "endianness", G_TYPE_INT, G_BYTE_ORDER,
       "width", G_TYPE_INT, 16, "depth", G_TYPE_INT, 16, NULL);
+
+  GST_DEBUG_OBJECT (dec, "rate=%d channels=%d frame-size=%d",
+      dec->header.sample_rate, dec->header.nb_channels, dec->frame_size);
 
   if (!gst_pad_set_caps (dec->srcpad, caps))
     goto nego_failed;
@@ -542,8 +555,13 @@ mode_init_failed:
   }
 init_failed:
   {
+#ifdef HAVE_CELT_0_7
+    GST_ELEMENT_ERROR (GST_ELEMENT (dec), STREAM, DECODE,
+        (NULL), ("couldn't initialize decoder: %d", error));
+#else
     GST_ELEMENT_ERROR (GST_ELEMENT (dec), STREAM, DECODE,
         (NULL), ("couldn't initialize decoder"));
+#endif
     return GST_FLOW_ERROR;
   }
 nego_failed:
@@ -679,11 +697,16 @@ celt_dec_chain_parse_data (GstCeltDec * dec, GstBuffer * buf,
     GST_DEBUG_OBJECT (dec, "granulepos=%" G_GINT64_FORMAT, dec->granulepos);
   }
 
+  if (!GST_CLOCK_TIME_IS_VALID (timestamp))
+    timestamp = gst_util_uint64_scale_int (dec->granulepos - dec->frame_size,
+        GST_SECOND, dec->header.sample_rate);
+
+  GST_DEBUG_OBJECT (dec, "timestamp=%" GST_TIME_FORMAT,
+      GST_TIME_ARGS (timestamp));
+
   GST_BUFFER_OFFSET (outbuf) = dec->granulepos - dec->frame_size;
   GST_BUFFER_OFFSET_END (outbuf) = dec->granulepos;
-  GST_BUFFER_TIMESTAMP (outbuf) =
-      gst_util_uint64_scale_int (dec->granulepos - dec->frame_size, GST_SECOND,
-      dec->header.sample_rate);
+  GST_BUFFER_TIMESTAMP (outbuf) = timestamp;
   GST_BUFFER_DURATION (outbuf) = dec->frame_duration;
   if (dec->discont) {
     GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DISCONT);

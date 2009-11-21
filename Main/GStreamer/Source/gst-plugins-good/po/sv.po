@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gst-plugins-good 0.10.15.2\n"
+"Project-Id-Version: gst-plugins-good 0.10.16.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-08-28 23:17+0100\n"
-"PO-Revision-Date: 2009-08-12 20:04+0100\n"
+"POT-Creation-Date: 2009-11-17 00:15+0000\n"
+"PO-Revision-Date: 2009-11-11 20:50+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,10 @@ msgstr "Kunde inte etablera en anslutning till ljudservern"
 
 msgid "Failed to query sound server capabilities"
 msgstr "Misslyckades med att fråga efter ljudserverförmågor"
+
+#, c-format
+msgid "'%s' by '%s'"
+msgstr "\"%s\" av \"%s\""
 
 msgid "Internal data stream error."
 msgstr "Internt fel i dataström."
@@ -43,6 +47,9 @@ msgstr "Den här filen innehåller inga uppspelningsbara strömmar."
 msgid "This file is incomplete and cannot be played."
 msgstr "Den här filen är inte fullständig och kan inte spelas upp."
 
+msgid "This file is corrupt and cannot be played."
+msgstr "Den här filen är skadad och kan inte spelas upp."
+
 msgid "The video in this file might not play correctly."
 msgstr "Videon i den här filen kanske inte kan spelas upp korrekt."
 
@@ -50,9 +57,6 @@ msgstr "Videon i den här filen kanske inte kan spelas upp korrekt."
 msgid "This file contains too many streams. Only playing first %d"
 msgstr ""
 "Den här filen innehåller för många strömmar. Spelar endast upp de första %d"
-
-msgid "This file is corrupt and cannot be played."
-msgstr "Den här filen är skadad och kan inte spelas upp."
 
 msgid ""
 "No supported stream was found. You might need to install a GStreamer RTSP "
@@ -62,11 +66,13 @@ msgstr ""
 "insticksmodul för RTSP för Real Media-strömmar."
 
 msgid ""
-"No supported stream was found. You might be missing the right GStreamer RTSP "
-"extension plugin."
+"No supported stream was found. You might need to allow more transport "
+"protocols or may otherwise be missing the right GStreamer RTSP extension "
+"plugin."
 msgstr ""
-"Ingen ström som stöds hittades. Du kanske saknar den rätta GStreamer-"
-"insticksmodulen för RTSP."
+"Ingen ström som stöds hittades. Du kanske behöver tillåta fler "
+"transportprotokoll eller så saknar du kanske det rätta GStreamer-tillägget "
+"för RTSP."
 
 msgid "Internal data flow error."
 msgstr "Internt fel i dataflöde."

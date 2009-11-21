@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>gdkpixbufsink</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-gconfvideosink.html" title="gconfvideosink">
@@ -52,19 +52,19 @@
 <a name="gst-plugins-good-plugins-gdkpixbufsink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseSink.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
 >GstBaseSink</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideosink.html#GstVideoSink"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideosink.html#GstVideoSink"
 >GstVideoSink</a>
                            +----GstGdkPixbufSink
 </pre>
@@ -72,9 +72,14 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideosink.html#GstV
 <div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-gdkpixbufsink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink--last-pixbuf" title='The "last-pixbuf" property'>last-pixbuf</a>"              GdkPixbuf*            : Read
+  "<a class="link" href="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink--last-pixbuf" title='The "last-pixbuf" property'>last-pixbuf</a>"              <a
+href="/usr/share/gtk-doc/html/gdk-pixbuf/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"
+>GdkPixbuf</a>*            : Read
   "<a class="link" href="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink--send-messages" title='The "send-messages" property'>send-messages</a>"            <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink--post-messages" title='The "post-messages" property'>post-messages</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
@@ -82,12 +87,18 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <a name="gst-plugins-good-plugins-gdkpixbufsink.description"></a><h2>Description</h2>
 <p>
 This sink element takes RGB or RGBA images as input and wraps them into
-<span class="type">GdkPixbuf</span> objects, for easy saving to file via the
+<a
+href="/usr/share/gtk-doc/html/gdk-pixbuf/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"
+><span class="type">GdkPixbuf</span></a> objects, for easy saving to file via the
 GdkPixbuf library API or displaying in Gtk+ applications (e.g. using
-the <span class="type">GtkImage</span> widget).
+the <a
+href="/usr/share/gtk-doc/html/gtk/GtkImage.html"
+><span class="type">GtkImage</span></a> widget).
 </p>
 <p>
-There are two ways to use this element and obtain the <span class="type">GdkPixbuf</span> objects
+There are two ways to use this element and obtain the <a
+href="/usr/share/gtk-doc/html/gdk-pixbuf/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"
+><span class="type">GdkPixbuf</span></a> objects
 created:
 </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
@@ -107,9 +118,11 @@ when needed.
 </p>
 <p>
 The primary purpose of this element is to abstract away the <a
-href="../gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 ><span class="type">GstBuffer</span></a> to
-<span class="type">GdkPixbuf</span> conversion. Other than that it's very similar to the fakesink
+<a
+href="/usr/share/gtk-doc/html/gdk-pixbuf/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"
+><span class="type">GdkPixbuf</span></a> conversion. Other than that it's very similar to the fakesink
 element.
 </p>
 <p>
@@ -117,23 +130,25 @@ This element is meant for easy no-hassle video snapshotting. It is not
 suitable for video playback or video display at high framerates. Use
 ximagesink, xvimagesink or some other suitable video sink in connection
 with the <a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstxoverlay.html#GstXOverlay"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstxoverlay.html#GstXOverlay"
 ><span class="type">GstXOverlay</span></a> interface instead if you want to do video playback.
 </p>
 <p>
 </p>
 <div class="refsect2" title="Message details">
-<a name="id542530"></a><h3>Message details</h3>
+<a name="id3036820"></a><h3>Message details</h3>
 As mentioned above, this element will by default post element messages
 containing structures named <code class="classname">"preroll-pixbuf"
 </code> or <code class="classname">"pixbuf"</code> on the bus (this
-can be disabled by setting the <a class="link" href="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink--send-messages" title='The "send-messages" property'><span class="type">"send-messages"</span></a> property
+can be disabled by setting the <a class="link" href="gst-plugins-good-plugins-gdkpixbufsink.html#GstGdkPixbufSink--post-messages" title='The "post-messages" property'><span class="type">"post-messages"</span></a> property
 to <a
-href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><span class="type">FALSE</span></a> though). The element message structure has the following fields:
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem">
-<code class="classname">"pixbuf"</code>: the <span class="type">GdkPixbuf</span> object
+<code class="classname">"pixbuf"</code>: the <a
+href="/usr/share/gtk-doc/html/gdk-pixbuf/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"
+><span class="type">GdkPixbuf</span></a> object
 </li>
 <li class="listitem">
 <code class="classname">"pixel-aspect-ratio"</code>: the pixel aspect
@@ -141,7 +156,9 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
   PAR is usually 1:1 for images, but is often something non-1:1 in the case
   of video input. In this case the image may be distorted and you may need
   to rescale it accordingly before saving it to file or displaying it. This
-  can easily be done using <code class="function">gdk_pixbuf_scale()</code> (the reason this is not done
+  can easily be done using <a
+href="/usr/share/gtk-doc/html/gdk-pixbuf/gdk-pixbuf-scaling.html#gdk-pixbuf-scale"
+><code class="function">gdk_pixbuf_scale()</code></a> (the reason this is not done
   automatically is that the application will often scale the image anyway
   according to the size of the output window, in which case it is much more
   efficient to only scale once rather than twice). You can put a videoscale
@@ -156,7 +173,7 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 <p>
 </p>
 <div class="refsect2" title="Example pipeline">
-<a name="id519553"></a><h3>Example pipeline</h3>
+<a name="id3070986"></a><h3>Example pipeline</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -m -v videotestsrc num-buffers=1 ! gdkpixbufsink
 </pre></div> Process one single test image as pixbuf (note that the output you see will
@@ -166,7 +183,7 @@ object even if the structure string says '(NULL)').
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id519224"></a><h3>Element Information</h3>
+<a name="id3083178"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -189,7 +206,7 @@ object even if the structure string says '(NULL)').
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id505596"></a><h3>Element Pads</h3>
+<a name="id3083238"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -235,14 +252,25 @@ Opaque element structure.</p>
 <a name="gst-plugins-good-plugins-gdkpixbufsink.property-details"></a><h2>Property Details</h2>
 <div class="refsect2" title='The "last-pixbuf" property'>
 <a name="GstGdkPixbufSink--last-pixbuf"></a><h3>The <code class="literal">"last-pixbuf"</code> property</h3>
-<pre class="programlisting">  "last-pixbuf"              GdkPixbuf*            : Read</pre>
+<pre class="programlisting">  "last-pixbuf"              <a
+href="/usr/share/gtk-doc/html/gdk-pixbuf/gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"
+>GdkPixbuf</a>*            : Read</pre>
 <p>Last GdkPixbuf object rendered.</p>
 </div>
 <hr>
 <div class="refsect2" title='The "send-messages" property'>
 <a name="GstGdkPixbufSink--send-messages"></a><h3>The <code class="literal">"send-messages"</code> property</h3>
 <pre class="programlisting">  "send-messages"            <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>Whether to post messages containing pixbufs on the bus  (deprecated, use post-messages).</p>
+<p>Default value: TRUE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "post-messages" property'>
+<a name="GstGdkPixbufSink--post-messages"></a><h3>The <code class="literal">"post-messages"</code> property</h3>
+<pre class="programlisting">  "post-messages"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Whether to post messages containing pixbufs on the bus.</p>
 <p>Default value: TRUE</p>

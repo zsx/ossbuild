@@ -82,7 +82,6 @@ gst_ladspa_base_init (gpointer g_class)
   GstElementClass *element_class = GST_ELEMENT_CLASS (g_class);
   GstSignalProcessorClass *gsp_class = GST_SIGNAL_PROCESSOR_CLASS (g_class);
   GstElementDetails *details;
-  GstAudioChannelPosition mono_position = GST_AUDIO_CHANNEL_POSITION_FRONT_MONO;
   LADSPA_Descriptor *desc;
   guint j, audio_in_count, audio_out_count, control_in_count, control_out_count;
   gchar *klass_tags;
@@ -126,10 +125,10 @@ gst_ladspa_base_init (gpointer g_class)
 
       if (LADSPA_IS_PORT_INPUT (p))
         gst_signal_processor_class_add_pad_template (gsp_class, name,
-            GST_PAD_SINK, gsp_class->num_audio_in++, 1, &mono_position);
+            GST_PAD_SINK, gsp_class->num_audio_in++, 1);
       else
         gst_signal_processor_class_add_pad_template (gsp_class, name,
-            GST_PAD_SRC, gsp_class->num_audio_out++, 1, &mono_position);
+            GST_PAD_SRC, gsp_class->num_audio_out++, 1);
 
       g_free (name);
     } else if (LADSPA_IS_PORT_CONTROL (p)) {
@@ -314,13 +313,16 @@ gst_ladspa_class_get_param_name (GstLADSPAClass * klass, gint portnum)
     gint n = 1;
     gchar *nret = g_strdup_printf ("%s-%d", ret, n++);
 
-    g_free (ret);
     while (g_object_class_find_property (G_OBJECT_CLASS (klass), nret)) {
       g_free (nret);
       nret = g_strdup_printf ("%s-%d", ret, n++);
     }
+    g_free (ret);
     ret = nret;
   }
+
+  GST_DEBUG ("built property name '%s' from port name '%s'", ret,
+      desc->PortNames[portnum]);
 
   return ret;
 }

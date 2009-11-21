@@ -207,6 +207,90 @@ invalid_headers:
   }
 }
 
+static gint
+field_size (guint8 field)
+{
+  switch (field) {
+      /* DWORD - 32 bits */
+    case 3:
+      return 4;
+
+      /* WORD - 16 bits */
+    case 2:
+      return 2;
+
+      /* BYTE - 8 bits */
+    case 1:
+      return 1;
+
+      /* non-exitent */
+    case 0:
+    default:
+      return 0;
+  }
+}
+
+/* 
+ * Set the padding field to te correct value as the spec
+ * says it should be se to 0 in the rtp packets
+ */
+static void
+gst_rtp_asf_depay_set_padding (GstRtpAsfDepay * depayload,
+    GstBuffer * buf, guint32 padding)
+{
+  guint8 *data = GST_BUFFER_DATA (buf);
+  gint offset = 0;
+  guint8 aux;
+  guint8 seq_type;
+  guint8 pad_type;
+  guint8 pkt_type;
+
+  aux = data[offset++];
+  if (aux & 0x80) {
+    guint8 err_len = 0;
+    if (aux & 0x60) {
+      GST_WARNING_OBJECT (depayload, "Error correction length type should be "
+          "set to 0");
+      /* this packet doesn't follow the spec */
+      return;
+    }
+    err_len = aux & 0x0F;
+    offset += err_len;
+
+    aux = data[offset++];
+  }
+  seq_type = (aux >> 1) & 0x3;
+  pad_type = (aux >> 3) & 0x3;
+  pkt_type = (aux >> 5) & 0x3;
+
+  offset += 1;                  /* skip property flags */
+  offset += field_size (pkt_type);      /* skip packet length */
+  offset += field_size (seq_type);      /* skip sequence field */
+
+  /* write padding */
+  switch (pad_type) {
+      /* DWORD */
+    case 3:
+      GST_WRITE_UINT32_LE (&(data[offset]), padding);
+      break;
+
+      /* WORD */
+    case 2:
+      GST_WRITE_UINT16_LE (&(data[offset]), padding);
+      break;
+
+      /* BYTE */
+    case 1:
+      data[offset] = (guint8) padding;
+      break;
+
+      /* non-existent */
+    case 0:
+    default:
+      break;
+  }
+}
+
 /* Docs: 'RTSP Protocol PDF' document from http://sdp.ppona.com/ (page 8) */
 
 static GstBuffer *
@@ -224,6 +308,7 @@ gst_rtp_asf_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
 
   /* flush remaining data on discont */
   if (GST_BUFFER_IS_DISCONT (buf)) {
+    GST_LOG_OBJECT (depay, "got DISCONT");
     gst_adapter_clear (depay->adapter);
     depay->wait_start = TRUE;
     depay->discont = TRUE;
@@ -323,7 +408,6 @@ gst_rtp_asf_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
       GstBuffer *sub;
 
       /* Fragmented packet handling */
-
       outbuf = NULL;
 
       if (len_offs == 0 && (available = gst_adapter_available (depay->adapter))) {
@@ -339,6 +423,8 @@ gst_rtp_asf_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
           memset (GST_BUFFER_DATA (outbuf) + available, 0,
               depay->packet_size - available);
           gst_buffer_unref (sub);
+          gst_rtp_asf_depay_set_padding (depay, outbuf,
+              depay->packet_size - available);
         } else
           outbuf = sub;
       }
@@ -351,7 +437,8 @@ gst_rtp_asf_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
               available, len_offs);
           sub = gst_adapter_take_buffer (depay->adapter, len_offs);
           gst_adapter_clear (depay->adapter);
-          gst_adapter_push (depay->adapter, sub);
+          if (sub)
+            gst_adapter_push (depay->adapter, sub);
         }
       }
       sub = gst_rtp_buffer_get_payload_subbuffer (buf, offset, packet_len);
@@ -369,14 +456,17 @@ gst_rtp_asf_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
       memcpy (GST_BUFFER_DATA (outbuf), payload, packet_len);
       memset (GST_BUFFER_DATA (outbuf) + packet_len, 0,
           depay->packet_size - packet_len);
+      gst_rtp_asf_depay_set_padding (depay, outbuf,
+          depay->packet_size - packet_len);
     }
 
     gst_buffer_set_caps (outbuf, GST_PAD_CAPS (depayload->srcpad));
 
-    if (S)
+    if (!S)
       GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DELTA_UNIT);
 
     if (depay->discont) {
+      GST_LOG_OBJECT (depay, "setting DISCONT");
       GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DISCONT);
       depay->discont = FALSE;
     }

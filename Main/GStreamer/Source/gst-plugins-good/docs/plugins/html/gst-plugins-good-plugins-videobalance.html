@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>videobalance</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-vertigotv.html" title="vertigotv">
@@ -54,19 +54,19 @@
 <a name="gst-plugins-good-plugins-videobalance.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideofilter.html#GstVideoFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideofilter.html#GstVideoFilter"
 >GstVideoFilter</a>
                            +----GstVideoBalance
 </pre>
@@ -76,25 +76,25 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstvideofilter.html#Gs
 <p>
 GstVideoBalance implements
  <a
-href="../gstreamer-0.10/GstImplementsInterface.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstImplementsInterface.html"
 >GstImplementsInterface</a> and  <a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"
 >GstColorBalance</a>.</p>
 </div>
 <div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-videobalance.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-videobalance.html#GstVideoBalance--brightness" title='The "brightness" property'>brightness</a>"               <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-videobalance.html#GstVideoBalance--contrast" title='The "contrast" property'>contrast</a>"                 <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-videobalance.html#GstVideoBalance--hue" title='The "hue" property'>hue</a>"                      <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-videobalance.html#GstVideoBalance--saturation" title='The "saturation" property'>saturation</a>"               <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
 </pre>
 </div>
@@ -106,7 +106,7 @@ Adjusts brightness, contrast, hue, saturation on a video stream.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id600705"></a><h3>Example launch line</h3>
+<a name="id3106528"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch videotestsrc ! videobalance saturation=0.0 ! ffmpegcolorspace ! ximagesink
 </pre></div> This pipeline converts the image to black and white by setting the
@@ -119,7 +119,7 @@ Last reviewed on 2006-03-03 (0.10.3)</p>
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id561063"></a><h3>Element Information</h3>
+<a name="id3141721"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -142,7 +142,7 @@ Last reviewed on 2006-03-03 (0.10.3)</p>
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id611605"></a><h3>Element Pads</h3>
+<a name="id3126571"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -206,7 +206,7 @@ Opaque data structure.</p>
 <div class="refsect2" title='The "brightness" property'>
 <a name="GstVideoBalance--brightness"></a><h3>The <code class="literal">"brightness"</code> property</h3>
 <pre class="programlisting">  "brightness"               <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>brightness.</p>
 <p>Allowed values: [-1,1]</p>
@@ -216,7 +216,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <div class="refsect2" title='The "contrast" property'>
 <a name="GstVideoBalance--contrast"></a><h3>The <code class="literal">"contrast"</code> property</h3>
 <pre class="programlisting">  "contrast"                 <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>contrast.</p>
 <p>Allowed values: [0,2]</p>
@@ -226,7 +226,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <div class="refsect2" title='The "hue" property'>
 <a name="GstVideoBalance--hue"></a><h3>The <code class="literal">"hue"</code> property</h3>
 <pre class="programlisting">  "hue"                      <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>hue.</p>
 <p>Allowed values: [-1,1]</p>
@@ -236,7 +236,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <div class="refsect2" title='The "saturation" property'>
 <a name="GstVideoBalance--saturation"></a><h3>The <code class="literal">"saturation"</code> property</h3>
 <pre class="programlisting">  "saturation"               <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>saturation.</p>
 <p>Allowed values: [0,2]</p>

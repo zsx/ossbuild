@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -34,7 +35,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = ext/amrnb
-DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
+DIST_COMMON = README $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/common/m4/as-ac-expand.m4 \
@@ -79,15 +80,14 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(plugindir)"
+am__installdirs = "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(presetdir)"
 pluginLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(plugin_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libgstamrnb_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am_libgstamrnb_la_OBJECTS = libgstamrnb_la-amrnb.lo \
-	libgstamrnb_la-amrnbdec.lo libgstamrnb_la-amrnbenc.lo \
-	libgstamrnb_la-amrnbparse.lo
+	libgstamrnb_la-amrnbdec.lo libgstamrnb_la-amrnbenc.lo
 libgstamrnb_la_OBJECTS = $(am_libgstamrnb_la_OBJECTS)
 libgstamrnb_la_LINK = $(LIBTOOL) --tag=CC \
 	$(libgstamrnb_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
@@ -107,6 +107,8 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libgstamrnb_la_SOURCES)
 DIST_SOURCES = $(libgstamrnb_la_SOURCES)
+presetDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(preset_DATA)
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -115,7 +117,10 @@ A52DEC_CFLAGS = @A52DEC_CFLAGS@
 A52DEC_LIBS = @A52DEC_LIBS@
 ACLOCAL = @ACLOCAL@
 ACLOCAL_AMFLAGS = @ACLOCAL_AMFLAGS@
+AMRNB_CFLAGS = @AMRNB_CFLAGS@
 AMRNB_LIBS = @AMRNB_LIBS@
+AMRWB_CFLAGS = @AMRWB_CFLAGS@
+AMRWB_LIBS = @AMRWB_LIBS@
 AMTAR = @AMTAR@
 AM_MAKEFLAGS = @AM_MAKEFLAGS@
 AR = @AR@
@@ -148,9 +153,6 @@ DEPRECATED_CFLAGS = @DEPRECATED_CFLAGS@
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
-DVDNAV_CFLAGS = @DVDNAV_CFLAGS@
-DVDNAV_CONFIG = @DVDNAV_CONFIG@
-DVDNAV_LIBS = @DVDNAV_LIBS@
 DVDREAD_LIBS = @DVDREAD_LIBS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
@@ -202,6 +204,7 @@ GST_PREFIX = @GST_PREFIX@
 GST_TOOLS_DIR = @GST_TOOLS_DIR@
 GTKDOC_CHECK = @GTKDOC_CHECK@
 HAVE_AMRNB = @HAVE_AMRNB@
+HAVE_AMRWB = @HAVE_AMRWB@
 HAVE_CXX = @HAVE_CXX@
 HAVE_DVDREAD = @HAVE_DVDREAD@
 HAVE_LAME = @HAVE_LAME@
@@ -358,8 +361,7 @@ plugin_LTLIBRARIES = libgstamrnb.la
 libgstamrnb_la_SOURCES = \
 	amrnb.c \
 	amrnbdec.c \
-	amrnbenc.c \
-	amrnbparse.c
+	amrnbenc.c
 
 libgstamrnb_la_CFLAGS = $(GST_CFLAGS) $(AMRNB_CFLAGS)
 libgstamrnb_la_LIBADD = $(GST_BASE_LIBS) $(AMRNB_LIBS)
@@ -367,9 +369,11 @@ libgstamrnb_la_LDFLAGS = $(GST_PLUGIN_LDFLAGS)
 libgstamrnb_la_LIBTOOLFLAGS = --tag=disable-static
 noinst_HEADERS = \
 	amrnbdec.h \
-	amrnbenc.h \
-	amrnbparse.h
+	amrnbenc.h
 
+presetdir = $(datadir)/gstreamer-$(GST_MAJORMINOR)/presets
+preset_DATA = GstAmrnbEnc.prs
+EXTRA_DIST = $(preset_DATA)
 all: all-am
 
 .SUFFIXES:
@@ -442,7 +446,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstamrnb_la-amrnb.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstamrnb_la-amrnbdec.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstamrnb_la-amrnbenc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgstamrnb_la-amrnbparse.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -486,18 +489,28 @@ libgstamrnb_la-amrnbenc.lo: amrnbenc.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstamrnb_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstamrnb_la_CFLAGS) $(CFLAGS) -c -o libgstamrnb_la-amrnbenc.lo `test -f 'amrnbenc.c' || echo '$(srcdir)/'`amrnbenc.c
 
-libgstamrnb_la-amrnbparse.lo: amrnbparse.c
-@am__fastdepCC_TRUE@	$(LIBTOOL) --tag=CC $(libgstamrnb_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstamrnb_la_CFLAGS) $(CFLAGS) -MT libgstamrnb_la-amrnbparse.lo -MD -MP -MF $(DEPDIR)/libgstamrnb_la-amrnbparse.Tpo -c -o libgstamrnb_la-amrnbparse.lo `test -f 'amrnbparse.c' || echo '$(srcdir)/'`amrnbparse.c
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/libgstamrnb_la-amrnbparse.Tpo $(DEPDIR)/libgstamrnb_la-amrnbparse.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='amrnbparse.c' object='libgstamrnb_la-amrnbparse.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL) --tag=CC $(libgstamrnb_la_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgstamrnb_la_CFLAGS) $(CFLAGS) -c -o libgstamrnb_la-amrnbparse.lo `test -f 'amrnbparse.c' || echo '$(srcdir)/'`amrnbparse.c
-
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-presetDATA: $(preset_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(presetdir)" || $(MKDIR_P) "$(DESTDIR)$(presetdir)"
+	@list='$(preset_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(presetDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(presetdir)/$$f'"; \
+	  $(presetDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(presetdir)/$$f"; \
+	done
+
+uninstall-presetDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(preset_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(presetdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(presetdir)/$$f"; \
+	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -574,9 +587,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(DATA) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(plugindir)"; do \
+	for dir in "$(DESTDIR)$(plugindir)" "$(DESTDIR)$(presetdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -624,7 +637,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-pluginLTLIBRARIES
+install-data-am: install-pluginLTLIBRARIES install-presetDATA
 
 install-dvi: install-dvi-am
 
@@ -660,7 +673,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-pluginLTLIBRARIES
+uninstall-am: uninstall-pluginLTLIBRARIES uninstall-presetDATA
 
 .MAKE: install-am install-strip
 
@@ -672,11 +685,12 @@ uninstall-am: uninstall-pluginLTLIBRARIES
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am install-man \
 	install-pdf install-pdf-am install-pluginLTLIBRARIES \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-presetDATA install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-pluginLTLIBRARIES
+	tags uninstall uninstall-am uninstall-pluginLTLIBRARIES \
+	uninstall-presetDATA
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

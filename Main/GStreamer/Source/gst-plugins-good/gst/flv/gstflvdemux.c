@@ -112,6 +112,10 @@ gst_flv_demux_cleanup (GstFLVDemux * demux)
   demux->push_tags = FALSE;
   demux->got_par = FALSE;
 
+  demux->audio_start = demux->video_start = GST_CLOCK_TIME_NONE;
+
+  demux->no_more_pads = FALSE;
+
   gst_segment_init (&demux->segment, GST_FORMAT_TIME);
 
   demux->w = demux->h = 0;
@@ -569,7 +573,11 @@ pause:
     if (GST_FLOW_IS_FATAL (ret) || ret == GST_FLOW_NOT_LINKED) {
       if (ret == GST_FLOW_UNEXPECTED) {
         /* perform EOS logic */
-        gst_element_no_more_pads (GST_ELEMENT_CAST (demux));
+        if (!demux->no_more_pads) {
+          gst_element_no_more_pads (GST_ELEMENT_CAST (demux));
+          demux->no_more_pads = TRUE;
+        }
+
         if (demux->segment.flags & GST_SEEK_FLAG_SEGMENT) {
           gint64 stop;
 
@@ -592,7 +600,11 @@ pause:
           }
         } else {
           /* normal playback, send EOS to all linked pads */
-          gst_element_no_more_pads (GST_ELEMENT (demux));
+          if (!demux->no_more_pads) {
+            gst_element_no_more_pads (GST_ELEMENT (demux));
+            demux->no_more_pads = TRUE;
+          }
+
           GST_LOG_OBJECT (demux, "Sending EOS, at end of stream");
           if (!gst_flv_demux_push_src_event (demux, gst_event_new_eos ()))
             GST_WARNING_OBJECT (demux, "failed pushing EOS on streams");
@@ -951,7 +963,11 @@ gst_flv_demux_sink_event (GstPad * pad, GstEvent * event)
         GST_DEBUG_OBJECT (demux, "committing index");
         gst_index_commit (demux->index, demux->index_id);
       }
-      gst_element_no_more_pads (GST_ELEMENT (demux));
+      if (!demux->no_more_pads) {
+        gst_element_no_more_pads (GST_ELEMENT (demux));
+        demux->no_more_pads = TRUE;
+      }
+
       if (!gst_flv_demux_push_src_event (demux, event))
         GST_WARNING_OBJECT (demux, "failed pushing EOS on streams");
       ret = TRUE;
@@ -1183,11 +1199,14 @@ gst_flv_demux_set_index (GstElement * element, GstIndex * index)
   GST_OBJECT_LOCK (demux);
   if (demux->index)
     gst_object_unref (demux->index);
-  demux->index = gst_object_ref (index);
-  GST_OBJECT_UNLOCK (demux);
+  if (index) {
+    demux->index = gst_object_ref (index);
+    gst_index_get_writer_id (index, GST_OBJECT (element), &demux->index_id);
+    demux->own_index = FALSE;
+  } else
+    demux->index = NULL;
 
-  gst_index_get_writer_id (index, GST_OBJECT (element), &demux->index_id);
-  demux->own_index = FALSE;
+  GST_OBJECT_UNLOCK (demux);
 }
 
 static GstIndex *

@@ -4,7 +4,7 @@
 %define gst_minver   0.10.0
 
 Name: 		%{gstreamer}-plugins-bad
-Version: 	0.10.16
+Version: 	0.10.17
 Release: 	1.gst
 Summary: 	GStreamer plug-ins of bad quality
 
@@ -30,7 +30,7 @@ Provides:      gstreamer-faad = %{version}-%{release}
 Requires:      faac >= 1.23
 Provides:       gstreamer-gsm = %{version}-%{release}
 Requires: libmms >= 0.1
-#Requires: gmyth
+Requires: gmyth
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
@@ -99,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gstreamer-%{majorminor}/libgstsubenc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstoss4audio.so
 %{_libdir}/gstreamer-%{majorminor}/libresindvd.so
-%{_libdir}/gstreamer-%{majorminor}/libgstaiffparse.so
+%{_libdir}/gstreamer-%{majorminor}/libgstaiff.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdccp.so
 %{_libdir}/gstreamer-%{majorminor}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmpegtsmux.so
@@ -162,7 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gstreamer-%{majorminor}/libgstgsm.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdtsdec.so
 %{_libdir}/gstreamer-%{majorminor}/libgstladspa.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstmythtvsrc.so
+%{_libdir}/gstreamer-%{majorminor}/libgstmythtvsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstdc1394.so
 #%{_libdir}/gstreamer-%{majorminor}/libgsttimidity.so
 %{_libdir}/gstreamer-%{majorminor}/libgstwildmidi.so
@@ -174,7 +174,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gstreamer-%{majorminor}/libgstkate.so
 %{_libdir}/gstreamer-%{majorminor}/libgstassrender.so
 %{_libdir}/gstreamer-%{majorminor}/libgstfrei0r.so
-#%{_libdir}/gstreamer-%{majorminor}/libgstschro.so
+%{_libdir}/gstreamer-%{majorminor}/libgstschro.so
 %{_libdir}/gstreamer-%{majorminor}/libgstofa.so
 %{_libdir}/gstreamer-%{majorminor}/libgstmetadata.so
 

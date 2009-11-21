@@ -51,8 +51,12 @@
   <a
 href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
-   +----GstObject
-         +----GstElement
+   +----<a
+href="../gstreamer-0.10/GstObject.html"
+>GstObject</a>
+         +----<a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>
                +----GstXingMux
 </pre>
 </div>
@@ -69,7 +73,7 @@ This element will remove any existing Xing, LAME or VBRI headers from the beginn
 <p>
 </p>
 <div class="refsect2" lang="en">
-<a name="id2569554"></a><h3>Example launch line</h3>
+<a name="id2974954"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc num-buffers=1000 ! audioconvert ! lame ! xingmux ! filesink location=test.mp3
 gst-launch filesrc location=test.mp3 ! xingmux ! filesink location=test2.mp3
@@ -79,7 +83,7 @@ gst-launch filesrc location=test.mp3 ! mp3parse ! xingmux ! filesink location=te
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
 <div class="refsect2" lang="en">
-<a name="id2599416"></a><h3>Element Information</h3>
+<a name="id2959718"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -102,7 +106,7 @@ gst-launch filesrc location=test.mp3 ! mp3parse ! xingmux ! filesink location=te
 </div>
 <hr>
 <div class="refsect2" lang="en">
-<a name="id2570656"></a><h3>Element Pads</h3>
+<a name="id2988211"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>

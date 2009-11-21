@@ -62,9 +62,10 @@ struct _GstQTDemux {
   gint     n_streams;
   gint     n_video_streams;
   gint     n_audio_streams;
-  gint     n_subp_streams;
+  gint     n_sub_streams;
 
   guint  major_brand;
+  GstBuffer *comp_brands;
   GNode *moov_node;
   GNode *moov_node_compressed;
 
@@ -88,13 +89,14 @@ struct _GstQTDemux {
 
   GstTagList *tag_list;
 
-  /* track stuff */
-  guint64 last_ts;
-
   /* configured playback region */
   GstSegment segment;
   gboolean segment_running;
   GstEvent *pending_newsegment;
+
+  /* gst index support */
+  GstIndex *element_index;
+  gint index_id;
 };
 
 struct _GstQTDemuxClass {

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>osssrc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-osssink.html" title="osssink">
@@ -54,25 +54,25 @@
 <a name="gst-plugins-good-plugins-osssrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseSrc.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSrc.html"
 >GstBaseSrc</a>
                      +----<a
-href="../gstreamer-libs-0.10/GstPushSrc.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstPushSrc.html"
 >GstPushSrc</a>
                            +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosrc.html#GstBaseAudioSrc"
 >GstBaseAudioSrc</a>
                                  +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiosrc.html#GstAudioSrc"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiosrc.html#GstAudioSrc"
 >GstAudioSrc</a>
                                        +----GstOssSrc
 </pre>
@@ -82,19 +82,19 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiosrc.html#GstAu
 <p>
 GstOssSrc implements
  <a
-href="../gstreamer-0.10/GstImplementsInterface.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstImplementsInterface.html"
 >GstImplementsInterface</a> and  <a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstmixer.html#GstMixer"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstmixer.html#GstMixer"
 >GstMixer</a>.</p>
 </div>
 <div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-osssrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-osssrc.html#GstOssSrc--device" title='The "device" property'>device</a>"                   <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-osssrc.html#GstOssSrc--device-name" title='The "device-name" property'>device-name</a>"              <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read
 </pre>
 </div>
@@ -106,7 +106,7 @@ This element lets you record sound using the Open Sound System (OSS).
 <p>
 </p>
 <div class="refsect2" title="Example pipelines">
-<a name="id560973"></a><h3>Example pipelines</h3>
+<a name="id3113202"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v osssrc ! audioconvert ! vorbisenc ! oggmux ! filesink location=mymusic.ogg
 </pre></div> will record sound from your sound card using OSS and encode it to an
@@ -116,7 +116,7 @@ and the right inputs enabled etc.)
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id551391"></a><h3>Element Information</h3>
+<a name="id3075367"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -139,7 +139,7 @@ and the right inputs enabled etc.)
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id581972"></a><h3>Element Pads</h3>
+<a name="id3123307"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -184,7 +184,7 @@ and the right inputs enabled etc.)
 <div class="refsect2" title='The "device" property'>
 <a name="GstOssSrc--device"></a><h3>The <code class="literal">"device"</code> property</h3>
 <pre class="programlisting">  "device"                   <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>OSS device (usually /dev/dspN).</p>
 <p>Default value: "/dev/dsp"</p>
@@ -193,7 +193,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" title='The "device-name" property'>
 <a name="GstOssSrc--device-name"></a><h3>The <code class="literal">"device-name"</code> property</h3>
 <pre class="programlisting">  "device-name"              <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read</pre>
 <p>Human-readable name of the sound device.</p>
 <p>Default value: ""</p>

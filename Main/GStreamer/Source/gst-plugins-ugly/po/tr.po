@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gst-plugins-ugly-0.10.10.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-06-18 08:03+0100\n"
+"POT-Creation-Date: 2009-10-21 17:02+0100\n"
 "PO-Revision-Date: 2009-03-10 22:42+0200\n"
 "Last-Translator: Server Acim <sacim@kde.org.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -25,19 +25,6 @@ msgstr "Bu disk bir Ses CD'si değil."
 
 msgid "Could not open DVD"
 msgstr "DVD açılamıyor"
-
-msgid "Invalid title information on DVD."
-msgstr "DVD'de geçersiz başlık bilgisi."
-
-msgid "Could not read title information for DVD."
-msgstr "DVD'deki başlık bilgisi okunamıyor."
-
-#, c-format
-msgid "Failed to open DVD device '%s'."
-msgstr "DVD aygıtı açılamadı '%s'."
-
-msgid "Failed to set PGC based seeking."
-msgstr "PGC tabanlı arama ayarlanamadı."
 
 #, c-format
 msgid "Could not open DVD title %d"
@@ -76,3 +63,15 @@ msgstr "Akış veri içermiyor."
 
 msgid "Internal data stream error."
 msgstr "İç veri akış hatası."
+
+#~ msgid "Invalid title information on DVD."
+#~ msgstr "DVD'de geçersiz başlık bilgisi."
+
+#~ msgid "Could not read title information for DVD."
+#~ msgstr "DVD'deki başlık bilgisi okunamıyor."
+
+#~ msgid "Failed to open DVD device '%s'."
+#~ msgstr "DVD aygıtı açılamadı '%s'."
+
+#~ msgid "Failed to set PGC based seeking."
+#~ msgstr "PGC tabanlı arama ayarlanamadı."

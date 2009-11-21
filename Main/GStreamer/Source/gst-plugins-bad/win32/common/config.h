@@ -27,7 +27,22 @@
 #define GST_PACKAGE_NAME "GStreamer Bad Plug-ins source release"
 
 /* package origin */
-#define GST_PACKAGE_ORIGIN "Unknown package origin"
+#define GST_PACKAGE_ORIGIN "gstreamer.freedesktop.org"
+
+/* Default audio sink */
+#define DEFAULT_AUDIOSINK "directsoundsink"
+
+/* Default audio source */
+#define DEFAULT_AUDIOSRC "dshowaudiosrc"
+
+/* Default video sink */
+#define DEFAULT_VIDEOSINK "directdrawsink"
+
+/* Default video source */
+#define DEFAULT_VIDEOSRC "dshowvideosrc"
+
+/* Default visualizer */
+#define DEFAULT_VISUALIZER "goom"
 
 /* Define if the host CPU is an Alpha */
 #undef HAVE_CPU_ALPHA
@@ -199,7 +214,7 @@
 #undef USE_POISONING
 
 /* Version number of package */
-#define VERSION "0.10.16"
+#define VERSION "0.10.17"
 
 /* Define to 1 if your processor stores words with the most significant byte
    first (like Motorola and SPARC, unlike Intel and VAX). */

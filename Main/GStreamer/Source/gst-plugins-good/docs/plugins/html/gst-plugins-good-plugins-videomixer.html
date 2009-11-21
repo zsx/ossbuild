@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>videomixer</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-videoflip.html" title="videoflip">
@@ -55,13 +55,13 @@ enum                <a class="link" href="gst-plugins-good-plugins-videomixer.ht
 <a name="gst-plugins-good-plugins-videomixer.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstVideoMixer
 </pre>
@@ -71,7 +71,7 @@ href="../gstreamer-0.10/GstElement.html"
 <p>
 GstVideoMixer implements
  <a
-href="../gstreamer-0.10/GstChildProxy.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstChildProxy.html"
 >GstChildProxy</a>.</p>
 </div>
 <div class="refsect1" title="Properties">
@@ -100,7 +100,7 @@ Individual parameters for each input stream can be configured on the
 <p>
 </p>
 <div class="refsect2" title="Sample pipelines">
-<a name="id589075"></a><h3>Sample pipelines</h3>
+<a name="id3155775"></a><h3>Sample pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch videotestsrc pattern=1 ! video/x-raw-yuv, framerate=\(fraction\)10/1, width=100, height=100 ! videobox border-alpha=0 alpha=0.5 top=-70 bottom=-70 right=-220 ! videomixer name=mix ! ffmpegcolorspace ! xvimagesink videotestsrc ! video/x-raw-yuv, framerate=\(fraction\)5/1, width=320, height=240 ! alpha alpha=0.7 ! mix.
 </pre></div> A pipeline to demonstrate videomixer used together with videobox.
@@ -120,7 +120,7 @@ gst-launch   videotestsrc pattern=1 ! video/x-raw-yuv,format =\(fourcc\)I420, fr
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id604488"></a><h3>Element Information</h3>
+<a name="id3154961"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -143,7 +143,7 @@ gst-launch   videotestsrc pattern=1 ! video/x-raw-yuv,format =\(fourcc\)I420, fr
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id604550"></a><h3>Element Pads</h3>
+<a name="id3154909"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>

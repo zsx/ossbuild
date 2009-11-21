@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>level</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-jpegenc.html" title="jpegenc">
@@ -52,16 +52,16 @@
 <a name="gst-plugins-good-plugins-level.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----GstLevel
 </pre>
@@ -70,16 +70,16 @@ href="../gstreamer-libs-0.10/GstBaseTransform.html"
 <a name="gst-plugins-good-plugins-level.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-level.html#GstLevel--interval" title='The "interval" property'>interval</a>"                 <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-level.html#GstLevel--message" title='The "message" property'>message</a>"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-level.html#GstLevel--peak-falloff" title='The "peak-falloff" property'>peak-falloff</a>"             <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-level.html#GstLevel--peak-ttl" title='The "peak-ttl" property'>peak-ttl</a>"                 <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
 </pre>
 </div>
@@ -88,44 +88,44 @@ href="../glib/glib-Basic-Types.html#guint64"
 <p>
 Level analyses incoming audio buffers and, if the <a class="link" href="gst-plugins-good-plugins-level.html#GstLevel--message" title='The "message" property'><span class="type">"message"</span></a> property
 is <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><span class="type">TRUE</span></a>, generates an element message named
 <code class="classname">"level"</code>:
 after each interval of time given by the <a class="link" href="gst-plugins-good-plugins-level.html#GstLevel--interval" title='The "interval" property'><span class="type">"interval"</span></a> property.
-The message's structure contains four fields:
+The message's structure contains these fields:
 </p>
 <div class="itemizedlist"><ul class="itemizedlist" type="disc">
 <li class="listitem"><p>
   <a
-href="../gstreamer-0.10/GstClock.html#GstClockTime"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
 ><span class="type">GstClockTime</span></a>
   <code class="classname">"timestamp"</code>:
   the timestamp of the buffer that triggered the message.
   </p></li>
 <li class="listitem"><p>
   <a
-href="../gstreamer-0.10/GstClock.html#GstClockTime"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
 ><span class="type">GstClockTime</span></a>
   <code class="classname">"stream-time"</code>:
   the stream time of the buffer.
   </p></li>
 <li class="listitem"><p>
   <a
-href="../gstreamer-0.10/GstClock.html#GstClockTime"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
 ><span class="type">GstClockTime</span></a>
   <code class="classname">"running-time"</code>:
   the running_time of the buffer.
   </p></li>
 <li class="listitem"><p>
   <a
-href="../gstreamer-0.10/GstClock.html#GstClockTime"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
 ><span class="type">GstClockTime</span></a>
   <code class="classname">"duration"</code>:
   the duration of the buffer.
   </p></li>
 <li class="listitem"><p>
   <a
-href="../gstreamer-0.10/GstClock.html#GstClockTime"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
 ><span class="type">GstClockTime</span></a>
   <code class="classname">"endtime"</code>:
   the end time of the buffer that triggered the message as stream time (this
@@ -133,14 +133,14 @@ href="../gstreamer-0.10/GstClock.html#GstClockTime"
   </p></li>
 <li class="listitem"><p>
   <span class="type">GstValueList</span> of <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 ><span class="type">gdouble</span></a>
   <code class="classname">"peak"</code>:
   the peak power level in dB for each channel
   </p></li>
 <li class="listitem"><p>
   <span class="type">GstValueList</span> of <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 ><span class="type">gdouble</span></a>
   <code class="classname">"decay"</code>:
   the decaying peak power level in dB for each channel
@@ -153,7 +153,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
   </p></li>
 <li class="listitem"><p>
   <span class="type">GstValueList</span> of <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 ><span class="type">gdouble</span></a>
   <code class="classname">"rms"</code>:
   the Root Mean Square (or average power) level in dB for each channel
@@ -164,7 +164,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <p>
 </p>
 <div class="refsect2" title="Example application">
-<a name="id549918"></a><h3>Example application</h3>
+<a name="id3096262"></a><h3>Example application</h3>
 <div class="informalexample"><pre class="programlisting">
 /* GStreamer
  * Copyright (C) 2000,2001,2002,2003,2005
@@ -296,7 +296,7 @@ main (int argc, char *argv[])
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id552988"></a><h3>Element Information</h3>
+<a name="id3112780"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -319,7 +319,7 @@ main (int argc, char *argv[])
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id538239"></a><h3>Element Pads</h3>
+<a name="id3079660"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -391,7 +391,7 @@ Opaque data structure.</p>
 <div class="refsect2" title='The "interval" property'>
 <a name="GstLevel--interval"></a><h3>The <code class="literal">"interval"</code> property</h3>
 <pre class="programlisting">  "interval"                 <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>Interval of time between message posts (in nanoseconds).</p>
 <p>Allowed values: &gt;= 1</p>
@@ -401,7 +401,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" title='The "message" property'>
 <a name="GstLevel--message"></a><h3>The <code class="literal">"message"</code> property</h3>
 <pre class="programlisting">  "message"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Post a level message for each passed interval.</p>
 <p>Default value: TRUE</p>
@@ -410,7 +410,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" title='The "peak-falloff" property'>
 <a name="GstLevel--peak-falloff"></a><h3>The <code class="literal">"peak-falloff"</code> property</h3>
 <pre class="programlisting">  "peak-falloff"             <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>Decay rate of decay peak after TTL (in dB/sec).</p>
 <p>Allowed values: &gt;= 0</p>
@@ -420,7 +420,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <div class="refsect2" title='The "peak-ttl" property'>
 <a name="GstLevel--peak-ttl"></a><h3>The <code class="literal">"peak-ttl"</code> property</h3>
 <pre class="programlisting">  "peak-ttl"                 <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>Time To Live of decay peak before it falls back (in nanoseconds).</p>
 <p>Default value: 300000000</p>

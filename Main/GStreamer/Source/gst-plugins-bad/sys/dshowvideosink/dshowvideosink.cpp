@@ -1360,7 +1360,7 @@ gst_dshowvideosink_render (GstBaseSink *bsink, GstBuffer *buffer)
   GstFlowReturn ret;
 
   if (sink->window_closed) {
-    GST_WARNING_OBJECT (sink, "Window has been closed, stopping");
+	GST_ELEMENT_ERROR (sink, RESOURCE, NOT_FOUND, ("Output window was closed"), (NULL));
     return GST_FLOW_ERROR;
   }
 

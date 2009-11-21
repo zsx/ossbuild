@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>avimux</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-avidemux.html" title="avidemux">
@@ -54,13 +54,13 @@
 <a name="gst-plugins-good-plugins-avimux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstAviMux
 </pre>
@@ -70,14 +70,14 @@ href="../gstreamer-0.10/GstElement.html"
 <p>
 GstAviMux implements
  <a
-href="../gstreamer-0.10/GstTagSetter.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
 >GstTagSetter</a>.</p>
 </div>
 <div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-avimux.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-avimux.html#GstAviMux--bigfile" title='The "bigfile" property'>bigfile</a>"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
@@ -89,7 +89,7 @@ Muxes raw or compressed audio and/or video streams into an AVI file.
 <p>
 </p>
 <div class="refsect2" title="Example launch lines">
-<a name="id522744"></a><h3>Example launch lines</h3>
+<a name="id3052000"></a><h3>Example launch lines</h3>
 <p>(write everything in one line, without the backslash characters)</p>
 <div class="informalexample"><pre class="programlisting">
 gst-launch videotestsrc num-buffers=250 \
@@ -115,7 +115,7 @@ only work if you have the necessary encoder elements installed of course.
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id498805"></a><h3>Element Information</h3>
+<a name="id3047049"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -127,7 +127,7 @@ only work if you have the necessary encoder elements installed of course.
 </tr>
 <tr>
 <td><p><span class="term">author</span></p></td>
-<td>Ronald Bultje &lt;rbultje@ronald.bitfreak.net&gt;</td>
+<td>GStreamer maintainers &lt;gstreamer-devel@lists.sourceforge.net&gt;</td>
 </tr>
 <tr>
 <td><p><span class="term">class</span></p></td>
@@ -138,7 +138,7 @@ only work if you have the necessary encoder elements installed of course.
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id527824"></a><h3>Element Pads</h3>
+<a name="id3040300"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -205,6 +205,10 @@ only work if you have the necessary encoder elements installed of course.
 <tr>
 <td><p><span class="term"></span></p></td>
 <td> video/x-wmv, width=(int)[ 16, 4096 ], height=(int)[ 16, 4096 ], framerate=(fraction)[ 0/1, 2147483647/1 ], wmvversion=(int)[ 1, 3 ]</td>
+</tr>
+<tr>
+<td><p><span class="term"></span></p></td>
+<td> image/x-jpc, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
 </tr>
 </tbody>
 </table></div>
@@ -293,7 +297,7 @@ only work if you have the necessary encoder elements installed of course.
 <div class="refsect2" title='The "bigfile" property'>
 <a name="GstAviMux--bigfile"></a><h3>The <code class="literal">"bigfile"</code> property</h3>
 <pre class="programlisting">  "bigfile"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Support for openDML-2.0 (big) AVI files.</p>
 <p>Default value: TRUE</p>

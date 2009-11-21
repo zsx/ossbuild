@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>equalizer-nbands</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-equalizer-3bands.html" title="equalizer-3bands">
@@ -54,19 +54,19 @@
 <a name="gst-plugins-good-plugins-equalizer-nbands.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
                            +----<a class="link" href="GstIirEqualizer.html" title="GstIirEqualizer">GstIirEqualizer</a>
                                  +----GstIirEqualizerNBands
@@ -77,14 +77,14 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
 <p>
 GstIirEqualizerNBands implements
  <a
-href="../gstreamer-0.10/GstChildProxy.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstChildProxy.html"
 >GstChildProxy</a>.</p>
 </div>
 <div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-equalizer-nbands.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-equalizer-nbands.html#GstIirEqualizerNBands--num-bands" title='The "num-bands" property'>num-bands</a>"                <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct
 </pre>
 </div>
@@ -98,7 +98,7 @@ the center frequency, band width and gain.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id482993"></a><h3>Example launch line</h3>
+<a name="id3039153"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equalizer-nbands num-bands=15 band5::gain=6.0 ! alsasink
 </pre></div> This make the equalizer use 15 bands and raises the volume of the 5th band by 6 db.
@@ -107,7 +107,7 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equ
 </p>
 <hr>
 <div class="refsect2" title="Example code">
-<a name="id516510"></a><h3>Example code</h3>
+<a name="id3041915"></a><h3>Example code</h3>
 <div class="informalexample"><pre class="programlisting">
 #include &lt;gst/gst.h&gt;
 
@@ -152,7 +152,7 @@ typedef struct {
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id544914"></a><h3>Element Information</h3>
+<a name="id3043550"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -175,7 +175,7 @@ typedef struct {
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id478031"></a><h3>Element Pads</h3>
+<a name="id3056965"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -245,7 +245,7 @@ typedef struct {
 <div class="refsect2" title='The "num-bands" property'>
 <a name="GstIirEqualizerNBands--num-bands"></a><h3>The <code class="literal">"num-bands"</code> property</h3>
 <pre class="programlisting">  "num-bands"                <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write / Construct</pre>
 <p>number of different bands to use.</p>
 <p>Allowed values: [1,64]</p>

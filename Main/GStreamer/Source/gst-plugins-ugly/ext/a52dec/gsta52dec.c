@@ -192,7 +192,13 @@ gst_a52dec_class_init (GstA52DecClass * klass)
 
   oil_init ();
 
+  /* If no CPU instruction based acceleration is available, end up using the
+   * generic software djbfft based one when available in the used liba52 */
+#ifdef MM_ACCEL_DJBFFT
+  klass->a52_cpuflags = MM_ACCEL_DJBFFT;
+#else
   klass->a52_cpuflags = 0;
+#endif
   cpuflags = oil_cpu_get_flags ();
   if (cpuflags & OIL_IMPL_FLAG_MMX)
     klass->a52_cpuflags |= MM_ACCEL_X86_MMX;
@@ -460,10 +466,10 @@ gst_a52dec_sink_event (GstPad * pad, GstEvent * event)
       GstFormat fmt;
       gboolean update;
       gint64 start, end, pos;
-      gdouble rate;
+      gdouble rate, arate;
 
-      gst_event_parse_new_segment (event, &update, &rate, &fmt, &start, &end,
-          &pos);
+      gst_event_parse_new_segment_full (event, &update, &rate, &arate, &fmt,
+          &start, &end, &pos);
 
       /* drain queued buffers before activating the segment so that we can clip
        * against the old segment first */
@@ -481,6 +487,11 @@ gst_a52dec_sink_event (GstPad * pad, GstEvent * event)
       } else {
         a52dec->time = start;
         a52dec->sent_segment = TRUE;
+        GST_DEBUG_OBJECT (a52dec,
+            "Pushing newseg rate %g, applied rate %g, format %d, start %"
+            G_GINT64_FORMAT ", stop %" G_GINT64_FORMAT ", pos %"
+            G_GINT64_FORMAT, rate, arate, fmt, start, end, time);
+
         ret = gst_pad_push_event (a52dec->srcpad, event);
       }
 
@@ -731,10 +742,12 @@ gst_a52dec_chain (GstPad * pad, GstBuffer * buf)
       ret = gst_a52dec_chain_raw (pad, subbuf);
     }
   } else {
+    gst_buffer_ref (buf);
     ret = gst_a52dec_chain_raw (pad, buf);
   }
 
 done:
+  gst_buffer_unref (buf);
   return ret;
 
 /* ERRORS */
@@ -742,12 +755,14 @@ not_enough_data:
   {
     GST_ELEMENT_ERROR (GST_ELEMENT (a52dec), STREAM, DECODE, (NULL),
         ("Insufficient data in buffer. Can't determine first_acess"));
+    gst_buffer_unref (buf);
     return GST_FLOW_ERROR;
   }
 bad_first_access_parameter:
   {
     GST_ELEMENT_ERROR (GST_ELEMENT (a52dec), STREAM, DECODE, (NULL),
         ("Bad first_access parameter (%d) in buffer", first_access));
+    gst_buffer_unref (buf);
     return GST_FLOW_ERROR;
   }
 }

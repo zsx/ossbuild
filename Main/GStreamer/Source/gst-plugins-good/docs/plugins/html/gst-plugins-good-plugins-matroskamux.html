@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>matroskamux</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-level.html" title="level">
@@ -54,13 +54,13 @@
 <a name="gst-plugins-good-plugins-matroskamux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstMatroskaMux
 </pre>
@@ -70,17 +70,17 @@ href="../gstreamer-0.10/GstElement.html"
 <p>
 GstMatroskaMux implements
  <a
-href="../gstreamer-0.10/GstTagSetter.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
 >GstTagSetter</a>.</p>
 </div>
 <div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-matroskamux.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-matroskamux.html#GstMatroskaMux--writing-app" title='The "writing-app" property'>writing-app</a>"              <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-matroskamux.html#GstMatroskaMux--version" title='The "version" property'>version</a>"                  <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
 </pre>
 </div>
@@ -92,7 +92,7 @@ matroskamux muxes different input streams into a Matroska file.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id542102"></a><h3>Example launch line</h3>
+<a name="id3051874"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=/path/to/mp3 ! mp3parse ! matroskamux name=mux ! filesink location=test.mkv  filesrc location=/path/to/theora.ogg ! oggdemux ! theoraparse ! mux.
 </pre></div> This pipeline muxes an MP3 file and a Ogg Theora video into a Matroska file.
@@ -103,7 +103,7 @@ gst-launch -v audiotestsrc num-buffers=100 ! audioconvert ! vorbisenc ! matroska
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id536198"></a><h3>Element Information</h3>
+<a name="id3081358"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -115,7 +115,7 @@ gst-launch -v audiotestsrc num-buffers=100 ! audioconvert ! vorbisenc ! matroska
 </tr>
 <tr>
 <td><p><span class="term">author</span></p></td>
-<td>Ronald Bultje &lt;rbultje@ronald.bitfreak.net&gt;</td>
+<td>GStreamer maintainers &lt;gstreamer-devel@lists.sourceforge.net&gt;</td>
 </tr>
 <tr>
 <td><p><span class="term">class</span></p></td>
@@ -126,7 +126,7 @@ gst-launch -v audiotestsrc num-buffers=100 ! audioconvert ! vorbisenc ! matroska
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id571618"></a><h3>Element Pads</h3>
+<a name="id2989151"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -334,7 +334,7 @@ gst-launch -v audiotestsrc num-buffers=100 ! audioconvert ! vorbisenc ! matroska
 <div class="refsect2" title='The "writing-app" property'>
 <a name="GstMatroskaMux--writing-app"></a><h3>The <code class="literal">"writing-app"</code> property</h3>
 <pre class="programlisting">  "writing-app"              <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>The name the application that creates the matroska file.</p>
 <p>Default value: NULL</p>
@@ -343,7 +343,7 @@ href="../glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" title='The "version" property'>
 <a name="GstMatroskaMux--version"></a><h3>The <code class="literal">"version"</code> property</h3>
 <pre class="programlisting">  "version"                  <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>This parameter determines what matroska features can be used.</p>
 <p>Allowed values: [1,2]</p>

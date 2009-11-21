@@ -852,12 +852,14 @@ gst_speex_enc_sinkevent (GstPad * pad, GstEvent * event)
       break;
     case GST_EVENT_TAG:
     {
-      GstTagList *list;
-
-      gst_event_parse_tag (event, &list);
       if (enc->tags) {
+        GstTagList *list;
+
+        gst_event_parse_tag (event, &list);
         gst_tag_list_insert (enc->tags, list,
             gst_tag_setter_get_tag_merge_mode (GST_TAG_SETTER (enc)));
+      } else {
+        g_assert_not_reached ();
       }
       res = gst_pad_event_default (pad, event);
       break;
@@ -926,10 +928,11 @@ gst_speex_enc_encode (GstSpeexEnc * enc, gboolean flush)
     speex_bits_reset (&enc->bits);
 
     GST_BUFFER_TIMESTAMP (outbuf) = enc->start_ts +
-        gst_util_uint64_scale_int ((enc->frameno_out - 1) * frame_size -
-        enc->lookahead, GST_SECOND, enc->rate);
-    GST_BUFFER_DURATION (outbuf) = gst_util_uint64_scale_int (frame_size,
-        GST_SECOND, enc->rate);
+        gst_util_uint64_scale_int ((enc->frameno_out -
+            enc->nframes) * frame_size - enc->lookahead, GST_SECOND, enc->rate);
+    GST_BUFFER_DURATION (outbuf) =
+        gst_util_uint64_scale_int (frame_size * enc->nframes, GST_SECOND,
+        enc->rate);
     /* set gp time and granulepos; see gst-plugins-base/ext/ogg/README */
     GST_BUFFER_OFFSET_END (outbuf) = enc->granulepos_offset +
         ((enc->frameno_out) * frame_size - enc->lookahead);

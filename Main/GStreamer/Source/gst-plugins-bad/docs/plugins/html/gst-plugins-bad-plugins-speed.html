@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>speed</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-shapewipe.html" title="shapewipe">
 <link rel="next" href="gst-plugins-bad-plugins-stereo.html" title="stereo">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-bad-plugins-speed.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="speed">
 <a name="gst-plugins-bad-plugins-speed"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,36 +42,36 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-speed.synopsis"></a><h2>Synopsis</h2>
 <a name="GstSpeed"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-speed.html#GstSpeed-struct" title="GstSpeed">GstSpeed</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-bad-plugins-speed.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+href="../gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstSpeed
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-bad-plugins-speed.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-bad-plugins-speed.html#GstSpeed--speed" title='The "speed" property'>speed</a>"                    <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
+href="../glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write / Construct
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-speed.description"></a><h2>Description</h2>
 <p>
 Plays an audio stream at a different speed.
@@ -84,8 +84,8 @@ requires a fairly up-to-date gst-plugins-base, as of February 2007).
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2904383"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id2839314"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=test.ogg ! decodebin ! audioconvert ! speed speed=1.5 ! audioconvert ! audioresample ! autoaudiosink
 </pre></div> Plays an .ogg file at 1.5x speed.
@@ -94,10 +94,10 @@ gst-launch filesrc location=test.ogg ! decodebin ! audioconvert ! speed speed=1.
 </p>
 <p>
 Last reviewed on 2007-02-26 (0.10.4.1)</p>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2856956"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2840599"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -119,87 +119,8 @@ Last reviewed on 2007-02-26 (0.10.4.1)</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2840227"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int)1234, width=(int)32</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int)1234, width=(int)16, depth=(int)16, signed=(boolean)true</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int)1234, width=(int)32</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int)1234, width=(int)16, depth=(int)16, signed=(boolean)true</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2910741"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-bad-plugins-plugin-speed.html#plugin-speed">speed</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Andy Wingo &lt;apwingo@eos.ncsu.edu&gt;, Tim-Philipp Müller &lt;tim@centricular.net&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Filter/Effect/Audio</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2910804"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2829121"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -255,21 +176,21 @@ Last reviewed on 2007-02-26 (0.10.4.1)</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-speed.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstSpeed">
 <a name="GstSpeed-struct"></a><h3>GstSpeed</h3>
 <pre class="programlisting">typedef struct _GstSpeed GstSpeed;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-bad-plugins-speed.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "speed" property'>
 <a name="GstSpeed--speed"></a><h3>The <code class="literal">"speed"</code> property</h3>
 <pre class="programlisting">  "speed"                    <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
+href="../glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write / Construct</pre>
 <p>speed.</p>
 <p>Allowed values: [0.1,40]</p>

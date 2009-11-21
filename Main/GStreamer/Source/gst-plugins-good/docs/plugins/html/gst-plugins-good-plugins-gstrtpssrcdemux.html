@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>gstrtpssrcdemux</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-gstrtpsession.html" title="gstrtpsession">
@@ -52,13 +52,13 @@
 <a name="gst-plugins-good-plugins-gstrtpssrcdemux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstRtpSsrcDemux
 </pre>
@@ -85,7 +85,7 @@ For each SSRC that is detected, a new pad will be created and the
 <p>
 </p>
 <div class="refsect2" title="Example pipelines">
-<a name="id500163"></a><h3>Example pipelines</h3>
+<a name="id3083765"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch udpsrc caps="application/x-rtp" ! gstrtpssrcdemux ! fakesink
 </pre></div> Takes an RTP stream and send the RTP packets with the first detected SSRC
@@ -98,7 +98,7 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id532746"></a><h3>Element Information</h3>
+<a name="id3044690"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -121,7 +121,7 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id520906"></a><h3>Element Pads</h3>
+<a name="id3039439"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -226,10 +226,10 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 <a name="GstRtpSsrcDemux-clear-ssrc"></a><h3>The <code class="literal">"clear-ssrc"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-gstrtpssrcdemux.html#GstRtpSsrcDemux">GstRtpSsrcDemux</a> *demux,
                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>            ssrc,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>         user_data)      : Run Last / Action</pre>
 <p>
 Action signal to remove the pad for SSRC.</p>
@@ -260,13 +260,13 @@ Action signal to remove the pad for SSRC.</p>
 <a name="GstRtpSsrcDemux-new-ssrc-pad"></a><h3>The <code class="literal">"new-ssrc-pad"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-gstrtpssrcdemux.html#GstRtpSsrcDemux">GstRtpSsrcDemux</a> *demux,
                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>            ssrc,
                                                         <a
-href="../gstreamer-0.10/GstPad.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPad.html"
 >GstPad</a>          *pad,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>         user_data)      : Run Last</pre>
 <p>
 Emited when a new SSRC pad has been created.</p>
@@ -302,13 +302,13 @@ Emited when a new SSRC pad has been created.</p>
 <a name="GstRtpSsrcDemux-removed-ssrc-pad"></a><h3>The <code class="literal">"removed-ssrc-pad"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-gstrtpssrcdemux.html#GstRtpSsrcDemux">GstRtpSsrcDemux</a> *demux,
                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>            ssrc,
                                                         <a
-href="../gstreamer-0.10/GstPad.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPad.html"
 >GstPad</a>          *pad,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>         user_data)      : Run Last</pre>
 <p>
 Emited when a SSRC pad has been removed.</p>

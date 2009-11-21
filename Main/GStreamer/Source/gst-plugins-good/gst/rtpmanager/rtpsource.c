@@ -101,8 +101,8 @@ rtp_source_class_init (RTPSourceClass * klass)
    * The current SDES items of the source. Returns a structure with the
    * following fields:
    *
-   *  'cname'    G_TYPE_STRING  : The canonical name 
-   *  'name'     G_TYPE_STRING  : The user name 
+   *  'cname'    G_TYPE_STRING  : The canonical name
+   *  'name'     G_TYPE_STRING  : The user name
    *  'email'    G_TYPE_STRING  : The user's electronic mail address
    *  'phone'    G_TYPE_STRING  : The user's phone number
    *  'location' G_TYPE_STRING  : The geographic user location
@@ -119,7 +119,7 @@ rtp_source_class_init (RTPSourceClass * klass)
    *
    * The statistics of the source. This property returns a GstStructure with
    * name application/x-rtp-source-stats with the following fields:
-   * 
+   *
    */
   g_object_class_install_property (gobject_class, PROP_STATS,
       g_param_spec_boxed ("stats", "Stats",
@@ -663,7 +663,7 @@ rtp_source_update_caps (RTPSource * src, GstCaps * caps)
  * @data: the SDES data
  * @len: the SDES length
  *
- * Store an SDES item of @type in @src. 
+ * Store an SDES item of @type in @src.
  *
  * Returns: %FALSE if the SDES item was unchanged or @type is unknown.
  */
@@ -763,7 +763,7 @@ rtp_source_get_sdes (RTPSource * src, GstRTCPSDESType type, guint8 ** data,
  * @src: an #RTPSource
  * @type: the type of the SDES item
  *
- * Get the SDES item of @type from @src. 
+ * Get the SDES item of @type from @src.
  *
  * Returns: a null-terminated copy of the SDES item or NULL when @type was not
  * valid or the SDES item was unset. g_free() after usage.
@@ -973,6 +973,7 @@ rtp_source_process_rtp (RTPSource * src, GstBuffer * buffer,
   GstFlowReturn result = GST_FLOW_OK;
   guint16 seqnr, udelta;
   RTPSourceStats *stats;
+  guint16 expected;
 
   g_return_val_if_fail (RTP_IS_SOURCE (src), GST_FLOW_ERROR);
   g_return_val_if_fail (GST_IS_BUFFER (buffer), GST_FLOW_ERROR);
@@ -995,8 +996,6 @@ rtp_source_process_rtp (RTPSource * src, GstBuffer * buffer,
 
   /* if we are still on probation, check seqnum */
   if (src->probation) {
-    guint16 expected;
-
     expected = src->stats.max_seq + 1;
 
     /* when in probation, we require consecutive seqnums */
@@ -1022,10 +1021,8 @@ rtp_source_process_rtp (RTPSource * src, GstBuffer * buffer,
         goto done;
       }
     } else {
-      GST_DEBUG ("probation: seqnr %d != expected %d", seqnr, expected);
-      src->probation = RTP_DEFAULT_PROBATION;
-      src->stats.max_seq = seqnr;
-      goto done;
+      /* unexpected seqnum in probation */
+      goto probation_seqnum;
     }
   } else if (udelta < RTP_MAX_DROPOUT) {
     /* in order, with permissible gap */
@@ -1074,6 +1071,14 @@ done:
 bad_sequence:
   {
     GST_WARNING ("unacceptable seqnum received");
+    gst_buffer_unref (buffer);
+    return GST_FLOW_OK;
+  }
+probation_seqnum:
+  {
+    GST_WARNING ("probation: seqnr %d != expected %d", seqnr, expected);
+    src->probation = RTP_DEFAULT_PROBATION;
+    src->stats.max_seq = seqnr;
     gst_buffer_unref (buffer);
     return GST_FLOW_OK;
   }

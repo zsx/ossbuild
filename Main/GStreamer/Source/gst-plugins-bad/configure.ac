@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, cvs and prerelease does Werror too
-AC_INIT(GStreamer Bad Plug-ins, 0.10.16,
+AC_INIT(GStreamer Bad Plug-ins, 0.10.17,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-bad)
 
@@ -246,12 +246,15 @@ AG_GST_SET_ERROR_CXXFLAGS($GST_CVS)
 dnl define correct level for debugging messages
 AG_GST_SET_LEVEL_DEFAULT($GST_CVS)
 
+dnl used in examples
+AG_GST_DEFAULT_ELEMENTS
+
 dnl *** plug-ins to include ***
 
 dnl these are all the gst plug-ins, compilable without additional libs
 AG_GST_CHECK_PLUGIN(aacparse)
 AG_GST_CHECK_PLUGIN(adpcmdec)
-AG_GST_CHECK_PLUGIN(aiffparse)
+AG_GST_CHECK_PLUGIN(aiff)
 AG_GST_CHECK_PLUGIN(amrparse)
 AG_GST_CHECK_PLUGIN(asfmux)
 AG_GST_CHECK_PLUGIN(autoconvert)
@@ -658,15 +661,23 @@ AG_GST_CHECK_FEATURE(CDAUDIO, [cdaudio], cdaudio, [
 dnl *** celt ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_CELT, true)
 AG_GST_CHECK_FEATURE(CELT, [celt], celt, [
-  PKG_CHECK_MODULES(CELT, celt >= 0.5.0, [
-      HAVE_CELT="yes"], [
-      PKG_CHECK_MODULES(CELT, celt >= 0.4.0, [
+  PKG_CHECK_MODULES(CELT, celt >= 0.4.0, [
           HAVE_CELT="yes"
-          AC_DEFINE([HAVE_CELT_0_4], 1, [Define if libcelt 0.4 is installed])
-          ],[
-          HAVE_CELT="no"
+  ], [
           AC_MSG_RESULT(no)
-      ])
+	  HAVE_CELT="no"
+  ])
+
+  PKG_CHECK_MODULES(CELT_0_5, celt >= 0.5.0, [
+          AC_DEFINE([HAVE_CELT_0_5], 1, [Define if libcelt 0.5 is installed])
+  ], [
+          AC_MSG_RESULT(no)
+  ])
+
+  PKG_CHECK_MODULES(CELT_0_7, celt >= 0.7.0, [
+          AC_DEFINE([HAVE_CELT_0_7], 1, [Define if libcelt 0.7 is installed])
+  ], [
+          AC_MSG_RESULT(no)
   ])
   AC_SUBST(CELT_CFLAGS)
   AC_SUBST(CELT_LIBS)
@@ -1732,7 +1743,7 @@ gst-plugins-bad.spec
 gst/Makefile
 gst/aacparse/Makefile
 gst/adpcmdec/Makefile
-gst/aiffparse/Makefile
+gst/aiff/Makefile
 gst/amrparse/Makefile
 gst/asfmux/Makefile
 gst/autoconvert/Makefile

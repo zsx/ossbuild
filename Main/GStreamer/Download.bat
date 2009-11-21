@@ -23,22 +23,28 @@ mkdir "%DOWNLOADDIR%"
 
 cd /d "%DOWNLOADDIR%"
 
-set VER_GST=0.10.23
-set VER_GST_FFMPEG=0.10.7
-set VER_GST_PLUGINS_BASE=0.10.23
-set VER_GST_PLUGINS_GOOD=0.10.15
-set VER_GST_PLUGINS_UGLY=0.10.11
-set VER_GST_PLUGINS_BAD=0.10.11
+set VER_GST=0.10.25
+set VER_GNONLIN=0.10.13
+set VER_GST_FFMPEG=0.10.9
+set VER_GST_PLUGINS_GL=0.10.1
+set VER_GST_PLUGINS_BASE=0.10.25
+set VER_GST_PLUGINS_GOOD=0.10.17
+set VER_GST_PLUGINS_UGLY=0.10.13
+set VER_GST_PLUGINS_BAD=0.10.17
 
 set DIR_GST=gstreamer-%VER_GST%
+set DIR_GNONLIN=gst-ffmpeg-%VER_GNONLIN%
 set DIR_GST_FFMPEG=gst-ffmpeg-%VER_GST_FFMPEG%
+set DIR_GST_PLUGINS_GL=gst-plugins-gl-%VER_GST_PLUGINS_GL%
 set DIR_GST_PLUGINS_BASE=gst-plugins-base-%VER_GST_PLUGINS_BASE%
 set DIR_GST_PLUGINS_GOOD=gst-plugins-good-%VER_GST_PLUGINS_GOOD%
 set DIR_GST_PLUGINS_UGLY=gst-plugins-ugly-%VER_GST_PLUGINS_UGLY%
 set DIR_GST_PLUGINS_BAD=gst-plugins-bad-%VER_GST_PLUGINS_BAD%
 
 set DEST_DIR_GST=gstreamer
+set DEST_DIR_GNONLIN=gnonlin
 set DEST_DIR_GST_FFMPEG=gst-ffmpeg
+set DEST_DIR_GST_PLUGINS_GL=gst-plugins-gl
 set DEST_DIR_GST_PLUGINS_BASE=gst-plugins-base
 set DEST_DIR_GST_PLUGINS_GOOD=gst-plugins-good
 set DEST_DIR_GST_PLUGINS_UGLY=gst-plugins-ugly
@@ -46,7 +52,9 @@ set DEST_DIR_GST_PLUGINS_BAD=gst-plugins-bad
 
 if "%DOWNLOAD%" == "1" (
 	wget --no-check-certificate -O gstreamer.tar.gz http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-%VER_GST%.tar.gz
+	wget --no-check-certificate -O gnonlin.tar.gz http://gstreamer.freedesktop.org/src/gnonlin/gnonlin-%VER_GNONLIN%.tar.gz
 	wget --no-check-certificate -O gst-ffmpeg.tar.gz http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%VER_GST_FFMPEG%.tar.gz
+	wget --no-check-certificate -O gst-plugins-gl.tar.gz http://gstreamer.freedesktop.org/src/gst-plugins-gl/gst-plugins-gl-%VER_GST_PLUGINS_GL%.tar.gz
 	wget --no-check-certificate -O gst-plugins-base.tar.gz http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-%VER_GST_PLUGINS_BASE%.tar.gz
 	wget --no-check-certificate -O gst-plugins-good.tar.gz http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-%VER_GST_PLUGINS_GOOD%.tar.gz
 	wget --no-check-certificate -O gst-plugins-ugly.tar.gz http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%VER_GST_PLUGINS_UGLY%.tar.gz

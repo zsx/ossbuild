@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>wildmidi</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-videoparse.html" title="videoparse">
 <link rel="next" href="gst-plugins-bad-plugins-zbar.html" title="zbar">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-bad-plugins-wildmidi.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="wildmidi">
 <a name="gst-plugins-bad-plugins-wildmidi"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,39 +42,39 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-wildmidi.synopsis"></a><h2>Synopsis</h2>
 <a name="GstWildmidi"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-wildmidi.html#GstWildmidi-struct" title="GstWildmidi">GstWildmidi</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-bad-plugins-wildmidi.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+href="../gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstWildmidi
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-bad-plugins-wildmidi.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-bad-plugins-wildmidi.html#GstWildmidi--high-quality" title='The "high-quality" property'>high-quality</a>"             <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct
   "<a class="link" href="gst-plugins-bad-plugins-wildmidi.html#GstWildmidi--linear-volume" title='The "linear-volume" property'>linear-volume</a>"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-wildmidi.description"></a><h2>Description</h2>
 <p>
 This element renders midi-files as audio streams using
@@ -85,17 +85,17 @@ $HOME/.wildmidirc and /etc/wildmidi.cfg)
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2874303"></a><h3>Example pipeline</h3>
+<div class="refsect2" title="Example pipeline">
+<a name="id2844922"></a><h3>Example pipeline</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=song.mid ! wildmidi ! alsasink
 </pre></div> This example pipeline will parse the midi and render to raw audio which is
 played via alsa.
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2841016"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2847004"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -117,83 +117,8 @@ played via alsa.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2922060"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/midi</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/riff-midi</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-int, rate=(int)44100, channels=(int)2, endianness=(int)1234, width=(int)16, depth=(int)16, signed=(boolean)true</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2922216"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-bad-plugins-plugin-wildmidi.html#plugin-wildmidi">wildmidi</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Wouter Paesen &lt;wouter@blue-gate.be&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Codec/Decoder/Audio</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2922279"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2905362"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -245,36 +170,36 @@ played via alsa.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-wildmidi.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstWildmidi">
 <a name="GstWildmidi-struct"></a><h3>GstWildmidi</h3>
 <pre class="programlisting">typedef struct _GstWildmidi GstWildmidi;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-bad-plugins-wildmidi.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "high-quality" property'>
 <a name="GstWildmidi--high-quality"></a><h3>The <code class="literal">"high-quality"</code> property</h3>
 <pre class="programlisting">  "high-quality"             <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct</pre>
 <p>High Quality.</p>
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "linear-volume" property'>
 <a name="GstWildmidi--linear-volume"></a><h3>The <code class="literal">"linear-volume"</code> property</h3>
 <pre class="programlisting">  "linear-volume"            <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct</pre>
 <p>Linear volume.</p>
 <p>Default value: TRUE</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-bad-plugins-wildmidi.see-also"></a><h2>See Also</h2>
 timidity
 </div>

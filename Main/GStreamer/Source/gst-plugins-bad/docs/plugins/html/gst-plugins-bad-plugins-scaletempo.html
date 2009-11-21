@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>scaletempo</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-rtpmux.html" title="rtpmux">
 <link rel="next" href="gst-plugins-bad-plugins-sdlaudiosink.html" title="sdlaudiosink">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-bad-plugins-scaletempo.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="scaletempo">
 <a name="gst-plugins-bad-plugins-scaletempo"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,53 +42,53 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-scaletempo.synopsis"></a><h2>Synopsis</h2>
 <a name="GstScaletempo"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo-struct" title="GstScaletempo">GstScaletempo</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-bad-plugins-scaletempo.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+href="../gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
+href="../gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----GstScaletempo
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-bad-plugins-scaletempo.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo--overlap" title='The "overlap" property'>overlap</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo--rate" title='The "rate" property'>rate</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read
   "<a class="link" href="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo--search" title='The "search" property'>search</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo--stride" title='The "stride" property'>stride</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-scaletempo.description"></a><h2>Description</h2>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2861628"></a><h3>Example pipelines</h3>
+<div class="refsect2" title="Example pipelines">
+<a name="id2813159"></a><h3>Example pipelines</h3>
 <p>
 Scale tempo while maintaining pitch
 (WSOLA-like technique with cross correlation)
@@ -128,10 +128,10 @@ for the best overlap position.  Scaletempo uses a statistical cross correlation
 (roughly a dot-product).  Scaletempo consumes most of its CPU cycles here.
 </p>
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2846605"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2786104"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -153,87 +153,8 @@ for the best overlap position.  Scaletempo uses a statistical cross correlation
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2907127"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int)1234, width=(int)32</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int)1234, width=(int)16, depth=(int)16, signed=(boolean)true</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int)1234, width=(int)32</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int)1234, width=(int)16, depth=(int)16, signed=(boolean)true</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2907556"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-bad-plugins-plugin-scaletempo.html#plugin-scaletempo">scaletempo</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Rov Juvano &lt;rovjuvano@users.sourceforge.net&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Filter/Effect/Rate</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2907619"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2891861"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -289,51 +210,51 @@ for the best overlap position.  Scaletempo uses a statistical cross correlation
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-scaletempo.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstScaletempo">
 <a name="GstScaletempo-struct"></a><h3>GstScaletempo</h3>
 <pre class="programlisting">typedef struct _GstScaletempo GstScaletempo;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-bad-plugins-scaletempo.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "overlap" property'>
 <a name="GstScaletempo--overlap"></a><h3>The <code class="literal">"overlap"</code> property</h3>
 <pre class="programlisting">  "overlap"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>Percentage of stride to overlap.</p>
 <p>Allowed values: [0,1]</p>
 <p>Default value: 0.2</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "rate" property'>
 <a name="GstScaletempo--rate"></a><h3>The <code class="literal">"rate"</code> property</h3>
 <pre class="programlisting">  "rate"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
+href="../glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read</pre>
 <p>Current playback rate.</p>
 <p>Allowed values: [-2.14748e+09,2.14748e+09]</p>
 <p>Default value: 1</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "search" property'>
 <a name="GstScaletempo--search"></a><h3>The <code class="literal">"search"</code> property</h3>
 <pre class="programlisting">  "search"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>Length in milliseconds to search for best overlap position.</p>
 <p>Allowed values: &lt;= 500</p>
 <p>Default value: 14</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "stride" property'>
 <a name="GstScaletempo--stride"></a><h3>The <code class="literal">"stride"</code> property</h3>
 <pre class="programlisting">  "stride"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
+href="../glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>Length in milliseconds to output each stride.</p>
 <p>Allowed values: [1,5000]</p>

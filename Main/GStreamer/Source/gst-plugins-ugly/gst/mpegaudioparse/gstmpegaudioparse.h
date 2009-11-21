@@ -73,6 +73,8 @@ struct _GstMPEGAudioParse {
   gint64 pending_offset;
   /* Offset since the last newseg */
   gint64 tracked_offset;
+  /* tracked_offset when resyncing started */
+  gint64 sync_offset;
 
   GstAdapter *adapter;
 
@@ -120,10 +122,14 @@ struct _GstMPEGAudioParse {
   GSList *pending_accurate_seeks;
   gboolean exact_position;
 
-  /* Track whether we're seekable. The seek table for accurate seeking is
-   * not maintained if we're not seekable */
+  /* Track whether we're seekable (in BYTES format, if upstream operates in
+   * TIME format, we don't care about seekability and assume upstream handles
+   * it). The seek table for accurate seeking is not maintained if we're not
+   * seekable. */
   gboolean seekable;
 
+  /* minimum distance between two index entries */
+  GstClockTimeDiff idx_interval;
 
   /* pending segment */
   GstEvent *pending_segment;

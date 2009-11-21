@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>audiopanorama</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-audioinvert.html" title="audioinvert">
@@ -52,16 +52,16 @@
 <a name="gst-plugins-good-plugins-audiopanorama.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----GstAudioPanorama
 </pre>
@@ -70,7 +70,7 @@ href="../gstreamer-libs-0.10/GstBaseTransform.html"
 <a name="gst-plugins-good-plugins-audiopanorama.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-audiopanorama.html#GstAudioPanorama--panorama" title='The "panorama" property'>panorama</a>"                 <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiopanorama.html#GstAudioPanorama--method" title='The "method" property'>method</a>"                   GstAudioPanoramaMethod  : Read / Write
 </pre>
@@ -84,7 +84,7 @@ which keeps the same perceived loudness, and a simple panning method that just c
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id481143"></a><h3>Example launch line</h3>
+<a name="id3058697"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc wave=saw ! audiopanorama panorama=-1.00 ! alsasink
 gst-launch filesrc location="melo1.ogg" ! oggdemux ! vorbisdec ! audioconvert ! audiopanorama panorama=-1.00 ! alsasink
@@ -95,7 +95,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audiopanorama method=simple pa
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id480807"></a><h3>Element Information</h3>
+<a name="id3009773"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -118,7 +118,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audiopanorama method=simple pa
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id490407"></a><h3>Element Pads</h3>
+<a name="id3032701"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -188,7 +188,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audiopanorama method=simple pa
 <div class="refsect2" title='The "panorama" property'>
 <a name="GstAudioPanorama--panorama"></a><h3>The <code class="literal">"panorama"</code> property</h3>
 <pre class="programlisting">  "panorama"                 <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Position in stereo panorama (-1.0 left -&gt; 1.0 right).</p>
 <p>Allowed values: [-1,1]</p>

@@ -62,8 +62,7 @@ static const GstElementDetails gst_v4l2src_details =
 GST_ELEMENT_DETAILS ("Video (video4linux2) Source",
     "Source/Video",
     "Reads frames from a video4linux2 (BT8x8) device",
-    "Ronald Bultje <rbultje@ronald.bitfreak.net>,"
-    " Edgard Lima <edgard.lima@indt.org.br>,"
+    "Edgard Lima <edgard.lima@indt.org.br>,"
     " Stefan Kost <ensonic@users.sf.net>");
 
 GST_DEBUG_CATEGORY (v4l2src_debug);
@@ -202,6 +201,12 @@ static void gst_v4l2src_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec);
 static void gst_v4l2src_get_property (GObject * object, guint prop_id,
     GValue * value, GParamSpec * pspec);
+
+/* get_frame io methods */
+static GstFlowReturn
+gst_v4l2src_get_read (GstV4l2Src * v4l2src, GstBuffer ** buf);
+static GstFlowReturn
+gst_v4l2src_get_mmap (GstV4l2Src * v4l2src, GstBuffer ** buf);
 
 static void
 gst_v4l2src_base_init (gpointer g_class)
@@ -617,6 +622,12 @@ gst_v4l2src_set_caps (GstBaseSrc * src, GstCaps * caps)
   if (!gst_v4l2src_capture_init (v4l2src, caps))
     return FALSE;
 
+  if (v4l2src->use_mmap) {
+    v4l2src->get_frame = gst_v4l2src_get_mmap;
+  } else {
+    v4l2src->get_frame = gst_v4l2src_get_read;
+  }
+
   if (!gst_v4l2src_capture_start (v4l2src))
     return FALSE;
 
@@ -851,7 +862,7 @@ gst_v4l2src_get_mmap (GstV4l2Src * v4l2src, GstBuffer ** buf)
 
 again:
   ret = gst_v4l2src_grab_frame (v4l2src, &temp);
-  if (ret != GST_FLOW_OK)
+  if (G_UNLIKELY (ret != GST_FLOW_OK))
     goto done;
 
   if (v4l2src->frame_byte_size > 0) {
@@ -890,15 +901,12 @@ gst_v4l2src_create (GstPushSrc * src, GstBuffer ** buf)
   GstV4l2Src *v4l2src = GST_V4L2SRC (src);
   GstFlowReturn ret;
 
-  if (v4l2src->use_mmap) {
-    ret = gst_v4l2src_get_mmap (v4l2src, buf);
-  } else {
-    ret = gst_v4l2src_get_read (v4l2src, buf);
-  }
+  ret = v4l2src->get_frame (v4l2src, buf);
   /* set buffer metadata */
-  if (ret == GST_FLOW_OK && *buf) {
+  if (G_LIKELY (ret == GST_FLOW_OK && *buf)) {
     GstClock *clock;
     GstClockTime timestamp;
+    GstClockTime duration = GST_CLOCK_TIME_NONE;
 
     GST_BUFFER_OFFSET (*buf) = v4l2src->offset++;
     GST_BUFFER_OFFSET_END (*buf) = v4l2src->offset;
@@ -931,11 +939,14 @@ gst_v4l2src_create (GstPushSrc * src, GstBuffer ** buf)
           timestamp -= latency;
         else
           timestamp = 0;
+
+        duration = latency;
       }
     }
 
     /* FIXME: use the timestamp from the buffer itself! */
     GST_BUFFER_TIMESTAMP (*buf) = timestamp;
+    GST_BUFFER_DURATION (*buf) = duration;
   }
   return ret;
 }

@@ -128,7 +128,7 @@ static gboolean gst_rtp_ssrc_demux_rtcp_sink_event (GstPad * pad,
 
 /* srcpad stuff */
 static gboolean gst_rtp_ssrc_demux_src_event (GstPad * pad, GstEvent * event);
-static GList *gst_rtp_ssrc_demux_internal_links (GstPad * pad);
+static GstIterator *gst_rtp_ssrc_demux_iterate_internal_links (GstPad * pad);
 static gboolean gst_rtp_ssrc_demux_src_query (GstPad * pad, GstQuery * query);
 
 static guint gst_rtp_ssrc_demux_signals[LAST_SIGNAL] = { 0 };
@@ -211,12 +211,12 @@ create_demux_pad_for_ssrc (GstRtpSsrcDemux * demux, guint32 ssrc,
 
   gst_pad_set_event_function (rtp_pad, gst_rtp_ssrc_demux_src_event);
   gst_pad_set_query_function (rtp_pad, gst_rtp_ssrc_demux_src_query);
-  gst_pad_set_internal_link_function (rtp_pad,
-      gst_rtp_ssrc_demux_internal_links);
+  gst_pad_set_iterate_internal_links_function (rtp_pad,
+      gst_rtp_ssrc_demux_iterate_internal_links);
   gst_pad_set_active (rtp_pad, TRUE);
 
-  gst_pad_set_internal_link_function (rtcp_pad,
-      gst_rtp_ssrc_demux_internal_links);
+  gst_pad_set_iterate_internal_links_function (rtcp_pad,
+      gst_rtp_ssrc_demux_iterate_internal_links);
   gst_pad_set_active (rtcp_pad, TRUE);
 
   gst_element_add_pad (GST_ELEMENT_CAST (demux), rtp_pad);
@@ -619,35 +619,39 @@ gst_rtp_ssrc_demux_src_event (GstPad * pad, GstEvent * event)
   return res;
 }
 
-static GList *
-gst_rtp_ssrc_demux_internal_links (GstPad * pad)
+static GstIterator *
+gst_rtp_ssrc_demux_iterate_internal_links (GstPad * pad)
 {
   GstRtpSsrcDemux *demux;
-  GList *res = NULL;
-  GSList *walk;
+  GstPad *otherpad = NULL;
+  GstIterator *it;
+  GSList *current;
 
   demux = GST_RTP_SSRC_DEMUX (gst_pad_get_parent (pad));
 
   GST_PAD_LOCK (demux);
-  for (walk = demux->srcpads; walk; walk = g_slist_next (walk)) {
-    GstRtpSsrcDemuxPad *dpad = (GstRtpSsrcDemuxPad *) walk->data;
+  for (current = demux->srcpads; current; current = g_slist_next (current)) {
+    GstRtpSsrcDemuxPad *dpad = (GstRtpSsrcDemuxPad *) current->data;
 
     if (pad == demux->rtp_sink) {
-      res = g_list_prepend (res, dpad->rtp_pad);
+      otherpad = dpad->rtp_pad;
+      break;
     } else if (pad == demux->rtcp_sink) {
-      res = g_list_prepend (res, dpad->rtcp_pad);
+      otherpad = dpad->rtcp_pad;
     } else if (pad == dpad->rtp_pad) {
-      res = g_list_prepend (res, demux->rtp_sink);
+      otherpad = demux->rtp_sink;
       break;
     } else if (pad == dpad->rtcp_pad) {
-      res = g_list_prepend (res, demux->rtcp_sink);
+      otherpad = demux->rtcp_sink;
       break;
     }
   }
+  it = gst_iterator_new_single (GST_TYPE_PAD, otherpad,
+      (GstCopyFunction) gst_object_ref, (GFreeFunc) gst_object_unref);
   GST_PAD_UNLOCK (demux);
 
   gst_object_unref (demux);
-  return res;
+  return it;
 }
 
 static gboolean

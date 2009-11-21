@@ -114,6 +114,7 @@ check_PROGRAMS = \
 	elements/rtp-payloading \
 	elements/rtpbin \
 	elements/rtpbin_buffer_list \
+	elements/rtpjitterbuffer \
 	elements/spectrum \
 	elements/udpsink \
 	elements/videocrop \
@@ -170,6 +171,8 @@ elements_deinterleave_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(CFLAGS) $(AM_CFLAGS)
 elements_deinterleave_LDADD = $(GST_PLUGINS_BASE_LIBS) -lgstaudio-$(GST_MAJORMINOR) $(LDADD)
 elements_interleave_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(CFLAGS) $(AM_CFLAGS)
 elements_interleave_LDADD = $(GST_PLUGINS_BASE_LIBS) -lgstaudio-$(GST_MAJORMINOR) $(LDADD)
+
+elements_level_LDADD = $(LDADD) $(LIBM)
 
 elements_rtpbin_buffer_list_CFLAGS = $(GST_PLUGINS_BASE_CFLAGS) $(GST_CFLAGS) \
 	$(ERROR_CFLAGS) $(GST_CHECK_CFLAGS)

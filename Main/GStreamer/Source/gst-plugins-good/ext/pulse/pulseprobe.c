@@ -1,3 +1,5 @@
+/*-*- Mode: C; c-basic-offset: 2 -*-*/
+
 /*
  *  GStreamer pulseaudio plugin
  *
@@ -99,15 +101,21 @@ static gboolean
 gst_pulseprobe_open (GstPulseProbe * c)
 {
   int e;
-  gchar *name = gst_pulse_client_name ();
+  gchar *name;
 
   g_assert (c);
 
+  GST_DEBUG_OBJECT (c->object, "probe open");
+
   c->mainloop = pa_threaded_mainloop_new ();
-  g_assert (c->mainloop);
+  if (!c->mainloop)
+    return FALSE;
 
   e = pa_threaded_mainloop_start (c->mainloop);
-  g_assert (e == 0);
+  if (e < 0)
+    return FALSE;
+
+  name = gst_pulse_client_name ();
 
   pa_threaded_mainloop_lock (c->mainloop);
 
@@ -184,6 +192,8 @@ gst_pulseprobe_enumerate (GstPulseProbe * c)
 {
   pa_operation *o = NULL;
 
+  GST_DEBUG_OBJECT (c->object, "probe enumerate");
+
   pa_threaded_mainloop_lock (c->mainloop);
 
   if (c->enumerate_sinks) {
@@ -197,7 +207,7 @@ gst_pulseprobe_enumerate (GstPulseProbe * c)
       goto unlock_and_fail;
     }
 
-    c->operation_success = 0;
+    c->operation_success = FALSE;
 
     while (pa_operation_get_state (o) == PA_OPERATION_RUNNING) {
 
@@ -228,7 +238,7 @@ gst_pulseprobe_enumerate (GstPulseProbe * c)
       goto unlock_and_fail;
     }
 
-    c->operation_success = 0;
+    c->operation_success = FALSE;
     while (pa_operation_get_state (o) == PA_OPERATION_RUNNING) {
 
       if (gst_pulseprobe_is_dead (c))
@@ -268,6 +278,8 @@ gst_pulseprobe_close (GstPulseProbe * c)
 {
   g_assert (c);
 
+  GST_DEBUG_OBJECT (c->object, "probe close");
+
   if (c->mainloop)
     pa_threaded_mainloop_stop (c->mainloop);
 
@@ -302,8 +314,11 @@ gst_pulseprobe_new (GObject * object, GObjectClass * klass,
   c->prop_id = prop_id;
   c->properties =
       g_list_append (NULL, g_object_class_find_property (klass, "device"));
+
   c->devices = NULL;
-  c->devices_valid = 0;
+  c->devices_valid = FALSE;
+
+  c->operation_success = FALSE;
 
   return c;
 }

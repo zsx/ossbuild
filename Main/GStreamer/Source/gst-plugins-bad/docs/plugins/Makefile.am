@@ -104,7 +104,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/ext/kate/gstkateparse.h \
 	$(top_srcdir)/ext/kate/gstkatetag.h \
 	$(top_srcdir)/ext/kate/gstkatetiger.h \
-        	$(top_srcdir)/ext/ladspa/gstladspa.h \
+	$(top_srcdir)/ext/ladspa/gstladspa.h \
 	$(top_srcdir)/ext/musicbrainz/gsttrm.h \
 	$(top_srcdir)/ext/metadata/gstbasemetadata.h \
 	$(top_srcdir)/ext/metadata/gstmetadatademux.h \
@@ -122,6 +122,8 @@ EXTRA_HFILES = \
 	$(top_srcdir)/ext/timidity/gstwildmidi.h \
 	$(top_srcdir)/ext/zbar/gstzbar.h \
 	$(top_srcdir)/gst/aacparse/gstaacparse.h \
+	$(top_srcdir)/gst/aiff/aiffparse.h \
+	$(top_srcdir)/gst/aiff/aiffmux.h \
 	$(top_srcdir)/gst/amrparse/gstamrparse.h \
 	$(top_srcdir)/gst/autoconvert/gstautoconvert.h \
 	$(top_srcdir)/gst/camerabin/gstcamerabin.h \
@@ -132,6 +134,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/debugutils/fpsdisplaysink.h \
 	$(top_srcdir)/gst/debugutils/gstcapssetter.h \
 	$(top_srcdir)/gst/dtmf/gstdtmfsrc.h \
+	$(top_srcdir)/gst/dtmf/gstdtmfdetect.h \
 	$(top_srcdir)/gst/dtmf/gstrtpdtmfsrc.h \
 	$(top_srcdir)/gst/dtmf/gstrtpdtmfdepay.h \
 	$(top_srcdir)/gst/dvdspu/gstdvdspu.h \

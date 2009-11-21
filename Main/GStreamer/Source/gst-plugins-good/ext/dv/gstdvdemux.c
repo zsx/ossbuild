@@ -356,7 +356,8 @@ gst_dvdemux_src_convert (GstDVDemux * dvdemux, GstPad * pad,
   if (dvdemux->decoder == NULL)
     goto error;
 
-  GST_INFO_OBJECT (pad, "src_value:%lld, src_format:%d, dest_format:%d",
+  GST_INFO_OBJECT (pad,
+      "src_value:%" G_GINT64_FORMAT ", src_format:%d, dest_format:%d",
       src_value, src_format, *dest_format);
 
   switch (src_format) {
@@ -441,7 +442,8 @@ gst_dvdemux_src_convert (GstDVDemux * dvdemux, GstPad * pad,
   }
 
 done:
-  GST_INFO_OBJECT (pad, "Result : dest_format:%d, dest_value:%lld, res:%d",
+  GST_INFO_OBJECT (pad,
+      "Result : dest_format:%d, dest_value:%" G_GINT64_FORMAT ", res:%d",
       *dest_format, *dest_value, res);
   return res;
 
@@ -460,7 +462,8 @@ gst_dvdemux_sink_convert (GstDVDemux * dvdemux, GstFormat src_format,
   gboolean res = TRUE;
 
   GST_DEBUG_OBJECT (dvdemux, "%d -> %d", src_format, *dest_format);
-  GST_INFO_OBJECT (dvdemux, "src_value:%lld, src_format:%d, dest_format:%d",
+  GST_INFO_OBJECT (dvdemux,
+      "src_value:%" G_GINT64_FORMAT ", src_format:%d, dest_format:%d",
       src_value, src_format, *dest_format);
 
   if (*dest_format == GST_FORMAT_DEFAULT)
@@ -516,7 +519,8 @@ gst_dvdemux_sink_convert (GstDVDemux * dvdemux, GstFormat src_format,
     default:
       res = FALSE;
   }
-  GST_INFO_OBJECT (dvdemux, "Result : dest_format:%d, dest_value:%lld, res:%d",
+  GST_INFO_OBJECT (dvdemux,
+      "Result : dest_format:%d, dest_value:%" G_GINT64_FORMAT ", res:%d",
       *dest_format, *dest_value, res);
 
 done:
@@ -806,7 +810,7 @@ gst_dvdemux_convert_src_pair (GstDVDemux * dvdemux, GstPad * pad,
               src_format, src_start, &dst_format, dst_start))) {
     goto done;
   }
-  GST_INFO ("Finished conversion of start: %lld", *dst_start);
+  GST_INFO ("Finished conversion of start: %" G_GINT64_FORMAT, *dst_start);
 
   GST_INFO ("starting conversion of stop");
   /* bring the format to time on srcpad. */
@@ -815,7 +819,7 @@ gst_dvdemux_convert_src_pair (GstDVDemux * dvdemux, GstPad * pad,
     /* could not convert seek format to time offset */
     goto done;
   }
-  GST_INFO ("Finished conversion of stop: %lld", *dst_stop);
+  GST_INFO ("Finished conversion of stop: %" G_GINT64_FORMAT, *dst_stop);
 done:
   return res;
 }
@@ -834,7 +838,7 @@ gst_dvdemux_convert_sink_pair (GstDVDemux * dvdemux,
               src_format, src_start, &dst_format, dst_start))) {
     goto done;
   }
-  GST_INFO ("Finished conversion of start: %lld", *dst_start);
+  GST_INFO ("Finished conversion of start: %" G_GINT64_FORMAT, *dst_start);
 
   GST_INFO ("starting conversion of stop");
   /* bring the format to time on srcpad. */
@@ -843,7 +847,7 @@ gst_dvdemux_convert_sink_pair (GstDVDemux * dvdemux,
     /* could not convert seek format to time offset */
     goto done;
   }
-  GST_INFO ("Finished conversion of stop: %lld", *dst_stop);
+  GST_INFO ("Finished conversion of stop: %" G_GINT64_FORMAT, *dst_stop);
 done:
   return res;
 }
@@ -1213,20 +1217,21 @@ gst_dvdemux_demux_audio (GstDVDemux * dvdemux, GstBuffer * buffer,
 
   dv_decode_full_audio (dvdemux->decoder, data, dvdemux->audio_buffers);
 
-  if ((num_samples = dv_get_num_samples (dvdemux->decoder)) > 0) {
+  if (G_LIKELY ((num_samples = dv_get_num_samples (dvdemux->decoder)) > 0)) {
     gint16 *a_ptr;
     gint i, j;
     GstBuffer *outbuf;
     gint frequency, channels;
 
-    if (dvdemux->audiosrcpad == NULL)
+    if (G_UNLIKELY (dvdemux->audiosrcpad == NULL))
       dvdemux->audiosrcpad = gst_dvdemux_add_pad (dvdemux, &audio_src_temp);
 
     /* get initial format or check if format changed */
     frequency = dv_get_frequency (dvdemux->decoder);
     channels = dv_get_num_channels (dvdemux->decoder);
 
-    if ((frequency != dvdemux->frequency) || (channels != dvdemux->channels)) {
+    if (G_UNLIKELY ((frequency != dvdemux->frequency)
+            || (channels != dvdemux->channels))) {
       GstCaps *caps;
 
       dvdemux->frequency = frequency;
@@ -1264,6 +1269,8 @@ gst_dvdemux_demux_audio (GstDVDemux * dvdemux, GstBuffer * buffer,
     dvdemux->audio_offset += num_samples;
     GST_BUFFER_OFFSET_END (outbuf) = dvdemux->audio_offset;
 
+    if (dvdemux->new_media)
+      GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DISCONT);
     gst_buffer_set_caps (outbuf, GST_PAD_CAPS (dvdemux->audiosrcpad));
 
     ret = gst_pad_push (dvdemux->audiosrcpad, outbuf);
@@ -1285,12 +1292,12 @@ gst_dvdemux_demux_video (GstDVDemux * dvdemux, GstBuffer * buffer,
   gboolean wide;
   GstFlowReturn ret = GST_FLOW_OK;
 
-  if (dvdemux->videosrcpad == NULL)
+  if (G_UNLIKELY (dvdemux->videosrcpad == NULL))
     dvdemux->videosrcpad = gst_dvdemux_add_pad (dvdemux, &video_src_temp);
 
   /* get params */
   /* framerate is already up-to-date */
-  height = (dvdemux->PAL ? PAL_HEIGHT : NTSC_HEIGHT);
+  height = dvdemux->decoder->height;
   wide = dv_format_wide (dvdemux->decoder);
 
   /* see if anything changed */
@@ -1301,7 +1308,7 @@ gst_dvdemux_demux_video (GstDVDemux * dvdemux, GstBuffer * buffer,
     dvdemux->height = height;
     dvdemux->wide = wide;
 
-    if (dvdemux->PAL) {
+    if (dvdemux->decoder->system == e_dv_system_625_50) {
       if (wide) {
         par_x = PAL_WIDE_PAR_X;
         par_y = PAL_WIDE_PAR_Y;
@@ -1339,6 +1346,8 @@ gst_dvdemux_demux_video (GstDVDemux * dvdemux, GstBuffer * buffer,
   GST_BUFFER_OFFSET_END (outbuf) = dvdemux->video_offset + 1;
   GST_BUFFER_DURATION (outbuf) = duration;
 
+  if (dvdemux->new_media)
+    GST_BUFFER_FLAG_SET (outbuf, GST_BUFFER_FLAG_DISCONT);
   gst_buffer_set_caps (outbuf, GST_PAD_CAPS (dvdemux->videosrcpad));
 
   GST_DEBUG ("pushing video %" GST_TIME_FORMAT,
@@ -1349,6 +1358,31 @@ gst_dvdemux_demux_video (GstDVDemux * dvdemux, GstBuffer * buffer,
   dvdemux->video_offset++;
 
   return ret;
+}
+
+static gboolean
+gst_dvdemux_is_new_media (GstDVDemux * dvdemux, GstBuffer * buffer)
+{
+  guint8 *data = GST_BUFFER_DATA (buffer);
+  int aaux_offset;
+  int dif;
+  int n_difs;
+
+  n_difs = dvdemux->decoder->num_dif_seqs;
+
+  for (dif = 0; dif < n_difs; dif++) {
+    if (dif & 1) {
+      aaux_offset = (dif * 12000) + (6 + 16 * 1) * 80 + 3;
+    } else {
+      aaux_offset = (dif * 12000) + (6 + 16 * 4) * 80 + 3;
+    }
+    if (data[aaux_offset + 0] == 0x51) {
+      if ((data[aaux_offset + 2] & 0x80) == 0)
+        return TRUE;
+    }
+  }
+
+  return FALSE;
 }
 
 /* takes ownership of buffer */
@@ -1405,8 +1439,13 @@ gst_dvdemux_demux_frame (GstDVDemux * dvdemux, GstBuffer * buffer)
   data = GST_BUFFER_DATA (buffer);
 
   dv_parse_packs (dvdemux->decoder, data);
-  if (G_UNLIKELY (dv_is_new_recording (dvdemux->decoder, data)))
+  dvdemux->new_media = FALSE;
+  if (gst_dvdemux_is_new_media (dvdemux, buffer) &&
+      dvdemux->frames_since_new_media > 2) {
     dvdemux->new_media = TRUE;
+    dvdemux->frames_since_new_media = 0;
+  }
+  dvdemux->frames_since_new_media++;
 
   /* does not take ownership of buffer */
   aret = ret = gst_dvdemux_demux_audio (dvdemux, buffer, duration);
@@ -1465,9 +1504,8 @@ gst_dvdemux_flush (GstDVDemux * dvdemux)
       goto parse_header_error;
 
     /* after parsing the header we know the length of the data */
-    dvdemux->PAL = dv_system_50_fields (dvdemux->decoder);
-    length = dvdemux->frame_len = (dvdemux->PAL ? PAL_BUFFER : NTSC_BUFFER);
-    if (dvdemux->PAL) {
+    length = dvdemux->frame_len = dvdemux->decoder->frame_size;
+    if (dvdemux->decoder->system == e_dv_system_625_50) {
       dvdemux->framerate_numerator = PAL_FRAMERATE_NUMERATOR;
       dvdemux->framerate_denominator = PAL_FRAMERATE_DENOMINATOR;
     } else {
@@ -1591,9 +1629,8 @@ gst_dvdemux_loop (GstPad * pad)
       goto parse_header_error;
 
     /* after parsing the header we know the length of the data */
-    dvdemux->PAL = dv_system_50_fields (dvdemux->decoder);
-    dvdemux->frame_len = (dvdemux->PAL ? PAL_BUFFER : NTSC_BUFFER);
-    if (dvdemux->PAL) {
+    dvdemux->frame_len = dvdemux->decoder->frame_size;
+    if (dvdemux->decoder->system == e_dv_system_625_50) {
       dvdemux->framerate_numerator = PAL_FRAMERATE_NUMERATOR;
       dvdemux->framerate_denominator = PAL_FRAMERATE_DENOMINATOR;
     } else {

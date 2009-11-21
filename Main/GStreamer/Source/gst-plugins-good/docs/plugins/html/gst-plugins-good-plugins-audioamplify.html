@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>audioamplify</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-aspectratiocrop.html" title="aspectratiocrop">
@@ -52,19 +52,19 @@
 <a name="gst-plugins-good-plugins-audioamplify.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
                            +----GstAudioAmplify
 </pre>
@@ -73,7 +73,7 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
 <a name="gst-plugins-good-plugins-audioamplify.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-audioamplify.html#GstAudioAmplify--amplification" title='The "amplification" property'>amplification</a>"            <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audioamplify.html#GstAudioAmplify--clipping-method" title='The "clipping-method" property'>clipping-method</a>"          GstAudioPanoramaClippingMethod  : Read / Write
 </pre>
@@ -86,7 +86,7 @@ The difference between the clipping modes is best evaluated by testing.
 <span style="color: red">&lt;title&gt;Example launch line&lt;/title&gt;</span>
 </p>
 <div class="refsect2">
-<a name="id478275"></a><div class="informalexample"><pre class="programlisting">
+<a name="id3051428"></a><div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc wave=saw ! audioamplify amplification=1.5 ! alsasink
 gst-launch filesrc location="melo1.ogg" ! oggdemux ! vorbisdec ! audioconvert ! audioamplify amplification=1.5 method=wrap-negative ! alsasink
 gst-launch audiotestsrc wave=saw ! audioconvert ! audioamplify amplification=1.5 method=wrap-positive ! audioconvert ! alsasink
@@ -95,7 +95,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audioamplify amplification=1.5
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id478403"></a><h3>Element Information</h3>
+<a name="id3029069"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -118,7 +118,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audioamplify amplification=1.5
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id515075"></a><h3>Element Pads</h3>
+<a name="id3048234"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -204,7 +204,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audioamplify amplification=1.5
 <div class="refsect2" title='The "amplification" property'>
 <a name="GstAudioAmplify--amplification"></a><h3>The <code class="literal">"amplification"</code> property</h3>
 <pre class="programlisting">  "amplification"            <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Factor of amplification.</p>
 <p>Allowed values: &gt;= 0</p>

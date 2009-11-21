@@ -1,3 +1,5 @@
+/*-*- Mode: C; c-basic-offset: 2 -*-*/
+
 /*
  *  GStreamer pulseaudio plugin
  *
@@ -74,7 +76,7 @@ gst_pulsemixer_ctrl_sink_info_cb (pa_context * context, const pa_sink_info * i,
   }
 
   if (!i && eol < 0) {
-    c->operation_success = 0;
+    c->operation_success = FALSE;
     pa_threaded_mainloop_signal (c->mainloop, 0);
     return;
   }
@@ -89,7 +91,7 @@ gst_pulsemixer_ctrl_sink_info_cb (pa_context * context, const pa_sink_info * i,
   c->index = i->index;
   c->channel_map = i->channel_map;
   c->volume = i->volume;
-  c->muted = i->mute;
+  c->muted = !!i->mute;
   c->type = GST_PULSEMIXER_SINK;
 
   if (c->track) {
@@ -100,7 +102,7 @@ gst_pulsemixer_ctrl_sink_info_cb (pa_context * context, const pa_sink_info * i,
     c->track->flags = flags;
   }
 
-  c->operation_success = 1;
+  c->operation_success = TRUE;
   pa_threaded_mainloop_signal (c->mainloop, 0);
 }
 
@@ -124,7 +126,7 @@ gst_pulsemixer_ctrl_source_info_cb (pa_context * context,
   }
 
   if (!i && eol < 0) {
-    c->operation_success = 0;
+    c->operation_success = FALSE;
     pa_threaded_mainloop_signal (c->mainloop, 0);
     return;
   }
@@ -139,7 +141,7 @@ gst_pulsemixer_ctrl_source_info_cb (pa_context * context,
   c->index = i->index;
   c->channel_map = i->channel_map;
   c->volume = i->volume;
-  c->muted = i->mute;
+  c->muted = !!i->mute;
   c->type = GST_PULSEMIXER_SOURCE;
 
   if (c->track) {
@@ -150,7 +152,7 @@ gst_pulsemixer_ctrl_source_info_cb (pa_context * context,
     c->track->flags = flags;
   }
 
-  c->operation_success = 1;
+  c->operation_success = TRUE;
   pa_threaded_mainloop_signal (c->mainloop, 0);
 }
 
@@ -193,31 +195,40 @@ gst_pulsemixer_ctrl_success_cb (pa_context * context, int success,
 {
   GstPulseMixerCtrl *c = (GstPulseMixerCtrl *) userdata;
 
-  c->operation_success = success;
+  c->operation_success = !!success;
   pa_threaded_mainloop_signal (c->mainloop, 0);
 }
 
-#define CHECK_DEAD_GOTO(c, label) do { \
-if (!(c)->context || pa_context_get_state((c)->context) != PA_CONTEXT_READY) { \
-    GST_WARNING_OBJECT (c->object, "Not connected: %s", (c)->context ? pa_strerror(pa_context_errno((c)->context)) : "NULL"); \
-    goto label; \
-} \
-} while(0);
+#define CHECK_DEAD_GOTO(c, label)                                       \
+  G_STMT_START {                                                        \
+    if (!(c)->context ||                                                \
+        !PA_CONTEXT_IS_GOOD(pa_context_get_state((c)->context))) {      \
+      GST_WARNING_OBJECT ((c)->object, "Not connected: %s",             \
+                          (c)->context ? pa_strerror(pa_context_errno((c)->context)) : "NULL"); \
+      goto label;                                                       \
+    }                                                                   \
+  } G_STMT_END
 
 static gboolean
 gst_pulsemixer_ctrl_open (GstPulseMixerCtrl * c)
 {
   int e;
-  gchar *name = gst_pulse_client_name ();
+  gchar *name;
   pa_operation *o = NULL;
 
   g_assert (c);
 
+  GST_DEBUG_OBJECT (c->object, "ctrl open");
+
   c->mainloop = pa_threaded_mainloop_new ();
-  g_assert (c->mainloop);
+  if (!c->mainloop)
+    return FALSE;
 
   e = pa_threaded_mainloop_start (c->mainloop);
-  g_assert (e == 0);
+  if (e < 0)
+    return FALSE;
+
+  name = gst_pulse_client_name ();
 
   pa_threaded_mainloop_lock (c->mainloop);
 
@@ -239,16 +250,12 @@ gst_pulsemixer_ctrl_open (GstPulseMixerCtrl * c)
   }
 
   /* Wait until the context is ready */
-  pa_threaded_mainloop_wait (c->mainloop);
-
-  if (pa_context_get_state (c->context) != PA_CONTEXT_READY) {
-    GST_WARNING_OBJECT (c->object, "Failed to connect context: %s",
-        pa_strerror (pa_context_errno (c->context)));
-    goto unlock_and_fail;
+  while (pa_context_get_state (c->context) != PA_CONTEXT_READY) {
+    CHECK_DEAD_GOTO (c, unlock_and_fail);
+    pa_threaded_mainloop_wait (c->mainloop);
   }
 
   /* Subscribe to events */
-
   if (!(o =
           pa_context_subscribe (c->context,
               PA_SUBSCRIPTION_MASK_SINK | PA_SUBSCRIPTION_MASK_SOURCE,
@@ -258,10 +265,10 @@ gst_pulsemixer_ctrl_open (GstPulseMixerCtrl * c)
     goto unlock_and_fail;
   }
 
-  c->operation_success = 0;
+  c->operation_success = FALSE;
   while (pa_operation_get_state (o) != PA_OPERATION_DONE) {
-    pa_threaded_mainloop_wait (c->mainloop);
     CHECK_DEAD_GOTO (c, unlock_and_fail);
+    pa_threaded_mainloop_wait (c->mainloop);
   }
 
   if (!c->operation_success) {
@@ -275,6 +282,7 @@ gst_pulsemixer_ctrl_open (GstPulseMixerCtrl * c)
   /* Get sink info */
 
   if (c->type == GST_PULSEMIXER_UNKNOWN || c->type == GST_PULSEMIXER_SINK) {
+    GST_WARNING_OBJECT (c->object, "Get info for '%s'", c->device);
     if (!(o =
             pa_context_get_sink_info_by_name (c->context, c->device,
                 gst_pulsemixer_ctrl_sink_info_cb, c))) {
@@ -283,10 +291,10 @@ gst_pulsemixer_ctrl_open (GstPulseMixerCtrl * c)
       goto unlock_and_fail;
     }
 
-    c->operation_success = 0;
+    c->operation_success = FALSE;
     while (pa_operation_get_state (o) != PA_OPERATION_DONE) {
-      pa_threaded_mainloop_wait (c->mainloop);
       CHECK_DEAD_GOTO (c, unlock_and_fail);
+      pa_threaded_mainloop_wait (c->mainloop);
     }
 
     pa_operation_unref (o);
@@ -309,10 +317,10 @@ gst_pulsemixer_ctrl_open (GstPulseMixerCtrl * c)
       goto unlock_and_fail;
     }
 
-    c->operation_success = 0;
+    c->operation_success = FALSE;
     while (pa_operation_get_state (o) != PA_OPERATION_DONE) {
-      pa_threaded_mainloop_wait (c->mainloop);
       CHECK_DEAD_GOTO (c, unlock_and_fail);
+      pa_threaded_mainloop_wait (c->mainloop);
     }
 
     pa_operation_unref (o);
@@ -353,6 +361,8 @@ gst_pulsemixer_ctrl_close (GstPulseMixerCtrl * c)
 {
   g_assert (c);
 
+  GST_DEBUG_OBJECT (c->object, "ctrl close");
+
   if (c->mainloop)
     pa_threaded_mainloop_stop (c->mainloop);
 
@@ -386,6 +396,7 @@ gst_pulsemixer_ctrl_new (GObject * object, const gchar * server,
 {
   GstPulseMixerCtrl *c = NULL;
 
+  GST_DEBUG_OBJECT (object, "new mixer ctrl for %s", device);
   c = g_new (GstPulseMixerCtrl, 1);
   c->object = g_object_ref (object);
   c->tracklist = NULL;
@@ -398,7 +409,7 @@ gst_pulsemixer_ctrl_new (GObject * object, const gchar * server,
 
   pa_cvolume_mute (&c->volume, PA_CHANNELS_MAX);
   pa_channel_map_init (&c->channel_map);
-  c->muted = 0;
+  c->muted = FALSE;
   c->index = PA_INVALID_INDEX;
   c->type = type;
   c->name = NULL;
@@ -464,10 +475,10 @@ gst_pulsemixer_ctrl_timeout_event (pa_mainloop_api * a, pa_time_event * e,
 
   if (c->update_mute) {
     if (c->type == GST_PULSEMIXER_SINK)
-      o = pa_context_set_sink_mute_by_index (c->context, c->index, !!c->muted,
+      o = pa_context_set_sink_mute_by_index (c->context, c->index, c->muted,
           NULL, NULL);
     else
-      o = pa_context_set_source_mute_by_index (c->context, c->index, !!c->muted,
+      o = pa_context_set_source_mute_by_index (c->context, c->index, c->muted,
           NULL, NULL);
 
     if (!o)
@@ -570,7 +581,7 @@ gst_pulsemixer_ctrl_set_mute (GstPulseMixerCtrl * c, GstMixerTrack * track,
 
   pa_threaded_mainloop_lock (c->mainloop);
 
-  c->muted = !!mute;
+  c->muted = mute;
   c->update_mute = TRUE;
 
   if (c->track) {

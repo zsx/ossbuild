@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gstdshowvideosink"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2006}"
 	RootNamespace="libgstdshowvideosink"
@@ -121,6 +121,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/ignore:4099"
 				AdditionalDependencies="gstinterfaces.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
@@ -253,6 +254,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/ignore:4099"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

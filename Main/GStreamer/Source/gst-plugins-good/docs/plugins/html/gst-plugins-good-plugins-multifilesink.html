@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>multifilesink</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-mulawenc.html" title="mulawenc">
@@ -52,16 +52,16 @@
 <a name="gst-plugins-good-plugins-multifilesink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseSink.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
 >GstBaseSink</a>
                      +----GstMultiFileSink
 </pre>
@@ -70,21 +70,114 @@ href="../gstreamer-libs-0.10/GstBaseSink.html"
 <a name="gst-plugins-good-plugins-multifilesink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-multifilesink.html#GstMultiFileSink--location" title='The "location" property'>location</a>"                 <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-multifilesink.html#GstMultiFileSink--index" title='The "index" property'>index</a>"                    <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-multifilesink.html#GstMultiFileSink--next-file" title='The "next-file" property'>next-file</a>"                GstMultiFileSinkNext  : Read / Write
+  "<a class="link" href="gst-plugins-good-plugins-multifilesink.html#GstMultiFileSink--post-messages" title='The "post-messages" property'>post-messages</a>"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write
 </pre>
 </div>
 <div class="refsect1" title="Description">
 <a name="gst-plugins-good-plugins-multifilesink.description"></a><h2>Description</h2>
 <p>
-Write incoming data to a series of sequentially-named files.</p>
+Write incoming data to a series of sequentially-named files.
+</p>
+<p>
+The filename property should contain a string with a <code class="literal">d</code> placeholder that will
+be substituted with the index for each filename.
+</p>
+<p>
+If the <a class="link" href="gst-plugins-good-plugins-multifilesink.html#GstMultiFileSink--post-messages" title='The "post-messages" property'><span class="type">"post-messages"</span></a> property is <a
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+><span class="type">TRUE</span></a>, it sends an application
+message named
+<code class="classname">"GstMultiFileSink"</code> after writing each
+buffer.
+</p>
+<p>
+The message's structure contains these fields:
+</p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
+  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+><span class="type">gchar</span></a> *
+  <code class="classname">"filename"</code>:
+  the filename where the buffer was written.
+  </p></li>
+<li class="listitem"><p>
+  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+><span class="type">gint</span></a>
+  <code class="classname">"index"</code>:
+  the index of the buffer.
+  </p></li>
+<li class="listitem"><p>
+  <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
+  <code class="classname">"timestamp"</code>:
+  the timestamp of the buffer.
+  </p></li>
+<li class="listitem"><p>
+  <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
+  <code class="classname">"stream-time"</code>:
+  the stream time of the buffer.
+  </p></li>
+<li class="listitem"><p>
+  <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
+  <code class="classname">"running-time"</code>:
+  the running_time of the buffer.
+  </p></li>
+<li class="listitem"><p>
+  <a
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+><span class="type">GstClockTime</span></a>
+  <code class="classname">"duration"</code>:
+  the duration of the buffer.
+  </p></li>
+<li class="listitem"><p>
+  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+><span class="type">guint64</span></a>
+  <code class="classname">"offset"</code>:
+  the offset of the buffer that triggered the message.
+  </p></li>
+<li class="listitem"><p>
+  <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
+><span class="type">guint64</span></a>
+  <code class="classname">"offset-end"</code>:
+  the offset-end of the buffer that triggered the message.
+  </p></li>
+</ul></div>
+<p>
+</p>
+<p>
+<span style="color: red">&lt;title&gt;Example launch line&lt;/title&gt;</span>
+</p>
+<div class="refsect2">
+<a name="id3103230"></a><div class="informalexample"><pre class="programlisting">
+gst-launch audiotestsrc ! multifilesink
+gst-launch videotestsrc ! multifilesink post-messages=true filename="frame%d"
+</pre></div>
+</div>
+<p>
+</p>
+<p>
+Last reviewed on 2009-09-11 (0.10.17)</p>
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id540048"></a><h3>Element Information</h3>
+<a name="id2984382"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -107,7 +200,7 @@ Write incoming data to a series of sequentially-named files.</p>
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id515888"></a><h3>Element Pads</h3>
+<a name="id3116706"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -148,7 +241,7 @@ Write incoming data to a series of sequentially-named files.</p>
 <div class="refsect2" title='The "location" property'>
 <a name="GstMultiFileSink--location"></a><h3>The <code class="literal">"location"</code> property</h3>
 <pre class="programlisting">  "location"                 <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>Location of the file to write.</p>
 <p>Default value: NULL</p>
@@ -157,11 +250,35 @@ href="../glib/glib-Basic-Types.html#gchar"
 <div class="refsect2" title='The "index" property'>
 <a name="GstMultiFileSink--index"></a><h3>The <code class="literal">"index"</code> property</h3>
 <pre class="programlisting">  "index"                    <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
-<p>Index to use with location property to create file names.  The index is incremented by one for each buffer read.</p>
+<p>Index to use with location property to create file names.  The index is incremented by one for each buffer written.</p>
 <p>Allowed values: &gt;= 0</p>
 <p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2" title='The "next-file" property'>
+<a name="GstMultiFileSink--next-file"></a><h3>The <code class="literal">"next-file"</code> property</h3>
+<pre class="programlisting">  "next-file"                GstMultiFileSinkNext  : Read / Write</pre>
+<p>
+When to start a new file.</p>
+<p>
+</p>
+<p>Default value: New file for each buffer</p>
+<p>Since 0.10.17</p>
+</div>
+<hr>
+<div class="refsect2" title='The "post-messages" property'>
+<a name="GstMultiFileSink--post-messages"></a><h3>The <code class="literal">"post-messages"</code> property</h3>
+<pre class="programlisting">  "post-messages"            <a
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>              : Read / Write</pre>
+<p>
+Post a message on the GstBus for each file.</p>
+<p>
+</p>
+<p>Default value: FALSE</p>
+<p>Since 0.10.17</p>
 </div>
 </div>
 <div class="refsect1" title="See Also">

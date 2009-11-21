@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gstdtmf"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0059}"
 	RootNamespace="libgstdtmf"
@@ -306,6 +306,14 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\dtmf\gstdtmfdetect.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\dtmf\gstdtmfdetect.h"
+			>
+		</File>
+		<File
 			RelativePath="..\..\..\Source\gst-plugins-bad\gst\dtmf\gstdtmfsrc.c"
 			>
 		</File>
@@ -331,6 +339,30 @@
 		</File>
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-bad\gst\dtmf\gstrtpdtmfsrc.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\dtmf\tone_detect.c"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					PreprocessorDefinitions="_USE_MATH_DEFINES"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					PreprocessorDefinitions="_USE_MATH_DEFINES"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-bad\gst\dtmf\tone_detect.h"
 			>
 		</File>
 	</Files>

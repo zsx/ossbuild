@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>equalizer-3bands</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-equalizer-10bands.html" title="equalizer-10bands">
@@ -54,19 +54,19 @@
 <a name="gst-plugins-good-plugins-equalizer-3bands.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
                            +----<a class="link" href="GstIirEqualizer.html" title="GstIirEqualizer">GstIirEqualizer</a>
                                  +----GstIirEqualizer3Bands
@@ -77,22 +77,22 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
 <p>
 GstIirEqualizer3Bands implements
  <a
-href="../gstreamer-0.10/GstChildProxy.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstChildProxy.html"
 >GstChildProxy</a> and  <a
-href="../gstreamer-0.10/GstPreset.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPreset.html"
 >GstPreset</a>.</p>
 </div>
 <div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-equalizer-3bands.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-equalizer-3bands.html#GstIirEqualizer3Bands--band0" title='The "band0" property'>band0</a>"                    <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-equalizer-3bands.html#GstIirEqualizer3Bands--band1" title='The "band1" property'>band1</a>"                    <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-equalizer-3bands.html#GstIirEqualizer3Bands--band2" title='The "band2" property'>band2</a>"                    <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
 </pre>
 </div>
@@ -105,7 +105,7 @@ medium frequency and high frequency band.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id516489"></a><h3>Example launch line</h3>
+<a name="id3054299"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equalizer-3bands band1=6.0 ! alsasink
 </pre></div> This raises the volume of the 2nd band, which is at 1110 Hz, by 6 db.
@@ -113,7 +113,7 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equ
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id487102"></a><h3>Element Information</h3>
+<a name="id3020756"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -136,7 +136,7 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equ
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id481294"></a><h3>Element Pads</h3>
+<a name="id3079035"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -206,7 +206,7 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audioconvert ! equ
 <div class="refsect2" title='The "band0" property'>
 <a name="GstIirEqualizer3Bands--band0"></a><h3>The <code class="literal">"band0"</code> property</h3>
 <pre class="programlisting">  "band0"                    <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>gain for the frequency band 100 Hz, ranging from -24.0 to +12.0.</p>
 <p>Allowed values: [-24,12]</p>
@@ -216,7 +216,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <div class="refsect2" title='The "band1" property'>
 <a name="GstIirEqualizer3Bands--band1"></a><h3>The <code class="literal">"band1"</code> property</h3>
 <pre class="programlisting">  "band1"                    <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>gain for the frequency band 1100 Hz, ranging from -24.0 to +12.0.</p>
 <p>Allowed values: [-24,12]</p>
@@ -226,7 +226,7 @@ href="../glib/glib-Basic-Types.html#gdouble"
 <div class="refsect2" title='The "band2" property'>
 <a name="GstIirEqualizer3Bands--band2"></a><h3>The <code class="literal">"band2"</code> property</h3>
 <pre class="programlisting">  "band2"                    <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>gain for the frequency band 11 kHz, ranging from -24.0 to +12.0.</p>
 <p>Allowed values: [-24,12]</p>

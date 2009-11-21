@@ -46,6 +46,7 @@ struct _GstRtpBin {
   /* default latency for sessions */
   guint           latency;
   gboolean        do_lost;
+  gboolean        ignore_pt;
   /* a list of session */
   GSList         *sessions;
 
@@ -64,6 +65,8 @@ struct _GstRtpBinClass {
 
   /* get the caps for pt */
   GstCaps*    (*request_pt_map)       (GstRtpBin *rtpbin, guint session, guint pt);
+
+  void        (*payload_type_change)  (GstRtpBin *rtpbin, guint session, guint pt);
 
   /* action signals */
   void        (*clear_pt_map)         (GstRtpBin *rtpbin);

@@ -31,7 +31,7 @@ FLV_GET_STRING (GstByteReader * reader)
 {
   guint16 string_size = 0;
   gchar *string = NULL;
-  const guint8 *str;
+  const guint8 *str = NULL;
 
   g_return_val_if_fail (reader != NULL, NULL);
 
@@ -150,7 +150,7 @@ gst_flv_parse_metadata_item (GstFLVDemux * demux, GstByteReader * reader,
   switch (tag_type) {
     case 0:                    // Double
     {                           /* Use a union to read the uint64 and then as a double */
-      gdouble d;
+      gdouble d = 0;
 
       if (!gst_byte_reader_get_float64_be (reader, &d))
         goto error;
@@ -176,7 +176,7 @@ gst_flv_parse_metadata_item (GstFLVDemux * demux, GstByteReader * reader,
     }
     case 1:                    // Boolean
     {
-      guint8 b;
+      guint8 b = 0;
 
       if (!gst_byte_reader_get_uint8 (reader, &b))
         goto error;
@@ -243,7 +243,7 @@ gst_flv_parse_metadata_item (GstFLVDemux * demux, GstByteReader * reader,
     }
     case 8:                    // ECMA array
     {
-      guint32 nb_elems;
+      guint32 nb_elems = 0;
       gboolean end_of_object_marker = FALSE;
 
       if (!gst_byte_reader_get_uint32_be (reader, &nb_elems))
@@ -278,7 +278,7 @@ gst_flv_parse_metadata_item (GstFLVDemux * demux, GstByteReader * reader,
     }
     case 10:                   // Array
     {
-      guint32 nb_elems;
+      guint32 nb_elems = 0;
 
       if (!gst_byte_reader_get_uint32_be (reader, &nb_elems))
         goto error;
@@ -298,7 +298,7 @@ gst_flv_parse_metadata_item (GstFLVDemux * demux, GstByteReader * reader,
       }
 
       while (nb_elems--) {
-        guint8 elem_type;
+        guint8 elem_type = 0;
 
         if (!gst_byte_reader_get_uint8 (reader, &elem_type))
           goto error;
@@ -331,8 +331,8 @@ gst_flv_parse_metadata_item (GstFLVDemux * demux, GstByteReader * reader,
     }
     case 11:                   // Date
     {
-      gdouble d;
-      gint16 i;
+      gdouble d = 0;
+      gint16 i = 0;
 
       if (!gst_byte_reader_get_float64_be (reader, &d))
         goto error;
@@ -366,7 +366,7 @@ gst_flv_parse_tag_script (GstFLVDemux * demux, GstBuffer * buffer)
 {
   GstFlowReturn ret = GST_FLOW_OK;
   GstByteReader reader = GST_BYTE_READER_INIT_FROM_BUFFER (buffer);
-  guint8 type;
+  guint8 type = 0;
 
   g_return_val_if_fail (GST_BUFFER_SIZE (buffer) >= 7, GST_FLOW_ERROR);
 
@@ -553,6 +553,12 @@ gst_flv_parse_tag_audio (GstFLVDemux * demux, GstBuffer * buffer)
 
   GST_LOG_OBJECT (demux, "parsing an audio tag");
 
+  if (demux->no_more_pads && !demux->audio_pad) {
+    GST_WARNING_OBJECT (demux,
+        "Signaled no-more-pads already but had no audio pad -- ignoring");
+    goto beach;
+  }
+
   g_return_val_if_fail (GST_BUFFER_SIZE (buffer) == demux->tag_size,
       GST_FLOW_ERROR);
 
@@ -655,6 +661,7 @@ gst_flv_parse_tag_audio (GstFLVDemux * demux, GstBuffer * buffer)
     if (demux->audio_pad && demux->video_pad) {
       GST_DEBUG_OBJECT (demux, "emitting no more pads");
       gst_element_no_more_pads (GST_ELEMENT (demux));
+      demux->no_more_pads = TRUE;
     }
   }
 
@@ -783,6 +790,20 @@ gst_flv_parse_tag_audio (GstFLVDemux * demux, GstBuffer * buffer)
       GST_BUFFER_SIZE (outbuf), GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (outbuf)),
       GST_TIME_ARGS (GST_BUFFER_DURATION (outbuf)), GST_BUFFER_OFFSET (outbuf));
 
+  if (!GST_CLOCK_TIME_IS_VALID (demux->audio_start)) {
+    demux->audio_start = GST_BUFFER_TIMESTAMP (outbuf);
+  }
+
+  if (G_UNLIKELY (!demux->no_more_pads
+          && GST_CLOCK_DIFF (demux->audio_start,
+              GST_BUFFER_TIMESTAMP (outbuf) > 6 * GST_SECOND))) {
+    GST_DEBUG_OBJECT (demux,
+        "Signalling no-more-pads because no video stream was found"
+        " after 6 seconds of audio");
+    gst_element_no_more_pads (GST_ELEMENT_CAST (demux));
+    demux->no_more_pads = TRUE;
+  }
+
   /* Push downstream */
   ret = gst_pad_push (demux->audio_pad, outbuf);
   if (G_UNLIKELY (ret != GST_FLOW_OK)) {
@@ -888,8 +909,15 @@ gst_flv_parse_tag_video (GstFLVDemux * demux, GstBuffer * buffer)
 
   GST_LOG_OBJECT (demux, "parsing a video tag");
 
+
   GST_LOG_OBJECT (demux, "pts bytes %02X %02X %02X %02X", data[0], data[1],
       data[2], data[3]);
+
+  if (demux->no_more_pads && !demux->video_pad) {
+    GST_WARNING_OBJECT (demux,
+        "Signaled no-more-pads already but had no audio pad -- ignoring");
+    goto beach;
+  }
 
   /* Grab information about video tag */
   pts = GST_READ_UINT24_BE (data);
@@ -969,6 +997,7 @@ gst_flv_parse_tag_video (GstFLVDemux * demux, GstBuffer * buffer)
     if (demux->audio_pad && demux->video_pad) {
       GST_DEBUG_OBJECT (demux, "emitting no more pads");
       gst_element_no_more_pads (GST_ELEMENT (demux));
+      demux->no_more_pads = TRUE;
     }
   }
 
@@ -1111,6 +1140,20 @@ gst_flv_parse_tag_video (GstFLVDemux * demux, GstBuffer * buffer)
       GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (outbuf)),
       GST_TIME_ARGS (GST_BUFFER_DURATION (outbuf)), GST_BUFFER_OFFSET (outbuf),
       keyframe);
+
+  if (!GST_CLOCK_TIME_IS_VALID (demux->video_start)) {
+    demux->video_start = GST_BUFFER_TIMESTAMP (outbuf);
+  }
+
+  if (G_UNLIKELY (!demux->no_more_pads
+          && GST_CLOCK_DIFF (demux->video_start,
+              GST_BUFFER_TIMESTAMP (outbuf) > 6 * GST_SECOND))) {
+    GST_DEBUG_OBJECT (demux,
+        "Signalling no-more-pads because no audio stream was found"
+        " after 6 seconds of video");
+    gst_element_no_more_pads (GST_ELEMENT_CAST (demux));
+    demux->no_more_pads = TRUE;
+  }
 
   /* Push downstream */
   ret = gst_pad_push (demux->video_pad, outbuf);

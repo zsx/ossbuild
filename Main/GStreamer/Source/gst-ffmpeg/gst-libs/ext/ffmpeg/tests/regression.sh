@@ -304,10 +304,10 @@ do_video_encoding mpeg1b.mpg "-qscale 8 -bf 3 -ps 200" "-an -vcodec mpeg1video -
 do_video_decoding
 fi
 
-if [ -n "$do_mjpeg" ] ; then
-do_video_encoding mjpeg.avi "-qscale 10" "-an -vcodec mjpeg -pix_fmt yuvj420p"
-do_video_decoding "" "-pix_fmt yuv420p"
-fi
+#if [ -n "$do_mjpeg" ] ; then
+#do_video_encoding mjpeg.avi "-qscale 10" "-an -vcodec mjpeg -pix_fmt yuvj420p"
+#do_video_decoding "" "-pix_fmt yuv420p"
+#fi
 
 if [ -n "$do_ljpeg" ] ; then
 do_video_encoding ljpeg.avi "" "-an -vcodec ljpeg -strict -1"
@@ -319,25 +319,25 @@ do_video_encoding jpegls.avi "" "-an -vcodec jpegls -vtag MJPG -sws_flags neighb
 do_video_decoding "" "-pix_fmt yuv420p  -sws_flags area+bitexact"
 fi
 
-if [ -n "$do_rv10" ] ; then
-do_video_encoding rv10.rm "-qscale 10" "-an"
-do_video_decoding
-fi
+#if [ -n "$do_rv10" ] ; then
+#do_video_encoding rv10.rm "-qscale 10" "-an"
+#do_video_decoding
+#fi
 
-if [ -n "$do_rv20" ] ; then
-do_video_encoding rv20.rm "-qscale 10" "-vcodec rv20 -an"
-do_video_decoding
-fi
+#if [ -n "$do_rv20" ] ; then
+#do_video_encoding rv20.rm "-qscale 10" "-vcodec rv20 -an"
+#do_video_decoding
+#fi
 
-if [ -n "$do_asv1" ] ; then
-do_video_encoding asv1.avi "-qscale 10" "-an -vcodec asv1"
-do_video_decoding
-fi
+#if [ -n "$do_asv1" ] ; then
+#do_video_encoding asv1.avi "-qscale 10" "-an -vcodec asv1"
+#do_video_decoding
+#fi
 
-if [ -n "$do_asv2" ] ; then
-do_video_encoding asv2.avi "-qscale 10" "-an -vcodec asv2"
-do_video_decoding
-fi
+#if [ -n "$do_asv2" ] ; then
+#do_video_encoding asv2.avi "-qscale 10" "-an -vcodec asv2"
+#do_video_decoding
+#fi
 
 if [ -n "$do_flv" ] ; then
 do_video_encoding flv.flv "-qscale 10" "-an -vcodec flv"
@@ -430,16 +430,16 @@ do_audio_encoding flac.flac "-ar 44100" "-acodec flac -compression_level 2"
 do_audio_decoding
 fi
 
-if [ -n "$do_wma" ] ; then
+#if [ -n "$do_wma" ] ; then
 # wmav1
-do_audio_encoding wmav1.asf "-ar 44100" "-acodec wmav1"
-do_ffmpeg_nomd5 $pcm_dst -i $target_path/$file -f wav
-$tiny_psnr $pcm_dst $pcm_ref 2 8192 >> $logfile
+#do_audio_encoding wmav1.asf "-ar 44100" "-acodec wmav1"
+#do_ffmpeg_nomd5 $pcm_dst -i $target_path/$file -f wav
+#$tiny_psnr $pcm_dst $pcm_ref 2 8192 >> $logfile
 # wmav2
-do_audio_encoding wmav2.asf "-ar 44100" "-acodec wmav2"
-do_ffmpeg_nomd5 $pcm_dst -i $target_path/$file -f wav
-$tiny_psnr $pcm_dst $pcm_ref 2 8192 >> $logfile
-fi
+#do_audio_encoding wmav2.asf "-ar 44100" "-acodec wmav2"
+#do_ffmpeg_nomd5 $pcm_dst -i $target_path/$file -f wav
+#$tiny_psnr $pcm_dst $pcm_ref 2 8192 >> $logfile
+#fi
 
 #if [ -n "$do_vorbis" ] ; then
 # vorbis

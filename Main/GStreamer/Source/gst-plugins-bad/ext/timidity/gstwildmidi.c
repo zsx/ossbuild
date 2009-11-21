@@ -156,7 +156,9 @@ wildmidi_open_config ()
   }
 
   if (path == NULL) {
-    path = g_build_path (G_DIR_SEPARATOR_S, "/etc", "wildmidi.cfg", NULL);
+    path =
+        g_build_path (G_DIR_SEPARATOR_S, G_DIR_SEPARATOR_S "etc",
+        "wildmidi.cfg", NULL);
     GST_DEBUG ("trying %s", path);
     if (path && (g_access (path, R_OK) == -1)) {
       g_free (path);
@@ -166,8 +168,8 @@ wildmidi_open_config ()
 
   if (path == NULL) {
     path =
-        g_build_path (G_DIR_SEPARATOR_S, "/etc", "wildmidi", "wildmidi.cfg",
-        NULL);
+        g_build_path (G_DIR_SEPARATOR_S, G_DIR_SEPARATOR_S "etc", "wildmidi",
+        "wildmidi.cfg", NULL);
     GST_DEBUG ("trying %s", path);
     if (path && (g_access (path, R_OK) == -1)) {
       g_free (path);
@@ -185,7 +187,9 @@ wildmidi_open_config ()
   }
 
   if (path == NULL) {
-    path = g_build_path (G_DIR_SEPARATOR_S, "/etc", "timidity.cfg", NULL);
+    path =
+        g_build_path (G_DIR_SEPARATOR_S, G_DIR_SEPARATOR_S "etc",
+        "timidity.cfg", NULL);
     GST_DEBUG ("trying %s", path);
     if (path && (g_access (path, R_OK) == -1)) {
       g_free (path);
@@ -195,8 +199,8 @@ wildmidi_open_config ()
 
   if (path == NULL) {
     path =
-        g_build_path (G_DIR_SEPARATOR_S, "/etc", "timidity", "timidity.cfg",
-        NULL);
+        g_build_path (G_DIR_SEPARATOR_S, G_DIR_SEPARATOR_S "etc", "timidity",
+        "timidity.cfg", NULL);
     GST_DEBUG ("trying %s", path);
     if (path && (g_access (path, R_OK) == -1)) {
       g_free (path);
@@ -643,9 +647,8 @@ gst_wildmidi_get_buffer (GstWildmidi * wildmidi)
       gst_util_uint64_scale_int (segment->last_stop, GST_SECOND,
       WILDMIDI_RATE) - GST_BUFFER_TIMESTAMP (buffer);
 
-  GST_DEBUG_OBJECT (wildmidi,
-      "buffer ts: %" GST_TIME_FORMAT ", dur: %" GST_TIME_FORMAT
-      " (%d samples)",
+  GST_DEBUG_OBJECT (wildmidi, "buffer ts: %" GST_TIME_FORMAT ", "
+      "duration: %" GST_TIME_FORMAT " (%" G_GINT64_FORMAT " samples)",
       GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (buffer)),
       GST_TIME_ARGS (GST_BUFFER_DURATION (buffer)), samples);
 

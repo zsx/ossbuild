@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>id3v2mux</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-id3demux.html" title="id3demux">
@@ -52,13 +52,13 @@
 <a name="gst-plugins-good-plugins-id3v2mux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstTagLibMux
                      +----GstId3v2Mux
@@ -69,7 +69,7 @@ href="../gstreamer-0.10/GstElement.html"
 <p>
 GstId3v2Mux implements
  <a
-href="../gstreamer-0.10/GstTagSetter.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
 >GstTagSetter</a>.</p>
 </div>
 <div class="refsect1" title="Description">
@@ -82,7 +82,7 @@ be able to read them properly).
 </p>
 <p>
 Applications can set the tags to write using the <a
-href="../gstreamer-0.10/GstTagSetter.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
 ><span class="type">GstTagSetter</span></a> interface.
 Tags sent by upstream elements will be picked up automatically (and merged
 according to the merge mode set via the tag setter interface).
@@ -90,7 +90,7 @@ according to the merge mode set via the tag setter interface).
 <p>
 </p>
 <div class="refsect2" title="Example pipelines">
-<a name="id468908"></a><h3>Example pipelines</h3>
+<a name="id3014567"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=foo.ogg ! decodebin ! audioconvert ! lame ! id3v2mux ! filesink location=foo.mp3
 </pre></div> A pipeline that transcodes a file from Ogg/Vorbis to mp3 format with an
@@ -103,7 +103,7 @@ gst-launch -m filesrc location=foo.mp3 ! id3demux ! fakesink silent=TRUE 2&gt; /
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id525861"></a><h3>Element Information</h3>
+<a name="id3067978"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -126,7 +126,7 @@ gst-launch -m filesrc location=foo.mp3 ! id3demux ! fakesink silent=TRUE 2&gt; /
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id500413"></a><h3>Element Pads</h3>
+<a name="id3083886"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -186,7 +186,7 @@ gst-launch -m filesrc location=foo.mp3 ! id3demux ! fakesink silent=TRUE 2&gt; /
 <div class="refsect1" title="See Also">
 <a name="gst-plugins-good-plugins-id3v2mux.see-also"></a><h2>See Also</h2>
 #GstID3Demux, <a
-href="../gstreamer-0.10/GstTagSetter.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
 ><span class="type">GstTagSetter</span></a>
 </div>
 </div>

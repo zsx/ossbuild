@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>smpte</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-smokeenc.html" title="smokeenc">
@@ -52,13 +52,13 @@
 <a name="gst-plugins-good-plugins-smpte.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstSMPTE
 </pre>
@@ -67,17 +67,17 @@ href="../gstreamer-0.10/GstElement.html"
 <a name="gst-plugins-good-plugins-smpte.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-smpte.html#GstSMPTE--border" title='The "border" property'>border</a>"                   <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-smpte.html#GstSMPTE--depth" title='The "depth" property'>depth</a>"                    <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-smpte.html#GstSMPTE--fps" title='The "fps" property'>fps</a>"                      <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-smpte.html#GstSMPTE--type" title='The "type" property'>type</a>"                     GstSMPTETransitionType  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-smpte.html#GstSMPTE--duration" title='The "duration" property'>duration</a>"                 <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
 </pre>
 </div>
@@ -96,7 +96,7 @@ banding.
 <p>
 </p>
 <div class="refsect2" title="Sample pipelines">
-<a name="id597015"></a><h3>Sample pipelines</h3>
+<a name="id3112506"></a><h3>Sample pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v videotestsrc pattern=1 ! smpte name=s border=20000 type=234 duration=2000000000 ! ffmpegcolorspace ! ximagesink videotestsrc ! s.
 </pre></div> A pipeline to demonstrate the smpte transition.
@@ -107,7 +107,7 @@ edges of the transition are smoothed with a 20000 big border.
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id571782"></a><h3>Element Information</h3>
+<a name="id3124279"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -130,7 +130,7 @@ edges of the transition are smoothed with a 20000 big border.
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id550316"></a><h3>Element Pads</h3>
+<a name="id3126775"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -213,7 +213,7 @@ edges of the transition are smoothed with a 20000 big border.
 <div class="refsect2" title='The "border" property'>
 <a name="GstSMPTE--border"></a><h3>The <code class="literal">"border"</code> property</h3>
 <pre class="programlisting">  "border"                   <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>The border width of the transition.</p>
 <p>Allowed values: &gt;= 0</p>
@@ -223,7 +223,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <div class="refsect2" title='The "depth" property'>
 <a name="GstSMPTE--depth"></a><h3>The <code class="literal">"depth"</code> property</h3>
 <pre class="programlisting">  "depth"                    <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Depth of the mask in bits.</p>
 <p>Allowed values: [1,24]</p>
@@ -233,7 +233,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <div class="refsect2" title='The "fps" property'>
 <a name="GstSMPTE--fps"></a><h3>The <code class="literal">"fps"</code> property</h3>
 <pre class="programlisting">  "fps"                      <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Frames per second if no input files are given (deprecated).</p>
 <p>Allowed values: &gt;= 0</p>
@@ -250,7 +250,7 @@ href="../glib/glib-Basic-Types.html#gfloat"
 <div class="refsect2" title='The "duration" property'>
 <a name="GstSMPTE--duration"></a><h3>The <code class="literal">"duration"</code> property</h3>
 <pre class="programlisting">  "duration"                 <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>Duration of the transition effect in nanoseconds.</p>
 <p>Default value: 1000000000</p>

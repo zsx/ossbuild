@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>camerabin</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-autoconvert.html" title="autoconvert">
 <link rel="next" href="gst-plugins-bad-plugins-capssetter.html" title="capssetter">
@@ -37,7 +37,7 @@
                 <a href="#gst-plugins-bad-plugins-camerabin.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="camerabin">
 <a name="gst-plugins-bad-plugins-camerabin"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -46,100 +46,130 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-camerabin.synopsis"></a><h2>Synopsis</h2>
 <a name="GstCameraBin"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-struct" title="GstCameraBin">GstCameraBin</a>;
 enum                <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBinMode" title="enum GstCameraBinMode">GstCameraBinMode</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-bad-plugins-camerabin.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+href="../gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstBin.html"
+href="../gstreamer-0.10/GstBin.html"
 >GstBin</a>
                      +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPipeline.html"
+href="../gstreamer-0.10/GstPipeline.html"
 >GstPipeline</a>
                            +----GstCameraBin
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-bad-plugins-camerabin.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstCameraBin implements
  <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstChildProxy.html"
->GstChildProxy</a>,  <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstImplementsInterface.html"
+href="../gstreamer-0.10/GstChildProxy.html"
+>GstChildProxy</a>,  GstPhotography,  <a
+href="../gstreamer-0.10/GstImplementsInterface.html"
 >GstImplementsInterface</a>,  <a
-href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"
->GstColorBalance</a>,  <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
->GstTagSetter</a> and  GstPhotography.</p>
+href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"
+>GstColorBalance</a> and  <a
+href="../gstreamer-0.10/GstTagSetter.html"
+>GstTagSetter</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-bad-plugins-camerabin.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--audioenc" title='The "audioenc" property'>audioenc</a>"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--audiosrc" title='The "audiosrc" property'>audiosrc</a>"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--filename" title='The "filename" property'>filename</a>"                 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--filter-caps" title='The "filter-caps" property'>filter-caps</a>"              <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--imageenc" title='The "imageenc" property'>imageenc</a>"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--imagepp" title='The "imagepp" property'>imagepp</a>"                  <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--inputcaps" title='The "inputcaps" property'>inputcaps</a>"                <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--mode" title='The "mode" property'>mode</a>"                     <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBinMode" title="enum GstCameraBinMode">GstCameraBinMode</a>      : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--mute" title='The "mute" property'>mute</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--vfsink" title='The "vfsink" property'>vfsink</a>"                   <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--videoenc" title='The "videoenc" property'>videoenc</a>"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--videomux" title='The "videomux" property'>videomux</a>"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--videopp" title='The "videopp" property'>videopp</a>"                  <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--videosrc" title='The "videosrc" property'>videosrc</a>"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--zoom" title='The "zoom" property'>zoom</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--preview-caps" title='The "preview-caps" property'>preview-caps</a>"             <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--audio-encoder" title='The "audio-encoder" property'>audio-encoder</a>"            <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--audio-source" title='The "audio-source" property'>audio-source</a>"             <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--image-encoder" title='The "image-encoder" property'>image-encoder</a>"            <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--image-post-processing" title='The "image-post-processing" property'>image-post-processing</a>"    <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-encoder" title='The "video-encoder" property'>video-encoder</a>"            <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-muxer" title='The "video-muxer" property'>video-muxer</a>"              <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-post-processing" title='The "video-post-processing" property'>video-post-processing</a>"    <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-source" title='The "video-source" property'>video-source</a>"             <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-source-caps" title='The "video-source-caps" property'>video-source-caps</a>"        <a
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+>GstCaps</a>*              : Read
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--viewfinder-sink" title='The "viewfinder-sink" property'>viewfinder-sink</a>"          <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="gst-plugins-bad-plugins-camerabin.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-img-done" title='The "img-done" signal'>img-done</a>"                                       : Run Last
@@ -148,9 +178,15 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-res-fps" title='The "user-res-fps" signal'>user-res-fps</a>"                                   : Run Last / Action
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-start" title='The "user-start" signal'>user-start</a>"                                     : Run Last / Action
   "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-stop" title='The "user-stop" signal'>user-stop</a>"                                      : Run Last / Action
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-pause" title='The "capture-pause" signal'>capture-pause</a>"                                  : Run Last / Action
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-start" title='The "capture-start" signal'>capture-start</a>"                                  : Run Last / Action
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-stop" title='The "capture-stop" signal'>capture-stop</a>"                                   : Run Last / Action
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-image-done" title='The "image-done" signal'>image-done</a>"                                     : Run Last
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-set-image-resolution" title='The "set-image-resolution" signal'>set-image-resolution</a>"                           : Run Last / Action
+  "<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-set-video-resolution-fps" title='The "set-video-resolution-fps" signal'>set-video-resolution-fps</a>"                       : Run Last / Action
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-camerabin.description"></a><h2>Description</h2>
 <p>
 GstCameraBin is a high-level camera object that encapsulates the gstreamer
@@ -166,8 +202,8 @@ three main data paths: view-finder, image capture and video capture.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2821050"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id2849647"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v -m camerabin
 </pre></div>
@@ -175,46 +211,47 @@ gst-launch -v -m camerabin
 <p>
 </p>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2821066"></a><h3>Image capture</h3>
+<div class="refsect2" title="Image capture">
+<a name="id2849662"></a><h3>Image capture</h3>
 <p>
-Taking still images is initiated with the <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-start" title='The "user-start" signal'><span class="type">"user-start"</span></a> action
+Taking still images is initiated with the <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-start" title='The "capture-start" signal'><span class="type">"capture-start"</span></a> action
 signal. Once the image has been captured, "image-captured" gst message is
 posted to the bus and capturing another image is possible. If application 
 has set <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--preview-caps" title='The "preview-caps" property'><span class="type">"preview-caps"</span></a> property, then a "preview-image" gst
 message is posted to bus containing preview image formatted according to
-specified caps. Eventually when image has been saved <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-img-done" title='The "img-done" signal'><span class="type">"img-done"</span></a>
-signal is emitted.
+specified caps. Eventually when image has been saved
+<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-image-done" title='The "image-done" signal'><span class="type">"image-done"</span></a> signal is emitted.
 </p>
 <p>
-Available resolutions can be taken from the <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--inputcaps" title='The "inputcaps" property'><span class="type">"inputcaps"</span></a> property.
-Image capture resolution can be set with <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-image-res" title='The "user-image-res" signal'><span class="type">"user-image-res"</span></a>
-action signal.
-</p>
-</div>
-<p>
-</p>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2832130"></a><h3>Video capture</h3>
-<p>
-Video capture is started with the <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-start" title='The "user-start" signal'><span class="type">"user-start"</span></a> action signal too.
-In addition to image capture one can use <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-pause" title='The "user-pause" signal'><span class="type">"user-pause"</span></a> to
-pause recording and <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-stop" title='The "user-stop" signal'><span class="type">"user-stop"</span></a> to end recording.
-</p>
-<p>
-Available resolutions and fps can be taken from the <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--inputcaps" title='The "inputcaps" property'><span class="type">"inputcaps"</span></a>
-property. <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-res-fps" title='The "user-res-fps" signal'><span class="type">"user-res-fps"</span></a> action signal can be used to set frame
-rate and resolution for the video recording and view finder as well.
+Available resolutions can be taken from the <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-source-caps" title='The "video-source-caps" property'><span class="type">"video-source-caps"</span></a>
+property. Image capture resolution can be set with 
+<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-set-image-resolution" title='The "set-image-resolution" signal'><span class="type">"set-image-resolution"</span></a> action signal.
 </p>
 </div>
 <p>
 </p>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2832183"></a><h3>Photography interface</h3>
+<div class="refsect2" title="Video capture">
+<a name="id2849719"></a><h3>Video capture</h3>
 <p>
-GstCameraBin implements gst photography interface, which can be used to set
+Video capture is started with the <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-start" title='The "capture-start" signal'><span class="type">"capture-start"</span></a> action signal
+too. In addition to image capture one can use <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-pause" title='The "capture-pause" signal'><span class="type">"capture-pause"</span></a> to
+pause recording and <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-stop" title='The "capture-stop" signal'><span class="type">"capture-stop"</span></a> to end recording.
+</p>
+<p>
+Available resolutions and fps can be taken from the 
+<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-source-caps" title='The "video-source-caps" property'><span class="type">"video-source-caps"</span></a> property. 
+<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-set-video-resolution-fps" title='The "set-video-resolution-fps" signal'><span class="type">"set-video-resolution-fps"</span></a> action signal can be used to set
+frame rate and resolution for the video recording and view finder as well.
+</p>
+</div>
+<p>
+</p>
+<hr>
+<div class="refsect2" title="Photography interface">
+<a name="id2849773"></a><h3>Photography interface</h3>
+<p>
+GstCameraBin implements <span class="type">GstPhotography</span> interface, which can be used to set
 and get different settings related to digital imaging. Since currently many
 of these settings require low-level support the photography interface support
 is dependent on video src element. In practice photography interface settings
@@ -226,37 +263,57 @@ settings in NULL state and camerabin will try applying them later.
 <p>
 </p>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2832201"></a><h3>States</h3>
+<div class="refsect2" title="States">
+<a name="id2849799"></a><h3>States</h3>
 <p>
 Elements within GstCameraBin are created and destroyed when switching
 between NULL and READY states. Therefore element properties should be set
 in NULL state. User set elements are not unreffed until GstCameraBin is
-unreffed or replaced by a new user set element. Initially only elements needed
-for view finder mode are created to speed up startup. Image bin and video bin
-elements are created when setting the mode or starting capture.
+unreffed or replaced by a new user set element. Initially only elements
+needed for view finder mode are created to speed up startup. Image bin and
+video bin elements are created when setting the mode or starting capture.
 </p>
 </div>
 <p>
 </p>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2832219"></a><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<div class="refsect2" title="Video and image previews">
+<a name="id2849817"></a><h3>Video and image previews</h3>
+<p>
+GstCameraBin contains "preview-caps" property, which is used to determine
+whether the application wants a preview image of the captured picture or
+video. When set, a GstMessage named "preview-image" will be sent. This
+message will contain a GstBuffer holding the preview image, converted
+to a format defined by those preview caps. The ownership of the preview
+image is kept in GstCameraBin, so application should ref the preview buffer
+object if it needs to use it elsewhere than in message handler.
+</p>
+<p>
+Defining preview caps is done by selecting the capturing mode first and
+then setting the property. Camerabin remembers caps separately for both
+modes, so it is not necessary to set the caps again after changing the mode.
+</p>
+</div>
+<p>
+</p>
+<hr>
+<div class="refsect2">
+<a name="id2849844"></a><div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;">
 <h3 class="title">Note</h3>
 <p>
 Since the muxers tested so far have problems with discontinous buffers, QoS
 has been disabled, and then in order to record video, you MUST ensure that
 there is enough CPU to encode the video. Thus choose smart resolution and
 frames per second values. It is also highly recommended to avoid color
-conversions; make sure all the elements involved work with the same colorspace
-(i.e. rgb or yuv i420 or whatelse).
+conversions; make sure all the elements involved work with the same
+colorspace (i.e. rgb or yuv i420 or whatelse).
 </p>
 </div>
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2832242"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2849870"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -279,46 +336,16 @@ conversions; make sure all the elements involved work with the same colorspace
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2832306"></a><h3>Element Pads</h3>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2832319"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-bad-plugins-plugin-camerabin.html#plugin-camerabin">camerabin</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Nokia Corporation &lt;multimedia@maemo.org&gt;
-    Edgard Lima &lt;edgard.lima@indt.org.br&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Generic/Bin/Camera</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2832383"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2849934"></a><h3>Element Pads</h3>
 </div>
 </div>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-camerabin.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstCameraBin">
 <a name="GstCameraBin-struct"></a><h3>GstCameraBin</h3>
 <pre class="programlisting">typedef struct _GstCameraBin GstCameraBin;</pre>
 <p>
@@ -327,7 +354,7 @@ The opaque <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCamer
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstCameraBinMode">
 <a name="GstCameraBinMode"></a><h3>enum GstCameraBinMode</h3>
 <pre class="programlisting">typedef enum
 {
@@ -356,39 +383,28 @@ Capture mode to use.</p>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-bad-plugins-camerabin.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "audioenc" property'>
 <a name="GstCameraBin--audioenc"></a><h3>The <code class="literal">"audioenc"</code> property</h3>
 <pre class="programlisting">  "audioenc"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up an audio encoder element.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>Audio encoder GStreamer element (default is vorbisenc).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "audiosrc" property'>
 <a name="GstCameraBin--audiosrc"></a><h3>The <code class="literal">"audiosrc"</code> property</h3>
 <pre class="programlisting">  "audiosrc"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up an audio source element.
-By default "pulsesrc" will be the source element.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>Audio source GStreamer element (default is pulsesrc).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "filename" property'>
 <a name="GstCameraBin--filename"></a><h3>The <code class="literal">"filename"</code> property</h3>
 <pre class="programlisting">  "filename"                 <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>
 Set filename for the still image capturing or video capturing.</p>
@@ -397,10 +413,10 @@ Set filename for the still image capturing or video capturing.</p>
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "filter-caps" property'>
 <a name="GstCameraBin--filter-caps"></a><h3>The <code class="literal">"filter-caps"</code> property</h3>
 <pre class="programlisting">  "filter-caps"              <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read / Write</pre>
 <p>
 Caps applied to capsfilter element after videosrc [ ! ffmpegcsp ].
@@ -411,47 +427,31 @@ resolution and frame rate.</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "imageenc" property'>
 <a name="GstCameraBin--imageenc"></a><h3>The <code class="literal">"imageenc"</code> property</h3>
 <pre class="programlisting">  "imageenc"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up an image encoder (for example, jpegenc or pngenc) element.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>Image encoder GStreamer element (default is jpegenc).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "imagepp" property'>
 <a name="GstCameraBin--imagepp"></a><h3>The <code class="literal">"imagepp"</code> property</h3>
 <pre class="programlisting">  "imagepp"                  <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up an element to do image post processing.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>Image Post-Processing GStreamer element (default is NULL).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "inputcaps" property'>
 <a name="GstCameraBin--inputcaps"></a><h3>The <code class="literal">"inputcaps"</code> property</h3>
 <pre class="programlisting">  "inputcaps"                <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read</pre>
-<p>
-The allowed modes of operation of the video source. Have in mind that it
-doesn't mean <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> can operate in all those modes,
-it depends also on the other elements in the pipeline. Remember to
-gst_caps_unref after using it.</p>
-<p>
-</p>
+<p>The allowed modes of the video source operation.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mode" property'>
 <a name="GstCameraBin--mode"></a><h3>The <code class="literal">"mode"</code> property</h3>
 <pre class="programlisting">  "mode"                     <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBinMode" title="enum GstCameraBinMode">GstCameraBinMode</a>      : Read / Write</pre>
 <p>
@@ -464,10 +464,10 @@ the mode will stop ongoing capture.</p>
 <p>Default value: Still image capture (default)</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mute" property'>
 <a name="GstCameraBin--mute"></a><h3>The <code class="literal">"mute"</code> property</h3>
 <pre class="programlisting">  "mute"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>
 Mute audio in video recording mode.
@@ -477,77 +477,50 @@ Set this property only when <a class="link" href="gst-plugins-bad-plugins-camera
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "vfsink" property'>
 <a name="GstCameraBin--vfsink"></a><h3>The <code class="literal">"vfsink"</code> property</h3>
 <pre class="programlisting">  "vfsink"                   <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up a sink element to render frames in view finder.
-By default "autovideosink" will be the sink element.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>View finder sink GStreamer element (default is autovideosink).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "videoenc" property'>
 <a name="GstCameraBin--videoenc"></a><h3>The <code class="literal">"videoenc"</code> property</h3>
 <pre class="programlisting">  "videoenc"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up a video encoder element.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>Video encoder GStreamer element (default is theoraenc).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "videomux" property'>
 <a name="GstCameraBin--videomux"></a><h3>The <code class="literal">"videomux"</code> property</h3>
 <pre class="programlisting">  "videomux"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up a video muxer element.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>Video muxer GStreamer element (default is oggmux).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "videopp" property'>
 <a name="GstCameraBin--videopp"></a><h3>The <code class="literal">"videopp"</code> property</h3>
 <pre class="programlisting">  "videopp"                  <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up an element to do video post processing.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>Video post processing GStreamer element (default is NULL).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "videosrc" property'>
 <a name="GstCameraBin--videosrc"></a><h3>The <code class="literal">"videosrc"</code> property</h3>
 <pre class="programlisting">  "videosrc"                 <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>*           : Read / Write</pre>
-<p>
-Set up a video source element.
-By default "v4l2src" will be the src element.
-This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
-The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
-<p>
-</p>
+<p>Video source GStreamer element (default is v4l2src).</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "zoom" property'>
 <a name="GstCameraBin--zoom"></a><h3>The <code class="literal">"zoom"</code> property</h3>
 <pre class="programlisting">  "zoom"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>
 Set up the zoom applied to the frames.
@@ -558,10 +531,10 @@ Set this property only when <a class="link" href="gst-plugins-bad-plugins-camera
 <p>Default value: 100</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "preview-caps" property'>
 <a name="GstCameraBin--preview-caps"></a><h3>The <code class="literal">"preview-caps"</code> property</h3>
 <pre class="programlisting">  "preview-caps"             <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*              : Read / Write</pre>
 <p>
 If application wants to receive a preview image, it needs to
@@ -571,19 +544,442 @@ image is not sent.</p>
 <p>
 </p>
 </div>
+<hr>
+<div class="refsect2" title='The "audio-encoder" property'>
+<a name="GstCameraBin--audio-encoder"></a><h3>The <code class="literal">"audio-encoder"</code> property</h3>
+<pre class="programlisting">  "audio-encoder"            <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up an audio encoder element.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
 </div>
-<div class="refsect1" lang="en">
+<hr>
+<div class="refsect2" title='The "audio-source" property'>
+<a name="GstCameraBin--audio-source"></a><h3>The <code class="literal">"audio-source"</code> property</h3>
+<pre class="programlisting">  "audio-source"             <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up an audio source element.
+By default "autoaudiosrc" or DEFAULT_AUDIOSRC will be used.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title='The "image-encoder" property'>
+<a name="GstCameraBin--image-encoder"></a><h3>The <code class="literal">"image-encoder"</code> property</h3>
+<pre class="programlisting">  "image-encoder"            <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up an image encoder (for example, jpegenc or pngenc) element.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title='The "image-post-processing" property'>
+<a name="GstCameraBin--image-post-processing"></a><h3>The <code class="literal">"image-post-processing"</code> property</h3>
+<pre class="programlisting">  "image-post-processing"    <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up an element to do image post processing.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title='The "video-encoder" property'>
+<a name="GstCameraBin--video-encoder"></a><h3>The <code class="literal">"video-encoder"</code> property</h3>
+<pre class="programlisting">  "video-encoder"            <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up a video encoder element.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title='The "video-muxer" property'>
+<a name="GstCameraBin--video-muxer"></a><h3>The <code class="literal">"video-muxer"</code> property</h3>
+<pre class="programlisting">  "video-muxer"              <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up a video muxer element.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title='The "video-post-processing" property'>
+<a name="GstCameraBin--video-post-processing"></a><h3>The <code class="literal">"video-post-processing"</code> property</h3>
+<pre class="programlisting">  "video-post-processing"    <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up an element to do video post processing.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title='The "video-source" property'>
+<a name="GstCameraBin--video-source"></a><h3>The <code class="literal">"video-source"</code> property</h3>
+<pre class="programlisting">  "video-source"             <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up a video source element.
+By default "autovideosrc" or DEFAULT_VIDEOSRC will be used.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title='The "video-source-caps" property'>
+<a name="GstCameraBin--video-source-caps"></a><h3>The <code class="literal">"video-source-caps"</code> property</h3>
+<pre class="programlisting">  "video-source-caps"        <a
+href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+>GstCaps</a>*              : Read</pre>
+<p>
+The allowed modes of operation of the video source. Have in mind that it
+doesn't mean <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> can operate in all those modes,
+it depends also on the other elements in the pipeline. Remember to
+gst_caps_unref after using it.</p>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title='The "viewfinder-sink" property'>
+<a name="GstCameraBin--viewfinder-sink"></a><h3>The <code class="literal">"viewfinder-sink"</code> property</h3>
+<pre class="programlisting">  "viewfinder-sink"          <a
+href="../gstreamer-0.10/GstElement.html"
+>GstElement</a>*           : Read / Write</pre>
+<p>
+Set up a sink element to render frames in view finder.
+By default "autovideosink" or DEFAULT_VIDEOSINK will be used.
+This property can only be set while <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a> is in NULL state.
+The ownership of the element will be taken by <a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin"><span class="type">GstCameraBin</span></a>.</p>
+<p>
+</p>
+</div>
+</div>
+<div class="refsect1" title="Signal Details">
 <a name="gst-plugins-bad-plugins-camerabin.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "img-done" signal'>
 <a name="GstCameraBin-img-done"></a><h3>The <code class="literal">"img-done"</code> signal</h3>
 <pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
+>gboolean</a>            user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *gstcamerabin,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gchar"
+>gchar</a>        *arg1,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)         : Run Last</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gstcamerabin</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "user-image-res" signal'>
+<a name="GstCameraBin-user-image-res"></a><h3>The <code class="literal">"user-image-res"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *gstcamerabin,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>          arg1,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>          arg2,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)         : Run Last / Action</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gstcamerabin</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "user-pause" signal'>
+<a name="GstCameraBin-user-pause"></a><h3>The <code class="literal">"user-pause"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *gstcamerabin,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)         : Run Last / Action</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gstcamerabin</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "user-res-fps" signal'>
+<a name="GstCameraBin-user-res-fps"></a><h3>The <code class="literal">"user-res-fps"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *gstcamerabin,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>          arg1,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>          arg2,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>          arg3,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gint"
+>gint</a>          arg4,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)         : Run Last / Action</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gstcamerabin</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg1</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg2</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg3</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>arg4</code></em> :</span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "user-start" signal'>
+<a name="GstCameraBin-user-start"></a><h3>The <code class="literal">"user-start"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *gstcamerabin,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)         : Run Last / Action</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gstcamerabin</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "user-stop" signal'>
+<a name="GstCameraBin-user-stop"></a><h3>The <code class="literal">"user-stop"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *gstcamerabin,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)         : Run Last / Action</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>gstcamerabin</code></em> :</span></p></td>
+<td>the object which received the signal.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "capture-pause" signal'>
+<a name="GstCameraBin-capture-pause"></a><h3>The <code class="literal">"capture-pause"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)      : Run Last / Action</pre>
+<p>
+Pauses video recording or resumes paused video recording.
+If in image mode or not recording, does nothing.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>camera</code></em> :</span></p></td>
+<td> the camera bin element
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "capture-start" signal'>
+<a name="GstCameraBin-capture-start"></a><h3>The <code class="literal">"capture-start"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)      : Run Last / Action</pre>
+<p>
+Starts image capture or video recording depending on the Mode.
+If there is a capture already going on, does nothing.
+Resumes video recording if it has been paused.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>camera</code></em> :</span></p></td>
+<td> the camera bin element
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "capture-stop" signal'>
+<a name="GstCameraBin-capture-stop"></a><h3>The <code class="literal">"capture-stop"</code> signal</h3>
+<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
+                                                        <a
+href="../glib/glib-Basic-Types.html#gpointer"
+>gpointer</a>      user_data)      : Run Last / Action</pre>
+<p>
+Stops still image preview, continuous image capture and video
+recording and returns to the view finder mode.</p>
+<p>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>camera</code></em> :</span></p></td>
+<td> the camera bin element
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
+<td>user data set when the signal handler was connected.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title='The "image-done" signal'>
+<a name="GstCameraBin-image-done"></a><h3>The <code class="literal">"image-done"</code> signal</h3>
+<pre class="programlisting"><a
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>            user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>        *filename,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>      user_data)      : Run Last</pre>
 <p>
 Signal emitted when the file has just been saved.
@@ -614,17 +1010,17 @@ will be a deadlock.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GstCameraBin-user-image-res"></a><h3>The <code class="literal">"user-image-res"</code> signal</h3>
+<div class="refsect2" title='The "set-image-resolution" signal'>
+<a name="GstCameraBin-set-image-resolution"></a><h3>The <code class="literal">"set-image-resolution"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>          width,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>          height,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>      user_data)      : Run Last / Action</pre>
 <p>
 Changes the resolution used for still image capture.
@@ -657,50 +1053,23 @@ Does not affect view finder mode and video recording.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GstCameraBin-user-pause"></a><h3>The <code class="literal">"user-pause"</code> signal</h3>
+<div class="refsect2" title='The "set-video-resolution-fps" signal'>
+<a name="GstCameraBin-set-video-resolution-fps"></a><h3>The <code class="literal">"set-video-resolution-fps"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
->gpointer</a>      user_data)      : Run Last / Action</pre>
-<p>
-Pauses video recording or resumes paused video recording.
-If in image mode or not recording, does nothing.</p>
-<p>
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>camera</code></em> :</span></p></td>
-<td> the camera bin element
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>user data set when the signal handler was connected.</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="GstCameraBin-user-res-fps"></a><h3>The <code class="literal">"user-res-fps"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>          width,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>          height,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>          fps_n,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>          fps_d,
                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
+href="../glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>      user_data)      : Run Last / Action</pre>
 <p>
 Changes the frame resolution and frames per second of the video source.
@@ -738,61 +1107,6 @@ given resolution, unless in night mode when minimum is configured.</p>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>fps_d</code></em> :</span></p></td>
 <td> frames per second denominator
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>user data set when the signal handler was connected.</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="GstCameraBin-user-start"></a><h3>The <code class="literal">"user-start"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
->gpointer</a>      user_data)      : Run Last / Action</pre>
-<p>
-Starts image capture or video recording depending on the Mode.
-If there is a capture already going on, does nothing.
-Resumes video recording if it has been paused.</p>
-<p>
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>camera</code></em> :</span></p></td>
-<td> the camera bin element
-</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>user_data</code></em> :</span></p></td>
-<td>user data set when the signal handler was connected.</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="GstCameraBin-user-stop"></a><h3>The <code class="literal">"user-stop"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-bad-plugins-camerabin.html#GstCameraBin">GstCameraBin</a> *camera,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
->gpointer</a>      user_data)      : Run Last / Action</pre>
-<p>
-Stops still image preview, continuous image capture and video
-recording and returns to the view finder mode.</p>
-<p>
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>camera</code></em> :</span></p></td>
-<td> the camera bin element
 </td>
 </tr>
 <tr>

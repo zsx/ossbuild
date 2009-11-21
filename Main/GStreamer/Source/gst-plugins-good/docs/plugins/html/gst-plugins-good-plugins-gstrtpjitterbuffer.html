@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>gstrtpjitterbuffer</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-gstrtpbin.html" title="gstrtpbin">
@@ -54,13 +54,13 @@
 <a name="gst-plugins-good-plugins-gstrtpjitterbuffer.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstRtpJitterBuffer
 </pre>
@@ -69,16 +69,16 @@ href="../gstreamer-0.10/GstElement.html"
 <a name="gst-plugins-good-plugins-gstrtpjitterbuffer.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-gstrtpjitterbuffer.html#GstRtpJitterBuffer--do-lost" title='The "do-lost" property'>do-lost</a>"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-gstrtpjitterbuffer.html#GstRtpJitterBuffer--drop-on-latency" title='The "drop-on-latency" property'>drop-on-latency</a>"          <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-gstrtpjitterbuffer.html#GstRtpJitterBuffer--latency" title='The "latency" property'>latency</a>"                  <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-gstrtpjitterbuffer.html#GstRtpJitterBuffer--ts-offset" title='The "ts-offset" property'>ts-offset</a>"                <a
-href="../glib/glib-Basic-Types.html#gint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write
 </pre>
 </div>
@@ -115,7 +115,7 @@ This element will automatically be used inside gstrtpbin.
 <p>
 </p>
 <div class="refsect2" title="Example pipelines">
-<a name="id525498"></a><h3>Example pipelines</h3>
+<a name="id3064918"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch rtspsrc location=rtsp://192.168.1.133:8554/mpeg1or2AudioVideoTest ! gstrtpjitterbuffer ! rtpmpvdepay ! mpeg2dec ! xvimagesink
 </pre></div> Connect to a streaming server and decode the MPEG video. The jitterbuffer is
@@ -129,7 +129,7 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id544432"></a><h3>Element Information</h3>
+<a name="id3097678"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -152,7 +152,7 @@ Last reviewed on 2007-05-28 (0.10.5)</p>
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id538384"></a><h3>Element Pads</h3>
+<a name="id3043577"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -237,7 +237,7 @@ Opaque jitterbuffer structure.</p>
 <div class="refsect2" title='The "do-lost" property'>
 <a name="GstRtpJitterBuffer--do-lost"></a><h3>The <code class="literal">"do-lost"</code> property</h3>
 <pre class="programlisting">  "do-lost"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Send an event downstream when a packet is lost.</p>
 <p>Default value: FALSE</p>
@@ -246,7 +246,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" title='The "drop-on-latency" property'>
 <a name="GstRtpJitterBuffer--drop-on-latency"></a><h3>The <code class="literal">"drop-on-latency"</code> property</h3>
 <pre class="programlisting">  "drop-on-latency"          <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Tells the jitterbuffer to never exceed the given latency in size.</p>
 <p>Default value: FALSE</p>
@@ -255,7 +255,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
 <div class="refsect2" title='The "latency" property'>
 <a name="GstRtpJitterBuffer--latency"></a><h3>The <code class="literal">"latency"</code> property</h3>
 <pre class="programlisting">  "latency"                  <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>                 : Read / Write</pre>
 <p>Amount of ms to buffer.</p>
 <p>Default value: 200</p>
@@ -264,7 +264,7 @@ href="../glib/glib-Basic-Types.html#guint"
 <div class="refsect2" title='The "ts-offset" property'>
 <a name="GstRtpJitterBuffer--ts-offset"></a><h3>The <code class="literal">"ts-offset"</code> property</h3>
 <pre class="programlisting">  "ts-offset"                <a
-href="../glib/glib-Basic-Types.html#gint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"
 >gint64</a>                : Read / Write</pre>
 <p>Adjust buffer timestamps with offset in nanoseconds.</p>
 <p>Default value: 0</p>
@@ -276,7 +276,7 @@ href="../glib/glib-Basic-Types.html#gint64"
 <a name="GstRtpJitterBuffer-clear-pt-map"></a><h3>The <code class="literal">"clear-pt-map"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-gstrtpjitterbuffer.html#GstRtpJitterBuffer">GstRtpJitterBuffer</a> *buffer,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>            user_data)      : Run Last / Action</pre>
 <p>
 Invalidate the clock-rate as obtained with the
@@ -303,10 +303,10 @@ Invalidate the clock-rate as obtained with the
 <a name="GstRtpJitterBuffer-handle-sync"></a><h3>The <code class="literal">"handle-sync"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-gstrtpjitterbuffer.html#GstRtpJitterBuffer">GstRtpJitterBuffer</a> *buffer,
                                                         <a
-href="../gstreamer-0.10/gstreamer-GstStructure.html#GstStructure"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstStructure.html#GstStructure"
 >GstStructure</a>       *struct,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>            user_data)      : Run Last</pre>
 <p>
 Be notified of new sync values.</p>
@@ -337,7 +337,7 @@ Be notified of new sync values.</p>
 <a name="GstRtpJitterBuffer-on-npt-stop"></a><h3>The <code class="literal">"on-npt-stop"</code> signal</h3>
 <pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-good-plugins-gstrtpjitterbuffer.html#GstRtpJitterBuffer">GstRtpJitterBuffer</a> *buffer,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>            user_data)      : Run Last</pre>
 <p>
 Signal that the jitterbufer has pushed the RTP packet that corresponds to
@@ -363,17 +363,17 @@ the npt-stop position.</p>
 <div class="refsect2" title='The "request-pt-map" signal'>
 <a name="GstRtpJitterBuffer-request-pt-map"></a><h3>The <code class="literal">"request-pt-map"</code> signal</h3>
 <pre class="programlisting"><a
-href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 >GstCaps</a>*            user_function                      (<a class="link" href="gst-plugins-good-plugins-gstrtpjitterbuffer.html#GstRtpJitterBuffer">GstRtpJitterBuffer</a> *buffer,
                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
 >guint</a>               pt,
                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
 >gpointer</a>            user_data)      : Run Last</pre>
 <p>
 Request the payload type as <a
-href="../gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
 ><span class="type">GstCaps</span></a> for <em class="parameter"><code>pt</code></em>.</p>
 <p>
 </p>

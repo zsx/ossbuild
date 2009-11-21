@@ -35,11 +35,8 @@
 
 #include "gstrtpg729pay.h"
 
-/* TODO: fix gstrtpbuffer.h */
-#undef GST_RTP_PAYLOAD_G729
-#define GST_RTP_PAYLOAD_G729 18
-#undef GST_RTP_PAYLOAD_G729_STRING
-#define GST_RTP_PAYLOAD_G729_STRING "18"
+GST_DEBUG_CATEGORY_STATIC (rtpg729pay_debug);
+#define GST_CAT_DEFAULT (rtpg729pay_debug)
 
 #define G729_FRAME_SIZE 10
 #define G729B_CN_FRAME_SIZE 2
@@ -97,6 +94,9 @@ gst_rtp_g729_pay_base_init (gpointer klass)
   gst_element_class_add_pad_template (element_class,
       gst_static_pad_template_get (&gst_rtp_g729_pay_src_template));
   gst_element_class_set_details (element_class, &gst_rtp_g729_pay_details);
+
+  GST_DEBUG_CATEGORY_INIT (rtpg729pay_debug, "rtpg729pay", 0,
+      "G.729 RTP Payloader");
 }
 
 static void
@@ -205,7 +205,7 @@ gst_rtp_g729_pay_handle_buffer (GstBaseRTPPayload * payload, GstBuffer * buf)
     min_payload_len = max_payload_len;
   }
 
-  GST_DEBUG_OBJECT (basertpaudiopayload,
+  GST_LOG_OBJECT (basertpaudiopayload,
       "Calculated min_payload_len %u and max_payload_len %u",
       min_payload_len, max_payload_len);
 
@@ -228,7 +228,7 @@ gst_rtp_g729_pay_handle_buffer (GstBaseRTPPayload * payload, GstBuffer * buf)
           GST_BUFFER_DATA (buf), GST_BUFFER_SIZE (buf),
           GST_BUFFER_TIMESTAMP (buf));
       gst_buffer_unref (buf);
-
+      g_object_unref (adapter);
       return ret;
     }
 
@@ -275,9 +275,8 @@ gst_rtp_g729_pay_handle_buffer (GstBaseRTPPayload * payload, GstBuffer * buf)
       buf2 = gst_buffer_create_sub (buf,
           GST_BUFFER_SIZE (buf) - available, available);
       gst_adapter_push (adapter, buf2);
-    } else {
-      gst_buffer_unref (buf);
     }
+    gst_buffer_unref (buf);
   }
 
   if (adapter) {

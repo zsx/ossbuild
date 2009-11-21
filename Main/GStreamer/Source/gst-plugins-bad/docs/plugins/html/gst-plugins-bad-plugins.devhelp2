@@ -4,6 +4,8 @@
   <chapters>
     <sub name="gst-plugins-bad Elements" link="ch01.html">
       <sub name="aacparse" link="gst-plugins-bad-plugins-aacparse.html"/>
+      <sub name="aiffparse" link="gst-plugins-bad-plugins-aiffparse.html"/>
+      <sub name="aiffmux" link="gst-plugins-bad-plugins-aiffmux.html"/>
       <sub name="amrparse" link="gst-plugins-bad-plugins-amrparse.html"/>
       <sub name="amrwbenc" link="gst-plugins-bad-plugins-amrwbenc.html"/>
       <sub name="autoconvert" link="gst-plugins-bad-plugins-autoconvert.html"/>
@@ -17,6 +19,7 @@
       <sub name="dccpserversrc" link="gst-plugins-bad-plugins-dccpserversrc.html"/>
       <sub name="dfbvideosink" link="gst-plugins-bad-plugins-dfbvideosink.html"/>
       <sub name="directdrawsink" link="gst-plugins-bad-plugins-directdrawsink.html"/>
+      <sub name="dtmfdetect" link="gst-plugins-bad-plugins-dtmfdetect.html"/>
       <sub name="dtmfsrc" link="gst-plugins-bad-plugins-dtmfsrc.html"/>
       <sub name="dtsdec" link="gst-plugins-bad-plugins-dtsdec.html"/>
       <sub name="dvbsrc" link="gst-plugins-bad-plugins-dvbsrc.html"/>
@@ -72,6 +75,7 @@
     </sub>
     <sub name="gst-plugins-bad Plugins" link="ch02.html">
       <sub name="aacparse" link="gst-plugins-bad-plugins-plugin-aacparse.html"/>
+      <sub name="aiff" link="gst-plugins-bad-plugins-plugin-aiff.html"/>
       <sub name="amrparse" link="gst-plugins-bad-plugins-plugin-amrparse.html"/>
       <sub name="autoconvert" link="gst-plugins-bad-plugins-plugin-autoconvert.html"/>
       <sub name="legacyresample" link="gst-plugins-bad-plugins-plugin-legacyresample.html"/>
@@ -156,39 +160,38 @@
     </sub>
   </chapters>
   <functions>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-aacparse.html#id2772739"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-aacparse.html#id2852822"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-aacparse.html#id2771129"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-aacparse.html#id2771191"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-aacparse.html#id2810145"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-aacparse.html#id2837578"/>
     <keyword type="struct" name="GstAacParse" link="gst-plugins-bad-plugins-aacparse.html#GstAacParse-struct"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-amrparse.html#id2820283"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-amrparse.html#id2830770"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-amrparse.html#id2844000"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-amrparse.html#id2859324"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-aiffparse.html#id2837210"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-aiffparse.html#id2824078"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-aiffparse.html#id2849343"/>
+    <keyword type="struct" name="GstAiffParse" link="gst-plugins-bad-plugins-aiffparse.html#GstAiffParse-struct"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-aiffmux.html#id2818940"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-aiffmux.html#id2824502"/>
+    <keyword type="struct" name="GstAiffMux" link="gst-plugins-bad-plugins-aiffmux.html#GstAiffMux"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-amrparse.html#id2845088"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-amrparse.html#id2844822"/>
     <keyword type="struct" name="GstAmrParse" link="gst-plugins-bad-plugins-amrparse.html#GstAmrParse-struct"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-amrwbenc.html#id2831086"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-amrwbenc.html#id2846286"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-amrwbenc.html#id2820542"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-amrwbenc.html#id2848625"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-amrwbenc.html#id2829877"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-amrwbenc.html#id2817067"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-amrwbenc.html#id2821808"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-amrwbenc.html#id2811765"/>
     <keyword type="struct" name="GstAmrwbEnc" link="gst-plugins-bad-plugins-amrwbenc.html#GstAmrwbEnc"/>
     <keyword type="property" name="The &quot;band-mode&quot; property" link="gst-plugins-bad-plugins-amrwbenc.html#GstAmrwbEnc--band-mode"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-autoconvert.html#id2843000"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-autoconvert.html#id2851849"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-autoconvert.html#id2863780"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-autoconvert.html#id2863844"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-autoconvert.html#id2826397"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-autoconvert.html#id2838301"/>
     <keyword type="struct" name="GstAutoConvert" link="gst-plugins-bad-plugins-autoconvert.html#GstAutoConvert-struct"/>
     <keyword type="property" name="The &quot;factories&quot; property" link="gst-plugins-bad-plugins-autoconvert.html#GstAutoConvert--factories"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-camerabin.html#id2821050"/>
-    <keyword type="" name="Image capture" link="gst-plugins-bad-plugins-camerabin.html#id2821066"/>
-    <keyword type="" name="Video capture" link="gst-plugins-bad-plugins-camerabin.html#id2832130"/>
-    <keyword type="" name="Photography interface" link="gst-plugins-bad-plugins-camerabin.html#id2832183"/>
-    <keyword type="" name="States" link="gst-plugins-bad-plugins-camerabin.html#id2832201"/>
-    <keyword type="" name="" link="gst-plugins-bad-plugins-camerabin.html#id2832219"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-camerabin.html#id2832242"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-camerabin.html#id2832306"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-camerabin.html#id2832319"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-camerabin.html#id2832383"/>
+    <keyword type="property" name="The &quot;initial-identity&quot; property" link="gst-plugins-bad-plugins-autoconvert.html#GstAutoConvert--initial-identity"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-camerabin.html#id2849647"/>
+    <keyword type="" name="Image capture" link="gst-plugins-bad-plugins-camerabin.html#id2849662"/>
+    <keyword type="" name="Video capture" link="gst-plugins-bad-plugins-camerabin.html#id2849719"/>
+    <keyword type="" name="Photography interface" link="gst-plugins-bad-plugins-camerabin.html#id2849773"/>
+    <keyword type="" name="States" link="gst-plugins-bad-plugins-camerabin.html#id2849799"/>
+    <keyword type="" name="Video and image previews" link="gst-plugins-bad-plugins-camerabin.html#id2849817"/>
+    <keyword type="" name="" link="gst-plugins-bad-plugins-camerabin.html#id2849844"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-camerabin.html#id2849870"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-camerabin.html#id2849934"/>
     <keyword type="struct" name="GstCameraBin" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-struct"/>
     <keyword type="enum" name="enum GstCameraBinMode" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBinMode"/>
     <keyword type="property" name="The &quot;audioenc&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--audioenc"/>
@@ -207,41 +210,51 @@
     <keyword type="property" name="The &quot;videosrc&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--videosrc"/>
     <keyword type="property" name="The &quot;zoom&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--zoom"/>
     <keyword type="property" name="The &quot;preview-caps&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--preview-caps"/>
+    <keyword type="property" name="The &quot;audio-encoder&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--audio-encoder"/>
+    <keyword type="property" name="The &quot;audio-source&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--audio-source"/>
+    <keyword type="property" name="The &quot;image-encoder&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--image-encoder"/>
+    <keyword type="property" name="The &quot;image-post-processing&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--image-post-processing"/>
+    <keyword type="property" name="The &quot;video-encoder&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-encoder"/>
+    <keyword type="property" name="The &quot;video-muxer&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-muxer"/>
+    <keyword type="property" name="The &quot;video-post-processing&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-post-processing"/>
+    <keyword type="property" name="The &quot;video-source&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-source"/>
+    <keyword type="property" name="The &quot;video-source-caps&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--video-source-caps"/>
+    <keyword type="property" name="The &quot;viewfinder-sink&quot; property" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin--viewfinder-sink"/>
     <keyword type="signal" name="The &quot;img-done&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-img-done"/>
     <keyword type="signal" name="The &quot;user-image-res&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-image-res"/>
     <keyword type="signal" name="The &quot;user-pause&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-pause"/>
     <keyword type="signal" name="The &quot;user-res-fps&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-res-fps"/>
     <keyword type="signal" name="The &quot;user-start&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-start"/>
     <keyword type="signal" name="The &quot;user-stop&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-user-stop"/>
-    <keyword type="" name="" link="gst-plugins-bad-plugins-capssetter.html#id2834721"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-capssetter.html#id2795578"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-capssetter.html#id2826281"/>
+    <keyword type="signal" name="The &quot;capture-pause&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-pause"/>
+    <keyword type="signal" name="The &quot;capture-start&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-start"/>
+    <keyword type="signal" name="The &quot;capture-stop&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-capture-stop"/>
+    <keyword type="signal" name="The &quot;image-done&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-image-done"/>
+    <keyword type="signal" name="The &quot;set-image-resolution&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-set-image-resolution"/>
+    <keyword type="signal" name="The &quot;set-video-resolution-fps&quot; signal" link="gst-plugins-bad-plugins-camerabin.html#GstCameraBin-set-video-resolution-fps"/>
+    <keyword type="" name="" link="gst-plugins-bad-plugins-capssetter.html#id2819195"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-capssetter.html#id2760081"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-capssetter.html#id2822316"/>
     <keyword type="struct" name="GstCapsSetter" link="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter-struct"/>
     <keyword type="property" name="The &quot;caps&quot; property" link="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter--caps"/>
     <keyword type="property" name="The &quot;join&quot; property" link="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter--join"/>
     <keyword type="property" name="The &quot;replace&quot; property" link="gst-plugins-bad-plugins-capssetter.html#GstCapsSetter--replace"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-celtdec.html#id2863373"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-celtdec.html#id2862245"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-celtdec.html#id2841819"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-celtdec.html#id2853949"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-celtdec.html#id2854012"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-celtdec.html#id2812187"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-celtdec.html#id2786615"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-celtdec.html#id2832064"/>
     <keyword type="struct" name="GstCeltDec" link="gst-plugins-bad-plugins-celtdec.html#GstCeltDec-struct"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-celtenc.html#id2852662"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-celtenc.html#id2852683"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-celtenc.html#id2865855"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-celtenc.html#id2865998"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-celtenc.html#id2866061"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-celtenc.html#id2822892"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-celtenc.html#id2822916"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-celtenc.html#id2822979"/>
     <keyword type="struct" name="GstCeltEnc" link="gst-plugins-bad-plugins-celtenc.html#GstCeltEnc-struct"/>
     <keyword type="property" name="The &quot;bitrate&quot; property" link="gst-plugins-bad-plugins-celtenc.html#GstCeltEnc--bitrate"/>
     <keyword type="property" name="The &quot;framesize&quot; property" link="gst-plugins-bad-plugins-celtenc.html#GstCeltEnc--framesize"/>
     <keyword type="property" name="The &quot;cbr&quot; property" link="gst-plugins-bad-plugins-celtenc.html#GstCeltEnc--cbr"/>
     <keyword type="property" name="The &quot;complexity&quot; property" link="gst-plugins-bad-plugins-celtenc.html#GstCeltEnc--complexity"/>
     <keyword type="property" name="The &quot;max-bitrate&quot; property" link="gst-plugins-bad-plugins-celtenc.html#GstCeltEnc--max-bitrate"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-dccpclientsink.html#id2821742"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpclientsink.html#id2866694"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpclientsink.html#id2866757"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpclientsink.html#id2866834"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpclientsink.html#id2866897"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-dccpclientsink.html#id2818360"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpclientsink.html#id2857640"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpclientsink.html#id2857703"/>
     <keyword type="struct" name="GstDCCPClientSink" link="gst-plugins-bad-plugins-dccpclientsink.html#GstDCCPClientSink-struct"/>
     <keyword type="property" name="The &quot;ccid&quot; property" link="gst-plugins-bad-plugins-dccpclientsink.html#GstDCCPClientSink--ccid"/>
     <keyword type="property" name="The &quot;close-socket&quot; property" link="gst-plugins-bad-plugins-dccpclientsink.html#GstDCCPClientSink--close-socket"/>
@@ -249,11 +262,9 @@
     <keyword type="property" name="The &quot;port&quot; property" link="gst-plugins-bad-plugins-dccpclientsink.html#GstDCCPClientSink--port"/>
     <keyword type="property" name="The &quot;sockfd&quot; property" link="gst-plugins-bad-plugins-dccpclientsink.html#GstDCCPClientSink--sockfd"/>
     <keyword type="signal" name="The &quot;connected&quot; signal" link="gst-plugins-bad-plugins-dccpclientsink.html#GstDCCPClientSink-connected"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-dccpclientsrc.html#id2851166"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpclientsrc.html#id2851208"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpclientsrc.html#id2851271"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpclientsrc.html#id2867618"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpclientsrc.html#id2867681"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-dccpclientsrc.html#id2818032"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpclientsrc.html#id2855846"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpclientsrc.html#id2855909"/>
     <keyword type="struct" name="GstDCCPClientSrc" link="gst-plugins-bad-plugins-dccpclientsrc.html#GstDCCPClientSrc-struct"/>
     <keyword type="property" name="The &quot;caps&quot; property" link="gst-plugins-bad-plugins-dccpclientsrc.html#GstDCCPClientSrc--caps"/>
     <keyword type="property" name="The &quot;ccid&quot; property" link="gst-plugins-bad-plugins-dccpclientsrc.html#GstDCCPClientSrc--ccid"/>
@@ -262,11 +273,9 @@
     <keyword type="property" name="The &quot;port&quot; property" link="gst-plugins-bad-plugins-dccpclientsrc.html#GstDCCPClientSrc--port"/>
     <keyword type="property" name="The &quot;sockfd&quot; property" link="gst-plugins-bad-plugins-dccpclientsrc.html#GstDCCPClientSrc--sockfd"/>
     <keyword type="signal" name="The &quot;connected&quot; signal" link="gst-plugins-bad-plugins-dccpclientsrc.html#GstDCCPClientSrc-connected"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-dccpserversink.html#id2854943"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpserversink.html#id2854985"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpserversink.html#id2859900"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpserversink.html#id2859977"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpserversink.html#id2860040"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-dccpserversink.html#id2856236"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpserversink.html#id2857310"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpserversink.html#id2857373"/>
     <keyword type="struct" name="GstDCCPServerSink" link="gst-plugins-bad-plugins-dccpserversink.html#GstDCCPServerSink-struct"/>
     <keyword type="property" name="The &quot;ccid&quot; property" link="gst-plugins-bad-plugins-dccpserversink.html#GstDCCPServerSink--ccid"/>
     <keyword type="property" name="The &quot;close-socket&quot; property" link="gst-plugins-bad-plugins-dccpserversink.html#GstDCCPServerSink--close-socket"/>
@@ -274,11 +283,9 @@
     <keyword type="property" name="The &quot;sockfd&quot; property" link="gst-plugins-bad-plugins-dccpserversink.html#GstDCCPServerSink--sockfd"/>
     <keyword type="property" name="The &quot;wait-connections&quot; property" link="gst-plugins-bad-plugins-dccpserversink.html#GstDCCPServerSink--wait-connections"/>
     <keyword type="signal" name="The &quot;connected&quot; signal" link="gst-plugins-bad-plugins-dccpserversink.html#GstDCCPServerSink-connected"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-dccpserversrc.html#id2869915"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpserversrc.html#id2869954"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpserversrc.html#id2870018"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpserversrc.html#id2870257"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpserversrc.html#id2870320"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-dccpserversrc.html#id2859558"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dccpserversrc.html#id2860074"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dccpserversrc.html#id2860138"/>
     <keyword type="struct" name="GstDCCPServerSrc" link="gst-plugins-bad-plugins-dccpserversrc.html#GstDCCPServerSrc-struct"/>
     <keyword type="property" name="The &quot;caps&quot; property" link="gst-plugins-bad-plugins-dccpserversrc.html#GstDCCPServerSrc--caps"/>
     <keyword type="property" name="The &quot;ccid&quot; property" link="gst-plugins-bad-plugins-dccpserversrc.html#GstDCCPServerSrc--ccid"/>
@@ -287,12 +294,10 @@
     <keyword type="property" name="The &quot;port&quot; property" link="gst-plugins-bad-plugins-dccpserversrc.html#GstDCCPServerSrc--port"/>
     <keyword type="property" name="The &quot;sockfd&quot; property" link="gst-plugins-bad-plugins-dccpserversrc.html#GstDCCPServerSrc--sockfd"/>
     <keyword type="signal" name="The &quot;connected&quot; signal" link="gst-plugins-bad-plugins-dccpserversrc.html#GstDCCPServerSrc-connected"/>
-    <keyword type="" name="Example application" link="gst-plugins-bad-plugins-dfbvideosink.html#id2916287"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-dfbvideosink.html#id2916343"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dfbvideosink.html#id2916365"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dfbvideosink.html#id2916427"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dfbvideosink.html#id2916521"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dfbvideosink.html#id2916588"/>
+    <keyword type="" name="Example application" link="gst-plugins-bad-plugins-dfbvideosink.html#id2861230"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-dfbvideosink.html#id2861293"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dfbvideosink.html#id2861318"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dfbvideosink.html#id2863616"/>
     <keyword type="struct" name="GstDfbVideoSink" link="gst-plugins-bad-plugins-dfbvideosink.html#GstDfbVideoSink-struct"/>
     <keyword type="property" name="The &quot;brightness&quot; property" link="gst-plugins-bad-plugins-dfbvideosink.html#GstDfbVideoSink--brightness"/>
     <keyword type="property" name="The &quot;contrast&quot; property" link="gst-plugins-bad-plugins-dfbvideosink.html#GstDfbVideoSink--contrast"/>
@@ -301,30 +306,25 @@
     <keyword type="property" name="The &quot;saturation&quot; property" link="gst-plugins-bad-plugins-dfbvideosink.html#GstDfbVideoSink--saturation"/>
     <keyword type="property" name="The &quot;surface&quot; property" link="gst-plugins-bad-plugins-dfbvideosink.html#GstDfbVideoSink--surface"/>
     <keyword type="property" name="The &quot;vsync&quot; property" link="gst-plugins-bad-plugins-dfbvideosink.html#GstDfbVideoSink--vsync"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-directdrawsink.html#id2836747"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-directdrawsink.html#id2836766"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-directdrawsink.html#id2850636"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-directdrawsink.html#id2850650"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-directdrawsink.html#id2850711"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-directdrawsink.html#id2835732"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-directdrawsink.html#id2835754"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-directdrawsink.html#id2835816"/>
     <keyword type="struct" name="GstDirectDrawSink" link="gst-plugins-bad-plugins-directdrawsink.html#GstDirectDrawSink"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dtmfsrc.html#id2871673"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dtmfsrc.html#id2871826"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dtmfsrc.html#id2871905"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dtmfsrc.html#id2871968"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dtmfdetect.html#id2861609"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dtmfdetect.html#id2861672"/>
+    <keyword type="struct" name="GstDtmfDetect" link="gst-plugins-bad-plugins-dtmfdetect.html#GstDtmfDetect-struct"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dtmfsrc.html#id2862210"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dtmfsrc.html#id2862273"/>
     <keyword type="struct" name="GstDTMFSrc" link="gst-plugins-bad-plugins-dtmfsrc.html#GstDTMFSrc-struct"/>
     <keyword type="property" name="The &quot;interval&quot; property" link="gst-plugins-bad-plugins-dtmfsrc.html#GstDTMFSrc--interval"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-dtsdec.html#id2823384"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dtsdec.html#id2852732"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dtsdec.html#id2872454"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dtsdec.html#id2872609"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dtsdec.html#id2872673"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-dtsdec.html#id2848963"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dtsdec.html#id2828824"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dtsdec.html#id2865270"/>
     <keyword type="struct" name="GstDtsDec" link="gst-plugins-bad-plugins-dtsdec.html#GstDtsDec-struct"/>
     <keyword type="property" name="The &quot;drc&quot; property" link="gst-plugins-bad-plugins-dtsdec.html#GstDtsDec--drc"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-dvbsrc.html#id2875452"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dvbsrc.html#id2875510"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dvbsrc.html#id2875574"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dvbsrc.html#id2875650"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dvbsrc.html#id2875714"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-dvbsrc.html#id2864801"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dvbsrc.html#id2864863"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dvbsrc.html#id2864926"/>
     <keyword type="struct" name="GstDvbSrc" link="gst-plugins-bad-plugins-dvbsrc.html#GstDvbSrc-struct"/>
     <keyword type="property" name="The &quot;bandwidth&quot; property" link="gst-plugins-bad-plugins-dvbsrc.html#GstDvbSrc--bandwidth"/>
     <keyword type="property" name="The &quot;code-rate-hp&quot; property" link="gst-plugins-bad-plugins-dvbsrc.html#GstDvbSrc--code-rate-hp"/>
@@ -348,15 +348,13 @@
     <keyword type="property" name="The &quot;polarity&quot; property" link="gst-plugins-bad-plugins-dvbsrc.html#GstDvbSrc--polarity"/>
     <keyword type="property" name="The &quot;symbol-rate&quot; property" link="gst-plugins-bad-plugins-dvbsrc.html#GstDvbSrc--symbol-rate"/>
     <keyword type="property" name="The &quot;stats-reporting-interval&quot; property" link="gst-plugins-bad-plugins-dvbsrc.html#GstDvbSrc--stats-reporting-interval"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-dvdspu.html#id2850168"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dvdspu.html#id2850152"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dvdspu.html#id2848930"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dvdspu.html#id2874996"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dvdspu.html#id2875058"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-dvdspu.html#id2867927"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-dvdspu.html#id2810810"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-dvdspu.html#id2825843"/>
     <keyword type="struct" name="struct GstDVDSpu" link="gst-plugins-bad-plugins-dvdspu.html#GstDVDSpu-struct"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-faac.html#id2874725"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-faac.html#id2874746"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-faac.html#id2877110"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-faac.html#id2866096"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-faac.html#id2866118"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-faac.html#id2866180"/>
     <keyword type="struct" name="GstFaac" link="gst-plugins-bad-plugins-faac.html#GstFaac-struct"/>
     <keyword type="property" name="The &quot;bitrate&quot; property" link="gst-plugins-bad-plugins-faac.html#GstFaac--bitrate"/>
     <keyword type="property" name="The &quot;midside&quot; property" link="gst-plugins-bad-plugins-faac.html#GstFaac--midside"/>
@@ -364,54 +362,42 @@
     <keyword type="property" name="The &quot;profile&quot; property" link="gst-plugins-bad-plugins-faac.html#GstFaac--profile"/>
     <keyword type="property" name="The &quot;shortctl&quot; property" link="gst-plugins-bad-plugins-faac.html#GstFaac--shortctl"/>
     <keyword type="property" name="The &quot;tns&quot; property" link="gst-plugins-bad-plugins-faac.html#GstFaac--tns"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-festival.html#id2843758"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-festival.html#id2827303"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-festival.html#id2824384"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-festival.html#id2874043"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-festival.html#id2874108"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-festival.html#id2838999"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-festival.html#id2838061"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-festival.html#id2817273"/>
     <keyword type="struct" name="GstFestival" link="gst-plugins-bad-plugins-festival.html#GstFestival-struct"/>
-    <keyword type="" name="Example launch lines" link="gst-plugins-bad-plugins-fpsdisplaysink.html#id2874377"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-fpsdisplaysink.html#id2874400"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-fpsdisplaysink.html#id2874463"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-fpsdisplaysink.html#id2874540"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-fpsdisplaysink.html#id2877664"/>
+    <keyword type="" name="Example launch lines" link="gst-plugins-bad-plugins-fpsdisplaysink.html#id2862894"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-fpsdisplaysink.html#id2862919"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-fpsdisplaysink.html#id2862982"/>
     <keyword type="struct" name="GstFPSDisplaySink" link="gst-plugins-bad-plugins-fpsdisplaysink.html#GstFPSDisplaySink-struct"/>
     <keyword type="property" name="The &quot;sync&quot; property" link="gst-plugins-bad-plugins-fpsdisplaysink.html#GstFPSDisplaySink--sync"/>
     <keyword type="property" name="The &quot;text-overlay&quot; property" link="gst-plugins-bad-plugins-fpsdisplaysink.html#GstFPSDisplaySink--text-overlay"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-input-selector.html#id2839554"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-input-selector.html#id2878785"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-input-selector.html#id2878925"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-input-selector.html#id2878990"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-input-selector.html#id2815571"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-input-selector.html#id2868480"/>
     <keyword type="struct" name="GstInputSelector" link="gst-plugins-bad-plugins-input-selector.html#GstInputSelector-struct"/>
     <keyword type="property" name="The &quot;active-pad&quot; property" link="gst-plugins-bad-plugins-input-selector.html#GstInputSelector--active-pad"/>
     <keyword type="property" name="The &quot;n-pads&quot; property" link="gst-plugins-bad-plugins-input-selector.html#GstInputSelector--n-pads"/>
     <keyword type="property" name="The &quot;select-all&quot; property" link="gst-plugins-bad-plugins-input-selector.html#GstInputSelector--select-all"/>
     <keyword type="signal" name="The &quot;block&quot; signal" link="gst-plugins-bad-plugins-input-selector.html#GstInputSelector-block"/>
     <keyword type="signal" name="The &quot;switch&quot; signal" link="gst-plugins-bad-plugins-input-selector.html#GstInputSelector-switch"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-ivorbisdec.html#id2877054"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-ivorbisdec.html#id2852994"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-ivorbisdec.html#id2862768"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-ivorbisdec.html#id2878123"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-ivorbisdec.html#id2878185"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-ivorbisdec.html#id2869035"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-ivorbisdec.html#id2828965"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-ivorbisdec.html#id2846590"/>
     <keyword type="struct" name="GstIVorbisDec" link="gst-plugins-bad-plugins-ivorbisdec.html#GstIVorbisDec"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-jackaudiosrc.html#id2879995"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-jackaudiosrc.html#id2880057"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-jackaudiosrc.html#id2880136"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-jackaudiosrc.html#id2880198"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-jackaudiosrc.html#id2869737"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-jackaudiosrc.html#id2869799"/>
     <keyword type="struct" name="GstJackAudioSrc" link="gst-plugins-bad-plugins-jackaudiosrc.html#GstJackAudioSrc-struct"/>
     <keyword type="property" name="The &quot;connect&quot; property" link="gst-plugins-bad-plugins-jackaudiosrc.html#GstJackAudioSrc--connect"/>
     <keyword type="property" name="The &quot;server&quot; property" link="gst-plugins-bad-plugins-jackaudiosrc.html#GstJackAudioSrc--server"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-jackaudiosink.html#id2880771"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-jackaudiosink.html#id2880794"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-jackaudiosink.html#id2880856"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-jackaudiosink.html#id2880935"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-jackaudiosink.html#id2880997"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-jackaudiosink.html#id2870121"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-jackaudiosink.html#id2870146"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-jackaudiosink.html#id2870208"/>
     <keyword type="struct" name="GstJackAudioSink" link="gst-plugins-bad-plugins-jackaudiosink.html#GstJackAudioSink-struct"/>
     <keyword type="property" name="The &quot;connect&quot; property" link="gst-plugins-bad-plugins-jackaudiosink.html#GstJackAudioSink--connect"/>
     <keyword type="property" name="The &quot;server&quot; property" link="gst-plugins-bad-plugins-jackaudiosink.html#GstJackAudioSink--server"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-kateenc.html#id2837364"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-kateenc.html#id2881476"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-kateenc.html#id2881538"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-kateenc.html#id2845507"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-kateenc.html#id2870858"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-kateenc.html#id2870921"/>
     <keyword type="struct" name="GstKateEnc" link="gst-plugins-bad-plugins-kateenc.html#GstKateEnc-struct"/>
     <keyword type="property" name="The &quot;category&quot; property" link="gst-plugins-bad-plugins-kateenc.html#GstKateEnc--category"/>
     <keyword type="property" name="The &quot;default-spu-duration&quot; property" link="gst-plugins-bad-plugins-kateenc.html#GstKateEnc--default-spu-duration"/>
@@ -422,74 +408,60 @@
     <keyword type="property" name="The &quot;language&quot; property" link="gst-plugins-bad-plugins-kateenc.html#GstKateEnc--language"/>
     <keyword type="property" name="The &quot;original-canvas-height&quot; property" link="gst-plugins-bad-plugins-kateenc.html#GstKateEnc--original-canvas-height"/>
     <keyword type="property" name="The &quot;original-canvas-width&quot; property" link="gst-plugins-bad-plugins-kateenc.html#GstKateEnc--original-canvas-width"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-katedec.html#id2858434"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-katedec.html#id2820805"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-katedec.html#id2881992"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-katedec.html#id2854432"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-katedec.html#id2785219"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-katedec.html#id2871537"/>
     <keyword type="struct" name="GstKateDec" link="gst-plugins-bad-plugins-katedec.html#GstKateDec-struct"/>
     <keyword type="property" name="The &quot;category&quot; property" link="gst-plugins-bad-plugins-katedec.html#GstKateDec--category"/>
     <keyword type="property" name="The &quot;language&quot; property" link="gst-plugins-bad-plugins-katedec.html#GstKateDec--language"/>
     <keyword type="property" name="The &quot;original-canvas-height&quot; property" link="gst-plugins-bad-plugins-katedec.html#GstKateDec--original-canvas-height"/>
     <keyword type="property" name="The &quot;original-canvas-width&quot; property" link="gst-plugins-bad-plugins-katedec.html#GstKateDec--original-canvas-width"/>
     <keyword type="property" name="The &quot;remove-markup&quot; property" link="gst-plugins-bad-plugins-katedec.html#GstKateDec--remove-markup"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-kateparse.html#id2856244"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-kateparse.html#id2840225"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-kateparse.html#id2848939"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-kateparse.html#id2873620"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-kateparse.html#id2832060"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-kateparse.html#id2852748"/>
     <keyword type="struct" name="GstKateParse" link="gst-plugins-bad-plugins-kateparse.html#GstKateParse-struct"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-katetag.html#id2842146"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-katetag.html#id2883890"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-katetag.html#id2883953"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-katetag.html#id2785788"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-katetag.html#id2873117"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-katetag.html#id2873180"/>
     <keyword type="struct" name="GstKateTag" link="gst-plugins-bad-plugins-katetag.html#GstKateTag-struct"/>
     <keyword type="property" name="The &quot;category&quot; property" link="gst-plugins-bad-plugins-katetag.html#GstKateTag--category"/>
     <keyword type="property" name="The &quot;language&quot; property" link="gst-plugins-bad-plugins-katetag.html#GstKateTag--language"/>
     <keyword type="property" name="The &quot;original-canvas-height&quot; property" link="gst-plugins-bad-plugins-katetag.html#GstKateTag--original-canvas-height"/>
     <keyword type="property" name="The &quot;original-canvas-width&quot; property" link="gst-plugins-bad-plugins-katetag.html#GstKateTag--original-canvas-width"/>
     <keyword type="struct" name="GstLADSPA" link="gst-plugins-bad-plugins-ladspa.html#GstLADSPA"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-legacyresample.html#id2884272"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-legacyresample.html#id2884248"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-legacyresample.html#id2869063"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-legacyresample.html#id2885633"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-legacyresample.html#id2885695"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-legacyresample.html#id2873976"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-legacyresample.html#id2873964"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-legacyresample.html#id2834133"/>
     <keyword type="struct" name="GstLegacyresample" link="gst-plugins-bad-plugins-legacyresample.html#GstLegacyresample-struct"/>
     <keyword type="property" name="The &quot;filter-length&quot; property" link="gst-plugins-bad-plugins-legacyresample.html#GstLegacyresample--filter-length"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-liveadder.html#id2824467"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-liveadder.html#id2870992"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-liveadder.html#id2886354"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-liveadder.html#id2886417"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-liveadder.html#id2814861"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-liveadder.html#id2821908"/>
     <keyword type="struct" name="GstLiveAdder" link="gst-plugins-bad-plugins-liveadder.html#GstLiveAdder-struct"/>
     <keyword type="property" name="The &quot;latency&quot; property" link="gst-plugins-bad-plugins-liveadder.html#GstLiveAdder--latency"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-metadatademux.html#id2834359"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-metadatademux.html#id2873216"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-metadatademux.html#id2887096"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-metadatademux.html#id2887273"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-metadatademux.html#id2887335"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-metadatademux.html#id2875185"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-metadatademux.html#id2832220"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-metadatademux.html#id2875911"/>
     <keyword type="struct" name="GstMetadataDemux" link="gst-plugins-bad-plugins-metadatademux.html#GstMetadataDemux-struct"/>
     <keyword type="property" name="The &quot;parse-only&quot; property" link="gst-plugins-bad-plugins-metadatademux.html#GstMetadataDemux--parse-only"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-metadatamux.html#id2876903"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-metadatamux.html#id2888168"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-metadatamux.html#id2888230"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-metadatamux.html#id2888397"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-metadatamux.html#id2888460"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-metadatamux.html#id2836902"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-metadatamux.html#id2876469"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-metadatamux.html#id2876530"/>
     <keyword type="struct" name="GstMetadataMux" link="gst-plugins-bad-plugins-metadatamux.html#GstMetadataMux-struct"/>
     <keyword type="property" name="The &quot;exif&quot; property" link="gst-plugins-bad-plugins-metadatamux.html#GstMetadataMux--exif"/>
     <keyword type="property" name="The &quot;iptc&quot; property" link="gst-plugins-bad-plugins-metadatamux.html#GstMetadataMux--iptc"/>
     <keyword type="property" name="The &quot;xmp&quot; property" link="gst-plugins-bad-plugins-metadatamux.html#GstMetadataMux--xmp"/>
     <keyword type="property" name="The &quot;exif-byte-order&quot; property" link="gst-plugins-bad-plugins-metadatamux.html#GstMetadataMux--exif-byte-order"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mimenc.html#id2856476"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mimenc.html#id2827707"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mimenc.html#id2889046"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mimenc.html#id2889109"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mimenc.html#id2834589"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mimenc.html#id2823939"/>
     <keyword type="struct" name="GstMimEnc" link="gst-plugins-bad-plugins-mimenc.html#GstMimEnc-struct"/>
     <keyword type="property" name="The &quot;paused-mode&quot; property" link="gst-plugins-bad-plugins-mimenc.html#GstMimEnc--paused-mode"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mimdec.html#id2840976"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mimdec.html#id2851568"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mimdec.html#id2889652"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mimdec.html#id2889716"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mimdec.html#id2834039"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mimdec.html#id2814967"/>
     <keyword type="struct" name="GstMimDec" link="gst-plugins-bad-plugins-mimdec.html#GstMimDec-struct"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-modplug.html#id2859248"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-modplug.html#id2864110"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-modplug.html#id2891279"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-modplug.html#id2891492"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-modplug.html#id2891555"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-modplug.html#id2786414"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-modplug.html#id2879645"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-modplug.html#id2879708"/>
     <keyword type="struct" name="GstModPlug" link="gst-plugins-bad-plugins-modplug.html#GstModPlug-struct"/>
     <keyword type="property" name="The &quot;megabass&quot; property" link="gst-plugins-bad-plugins-modplug.html#GstModPlug--megabass"/>
     <keyword type="property" name="The &quot;megabass-amount&quot; property" link="gst-plugins-bad-plugins-modplug.html#GstModPlug--megabass-amount"/>
@@ -503,11 +475,9 @@
     <keyword type="property" name="The &quot;surround&quot; property" link="gst-plugins-bad-plugins-modplug.html#GstModPlug--surround"/>
     <keyword type="property" name="The &quot;surround-delay&quot; property" link="gst-plugins-bad-plugins-modplug.html#GstModPlug--surround-delay"/>
     <keyword type="property" name="The &quot;surround-depth&quot; property" link="gst-plugins-bad-plugins-modplug.html#GstModPlug--surround-depth"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-mpeg2enc.html#id2894637"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mpeg2enc.html#id2894697"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mpeg2enc.html#id2894761"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mpeg2enc.html#id2894907"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mpeg2enc.html#id2894971"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-mpeg2enc.html#id2882132"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mpeg2enc.html#id2882195"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mpeg2enc.html#id2882259"/>
     <keyword type="struct" name="GstMpeg2enc" link="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc-struct"/>
     <keyword type="property" name="The &quot;altscan-mpeg2&quot; property" link="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc--altscan-mpeg2"/>
     <keyword type="property" name="The &quot;aspect&quot; property" link="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc--aspect"/>
@@ -543,11 +513,9 @@
     <keyword type="property" name="The &quot;sequence-length&quot; property" link="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc--sequence-length"/>
     <keyword type="property" name="The &quot;unit-coeff-elim&quot; property" link="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc--unit-coeff-elim"/>
     <keyword type="property" name="The &quot;vcd-still-size&quot; property" link="gst-plugins-bad-plugins-mpeg2enc.html#GstMpeg2enc--vcd-still-size"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-mplex.html#id2891082"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mplex.html#id2843400"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mplex.html#id2878636"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mplex.html#id2891747"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mplex.html#id2891811"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-mplex.html#id2879432"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mplex.html#id2854051"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mplex.html#id2847207"/>
     <keyword type="struct" name="GstMplex" link="gst-plugins-bad-plugins-mplex.html#GstMplex-struct"/>
     <keyword type="property" name="The &quot;bufsize&quot; property" link="gst-plugins-bad-plugins-mplex.html#GstMplex--bufsize"/>
     <keyword type="property" name="The &quot;format&quot; property" link="gst-plugins-bad-plugins-mplex.html#GstMplex--format"/>
@@ -556,11 +524,9 @@
     <keyword type="property" name="The &quot;sector-size&quot; property" link="gst-plugins-bad-plugins-mplex.html#GstMplex--sector-size"/>
     <keyword type="property" name="The &quot;system-headers&quot; property" link="gst-plugins-bad-plugins-mplex.html#GstMplex--system-headers"/>
     <keyword type="property" name="The &quot;vbr&quot; property" link="gst-plugins-bad-plugins-mplex.html#GstMplex--vbr"/>
-    <keyword type="" name="Examples" link="gst-plugins-bad-plugins-mythtvsrc.html#id2893631"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mythtvsrc.html#id2893693"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mythtvsrc.html#id2893872"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mythtvsrc.html#id2893949"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mythtvsrc.html#id2894012"/>
+    <keyword type="" name="Examples" link="gst-plugins-bad-plugins-mythtvsrc.html#id2881734"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mythtvsrc.html#id2881800"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mythtvsrc.html#id2881864"/>
     <keyword type="struct" name="GstMythtvSrc" link="gst-plugins-bad-plugins-mythtvsrc.html#GstMythtvSrc-struct"/>
     <keyword type="property" name="The &quot;location&quot; property" link="gst-plugins-bad-plugins-mythtvsrc.html#GstMythtvSrc--location"/>
     <keyword type="property" name="The &quot;mythtv-channel&quot; property" link="gst-plugins-bad-plugins-mythtvsrc.html#GstMythtvSrc--mythtv-channel"/>
@@ -569,53 +535,41 @@
     <keyword type="property" name="The &quot;mythtv-live-chainid&quot; property" link="gst-plugins-bad-plugins-mythtvsrc.html#GstMythtvSrc--mythtv-live-chainid"/>
     <keyword type="property" name="The &quot;mythtv-live-id&quot; property" link="gst-plugins-bad-plugins-mythtvsrc.html#GstMythtvSrc--mythtv-live-id"/>
     <keyword type="property" name="The &quot;mythtv-version&quot; property" link="gst-plugins-bad-plugins-mythtvsrc.html#GstMythtvSrc--mythtv-version"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-mxfdemux.html#id2866381"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mxfdemux.html#id2821105"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mxfdemux.html#id2896582"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mxfdemux.html#id2896722"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mxfdemux.html#id2896785"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-mxfdemux.html#id2853983"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mxfdemux.html#id2847181"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mxfdemux.html#id2886033"/>
     <keyword type="struct" name="GstMXFDemux" link="gst-plugins-bad-plugins-mxfdemux.html#GstMXFDemux-struct"/>
     <keyword type="property" name="The &quot;package&quot; property" link="gst-plugins-bad-plugins-mxfdemux.html#GstMXFDemux--package"/>
     <keyword type="property" name="The &quot;max-drift&quot; property" link="gst-plugins-bad-plugins-mxfdemux.html#GstMXFDemux--max-drift"/>
     <keyword type="property" name="The &quot;structure&quot; property" link="gst-plugins-bad-plugins-mxfdemux.html#GstMXFDemux--structure"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-mxfmux.html#id2898899"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mxfmux.html#id2898879"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mxfmux.html#id2898823"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mxfmux.html#id2901375"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mxfmux.html#id2901438"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-mxfmux.html#id2884851"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-mxfmux.html#id2884828"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-mxfmux.html#id2884775"/>
     <keyword type="struct" name="GstMXFMux" link="gst-plugins-bad-plugins-mxfmux.html#GstMXFMux-struct"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-nuvdemux.html#id2899176"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-nuvdemux.html#id2899159"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-nuvdemux.html#id2844786"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-nuvdemux.html#id2899369"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-nuvdemux.html#id2899430"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-nuvdemux.html#id2886448"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-nuvdemux.html#id2886430"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-nuvdemux.html#id2860524"/>
     <keyword type="struct" name="GstNuvDemux" link="gst-plugins-bad-plugins-nuvdemux.html#GstNuvDemux-struct"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-output-selector.html#id2841184"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-output-selector.html#id2899789"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-output-selector.html#id2899929"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-output-selector.html#id2899990"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-output-selector.html#id2856807"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-output-selector.html#id2886926"/>
     <keyword type="struct" name="GstOutputSelector" link="gst-plugins-bad-plugins-output-selector.html#GstOutputSelector-struct"/>
     <keyword type="property" name="The &quot;active-pad&quot; property" link="gst-plugins-bad-plugins-output-selector.html#GstOutputSelector--active-pad"/>
     <keyword type="property" name="The &quot;resend-latest&quot; property" link="gst-plugins-bad-plugins-output-selector.html#GstOutputSelector--resend-latest"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-pcapparse.html#id2771446"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-pcapparse.html#id2900345"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-pcapparse.html#id2900409"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-pcapparse.html#id2836672"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-pcapparse.html#id2887519"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-pcapparse.html#id2887582"/>
     <keyword type="struct" name="GstPcapParse" link="gst-plugins-bad-plugins-pcapparse.html#GstPcapParse-struct"/>
     <keyword type="property" name="The &quot;dst-ip&quot; property" link="gst-plugins-bad-plugins-pcapparse.html#GstPcapParse--dst-ip"/>
     <keyword type="property" name="The &quot;dst-port&quot; property" link="gst-plugins-bad-plugins-pcapparse.html#GstPcapParse--dst-port"/>
     <keyword type="property" name="The &quot;src-ip&quot; property" link="gst-plugins-bad-plugins-pcapparse.html#GstPcapParse--src-ip"/>
     <keyword type="property" name="The &quot;src-port&quot; property" link="gst-plugins-bad-plugins-pcapparse.html#GstPcapParse--src-port"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#id2903094"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#id2903156"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#id2903300"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#id2903363"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#id2888356"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#id2888419"/>
     <keyword type="struct" name="GstRtpDTMFDepay" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#GstRtpDTMFDepay-struct"/>
     <keyword type="property" name="The &quot;max-duration&quot; property" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#GstRtpDTMFDepay--max-duration"/>
     <keyword type="property" name="The &quot;unit-time&quot; property" link="gst-plugins-bad-plugins-rtpdtmfdepay.html#GstRtpDTMFDepay--unit-time"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#id2904546"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#id2904609"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#id2904689"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#id2904752"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#id2889178"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#id2889240"/>
     <keyword type="struct" name="GstRTPDTMFSrc" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#GstRTPDTMFSrc-struct"/>
     <keyword type="property" name="The &quot;clock-rate&quot; property" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#GstRTPDTMFSrc--clock-rate"/>
     <keyword type="property" name="The &quot;interval&quot; property" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#GstRTPDTMFSrc--interval"/>
@@ -626,78 +580,58 @@
     <keyword type="property" name="The &quot;ssrc&quot; property" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#GstRTPDTMFSrc--ssrc"/>
     <keyword type="property" name="The &quot;timestamp&quot; property" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#GstRTPDTMFSrc--timestamp"/>
     <keyword type="property" name="The &quot;timestamp-offset&quot; property" link="gst-plugins-bad-plugins-rtpdtmfsrc.html#GstRTPDTMFSrc--timestamp-offset"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfmux.html#id2904179"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfmux.html#id2855092"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfmux.html#id2906294"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfmux.html#id2906356"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpdtmfmux.html#id2889669"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpdtmfmux.html#id2889730"/>
     <keyword type="struct" name="GstRTPDTMFMux" link="gst-plugins-bad-plugins-rtpdtmfmux.html#GstRTPDTMFMux-struct"/>
     <keyword type="signal" name="The &quot;locking&quot; signal" link="gst-plugins-bad-plugins-rtpdtmfmux.html#GstRTPDTMFMux-locking"/>
     <keyword type="signal" name="The &quot;unlocked&quot; signal" link="gst-plugins-bad-plugins-rtpdtmfmux.html#GstRTPDTMFMux-unlocked"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpmux.html#id2824500"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpmux.html#id2905878"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpmux.html#id2905472"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpmux.html#id2905535"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-rtpmux.html#id2839114"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-rtpmux.html#id2891168"/>
     <keyword type="struct" name="GstRTPMux" link="gst-plugins-bad-plugins-rtpmux.html#GstRTPMux-struct"/>
     <keyword type="property" name="The &quot;seqnum&quot; property" link="gst-plugins-bad-plugins-rtpmux.html#GstRTPMux--seqnum"/>
     <keyword type="property" name="The &quot;seqnum-offset&quot; property" link="gst-plugins-bad-plugins-rtpmux.html#GstRTPMux--seqnum-offset"/>
     <keyword type="property" name="The &quot;ssrc&quot; property" link="gst-plugins-bad-plugins-rtpmux.html#GstRTPMux--ssrc"/>
     <keyword type="property" name="The &quot;timestamp-offset&quot; property" link="gst-plugins-bad-plugins-rtpmux.html#GstRTPMux--timestamp-offset"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-scaletempo.html#id2861628"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-scaletempo.html#id2846605"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-scaletempo.html#id2907127"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-scaletempo.html#id2907556"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-scaletempo.html#id2907619"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-scaletempo.html#id2813159"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-scaletempo.html#id2786104"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-scaletempo.html#id2891861"/>
     <keyword type="struct" name="GstScaletempo" link="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo-struct"/>
     <keyword type="property" name="The &quot;overlap&quot; property" link="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo--overlap"/>
     <keyword type="property" name="The &quot;rate&quot; property" link="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo--rate"/>
     <keyword type="property" name="The &quot;search&quot; property" link="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo--search"/>
     <keyword type="property" name="The &quot;stride&quot; property" link="gst-plugins-bad-plugins-scaletempo.html#GstScaletempo--stride"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdlaudiosink.html#id2835642"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdlaudiosink.html#id2906965"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdlaudiosink.html#id2907197"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdlaudiosink.html#id2907259"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdlaudiosink.html#id2833384"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdlaudiosink.html#id2892255"/>
     <keyword type="struct" name="GstSDLAudioSink" link="gst-plugins-bad-plugins-sdlaudiosink.html#GstSDLAudioSink-struct"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdlvideosink.html#id2908496"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdlvideosink.html#id2908559"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdlvideosink.html#id2908669"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdlvideosink.html#id2908772"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdlvideosink.html#id2892724"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdlvideosink.html#id2892788"/>
     <keyword type="struct" name="GstSDLVideoSink" link="gst-plugins-bad-plugins-sdlvideosink.html#GstSDLVideoSink-struct"/>
     <keyword type="property" name="The &quot;fullscreen&quot; property" link="gst-plugins-bad-plugins-sdlvideosink.html#GstSDLVideoSink--fullscreen"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-sdpdemux.html#id2826020"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdpdemux.html#id2909247"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdpdemux.html#id2909584"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdpdemux.html#id2909724"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdpdemux.html#id2909785"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-sdpdemux.html#id2813407"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-sdpdemux.html#id2893327"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-sdpdemux.html#id2893389"/>
     <keyword type="struct" name="GstSDPDemux" link="gst-plugins-bad-plugins-sdpdemux.html#GstSDPDemux-struct"/>
     <keyword type="property" name="The &quot;debug&quot; property" link="gst-plugins-bad-plugins-sdpdemux.html#GstSDPDemux--debug"/>
     <keyword type="property" name="The &quot;latency&quot; property" link="gst-plugins-bad-plugins-sdpdemux.html#GstSDPDemux--latency"/>
     <keyword type="property" name="The &quot;timeout&quot; property" link="gst-plugins-bad-plugins-sdpdemux.html#GstSDPDemux--timeout"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-shapewipe.html#id2915660"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-shapewipe.html#id2915643"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-shapewipe.html#id2909471"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-shapewipe.html#id2916157"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-shapewipe.html#id2916220"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-shapewipe.html#id2893212"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-shapewipe.html#id2893193"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-shapewipe.html#id2893130"/>
     <keyword type="struct" name="GstShapeWipe" link="gst-plugins-bad-plugins-shapewipe.html#GstShapeWipe-struct"/>
     <keyword type="property" name="The &quot;border&quot; property" link="gst-plugins-bad-plugins-shapewipe.html#GstShapeWipe--border"/>
     <keyword type="property" name="The &quot;position&quot; property" link="gst-plugins-bad-plugins-shapewipe.html#GstShapeWipe--position"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-speed.html#id2904383"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-speed.html#id2856956"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-speed.html#id2840227"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-speed.html#id2910741"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-speed.html#id2910804"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-speed.html#id2839314"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-speed.html#id2840599"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-speed.html#id2829121"/>
     <keyword type="struct" name="GstSpeed" link="gst-plugins-bad-plugins-speed.html#GstSpeed-struct"/>
     <keyword type="property" name="The &quot;speed&quot; property" link="gst-plugins-bad-plugins-speed.html#GstSpeed--speed"/>
-    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-stereo.html#id2893278"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-stereo.html#id2795743"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-stereo.html#id2914714"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-stereo.html#id2914859"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-stereo.html#id2914921"/>
+    <keyword type="" name="Example pipelines" link="gst-plugins-bad-plugins-stereo.html#id2874147"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-stereo.html#id2866590"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-stereo.html#id2894403"/>
     <keyword type="struct" name="GstStereo" link="gst-plugins-bad-plugins-stereo.html#GstStereo-struct"/>
     <keyword type="property" name="The &quot;active&quot; property" link="gst-plugins-bad-plugins-stereo.html#GstStereo--active"/>
     <keyword type="property" name="The &quot;stereo&quot; property" link="gst-plugins-bad-plugins-stereo.html#GstStereo--stereo"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-tiger.html#id2820293"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-tiger.html#id2912705"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-tiger.html#id2912767"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-tiger.html#id2895139"/>
     <keyword type="struct" name="GstKateTiger" link="gst-plugins-bad-plugins-tiger.html#GstKateTiger"/>
     <keyword type="property" name="The &quot;category&quot; property" link="gst-plugins-bad-plugins-tiger.html#GstKateTiger--category"/>
     <keyword type="property" name="The &quot;default-background-alpha&quot; property" link="gst-plugins-bad-plugins-tiger.html#GstKateTiger--default-background-alpha"/>
@@ -715,38 +649,28 @@
     <keyword type="property" name="The &quot;original-canvas-height&quot; property" link="gst-plugins-bad-plugins-tiger.html#GstKateTiger--original-canvas-height"/>
     <keyword type="property" name="The &quot;original-canvas-width&quot; property" link="gst-plugins-bad-plugins-tiger.html#GstKateTiger--original-canvas-width"/>
     <keyword type="property" name="The &quot;quality&quot; property" link="gst-plugins-bad-plugins-tiger.html#GstKateTiger--quality"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-timidity.html#id2904080"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-timidity.html#id2914606"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-timidity.html#id2841069"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-timidity.html#id2913126"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-timidity.html#id2913198"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-timidity.html#id2896716"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-timidity.html#id2896697"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-timidity.html#id2820390"/>
     <keyword type="struct" name="GstTimidity" link="gst-plugins-bad-plugins-timidity.html#GstTimidity"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-trm.html#id2839824"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-trm.html#id2840309"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-trm.html#id2911719"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-trm.html#id2911864"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-trm.html#id2913426"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-trm.html#id2830659"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-trm.html#id2810366"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-trm.html#id2899254"/>
     <keyword type="struct" name="GstTRM" link="gst-plugins-bad-plugins-trm.html#GstTRM-struct"/>
     <keyword type="property" name="The &quot;proxy-address&quot; property" link="gst-plugins-bad-plugins-trm.html#GstTRM--proxy-address"/>
     <keyword type="property" name="The &quot;proxy-port&quot; property" link="gst-plugins-bad-plugins-trm.html#GstTRM--proxy-port"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-valve.html#id2850908"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-valve.html#id2914009"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-valve.html#id2914149"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-valve.html#id2914211"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-valve.html#id2826347"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-valve.html#id2899884"/>
     <keyword type="struct" name="GstValve" link="gst-plugins-bad-plugins-valve.html#GstValve-struct"/>
     <keyword type="property" name="The &quot;drop&quot; property" link="gst-plugins-bad-plugins-valve.html#GstValve--drop"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-videoanalyse.html#id2917987"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videoanalyse.html#id2918013"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videoanalyse.html#id2918074"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videoanalyse.html#id2918218"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videoanalyse.html#id2918279"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-videoanalyse.html#id2897645"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videoanalyse.html#id2897673"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videoanalyse.html#id2897736"/>
     <keyword type="struct" name="GstVideoAnalyse" link="gst-plugins-bad-plugins-videoanalyse.html#GstVideoAnalyse-struct"/>
     <keyword type="property" name="The &quot;message&quot; property" link="gst-plugins-bad-plugins-videoanalyse.html#GstVideoAnalyse--message"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-videodetect.html#id2919760"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videodetect.html#id2919786"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videodetect.html#id2919849"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videodetect.html#id2919996"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videodetect.html#id2920059"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-videodetect.html#id2901040"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videodetect.html#id2901070"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videodetect.html#id2901132"/>
     <keyword type="struct" name="GstVideoDetect" link="gst-plugins-bad-plugins-videodetect.html#GstVideoDetect-struct"/>
     <keyword type="property" name="The &quot;message&quot; property" link="gst-plugins-bad-plugins-videodetect.html#GstVideoDetect--message"/>
     <keyword type="property" name="The &quot;pattern-count&quot; property" link="gst-plugins-bad-plugins-videodetect.html#GstVideoDetect--pattern-count"/>
@@ -757,11 +681,9 @@
     <keyword type="property" name="The &quot;bottom-offset&quot; property" link="gst-plugins-bad-plugins-videodetect.html#GstVideoDetect--bottom-offset"/>
     <keyword type="property" name="The &quot;left-offset&quot; property" link="gst-plugins-bad-plugins-videodetect.html#GstVideoDetect--left-offset"/>
     <keyword type="property" name="The &quot;pattern-center&quot; property" link="gst-plugins-bad-plugins-videodetect.html#GstVideoDetect--pattern-center"/>
-    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-videomark.html#id2919166"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videomark.html#id2919192"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videomark.html#id2920232"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videomark.html#id2920379"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videomark.html#id2920441"/>
+    <keyword type="" name="Example launch line" link="gst-plugins-bad-plugins-videomark.html#id2900799"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videomark.html#id2900829"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videomark.html#id2900892"/>
     <keyword type="struct" name="GstVideoMark" link="gst-plugins-bad-plugins-videomark.html#GstVideoMark-struct"/>
     <keyword type="property" name="The &quot;enabled&quot; property" link="gst-plugins-bad-plugins-videomark.html#GstVideoMark--enabled"/>
     <keyword type="property" name="The &quot;pattern-count&quot; property" link="gst-plugins-bad-plugins-videomark.html#GstVideoMark--pattern-count"/>
@@ -772,10 +694,8 @@
     <keyword type="property" name="The &quot;bottom-offset&quot; property" link="gst-plugins-bad-plugins-videomark.html#GstVideoMark--bottom-offset"/>
     <keyword type="property" name="The &quot;left-offset&quot; property" link="gst-plugins-bad-plugins-videomark.html#GstVideoMark--left-offset"/>
     <keyword type="property" name="The &quot;pattern-data-uint64&quot; property" link="gst-plugins-bad-plugins-videomark.html#GstVideoMark--pattern-data-uint64"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videoparse.html#id2921815"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videoparse.html#id2921878"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videoparse.html#id2922798"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videoparse.html#id2922862"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-videoparse.html#id2901955"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-videoparse.html#id2902017"/>
     <keyword type="struct" name="GstVideoParse" link="gst-plugins-bad-plugins-videoparse.html#GstVideoParse-struct"/>
     <keyword type="property" name="The &quot;alpha-mask&quot; property" link="gst-plugins-bad-plugins-videoparse.html#GstVideoParse--alpha-mask"/>
     <keyword type="property" name="The &quot;blue-mask&quot; property" link="gst-plugins-bad-plugins-videoparse.html#GstVideoParse--blue-mask"/>
@@ -791,19 +711,17 @@
     <keyword type="property" name="The &quot;width&quot; property" link="gst-plugins-bad-plugins-videoparse.html#GstVideoParse--width"/>
     <keyword type="property" name="The &quot;interlaced&quot; property" link="gst-plugins-bad-plugins-videoparse.html#GstVideoParse--interlaced"/>
     <keyword type="property" name="The &quot;top-field-first&quot; property" link="gst-plugins-bad-plugins-videoparse.html#GstVideoParse--top-field-first"/>
-    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-wildmidi.html#id2874303"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-wildmidi.html#id2841016"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-wildmidi.html#id2922060"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-wildmidi.html#id2922216"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-wildmidi.html#id2922279"/>
+    <keyword type="" name="Example pipeline" link="gst-plugins-bad-plugins-wildmidi.html#id2844922"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-wildmidi.html#id2847004"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-wildmidi.html#id2905362"/>
     <keyword type="struct" name="GstWildmidi" link="gst-plugins-bad-plugins-wildmidi.html#GstWildmidi-struct"/>
     <keyword type="property" name="The &quot;high-quality&quot; property" link="gst-plugins-bad-plugins-wildmidi.html#GstWildmidi--high-quality"/>
     <keyword type="property" name="The &quot;linear-volume&quot; property" link="gst-plugins-bad-plugins-wildmidi.html#GstWildmidi--linear-volume"/>
-    <keyword type="" name="Example launch lines" link="gst-plugins-bad-plugins-zbar.html#id2877940"/>
-    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-zbar.html#id2827916"/>
-    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-zbar.html#id2921670"/>
+    <keyword type="" name="Example launch lines" link="gst-plugins-bad-plugins-zbar.html#id2834149"/>
+    <keyword type="" name="Element Information" link="gst-plugins-bad-plugins-zbar.html#id2838921"/>
+    <keyword type="" name="Element Pads" link="gst-plugins-bad-plugins-zbar.html#id2902968"/>
     <keyword type="struct" name="GstZBar" link="gst-plugins-bad-plugins-zbar.html#GstZBar"/>
-    <keyword type="" name="" link="GstBaseMetadata.html#id2935099"/>
+    <keyword type="" name="" link="GstBaseMetadata.html#id2915526"/>
     <keyword type="struct" name="GstBaseMetadata" link="GstBaseMetadata.html#GstBaseMetadata-struct"/>
     <keyword type="macro" name="GST_BASE_METADATA_SINK_PAD()" link="GstBaseMetadata.html#GST-BASE-METADATA-SINK-PAD--CAPS"/>
     <keyword type="macro" name="GST_BASE_METADATA_SRC_PAD()" link="GstBaseMetadata.html#GST-BASE-METADATA-SRC-PAD--CAPS"/>

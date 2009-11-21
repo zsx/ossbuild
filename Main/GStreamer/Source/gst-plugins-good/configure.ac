@@ -5,7 +5,7 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, cvs and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for cvs/pre
-AC_INIT(GStreamer Good Plug-ins, 0.10.16,
+AC_INIT(GStreamer Good Plug-ins, 0.10.17,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-good)
 
@@ -47,8 +47,8 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.24
-GSTPB_REQ=0.10.24
+GST_REQ=0.10.25
+GSTPB_REQ=0.10.25
 
 dnl *** autotools stuff ****
 
@@ -156,7 +156,7 @@ AC_CHECK_HEADERS([sys/time.h])
 dnl *** checks for types/defines ***
 
 dnl Check for FIONREAD ioctl declaration.  This check is needed
-dnl for the UDP plugin to build on Solaris 
+dnl for the UDP plugin to build on Solaris
 GST_CHECK_FIONREAD
 
 dnl *** checks for structures ***
@@ -175,8 +175,16 @@ dnl *** checks for library functions ***
 
 LIBS_SAVE=$LIBS
 LIBS="$LIBS $LIBM"
-AC_CHECK_FUNCS(rint sinh cosh asinh)
+AC_CHECK_FUNCS(rint sinh cosh asinh fpclass)
 LIBS=$LIBS_SAVE
+
+dnl Check whether isinf() is defined by math.h
+AC_CACHE_CHECK([for isinf], ac_cv_have_isinf,
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <math.h>]], [[float f = 0.0; int i=isinf(f)]])],[ac_cv_have_isinf="yes"],[ac_cv_have_isinf="no"]))
+if test "$ac_cv_have_isinf" = "yes"
+then
+    AC_DEFINE(HAVE_ISINF, 1, [Define to 1 if you have the `isinf' function.])
+fi
 
 dnl Check for mmap (needed by electricfence plugin)
 AC_FUNC_MMAP
@@ -747,7 +755,7 @@ AG_GST_CHECK_FEATURE(LIBPNG, [Portable Network Graphics library], png, [
 dnl *** pulseaudio ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_PULSE, true)
 AG_GST_CHECK_FEATURE(PULSE, [pulseaudio plug-in], pulseaudio, [
-  AG_GST_PKG_CHECK_MODULES(PULSE, libpulse >= 0.9.8)
+  AG_GST_PKG_CHECK_MODULES(PULSE, libpulse >= 0.9.10)
   AG_GST_PKG_CHECK_MODULES(PULSE_0_9_11, libpulse >= 0.9.11)
   if test x$HAVE_PULSE_0_9_11 = xyes; then
     AC_DEFINE(HAVE_PULSE_0_9_11, 1, [defined if pulseaudio >= 0.9.11 is available])
@@ -763,6 +771,10 @@ AG_GST_CHECK_FEATURE(PULSE, [pulseaudio plug-in], pulseaudio, [
   AG_GST_PKG_CHECK_MODULES(PULSE_0_9_15, libpulse >= 0.9.15)
   if test x$HAVE_PULSE_0_9_15 = xyes; then
     AC_DEFINE(HAVE_PULSE_0_9_15, 1, [defined if pulseaudio >= 0.9.15 is available])
+  fi
+  AG_GST_PKG_CHECK_MODULES(PULSE_0_9_20, libpulse >= 0.9.20)
+  if test x$HAVE_PULSE_0_9_20 = xyes; then
+    AC_DEFINE(HAVE_PULSE_0_9_20, 1, [defined if pulseaudio >= 0.9.20 is available])
   fi
 ])
 

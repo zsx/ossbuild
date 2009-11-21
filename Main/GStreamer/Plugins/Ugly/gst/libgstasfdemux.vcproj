@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gstasfdemux"
 	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0002}"
 	RootNamespace="libgstasfdemux"
@@ -346,10 +346,6 @@
 		</File>
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-ugly\gst\asfdemux\gstasfdemux.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\Source\gst-plugins-ugly\gst\asfdemux\gstasfmux.h"
 			>
 		</File>
 		<File

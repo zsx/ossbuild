@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>mplex</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-mpeg2enc.html" title="mpeg2enc">
 <link rel="next" href="gst-plugins-bad-plugins-mythtvsrc.html" title="mythtvsrc">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-bad-plugins-mplex.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="mplex">
 <a name="gst-plugins-bad-plugins-mplex"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,52 +42,52 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-mplex.synopsis"></a><h2>Synopsis</h2>
 <a name="GstMplex"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-mplex.html#GstMplex-struct" title="GstMplex">GstMplex</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-bad-plugins-mplex.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+href="../gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstMplex
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-bad-plugins-mplex.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-bad-plugins-mplex.html#GstMplex--bufsize" title='The "bufsize" property'>bufsize</a>"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-mplex.html#GstMplex--format" title='The "format" property'>format</a>"                   GstMplexFormat        : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-mplex.html#GstMplex--mux-bitrate" title='The "mux-bitrate" property'>mux-bitrate</a>"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-mplex.html#GstMplex--packets-per-pack" title='The "packets-per-pack" property'>packets-per-pack</a>"         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-mplex.html#GstMplex--sector-size" title='The "sector-size" property'>sector-size</a>"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-mplex.html#GstMplex--system-headers" title='The "system-headers" property'>system-headers</a>"           <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-mplex.html#GstMplex--vbr" title='The "vbr" property'>vbr</a>"                      <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-mplex.description"></a><h2>Description</h2>
 <p>
 This element is an audio/video multiplexer for MPEG-1/2 video streams
@@ -100,8 +100,8 @@ which are shared with the mplex tool.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2891082"></a><h3>Example pipeline</h3>
+<div class="refsect2" title="Example pipeline">
+<a name="id2879432"></a><h3>Example pipeline</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v videotestsrc num-buffers=1000 ! mpeg2enc ! mplex ! filesink location=videotestsrc.mpg
 </pre></div> This example pipeline will encode a test video source to an
@@ -113,10 +113,10 @@ may have to be set to a few times the default settings to prevent the
 pipeline stalling.
 </p>
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2843400"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2854051"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -140,114 +140,8 @@ pipeline stalling.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2878636"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>audio_%d</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>request</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/mpeg, mpegversion=(int)1, layer=(int)[ 1, 3 ], channels=(int)[ 1, 8 ], rate=(int)[ 8000, 96000 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-ac3, channels=(int)[ 1, 8 ], rate=(int)[ 8000, 96000 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-dts</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, endianness=(int)4321, signed=(boolean)true, width=(int){ 16, 20, 24 }, depth=(int){ 16, 20, 24 }, rate=(int){ 48000, 96000 }, channels=(int)[ 1, 6 ]</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>video_%d</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>request</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>video/mpeg, mpegversion=(int){ 1, 2 }, systemstream=(boolean)false, width=(int)[ 16, 4096 ], height=(int)[ 16, 4096 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>video/mpeg, systemstream=(boolean)true</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2891747"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-bad-plugins-plugin-mplex.html#plugin-mplex">mplex</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Andrew Stevens &lt;andrew.stevens@nexgo.de&gt;
-    Ronald Bultje &lt;rbultje@ronald.bitfreak.net&gt;
-    Mark Nauwelaerts &lt;mnauw@users.sourceforge.net</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Codec/Muxer</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2891811"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2847207"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -328,83 +222,83 @@ pipeline stalling.
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-mplex.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstMplex">
 <a name="GstMplex-struct"></a><h3>GstMplex</h3>
 <pre class="programlisting">typedef struct _GstMplex GstMplex;</pre>
 <p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-bad-plugins-mplex.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "bufsize" property'>
 <a name="GstMplex--bufsize"></a><h3>The <code class="literal">"bufsize"</code> property</h3>
 <pre class="programlisting">  "bufsize"                  <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Target decoders video buffer size (kB) [default determined by format if not explicitly set].</p>
 <p>Allowed values: [20,4000]</p>
 <p>Default value: 46</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "format" property'>
 <a name="GstMplex--format"></a><h3>The <code class="literal">"format"</code> property</h3>
 <pre class="programlisting">  "format"                   GstMplexFormat        : Read / Write</pre>
 <p>Encoding profile format.</p>
 <p>Default value: Generic MPEG-1</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "mux-bitrate" property'>
 <a name="GstMplex--mux-bitrate"></a><h3>The <code class="literal">"mux-bitrate"</code> property</h3>
 <pre class="programlisting">  "mux-bitrate"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Bitrate of output stream in kbps (0 = autodetect).</p>
 <p>Allowed values: [0,15360]</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "packets-per-pack" property'>
 <a name="GstMplex--packets-per-pack"></a><h3>The <code class="literal">"packets-per-pack"</code> property</h3>
 <pre class="programlisting">  "packets-per-pack"         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Number of packets per pack for generic formats.</p>
 <p>Allowed values: [1,100]</p>
 <p>Default value: 1</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "sector-size" property'>
 <a name="GstMplex--sector-size"></a><h3>The <code class="literal">"sector-size"</code> property</h3>
 <pre class="programlisting">  "sector-size"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
+href="../glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Specify sector size in bytes for generic formats.</p>
 <p>Allowed values: [256,16384]</p>
 <p>Default value: 2048</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "system-headers" property'>
 <a name="GstMplex--system-headers"></a><h3>The <code class="literal">"system-headers"</code> property</h3>
 <pre class="programlisting">  "system-headers"           <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Create system header in every pack for generic formats.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "vbr" property'>
 <a name="GstMplex--vbr"></a><h3>The <code class="literal">"vbr"</code> property</h3>
 <pre class="programlisting">  "vbr"                      <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
+href="../glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Whether the input video stream is variable bitrate.</p>
 <p>Default value: FALSE</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-bad-plugins-mplex.see-also"></a><h2>See Also</h2>
 mpeg2enc
 </div>

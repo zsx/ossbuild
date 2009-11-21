@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gstvideobox"
 	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A32}"
 	RootNamespace="libgstvideobox"
@@ -310,6 +310,10 @@
 	<Files>
 		<File
 			RelativePath="..\..\..\Source\gst-plugins-good\gst\videobox\gstvideobox.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\Source\gst-plugins-good\gst\videobox\gstvideobox.h"
 			>
 		</File>
 	</Files>

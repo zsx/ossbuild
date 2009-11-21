@@ -190,7 +190,7 @@ gst_matroska_demux_base_init (gpointer klass)
   gst_element_class_set_details_simple (element_class, "Matroska demuxer",
       "Codec/Demuxer",
       "Demuxes a Matroska Stream into video/audio/subtitles",
-      "Ronald Bultje <rbultje@ronald.bitfreak.net>");
+      "GStreamer maintainers <gstreamer-devel@lists.sourceforge.net>");
 }
 
 static void
@@ -201,6 +201,11 @@ gst_matroska_demux_finalize (GObject * object)
   if (demux->src) {
     g_ptr_array_free (demux->src, TRUE);
     demux->src = NULL;
+  }
+
+  if (demux->global_tags) {
+    gst_tag_list_free (demux->global_tags);
+    demux->global_tags = NULL;
   }
 
   G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -248,6 +253,7 @@ gst_matroska_demux_init (GstMatroskaDemux * demux,
   demux->writing_app = NULL;
   demux->muxing_app = NULL;
   demux->index = NULL;
+  demux->global_tags = NULL;
 
   /* finish off */
   gst_matroska_demux_reset (GST_ELEMENT (demux));
@@ -398,6 +404,11 @@ gst_matroska_demux_reset (GstElement * element)
     demux->element_index = NULL;
   }
   demux->element_index_writer_id = -1;
+
+  if (demux->global_tags) {
+    gst_tag_list_free (demux->global_tags);
+  }
+  demux->global_tags = gst_tag_list_new ();
 }
 
 static gint
@@ -2010,6 +2021,23 @@ gst_matroskademux_do_index_seek (GstMatroskaDemux * demux,
   return entry;
 }
 
+/* takes ownership of taglist */
+static void
+gst_matroska_demux_found_global_tag (GstMatroskaDemux * demux,
+    GstTagList * taglist)
+{
+  if (demux->global_tags) {
+    /* nothing sent yet, add to cache */
+    gst_tag_list_insert (demux->global_tags, taglist, GST_TAG_MERGE_APPEND);
+    gst_tag_list_free (taglist);
+  } else {
+    /* hm, already sent, no need to cache and wait anymore */
+    GST_DEBUG_OBJECT (demux, "Sending late global tags %" GST_PTR_FORMAT,
+        taglist);
+    gst_element_found_tags (GST_ELEMENT (demux), taglist);
+  }
+}
+
 /* takes ownership of the passed event! */
 static gboolean
 gst_matroska_demux_send_event (GstMatroskaDemux * demux, GstEvent * event)
@@ -2030,14 +2058,25 @@ gst_matroska_demux_send_event (GstMatroskaDemux * demux, GstEvent * event)
     gst_event_ref (event);
     gst_pad_push_event (stream->pad, event);
 
-    if (stream->pending_tags) {
-      GST_DEBUG_OBJECT (demux, "Sending pending_tags %p for pad %s:%s",
-          stream->pending_tags, GST_DEBUG_PAD_NAME (stream->pad));
+    if (G_UNLIKELY (stream->pending_tags)) {
+      GST_DEBUG_OBJECT (demux, "Sending pending_tags %p for pad %s:%s : %"
+          GST_PTR_FORMAT, stream->pending_tags,
+          GST_DEBUG_PAD_NAME (stream->pad), stream->pending_tags);
       gst_element_found_tags_for_pad (GST_ELEMENT (demux), stream->pad,
           stream->pending_tags);
       stream->pending_tags = NULL;
     }
   }
+
+  if (G_UNLIKELY (demux->global_tags)) {
+    gst_tag_list_add (demux->global_tags, GST_TAG_MERGE_REPLACE,
+        GST_TAG_CONTAINER_FORMAT, "Matroska", NULL);
+    GST_DEBUG_OBJECT (demux, "Sending global_tags %p : %" GST_PTR_FORMAT,
+        demux->global_tags, demux->global_tags);
+    gst_element_found_tags (GST_ELEMENT (demux), demux->global_tags);
+    demux->global_tags = NULL;
+  }
+
   gst_event_unref (event);
   return ret;
 }
@@ -2827,7 +2866,7 @@ gst_matroska_demux_parse_info (GstMatroskaDemux * demux)
         taglist = gst_tag_list_new ();
         gst_tag_list_add (taglist, GST_TAG_MERGE_APPEND, GST_TAG_TITLE, text,
             NULL);
-        gst_element_found_tags (GST_ELEMENT (ebml), taglist);
+        gst_matroska_demux_found_global_tag (demux, taglist);
         g_free (text);
         break;
       }
@@ -3109,10 +3148,7 @@ gst_matroska_demux_parse_metadata (GstMatroskaDemux * demux)
 
   DEBUG_ELEMENT_STOP (demux, ebml, "Tags", ret);
 
-  /* FIXME: tags must be pushed *after* the initial newsegment event */
-  gst_tag_list_add (taglist, GST_TAG_MERGE_REPLACE, GST_TAG_CONTAINER_FORMAT,
-      "Matroska", NULL);
-  gst_element_found_tags (GST_ELEMENT (ebml), taglist);
+  gst_matroska_demux_found_global_tag (demux, taglist);
 
   return ret;
 }
@@ -3327,8 +3363,8 @@ gst_matroska_demux_parse_attachments (GstMatroskaDemux * demux)
   DEBUG_ELEMENT_STOP (demux, ebml, "Attachments", ret);
 
   if (gst_structure_n_fields (GST_STRUCTURE (taglist)) > 0) {
-    GST_DEBUG_OBJECT (demux, "Posting attachment tags");
-    gst_element_found_tags (GST_ELEMENT (ebml), taglist);
+    GST_DEBUG_OBJECT (demux, "Storing attachment tags");
+    gst_matroska_demux_found_global_tag (demux, taglist);
   } else {
     GST_DEBUG_OBJECT (demux, "No valid attachments found");
     gst_tag_list_free (taglist);
@@ -3671,7 +3707,7 @@ gst_matroska_demux_push_dvd_clut_change_event (GstMatroskaDemux * demux,
   buf = g_strndup ((gchar *) stream->codec_priv, stream->codec_priv_size);
 
   /* just locate and parse palette part */
-  start = strstr ((gchar *) stream->codec_priv, "palette:");
+  start = strstr (buf, "palette:");
   if (start) {
     gint i;
     guint32 clut[16];
@@ -4295,7 +4331,7 @@ gst_matroska_demux_parse_blockgroup_or_simpleblock (GstMatroskaDemux * demux,
 
       sub = gst_buffer_create_sub (buf,
           GST_BUFFER_SIZE (buf) - size, lace_size[n]);
-      GST_WARNING_OBJECT (demux, "created subbuffer %p", sub);
+      GST_DEBUG_OBJECT (demux, "created subbuffer %p", sub);
 
       if (stream->encodings != NULL && stream->encodings->len > 0)
         sub = gst_matroska_decode_buffer (stream, sub);
@@ -4899,14 +4935,14 @@ gst_matroska_demux_loop_stream_parse_id (GstMatroskaDemux * demux,
           return ret;
 
         demux->state = GST_MATROSKA_DEMUX_STATE_DATA;
+        GST_DEBUG_OBJECT (demux, "signaling no more pads");
+        gst_element_no_more_pads (GST_ELEMENT (demux));
         /* send initial discont */
         gst_matroska_demux_send_event (demux,
             gst_event_new_new_segment (FALSE, 1.0,
                 GST_FORMAT_TIME, 0,
                 (demux->segment.duration > 0) ? demux->segment.duration : -1,
                 0));
-        GST_DEBUG_OBJECT (demux, "signaling no more pads");
-        gst_element_no_more_pads (GST_ELEMENT (demux));
       } else {
         /* The idea is that we parse one cluster per loop and
          * then break out of the loop here. In the next call
@@ -4989,7 +5025,7 @@ gst_matroska_demux_loop (GstPad * pad)
   GstFlowReturn ret;
 
   /* first, if we're to start, let's actually get starting */
-  if (demux->state == GST_MATROSKA_DEMUX_STATE_START) {
+  if (G_UNLIKELY (demux->state == GST_MATROSKA_DEMUX_STATE_START)) {
     ret = gst_matroska_demux_init_stream (demux);
     if (ret != GST_FLOW_OK) {
       GST_WARNING_OBJECT (demux, "init stream failed!");
@@ -4998,15 +5034,14 @@ gst_matroska_demux_loop (GstPad * pad)
     demux->state = GST_MATROSKA_DEMUX_STATE_HEADER;
   }
 
-  /* If we have to close a segment are send a new segment do
-   * this now */
+  /* If we have to close a segment, send a new segment to do this now */
 
-  if (demux->state == GST_MATROSKA_DEMUX_STATE_DATA) {
-    if (demux->close_segment) {
+  if (G_LIKELY (demux->state == GST_MATROSKA_DEMUX_STATE_DATA)) {
+    if (G_UNLIKELY (demux->close_segment)) {
       gst_matroska_demux_send_event (demux, demux->close_segment);
       demux->close_segment = NULL;
     }
-    if (demux->new_segment) {
+    if (G_UNLIKELY (demux->new_segment)) {
       gst_matroska_demux_send_event (demux, demux->new_segment);
       demux->new_segment = NULL;
     }
@@ -5017,7 +5052,7 @@ gst_matroska_demux_loop (GstPad * pad)
     goto pause;
 
   /* check if we're at the end of a configured segment */
-  if (GST_CLOCK_TIME_IS_VALID (demux->segment.stop)) {
+  if (G_LIKELY (GST_CLOCK_TIME_IS_VALID (demux->segment.stop))) {
     guint i;
 
     g_assert (demux->num_streams == demux->src->len);
@@ -5033,7 +5068,7 @@ gst_matroska_demux_loop (GstPad * pad)
     }
   }
 
-  if (ebml->offset == gst_ebml_read_get_length (ebml)) {
+  if (G_UNLIKELY (ebml->offset == gst_ebml_read_get_length (ebml))) {
     GST_LOG_OBJECT (demux, "Reached end of stream, sending EOS");
     ret = GST_FLOW_UNEXPECTED;
     goto pause;
@@ -5803,7 +5838,7 @@ gst_matroska_demux_set_index (GstElement * element, GstIndex * index)
   GST_OBJECT_LOCK (demux);
   if (demux->element_index)
     gst_object_unref (demux->element_index);
-  demux->element_index = gst_object_ref (index);
+  demux->element_index = index ? gst_object_ref (index) : NULL;
   GST_OBJECT_UNLOCK (demux);
   GST_DEBUG_OBJECT (demux, "Set index %" GST_PTR_FORMAT, demux->element_index);
 }

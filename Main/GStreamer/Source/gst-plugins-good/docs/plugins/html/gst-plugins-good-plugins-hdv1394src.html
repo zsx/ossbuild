@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>hdv1394src</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-halaudiosrc.html" title="halaudiosrc">
@@ -54,19 +54,19 @@
 <a name="gst-plugins-good-plugins-hdv1394src.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseSrc.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSrc.html"
 >GstBaseSrc</a>
                      +----<a
-href="../gstreamer-libs-0.10/GstPushSrc.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstPushSrc.html"
 >GstPushSrc</a>
                            +----GstHDV1394Src
 </pre>
@@ -76,28 +76,28 @@ href="../gstreamer-libs-0.10/GstPushSrc.html"
 <p>
 GstHDV1394Src implements
  <a
-href="../gstreamer-0.10/gstreamer-GstUriHandler.html#GstURIHandler"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstUriHandler.html#GstURIHandler"
 >GstURIHandler</a> and  <a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstpropertyprobe.html#GstPropertyProbe"
 >GstPropertyProbe</a>.</p>
 </div>
 <div class="refsect1" title="Properties">
 <a name="gst-plugins-good-plugins-hdv1394src.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--channel" title='The "channel" property'>channel</a>"                  <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--device-name" title='The "device-name" property'>device-name</a>"              <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read
   "<a class="link" href="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--guid" title='The "guid" property'>guid</a>"                     <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--port" title='The "port" property'>port</a>"                     <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-hdv1394src.html#GstHDV1394Src--use-avc" title='The "use-avc" property'>use-avc</a>"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
@@ -109,7 +109,7 @@ Read MPEG-TS data from firewire port.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id513542"></a><h3>Example launch line</h3>
+<a name="id3010116"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch hdv1394src ! queue ! decodebin name=d ! queue ! xvimagesink d. ! queue ! alsasink
 </pre></div> captures from the firewire port and plays the streams.
@@ -120,7 +120,7 @@ gst-launch hdv1394src ! queue ! filesink location=mydump.ts
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id497720"></a><h3>Element Information</h3>
+<a name="id3042570"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -143,7 +143,7 @@ gst-launch hdv1394src ! queue ! filesink location=mydump.ts
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id489669"></a><h3>Element Pads</h3>
+<a name="id3047692"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -184,7 +184,7 @@ gst-launch hdv1394src ! queue ! filesink location=mydump.ts
 <div class="refsect2" title='The "channel" property'>
 <a name="GstHDV1394Src--channel"></a><h3>The <code class="literal">"channel"</code> property</h3>
 <pre class="programlisting">  "channel"                  <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Channel number for listening.</p>
 <p>Allowed values: [0,64]</p>
@@ -194,7 +194,7 @@ href="../glib/glib-Basic-Types.html#gint"
 <div class="refsect2" title='The "device-name" property'>
 <a name="GstHDV1394Src--device-name"></a><h3>The <code class="literal">"device-name"</code> property</h3>
 <pre class="programlisting">  "device-name"              <a
-href="../glib/glib-Basic-Types.html#gchar"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read</pre>
 <p>
 Descriptive name of the currently opened device</p>
@@ -207,7 +207,7 @@ Descriptive name of the currently opened device</p>
 <div class="refsect2" title='The "guid" property'>
 <a name="GstHDV1394Src--guid"></a><h3>The <code class="literal">"guid"</code> property</h3>
 <pre class="programlisting">  "guid"                     <a
-href="../glib/glib-Basic-Types.html#guint64"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"
 >guint64</a>               : Read / Write</pre>
 <p>select one of multiple DV devices by its GUID. use a hexadecimal like 0xhhhhhhhhhhhhhhhh. (0 = no guid).</p>
 <p>Default value: 0</p>
@@ -216,17 +216,17 @@ href="../glib/glib-Basic-Types.html#guint64"
 <div class="refsect2" title='The "port" property'>
 <a name="GstHDV1394Src--port"></a><h3>The <code class="literal">"port"</code> property</h3>
 <pre class="programlisting">  "port"                     <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>Port number (-1 automatic).</p>
-<p>Allowed values: [G_MAXULONG,16]</p>
+<p>Allowed values: [-1,16]</p>
 <p>Default value: -1</p>
 </div>
 <hr>
 <div class="refsect2" title='The "use-avc" property'>
 <a name="GstHDV1394Src--use-avc"></a><h3>The <code class="literal">"use-avc"</code> property</h3>
 <pre class="programlisting">  "use-avc"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>Use AV/C VTR control.</p>
 <p>Default value: TRUE</p>

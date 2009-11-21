@@ -29,6 +29,7 @@
 #ifdef HAVE_STDLIB_H
 # undef HAVE_STDLIB_H
 #endif
+#include <stdio.h>
 #include <jpeglib.h>
 
 G_BEGIN_DECLS
@@ -98,9 +99,6 @@ struct _GstJpegDec {
   gint     caps_width;
   gint     caps_height;
   gint     outsize;
-  /* temp space for samples */
-  gboolean direct;
-  guchar **scanarray[3];
 
   /* properties */
   gint     idct_method;
@@ -108,6 +106,10 @@ struct _GstJpegDec {
   struct jpeg_decompress_struct cinfo;
   struct GstJpegDecErrorMgr     jerr;
   struct GstJpegDecSourceMgr    jsrc;
+
+  /* arrays for indirect decoding */
+  gboolean idr_width_allocated;
+  guchar *idr_y[16],*idr_u[16],*idr_v[16];
 };
 
 struct _GstJpegDecClass {

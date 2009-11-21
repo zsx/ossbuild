@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="rawudp-transmitter"
 	ProjectGUID="{9DD0D928-DE01-4222-B8FA-D6ACC2EF7314}"
 	RootNamespace="libgstrawudp"
@@ -108,6 +108,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4133"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -239,6 +240,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4133"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -295,7 +297,6 @@
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{6D935778-C3CD-4A93-9434-58CBCF2D85DB}"
-			RelativePathToProject=".\Main\GStreamer\Libraries\ext\libnice.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F07}"

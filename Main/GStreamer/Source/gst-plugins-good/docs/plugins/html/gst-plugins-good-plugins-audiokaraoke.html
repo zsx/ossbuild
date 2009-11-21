@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>audiokaraoke</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-audiopanorama.html" title="audiopanorama">
@@ -52,19 +52,19 @@
 <a name="gst-plugins-good-plugins-audiokaraoke.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
                            +----GstAudioKaraoke
 </pre>
@@ -73,16 +73,16 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
 <a name="gst-plugins-good-plugins-audiokaraoke.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke--filter-band" title='The "filter-band" property'>filter-band</a>"              <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke--filter-width" title='The "filter-width" property'>filter-width</a>"             <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke--level" title='The "level" property'>level</a>"                    <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiokaraoke.html#GstAudioKaraoke--mono-level" title='The "mono-level" property'>mono-level</a>"               <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
 </pre>
 </div>
@@ -95,7 +95,7 @@ This plugin is useful for karaoke applications.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id490120"></a><h3>Example launch line</h3>
+<a name="id3027165"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audiokaraoke ! audioconvert ! alsasink
 </pre></div>
@@ -103,7 +103,7 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audiokaraoke ! aud
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id484434"></a><h3>Element Information</h3>
+<a name="id3014170"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -126,7 +126,7 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audiokaraoke ! aud
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id480324"></a><h3>Element Pads</h3>
+<a name="id3060020"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -196,7 +196,7 @@ gst-launch filesrc location=song.ogg ! oggdemux ! vorbisdec ! audiokaraoke ! aud
 <div class="refsect2" title='The "filter-band" property'>
 <a name="GstAudioKaraoke--filter-band"></a><h3>The <code class="literal">"filter-band"</code> property</h3>
 <pre class="programlisting">  "filter-band"              <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>The Frequency band of the filter.</p>
 <p>Allowed values: [0,441]</p>
@@ -206,7 +206,7 @@ href="../glib/glib-Basic-Types.html#gfloat"
 <div class="refsect2" title='The "filter-width" property'>
 <a name="GstAudioKaraoke--filter-width"></a><h3>The <code class="literal">"filter-width"</code> property</h3>
 <pre class="programlisting">  "filter-width"             <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>The Frequency width of the filter.</p>
 <p>Allowed values: [0,100]</p>
@@ -216,7 +216,7 @@ href="../glib/glib-Basic-Types.html#gfloat"
 <div class="refsect2" title='The "level" property'>
 <a name="GstAudioKaraoke--level"></a><h3>The <code class="literal">"level"</code> property</h3>
 <pre class="programlisting">  "level"                    <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Level of the effect (1.0 = full).</p>
 <p>Allowed values: [0,1]</p>
@@ -226,7 +226,7 @@ href="../glib/glib-Basic-Types.html#gfloat"
 <div class="refsect2" title='The "mono-level" property'>
 <a name="GstAudioKaraoke--mono-level"></a><h3>The <code class="literal">"mono-level"</code> property</h3>
 <pre class="programlisting">  "mono-level"               <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Level of the mono channel (1.0 = full).</p>
 <p>Allowed values: [0,1]</p>

@@ -3,6 +3,21 @@
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
+/* Default audio sink */
+#undef DEFAULT_AUDIOSINK
+
+/* Default audio source */
+#undef DEFAULT_AUDIOSRC
+
+/* Default video sink */
+#undef DEFAULT_VIDEOSINK
+
+/* Default video source */
+#undef DEFAULT_VIDEOSRC
+
+/* Default visualizer */
+#undef DEFAULT_VISUALIZER
+
 /* Define if an old libdts is used */
 #undef DTS_OLD
 
@@ -64,8 +79,11 @@
 /* Define to enable celt (used by celt). */
 #undef HAVE_CELT
 
-/* Define if libcelt 0.4 is installed */
-#undef HAVE_CELT_0_4
+/* Define if libcelt 0.5 is installed */
+#undef HAVE_CELT_0_5
+
+/* Define if libcelt 0.7 is installed */
+#undef HAVE_CELT_0_7
 
 /* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. */
@@ -433,6 +451,9 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION

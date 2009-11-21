@@ -115,6 +115,7 @@ G_BEGIN_DECLS
 #define FOURCC_rmvc     GST_MAKE_FOURCC('r','m','v','c')
 #define FOURCC_qtim     GST_MAKE_FOURCC('q','t','i','m')
 #define FOURCC_drms     GST_MAKE_FOURCC('d','r','m','s')
+#define FOURCC_drmi     GST_MAKE_FOURCC('d','r','m','i')
 #define FOURCC_avc1     GST_MAKE_FOURCC('a','v','c','1')
 #define FOURCC_avcC     GST_MAKE_FOURCC('a','v','c','C')
 #define FOURCC_VP31     GST_MAKE_FOURCC('V','P','3','1')
@@ -145,6 +146,9 @@ G_BEGIN_DECLS
 #define FOURCC_keyw     GST_MAKE_FOURCC('k','e','y','w')
 #define FOURCC_kywd     GST_MAKE_FOURCC('k','y','w','d')
 #define FOURCC_agsm     GST_MAKE_FOURCC('a','g','s','m')
+#define FOURCC_text     GST_MAKE_FOURCC('t','e','x','t')
+#define FOURCC_tx3g     GST_MAKE_FOURCC('t','x','3','g')
+#define FOURCC_mp4s     GST_MAKE_FOURCC('m','p','4','s')
 
 /* 3gpp asset meta data fourcc */
 #define FOURCC_titl     GST_MAKE_FOURCC('t','i','t','l')
@@ -160,9 +164,12 @@ G_BEGIN_DECLS
 /* ISO Motion JPEG 2000 fourcc */
 #define FOURCC_mjp2     GST_MAKE_FOURCC('m','j','p','2')
 #define FOURCC_jp2h     GST_MAKE_FOURCC('j','p','2','h')
+#define FOURCC_ihdr     GST_MAKE_FOURCC('i','h','d','r')
 #define FOURCC_colr     GST_MAKE_FOURCC('c','o','l','r')
 #define FOURCC_fiel     GST_MAKE_FOURCC('f','i','e','l')
 #define FOURCC_jp2x     GST_MAKE_FOURCC('j','p','2','x')
+#define FOURCC_cmap     GST_MAKE_FOURCC('c','m','a','p')
+#define FOURCC_cdef     GST_MAKE_FOURCC('c','d','e','f')
 /* some buggy hardware's notion of mdhd */
 #define FOURCC_mhdr     GST_MAKE_FOURCC('m','h','d','r')
 

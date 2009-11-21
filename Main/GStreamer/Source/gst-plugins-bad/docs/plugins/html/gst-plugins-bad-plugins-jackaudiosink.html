@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>jackaudiosink</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-jackaudiosrc.html" title="jackaudiosrc">
 <link rel="next" href="gst-plugins-bad-plugins-kateenc.html" title="kateenc">
@@ -33,7 +33,7 @@
                 <a href="#gst-plugins-bad-plugins-jackaudiosink.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="jackaudiosink">
 <a name="gst-plugins-bad-plugins-jackaudiosink"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,43 +42,43 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-jackaudiosink.synopsis"></a><h2>Synopsis</h2>
 <a name="GstJackAudioSink"></a><pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-jackaudiosink.html#GstJackAudioSink-struct" title="GstJackAudioSink">GstJackAudioSink</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-bad-plugins-jackaudiosink.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
+href="../gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
+href="../gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
+href="../gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"
+href="../gstreamer-libs-0.10/GstBaseSink.html"
 >GstBaseSink</a>
                      +----<a
-href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink"
+href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstbaseaudiosink.html#GstBaseAudioSink"
 >GstBaseAudioSink</a>
                            +----GstJackAudioSink
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-bad-plugins-jackaudiosink.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-bad-plugins-jackaudiosink.html#GstJackAudioSink--connect" title='The "connect" property'>connect</a>"                  GstJackConnect        : Read / Write
   "<a class="link" href="gst-plugins-bad-plugins-jackaudiosink.html#GstJackAudioSink--server" title='The "server" property'>server</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-jackaudiosink.description"></a><h2>Description</h2>
 <p>
 A Sink that outputs data to Jack ports.
@@ -110,8 +110,8 @@ size changes at runtime.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2880771"></a><h3>Example launch line</h3>
+<div class="refsect2" title="Example launch line">
+<a name="id2870121"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc ! jackaudiosink
 </pre></div> Play a sine wave to using jack.
@@ -120,10 +120,10 @@ gst-launch audiotestsrc ! jackaudiosink
 </p>
 <p>
 Last reviewed on 2006-11-30 (0.10.4)</p>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2880794"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2870146"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -145,58 +145,8 @@ Last reviewed on 2006-11-30 (0.10.4)</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2880856"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, endianness=(int){ 1234 }, width=(int)32, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ]</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2880935"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-bad-plugins-plugin-jack.html#plugin-jack">jack</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Wim Taymans &lt;wim@fluendo.com&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Sink/Audio</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2880997"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2870208"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -223,9 +173,9 @@ Last reviewed on 2006-11-30 (0.10.4)</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-jackaudiosink.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstJackAudioSink">
 <a name="GstJackAudioSink-struct"></a><h3>GstJackAudioSink</h3>
 <pre class="programlisting">typedef struct _GstJackAudioSink GstJackAudioSink;</pre>
 <p>
@@ -234,28 +184,28 @@ Opaque <a class="link" href="gst-plugins-bad-plugins-jackaudiosink.html#GstJackA
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-bad-plugins-jackaudiosink.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "connect" property'>
 <a name="GstJackAudioSink--connect"></a><h3>The <code class="literal">"connect"</code> property</h3>
 <pre class="programlisting">  "connect"                  GstJackConnect        : Read / Write</pre>
 <p>Specify how the output ports will be connected.</p>
 <p>Default value: Automatically connect ports to physical ports</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "server" property'>
 <a name="GstJackAudioSink--server"></a><h3>The <code class="literal">"server"</code> property</h3>
 <pre class="programlisting">  "server"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
+href="../glib/glib-Basic-Types.html#gchar"
 >gchar</a>*                : Read / Write</pre>
 <p>The Jack server to connect to (NULL = default).</p>
 <p>Default value: NULL</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-bad-plugins-jackaudiosink.see-also"></a><h2>See Also</h2>
 #GstBaseAudioSink, <a
-href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstringbuffer.html#GstRingBuffer"
+href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstringbuffer.html#GstRingBuffer"
 ><span class="type">GstRingBuffer</span></a>
 </div>
 </div>

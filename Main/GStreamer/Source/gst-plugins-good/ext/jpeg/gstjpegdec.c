@@ -1,5 +1,6 @@
 /* GStreamer
  * Copyright (C) <1999> Erik Walthinsen <omega@cse.ogi.edu>
+ * Copyright (C) <2009> Tim-Philipp Müller <tim centricular net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -82,6 +83,7 @@ GST_STATIC_PAD_TEMPLATE ("sink",
 
 GST_DEBUG_CATEGORY_STATIC (jpeg_dec_debug);
 #define GST_CAT_DEFAULT jpeg_dec_debug
+GST_DEBUG_CATEGORY_STATIC (GST_CAT_PERFORMANCE);
 
 /* These macros are adapted from videotestsrc.c 
  *  and/or gst-plugins/gst/games/gstvideoimage.c */
@@ -191,6 +193,7 @@ gst_jpeg_dec_class_init (GstJpegDecClass * klass)
       GST_DEBUG_FUNCPTR (gst_jpeg_dec_change_state);
 
   GST_DEBUG_CATEGORY_INIT (jpeg_dec_debug, "jpegdec", 0, "JPEG decoder");
+  GST_DEBUG_CATEGORY_GET (GST_CAT_PERFORMANCE, "GST_PERFORMANCE");
 }
 
 static boolean
@@ -429,7 +432,8 @@ gst_jpeg_dec_parse_image_data (GstJpegDec * dec)
     /* do we need to resync? */
     resync = (*data != 0xff);
     if (resync) {
-      GST_DEBUG ("Lost sync at 0x%08x, resyncing", data - start);
+      GST_DEBUG ("Lost sync at 0x%08" G_GINT64_MODIFIER "x, resyncing",
+          (gint64) (data - start));
       /* at the very least we expect 0xff 0xNN, thus end-1 */
       while (*data != 0xff && data < end - 1)
         ++data;
@@ -448,7 +452,8 @@ gst_jpeg_dec_parse_image_data (GstJpegDec * dec)
     }
 
     if (*data == 0xd9) {
-      GST_DEBUG ("0x%08x: EOI marker", data - start);
+      GST_DEBUG ("0x%08" G_GINT64_MODIFIER "x: EOI marker",
+          (gint64) (data - start));
       return (data - start + 1);
     }
 
@@ -458,8 +463,8 @@ gst_jpeg_dec_parse_image_data (GstJpegDec * dec)
       return 0;
     else
       frame_len = GST_READ_UINT16_BE (data + 1);
-    GST_DEBUG ("0x%08x: tag %02x, frame_len=%u", data - start - 1, *data,
-        frame_len);
+    GST_DEBUG ("0x%08" G_GINT64_MODIFIER "x: tag %02x, frame_len=%u",
+        (gint64) (data - start - 1), *data, frame_len);
     /* the frame length includes the 2 bytes for the length; here we want at
      * least 2 more bytes at the end for an end marker, thus end-2 */
     if (data + 1 + frame_len >= end - 2) {
@@ -478,7 +483,8 @@ gst_jpeg_dec_parse_image_data (GstJpegDec * dec)
       guint8 *d2 = data + 1 + frame_len;
       guint eseglen = 0;
 
-      GST_DEBUG ("0x%08x: finding entropy segment length", data - start - 1);
+      GST_DEBUG ("0x%08" G_GINT64_MODIFIER "x: finding entropy segment length",
+          (gint64) (data - start - 1));
       while (1) {
         if (d2[eseglen] == 0xff && d2[eseglen + 1] != 0x00)
           break;
@@ -515,6 +521,8 @@ add_huff_table (j_decompress_ptr dinfo,
 
   if (*htblptr == NULL)
     *htblptr = jpeg_alloc_huff_table ((j_common_ptr) dinfo);
+
+  g_assert (*htblptr);
 
   /* Copy the number-of-symbols-of-each-code-length counts */
   memcpy ((*htblptr)->bits, bits, sizeof ((*htblptr)->bits));
@@ -668,94 +676,184 @@ hresamplecpy1 (guint8 * dest, const guint8 * src, guint len)
 }
 
 static void
+gst_jpeg_dec_free_buffers (GstJpegDec * dec)
+{
+  gint i;
+
+  for (i = 0; i < 16; i++) {
+    g_free (dec->idr_y[i]);
+    g_free (dec->idr_u[i]);
+    g_free (dec->idr_v[i]);
+    dec->idr_y[i] = NULL;
+    dec->idr_u[i] = NULL;
+    dec->idr_v[i] = NULL;
+  }
+
+  dec->idr_width_allocated = 0;
+}
+
+static inline gboolean
+gst_jpeg_dec_ensure_buffers (GstJpegDec * dec, guint maxrowbytes)
+{
+  gint i;
+
+  if (G_LIKELY (dec->idr_width_allocated == maxrowbytes))
+    return TRUE;
+
+  /* FIXME: maybe just alloc one or three blocks altogether? */
+  for (i = 0; i < 16; i++) {
+    dec->idr_y[i] = g_try_realloc (dec->idr_y[i], maxrowbytes);
+    dec->idr_u[i] = g_try_realloc (dec->idr_u[i], maxrowbytes);
+    dec->idr_v[i] = g_try_realloc (dec->idr_v[i], maxrowbytes);
+
+    if (G_UNLIKELY (!dec->idr_y[i] || !dec->idr_u[i] || !dec->idr_v[i])) {
+      GST_WARNING_OBJECT (dec, "out of memory, i=%d, bytes=%u", i, maxrowbytes);
+      return FALSE;
+    }
+  }
+
+  dec->idr_width_allocated = maxrowbytes;
+  GST_LOG_OBJECT (dec, "allocated temp memory, %u bytes/row", maxrowbytes);
+  return TRUE;
+}
+
+static void
 gst_jpeg_dec_decode_indirect (GstJpegDec * dec, guchar * base[3],
     guchar * last[3], guint width, guint height, gint r_v, gint r_h)
 {
-  guchar y[16][MAX_WIDTH];
-  guchar u[16][MAX_WIDTH];
-  guchar v[16][MAX_WIDTH];
-  guchar *y_rows[16] = { y[0], y[1], y[2], y[3], y[4], y[5], y[6], y[7],
-    y[8], y[9], y[10], y[11], y[12], y[13], y[14], y[15]
-  };
-  guchar *u_rows[16] = { u[0], u[1], u[2], u[3], u[4], u[5], u[6], u[7],
-    u[8], u[9], u[10], u[11], u[12], u[13], u[14], u[15]
-  };
-  guchar *v_rows[16] = { v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7],
-    v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15]
-  };
+  guchar *y_rows[16], *u_rows[16], *v_rows[16];
   guchar **scanarray[3] = { y_rows, u_rows, v_rows };
   gint i, j, k;
+  gint lines;
 
   GST_DEBUG_OBJECT (dec,
       "unadvantageous width or r_h, taking slow route involving memcpy");
 
-  for (i = 0; i < height; i += r_v * DCTSIZE) {
-    jpeg_read_raw_data (&dec->cinfo, scanarray, r_v * DCTSIZE);
-    for (j = 0, k = 0; j < (r_v * DCTSIZE); j += r_v, k++) {
-      memcpy (base[0], y_rows[j], I420_Y_ROWSTRIDE (width));
-      if (base[0] < last[0])
-        base[0] += I420_Y_ROWSTRIDE (width);
-      if (r_v == 2) {
-        memcpy (base[0], y_rows[j + 1], I420_Y_ROWSTRIDE (width));
-        if (base[0] < last[0])
-          base[0] += I420_Y_ROWSTRIDE (width);
-      }
-      if (G_LIKELY (r_h == 2)) {
-        memcpy (base[1], u_rows[k], I420_U_ROWSTRIDE (width));
-        memcpy (base[2], v_rows[k], I420_V_ROWSTRIDE (width));
-      } else if (G_UNLIKELY (r_h == 1)) {
-        hresamplecpy1 (base[1], u_rows[k], I420_U_ROWSTRIDE (width));
-        hresamplecpy1 (base[2], v_rows[k], I420_V_ROWSTRIDE (width));
-      } else {
-        /* FIXME: implement (at least we avoid crashing by doing nothing) */
-      }
+  if (G_UNLIKELY (!gst_jpeg_dec_ensure_buffers (dec, GST_ROUND_UP_32 (width))))
+    return;
 
-      if (r_v == 2 || (k & 1) != 0) {
-        if (base[1] < last[1] && base[2] < last[2]) {
-          base[1] += I420_U_ROWSTRIDE (width);
-          base[2] += I420_V_ROWSTRIDE (width);
+  memcpy (y_rows, dec->idr_y, 16 * sizeof (gpointer));
+  memcpy (u_rows, dec->idr_u, 16 * sizeof (gpointer));
+  memcpy (v_rows, dec->idr_v, 16 * sizeof (gpointer));
+
+  for (i = 0; i < height; i += r_v * DCTSIZE) {
+    lines = jpeg_read_raw_data (&dec->cinfo, scanarray, r_v * DCTSIZE);
+    if (G_LIKELY (lines > 0)) {
+      for (j = 0, k = 0; j < (r_v * DCTSIZE); j += r_v, k++) {
+        memcpy (base[0], y_rows[j], I420_Y_ROWSTRIDE (width));
+        if (G_LIKELY (base[0] < last[0]))
+          base[0] += I420_Y_ROWSTRIDE (width);
+        if (r_v == 2) {
+          memcpy (base[0], y_rows[j + 1], I420_Y_ROWSTRIDE (width));
+          if (G_LIKELY (base[0] < last[0]))
+            base[0] += I420_Y_ROWSTRIDE (width);
+        }
+        if (r_h == 2) {
+          memcpy (base[1], u_rows[k], I420_U_ROWSTRIDE (width));
+          memcpy (base[2], v_rows[k], I420_V_ROWSTRIDE (width));
+        } else if (r_h == 1) {
+          hresamplecpy1 (base[1], u_rows[k], I420_U_ROWSTRIDE (width));
+          hresamplecpy1 (base[2], v_rows[k], I420_V_ROWSTRIDE (width));
+        } else {
+          /* FIXME: implement (at least we avoid crashing by doing nothing) */
+        }
+
+        if (r_v == 2 || (k & 1) != 0) {
+          if (G_LIKELY (base[1] < last[1] && base[2] < last[2])) {
+            base[1] += I420_U_ROWSTRIDE (width);
+            base[2] += I420_V_ROWSTRIDE (width);
+          }
         }
       }
+    } else {
+      GST_INFO_OBJECT (dec, "jpeg_read_raw_data() returned 0");
     }
   }
 }
 
-static void
-gst_jpeg_dec_decode_direct (GstJpegDec * dec, guchar * base[3],
-    guchar * last[3], guint width, guint height, gint r_v)
+#ifndef GST_DISABLE_GST_DEBUG
+static inline void
+dump_lines (guchar * base[3], guchar ** line[3], int v_samp0, int width)
 {
-  guchar **line[3];             /* the jpeg line buffer */
-  guchar *y[4 * DCTSIZE];       /* alloc enough for the lines */
-  guchar *u[4 * DCTSIZE];
-  guchar *v[4 * DCTSIZE];
-  gint i, j, k;
+  int j;
+
+  for (j = 0; j < (v_samp0 * DCTSIZE); ++j) {
+    GST_LOG ("[%02d]  %5d  %5d  %5d", j,
+        (line[0][j] >= base[0]) ?
+        (int) (line[0][j] - base[0]) / I420_Y_ROWSTRIDE (width) : -1,
+        (line[1][j] >= base[1]) ?
+        (int) (line[1][j] - base[1]) / I420_U_ROWSTRIDE (width) : -1,
+        (line[2][j] >= base[2]) ?
+        (int) (line[2][j] - base[2]) / I420_V_ROWSTRIDE (width) : -1);
+  }
+}
+#endif
+
+static GstFlowReturn
+gst_jpeg_dec_decode_direct (GstJpegDec * dec, guchar * base[3],
+    guchar * last[3], guint width, guint height)
+{
+  guchar **line[3];             /* the jpeg line buffer         */
+  guchar *y[4 * DCTSIZE] = { NULL, };   /* alloc enough for the lines   */
+  guchar *u[4 * DCTSIZE] = { NULL, };   /* r_v will be <4               */
+  guchar *v[4 * DCTSIZE] = { NULL, };
+  gint i, j;
+  gint lines, v_samp[3];
 
   line[0] = y;
   line[1] = u;
   line[2] = v;
 
+  v_samp[0] = dec->cinfo.comp_info[0].v_samp_factor;
+  v_samp[1] = dec->cinfo.comp_info[1].v_samp_factor;
+  v_samp[2] = dec->cinfo.comp_info[2].v_samp_factor;
+
+  if (G_UNLIKELY (v_samp[0] > 2 || v_samp[1] > 2 || v_samp[2] > 2))
+    goto format_not_supported;
+
   /* let jpeglib decode directly into our final buffer */
   GST_DEBUG_OBJECT (dec, "decoding directly into output buffer");
-  for (i = 0; i < height; i += r_v * DCTSIZE) {
-    for (j = 0, k = 0; j < (r_v * DCTSIZE); j += r_v, k++) {
-      line[0][j] = base[0];
-      if (base[0] < last[0])
-        base[0] += I420_Y_ROWSTRIDE (width);
-      if (r_v == 2) {
-        line[0][j + 1] = base[0];
-        if (base[0] < last[0])
-          base[0] += I420_Y_ROWSTRIDE (width);
+
+  for (i = 0; i < height; i += v_samp[0] * DCTSIZE) {
+    for (j = 0; j < (v_samp[0] * DCTSIZE); ++j) {
+      /* Y */
+      line[0][j] = base[0] + (i + j) * I420_Y_ROWSTRIDE (width);
+      if (G_UNLIKELY (line[0][j] > last[0]))
+        line[0][j] = last[0];
+      /* U */
+      if (v_samp[1] == v_samp[0]) {
+        line[1][j] = base[1] + ((i + j) / 2) * I420_U_ROWSTRIDE (width);
+      } else if (j < (v_samp[1] * DCTSIZE)) {
+        line[1][j] = base[1] + ((i / 2) + j) * I420_U_ROWSTRIDE (width);
       }
-      line[1][k] = base[1];
-      line[2][k] = base[2];
-      if (r_v == 2 || (k & 1) != 0) {
-        if (base[1] < last[1] && base[2] < last[2]) {
-          base[1] += I420_U_ROWSTRIDE (width);
-          base[2] += I420_V_ROWSTRIDE (width);
-        }
+      if (G_UNLIKELY (line[1][j] > last[1]))
+        line[1][j] = last[1];
+      /* V */
+      if (v_samp[2] == v_samp[0]) {
+        line[2][j] = base[2] + ((i + j) / 2) * I420_V_ROWSTRIDE (width);
+      } else if (j < (v_samp[2] * DCTSIZE)) {
+        line[2][j] = base[2] + ((i / 2) + j) * I420_V_ROWSTRIDE (width);
       }
+      if (G_UNLIKELY (line[2][j] > last[2]))
+        line[2][j] = last[2];
     }
-    jpeg_read_raw_data (&dec->cinfo, line, r_v * DCTSIZE);
+
+    /* dump_lines (base, line, v_samp[0], width); */
+
+    lines = jpeg_read_raw_data (&dec->cinfo, line, v_samp[0] * DCTSIZE);
+    if (G_UNLIKELY (!lines)) {
+      GST_INFO_OBJECT (dec, "jpeg_read_raw_data() returned 0");
+    }
+  }
+  return GST_FLOW_OK;
+
+format_not_supported:
+  {
+    GST_ELEMENT_ERROR (dec, STREAM, DECODE,
+        (_("Failed to decode JPEG image")),
+        ("Unsupported subsampling schema: v_samp factors: %u %u %u",
+            v_samp[0], v_samp[1], v_samp[2]));
+    return GST_FLOW_ERROR;
   }
 }
 
@@ -837,15 +935,13 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
 {
   GstFlowReturn ret = GST_FLOW_OK;
   GstJpegDec *dec;
-  GstBuffer *outbuf;
-  gulong size;
+  GstBuffer *outbuf = NULL;
   guchar *data, *outdata;
   guchar *base[3], *last[3];
   guint img_len, outsize;
   gint width, height;
   gint r_h, r_v;
-  gint i;
-  guint code;
+  guint code, hdr_ok;
   GstClockTime timestamp, duration;
 
   dec = GST_JPEG_DEC (GST_PAD_PARENT (pad));
@@ -859,7 +955,7 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
   if (GST_BUFFER_IS_DISCONT (buf)) {
     GST_DEBUG_OBJECT (dec, "buffer has DISCONT flag set");
     dec->discont = TRUE;
-    if (!dec->packetized) {
+    if (!dec->packetized && dec->tempbuf != NULL) {
       GST_WARNING_OBJECT (dec, "DISCONT buffer in non-packetized mode, bad");
       gst_buffer_replace (&dec->tempbuf, NULL);
     }
@@ -871,6 +967,18 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
     dec->tempbuf = buf;
   }
   buf = NULL;
+
+  /* If we are non-packetized and know the total incoming size in bytes,
+   * just wait until we have enough before doing any processing. */
+
+  if (!dec->packetized && (dec->segment.format == GST_FORMAT_BYTES) &&
+      (dec->segment.stop != -1) &&
+      (GST_BUFFER_SIZE (dec->tempbuf) < dec->segment.stop)) {
+    /* We assume that non-packetized input in bytes is *one* single jpeg image */
+    GST_DEBUG ("Non-packetized mode. Got %d bytes, need %" G_GINT64_FORMAT,
+        GST_BUFFER_SIZE (dec->tempbuf), dec->segment.stop);
+    goto need_more_data;
+  }
 
   if (!gst_jpeg_dec_ensure_header (dec))
     goto need_more_data;
@@ -895,11 +1003,10 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
     goto skip_decoding;
 
   data = (guchar *) GST_BUFFER_DATA (dec->tempbuf);
-  size = img_len;
   GST_LOG_OBJECT (dec, "image size = %u", img_len);
 
   dec->jsrc.pub.next_input_byte = data;
-  dec->jsrc.pub.bytes_in_buffer = size;
+  dec->jsrc.pub.bytes_in_buffer = img_len;
 
   if (setjmp (dec->jerr.setjmp_buffer)) {
     code = dec->jerr.pub.msg_code;
@@ -915,20 +1022,30 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
       data[2], data[3]);
 
   /* read header */
-  jpeg_read_header (&dec->cinfo, TRUE);
+  hdr_ok = jpeg_read_header (&dec->cinfo, TRUE);
+  if (G_UNLIKELY (hdr_ok != JPEG_HEADER_OK)) {
+    GST_WARNING_OBJECT (dec, "reading the header failed, %d", hdr_ok);
+  }
 
-  r_h = dec->cinfo.cur_comp_info[0]->h_samp_factor;
-  r_v = dec->cinfo.cur_comp_info[0]->v_samp_factor;
+  r_h = dec->cinfo.comp_info[0].h_samp_factor;
+  r_v = dec->cinfo.comp_info[0].v_samp_factor;
 
   GST_LOG_OBJECT (dec, "r_h = %d, r_v = %d", r_h, r_v);
-  GST_LOG_OBJECT (dec, "num_components=%d, comps_in_scan=%d",
-      dec->cinfo.num_components, dec->cinfo.comps_in_scan);
+  GST_LOG_OBJECT (dec, "num_components=%d", dec->cinfo.num_components);
+  GST_LOG_OBJECT (dec, "jpeg_color_space=%d", dec->cinfo.jpeg_color_space);
 
-  for (i = 0; i < dec->cinfo.comps_in_scan; ++i) {
-    GST_LOG_OBJECT (dec, "[%d] h_samp_factor=%d, v_samp_factor=%d", i,
-        dec->cinfo.cur_comp_info[i]->h_samp_factor,
-        dec->cinfo.cur_comp_info[i]->v_samp_factor);
+#ifndef GST_DISABLE_GST_DEBUG
+  {
+    gint i;
+
+    for (i = 0; i < dec->cinfo.num_components; ++i) {
+      GST_LOG_OBJECT (dec, "[%d] h_samp_factor=%d, v_samp_factor=%d, cid=%d",
+          i, dec->cinfo.comp_info[i].h_samp_factor,
+          dec->cinfo.comp_info[i].v_samp_factor,
+          dec->cinfo.comp_info[i].component_id);
+    }
   }
+#endif
 
   /* prepare for raw output */
   dec->cinfo.do_fancy_upsampling = FALSE;
@@ -939,18 +1056,20 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
 
   GST_LOG_OBJECT (dec, "starting decompress");
   guarantee_huff_tables (&dec->cinfo);
-  jpeg_start_decompress (&dec->cinfo);
+  if (!jpeg_start_decompress (&dec->cinfo)) {
+    GST_WARNING_OBJECT (dec, "failed to start decompression cycle");
+  }
 
   width = dec->cinfo.output_width;
   height = dec->cinfo.output_height;
 
-  if (width < MIN_WIDTH || width > MAX_WIDTH ||
-      height < MIN_HEIGHT || height > MAX_HEIGHT)
+  if (G_UNLIKELY (width < MIN_WIDTH || width > MAX_WIDTH ||
+          height < MIN_HEIGHT || height > MAX_HEIGHT))
     goto wrong_size;
 
-  if (width != dec->caps_width || height != dec->caps_height ||
-      dec->framerate_numerator != dec->caps_framerate_numerator ||
-      dec->framerate_denominator != dec->caps_framerate_denominator) {
+  if (G_UNLIKELY (width != dec->caps_width || height != dec->caps_height ||
+          dec->framerate_numerator != dec->caps_framerate_numerator ||
+          dec->framerate_denominator != dec->caps_framerate_denominator)) {
     GstCaps *caps;
 
     /* framerate == 0/1 is a still frame */
@@ -980,6 +1099,8 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
     GST_DEBUG_OBJECT (dec, "setting caps %" GST_PTR_FORMAT, caps);
     GST_DEBUG_OBJECT (dec, "max_v_samp_factor=%d",
         dec->cinfo.max_v_samp_factor);
+    GST_DEBUG_OBJECT (dec, "max_h_samp_factor=%d",
+        dec->cinfo.max_h_samp_factor);
 
     gst_pad_set_caps (dec->srcpad, caps);
     gst_caps_unref (caps);
@@ -993,7 +1114,7 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
 
   ret = gst_pad_alloc_buffer_and_set_caps (dec->srcpad, GST_BUFFER_OFFSET_NONE,
       dec->outsize, GST_PAD_CAPS (dec->srcpad), &outbuf);
-  if (ret != GST_FLOW_OK)
+  if (G_UNLIKELY (ret != GST_FLOW_OK))
     goto alloc_failed;
 
   outdata = GST_BUFFER_DATA (outbuf);
@@ -1022,7 +1143,9 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
   }
   GST_BUFFER_DURATION (outbuf) = duration;
 
-  /* mind the swap, jpeglib outputs blue chroma first */
+  /* mind the swap, jpeglib outputs blue chroma first
+   * ensonic: I see no swap?
+   */
   base[0] = outdata + I420_Y_OFFSET (width, height);
   base[1] = outdata + I420_U_OFFSET (width, height);
   base[2] = outdata + I420_V_OFFSET (width, height);
@@ -1037,18 +1160,26 @@ gst_jpeg_dec_chain (GstPad * pad, GstBuffer * buf)
       base[2] + (I420_V_ROWSTRIDE (width) * ((GST_ROUND_UP_2 (height) / 2) -
           1));
 
-  GST_LOG_OBJECT (dec, "decompressing %u", dec->cinfo.rec_outbuf_height);
-  GST_LOG_OBJECT (dec, "max_h_samp_factor=%u", dec->cinfo.max_h_samp_factor);
+  GST_LOG_OBJECT (dec, "decompressing (reqired scanline buffer height = %u)",
+      dec->cinfo.rec_outbuf_height);
 
   /* For some widths jpeglib requires more horizontal padding than I420 
    * provides. In those cases we need to decode into separate buffers and then
    * copy over the data into our final picture buffer, otherwise jpeglib might
    * write over the end of a line into the beginning of the next line,
    * resulting in blocky artifacts on the left side of the picture. */
-  if (r_h != 2 || width % (dec->cinfo.max_h_samp_factor * DCTSIZE) != 0) {
+  if (G_UNLIKELY (width % (dec->cinfo.max_h_samp_factor * DCTSIZE) != 0
+          || dec->cinfo.comp_info[0].h_samp_factor != 2
+          || dec->cinfo.comp_info[1].h_samp_factor != 1
+          || dec->cinfo.comp_info[2].h_samp_factor != 1)) {
+    GST_CAT_LOG_OBJECT (GST_CAT_PERFORMANCE, dec,
+        "indirect decoding using extra buffer copy");
     gst_jpeg_dec_decode_indirect (dec, base, last, width, height, r_v, r_h);
   } else {
-    gst_jpeg_dec_decode_direct (dec, base, last, width, height, r_v);
+    ret = gst_jpeg_dec_decode_direct (dec, base, last, width, height);
+
+    if (G_UNLIKELY (ret != GST_FLOW_OK))
+      goto decode_direct_failed;
   }
 
   GST_LOG_OBJECT (dec, "decompressing finished");
@@ -1107,6 +1238,10 @@ exit:
 need_more_data:
   {
     GST_LOG_OBJECT (dec, "we need more data");
+    if (outbuf) {
+      gst_buffer_unref (outbuf);
+      outbuf = NULL;
+    }
     ret = GST_FLOW_OK;
     goto exit;
   }
@@ -1124,7 +1259,18 @@ decode_error:
     GST_ELEMENT_ERROR (dec, STREAM, DECODE,
         (_("Failed to decode JPEG image")),
         ("Error #%u: %s", code, dec->jerr.pub.jpeg_message_table[code]));
+    if (outbuf) {
+      gst_buffer_unref (outbuf);
+      outbuf = NULL;
+    }
     ret = GST_FLOW_ERROR;
+    goto done;
+  }
+decode_direct_failed:
+  {
+    /* already posted an error message */
+    jpeg_abort_decompress (&dec->cinfo);
+    gst_buffer_replace (&outbuf, NULL);
     goto done;
   }
 alloc_failed:
@@ -1294,6 +1440,7 @@ gst_jpeg_dec_change_state (GstElement * element, GstStateChange transition)
         gst_buffer_unref (dec->tempbuf);
         dec->tempbuf = NULL;
       }
+      gst_jpeg_dec_free_buffers (dec);
       break;
     default:
       break;

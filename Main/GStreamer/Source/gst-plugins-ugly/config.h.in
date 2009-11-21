@@ -46,8 +46,11 @@
 /* Define to enable a52dec (used by a52dec). */
 #undef HAVE_A52DEC
 
-/* Define to enable AMR-NB (used by amrnb). */
+/* Define to enable amrnb library (used by amrnb). */
 #undef HAVE_AMRNB
+
+/* Define to enable amrwb library (used by amrwbdec). */
+#undef HAVE_AMRWB
 
 /* Define to enable cdio library (used by cdio). */
 #undef HAVE_CDIO
@@ -112,9 +115,6 @@
 /* define for working do while(0) macros */
 #undef HAVE_DOWHILE_MACROS
 
-/* Define to enable dvdnav library (used by dvdnav). */
-#undef HAVE_DVDNAV
-
 /* Define to enable dvdread library (used by dvdreadsrc). */
 #undef HAVE_DVDREAD
 
@@ -135,10 +135,6 @@
 
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
-
-/* Define to enable id3tag reading and writing from the MAD project (used by
-   id3tag). */
-#undef HAVE_ID3TAG
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H

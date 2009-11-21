@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>apev2mux</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-apedemux.html" title="apedemux">
@@ -52,13 +52,13 @@
 <a name="gst-plugins-good-plugins-apev2mux.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstTagLibMux
                      +----GstApev2Mux
@@ -69,7 +69,7 @@ href="../gstreamer-0.10/GstElement.html"
 <p>
 GstApev2Mux implements
  <a
-href="../gstreamer-0.10/GstTagSetter.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
 >GstTagSetter</a>.</p>
 </div>
 <div class="refsect1" title="Description">
@@ -80,7 +80,7 @@ library.
 </p>
 <p>
 Applications can set the tags to write using the <a
-href="../gstreamer-0.10/GstTagSetter.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstTagSetter.html"
 ><span class="type">GstTagSetter</span></a> interface.
 Tags sent by upstream elements will be picked up automatically (and merged
 according to the merge mode set via the tag setter interface).
@@ -88,7 +88,7 @@ according to the merge mode set via the tag setter interface).
 <p>
 </p>
 <div class="refsect2" title="Example pipelines">
-<a name="id489975"></a><h3>Example pipelines</h3>
+<a name="id3039772"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=foo.ogg ! decodebin ! audioconvert ! lame ! apev2mux ! filesink location=foo.mp3
 </pre></div> A pipeline that transcodes a file from Ogg/Vorbis to mp3 format with an
@@ -101,7 +101,7 @@ gst-launch -m filesrc location=foo.mp3 ! apedemux ! fakesink silent=TRUE 2&gt; /
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id504624"></a><h3>Element Information</h3>
+<a name="id3034611"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -124,7 +124,7 @@ gst-launch -m filesrc location=foo.mp3 ! apedemux ! fakesink silent=TRUE 2&gt; /
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id483459"></a><h3>Element Pads</h3>
+<a name="id3040750"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>

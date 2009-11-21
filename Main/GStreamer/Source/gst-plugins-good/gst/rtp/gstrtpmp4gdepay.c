@@ -276,6 +276,8 @@ gst_rtp_mp4g_depay_setcaps (GstBaseRTPDepayload * depayload, GstCaps * caps)
       gst_rtp_mp4g_depay_parse_int (structure, "constantsize", 0);
   rtpmp4gdepay->constantDuration =
       gst_rtp_mp4g_depay_parse_int (structure, "constantduration", 0);
+  rtpmp4gdepay->maxDisplacement =
+      gst_rtp_mp4g_depay_parse_int (structure, "maxdisplacement", 0);
 
 
   /* get config string */
@@ -475,6 +477,23 @@ gst_rtp_mp4g_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
       payload_AU = 2 + AU_headers_bytes;
       payload_AU_size = payload_len - AU_headers_bytes;
 
+      if (G_UNLIKELY (rtpmp4gdepay->auxiliarydatasizelength)) {
+        gint aux_size;
+
+        /* point the bitstream parser to the first auxiliary data bit */
+        gst_bs_parse_init (&bs, payload + AU_headers_bytes,
+            payload_len - AU_headers_bytes);
+        aux_size =
+            gst_bs_parse_read (&bs, rtpmp4gdepay->auxiliarydatasizelength);
+        /* convert to bytes */
+        aux_size = (aux_size + 7) / 8;
+        /* AU data then follows auxiliary data */
+        if (payload_AU_size < aux_size)
+          goto short_payload;
+        payload_AU += aux_size;
+        payload_AU_size -= aux_size;
+      }
+
       /* point the bitstream parser to the first AU header bit */
       gst_bs_parse_init (&bs, payload, payload_len);
       AU_index = AU_index_delta = 0;
@@ -546,6 +565,22 @@ gst_rtp_mp4g_depay_process (GstBaseRTPDepayload * depayload, GstBuffer * buf)
             GST_DEBUG_OBJECT (rtpmp4gdepay, "new interleave group, flushing");
             /* a new interleave group started, flush */
             gst_rtp_mp4g_depay_flush_queue (rtpmp4gdepay);
+          }
+          if (G_UNLIKELY (!rtpmp4gdepay->maxDisplacement &&
+                  rtpmp4gdepay->max_AU_index != -1
+                  && rtpmp4gdepay->max_AU_index >= AU_index)) {
+            GstBuffer *outbuf;
+
+            /* some broken non-interleaved streams have AU-index jumping around
+             * all over the place, apparently assuming receiver disregards */
+            GST_DEBUG_OBJECT (rtpmp4gdepay, "non-interleaved broken AU indices;"
+                " forcing continuous flush");
+            /* reset AU to avoid repeated DISCONT in such case */
+            outbuf = g_queue_peek_head (rtpmp4gdepay->packets);
+            if (G_LIKELY (outbuf)) {
+              rtpmp4gdepay->next_AU_index = GST_BUFFER_OFFSET (outbuf);
+              gst_rtp_mp4g_depay_flush_queue (rtpmp4gdepay);
+            }
           }
           rtpmp4gdepay->prev_rtptime = rtptime;
         } else {

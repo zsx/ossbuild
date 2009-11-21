@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>rganalysis</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-revtv.html" title="revtv">
@@ -52,16 +52,16 @@
 <a name="gst-plugins-good-plugins-rganalysis.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----GstRgAnalysis
 </pre>
@@ -70,16 +70,16 @@ href="../gstreamer-libs-0.10/GstBaseTransform.html"
 <a name="gst-plugins-good-plugins-rganalysis.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--forced" title='The "forced" property'>forced</a>"                   <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--num-tracks" title='The "num-tracks" property'>num-tracks</a>"               <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--reference-level" title='The "reference-level" property'>reference-level</a>"          <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-rganalysis.html#GstRgAnalysis--message" title='The "message" property'>message</a>"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct
 </pre>
 </div>
@@ -95,11 +95,11 @@ list containing the results.  It is sent downstream with a tag event and
 posted on the message bus with a tag message.  The EOS event is forwarded as
 normal afterwards.  Result tag lists at least contain the tags
 <a
-href="../gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-TRACK-GAIN--CAPS"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-TRACK-GAIN--CAPS"
 ><span class="type">GST_TAG_TRACK_GAIN</span></a>, <a
-href="../gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-TRACK-PEAK--CAPS"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-TRACK-PEAK--CAPS"
 ><span class="type">GST_TAG_TRACK_PEAK</span></a> and <a
-href="../gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-REFERENCE-LEVEL--CAPS"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-REFERENCE-LEVEL--CAPS"
 ><span class="type">GST_TAG_REFERENCE_LEVEL</span></a>.
 </p>
 <p>
@@ -115,7 +115,7 @@ an album, not just the last one.
 <p>
 </p>
 <div class="refsect2" title="Example launch lines">
-<a name="id549136"></a><h3>Example launch lines</h3>
+<a name="id3009009"></a><h3>Example launch lines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -t audiotestsrc wave=sine num-buffers=512 ! rganalysis ! fakesink
 </pre></div> Analyze a simple test waveform
@@ -137,7 +137,7 @@ property documentation for more information.
 </p>
 <hr>
 <div class="refsect2" title="Acknowledgements">
-<a name="id592114"></a><h3>Acknowledgements</h3>
+<a name="id3083257"></a><h3>Acknowledgements</h3>
 <p>
 This element is based on code used in the <a class="ulink" href="http://sjeng.org/vorbisgain.html" target="_top">vorbisgain</a> program and many
 others.  The relevant parts are copyrighted by David Robinson, Glen Sawyer
@@ -147,7 +147,7 @@ and Frank Klemm.
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id542568"></a><h3>Element Information</h3>
+<a name="id3111443"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -170,7 +170,7 @@ and Frank Klemm.
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id541498"></a><h3>Element Pads</h3>
+<a name="id3097587"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -242,7 +242,7 @@ Opaque data structure.</p>
 <div class="refsect2" title='The "forced" property'>
 <a name="GstRgAnalysis--forced"></a><h3>The <code class="literal">"forced"</code> property</h3>
 <pre class="programlisting">  "forced"                   <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>
 Whether to analyze streams even when ReplayGain tags exist.
@@ -253,7 +253,7 @@ skip the processing of streams that already contain the necessary tags.
 Data will flow as usual but the element will not consume CPU time and will
 not generate result tags.  To enable possible skipping, set this property
 to <a
-href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE--CAPS"
 ><span class="type">FALSE</span></a>.
 </p>
 <p>
@@ -271,7 +271,7 @@ forcing of processing if needed.</p>
 <div class="refsect2" title='The "num-tracks" property'>
 <a name="GstRgAnalysis--num-tracks"></a><h3>The <code class="literal">"num-tracks"</code> property</h3>
 <pre class="programlisting">  "num-tracks"               <a
-href="../glib/glib-Basic-Types.html#gint"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 >gint</a>                  : Read / Write</pre>
 <p>
 Number of remaining album tracks.
@@ -289,9 +289,9 @@ Every time an EOS event is received, the value of this property is
 decremented by one.  As it reaches zero, it is assumed that the last track
 of the album finished.  The tag list for the final stream will contain the
 additional tags <a
-href="../gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ALBUM-GAIN--CAPS"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ALBUM-GAIN--CAPS"
 ><span class="type">GST_TAG_ALBUM_GAIN</span></a> and <a
-href="../gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ALBUM-PEAK--CAPS"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-ALBUM-PEAK--CAPS"
 ><span class="type">GST_TAG_ALBUM_PEAK</span></a>.  All other
 streams just get the two track tags posted because the values for the album
 tags are not known before all tracks are analyzed.  Applications need to
@@ -308,7 +308,7 @@ To perform album processing, the element has to preserve data between
 streams.  This cannot survive a state change to the NULL or READY state.
 If you change your pipeline's state to NULL or READY between tracks, lock
 the element's state using <a
-href="../gstreamer-0.10/GstElement.html#gst-element-set-locked-state"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html#gst-element-set-locked-state"
 ><code class="function">gst_element_set_locked_state()</code></a> when it is in
 PAUSED or PLAYING.</p>
 <p>
@@ -320,7 +320,7 @@ PAUSED or PLAYING.</p>
 <div class="refsect2" title='The "reference-level" property'>
 <a name="GstRgAnalysis--reference-level"></a><h3>The <code class="literal">"reference-level"</code> property</h3>
 <pre class="programlisting">  "reference-level"          <a
-href="../glib/glib-Basic-Types.html#gdouble"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"
 >gdouble</a>               : Read / Write</pre>
 <p>
 Reference level [dB].
@@ -347,7 +347,7 @@ this.
 <p>
 The problem of the reference level being ambiguous for lack of concise
 standardization is to be solved by adopting the <a
-href="../gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-REFERENCE-LEVEL--CAPS"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstTagList.html#GST-TAG-REFERENCE-LEVEL--CAPS"
 ><span class="type">GST_TAG_REFERENCE_LEVEL</span></a>
 tag, which allows to store the used value alongside the gain values.</p>
 <p>
@@ -359,7 +359,7 @@ tag, which allows to store the used value alongside the gain values.</p>
 <div class="refsect2" title='The "message" property'>
 <a name="GstRgAnalysis--message"></a><h3>The <code class="literal">"message"</code> property</h3>
 <pre class="programlisting">  "message"                  <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write / Construct</pre>
 <p>Post statics messages.</p>
 <p>Default value: FALSE</p>

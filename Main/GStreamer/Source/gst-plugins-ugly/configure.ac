@@ -5,7 +5,7 @@ dnl please read gstreamer/docs/random/autotools before changing this file
 dnl initialize autoconf
 dnl releases only do -Wall, cvs and prerelease does -Werror too
 dnl use a three digit version number for releases, and four for cvs/prerelease
-AC_INIT(GStreamer Ugly Plug-ins, 0.10.12,
+AC_INIT(GStreamer Ugly Plug-ins, 0.10.13,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gst-plugins-ugly)
 
@@ -47,8 +47,8 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 dnl *** required versions of GStreamer stuff ***
-GST_REQ=0.10.23
-GSTPB_REQ=0.10.23
+GST_REQ=0.10.25
+GSTPB_REQ=0.10.25
 
 dnl *** autotools stuff ****
 
@@ -231,14 +231,30 @@ AG_GST_CHECK_FEATURE(A52DEC, [a52dec], a52dec, [
   AC_CHECK_A52DEC(HAVE_A52DEC=yes, HAVE_A52DEC=no)
 ])
 
-dnl *** AMR-NB ***
+dnl *** amr-nb ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_AMRNB, true)
-AG_GST_CHECK_FEATURE(AMRNB, [AMR-NB], amrnb, [
-  AG_GST_CHECK_LIBHEADER(AMRNB, amrnb,
-		      Decoder_Interface_init, -lm,
-		      amrnb/interf_dec.h,
-		      AMRNB_LIBS="-lamrnb -lm"
-		      AC_SUBST(AMRNB_LIBS))
+AG_GST_CHECK_FEATURE(AMRNB, [amrnb library], amrnb, [
+  PKG_CHECK_MODULES(AMRNB, opencore-amrnb, HAVE_AMRNB="yes",
+      [ AG_GST_CHECK_LIBHEADER(AMRNB, opencore-amrnb,
+		           Decoder_Interface_init, -lm,
+		           opencore-amrnb/interf_dec.h,
+			   AMRNB_LIBS="-lopencore-amrnb")
+      ])
+  AC_SUBST(AMRNB_CFLAGS)
+  AC_SUBST(AMRNB_LIBS)
+])
+
+dnl *** amr-wb dec ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_AMRWB, true)
+AG_GST_CHECK_FEATURE(AMRWB, [amrwb library], amrwbdec, [
+  PKG_CHECK_MODULES(AMRWB, opencore-amrwb, HAVE_AMRWB="yes",
+      [ AG_GST_CHECK_LIBHEADER(AMRWB, opencore-amrwb,
+			   D_IF_decode, ,
+			   opencore-amrwb/dec_if.h,
+			   AMRWB_LIBS="-lopencore-amrwb")
+      ])
+  AC_SUBST(AMRWB_CFLAGS)
+  AC_SUBST(AMRWB_LIBS)
 ])
 
 dnl *** cdio ***
@@ -252,42 +268,6 @@ translit(dnm, m, l) AM_CONDITIONAL(USE_DVDREAD, true)
 AG_GST_CHECK_FEATURE(DVDREAD, [dvdread library], dvdreadsrc, [
   AG_GST_CHECK_LIBHEADER(DVDREAD, dvdread, DVDOpen, , dvdread/dvd_reader.h, DVDREAD_LIBS="-ldvdread")
   AC_SUBST(DVDREAD_LIBS)
-])
-
-dnl *** dvdnav ***
-translit(dnm, m, l) AM_CONDITIONAL(USE_DVDNAV, true)
-AG_GST_CHECK_FEATURE(DVDNAV, [dvdnav library], dvdnav, [
-  translit(dnm, m, l) AC_SUBST(DVDNAV_LIBS)
-  translit(dnm, m, l) AC_SUBST(DVDNAV_CFLAGS)
-  AG_GST_CHECK_CONFIGPROG(DVDNAV, dvdnav-config)
-  if test x"$HAVE_DVDNAV" = x"yes"; then
-    dnl check version
-    DVDNAV_VERSION=`dvdnav-config --version|head -n 1|sed 's/^.*) //'|sed 's/ (.*)//'`
-    DVDNAV_MAJOR=`echo $DVDNAV_VERSION | cut -d. -f1 | sed s/[a-zA-Z\-].*//g`
-    DVDNAV_MINOR=`echo $DVDNAV_VERSION | cut -d. -f2 | sed s/[a-zA-Z\-].*//g`
-    DVDNAV_MICRO=`echo $DVDNAV_VERSION | cut -d. -f3 | sed s/[a-zA-Z\-].*//g`
-    if [[ "$DVDNAV_MAJOR" -eq "0" ]] && \
-       [[ "$DVDNAV_MINOR" -lt "1" ]]; then
-      AC_MSG_WARN([libdvdnav >= 0.1.7 is required, you have $DVDNAV_VERSION])
-      HAVE_DVDNAV="no"
-    elif [[ "$DVDNAV_MAJOR" -eq "0" ]] && \
-         [[ "$DVDNAV_MINOR" -eq "1" ]] && \
-         [[ "$DVDNAV_MICRO" -lt "7" ]]; then
-      AC_MSG_WARN([libdvdnav >= 0.1.7 is required, you have $DVDNAV_VERSION])
-      HAVE_DVDNAV="no"
-    fi
-  fi
-  dnl now check for dvdread/nav_print.h - see #133002
-  AC_CHECK_HEADER(dvdread/nav_print.h, , [
-      AC_MSG_WARN([header dvdread/nav_print.h from dvdread missing])
-      HAVE_DVDNAV="no"
-  ])
-  AS_SCRUB_INCLUDE(DVDNAV_CFLAGS)
-
-  dnl disabled until plugin is fully functional
-  HAVE_DVDNAV=no
-], disabled, , [
-  AC_MSG_NOTICE([dvdnavsrc not stable yet, not building])
 ])
 
 dnl *** lame ***
@@ -314,10 +294,10 @@ AG_GST_CHECK_FEATURE(LAME, [lame mp3 encoder library], lame, [
   ])
 ])
 
-dnl *** id3tag from the MAD project ***
-translit(dnm, m, l) AM_CONDITIONAL(USE_ID3TAG, true)
-AG_GST_CHECK_FEATURE(ID3TAG, [id3tag reading and writing from the MAD project],
-  id3tag, [
+dnl *** mad ***
+translit(dnm, m, l) AM_CONDITIONAL(USE_MAD, true)
+AG_GST_CHECK_FEATURE(MAD, [mad mp3 decoder], mad, [
+
   dnl check with pkg-config first
   AG_GST_PKG_CHECK_MODULES(ID3TAG, id3tag >= 0.15)
   if test "x$HAVE_ID3TAG" = "xno"; then
@@ -331,21 +311,18 @@ AG_GST_CHECK_FEATURE(ID3TAG, [id3tag reading and writing from the MAD project],
       AC_SUBST(ID3TAG_LIBS)
     ])
   fi
-])
 
-dnl *** mad ***
-translit(dnm, m, l) AM_CONDITIONAL(USE_MAD, true)
-AG_GST_CHECK_FEATURE(MAD, [mad mp3 decoder], mad, [
   if test "x$HAVE_ID3TAG" = "xyes"; then
     dnl check with pkg-config first
-    AG_GST_PKG_CHECK_MODULES(MAD, mad >= 0.15 id3tag >= 0.15)
+    AG_GST_PKG_CHECK_MODULES(MAD, mad >= 0.15)
+    MAD_LIBS="$MAD_LIBS $ID3TAG_LIBS"
     if test "x$HAVE_MAD" = "xno"; then
       dnl fall back to oldskool detection
       AC_CHECK_HEADER(mad.h, [
         AC_CHECK_LIB(mad, mad_decoder_finish,
           HAVE_MAD="yes" MAD_LIBS="-lmad $ID3TAG_LIBS")
       ])
-    fi    
+    fi
   else
     HAVE_MAD="no"
     AC_MSG_WARN([libid3tag not available, cannot build MAD MP3 decoder plugin])
@@ -380,7 +357,7 @@ AG_GST_CHECK_FEATURE(TWOLAME, [twolame], twolame, [
 dnl *** x264 (MPEG-4 part 10/h.264/AVC encoder) ***
 translit(dnm, m, l) AM_CONDITIONAL(USE_X264, true)
 AG_GST_CHECK_FEATURE(X264, [x264 plug-in], x264, [
-  AG_GST_CHECK_LIBHEADER(X264, x264, x264_nal_encode, -lm, x264.h,
+  AG_GST_CHECK_LIBHEADER(X264, x264, x264_encoder_encode, -lm, x264.h,
       AC_MSG_CHECKING([for uptodate x264 API version])
       dnl _stdint not yet generated, so no compiling
       AC_TRY_CPP([
@@ -407,11 +384,10 @@ dnl but we still need to set the conditionals
 
 AM_CONDITIONAL(USE_A52DEC, false)
 AM_CONDITIONAL(USE_AMRNB, false)
+AM_CONDITIONAL(USE_AMRWB, false)
 AM_CONDITIONAL(USE_CDIO, false)
 AM_CONDITIONAL(USE_DVDREAD, false)
-AM_CONDITIONAL(USE_DVDNAV, false)
 AM_CONDITIONAL(USE_LAME, false)
-AM_CONDITIONAL(USE_ID3TAG, false)
 AM_CONDITIONAL(USE_MAD, false)
 AM_CONDITIONAL(USE_MPEG2DEC, false)
 AM_CONDITIONAL(USE_SIDPLAY, false)
@@ -495,8 +471,8 @@ gst/synaesthesia/Makefile
 ext/Makefile
 ext/a52dec/Makefile
 ext/amrnb/Makefile
+ext/amrwbdec/Makefile
 ext/cdio/Makefile
-ext/dvdnav/Makefile
 ext/dvdread/Makefile
 ext/lame/Makefile
 ext/mad/Makefile

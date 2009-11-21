@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>audiodynamic</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-audioecho.html" title="audioecho">
@@ -52,19 +52,19 @@
 <a name="gst-plugins-good-plugins-audiodynamic.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----<a
-href="../gstreamer-libs-0.10/GstBaseTransform.html"
+href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
 >GstBaseTransform</a>
                      +----<a
-href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
+href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#GstAudioFilter"
 >GstAudioFilter</a>
                            +----GstAudioDynamic
 </pre>
@@ -75,10 +75,10 @@ href="../gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstaudiofilter.html#Gs
   "<a class="link" href="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic--characteristics" title='The "characteristics" property'>characteristics</a>"          GstAudioDynamicCharacteristics  : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic--mode" title='The "mode" property'>mode</a>"                     GstAudioDynamicMode   : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic--ratio" title='The "ratio" property'>ratio</a>"                    <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-audiodynamic.html#GstAudioDynamic--threshold" title='The "threshold" property'>threshold</a>"                <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write
 </pre>
 </div>
@@ -93,7 +93,7 @@ soft-knee mode is selected the ratio is applied smoothly.
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id486517"></a><h3>Example launch line</h3>
+<a name="id3036747"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch audiotestsrc wave=saw ! audiodynamic characteristics=soft-knee mode=compressor threshold=0.5 rate=0.5 ! alsasink
 gst-launch filesrc location="melo1.ogg" ! oggdemux ! vorbisdec ! audioconvert ! audiodynamic characteristics=hard-knee mode=expander threshold=0.2 rate=4.0 ! alsasink
@@ -103,7 +103,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audiodynamic ! audioconvert ! 
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id486963"></a><h3>Element Information</h3>
+<a name="id3050534"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -126,7 +126,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audiodynamic ! audioconvert ! 
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id488578"></a><h3>Element Pads</h3>
+<a name="id3059620"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -210,7 +210,7 @@ gst-launch audiotestsrc wave=saw ! audioconvert ! audiodynamic ! audioconvert ! 
 <div class="refsect2" title='The "ratio" property'>
 <a name="GstAudioDynamic--ratio"></a><h3>The <code class="literal">"ratio"</code> property</h3>
 <pre class="programlisting">  "ratio"                    <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Ratio that should be applied.</p>
 <p>Allowed values: &gt;= 0</p>
@@ -220,7 +220,7 @@ href="../glib/glib-Basic-Types.html#gfloat"
 <div class="refsect2" title='The "threshold" property'>
 <a name="GstAudioDynamic--threshold"></a><h3>The <code class="literal">"threshold"</code> property</h3>
 <pre class="programlisting">  "threshold"                <a
-href="../glib/glib-Basic-Types.html#gfloat"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"
 >gfloat</a>                : Read / Write</pre>
 <p>Threshold until the filter is activated.</p>
 <p>Allowed values: [0,1]</p>

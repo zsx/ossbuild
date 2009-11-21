@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>interleave</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
 <link rel="home" href="index.html" title="GStreamer Good Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-good Elements">
 <link rel="prev" href="gst-plugins-good-plugins-id3v2mux.html" title="id3v2mux">
@@ -52,13 +52,13 @@
 <a name="gst-plugins-good-plugins-interleave.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
+href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
 >GObject</a>
    +----<a
-href="../gstreamer-0.10/GstObject.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
 >GstObject</a>
          +----<a
-href="../gstreamer-0.10/GstElement.html"
+href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
 >GstElement</a>
                +----GstInterleave
 </pre>
@@ -67,10 +67,10 @@ href="../gstreamer-0.10/GstElement.html"
 <a name="gst-plugins-good-plugins-interleave.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-good-plugins-interleave.html#GstInterleave--channel-positions" title='The "channel-positions" property'>channel-positions</a>"        <a
-href="../gobject/gobject-Value-arrays.html#GValueArray"
+href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
 >GValueArray</a>*          : Read / Write
   "<a class="link" href="gst-plugins-good-plugins-interleave.html#GstInterleave--channel-positions-from-input" title='The "channel-positions-from-input" property'>channel-positions-from-input</a>" <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write
 </pre>
 </div>
@@ -95,7 +95,7 @@ The channel number of every sinkpad in the out can be retrieved from the "channe
 <p>
 </p>
 <div class="refsect2" title="Example launch line">
-<a name="id496653"></a><h3>Example launch line</h3>
+<a name="id3065689"></a><h3>Example launch line</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch filesrc location=file.mp3 ! decodebin ! audioconvert ! "audio/x-raw-int,channels=2" ! deinterleave name=d  interleave name=i ! audioconvert ! wavenc ! filesink location=test.wav    d.src0 ! queue ! audioconvert ! i.sink1    d.src1 ! queue ! audioconvert ! i.sink0
 </pre></div> Decodes and deinterleaves a Stereo MP3 file into separate channels and
@@ -108,7 +108,7 @@ gst-launch interleave name=i ! audioconvert ! wavenc ! filesink location=file.wa
 <div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
 <div class="refsect2" title="Element Information">
-<a name="id529958"></a><h3>Element Information</h3>
+<a name="id3062549"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -131,7 +131,7 @@ gst-launch interleave name=i ! audioconvert ! wavenc ! filesink location=file.wa
 </div>
 <hr>
 <div class="refsect2" title="Element Pads">
-<a name="id542447"></a><h3>Element Pads</h3>
+<a name="id3095358"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -201,7 +201,7 @@ gst-launch interleave name=i ! audioconvert ! wavenc ! filesink location=file.wa
 <div class="refsect2" title='The "channel-positions" property'>
 <a name="GstInterleave--channel-positions"></a><h3>The <code class="literal">"channel-positions"</code> property</h3>
 <pre class="programlisting">  "channel-positions"        <a
-href="../gobject/gobject-Value-arrays.html#GValueArray"
+href="/usr/share/gtk-doc/html/gobject/gobject-Value-arrays.html#GValueArray"
 >GValueArray</a>*          : Read / Write</pre>
 <p>
 Channel positions: This property controls the channel positions
@@ -221,15 +221,15 @@ is not given a NONE layout will be used.</p>
 <div class="refsect2" title='The "channel-positions-from-input" property'>
 <a name="GstInterleave--channel-positions-from-input"></a><h3>The <code class="literal">"channel-positions-from-input"</code> property</h3>
 <pre class="programlisting">  "channel-positions-from-input" <a
-href="../glib/glib-Basic-Types.html#gboolean"
+href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
 >gboolean</a>              : Read / Write</pre>
 <p>
 Channel positions from input: If this property is set to <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> the channel
 positions will be taken from the input caps if valid channel positions for
 the output can be constructed from them. If this is set to <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a> setting the
 channel-positions property overwrites this property again.</p>
 <p>

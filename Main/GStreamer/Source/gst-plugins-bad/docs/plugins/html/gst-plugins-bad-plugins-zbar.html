@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>zbar</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-wildmidi.html" title="wildmidi">
 <link rel="next" href="ch02.html" title="gst-plugins-bad Plugins">
@@ -29,7 +29,7 @@
                 <a href="#gst-plugins-bad-plugins-zbar.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="zbar">
 <a name="gst-plugins-bad-plugins-zbar"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -38,20 +38,20 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-zbar.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-zbar.html#GstZBar" title="GstZBar">GstZBar</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-zbar.description"></a><h2>Description</h2>
 <p>
 Detect bar codes in the video streams and send them as element messages to
 the <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstBus.html"
+href="../gstreamer-0.10/GstBus.html"
 ><span class="type">GstBus</span></a> if .<span class="type">"message"</span> property is <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
+href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 ><code class="literal">TRUE</code></a>.
 </p>
 <p>
@@ -59,31 +59,37 @@ The element generate messages named
 <code class="classname">"barcode"</code>. The structure containes these
 fields:
 </p>
-<div class="itemizedlist"><ul type="disc">
-<li><p>
+<div class="itemizedlist"><ul class="itemizedlist" type="disc">
+<li class="listitem"><p>
   <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstClock.html#GstClockTime"
+href="../gstreamer-0.10/GstClock.html#GstClockTime"
 ><span class="type">GstClockTime</span></a>
   <code class="classname">"timestamp"</code>:
   the timestamp of the buffer that triggered the message.
   </p></li>
-<li><p>
+<li class="listitem"><p>
   gchar*
   <code class="classname">"type"</code>:
   the symbol type.
   </p></li>
-<li><p>
+<li class="listitem"><p>
   gchar*
   <code class="classname">"symbol"</code>:
   the deteted bar code data.
+  </p></li>
+<li class="listitem"><p>
+  gint
+  <code class="classname">"quality"</code>:
+  an unscaled, relative quantity: larger values are better than smaller
+  values.
   </p></li>
 </ul></div>
 <p>
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2877940"></a><h3>Example launch lines</h3>
+<div class="refsect2" title="Example launch lines">
+<a name="id2834149"></a><h3>Example launch lines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -m v4l2src ! ffmpegcolorspace ! zbar ! ffmpegcolorspace ! xvimagesink
 </pre></div> This pipeline will detect barcodes and send them as messages.
@@ -91,10 +97,10 @@ gst-launch -m v4l2src ! ffmpegcolorspace ! zbar ! ffmpegcolorspace ! xvimagesink
 gst-launch -m v4l2src ! tee name=t ! queue ! ffmpegcolorspace ! zbar ! fakesink t. ! queue ! xvimagesink
 </pre></div> Same as above, but running the filter on a branch to keep the display in color
 </div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2827916"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2838921"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -116,8 +122,8 @@ gst-launch -m v4l2src ! tee name=t ! queue ! ffmpegcolorspace ! zbar ! fakesink 
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2921670"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2902968"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -165,9 +171,9 @@ gst-launch -m v4l2src ! tee name=t ! queue ! ffmpegcolorspace ! zbar ! fakesink 
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-zbar.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstZBar">
 <a name="GstZBar"></a><h3>GstZBar</h3>
 <pre class="programlisting">typedef struct {
   GstVideoFilter videofilter;

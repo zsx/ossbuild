@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ivorbisdec</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.1">
+<link rel="home" href="index.html" title="GStreamer Bad Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-bad Elements">
 <link rel="prev" href="gst-plugins-bad-plugins-input-selector.html" title="input-selector">
 <link rel="next" href="gst-plugins-bad-plugins-jackaudiosrc.html" title="jackaudiosrc">
@@ -29,7 +29,7 @@
                 <a href="#gst-plugins-bad-plugins-ivorbisdec.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="ivorbisdec">
 <a name="gst-plugins-bad-plugins-ivorbisdec"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -38,13 +38,13 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-bad-plugins-ivorbisdec.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
                     <a class="link" href="gst-plugins-bad-plugins-ivorbisdec.html#GstIVorbisDec" title="GstIVorbisDec">GstIVorbisDec</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-bad-plugins-ivorbisdec.description"></a><h2>Description</h2>
 <p>
 This element decodes a Vorbis stream to raw int audio.
@@ -55,8 +55,8 @@ embedded devices.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2877054"></a><h3>Example pipelines</h3>
+<div class="refsect2" title="Example pipelines">
+<a name="id2869035"></a><h3>Example pipelines</h3>
 <div class="informalexample"><pre class="programlisting">
 gst-launch -v filesrc location=sine.ogg ! oggdemux ! ivorbisdec ! audioconvert ! alsasink
 </pre></div> Decode an Ogg/Vorbis. To create an Ogg/Vorbis file refer to the
@@ -66,10 +66,10 @@ documentation of vorbisenc.
 </p>
 <p>
 Last reviewed on 2006-03-01 (0.10.4)</p>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2852994"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id2828965"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -92,80 +92,8 @@ Last reviewed on 2006-03-01 (0.10.4)</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2862768"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 6 ], endianness=(int)1234, width=(int)32, depth=(int)16, signed=(boolean)true</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-vorbis</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2878123"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-bad-plugins-plugin-tremor.html#plugin-tremor">tremor</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Benjamin Otte &lt;in7y118@public.uni-hamburg.de&gt;
-    Chris Lord &lt;chris@openedhand.com&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Codec/Decoder/Audio</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2878185"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id2846590"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -213,9 +141,9 @@ Last reviewed on 2006-03-01 (0.10.4)</p>
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-bad-plugins-ivorbisdec.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstIVorbisDec">
 <a name="GstIVorbisDec"></a><h3>GstIVorbisDec</h3>
 <pre class="programlisting">typedef struct {
   GstElement            element;
@@ -227,7 +155,7 @@ Opaque data structure.</p>
 </p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-bad-plugins-ivorbisdec.see-also"></a><h2>See Also</h2>
 vorbisenc, oggdemux
 </div>

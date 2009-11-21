@@ -48,6 +48,10 @@ GST_DEBUG_CATEGORY_STATIC (mp3parse_debug);
 #define GST_READ_UINT24_BE(p) (p[2] | (p[1] << 8) | (p[0] << 16))
 #endif
 
+/* Minimum number of consecutive, valid-looking frames to consider
+   for resyncing */
+#define MIN_RESYNC_FRAMES 3
+
 static inline MPEGAudioSeekEntry *
 mpeg_audio_seek_entry_new ()
 {
@@ -121,6 +125,8 @@ static void gst_mp3parse_get_property (GObject * object, guint prop_id,
     GValue * value, GParamSpec * pspec);
 static GstStateChangeReturn gst_mp3parse_change_state (GstElement * element,
     GstStateChange transition);
+static GstFlowReturn
+gst_mp3parse_handle_data (GstMPEGAudioParse * mp3parse, gboolean at_eos);
 
 static gboolean mp3parse_bytepos_to_time (GstMPEGAudioParse * mp3parse,
     gint64 bytepos, GstClockTime * ts, gboolean from_total_time);
@@ -198,8 +204,9 @@ mp3_type_frame_length_from_header (GstMPEGAudioParse * mp3parse, guint32 header,
 
   bitrate = (header >> 12) & 0xF;
   bitrate = mp3types_bitrates[lsf][layer - 1][bitrate] * 1000;
-  if (bitrate == 0)
-    return 0;
+  /* The caller has ensured we have a valid header, so bitrate can't be
+     zero here. */
+  g_assert (bitrate != 0);
 
   samplerate = (header >> 10) & 0x3;
   samplerate = mp3types_freqs[lsf + mpg25][samplerate];
@@ -328,6 +335,7 @@ gst_mp3parse_reset (GstMPEGAudioParse * mp3parse)
   mp3parse->next_ts = GST_CLOCK_TIME_NONE;
   mp3parse->cur_offset = -1;
 
+  mp3parse->sync_offset = 0;
   mp3parse->tracked_offset = 0;
   mp3parse->pending_ts = GST_CLOCK_TIME_NONE;
   mp3parse->pending_offset = -1;
@@ -481,14 +489,16 @@ gst_mp3parse_sink_event (GstPad * pad, GstEvent * event)
           mp3parse->next_ts = seek->timestamp_start;
           mp3parse->pending_ts = GST_CLOCK_TIME_NONE;
           mp3parse->tracked_offset = 0;
+          mp3parse->sync_offset = 0;
 
           gst_event_parse_new_segment_full (event, &update, &rate,
               &applied_rate, &format, &start, &stop, &pos);
 
           GST_DEBUG_OBJECT (mp3parse,
               "Pushing accurate newseg rate %g, applied rate %g, "
-              "format %d, start %lld, stop %lld, pos %lld", rate,
-              applied_rate, format, start, stop, pos);
+              "format %d, start %" G_GINT64_FORMAT ", stop %" G_GINT64_FORMAT
+              ", pos %" G_GINT64_FORMAT, rate, applied_rate, format, start,
+              stop, pos);
 
           g_free (seek);
           mp3parse->pending_accurate_seeks =
@@ -539,12 +549,14 @@ gst_mp3parse_sink_event (GstPad * pad, GstEvent * event)
       mp3parse->next_ts = GST_CLOCK_TIME_NONE;
       mp3parse->pending_ts = GST_CLOCK_TIME_NONE;
       mp3parse->tracked_offset = 0;
+      mp3parse->sync_offset = 0;
 
       gst_event_parse_new_segment_full (event, &update, &rate, &applied_rate,
           &format, &start, &stop, &pos);
       GST_DEBUG_OBJECT (mp3parse, "Pushing newseg rate %g, applied rate %g, "
-          "format %d, start %lld, stop %lld, pos %lld",
-          rate, applied_rate, format, start, stop, pos);
+          "format %d, start %" G_GINT64_FORMAT ", stop %" G_GINT64_FORMAT
+          ", pos %" G_GINT64_FORMAT, rate, applied_rate, format, start, stop,
+          pos);
 
       gst_segment_set_newsegment_full (&mp3parse->segment, update, rate,
           applied_rate, format, start, stop, pos);
@@ -565,9 +577,16 @@ gst_mp3parse_sink_event (GstPad * pad, GstEvent * event)
       res = gst_pad_push_event (mp3parse->srcpad, event);
       break;
     case GST_EVENT_EOS:
+      /* If we haven't processed any frames yet, then make sure we process
+         at least whatever's in our adapter */
       if (mp3parse->frame_count == 0) {
-        GST_ELEMENT_ERROR (mp3parse, STREAM, WRONG_TYPE,
-            ("No valid frames found before end of stream"), (NULL));
+        gst_mp3parse_handle_data (mp3parse, TRUE);
+
+        /* If we STILL have zero frames processed, fire an error */
+        if (mp3parse->frame_count == 0) {
+          GST_ELEMENT_ERROR (mp3parse, STREAM, WRONG_TYPE,
+              ("No valid frames found before end of stream"), (NULL));
+        }
       }
       /* fall through */
     default:
@@ -589,16 +608,29 @@ gst_mp3parse_sink_event (GstPad * pad, GstEvent * event)
   return res;
 }
 
-static MPEGAudioSeekEntry *
-mp3parse_seek_table_last_entry (GstMPEGAudioParse * mp3parse)
+static void
+gst_mp3parse_add_index_entry (GstMPEGAudioParse * mp3parse, guint64 offset,
+    GstClockTime ts)
 {
-  MPEGAudioSeekEntry *ret = NULL;
+  MPEGAudioSeekEntry *entry, *last;
 
-  if (mp3parse->seek_table) {
-    ret = mp3parse->seek_table->data;
+  if (G_LIKELY (mp3parse->seek_table != NULL)) {
+    last = mp3parse->seek_table->data;
+
+    if (last->byte >= offset)
+      return;
+
+    if (GST_CLOCK_DIFF (last->timestamp, ts) < mp3parse->idx_interval)
+      return;
   }
 
-  return ret;
+  entry = mpeg_audio_seek_entry_new ();
+  entry->byte = offset;
+  entry->timestamp = ts;
+  mp3parse->seek_table = g_list_prepend (mp3parse->seek_table, entry);
+
+  GST_LOG_OBJECT (mp3parse, "Adding index entry %" GST_TIME_FORMAT " @ offset "
+      "0x%08" G_GINT64_MODIFIER "x", GST_TIME_ARGS (ts), offset);
 }
 
 /* Prepare a buffer of the indicated size, timestamp it and output */
@@ -633,8 +665,8 @@ gst_mp3parse_emit_frame (GstMPEGAudioParse * mp3parse, guint size,
       if (diff < -thresh || diff > thresh) {
         GST_DEBUG_OBJECT (mp3parse, "Updating next_ts from %" GST_TIME_FORMAT
             " to pending ts %" GST_TIME_FORMAT
-            " at offset %lld (pending offset was %lld)",
-            GST_TIME_ARGS (mp3parse->next_ts),
+            " at offset %" G_GINT64_FORMAT " (pending offset was %"
+            G_GINT64_FORMAT ")", GST_TIME_ARGS (mp3parse->next_ts),
             GST_TIME_ARGS (mp3parse->pending_ts), mp3parse->tracked_offset,
             mp3parse->pending_offset);
         mp3parse->next_ts = mp3parse->pending_ts;
@@ -664,18 +696,9 @@ gst_mp3parse_emit_frame (GstMPEGAudioParse * mp3parse, guint size,
 
   if (mp3parse->seekable &&
       mp3parse->exact_position && GST_BUFFER_TIMESTAMP_IS_VALID (outbuf) &&
-      mp3parse->cur_offset != GST_BUFFER_OFFSET_NONE &&
-      (!mp3parse->seek_table ||
-          (mp3parse_seek_table_last_entry (mp3parse))->byte <
-          GST_BUFFER_OFFSET (outbuf))) {
-    MPEGAudioSeekEntry *entry = mpeg_audio_seek_entry_new ();
-
-    entry->byte = mp3parse->cur_offset;
-    entry->timestamp = GST_BUFFER_TIMESTAMP (outbuf);
-    mp3parse->seek_table = g_list_prepend (mp3parse->seek_table, entry);
-    GST_DEBUG_OBJECT (mp3parse, "Adding index entry %" GST_TIME_FORMAT
-        " @ offset 0x%08" G_GINT64_MODIFIER "x",
-        GST_TIME_ARGS (entry->timestamp), entry->byte);
+      mp3parse->cur_offset != GST_BUFFER_OFFSET_NONE) {
+    gst_mp3parse_add_index_entry (mp3parse, mp3parse->cur_offset,
+        GST_BUFFER_TIMESTAMP (outbuf));
   }
 
   /* Update our byte offset tracking */
@@ -1011,9 +1034,9 @@ gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
           fb = table[b];
           fx = (b - a) / (fb - fa) * (i - fa) + a;
           mp3parse->xing_seek_table_inverse[i] = (guint16) (fx * 100);
-        } else if (percent == 98 && table[percent + 1] <= i) {
+        } else if (percent == 99) {
           gdouble fa, fb, fx;
-          gint a = percent + 1, b = 100;
+          gint a = percent, b = 100;
 
           fa = table[a];
           fb = 256.0;
@@ -1162,15 +1185,308 @@ gst_mp3parse_handle_first_frame (GstMPEGAudioParse * mp3parse)
   }
 }
 
+static void
+gst_mp3parse_check_seekability (GstMPEGAudioParse * mp3parse)
+{
+  GstQuery *query;
+  gboolean seekable = FALSE;
+  gint64 start = -1, stop = -1;
+  guint idx_interval = 0;
+
+  query = gst_query_new_seeking (GST_FORMAT_BYTES);
+  if (!gst_pad_peer_query (mp3parse->sinkpad, query)) {
+    GST_DEBUG_OBJECT (mp3parse, "seeking query failed");
+    goto done;
+  }
+
+  gst_query_parse_seeking (query, NULL, &seekable, &start, &stop);
+
+  /* try harder to query upstream size if we didn't get it the first time */
+  if (seekable && stop == -1) {
+    GstFormat fmt = GST_FORMAT_BYTES;
+
+    GST_DEBUG_OBJECT (mp3parse, "doing duration query to fix up unset stop");
+    gst_pad_query_peer_duration (mp3parse->sinkpad, &fmt, &stop);
+  }
+
+  /* if upstream doesn't know the size, it's likely that it's not seekable in
+   * practice even if it technically may be seekable */
+  if (seekable && (start != 0 || stop <= start)) {
+    GST_DEBUG_OBJECT (mp3parse, "seekable but unknown start/stop -> disable");
+    seekable = FALSE;
+  }
+
+  /* let's not put every single frame into our index */
+  if (seekable) {
+    if (stop < 10 * 1024 * 1024)
+      idx_interval = 100;
+    else if (stop < 100 * 1024 * 1024)
+      idx_interval = 500;
+    else
+      idx_interval = 1000;
+  }
+
+done:
+
+  GST_INFO_OBJECT (mp3parse, "seekable: %d (%" G_GUINT64_FORMAT " - %"
+      G_GUINT64_FORMAT ")", seekable, start, stop);
+  mp3parse->seekable = seekable;
+
+  GST_INFO_OBJECT (mp3parse, "idx_interval: %ums", idx_interval);
+  mp3parse->idx_interval = idx_interval * GST_MSECOND;
+
+  gst_query_unref (query);
+}
+
+/* Flush some number of bytes and update tracked offsets */
+static void
+gst_mp3parse_flush_bytes (GstMPEGAudioParse * mp3parse, int bytes)
+{
+  gst_adapter_flush (mp3parse->adapter, bytes);
+  if (mp3parse->cur_offset != -1)
+    mp3parse->cur_offset += bytes;
+  mp3parse->tracked_offset += bytes;
+}
+
+/* Perform extended validation to check that subsequent headers match
+   the first header given here in important characteristics, to avoid
+   false sync. We look for a minimum of MIN_RESYNC_FRAMES consecutive
+   frames to match their major characteristics.
+
+   If at_eos is set to TRUE, we just check that we don't find any invalid
+   frames in whatever data is available, rather than requiring a full
+   MIN_RESYNC_FRAMES of data.
+
+   Returns TRUE if we've seen enough data to validate or reject the frame.
+   If TRUE is returned, then *valid contains TRUE if it validated, or false
+   if we decided it was false sync.
+ */
+static gboolean
+gst_mp3parse_validate_extended (GstMPEGAudioParse * mp3parse, guint32 header,
+    int bpf, gboolean at_eos, gboolean * valid)
+{
+  guint32 next_header;
+  const guint8 *data;
+  guint available;
+  int frames_found = 1;
+  int offset = bpf;
+
+  while (frames_found < MIN_RESYNC_FRAMES) {
+    /* Check if we have enough data for all these frames, plus the next
+       frame header. */
+    available = gst_adapter_available (mp3parse->adapter);
+    if (available < offset + 4) {
+      if (at_eos) {
+        /* Running out of data at EOS is fine; just accept it */
+        *valid = TRUE;
+        return TRUE;
+      } else {
+        return FALSE;
+      }
+    }
+
+    data = gst_adapter_peek (mp3parse->adapter, offset + 4);
+    next_header = GST_READ_UINT32_BE (data + offset);
+    GST_DEBUG_OBJECT (mp3parse, "At %d: header=%08X, header2=%08X, bpf=%d",
+        offset, (unsigned int) header, (unsigned int) next_header, bpf);
+
+/* mask the bits which are allowed to differ between frames */
+#define HDRMASK ~((0xF << 12)  /* bitrate */ | \
+                  (0x1 <<  9)  /* padding */ | \
+                  (0xf <<  4)  /* mode|mode extension */ | \
+                  (0xf))        /* copyright|emphasis */
+
+    if ((next_header & HDRMASK) != (header & HDRMASK)) {
+      /* If any of the unmasked bits don't match, then it's not valid */
+      GST_DEBUG_OBJECT (mp3parse, "next header doesn't match "
+          "(header=%08X (%08X), header2=%08X (%08X), bpf=%d)",
+          (guint) header, (guint) header & HDRMASK, (guint) next_header,
+          (guint) next_header & HDRMASK, bpf);
+      *valid = FALSE;
+      return TRUE;
+    } else if ((((next_header >> 12) & 0xf) == 0) ||
+        (((next_header >> 12) & 0xf) == 0xf)) {
+      /* The essential parts were the same, but the bitrate held an
+         invalid value - also reject */
+      GST_DEBUG_OBJECT (mp3parse, "next header invalid (bitrate)");
+      *valid = FALSE;
+      return TRUE;
+    }
+
+    bpf = mp3_type_frame_length_from_header (mp3parse, next_header,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+    offset += bpf;
+    frames_found++;
+  }
+
+  *valid = TRUE;
+  return TRUE;
+}
+
 static GstFlowReturn
-gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
+gst_mp3parse_handle_data (GstMPEGAudioParse * mp3parse, gboolean at_eos)
 {
   GstFlowReturn flow = GST_FLOW_OK;
-  GstMPEGAudioParse *mp3parse;
   const guchar *data;
   guint32 header;
   int bpf;
   guint available;
+  guint bitrate, layer, rate, channels, version, mode, crc;
+  gboolean caps_change;
+
+  /* while we still have at least 4 bytes (for the header) available */
+  while (gst_adapter_available (mp3parse->adapter) >= 4) {
+    /* Get the header bytes, check if they're potentially valid */
+    data = gst_adapter_peek (mp3parse->adapter, 4);
+    header = GST_READ_UINT32_BE (data);
+
+    if (!head_check (mp3parse, header)) {
+      /* Not a valid MP3 header; we start looking forward byte-by-byte trying to
+         find a place to resync */
+      if (!mp3parse->resyncing)
+        mp3parse->sync_offset = mp3parse->tracked_offset;
+      mp3parse->resyncing = TRUE;
+      gst_mp3parse_flush_bytes (mp3parse, 1);
+      GST_DEBUG_OBJECT (mp3parse, "wrong header, skipping byte");
+      continue;
+    }
+
+    /* We have a potentially valid header.
+       If this is just a normal 'next frame', we go ahead and output it.
+
+       However, sometimes, we do additional validation to ensure we haven't
+       got false sync (common with mp3 due to the short sync word).
+       The additional validation requires that we find several consecutive mp3
+       frames with the same major parameters, or reach EOS with a smaller
+       number of valid-looking frames.
+
+       We do this if:
+       - This is the very first frame we've processed
+       - We're resyncing after a non-accurate seek, or after losing sync
+       due to invalid data.
+       - The format of the stream changes in a major way (number of channels,
+       sample rate, layer, or mpeg version).
+     */
+    available = gst_adapter_available (mp3parse->adapter);
+
+    if (G_UNLIKELY (mp3parse->resyncing &&
+            mp3parse->tracked_offset - mp3parse->sync_offset > 2 * 1024 * 1024))
+      goto sync_failure;
+
+    bpf = mp3_type_frame_length_from_header (mp3parse, header,
+        &version, &layer, &channels, &bitrate, &rate, &mode, &crc);
+    g_assert (bpf != 0);
+
+    if (channels != mp3parse->channels ||
+        rate != mp3parse->rate || layer != mp3parse->layer ||
+        version != mp3parse->version)
+      caps_change = TRUE;
+    else
+      caps_change = FALSE;
+
+    if (mp3parse->resyncing || caps_change) {
+      gboolean valid;
+      if (!gst_mp3parse_validate_extended (mp3parse, header, bpf, at_eos,
+              &valid)) {
+        /* Not enough data to validate; wait for more */
+        break;
+      }
+
+      if (!valid) {
+        /* Extended validation failed; we probably got false sync.
+           Continue searching from the next byte in the stream */
+        if (!mp3parse->resyncing)
+          mp3parse->sync_offset = mp3parse->tracked_offset;
+        mp3parse->resyncing = TRUE;
+        gst_mp3parse_flush_bytes (mp3parse, 1);
+        continue;
+      }
+    }
+
+    /* if we don't have the whole frame... */
+    if (available < bpf) {
+      GST_DEBUG_OBJECT (mp3parse, "insufficient data available, need "
+          "%d bytes, have %d", bpf, available);
+      break;
+    }
+
+    if (caps_change) {
+      GstCaps *caps;
+
+      caps = mp3_caps_create (version, layer, channels, rate);
+      gst_pad_set_caps (mp3parse->srcpad, caps);
+      gst_caps_unref (caps);
+
+      mp3parse->channels = channels;
+      mp3parse->rate = rate;
+
+      mp3parse->layer = layer;
+      mp3parse->version = version;
+
+      /* see http://www.codeproject.com/audio/MPEGAudioInfo.asp */
+      if (mp3parse->layer == 1)
+        mp3parse->spf = 384;
+      else if (mp3parse->layer == 2)
+        mp3parse->spf = 1152;
+      else if (mp3parse->version == 1) {
+        mp3parse->spf = 1152;
+      } else {
+        /* MPEG-2 or "2.5" */
+        mp3parse->spf = 576;
+      }
+
+      mp3parse->max_bitreservoir = gst_util_uint64_scale (GST_SECOND,
+          ((version == 1) ? 10 : 30) * mp3parse->spf, mp3parse->rate);
+    }
+
+    mp3parse->bit_rate = bitrate;
+
+    /* Check the first frame for a Xing header to get our total length */
+    if (mp3parse->frame_count == 0) {
+      /* For the first frame in the file, look for a Xing frame after 
+       * the header, and output a codec tag */
+      gst_mp3parse_handle_first_frame (mp3parse);
+
+      /* Check if we're seekable */
+      gst_mp3parse_check_seekability (mp3parse);
+    }
+
+    /* Update VBR stats */
+    mp3parse->bitrate_sum += mp3parse->bit_rate;
+    mp3parse->frame_count++;
+    /* Compute the average bitrate, rounded up to the nearest 1000 bits */
+    mp3parse->avg_bitrate =
+        (mp3parse->bitrate_sum / mp3parse->frame_count + 500);
+    mp3parse->avg_bitrate -= mp3parse->avg_bitrate % 1000;
+
+    if (!mp3parse->skip) {
+      mp3parse->resyncing = FALSE;
+      flow = gst_mp3parse_emit_frame (mp3parse, bpf, mode, crc);
+      if (GST_FLOW_IS_FATAL (flow))
+        break;
+    } else {
+      GST_DEBUG_OBJECT (mp3parse, "skipping buffer of %d bytes", bpf);
+      gst_mp3parse_flush_bytes (mp3parse, bpf);
+      mp3parse->skip--;
+    }
+  }
+
+  return flow;
+
+  /* ERRORS */
+sync_failure:
+  {
+    GST_ELEMENT_ERROR (mp3parse, STREAM, DECODE,
+        ("Failed to parse stream"), (NULL));
+    return GST_FLOW_ERROR;
+  }
+}
+
+static GstFlowReturn
+gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
+{
+  GstMPEGAudioParse *mp3parse;
   GstClockTime timestamp;
 
   mp3parse = GST_MP3PARSE (GST_PAD_PARENT (pad));
@@ -1198,7 +1514,7 @@ gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
       mp3parse->next_ts = timestamp;
 
     GST_LOG_OBJECT (mp3parse, "Have pending ts %" GST_TIME_FORMAT
-        " to apply in %lld bytes (@ off %lld)",
+        " to apply in %" G_GINT64_FORMAT " bytes (@ off %" G_GINT64_FORMAT ")",
         GST_TIME_ARGS (mp3parse->pending_ts), avail, mp3parse->pending_offset);
   }
 
@@ -1209,190 +1525,7 @@ gst_mp3parse_chain (GstPad * pad, GstBuffer * buf)
   /* And add the data to the pool */
   gst_adapter_push (mp3parse->adapter, buf);
 
-  /* while we still have at least 4 bytes (for the header) available */
-  while (gst_adapter_available (mp3parse->adapter) >= 4) {
-    /* search for a possible start byte */
-    data = gst_adapter_peek (mp3parse->adapter, 4);
-    if (*data != 0xff) {
-      /* It'd be nice to make this efficient, but it's ok for now; this is only
-       * when resyncing */
-      mp3parse->resyncing = TRUE;
-      gst_adapter_flush (mp3parse->adapter, 1);
-      if (mp3parse->cur_offset != -1)
-        mp3parse->cur_offset++;
-      mp3parse->tracked_offset++;
-      continue;
-    }
-
-    available = gst_adapter_available (mp3parse->adapter);
-
-    /* construct the header word */
-    header = GST_READ_UINT32_BE (data);
-    /* if it's a valid header, go ahead and send off the frame */
-    if (head_check (mp3parse, header)) {
-      guint bitrate = 0, layer = 0, rate = 0, channels = 0, version = 0, mode =
-          0, crc = 0;
-      gboolean caps_change = FALSE;
-
-      if (!(bpf = mp3_type_frame_length_from_header (mp3parse, header,
-                  &version, &layer, &channels, &bitrate, &rate, &mode, &crc)))
-        goto header_error;
-
-      if (channels != mp3parse->channels ||
-          rate != mp3parse->rate || layer != mp3parse->layer ||
-          version != mp3parse->version)
-        caps_change = TRUE;
-
-      /*************************************************************************
-      * robust seek support
-      * - This performs additional frame validation if the resyncing flag is set
-      *   (indicating a discontinuous stream), or if the caps are changing 
-      *   (different sample rate, channels, layer, version)
-      * - The current frame header is not accepted as valid unless the NEXT 
-      *   frame header has the same values for most fields.  This significantly
-      *   increases the probability that we aren't processing random data.
-      * - It is not clear if this is sufficient for robust seeking of Layer III
-      *   streams which utilize the concept of a "bit reservoir" by borrowing
-      *   bitrate from previous frames.  In this case, seeking may be more 
-      *   complicated because the frames are not independently coded.
-      *************************************************************************/
-      if (mp3parse->resyncing || caps_change) {
-        guint32 header2;
-        const guint8 *data2;
-
-        /* wait until we have the the entire current frame as well as the next 
-         * frame header */
-        if (available < bpf + 4)
-          break;
-
-        data2 = gst_adapter_peek (mp3parse->adapter, bpf + 4);
-        header2 = GST_READ_UINT32_BE (data2 + bpf);
-        GST_DEBUG_OBJECT (mp3parse, "header=%08X, header2=%08X, bpf=%d",
-            (unsigned int) header, (unsigned int) header2, bpf);
-
-/* mask the bits which are allowed to differ between frames */
-#define HDRMASK ~((0xF << 12)  /* bitrate */ | \
-                  (0x1 <<  9)  /* padding */ | \
-                  (0xf <<  4)  /* mode|mode extension */ | \
-                  (0xf))        /* copyright|emphasis */
-
-        /* require 2 matching headers in a row */
-        if ((header2 & HDRMASK) != (header & HDRMASK)) {
-          GST_DEBUG_OBJECT (mp3parse, "next header doesn't match "
-              "(header=%08X (%08X), header2=%08X (%08X), bpf=%d)",
-              (guint) header, (guint) header & HDRMASK, (guint) header2,
-              (guint) header2 & HDRMASK, bpf);
-          /* This frame is invalid.  Start looking for a valid frame at the 
-           * next position in the stream */
-          mp3parse->resyncing = TRUE;
-          gst_adapter_flush (mp3parse->adapter, 1);
-          if (mp3parse->cur_offset != -1)
-            mp3parse->cur_offset++;
-          mp3parse->tracked_offset++;
-          continue;
-        }
-      }
-
-      /* if we don't have the whole frame... */
-      if (available < bpf) {
-        GST_DEBUG_OBJECT (mp3parse, "insufficient data available, need "
-            "%d bytes, have %d", bpf, available);
-        break;
-      }
-
-      if (caps_change) {
-        GstCaps *caps;
-
-        caps = mp3_caps_create (version, layer, channels, rate);
-        gst_pad_set_caps (mp3parse->srcpad, caps);
-        gst_caps_unref (caps);
-
-        mp3parse->channels = channels;
-        mp3parse->rate = rate;
-      }
-
-      if (layer != mp3parse->layer || version != mp3parse->version) {
-        mp3parse->layer = layer;
-        mp3parse->version = version;
-
-        /* see http://www.codeproject.com/audio/MPEGAudioInfo.asp */
-        if (mp3parse->layer == 1)
-          mp3parse->spf = 384;
-        else if (mp3parse->layer == 2)
-          mp3parse->spf = 1152;
-        else if (mp3parse->version == 1) {
-          mp3parse->spf = 1152;
-        } else {
-          /* MPEG-2 or "2.5" */
-          mp3parse->spf = 576;
-        }
-      }
-
-      mp3parse->bit_rate = bitrate;
-
-      mp3parse->max_bitreservoir = gst_util_uint64_scale (GST_SECOND,
-          ((version == 1) ? 10 : 30) * mp3parse->spf, mp3parse->rate);
-
-      /* Check the first frame for a Xing header to get our total length */
-      if (mp3parse->frame_count == 0) {
-        GstQuery *query;
-        /* For the first frame in the file, look for a Xing frame after 
-         * the header, and output a codec tag */
-        gst_mp3parse_handle_first_frame (mp3parse);
-
-        /* Check if we're seekable */
-        query = gst_query_new_seeking (GST_FORMAT_BYTES);
-        if (!gst_pad_peer_query (mp3parse->sinkpad, query)) {
-          mp3parse->seekable = FALSE;
-        } else {
-          gboolean seekable;
-          GstFormat format;
-
-          gst_query_parse_seeking (query, &format, &seekable, NULL, NULL);
-          mp3parse->seekable = seekable;
-        }
-        gst_query_unref (query);
-
-      }
-
-      /* Update VBR stats */
-      mp3parse->bitrate_sum += mp3parse->bit_rate;
-      mp3parse->frame_count++;
-      /* Compute the average bitrate, rounded up to the nearest 1000 bits */
-      mp3parse->avg_bitrate =
-          (mp3parse->bitrate_sum / mp3parse->frame_count + 500);
-      mp3parse->avg_bitrate -= mp3parse->avg_bitrate % 1000;
-
-      if (!mp3parse->skip) {
-        mp3parse->resyncing = FALSE;
-        flow = gst_mp3parse_emit_frame (mp3parse, bpf, mode, crc);
-      } else {
-        GST_DEBUG_OBJECT (mp3parse, "skipping buffer of %d bytes", bpf);
-        gst_adapter_flush (mp3parse->adapter, bpf);
-        if (mp3parse->cur_offset != -1)
-          mp3parse->cur_offset += bpf;
-        mp3parse->tracked_offset += bpf;
-        mp3parse->skip--;
-      }
-    } else {
-      mp3parse->resyncing = TRUE;
-      gst_adapter_flush (mp3parse->adapter, 1);
-      if (mp3parse->cur_offset != -1)
-        mp3parse->cur_offset++;
-      mp3parse->tracked_offset++;
-      GST_DEBUG_OBJECT (mp3parse, "wrong header, skipping byte");
-    }
-
-    if (GST_FLOW_IS_FATAL (flow))
-      break;
-  }
-
-  return flow;
-
-header_error:
-  GST_ELEMENT_ERROR (mp3parse, STREAM, DECODE,
-      ("Invalid MP3 header found"), (NULL));
-  return GST_FLOW_ERROR;
+  return gst_mp3parse_handle_data (mp3parse, FALSE);
 }
 
 static gboolean
@@ -1575,6 +1708,9 @@ mp3parse_time_to_bytepos (GstMPEGAudioParse * mp3parse, GstClockTime ts,
         gst_util_guint64_to_gdouble (total_time), 0.0, 100.0);
     gint index = CLAMP (percent, 0, 99);
 
+    /* xing indicated size is preferred over e.g. truncated file size */
+    if (mp3parse->xing_bytes)
+      total_bytes = mp3parse->xing_bytes;
     fa = mp3parse->xing_seek_table[index];
     if (index < 99)
       fb = mp3parse->xing_seek_table[index + 1];
@@ -1594,6 +1730,9 @@ mp3parse_time_to_bytepos (GstMPEGAudioParse * mp3parse, GstClockTime ts,
     gint i, j;
     gdouble a, b, fa, fb;
 
+    /* header indicated size is preferred over e.g. truncated file size */
+    if (mp3parse->vbri_bytes)
+      total_bytes = mp3parse->vbri_bytes;
     i = gst_util_uint64_scale (ts, mp3parse->vbri_seek_points - 1, total_time);
     i = CLAMP (i, 0, mp3parse->vbri_seek_points - 1);
 
@@ -1650,9 +1789,14 @@ mp3parse_bytepos_to_time (GstMPEGAudioParse * mp3parse,
       mp3parse_total_bytes (mp3parse, &total_bytes) &&
       mp3parse_total_time (mp3parse, &total_time)) {
     gdouble fa, fb, fx;
-    gdouble pos = CLAMP ((bytepos * 256.0) / total_bytes, 0.0, 256.0);
-    gint index = CLAMP (pos, 0, 255);
+    gdouble pos;
+    gint index;
 
+    /* xing indicated size is preferred over e.g. truncated file size */
+    if (mp3parse->xing_bytes)
+      total_bytes = mp3parse->xing_bytes;
+    pos = CLAMP ((bytepos * 256.0) / total_bytes, 0.0, 256.0);
+    index = CLAMP (pos, 0, 255);
     fa = mp3parse->xing_seek_table_inverse[index];
     if (index < 255)
       fb = mp3parse->xing_seek_table_inverse[index + 1];
@@ -1673,6 +1817,9 @@ mp3parse_bytepos_to_time (GstMPEGAudioParse * mp3parse,
     guint64 sum = 0;
     gdouble a, b, fa, fb;
 
+    /* header indicated size is preferred over e.g. truncated file size */
+    if (mp3parse->vbri_bytes)
+      total_bytes = mp3parse->vbri_bytes;
     do {
       sum += mp3parse->vbri_seek_table[i];
       i++;
@@ -1941,7 +2088,7 @@ mp3parse_src_query (GstPad * pad, GstQuery * query)
 
         gst_query_parse_seeking (query, &format, &seekable, NULL, NULL);
         /* already OK if upstream takes care */
-        if (res && !seekable) {
+        if (!(res && seekable)) {
           gint64 pos;
 
           seekable = TRUE;

@@ -51,13 +51,20 @@ G_BEGIN_DECLS
 typedef struct _GstMultiFileSink GstMultiFileSink;
 typedef struct _GstMultiFileSinkClass GstMultiFileSinkClass;
 
+typedef enum {
+  GST_MULTI_FILE_SINK_NEXT_BUFFER,
+  GST_MULTI_FILE_SINK_NEXT_DISCONT
+} GstMultiFileSinkNext;
+
 struct _GstMultiFileSink
 {
   GstBaseSink parent;
 
   gchar *filename;
-  gchar *uri;
-  int index;
+  gint index;
+  gboolean post_messages;
+  GstMultiFileSinkNext next_file;
+  FILE *file;
 };
 
 struct _GstMultiFileSinkClass
