@@ -1,0 +1,8 @@
+
+Q: Does gstreamer provide a way for me to iterate over possible media outputs 
+   (e.g., a list of sound cards, possible video sinks, etc.)?
+
+A: The API to find appropriate elements is ok. The API to then find e.g. particular 
+   sound cards is sucky, but usable if you must. Look at the gstregistry API for 
+   how to find elements. Look at GstPropertyProbe to figure out what you can set for 
+   the particular device, etc (but that API is hairy).
