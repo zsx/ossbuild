@@ -1,0 +1,26 @@
+Index: gstdshowaudiodec.cpp
+===================================================================
+--- gstdshowaudiodec.cpp	(revision 368)
++++ gstdshowaudiodec.cpp	(working copy)
+@@ -1111,7 +1111,7 @@
+       type = g_type_register_static (GST_TYPE_ELEMENT,
+           audio_dec_codecs[i].element_name, &info, (GTypeFlags)0);
+       if (!gst_element_register (plugin, audio_dec_codecs[i].element_name,
+-              GST_RANK_SECONDARY, type)) {
++              GST_RANK_NONE, type)) {
+         return FALSE;
+       }
+       GST_CAT_DEBUG (dshowaudiodec_debug, "Registered %s",
+Index: gstdshowvideodec.cpp
+===================================================================
+--- gstdshowvideodec.cpp	(revision 368)
++++ gstdshowvideodec.cpp	(working copy)
+@@ -1199,7 +1199,7 @@
+           g_type_register_static (GST_TYPE_ELEMENT,
+           video_dec_codecs[i].element_name, &info, (GTypeFlags)0);
+       if (!gst_element_register (plugin, video_dec_codecs[i].element_name,
+-              GST_RANK_PRIMARY, type)) {
++              GST_RANK_NONE, type)) {
+         return FALSE;
+       }
+       GST_DEBUG ("Registered %s", video_dec_codecs[i].element_name);
