@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D6BF8E33-209C-40F0-A07E-461A5CF46F68}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>gstreamer_sharp</RootNamespace>
+    <AssemblyName>gstreamer-sharp</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Source\gstreamer-sharp\gstreamer-sharp.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Build\Windows\Win32\Release\bin\gstreamer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\Application.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\AssemblyInfo.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\baseplugins\generated\decodebin2.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\baseplugins\generated\playbin2.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\baseplugins\generated\xvimagesink.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\coreplugins\fileindex.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\capsfilter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\fakesink.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\fakesrc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\fdsink.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\fdsrc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\filesink.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\filesrc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\identity.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\multiqueue.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\queue.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\tee.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\coreplugins\generated\typefind.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\coreplugins\memindex.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\DynamicSignal.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\EnumInfo.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ActivateMode.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Adapter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\AppSink.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\AppSrc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\AppStreamType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\AssocFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BaseSink.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BaseSrc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BaseSrcFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BaseTransform.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Bin.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BinFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Buffer.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BufferCopyFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BufferFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BufferingMode.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BufferList.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BufferListDoFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BufferListFunc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BufferListItem.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BufferListIterator.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Bus.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BusFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BusFunc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BusSyncHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\BusSyncReply.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Caps.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\CddaBaseSrc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\CddaBaseSrcMode.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\CddaBaseSrcTrack.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ChannelChangedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ChildAddedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ChildProxy.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ChildProxyAdapter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ChildRemovedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Clock.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ClockCallback.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ClockEntry.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ClockEntryType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ClockFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ClockReturn.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ClockType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ColorBalance.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ColorBalanceChannel.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ColorBalanceType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Controller.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ControlSource.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\CoreError.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\DoLatencyHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Element.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ElementAddedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ElementDetails.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ElementFactory.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ElementFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ElementRemovedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\EntryAddedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Event.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\EventType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\EventTypeFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\FeatureAddedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\FlowReturn.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Format.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\FormatDefinition.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\FrequencyChangedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GhostPad.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Gst.BaseSharp.TypeFindHelperGetRangeFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.BufferListDoFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.BufferListFuncNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.BusFuncNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.BusSyncHandlerNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.ClockCallbackNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.IndexFilterNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.IndexResolverNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadAcceptCapsFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadActivateFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadActivateModeFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadBlockCallbackNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadBufferAllocFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadBufferProbeCallbackNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadChainFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadChainListFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadCheckGetRangeFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadDataProbeCallbackNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadDispatcherFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadEventFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadEventProbeCallbackNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadFixateCapsFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadGetCapsFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadGetRangeFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadIterIntLinkFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadLinkFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadQueryFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadSetCapsFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PadUnlinkFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PluginFeatureFilterNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PluginFilterNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.PluginInitFuncNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.TagMergeFuncNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.TaskFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.TaskPoolFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\GstSharp.TypeFindFunctionNative.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\HaveDataHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ImplementsInterface.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ImplementsInterfaceAdapter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Index.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexAssociation.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexCertainty.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexEntry.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexEntryType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexFactory.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexFilter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexLookupMethod.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexResolver.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\IndexResolverMethod.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\InterpolateMode.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\InterpolationControlSource.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Iterator.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\LFOControlSource.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\LFOWaveform.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\LibraryError.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\LinkedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Message.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MessageHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MessageType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MiniObjectFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MixerFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MixerMessageType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MixerOptions.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MixerTrack.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MixerTrackFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\MixerType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Navigation.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\NavigationCommand.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\NavigationEventType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\NavigationMessageType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\NavigationQueryType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\NeedDataHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\NewBufferListHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\NewUriHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\NormChangedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Object.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ObjectFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ObjectManager.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Pad.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadAcceptCapsFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadActivateFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadActivateModeFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadAddedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadBlockCallback.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadBufferAllocFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadBufferProbeCallback.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadChainFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadChainListFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadCheckGetRangeFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadCreatedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadDataProbeCallback.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadDirection.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadDispatcherFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadEventFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadEventProbeCallback.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadFixateCapsFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadGetCapsFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadGetRangeFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadIterIntLinkFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadLinkFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadLinkReturn.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadPresence.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadQueryFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadRemovedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadSetCapsFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadTemplate.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadTemplateFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PadUnlinkFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ParentSetHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ParentUnsetHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Parse.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ParseContext.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ParseError.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ParseFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Pipeline.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PipelineFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Plugin.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PluginAddedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PluginDependencyFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PluginError.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PluginFeature.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PluginFeatureFilter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PluginFilter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PluginFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PluginInitFunc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Preset.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PresetAdapter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ProxyPad.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\PushSrc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Query.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\QueryType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Rank.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Registry.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ResourceError.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\SeekDataHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\SeekFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\SeekType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Segment.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\SignalChangedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\State.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\StateChange.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\StateChangeReturn.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\StaticPadTemplate.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\StreamError.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\StreamStatusType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Structure.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\StructureChangeType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\SyncMessageHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\SystemClock.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Tag.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TagFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TagList.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TagMergeFunc.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TagMergeMode.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TagSetter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TagSetterAdapter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Task.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TaskFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TaskPool.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TaskPoolFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TaskState.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Tuner.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TunerAdapter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TunerChannel.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TunerChannelFlags.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TunerNorm.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TypeFind.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TypeFindFactory.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TypeFindFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TypeFindHelper.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TypeFindHelperGetRangeFunction.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\TypeFindProbability.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\UnlinkedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\URIHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\URIType.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\Util.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\ValueChangedHandler.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\VideoFilter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\VideoFormat.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\VideoOrientation.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\VideoOrientationAdapter.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\VideoRectangle.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\VideoSink.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\VideoUtil.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\XOverlay.cs" />
+    <Compile Include="..\..\Generated\gstreamer-sharp\generated\XOverlayAdapter.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\GError.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Argv.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Boxed.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\CDeclCallbackAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ClassInitializerAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ConnectBeforeAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\DefaultSignalHandlerAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\DelegateWrapper.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\DestroyNotify.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\EnumWrapper.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ExceptionManager.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\FileUtils.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Format.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\GException.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\GInterfaceAdapter.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\GInterfaceAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Global.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\GString.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\GType.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\GTypeAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Idle.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\IgnoreClassInitializersAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\InitiallyUnowned.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\IOChannel.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\IWrapper.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\List.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ListBase.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Log.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\MainContext.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\MainLoop.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ManagedValue.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Markup.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Marshaller.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\MissingIntPtrCtorException.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\NotifyHandler.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Object.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ObjectManager.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Opaque.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ParamSpec.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Priority.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\PropertyAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\PtrArray.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Signal.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\SignalArgs.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\SignalAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\SignalCallback.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\SignalClosure.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\SList.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Source.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Spawn.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Thread.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Timeout.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ToggleRef.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\TypeConverter.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\TypeFundamentals.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\TypeInitializerAttribute.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\UnwrappedObject.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\Value.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\ValueArray.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\glib-sharp\WeakObject.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\GstSharp.PadQueryTypeFunctionNative.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\Marshaller.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\MiniObject.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\MixerMessage.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\NavigationEvent.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\NavigationMessage.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\NavigationQuery.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\override\ColorBalanceAdapter.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\override\Mixer.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\override\MixerAdapter.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\override\NavigationAdapter.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\override\ProbeNeededHandler.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\override\PropertyProbe.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\override\PropertyProbeAdapter.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\override\URIHandlerAdapter.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\PadQueryTypeFunction.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\PresetDefault.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\PropertyInfo.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\TypeFindDelegates.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\Value.cs" />
+    <Compile Include="..\..\Source\gstreamer-sharp\gstreamer-sharp\Version.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
