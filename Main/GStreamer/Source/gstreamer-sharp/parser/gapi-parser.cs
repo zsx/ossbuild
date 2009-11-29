@@ -25,6 +25,7 @@ namespace GtkSharp.Parsing {
 	using System.IO;
 	using System.Runtime.InteropServices;
 	using System.Xml;
+	using System.Diagnostics;
 
 	public class Parser  {
 
@@ -153,7 +154,32 @@ namespace GtkSharp.Parsing {
 						string[] filenames = (string[]) realfiles.ToArray (typeof (string));
 						string pp_args = String.Join (" ", filenames);
 						string path = Path.GetDirectoryName (System.Reflection.Assembly.GetCallingAssembly ().Location);
-						system (path + "/gapi_pp.pl " + pp_args + " | " + path + "/gapi2xml.pl " + ns + " " + prefile + " " + lib);
+
+						//Is this Windows? Mono folks recommend testing OS this way
+						if (Path.DirectorySeparatorChar == '\\') {
+							try {
+								Process p = new Process();
+								ProcessStartInfo psi = new ProcessStartInfo(
+									"cmd.exe", 
+									" /C \"" + 
+										"perl " + Path.Combine(path, "gapi_pp.pl") + " " + pp_args + 
+										" | " + 
+										"perl " + Path.Combine(path, "gapi2xml.pl") + " " + ns + 
+										" " + prefile + " " + 
+										lib + 
+									"\""
+								);
+								psi.UseShellExecute = false;
+								psi.RedirectStandardOutput = true;
+								psi.WorkingDirectory = Environment.CurrentDirectory;
+								Process.Start(psi).WaitForExit(15000);
+							} catch (Exception e) {
+								Console.WriteLine(e);
+								throw;
+							}
+						} else {
+							system (path + "/gapi_pp.pl " + pp_args + " | " + path + "/gapi2xml.pl " + ns + " " + prefile + " " + lib);
+						}
 					}
 				}
 			

@@ -265,8 +265,9 @@ public class ElementGen {
       }
     }
 
-    foreach (string iface in ei.interfaces)
-      writer.Write (", " + CTypeToManagedType (iface, api_doc));
+    if (ei.interfaces != null && ei.interfaces.Count > 0)
+      foreach (string iface in ei.interfaces)
+        writer.Write (", " + CTypeToManagedType (iface, api_doc));
 
     writer.WriteLine (" {");
 
@@ -297,9 +298,11 @@ public class ElementGen {
       string managed_name = (pinfo.managed_name != null) ? pinfo.managed_name : PropToCamelCase (pinfo.name);
       string managed_type = CTypeToManagedType (pinfo.type, api_doc);
 
-      if (managed_type == null && pinfo.enuminfo == null) {
+      /* if (managed_type == null && pinfo.enuminfo == null) {
         throw new Exception ("Can't get managed type mapping for type " + pinfo.type);
-      } else if (managed_type == null) {
+      } else */ if (managed_type == null) {
+        if (pinfo.enuminfo == null)
+          pinfo.enuminfo = new EnumInfo();
         pinfo.enuminfo.name = pinfo.type;
         enums.Add (pinfo.enuminfo);
         managed_type = pinfo.type.StartsWith (ei.gtype_name) ? pinfo.type.Substring (ei.gtype_name.Length) : pinfo.type.StartsWith ("Gst") ? pinfo.type.Substring (3) : pinfo.type;
@@ -397,7 +400,7 @@ public class ElementGen {
       }
     }
 
-    if (ei.interfaces.Count > 0) {
+    if (ei.interfaces != null && ei.interfaces.Count > 0) {
       foreach (string iface in ei.interfaces) {
         writer.WriteLine ("#endregion");
         writer.WriteLine ("#region Customized code");
@@ -424,8 +427,10 @@ public class ElementGen {
             writer.WriteLine ("\t\t\t" + PropToCamelCase (ev.name) + " = " + ev.value + ", ");
           }
         } else {
-          foreach (EnumValue ev in eni.values) {
-            writer.WriteLine ("\t\t\t" + PropToCamelCase (ev.name) + " = " + ev.value + ", ");
+          if (eni.values != null && eni.values.Count > 0) {
+            foreach (EnumValue ev in eni.values) {
+              writer.WriteLine ("\t\t\t" + PropToCamelCase (ev.name) + " = " + ev.value + ", ");
+            }
           }
         }
         writer.WriteLine ("\t\t}\n");

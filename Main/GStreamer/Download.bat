@@ -31,6 +31,7 @@ set VER_GST_PLUGINS_BASE=0.10.25
 set VER_GST_PLUGINS_GOOD=0.10.17
 set VER_GST_PLUGINS_UGLY=0.10.13
 set VER_GST_PLUGINS_BAD=0.10.17
+set VER_GSTREAMER_SHARP=0.9.2
 
 set DIR_GST=gstreamer-%VER_GST%
 set DIR_GNONLIN=gst-ffmpeg-%VER_GNONLIN%
@@ -40,6 +41,7 @@ set DIR_GST_PLUGINS_BASE=gst-plugins-base-%VER_GST_PLUGINS_BASE%
 set DIR_GST_PLUGINS_GOOD=gst-plugins-good-%VER_GST_PLUGINS_GOOD%
 set DIR_GST_PLUGINS_UGLY=gst-plugins-ugly-%VER_GST_PLUGINS_UGLY%
 set DIR_GST_PLUGINS_BAD=gst-plugins-bad-%VER_GST_PLUGINS_BAD%
+set DIR_GSTREAMER_SHARP=gstreamer-sharp-%VER_GSTREAMER_SHARP%
 
 set DEST_DIR_GST=gstreamer
 set DEST_DIR_GNONLIN=gnonlin
@@ -49,6 +51,7 @@ set DEST_DIR_GST_PLUGINS_BASE=gst-plugins-base
 set DEST_DIR_GST_PLUGINS_GOOD=gst-plugins-good
 set DEST_DIR_GST_PLUGINS_UGLY=gst-plugins-ugly
 set DEST_DIR_GST_PLUGINS_BAD=gst-plugins-bad
+set DEST_DIR_GSTREAMER_SHARP=gstreamer-sharp
 
 if "%DOWNLOAD%" == "1" (
 	wget --no-check-certificate -O gstreamer.tar.gz http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-%VER_GST%.tar.gz
@@ -59,6 +62,7 @@ if "%DOWNLOAD%" == "1" (
 	wget --no-check-certificate -O gst-plugins-good.tar.gz http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-%VER_GST_PLUGINS_GOOD%.tar.gz
 	wget --no-check-certificate -O gst-plugins-ugly.tar.gz http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-%VER_GST_PLUGINS_UGLY%.tar.gz
 	wget --no-check-certificate -O gst-plugins-bad.tar.gz http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%VER_GST_PLUGINS_BAD%.tar.gz
+	wget --no-check-certificate -O gstreamer-sharp.tar.gz http://gstreamer.freedesktop.org/src/gstreamer-sharp/gstreamer-sharp-%VER_GSTREAMER_SHARP%.tar.gz
 )
 
 if "%UNTAR%" == "1" (

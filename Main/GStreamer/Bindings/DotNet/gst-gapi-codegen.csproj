@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A2192B96-98F4-486B-ACD6-C639BBCAE55C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GtkSharp.Generation</RootNamespace>
+    <AssemblyName>gst-gapi_codegen</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkSubset>
+    </TargetFrameworkSubset>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Source\gstreamer-sharp\gstreamer-sharp.snk</AssemblyOriginatorKeyFile>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Build\Windows\Win32\Debug\bin\gstreamer\bindings\dotnet\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>0169;0649</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Build\Windows\Win32\Release\bin\gstreamer\bindings\dotnet\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>0169;0649</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\AliasGen.cs">
+      <Link>AliasGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\BoxedGen.cs">
+      <Link>BoxedGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ByRefGen.cs">
+      <Link>ByRefGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\CallbackGen.cs">
+      <Link>CallbackGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ChildProperty.cs">
+      <Link>ChildProperty.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ClassBase.cs">
+      <Link>ClassBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ClassField.cs">
+      <Link>ClassField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ClassGen.cs">
+      <Link>ClassGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\CodeGenerator.cs">
+      <Link>CodeGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ConstFilenameGen.cs">
+      <Link>ConstFilenameGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ConstStringGen.cs">
+      <Link>ConstStringGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\Ctor.cs">
+      <Link>Ctor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\DefaultSignalHandler.cs">
+      <Link>DefaultSignalHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\EnumGen.cs">
+      <Link>EnumGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\FieldBase.cs">
+      <Link>FieldBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\GenBase.cs">
+      <Link>GenBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\GenerationInfo.cs">
+      <Link>GenerationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\GObjectVM.cs">
+      <Link>GObjectVM.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\HandleBase.cs">
+      <Link>HandleBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\IAccessor.cs">
+      <Link>IAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\IGeneratable.cs">
+      <Link>IGeneratable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\IManualMarshaler.cs">
+      <Link>IManualMarshaler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\InterfaceGen.cs">
+      <Link>InterfaceGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\InterfaceVM.cs">
+      <Link>InterfaceVM.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\LPGen.cs">
+      <Link>LPGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\LPUGen.cs">
+      <Link>LPUGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ManagedCallString.cs">
+      <Link>ManagedCallString.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ManualGen.cs">
+      <Link>ManualGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\MarshalGen.cs">
+      <Link>MarshalGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\Method.cs">
+      <Link>Method.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\MethodBase.cs">
+      <Link>MethodBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\MethodBody.cs">
+      <Link>MethodBody.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\MiniObjectGen.cs">
+      <Link>MiniObjectGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ObjectBase.cs">
+      <Link>ObjectBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ObjectField.cs">
+      <Link>ObjectField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ObjectGen.cs">
+      <Link>ObjectGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\OpaqueGen.cs">
+      <Link>OpaqueGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\Parameters.cs">
+      <Link>Parameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\Parser.cs">
+      <Link>Parser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\Property.cs">
+      <Link>Property.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\PropertyBase.cs">
+      <Link>PropertyBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\ReturnValue.cs">
+      <Link>ReturnValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\Signal.cs">
+      <Link>Signal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\Signature.cs">
+      <Link>Signature.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\SimpleBase.cs">
+      <Link>SimpleBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\SimpleGen.cs">
+      <Link>SimpleGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\Statistics.cs">
+      <Link>Statistics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\StructBase.cs">
+      <Link>StructBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\StructField.cs">
+      <Link>StructField.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\StructGen.cs">
+      <Link>StructGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\SymbolTable.cs">
+      <Link>SymbolTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\VirtualMethod.cs">
+      <Link>VirtualMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\gstreamer-sharp\generator\VMSignature.cs">
+      <Link>VMSignature.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

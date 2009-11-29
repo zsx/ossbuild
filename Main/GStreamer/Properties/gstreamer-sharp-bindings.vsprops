@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer DotNet Bindings"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\bindings\dotnet\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories=""
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="gstreamer-0.10.lib"
+		OutputFile="$(OutDir)\bin\gstreamer\bindings\dotnet\$(ProjectName)-$(ApiVersionString).dll"
+		AdditionalLibraryDirectories="&quot;$(OutDir)\lib\gstreamer\plugins&quot;;&quot;$(OutDir)\lib\gstreamer\bindings\dotnet&quot;"
+		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\bindings\dotnet\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\gstreamer\bindings\dotnet\$(ProjectName).lib"
+	/>
+</VisualStudioPropertySheet>
