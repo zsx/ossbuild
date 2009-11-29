@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	
+	<?define GUID_X86_MSM_DEPENDENCIES_GPL_PACKAGE="{2BE70FDE-08F5-4534-9C5F-8ABA43E915E7}" ?>
+	<?define GUID_X86_MSM_DEPENDENCIES_LGPL_PACKAGE="{13D6A137-21DB-4710-948E-4206E683BBDC}" ?>
+	
+</Include>

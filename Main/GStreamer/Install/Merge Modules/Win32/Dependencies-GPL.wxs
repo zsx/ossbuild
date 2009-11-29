@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	
+	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.GST_VERSION)">
+		
+		<Package Id="$(var.GUID_X86_MSM_DEPENDENCIES_GPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
+
+		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
+		<ComponentGroupRef Id="LicenseIndependentDependencies"/>
+		
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="MergeRedirectFolder">
+				
+
+				<Component Id="Dependencies" Guid="{90E7C6B5-998C-4d68-93E0-3E57350A2C2D}">
+					
+					<File Source="$(var.BinDir)\avcodec$(var.GPL)-52.dll" />
+					<File Source="$(var.BinDir)\avdevice$(var.GPL)-52.dll" />
+					<File Source="$(var.BinDir)\avfilter$(var.GPL)-0.dll" />
+					<File Source="$(var.BinDir)\avformat$(var.GPL)-52.dll" />
+					<File Source="$(var.BinDir)\avutil$(var.GPL)-49.dll" />
+					<File Source="$(var.BinDir)\swscale$(var.GPL)-0.dll" />
+
+					<File Source="$(var.BinDir)\libnice-0.dll" />
+					<File Source="$(var.BinDir)\xvidcore.dll" />
+					<File Source="$(var.BinDir)\libwavpack-1.dll" />
+					<File Source="$(var.BinDir)\liba52-0.dll" />
+					<File Source="$(var.BinDir)\libmpeg2-0.dll" />
+					<File Source="$(var.BinDir)\libmpeg2convert-0.dll" />
+					<File Source="$(var.BinDir)\libdca-0.dll" />
+					<File Source="$(var.BinDir)\libfaac-0.dll" />
+					<File Source="$(var.BinDir)\libfaad-2.dll" />
+					<File Source="$(var.BinDir)\libdvdread-4.dll" />
+					<File Source="$(var.BinDir)\libdvdnav-4.dll" />
+					<File Source="$(var.BinDir)\libdvdnavmini-4.dll" />
+					<File Source="$(var.BinDir)\libdvdcss-2.dll" />
+					
+				</Component>
+
+			</Directory>
+		</Directory>
+		
+	</Module>
+	
+</Wix>

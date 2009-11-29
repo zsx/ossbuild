@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+
+		<ComponentGroup Id="LicenseIndependentDependencies">
+			<ComponentRef Id="LicenseIndependentFiles" />
+		</ComponentGroup>
+
+		<DirectoryRef Id="MergeRedirectFolder">
+
+			<Component Id="LicenseIndependentFiles" Guid="{BA39F957-4F17-499a-8898-D01A081E9069}">
+
+				<File Source="$(var.BinDir)\glew32.dll" />
+				<File Source="$(var.BinDir)\iconv.dll" />
+				<File Source="$(var.BinDir)\libbz2.dll" />
+				<File Source="$(var.BinDir)\libcairo-2.dll" />
+				<File Source="$(var.BinDir)\libfontconfig-1.dll" />
+				<File Source="$(var.BinDir)\libfreetype-6.dll" />
+				<File Source="$(var.BinDir)\libgcrypt-11.dll" DefaultLanguage="0" />
+				<File Source="$(var.BinDir)\libgio-2.0-0.dll" />
+				<File Source="$(var.BinDir)\libglib-2.0-0.dll" />
+				<File Source="$(var.BinDir)\libgmodule-2.0-0.dll" />
+				<File Source="$(var.BinDir)\libgnutls-26.dll" />
+				<File Source="$(var.BinDir)\libgnutls-extra-26.dll" />
+				<File Source="$(var.BinDir)\libgnutls-openssl-26.dll" />
+				<File Source="$(var.BinDir)\libgobject-2.0-0.dll" />
+				<File Source="$(var.BinDir)\libgpg-error-0.dll" DefaultLanguage="0" />
+				<File Source="$(var.BinDir)\libgthread-2.0-0.dll" />
+				<File Source="$(var.BinDir)\libjpeg-7.dll" />
+				<File Source="$(var.BinDir)\libmms-0.dll" />
+				<File Source="$(var.BinDir)\libmp3lame-0.dll" />
+				<File Source="$(var.BinDir)\libneon-27.dll" />
+				<File Source="$(var.BinDir)\libogg-0.dll" />
+				<File Source="$(var.BinDir)\liboil-0.3-0.dll" />
+				<File Source="$(var.BinDir)\libopenjpeg-2.dll" />
+				<File Source="$(var.BinDir)\libpango-1.0-0.dll" />
+				<File Source="$(var.BinDir)\libpangocairo-1.0-0.dll" />
+				<File Source="$(var.BinDir)\libpangoft2-1.0-0.dll" />
+				<File Source="$(var.BinDir)\libpangowin32-1.0-0.dll" />
+				<File Source="$(var.BinDir)\libpixman-1-0.dll" />
+				<File Source="$(var.BinDir)\libpng12-0.dll" />
+				<File Source="$(var.BinDir)\libschroedinger-1.0-0.dll" />
+				<File Source="$(var.BinDir)\libsoup-2.4-1.dll" />
+				<File Source="$(var.BinDir)\libspeex-1.dll" />
+				<File Source="$(var.BinDir)\libspeexdsp-1.dll" />
+				<File Source="$(var.BinDir)\libtheora-0.dll" />
+				<File Source="$(var.BinDir)\libtheoradec-1.dll" />
+				<File Source="$(var.BinDir)\libtheoraenc-1.dll" />
+				<File Source="$(var.BinDir)\libvorbis-0.dll" />
+				<File Source="$(var.BinDir)\libvorbisenc-2.dll" />
+				<File Source="$(var.BinDir)\libvorbisfile-3.dll" />
+				<File Source="$(var.BinDir)\libx264-67.dll" />
+				<File Source="$(var.BinDir)\libxml2-2.dll" />
+				<File Source="$(var.BinDir)\pthreadGC2.dll" />
+				<File Source="$(var.BinDir)\SDL.dll" />
+				<File Source="$(var.BinDir)\zlib1.dll" />
+			
+			</Component>
+			
+		</DirectoryRef>
+			
+	</Fragment>
+</Wix>

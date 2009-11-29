@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<?include GUIDs.wxi ?>
+	<?include Versions.wxi ?>
+	
+
+	
+	<?define GST_ICON="$(var.AppRoot)\GStreamer.ico"?>
+
+	<?define PRODUCT_NAME="OSSBuild" ?>
+	<?define COMPANY_NAME="OSSBuild" ?>
+	<?define MANUFACTURER="OSSBuild" ?>
+	<?define MANUFACTURER_URL="http://code.google.com/p/ossbuild/" ?>
+	
+	<?define COMPANY_DIR_NAME="OSSBuild" ?>
+	<?define PRODUCT_DIR_NAME="OSSBuild" ?>
+	<?define PRODUCT_SHORTCUT_DIR_NAME="." ?>
+
+	<?define PRODUCT_HKCU_REGISTRY_ROOT="SOFTWARE\OSSBuild" ?>
+	<?define PRODUCT_HKLM_REGISTRY_ROOT="SOFTWARE\OSSBuild" ?>
+
+	<?define GPL="-gpl" ?>
+	<?define DEFAULT_LANGUAGE="1033" ?>
+	<?define MINIMAL_INSTALLER_VERSION="301" ?>
+	
+	<?define OutputBuildRoot="$(var.TOP)\Build\Windows\Win32\$(var.Configuration)" ?>
+	<?define SharedBuildRoot="$(var.TOP)\Shared\Build\Windows\Win32" ?>
+
+	<?define OutputBinDir="$(var.OutputBuildRoot)\bin" ?>
+	<?define OutputLibDir="$(var.OutputBuildRoot)\lib" ?>
+	<?define OutputIncludeDir="$(var.OutputBuildRoot)\include" ?>
+
+	<?define OutputGstBinDir="$(var.OutputBuildRoot)\bin\gstreamer" ?>
+	<?define OutputGstLibDir="$(var.OutputBuildRoot)\lib\gstreamer" ?>
+	<?define OutputGstIncludeDir="$(var.OutputBuildRoot)\include\gstreamer-$(var.GST_VERSION)" ?>
+	
+	<?define SharedBinDir="$(var.SharedBuildRoot)\bin" ?>
+	<?define SharedLibDir="$(var.SharedBuildRoot)\lib" ?>
+	<?define SharedIncludeDir="$(var.SharedBuildRoot)\include" ?>
+
+	<?ifdef $(env.USEOUTPUTDIR) ?>
+		<?define BinDir="$(var.OutputBinDir)" ?>
+		<?define LibDir="$(var.OutputLibDir)" ?>
+		<?define IncludeDir="$(var.OutputIncludeDir)" ?>
+	<?else?>
+		<?define BinDir="$(var.SharedBinDir)" ?>
+		<?define LibDir="$(var.SharedLibDir)" ?>
+		<?define IncludeDir="$(var.SharedIncludeDir)" ?>
+	<?endif?>
+	
+	<?define GstBinDir="$(var.OutputGstBinDir)" ?>
+	<?define GstLibDir="$(var.OutputGstLibDir)" ?>
+	<?define GstIncludeDir="$(var.OutputGstIncludeDir)" ?>
+</Include>
