@@ -19,7 +19,7 @@
     <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
-    <SuppressSpecificWarnings>1101</SuppressSpecificWarnings>
+    <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -30,7 +30,7 @@
     </WixVariables>
     <SuppressIces>
     </SuppressIces>
-    <SuppressSpecificWarnings>1101</SuppressSpecificWarnings>
+    <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
@@ -52,6 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Shared" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="OSSBuildExtensions">
+      <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
+      <Name>OSSBuildExtensions</Name>
+    </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

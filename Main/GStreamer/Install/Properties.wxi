@@ -23,31 +23,25 @@
 	<?define GPL="-gpl" ?>
 	<?define DEFAULT_LANGUAGE="1033" ?>
 	<?define MINIMAL_INSTALLER_VERSION="301" ?>
+
+	<?define BuildDir="$(var.TOP)\Build" ?>
+	<?define SharedDir="$(var.TOP)\Shared" ?>
 	
-	<?define OutputBuildRoot="$(var.TOP)\Build\Windows\Win32\$(var.Configuration)" ?>
-	<?define SharedBuildRoot="$(var.TOP)\Shared\Build\Windows\Win32" ?>
+	<?define OutputBuildDir="$(var.BuildDir)\Windows\Win32\$(var.Configuration)" ?>
+	<?define SharedBuildDir="$(var.SharedDir)\Build\Windows\Win32" ?>
 
-	<?define OutputBinDir="$(var.OutputBuildRoot)\bin" ?>
-	<?define OutputLibDir="$(var.OutputBuildRoot)\lib" ?>
-	<?define OutputIncludeDir="$(var.OutputBuildRoot)\include" ?>
+	<?define OutputBinDir="$(var.OutputBuildDir)\bin" ?>
+	<?define OutputLibDir="$(var.OutputBuildDir)\lib" ?>
+	<?define OutputIncludeDir="$(var.OutputBuildDir)\include" ?>
 
-	<?define OutputGstBinDir="$(var.OutputBuildRoot)\bin\gstreamer" ?>
-	<?define OutputGstLibDir="$(var.OutputBuildRoot)\lib\gstreamer" ?>
-	<?define OutputGstIncludeDir="$(var.OutputBuildRoot)\include\gstreamer-$(var.GST_VERSION)" ?>
+	<?define OutputGstBinDir="$(var.OutputBuildDir)\bin\gstreamer" ?>
+	<?define OutputGstLibDir="$(var.OutputBuildDir)\lib\gstreamer" ?>
+	<?define OutputGstIncludeDir="$(var.OutputBuildDir)\include\gstreamer-$(var.GST_VERSION)" ?>
 	
-	<?define SharedBinDir="$(var.SharedBuildRoot)\bin" ?>
-	<?define SharedLibDir="$(var.SharedBuildRoot)\lib" ?>
-	<?define SharedIncludeDir="$(var.SharedBuildRoot)\include" ?>
-
-	<?ifdef $(env.USEOUTPUTDIR) ?>
-		<?define BinDir="$(var.OutputBinDir)" ?>
-		<?define LibDir="$(var.OutputLibDir)" ?>
-		<?define IncludeDir="$(var.OutputIncludeDir)" ?>
-	<?else?>
-		<?define BinDir="$(var.SharedBinDir)" ?>
-		<?define LibDir="$(var.SharedLibDir)" ?>
-		<?define IncludeDir="$(var.SharedIncludeDir)" ?>
-	<?endif?>
+	<?define SharedBinDir="$(var.SharedBuildDir)\bin" ?>
+	<?define SharedLibDir="$(var.SharedBuildDir)\lib" ?>
+	<?define SharedIncludeDir="$(var.SharedBuildDir)\include" ?>
+	
 	
 	<?define GstBinDir="$(var.OutputGstBinDir)" ?>
 	<?define GstLibDir="$(var.OutputGstLibDir)" ?>

@@ -4,29 +4,34 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	
-	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.GST_VERSION)">
+	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 		
 		<Package Id="$(var.GUID_X86_MSM_DEPENDENCIES_LGPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
-
+		
 		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
 		<ComponentGroupRef Id="LicenseIndependentDependencies"/>
+		
+		<?define Files="
+			avcodec-52.dll;
+			avdevice-52.dll;
+			avfilter-0.dll;
+			avformat-52.dll;
+			avutil-49.dll
+		" ?>
 		
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
 				
-
-				<Component Id="Dependencies" Guid="{1BDB2CB8-A3B4-4e97-AB91-B697D37F0FEF}">
-					
-					<File Source="$(var.BinDir)\avcodec-52.dll" />
-					<File Source="$(var.BinDir)\avdevice-52.dll" />
-					<File Source="$(var.BinDir)\avfilter-0.dll" />
-					<File Source="$(var.BinDir)\avformat-52.dll" />
-					<File Source="$(var.BinDir)\avutil-49.dll" />
-					
-				</Component>
+				<?foreach file in $(var.Files) ?>
+					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
+						<File Source="$(ossbuild.existsCoalesce($(var.OutputBinDir)\$(ossbuild.trim($(var.file))), $(var.SharedBinDir)\$(ossbuild.trim($(var.file)))))" DefaultLanguage="0" />
+					</Component>
+				<?endforeach ?>
 
 			</Directory>
 		</Directory>
+		
+		<?undef Files ?>
 		
 	</Module>
 	

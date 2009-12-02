@@ -5,62 +5,70 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 
+		<?define Files="
+			glew32.dll;
+			iconv.dll;
+			libbz2.dll;
+			libcairo-2.dll;
+			libfontconfig-1.dll;
+			libfreetype-6.dll;
+			libgcrypt-11.dll;
+			libgio-2.0-0.dll;
+			libglib-2.0-0.dll;
+			libgmodule-2.0-0.dll;
+			libgnutls-26.dll;
+			libgnutls-extra-26.dll;
+			libgnutls-openssl-26.dll;
+			libgobject-2.0-0.dll;
+			libgpg-error-0.dll;
+			libgthread-2.0-0.dll;
+			libjpeg-7.dll;
+			libmms-0.dll;
+			libmp3lame-0.dll;
+			libneon-27.dll;
+			libogg-0.dll;
+			liboil-0.3-0.dll;
+			libopenjpeg-2.dll;
+			libpango-1.0-0.dll;
+			libpangocairo-1.0-0.dll;
+			libpangoft2-1.0-0.dll;
+			libpangowin32-1.0-0.dll;
+			libpixman-1-0.dll;
+			libpng12-0.dll;
+			libschroedinger-1.0-0.dll;
+			libsoup-2.4-1.dll;
+			libspeex-1.dll;
+			libspeexdsp-1.dll;
+			libtheora-0.dll;
+			libtheoradec-1.dll;
+			libtheoraenc-1.dll;
+			libvorbis-0.dll;
+			libvorbisenc-2.dll;
+			libvorbisfile-3.dll;
+			libx264-67.dll;
+			libxml2-2.dll;
+			pthreadGC2.dll;
+			SDL.dll;
+			zlib1.dll
+		" ?>
+		
 		<ComponentGroup Id="LicenseIndependentDependencies">
-			<ComponentRef Id="LicenseIndependentFiles" />
+			<?foreach file in $(var.Files) ?>
+				<ComponentRef Id="$(ossbuild.createValidID($(var.file)))" />
+			<?endforeach ?>
 		</ComponentGroup>
-
+		
 		<DirectoryRef Id="MergeRedirectFolder">
-
-			<Component Id="LicenseIndependentFiles" Guid="{BA39F957-4F17-499a-8898-D01A081E9069}">
-
-				<File Source="$(var.BinDir)\glew32.dll" />
-				<File Source="$(var.BinDir)\iconv.dll" />
-				<File Source="$(var.BinDir)\libbz2.dll" />
-				<File Source="$(var.BinDir)\libcairo-2.dll" />
-				<File Source="$(var.BinDir)\libfontconfig-1.dll" />
-				<File Source="$(var.BinDir)\libfreetype-6.dll" />
-				<File Source="$(var.BinDir)\libgcrypt-11.dll" DefaultLanguage="0" />
-				<File Source="$(var.BinDir)\libgio-2.0-0.dll" />
-				<File Source="$(var.BinDir)\libglib-2.0-0.dll" />
-				<File Source="$(var.BinDir)\libgmodule-2.0-0.dll" />
-				<File Source="$(var.BinDir)\libgnutls-26.dll" />
-				<File Source="$(var.BinDir)\libgnutls-extra-26.dll" />
-				<File Source="$(var.BinDir)\libgnutls-openssl-26.dll" />
-				<File Source="$(var.BinDir)\libgobject-2.0-0.dll" />
-				<File Source="$(var.BinDir)\libgpg-error-0.dll" DefaultLanguage="0" />
-				<File Source="$(var.BinDir)\libgthread-2.0-0.dll" />
-				<File Source="$(var.BinDir)\libjpeg-7.dll" />
-				<File Source="$(var.BinDir)\libmms-0.dll" />
-				<File Source="$(var.BinDir)\libmp3lame-0.dll" />
-				<File Source="$(var.BinDir)\libneon-27.dll" />
-				<File Source="$(var.BinDir)\libogg-0.dll" />
-				<File Source="$(var.BinDir)\liboil-0.3-0.dll" />
-				<File Source="$(var.BinDir)\libopenjpeg-2.dll" />
-				<File Source="$(var.BinDir)\libpango-1.0-0.dll" />
-				<File Source="$(var.BinDir)\libpangocairo-1.0-0.dll" />
-				<File Source="$(var.BinDir)\libpangoft2-1.0-0.dll" />
-				<File Source="$(var.BinDir)\libpangowin32-1.0-0.dll" />
-				<File Source="$(var.BinDir)\libpixman-1-0.dll" />
-				<File Source="$(var.BinDir)\libpng12-0.dll" />
-				<File Source="$(var.BinDir)\libschroedinger-1.0-0.dll" />
-				<File Source="$(var.BinDir)\libsoup-2.4-1.dll" />
-				<File Source="$(var.BinDir)\libspeex-1.dll" />
-				<File Source="$(var.BinDir)\libspeexdsp-1.dll" />
-				<File Source="$(var.BinDir)\libtheora-0.dll" />
-				<File Source="$(var.BinDir)\libtheoradec-1.dll" />
-				<File Source="$(var.BinDir)\libtheoraenc-1.dll" />
-				<File Source="$(var.BinDir)\libvorbis-0.dll" />
-				<File Source="$(var.BinDir)\libvorbisenc-2.dll" />
-				<File Source="$(var.BinDir)\libvorbisfile-3.dll" />
-				<File Source="$(var.BinDir)\libx264-67.dll" />
-				<File Source="$(var.BinDir)\libxml2-2.dll" />
-				<File Source="$(var.BinDir)\pthreadGC2.dll" />
-				<File Source="$(var.BinDir)\SDL.dll" />
-				<File Source="$(var.BinDir)\zlib1.dll" />
 			
-			</Component>
+			<?foreach file in $(var.Files) ?>
+				<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
+					<File Source="$(ossbuild.existsCoalesce($(var.OutputBinDir)\$(ossbuild.trim($(var.file))), $(var.SharedBinDir)\$(ossbuild.trim($(var.file)))))" DefaultLanguage="0" />
+				</Component>
+			<?endforeach ?>
 			
 		</DirectoryRef>
-			
+
+		<?undef Files ?>
+		
 	</Fragment>
 </Wix>
