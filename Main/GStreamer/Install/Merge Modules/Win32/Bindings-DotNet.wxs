@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
+
+		<Package Id="$(var.GUID_X86_MSM_BINDINGS_DOTNET_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
+
+		<?define Files="
+			gstreamersharpglue-$(var.GST_VERSION).dll;
+			gstreamer-sharp.dll
+		" ?>
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="MergeRedirectFolder">
+						
+				<?foreach file in $(var.Files) ?>
+					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
+						<File Source="$(var.GstBindingDir)\dotnet\$(ossbuild.trim($(var.file)))" />
+					</Component>
+				<?endforeach ?>
+						
+			</Directory>
+		</Directory>
+
+		<?undef Files ?>
+
+	</Module>
+
+</Wix>

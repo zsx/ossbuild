@@ -1145,28 +1145,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="element-gen.csproj">
-      <Project>{A219EB96-98F4-486B-ACD6-C639BBCAE55F}</Project>
-      <Name>element-gen</Name>
-    </ProjectReference>
-    <ProjectReference Include="gst-gapi-codegen.csproj">
-      <Project>{A2192B96-98F4-486B-ACD6-C639BBCAE55C}</Project>
-      <Name>gst-gapi-codegen</Name>
-    </ProjectReference>
-    <ProjectReference Include="gst-gapi-fixup.csproj">
-      <Project>{D219EB46-98F4-486B-ACD6-C639BCCAE55A}</Project>
-      <Name>gst-gapi-fixup</Name>
-    </ProjectReference>
-    <ProjectReference Include="gst-gapi-parser.csproj">
-      <Project>{D219EB46-98F4-486B-ACD6-C639BCCAE55C}</Project>
-      <Name>gst-gapi-parser</Name>
-    </ProjectReference>
-    <ProjectReference Include="gst-generate-tags.csproj">
-      <Project>{D219EB46-98F4-486B-ACD6-C639BCCAE55B}</Project>
-      <Name>gst-generate-tags</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\Source\gstreamer-sharp\source\gstreamer-sharp-source.xml">
       <Link>gstreamer-sharp-source.xml</Link>
     </Content>

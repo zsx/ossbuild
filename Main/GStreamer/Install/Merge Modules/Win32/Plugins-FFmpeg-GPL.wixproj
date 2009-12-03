@@ -3,15 +3,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde701}</ProjectGuid>
+    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7A5}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>x86-OSSBuild-GStreamer-Dependencies-LGPL</OutputName>
+    <OutputName>x86-OSSBuild-GStreamer-Plugins-FFmpeg-GPL</OutputName>
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <IncludeSearchPaths>
     </IncludeSearchPaths>
-    <Name>Dependencies-LGPL</Name>
+    <Name>FFmpeg-GPL</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -34,12 +34,6 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Dependencies-LGPL.wxs" />
-    <Compile Include="Dependencies.wxs">
-      <Link>Dependencies.wxs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
@@ -58,6 +52,16 @@
       <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Plugins-FFmpeg-GPL.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Plugins\FFmpeg\ext\libgstffmpeg_gpl.vcproj">
+      <Name>gstffmpeggpl</Name>
+      <Project>{fad1a4e1-90ac-4a6d-aece-755d6adf7274}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

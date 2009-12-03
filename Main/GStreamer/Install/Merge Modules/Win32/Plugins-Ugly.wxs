@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+
+		<?define Files="
+			libgstasfdemux.dll;
+			libgstdvdlpcmdec.dll;
+			libgstdvdsub.dll;
+			libgstiec958.dll;
+			libgstmpegaudioparse.dll;
+			libgstmpegstream.dll;
+			libgstrealmedia.dll;
+			libgstsynaesthesia.dll
+		" ?>
+		
+		<ComponentGroup Id="PluginsUgly">
+			<?foreach file in $(var.Files) ?>
+				<ComponentRef Id="$(ossbuild.createValidID($(var.file)))" />
+			<?endforeach ?>
+		</ComponentGroup>
+		
+		<DirectoryRef Id="MergeRedirectFolder">
+			
+			<?foreach file in $(var.Files) ?>
+				<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
+					<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
+				</Component>
+			<?endforeach ?>
+			
+		</DirectoryRef>
+
+		<?undef Files ?>
+		
+	</Fragment>
+</Wix>

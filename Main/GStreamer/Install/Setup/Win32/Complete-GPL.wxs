@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<?define INSTALLED_PRODUCT_NAME="$(var.MANUFACTURER) GStreamer $(var.OSSBUILD_VERSION) (GPL)" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	<Product Version="$(var.OSSBUILD_VERSION)" Name="$(var.INSTALLED_PRODUCT_NAME)" Manufacturer="$(var.MANUFACTURER)" Language="$(var.DEFAULT_LANGUAGE)" Id="$(var.GUID_X86_MSI_COMPLETE_GPL_PACKAGE)" UpgradeCode="$(var.GUID_X86_MSI_COMPLETE_GPL_UPGRADE_CODE)">
+		<Package InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" Compressed="yes" />
+		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" CompressionLevel="high" />
+
+		<PropertyRef Id="NETFRAMEWORK35"/>
+		<PropertyRef Id="NETFRAMEWORK35_SP_LEVEL"/>
+
+		<Condition Message="This application is only supported on Windows XP, Windows Vista, or higher.">
+			<![CDATA[Installed OR (VersionNT >= 501) OR (VersionNT64 >= 501)]]>
+		</Condition>
+
+		<Condition Message="This application requires .NET Framework 3.5 SP1 or higher. Please install the .NET Framework and run this install again.">
+			<![CDATA[Installed OR (NETFRAMEWORK35_SP_LEVEL and NOT NETFRAMEWORK35_SP_LEVEL = "#0")]]>
+		</Condition>
+
+		<!--
+		<Condition Message="You must be an administrator to install this application.">
+			<![CDATA[Privileged]]>
+		</Condition>
+		-->
+
+		<!-- Add/Remove Programs -->
+		<Property Id="ARPPRODUCTICON" Value="MainIcon" />
+		<Property Id="ARPCONTACT" Value="$(var.MANUFACTURER)" />
+		<Property Id="ARPURLINFOABOUT" Value="$(var.MANUFACTURER_URL)" />
+		<Property Id="ALLUSERS">2</Property>
+
+		<!-- Set application icon -->
+		<Icon Id="MainIcon" SourceFile="$(var.GST_ICON)"/>
+
+		<WixVariable Id="WixUIBannerBmp" Value="$(var.CustomResourceDir)\Banners\Header.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="$(var.CustomResourceDir)\Banners\Welcome.bmp" />
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.CustomResourceDir)\Licenses\License-GPL.rtf" />
+
+		<WixVariable Id="WixUIUpIco" Value="$(var.CustomResourceDir)\Icons\Up.ico" />
+		<WixVariable Id="WixUINewIco" Value="$(var.CustomResourceDir)\Icons\New.ico" />
+		<WixVariable Id="WixUIInfoIco" Value="$(var.CustomResourceDir)\Icons\Information.ico" />
+		<WixVariable Id="WixUIExclamationIco" Value="$(var.CustomResourceDir)\Icons\Warning.ico" />
+
+		<Feature Id="Full"
+		         Title="Full Install"
+		         Description="All libraries, plugins, and bindings."
+		         Level="1"
+				 Display="expand"
+				 AllowAdvertise="no" 
+		         ConfigurableDirectory="INSTALLDIR">
+
+			<ComponentRef Id="Empty"/>
+			<ComponentRef Id="EnvironmentVariables" />
+			<ComponentGroupRef Id="Licenses" />
+
+			<MergeRef Id="Libraries" />
+			<MergeRef Id="Applications" />
+			<MergeRef Id="Plugins_Base" />
+			<MergeRef Id="Plugins_Good" />
+			<MergeRef Id="Dependencies_GPL" />
+
+			<Feature Id="Bindings" Title="Bindings" Description="All programming language bindings such as .NET (C#) and Python." Display="expand" Level="1" AllowAdvertise="no">
+				<Feature Id="DotNet" Title=".NET" Description="Language bindings for the .NET family (C#, Visual Basic.NET, etc.)." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Bindings_DotNet" />
+				</Feature>
+			</Feature>
+
+			<Feature Id="Plugins" Title="Plugins" Description="FFmpeg, bad, ugly, etc. plugins." Display="expand" Level="1" AllowAdvertise="no">
+				<Feature Id="Plugins_Bad" Title="Bad" Description="Plugins that aren't quite up to par with the standard plugins." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Plugins_Bad_GPL" />
+				</Feature>
+
+				<Feature Id="Plugins_Ugly" Title="Ugly" Description="Plugins that are good quality, but might have distribution issues." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Plugins_Ugly_GPL" />
+				</Feature>
+
+				<Feature Id="Plugins_FFmpeg" Title="FFmpeg" Description="FFmpeg plugins." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Plugins_FFmpeg_GPL" />
+				</Feature>
+
+				<Feature Id="Plugins_GL" Title="OpenGL" Description="OpenGL plugins." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Plugins_GL" />
+				</Feature>
+
+				<Feature Id="Plugins_GNonLin" Title="GNonLin" Description="GNonLin (GStreamer Non-Linear) plugins." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Plugins_GNonLin" />
+				</Feature>
+
+				<Feature Id="Plugins_Farsight" Title="Farsight"  Description="Farsight plugins." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Plugins_Farsight" />
+				</Feature>
+			</Feature>
+		</Feature>
+
+		<ComponentGroup Id="Licenses">
+			<ComponentRef Id="Licenses" />
+			<ComponentRef Id="Copying" />
+		</ComponentGroup>
+
+		<Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="CompanyFolder" Name="$(var.COMPANY_DIR_NAME)">
+					<Directory Id="ProductFolder" Name="$(var.PRODUCT_DIR_NAME)">
+						<Directory Id="ProductVersionFolder" Name="$(var.PRODUCT_VERSION_DIR_NAME)">
+							<Directory Id="INSTALLDIR" Name=".">
+								
+								<Directory Id="Bin" Name="bin">
+									<Merge Id="Libraries" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Libraries.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+									<Merge Id="Applications" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Applications.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+									
+									<Merge Id="Dependencies_GPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Dependencies-GPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+								</Directory>
+
+								<Directory Id="Lib" Name="lib">
+									<Directory Id="GStreamerPlugins" Name="gstreamer-$(var.GST_VERSION)">
+										<Merge Id="Plugins_GL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-GL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+										<Merge Id="Plugins_Base" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Base.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+										<Merge Id="Plugins_Good" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Good.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+										<Merge Id="Plugins_GNonLin" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-GNonLin.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+										<Merge Id="Plugins_Farsight" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+
+										<Merge Id="Plugins_Bad_GPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Bad-GPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+										<Merge Id="Plugins_Ugly_GPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Ugly-GPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+										<Merge Id="Plugins_FFmpeg_GPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-FFmpeg-GPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+									</Directory>
+
+									<!--
+									<Directory Id="FarsightVersion" Name="farsight2-0.0">
+										<Merge Id="Plugins_Farsight2" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+									</Directory>
+									-->
+								</Directory>
+
+								<Directory Id="Dotnet" Name="dotnet">
+									<Merge Id="Bindings_DotNet" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-DotNet.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+								</Directory>
+
+								<Directory Id="Share" Name="share">
+									<Component Id="Licenses" Guid="{0D155E35-5A3E-4A25-9273-C66FF8CE962E}">
+										<File Source="$(var.LicenseDir)\ffmpeg.txt" />
+										<File Source="$(var.LicenseDir)\glib.txt" />
+										<File Source="$(var.LicenseDir)\gpl-2.0.txt" />
+										<File Source="$(var.LicenseDir)\gpl.rtf" />
+										<File Source="$(var.LicenseDir)\lgpl.rtf" />
+										<File Source="$(var.LicenseDir)\libjpeg.txt" />
+										<File Source="$(var.LicenseDir)\libxml2.txt" />
+										<File Source="$(var.LicenseDir)\neon.txt" />
+										<File Source="$(var.LicenseDir)\proxy-libintl.txt" />
+										<File Source="$(var.LicenseDir)\pthreads.txt" />
+										<File Source="$(var.LicenseDir)\zlib.txt" />
+									</Component>
+								</Directory>
+
+								<Component Id="Copying" Guid="{6426BB14-3F60-4110-A6CF-369C33E41A2F}">
+									<File Source="$(var.CustomResourceDir)\Licenses\COPYING" />
+								</Component>
+
+								<!--
+								<Directory Id="Lib" Name="lib">
+									<Directory Id="SitePackages" Name="site-packages">
+
+										<Directory Id="GstVersion" Name="gst-$(var.GST_VERSION)">
+											<Directory Id="Gst" Name="gst">
+												<Directory Id="Extend" Name="extend">
+													
+												</Directory>
+											</Directory>
+										</Directory>
+									</Directory>
+								</Directory>
+
+								<Directory Id="Share" Name="share">
+									<Directory Id="GstPython" Name="gst-python">
+										<Directory Id="GstVersion" Name="$(var.GST_VERSION)">
+											<Directory Id="Examples" Name="examples">
+												
+											</Directory>
+											<Directory Id="Defs" Name="defs">
+												
+											</Directory>
+										</Directory>
+									</Directory>
+								</Directory>
+								-->
+							</Directory>
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="ProgramMenuFolder" Name="Programs" />
+
+			<Component Id="Empty" Guid="" />
+
+			<Component Id="EnvironmentVariables" Guid="{A76449C9-9F39-411D-B707-947DDE5F55CF}">
+				<Environment Id="Path" Action="set" Part="first" Name="PATH" Permanent="no" System="no" Value="[INSTALLDIR]bin" />
+				<Environment Id="GstPluginPath" Action="set" Part="first" Name="GST_PLUGIN_PATH" Permanent="no" System="no" Value="[INSTALLDIR]lib\gstreamer-$(var.GST_VERSION)" />
+			</Component>
+		</Directory>
+
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+		<UIRef Id="WixUI_FeatureTree"/>
+
+		<CustomAction Id="NewerVersion" Error="!(loc.NewerVersionFound)" />
+		<Property Id="OLDER_VERSION_BEING_UPGRADED" Secure="yes" />
+		<Upgrade Id="$(var.GUID_X86_MSI_COMPLETE_GPL_UPGRADE)">
+			<UpgradeVersion Minimum="$(var.OSSBUILD_VERSION)" OnlyDetect="yes" Property="NEWER_VERSION_DETECTED" />
+			<UpgradeVersion Minimum="0.0.0" Maximum="$(var.OSSBUILD_VERSION)" IncludeMinimum="yes" IncludeMaximum="no" Property="OLDER_VERSION_BEING_UPGRADED" />
+		</Upgrade>
+
+		<InstallExecuteSequence>
+			<Custom Action="NewerVersion" After="FindRelatedProducts">NEWER_VERSION_DETECTED</Custom>
+			<RemoveExistingProducts After="InstallInitialize" />
+		</InstallExecuteSequence>
+	</Product>
+</Wix>

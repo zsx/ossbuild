@@ -3,15 +3,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde701}</ProjectGuid>
+    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7A7}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>x86-OSSBuild-GStreamer-Dependencies-LGPL</OutputName>
+    <OutputName>x86-OSSBuild-GStreamer-Plugins-GL</OutputName>
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <IncludeSearchPaths>
     </IncludeSearchPaths>
-    <Name>Dependencies-LGPL</Name>
+    <Name>Plugins-GL</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -34,12 +34,6 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Dependencies-LGPL.wxs" />
-    <Compile Include="Dependencies.wxs">
-      <Link>Dependencies.wxs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
@@ -58,6 +52,21 @@
       <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Plugins-GL.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Plugins\GL\gst-libs\libgstgl.vcproj">
+      <Name>gstgl</Name>
+      <Project>{09475780-cde5-45ad-bf90-be489dd12a23}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\GL\gst\libgstgl-plg.vcproj">
+      <Name>gstopengl</Name>
+      <Project>{0597ea2b-a46c-4cf1-b534-011d6db91b96}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

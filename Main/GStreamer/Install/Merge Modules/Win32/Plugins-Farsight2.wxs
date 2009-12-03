@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
+
+		<Package Id="$(var.GUID_X86_MSM_PLUGINS_FARSIGHT2_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
+
+		<?define Files="
+			libfsfunnel.dll;
+			libfsrtcpfilter.dll;
+			libfsrtpconference.dll;
+			libfsvideoanyrate.dll;
+			libmulticast-transmitter.dll;
+			librawudp-transmitter.dll
+		" ?>
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="MergeRedirectFolder">
+						
+				<?foreach file in $(var.Files) ?>
+					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
+						<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
+					</Component>
+				<?endforeach ?>
+						
+			</Directory>
+		</Directory>
+
+		<?undef Files ?>
+
+	</Module>
+
+</Wix>

@@ -3,15 +3,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde701}</ProjectGuid>
+    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeAE0}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>x86-OSSBuild-GStreamer-Dependencies-LGPL</OutputName>
+    <OutputName>x86-OSSBuild-GStreamer-Bindings-DotNet</OutputName>
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <IncludeSearchPaths>
     </IncludeSearchPaths>
-    <Name>Dependencies-LGPL</Name>
+    <Name>DotNet</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -34,12 +34,6 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Dependencies-LGPL.wxs" />
-    <Compile Include="Dependencies.wxs">
-      <Link>Dependencies.wxs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
@@ -58,6 +52,46 @@
       <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bindings-DotNet.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Bindings\DotNet\element-gen.csproj">
+      <Name>element-gen</Name>
+      <Project>{a219eb96-98f4-486b-acd6-c639bbcae55f}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\DotNet\gst-gapi-codegen.csproj">
+      <Name>gst-gapi-codegen</Name>
+      <Project>{a2192b96-98f4-486b-acd6-c639bbcae55c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\DotNet\gst-gapi-fixup.csproj">
+      <Name>gst-gapi-fixup</Name>
+      <Project>{d219eb46-98f4-486b-acd6-c639bccae55a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\DotNet\gst-gapi-parser.csproj">
+      <Name>gst-gapi-parser</Name>
+      <Project>{d219eb46-98f4-486b-acd6-c639bccae55c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\DotNet\gst-generate-tags.csproj">
+      <Name>gst-generate-tags</Name>
+      <Project>{d219eb46-98f4-486b-acd6-c639bccae55b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\DotNet\gstreamer-sharp.csproj">
+      <Name>gstreamer-sharp</Name>
+      <Project>{62192b96-98f4-486b-acd6-c639bbcae55b}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\DotNet\gstreamersharpglue.vcproj">
+      <Name>gstreamersharpglue</Name>
+      <Project>{056904b0-0226-40cb-88c0-6ed33d717861}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

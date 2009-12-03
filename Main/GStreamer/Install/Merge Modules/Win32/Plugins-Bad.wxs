@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+
+		<?define Files="
+			libgstaacparse.dll;
+			libgstaiff.dll;
+			libgstamrparse.dll;
+			libgstautoconvert.dll;
+			libgstbayer.dll;
+			libgstcamerabin.dll;
+			libgstcdxaparse.dll;
+			libgstdirectdraw.dll;
+			libgstdshowdecwrapper.dll;
+			libgstdshowsrcwrapper.dll;
+			libgstdshowvideosink.dll;
+			libgstdtmf.dll;
+			libgstdvdspu.dll;
+			libgstfreeze.dll;
+			libgsth264parse.dll;
+			libgstlegacyresample.dll;
+			libgstlibmms.dll;
+			libgstliveadder.dll;
+			libgstmpeg4videoparse.dll;
+			libgstmpegdemux.dll;
+			libgstmpegtsmux.dll;
+			libgstmpegvideoparse.dll;
+			libgstmve.dll;
+			libgstmxf.dll;
+			libgstneon.dll;
+			libgstnuvdemux.dll;
+			libgstpcapparse.dll;
+			libgstqtmux.dll;
+			libgstrawparse.dll;
+			libgstreal.dll;
+			libgstrtpmux.dll;
+			libgstscaletempo.dll;
+			libgstsdl.dll;
+			libgstsdpplugin.dll;
+			libgstselector.dll;
+			libgstsiren.dll;
+			libgstspeed.dll;
+			libgststereo.dll;
+			libgstsubenc.dll;
+			libgsttta.dll;
+			libgstvalve.dll;
+			libgstvideosignal.dll;
+			libgstvmnc.dll;
+			libgstwasapi.dll;
+			libgstwininet.dll;
+			libgstwinks.dll;
+			libgstwinscreencap.dll
+		" ?>
+		
+		<ComponentGroup Id="PluginsBad">
+			<?foreach file in $(var.Files) ?>
+				<ComponentRef Id="$(ossbuild.createValidID($(var.file)))" />
+			<?endforeach ?>
+		</ComponentGroup>
+		
+		<DirectoryRef Id="MergeRedirectFolder">
+			
+			<?foreach file in $(var.Files) ?>
+				<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
+					<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
+				</Component>
+			<?endforeach ?>
+			
+		</DirectoryRef>
+
+		<?undef Files ?>
+		
+	</Fragment>
+</Wix>

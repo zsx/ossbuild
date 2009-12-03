@@ -3,15 +3,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde701}</ProjectGuid>
+    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7A3}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>x86-OSSBuild-GStreamer-Dependencies-LGPL</OutputName>
+    <OutputName>x86-OSSBuild-GStreamer-Plugins-Farsight</OutputName>
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <IncludeSearchPaths>
     </IncludeSearchPaths>
-    <Name>Dependencies-LGPL</Name>
+    <Name>Farsight</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -34,12 +34,6 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Dependencies-LGPL.wxs" />
-    <Compile Include="Dependencies.wxs">
-      <Link>Dependencies.wxs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
@@ -58,6 +52,36 @@
       <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Plugins-Farsight.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Plugins\Farsight\gst\libgstrtnetsim.vcproj">
+      <Name>gstrtpnetsim</Name>
+      <Project>{313836d8-f6ed-4f08-af71-4165fc86b2cc}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Farsight\gst\libgstrtpdemux.vcproj">
+      <Name>gstrtprtpdemux</Name>
+      <Project>{b805b3db-7d69-490a-91e3-a89646e69f1f}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Farsight\gst\libgstrtpjitterbuffer.vcproj">
+      <Name>gstrtpjitterbuffer</Name>
+      <Project>{7c6b3ad8-ce9c-43e3-937a-29e423863c48}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Farsight\gst\libgstrtppayloads.vcproj">
+      <Name>gstrtppayloads</Name>
+      <Project>{711b23b5-7c17-4fa6-a5f8-7d37aef0d803}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Farsight\gst\libgstselector.vcproj">
+      <Name>gstfsselector</Name>
+      <Project>{6d6e96b4-23ea-453e-9156-4f149871acbb}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

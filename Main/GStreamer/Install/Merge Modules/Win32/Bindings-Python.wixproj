@@ -3,15 +3,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde701}</ProjectGuid>
+    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeAE1}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>x86-OSSBuild-GStreamer-Dependencies-LGPL</OutputName>
+    <OutputName>x86-OSSBuild-GStreamer-Bindings-Python</OutputName>
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <IncludeSearchPaths>
     </IncludeSearchPaths>
-    <Name>Dependencies-LGPL</Name>
+    <Name>Python</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -34,12 +34,6 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Dependencies-LGPL.wxs" />
-    <Compile Include="Dependencies.wxs">
-      <Link>Dependencies.wxs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
@@ -58,6 +52,41 @@
       <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bindings-Python.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Bindings\Python\audio.vcproj">
+      <Name>audio</Name>
+      <Project>{1d44fe71-606d-454b-8e84-3e98fdf6ae66}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\Python\interfaces.vcproj">
+      <Name>interfaces</Name>
+      <Project>{acc64e21-6c05-47ff-8d24-6a5945fc4727}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\Python\pbutils.vcproj">
+      <Name>pbutils</Name>
+      <Project>{fa0caf6d-12fd-494a-a552-5ac4529a7554}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\Python\tag.vcproj">
+      <Name>tag</Name>
+      <Project>{5d58f4d2-a942-4346-b562-fc24512d9c54}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\Python\video.vcproj">
+      <Name>video</Name>
+      <Project>{39c85775-f04e-415a-ade9-89b10d85f5d0}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bindings\Python\_gst.vcproj">
+      <Name>_gst</Name>
+      <Project>{a01c663d-cfbb-4444-a4c1-7d8f91e76f59}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

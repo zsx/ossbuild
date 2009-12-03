@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
 	<?include GUIDs.wxi ?>
@@ -14,7 +15,8 @@
 	<?define MANUFACTURER_URL="http://code.google.com/p/ossbuild/" ?>
 	
 	<?define COMPANY_DIR_NAME="OSSBuild" ?>
-	<?define PRODUCT_DIR_NAME="OSSBuild" ?>
+	<?define PRODUCT_DIR_NAME="GStreamer" ?>
+	<?define PRODUCT_VERSION_DIR_NAME="v$(var.OSSBUILD_VERSION)" ?>
 	<?define PRODUCT_SHORTCUT_DIR_NAME="." ?>
 
 	<?define PRODUCT_HKCU_REGISTRY_ROOT="SOFTWARE\OSSBuild" ?>
@@ -23,9 +25,13 @@
 	<?define GPL="-gpl" ?>
 	<?define DEFAULT_LANGUAGE="1033" ?>
 	<?define MINIMAL_INSTALLER_VERSION="301" ?>
+	
+	<?define x86_MergeModulePrefix="x86-OSSBuild-GStreamer" ?>
+	<?define x64_MergeModulePrefix="x64-OSSBuild-GStreamer" ?>
 
 	<?define BuildDir="$(var.TOP)\Build" ?>
 	<?define SharedDir="$(var.TOP)\Shared" ?>
+	<?define LicenseDir="$(var.TOP)\Licenses" ?>
 	
 	<?define OutputBuildDir="$(var.BuildDir)\Windows\Win32\$(var.Configuration)" ?>
 	<?define SharedBuildDir="$(var.SharedDir)\Build\Windows\Win32" ?>
@@ -46,4 +52,10 @@
 	<?define GstBinDir="$(var.OutputGstBinDir)" ?>
 	<?define GstLibDir="$(var.OutputGstLibDir)" ?>
 	<?define GstIncludeDir="$(var.OutputGstIncludeDir)" ?>
+
+	<?define GstPluginDir="$(var.OutputGstBinDir)\plugins" ?>
+	<?define GstBindingDir="$(var.OutputGstBinDir)\bindings" ?>
+	
+	<?define CustomResourceDir="$(var.InstallRoot)\Custom\Resources" ?>
+	<?define MergeModuleDir="$(var.InstallRoot)\Merge Modules\Win32\bin\$(var.Configuration)" ?>
 </Include>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	
+	<String Id="NewerVersionFound">A newer version is already installed.</String>
+
+	<String Id="WelcomeDlgTitle" Overridable="yes">{\WixUI_Font_Bigger}Welcome to the OSSBuild GStreamer Setup Wizard</String>
+	<String Id="ExitDialogTitle" Overridable="yes">{\WixUI_Font_Bigger}Completed OSSBuild GStreamer installation</String>
+	<String Id="UserExitTitle" Overridable="yes">{\WixUI_Font_Bigger}OSSBuild GStreamer Setup Wizard was interrupted</String>
+	<String Id="FatalErrorTitle" Overridable="yes">{\WixUI_Font_Bigger}OSSBuild GStreamer Setup Wizard ended prematurely</String>
+	
+	<String Id="WixUIBack" Overridable="yes">&lt; &amp;Back</String>
+	<String Id="WixUINext" Overridable="yes">&amp;Next &gt;</String>
+	<String Id="CancelDlgText" Overridable="yes">Are you sure you want to cancel this installation?</String>
+
+	<String Id="InstallDirDlgChange" Overridable="yes">&amp;Browse...</String>
+	<String Id="InstallDirDlgDescription" Overridable="yes">Install to the default GStreamer directory or choose another.</String>
+	<String Id="InstallDirDlgFolderLabel" Overridable="yes">Select the GStreamer installation directory:</String>
+	
+</WixLocalization>
