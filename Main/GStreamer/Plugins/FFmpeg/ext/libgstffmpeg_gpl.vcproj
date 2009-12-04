@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gstffmpeggpl"
 	ProjectGUID="{FAD1A4E1-90AC-4A6D-AECE-755D6ADF7274}"
 	RootNamespace="libgstffmpeggpl"
@@ -154,7 +154,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\Properties\gstreamer-plugin-ffmpeg.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\FFmpegGPL.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\FFmpegGPL.vsprops;..\..\..\Properties\gstreamer-plugin-ffmpeg.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>

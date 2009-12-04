@@ -75,7 +75,9 @@
     <Compile Include="Complete-GPL.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\Custom\I18N\en-us.wxl" />
+    <EmbeddedResource Include="..\..\Custom\I18N\en-us.wxl">
+      <Link>en-us.wxl</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Merge Modules\Win32\Applications.wixproj">

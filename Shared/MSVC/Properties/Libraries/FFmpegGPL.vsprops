@@ -2,12 +2,12 @@
 <VisualStudioPropertySheet
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="FFmpeg"
+	Name="FFmpeg-GPL"
 	InheritedPropertySheets=".\LibSchroedinger.vsprops;.\OpenJPEG.vsprops;.\MP3Lame.vsprops;.\LibSpeex.vsprops;..\SDKs\MinGW.vsprops;.\LibTheora.vsprops;.\LibVorbis.vsprops;.\BZip2.vsprops;.\ZLib.vsprops;.\XvidCore.vsprops"
 	>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="avutil-gpl.lib avfilter.lib avdevice.lib avformat-gpl.lib avcodec-gpl.lib vfw32.lib wsock32.lib"
+		AdditionalDependencies="avutil-gpl.lib avfilter-gpl.lib avdevice-gpl.lib avformat-gpl.lib avcodec-gpl.lib vfw32.lib wsock32.lib"
 	/>
 	<UserMacro
 		Name="FFmpegMajorVersion"
