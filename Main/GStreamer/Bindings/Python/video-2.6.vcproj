@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="audio"
-	ProjectGUID="{1D44FE71-606D-454B-8E84-3E98FDF6AE66}"
-	RootNamespace="audio"
+	Name="video"
+	ProjectGUID="{38722A6E-1106-4B14-B507-7C1D95D67F46}"
+	RootNamespace="video"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\Properties\gstreamer-python-2.5-bindings.vsprops"
+			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\Properties\gstreamer-python-2.6-bindings.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -120,7 +120,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstaudio.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -155,7 +154,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\Properties\gstreamer-python-2.5-bindings.vsprops"
+			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\Properties\gstreamer-python-2.6-bindings.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -296,8 +295,8 @@
 			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
-			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstaudio.vcproj"
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstvideo.vcproj"
 		/>
 	</References>
 	<Files>
@@ -317,18 +316,26 @@
 			Name="Sources Files"
 			>
 			<File
-				RelativePath="..\..\Generated\gst-python\audio.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\Source\gst-python\gst\audiomodule.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\Source\gst-python\gst\pygstminiobject.c"
 				>
 			</File>
+			<File
+				RelativePath="..\..\Source\gst-python\gst\pygstvalue.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Generated\gst-python\video.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\Source\gst-python\gst\videomodule.c"
+				>
+			</File>
 		</Filter>
+		<File
+			RelativePath="..\..\Plugins\Bad\gst\libgstaiff.vcproj"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

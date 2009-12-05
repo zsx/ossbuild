@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer Python-2.6 Bindings"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\bindings\python-2.6\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Properties\gstreamer.vsprops;..\..\..\Shared\MSVC\Properties\SDKs\Python26.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;..\..\Source\gst-python\gst&quot;;&quot;..\..\Source\gst-python\win32\common\&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="gstreamer-0.10.lib"
+		OutputFile="$(OutDir)\lib\python2.6\site-packages\gst-0.10\gst\$(ProjectName).pyd"
+		AdditionalLibraryDirectories="$(OutDir)\lib\gstreamer\plugins\"
+		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\bindings\python-2.6\$(TargetName).pdb"
+	/>
+</VisualStudioPropertySheet>

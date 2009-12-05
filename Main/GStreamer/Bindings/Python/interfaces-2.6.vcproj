@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="audio"
-	ProjectGUID="{1D44FE71-606D-454B-8E84-3E98FDF6AE66}"
-	RootNamespace="audio"
+	Name="interfaces"
+	ProjectGUID="{81CA7F63-B184-4607-8582-B98D26FF710A}"
+	RootNamespace="interfaces"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\Properties\gstreamer-python-2.5-bindings.vsprops"
+			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\Properties\gstreamer-python-2.6-bindings.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstaudio.lib"
+				AdditionalDependencies="gstinterfaces.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\Properties\gstreamer-python-2.5-bindings.vsprops"
+			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\Properties\gstreamer-python-2.6-bindings.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -296,8 +296,12 @@
 			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
-			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstaudio.vcproj"
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
+			RelativePathToProject=".\Main\GStreamer\Plugins\Base\gst-libs\libgstinterfaces.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{A01C663D-CFBB-4444-A4C1-7D8F91E76F59}"
+			RelativePathToProject=".\Main\GStreamer\Bindings\Python\_gst.vcproj"
 		/>
 	</References>
 	<Files>
@@ -317,11 +321,11 @@
 			Name="Sources Files"
 			>
 			<File
-				RelativePath="..\..\Generated\gst-python\audio.c"
+				RelativePath="..\..\Generated\gst-python\interfaces.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\Source\gst-python\gst\audiomodule.c"
+				RelativePath="..\..\Source\gst-python\gst\interfacesmodule.c"
 				>
 			</File>
 			<File

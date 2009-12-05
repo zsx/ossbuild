@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="audio"
-	ProjectGUID="{1D44FE71-606D-454B-8E84-3E98FDF6AE66}"
+	ProjectGUID="{13797BDA-BC5F-4232-AC76-30E56E3C6648}"
 	RootNamespace="audio"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\Properties\gstreamer-python-2.5-bindings.vsprops"
+			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\Properties\gstreamer-python-2.6-bindings.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\Properties\gstreamer-python-2.5-bindings.vsprops"
+			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\Properties\gstreamer-python-2.6-bindings.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>

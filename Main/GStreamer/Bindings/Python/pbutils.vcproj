@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\Properties\gstreamer-python-bindings.vsprops"
+			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\Properties\gstreamer-python-2.5-bindings.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -121,7 +121,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="gstpbutils.lib"
-				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -156,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\Properties\gstreamer-python-bindings.vsprops"
+			InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\Properties\gstreamer-python-2.5-bindings.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>

@@ -2,7 +2,7 @@
 <VisualStudioPropertySheet
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="Python"
+	Name="Python26"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
@@ -14,7 +14,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="python25.lib"
+		AdditionalDependencies="python26.lib"
 		AdditionalLibraryDirectories="&quot;$(SolutionDir)\Shared\SDKs\Python\lib\$(PlatformName)&quot;"
 	/>
 	<UserMacro
