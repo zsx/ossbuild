@@ -13,10 +13,9 @@ AppPublisherURL=http://www.gstreamer-winbuild.ylatuya.es
 AppSupportURL=http://www.gstreamer-winbuild.ylatuya.es
 AppUpdatesURL=http://www.gstreamer-winbuild.ylatuya.es
 DefaultDirName=c:\gstreamer
-DisableDirPage=yes
 DefaultGroupName=GStreamer WinBuild
-LicenseFile=..\..\..\Licenses\gpl-2.0.txt
-SetupIconFile=..\..\..\Main\GStreamer\GStreamer.ico
+LicenseFile=..\..\Licenses\gpl-2.0.txt
+SetupIconFile=..\..\Main\GStreamer\GStreamer.ico
 ;InfoBeforeFile=..\..\ReadMe.txt
 OutputDir=.
 OutputBaseFilename=GStreamerWinBuild-0.10.5-dev
@@ -27,10 +26,12 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\..\..\Build\Windows\Win32\Release\include\gstreamer-0.10\*"; DestDir: "{app}\include\gstreamer-0.10"; Flags: ignoreversion  recursesubdirs createallsubdirs
-Source: "..\..\..\Shared\Build\Windows\Win32\include\*"; DestDir: "{app}\include"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\..\..\Build\Windows\Win32\Release\lib\gstreamer\gst*"; DestDir: "{app}\lib"; Flags: ignoreversion
-Source: "..\..\..\Shared\Build\Windows\Win32\lib\*"; DestDir: "{app}\lib\"; Flags: ignoreversion  recursesubdirs createallsubdirs  ; Excludes: *la
+Source: "..\..\Build\Windows\Win32\Release\include\gstreamer-0.10\*"; DestDir: "{app}\include\gstreamer-0.10"; Flags: ignoreversion  recursesubdirs createallsubdirs
+Source: "..\..\Shared\Build\Windows\Win32\include\*"; DestDir: "{app}\include"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\..\Build\Windows\Win32\Release\lib\gstreamer\gst*"; DestDir: "{app}\lib"; Flags: ignoreversion
+Source: "..\..\Shared\Build\Windows\Win32\lib\*"; DestDir: "{app}\lib\"; Flags: ignoreversion  recursesubdirs createallsubdirs  ; Excludes: "*la,*a,*sh"
+Source: "..\..\Build\Windows\Win32\Release\pdb\gstreamer\*"; DestDir: "{app}\pdb\gstreamer"; Flags: ignoreversion
+Source: "..\..\Build\Windows\Win32\Release\pdb\gstreamer\plugins\*"; DestDir: "{app}\pdb\gstreamer"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

@@ -14,8 +14,8 @@ AppSupportURL=http://www.gstreamer-winbuild.ylatuya.es
 AppUpdatesURL=http://www.gstreamer-winbuild.ylatuya.es
 DefaultDirName=c:\gstreamer
 DefaultGroupName=GStreamer WinBuild
-LicenseFile=..\..\..\Licenses\gpl-2.0.txt
-SetupIconFile=..\..\..\Main\GStreamer\GStreamer.ico
+LicenseFile=..\..\Licenses\gpl-2.0.txt
+SetupIconFile=..\..\Main\GStreamer\GStreamer.ico
 ;InfoBeforeFile=..\..\..\ReadMe.txt
 OutputDir=.
 OutputBaseFilename=GStreamerWinBuild-0.10.5
@@ -26,16 +26,17 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "..\..\..\Build\Windows\Win32\Release\bin\gstreamer\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
-Source: "..\..\..\Build\Windows\Win32\Release\bin\gstreamer\*.exe"; DestDir: "{app}\bin"; Flags: ignoreversion
-Source: "..\..\..\Shared\Build\Windows\Win32\bin\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
-Source: "..\..\..\Licenses\*"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
-Source: "..\..\..\Libraries\Packages\ReadMe-GPL.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
-Source: "..\..\..\Libraries\Packages\ReadMe-BSD.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
+Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion
+Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\*.exe"; DestDir: "{app}\bin"; Flags: ignoreversion
+Source: "..\..\Shared\Build\Windows\Win32\bin\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion; Excludes: "av*"
+;Source: "..\..\Shared\Build\Windows\Win32\bin\*.dll"; DestDir: "{app}\bin"; Flags: ignoreversion; Excludes: "avformat-52.dll,avutil-49.dll,avfilter-0.dll,avdevice-52.dll,avcodec-52.dll"
+Source: "..\..\Licenses\*"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
+Source: "..\..\Libraries\Packages\ReadMe-GPL.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
+Source: "..\..\Libraries\Packages\ReadMe-BSD.txt"; DestDir: "{app}\share\licenses"; Flags: ignoreversion
 Source: ".\COPYING"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\..\..\Build\Windows\Win32\Release\bin\gstreamer\plugins\*.dll"; DestDir: "{app}\lib\gstreamer-0.10"; Flags: "ignoreversion"; Excludes: "*transmitter*,libgstffmpeg.dll"
-Source: "..\..\..\Build\Windows\Win32\Release\bin\gstreamer\plugins\*transmitter*"; DestDir: "{app}\lib\farsight2-0.0"; Flags: "ignoreversion";
-Source: "..\..\..\Shared\Build\Windows\Win32\etc\*"; DestDir: "{app}\etc"; Flags: ignoreversion  recursesubdirs createallsubdirs
+Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\plugins\*.dll"; DestDir: "{app}\lib\gstreamer-0.10"; Flags: "ignoreversion"; Excludes: "*transmitter*,libgstffmpeg.dll"
+Source: "..\..\Build\Windows\Win32\Release\bin\gstreamer\plugins\*transmitter*"; DestDir: "{app}\lib\farsight2-0.0"; Flags: "ignoreversion";
+Source: "..\..\Shared\Build\Windows\Win32\etc\*"; DestDir: "{app}\etc"; Flags: ignoreversion  recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
