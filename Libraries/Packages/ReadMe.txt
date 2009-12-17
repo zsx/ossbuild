@@ -51,3 +51,4 @@ libdvdcss	-	1.2.9		-	http://download.videolan.org/pub/videolan/libdvdcss/1.2.9/l
 sqlite 		- 	3.6.20 		- 	http://www.sqlite.org/sqlite-amalgamation-3.6.20.tar.gz
 libdts		-	0.0.5		-	http://download.videolan.org/pub/videolan/libdca/0.0.5/libdca-0.0.5.tar.bz2
 flac		-	1.2.1		-	http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download
+iconv		-	20090213	-	http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/win-iconv-dev_tml-20090213_win32.zip

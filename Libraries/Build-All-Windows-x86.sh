@@ -83,7 +83,7 @@ if [ ! -f "$LibDir/iconv.lib" ]; then
 	mkdir_and_move "$IntDir/win-iconv"
 	copy_files_to_dir "$LIBRARIES_DIR/Source/Win-Iconv/*.c $LIBRARIES_DIR/Source/Win-Iconv/*.h" .
 	
-	gcc -I"$IncludeDir" -O2 -c win_iconv.c 
+	gcc -I"$IncludeDir" -O2 -DUSE_LIBICONV_DLL -c win_iconv.c 
 	ar crv libiconv.a win_iconv.o 
 	#gcc $(CFLAGS) -O2 -shared -o iconv.dll 
 	dlltool --export-all-symbols -D iconv.dll -l libiconv.dll.a -z in.def libiconv.a
