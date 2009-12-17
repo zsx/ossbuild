@@ -569,7 +569,6 @@ fi
 
 #libcelt
 if [ ! -f "$BinDir/libcelt-0.dll" ]; then 
-	echo $PKG_DIR_LIBCELT
 	unpack_gzip_and_move "libcelt.tar.gz" "$PKG_DIR_LIBCELT"
 	mkdir_and_move "$IntDir/libcelt"
 	
