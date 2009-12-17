@@ -1,0 +1,14 @@
+# libcelt pkg-config source file
+
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: celt
+Description: CELT is a low-delay audio codec
+Version: 0.6.1
+Requires:
+Conflicts:
+Libs: -L${libdir} -lcelt -lm
+Cflags: -I${includedir}

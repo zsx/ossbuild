@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Celt"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="celt.lib"
+	/>
+	<UserMacro
+		Name="LibCeltMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibCeltMinorVersion"
+		Value="7"
+	/>
+	<UserMacro
+		Name="LibCeltMicroVersion"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibCeltApiInterfaceAge"
+		Value="0"
+	/>
+	<UserMacro
+		Name="LibCeltVersionString"
+		Value="$(LibCeltMajorVersion).$(LibCeltMinorVersion).$(LibCeltMicroVersion)"
+	/>
+	<UserMacro
+		Name="LibCeltApiVersionString"
+		Value="$(LibCeltMajorVersion).$(LibCeltMinorVersion)"
+	/>
+	<UserMacro
+		Name="LibCeltLibVersionString"
+		Value="$(LibCeltApiVersionString)-$(LibCeltApiInterfaceAge)"
+	/>
+</VisualStudioPropertySheet>

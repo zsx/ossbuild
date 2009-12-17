@@ -567,6 +567,23 @@ if [ ! -f "$BinDir/libvorbis-0.dll" ]; then
 	reset_flags
 fi
 
+#libcelt
+if [ ! -f "$BinDir/libcelt-0.dll" ]; then 
+	echo $PKG_DIR_LIBCELT
+	unpack_gzip_and_move "libcelt.tar.gz" "$PKG_DIR_LIBCELT"
+	mkdir_and_move "$IntDir/libcelt"
+	
+	LDFLAGS="$LDFLAGS -logg"
+	$PKG_DIR/configure --disable-oggtest --with-ogg-libraries=$LibDir --with-ogg-includes=$IncludeDir --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	make && make install
+	
+	copy_files_to_dir "$LIBRARIES_PATCH_DIR/celt/*.def" .
+	$MSLIB /name:libcelt-0.dll /out:celt.lib /machine:$MSLibMachine /def:libcelt.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	reset_flags
+fi
+
 #libtheora
 if [ ! -f "$BinDir/libtheora-0.dll" ]; then 
 	unpack_bzip2_and_move "libtheora.tar.bz2" "$PKG_DIR_LIBTHEORA"
