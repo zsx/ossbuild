@@ -2,7 +2,10 @@
 
 TOP=$(dirname $0)/..
 
-CFLAGS="$CFLAGS -O2 -fno-strict-aliasing -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
+CFLAGS="$CFLAGS -fno-strict-aliasing -fomit-frame-pointer -mms-bitfields -pipe -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
+CPPFLAGS="$CPPFLAGS -DMINGW32 -D__MINGW32__"
+LDFLAGS="-Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc "
+CXXFLAGS="${CFLAGS}"
 
 ##GCC 4.4+ doesn't set the stack alignment how we'd like which causes problems when 
 ##loading shared libraries such as the ffmpeg ones through Windows' LoadLibrary() function.
@@ -25,6 +28,9 @@ cd "$IntDir"
 #Add MS build tools
 setup_ms_build_env_path
 
+#Generate libtool .la files
+generate_all_wapi_libtool_la_x86
+
 #clear_flags
 
 #Not using dwarf2 yet
@@ -44,7 +50,9 @@ if [ ! -f "$LibDir/intl.lib" ]; then
 	cp "$LibDir/libintl.a" "$LibDir/intl.lib"
 	strip --strip-unneeded "$LibDir/intl.lib"
 	cp libintl.h "$IncludeDir"
+	generate_libtool_la_windows "libintl.la" "" "libintl.a"
 fi
+
 
 #Update flags to make sure we don't try and export intl (gettext) functions more than once
 #Setting it to ORIG_LDFLAGS ensures that any calls to reset_flags will include these changes.
@@ -53,28 +61,39 @@ reset_flags
 
 
 #liboil
-if [ ! -f "$BinDir/liboil-0.3-0.dll" ]; then
+if [ ! -f "$BinDir/lib${DefaultPrefix}oil-0.3-0.dll" ]; then
 	unpack_gzip_and_move "liboil.tar.gz" "$PKG_DIR_LIBOIL"
 	mkdir_and_move "$IntDir/liboil"
 	
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	make && make install
+	CFLAGS="$CFLAGS -DHAVE_SYMBOL_UNDERSCORE=1"
 	
-	$MSLIB /name:liboil-0.3-0.dll /out:oil-0.3.lib /machine:$MSLibMachine /def:liboil/.libs/liboil-0.3-0.dll.def
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	make && make install
+	update_library_names_windows "lib${DefaultPrefix}oil-0.3.dll.a" "liboil-0.3.la"
+	
+	$MSLIB /name:lib${DefaultPrefix}oil-0.3-0.dll /out:oil-0.3.lib /machine:$MSLibMachine /def:liboil/.libs/lib${DefaultPrefix}oil-0.3-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
+	
+	reset_flags
 fi
 
 #pthreads
-if [ ! -f "$BinDir/pthreadGC2.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}pthreadGC2.dll" ]; then 
 	unpack_gzip_and_move "pthreads-w32.tar.gz" "$PKG_DIR_PTHREADS"
+	patch -u -N -i "$LIBRARIES_PATCH_DIR/pthreads-w32/sched.h.patch"
 	mkdir_and_move "$IntDir/pthreads"
+	
 	cd "$PKG_DIR"
+	change_package "lib${DefaultPrefix}pthreadGC\$(DLL_VER).dll" "." "GNUmakefile" "GC_DLL"
 	make GC-inlined
-	$MSLIB /name:pthreadGC2.dll /out:pthreadGC2.lib /machine:$MSLibMachine /def:pthread.def
-	move_files_to_dir "*.exp *.lib *.a" "$LibDir"
-	move_files_to_dir "*.dll" "$BinDir"
+	$MSLIB /name:lib${DefaultPrefix}pthreadGC2.dll /out:pthreadGC2.lib /machine:$MSLibMachine /def:pthread.def
+	copy_files_to_dir "*.exp *.lib *.a" "$LibDir"
+	copy_files_to_dir "*.dll" "$BinDir"
 	copy_files_to_dir "pthread.h sched.h" "$IncludeDir"
 	make clean
+	
+	generate_libtool_la_windows "libpthreadGC2.la" "lib${DefaultPrefix}pthreadGC2.dll" "libpthreadGC2.dll.a"
 fi
 
 #win-iconv
@@ -85,102 +104,132 @@ if [ ! -f "$LibDir/iconv.lib" ]; then
 	
 	gcc -I"$IncludeDir" -O2 -DUSE_LIBICONV_DLL -c win_iconv.c 
 	ar crv libiconv.a win_iconv.o 
-	#gcc $(CFLAGS) -O2 -shared -o iconv.dll 
-	dlltool --export-all-symbols -D iconv.dll -l libiconv.dll.a -z in.def libiconv.a
+	#gcc $(CFLAGS) -O2 -shared -o lib${DefaultPrefix}iconv.dll
+	dlltool --export-all-symbols -D lib${DefaultPrefix}iconv.dll -l libiconv.dll.a -z in.def libiconv.a
 	ranlib libiconv.dll.a
-	gcc -shared -s -mwindows -def in.def -o iconv.dll libiconv.a
+	gcc -shared -s -mwindows -def in.def -o lib${DefaultPrefix}iconv.dll libiconv.a
 	cp iconv.h "$IncludeDir"
 	
-	$MSLIB /name:iconv.dll /out:iconv.lib /machine:$MSLibMachine /def:in.def
+	$MSLIB /name:lib${DefaultPrefix}iconv.dll /out:iconv.lib /machine:$MSLibMachine /def:in.def
 	move_files_to_dir "*.dll" "$BinDir"
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
 	copy_files_to_dir "*.dll.a" "$LibDir"
+	
+	generate_libtool_la_windows "libiconv.la" "lib${DefaultPrefix}iconv.dll" "libiconv.dll.a"
 fi
 
 #zlib
 #Can't use separate build dir
-if [ ! -f "$BinDir/zlib1.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}z.dll" ]; then 
 	unpack_zip_and_move_windows "zlib.zip" "zlib" "zlib"
 	mkdir_and_move "$IntDir/zlib"
 	cd "$PKG_DIR"
 	
 	#cp contrib/asm686/match.S ./match.S
 	#make LOC=-DASMV OBJA=match.o -fwin32/Makefile.gcc
-	make -fwin32/Makefile.gcc zlib1.dll
+	change_package "lib${DefaultPrefix}z.dll" "win32" "Makefile.gcc" "SHAREDLIB"
+	make -fwin32/Makefile.gcc lib${DefaultPrefix}z.dll
 	INCLUDE_PATH=$IncludeDir LIBRARY_PATH=$BinDir make install -fwin32/Makefile.gcc
-	cp -p zlib1.dll "$BinDir"
+	
+	cp -p lib${DefaultPrefix}z.dll "$BinDir"
 	make clean -fwin32/Makefile.gcc
 	
 	mv "$BinDir/libzdll.a" "$LibDir/libz.dll.a"
 	rm -f "$BinDir/libz.a"
 	
-	$MSLIB /name:zlib1.dll /out:z.lib /machine:$MSLibMachine /def:win32/zlib.def
+	$MSLIB /name:lib${DefaultPrefix}z.dll /out:z.lib /machine:$MSLibMachine /def:win32/zlib.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
+	
+	generate_libtool_la_windows "libz.la" "lib${DefaultPrefix}z.dll" "libz.dll.a"
 fi
 
 #bzip2
-if [ ! -f "$BinDir/libbz2.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}bz2.dll" ]; then 
 	unpack_gzip_and_move "bzip2.tar.gz" "$PKG_DIR_BZIP2"
 	mkdir_and_move "$IntDir/bzip2"
 	
 	cd "$PKG_DIR"
 	
-	make
-	make -f Makefile-libbz2_so
-	make install PREFIX=$InstallDir
+	gcc -DDLL_EXPORT -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -c blocksort.c
+	gcc -DDLL_EXPORT -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -c huffman.c
+	gcc -DDLL_EXPORT -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -c crctable.c
+	gcc -DDLL_EXPORT -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -c randtable.c
+	gcc -DDLL_EXPORT -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -c compress.c
+	gcc -DDLL_EXPORT -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -c decompress.c
+	gcc -DDLL_EXPORT -Wall -Winline -O2 -D_FILE_OFFSET_BITS=64 -c bzlib.c
+	rm -f libbz2.a
+	ar cq libbz2.a blocksort.o huffman.o crctable.o randtable.o compress.o decompress.o bzlib.o
+	gcc -shared -o lib${DefaultPrefix}bz2.dll blocksort.o huffman.o crctable.o randtable.o compress.o decompress.o bzlib.o
+	
 	
 	cp -p libbz2.a "$LibDir/libbz2.a"
-	cp -p libbz2.so.1.0 "$BinDir/libbz2.dll"
+	cp -p lib${DefaultPrefix}bz2.dll "$BinDir/"
 	
-	make clean
+	pexports lib${DefaultPrefix}bz2.dll > "in.def"
+	sed -e 's/DATA//g' in.def > in-mod.def
+	dlltool --dllname lib${DefaultPrefix}bz2.dll -d in-mod.def -l libbz2.dll.a
+	cp -p libbz2.dll.a "$LibDir/"
+	
+	make
+	make install PREFIX=$InstallDir
 	remove_files_from_dir "*.exe"
 	remove_files_from_dir "*.so.*"
 	
-	$MSLIB /name:libbz2.dll /out:bz2.lib /machine:$MSLibMachine /def:libbz2.def
+	$MSLIB /name:lib${DefaultPrefix}bz2.dll /out:bz2.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	copy_files_to_dir "bzlib.h" "$IncludeDir"
+	
+	generate_libtool_la_windows "libbz2.la" "lib${DefaultPrefix}bz2.dll" "libbz2.dll.a"
+	
+	reset_flags
 fi
 
 #glew
-if [ ! -f "$BinDir/glew32.dll" ]; then
+if [ ! -f "$BinDir/lib${DefaultPrefix}glew32.dll" ]; then
 	unpack_gzip_and_move "glew.tar.gz" "$PKG_DIR_GLEW"
 	mkdir_and_move "$IntDir/glew"
 	
 	cd "$PKG_DIR"
+	change_package "lib${DefaultPrefix}\$(NAME).dll" "config" "Makefile.mingw" "LIB.SONAME"
+	change_package "lib${DefaultPrefix}\$(NAME).dll" "config" "Makefile.mingw" "LIB.SHARED"
 	make
 	
 	cd "lib"
 	strip "libglew32.dll.a"
 	
-	pexports "glew32.dll" > in.def
+	pexports "lib${DefaultPrefix}glew32.dll" > in.def
 	sed -e '/LIBRARY glew32/d' -e 's/DATA//g' in.def > in-mod.def
-	$MSLIB /name:glew32.dll /out:glew32.lib /machine:$MSLibMachine /def:in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}glew32.dll /out:glew32.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
-	cp -f "glew32.dll" "$BinDir"
+	cp -f "lib${DefaultPrefix}glew32.dll" "$BinDir"
 	cp -f "libglew32.dll.a" "$LibDir"
 	
 	cd "../include/GL/"
 	mkdir -p "$IncludeDir/GL/"
 	copy_files_to_dir "glew.h wglew.h" "$IncludeDir/GL/"
+	
+	generate_libtool_la_windows "libglew32.la" "lib${DefaultPrefix}glew32.dll" "libglew32.dll.a"
 fi
 
 #expat
-#if [ ! -f "$BinDir/libexpat-1.dll" ]; then
-#	unpack_gzip_and_move "expat.tar.gz" "$PKG_DIR_EXPAT"
-#	mkdir_and_move "$IntDir/expat"
-#	
-#	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-#	make && make install
-#	
-#	copy_files_to_dir "$PKG_DIR/lib/libexpat.def" "$IntDir/expat"
-#	$MSLIB /name:libexpat-1.dll /out:expat.lib /machine:$MSLibMachine /def:libexpat.def
-#	move_files_to_dir "*.exp *.lib" "$LibDir"
-#fi
+if [ ! -f "$BinDir/lib${DefaultPrefix}expat-1.dll" ]; then
+	unpack_gzip_and_move "expat.tar.gz" "$PKG_DIR_EXPAT"
+	mkdir_and_move "$IntDir/expat"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	make && make install
+	update_library_names_windows "lib${DefaultPrefix}expat.dll.a" "libexpat.la"
+	
+	copy_files_to_dir "$PKG_DIR/lib/libexpat.def" "$IntDir/expat"
+	$MSLIB /name:libexpat-1.dll /out:expat.lib /machine:$MSLibMachine /def:libexpat.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
+fi
 
 #libxml2
-if [ ! -f "$BinDir/libxml2-2.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}xml2-2.dll" ]; then 
 	unpack_gzip_and_move "libxml2.tar.gz" "$PKG_DIR_LIBXML2"
 	mkdir_and_move "$IntDir/libxml2"
 	
@@ -189,6 +238,7 @@ if [ ! -f "$BinDir/libxml2-2.dll" ]; then
 	
 	#Compiling with iconv causes an odd dependency on "in.dll" which I think is an intermediary for iconv.a
 	$PKG_DIR/configure --with-zlib --with-iconv --with-threads=native --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	
 	#We want to ignore pthreads and use native threads. Configure does not 
 	#respect our desire so we manipulate the config.h file.
@@ -202,6 +252,8 @@ if [ ! -f "$BinDir/libxml2-2.dll" ]; then
 	
 	make && make install
 	
+	update_library_names_windows "lib${DefaultPrefix}xml2.dll.a" "libxml2.la"
+	
 	#Preprocess-only the .def.src file
 	#The preprocessor generates some odd "# 1" statements so we want to eliminate those
 	CFLAGS="$CFLAGS -I$IncludeDir/libxml2 -I$SharedIncludeDir/libxml2"
@@ -213,10 +265,12 @@ if [ ! -f "$BinDir/libxml2-2.dll" ]; then
 	#Use the output .def file to generate an MS-compatible lib file
 	$MSLIB /name:libxml2-2.dll /out:xml2.lib /machine:$MSLibMachine /def:libxml2.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
+	
+	strip "$LibDir\libxml2.dll.a"
 fi
 
 #libjpeg
-if [ ! -f "$BinDir/libjpeg-7.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}jpeg-7.dll" ]; then 
 	unpack_gzip_and_move "jpegsrc.tar.gz" "$PKG_DIR_LIBJPEG"
 	mkdir_and_move "$IntDir/libjpeg"
 	
@@ -224,6 +278,7 @@ if [ ! -f "$BinDir/libjpeg-7.dll" ]; then
 	
 	#Configure, compile, and install
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make
 	make install
 	
@@ -232,69 +287,80 @@ if [ ! -f "$BinDir/libjpeg-7.dll" ]; then
 	$MSLIB /name:libjpeg-7.dll /out:jpeg.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
+	update_library_names_windows "lib${DefaultPrefix}jpeg.dll.a" "libjpeg.la"
+	
 	reset_flags
 fi
 
 #openjpeg
-if [ ! -f "$BinDir/libopenjpeg-2.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}openjpeg-2.dll" ]; then 
 	unpack_gzip_and_move "openjpeg.tar.gz" "$PKG_DIR_OPENJPEG"
 	mkdir_and_move "$IntDir/openjpeg"
 	
 	cd "$PKG_DIR"
 	cp "$LIBRARIES_PATCH_DIR/openjpeg/Makefile" .
+	
+	change_package "${DefaultPrefix}openjpeg" "." "Makefile" "TARGET"
 	make install LDFLAGS="-lm" PREFIX=$InstallDir
 	make clean
 	
 	cd "$IntDir/openjpeg"
-	pexports "$BinDir/libopenjpeg-2.dll" | sed "s/^_//" > in.def
-	$MSLIB /name:libopenjpeg-2.dll /out:openjpeg.lib /machine:$MSLibMachine /def:in.def
+	pexports "$BinDir/lib${DefaultPrefix}openjpeg-2.dll" | sed "s/^_//" > in.def
+	$MSLIB /name:lib${DefaultPrefix}openjpeg-2.dll /out:openjpeg.lib /machine:$MSLibMachine /def:in.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	update_library_names_windows "lib${DefaultPrefix}openjpeg.dll.a"
 fi
 
 #libpng
-if [ ! -f "$BinDir/libpng12-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}png12-0.dll" ]; then 
 	unpack_gzip_and_move "libpng.tar.gz" "$PKG_DIR_LIBPNG"
 	mkdir_and_move "$IntDir/libpng"	
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
-	remove_files_from_dir "$BinDir/libpng-3.dll"
-	remove_files_from_dir "$LibDir/libpng.dll.a"
+	remove_files_from_dir "$BinDir/lib${DefaultPrefix}png-3.dll"
+	remove_files_from_dir "$LibDir/lib${DefaultPrefix}png.dll.a"
 	
-	pexports "$BinDir/libpng12-0.dll" > in.def
+	pexports "$BinDir/lib${DefaultPrefix}png12-0.dll" > in.def
 	sed -e '/LIBRARY libpng/d' -e '/DATA/d' in.def > in-mod.def
-	$MSLIB /name:libpng12-0.dll /out:png12.lib /machine:$MSLibMachine /def:in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}png12-0.dll /out:png12.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
+	
+	update_library_names_windows "lib${DefaultPrefix}png12.dll.a" "libpng12.la"
+	cp -f -p "$LibDir\libpng12.la" "$LibDir\libpng.la" 
 fi
 
 #glib
-if [ ! -f "$BinDir/libglib-2.0-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}glib-2.0-0.dll" ]; then 
 	unpack_bzip2_and_move "glib.tar.bz2" "$PKG_DIR_GLIB"
 	mkdir_and_move "$IntDir/glib"
 	
 	#Need to get rid of MS build tools b/c the makefile call is incorrectly passing it msys-style paths.
 	reset_path
 	
-	$PKG_DIR/configure --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+#	$PKG_DIR/configure --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+#	change_libname_spec
 	make && make install
 	
 	#Add in MS build tools again
 	setup_ms_build_env_path
 	
 	cd "$IntDir/glib/gio/.libs"
-	$MSLIB /name:libgio-2.0-0.dll /out:gio-2.0.lib /machine:$MSLibMachine /def:libgio-2.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}gio-2.0-0.dll /out:gio-2.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}gio-2.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	cd "../../glib/.libs"
-	$MSLIB /name:libglib-2.0-0.dll /out:glib-2.0.lib /machine:$MSLibMachine /def:libglib-2.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}glib-2.0-0.dll /out:glib-2.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}glib-2.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	cd "../../gmodule/.libs"
-	$MSLIB /name:libgmodule-2.0-0.dll /out:gmodule-2.0.lib /machine:$MSLibMachine /def:libgmodule-2.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}gmodule-2.0-0.dll /out:gmodule-2.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}gmodule-2.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	cd "../../gobject/.libs"
-	$MSLIB /name:libgobject-2.0-0.dll /out:gobject-2.0.lib /machine:$MSLibMachine /def:libgobject-2.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}gobject-2.0-0.dll /out:gobject-2.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}gobject-2.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	cd "../../gthread/.libs"
-	$MSLIB /name:libgthread-2.0-0.dll /out:gthread-2.0.lib /machine:$MSLibMachine /def:libgthread-2.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}gthread-2.0-0.dll /out:gthread-2.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}gthread-2.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
 	cd "$LibDir"
@@ -319,7 +385,7 @@ fi
 
 #libgpg-error
 if [ ! -f "$BinDir/libgpg-error-0.dll" ]; then 
-	unpack_gzip_and_move "libgpg-error.tar.gz" "$PKG_DIR_LIBGPG_ERROR"
+	unpack_bzip2_and_move "libgpg-error.tar.bz2" "$PKG_DIR_LIBGPG_ERROR"
 	mkdir_and_move "$IntDir/libgpg-error"
 	
 	CFLAGS=$ORIG_CFLAGS
@@ -347,7 +413,7 @@ fi
 
 #libgcrypt
 if [ ! -f "$BinDir/libgcrypt-11.dll" ]; then 
-	unpack_gzip_and_move "libgcrypt.tar.gz" "$PKG_DIR_LIBGCRYPT"
+	unpack_bzip2_and_move "libgcrypt.tar.bz2" "$PKG_DIR_LIBGCRYPT"
 	mkdir_and_move "$IntDir/libgcrypt"
 	
 	CFLAGS=$ORIG_CFLAGS
@@ -366,7 +432,7 @@ if [ ! -f "$BinDir/libgcrypt-11.dll" ]; then
 	cd "$LibDir"
 	rm -f "libgcrypt.def"
 fi
-
+exit 0
 #gnutls
 if [ ! -f "$BinDir/libgnutls-26.dll" ]; then 
 	unpack_bzip2_and_move "gnutls.tar.bz2" "$PKG_DIR_GNUTLS"
@@ -1070,11 +1136,39 @@ if [ ! -f "$BinDir/avcodec-gpl-52.dll" ]; then
 	
 	reset_flags
 fi
+#
+#PKG_DIR="$MAIN_DIR/GStreamer/Source/gst-ffmpeg/gst-libs/ext/ffmpeg"
+#	
+##unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
+#mkdir_and_move "$IntDir/ffmpeg-gpl"
+#
+##removed --enable-win32-threads
+##added --enable-pthreads --disable-devices --disable-libamr-nb --disable-libamr-wb
+##added -march=nocona -mmmx -msse -msse2 -msse3 -mfpmath=sse -falign-functions=64 -fforce-addr
+##made static, no shared
+#$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -march=nocona -mmmx -msse -msse2 -msse3 -mfpmath=sse -falign-functions=64 -fforce-addr -mno-cygwin -mms-bitfields -fno-common -fno-strict-aliasing -DHAVE_CONFIG_H -DHAVE_SIGNAL_H -DPTW32_LEVEL=2 -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON" --enable-gpl --enable-swscale --enable-libx264 --enable-libfaad --disable-devices --disable-libamr-nb --disable-libamr-wb --disable-encoder=roq_dpcm --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libxvid --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-pthreads --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --enable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
+#
+##Add a "gpl-" suffix to the shared libraries
+#cat "config.mak" | sed "s/^BUILDSUF=/BUILDSUF=-gpl/g" > config.mak.tmp
+#mv -f "config.mak.tmp" "config.mak"
+#
+#make 
+#
+##exit 0
+#
+#cp -p "libavutil/libavutil-gpl.a" "$LibDir/libavutil-gpl.a"
+#cp -p "libavcodec/libavcodec-gpl.a" "$LibDir/libavcodec-gpl.a"
+#cp -p "libavdevice/libavdevice-gpl.a" "$LibDir/libavdevice-gpl.a"
+#cp -p "libavfilter/libavfilter-gpl.a" "$LibDir/libavfilter-gpl.a"
+#cp -p "libavformat/libavformat-gpl.a" "$LibDir/libavformat-gpl.a"
+#cp -p "libswscale/libswscale-gpl.a" "$LibDir/libswscale-gpl.a"
+#
+#exit 0
 
 reset_flags
 
 #Make sure the shared directory has all our updates
-create_shared
+#create_shared
 
 #Cleanup CRT
 crt_shutdown

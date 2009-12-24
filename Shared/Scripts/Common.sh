@@ -10,6 +10,12 @@ common_startup() {
 	export ConfigurationName=Release
 	export MSLibMachine=x86
 	
+	export DEFAULT_PREFIX=-ossbuild-
+	export DefaultPrefix=$DEFAULT_PREFIX
+	
+	export DEFAULT_SUFFIX=
+	export DefaultSuffix=$DEFAULT_SUFFIX
+	
 	if [ "$TOP" = "" ]; then
 		export TOP=$(dirname $0)
 	fi
@@ -121,6 +127,128 @@ move_files_to_dir() {
 remove_files_from_dir() {
 	myfiles=$1
 	for f in `find $myfiles`; do rm -f "$f"; done
+}
+
+change_libtool_file_magic_windows_x86() {
+	change_cmd "file_magic_cmd" "export win32_libid_type='x86 DLL' \&\& echo \$win32_libid_type"
+}
+
+change_cmd() {
+	mycurrdir=`pwd`
+	myquote='\"'
+	mycmd="export win32_libid_type='x86 DLL' \&\& echo \$win32_libid_type"
+	mydir=.
+	myfile=libtool
+	mycmdname=file_magic_cmd
+	if [ "$1" != "" ]; then
+		mycmdname=$1
+	fi
+	if [ "$2" != "" ]; then
+		mycmd=$2
+	fi
+	if [ "$3" != "" ]; then
+		mydir=$3
+	fi
+	if [ "$4" != "" ]; then
+		myfile=$4
+	fi
+	
+	mycmd=${myquote}${mycmd}${myquote}
+	
+	cd "${mydir}"
+	cat "${myfile}" | sed "s/^${mycmdname}.*=.*$/${mycmdname}=${mycmd}/g" > "${myfile}.tmp"
+	mv -f "${myfile}.tmp" "${myfile}"
+	cd "${mycurrdir}"
+}
+
+change_suffix() {
+	if [ "$1" = "" ]; then
+		echo "Missing suffix argument in change_suffix"
+		return
+	fi
+	
+	mycurrdir=`pwd`
+	mysuffix=$1
+	mydir=.
+	myfile=config.mak
+	mysuffixname=BUILDSUF
+	if [ "$2" != "" ]; then
+		mydir=$2
+	fi
+	if [ "$3" != "" ]; then
+		myfile=$3
+	fi
+	if [ "$4" != "" ]; then
+		mysuffixname=$4
+	fi
+	
+	cd "${mydir}"
+	cat "${myfile}" | sed "s/^${mysuffixname}.*=.*$/${mysuffixname}=${mysuffix}/g" > "${myfile}.tmp"
+	mv -f "${myfile}.tmp" "${myfile}"
+	cd "${mycurrdir}"
+}
+
+change_package() {
+	mycurrdir=`pwd`
+	mypackage=$DEFAULT_PREFIX
+	mydir=.
+	myfile=Makefile
+	mypackagename=PACKAGE
+	if [ "$1" != "" ]; then
+		mypackage=$1
+	fi
+	if [ "$2" != "" ]; then
+		mydir=$2
+	fi
+	if [ "$3" != "" ]; then
+		myfile=$3
+	fi
+	if [ "$4" != "" ]; then
+		mypackagename=$4
+	fi
+	
+	cd "${mydir}"
+	cat "${myfile}" | sed "s/^${mypackagename}.*=.*$/${mypackagename}=${mypackage}/g" > "${myfile}.tmp"
+	mv -f "${myfile}.tmp" "${myfile}"
+	cd "${mycurrdir}"
+}
+
+change_libname_spec() {
+	mycurrdir=`pwd`
+	myprefix=$DEFAULT_PREFIX
+	mysuffix=$DEFAULT_SUFFIX
+	mydir=.
+	myfile=libtool
+	#libname_spec="lib\$name" --> libname_spec="lib-ossbuild-\$name"
+	mylibname_spec=libname_spec
+	myspec_1='\"lib'
+	myspec_2='\\$name'
+	myspec_3='\"'
+	if [ "$1" != "" ]; then
+		myprefix=$1
+	fi
+	if [ "$2" != "" ]; then
+		mysuffix=$2
+	fi
+	if [ "$3" != "" ]; then
+		mydir=$3
+	fi
+	if [ "$4" != "" ]; then
+		myfile=$4
+	fi
+	if [ "$5" != "" ]; then
+		mylibname_spec=$5
+	fi
+	if [ "$6" != "" ]; then
+		myprefix_ex=$6
+	fi
+	
+	myprefix=${myspec_1}${myprefix}${myspec_2}${mysuffix}${myspec_3}
+	
+	cd "${mydir}"
+	cat "${myfile}" | sed "s/^${mylibname_spec}.*=.*$/${mylibname_spec}=${myprefix}/g" > "${myfile}.tmp"
+	mv -f "${myfile}.tmp" "${myfile}"
+	cd "${mycurrdir}"
 }
 
 translate_path_to_windows() {

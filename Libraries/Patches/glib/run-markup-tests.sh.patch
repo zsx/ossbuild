@@ -1,0 +1,11 @@
+--- tests\run-markup-tests.sh	Tue Mar 31 16:04:21 2009
++++ tests\run-markup-tests.sh	Tue Dec 15 14:38:06 2009
+@@ -31,7 +31,7 @@
+   F=${srcdir:-.}/markups/valid-$I.gmarkup
+   if [ -f $F ] ; then
+     echo_v "Parsing $F, should succeed"
+-    ./markup-test $F > actual 2> $error_out || fail "failed on $F"
++    ./markup-test $F 2> $error_out | tr --delete '\r' > actual || fail "failed on $F"
+     diff ${srcdir:-.}/markups/expected-$I actual || fail "unexpected output on $F"
+     rm actual
+   fi
