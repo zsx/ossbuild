@@ -4,7 +4,7 @@ TOP=$(dirname $0)/..
 
 CFLAGS="$CFLAGS -fno-strict-aliasing -fomit-frame-pointer -mms-bitfields -pipe -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
 CPPFLAGS="$CPPFLAGS -DMINGW32 -D__MINGW32__"
-LDFLAGS="-Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc "
+LDFLAGS="-Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc"
 CXXFLAGS="${CFLAGS}"
 
 ##GCC 4.4+ doesn't set the stack alignment how we'd like which causes problems when 
@@ -224,7 +224,7 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}expat-1.dll" ]; then
 	update_library_names_windows "lib${DefaultPrefix}expat.dll.a" "libexpat.la"
 	
 	copy_files_to_dir "$PKG_DIR/lib/libexpat.def" "$IntDir/expat"
-	$MSLIB /name:libexpat-1.dll /out:expat.lib /machine:$MSLibMachine /def:libexpat.def
+	$MSLIB /name:lib${DefaultPrefix}expat-1.dll /out:expat.lib /machine:$MSLibMachine /def:libexpat.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 fi
 
@@ -263,7 +263,7 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}xml2-2.dll" ]; then
 	reset_flags
 	
 	#Use the output .def file to generate an MS-compatible lib file
-	$MSLIB /name:libxml2-2.dll /out:xml2.lib /machine:$MSLibMachine /def:libxml2.def
+	$MSLIB /name:lib${DefaultPrefix}xml2-2.dll /out:xml2.lib /machine:$MSLibMachine /def:libxml2.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
 	strip "$LibDir\libxml2.dll.a"
@@ -284,7 +284,7 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}jpeg-7.dll" ]; then
 	
 	pexports "$BinDir/libjpeg-7.dll" > in.def
 	sed -e '/LIBRARY libjpeg/d' -e 's/DATA//g' in.def > in-mod.def
-	$MSLIB /name:libjpeg-7.dll /out:jpeg.lib /machine:$MSLibMachine /def:in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}jpeg-7.dll /out:jpeg.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
 	update_library_names_windows "lib${DefaultPrefix}jpeg.dll.a" "libjpeg.la"
@@ -340,8 +340,8 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}glib-2.0-0.dll" ]; then
 	#Need to get rid of MS build tools b/c the makefile call is incorrectly passing it msys-style paths.
 	reset_path
 	
-#	$PKG_DIR/configure --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-#	change_libname_spec
+	$PKG_DIR/configure --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
 	#Add in MS build tools again
@@ -369,6 +369,12 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}glib-2.0-0.dll" ]; then
 	#This is silly - but glib 2.21.4 (at least) doesn't copy this config file even when it's needed.
 	#See bug 592773 for more information: http://bugzilla.gnome.org/show_bug.cgi?id=592773
 	cp -f "$PKG_DIR/glibconfig.h.win32" "$IncludeDir/glib-2.0/glibconfig.h"
+	
+	update_library_names_windows "lib${DefaultPrefix}glib-2.0.dll.a" "libglib-2.0.la"
+	update_library_names_windows "lib${DefaultPrefix}gio-2.0.dll.a" "libgio-2.0.la"
+	update_library_names_windows "lib${DefaultPrefix}gmodule-2.0.dll.a" "libgmodule-2.0.la"
+	update_library_names_windows "lib${DefaultPrefix}gobject-2.0.dll.a" "libgobject-2.0.la"
+	update_library_names_windows "lib${DefaultPrefix}gthread-2.0.dll.a" "libgthread-2.0.la"
 fi
 
 #openssl
@@ -384,7 +390,7 @@ fi
 #fi
 
 #libgpg-error
-if [ ! -f "$BinDir/libgpg-error-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}gpg-error-0.dll" ]; then 
 	unpack_bzip2_and_move "libgpg-error.tar.bz2" "$PKG_DIR_LIBGPG_ERROR"
 	mkdir_and_move "$IntDir/libgpg-error"
 	
@@ -392,6 +398,7 @@ if [ ! -f "$BinDir/libgpg-error-0.dll" ]; then
 	CPPFLAGS=$ORIG_CPPFLAGS
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	
 	#This file was being incorrectly linked. The script points to src/versioninfo.o when it should be 
 	#src/.libs/versioninfo.o. This attempts to correct this simply by copying the .o file to the src/ dir.
@@ -404,15 +411,17 @@ if [ ! -f "$BinDir/libgpg-error-0.dll" ]; then
 	make CPPFLAGS=
 	make install
 	
-	$MSLIB /name:libgpg-error-0.dll /out:gpg-error.lib /machine:$MSLibMachine /def:src/.libs/libgpg-error-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}gpg-error-0.dll /out:gpg-error.lib /machine:$MSLibMachine /def:src/.libs/lib${DefaultPrefix}gpg-error-0.dll.def
 	
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	update_library_names_windows "lib${DefaultPrefix}gpg-error.dll.a" "libgpg-error.la"
 	
 	reset_flags
 fi
 
 #libgcrypt
-if [ ! -f "$BinDir/libgcrypt-11.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}gcrypt-11.dll" ]; then 
 	unpack_bzip2_and_move "libgcrypt.tar.bz2" "$PKG_DIR_LIBGCRYPT"
 	mkdir_and_move "$IntDir/libgcrypt"
 	
@@ -420,21 +429,52 @@ if [ ! -f "$BinDir/libgcrypt-11.dll" ]; then
 	CPPFLAGS=$ORIG_CPPFLAGS
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	
 	reset_flags
 	
 	make && make install
 	
-	$MSLIB /name:libgcrypt-11.dll /out:gcrypt.lib /machine:$MSLibMachine /def:src/.libs/libgcrypt-11.dll.def
+	$MSLIB /name:lib${DefaultPrefix}gcrypt-11.dll /out:gcrypt.lib /machine:$MSLibMachine /def:src/.libs/lib${DefaultPrefix}gcrypt-11.dll.def
 	
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	cd "$LibDir"
 	rm -f "libgcrypt.def"
+	
+	update_library_names_windows "lib${DefaultPrefix}gcrypt.dll.a" "libgcrypt.la"
 fi
-exit 0
+
+#libtasn1
+if [ ! -f "$BinDir/lib${DefaultPrefix}tasn1-3.dll" ]; then 
+	unpack_gzip_and_move "libtasn1.tar.gz" "$PKG_DIR_LIBTASN1"
+	mkdir_and_move "$IntDir/libtasn1"
+	
+	CFLAGS=$ORIG_CFLAGS
+	CPPFLAGS=$ORIG_CPPFLAGS
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	
+	reset_flags
+	
+	make && make install
+
+	pexports "$BinDir/lib${DefaultPrefix}tasn1-3.dll" > in.def
+	sed -e "/LIBRARY lib${DefaultPrefix}tasn1-3.dll/d" -e '/DATA/d' in.def > in-mod.def
+
+	$MSLIB /name:lib${DefaultPrefix}tasn1-3.dll /out:tasn1.lib /machine:$MSLibMachine /def:in-mod.def
+	
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	cd "$LibDir"
+	rm -f "libtasn1.def"
+	
+	update_library_names_windows "lib${DefaultPrefix}tasn1.dll.a" "libtasn1.la"
+fi
+
 #gnutls
-if [ ! -f "$BinDir/libgnutls-26.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}gnutls-26.dll" ]; then 
 	unpack_bzip2_and_move "gnutls.tar.bz2" "$PKG_DIR_GNUTLS"
 	mkdir_and_move "$IntDir/gnutls"
 	
@@ -442,37 +482,47 @@ if [ ! -f "$BinDir/libgnutls-26.dll" ]; then
 	CPPFLAGS="-I$PKG_DIR/lib/includes -I$IntDir/gnutls/lib/includes"
 	#LDFLAGS="-Wl,-static-libstdc++"
 	
-	$PKG_DIR/configure --with-included-libtasn1 --disable-cxx --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	
+	$PKG_DIR/configure --disable-cxx --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	change_libname_spec "${DefaultPrefix}" "${DefaultSuffix}" "lib"
+	change_libname_spec "${DefaultPrefix}" "${DefaultSuffix}" "libextra"
 	make && make install
 	
-	$MSLIB /name:libgnutls-26.dll /out:gnutls.lib /machine:$MSLibMachine /def:lib/libgnutls-26.def
-	$MSLIB /name:libgnutls-extra-26.dll /out:gnutls-extra.lib /machine:$MSLibMachine /def:libextra/libgnutls-extra-26.def
-	$MSLIB /name:libgnutls-openssl-26.dll /out:gnutls-openssl.lib /machine:$MSLibMachine /def:libextra/libgnutls-openssl-26.def
+	$MSLIB /name:lib${DefaultPrefix}gnutls-26.dll /out:gnutls.lib /machine:$MSLibMachine /def:lib/libgnutls-26.def
+	$MSLIB /name:lib${DefaultPrefix}gnutls-extra-26.dll /out:gnutls-extra.lib /machine:$MSLibMachine /def:libextra/libgnutls-extra-26.def
+	$MSLIB /name:lib${DefaultPrefix}gnutls-openssl-26.dll /out:gnutls-openssl.lib /machine:$MSLibMachine /def:libextra/libgnutls-openssl-26.def
 	
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	cd "$BinDir" && remove_files_from_dir "libgnutls-*.def"
 	
 	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}gnutls.dll.a" "libgnutls.la"
+	update_library_names_windows "lib${DefaultPrefix}gnutls-extra.dll.a" "libgnutls-extra.la"
+	update_library_names_windows "lib${DefaultPrefix}gnutls-openssl.dll.a" "libgnutls-openssl.la"
 fi
 
 #soup
-if [ ! -f "$BinDir/libsoup-2.4-1.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}soup-2.4-1.dll" ]; then 
 	unpack_bzip2_and_move "libsoup.tar.bz2" "$PKG_DIR_LIBSOUP"
 	mkdir_and_move "$IntDir/libsoup"
 	
-	$PKG_DIR/configure --disable-glibtest --enable-ssl --enable-debug=no --disable-more-warnings --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --disable-silent-rules --disable-glibtest --enable-ssl --enable-debug=no --disable-more-warnings --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	change_package '"dlltool -U"' "." "libtool" "DLLTOOL"
 	make && make install
+	
+	exit 0
 
 	cd "libsoup/.libs"
 	pexports "$BinDir/libsoup-2.4-1.dll" > in.def
 	sed -e '/LIBRARY libsoup/d' -e 's/DATA//g' in.def > in-mod.def
 	
-	$MSLIB /name:libsoup-2.4-1.dll /out:soup-2.4.lib /machine:$MSLibMachine /def:in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}soup-2.4-1.dll /out:soup-2.4.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 fi
-
+exit 0
 #neon
 if [ ! -f "$BinDir/libneon-27.dll" ]; then 
 	unpack_gzip_and_move "neon.tar.gz" "$PKG_DIR_NEON"

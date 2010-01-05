@@ -17,9 +17,10 @@ libpng 		- 	1.2.40 		- 	http://prdownloads.sourceforge.net/libpng/libpng-1.2.40.
 glib 		- 	2.22.3 		- 	http://ftp.gnome.org/pub/gnome/sources/glib/2.22/glib-2.22.3.tar.bz2
 openssl		- 	0.9.8j 		- 	http://www.openssl.org/source/openssl-0.9.8j.tar.gz
 libgpg-error 	- 	1.7.0 		- 	http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libgpg-error/libgpg-error-1.7.tar.bz2
+libtasn1 	- 	2.3.0 		- 	http://ftp.gnu.org/gnu/libtasn1/libtasn1-2.3.tar.gz
 libgcrypt 	- 	1.4.5 		- 	http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libgcrypt/libgcrypt-1.4.5.tar.bz2
 gnutls 		- 	2.8.5 		- 	http://ftp.gnu.org/gnu/gnutls/gnutls-2.8.5.tar.bz2
-libsoup 	- 	2.28.1		- 	http://ftp.gnome.org/pub/GNOME/sources/libsoup/2.28/libsoup-2.28.1.tar.bz2
+libsoup 	- 	2.28.2		- 	http://ftp.gnome.org/pub/GNOME/sources/libsoup/2.28/libsoup-2.28.2.tar.bz2
 libneon		- 	0.29.0 		- 	http://www.webdav.org/neon/neon-0.29.0.tar.gz
 freetype 	- 	2.3.11		- 	http://mirror.its.uidaho.edu/pub/savannah/freetype/freetype-2.3.11.tar.bz2
 fontconfig 	- 	2.7.3 		- 	http://fontconfig.org/release/fontconfig-2.7.3.tar.gz
