@@ -1,5 +1,5 @@
 
-To get this to compile under msys/mingw, you have to change ws2tcpip.h (e.g. C:\msys\include\ws2tcpip.h), line 272 to be:
+To get this to compile under msys/mingw, you have to copy WSPiApi.h from the MS Platform SDK (and change the one line that has "_inline" to "__inline"), then change ws2tcpip.h (e.g. C:\msys\include\ws2tcpip.h), line 272 to be:
 
 #ifndef socklen_t
 typedef int socklen_t;

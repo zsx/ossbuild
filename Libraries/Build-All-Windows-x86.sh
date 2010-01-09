@@ -4,7 +4,7 @@ TOP=$(dirname $0)/..
 
 CFLAGS="$CFLAGS -fno-strict-aliasing -fomit-frame-pointer -mms-bitfields -pipe -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
 CPPFLAGS="$CPPFLAGS -DMINGW32 -D__MINGW32__"
-LDFLAGS="-Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc"
+LDFLAGS="-Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at "
 CXXFLAGS="${CFLAGS}"
 
 ##GCC 4.4+ doesn't set the stack alignment how we'd like which causes problems when 
@@ -267,6 +267,10 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}xml2-2.dll" ]; then
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
 	strip "$LibDir\libxml2.dll.a"
+	
+	#Unfortunate necessity for linking to the dll later. 
+	#Thankfully the linker is compatible w/ the ms .lib format
+	cp -p "$LibDir\xml2.lib" "$LibDir\libxml2.dll.a"
 fi
 
 #libjpeg
@@ -503,108 +507,145 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}gnutls-26.dll" ]; then
 	update_library_names_windows "lib${DefaultPrefix}gnutls-openssl.dll.a" "libgnutls-openssl.la"
 fi
 
+#curl
+#This is used for testing purposes only
+if [ ! -f "$BinDir/lib${DefaultPrefix}curl-4.dll" ]; then 
+	unpack_bzip2_and_move "curl.tar.bz2" "$PKG_DIR_CURL"
+	mkdir_and_move "$IntDir/curl"
+	
+	$PKG_DIR/configure --with-gnutls --enable-optimize --disable-curldebug --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	
+	make && make install
+	
+	update_library_names_windows "lib${DefaultPrefix}curl.dll.a" "libcurl.la"
+fi
+
 #soup
 if [ ! -f "$BinDir/lib${DefaultPrefix}soup-2.4-1.dll" ]; then 
 	unpack_bzip2_and_move "libsoup.tar.bz2" "$PKG_DIR_LIBSOUP"
 	mkdir_and_move "$IntDir/libsoup"
 	
+	#TODO: Check if this is no longer the case. Bug reported: https://bugzilla.gnome.org/show_bug.cgi?id=606455
+	#libsoup isn't outputting the correct exported symbols, so update Makefile.am so libtool will pick it up
+	#What we want, essentially, is this: 
+	#	libsoup_2_4_la_LDFLAGS = \
+	#		-export-symbols-regex '^(soup|_soup|soup_|_SOUP_METHOD_|SOUP_METHOD_).*' \
+	#		-version-info $(SOUP_CURRENT):$(SOUP_REVISION):$(SOUP_AGE) -no-undefined
+	cd "$PKG_DIR/"
+	change_key "libsoup" "Makefile.am" "libsoup_2_4_la_LDFLAGS" "-export-symbols-regex\ \'\^\(soup\|_soup\|soup_\|_SOUP_METHOD\|SOUP_METHOD_\)\.\*\'\ \\\\"
+	automake
+
+	#Proceed normally
+	
+	cd "$IntDir/libsoup"
 	$PKG_DIR/configure --disable-silent-rules --disable-glibtest --enable-ssl --enable-debug=no --disable-more-warnings --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
-	change_package '"dlltool -U"' "." "libtool" "DLLTOOL"
 	make && make install
-	
-	exit 0
 
 	cd "libsoup/.libs"
-	pexports "$BinDir/libsoup-2.4-1.dll" > in.def
+	pexports "$BinDir/lib${DefaultPrefix}soup-2.4-1.dll" > in.def
 	sed -e '/LIBRARY libsoup/d' -e 's/DATA//g' in.def > in-mod.def
 	
 	$MSLIB /name:lib${DefaultPrefix}soup-2.4-1.dll /out:soup-2.4.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}soup-2.4.dll.a" "libsoup-2.4.la"
 fi
-exit 0
+
 #neon
-if [ ! -f "$BinDir/libneon-27.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}neon-27.dll" ]; then 
 	unpack_gzip_and_move "neon.tar.gz" "$PKG_DIR_NEON"
 	mkdir_and_move "$IntDir/neon"
 	
-	CPPFLAGS="$CPPFLAGS -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON -UHAVE_SETLOCALE"
-	
-	$PKG_DIR/configure --with-libxml2 --with-ssl=gnutls --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --with-ssl=gnutls --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
 	cd "src/.libs"
-	pexports "$BinDir/libneon-27.dll" | sed "s/^_//" > in.def
-	sed -e '/LIBRARY libneon-27.dll/d' in.def > in-mod.def
-	$MSLIB /name:libneon-27.dll /out:neon.lib /machine:$MSLibMachine /def:in-mod.def
+	pexports "$BinDir/lib${DefaultPrefix}neon-27.dll" | sed "s/^_//" > in.def
+	sed -e '/LIBRARY lib${DefaultPrefix}neon-27.dll/d' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}neon-27.dll /out:neon.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}neon.dll.a" "libneon.la"
 fi
 
 #freetype
-if [ ! -f "$BinDir/libfreetype-6.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}freetype-6.dll" ]; then 
 	unpack_bzip2_and_move "freetype.tar.bz2" "$PKG_DIR_FREETYPE"
 	mkdir_and_move "$IntDir/freetype"
 	
-	#cp -f "$LIBRARIES_PATCH_DIR/freetype/ftoption_original.h" "$PKG_DIR/include/freetype/config/ftoption.h"
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
-	#cp -f "$LIBRARIES_PATCH_DIR/freetype/ftoption_windows.h" "$PKG_DIR/include/freetype/config/ftoption.h"	
 	
-	cp -p .libs/libfreetype.dll.a "$LibDir/freetype.lib"
+	cp -p .libs/lib${DefaultPrefix}freetype.dll.a "$LibDir/freetype.lib"
+	
+	update_library_names_windows "lib${DefaultPrefix}freetype.dll.a" "libfreetype.la"
 fi
 
 #fontconfig
-if [ ! -f "$BinDir/libfontconfig-1.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}fontconfig-1.dll" ]; then 
 	unpack_gzip_and_move "fontconfig.tar.gz" "$PKG_DIR_FONTCONFIG"
 	mkdir_and_move "$IntDir/fontconfig"
 	
-	CFLAGS="-D_WIN32_WINNT=0x0501"
-	$PKG_DIR/configure --enable-libxml2 --disable-debug --disable-static --disable-docs --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --disable-debug --disable-static --disable-docs --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install RUN_FC_CACHE_TEST=false
 	
 	#Automagically creates .lib file
 	
-	cd "$LibDir" && remove_files_from_dir "fontconfig.def"
-	
 	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}fontconfig.dll.a" "libfontconfig.la"
+	
+	cp -p "fontconfig.pc" "$LibDir/pkgconfig/"
+	
+	echo "<OSSBuild>: Please ignore install errors"
 fi
 
 #pixman
-if [ ! -f "$BinDir/libpixman-1-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}pixman-1-0.dll" ]; then 
 	unpack_gzip_and_move "pixman.tar.gz" "$PKG_DIR_PIXMAN"
-	patch -u -N -i "$LIBRARIES_PATCH_DIR/pixman/blitters-test-win32.patch"
-	
 	mkdir_and_move "$IntDir/pixman"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
 	cd "$LIBRARIES_PATCH_DIR/pixman/"
-	$MSLIB /name:libpixman-1-0.dll /out:pixman.lib /machine:$MSLibMachine /def:pixman.def
+	$MSLIB /name:lib${DefaultPrefix}pixman-1-0.dll /out:pixman.lib /machine:$MSLibMachine /def:pixman.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	update_library_names_windows "lib${DefaultPrefix}pixman-1.dll.a" "libpixman-1.la"
 fi
 
 #cairo
-if [ ! -f "$BinDir/libcairo-2.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}cairo-2.dll" ]; then 
 	unpack_gzip_and_move "cairo.tar.gz" "$PKG_DIR_CAIRO"
 	mkdir_and_move "$IntDir/cairo"
 	
 	CFLAGS="$CFLAGS -D CAIRO_HAS_WIN32_SURFACE -D CAIRO_HAS_WIN32_FONT -Wl,-lpthreadGC2"
 	$PKG_DIR/configure --enable-xlib=auto --enable-xlib-xrender=auto --enable-png=yes --enable-ft=yes --enable-pdf=yes --enable-svg=yes --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	
+	change_libname_spec
 	make && make install
 	
 	cd src/.libs/
-	$MSLIB /name:libcairo-2.dll /out:cairo.lib /machine:$MSLibMachine /def:libcairo-2.dll.def
+	$MSLIB /name:lib${DefaultPrefix}cairo-2.dll /out:cairo.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}cairo-2.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}cairo.dll.a" "libcairo.la"
 fi
 
 #pango
-if [ ! -f "$BinDir/libpango-1.0-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}pango-1.0-0.dll" ]; then 
 	unpack_bzip2_and_move "pango.tar.bz2" "$PKG_DIR_PANGO"
 	mkdir_and_move "$IntDir/pango"
 	
@@ -612,31 +653,35 @@ if [ ! -f "$BinDir/libpango-1.0-0.dll" ]; then
 	reset_path
 	
 	$PKG_DIR/configure --with-included-modules --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	
-	#Pango incorrectly creates pango-enum-types.h by running glib-mkenums and it's somehow inserting a path in the fprods like: C:/msys
-	#Since it already has pre-made ones, we just copy those over and use them
-	copy_files_to_dir "$PKG_DIR/pango/pango-enum-types.h" "$IntDir/pango/pango"
-	copy_files_to_dir "$PKG_DIR/pango/pango-enum-types.c" "$IntDir/pango/pango"
-	
+	change_libname_spec
 	make && make install
 	
 	#Add in MS build tools again
 	setup_ms_build_env_path
 	
 	cd "$IntDir/pango/pango/.libs/"
-	$MSLIB /name:libpango-1.0-0.dll /out:pango-1.0.lib /machine:$MSLibMachine /def:libpango-1.0-0.dll.def
-	$MSLIB /name:libpangoft2-1.0-0.dll /out:pangoft2-1.0.lib /machine:$MSLibMachine /def:libpangoft2-1.0-0.dll.def
-	$MSLIB /name:libpangowin32-1.0-0.dll /out:pangowin32-1.0.lib /machine:$MSLibMachine /def:libpangowin32-1.0-0.dll.def
-	$MSLIB /name:libpangocairo-1.0-0.dll /out:pangocairo-1.0.lib /machine:$MSLibMachine /def:libpangocairo-1.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}pango-1.0-0.dll /out:pango-1.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}pango-1.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}pangoft2-1.0-0.dll /out:pangoft2-1.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}pangoft2-1.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}pangowin32-1.0-0.dll /out:pangowin32-1.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}pangowin32-1.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}pangocairo-1.0-0.dll /out:pangocairo-1.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}pangocairo-1.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	update_library_names_windows "lib${DefaultPrefix}pango-1.0.dll.a" "libpango-1.0.la"
+	update_library_names_windows "lib${DefaultPrefix}pangoft2-1.0.dll.a" "libpangoft2-1.0.la"
+	update_library_names_windows "lib${DefaultPrefix}pangowin32-1.0.dll.a" "libpangowin32-1.0.la"
+	update_library_names_windows "lib${DefaultPrefix}pangocairo-1.0.dll.a" "libpangocairo-1.0.la"
+	
+	cd "$LibDir" && remove_files_from_dir "pango*.def"
 fi
 
 #sdl
-if [ ! -f "$BinDir/SDL.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}SDL.dll" ]; then 
 	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
 	mkdir_and_move "$IntDir/sdl"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
+	#Required b/c SDL removes the "lib" portion from the name. This reinserts it.
+	change_libname_spec "lib${DefaultPrefix}"
 	make && make install
 	
 	cp $PKG_DIR/include/SDL_config.h.default $IncludeDir/SDL/SDL_config.h
@@ -644,13 +689,18 @@ if [ ! -f "$BinDir/SDL.dll" ]; then
 	
 	cd build/.libs
 	
-	pexports "$BinDir/SDL.dll" | sed "s/^_//" > in.def
-	sed -e '/LIBRARY SDL.dll/d' in.def > in-mod.def
-	$MSLIB /name:SDL.dll /out:sdl.lib /machine:$MSLibMachine /def:in-mod.def
+	pexports "$BinDir/lib${DefaultPrefix}SDL.dll" | sed "s/^_//" > in.def
+	sed -e '/LIBRARY lib${DefaultPrefix}SDL.dll/d' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}SDL.dll /out:sdl.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	reset_flags
+	
+	cd "$LibDir/"
+	mv "liblib${DefaultPrefix}SDL.dll.a" "lib${DefaultPrefix}SDL.dll.a"
+	update_library_names_windows "lib${DefaultPrefix}SDL.dll.a" "libSDL.la"
+	change_key "." "libSDL.la" "library_names" "\'libSDL.dll.a\'"
 fi
-
+exit 0
 #libogg
 if [ ! -f "$BinDir/libogg-0.dll" ]; then 
 	unpack_gzip_and_move "libogg.tar.gz" "$PKG_DIR_LIBOGG"

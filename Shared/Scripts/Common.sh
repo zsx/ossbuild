@@ -213,6 +213,31 @@ change_package() {
 	cd "${mycurrdir}"
 }
 
+change_key() {
+	mycurrdir=`pwd`
+	mydir=.
+	myfile=Makefile
+	mykey=
+	myvalue=
+	if [ "$1" != "" ]; then
+		mydir=$1
+	fi
+	if [ "$2" != "" ]; then
+		myfile=$2
+	fi
+	if [ "$3" != "" ]; then
+		mykey=$3
+	fi
+	if [ "$4" != "" ]; then
+		myvalue=$4
+	fi
+	
+	cd "${mydir}"
+	cat "${myfile}" | sed "s:^${mykey}.*=.*$:${mykey}=${myvalue}:g" > "${myfile}.tmp"
+	mv -f "${myfile}.tmp" "${myfile}"
+	cd "${mycurrdir}"
+}
+
 change_libname_spec() {
 	mycurrdir=`pwd`
 	myprefix=$DEFAULT_PREFIX

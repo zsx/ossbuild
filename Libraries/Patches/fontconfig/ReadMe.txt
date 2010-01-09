@@ -1,6 +1,5 @@
-Had to create our own config.h
 
-Also, had to edit all lines that #include <unistd.h> and surrounded them with:
+Had to edit all lines that #include <unistd.h> and surrounded them with:
 
 #ifndef _MSC_VER
 #include <unistd.h>
