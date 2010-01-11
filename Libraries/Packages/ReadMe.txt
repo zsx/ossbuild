@@ -30,6 +30,7 @@ cairo 		- 	1.8.8 		- 	http://cairographics.org/releases/cairo-1.8.8.tar.gz
 pango 		-	1.26.2 		- 	http://ftp.gnome.org/pub/GNOME/sources/pango/1.26/pango-1.26.2.tar.bz2
 libogg 		- 	1.1.4 		- 	http://downloads.xiph.org/releases/ogg/libogg-1.1.4.tar.gz
 libvorbis 	- 	1.2.3 		- 	http://downloads.xiph.org/releases/vorbis/libvorbis-1.2.3.tar.bz2
+libcelt 	- 	0.7.0 		- 	http://downloads.xiph.org/releases/celt/celt-0.7.0.tar.gz
 libtheora 	- 	1.1.1 		- 	http://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.bz2
 libmms 		- 	win32 branch	- 	https://code.launchpad.net/~libmms-devel/libmms/win32
 libmms-0.4.0	- 	0.4.0 		- 	http://sourceforge.net/projects/libmms/files/libmms/0.4/libmms-0.4.tar.gz/download
