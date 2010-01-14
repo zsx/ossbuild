@@ -339,6 +339,8 @@ fi
 #glib
 if [ ! -f "$BinDir/lib${DefaultPrefix}glib-2.0-0.dll" ]; then 
 	unpack_bzip2_and_move "glib.tar.bz2" "$PKG_DIR_GLIB"
+	patch -u -N -i "$LIBRARIES_PATCH_DIR/glib/run-markup-tests.sh.patch"
+	
 	mkdir_and_move "$IntDir/glib"
 	
 	#Need to get rid of MS build tools b/c the makefile call is incorrectly passing it msys-style paths.
@@ -871,9 +873,9 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}mms-0.dll" ]; then
 	
 	update_library_names_windows "lib${DefaultPrefix}mms.dll.a" "libmms.la"
 fi
-exit 0
+
 #x264
-if [ ! -f "$BinDir/libx264-67.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}x264-67.dll" ]; then 
 	unpack_bzip2_and_move "x264.tar.bz2" "$PKG_DIR_X264"
 	mkdir_and_move "$IntDir/x264"
 	
@@ -882,8 +884,9 @@ if [ ! -f "$BinDir/libx264-67.dll" ]; then
 	cd "$PKG_DIR/"
 	CFLAGS="$CFLAGS -D X264_CPU_SHUFFLE_IS_FAST=0x000800"
 	./configure --disable-mp4-output --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_key "." "config.mak" "SONAME" "lib${DefaultPrefix}x264-67.dll"
+	change_key "." "config.mak" "IMPLIBNAME" "lib${DefaultPrefix}x264.dll.a"
 	make && make install
-	make clean && make distclean
 	reset_flags
 	
 	reset_path
@@ -892,16 +895,19 @@ if [ ! -f "$BinDir/libx264-67.dll" ]; then
 	cd "$IntDir/x264"
 	rm -rf "$LibDir/libx264.a"
 	copy_files_to_dir "$LIBRARIES_PATCH_DIR/x264/libx264.def" .
-	$MSLIB /name:libx264-67.dll /out:x264.lib /machine:$MSLibMachine /def:libx264.def
+	$MSLIB /name:lib${DefaultPrefix}x264-67.dll /out:x264.lib /machine:$MSLibMachine /def:libx264.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	update_library_names_windows "lib${DefaultPrefix}x264.dll.a" "libx264.la"
 fi
 
 #libspeex
-if [ ! -f "$BinDir/libspeex-1.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}speex-1.dll" ]; then 
 	unpack_gzip_and_move "speex.tar.gz" "$PKG_DIR_LIBSPEEX"
 	mkdir_and_move "$IntDir/libspeex"
 	
-	$PKG_DIR/configure --disable-oggtest --enable-sse --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --enable-sse --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
 	copy_files_to_dir "$PKG_DIR/win32/*.def" .
@@ -917,26 +923,34 @@ if [ ! -f "$BinDir/libspeex-1.dll" ]; then
 	echo speex_header_free >> libspeex-mod.def
 	echo speex_mode_list >> libspeex-mod.def
 	
-	$MSLIB /name:libspeex-1.dll /out:speex.lib /machine:$MSLibMachine /def:libspeex-mod.def
-	$MSLIB /name:libspeexdsp-1.dll /out:speexdsp.lib /machine:$MSLibMachine /def:libspeexdsp-mod.def
+	$MSLIB /name:lib${DefaultPrefix}speex-1.dll /out:speex.lib /machine:$MSLibMachine /def:libspeex-mod.def
+	$MSLIB /name:lib${DefaultPrefix}speexdsp-1.dll /out:speexdsp.lib /machine:$MSLibMachine /def:libspeexdsp-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	cp -p "libspeex/.libs/lib${DefaultPrefix}speexdsp.dll.a" "$LibDir"
+	
+	update_library_names_windows "lib${DefaultPrefix}speex.dll.a" "libspeex.la"
+	update_library_names_windows "lib${DefaultPrefix}speexdsp.dll.a" "libspeexdsp.la"
 fi
 
 #libschroedinger (dirac support)
-if [ ! -f "$BinDir/libschroedinger-1.0-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}schroedinger-1.0-0.dll" ]; then 
 	unpack_gzip_and_move "schroedinger.tar.gz" "$PKG_DIR_LIBSCHROEDINGER"
 	
 	mkdir_and_move "$IntDir/libschroedinger"
 	
 	LDFLAGS="-lstdc++_s"
 	$PKG_DIR/configure --with-thread=auto --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
 	cd "schroedinger/.libs"
-	$MSLIB /name:libschroedinger-1.0-0.dll /out:schroedinger-1.0.lib /machine:$MSLibMachine /def:libschroedinger-1.0-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}schroedinger-1.0-0.dll /out:schroedinger-1.0.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}schroedinger-1.0-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}schroedinger-1.0.dll.a" "libschroedinger-1.0.la"
 fi
 
 #Not supported at this time!
@@ -960,57 +974,76 @@ fi
 #fi
 
 #mp3lame
-if [ ! -f "$BinDir/libmp3lame-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}mp3lame-0.dll" ]; then 
 	unpack_gzip_and_move "lame.tar.gz" "$PKG_DIR_MP3LAME"
 	mkdir_and_move "$IntDir/mp3lame"
 	
 	$PKG_DIR/configure --enable-expopt=no --enable-debug=no --disable-brhist -disable-frontend --enable-nasm --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
-	pexports "$BinDir/libmp3lame-0.dll" | sed "s/^_//" > in.def
+	pexports "$BinDir/lib${DefaultPrefix}mp3lame-0.dll" | sed "s/^_//" > in.def
 	sed '/LIBRARY libmp3lame-0.dll/d' in.def > in-mod.def
-	$MSLIB /name:libmp3lame-0.dll /out:mp3lame.lib /machine:$MSLibMachine /def:in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}mp3lame-0.dll /out:mp3lame.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	update_library_names_windows "lib${DefaultPrefix}mp3lame.dll.a" "libmp3lame.la"
 fi
 
 #ffmpeg
-if [ ! -f "$BinDir/avcodec-52.dll" ]; then 
-	#We want to use the GStreamer-supplied version of ffmpeg in case there are differences
-	PKG_DIR="$MAIN_DIR/GStreamer/Source/gst-ffmpeg/gst-libs/ext/ffmpeg"
-	
-	#unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
+if [ ! -f "$BinDir/lib${DefaultPrefix}avcodec-52.dll" ]; then 
+	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
 	mkdir_and_move "$IntDir/ffmpeg"
 	
 	#LGPL-compatible version
-	#On Windows, you must disable the roq decoder in order to build shared libraries. This is a known bug.
-	$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -mno-cygwin -mms-bitfields -fno-common -fno-strict-aliasing -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON" --disable-encoder=roq_dpcm --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --enable-zlib --enable-bzlib --enable-w32threads --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
-	
+	#Please see http://www.mail-archive.com/ffmpeg-issues@lscube.org/msg04083.html 
+	#for an explanation on why -Dav_cold=' ' works
+	#-mincoming-stack-boundary=4 -fno-caller-saves
+	#--disable-encoder=dnxhd --disable-decoder=dnxhd --disable-muxer=dnxhd --disable-demuxer=dnxhd --disable-parser=dnxhd
+	#These tests fail:
+	#dnxhd_1080i
+        #dnxhd_720p
+        #dnxhd_720p_rd
+	#adpcm_ms
+	#wma
+	$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -mno-cygwin -mms-bitfields -fno-common -fno-strict-aliasing -Dav_cold= -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
+	change_key "." "config.mak" "LIBPREF" "lib${DefaultPrefix}"
+	change_key "." "config.mak" "SLIBPREF" "lib${DefaultPrefix}"
+	#Adds $(SLIBPREF) to lib names when linking
+	change_key "." "common.mak" "FFEXTRALIBS\ \\:" "\$\(addprefix\ -l\$\(SLIBPREF\),\$\(addsuffix\ \$\(BUILDSUF\),\$\(FFLIBS\)\)\)\ \$\(EXTRALIBS\)"
 	make && make install
 	
-	##If it built successfully, then the .lib and .dll files are all in the lib/ folder with 
-	##sym links. We want to take out the sym links and keep just the .lib and .dll files we need 
-	##for development and execution.
-	cd "$BinDir" && move_files_to_dir "av*.lib" "$LibDir"
-	cd "$BinDir" && remove_files_from_dir "avcodec-52.*.dll avcodec.dll avdevice-52.*.dll avdevice.dll avfilter-0.*.dll avfilter.dll avformat-52.*.dll avformat.dll avutil-49.*.dll avutil.dll"
-	cd "$LibDir" && remove_files_from_dir "avcodec-52.lib avdevice-52.lib avfilter-0.lib avformat-52.lib avutil-49.lib"
-
-	#Create .dll.a versions of the libs
-	cd "$IntDir/ffmpeg"
-	pexports "$BinDir/avutil-49.dll" | sed "s/^_//" > avutil.def
-	pexports "$BinDir/avcodec-52.dll" | sed "s/^_//" > avcodec.def
-	pexports "$BinDir/avdevice-52.dll" | sed "s/^_//" > avdevice.def
-	pexports "$BinDir/avfilter-0.dll" | sed "s/^_//" > avfilter.def
-	pexports "$BinDir/avformat-52.dll" | sed "s/^_//" > avformat.def
-	dlltool -U -d avutil.def -l libavutil.dll.a
-	dlltool -U -d avcodec.def -l libavcodec.dll.a
-	dlltool -U -d avdevice.def -l libavdevice.dll.a
-	dlltool -U -d avfilter.def -l libavfilter.dll.a
-	dlltool -U -d avformat.def -l libavformat.dll.a
-	
-	move_files_to_dir "*.dll.a" "$LibDir/"
+	#If it built successfully, then the .lib and .dll files are all in the lib/ folder with 
+	#sym links. We want to take out the sym links and keep just the .lib and .dll files we need 
+	#for development and execution.
+	cd "$BinDir" && move_files_to_dir "lib${DefaultPrefix}av*.lib" "$LibDir"
+	cd "$BinDir" && move_files_to_dir "lib${DefaultPrefix}swscale*.lib" "$LibDir"
+	cd "$BinDir" && remove_files_from_dir "lib${DefaultPrefix}avcodec-*.*.*.dll lib${DefaultPrefix}avcodec.dll lib${DefaultPrefix}avdevice-*.*.*.dll lib${DefaultPrefix}avdevice.dll lib${DefaultPrefix}avfilter-*.*.*.dll lib${DefaultPrefix}avfilter.dll lib${DefaultPrefix}avformat-*.*.*.dll lib${DefaultPrefix}avformat.dll lib${DefaultPrefix}avutil-*.*.*.dll lib${DefaultPrefix}avutil.dll   lib${DefaultPrefix}swscale-*.*.*.dll lib${DefaultPrefix}swscale.dll"
+	cd "$LibDir" && remove_files_from_dir "lib${DefaultPrefix}avcodec-*.lib lib${DefaultPrefix}avdevice-*.lib lib${DefaultPrefix}avfilter-*.lib lib${DefaultPrefix}avformat-*.lib lib${DefaultPrefix}avutil-*.lib  lib${DefaultPrefix}swscale-*.lib"
 	
 	reset_flags
+	
+	cd "$BinDir"
+	strip "lib${DefaultPrefix}avcodec-52.dll"
+	
+	cd "$LibDir"
+	mv "liblib${DefaultPrefix}avutil.dll.a" "libavutil.dll.a"
+	mv "liblib${DefaultPrefix}avcodec.dll.a" "libavcodec.dll.a"
+	mv "liblib${DefaultPrefix}avdevice.dll.a" "libavdevice.dll.a"
+	mv "liblib${DefaultPrefix}avfilter.dll.a" "libavfilter.dll.a"
+	mv "liblib${DefaultPrefix}avformat.dll.a" "libavformat.dll.a"
+	mv "liblib${DefaultPrefix}swscale.dll.a" "libswscale.dll.a"
+	mv "lib${DefaultPrefix}avutil.lib" "avutil.lib"
+	mv "lib${DefaultPrefix}avcodec.lib" "avcodec.lib"
+	mv "lib${DefaultPrefix}avdevice.lib" "avdevice.lib"
+	mv "lib${DefaultPrefix}avfilter.lib" "avfilter.lib"
+	mv "lib${DefaultPrefix}avformat.lib" "avformat.lib"
+	mv "lib${DefaultPrefix}swscale.lib" "swscale.lib"
+	
+	cd "$IntDir/ffmpeg"
+	copy_files_to_dir "$BinDir/*.dll" "."
 fi
+
 
 
 #################
@@ -1020,7 +1053,7 @@ fi
 
 
 #libnice
-if [ ! -f "$BinDir/libnice-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}nice-0.dll" ]; then 
 	unpack_gzip_and_move "libnice.tar.gz" "$PKG_DIR_LIBNICE"
 	patch -u -N -i "$LIBRARIES_PATCH_DIR/libnice/bind.c-win32.patch"
 	patch -u -N -i "$LIBRARIES_PATCH_DIR/libnice/rand.c-win32.patch"
@@ -1032,38 +1065,40 @@ if [ ! -f "$BinDir/libnice-0.dll" ]; then
 	CFLAGS="-D_SSIZE_T_ -I$PKG_DIR -I$PKG_DIR/stun -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
 	LDFLAGS="$LDFLAGS -lwsock32 -lws2_32 -liphlpapi -no-undefined -mno-cygwin -fno-common -fno-strict-aliasing -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias"
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
 	cd "nice/.libs/"
 	
-	$MSLIB /name:libnice-0.dll /out:nice.lib /machine:$MSLibMachine /def:libnice-0.dll.def
+	$MSLIB /name:lib${DefaultPrefix}nice-0.dll /out:nice.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}nice-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}nice.dll.a" "libnice.la"
 fi
 
-if [ ! -f "$BinDir/xvidcore.dll" ]; then
+if [ ! -f "$BinDir/lib${DefaultPrefix}xvidcore.dll" ]; then
 	echo "$PKG_DIR_XVIDCORE"
 	unpack_gzip_and_move "xvidcore.tar.gz" "$PKG_DIR_XVIDCORE"
 	mkdir_and_move "$IntDir/xvidcore"
 
 	cd $PKG_DIR/build/generic/
 	./configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	
-	make 
-	make install
+	change_key "." "platform.inc" "STATIC_LIB" "lib${DefaultPrefix}xvidcore\.\$\(STATIC_EXTENSION\)"
+	change_key "." "platform.inc" "SHARED_LIB" "lib${DefaultPrefix}xvidcore\.\$\(SHARED_EXTENSION\)"
+	change_key "." "platform.inc" "PRE_SHARED_LIB" "lib${DefaultPrefix}xvidcore\.\$\(SHARED_EXTENSION\)"
+	make && make install
 
-	mv $LibDir/xvidcore.dll $BinDir
-	mv $PKG_DIR/build/generic/=build/xvidcore.dll.a $LibDir
+	mv "$LibDir/lib${DefaultPrefix}xvidcore.dll" "$BinDir"
+	mv "$PKG_DIR/build/generic/=build/lib${DefaultPrefix}xvidcore.dll.a" "$LibDir/libxvidcore.dll.a"
 
-	$MSLIB /name:xvidcore.dll /out:xvidcore.lib /machine:$MSLibMachine /def:libxvidcore.def
+	$MSLIB /name:lib${DefaultPrefix}xvidcore.dll /out:xvidcore.lib /machine:$MSLibMachine /def:libxvidcore.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
-
-	make clean
-
 	
+	rm -f "$LibDir/lib${DefaultPrefix}xvidcore.a"
 fi
-
+exit 0
 if [ ! -f "$BinDir/libwavpack-1.dll" ]; then 
 	unpack_bzip2_and_move "wavpack.tar.bz2" "$PKG_DIR_WAVPACK"
 	mkdir_and_move "$IntDir/wavpack"

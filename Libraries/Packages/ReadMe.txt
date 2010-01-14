@@ -28,6 +28,7 @@ fontconfig 	- 	2.8.0 		- 	http://fontconfig.org/release/fontconfig-2.8.0.tar.gz
 pixman 		- 	0.16.4		- 	http://cairographics.org/releases/pixman-0.16.4.tar.gz
 cairo 		- 	1.8.8 		- 	http://cairographics.org/releases/cairo-1.8.8.tar.gz
 pango 		-	1.26.2 		- 	http://ftp.gnome.org/pub/GNOME/sources/pango/1.26/pango-1.26.2.tar.bz2
+libsdl		-	1.2.14		-	http://www.libsdl.org/release/SDL-1.2.14.tar.gz
 libogg 		- 	1.1.4 		- 	http://downloads.xiph.org/releases/ogg/libogg-1.1.4.tar.gz
 libvorbis 	- 	1.2.3 		- 	http://downloads.xiph.org/releases/vorbis/libvorbis-1.2.3.tar.bz2
 libcelt 	- 	0.7.0 		- 	http://downloads.xiph.org/releases/celt/celt-0.7.0.tar.gz
@@ -38,8 +39,7 @@ x264 		- 	r2245 		- 	http://download.videolan.org/pub/videolan/x264/snapshots/x2
 libspeex 	- 	1.2rc1 		- 	http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
 libschrodinger 	- 	1.0.8 		- 	http://diracvideo.org/download/schroedinger/schroedinger-1.0.8.tar.gz
 mp3lame 	- 	3.98.2 		- 	http://sourceforge.net/project/downloading.php?group_id=290&use_mirror=superb-west&filename=lame-398-2.tar.gz&a=60930405
-ffmpeg 		- 	0.5.0 		- 	http://www.ffmpeg.org/releases/ffmpeg-0.5.tar.bz2
-libsdl		-	1.2.14		-	http://www.libsdl.org/release/SDL-1.2.14.tar.gz
+ffmpeg 		- 	0.5.0 		- 	http://ffmpeg.org/releases/ffmpeg-export-snapshot.tar.bz2 [r21185]
 libnice 	- 	0.0.10 		- 	http://nice.freedesktop.org/releases/libnice-0.0.10.tar.gz
 xvidcore	-	1.2.2		-	http://downloads.xvid.org/downloads/xvidcore-1.2.2.tar.gz
 wavpack 	- 	4.60.1 		- 	http://www.wavpack.com/wavpack-4.60.1.tar.bz2
@@ -51,7 +51,7 @@ faad2 		- 	2.7 		- 	http://downloads.sourceforge.net/faac/faad2-2.7.tar.bz2
 libdvdread	-	4.1.3		-	http://www1.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdread-4.1.3.tar.bz2
 libdvdnav	-	4.1.3		-	http://www1.mplayerhq.hu/MPlayer/releases/dvdnav/libdvdnav-4.1.3.tar.bz2
 libdvdcss	-	1.2.9		-	http://download.videolan.org/pub/videolan/libdvdcss/1.2.9/libdvdcss-1.2.9.tar.bz2
-sqlite 		- 	3.6.20 		- 	http://www.sqlite.org/sqlite-amalgamation-3.6.20.tar.gz
+sqlite 		- 	3.6.22		- 	http://www.sqlite.org/sqlite-amalgamation-3.6.22.tar.gz
 libdts		-	0.0.5		-	http://download.videolan.org/pub/videolan/libdca/0.0.5/libdca-0.0.5.tar.bz2
 flac		-	1.2.1		-	http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download
 iconv		-	20090213	-	http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/win-iconv-dev_tml-20090213_win32.zip

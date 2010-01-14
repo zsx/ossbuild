@@ -417,6 +417,7 @@ generate_all_wapi_libtool_la_x86() {
 	generate_libtool_la_wapi_x86 "libd3d9.la" "libd3d9.a"
 	generate_libtool_la_wapi_x86 "libgdi32.la" "libgdi32.a"
 	generate_libtool_la_wapi_x86 "libglu32.la" "libglu32.a"
+	generate_libtool_la_wapi_x86 "libiphlpapi.la" "libiphlpapi.a"
 	generate_libtool_la_wapi_x86 "libkernel32.la" "libkernel32.a"
 	generate_libtool_la_wapi_x86 "libm.la" "libm.a"
 	generate_libtool_la_wapi_x86 "libmpr.la" "libmpr.a"

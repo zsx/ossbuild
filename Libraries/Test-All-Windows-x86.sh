@@ -2,7 +2,10 @@
 
 TOP=$(dirname $0)/..
 
-CFLAGS="$CFLAGS -fno-strict-aliasing -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
+CFLAGS="$CFLAGS -fno-strict-aliasing -fomit-frame-pointer -mms-bitfields -pipe -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON"
+CPPFLAGS="$CPPFLAGS -DMINGW32 -D__MINGW32__"
+LDFLAGS="-Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at "
+CXXFLAGS="${CFLAGS}"
 
 #Call common startup routines to load a bunch of variables we'll need
 . $TOP/Shared/Scripts/Common.sh
@@ -87,15 +90,112 @@ PKG_QUEUE_USER_APC_EX=`pwd`
 #mkdir_and_move "$IntDir/glib"
 #make check
 #
+##libgpg-error, libgcrypt were meant to be tested only from 
+##linux. The windows builds are typically cross-compiled from 
+##linux and as such, won't run under Windows.
 ###libgpg-error
 ##mkdir_and_move "$IntDir/libgpg-error"
 ##make check
 ##libgcrypt
-#mkdir_and_move "$IntDir/libgcrypt"
+##mkdir_and_move "$IntDir/libgcrypt"
+##make check
+#
+##libtasn1
+#mkdir_and_move "$IntDir/libtasn1"
 #make check
-
-
-
+#
+##libgnutls
+#mkdir_and_move "$IntDir/gnutls"
+#make check
+#
+##curl
+##TODO: Fixme
+#mkdir_and_move "$IntDir/curl"
+#make check
+#
+##soup
+##TODO: Fixme
+#mkdir_and_move "$IntDir/libsoup"
+#make check
+#
+###neon
+###TODO: Doesn't work
+##mkdir_and_move "$IntDir/neon"
+##make check CFLAGS="$CFLAGS -DLC_MESSAGES=6"
+#
+###freetype
+###No testing pkgs
+##mkdir_and_move "$IntDir/freetype"
+##make check
+#
+###fontconfig
+###TODO: Doesn't work
+##mkdir_and_move "$IntDir/fontconfig"
+##cp -p "$BinDir/lib${DefaultPrefix}fontconfig-1.dll" "test/libfontconfig-1.dll"
+##make check
+#
+##pixman
+#mkdir_and_move "$IntDir/pixman"
+#make check
+#
+###cairo
+###TODO: Doesn't work
+##mkdir_and_move "$IntDir/cairo"
+##echo "int main () { return 0; }" > main.c
+##gcc -o main.o -c main.c
+##make check CFLAGS="$CFLAGS -Wl,main.o"
+#
+##pango
+#mkdir_and_move "$IntDir/pango"
+#make check
+#
+###sdl
+###TODO: Find how to test this, if possible
+##mkdir_and_move "$IntDir/sdl"
+##make check
+#
+##libogg
+#mkdir_and_move "$IntDir/libogg"
+#make check
+#
+##libvorbis
+#mkdir_and_move "$IntDir/libvorbis"
+#make check
+#
+##libcelt
+#mkdir_and_move "$IntDir/libcelt"
+#make check
+#
+##libtheora
+#mkdir_and_move "$IntDir/libtheora"
+#make check
+#
+##libmms
+#mkdir_and_move "$IntDir/libmms"
+#make check
+#
+##x264
+#unpack_bzip2_and_move "x264.tar.bz2" "$PKG_DIR_X264"
+#cd "$PKG_DIR/"
+#wget "http://samples.mplayerhq.hu/V-codecs/h264/x264.avi"
+#make test VIDS="x264.avi"
+#
+##libspeex
+#mkdir_and_move "$IntDir/libspeex"
+#make check
+#
+##libschroedinger
+##TODO: Some tests are failing
+#mkdir_and_move "$IntDir/libschroedinger"
+#make check
+#
+##mp3lame
+#mkdir_and_move "$IntDir/mp3lame"
+#make check
+#
+#ffmpeg
+mkdir_and_move "$IntDir/ffmpeg"
+make check
 
 
 
