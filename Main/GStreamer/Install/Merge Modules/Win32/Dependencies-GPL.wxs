@@ -12,25 +12,25 @@
 		<ComponentGroupRef Id="LicenseIndependentDependencies"/>
 		
 		<?define Files="
-			avcodec$(var.GPL)-52.dll;
-			avdevice$(var.GPL)-52.dll;
-			avfilter$(var.GPL)-0.dll;
-			avformat$(var.GPL)-52.dll;
-			avutil$(var.GPL)-49.dll;
-			swscale$(var.GPL)-0.dll;
+			lib$(var.PREFIX)avcodec$(var.GPL)-52.dll;
+			lib$(var.PREFIX)avdevice$(var.GPL)-52.dll;
+			lib$(var.PREFIX)avfilter$(var.GPL)-1.dll;
+			lib$(var.PREFIX)avformat$(var.GPL)-52.dll;
+			lib$(var.PREFIX)avutil$(var.GPL)-50.dll;
+			lib$(var.PREFIX)swscale$(var.GPL)-0.dll;
 
-			libnice-0.dll;
-			xvidcore.dll;
-			liba52-0.dll;
-			libmpeg2-0.dll;
-			libmpeg2convert-0.dll;
-			libdca-0.dll;
-			libfaac-0.dll;
-			libfaad-2.dll;
-			libdvdread-4.dll;
-			libdvdnav-4.dll;
-			libdvdnavmini-4.dll;
-			libdvdcss-2.dll
+			lib$(var.PREFIX)nice-0.dll;
+			lib$(var.PREFIX)xvidcore.dll;
+			lib$(var.PREFIX)a52-0.dll;
+			lib$(var.PREFIX)mpeg2-0.dll;
+			lib$(var.PREFIX)mpeg2convert-0.dll;
+			lib$(var.PREFIX)dca-0.dll;
+			lib$(var.PREFIX)faac-0.dll;
+			lib$(var.PREFIX)faad-2.dll;
+			lib$(var.PREFIX)dvdread-4.dll;
+			lib$(var.PREFIX)dvdnav-4.dll;
+			lib$(var.PREFIX)dvdnavmini-4.dll;
+			lib$(var.PREFIX)dvdcss-2.dll
 		" ?>
 		
 		<Directory Id="TARGETDIR" Name="SourceDir">

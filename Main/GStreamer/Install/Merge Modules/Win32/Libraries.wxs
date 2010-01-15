@@ -9,27 +9,27 @@
 		<Package Id="$(var.GUID_X86_MSM_LIBRARIES_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			libgstapp-$(var.GST_VERSION).dll;
-			libgstaudio-$(var.GST_VERSION).dll;
-			libgstbase-$(var.GST_VERSION).dll;
-			libgstcdda-$(var.GST_VERSION).dll;
-			libgstcontroller-$(var.GST_VERSION).dll;
-			libgstdataprotocol-$(var.GST_VERSION).dll;
-			libgstfarsight-$(var.GST_VERSION).dll;
-			libgstfft-$(var.GST_VERSION).dll;
-			libgstgl-$(var.GST_VERSION).dll;
-			libgstinterfaces-$(var.GST_VERSION).dll;
-			libgstnet-$(var.GST_VERSION).dll;
-			libgstnetbuffer-$(var.GST_VERSION).dll;
-			libgstpbutils-$(var.GST_VERSION).dll;
-			libgstphotography-$(var.GST_VERSION).dll;
-			libgstreamer-$(var.GST_VERSION).dll;
-			libgstriff-$(var.GST_VERSION).dll;
-			libgstrtp-$(var.GST_VERSION).dll;
-			libgstrtsp-$(var.GST_VERSION).dll;
-			libgstsdp-$(var.GST_VERSION).dll;
-			libgsttag-$(var.GST_VERSION).dll;
-			libgstvideo-$(var.GST_VERSION).dll
+			lib$(var.PREFIX)gstapp-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstaudio-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstbase-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstcdda-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstcontroller-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstdataprotocol-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstfarsight-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstfft-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstgl-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstinterfaces-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstnet-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstnetbuffer-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstpbutils-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstphotography-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstreamer-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstriff-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstrtp-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstrtsp-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstsdp-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gsttag-$(var.GST_VERSION).dll;
+			lib$(var.PREFIX)gstvideo-$(var.GST_VERSION).dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">

@@ -5,4 +5,8 @@
 	Name="Output"
 	OutputDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)"
 	>
+	<UserMacro
+		Name="Prefix"
+		Value="-ossbuild-"
+	/>
 </VisualStudioPropertySheet>

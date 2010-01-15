@@ -289,8 +289,8 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}jpeg-7.dll" ]; then
 	make
 	make install
 	
-	pexports "$BinDir/libjpeg-7.dll" > in.def
-	sed -e '/LIBRARY libjpeg/d' -e 's/DATA//g' in.def > in-mod.def
+	pexports "$BinDir/lib${DefaultPrefix}jpeg-7.dll" > in.def
+	sed -e '/LIBRARY lib${DefaultPrefix}jpeg/d' -e 's/DATA//g' in.def > in-mod.def
 	$MSLIB /name:lib${DefaultPrefix}jpeg-7.dll /out:jpeg.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
@@ -641,7 +641,8 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}cairo-2.dll" ]; then
 	make && make install
 	
 	cd src/.libs/
-	$MSLIB /name:lib${DefaultPrefix}cairo-2.dll /out:cairo.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}cairo-2.dll.def
+	sed -e '/LIBRARY/d' lib${DefaultPrefix}cairo-2.dll.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}cairo-2.dll /out:cairo.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	reset_flags
@@ -1111,13 +1112,17 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}wavpack-1.dll" ]; then
 	unpack_bzip2_and_move "wavpack.tar.bz2" "$PKG_DIR_WAVPACK"
 	mkdir_and_move "$IntDir/wavpack"
 	
+	cp -p -f "$LIBRARIES_PATCH_DIR/wavpack/Makefile.in" "$PKG_DIR"
+	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
 	make && make install
 	
 	cd src/.libs	
 	$MSLIB /name:lib${DefaultPrefix}wavpack-1.dll /out:wavpack.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}wavpack-1.dll.def
-	move_files_to_dir "*.exp *.lib" "$LibDir/"	
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	reset_flags
 
 	update_library_names_windows "lib${DefaultPrefix}wavpack.dll.a" "libwavpack.la"
 fi

@@ -1,6 +1,6 @@
 <gapi-parser-input>
   <api filename="../gstreamer-sharp/gstreamer-api.raw">
-    <library name="libgstreamer-0.10.dll">
+    <library name="lib-ossbuild-gstreamer-0.10.dll">
       <namespace name="Gst">
         <dir>../../gstreamer/gst</dir>
         <!-- Needs to be bound -->
@@ -29,7 +29,7 @@
         <exclude>../../gstreamer/gst/gettext.h</exclude>
       </namespace>
     </library>
-    <library name="libgstbase-0.10.dll">
+    <library name="lib-ossbuild-gstbase-0.10.dll">
       <namespace name="Gst.Base">
         <dir>../../gstreamer/libs/gst/base</dir>
 	<!-- Needs to be bound -->
@@ -37,7 +37,7 @@
         <exclude>../../gstreamer/libs/gst/base/gstcollectpads.h</exclude>
       </namespace>
     </library>
-    <library name="libgstcontroller-0.10.dll">
+    <library name="lib-ossbuild-gstcontroller-0.10.dll">
       <namespace name="Gst.Controller">
         <dir>../../gstreamer/libs/gst/controller</dir>
 	<!-- Needs to be bound -->
@@ -46,29 +46,29 @@
         <exclude>../../gstreamer/libs/gst/controller/gstlfocontrolsourceprivate.h</exclude>
       </namespace>
     </library>
-    <library name="libgstcdda-0.10.dll">
+    <library name="lib-ossbuild-gstcdda-0.10.dll">
       <namespace name="Gst.Cdda">
         <dir>../../gst-plugins-base/gst-libs/gst/cdda</dir>
       </namespace>
     </library>
-    <library name="libgstapp-0.10.dll">
+    <library name="lib-ossbuild-gstapp-0.10.dll">
       <namespace name="Gst.App">
         <dir>../../gst-plugins-base/gst-libs/gst/app</dir>
       </namespace>
     </library>
-    <library name="libgstinterfaces-0.10.dll">
+    <library name="lib-ossbuild-gstinterfaces-0.10.dll">
       <namespace name="Gst.Interfaces">
         <dir>../../gst-plugins-base/gst-libs/gst/interfaces</dir>
 	<!-- Not bound -->
 	<exclude>../../gst-plugins-base/gst-libs/gst/interfaces/interfaces-marshal.h</exclude>
       </namespace>
     </library>
-    <library name="libgstvideo-0.10.dll">
+    <library name="lib-ossbuild-gstvideo-0.10.dll">
       <namespace name="Gst.Video">
         <dir>../../gst-plugins-base/gst-libs/gst/video</dir>
       </namespace>
     </library>
-    <library name="libgstpbutils-0.10.dll">
+    <library name="lib-ossbuild-gstpbutils-0.10.dll">
       <namespace name="Gst.PbUtils">
         <dir>../../gst-plugins-base/gst-libs/gst/pbutils</dir>
       </namespace>
