@@ -93,6 +93,9 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}pthreadGC2.dll" ]; then
 	copy_files_to_dir "pthread.h sched.h" "$IncludeDir"
 	make clean
 	
+	mv "$LibDir/libpthreadGC2.a" "$LibDir/libpthreadGC2.dll.a"
+	cp -p "$LibDir/libpthreadGC2.dll.a" "$LibDir/libpthread.dll.a"
+	
 	generate_libtool_la_windows "libpthreadGC2.la" "lib${DefaultPrefix}pthreadGC2.dll" "libpthreadGC2.dll.a"
 fi
 
@@ -729,6 +732,11 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}vorbis-0.dll" ]; then
 	change_libname_spec
 	make && make install
 	
+	#Yeah, we're calling this twice b/c for some reason all the object files are compiled for all the libs, 
+	#but they're not all being linked and installed. Calling make/make install twice seems to solve it 
+	#for whatever reason.
+	make && make install
+	
 	copy_files_to_dir "$PKG_DIR/win32/*.def" .
 	sed '/vorbis_encode_*/d' vorbis.def > vorbis-mod.def
 	$MSLIB /name:lib${DefaultPrefix}vorbis-0.dll /out:vorbis.lib /machine:$MSLibMachine /def:vorbis-mod.def
@@ -882,7 +890,6 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}x264-67.dll" ]; then
 	PATH=$PATH:$TOOLS_DIR
 	
 	cd "$PKG_DIR/"
-	CFLAGS="$CFLAGS -D X264_CPU_SHUFFLE_IS_FAST=0x000800"
 	./configure --disable-mp4-output --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_key "." "config.mak" "SONAME" "lib${DefaultPrefix}x264-67.dll"
 	change_key "." "config.mak" "IMPLIBNAME" "lib${DefaultPrefix}x264.dll.a"
@@ -891,11 +898,12 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}x264-67.dll" ]; then
 	
 	reset_path
 	setup_ms_build_env_path
-	
+
 	cd "$IntDir/x264"
 	rm -rf "$LibDir/libx264.a"
-	copy_files_to_dir "$LIBRARIES_PATCH_DIR/x264/libx264.def" .
-	$MSLIB /name:lib${DefaultPrefix}x264-67.dll /out:x264.lib /machine:$MSLibMachine /def:libx264.def
+	pexports "$BinDir/lib${DefaultPrefix}x264-67.dll" | sed "s/^_//" > in.def
+	sed -e 's/DATA//g' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}x264-67.dll /out:x264.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	update_library_names_windows "lib${DefaultPrefix}x264.dll.a" "libx264.la"
@@ -1098,28 +1106,24 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}xvidcore.dll" ]; then
 	
 	rm -f "$LibDir/lib${DefaultPrefix}xvidcore.a"
 fi
-exit 0
-if [ ! -f "$BinDir/libwavpack-1.dll" ]; then 
+
+if [ ! -f "$BinDir/lib${DefaultPrefix}wavpack-1.dll" ]; then 
 	unpack_bzip2_and_move "wavpack.tar.bz2" "$PKG_DIR_WAVPACK"
 	mkdir_and_move "$IntDir/wavpack"
 	
-	cp -f "$LIBRARIES_PATCH_DIR/wavpack/Makefile.in" "$PKG_DIR"
-	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	make && make install
 	
-	make 
-	make install
-
-	cd src/.libs
-	
-	$MSLIB /name:libwavpack-1.dll /out:wavpack.lib /machine:$MSLibMachine /def:libwavpack-1.dll.def
+	cd src/.libs	
+	$MSLIB /name:lib${DefaultPrefix}wavpack-1.dll /out:wavpack.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}wavpack-1.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"	
 
-	
+	update_library_names_windows "lib${DefaultPrefix}wavpack.dll.a" "libwavpack.la"
 fi
 
 #a52dec
-if [ ! -f "$BinDir/liba52-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}a52-0.dll" ]; then 
 	unpack_gzip_and_move "a52.tar.gz" "$PKG_DIR_A52DEC"
 	
 	./bootstrap
@@ -1127,85 +1131,107 @@ if [ ! -f "$BinDir/liba52-0.dll" ]; then
 	mkdir_and_move "$IntDir/a52dec"
 	 
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
-	pexports "$BinDir/liba52-0.dll" | sed "s/^_//" > in.def
-	sed '/LIBRARY liba52-0.dll/d' in.def > in-mod.def
-	$MSLIB /name:liba52-0.dll /out:a52.lib /machine:$MSLibMachine /def:in-mod.def
+	pexports "$BinDir/lib${DefaultPrefix}a52-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY lib${DefaultPrefix}a52-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}a52-0.dll /out:a52.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
+	update_library_names_windows "lib${DefaultPrefix}a52.dll.a" "liba52.la"
 fi
 
 #mpeg2
-if [ ! -f "$BinDir/libmpeg2-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}mpeg2-0.dll" ]; then 
 	unpack_gzip_and_move "libmpeg2.tar.gz" "$PKG_DIR_LIBMPEG2"
 	mkdir_and_move "$IntDir/libmpeg2"
 	
 	$PKG_DIR/configure --disable-sdl --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
-	pexports "$BinDir/libmpeg2-0.dll" | sed "s/^_//" > in.def
-	sed '/LIBRARY libmpeg2-0.dll/d' in.def > in-mod.def
-	$MSLIB /name:libmpeg2-0.dll /out:mpeg2.lib /machine:$MSLibMachine /def:in-mod.def
+	pexports "$BinDir/lib${DefaultPrefix}mpeg2-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY lib${DefaultPrefix}mpeg2-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}mpeg2-0.dll /out:mpeg2.lib /machine:$MSLibMachine /def:in-mod.def
+	
+	pexports "$BinDir/lib${DefaultPrefix}mpeg2convert-0.dll" | sed "s/^_//" > in-convert.def
+	sed '/LIBRARY lib${DefaultPrefix}mpeg2convert-0.dll/d' in.def > in-convert-mod.def
+	$MSLIB /name:lib${DefaultPrefix}mpeg2convert-0.dll /out:mpeg2convert.lib /machine:$MSLibMachine /def:in-convert-mod.def
+	
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
 	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}mpeg2.dll.a" "libmpeg2.la"
+	update_library_names_windows "lib${DefaultPrefix}mpeg2convert.dll.a" "libmpeg2convert.la"
 fi
 
 #libdca
-if [ ! -f "$BinDir/libdca-0.dll" ]; then 
+if [ ! -f "$BinDir/lib${DefaultPrefix}dca-0.dll" ]; then 
 	unpack_bzip2_and_move "libdca.tar.bz2" "$PKG_DIR_LIBDCA"
 	mkdir_and_move "$IntDir/libdca"
 	
 	$PKG_DIR/configure --enable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
-	pexports "$BinDir/libdca-0.dll" | sed "s/^_//" > in.def
-	sed '/LIBRARY libdca-0.dll/d' in.def > in-mod.def
-	$MSLIB /name:libdca-0.dll /out:dca.lib /machine:$MSLibMachine /def:in-mod.def
+	#Install dies b/c it can't find "libdca.a" (it instead finds lib${DefaultPrefix}dca.a)
+	#So copy it and run install again
+	cp -p "$LibDir/lib${DefaultPrefix}dca.a" "$LibDir/libdca.a"
+	make install
+	
+	rm -f "$LibDir/libdca.a"
+	rm -f "$LibDir/lib${DefaultPrefix}dca.a"
+	
+	pexports "$BinDir/lib${DefaultPrefix}dca-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY lib${DefaultPrefix}dca-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}dca-0.dll /out:dca.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
+	update_library_names_windows "lib${DefaultPrefix}dca.dll.a" "libdca.la"
 fi
 
 #faac
-if [ ! -f "$BinDir/libfaac-0.dll" ]; then 
-
+if [ ! -f "$BinDir/lib${DefaultPrefix}faac-0.dll" ]; then 
 	unpack_bzip2_and_move "faac.tar.bz2" "$PKG_DIR_FAAC"
-	
 	mkdir_and_move "$IntDir/faac"
 	 
 	$PKG_DIR/configure --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	change_libname_spec
 	make && make install
 		
 	cd $PKG_DIR/libfaac
-	pexports "$BinDir/libfaac-0.dll" | sed "s/^_//" > in.def
-	sed '/LIBRARY libfaac-0.dll/d' in.def > in-mod.def
-	$MSLIB /name:libfaac-0.dll /out:faac.lib /machine:$MSLibMachine /def:in-mod.def
+	pexports "$BinDir/lib${DefaultPrefix}faac-0.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY lib${DefaultPrefix}faac-0.dll/d' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}faac-0.dll /out:faac.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
 	reset_flags	
 
+	update_library_names_windows "lib${DefaultPrefix}faac.dll.a" "libfaac.la"
 fi
 
 #faad
-if [ ! -f "$BinDir/libfaad-2.dll" ]; then 
-
+if [ ! -f "$BinDir/lib${DefaultPrefix}faad-2.dll" ]; then 
 	unpack_bzip2_and_move "faad2.tar.bz2" "$PKG_DIR_FAAD2"
-	
 	mkdir_and_move "$IntDir/faad2"
 	 
 	cp "$LIBRARIES_PATCH_DIR/faad2/Makefile.in" .
 	
 	$PKG_DIR/configure --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	change_libname_spec
 	make && make install
 	
 	cd $PKG_DIR/libfaad
-	pexports "$BinDir/libfaad-2.dll" | sed "s/^_//" > in.def
-	sed '/LIBRARY libfaad-2.dll/d' in.def > in-mod.def
-	$MSLIB /name:libfaad-2.dll /out:faad2.lib /machine:$MSLibMachine /def:in-mod.def
+	pexports "$BinDir/lib${DefaultPrefix}faad-2.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY lib${DefaultPrefix}faad-2.dll/d' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}faad-2.dll /out:faad2.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 
 	reset_flags	
 
+	update_library_names_windows "lib${DefaultPrefix}faad.dll.a" "libfaad.la"
 fi
 
 #libdl
@@ -1221,171 +1247,124 @@ fi
 #fi
 
 #dvdread
-if [ ! -f "$BinDir/libdvdread-4.dll" ]; then 
-
+if [ ! -f "$BinDir/lib${DefaultPrefix}dvdread-4.dll" ]; then 
 	unpack_bzip2_and_move "libdvdread.tar.bz2" "$PKG_DIR_LIBDVDREAD"
-		
 	mkdir_and_move "$IntDir/libdvdread"
-	
 	 
 	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS"
+	change_libname_spec
 	make && make install
 
 	cp -f "$LIBRARIES_PATCH_DIR/dvdread/dvd_reader.h" "$IncludeDir/dvdread"/ 
 
 	cd src/.libs
-	$MSLIB /name:libdvdread-4.dll /out:dvdread.lib /machine:$MSLibMachine /def:libdvdread-4.dll.def
+	$MSLIB /name:lib${DefaultPrefix}dvdread-4.dll /out:dvdread.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}dvdread-4.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	
 	reset_flags
 
+	update_library_names_windows "lib${DefaultPrefix}dvdread.dll.a" "libdvdread.la"
 fi
 
 #dvdnav
-if [ ! -f "$BinDir/libdvdnav-4.dll" ]; then 
-
+if [ ! -f "$BinDir/lib${DefaultPrefix}dvdnav-4.dll" ]; then 
 	unpack_bzip2_and_move "libdvdnav.tar.bz2" "$PKG_DIR_LIBDVDNAV"
-		
 	mkdir_and_move "$IntDir/libdvdnav"
-	
 	 
 	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldvdread"
-
+	change_libname_spec
 	make && make install
 
 	cd src/.libs
 	
-	$MSLIB /name:libdvdnav-4.dll /out:dvdnav.lib /machine:$MSLibMachine /def:libdvdnav-4.dll.def
-	$MSLIB /name:libdvdnavmini-4.dll /out:dvdnavmini.lib /machine:$MSLibMachine /def:libdvdnavmini-4.dll.def
+	$MSLIB /name:lib${DefaultPrefix}dvdnav-4.dll /out:dvdnav.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}dvdnav-4.dll.def
+	$MSLIB /name:lib${DefaultPrefix}dvdnavmini-4.dll /out:dvdnavmini.lib /machine:$MSLibMachine /def:lib${DefaultPrefix}dvdnavmini-4.dll.def
 
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	reset_flags
 
+	update_library_names_windows "lib${DefaultPrefix}dvdnav.dll.a" "libdvdnav.la"
+	update_library_names_windows "lib${DefaultPrefix}dvdnavmini.dll.a" "libdvdnavmini.la"
 fi
 
 #dvdcss
-if [ ! -f "$BinDir/libdvdcss-2.dll" ]; then 
-
+if [ ! -f "$BinDir/lib${DefaultPrefix}dvdcss-2.dll" ]; then 
 	unpack_bzip2_and_move "libdvdcss.tar.bz2" "$PKG_DIR_LIBDVDCSS"
-		
 	mkdir_and_move "$IntDir/libdvdcss"
-	
 	 
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
-
+	change_libname_spec
 	make && make install
 
 	cd src/.libs
-	pexports "$BinDir/libdvdcss-2.dll" | sed "s/^_//" > in.def
-	sed '/LIBRARY libdvdcss-2.dll/d' in.def > in-mod.def
-	$MSLIB /name:libdvdcss-2.dll /out:dvdcss.lib /machine:$MSLibMachine /def:in-mod.def
+	pexports "$BinDir/lib${DefaultPrefix}dvdcss-2.dll" | sed "s/^_//" > in.def
+	sed '/LIBRARY lib${DefaultPrefix}dvdcss-2.dll/d' in.def > in-mod.def
+	$MSLIB /name:lib${DefaultPrefix}dvdcss-2.dll /out:dvdcss.lib /machine:$MSLibMachine /def:in-mod.def
 
 
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	reset_flags
+	
+	update_library_names_windows "lib${DefaultPrefix}dvdcss.dll.a" "libdvdcss.la"
 fi
 
-#ffmpeg GPL version
-if [ ! -f "$BinDir/avcodec-gpl-52.dll" ]; then 
-	#We want to use the GStreamer-supplied version of ffmpeg in case there are differences
-	PKG_DIR="$MAIN_DIR/GStreamer/Source/gst-ffmpeg/gst-libs/ext/ffmpeg"
-	
-	#unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
+#ffmpeg GPL
+if [ ! -f "$BinDir/lib${DefaultPrefix}avcodec-gpl-52.dll" ]; then 
+	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
 	mkdir_and_move "$IntDir/ffmpeg-gpl"
-	
-	$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -mno-cygwin -mms-bitfields -fno-common -fno-strict-aliasing -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON" --enable-gpl --enable-swscale --enable-libfaad --disable-encoder=roq_dpcm --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --extra-cflags=-fno-common --enable-zlib --enable-bzlib --enable-w32threads --enable-libmp3lame --enable-libvorbis --enable-libxvid --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
-	
-	#Add a "gpl-" suffix to the shared libraries
-	cat "config.mak" | sed "s/^BUILDSUF=/BUILDSUF=-gpl/g" > config.mak.tmp
-	mv -f "config.mak.tmp" "config.mak"
-	
-	make 
-	
-	reset_flags
 
+	#GPL-compatible version
+	#Please see http://www.mail-archive.com/ffmpeg-issues@lscube.org/msg04083.html 
+	#for an explanation on why -Dav_cold=' ' works	
+	$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -mno-cygwin -mms-bitfields -fno-common -fno-strict-aliasing -Dav_cold= -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --enable-gpl --enable-libfaad --enable-libxvid --enable-libx264 --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
+	change_key "." "config.mak" "BUILDSUF" "-gpl"
+	change_key "." "config.mak" "LIBPREF" "lib${DefaultPrefix}"
+	change_key "." "config.mak" "SLIBPREF" "lib${DefaultPrefix}"
+	#Adds $(SLIBPREF) to lib names when linking
+	change_key "." "common.mak" "FFEXTRALIBS\ \\:" "\$\(addprefix\ -l\$\(SLIBPREF\),\$\(addsuffix\ \$\(BUILDSUF\),\$\(FFLIBS\)\)\)\ \$\(EXTRALIBS\)"
+	make
+
+	reset_flags 
+	
 	#Create .dll.a versions of the libs
-	cd "$IntDir/ffmpeg-gpl"
-	dlltool -U --dllname avutil-gpl-49.dll -d "libavutil/avutil-gpl-49.def" -l libavutil-gpl.dll.a
-	dlltool -U --dllname avcodec-gpl-52.dll -d "libavcodec/avcodec-gpl-52.def" -l libavcodec-gpl.dll.a
-	dlltool -U --dllname avdevice-gpl-52.dll -d "libavdevice/avdevice-gpl-52.def" -l libavdevice-gpl.dll.a
-	dlltool -U --dllname avfilter-gpl-0.dll -d "libavfilter/avfilter-gpl-0.def" -l libavfilter-gpl.dll.a
-	dlltool -U --dllname avformat-gpl-52.dll -d "libavformat/avformat-gpl-52.def" -l libavformat-gpl.dll.a
-	dlltool -U --dllname swscale-gpl-0.dll -d "libswscale/swscale-gpl-0.def" -l libswscale-gpl.dll.a
+	dlltool -U --dllname lib${DefaultPrefix}avutil-gpl-50.dll -d "libavutil/lib${DefaultPrefix}avutil-gpl-50.def" -l libavutil-gpl.dll.a
+	dlltool -U --dllname lib${DefaultPrefix}avcodec-gpl-52.dll -d "libavcodec/lib${DefaultPrefix}avcodec-gpl-52.def" -l libavcodec-gpl.dll.a
+	dlltool -U --dllname lib${DefaultPrefix}avdevice-gpl-52.dll -d "libavdevice/lib${DefaultPrefix}avdevice-gpl-52.def" -l libavdevice-gpl.dll.a
+	dlltool -U --dllname lib${DefaultPrefix}avfilter-gpl-1.dll -d "libavfilter/lib${DefaultPrefix}avfilter-gpl-1.def" -l libavfilter-gpl.dll.a
+	dlltool -U --dllname lib${DefaultPrefix}avformat-gpl-52.dll -d "libavformat/lib${DefaultPrefix}avformat-gpl-52.def" -l libavformat-gpl.dll.a
+	dlltool -U --dllname lib${DefaultPrefix}swscale-gpl-0.dll -d "libswscale/lib${DefaultPrefix}swscale-gpl-0.def" -l libswscale-gpl.dll.a
 	
 	move_files_to_dir "*.dll.a" "$LibDir/"
 	
 	cp -p "ffmpeg.exe" "$BinDir/ffmpeg-gpl.exe"
 	
-	cp -p "libavutil/avutil-gpl-49.dll" "."
-	cp -p "libavutil/avutil-gpl-49.dll" "$BinDir/"
-	cp -p "libavutil/avutil-gpl-49.lib" "$LibDir/avutil-gpl.lib"
+	cp -p "libavutil/lib${DefaultPrefix}avutil-gpl-50.dll" "."
+	cp -p "libavutil/lib${DefaultPrefix}avutil-gpl-50.dll" "$BinDir/"
+	cp -p "libavutil/lib${DefaultPrefix}avutil-gpl-50.lib" "$LibDir/avutil-gpl.lib"
 	
-	cp -p "libavcodec/avcodec-gpl-52.dll" "."
-	cp -p "libavcodec/avcodec-gpl-52.dll" "$BinDir/"
-	cp -p "libavcodec/avcodec-gpl-52.lib" "$LibDir/avcodec-gpl.lib"
+	cp -p "libavcodec/lib${DefaultPrefix}avcodec-gpl-52.dll" "."
+	cp -p "libavcodec/lib${DefaultPrefix}avcodec-gpl-52.dll" "$BinDir/"
+	cp -p "libavcodec/lib${DefaultPrefix}avcodec-gpl-52.lib" "$LibDir/avcodec-gpl.lib"
 	
-	cp -p "libavdevice/avdevice-gpl-52.dll" "."
-	cp -p "libavdevice/avdevice-gpl-52.dll" "$BinDir/"
-	cp -p "libavdevice/avdevice-gpl-52.lib" "$LibDir/avdevice-gpl.lib"
+	cp -p "libavdevice/lib${DefaultPrefix}avdevice-gpl-52.dll" "."
+	cp -p "libavdevice/lib${DefaultPrefix}avdevice-gpl-52.dll" "$BinDir/"
+	cp -p "libavdevice/lib${DefaultPrefix}avdevice-gpl-52.lib" "$LibDir/avdevice-gpl.lib"
 	
-	cp -p "libavfilter/avfilter-gpl-0.dll" "."
-	cp -p "libavfilter/avfilter-gpl-0.dll" "$BinDir/"
-	cp -p "libavfilter/avfilter-gpl-0.lib" "$LibDir/avfilter-gpl.lib"
+	cp -p "libavfilter/lib${DefaultPrefix}avfilter-gpl-1.dll" "."
+	cp -p "libavfilter/lib${DefaultPrefix}avfilter-gpl-1.dll" "$BinDir/"
+	cp -p "libavfilter/lib${DefaultPrefix}avfilter-gpl-1.lib" "$LibDir/avfilter-gpl.lib"
 	
-	cp -p "libavformat/avformat-gpl-52.dll" "."
-	cp -p "libavformat/avformat-gpl-52.dll" "$BinDir/"
-	cp -p "libavformat/avformat-gpl-52.lib" "$LibDir/avformat-gpl.lib"
+	cp -p "libavformat/lib${DefaultPrefix}avformat-gpl-52.dll" "."
+	cp -p "libavformat/lib${DefaultPrefix}avformat-gpl-52.dll" "$BinDir/"
+	cp -p "libavformat/lib${DefaultPrefix}avformat-gpl-52.lib" "$LibDir/avformat-gpl.lib"
 	
-	cp -p "libswscale/swscale-gpl-0.dll" "."
-	cp -p "libswscale/swscale-gpl-0.dll" "$BinDir/"
-	cp -p "libswscale/swscale-gpl-0.lib" "$LibDir/swscale-gpl.lib"
-	
-	mkdir -p "$IncludeDir/libswscale"
-	cp -p "$PKG_DIR/libswscale/swscale.h" "$IncludeDir/libswscale"
+	cp -p "libswscale/lib${DefaultPrefix}swscale-gpl-0.dll" "."
+	cp -p "libswscale/lib${DefaultPrefix}swscale-gpl-0.dll" "$BinDir/"
+	cp -p "libswscale/lib${DefaultPrefix}swscale-gpl-0.lib" "$LibDir/swscale-gpl.lib"
 	
 	#Copy some other dlls for testing
-	cp -p "$BinDir/liboil-0.3-0.dll" "."
-	cp -p "$BinDir/libfaad-2.dll" "."
-	cp -p "$BinDir/libmp3lame-0.dll" "."
-	cp -p "$BinDir/libopenjpeg-2.dll" "."
-	cp -p "$BinDir/libschroedinger-1.0-0.dll" "."
-	cp -p "$BinDir/libspeex-1.dll" "."
-	cp -p "$BinDir/libogg-0.dll" "."
-	cp -p "$BinDir/libtheora-0.dll" "."
-	cp -p "$BinDir/libvorbis-0.dll" "."
-	cp -p "$BinDir/libvorbisenc-2.dll" "."
-	cp -p "$BinDir/zlib1.dll" "."
-	cp -p "$BinDir/xvidcore.dll" "."
-	
-	reset_flags
+	copy_files_to_dir "$BinDir/*.dll" "."
 fi
-#
-#PKG_DIR="$MAIN_DIR/GStreamer/Source/gst-ffmpeg/gst-libs/ext/ffmpeg"
-#	
-##unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
-#mkdir_and_move "$IntDir/ffmpeg-gpl"
-#
-##removed --enable-win32-threads
-##added --enable-pthreads --disable-devices --disable-libamr-nb --disable-libamr-wb
-##added -march=nocona -mmmx -msse -msse2 -msse3 -mfpmath=sse -falign-functions=64 -fforce-addr
-##made static, no shared
-#$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -march=nocona -mmmx -msse -msse2 -msse3 -mfpmath=sse -falign-functions=64 -fforce-addr -mno-cygwin -mms-bitfields -fno-common -fno-strict-aliasing -DHAVE_CONFIG_H -DHAVE_SIGNAL_H -DPTW32_LEVEL=2 -D_WIN32_WINNT=0x0501 -DUSE_GETADDRINFO -DHAVE_GETNAMEINFO -DHAVE_GETSOCKOPT -DHAVE_INET_NTOP -DHAVE_INET_PTON" --enable-gpl --enable-swscale --enable-libx264 --enable-libfaad --disable-devices --disable-libamr-nb --disable-libamr-wb --disable-encoder=roq_dpcm --enable-avfilter-lavf --enable-avfilter --disable-vhook --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libxvid --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-pthreads --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --enable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
-#
-##Add a "gpl-" suffix to the shared libraries
-#cat "config.mak" | sed "s/^BUILDSUF=/BUILDSUF=-gpl/g" > config.mak.tmp
-#mv -f "config.mak.tmp" "config.mak"
-#
-#make 
-#
-##exit 0
-#
-#cp -p "libavutil/libavutil-gpl.a" "$LibDir/libavutil-gpl.a"
-#cp -p "libavcodec/libavcodec-gpl.a" "$LibDir/libavcodec-gpl.a"
-#cp -p "libavdevice/libavdevice-gpl.a" "$LibDir/libavdevice-gpl.a"
-#cp -p "libavfilter/libavfilter-gpl.a" "$LibDir/libavfilter-gpl.a"
-#cp -p "libavformat/libavformat-gpl.a" "$LibDir/libavformat-gpl.a"
-#cp -p "libswscale/libswscale-gpl.a" "$LibDir/libswscale-gpl.a"
-#
-#exit 0
 
 reset_flags
 
