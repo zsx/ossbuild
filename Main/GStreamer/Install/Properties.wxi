@@ -23,7 +23,7 @@
 	<?define PRODUCT_HKLM_REGISTRY_ROOT="SOFTWARE\OSSBuild" ?>
 
 	<?define GPL="-gpl" ?>
-  <?define PREFIX="-ossbuild-" ?>
+	<?define PREFIX="-ossbuild-" ?>
 	<?define DEFAULT_LANGUAGE="1033" ?>
 	<?define MINIMAL_INSTALLER_VERSION="301" ?>
 	
@@ -33,21 +33,34 @@
 	<?define BuildDir="$(var.TOP)\Build" ?>
 	<?define SharedDir="$(var.TOP)\Shared" ?>
 	<?define LicenseDir="$(var.TOP)\Licenses" ?>
+	<?define DeploymentDir="$(var.TOP)\Deployment" ?>
 	
-	<?define OutputBuildDir="$(var.BuildDir)\Windows\Win32\$(var.Configuration)" ?>
-	<?define SharedBuildDir="$(var.SharedDir)\Build\Windows\Win32" ?>
+	<?if $(var.Platform) = "x86" ?>
+		<?define OutputBuildDir="$(var.BuildDir)\Windows\Win32\$(var.Configuration)" ?>
+		<?define SharedBuildDir="$(var.SharedDir)\Build\Windows\Win32" ?>
+		<?define MergeModuleDir="$(var.DeploymentDir)\GStreamer\Windows\x86\Merge Modules" ?>
+	<?elseif $(var.Platform) = "x64" ?>
+		<?define OutputBuildDir="$(var.BuildDir)\Windows\x64\$(var.Configuration)" ?>
+		<?define SharedBuildDir="$(var.SharedDir)\Build\Windows\x64" ?>
+		<?define MergeModuleDir="$(var.DeploymentDir)\GStreamer\Windows\x64\Merge Modules" ?>
+	<?else ?>
+		<?error Unknown or invalid platform defined ?>
+	<?endif ?>
 
 	<?define OutputBinDir="$(var.OutputBuildDir)\bin" ?>
 	<?define OutputLibDir="$(var.OutputBuildDir)\lib" ?>
 	<?define OutputIncludeDir="$(var.OutputBuildDir)\include" ?>
 
-	<?define OutputGstBinDir="$(var.OutputBuildDir)\bin\gstreamer" ?>
-	<?define OutputGstLibDir="$(var.OutputBuildDir)\lib\gstreamer" ?>
+	<?define OutputGstBinDir="$(var.OutputBuildDir)\bin" ?>
+	<?define OutputGstLibDir="$(var.OutputBuildDir)\lib" ?>
 	<?define OutputGstIncludeDir="$(var.OutputBuildDir)\include\gstreamer-$(var.GST_VERSION)" ?>
 	
 	<?define SharedBinDir="$(var.SharedBuildDir)\bin" ?>
 	<?define SharedLibDir="$(var.SharedBuildDir)\lib" ?>
 	<?define SharedIncludeDir="$(var.SharedBuildDir)\include" ?>
+
+	<?define PythonBinDir_v2_5="$(var.OutputLibDir)\python2.5\site-packages" ?>
+	<?define PythonBinDir_v2_6="$(var.OutputLibDir)\python2.6\site-packages" ?>
 	
 	
 	<?define GstBinDir="$(var.OutputGstBinDir)" ?>
@@ -56,7 +69,10 @@
 
 	<?define GstPluginDir="$(var.OutputGstBinDir)\plugins" ?>
 	<?define GstBindingDir="$(var.OutputGstBinDir)\bindings" ?>
+
+	<?define GstPythonBinDir_v2_5="$(var.PythonBinDir_v2_5)\gst-$(var.GST_VERSION)\gst" ?>
+	<?define GstPythonBinDir_v2_6="$(var.PythonBinDir_v2_6)\gst-$(var.GST_VERSION)\gst" ?>
 	
 	<?define CustomResourceDir="$(var.InstallRoot)\Custom\Resources" ?>
-	<?define MergeModuleDir="$(var.InstallRoot)\Merge Modules\Win32\bin\$(var.Configuration)" ?>
+	
 </Include>

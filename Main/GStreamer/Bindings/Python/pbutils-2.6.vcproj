@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="pbutils"
 	ProjectGUID="{F36454E4-1A83-4C58-9CD3-80A863FA67C2}"
 	RootNamespace="pbutils"
@@ -121,7 +121,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="gstpbutils.lib"
-				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -252,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\lib\python2.5\site-packages\gst-0.10\$(ProjectName).pyd"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"

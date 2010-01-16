@@ -14,7 +14,7 @@
     <Name>Complete-LGPL</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Install\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
     <WixVariables>
@@ -23,7 +23,7 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Install\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
     <WixVariables>
@@ -90,9 +90,14 @@
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae0}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Bindings-Python.wixproj">
-      <Name>Bindings-Python</Name>
+    <ProjectReference Include="..\..\Merge Modules\Win32\Bindings-Python-v2.5.wixproj">
+      <Name>Bindings-Python-v2.5</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Merge Modules\Win32\Bindings-Python-v2.6.wixproj">
+      <Name>Bindings-Python-v2.6</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b24f9fcdeae2}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Merge Modules\Win32\Dependencies-LGPL.wixproj">
@@ -160,4 +165,8 @@
 	<Target Name="AfterBuild">
 	</Target>
 	-->
+  <PropertyGroup>
+    <PostBuildEvent>move /Y "!(TargetPath)" "$(TargetDir)"
+rmdir /S /Q "$(TargetDir)en-us"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

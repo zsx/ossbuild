@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Gst</RootNamespace>
-    <AssemblyName>gstreamer-sharp</AssemblyName>
+    <AssemblyName>lib-ossbuild-gstreamer-sharp</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkSubset>
@@ -32,7 +32,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\Build\Windows\Win32\Release\bin\gstreamer\bindings\dotnet\</OutputPath>
+    <OutputPath>..\..\..\..\Build\Windows\Win32\Release\bin\</OutputPath>
     <DefineConstants>TRACE;GTK_SHARP_2_6;GTK_SHARP_2_8GTK_SHARP_2_10;GTK_SHARP_2_12;GTK_SHARP_2_14</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

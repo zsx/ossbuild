@@ -13,9 +13,9 @@
 	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="gstreamer-0.10.lib"
-		OutputFile="$(OutDir)\bin\gstreamer\bindings\dotnet\$(ProjectName)-$(ApiVersionString).dll"
-		AdditionalLibraryDirectories="&quot;$(OutDir)\lib\gstreamer\plugins&quot;;&quot;$(OutDir)\lib\gstreamer\bindings\dotnet&quot;"
-		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\bindings\dotnet\$(TargetName).pdb"
-		ImportLibrary="$(OutDir)\lib\gstreamer\bindings\dotnet\$(ProjectName).lib"
+		OutputFile="$(OutDir)\bin\lib$(Prefix)$(ProjectName)-$(ApiVersionString).dll"
+		AdditionalLibraryDirectories="&quot;$(OutDir)\lib\plugins&quot;;&quot;$(OutDir)\lib\bindings\dotnet&quot;"
+		ProgramDatabaseFile="$(OutDir)\pdb\bindings\dotnet\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\bindings\dotnet\$(ProjectName).lib"
 	/>
 </VisualStudioPropertySheet>

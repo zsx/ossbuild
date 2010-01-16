@@ -12,11 +12,11 @@
 		<ComponentGroupRef Id="PluginsUgly"/>
 
 		<?define Files="
-			libgsta52dec.dll;
-			libgstdvdread.dll;
-			libgstlame.dll;
-			libgstmpeg2dec.dll;
-			libgstx264.dll
+			lib$(var.PREFIX)gsta52dec.dll;
+			lib$(var.PREFIX)gstdvdread.dll;
+			lib$(var.PREFIX)gstlame.dll;
+			lib$(var.PREFIX)gstmpeg2dec.dll;
+			lib$(var.PREFIX)gstx264.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">

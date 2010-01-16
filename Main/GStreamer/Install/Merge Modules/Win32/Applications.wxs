@@ -9,9 +9,9 @@
 		<Package Id="$(var.GUID_X86_MSM_APPLICATIONS_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			gst-launch-$(var.GST_VERSION).exe;
-			gst-inspect-$(var.GST_VERSION).exe;
-			gst-xmlinspect-$(var.GST_VERSION).exe
+			gst-launch.exe;
+			gst-inspect.exe;
+			gst-xmlinspect.exe
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">

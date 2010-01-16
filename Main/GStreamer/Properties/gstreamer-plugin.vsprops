@@ -9,9 +9,9 @@
 	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="gstreamer-0.10.lib"
-		OutputFile="$(OutDir)\bin\gstreamer\plugins\lib$(ProjectName).dll"
-		AdditionalLibraryDirectories="$(OutDir)\lib\gstreamer\plugins\"
-		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\plugins\$(TargetName).pdb"
-		ImportLibrary="$(OutDir)\lib\gstreamer\plugins\$(ProjectName).lib"
+		OutputFile="$(OutDir)\bin\plugins\lib$(Prefix)$(ProjectName).dll"
+		AdditionalLibraryDirectories="$(OutDir)\lib\plugins\"
+		ProgramDatabaseFile="$(OutDir)\pdb\plugins\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\plugins\$(ProjectName).lib"
 	/>
 </VisualStudioPropertySheet>

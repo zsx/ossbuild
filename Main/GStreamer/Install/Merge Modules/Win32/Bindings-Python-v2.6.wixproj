@@ -3,15 +3,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7B0}</ProjectGuid>
+    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b24f9fcdeAE2}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>x86-OSSBuild-GStreamer-Plugins-Ugly-GPL</OutputName>
+    <OutputName>x86-OSSBuild-GStreamer-Bindings-Python-v2.6</OutputName>
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <IncludeSearchPaths>
     </IncludeSearchPaths>
-    <Name>Plugins-Ugly-GPL</Name>
+    <Name>Bindings-Python-v2.5</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
@@ -21,7 +21,6 @@
     </WixVariables>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
-    <LeaveTemporaryFiles>False</LeaveTemporaryFiles>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
@@ -33,7 +32,6 @@
     </SuppressIces>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
-    <LeaveTemporaryFiles>False</LeaveTemporaryFiles>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\..\GUIDs.wxi">
@@ -56,75 +54,37 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Plugins-Ugly-GPL.wxs" />
-    <Compile Include="Plugins-Ugly.wxs">
-      <Link>Plugins-Ugly.wxs</Link>
-    </Compile>
+    <Compile Include="Bindings-Python-v2.6.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgsta52dec.vcproj">
-      <Name>gsta52dec</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0001}</Project>
+    <ProjectReference Include="..\..\..\Bindings\Python\audio-2.6.vcproj">
+      <Name>audio _GStreamer\Bindings\Python\v2.6\audio_</Name>
+      <Project>{13797bda-bc5f-4232-ac76-30e56e3c6648}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgstdvdread.vcproj">
-      <Name>gstdvdread</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0015}</Project>
+    <ProjectReference Include="..\..\..\Bindings\Python\interfaces-2.6.vcproj">
+      <Name>interfaces _GStreamer\Bindings\Python\v2.6\interfaces_</Name>
+      <Project>{81ca7f63-b184-4607-8582-b98d26ff710a}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgstlame.vcproj">
-      <Name>gstlame</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0006}</Project>
+    <ProjectReference Include="..\..\..\Bindings\Python\pbutils-2.6.vcproj">
+      <Name>pbutils _GStreamer\Bindings\Python\v2.6\pbutils_</Name>
+      <Project>{f36454e4-1a83-4c58-9cd3-80a863fa67c2}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgstmpeg2dec.vcproj">
-      <Name>gstmpeg2dec</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0016}</Project>
+    <ProjectReference Include="..\..\..\Bindings\Python\tag-2.6.vcproj">
+      <Name>tag _GStreamer\Bindings\Python\v2.6\tag_</Name>
+      <Project>{bc6669cc-428c-42c9-b2f0-73b4a27072b5}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgstx264.vcproj">
-      <Name>gstx264</Name>
-      <Project>{922dd35c-43fe-4097-91e0-3229f5a967ab}</Project>
+    <ProjectReference Include="..\..\..\Bindings\Python\video-2.6.vcproj">
+      <Name>video _GStreamer\Bindings\Python\v2.6\video_</Name>
+      <Project>{38722a6e-1106-4b14-b507-7c1d95d67f46}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstasfdemux.vcproj">
-      <Name>gstasfdemux</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0002}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstdvdlpcmdec.vcproj">
-      <Name>gstdvdlpcmdec</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0003}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstdvdsub.vcproj">
-      <Name>gstdvdsub</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0004}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstiec958.vcproj">
-      <Name>gstiec958</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0005}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstmpegaudioparse.vcproj">
-      <Name>gstmpegaudioparse</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0008}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstmpegstream.vcproj">
-      <Name>gstmpegstream</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0009}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstrealmedia.vcproj">
-      <Name>gstrealmedia</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0010}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstsynaesthesia.vcproj">
-      <Name>gstsynaesthesia</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0011}</Project>
+    <ProjectReference Include="..\..\..\Bindings\Python\_gst-2.6.vcproj">
+      <Name>_gst _GStreamer\Bindings\Python\v2.6\_gst_</Name>
+      <Project>{14a8c4c9-6b1e-4f8a-9fcb-fd010d06e4f4}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

@@ -12,11 +12,11 @@
 		<ComponentGroupRef Id="PluginsBad"/>
 		
 		<?define Files="
-			libgstdts.dll;
-			libgstfaac.dll;
-			libgstfaad.dll;
-			libgstresindvd.dll;
-			libgstxvid.dll
+			lib$(var.PREFIX)gstdts.dll;
+			lib$(var.PREFIX)gstfaac.dll;
+			lib$(var.PREFIX)gstfaad.dll;
+			lib$(var.PREFIX)gstresindvd.dll;
+			lib$(var.PREFIX)gstxvid.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">

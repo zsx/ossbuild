@@ -9,12 +9,12 @@
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_FARSIGHT2_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			libfsfunnel.dll;
-			libfsrtcpfilter.dll;
-			libfsrtpconference.dll;
-			libfsvideoanyrate.dll;
-			libmulticast-transmitter.dll;
-			librawudp-transmitter.dll
+			lib$(var.PREFIX)fsfunnel.dll;
+			lib$(var.PREFIX)fsrtcpfilter.dll;
+			lib$(var.PREFIX)fsrtpconference.dll;
+			lib$(var.PREFIX)fsvideoanyrate.dll;
+			lib$(var.PREFIX)multicast-transmitter.dll;
+			lib$(var.PREFIX)rawudp-transmitter.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">

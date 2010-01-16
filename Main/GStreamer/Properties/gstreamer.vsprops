@@ -21,12 +21,12 @@
 		Name="VCLinkerTool"
 		AdditionalDependencies="ws2_32.lib wsock32.lib intl.lib"
 		Version="$(VersionString)"
-		AdditionalLibraryDirectories="&quot;$(OutDir)\lib\gstreamer\&quot;"
+		AdditionalLibraryDirectories="&quot;$(OutDir)\lib\&quot;"
 		GenerateManifest="false"
 		IgnoreAllDefaultLibraries="true"
 		ModuleDefinitionFile=""
-		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\$(TargetName).pdb"
-		ImportLibrary="$(OutDir)\lib\gstreamer\$(ProjectName).lib"
+		ProgramDatabaseFile="$(OutDir)\pdb\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\$(ProjectName).lib"
 	/>
 	<UserMacro
 		Name="MajorVersion"

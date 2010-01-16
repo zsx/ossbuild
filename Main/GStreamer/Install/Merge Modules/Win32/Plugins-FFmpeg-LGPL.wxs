@@ -9,7 +9,7 @@
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_FFMPEG_LGPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			libgstffmpeg.dll
+			lib$(var.PREFIX)gstffmpeg.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">

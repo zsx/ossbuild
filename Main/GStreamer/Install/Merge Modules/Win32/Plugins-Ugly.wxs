@@ -6,14 +6,14 @@
 	<Fragment>
 
 		<?define Files="
-			libgstasfdemux.dll;
-			libgstdvdlpcmdec.dll;
-			libgstdvdsub.dll;
-			libgstiec958.dll;
-			libgstmpegaudioparse.dll;
-			libgstmpegstream.dll;
-			libgstrealmedia.dll;
-			libgstsynaesthesia.dll
+			lib$(var.PREFIX)gstasfdemux.dll;
+			lib$(var.PREFIX)gstdvdlpcmdec.dll;
+			lib$(var.PREFIX)gstdvdsub.dll;
+			lib$(var.PREFIX)gstiec958.dll;
+			lib$(var.PREFIX)gstmpegaudioparse.dll;
+			lib$(var.PREFIX)gstmpegstream.dll;
+			lib$(var.PREFIX)gstrealmedia.dll;
+			lib$(var.PREFIX)gstsynaesthesia.dll
 		" ?>
 		
 		<ComponentGroup Id="PluginsUgly">

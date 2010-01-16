@@ -12,12 +12,12 @@
 	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="ws2_32.lib wsock32.lib intl.lib"
-		OutputFile="$(OutDir)\bin\gstreamer\lib$(Prefix)$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).dll"
+		OutputFile="$(OutDir)\bin\lib$(Prefix)$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).dll"
 		Version="$(VersionString)"
 		GenerateManifest="false"
 		IgnoreAllDefaultLibraries="true"
 		ModuleDefinitionFile=""
-		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\$(TargetName).pdb"
-		ImportLibrary="$(OutDir)\lib\gstreamer\$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).lib"
+		ProgramDatabaseFile="$(OutDir)\pdb\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).lib"
 	/>
 </VisualStudioPropertySheet>

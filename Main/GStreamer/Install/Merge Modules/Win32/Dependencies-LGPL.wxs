@@ -17,7 +17,7 @@
 			lib$(var.PREFIX)avfilter-1.dll;
 			lib$(var.PREFIX)avformat-52.dll;
 			lib$(var.PREFIX)avutil-50.dll;
-      lib$(var.PREFIX)swscale-0.dll
+			lib$(var.PREFIX)swscale-0.dll
 		" ?>
 		
 		<Directory Id="TARGETDIR" Name="SourceDir">
@@ -25,7 +25,7 @@
 				
 				<?foreach file in $(var.Files) ?>
 					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-            <File Source="$(ossbuild.existsCoalesce($(var.OutputBinDir)\$(ossbuild.trim($(var.file))), $(var.SharedBinDir)\$(ossbuild.trim($(var.file)))))" DefaultLanguage="0" />
+						<File Source="$(ossbuild.existsCoalesce($(var.OutputBinDir)\$(ossbuild.trim($(var.file))), $(var.SharedBinDir)\$(ossbuild.trim($(var.file)))))" DefaultLanguage="0" />
 					</Component>
 				<?endforeach ?>
 

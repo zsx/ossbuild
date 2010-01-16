@@ -7,16 +7,14 @@
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
 		<Package Id="$(var.GUID_X86_MSM_BINDINGS_PYTHON_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
-		
-		<?define PythonOutputDir="$(var.OutputLibDir)\python2.5\site-packages\gst-$(var.GST_VERSION)" ?>
 
 		<?define Files="
-			_gst.pyd;
-			audio.pyd;
-			interfaces.pyd;
-			pbutils.pyd;
-			tag.pyd;
-			video.pyd
+			lib$(var.PREFIX)_gst.pyd;
+			lib$(var.PREFIX)audio.pyd;
+			lib$(var.PREFIX)interfaces.pyd;
+			lib$(var.PREFIX)pbutils.pyd;
+			lib$(var.PREFIX)tag.pyd;
+			lib$(var.PREFIX)video.pyd
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
@@ -24,7 +22,7 @@
 						
 				<?foreach file in $(var.Files) ?>
 					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-						<File Source="$(var.PythonOutputDir)\$(ossbuild.trim($(var.file)))" />
+						<File Source="$(var.GstPythonBinDir_v2_6)\$(ossbuild.trim($(var.file)))" />
 					</Component>
 				<?endforeach ?>
 						

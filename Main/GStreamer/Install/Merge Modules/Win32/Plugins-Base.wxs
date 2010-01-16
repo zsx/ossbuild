@@ -9,29 +9,29 @@
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_BASE_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			libgstadder.dll;
-			libgstappplugin.dll;
-			libgstaudioconvert.dll;
-			libgstaudiorate.dll;
-			libgstaudioresample.dll;
-			libgstaudiotestsrc.dll;
-			libgstcoreelements.dll;
-			libgstdecodebin.dll;
-			libgstdecodebin2.dll;
-			libgstffmpegcolorspace.dll;
-			libgstgdp.dll;
-			libgstgio.dll;
-			libgstogg.dll;
-			libgstpango.dll;
-			libgstplaybin.dll;
-			libgstqueue2.dll;
-			libgsttheora.dll;
-			libgsttypefindfunctions.dll;
-			libgstvideorate.dll;
-			libgstvideoscale.dll;
-			libgstvideotestsrc.dll;
-			libgstvolume.dll;
-			libgstvorbis.dll
+			lib$(var.PREFIX)gstadder.dll;
+			lib$(var.PREFIX)gstappplugin.dll;
+			lib$(var.PREFIX)gstaudioconvert.dll;
+			lib$(var.PREFIX)gstaudiorate.dll;
+			lib$(var.PREFIX)gstaudioresample.dll;
+			lib$(var.PREFIX)gstaudiotestsrc.dll;
+			lib$(var.PREFIX)gstcoreelements.dll;
+			lib$(var.PREFIX)gstdecodebin.dll;
+			lib$(var.PREFIX)gstdecodebin2.dll;
+			lib$(var.PREFIX)gstffmpegcolorspace.dll;
+			lib$(var.PREFIX)gstgdp.dll;
+			lib$(var.PREFIX)gstgio.dll;
+			lib$(var.PREFIX)gstogg.dll;
+			lib$(var.PREFIX)gstpango.dll;
+			lib$(var.PREFIX)gstplaybin.dll;
+			lib$(var.PREFIX)gstqueue2.dll;
+			lib$(var.PREFIX)gsttheora.dll;
+			lib$(var.PREFIX)gsttypefindfunctions.dll;
+			lib$(var.PREFIX)gstvideorate.dll;
+			lib$(var.PREFIX)gstvideoscale.dll;
+			lib$(var.PREFIX)gstvideotestsrc.dll;
+			lib$(var.PREFIX)gstvolume.dll;
+			lib$(var.PREFIX)gstvorbis.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">

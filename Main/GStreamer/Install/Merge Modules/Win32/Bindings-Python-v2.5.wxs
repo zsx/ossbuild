@@ -6,14 +6,15 @@
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
-		<Package Id="$(var.GUID_X86_MSM_PLUGINS_FARSIGHT_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
+		<Package Id="$(var.GUID_X86_MSM_BINDINGS_PYTHON_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			lib$(var.PREFIX)gstfsselector.dll;
-			lib$(var.PREFIX)gstrtpjitterbuffer.dll;
-			lib$(var.PREFIX)gstrtpnetsim.dll;
-			lib$(var.PREFIX)gstrtppayloads.dll;
-			lib$(var.PREFIX)gstrtprtpdemux.dll
+			lib$(var.PREFIX)_gst.pyd;
+			lib$(var.PREFIX)audio.pyd;
+			lib$(var.PREFIX)interfaces.pyd;
+			lib$(var.PREFIX)pbutils.pyd;
+			lib$(var.PREFIX)tag.pyd;
+			lib$(var.PREFIX)video.pyd
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
@@ -21,7 +22,7 @@
 						
 				<?foreach file in $(var.Files) ?>
 					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-						<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
+						<File Source="$(var.GstPythonBinDir_v2_5)\$(ossbuild.trim($(var.file)))" />
 					</Component>
 				<?endforeach ?>
 						

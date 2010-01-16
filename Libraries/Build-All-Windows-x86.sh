@@ -602,14 +602,20 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}fontconfig-1.dll" ]; then
 	$PKG_DIR/configure --disable-debug --disable-static --disable-docs --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
 	make && make install RUN_FC_CACHE_TEST=false
+
+	cp -p "fontconfig.pc" "$LibDir/pkgconfig/"
 	
-	#Automagically creates .lib file
+	cd "src/.libs"
+	
+	sed -e '/LIBRARY/d' lib${DefaultPrefix}fontconfig-1.dll.def > in-mod.def
+	dlltool --dllname lib${DefaultPrefix}fontconfig-1.dll -d "in-mod.def" -l lib${DefaultPrefix}fontconfig.dll.a
+	cp -p "lib${DefaultPrefix}fontconfig.dll.a" "$LibDir/"
+	$MSLIB /name:lib${DefaultPrefix}fontconfig-1.dll /out:fontconfig.lib /machine:$MSLibMachine /def:in-mod.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	reset_flags
 	
 	update_library_names_windows "lib${DefaultPrefix}fontconfig.dll.a" "libfontconfig.la"
-	
-	cp -p "fontconfig.pc" "$LibDir/pkgconfig/"
 	
 	echo "<OSSBuild>: Please ignore install errors"
 fi
@@ -641,7 +647,10 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}cairo-2.dll" ]; then
 	make && make install
 	
 	cd src/.libs/
+	
 	sed -e '/LIBRARY/d' lib${DefaultPrefix}cairo-2.dll.def > in-mod.def
+	dlltool --dllname lib${DefaultPrefix}cairo-2.dll -d "in-mod.def" -l lib${DefaultPrefix}cairo.dll.a
+	cp -p "lib${DefaultPrefix}cairo.dll.a" "$LibDir/"
 	$MSLIB /name:lib${DefaultPrefix}cairo-2.dll /out:cairo.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
