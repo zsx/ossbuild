@@ -65,15 +65,24 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}oil-0.3-0.dll" ]; then
 	unpack_gzip_and_move "liboil.tar.gz" "$PKG_DIR_LIBOIL"
 	mkdir_and_move "$IntDir/liboil"
 	
-	CFLAGS="$CFLAGS -DHAVE_SYMBOL_UNDERSCORE=1"
-	
+	CFLAGS="$IncludeFlags -DHAVE_SYMBOL_UNDERSCORE=1 -mms-bitfields -mincoming-stack-boundary=2"
+	CPPFLAGS="$IncludeFlags"
+	LDFLAGS="$LibFlags"
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	change_libname_spec
 	make && make install
-	update_library_names_windows "lib${DefaultPrefix}oil-0.3.dll.a" "liboil-0.3.la"
 	
-	$MSLIB /name:lib${DefaultPrefix}oil-0.3-0.dll /out:oil-0.3.lib /machine:$MSLibMachine /def:liboil/.libs/lib${DefaultPrefix}oil-0.3-0.dll.def
+	#Do it this way b/c changing libname_spec causes it to not build correctly
+	mv "$BinDir/liboil-0.3-0.dll" "$BinDir/lib${DefaultPrefix}oil-0.3-0.dll"
+	dlltool --dllname lib${DefaultPrefix}oil-0.3-0.dll -d "liboil/.libs/liboil-0.3-0.dll.def" -l lib${DefaultPrefix}oil-0.3.dll.a
+	cp -p "lib${DefaultPrefix}oil-0.3.dll.a" "$LibDir/liboil-0.3.dll.a"
+	$MSLIB /name:lib${DefaultPrefix}oil-0.3-0.dll /out:oil-0.3.lib /machine:$MSLibMachine /def:liboil/.libs/liboil-0.3-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
+	#change_libname_spec
+	#make && make install
+	#update_library_names_windows "lib${DefaultPrefix}oil-0.3.dll.a" "liboil-0.3.la"
+	#
+	#$MSLIB /name:lib${DefaultPrefix}oil-0.3-0.dll /out:oil-0.3.lib /machine:$MSLibMachine /def:liboil/.libs/lib${DefaultPrefix}oil-0.3-0.dll.def
+	#move_files_to_dir "*.exp *.lib" "$LibDir"
 	
 	reset_flags
 fi
@@ -745,6 +754,8 @@ if [ ! -f "$BinDir/lib${DefaultPrefix}vorbis-0.dll" ]; then
 	#Yeah, we're calling this twice b/c for some reason all the object files are compiled for all the libs, 
 	#but they're not all being linked and installed. Calling make/make install twice seems to solve it 
 	#for whatever reason.
+	$PKG_DIR/configure --with-ogg-libraries=$LibDir --with-ogg-includes=$IncludeDir --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
 	make && make install
 	
 	copy_files_to_dir "$PKG_DIR/win32/*.def" .
