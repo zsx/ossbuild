@@ -35,11 +35,11 @@ libcelt 	- 	0.7.0 		- 	http://downloads.xiph.org/releases/celt/celt-0.7.0.tar.gz
 libtheora 	- 	1.1.1 		- 	http://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.bz2
 libmms 		- 	win32 branch	- 	https://code.launchpad.net/~libmms-devel/libmms/win32
 libmms-0.4.0	- 	0.4.0 		- 	http://sourceforge.net/projects/libmms/files/libmms/0.4/libmms-0.4.tar.gz/download
-x264 		- 	r2245 		- 	http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20090414-2245.tar.bz2
+x264 		- 	r2245 		- 	http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20100114-2245.tar.bz2
 libspeex 	- 	1.2rc1 		- 	http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
 libschrodinger 	- 	1.0.8 		- 	http://diracvideo.org/download/schroedinger/schroedinger-1.0.8.tar.gz
 mp3lame 	- 	3.98.2 		- 	http://sourceforge.net/project/downloading.php?group_id=290&use_mirror=superb-west&filename=lame-398-2.tar.gz&a=60930405
-ffmpeg 		- 	0.5.0 		- 	http://ffmpeg.org/releases/ffmpeg-export-snapshot.tar.bz2 [r21185]
+ffmpeg 		- 	0.5.0 		- 	http://ffmpeg.org/releases/ffmpeg-export-snapshot.tar.bz2 [r21322]
 libnice 	- 	0.0.10 		- 	http://nice.freedesktop.org/releases/libnice-0.0.10.tar.gz
 xvidcore	-	1.2.2		-	http://downloads.xvid.org/downloads/xvidcore-1.2.2.tar.gz
 wavpack 	- 	4.60.1 		- 	http://www.wavpack.com/wavpack-4.60.1.tar.bz2
