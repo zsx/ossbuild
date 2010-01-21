@@ -9,6 +9,10 @@ common_startup() {
 	export PlatformName=x86
 	export ConfigurationName=Release
 	export MSLibMachine=x86
+	export BuildTriplet=
+	export BuildTripletDash=
+	export HostTriplet=
+	export HostTripletDash=
 	
 	export DEFAULT_PREFIX=-ossbuild-
 	export DefaultPrefix=$DEFAULT_PREFIX
@@ -66,6 +70,28 @@ common_startup() {
 	if [ "$4" != "" ]; then
 		export MSLibMachine=$4
 	fi
+	if [ "$5" != "" ]; then
+		export BuildTriplet=$5
+	fi
+	if [ "$6" != "" ]; then
+		export HostTriplet=$6
+	else
+		export HostTriplet=$BuildTriplet
+	fi
+	
+	if [ "$BuildTriplet" != "" ]; then
+		export BuildTripletDash=${BuildTriplet}-
+	fi
+	
+	if [ "$HostTriplet" != "" ]; then
+		export HostTripletDash=${HostTriplet}-
+	fi
+	
+	export Host=$HostTriplet
+	export Build=$BuildTriplet
+	
+	export configureHost=--host=$Host
+	export configureBuild=--build=$Build
 
 	#Make sure we're in the root directory
 	cd "$ROOT"
