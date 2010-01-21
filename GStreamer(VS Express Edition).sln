@@ -643,6 +643,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "video", "Main\GStreamer\Bin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstcelt", "Main\GStreamer\Plugins\Bad\ext\libgstcelt.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-typefind", "Main\GStreamer\Applications\gst-typefind.vcproj", "{F987873B-2B88-0000-0000-000000000000}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -3006,6 +3008,18 @@ Global
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release|Win32.ActiveCfg = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Debug|Win32.Build.0 = Debug|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Release|Win32.ActiveCfg = Release|Win32
+		{F987873B-2B88-0000-0000-000000000000}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
