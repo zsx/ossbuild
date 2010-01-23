@@ -6,11 +6,11 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;$(OutDir)\include\libpng12&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\libpng12&quot;"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\libpng14&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\libpng14&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="png12.lib"
+		AdditionalDependencies="png14.lib"
 	/>
 	<UserMacro
 		Name="LibPngMajorVersion"
@@ -18,15 +18,15 @@
 	/>
 	<UserMacro
 		Name="LibPngMinorVersion"
-		Value="2"
+		Value="4"
 	/>
 	<UserMacro
 		Name="LibPngMicroVersion"
-		Value="35"
+		Value="0"
 	/>
 	<UserMacro
 		Name="LibPngVersionNumber"
-		Value="10235"
+		Value="10400"
 	/>
 	<UserMacro
 		Name="LibPngVersionString"
