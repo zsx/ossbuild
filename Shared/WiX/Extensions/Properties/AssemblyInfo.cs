@@ -7,7 +7,7 @@ using Microsoft.Tools.WindowsInstallerXml;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("OSSBuild")]
 [assembly: AssemblyProduct("OSSBuild WiX Extensions")]
-[assembly: AssemblyCopyright("Copyright © 2009 OSSBuild")]
+[assembly: AssemblyCopyright("Copyright © 2009, 2010 OSSBuild")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("1.0.0.0")]

@@ -2,8 +2,6 @@
 Version Information
 
 
-gmp 		- 	5.0.0 		- 	http://ftp.gnu.org/gnu/gmp/gmp-5.0.0.tar.bz2
-mpfr 		- 	2.4.2 		- 	http://www.mpfr.org/mpfr-current/mpfr-2.4.2.tar.bz2
 proxy-libintl 	- 	20090911 	- 	http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/proxy-libintl-dev_20090911_win32.zip
 dlfcn-win32	-	r11		-	http://dlfcn-win32.googlecode.com/files/dlfcn-win32-r11.tar.bz2
 liboil 		- 	0.3.16 		- 	http://liboil.freedesktop.org/download/liboil-0.3.16.tar.gz
@@ -37,7 +35,7 @@ libcelt 	- 	0.7.0 		- 	http://downloads.xiph.org/releases/celt/celt-0.7.0.tar.gz
 libtheora 	- 	1.1.1 		- 	http://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.bz2
 libmms 		- 	win32 branch	- 	https://code.launchpad.net/~libmms-devel/libmms/win32
 libmms-0.4.0	- 	0.4.0 		- 	http://sourceforge.net/projects/libmms/files/libmms/0.4/libmms-0.4.tar.gz/download
-x264 		- 	r2245 		- 	http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20100118-2245.tar.bz2
+x264 		- 	r2245 		- 	http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-20100127-2245.tar.bz2
 libspeex 	- 	1.2rc1 		- 	http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
 libschrodinger 	- 	1.0.8 		- 	http://diracvideo.org/download/schroedinger/schroedinger-1.0.8.tar.gz
 mp3lame 	- 	3.98.2 		- 	http://sourceforge.net/project/downloading.php?group_id=290&use_mirror=superb-west&filename=lame-398-2.tar.gz&a=60930405

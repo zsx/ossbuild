@@ -503,7 +503,7 @@ generate_libtool_la_wapi_x86() {
 	
 	if [ "$HostTriplet" != "" ]; then
 		mylafiles[1]="/mingw/$HostTriplet/lib/$myla"
-		mylapaths[1]=""
+		mylapaths[1]="/mingw/$HostTriplet/lib/"
 		mylapaths[0]="/mingw/$HostTriplet/lib/"
 		#mylafiles[0]="/mingw/$HostTriplet/lib/$myla"
 		#mylapaths[0]="/mingw/$HostTriplet/lib/"

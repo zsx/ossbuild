@@ -13,7 +13,7 @@ CXXFLAGS="${CFLAGS}"
 
 #Call common startup routines to load a bunch of variables we'll need
 . $TOP/Shared/Scripts/Common.sh
-common_startup "Windows" "Win32" "Release" "x86" 
+common_startup "Windows" "Win32" "Release" "x86" "i686-pc-mingw32" "i686-pc-mingw32"
 
 #Select which MS CRT we want to build against (msvcr90.dll)
 . $ROOT/Shared/Scripts/CRT-x86.sh
@@ -36,8 +36,8 @@ generate_all_wapi_libtool_la_x86
 #Create symbolic link for gcc etc.
 create_cross_compiler_path_windows
 
-
 #clear_flags
+
 
 #Not using dwarf2 yet
 ###gcc_dw2
@@ -51,10 +51,10 @@ if [ ! -f "$LibDir/intl.lib" ]; then
 	unpack_zip_and_move_windows "proxy-libintl.zip" "proxy-libintl" "proxy-libintl"
 	mkdir_and_move "$IntDir/proxy-libintl"
 	copy_files_to_dir "$PKG_DIR/*" .
-	$gcc -Wall -I"$IncludeDir" -c libintl.c
-	$ar rc "$LibDir/libintl.a" libintl.o
+	gcc -Wall -I"$IncludeDir" -c libintl.c
+	ar rc "$LibDir/libintl.a" libintl.o
 	cp "$LibDir/libintl.a" "$LibDir/intl.lib"
-	$strip --strip-unneeded "$LibDir/intl.lib"
+	strip --strip-unneeded "$LibDir/intl.lib"
 	cp libintl.h "$IncludeDir"
 	generate_libtool_la_windows "libintl.la" "" "libintl.a"
 fi
@@ -79,7 +79,7 @@ if [ ! -f "$BinDir/lib${Prefix}oil-0.3-0.dll" ]; then
 	mv "$BinDir/liboil-0.3-0.dll" "$BinDir/lib${Prefix}oil-0.3-0.dll"
 	pexports "$BinDir/lib${Prefix}oil-0.3-0.dll" > "in.def"
 	sed -e '/^LIBRARY/d' -e 's/DATA//g' in.def > in-mod.def
-	$dlltool --dllname lib${Prefix}oil-0.3-0.dll -d "in-mod.def" -l lib${Prefix}oil-0.3.dll.a
+	dlltool --dllname lib${Prefix}oil-0.3-0.dll -d "in-mod.def" -l lib${Prefix}oil-0.3.dll.a
 	cp -p "lib${Prefix}oil-0.3.dll.a" "$LibDir/liboil-0.3.dll.a"
 	$MSLIB /name:lib${Prefix}oil-0.3-0.dll /out:oil-0.3.lib /machine:$MSLibMachine /def:liboil/.libs/liboil-0.3-0.dll.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
@@ -543,6 +543,15 @@ if [ ! -f "$BinDir/lib${Prefix}curl-4.dll" ]; then
 	
 	$PKG_DIR/configure --with-gnutls --enable-optimize --disable-curldebug --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
+	
+	#libtool can't find some archives (.la)
+	if [ -e "/mingw/lib/libws2_32.la" ]; then 
+		cp -p /mingw/lib/libws2_32.la "lib"
+		cp -p /mingw/lib/libws2_32.la "src"
+		cp -p /mingw/lib/libws2_32.la "tests"
+		cp -p /mingw/lib/libws2_32.la "tests/libtest"
+		cp -p /mingw/lib/libws2_32.la "."
+	fi
 	make && make install
 	
 	reset_flags
@@ -568,8 +577,15 @@ if [ ! -f "$BinDir/lib${Prefix}soup-2.4-1.dll" ]; then
 	#Proceed normally
 	
 	cd "$IntDir/libsoup"
-	$PKG_DIR/configure --disable-silent-rules --disable-glibtest --enable-ssl --enable-debug=no --disable-more-warnings --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	$PKG_DIR/configure --disable-silent-rules --enable-ssl --enable-debug=no --disable-more-warnings --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
+	
+	#libtool can't find some archives (.la)
+	if [ -e "/mingw/lib/libws2_32.la" ]; then 
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libshlwapi.la /mingw/lib/libdnsapi.la" "libsoup"
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libshlwapi.la /mingw/lib/libdnsapi.la" "tests"
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libshlwapi.la /mingw/lib/libdnsapi.la" "."
+	fi
 	make && make install
 
 	cd "libsoup/.libs"
@@ -591,6 +607,11 @@ if [ ! -f "$BinDir/lib${Prefix}neon-27.dll" ]; then
 	
 	$PKG_DIR/configure --with-ssl=gnutls --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
+	#libtool can't find some archives (.la)
+	if [ -e "/mingw/lib/libws2_32.la" ]; then 
+		copy_files_to_dir "/mingw/lib/libws2_32.la" "src"
+		copy_files_to_dir "/mingw/lib/libws2_32.la" "test"
+	fi
 	make && make install
 	
 	cd "src/.libs"
@@ -693,6 +714,13 @@ if [ ! -f "$BinDir/lib${Prefix}pango-1.0-0.dll" ]; then
 	
 	$PKG_DIR/configure --with-included-modules --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
+	if [ -e "/mingw/lib/libws2_32.la" ]; then 
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libgdi32.la /mingw/lib/libmsimg32.la" "pango/opentype"
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libgdi32.la /mingw/lib/libmsimg32.la" "pango-view"
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libgdi32.la /mingw/lib/libmsimg32.la" "examples"
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libgdi32.la /mingw/lib/libmsimg32.la" "pango"
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libgdi32.la /mingw/lib/libmsimg32.la" "tests"
+	fi
 	make && make install
 	
 	#Add in MS build tools again
@@ -795,7 +823,7 @@ if [ ! -f "$BinDir/lib${Prefix}celt-0.dll" ]; then
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
-	
+
 	cd "libcelt"
 	
 	echo "int main () { return 0; }" > main.c
@@ -803,8 +831,8 @@ if [ ! -f "$BinDir/lib${Prefix}celt-0.dll" ]; then
 
 	#This will fail to produce the dll b/c of some odd dependency on a main() function (for some reason it's linking libmingw32.a)
 	#We could try linking even if there are missing dependencies...
-	make libcelt.la
-	gcc --link -shared -o .libs/lib${Prefix}celt-0.dll -Wl,--output-def=libcelt.def -Wl,--out-implib=.libs/lib${Prefix}celt.dll.a -std=gnu99 $LDFLAGS \
+	make libcelt0.la
+	gcc --link -shared -o .libs/lib${Prefix}celt-0.dll -Wl,--output-def=libcelt.def -Wl,--out-implib=.libs/lib${Prefix}celt0.dll.a -std=gnu99 $LDFLAGS \
 		.libs/bands.o \
 		.libs/celt.o \
 		.libs/cwrs.o \
@@ -812,67 +840,64 @@ if [ ! -f "$BinDir/lib${Prefix}celt-0.dll" ]; then
 		.libs/entdec.o \
 		.libs/entenc.o \
 		.libs/header.o \
-		.libs/kfft_single.o \
 		.libs/kiss_fft.o \
-		.libs/kiss_fftr.o \
 		.libs/laplace.o \
 		.libs/mdct.o \
 		.libs/modes.o \
 		.libs/pitch.o \
-		.libs/psy.o \
 		.libs/quant_bands.o \
 		.libs/rangedec.o \
 		.libs/rangeenc.o \
 		.libs/rate.o \
 		.libs/vq.o \
 		main.o
-	rm libcelt.la
-	rm .libs/libcelt.la
-	rm .libs/libcelt.lai
-	rm .libs/lib${Prefix}celt.a
-	echo -en "# Generated by ossbuild - GNU libtool 1.5.22 (1.1220.2.365 2005/12/18 22:14:06)\n" > libcelt.la
-	echo -en "dlname='lib${Prefix}celt-0.dll'\n" >> libcelt.la
-	echo -en "library_names='lib${Prefix}celt.dll.a'\n" >> libcelt.la
-	echo -en "old_library=''\n" >> libcelt.la
-	echo -en "inherited_linker_flags=''\n" >> libcelt.la
-	echo -en "dependency_libs=''\n" >> libcelt.la
-	echo -en "weak_library_names=''\n" >> libcelt.la
-	echo -en "current=0\n" >> libcelt.la
-	echo -en "age=0\n" >> libcelt.la
-	echo -en "revision=0\n" >> libcelt.la
-	echo -en "installed=no\n" >> libcelt.la
-	echo -en "shouldnotlink=no\n" >> libcelt.la
-	echo -en "dlopen=''\n" >> libcelt.la
-	echo -en "dlpreopen=''\n" >> libcelt.la
-	echo -en "libdir='$LibDir'\n" >> libcelt.la
-	cp -p libcelt.la .libs/
+	rm libcelt0.la
+	rm .libs/libcelt0.la
+	rm .libs/libcelt0.lai
+	rm .libs/lib${Prefix}celt0.a
+	echo -en "# Generated by ossbuild - GNU libtool 1.5.22 (1.1220.2.365 2005/12/18 22:14:06)\n" > libcelt0.la
+	echo -en "dlname='lib${Prefix}celt-0.dll'\n" >> libcelt0.la
+	echo -en "library_names='lib${Prefix}celt0.dll.a'\n" >> libcelt0.la
+	echo -en "old_library=''\n" >> libcelt0.la
+	echo -en "inherited_linker_flags=''\n" >> libcelt0.la
+	echo -en "dependency_libs=''\n" >> libcelt0.la
+	echo -en "weak_library_names=''\n" >> libcelt0.la
+	echo -en "current=0\n" >> libcelt0.la
+	echo -en "age=0\n" >> libcelt0.la
+	echo -en "revision=0\n" >> libcelt0.la
+	echo -en "installed=no\n" >> libcelt0.la
+	echo -en "shouldnotlink=no\n" >> libcelt0.la
+	echo -en "dlopen=''\n" >> libcelt0.la
+	echo -en "dlpreopen=''\n" >> libcelt0.la
+	echo -en "libdir='$LibDir'\n" >> libcelt0.la
+	cp -p libcelt0.la .libs/
 	cd .libs/
-	echo -en "# Generated by ossbuild - GNU libtool 1.5.22 (1.1220.2.365 2005/12/18 22:14:06)\n" > libcelt.lai
-	echo -en "dlname='../bin/lib${Prefix}celt-0.dll'\n" >> libcelt.lai
-	echo -en "library_names='lib${Prefix}celt.dll.a'\n" >> libcelt.lai
-	echo -en "old_library=''\n" >> libcelt.lai
-	echo -en "inherited_linker_flags=''\n" >> libcelt.lai
-	echo -en "dependency_libs='-L$LibDir -lm'\n" >> libcelt.lai
-	echo -en "weak_library_names=''\n" >> libcelt.lai
-	echo -en "current=0\n" >> libcelt.lai
-	echo -en "age=0\n" >> libcelt.lai
-	echo -en "revision=0\n" >> libcelt.lai
-	echo -en "installed=yes\n" >> libcelt.lai
-	echo -en "shouldnotlink=no\n" >> libcelt.lai
-	echo -en "dlopen=''\n" >> libcelt.lai
-	echo -en "dlpreopen=''\n" >> libcelt.lai
-	echo -en "libdir='$LibDir'\n" >> libcelt.lai
+	echo -en "# Generated by ossbuild - GNU libtool 1.5.22 (1.1220.2.365 2005/12/18 22:14:06)\n" > libcelt0.lai
+	echo -en "dlname='../bin/lib${Prefix}celt-0.dll'\n" >> libcelt0.lai
+	echo -en "library_names='lib${Prefix}celt0.dll.a'\n" >> libcelt0.lai
+	echo -en "old_library=''\n" >> libcelt0.lai
+	echo -en "inherited_linker_flags=''\n" >> libcelt0.lai
+	echo -en "dependency_libs='-L$LibDir -lm'\n" >> libcelt0.lai
+	echo -en "weak_library_names=''\n" >> libcelt0.lai
+	echo -en "current=0\n" >> libcelt0.lai
+	echo -en "age=0\n" >> libcelt0.lai
+	echo -en "revision=0\n" >> libcelt0.lai
+	echo -en "installed=yes\n" >> libcelt0.lai
+	echo -en "shouldnotlink=no\n" >> libcelt0.lai
+	echo -en "dlopen=''\n" >> libcelt0.lai
+	echo -en "dlpreopen=''\n" >> libcelt0.lai
+	echo -en "libdir='$LibDir'\n" >> libcelt0.lai
 	cd ..
 	make
 	make install
 	
-	copy_files_to_dir "$LIBRARIES_PATCH_DIR/celt/*.def" .
-	$MSLIB /name:lib${Prefix}celt-0.dll /out:celt.lib /machine:$MSLibMachine /def:libcelt.def
+	sed -e 's/main//g' -e 's/DATA//g' -e 's/@[0-9]*//g' libcelt.def > in.def
+	$MSLIB /name:lib${Prefix}celt-0.dll /out:celt0.lib /machine:$MSLibMachine /def:in.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
 	reset_flags
 	
-	update_library_names_windows "lib${Prefix}celt.dll.a" "libcelt.la"
+	update_library_names_windows "lib${Prefix}celt0.dll.a" "libcelt0.la"
 fi
 
 #libtheora
@@ -907,6 +932,9 @@ if [ ! -f "$BinDir/lib${Prefix}mms-0.dll" ]; then
 	LDFLAGS="$LDFLAGS -lwsock32 -lglib-2.0 -lgobject-2.0"
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
+	if [ -e "/mingw/lib/libws2_32.la" ]; then 
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libwsock32.la" "src"
+	fi
 	make && make install
 	
 	copy_files_to_dir "$LIBRARIES_PATCH_DIR/libmms/*.def" .
@@ -1039,21 +1067,10 @@ if [ ! -f "$BinDir/lib${Prefix}avcodec-52.dll" ]; then
 	mkdir_and_move "$IntDir/ffmpeg"
 	
 	#LGPL-compatible version
-	#Please see http://www.mail-archive.com/ffmpeg-issues@lscube.org/msg04083.html 
-	#for an explanation on why -Dav_cold=' ' works
-	#-mincoming-stack-boundary=4 -fno-caller-saves
-	#--disable-encoder=dnxhd --disable-decoder=dnxhd --disable-muxer=dnxhd --disable-demuxer=dnxhd --disable-parser=dnxhd
-	#These tests fail:
-	#dnxhd_1080i
-        #dnxhd_720p
-        #dnxhd_720p_rd
-	#adpcm_ms
-	#wma
 	CFLAGS=""
 	CPPFLAGS=""
 	LDFLAGS=""
-	
-	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -mno-cygwin -mms-bitfields -D_WIN32_WINNT=0x0501 -D__MINGW32_MAJOR_VERSION=3 -D__MINGW32_MINOR_VERSION=15" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir 
+	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir 
 	change_key "." "config.mak" "LIBPREF" "lib${Prefix}"
 	change_key "." "config.mak" "SLIBPREF" "lib${Prefix}"
 	#Adds $(SLIBPREF) to lib names when linking
@@ -1113,6 +1130,9 @@ if [ ! -f "$BinDir/lib${Prefix}nice-0.dll" ]; then
 	LDFLAGS="$LDFLAGS -lwsock32 -lws2_32 -liphlpapi -no-undefined -mno-cygwin -fno-common -fno-strict-aliasing -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias"
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
+	if [ -e "/mingw/lib/libws2_32.la" ]; then 
+		copy_files_to_dir "/mingw/lib/libws2_32.la /mingw/lib/libole32.la /mingw/lib/libiphlpapi.la /mingw/lib/libwsock32.la" "nice"
+	fi
 	make && make install
 	
 	cd "nice/.libs/"
@@ -1357,12 +1377,10 @@ if [ ! -f "$BinDir/lib${Prefix}avcodec-gpl-52.dll" ]; then
 	mkdir_and_move "$IntDir/ffmpeg-gpl"
 
 	#GPL-compatible version
-	#Please see http://www.mail-archive.com/ffmpeg-issues@lscube.org/msg04083.html 
-	#for an explanation on why -Dav_cold=' ' works	
 	CFLAGS=""
 	CPPFLAGS=""
 	LDFLAGS=""
-	$PKG_DIR/configure --extra-ldflags="$LibFlags -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags -mno-cygwin -mms-bitfields -D_WIN32_WINNT=0x0501" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --target-os=mingw32 --arch=i686 --cpu=i686 --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --disable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --enable-gpl --enable-libfaad --enable-libxvid --enable-libx264 --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
+	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --enable-gpl --enable-libfaad --enable-libxvid --enable-libx264 --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
 	change_key "." "config.mak" "BUILDSUF" "-gpl"
 	change_key "." "config.mak" "LIBPREF" "lib${Prefix}"
 	change_key "." "config.mak" "SLIBPREF" "lib${Prefix}"

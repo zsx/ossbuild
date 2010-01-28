@@ -66,5 +66,15 @@ namespace OSSBuild.WiX {
 			}
 			return null;
 		}
+
+		#region IWiXDocumentExtension Members
+		///<summary>
+		///	
+		///</summary>
+		public void PreprocessDocument(System.Xml.XmlDocument document) {
+			throw new NotImplementedException();
+		}
+
+		#endregion
 	}
 }
