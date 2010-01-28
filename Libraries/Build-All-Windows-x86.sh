@@ -113,6 +113,7 @@ if [ ! -f "$BinDir/lib${Prefix}pthreadGC2.dll" ]; then
 	
 	mv "$LibDir/libpthreadGC2.a" "$LibDir/libpthreadGC2.dll.a"
 	cp -p "$LibDir/libpthreadGC2.dll.a" "$LibDir/libpthread.dll.a"
+	cp -p "$LibDir/libpthreadGC2.dll.a" "$LibDir/libpthreads.dll.a"
 	
 	generate_libtool_la_windows "libpthreadGC2.la" "lib${Prefix}pthreadGC2.dll" "libpthreadGC2.dll.a"
 fi
@@ -362,6 +363,26 @@ if [ ! -f "$BinDir/lib${Prefix}png14-14.dll" ]; then
 	cp -f -p "$PkgConfigDir/libpng14.pc" "$PkgConfigDir/libpng12.pc"
 fi
 
+#libtiff
+if [ ! -f "$BinDir/lib${Prefix}tiff-3.dll" ]; then 
+	unpack_gzip_and_move "tiff.tar.gz" "$PKG_DIR_LIBTIFF"
+	mkdir_and_move "$IntDir/tiff"
+	
+	#Configure, compile, and install
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	make && make install
+	
+	cp -p "$PKG_DIR/libtiff/libtiff.def" .
+	$MSLIB /name:lib${Prefix}tiff-3.dll /out:tiff.lib /machine:$MSLibMachine /def:libtiff.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
+	
+	update_library_names_windows "lib${Prefix}tiff.dll.a" "libtiff.la"
+	update_library_names_windows "lib${Prefix}tiffxx.dll.a" "libtiffxx.la"
+	
+	reset_flags
+fi
+
 #glib
 if [ ! -f "$BinDir/lib${Prefix}glib-2.0-0.dll" ]; then 
 	unpack_bzip2_and_move "glib.tar.bz2" "$PKG_DIR_GLIB"
@@ -407,6 +428,26 @@ if [ ! -f "$BinDir/lib${Prefix}glib-2.0-0.dll" ]; then
 	update_library_names_windows "lib${Prefix}gmodule-2.0.dll.a" "libgmodule-2.0.la"
 	update_library_names_windows "lib${Prefix}gobject-2.0.dll.a" "libgobject-2.0.la"
 	update_library_names_windows "lib${Prefix}gthread-2.0.dll.a" "libgthread-2.0.la"
+fi
+
+#atk
+if [ ! -f "$BinDir/lib${Prefix}atk-1.0-0.dll" ]; then 
+	unpack_bzip2_and_move "atk.tar.bz2" "$PKG_DIR_ATK"
+	mkdir_and_move "$IntDir/atk"
+	
+	#Configure, compile, and install
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	#Yes, we're calling make twice - it creates a .def but then doesn't pick it up b/c it's trying to find it in the src dir
+	#It would work if we didn't have a separate build tree
+	make
+	cp -p atk/atk.def "$PKG_DIR/atk/"
+	make
+	make install
+
+	#It creates and installs the .lib file automatically when lib.exe is in the path
+	
+	update_library_names_windows "lib${Prefix}atk-1.0.dll.a" "libatk-1.0.la"
 fi
 
 #openssl
@@ -739,6 +780,59 @@ if [ ! -f "$BinDir/lib${Prefix}pango-1.0-0.dll" ]; then
 	update_library_names_windows "lib${Prefix}pangocairo-1.0.dll.a" "libpangocairo-1.0.la"
 	
 	cd "$LibDir" && remove_files_from_dir "pango*.def"
+fi
+
+#gtk+
+if [ ! -f "$BinDir/lib${Prefix}gtk-win32-2.0-0.dll" ]; then 
+	unpack_bzip2_and_move "gtk+.tar.bz2" "$PKG_DIR_GTKPLUS"
+	mkdir_and_move "$IntDir/gtkplus"
+	
+	#Configure, compile, and install
+	
+	#Need to get rid of MS build tools b/c the makefile call is linking to the wrong dll
+	reset_path
+	
+	CFLAGS="$CFLAGS -mtune=pentium3 -mthreads"
+	LDFLAGS="$LDFLAGS -luuid -lstrmiids"
+	$PKG_DIR/configure --with-gdktarget=win32 --enable-gdiplus --with-included-loaders --with-included-immodules --without-libjasper --disable-debug --enable-explicit-deps=no --disable-gtk-doc --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	
+	#The resource files are using msys/mingw-style paths and windres is having trouble finding the icons
+	cd gdk/win32/rc/
+	cp $PKG_DIR/gdk/win32/rc/gdk.rc .
+	cp $PKG_DIR/gdk/win32/rc/gtk.ico .
+	windres gdk.rc gdk-win32-res.o
+	change_key "." "Makefile" "WINDRES" "true"
+	cd ../../../
+	
+	make
+	make install
+	
+	#Add in MS build tools again
+	setup_ms_build_env_path
+	
+	grep -v -E 'Automatically generated|Created by|LoaderDir =' <$OutDir/etc/gtk-2.0/gdk-pixbuf.loaders >$OutDir/etc/gtk-2.0/gdk-pixbuf.loaders.temp
+    mv $OutDir/etc/gtk-2.0/gdk-pixbuf.loaders.temp $OutDir/etc/gtk-2.0/gdk-pixbuf.loaders
+	grep -v -E 'Automatically generated|Created by|ModulesPath =' <$OutDir/etc/gtk-2.0/gtk.immodules >$OutDir/etc/gtk-2.0/gtk.immodules.temp 
+    mv $OutDir/etc/gtk-2.0/gtk.immodules.temp $OutDir/etc/gtk-2.0/gtk.immodules
+	
+	cp -p "$LibDir/gailutil.def" .
+	cp -p "$LibDir/gdk_pixbuf-2.0.def" .
+	cp -p "$LibDir/gdk-win32-2.0.def" .
+	cp -p "$LibDir/gtk-win32-2.0.def" .
+	$MSLIB /name:lib${Prefix}gailutil-18.dll /out:gailutil.lib /machine:$MSLibMachine /def:gailutil.def
+	$MSLIB /name:lib${Prefix}gdk_pixbuf-2.0-0.dll /out:gdk_pixbuf-2.0.lib /machine:$MSLibMachine /def:gdk_pixbuf-2.0.def
+	$MSLIB /name:lib${Prefix}gtk-win32-2.0-0.dll /out:gdk-win32-2.0.lib /machine:$MSLibMachine /def:gdk-win32-2.0.def
+	$MSLIB /name:lib${Prefix}gtk-win32-2.0-0.dll /out:gtk-win32-2.0.lib /machine:$MSLibMachine /def:gtk-win32-2.0.def
+	
+	move_files_to_dir "*.exp *.lib" "$LibDir"
+	
+	update_library_names_windows "lib${Prefix}gailutil.dll.a" "libgailutil.la"
+	update_library_names_windows "lib${Prefix}gdk_pixbuf-2.0.dll.a" "libgdk_pixbuf-2.0.la"
+	update_library_names_windows "lib${Prefix}gdk-win32-2.0.dll.a" "libgdk-win32-2.0.la"
+	update_library_names_windows "lib${Prefix}gtk-win32-2.0.dll.a" "libgtk-win32-2.0.la"
+	
+	reset_flags
 fi
 
 #sdl

@@ -14,7 +14,10 @@ libxml2		- 	2.7.6 		- 	http://xmlsoft.org/sources/libxml2-2.7.6.tar.gz
 libjpeg 	- 	8.0.0 		- 	http://www.ijg.org/files/jpegsrc.v8.tar.gz
 openjpeg 	- 	1.3.0		- 	http://www.openjpeg.org/openjpeg_v1_3.tar.gz
 libpng 		- 	1.4.0 		- 	http://downloads.sourceforge.net/project/libpng/01-libpng-master/1.4.0/libpng-1.4.0.tar.gz?use_mirror=hivelocity
+libtiff 	- 	3.9.2 		- 	http://ftp.remotesensing.org/pub/libtiff/tiff-3.9.2.tar.gz
 glib 		- 	2.22.4 		- 	http://ftp.gnome.org/pub/gnome/sources/glib/2.22/glib-2.22.4.tar.bz2
+atk 		- 	1.29.4 		- 	http://ftp.gnome.org/pub/gnome/sources/atk/1.29/atk-1.29.4.tar.bz2
+gtk+ 		- 	2.18.6 		- 	http://ftp.gnome.org/pub/gnome/sources/gtk+/2.18/gtk+-2.18.6.tar.bz2
 openssl		- 	0.9.8j 		- 	http://www.openssl.org/source/openssl-0.9.8j.tar.gz
 libgpg-error 	- 	1.7.0 		- 	http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libgpg-error/libgpg-error-1.7.tar.bz2
 libtasn1 	- 	2.4.0 		- 	http://ftp.gnu.org/gnu/libtasn1/libtasn1-2.4.tar.gz
