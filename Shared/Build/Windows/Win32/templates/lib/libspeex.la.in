@@ -14,7 +14,7 @@ library_names='libspeex.dll.a'
 old_library=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib -lwinmm'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib /mingw/i686-pc-mingw32/lib/./libwinmm.la'
 
 # Version information for libspeex.
 current=6

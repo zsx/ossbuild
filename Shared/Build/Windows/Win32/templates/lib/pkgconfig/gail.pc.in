@@ -1,0 +1,11 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: Gail
+Description: GNOME Accessibility Implementation Library
+Version: 2.18.6
+Requires: atk gtk+-2.0
+Libs: -L${libdir} -lgailutil
+Cflags: -I${includedir}/gail-1.0

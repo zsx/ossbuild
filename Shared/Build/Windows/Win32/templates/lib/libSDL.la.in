@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib -luser32 -lgdi32 -lwinmm'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib /mingw/i686-pc-mingw32/lib/./libuser32.la /mingw/i686-pc-mingw32/lib/./libgdi32.la /mingw/i686-pc-mingw32/lib/./libwinmm.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

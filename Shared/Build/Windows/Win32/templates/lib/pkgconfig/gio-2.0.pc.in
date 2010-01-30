@@ -7,7 +7,7 @@ giomoduledir=${libdir}/gio/modules
 
 Name: GIO
 Description: glib I/O library
-Version: 2.22.2
+Version: 2.22.4
 Requires: glib-2.0,gobject-2.0,gmodule-no-export-2.0
 Libs: -L${libdir} -lgio-2.0
 Cflags: 

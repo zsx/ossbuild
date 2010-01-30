@@ -19,7 +19,7 @@ dependency_libs=' -L@SHARED_BUILD_DIR@/lib'
 # Version information for libwavpack.
 current=2
 age=1
-revision=3
+revision=4
 
 # Is this an already installed library?
 installed=yes

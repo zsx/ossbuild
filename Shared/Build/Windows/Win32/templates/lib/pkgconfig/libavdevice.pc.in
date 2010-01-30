@@ -5,10 +5,10 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: libavdevice
 Description: FFmpeg device handling library
-Version: 52.1.0
+Version: 52.2.0
 Requires: 
-Requires.private: libavformat = 52.31.0
+Requires.private: libavformat = 52.48.0
 Conflicts:
 Libs: -L${libdir} -lavdevice 
-Libs.private: -lz -lbz2 -lm -lvfw32 -lmp3lame -lm -lopenjpeg -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lschroedinger-1.0 -loil-0.3 -lm -lspeex -ltheora -logg -lvorbisenc -lvorbis -logg -lws2_32 -lvfw32
+Libs.private: -lz -lbz2 -lm -lavifil32 -lmp3lame -lm -lopenjpeg -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lschroedinger-1.0 -loil-0.3 -lm -lspeex -ltheoraenc -ltheoradec -logg -lvorbisenc -lvorbis -logg -lws2_32 -lavicap32
 Cflags: -I${includedir}

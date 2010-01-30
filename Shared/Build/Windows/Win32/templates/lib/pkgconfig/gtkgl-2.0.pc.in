@@ -1,0 +1,11 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: GtkGLArea
+Description: an OpenGL widget for GTK+
+Version: 2.0.1
+Requires: gtk+-2.0
+Libs: -L${libdir} -lgtkgl-2.0  -lglu32 -lopengl32
+Cflags: -I${includedir}/gtkgl-2.0 

@@ -1,0 +1,12 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+target=win32
+
+Name: GDK
+Description: GTK+ Drawing Kit (${target} target)
+Version: 2.18.6
+Requires: gdk-pixbuf-2.0 pangowin32 pangocairo
+Libs: -L${libdir} -lgdk-${target}-2.0 
+Cflags: -I${includedir}/gtk-2.0 -I${libdir}/gtk-2.0/include 

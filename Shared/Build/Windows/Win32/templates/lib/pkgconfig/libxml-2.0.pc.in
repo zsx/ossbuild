@@ -5,9 +5,9 @@ includedir=@SHARED_BUILD_DIR@/include
 modules=0
 
 Name: libXML
-Version: 2.7.3
+Version: 2.7.6
 Description: libXML library version2.
 Requires:
 Libs: -L${libdir} -lxml2
-Libs.private: -lpthread -lz  -liconv  
+Libs.private:  -lz  -liconv  
 Cflags: -I${includedir}/libxml2 

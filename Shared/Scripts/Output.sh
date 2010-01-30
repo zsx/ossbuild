@@ -36,6 +36,7 @@ output_startup() {
 	export LibDir=$OutDir/lib
 	export BinDir=$OutDir/bin
 	export EtcDir=$OutDir/etc
+	export ShareDir=$OutDir/share
 	export IncludeDir=$OutDir/include
 	export TemplateDir=$OutDir/templates
 	export PkgConfigDir=$LibDir/pkgconfig
@@ -45,6 +46,7 @@ output_startup() {
 	export SharedLibDir=$SharedOutDir/lib
 	export SharedBinDir=$SharedOutDir/bin
 	export SharedEtcDir=$SharedOutDir/etc
+	export SharedShareDir=$SharedOutDir/share
 	export SharedIncludeDir=$SharedOutDir/include
 	export SharedTemplateDir=$SharedOutDir/templates
 	export SharedPkgConfigDir=$SharedLibDir/pkgconfig
@@ -285,6 +287,16 @@ create_shared() {
 	
 	echo "Copying to shared directory..."
 	
+	#Share
+	test -d "$ShareDir/aclocal/" && cd "$ShareDir/aclocal/" && cp -ru * "$SharedShareDir/aclocal/"
+	test -d "$ShareDir/common-lisp/" && cd "$ShareDir/common-lisp/" && cp -ru * "$SharedShareDir/common-lisp/"
+	test -d "$ShareDir/ffmpeg/" && cd "$ShareDir/ffmpeg/" && cp -ru * "$SharedShareDir/ffmpeg/"
+	test -d "$ShareDir/gdb/" && cd "$ShareDir/gdb/" && cp -ru * "$SharedShareDir/gdb/"
+	test -d "$ShareDir/glib-2.0/" && cd "$ShareDir/glib-2.0/" && cp -ru * "$SharedShareDir/glib-2.0/"
+	test -d "$ShareDir/gtk-2.0/" && cd "$ShareDir/gtk-2.0/" && cp -ru * "$SharedShareDir/gtk-2.0/"
+	test -d "$ShareDir/locale/" && cd "$ShareDir/locale/" && cp -ru * "$SharedShareDir/locale/"
+	test -d "$ShareDir/themes/" && cd "$ShareDir/themes/" && cp -ru * "$SharedShareDir/themes/"
+	
 	#Bin
 	cd "$BinDir" && copy_files_to_dir "*" "$SharedBinDir"
 	cd "$SharedBinDir" && remove_files_from_dir "*.def"
@@ -292,6 +304,7 @@ create_shared() {
 	#Lib
 	cd "$LibDir" && copy_files_to_dir "*.a *.lib *.sh" "$SharedLibDir"
 	test -d "glib-2.0" && cp -ru "glib-2.0" "$SharedLibDir"
+	test -d "gtk-2.0" && cp -ru "gtk-2.0" "$SharedLibDir"
 	
 	#Include
 	cd "$IncludeDir" && cp -ru * "$SharedIncludeDir"

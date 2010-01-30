@@ -42,6 +42,7 @@ struct _SchroDecoder {
 
   double skip_value;
   double skip_ratio;
+  int earliest_frame;
 
   /* output pictures in coded order */
   int coded_order;
@@ -89,6 +90,7 @@ struct _SchroDecoderInstance {
   int profile;
   int level;
   SchroVideoFormat video_format;
+  int compat_quant_offset;
 
   SchroQueue *reorder_queue;
   int reorder_queue_size;

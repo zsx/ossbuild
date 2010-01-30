@@ -41,7 +41,7 @@
  * version bump.
  * sizeof(URLContext) must not be used outside libav*.
  */
-struct URLContext {
+typedef struct URLContext {
 #if LIBAVFORMAT_VERSION_MAJOR >= 53
     const AVClass *av_class; ///< information for av_log(). Set by url_open().
 #endif
@@ -50,10 +50,8 @@ struct URLContext {
     int is_streamed;  /**< true if streamed (no seek possible), default = false */
     int max_packet_size;  /**< if non zero, the stream is packetized with this max packet size */
     void *priv_data;
-    char *filename; /**< specified filename */
-};
-
-typedef struct URLContext URLContext;
+    char *filename; /**< specified URL */
+} URLContext;
 
 typedef struct URLPollEntry {
     URLContext *handle;
@@ -67,15 +65,76 @@ typedef struct URLPollEntry {
 
 typedef int URLInterruptCB(void);
 
+/**
+ * Creates an URLContext for accessing to the resource indicated by
+ * url, and opens it using the URLProtocol up.
+ *
+ * @param puc pointer to the location where, in case of success, the
+ * function puts the pointer to the created URLContext
+ * @param flags flags which control how the resource indicated by url
+ * is to be opened
+ * @return 0 in case of success, a negative value corresponding to an
+ * AVERROR code in case of failure
+ */
 int url_open_protocol (URLContext **puc, struct URLProtocol *up,
-                       const char *filename, int flags);
-int url_open(URLContext **h, const char *filename, int flags);
+                       const char *url, int flags);
+
+/**
+ * Creates an URLContext for accessing to the resource indicated by
+ * url, and opens it.
+ *
+ * @param puc pointer to the location where, in case of success, the
+ * function puts the pointer to the created URLContext
+ * @param flags flags which control how the resource indicated by url
+ * is to be opened
+ * @return 0 in case of success, a negative value corresponding to an
+ * AVERROR code in case of failure
+ */
+int url_open(URLContext **h, const char *url, int flags);
+
+/**
+ * Reads up to size bytes from the resource accessed by h, and stores
+ * the read bytes in buf.
+ *
+ * @return The number of bytes actually read, or a negative value
+ * corresponding to an AVERROR code in case of error. A value of zero
+ * indicates that it is not possible to read more from the accessed
+ * resource (except if the value of the size argument is also zero).
+ */
 int url_read(URLContext *h, unsigned char *buf, int size);
+
+/**
+ * Read as many bytes as possible (up to size), calling the
+ * read function multiple times if necessary.
+ * Will also retry if the read function returns AVERROR(EAGAIN).
+ * This makes special short-read handling in applications
+ * unnecessary, if the return value is < size then it is
+ * certain there was either an error or the end of file was reached.
+ */
+int url_read_complete(URLContext *h, unsigned char *buf, int size);
 int url_write(URLContext *h, unsigned char *buf, int size);
 int64_t url_seek(URLContext *h, int64_t pos, int whence);
+
+/**
+ * Closes the resource accessed by the URLContext h, and frees the
+ * memory used by it.
+ *
+ * @return a negative value if an error condition occurred, 0
+ * otherwise
+ */
 int url_close(URLContext *h);
-int url_exist(const char *filename);
+
+int url_exist(const char *url);
 int64_t url_filesize(URLContext *h);
+
+/**
+ * Return the file descriptor associated with this URL. For RTP, this
+ * will return only the RTP file descriptor, not the RTCP file descriptor.
+ * To get both, use rtp_get_file_handles().
+ *
+ * @return the file descriptor associated with this URL, or <0 on error.
+ */
+int url_get_file_handle(URLContext *h);
 
 /**
  * Return the maximum packet size associated to packetized file
@@ -135,7 +194,7 @@ int64_t av_url_read_seek(URLContext *h, int stream_index,
 
 typedef struct URLProtocol {
     const char *name;
-    int (*url_open)(URLContext *h, const char *filename, int flags);
+    int (*url_open)(URLContext *h, const char *url, int flags);
     int (*url_read)(URLContext *h, unsigned char *buf, int size);
     int (*url_write)(URLContext *h, unsigned char *buf, int size);
     int64_t (*url_seek)(URLContext *h, int64_t pos, int whence);
@@ -144,6 +203,7 @@ typedef struct URLProtocol {
     int (*url_read_pause)(URLContext *h, int pause);
     int64_t (*url_read_seek)(URLContext *h, int stream_index,
                              int64_t timestamp, int flags);
+    int (*url_get_file_handle)(URLContext *h);
 } URLProtocol;
 
 #if LIBAVFORMAT_VERSION_MAJOR < 53
@@ -166,6 +226,9 @@ URLProtocol *av_protocol_next(URLProtocol *p);
 attribute_deprecated int register_protocol(URLProtocol *protocol);
 #endif
 
+/**
+ * Registers the URLProtocol protocol.
+ */
 int av_register_protocol(URLProtocol *protocol);
 
 /**
@@ -324,15 +387,17 @@ int url_fdopen(ByteIOContext **s, URLContext *h);
 
 /** @warning must be called before any I/O */
 int url_setbufsize(ByteIOContext *s, int buf_size);
+#if LIBAVFORMAT_VERSION_MAJOR < 53
 /** Reset the buffer for reading or writing.
  * @note Will drop any data currently in the buffer without transmitting it.
  * @param flags URL_RDONLY to set up the buffer for reading, or URL_WRONLY
  *        to set up the buffer for writing. */
 int url_resetbuf(ByteIOContext *s, int flags);
+#endif
 
 /** @note when opened as read/write, the buffers are only used for
     writing */
-int url_fopen(ByteIOContext **s, const char *filename, int flags);
+int url_fopen(ByteIOContext **s, const char *url, int flags);
 int url_fclose(ByteIOContext *s);
 URLContext *url_fileno(ByteIOContext *s);
 
@@ -389,6 +454,8 @@ void init_checksum(ByteIOContext *s,
 /* udp.c */
 int udp_set_remote_url(URLContext *h, const char *uri);
 int udp_get_local_port(URLContext *h);
+#if (LIBAVFORMAT_VERSION_MAJOR <= 52)
 int udp_get_file_handle(URLContext *h);
+#endif
 
 #endif /* AVFORMAT_AVIO_H */

@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgmodule-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la -lws2_32 -lole32 -lintl'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgmodule-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libole32.la @SHARED_BUILD_DIR@/lib/libintl.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
@@ -25,7 +25,7 @@ weak_library_names=''
 # Version information for libpango-1.0.
 current=2600
 age=2600
-revision=1
+revision=2
 
 # Is this an already installed library?
 installed=yes

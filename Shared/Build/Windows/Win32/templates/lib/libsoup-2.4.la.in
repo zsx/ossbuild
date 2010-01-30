@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -R@SHARED_BUILD_DIR@/lib -L@SHARED_BUILD_DIR@/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgthread-2.0.la @SHARED_BUILD_DIR@/lib/libgio-2.0.la -lshlwapi -ldnsapi @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgmodule-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la -lole32 -lintl @SHARED_BUILD_DIR@/lib/libxml2.la -lpthread -liconv @SHARED_BUILD_DIR@/lib/libgnutls.la -lz @SHARED_BUILD_DIR@/lib/libgcrypt.la @SHARED_BUILD_DIR@/lib/libgpg-error.la -lws2_32'
+dependency_libs=' -R@SHARED_BUILD_DIR@/lib -L@SHARED_BUILD_DIR@/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgthread-2.0.la @SHARED_BUILD_DIR@/lib/libgio-2.0.la /mingw/i686-pc-mingw32/lib/./libshlwapi.la /mingw/i686-pc-mingw32/lib/./libdnsapi.la @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgmodule-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la /mingw/i686-pc-mingw32/lib/./libole32.la @SHARED_BUILD_DIR@/lib/libintl.la @SHARED_BUILD_DIR@/lib/libxml2.la @SHARED_BUILD_DIR@/lib/libiconv.la @SHARED_BUILD_DIR@/lib/libgnutls.la @SHARED_BUILD_DIR@/lib/libtasn1.la @SHARED_BUILD_DIR@/lib/libz.la /mingw/i686-pc-mingw32/lib/./libws2_32.la @SHARED_BUILD_DIR@/lib/libgcrypt.la @SHARED_BUILD_DIR@/lib/libgpg-error.la /mingw/i686-pc-mingw32/lib/./libws2_32.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

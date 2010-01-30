@@ -1579,7 +1579,7 @@ fi
 reset_flags
 
 #Make sure the shared directory has all our updates
-#create_shared
+create_shared
 
 #Cleanup CRT
 crt_shutdown

@@ -56,7 +56,7 @@ extern "C" {
    return the same version.  The purpose of this macro is to let
    autoconf (using the AM_PATH_GCRYPT macro) check that this header
    matches the installed library.  */
-#define GCRYPT_VERSION "1.4.4"
+#define GCRYPT_VERSION "1.4.5"
 
 /* Internal: We can't use the convenience macros for the multi
    precision integer functions when building this library. */

@@ -1,0 +1,14 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libswscale
+Description: FFmpeg image rescaling library
+Version: 0.9.0
+Requires: 
+Requires.private: libavutil = 50.7.0
+Conflicts:
+Libs: -L${libdir} -lswscale 
+Libs.private: 
+Cflags: -I${includedir}

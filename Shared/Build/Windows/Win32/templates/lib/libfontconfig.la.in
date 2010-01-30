@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib @SHARED_BUILD_DIR@/lib/libfreetype.la -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libxml2.la -lpthread -lz -liconv -lws2_32'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib @SHARED_BUILD_DIR@/lib/libiconv.la @SHARED_BUILD_DIR@/lib/libfreetype.la @SHARED_BUILD_DIR@/lib/libz.la @SHARED_BUILD_DIR@/lib/libexpat.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
@@ -25,7 +25,7 @@ weak_library_names=''
 # Version information for libfontconfig.
 current=5
 age=4
-revision=3
+revision=4
 
 # Is this an already installed library?
 installed=yes

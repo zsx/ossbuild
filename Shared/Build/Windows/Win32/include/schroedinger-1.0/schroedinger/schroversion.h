@@ -4,7 +4,7 @@
 
 #define SCHRO_VERSION_MAJOR (1)
 #define SCHRO_VERSION_MINOR (0)
-#define SCHRO_VERSION_MICRO (7)
+#define SCHRO_VERSION_MICRO (8)
 
 #define SCHRO_CHECK_VERSION(major,minor,micro) \
 (SCHRO_VERSION_MAJOR > (major) || \

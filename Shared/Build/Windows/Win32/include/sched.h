@@ -124,6 +124,15 @@
 typedef int pid_t;
 #endif
 
+#ifndef _PID_T_
+#define	_PID_T_
+typedef int	_pid_t;
+
+#ifndef	_NO_OLDNAMES
+typedef _pid_t	pid_t;
+#endif
+#endif	/* Not _PID_T_ */
+
 /* Thread scheduling policies */
 
 enum {

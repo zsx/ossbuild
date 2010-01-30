@@ -1,11 +1,11 @@
 prefix=@SHARED_BUILD_DIR@
 exec_prefix=${prefix}
 libdir=@SHARED_BUILD_DIR@/lib
-includedir=@SHARED_BUILD_DIR@/include/libpng12
+includedir=@SHARED_BUILD_DIR@/include/libpng14
 
 Name: libpng
 Description: Loads and saves PNG files
-Version: 1.2.40
-Libs: -L${libdir} -lpng12
+Version: 1.4.0
+Libs: -L${libdir} -lpng14
 Libs.private: -lz 
-Cflags: -I${includedir} -DPNG_NO_MMX_CODE
+Cflags: -I${includedir}

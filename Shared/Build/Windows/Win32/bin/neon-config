@@ -60,7 +60,7 @@ while test $# -gt 0; do
 	;;
 
     --version)
-	echo neon 0.29.0
+	echo neon 0.29.3
 	exit 0
 	;;
 
@@ -73,12 +73,12 @@ while test $# -gt 0; do
        	;;
 
     --libs)
-        LIBS="-lneon -lintl -lws2_32 -lws2_32  -lz -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lgnutls   -L/D/OSSBuild/Build/Windows/Win32/Release/lib -lxml2 -lz -lpthread -liconv -lws2_32"
+        LIBS="-lneon -lintl -lws2_32 -lws2_32  -lz -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lgnutls   -lexpat"
 	# Don't add standard library paths
         if test "$prefix" != "/usr"; then
            LIBS="-L${libdir} ${LIBS}"
         fi
-	echo  -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L/D/OSSBuild/Build/Windows/Win32/Release/lib -L/D/OSSBuild/Shared/Build/Windows/Win32/lib ${LIBS}
+	echo -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at  -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L/D/OSSBuild/Build/Windows/Win32/Release/lib -L/D/OSSBuild/Shared/Build/Windows/Win32/lib ${LIBS}
 	;;
 
     --la-file)
