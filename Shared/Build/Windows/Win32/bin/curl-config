@@ -22,9 +22,9 @@
 # $Id: curl-config.in,v 1.36 2009-03-20 12:42:29 bagder Exp $
 ###########################################################################
 
-prefix=/D/OSSBuild/Build/Windows/Win32/Release
+prefix=/E/Work/OSSBuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
-includedir=/D/OSSBuild/Build/Windows/Win32/Release/include
+includedir=/E/Work/OSSBuild/Build/Windows/Win32/Release/include
 
 usage()
 {
@@ -122,28 +122,28 @@ while test $# -gt 0; do
 	;;
 
     --cflags)
-       	if test "X/D/OSSBuild/Build/Windows/Win32/Release/include" = "X/usr/include"; then
+       	if test "X/E/Work/OSSBuild/Build/Windows/Win32/Release/include" = "X/usr/include"; then
           echo ""
         else
-          echo "-I/D/OSSBuild/Build/Windows/Win32/Release/include"
+          echo "-I/E/Work/OSSBuild/Build/Windows/Win32/Release/include"
         fi
        	;;
 
     --libs)
-	if test "X/D/OSSBuild/Build/Windows/Win32/Release/lib" != "X/usr/lib" -a "X/D/OSSBuild/Build/Windows/Win32/Release/lib" != "X/usr/lib64"; then
-	   CURLLIBDIR="-L/D/OSSBuild/Build/Windows/Win32/Release/lib "
+	if test "X/E/Work/OSSBuild/Build/Windows/Win32/Release/lib" != "X/usr/lib" -a "X/E/Work/OSSBuild/Build/Windows/Win32/Release/lib" != "X/usr/lib64"; then
+	   CURLLIBDIR="-L/E/Work/OSSBuild/Build/Windows/Win32/Release/lib "
 	else
 	   CURLLIBDIR=""
 	fi
 	if test "Xyes" = "Xyes"; then
-	  echo ${CURLLIBDIR}-lcurl -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L/D/OSSBuild/Build/Windows/Win32/Release/lib -L/D/OSSBuild/Shared/Build/Windows/Win32/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lwldap32 -lws2_32 -lz -lgnutls -lws2_32 
+	  echo ${CURLLIBDIR}-lcurl -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L/E/Work/OSSBuild/Build/Windows/Win32/Release/lib -L/E/Work/OSSBuild/Shared/Build/Windows/Win32/lib -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib -lwldap32 -lws2_32 -lz -lgnutls -lws2_32 
 	else
-	  echo ${CURLLIBDIR}-lcurl -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L/D/OSSBuild/Build/Windows/Win32/Release/lib -L/D/OSSBuild/Shared/Build/Windows/Win32/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib 
+	  echo ${CURLLIBDIR}-lcurl -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L/E/Work/OSSBuild/Build/Windows/Win32/Release/lib -L/E/Work/OSSBuild/Shared/Build/Windows/Win32/lib -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib 
 	fi
 	;;
 
     --static-libs)
-	echo /D/OSSBuild/Build/Windows/Win32/Release/lib/libcurl.a -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L/D/OSSBuild/Build/Windows/Win32/Release/lib -L/D/OSSBuild/Shared/Build/Windows/Win32/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lwldap32 -lws2_32 -lz -lgnutls -lws2_32 
+	echo /E/Work/OSSBuild/Build/Windows/Win32/Release/lib/libcurl.a -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L/E/Work/OSSBuild/Build/Windows/Win32/Release/lib -L/E/Work/OSSBuild/Shared/Build/Windows/Win32/lib -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib -lwldap32 -lws2_32 -lz -lgnutls -lws2_32 
 	;;
 
     *)

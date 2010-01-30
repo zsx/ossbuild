@@ -35,6 +35,6 @@ Name: libcurl
 URL: http://curl.haxx.se/
 Description: Library to transfer files with ftp, http, etc.
 Version: 7.19.7
-Libs: -L${libdir} -lcurl -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L@SHARED_BUILD_DIR@/lib -L/D/OSSBuild/Shared/Build/Windows/Win32/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib 
+Libs: -L${libdir} -lcurl -Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias -L@SHARED_BUILD_DIR@/lib -L/E/Work/OSSBuild/Shared/Build/Windows/Win32/lib -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib 
 Libs.private: -lwldap32 -lws2_32 -lz -lgnutls -lws2_32 
 Cflags: -I${includedir}

@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libpixman-1.la @SHARED_BUILD_DIR@/lib/libfontconfig.la @SHARED_BUILD_DIR@/lib/libiconv.la @SHARED_BUILD_DIR@/lib/libfreetype.la @SHARED_BUILD_DIR@/lib/libexpat.la @SHARED_BUILD_DIR@/lib/libpng14.la /mingw/i686-pc-mingw32/lib/./libgdi32.la /mingw/i686-pc-mingw32/lib/./libmsimg32.la @SHARED_BUILD_DIR@/lib/libz.la'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libpixman-1.la @SHARED_BUILD_DIR@/lib/libfontconfig.la @SHARED_BUILD_DIR@/lib/libiconv.la @SHARED_BUILD_DIR@/lib/libfreetype.la @SHARED_BUILD_DIR@/lib/libexpat.la @SHARED_BUILD_DIR@/lib/libpng14.la /mingw/i686-pc-mingw32/lib/./libgdi32.la /mingw/i686-pc-mingw32/lib/./libmsimg32.la @SHARED_BUILD_DIR@/lib/libz.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

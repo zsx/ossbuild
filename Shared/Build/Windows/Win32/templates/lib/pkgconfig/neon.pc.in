@@ -6,6 +6,6 @@ includedir=@SHARED_BUILD_DIR@/include
 Name: neon
 Description: HTTP/WebDAV client library
 Version: 0.29.3
-Libs.private: -lintl -lws2_32 -lws2_32  -lz -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lgnutls   -lexpat
+Libs.private: -lintl -lws2_32 -lws2_32  -lz -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib -lgnutls   -lexpat
 Libs: -L${libdir} -lneon 
 Cflags: -I${includedir}/neon 

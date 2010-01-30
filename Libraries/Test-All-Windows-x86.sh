@@ -18,6 +18,8 @@ crt_startup
 #Setup library versions
 . $ROOT/Shared/Scripts/Version.sh
 
+save_prefix ${DefaultPrefix}
+
 #Move to intermediate directory
 cd "$IntDir"
 
@@ -25,6 +27,9 @@ cd "$IntDir"
 setup_ms_build_env_path
 
 #clear_flags
+
+#No prefix from here out
+clear_prefix
 
 #Update flags to make sure we don't try and export intl (gettext) functions more than once
 #Setting it to ORIG_LDFLAGS ensures that any calls to reset_flags will include these changes.
@@ -49,12 +54,16 @@ PKG_QUEUE_USER_APC_EX=`pwd`
 #cd "$IntDir/liboil"
 #make check
 #
-##pthreads
-#unpack_gzip_and_move "pthreads-w32.tar.gz" "$PKG_DIR_PTHREADS"
-#cp -p -r "$PKG_QUEUE_USER_APC_EX" "$PKG_DIR"
-#cp -p "$BinDir\lib${DefaultPrefix}pthreadGC2.dll" "$PKG_DIR\pthreadGC2.dll"
-#cd tests
-#make GC
+#pthreads
+PthreadsPrefix=lib${Prefix}
+if [ "${Prefix}" = "" ]; then
+	PthreadsPrefix=""
+fi
+unpack_gzip_and_move "pthreads-w32.tar.gz" "$PKG_DIR_PTHREADS"
+cp -p -r "$PKG_QUEUE_USER_APC_EX" "$PKG_DIR"
+cp -p "$BinDir/${PthreadsPrefix}pthreadGC2.dll" "$PKG_DIR\pthreadGC2.dll"
+cd tests
+make GC
 #
 ##zlib
 #unpack_zip_and_move_windows "zlib.zip" "zlib" "zlib"
@@ -194,8 +203,8 @@ PKG_QUEUE_USER_APC_EX=`pwd`
 #make check
 #
 #ffmpeg
-mkdir_and_move "$IntDir/ffmpeg"
-make check
+#mkdir_and_move "$IntDir/ffmpeg"
+#make check
 
 
 

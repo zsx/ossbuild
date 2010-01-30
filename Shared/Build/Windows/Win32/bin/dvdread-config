@@ -2,7 +2,7 @@
 #
 #
 
-prefix=/D/OSSBuild/Build/Windows/Win32/Release
+prefix=/E/Work/OSSBuild/Build/Windows/Win32/Release
 exec_prefix=${prefix}
 exec_prefix_set=no
 
@@ -72,9 +72,9 @@ if test "$echo_exec_prefix" = "yes"; then
 fi
 
 if test "$echo_cflags" = "yes"; then
-      echo -I/D/OSSBuild/Build/Windows/Win32/Release/include
+      echo -I/E/Work/OSSBuild/Build/Windows/Win32/Release/include
 fi
 
 if test "$echo_libs" = "yes"; then
-      echo -L/D/OSSBuild/Build/Windows/Win32/Release/lib -ldvdread
+      echo -L/E/Work/OSSBuild/Build/Windows/Win32/Release/lib -ldvdread
 fi

@@ -108,27 +108,36 @@ if [ ! -f "$BinDir/lib${Prefix}oil-0.3-0.dll" ]; then
 fi
 
 #pthreads
-if [ ! -f "$BinDir/lib${Prefix}pthreadGC2.dll" ]; then 
+PthreadsPrefix=lib${Prefix}
+if [ "${Prefix}" = "" ]; then
+	PthreadsPrefix=""
+fi
+if [ ! -f "$BinDir/${PthreadsPrefix}pthreadGC2.dll" ]; then 
 	unpack_gzip_and_move "pthreads-w32.tar.gz" "$PKG_DIR_PTHREADS"
 	patch -u -N -i "$LIBRARIES_PATCH_DIR/pthreads-w32/sched.h.patch"
 	mkdir_and_move "$IntDir/pthreads"
 	
 	cd "$PKG_DIR"
-	change_package "lib${Prefix}pthreadGC\$(DLL_VER).dll" "." "GNUmakefile" "GC_DLL"
+	change_package "${PthreadsPrefix}pthreadGC\$(DLL_VER).dll" "." "GNUmakefile" "GC_DLL"
 	make GC-inlined
-	$MSLIB /name:lib${Prefix}pthreadGC2.dll /out:pthreadGC2.lib /machine:$MSLibMachine /def:pthread.def
+	$MSLIB /name:${PthreadsPrefix}pthreadGC2.dll /out:pthreadGC2.lib /machine:$MSLibMachine /def:pthread.def
+	cp -p pthreadGC2.lib libpthreadGC2.dll.a
 	copy_files_to_dir "*.exp *.lib *.a" "$LibDir"
 	copy_files_to_dir "*.dll" "$BinDir"
 	copy_files_to_dir "pthread.h sched.h" "$IncludeDir"
-	make clean
 	
-	mv "$LibDir/libpthreadGC2.a" "$LibDir/libpthreadGC2.dll.a"
+	mv "libpthreadGC2.dll.a" "$LibDir/"
 	cp -p "$LibDir/libpthreadGC2.dll.a" "$LibDir/libpthread.dll.a"
 	cp -p "$LibDir/libpthreadGC2.dll.a" "$LibDir/libpthreads.dll.a"
+	rm -f "$LibDir/libpthreadGC2.a"
 	
-	generate_libtool_la_windows "libpthreadGC2.la" "lib${Prefix}pthreadGC2.dll" "libpthreadGC2.dll.a"
+	generate_libtool_la_windows "libpthreadGC2.la" "${PthreadsPrefix}pthreadGC2.dll" "libpthreadGC2.dll.a"
 fi
 
+IconvPrefix=lib${Prefix}
+if [ "${Prefix}" = "" ]; then
+	IconvPrefix=""
+fi
 #win-iconv
 if [ ! -f "$LibDir/iconv.lib" ]; then 
 	unpack_bzip2_and_move "win-iconv.tar.bz2" "$PKG_DIR_WIN_ICONV"
@@ -137,24 +146,28 @@ if [ ! -f "$LibDir/iconv.lib" ]; then
 	
 	gcc -I"$IncludeDir" -O2 -DUSE_LIBICONV_DLL -c win_iconv.c 
 	ar crv libiconv.a win_iconv.o 
-	#gcc $(CFLAGS) -O2 -shared -o lib${Prefix}iconv.dll
-	dlltool --export-all-symbols -D lib${Prefix}iconv.dll -l libiconv.dll.a -z in.def libiconv.a
+	#gcc $(CFLAGS) -O2 -shared -o ${IconvPrefix}iconv.dll
+	dlltool --export-all-symbols -D ${IconvPrefix}iconv.dll -l libiconv.dll.a -z in.def libiconv.a
 	ranlib libiconv.dll.a
-	gcc -shared -s -mwindows -def in.def -o lib${Prefix}iconv.dll libiconv.a
+	gcc -shared -s -mwindows -def in.def -o ${IconvPrefix}iconv.dll libiconv.a
 	cp iconv.h "$IncludeDir"
 	
-	$MSLIB /name:lib${Prefix}iconv.dll /out:iconv.lib /machine:$MSLibMachine /def:in.def
+	$MSLIB /name:${IconvPrefix}iconv.dll /out:iconv.lib /machine:$MSLibMachine /def:in.def
 	move_files_to_dir "*.dll" "$BinDir"
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
 	copy_files_to_dir "*.dll.a" "$LibDir"
 	
-	generate_libtool_la_windows "libiconv.la" "lib${Prefix}iconv.dll" "libiconv.dll.a"
+	generate_libtool_la_windows "libiconv.la" "${IconvPrefix}iconv.dll" "libiconv.dll.a"
 fi
 
 #zlib
+ZlibPrefix=lib${Prefix}
+if [ "${Prefix}" = "" ]; then
+	ZlibPrefix=""
+fi
 #Can't use separate build dir
-if [ ! -f "$BinDir/lib${Prefix}z.dll" ]; then 
+if [ ! -f "$BinDir/${ZlibPrefix}z.dll" ]; then 
 	unpack_zip_and_move_windows "zlib.zip" "zlib" "zlib"
 	mkdir_and_move "$IntDir/zlib"
 	cd "$PKG_DIR"
@@ -162,20 +175,20 @@ if [ ! -f "$BinDir/lib${Prefix}z.dll" ]; then
 	#cp contrib/asm686/match.S ./match.S
 	#make LOC=-DASMV OBJA=match.o -fwin32/Makefile.gcc
 	
-	change_package "lib${Prefix}z.dll" "win32" "Makefile.gcc" "SHAREDLIB"
-	make -fwin32/Makefile.gcc lib${Prefix}z.dll
+	change_package "${ZlibPrefix}z.dll" "win32" "Makefile.gcc" "SHAREDLIB"
+	make -fwin32/Makefile.gcc ${ZlibPrefix}z.dll
 	INCLUDE_PATH=$IncludeDir LIBRARY_PATH=$BinDir make install -fwin32/Makefile.gcc
 	
-	cp -p lib${Prefix}z.dll "$BinDir"
+	cp -p ${ZlibPrefix}z.dll "$BinDir"
 	make clean -fwin32/Makefile.gcc
 	
 	mv "$BinDir/libzdll.a" "$LibDir/libz.dll.a"
 	rm -f "$BinDir/libz.a"
 	
-	$MSLIB /name:lib${Prefix}z.dll /out:z.lib /machine:$MSLibMachine /def:win32/zlib.def
+	$MSLIB /name:${ZlibPrefix}z.dll /out:z.lib /machine:$MSLibMachine /def:win32/zlib.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
-	generate_libtool_la_windows "libz.la" "lib${Prefix}z.dll" "libz.dll.a"
+	generate_libtool_la_windows "libz.la" "${ZlibPrefix}z.dll" "libz.dll.a"
 fi
 
 #bzip2
@@ -220,31 +233,35 @@ if [ ! -f "$BinDir/lib${Prefix}bz2.dll" ]; then
 fi
 
 #glew
-if [ ! -f "$BinDir/lib${Prefix}glew32.dll" ]; then
+GlewPrefix=lib${Prefix}
+if [ "${Prefix}" = "" ]; then
+	GlewPrefix=""
+fi
+if [ ! -f "$BinDir/${GlewPrefix}glew32.dll" ]; then
 	unpack_gzip_and_move "glew.tar.gz" "$PKG_DIR_GLEW"
 	mkdir_and_move "$IntDir/glew"
 	
 	cd "$PKG_DIR"
-	change_package "lib${Prefix}\$(NAME).dll" "config" "Makefile.mingw" "LIB.SONAME"
-	change_package "lib${Prefix}\$(NAME).dll" "config" "Makefile.mingw" "LIB.SHARED"
+	change_package "${GlewPrefix}\$(NAME).dll" "config" "Makefile.mingw" "LIB.SONAME"
+	change_package "${GlewPrefix}\$(NAME).dll" "config" "Makefile.mingw" "LIB.SHARED"
 	make
 	
 	cd "lib"
 	strip "libglew32.dll.a"
 	
-	pexports "lib${Prefix}glew32.dll" > in.def
+	pexports "${GlewPrefix}glew32.dll" > in.def
 	sed -e '/LIBRARY glew32/d' -e 's/DATA//g' in.def > in-mod.def
-	$MSLIB /name:lib${Prefix}glew32.dll /out:glew32.lib /machine:$MSLibMachine /def:in-mod.def
+	$MSLIB /name:${GlewPrefix}glew32.dll /out:glew32.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir"
 	
-	cp -f "lib${Prefix}glew32.dll" "$BinDir"
+	cp -f "${GlewPrefix}glew32.dll" "$BinDir"
 	cp -f "libglew32.dll.a" "$LibDir"
 	
 	cd "../include/GL/"
 	mkdir -p "$IncludeDir/GL/"
 	copy_files_to_dir "glew.h wglew.h" "$IncludeDir/GL/"
 	
-	generate_libtool_la_windows "libglew32.la" "lib${Prefix}glew32.dll" "libglew32.dll.a"
+	generate_libtool_la_windows "libglew32.la" "${GlewPrefix}glew32.dll" "libglew32.dll.a"
 fi
 
 #expat
@@ -909,8 +926,8 @@ if [ ! -f "$BinDir/${SDLPrefix}SDL.dll" ]; then
 	reset_flags
 	
 	cd "$LibDir/"
-	mv "lib${SDLPrefix}SDL.dll.a" "${SDLPrefix}SDL.dll.a"
-	update_library_names_windows "${SDLPrefix}SDL.dll.a" "libSDL.la"
+	mv "lib${SDLPrefix}SDL.dll.a" "libSDL.dll.a"
+	update_library_names_windows "libSDL.dll.a" "libSDL.la"
 	change_key "." "libSDL.la" "library_names" "\'libSDL.dll.a\'"
 fi
 
@@ -1208,7 +1225,11 @@ if [ ! -f "$BinDir/lib${Prefix}mp3lame-0.dll" ]; then
 fi
 
 #ffmpeg
-if [ ! -f "$BinDir/lib${Prefix}avcodec-52.dll" ]; then 
+FFmpegPrefix=lib${Prefix}
+if [ "${Prefix}" = "" ]; then
+	FFmpegPrefix=""
+fi
+if [ ! -f "$BinDir/${FFmpegPrefix}avcodec-52.dll" ]; then 
 	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
 	mkdir_and_move "$IntDir/ffmpeg"
 	
@@ -1217,8 +1238,8 @@ if [ ! -f "$BinDir/lib${Prefix}avcodec-52.dll" ]; then
 	CPPFLAGS=""
 	LDFLAGS=""
 	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir 
-	change_key "." "config.mak" "LIBPREF" "lib${Prefix}"
-	change_key "." "config.mak" "SLIBPREF" "lib${Prefix}"
+	change_key "." "config.mak" "LIBPREF" "${FFmpegPrefix}"
+	change_key "." "config.mak" "SLIBPREF" "${FFmpegPrefix}"
 	#Adds $(SLIBPREF) to lib names when linking
 	change_key "." "common.mak" "FFEXTRALIBS\ \\:" "\$\(addprefix\ -l\$\(SLIBPREF\),\$\(addsuffix\ \$\(BUILDSUF\),\$\(FFLIBS\)\)\)\ \$\(EXTRALIBS\)"
 	make && make install
@@ -1226,29 +1247,29 @@ if [ ! -f "$BinDir/lib${Prefix}avcodec-52.dll" ]; then
 	#If it built successfully, then the .lib and .dll files are all in the lib/ folder with 
 	#sym links. We want to take out the sym links and keep just the .lib and .dll files we need 
 	#for development and execution.
-	cd "$BinDir" && move_files_to_dir "lib${Prefix}av*.lib" "$LibDir"
-	cd "$BinDir" && move_files_to_dir "lib${Prefix}swscale*.lib" "$LibDir"
-	cd "$BinDir" && remove_files_from_dir "lib${Prefix}avcodec-*.*.*.dll lib${Prefix}avcodec.dll lib${Prefix}avdevice-*.*.*.dll lib${Prefix}avdevice.dll lib${Prefix}avfilter-*.*.*.dll lib${Prefix}avfilter.dll lib${Prefix}avformat-*.*.*.dll lib${Prefix}avformat.dll lib${Prefix}avutil-*.*.*.dll lib${Prefix}avutil.dll   lib${Prefix}swscale-*.*.*.dll lib${Prefix}swscale.dll"
-	cd "$LibDir" && remove_files_from_dir "lib${Prefix}avcodec-*.lib lib${Prefix}avdevice-*.lib lib${Prefix}avfilter-*.lib lib${Prefix}avformat-*.lib lib${Prefix}avutil-*.lib  lib${Prefix}swscale-*.lib"
+	cd "$BinDir" && move_files_to_dir "${FFmpegPrefix}av*.lib" "$LibDir"
+	cd "$BinDir" && move_files_to_dir "${FFmpegPrefix}swscale*.lib" "$LibDir"
+	cd "$BinDir" && remove_files_from_dir "${FFmpegPrefix}avcodec-*.*.*.dll ${FFmpegPrefix}avcodec.dll ${FFmpegPrefix}avdevice-*.*.*.dll ${FFmpegPrefix}avdevice.dll ${FFmpegPrefix}avfilter-*.*.*.dll ${FFmpegPrefix}avfilter.dll ${FFmpegPrefix}avformat-*.*.*.dll ${FFmpegPrefix}avformat.dll ${FFmpegPrefix}avutil-*.*.*.dll ${FFmpegPrefix}avutil.dll ${FFmpegPrefix}swscale-*.*.*.dll ${FFmpegPrefix}swscale.dll"
+	cd "$LibDir" && remove_files_from_dir "${FFmpegPrefix}avcodec-*.lib ${FFmpegPrefix}avdevice-*.lib ${FFmpegPrefix}avfilter-*.lib ${FFmpegPrefix}avformat-*.lib ${FFmpegPrefix}avutil-*.lib  ${FFmpegPrefix}swscale-*.lib"
 	
 	reset_flags
 	
 	cd "$BinDir"
-	strip "lib${Prefix}avcodec-52.dll"
+	strip "${FFmpegPrefix}avcodec-52.dll"
 	
 	cd "$LibDir"
-	mv "liblib${Prefix}avutil.dll.a" "libavutil.dll.a"
-	mv "liblib${Prefix}avcodec.dll.a" "libavcodec.dll.a"
-	mv "liblib${Prefix}avdevice.dll.a" "libavdevice.dll.a"
-	mv "liblib${Prefix}avfilter.dll.a" "libavfilter.dll.a"
-	mv "liblib${Prefix}avformat.dll.a" "libavformat.dll.a"
-	mv "liblib${Prefix}swscale.dll.a" "libswscale.dll.a"
-	mv "lib${Prefix}avutil.lib" "avutil.lib"
-	mv "lib${Prefix}avcodec.lib" "avcodec.lib"
-	mv "lib${Prefix}avdevice.lib" "avdevice.lib"
-	mv "lib${Prefix}avfilter.lib" "avfilter.lib"
-	mv "lib${Prefix}avformat.lib" "avformat.lib"
-	mv "lib${Prefix}swscale.lib" "swscale.lib"
+	mv "lib${FFmpegPrefix}avutil.dll.a" "libavutil.dll.a"
+	mv "lib${FFmpegPrefix}avcodec.dll.a" "libavcodec.dll.a"
+	mv "lib${FFmpegPrefix}avdevice.dll.a" "libavdevice.dll.a"
+	mv "lib${FFmpegPrefix}avfilter.dll.a" "libavfilter.dll.a"
+	mv "lib${FFmpegPrefix}avformat.dll.a" "libavformat.dll.a"
+	mv "lib${FFmpegPrefix}swscale.dll.a" "libswscale.dll.a"
+	mv "${FFmpegPrefix}avutil.lib" "avutil.lib"
+	mv "${FFmpegPrefix}avcodec.lib" "avcodec.lib"
+	mv "${FFmpegPrefix}avdevice.lib" "avdevice.lib"
+	mv "${FFmpegPrefix}avfilter.lib" "avfilter.lib"
+	mv "${FFmpegPrefix}avformat.lib" "avformat.lib"
+	mv "${FFmpegPrefix}swscale.lib" "swscale.lib"
 	
 	cd "$IntDir/ffmpeg"
 	copy_files_to_dir "$BinDir/*.dll" "."
@@ -1291,27 +1312,33 @@ if [ ! -f "$BinDir/lib${Prefix}nice-0.dll" ]; then
 	update_library_names_windows "lib${Prefix}nice.dll.a" "libnice.la"
 fi
 
-if [ ! -f "$BinDir/lib${Prefix}xvidcore.dll" ]; then
+#xvid
+XvidPrefix=lib${Prefix}
+if [ "${Prefix}" = "" ]; then
+	XvidPrefix=""
+fi
+if [ ! -f "$BinDir/${XvidPrefix}xvidcore.dll" ]; then
 	echo "$PKG_DIR_XVIDCORE"
 	unpack_gzip_and_move "xvidcore.tar.gz" "$PKG_DIR_XVIDCORE"
 	mkdir_and_move "$IntDir/xvidcore"
 
 	cd $PKG_DIR/build/generic/
 	./configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	change_key "." "platform.inc" "STATIC_LIB" "lib${Prefix}xvidcore\.\$\(STATIC_EXTENSION\)"
-	change_key "." "platform.inc" "SHARED_LIB" "lib${Prefix}xvidcore\.\$\(SHARED_EXTENSION\)"
-	change_key "." "platform.inc" "PRE_SHARED_LIB" "lib${Prefix}xvidcore\.\$\(SHARED_EXTENSION\)"
+	change_key "." "platform.inc" "STATIC_LIB" "${XvidPrefix}xvidcore\.\$\(STATIC_EXTENSION\)"
+	change_key "." "platform.inc" "SHARED_LIB" "${XvidPrefix}xvidcore\.\$\(SHARED_EXTENSION\)"
+	change_key "." "platform.inc" "PRE_SHARED_LIB" "${XvidPrefix}xvidcore\.\$\(SHARED_EXTENSION\)"
 	make && make install
 
-	mv "$LibDir/lib${Prefix}xvidcore.dll" "$BinDir"
-	mv "$PKG_DIR/build/generic/=build/lib${Prefix}xvidcore.dll.a" "$LibDir/libxvidcore.dll.a"
+	mv "$LibDir/${XvidPrefix}xvidcore.dll" "$BinDir"
+	mv "$PKG_DIR/build/generic/=build/${XvidPrefix}xvidcore.dll.a" "$LibDir/libxvidcore.dll.a"
 
-	$MSLIB /name:lib${Prefix}xvidcore.dll /out:xvidcore.lib /machine:$MSLibMachine /def:libxvidcore.def
+	$MSLIB /name:${XvidPrefix}xvidcore.dll /out:xvidcore.lib /machine:$MSLibMachine /def:libxvidcore.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	
-	rm -f "$LibDir/lib${Prefix}xvidcore.a"
+	rm -f "$LibDir/${XvidPrefix}xvidcore.a"
 fi
 
+#wavpack
 if [ ! -f "$BinDir/lib${Prefix}wavpack-1.dll" ]; then 
 	unpack_bzip2_and_move "wavpack.tar.bz2" "$PKG_DIR_WAVPACK"
 	mkdir_and_move "$IntDir/wavpack"
@@ -1518,7 +1545,7 @@ if [ ! -f "$BinDir/lib${Prefix}dvdcss-2.dll" ]; then
 fi
 
 #ffmpeg GPL
-if [ ! -f "$BinDir/lib${Prefix}avcodec-gpl-52.dll" ]; then 
+if [ ! -f "$BinDir/${FFmpegPrefix}avcodec-gpl-52.dll" ]; then 
 	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
 	mkdir_and_move "$IntDir/ffmpeg-gpl"
 
@@ -1528,8 +1555,8 @@ if [ ! -f "$BinDir/lib${Prefix}avcodec-gpl-52.dll" ]; then
 	LDFLAGS=""
 	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --enable-gpl --enable-libfaad --enable-libxvid --enable-libx264 --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
 	change_key "." "config.mak" "BUILDSUF" "-gpl"
-	change_key "." "config.mak" "LIBPREF" "lib${Prefix}"
-	change_key "." "config.mak" "SLIBPREF" "lib${Prefix}"
+	change_key "." "config.mak" "LIBPREF" "${FFmpegPrefix}"
+	change_key "." "config.mak" "SLIBPREF" "${FFmpegPrefix}"
 	#Adds $(SLIBPREF) to lib names when linking
 	change_key "." "common.mak" "FFEXTRALIBS\ \\:" "\$\(addprefix\ -l\$\(SLIBPREF\),\$\(addsuffix\ \$\(BUILDSUF\),\$\(FFLIBS\)\)\)\ \$\(EXTRALIBS\)"
 	make
@@ -1537,40 +1564,40 @@ if [ ! -f "$BinDir/lib${Prefix}avcodec-gpl-52.dll" ]; then
 	reset_flags 
 	
 	#Create .dll.a versions of the libs
-	dlltool -U --dllname lib${Prefix}avutil-gpl-50.dll -d "libavutil/lib${Prefix}avutil-gpl-50.def" -l libavutil-gpl.dll.a
-	dlltool -U --dllname lib${Prefix}avcodec-gpl-52.dll -d "libavcodec/lib${Prefix}avcodec-gpl-52.def" -l libavcodec-gpl.dll.a
-	dlltool -U --dllname lib${Prefix}avdevice-gpl-52.dll -d "libavdevice/lib${Prefix}avdevice-gpl-52.def" -l libavdevice-gpl.dll.a
-	dlltool -U --dllname lib${Prefix}avfilter-gpl-1.dll -d "libavfilter/lib${Prefix}avfilter-gpl-1.def" -l libavfilter-gpl.dll.a
-	dlltool -U --dllname lib${Prefix}avformat-gpl-52.dll -d "libavformat/lib${Prefix}avformat-gpl-52.def" -l libavformat-gpl.dll.a
-	dlltool -U --dllname lib${Prefix}swscale-gpl-0.dll -d "libswscale/lib${Prefix}swscale-gpl-0.def" -l libswscale-gpl.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avutil-gpl-50.dll -d "libavutil/${FFmpegPrefix}avutil-gpl-50.def" -l libavutil-gpl.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avcodec-gpl-52.dll -d "libavcodec/${FFmpegPrefix}avcodec-gpl-52.def" -l libavcodec-gpl.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avdevice-gpl-52.dll -d "libavdevice/${FFmpegPrefix}avdevice-gpl-52.def" -l libavdevice-gpl.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avfilter-gpl-1.dll -d "libavfilter/${FFmpegPrefix}avfilter-gpl-1.def" -l libavfilter-gpl.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avformat-gpl-52.dll -d "libavformat/${FFmpegPrefix}avformat-gpl-52.def" -l libavformat-gpl.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}swscale-gpl-0.dll -d "libswscale/${FFmpegPrefix}swscale-gpl-0.def" -l libswscale-gpl.dll.a
 	
 	move_files_to_dir "*.dll.a" "$LibDir/"
 	
 	cp -p "ffmpeg.exe" "$BinDir/ffmpeg-gpl.exe"
 	
-	cp -p "libavutil/lib${Prefix}avutil-gpl-50.dll" "."
-	cp -p "libavutil/lib${Prefix}avutil-gpl-50.dll" "$BinDir/"
-	cp -p "libavutil/lib${Prefix}avutil-gpl-50.lib" "$LibDir/avutil-gpl.lib"
+	cp -p "libavutil/${FFmpegPrefix}avutil-gpl-50.dll" "."
+	cp -p "libavutil/${FFmpegPrefix}avutil-gpl-50.dll" "$BinDir/"
+	cp -p "libavutil/${FFmpegPrefix}avutil-gpl-50.lib" "$LibDir/avutil-gpl.lib"
 	
-	cp -p "libavcodec/lib${Prefix}avcodec-gpl-52.dll" "."
-	cp -p "libavcodec/lib${Prefix}avcodec-gpl-52.dll" "$BinDir/"
-	cp -p "libavcodec/lib${Prefix}avcodec-gpl-52.lib" "$LibDir/avcodec-gpl.lib"
+	cp -p "libavcodec/${FFmpegPrefix}avcodec-gpl-52.dll" "."
+	cp -p "libavcodec/${FFmpegPrefix}avcodec-gpl-52.dll" "$BinDir/"
+	cp -p "libavcodec/${FFmpegPrefix}avcodec-gpl-52.lib" "$LibDir/avcodec-gpl.lib"
 	
-	cp -p "libavdevice/lib${Prefix}avdevice-gpl-52.dll" "."
-	cp -p "libavdevice/lib${Prefix}avdevice-gpl-52.dll" "$BinDir/"
-	cp -p "libavdevice/lib${Prefix}avdevice-gpl-52.lib" "$LibDir/avdevice-gpl.lib"
+	cp -p "libavdevice/${FFmpegPrefix}avdevice-gpl-52.dll" "."
+	cp -p "libavdevice/${FFmpegPrefix}avdevice-gpl-52.dll" "$BinDir/"
+	cp -p "libavdevice/${FFmpegPrefix}avdevice-gpl-52.lib" "$LibDir/avdevice-gpl.lib"
 	
-	cp -p "libavfilter/lib${Prefix}avfilter-gpl-1.dll" "."
-	cp -p "libavfilter/lib${Prefix}avfilter-gpl-1.dll" "$BinDir/"
-	cp -p "libavfilter/lib${Prefix}avfilter-gpl-1.lib" "$LibDir/avfilter-gpl.lib"
+	cp -p "libavfilter/${FFmpegPrefix}avfilter-gpl-1.dll" "."
+	cp -p "libavfilter/${FFmpegPrefix}avfilter-gpl-1.dll" "$BinDir/"
+	cp -p "libavfilter/${FFmpegPrefix}avfilter-gpl-1.lib" "$LibDir/avfilter-gpl.lib"
 	
-	cp -p "libavformat/lib${Prefix}avformat-gpl-52.dll" "."
-	cp -p "libavformat/lib${Prefix}avformat-gpl-52.dll" "$BinDir/"
-	cp -p "libavformat/lib${Prefix}avformat-gpl-52.lib" "$LibDir/avformat-gpl.lib"
+	cp -p "libavformat/${FFmpegPrefix}avformat-gpl-52.dll" "."
+	cp -p "libavformat/${FFmpegPrefix}avformat-gpl-52.dll" "$BinDir/"
+	cp -p "libavformat/${FFmpegPrefix}avformat-gpl-52.lib" "$LibDir/avformat-gpl.lib"
 	
-	cp -p "libswscale/lib${Prefix}swscale-gpl-0.dll" "."
-	cp -p "libswscale/lib${Prefix}swscale-gpl-0.dll" "$BinDir/"
-	cp -p "libswscale/lib${Prefix}swscale-gpl-0.lib" "$LibDir/swscale-gpl.lib"
+	cp -p "libswscale/${FFmpegPrefix}swscale-gpl-0.dll" "."
+	cp -p "libswscale/${FFmpegPrefix}swscale-gpl-0.dll" "$BinDir/"
+	cp -p "libswscale/${FFmpegPrefix}swscale-gpl-0.lib" "$LibDir/swscale-gpl.lib"
 	
 	#Copy some other dlls for testing
 	copy_files_to_dir "$BinDir/*.dll" "."
