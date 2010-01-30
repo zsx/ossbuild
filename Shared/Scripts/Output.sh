@@ -54,6 +54,9 @@ output_startup() {
 	export TemplatePkgConfigDir=$TemplateLibDir/pkgconfig
 	export SharedTemplateLibDir=$SharedTemplateDir/lib
 	export SharedTemplatePkgConfigDir=$SharedTemplateLibDir/pkgconfig
+	
+	export SharedPythonLibDir=$SHARED_SDK_PYTHON_DIR/lib/$PlatformName
+	export SharedPythonIncludeDir=$SHARED_SDK_PYTHON_DIR/include
 
 	#Setup compile/link flags (includes, search directories, etc.)
 	export LibFlags="-L$LibDir -L$SharedLibDir"
@@ -140,6 +143,12 @@ output_append_subpath() {
 	export PATH="$BinDir:$SharedBinDir:$PATH"
 	export PKG_CONFIG_PATH="$PkgConfigDir:$SharedPkgConfigDir:$PKG_CONFIG_PATH"
 
+	reset_flags
+}
+
+expand_python_binding_flags() {
+	export LibFlags="$LibFlags -I$SharedPythonLibDir"
+	export IncludeFlags="$IncludeFlags -I$SharedPythonIncludeDir"
 	reset_flags
 }
 

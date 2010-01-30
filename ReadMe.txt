@@ -16,9 +16,9 @@ Requirements
              f. Select File > Run Marked Actions
     4. DirectX SDK (November 2008 or later)
        a. Download from http://www.microsoft.com/downloads/info.aspx?na=90&p=&SrcDisplayLang=en&SrcCategoryId=&SrcFamilyId=5493f76a-6d37-478d-ba17-28b1cca4865a&u=http%3a%2f%2fdownload.microsoft.com%2fdownload%2f5%2f8%2f2%2f58223f79-689d-47ae-bdd0-056116ee8d16%2fDXSDK_Nov08.exe
-    5. Python 2.5 (to maintainn backward compatibility)
+    5. Python 2.5 (for backward compatibility)
        a. Download from http://www.python.org/download/releases/2.5/
-       b. Install at c:\Python25
+       b. Install to C:\Python25
     6. PyGobject (2.14)
        a. Download from http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.14/
 

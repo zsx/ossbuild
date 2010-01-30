@@ -41,6 +41,7 @@ common_startup() {
 	export LIBRARIES_PACKAGE_DIR=$LIBRARIES_DIR/Packages
 	
 	export SHARED_SDK_DIR=$SHARED_DIR/SDKs
+	export SHARED_SDK_PYTHON_DIR=$SHARED_SDK_DIR/Python
 	
 	export SHARED_BUILD_DIR=$SHARED_DIR/Build
 	export SHARED_SCRIPTS_DIR=$SHARED_DIR/Scripts
@@ -155,6 +156,40 @@ remove_files_from_dir() {
 	for f in `find $myfiles`; do rm -f "$f"; done
 }
 
+save_prefix() {
+	myprefix=$1
+	if [ "${myprefix}" = "" ]; then
+		myprefix=$DefaultPrefix
+	fi
+	export ORIG_PREFIX=$myprefix
+	export Prefix=$myprefix
+}
+
+clear_prefix() {
+	export Prefix=""
+}
+
+restore_prefix() {
+	export Prefix=$ORIG_PREFIX
+}
+
+save_suffix() {
+	mysuffix=$1
+	if [ "$mysuffix" = "" ]; then
+		mysuffix=$DefaultSuffix
+	fi
+	export ORIG_SUFFIX=$mysuffix
+	export Suffix=$mysuffix
+}
+
+clear_suffix() {
+	export Suffix=""
+}
+
+restore_suffix() {
+	export Suffix=$ORIG_SUFFIX
+}
+
 change_libtool_file_magic_windows_x86() {
 	change_cmd "file_magic_cmd" "export win32_libid_type='x86 DLL' \&\& echo \$win32_libid_type"
 }
@@ -216,7 +251,7 @@ change_suffix() {
 
 change_package() {
 	mycurrdir=`pwd`
-	mypackage=$DEFAULT_PREFIX
+	mypackage=$Prefix
 	mydir=.
 	myfile=Makefile
 	mypackagename=PACKAGE
@@ -266,8 +301,8 @@ change_key() {
 
 change_libname_spec() {
 	mycurrdir=`pwd`
-	myprefix=$DEFAULT_PREFIX
-	mysuffix=$DEFAULT_SUFFIX
+	myprefix=$Prefix
+	mysuffix=$Suffix
 	mydir=.
 	myfile=libtool
 	#libname_spec="lib\$name" --> libname_spec="lib-ossbuild-\$name"
@@ -294,12 +329,14 @@ change_libname_spec() {
 		myprefix_ex=$6
 	fi
 	
-	myprefix=${myspec_1}${myprefix}${myspec_2}${mysuffix}${myspec_3}
+	if [ "$myprefix" != "" -o "$mysuffix" != "" ]; then
+		myprefix=${myspec_1}${myprefix}${myspec_2}${mysuffix}${myspec_3}
 	
-	cd "${mydir}"
-	cat "${myfile}" | sed "s/^${mylibname_spec}.*=.*$/${mylibname_spec}=${myprefix}/g" > "${myfile}.tmp"
-	mv -f "${myfile}.tmp" "${myfile}"
-	cd "${mycurrdir}"
+		cd "${mydir}"
+		cat "${myfile}" | sed "s/^${mylibname_spec}.*=.*$/${mylibname_spec}=${myprefix}/g" > "${myfile}.tmp"
+		mv -f "${myfile}.tmp" "${myfile}"
+		cd "${mycurrdir}"
+	fi
 }
 
 translate_path_to_windows() {

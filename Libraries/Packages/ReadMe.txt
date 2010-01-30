@@ -18,6 +18,7 @@ libtiff 	- 	3.9.2 		- 	http://ftp.remotesensing.org/pub/libtiff/tiff-3.9.2.tar.g
 glib 		- 	2.22.4 		- 	http://ftp.gnome.org/pub/gnome/sources/glib/2.22/glib-2.22.4.tar.bz2
 atk 		- 	1.29.4 		- 	http://ftp.gnome.org/pub/gnome/sources/atk/1.29/atk-1.29.4.tar.bz2
 gtk+ 		- 	2.18.6 		- 	http://ftp.gnome.org/pub/gnome/sources/gtk+/2.18/gtk+-2.18.6.tar.bz2
+gtkglarea 	- 	2.0.1 		- 	http://ftp.gnome.org/pub/gnome/sources/gtkglarea/2.0/gtkglarea-2.0.1.tar.bz2
 openssl		- 	0.9.8j 		- 	http://www.openssl.org/source/openssl-0.9.8j.tar.gz
 libgpg-error 	- 	1.7.0 		- 	http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libgpg-error/libgpg-error-1.7.tar.bz2
 libtasn1 	- 	2.4.0 		- 	http://ftp.gnu.org/gnu/libtasn1/libtasn1-2.4.tar.gz
@@ -58,3 +59,7 @@ sqlite 		- 	3.6.22		- 	http://www.sqlite.org/sqlite-amalgamation-3.6.22.tar.gz
 libdts		-	0.0.5		-	http://download.videolan.org/pub/videolan/libdca/0.0.5/libdca-0.0.5.tar.bz2
 flac		-	1.2.1		-	http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-src/flac-1.2.1.tar.gz/download
 iconv		-	20090213	-	http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/win-iconv-dev_tml-20090213_win32.zip
+
+#libglade 	- 	2.6.4 		- 	http://ftp.gnome.org/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2
+#libffi 		- 	3.0.9 		- 	http://github.com/atgreen/libffi/tree/v3.0.9
+#pygobject 	- 	2.21.1 		- 	http://ftp.gnome.org/pub/GNOME/sources/pygobject/2.21/pygobject-2.21.1.tar.bz2

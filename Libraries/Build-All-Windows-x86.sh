@@ -1,28 +1,37 @@
 #!/bin/sh
 
+###############################################################################
+#                                                                             #
+#                        Windows x86 (Win32) Build                            #
+#                                                                             #
+# Builds all dependencies for this platform.                                  #
+#                                                                             #
+# Useful utilities:                                                           #
+#    1) Finding libs that are not branded correctly                           #
+#           find *.lib *.dll.a  -type f -print0 | xargs -0 grep -L ossbuild   #
+#                                                                             #
+###############################################################################
+
 TOP=$(dirname $0)/..
 
+#Global flags
 CFLAGS="$CFLAGS -mms-bitfields -pipe -D_WIN32_WINNT=0x0501 -Dsocklen_t=int "
 CPPFLAGS="$CPPFLAGS -DMINGW32 -D__MINGW32__"
 LDFLAGS="-Wl,--enable-auto-image-base -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc -Wl,--kill-at "
 CXXFLAGS="${CFLAGS}"
 
-##GCC 4.4+ doesn't set the stack alignment how we'd like which causes problems when 
-##loading shared libraries such as the ffmpeg ones through Windows' LoadLibrary() function.
-##CPPFLAGS="$CPPFLAGS -mincoming-stack-boundary=2"
-
 #Call common startup routines to load a bunch of variables we'll need
 . $TOP/Shared/Scripts/Common.sh
 common_startup "Windows" "Win32" "Release" "x86" "i686-pc-mingw32" "i686-pc-mingw32"
 
-#Select which MS CRT we want to build against (msvcr90.dll)
+#Select which MS CRT we want to build against (e.g. msvcr90.dll)
 . $ROOT/Shared/Scripts/CRT-x86.sh
 crt_startup
 
 #Setup library versions
 . $ROOT/Shared/Scripts/Version.sh
 
-Prefix=${DefaultPrefix}
+save_prefix ${DefaultPrefix}
 
 #Move to intermediate directory
 cd "$IntDir"
@@ -38,6 +47,8 @@ create_cross_compiler_path_windows
 
 #clear_flags
 
+#No prefix from here out
+clear_prefix
 
 #Not using dwarf2 yet
 ###gcc_dw2
@@ -150,6 +161,7 @@ if [ ! -f "$BinDir/lib${Prefix}z.dll" ]; then
 	
 	#cp contrib/asm686/match.S ./match.S
 	#make LOC=-DASMV OBJA=match.o -fwin32/Makefile.gcc
+	
 	change_package "lib${Prefix}z.dll" "win32" "Makefile.gcc" "SHAREDLIB"
 	make -fwin32/Makefile.gcc lib${Prefix}z.dll
 	INCLUDE_PATH=$IncludeDir LIBRARY_PATH=$BinDir make install -fwin32/Makefile.gcc
@@ -435,17 +447,26 @@ if [ ! -f "$BinDir/lib${Prefix}atk-1.0-0.dll" ]; then
 	unpack_bzip2_and_move "atk.tar.bz2" "$PKG_DIR_ATK"
 	mkdir_and_move "$IntDir/atk"
 	
+	#Need to get rid of MS build tools b/c the makefile call can't find the .def and 
+	#also b/c it generates .lib files that don't reference a branded dll
+	reset_path
+	
 	#Configure, compile, and install
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_libname_spec
-	#Yes, we're calling make twice - it creates a .def but then doesn't pick it up b/c it's trying to find it in the src dir
-	#It would work if we didn't have a separate build tree
 	make
-	cp -p atk/atk.def "$PKG_DIR/atk/"
+	cp -p atk/atk.def $PKG_DIR/atk/
 	make
 	make install
-
-	#It creates and installs the .lib file automatically when lib.exe is in the path
+	
+	#Add in MS build tools again
+	setup_ms_build_env_path
+	
+	cd "$IntDir/atk/"
+	cd atk/.libs/
+	$MSLIB /name:lib${Prefix}atk-1.0-0.dll /out:atk-1.0.lib /machine:$MSLibMachine /def:lib${Prefix}atk-1.0-0.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir"
+	cd ../../
 	
 	update_library_names_windows "lib${Prefix}atk-1.0.dll.a" "libatk-1.0.la"
 fi
@@ -812,9 +833,9 @@ if [ ! -f "$BinDir/lib${Prefix}gtk-win32-2.0-0.dll" ]; then
 	setup_ms_build_env_path
 	
 	grep -v -E 'Automatically generated|Created by|LoaderDir =' <$OutDir/etc/gtk-2.0/gdk-pixbuf.loaders >$OutDir/etc/gtk-2.0/gdk-pixbuf.loaders.temp
-    mv $OutDir/etc/gtk-2.0/gdk-pixbuf.loaders.temp $OutDir/etc/gtk-2.0/gdk-pixbuf.loaders
+	mv $OutDir/etc/gtk-2.0/gdk-pixbuf.loaders.temp $OutDir/etc/gtk-2.0/gdk-pixbuf.loaders
 	grep -v -E 'Automatically generated|Created by|ModulesPath =' <$OutDir/etc/gtk-2.0/gtk.immodules >$OutDir/etc/gtk-2.0/gtk.immodules.temp 
-    mv $OutDir/etc/gtk-2.0/gtk.immodules.temp $OutDir/etc/gtk-2.0/gtk.immodules
+	mv $OutDir/etc/gtk-2.0/gtk.immodules.temp $OutDir/etc/gtk-2.0/gtk.immodules
 	
 	cp -p "$LibDir/gailutil.def" .
 	cp -p "$LibDir/gdk_pixbuf-2.0.def" .
@@ -835,14 +856,45 @@ if [ ! -f "$BinDir/lib${Prefix}gtk-win32-2.0-0.dll" ]; then
 	reset_flags
 fi
 
+#gtkglarea
+if [ ! -f "$BinDir/lib${Prefix}gtkgl-2.0-1.dll" ]; then 
+	unpack_bzip2_and_move "gtkglarea.tar.bz2" "$PKG_DIR_GTKGLAREA"
+	mkdir_and_move "$IntDir/gtkglarea"
+	
+	#Need to get rid of MS build tools b/c the makefile call is linking to the wrong dll
+	reset_path
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	cp -p $PKG_DIR/gtkgl/gtkgl.def gtkgl/
+	make
+	cp -p gtkgl/.libs/lib${Prefix}gtkgl-2.0.dll.a gtkgl/.libs/libgtkgl-2.0.dll.a
+	make install
+	
+	#Add in MS build tools again
+	setup_ms_build_env_path
+	
+	cd "$IntDir/gtkglarea"
+	cd gtkgl/.libs/
+	$MSLIB /name:lib${Prefix}gtkgl-2.0-1.dll /out:gtkgl-2.0.lib /machine:$MSLibMachine /def:lib${Prefix}gtkgl-2.0-1.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	cd ../../
+	
+	update_library_names_windows "lib${Prefix}gtkgl-2.0.dll.a" "libgtkgl-2.0.la"
+fi
+	
 #sdl
-if [ ! -f "$BinDir/lib${Prefix}SDL.dll" ]; then 
+SDLPrefix=lib${Prefix}
+if [ "${Prefix}" = "" ]; then
+	SDLPrefix=""
+fi
+if [ ! -f "$BinDir/${SDLPrefix}SDL.dll" ]; then 
 	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
 	mkdir_and_move "$IntDir/sdl"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir 
 	#Required b/c SDL removes the "lib" portion from the name. This reinserts it.
-	change_libname_spec "lib${Prefix}"
+	change_libname_spec "${SDLPrefix}"
 	make && make install
 	
 	cp $PKG_DIR/include/SDL_config.h.default $IncludeDir/SDL/SDL_config.h
@@ -850,15 +902,15 @@ if [ ! -f "$BinDir/lib${Prefix}SDL.dll" ]; then
 	
 	cd build/.libs
 	
-	pexports "$BinDir/lib${Prefix}SDL.dll" | sed "s/^_//" > in.def
-	sed -e '/LIBRARY lib${Prefix}SDL.dll/d' in.def > in-mod.def
-	$MSLIB /name:lib${Prefix}SDL.dll /out:sdl.lib /machine:$MSLibMachine /def:in-mod.def
+	pexports "$BinDir/${SDLPrefix}SDL.dll" | sed "s/^_//" > in.def
+	sed -e '/LIBRARY ${SDLPrefix}SDL.dll/d' in.def > in-mod.def
+	$MSLIB /name:${SDLPrefix}SDL.dll /out:sdl.lib /machine:$MSLibMachine /def:in-mod.def
 	move_files_to_dir "*.exp *.lib" "$LibDir/"
 	reset_flags
 	
 	cd "$LibDir/"
-	mv "liblib${Prefix}SDL.dll.a" "lib${Prefix}SDL.dll.a"
-	update_library_names_windows "lib${Prefix}SDL.dll.a" "libSDL.la"
+	mv "lib${SDLPrefix}SDL.dll.a" "${SDLPrefix}SDL.dll.a"
+	update_library_names_windows "${SDLPrefix}SDL.dll.a" "libSDL.la"
 	change_key "." "libSDL.la" "library_names" "\'libSDL.dll.a\'"
 fi
 
