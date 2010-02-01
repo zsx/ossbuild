@@ -41,6 +41,11 @@
 #include <gstglfilter.h>
 #include <gstgleffectssources.h>
 
+#if PNG_LIBPNG_VER >= 10400
+#define int_p_NULL         NULL
+#define png_infopp_NULL    NULL
+#endif
+
 #define GST_TYPE_GL_DIFFERENCEMATTE            (gst_gl_differencematte_get_type())
 #define GST_GL_DIFFERENCEMATTE(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), GST_TYPE_GL_DIFFERENCEMATTE,GstGLDifferenceMatte))
 #define GST_IS_GL_DIFFERENCEMATTE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), GST_TYPE_GL_DIFFERENCEMATTE))

@@ -4,7 +4,7 @@ Requirements
   Windows Build
 
     1. Visual Studio 2008 or later
-    2. Windows Installer XML (WiX) 3.5 or later (http://wix.sourceforge.net/releases/3.5.1322.0/Wix35.msi)
+    2. Windows Installer XML (WiX) 3.5 or later (http://wix.sourceforge.net/releases/3.5.1329.0/Wix35.msi)
     3. Perl 5.10+
        a. Recommended ActiveState Perl (http://www.activestate.com/downloads/) on Windows
           1. Download the LibXML package 
