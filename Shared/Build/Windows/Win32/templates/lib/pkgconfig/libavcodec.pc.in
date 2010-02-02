@@ -9,6 +9,6 @@ Version: 52.49.0
 Requires: 
 Requires.private: libavutil = 50.7.0
 Conflicts:
-Libs: -L${libdir} -lavcodec 
-Libs.private: -lz -lbz2 -lm -lavifil32 -lmp3lame -lm -lopenjpeg -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib -lschroedinger-1.0 -loil-0.3 -lm -lspeex -ltheoraenc -ltheoradec -logg -lvorbisenc -lvorbis -logg -lws2_32 -lavicap32
+Libs: -L${libdir} -lavcodec-lgpl 
+Libs.private: -lz -lbz2 -lm -lavifil32 -lws2_32 -lavicap32
 Cflags: -I${includedir}

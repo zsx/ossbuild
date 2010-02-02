@@ -14,6 +14,9 @@
 
 TOP=$(dirname $0)/..
 
+#Global directories
+PERL_BIN_DIR=/C/Perl/bin
+
 #Global flags
 CFLAGS="$CFLAGS -mms-bitfields -pipe -D_WIN32_WINNT=0x0501 -Dsocklen_t=int "
 CPPFLAGS="$CPPFLAGS -DMINGW32 -D__MINGW32__"
@@ -139,7 +142,7 @@ if [ "${Prefix}" = "" ]; then
 	IconvPrefix=""
 fi
 #win-iconv
-if [ ! -f "$LibDir/iconv.lib" ]; then 
+if [ ! -f "$BinDir/${IconvPrefix}iconv.dll" ]; then 
 	unpack_bzip2_and_move "win-iconv.tar.bz2" "$PKG_DIR_WIN_ICONV"
 	mkdir_and_move "$IntDir/win-iconv"
 	copy_files_to_dir "$LIBRARIES_DIR/Source/Win-Iconv/*.c $LIBRARIES_DIR/Source/Win-Iconv/*.h" .
@@ -899,6 +902,95 @@ if [ ! -f "$BinDir/lib${Prefix}gtkgl-2.0-1.dll" ]; then
 	
 	update_library_names_windows "lib${Prefix}gtkgl-2.0.dll.a" "libgtkgl-2.0.la"
 fi
+
+#libcroco
+if [ ! -f "$BinDir/lib${Prefix}croco-0.6-3.dll" ]; then 
+	unpack_bzip2_and_move "libcroco.tar.bz2" "$PKG_DIR_LIBCROCO"
+	mkdir_and_move "$IntDir/libcroco"
+	
+	cd "$PKG_DIR/"
+	change_key "src" "Makefile.in" "libcroco_0_6_la_LDFLAGS" "-version-info\ @LIBCROCO_VERSION_INFO@\ -export-symbols-regex\ \'\^\(cr_)\.\*\'\ \\\\"
+
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	make && make install
+	
+	cd src/.libs
+	$MSLIB /name:lib${Prefix}croco-0.6-3.dll /out:croco-0.6.lib /machine:$MSLibMachine /def:lib${Prefix}croco-0.6-3.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	cd ../../
+	
+	update_library_names_windows "lib${Prefix}croco-0.6.dll.a" "libcroco-0.6.la"
+	
+	#For make test
+	cd csslint/.libs/
+	cp -p lib${Prefix}croco-0.6-3.dll ../../csslint/.libs/
+	cp -p "$BinDir/lib${Prefix}xml2-2.dll" .
+	cp -p "$BinDir/lib${Prefix}glib-2.0-0.dll" .
+	cp -p "$BinDir/${IconvPrefix}iconv.dll" .
+	cp -p "$BinDir/${ZlibPrefix}z.dll" .
+	cd ../../
+	
+	cd tests/.libs/
+	cp -p ../../csslint/.libs/lib${Prefix}croco-0.6-3.dll .
+	cp -p "$BinDir/lib${Prefix}xml2-2.dll" .
+	cp -p "$BinDir/lib${Prefix}glib-2.0-0.dll" .
+	cp -p "$BinDir/${IconvPrefix}iconv.dll" .
+	cp -p "$BinDir/${ZlibPrefix}z.dll" .
+	cd ../
+fi
+
+#intltool
+reset_path
+setup_ms_build_env_path
+export PATH=$PERL_BIN_DIR:$PATH
+if [ ! -f "$BinDir/intltool-merge" ]; then 
+	unpack_bzip2_and_move "intltool.tar.bz2" "$PKG_DIR_INTLTOOL"
+	mkdir_and_move "$IntDir/intltool"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	make && make install
+fi
+
+#libgsf
+if [ ! -f "$BinDir/lib${Prefix}gsf-1-114.dll" ]; then 
+	unpack_bzip2_and_move "libgsf.tar.bz2" "$PKG_DIR_LIBGSF"
+	mkdir_and_move "$IntDir/libgsf"
+	
+	$PKG_DIR/configure --without-python --disable-gtk-doc --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	make && make install
+	
+	cd gsf/.libs/
+	$MSLIB /name:lib${Prefix}gsf-1-114.dll /out:gsf-1.lib /machine:$MSLibMachine /def:lib${Prefix}gsf-1-114.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	cd ../../
+	
+	cd gsf-win32/.libs/
+	$MSLIB /name:lib${Prefix}gsf-win32-1-114.dll /out:gsf-win32-1.lib /machine:$MSLibMachine /def:lib${Prefix}gsf-win32-1-114.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	cd ../../
+	
+	update_library_names_windows "lib${Prefix}gsf-1.dll.a" "libgsf-1.la"
+	update_library_names_windows "lib${Prefix}gsf-win32-1.dll.a" "libgsf-win32-1.la"
+fi
+reset_path
+setup_ms_build_env_path
+
+#librsvg
+if [ ! -f "$BinDir/lib${Prefix}rsvg-2-2.dll" ]; then 
+	unpack_bzip2_and_move "librsvg.tar.bz2" "$PKG_DIR_LIBRSVG"
+	mkdir_and_move "$IntDir/librsvg"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+	change_libname_spec
+	make && make install
+	
+	cd .libs/
+	$MSLIB /name:lib${Prefix}rsvg-2-2.dll /out:rsvg-2.lib /machine:$MSLibMachine /def:lib${Prefix}rsvg-2-2.dll.def
+	move_files_to_dir "*.exp *.lib" "$LibDir/"
+	cd ../
+fi
 	
 #sdl
 SDLPrefix=lib${Prefix}
@@ -1226,10 +1318,11 @@ fi
 
 #ffmpeg
 FFmpegPrefix=lib${Prefix}
+FFmpegSuffix=-lgpl
 if [ "${Prefix}" = "" ]; then
 	FFmpegPrefix=""
 fi
-if [ ! -f "$BinDir/${FFmpegPrefix}avcodec-52.dll" ]; then 
+if [ ! -f "$BinDir/${FFmpegPrefix}avcodec${FFmpegSuffix}-52.dll" ]; then 
 	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
 	mkdir_and_move "$IntDir/ffmpeg"
 	
@@ -1237,7 +1330,8 @@ if [ ! -f "$BinDir/${FFmpegPrefix}avcodec-52.dll" ]; then
 	CFLAGS=""
 	CPPFLAGS=""
 	LDFLAGS=""
-	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir 
+	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --enable-memalign-hack --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir 
+	change_key "." "config.mak" "BUILDSUF" "${FFmpegSuffix}"
 	change_key "." "config.mak" "LIBPREF" "${FFmpegPrefix}"
 	change_key "." "config.mak" "SLIBPREF" "${FFmpegPrefix}"
 	#Adds $(SLIBPREF) to lib names when linking
@@ -1249,29 +1343,67 @@ if [ ! -f "$BinDir/${FFmpegPrefix}avcodec-52.dll" ]; then
 	#for development and execution.
 	cd "$BinDir" && move_files_to_dir "${FFmpegPrefix}av*.lib" "$LibDir"
 	cd "$BinDir" && move_files_to_dir "${FFmpegPrefix}swscale*.lib" "$LibDir"
-	cd "$BinDir" && remove_files_from_dir "${FFmpegPrefix}avcodec-*.*.*.dll ${FFmpegPrefix}avcodec.dll ${FFmpegPrefix}avdevice-*.*.*.dll ${FFmpegPrefix}avdevice.dll ${FFmpegPrefix}avfilter-*.*.*.dll ${FFmpegPrefix}avfilter.dll ${FFmpegPrefix}avformat-*.*.*.dll ${FFmpegPrefix}avformat.dll ${FFmpegPrefix}avutil-*.*.*.dll ${FFmpegPrefix}avutil.dll ${FFmpegPrefix}swscale-*.*.*.dll ${FFmpegPrefix}swscale.dll"
+	cd "$BinDir" && remove_files_from_dir "${FFmpegPrefix}avcodec${FFmpegSuffix}-*.*.*.dll ${FFmpegPrefix}avcodec${FFmpegSuffix}.dll ${FFmpegPrefix}avdevice${FFmpegSuffix}-*.*.*.dll ${FFmpegPrefix}avdevice${FFmpegSuffix}.dll ${FFmpegPrefix}avfilter${FFmpegSuffix}-*.*.*.dll ${FFmpegPrefix}avfilter${FFmpegSuffix}.dll ${FFmpegPrefix}avformat${FFmpegSuffix}-*.*.*.dll ${FFmpegPrefix}avformat${FFmpegSuffix}.dll ${FFmpegPrefix}avutil${FFmpegSuffix}-*.*.*.dll ${FFmpegPrefix}avutil${FFmpegSuffix}.dll ${FFmpegPrefix}swscale${FFmpegSuffix}-*.*.*.dll ${FFmpegPrefix}swscale${FFmpegSuffix}.dll"
 	cd "$LibDir" && remove_files_from_dir "${FFmpegPrefix}avcodec-*.lib ${FFmpegPrefix}avdevice-*.lib ${FFmpegPrefix}avfilter-*.lib ${FFmpegPrefix}avformat-*.lib ${FFmpegPrefix}avutil-*.lib  ${FFmpegPrefix}swscale-*.lib"
 	
 	reset_flags
 	
 	cd "$BinDir"
-	strip "${FFmpegPrefix}avcodec-52.dll"
+	strip "${FFmpegPrefix}avcodec${FFmpegSuffix}-52.dll"
 	
 	cd "$LibDir"
-	mv "lib${FFmpegPrefix}avutil.dll.a" "libavutil.dll.a"
-	mv "lib${FFmpegPrefix}avcodec.dll.a" "libavcodec.dll.a"
-	mv "lib${FFmpegPrefix}avdevice.dll.a" "libavdevice.dll.a"
-	mv "lib${FFmpegPrefix}avfilter.dll.a" "libavfilter.dll.a"
-	mv "lib${FFmpegPrefix}avformat.dll.a" "libavformat.dll.a"
-	mv "lib${FFmpegPrefix}swscale.dll.a" "libswscale.dll.a"
-	mv "${FFmpegPrefix}avutil.lib" "avutil.lib"
-	mv "${FFmpegPrefix}avcodec.lib" "avcodec.lib"
-	mv "${FFmpegPrefix}avdevice.lib" "avdevice.lib"
-	mv "${FFmpegPrefix}avfilter.lib" "avfilter.lib"
-	mv "${FFmpegPrefix}avformat.lib" "avformat.lib"
-	mv "${FFmpegPrefix}swscale.lib" "swscale.lib"
+	mv "lib${FFmpegPrefix}avutil${FFmpegSuffix}.dll.a" "libavutil${FFmpegSuffix}.dll.a"
+	mv "lib${FFmpegPrefix}avcodec${FFmpegSuffix}.dll.a" "libavcodec${FFmpegSuffix}.dll.a"
+	mv "lib${FFmpegPrefix}avdevice${FFmpegSuffix}.dll.a" "libavdevice${FFmpegSuffix}.dll.a"
+	mv "lib${FFmpegPrefix}avfilter${FFmpegSuffix}.dll.a" "libavfilter${FFmpegSuffix}.dll.a"
+	mv "lib${FFmpegPrefix}avformat${FFmpegSuffix}.dll.a" "libavformat${FFmpegSuffix}.dll.a"
+	mv "lib${FFmpegPrefix}swscale${FFmpegSuffix}.dll.a" "libswscale${FFmpegSuffix}.dll.a"
+	mv "${FFmpegPrefix}avutil${FFmpegSuffix}.lib" "avutil${FFmpegSuffix}.lib"
+	mv "${FFmpegPrefix}avcodec${FFmpegSuffix}.lib" "avcodec${FFmpegSuffix}.lib"
+	mv "${FFmpegPrefix}avdevice${FFmpegSuffix}.lib" "avdevice${FFmpegSuffix}.lib"
+	mv "${FFmpegPrefix}avfilter${FFmpegSuffix}.lib" "avfilter${FFmpegSuffix}.lib"
+	mv "${FFmpegPrefix}avformat${FFmpegSuffix}.lib" "avformat${FFmpegSuffix}.lib"
+	mv "${FFmpegPrefix}swscale${FFmpegSuffix}.lib" "swscale${FFmpegSuffix}.lib"
 	
 	cd "$IntDir/ffmpeg"
+	
+	#Create .dll.a versions of the libs
+	dlltool -U --dllname ${FFmpegPrefix}avutil${FFmpegSuffix}-50.dll -d "libavutil/${FFmpegPrefix}avutil${FFmpegSuffix}-50.def" -l libavutil${FFmpegSuffix}.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avcodec${FFmpegSuffix}-52.dll -d "libavcodec/${FFmpegPrefix}avcodec${FFmpegSuffix}-52.def" -l libavcodec${FFmpegSuffix}.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avdevice${FFmpegSuffix}-52.dll -d "libavdevice/${FFmpegPrefix}avdevice${FFmpegSuffix}-52.def" -l libavdevice${FFmpegSuffix}.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avfilter${FFmpegSuffix}-1.dll -d "libavfilter/${FFmpegPrefix}avfilter${FFmpegSuffix}-1.def" -l libavfilter${FFmpegSuffix}.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}avformat${FFmpegSuffix}-52.dll -d "libavformat/${FFmpegPrefix}avformat${FFmpegSuffix}-52.def" -l libavformat${FFmpegSuffix}.dll.a
+	dlltool -U --dllname ${FFmpegPrefix}swscale${FFmpegSuffix}-0.dll -d "libswscale/${FFmpegPrefix}swscale${FFmpegSuffix}-0.def" -l libswscale${FFmpegSuffix}.dll.a
+	
+	move_files_to_dir "*.dll.a" "$LibDir/"
+	
+	cp -p "ffmpeg.exe" "$BinDir/ffmpeg${FFmpegSuffix}.exe"
+	
+	cp -p "libavutil/${FFmpegPrefix}avutil${FFmpegSuffix}-50.dll" "."
+	cp -p "libavutil/${FFmpegPrefix}avutil${FFmpegSuffix}-50.dll" "$BinDir/"
+	cp -p "libavutil/${FFmpegPrefix}avutil${FFmpegSuffix}-50.lib" "$LibDir/avutil${FFmpegSuffix}.lib"
+	
+	cp -p "libavcodec/${FFmpegPrefix}avcodec${FFmpegSuffix}-52.dll" "."
+	cp -p "libavcodec/${FFmpegPrefix}avcodec${FFmpegSuffix}-52.dll" "$BinDir/"
+	cp -p "libavcodec/${FFmpegPrefix}avcodec${FFmpegSuffix}-52.lib" "$LibDir/avcodec${FFmpegSuffix}.lib"
+	
+	cp -p "libavdevice/${FFmpegPrefix}avdevice${FFmpegSuffix}-52.dll" "."
+	cp -p "libavdevice/${FFmpegPrefix}avdevice${FFmpegSuffix}-52.dll" "$BinDir/"
+	cp -p "libavdevice/${FFmpegPrefix}avdevice${FFmpegSuffix}-52.lib" "$LibDir/avdevice${FFmpegSuffix}.lib"
+	
+	cp -p "libavfilter/${FFmpegPrefix}avfilter${FFmpegSuffix}-1.dll" "."
+	cp -p "libavfilter/${FFmpegPrefix}avfilter${FFmpegSuffix}-1.dll" "$BinDir/"
+	cp -p "libavfilter/${FFmpegPrefix}avfilter${FFmpegSuffix}-1.lib" "$LibDir/avfilter${FFmpegSuffix}.lib"
+	
+	cp -p "libavformat/${FFmpegPrefix}avformat${FFmpegSuffix}-52.dll" "."
+	cp -p "libavformat/${FFmpegPrefix}avformat${FFmpegSuffix}-52.dll" "$BinDir/"
+	cp -p "libavformat/${FFmpegPrefix}avformat${FFmpegSuffix}-52.lib" "$LibDir/avformat${FFmpegSuffix}.lib"
+	
+	cp -p "libswscale/${FFmpegPrefix}swscale${FFmpegSuffix}-0.dll" "."
+	cp -p "libswscale/${FFmpegPrefix}swscale${FFmpegSuffix}-0.dll" "$BinDir/"
+	cp -p "libswscale/${FFmpegPrefix}swscale${FFmpegSuffix}-0.lib" "$LibDir/swscale${FFmpegSuffix}.lib"
+	
+	#Copy some other dlls for testing
 	copy_files_to_dir "$BinDir/*.dll" "."
 fi
 
@@ -1553,7 +1685,7 @@ if [ ! -f "$BinDir/${FFmpegPrefix}avcodec-gpl-52.dll" ]; then
 	CFLAGS=""
 	CPPFLAGS=""
 	LDFLAGS=""
-	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --enable-memalign-hack --enable-zlib --enable-bzlib --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --enable-gpl --enable-libfaad --enable-libxvid --enable-libx264 --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
+	$PKG_DIR/configure --cc=$gcc --ld=$gcc --extra-ldflags="$LibFlags -Wl,--kill-at -Wl,--exclude-libs=libintl.a -Wl,--add-stdcall-alias" --extra-cflags="$IncludeFlags" --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-avisynth --enable-memalign-hack --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --enable-gpl --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir
 	change_key "." "config.mak" "BUILDSUF" "-gpl"
 	change_key "." "config.mak" "LIBPREF" "${FFmpegPrefix}"
 	change_key "." "config.mak" "SLIBPREF" "${FFmpegPrefix}"
@@ -1606,7 +1738,7 @@ fi
 reset_flags
 
 #Make sure the shared directory has all our updates
-create_shared
+#create_shared
 
 #Cleanup CRT
 crt_shutdown

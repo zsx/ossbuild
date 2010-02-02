@@ -17,8 +17,6 @@ libpng 		- 	1.4.0 		- 	http://downloads.sourceforge.net/project/libpng/01-libpng
 libtiff 	- 	3.9.2 		- 	http://ftp.remotesensing.org/pub/libtiff/tiff-3.9.2.tar.gz
 glib 		- 	2.22.4 		- 	http://ftp.gnome.org/pub/gnome/sources/glib/2.22/glib-2.22.4.tar.bz2
 atk 		- 	1.29.4 		- 	http://ftp.gnome.org/pub/gnome/sources/atk/1.29/atk-1.29.4.tar.bz2
-gtk+ 		- 	2.18.6 		- 	http://ftp.gnome.org/pub/gnome/sources/gtk+/2.18/gtk+-2.18.6.tar.bz2
-gtkglarea 	- 	2.0.1 		- 	http://ftp.gnome.org/pub/gnome/sources/gtkglarea/2.0/gtkglarea-2.0.1.tar.bz2
 openssl		- 	0.9.8j 		- 	http://www.openssl.org/source/openssl-0.9.8j.tar.gz
 libgpg-error 	- 	1.7.0 		- 	http://mirror.tje.me.uk/pub/mirrors/ftp.gnupg.org/libgpg-error/libgpg-error-1.7.tar.bz2
 libtasn1 	- 	2.4.0 		- 	http://ftp.gnu.org/gnu/libtasn1/libtasn1-2.4.tar.gz
@@ -32,6 +30,12 @@ fontconfig 	- 	2.8.0 		- 	http://fontconfig.org/release/fontconfig-2.8.0.tar.gz
 pixman 		- 	0.17.4		- 	http://cairographics.org/releases/pixman-0.17.4.tar.gz
 cairo 		- 	1.8.8 		- 	http://cairographics.org/releases/cairo-1.8.8.tar.gz
 pango 		-	1.26.2 		- 	http://ftp.gnome.org/pub/GNOME/sources/pango/1.26/pango-1.26.2.tar.bz2
+gtk+ 		- 	2.18.6 		- 	http://ftp.gnome.org/pub/gnome/sources/gtk+/2.18/gtk+-2.18.6.tar.bz2
+gtkglarea 	- 	2.0.1 		- 	http://ftp.gnome.org/pub/gnome/sources/gtkglarea/2.0/gtkglarea-2.0.1.tar.bz2
+libcroco 	- 	0.6.2 		- 	http://ftp.gnome.org/pub/GNOME/sources/libcroco/0.6/libcroco-0.6.2.tar.bz2
+intltool 	- 	0.40.6 		- 	http://ftp.se.debian.org/pub/gnome/sources/intltool/0.40/intltool-0.40.6.tar.bz2
+libgsf 		- 	1.14.16 	- 	http://ftp.gnome.org/pub/gnome/sources/libgsf/1.14/libgsf-1.14.16.tar.bz2
+librsvg 	- 	2.26.0 		- 	http://ftp.gnome.org/pub/GNOME/sources/librsvg/2.26/librsvg-2.26.0.tar.bz2
 libsdl		-	1.2.14		-	http://www.libsdl.org/release/SDL-1.2.14.tar.gz
 libogg 		- 	1.1.4 		- 	http://downloads.xiph.org/releases/ogg/libogg-1.1.4.tar.gz
 libvorbis 	- 	1.2.3 		- 	http://downloads.xiph.org/releases/vorbis/libvorbis-1.2.3.tar.bz2

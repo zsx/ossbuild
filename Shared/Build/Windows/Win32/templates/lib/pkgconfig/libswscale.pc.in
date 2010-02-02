@@ -9,6 +9,6 @@ Version: 0.9.0
 Requires: 
 Requires.private: libavutil = 50.7.0
 Conflicts:
-Libs: -L${libdir} -lswscale 
+Libs: -L${libdir} -lswscale-lgpl 
 Libs.private: 
 Cflags: -I${includedir}

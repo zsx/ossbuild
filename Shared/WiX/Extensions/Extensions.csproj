@@ -30,6 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="wix, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ce35f76fcda82bad, processorArchitecture=MSIL">
       <HintPath>$(WiXLibraryDir)\wix.dll</HintPath>
@@ -40,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Boilerplate\IWiXDocumentExtension.cs" />
     <Compile Include="Boilerplate\IWiXExtension.cs" />
+    <Compile Include="Boilerplate\Namespace.cs" />
     <Compile Include="OSSBuildFillDirectory.cs" />
     <Compile Include="OSSBuild.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

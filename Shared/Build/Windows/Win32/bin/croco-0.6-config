@@ -1,0 +1,87 @@
+#! /bin/sh
+
+prefix=/D/OSSBuild/Build/Windows/Win32/Release
+exec_prefix=${prefix}
+exec_prefix_set=no
+includedir=/D/OSSBuild/Build/Windows/Win32/Release/include
+libdir=/D/OSSBuild/Build/Windows/Win32/Release/lib
+
+usage()
+{
+    cat <<EOF
+Usage: croco-config [OPTION]...
+
+Known values for OPTION are:
+
+  --prefix=DIR		change CROCO prefix [default $prefix]
+  --exec-prefix=DIR	change CROCO executable prefix [default $exec_prefix]
+  --libs		print library linking information
+  --cflags		print pre-processor and compiler flags
+  --help		display this help and exit
+  --version		output version information
+EOF
+
+    exit $1
+}
+
+if test $# -eq 0; then
+    usage 1
+fi
+
+cflags=false
+libs=false
+
+while test $# -gt 0; do
+    case "$1" in
+    -*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
+    *) optarg= ;;
+    esac
+
+    case "$1" in
+    --prefix=*)
+	prefix=$optarg
+	if test $exec_prefix_set = no ; then
+	    exec_prefix=$optarg
+	fi
+	;;
+
+    --prefix)
+	echo $prefix
+	;;
+
+    --exec-prefix=*)
+	exec_prefix=$optarg
+	exec_prefix_set=yes
+	;;
+
+    --exec-prefix)
+	echo $exec_prefix
+	;;
+
+    --version)
+	echo 0.6.2
+	exit 0
+	;;
+
+    --help)
+	usage 0
+	;;
+
+    --cflags)
+	echo -I/D/OSSBuild/Build/Windows/Win32/Release/include/libcroco-0.6 -mms-bitfields -Id:/OSSBuild/Shared/Build/Windows/Win32/include/glib-2.0 -Id:/OSSBuild/Shared/Build/Windows/Win32/lib/glib-2.0/include   -Id:/OSSBuild/Shared/Build/Windows/Win32/include/libxml2  
+       	;;
+
+    --libs)
+	echo -L/D/OSSBuild/Build/Windows/Win32/Release/lib -lcroco-0.6 -Ld:/OSSBuild/Shared/Build/Windows/Win32/lib -lglib-2.0 -lintl   -Ld:/OSSBuild/Shared/Build/Windows/Win32/lib -lxml2  
+       	;;
+
+    *)
+	usage
+	exit 1
+	;;
+    esac
+    shift
+done
+
+
+exit 0

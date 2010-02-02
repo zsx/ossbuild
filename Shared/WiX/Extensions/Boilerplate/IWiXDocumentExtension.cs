@@ -6,6 +6,6 @@ namespace OSSBuild.WiX {
 	///	Marker interface for classes wishing to process the WiX XML document.
 	///</summary>
 	public interface IWiXDocumentExtension {
-		void PreprocessDocument(XmlDocument document, XmlNode node, XmlAttributeCollection attributes);
+		XmlNode PreprocessDocument(XmlDocument document, XmlNode parentNode, XmlNode node, XmlAttributeCollection attributes);
 	}
 }

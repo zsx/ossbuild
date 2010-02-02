@@ -222,11 +222,11 @@ namespace OSSBuild.WiX {
 				set; 
 			}
 
-			public void InvokePreprocessDocument(XmlDocument document, XmlNode node, XmlAttributeCollection attributes) {
+			public XmlNode InvokePreprocessDocument(XmlDocument document, XmlNode parentNode, XmlNode node, XmlAttributeCollection attributes) {
 				try {
 					//Invoke the preprocess document method
 					lock (Instance) {
-						Instance.PreprocessDocument(document, node, attributes);
+						return Instance.PreprocessDocument(document, parentNode, node, attributes);
 					}
 				} catch {
 					throw;
@@ -280,12 +280,17 @@ namespace OSSBuild.WiX {
 					if ((node = nodes[0]) == null)
 						continue;
 
+					//Have the extension process the document now.
+					XmlNode replacementNode = info.InvokePreprocessDocument(document, node.ParentNode, node, node.Attributes);
+
+					//Insert this node after our node so that it's in the document tree.
+					//Then we take out the custom tag node.
+					if (replacementNode != null)
+						node.ParentNode.InsertAfter(replacementNode, node);
+
 					//Remove this node from the document at the very least.
 					//This also ensures us that this loop will eventually exit.
 					node.ParentNode.RemoveChild(node);
-
-					//Have the extension process the document now.
-					info.InvokePreprocessDocument(document, node, node.Attributes);
 				}
 			}
 

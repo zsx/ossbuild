@@ -9,6 +9,6 @@ Version: 50.7.0
 Requires: 
 Requires.private: 
 Conflicts:
-Libs: -L${libdir} -lavutil 
+Libs: -L${libdir} -lavutil-lgpl 
 Libs.private: 
 Cflags: -I${includedir}
