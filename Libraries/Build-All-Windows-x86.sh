@@ -903,95 +903,97 @@ if [ ! -f "$BinDir/lib${Prefix}gtkgl-2.0-1.dll" ]; then
 	update_library_names_windows "lib${Prefix}gtkgl-2.0.dll.a" "libgtkgl-2.0.la"
 fi
 
-#libcroco
-if [ ! -f "$BinDir/lib${Prefix}croco-0.6-3.dll" ]; then 
-	unpack_bzip2_and_move "libcroco.tar.bz2" "$PKG_DIR_LIBCROCO"
-	mkdir_and_move "$IntDir/libcroco"
-	
-	cd "$PKG_DIR/"
-	change_key "src" "Makefile.in" "libcroco_0_6_la_LDFLAGS" "-version-info\ @LIBCROCO_VERSION_INFO@\ -export-symbols-regex\ \'\^\(cr_)\.\*\'\ \\\\"
+if [ -e "$PERL_BIN_DIR" ]; then 
+	#libcroco
+	if [ ! -f "$BinDir/lib${Prefix}croco-0.6-3.dll" ]; then 
+		unpack_bzip2_and_move "libcroco.tar.bz2" "$PKG_DIR_LIBCROCO"
+		mkdir_and_move "$IntDir/libcroco"
+		
+		cd "$PKG_DIR/"
+		change_key "src" "Makefile.in" "libcroco_0_6_la_LDFLAGS" "-version-info\ @LIBCROCO_VERSION_INFO@\ -export-symbols-regex\ \'\^\(cr_)\.\*\'\ \\\\"
 
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	change_libname_spec
-	make && make install
-	
-	cd src/.libs
-	$MSLIB /name:lib${Prefix}croco-0.6-3.dll /out:croco-0.6.lib /machine:$MSLibMachine /def:lib${Prefix}croco-0.6-3.dll.def
-	move_files_to_dir "*.exp *.lib" "$LibDir/"
-	cd ../../
-	
-	update_library_names_windows "lib${Prefix}croco-0.6.dll.a" "libcroco-0.6.la"
-	
-	#For make test
-	cd csslint/.libs/
-	cp -p lib${Prefix}croco-0.6-3.dll ../../csslint/.libs/
-	cp -p "$BinDir/lib${Prefix}xml2-2.dll" .
-	cp -p "$BinDir/lib${Prefix}glib-2.0-0.dll" .
-	cp -p "$BinDir/${IconvPrefix}iconv.dll" .
-	cp -p "$BinDir/${ZlibPrefix}z.dll" .
-	cd ../../
-	
-	cd tests/.libs/
-	cp -p ../../csslint/.libs/lib${Prefix}croco-0.6-3.dll .
-	cp -p "$BinDir/lib${Prefix}xml2-2.dll" .
-	cp -p "$BinDir/lib${Prefix}glib-2.0-0.dll" .
-	cp -p "$BinDir/${IconvPrefix}iconv.dll" .
-	cp -p "$BinDir/${ZlibPrefix}z.dll" .
-	cd ../
+		$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+		change_libname_spec
+		make && make install
+		
+		cd src/.libs
+		$MSLIB /name:lib${Prefix}croco-0.6-3.dll /out:croco-0.6.lib /machine:$MSLibMachine /def:lib${Prefix}croco-0.6-3.dll.def
+		move_files_to_dir "*.exp *.lib" "$LibDir/"
+		cd ../../
+		
+		update_library_names_windows "lib${Prefix}croco-0.6.dll.a" "libcroco-0.6.la"
+		
+		#For make test
+		cd csslint/.libs/
+		cp -p lib${Prefix}croco-0.6-3.dll ../../csslint/.libs/
+		cp -p "$BinDir/lib${Prefix}xml2-2.dll" .
+		cp -p "$BinDir/lib${Prefix}glib-2.0-0.dll" .
+		cp -p "$BinDir/${IconvPrefix}iconv.dll" .
+		cp -p "$BinDir/${ZlibPrefix}z.dll" .
+		cd ../../
+		
+		cd tests/.libs/
+		cp -p ../../csslint/.libs/lib${Prefix}croco-0.6-3.dll .
+		cp -p "$BinDir/lib${Prefix}xml2-2.dll" .
+		cp -p "$BinDir/lib${Prefix}glib-2.0-0.dll" .
+		cp -p "$BinDir/${IconvPrefix}iconv.dll" .
+		cp -p "$BinDir/${ZlibPrefix}z.dll" .
+		cd ../
+	fi
+
+	#intltool
+	reset_path
+	setup_ms_build_env_path
+	export PATH=$PERL_BIN_DIR:$PATH
+	if [ ! -f "$BinDir/intltool-merge" ]; then 
+		unpack_bzip2_and_move "intltool.tar.bz2" "$PKG_DIR_INTLTOOL"
+		mkdir_and_move "$IntDir/intltool"
+		
+		$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+		make && make install
+	fi
+
+	#libgsf
+	if [ ! -f "$BinDir/lib${Prefix}gsf-1-114.dll" ]; then 
+		unpack_bzip2_and_move "libgsf.tar.bz2" "$PKG_DIR_LIBGSF"
+		mkdir_and_move "$IntDir/libgsf"
+		
+		$PKG_DIR/configure --without-python --disable-gtk-doc --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+		change_libname_spec
+		make && make install
+		
+		cd gsf/.libs/
+		$MSLIB /name:lib${Prefix}gsf-1-114.dll /out:gsf-1.lib /machine:$MSLibMachine /def:lib${Prefix}gsf-1-114.dll.def
+		move_files_to_dir "*.exp *.lib" "$LibDir/"
+		cd ../../
+		
+		cd gsf-win32/.libs/
+		$MSLIB /name:lib${Prefix}gsf-win32-1-114.dll /out:gsf-win32-1.lib /machine:$MSLibMachine /def:lib${Prefix}gsf-win32-1-114.dll.def
+		move_files_to_dir "*.exp *.lib" "$LibDir/"
+		cd ../../
+		
+		update_library_names_windows "lib${Prefix}gsf-1.dll.a" "libgsf-1.la"
+		update_library_names_windows "lib${Prefix}gsf-win32-1.dll.a" "libgsf-win32-1.la"
+	fi
+	reset_path
+	setup_ms_build_env_path
+
+	#librsvg
+	if [ ! -f "$BinDir/lib${Prefix}rsvg-2-2.dll" ]; then 
+		unpack_bzip2_and_move "librsvg.tar.bz2" "$PKG_DIR_LIBRSVG"
+		mkdir_and_move "$IntDir/librsvg"
+		
+		$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
+		change_libname_spec
+		make && make install
+		
+		cd .libs/
+		$MSLIB /name:lib${Prefix}rsvg-2-2.dll /out:rsvg-2.lib /machine:$MSLibMachine /def:lib${Prefix}rsvg-2-2.dll.def
+		move_files_to_dir "*.exp *.lib" "$LibDir/"
+		cd ../
+	fi
 fi
 
-#intltool
-reset_path
-setup_ms_build_env_path
-export PATH=$PERL_BIN_DIR:$PATH
-if [ ! -f "$BinDir/intltool-merge" ]; then 
-	unpack_bzip2_and_move "intltool.tar.bz2" "$PKG_DIR_INTLTOOL"
-	mkdir_and_move "$IntDir/intltool"
-	
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	make && make install
-fi
-
-#libgsf
-if [ ! -f "$BinDir/lib${Prefix}gsf-1-114.dll" ]; then 
-	unpack_bzip2_and_move "libgsf.tar.bz2" "$PKG_DIR_LIBGSF"
-	mkdir_and_move "$IntDir/libgsf"
-	
-	$PKG_DIR/configure --without-python --disable-gtk-doc --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	change_libname_spec
-	make && make install
-	
-	cd gsf/.libs/
-	$MSLIB /name:lib${Prefix}gsf-1-114.dll /out:gsf-1.lib /machine:$MSLibMachine /def:lib${Prefix}gsf-1-114.dll.def
-	move_files_to_dir "*.exp *.lib" "$LibDir/"
-	cd ../../
-	
-	cd gsf-win32/.libs/
-	$MSLIB /name:lib${Prefix}gsf-win32-1-114.dll /out:gsf-win32-1.lib /machine:$MSLibMachine /def:lib${Prefix}gsf-win32-1-114.dll.def
-	move_files_to_dir "*.exp *.lib" "$LibDir/"
-	cd ../../
-	
-	update_library_names_windows "lib${Prefix}gsf-1.dll.a" "libgsf-1.la"
-	update_library_names_windows "lib${Prefix}gsf-win32-1.dll.a" "libgsf-win32-1.la"
-fi
-reset_path
-setup_ms_build_env_path
-
-#librsvg
-if [ ! -f "$BinDir/lib${Prefix}rsvg-2-2.dll" ]; then 
-	unpack_bzip2_and_move "librsvg.tar.bz2" "$PKG_DIR_LIBRSVG"
-	mkdir_and_move "$IntDir/librsvg"
-	
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
-	change_libname_spec
-	make && make install
-	
-	cd .libs/
-	$MSLIB /name:lib${Prefix}rsvg-2-2.dll /out:rsvg-2.lib /machine:$MSLibMachine /def:lib${Prefix}rsvg-2-2.dll.def
-	move_files_to_dir "*.exp *.lib" "$LibDir/"
-	cd ../
-fi
-	
 #sdl
 SDLPrefix=lib${Prefix}
 if [ "${Prefix}" = "" ]; then
@@ -1209,10 +1211,21 @@ if [ ! -f "$BinDir/lib${Prefix}x264-67.dll" ]; then
 	PATH=$PATH:$TOOLS_DIR
 	
 	cd "$PKG_DIR/"
+	CFLAGS=""
+	CPPFLAGS=""
+	LDFLAGS=""
 	./configure --disable-mp4-output --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
 	change_key "." "config.mak" "SONAME" "lib${Prefix}x264-67.dll"
 	change_key "." "config.mak" "IMPLIBNAME" "lib${Prefix}x264.dll.a"
-	make && make install
+	
+	#Download example y4m for use in profiling and selecting the best CPU instruction set
+	wget http://samples.mplayerhq.hu/yuv4mpeg2/example.y4m.bz2
+	bzip2 -d -f "example.y4m.bz2"
+	
+	#Build using the profiler
+	make fprofiled VIDS="example.y4m"
+	make install
+	
 	reset_flags
 	
 	reset_path
