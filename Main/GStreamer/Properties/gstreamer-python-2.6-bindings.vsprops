@@ -13,7 +13,7 @@
 	<Tool
 		Name="VCLinkerTool"
 		AdditionalDependencies="gstreamer-0.10.lib"
-		OutputFile="$(OutDir)\lib\python2.6\site-packages\gst-0.10\gst\(ProjectName).pyd"
+		OutputFile="$(OutDir)\lib\python2.6\site-packages\gst-0.10\gst\$(ProjectName).pyd"
 		AdditionalLibraryDirectories="$(OutDir)\lib\plugins\"
 		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\bindings\python-2.6\$(TargetName).pdb"
 	/>
