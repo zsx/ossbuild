@@ -2,25 +2,19 @@
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_FFMPEG_LGPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			lib$(var.PREFIX)gstffmpeg.dll
+			*gstffmpeg$(var.LGPL).dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-						
-				<?foreach file in $(var.Files) ?>
-					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-						<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
-					</Component>
-				<?endforeach ?>
-						
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
 			</Directory>
 		</Directory>
 

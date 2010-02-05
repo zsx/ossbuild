@@ -4,7 +4,7 @@
 
 <?define INSTALLED_PRODUCT_NAME="$(var.MANUFACTURER) GStreamer $(var.OSSBUILD_VERSION) (GPL)" ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 	<Product Version="$(var.OSSBUILD_VERSION)" Name="$(var.INSTALLED_PRODUCT_NAME)" Manufacturer="$(var.MANUFACTURER)" Language="$(var.DEFAULT_LANGUAGE)" Id="$(var.GUID_X86_MSI_COMPLETE_GPL_PACKAGE)" UpgradeCode="$(var.GUID_X86_MSI_COMPLETE_GPL_UPGRADE_CODE)">
 		<Package InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" Compressed="yes" />
 		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" CompressionLevel="high" />

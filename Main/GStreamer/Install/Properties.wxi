@@ -23,6 +23,7 @@
 	<?define PRODUCT_HKLM_REGISTRY_ROOT="SOFTWARE\OSSBuild" ?>
 
 	<?define GPL="-gpl" ?>
+	<?define LGPL="-lgpl" ?>
 	<?define PREFIX="-ossbuild-" ?>
 	<?define DEFAULT_LANGUAGE="1033" ?>
 	<?define MINIMAL_INSTALLER_VERSION="301" ?>

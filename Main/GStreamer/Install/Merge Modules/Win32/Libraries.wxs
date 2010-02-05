@@ -2,45 +2,39 @@
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
 		<Package Id="$(var.GUID_X86_MSM_LIBRARIES_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			lib$(var.PREFIX)gstapp-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstaudio-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstbase-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstcdda-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstcontroller-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstdataprotocol-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstfarsight-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstfft-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstgl-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstinterfaces-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstnet-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstnetbuffer-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstpbutils-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstphotography-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstreamer-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstriff-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstrtp-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstrtsp-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstsdp-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gsttag-$(var.GST_VERSION).dll;
-			lib$(var.PREFIX)gstvideo-$(var.GST_VERSION).dll
+			*gstapp-$(var.GST_VERSION).dll;
+			*gstaudio-$(var.GST_VERSION).dll;
+			*gstbase-$(var.GST_VERSION).dll;
+			*gstcdda-$(var.GST_VERSION).dll;
+			*gstcontroller-$(var.GST_VERSION).dll;
+			*gstdataprotocol-$(var.GST_VERSION).dll;
+			*gstfarsight-$(var.GST_VERSION).dll;
+			*gstfft-$(var.GST_VERSION).dll;
+			*gstgl-$(var.GST_VERSION).dll;
+			*gstinterfaces-$(var.GST_VERSION).dll;
+			*gstnet-$(var.GST_VERSION).dll;
+			*gstnetbuffer-$(var.GST_VERSION).dll;
+			*gstpbutils-$(var.GST_VERSION).dll;
+			*gstphotography-$(var.GST_VERSION).dll;
+			*gstreamer-$(var.GST_VERSION).dll;
+			*gstriff-$(var.GST_VERSION).dll;
+			*gstrtp-$(var.GST_VERSION).dll;
+			*gstrtsp-$(var.GST_VERSION).dll;
+			*gstsdp-$(var.GST_VERSION).dll;
+			*gsttag-$(var.GST_VERSION).dll;
+			*gstvideo-$(var.GST_VERSION).dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-
-				<?foreach file in $(var.Files) ?>
-					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-						<File Source="$(var.GstBinDir)\$(ossbuild.trim($(var.file)))" />
-					</Component>
-				<?endforeach ?>
-
+				<OSSBuild:FillDirectory Directory="$(var.GstBinDir)" FileFilter="$(var.Files)" />
 			</Directory>
 		</Directory>
 

@@ -2,36 +2,30 @@
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_BAD_GPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
-		<ComponentGroupRef Id="PluginsBad"/>
-		
 		<?define Files="
-			lib$(var.PREFIX)gstdts.dll;
-			lib$(var.PREFIX)gstfaac.dll;
-			lib$(var.PREFIX)gstfaad.dll;
-			lib$(var.PREFIX)gstresindvd.dll;
-			lib$(var.PREFIX)gstxvid.dll
+			*gstdts.dll;
+			*gstfaac.dll;
+			*gstfaad.dll;
+			*gstresindvd.dll;
+			*gstxvid.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-						
-				<?foreach file in $(var.Files) ?>
-					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-						<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
-					</Component>
-				<?endforeach ?>
-						
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
 			</Directory>
 		</Directory>
 
 		<?undef Files ?>
+
+		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
+		<ComponentGroupRef Id="PluginsBad"/>
 
 	</Module>
 

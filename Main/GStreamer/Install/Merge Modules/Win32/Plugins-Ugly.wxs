@@ -2,34 +2,22 @@
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 	<Fragment>
 
 		<?define Files="
-			lib$(var.PREFIX)gstasfdemux.dll;
-			lib$(var.PREFIX)gstdvdlpcmdec.dll;
-			lib$(var.PREFIX)gstdvdsub.dll;
-			lib$(var.PREFIX)gstiec958.dll;
-			lib$(var.PREFIX)gstmpegaudioparse.dll;
-			lib$(var.PREFIX)gstmpegstream.dll;
-			lib$(var.PREFIX)gstrealmedia.dll;
-			lib$(var.PREFIX)gstsynaesthesia.dll
+			*gstasfdemux.dll;
+			*gstdvdlpcmdec.dll;
+			*gstdvdsub.dll;
+			*gstiec958.dll;
+			*gstmpegaudioparse.dll;
+			*gstmpegstream.dll;
+			*gstrealmedia.dll;
+			*gstsynaesthesia.dll
 		" ?>
-		
-		<ComponentGroup Id="PluginsUgly">
-			<?foreach file in $(var.Files) ?>
-				<ComponentRef Id="$(ossbuild.createValidID($(var.file)))" />
-			<?endforeach ?>
-		</ComponentGroup>
-		
+
 		<DirectoryRef Id="MergeRedirectFolder">
-			
-			<?foreach file in $(var.Files) ?>
-				<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-					<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
-				</Component>
-			<?endforeach ?>
-			
+			<OSSBuild:FillDirectory ComponentGroup="PluginsUgly" Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
 		</DirectoryRef>
 
 		<?undef Files ?>

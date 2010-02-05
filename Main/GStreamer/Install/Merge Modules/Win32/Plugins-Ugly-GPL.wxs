@@ -2,36 +2,30 @@
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
 		<Package Id="$(var.GUID_X86_MSM_UGLY_GPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
-		<ComponentGroupRef Id="PluginsUgly"/>
-
 		<?define Files="
-			lib$(var.PREFIX)gsta52dec.dll;
-			lib$(var.PREFIX)gstdvdread.dll;
-			lib$(var.PREFIX)gstlame.dll;
-			lib$(var.PREFIX)gstmpeg2dec.dll;
-			lib$(var.PREFIX)gstx264.dll
+			*gsta52dec.dll;
+			*gstdvdread.dll;
+			*gstlame.dll;
+			*gstmpeg2dec.dll;
+			*gstx264.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-
-				<?foreach file in $(var.Files) ?>
-				<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-					<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
-				</Component>
-				<?endforeach ?>
-
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
 			</Directory>
 		</Directory>
 
 		<?undef Files ?>
+
+		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
+		<ComponentGroupRef Id="PluginsUgly"/>
 
 	</Module>
 

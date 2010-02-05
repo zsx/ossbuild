@@ -19,7 +19,7 @@ namespace OSSBuild.WiX {
 		#region Initialization
 		static WixPreprocessorExtension() {
 			//Debugger.Launch();
-			Type IWiXExtensionType = typeof(IWiXExtension);
+			Type IWiXExtensionType = typeof(IWiXPreprocessorExtension);
 			Type IWiXDocumentExtensionType = typeof(IWiXDocumentExtension);
 
 			classes = new Dictionary<string, FunctionInfo>(3);
@@ -39,11 +39,12 @@ namespace OSSBuild.WiX {
 						NodeInfo info = new NodeInfo() {
 							Instance = instance,
 							ExtensionType = t,
-							Name = name
+							CamelCaseName = name, 
+							Name = t.Name
 						};
 
 						documentClasses.Add(t.Name.ToLower(), info);
-						documentNames.Add(name);
+						documentNames.Add(t.Name);
 					}
 				}
 				#endregion
@@ -200,8 +201,8 @@ namespace OSSBuild.WiX {
 						}
 					}
 				} catch {
+					throw;
 				}
-
 				return null;
 			}
 		}
@@ -220,6 +221,15 @@ namespace OSSBuild.WiX {
 			public string Name { 
 				get; 
 				set; 
+			}
+
+			public string CamelCaseName {
+				get;
+				set;
+			}
+
+			public string NamespaceURI {
+				get { return Instance.NamespaceURI; }
 			}
 
 			public XmlNode InvokePreprocessDocument(XmlDocument document, XmlNode parentNode, XmlNode node, XmlAttributeCollection attributes) {
@@ -270,13 +280,14 @@ namespace OSSBuild.WiX {
 				NodeInfo info = documentClasses[nodeNameAsLowerCase];
 				if (info == null)
 					continue;
+				string namespaceURI = info.NamespaceURI;
 				#endregion
 
 				//Don't use a foreach here b/c processing the document will most likely result in 
 				//the nodes changing all around. Instead loop until we can't find any more.
 				XmlNode node;
 				XmlNodeList nodes;
-				while ((nodes = document.GetElementsByTagName(nodeName)) != null && nodes.Count > 0) {
+				while ((nodes = document.GetElementsByTagName(nodeName, namespaceURI)) != null && nodes.Count > 0) {
 					if ((node = nodes[0]) == null)
 						continue;
 
@@ -285,7 +296,7 @@ namespace OSSBuild.WiX {
 
 					//Insert this node after our node so that it's in the document tree.
 					//Then we take out the custom tag node.
-					if (replacementNode != null)
+					if (replacementNode != null && replacementNode != node.ParentNode)
 						node.ParentNode.InsertAfter(replacementNode, node);
 
 					//Remove this node from the document at the very least.

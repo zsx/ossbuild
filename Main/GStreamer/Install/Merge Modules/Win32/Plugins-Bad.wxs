@@ -2,73 +2,61 @@
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 	<Fragment>
 
 		<?define Files="
-			lib$(var.PREFIX)gstaacparse.dll;
-			lib$(var.PREFIX)gstaiff.dll;
-			lib$(var.PREFIX)gstamrparse.dll;
-			lib$(var.PREFIX)gstautoconvert.dll;
-			lib$(var.PREFIX)gstbayer.dll;
-			lib$(var.PREFIX)gstcamerabin.dll;
-			lib$(var.PREFIX)gstcdxaparse.dll;
-			lib$(var.PREFIX)gstdirectdraw.dll;
-			lib$(var.PREFIX)gstdshowdecwrapper.dll;
-			lib$(var.PREFIX)gstdshowsrcwrapper.dll;
-			lib$(var.PREFIX)gstdshowvideosink.dll;
-			lib$(var.PREFIX)gstdtmf.dll;
-			lib$(var.PREFIX)gstdvdspu.dll;
-			lib$(var.PREFIX)gstfreeze.dll;
-			lib$(var.PREFIX)gsth264parse.dll;
-			lib$(var.PREFIX)gstlegacyresample.dll;
-			lib$(var.PREFIX)gstlibmms.dll;
-			lib$(var.PREFIX)gstliveadder.dll;
-			lib$(var.PREFIX)gstmpeg4videoparse.dll;
-			lib$(var.PREFIX)gstmpegdemux.dll;
-			lib$(var.PREFIX)gstmpegtsmux.dll;
-			lib$(var.PREFIX)gstmpegvideoparse.dll;
-			lib$(var.PREFIX)gstmve.dll;
-			lib$(var.PREFIX)gstmxf.dll;
-			lib$(var.PREFIX)gstneon.dll;
-			lib$(var.PREFIX)gstnuvdemux.dll;
-			lib$(var.PREFIX)gstpcapparse.dll;
-			lib$(var.PREFIX)gstqtmux.dll;
-			lib$(var.PREFIX)gstrawparse.dll;
-			lib$(var.PREFIX)gstreal.dll;
-			lib$(var.PREFIX)gstrtpmux.dll;
-			lib$(var.PREFIX)gstscaletempo.dll;
-			lib$(var.PREFIX)gstsdl.dll;
-			lib$(var.PREFIX)gstsdpplugin.dll;
-			lib$(var.PREFIX)gstselector.dll;
-			lib$(var.PREFIX)gstsiren.dll;
-			lib$(var.PREFIX)gstspeed.dll;
-			lib$(var.PREFIX)gststereo.dll;
-			lib$(var.PREFIX)gstsubenc.dll;
-			lib$(var.PREFIX)gsttta.dll;
-			lib$(var.PREFIX)gstvalve.dll;
-			lib$(var.PREFIX)gstvideosignal.dll;
-			lib$(var.PREFIX)gstvmnc.dll;
-			lib$(var.PREFIX)gstwasapi.dll;
-			lib$(var.PREFIX)gstwininet.dll;
-			lib$(var.PREFIX)gstwinks.dll;
-			lib$(var.PREFIX)gstwinscreencap.dll
+			*gstaacparse.dll;
+			*gstaiff.dll;
+			*gstamrparse.dll;
+			*gstautoconvert.dll;
+			*gstbayer.dll;
+			*gstcamerabin.dll;
+			*gstcdxaparse.dll;
+			*gstdirectdraw.dll;
+			*gstdshowdecwrapper.dll;
+			*gstdshowsrcwrapper.dll;
+			*gstdshowvideosink.dll;
+			*gstdtmf.dll;
+			*gstdvdspu.dll;
+			*gstfreeze.dll;
+			*gsth264parse.dll;
+			*gstlegacyresample.dll;
+			*gstlibmms.dll;
+			*gstliveadder.dll;
+			*gstmpeg4videoparse.dll;
+			*gstmpegdemux.dll;
+			*gstmpegtsmux.dll;
+			*gstmpegvideoparse.dll;
+			*gstmve.dll;
+			*gstmxf.dll;
+			*gstneon.dll;
+			*gstnuvdemux.dll;
+			*gstpcapparse.dll;
+			*gstqtmux.dll;
+			*gstrawparse.dll;
+			*gstreal.dll;
+			*gstrtpmux.dll;
+			*gstscaletempo.dll;
+			*gstsdl.dll;
+			*gstsdpplugin.dll;
+			*gstselector.dll;
+			*gstsiren.dll;
+			*gstspeed.dll;
+			*gststereo.dll;
+			*gstsubenc.dll;
+			*gsttta.dll;
+			*gstvalve.dll;
+			*gstvideosignal.dll;
+			*gstvmnc.dll;
+			*gstwasapi.dll;
+			*gstwininet.dll;
+			*gstwinks.dll;
+			*gstwinscreencap.dll
 		" ?>
-		
-		<ComponentGroup Id="PluginsBad">
-			<?foreach file in $(var.Files) ?>
-				<ComponentRef Id="$(ossbuild.createValidID($(var.file)))" />
-			<?endforeach ?>
-		</ComponentGroup>
-		
+
 		<DirectoryRef Id="MergeRedirectFolder">
-			
-			<?foreach file in $(var.Files) ?>
-				<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-					<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
-				</Component>
-			<?endforeach ?>
-			
+			<OSSBuild:FillDirectory ComponentGroup="PluginsBad" Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
 		</DirectoryRef>
 
 		<?undef Files ?>

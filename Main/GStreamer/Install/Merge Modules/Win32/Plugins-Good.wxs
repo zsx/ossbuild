@@ -2,72 +2,66 @@
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_GOOD_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			lib$(var.PREFIX)gstrtp_good.dll;
-			lib$(var.PREFIX)gstrtsp_good.dll;
+			*gstrtp_good.dll;
+			*gstrtsp_good.dll;
 			
-			lib$(var.PREFIX)gstalaw.dll;
-			lib$(var.PREFIX)gstalpha.dll;
-			lib$(var.PREFIX)gstapetag.dll;
-			lib$(var.PREFIX)gstaudiofx.dll;
-			lib$(var.PREFIX)gstauparse.dll;
-			lib$(var.PREFIX)gstautodetect.dll;
-			lib$(var.PREFIX)gstavi.dll;
-			lib$(var.PREFIX)gstcairo.dll;
-			lib$(var.PREFIX)gstcutter.dll;
-			lib$(var.PREFIX)gstdebug.dll;
-			lib$(var.PREFIX)gstdeinterlace.dll;
-			lib$(var.PREFIX)gstdirectsound.dll;
-			lib$(var.PREFIX)gsteffectv.dll;
-			lib$(var.PREFIX)gstequalizer.dll;
-			lib$(var.PREFIX)gstflv.dll;
-			lib$(var.PREFIX)gstflx.dll;
-			lib$(var.PREFIX)gsticydemux.dll;
-			lib$(var.PREFIX)gstid3demux.dll;
-			lib$(var.PREFIX)gstinterleave.dll;
-			lib$(var.PREFIX)gstjpeg.dll;
-			lib$(var.PREFIX)gstlevel.dll;
-			lib$(var.PREFIX)gstmatroska.dll;
-			lib$(var.PREFIX)gstmonoscope.dll;
-			lib$(var.PREFIX)gstmulaw.dll;
-			lib$(var.PREFIX)gstmultifile.dll;
-			lib$(var.PREFIX)gstmultipart.dll;
-			lib$(var.PREFIX)gstpng.dll;
-			lib$(var.PREFIX)gstqtdemux.dll;
-			lib$(var.PREFIX)gstreplaygain.dll;
-			lib$(var.PREFIX)gstrtpmanager.dll;
-			lib$(var.PREFIX)gstsmpte.dll;
-			lib$(var.PREFIX)gstsoup.dll;
-			lib$(var.PREFIX)gstspectrum.dll;
-			lib$(var.PREFIX)gstudp.dll;
-			lib$(var.PREFIX)gstvideobox.dll;
-			lib$(var.PREFIX)gstvideocrop.dll;
-			lib$(var.PREFIX)gstvideofilterbalance.dll;
-			lib$(var.PREFIX)gstvideofilterflip.dll;
-			lib$(var.PREFIX)gstvideofiltergamma.dll;
-			lib$(var.PREFIX)gstvideomixer.dll;
-			lib$(var.PREFIX)gstwaveenc.dll;
-			lib$(var.PREFIX)gstwaveform.dll;
-			lib$(var.PREFIX)gstwavpack.dll;
-			lib$(var.PREFIX)gstwavparse.dll;
-			lib$(var.PREFIX)gsty4m.dll
+			*gstalaw.dll;
+			*gstalpha.dll;
+			*gstapetag.dll;
+			*gstaudiofx.dll;
+			*gstauparse.dll;
+			*gstautodetect.dll;
+			*gstavi.dll;
+			*gstcairo.dll;
+			*gstcutter.dll;
+			*gstdebug.dll;
+			*gstdeinterlace.dll;
+			*gstdirectsound.dll;
+			*gsteffectv.dll;
+			*gstequalizer.dll;
+			*gstflv.dll;
+			*gstflx.dll;
+			*gsticydemux.dll;
+			*gstid3demux.dll;
+			*gstinterleave.dll;
+			*gstjpeg.dll;
+			*gstlevel.dll;
+			*gstmatroska.dll;
+			*gstmonoscope.dll;
+			*gstmulaw.dll;
+			*gstmultifile.dll;
+			*gstmultipart.dll;
+			*gstpng.dll;
+			*gstqtdemux.dll;
+			*gstreplaygain.dll;
+			*gstrtpmanager.dll;
+			*gstsmpte.dll;
+			*gstsoup.dll;
+			*gstspectrum.dll;
+			*gstudp.dll;
+			*gstvideobox.dll;
+			*gstvideocrop.dll;
+			*gstvideofilterbalance.dll;
+			*gstvideofilterflip.dll;
+			*gstvideofiltergamma.dll;
+			*gstvideomixer.dll;
+			*gstwaveenc.dll;
+			*gstwaveform.dll;
+			*gstwavpack.dll;
+			*gstwavparse.dll;
+			*gsty4m.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-						
-				<?foreach file in $(var.Files) ?>
-					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-						<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
-					</Component>
-				<?endforeach ?>
-						
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
 			</Directory>
 		</Directory>
 

@@ -4,7 +4,14 @@ using System.Text;
 using System.Security.Cryptography;
 
 namespace OSSBuild.WiX {
-	internal class OSSBuild : IWiXExtension {
+	internal class OSSBuild : IWiXPreprocessorExtension {
+		///<summary>
+		///	Provides the typical project namespace URI.
+		///</summary>
+		public string NamespaceURI(string[] args) {
+			return Namespace.OSSBuild;
+		}
+
 		///<summary>
 		///	Removes whitespace from the beginning and end of the string.
 		///</summary>
@@ -39,7 +46,16 @@ namespace OSSBuild.WiX {
 		///</summary>
 		public string CreateValidID(string[] args) {
 			try {
-				char[] name = args[0].Trim().ToCharArray();
+				char[] name;
+				
+				using (MD5 md5 = MD5.Create()) {
+					byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(args[0].Trim());
+					byte[] hash = md5.ComputeHash(inputBytes);
+
+					//Works b/c hash is 16 bytes long
+					name = (new Guid(hash).ToString("B")).ToCharArray();
+				}
+
 				StringBuilder sb = new StringBuilder(name.Length);
 				for (int i = 0; i < name.Length; ++i) {
 					if (char.IsLetterOrDigit(name[i]) || name[i] == '_' || name[i] == '.')
@@ -47,6 +63,7 @@ namespace OSSBuild.WiX {
 					else
 						sb.Append('_');
 				}
+
 				return sb.ToString();
 			} catch {
 				return args[0];
@@ -64,17 +81,14 @@ namespace OSSBuild.WiX {
 				if (Directory.Exists(a))
 					return a;
 			}
-			return null;
-		}
 
-		#region IWiXDocumentExtension Members
-		///<summary>
-		///	
-		///</summary>
-		public void PreprocessDocument(System.Xml.XmlDocument document) {
-			throw new NotImplementedException();
-		}
+			StringBuilder sb = new StringBuilder("Unable to locate a file/directory in the following locations: " + Environment.NewLine, 256);
+			foreach (string a in args) {
+				sb.Append("    ");
+				sb.AppendLine(a);
+			}
 
-		#endregion
+			throw new Exception(sb.ToString());
+		}
 	}
 }

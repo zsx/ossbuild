@@ -2,47 +2,41 @@
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_BASE_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<?define Files="
-			lib$(var.PREFIX)gstadder.dll;
-			lib$(var.PREFIX)gstappplugin.dll;
-			lib$(var.PREFIX)gstaudioconvert.dll;
-			lib$(var.PREFIX)gstaudiorate.dll;
-			lib$(var.PREFIX)gstaudioresample.dll;
-			lib$(var.PREFIX)gstaudiotestsrc.dll;
-			lib$(var.PREFIX)gstcoreelements.dll;
-			lib$(var.PREFIX)gstdecodebin.dll;
-			lib$(var.PREFIX)gstdecodebin2.dll;
-			lib$(var.PREFIX)gstffmpegcolorspace.dll;
-			lib$(var.PREFIX)gstgdp.dll;
-			lib$(var.PREFIX)gstgio.dll;
-			lib$(var.PREFIX)gstogg.dll;
-			lib$(var.PREFIX)gstpango.dll;
-			lib$(var.PREFIX)gstplaybin.dll;
-			lib$(var.PREFIX)gstqueue2.dll;
-			lib$(var.PREFIX)gsttheora.dll;
-			lib$(var.PREFIX)gsttypefindfunctions.dll;
-			lib$(var.PREFIX)gstvideorate.dll;
-			lib$(var.PREFIX)gstvideoscale.dll;
-			lib$(var.PREFIX)gstvideotestsrc.dll;
-			lib$(var.PREFIX)gstvolume.dll;
-			lib$(var.PREFIX)gstvorbis.dll
+			*gstadder.dll;
+			*gstappplugin.dll;
+			*gstaudioconvert.dll;
+			*gstaudiorate.dll;
+			*gstaudioresample.dll;
+			*gstaudiotestsrc.dll;
+			*gstcoreelements.dll;
+			*gstdecodebin.dll;
+			*gstdecodebin2.dll;
+			*gstffmpegcolorspace.dll;
+			*gstgdp.dll;
+			*gstgio.dll;
+			*gstogg.dll;
+			*gstpango.dll;
+			*gstplaybin.dll;
+			*gstqueue2.dll;
+			*gsttheora.dll;
+			*gsttypefindfunctions.dll;
+			*gstvideorate.dll;
+			*gstvideoscale.dll;
+			*gstvideotestsrc.dll;
+			*gstvolume.dll;
+			*gstvorbis.dll
 		" ?>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-						
-				<?foreach file in $(var.Files) ?>
-					<Component Id="$(ossbuild.createValidID($(var.file)))" Guid="$(ossbuild.stringToGUID($(ossbuild.trim($(var.file)))))">
-						<File Source="$(var.GstPluginDir)\$(ossbuild.trim($(var.file)))" />
-					</Component>
-				<?endforeach ?>
-						
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
 			</Directory>
 		</Directory>
 

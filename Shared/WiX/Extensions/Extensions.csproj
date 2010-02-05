@@ -40,10 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boilerplate\IWiXDocumentExtension.cs" />
-    <Compile Include="Boilerplate\IWiXExtension.cs" />
+    <Compile Include="Boilerplate\IWiXPreprocessorExtension.cs" />
     <Compile Include="Boilerplate\Namespace.cs" />
-    <Compile Include="OSSBuildFillDirectory.cs" />
-    <Compile Include="OSSBuild.cs" />
+    <Compile Include="Document\FillDirectory.cs" />
+    <Compile Include="Preprocessor\OSSBuild.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Boilerplate\WixExtension.cs" />
     <Compile Include="Boilerplate\WixPreprocessorExtension.cs" />
