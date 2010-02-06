@@ -5,22 +5,18 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 	<Fragment>
 
-		<?define Files="
-			*gstasfdemux.dll;
-			*gstdvdlpcmdec.dll;
-			*gstdvdsub.dll;
-			*gstiec958.dll;
-			*gstmpegaudioparse.dll;
-			*gstmpegstream.dll;
-			*gstrealmedia.dll;
-			*gstsynaesthesia.dll
-		" ?>
-
 		<DirectoryRef Id="MergeRedirectFolder">
-			<OSSBuild:FillDirectory ComponentGroup="PluginsUgly" Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
+			<OSSBuild:FillDirectory ComponentGroup="PluginsUgly" Directory="$(var.GstPluginDir)">
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstasfdemux\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdvdlpcmdec\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdvdsub\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstiec958\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegaudioparse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegstream\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrealmedia\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsynaesthesia\.dll" />
+			</OSSBuild:FillDirectory>
 		</DirectoryRef>
-
-		<?undef Files ?>
 		
 	</Fragment>
 </Wix>

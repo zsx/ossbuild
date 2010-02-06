@@ -8,18 +8,14 @@
 
 		<Package Id="$(var.GUID_X86_MSM_BINDINGS_DOTNET_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<?define Files="
-			*gstreamersharpglue-$(var.GST_VERSION).dll;
-			*gstreamer-sharp.dll
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstBinDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.GstBinDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstreamersharpglue-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstreamer-sharp\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-
-		<?undef Files ?>
 
 	</Module>
 

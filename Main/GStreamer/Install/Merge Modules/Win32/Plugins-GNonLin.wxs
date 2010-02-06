@@ -8,17 +8,13 @@
 
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_GNONLIN_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<?define Files="
-			*gnl.dll
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gnl\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-
-		<?undef Files ?>
 
 	</Module>
 

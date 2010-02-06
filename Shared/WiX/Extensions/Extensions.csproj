@@ -10,9 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OSSBuild.WiX</RootNamespace>
     <AssemblyName>OSSBuildExtensions</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <TargetFrameworkSubset>
+    </TargetFrameworkSubset>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -43,10 +45,14 @@
     <Compile Include="Boilerplate\IWiXPreprocessorExtension.cs" />
     <Compile Include="Boilerplate\Namespace.cs" />
     <Compile Include="Document\FillDirectory.cs" />
+    <Compile Include="Document\Filter.cs" />
     <Compile Include="Preprocessor\OSSBuild.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Boilerplate\WixExtension.cs" />
     <Compile Include="Boilerplate\WixPreprocessorExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

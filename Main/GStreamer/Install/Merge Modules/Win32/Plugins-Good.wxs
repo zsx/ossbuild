@@ -8,64 +8,60 @@
 
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_GOOD_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<?define Files="
-			*gstrtp_good.dll;
-			*gstrtsp_good.dll;
-			
-			*gstalaw.dll;
-			*gstalpha.dll;
-			*gstapetag.dll;
-			*gstaudiofx.dll;
-			*gstauparse.dll;
-			*gstautodetect.dll;
-			*gstavi.dll;
-			*gstcairo.dll;
-			*gstcutter.dll;
-			*gstdebug.dll;
-			*gstdeinterlace.dll;
-			*gstdirectsound.dll;
-			*gsteffectv.dll;
-			*gstequalizer.dll;
-			*gstflv.dll;
-			*gstflx.dll;
-			*gsticydemux.dll;
-			*gstid3demux.dll;
-			*gstinterleave.dll;
-			*gstjpeg.dll;
-			*gstlevel.dll;
-			*gstmatroska.dll;
-			*gstmonoscope.dll;
-			*gstmulaw.dll;
-			*gstmultifile.dll;
-			*gstmultipart.dll;
-			*gstpng.dll;
-			*gstqtdemux.dll;
-			*gstreplaygain.dll;
-			*gstrtpmanager.dll;
-			*gstsmpte.dll;
-			*gstsoup.dll;
-			*gstspectrum.dll;
-			*gstudp.dll;
-			*gstvideobox.dll;
-			*gstvideocrop.dll;
-			*gstvideofilterbalance.dll;
-			*gstvideofilterflip.dll;
-			*gstvideofiltergamma.dll;
-			*gstvideomixer.dll;
-			*gstwaveenc.dll;
-			*gstwaveform.dll;
-			*gstwavpack.dll;
-			*gstwavparse.dll;
-			*gsty4m.dll
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtp_good\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtsp_good\.dll" />
+					
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstalaw\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstalpha\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstapetag\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudiofx\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstauparse\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstautodetect\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstavi\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcairo\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcutter\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdebug\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdeinterlace\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdirectsound\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gsteffectv\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstequalizer\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstflv\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstflx\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gsticydemux\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstid3demux\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstinterleave\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstjpeg\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstlevel\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmatroska\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmonoscope\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmulaw\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmultifile\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmultipart\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstpng\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstqtdemux\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstreplaygain\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpmanager\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsmpte\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsoup\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstspectrum\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstudp\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideobox\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideocrop\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideofilterbalance\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideofilterflip\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideofiltergamma\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideomixer\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwaveenc\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwaveform\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwavpack\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwavparse\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gsty4m\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-
-		<?undef Files ?>
 
 	</Module>
 

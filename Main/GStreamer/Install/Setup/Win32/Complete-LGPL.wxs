@@ -46,7 +46,7 @@
 
 		<Feature Id="Full"
 		         Title="Full Install"
-		         Description="All libraries, plugins, and bindings."
+		         Description="All applications, libraries, and plugins."
 		         Level="1"
 				 Display="expand"
 				 AllowAdvertise="no" 
@@ -54,7 +54,8 @@
 
 			<ComponentRef Id="Empty"/>
 			<ComponentRef Id="EnvironmentVariables" />
-			<ComponentGroupRef Id="Licenses" />
+			<ComponentGroupRef Id="Etc" />
+			<ComponentGroupRef Id="AllLicenses" />
 
 			<MergeRef Id="Libraries" />
 			<MergeRef Id="Applications" />
@@ -62,11 +63,13 @@
 			<MergeRef Id="Plugins_Good" />
 			<MergeRef Id="Dependencies_LGPL" />
 
+			<!--
 			<Feature Id="Bindings" Title="Bindings" Description="All programming language bindings such as .NET (C#) and Python." Display="expand" Level="1" AllowAdvertise="no">
 				<Feature Id="DotNet" Title=".NET" Description="Language bindings for the .NET family (C#, Visual Basic.NET, etc.)." Level="1" AllowAdvertise="no">
 					<MergeRef Id="Bindings_DotNet" />
 				</Feature>
 			</Feature>
+			-->
 
 			<Feature Id="Plugins" Title="Plugins" Description="FFmpeg, bad, ugly, etc. plugins." Display="expand" Level="1" AllowAdvertise="no">
 				<Feature Id="Plugins_Bad" Title="Bad" Description="Plugins that aren't quite up to par with the standard plugins." Level="1" AllowAdvertise="no">
@@ -91,13 +94,15 @@
 
 				<Feature Id="Plugins_Farsight" Title="Farsight"  Description="Farsight plugins." Level="1" AllowAdvertise="no">
 					<MergeRef Id="Plugins_Farsight" />
+					<MergeRef Id="Plugins_Farsight2" />
+					<MergeRef Id="Plugins_Farsight2_Transmitters" />
 				</Feature>
 			</Feature>
 		</Feature>
 
-		<ComponentGroup Id="Licenses">
-			<ComponentRef Id="Licenses" />
+		<ComponentGroup Id="AllLicenses">
 			<ComponentRef Id="Copying" />
+			<ComponentGroupRef Id="Licenses" />
 		</ComponentGroup>
 
 		<Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
@@ -125,36 +130,34 @@
 										<Merge Id="Plugins_Bad_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Bad-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
 										<Merge Id="Plugins_Ugly_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Ugly-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
 										<Merge Id="Plugins_FFmpeg_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-FFmpeg-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-									</Directory>
 
-									<!--
-									<Directory Id="FarsightVersion" Name="farsight2-0.0">
 										<Merge Id="Plugins_Farsight2" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2.msm" Language="$(var.DEFAULT_LANGUAGE)" />
 									</Directory>
-									-->
+
+									<Directory Id="FarsightVersion" Name="farsight2-0.0">
+										<Merge Id="Plugins_Farsight2_Transmitters" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2-Transmitters.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+									</Directory>
 								</Directory>
 
+								<!--
 								<Directory Id="Dotnet" Name="dotnet">
 									<Merge Id="Bindings_DotNet" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-DotNet.msm" Language="$(var.DEFAULT_LANGUAGE)" />
 								</Directory>
+								-->
 
-								<Directory Id="Share" Name="share">
-									<Component Id="Licenses" Guid="{0D155E35-5A3E-4A25-9273-C66FF8CE962E}">
-										<File Source="$(var.LicenseDir)\ffmpeg.txt" />
-										<File Source="$(var.LicenseDir)\glib.txt" />
-										<File Source="$(var.LicenseDir)\gpl-2.0.txt" />
-										<File Source="$(var.LicenseDir)\gpl.rtf" />
-										<File Source="$(var.LicenseDir)\lgpl.rtf" />
-										<File Source="$(var.LicenseDir)\libjpeg.txt" />
-										<File Source="$(var.LicenseDir)\libxml2.txt" />
-										<File Source="$(var.LicenseDir)\neon.txt" />
-										<File Source="$(var.LicenseDir)\proxy-libintl.txt" />
-										<File Source="$(var.LicenseDir)\pthreads.txt" />
-										<File Source="$(var.LicenseDir)\zlib.txt" />
-									</Component>
+								<Directory Id="Etc" Name="etc">
+									<OSSBuild:FillDirectory ComponentGroup="Etc" Directory="$(var.SharedEtcDir)">
+										<OSSBuild:Filter Include=".*" />
+									</OSSBuild:FillDirectory>
 								</Directory>
 
-								<Component Id="Copying" Guid="{6426BB14-3F60-4110-A6CF-369C33E41A2F}">
+								<Directory Id="Share" Name="share">
+									<OSSBuild:FillDirectory ComponentGroup="Licenses" Directory="$(var.LicenseDir)">
+										<OSSBuild:Filter Include=".*" />
+									</OSSBuild:FillDirectory>
+								</Directory>
+
+								<Component Id="Copying" Guid="*">
 									<File Source="$(var.CustomResourceDir)\Licenses\COPYING" />
 								</Component>
 

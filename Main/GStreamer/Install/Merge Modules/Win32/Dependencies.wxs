@@ -4,51 +4,36 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 	<Fragment>
-
-		<?define Files="
-			*glew32.dll;
-			*iconv.dll;
-			*bz2.dll;
-			*expat*.dll;
-			*fontconfig*.dll;
-			*freetype*.dll;
-			*tasn1*.dll;
-			*gcrypt*.dll;
-			*gio*.dll;
-			*glib*.dll;
-			*gmodule*.dll;
-			*gnutls*.dll;
-			*gobject*.dll;
-			*gpg-error*.dll;
-			*gthread*.dll;
-			*jpeg*.dll;
-			*mms*.dll;
-			*mp3lame*.dll;
-			*neon*.dll;
-			*ogg*.dll;
-			*oil*.dll;
-			*cairo*.dll;
-			*pango*.dll;
-			*pixman*.dll;
-			*png*.dll;
-			*schroedinger*.dll;
-			*soup*.dll;
-			*speex*.dll;
-			*theora*.dll;
-			*vorbis*.dll;
-			*wavpack*.dll;
-			*x264*.dll;
-			*xml2*.dll;
-			*pthreadGC2*.dll;
-			*SDL*.dll;
-			z.dll
-		" ?>
 		
 		<DirectoryRef Id="MergeRedirectFolder">
-			<OSSBuild:FillDirectory ComponentGroup="LicenseIndependentDependencies" Directory="$(var.SharedBinDir)" FileFilter="$(var.Files)" />
-		</DirectoryRef>
+			<OSSBuild:FillDirectory ComponentGroup="LicenseIndependentDependencies" Directory="$(var.SharedBinDir)">
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*avcodec.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*avdevice.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*avfilter.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*avformat.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*avutil.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*swscale.*\.dll" />
 
-		<?undef Files ?>
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*atk.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*gtk.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*gdk.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*gail.*\.dll" />
+
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*x264.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*nice.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*xvidcore.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*a52.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*mpeg2.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*dca.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*faac.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*faad.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*dvdread.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*dvdnav.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*dvdcss.*\.dll" />
+
+				<OSSBuild:Filter Include=".*\.dll" />
+			</OSSBuild:FillDirectory>
+		</DirectoryRef>
 		
 	</Fragment>
 </Wix>

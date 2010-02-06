@@ -3,15 +3,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{0e5fa0bb-99b7-cc43-92c8-b28f9dcde701}</ProjectGuid>
+    <ProjectGuid>{0e5fa0bb-99b7-4e9f-95c8-c28f9acde700}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>x86-OSSBuild-GStreamer-Dev-LGPL</OutputName>
+    <OutputName>x86-OSSBuild-GStreamer-Dev-Includes-GPL</OutputName>
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <IncludeSearchPaths>
     </IncludeSearchPaths>
-    <Name>Dev-LGPL</Name>
+    <Name>Dev-Includes-GPL</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
@@ -32,11 +32,14 @@
     </SuppressIces>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
+    <LeaveTemporaryFiles>False</LeaveTemporaryFiles>
+    <CompilerAdditionalOptions>
+    </CompilerAdditionalOptions>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Dev-LGPL.wxs" />
-    <Compile Include="Dev.wxs">
-      <Link>Dev.wxs</Link>
+    <Compile Include="Dev-Includes-GPL.wxs" />
+    <Compile Include="Dev-Includes.wxs">
+      <Link>Dev-Includes.wxs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

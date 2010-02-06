@@ -8,22 +8,18 @@
 		
 		<Package Id="$(var.GUID_X86_MSM_DEPENDENCIES_LGPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 		
-		<?define Files="
-			*avcodec$(var.LGPL)*.dll;
-			*avdevice$(var.LGPL)*.dll;
-			*avfilter$(var.LGPL)*.dll;
-			*avformat$(var.LGPL)*.dll;
-			*avutil$(var.LGPL)*.dll;
-			*swscale$(var.LGPL)*.dll
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.SharedBinDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.SharedBinDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avcodec$(var.LGPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avdevice$(var.LGPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avfilter$(var.LGPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avformat$(var.LGPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avutil$(var.LGPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*swscale$(var.LGPL).*\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-		
-		<?undef Files ?>
 
 		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
 		<ComponentGroupRef Id="LicenseIndependentDependencies"/>

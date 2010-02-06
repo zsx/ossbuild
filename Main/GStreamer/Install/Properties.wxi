@@ -50,6 +50,8 @@
 
 	<?define OutputBinDir="$(var.OutputBuildDir)\bin" ?>
 	<?define OutputLibDir="$(var.OutputBuildDir)\lib" ?>
+	<?define OutputEtcDir="$(var.OutputBuildDir)\etc" ?>
+	<?define OutputShareDir="$(var.OutputBuildDir)\share" ?>
 	<?define OutputIncludeDir="$(var.OutputBuildDir)\include" ?>
 
 	<?define OutputGstBinDir="$(var.OutputBuildDir)\bin" ?>
@@ -58,6 +60,8 @@
 	
 	<?define SharedBinDir="$(var.SharedBuildDir)\bin" ?>
 	<?define SharedLibDir="$(var.SharedBuildDir)\lib" ?>
+	<?define SharedEtcDir="$(var.SharedBuildDir)\etc" ?>
+	<?define SharedShareDir="$(var.SharedBuildDir)\share" ?>
 	<?define SharedIncludeDir="$(var.SharedBuildDir)\include" ?>
 
 	<?define PythonBinDir_v2_5="$(var.OutputLibDir)\python2.5\site-packages" ?>

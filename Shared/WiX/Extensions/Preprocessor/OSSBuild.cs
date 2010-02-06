@@ -52,11 +52,10 @@ namespace OSSBuild.WiX {
 					byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(args[0].Trim());
 					byte[] hash = md5.ComputeHash(inputBytes);
 
-					//Works b/c hash is 16 bytes long
-					name = (new Guid(hash).ToString("B")).ToCharArray();
+					name = Convert.ToBase64String(hash).ToCharArray();
 				}
 
-				StringBuilder sb = new StringBuilder(name.Length);
+				StringBuilder sb = new StringBuilder("_", name.Length);
 				for (int i = 0; i < name.Length; ++i) {
 					if (char.IsLetterOrDigit(name[i]) || name[i] == '_' || name[i] == '.')
 						sb.Append(name[i]);

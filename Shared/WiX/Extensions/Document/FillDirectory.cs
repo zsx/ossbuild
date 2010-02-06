@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace OSSBuild.WiX {
 	internal class FillDirectory : IWiXDocumentExtension {
@@ -9,8 +10,6 @@ namespace OSSBuild.WiX {
 		private const string
 			  ATTR_DIRECTORY					= "Directory"
 			, ATTR_DIRECTORY_REF				= "DirectoryRef"
-			, ATTR_DIRECTORY_FILTER				= "DirectoryFilter"
-			, ATTR_FILE_FILTER					= "FileFilter"
 			, ATTR_INCLUDE_HIDDEN_DIRECTORIES	= "IncludeHiddenDirectories"
 			, ATTR_INCLUDE_HIDDEN_FILES			= "IncludeHiddenFiles"
 			, ATTR_COMPONENT_GROUP				= "ComponentGroup"
@@ -129,61 +128,64 @@ namespace OSSBuild.WiX {
 		}
 		#endregion
 
-		private void populateForDirectory(XmlNode componentGroupNode, XmlNode node, DirectoryInfo dir, string[] directoryFilters, string[] fileFilters, bool includeHiddenDirectories, bool includeHiddenFiles, List<string> collectedFiles, List<string> collectedDirectories, ref int fileCount) {
+		private void populateForDirectory(XmlNode componentGroupNode, XmlNode node, DirectoryInfo dir, Filter[] filters, bool includeHiddenDirectories, bool includeHiddenFiles, List<string> collectedFiles, List<string> collectedDirectories, ref int fileCount) {
 			string dirID;
 			XmlNode dirNode;
 			XmlNode fileNode;
 			XmlNode componentNode;
 			string componentNodeID;
 
-			foreach (string fileFilter in fileFilters) {
-				foreach (FileInfo f in dir.GetFiles(fileFilter)) {
-					if (!includeHiddenFiles && isHidden(f))
-						continue;
+			
+			foreach (FileInfo f in dir.GetFiles()) {
+				if (!includeHiddenFiles && isHidden(f))
+					continue;
 
-					//Disregard if we've already added this file
-					if (collectedFiles.Contains(f.FullName))
-						continue;
+				if (!Filter.Validate(filters, f.FullName))
+					continue;
 
-					collectedFiles.Add(f.FullName);
-					++fileCount;
-					
+				//Disregard if we've already added this file
+				if (collectedFiles.Contains(f.FullName))
+					continue;
 
-					componentNodeID = createValidID(f.FullName);
-					appendDefaultWiXAttribute((componentNode = appendDefaultWiXNode(node, "Component")), "Id", componentNodeID);
-					appendDefaultWiXAttribute(componentNode, "Guid", trimStringToGUID(f.Name));
-					//<Component /> requires a reference to the directory in which it's in
-					//appendDefaultWiXAttribute(componentNode, "Directory", findDefaultWiXAttributeValue(node, "Id"));
+				collectedFiles.Add(f.FullName);
+				++fileCount;
+				
 
-					appendDefaultWiXAttribute((fileNode = appendDefaultWiXNode(componentNode, "File")), "DefaultLanguage", "0");
-					appendDefaultWiXAttribute(fileNode, "Source", f.FullName);
+				componentNodeID = createValidID(f.FullName);
+				appendDefaultWiXAttribute((componentNode = appendDefaultWiXNode(node, "Component")), "Id", componentNodeID);
+				appendDefaultWiXAttribute(componentNode, "Guid", trimStringToGUID(f.FullName));
+				//<Component /> requires a reference to the directory in which it's in
+				//appendDefaultWiXAttribute(componentNode, "Directory", findDefaultWiXAttributeValue(node, "Id"));
 
-					//Add to component group
-					if (componentGroupNode != null)
-						appendDefaultWiXAttribute(appendDefaultWiXNode(componentGroupNode, "ComponentRef"), "Id", componentNodeID);
-				}
+				appendDefaultWiXAttribute((fileNode = appendDefaultWiXNode(componentNode, "File")), "Name", f.Name);
+				appendDefaultWiXAttribute(fileNode, "Id", componentNodeID);
+				appendDefaultWiXAttribute(fileNode, "Source", f.FullName);
+				appendDefaultWiXAttribute(fileNode, "DefaultLanguage", "0");
+				appendDefaultWiXAttribute(fileNode, "KeyPath", "yes");
+
+				//Add to component group
+				if (componentGroupNode != null)
+					appendDefaultWiXAttribute(appendDefaultWiXNode(componentGroupNode, "ComponentRef"), "Id", componentNodeID);
 			}
 
-			foreach (string directoryFilter in directoryFilters) {
-				foreach (DirectoryInfo d in dir.GetDirectories(directoryFilter)) {
-					if (!includeHiddenDirectories && isHidden(d))
-						continue;
+			foreach (DirectoryInfo d in dir.GetDirectories()) {
+				if (!includeHiddenDirectories && isHidden(d))
+					continue;
 
-					collectedDirectories.Add(d.FullName);
+				collectedDirectories.Add(d.FullName);
 
-					int localFileCount = 0;
+				int localFileCount = 0;
 
-					dirID = createValidID(d.FullName);
-					appendDefaultWiXAttribute((dirNode = createDefaultWiXNode(node, "Directory")), "Id", dirID);
-					appendDefaultWiXAttribute(dirNode, "Name", d.Name);
+				dirID = createValidID(d.FullName);
+				appendDefaultWiXAttribute((dirNode = createDefaultWiXNode(node, "Directory")), "Id", dirID);
+				appendDefaultWiXAttribute(dirNode, "Name", d.Name);
 
-					populateForDirectory(componentGroupNode, dirNode, d, directoryFilters, fileFilters, includeHiddenDirectories, includeHiddenFiles, collectedFiles, collectedDirectories, ref localFileCount);
-					fileCount += localFileCount;
+				populateForDirectory(componentGroupNode, dirNode, d, filters, includeHiddenDirectories, includeHiddenFiles, collectedFiles, collectedDirectories, ref localFileCount);
+				fileCount += localFileCount;
 
-					//Only add directories that contain something
-					if (localFileCount > 0)
-						node.AppendChild(dirNode);
-				}
+				//Only add directories that contain something
+				if (localFileCount > 0)
+					node.AppendChild(dirNode);
 			}
 		}
 
@@ -191,12 +193,11 @@ namespace OSSBuild.WiX {
 		///	Processes the document and attempts to read a provided directory and 
 		///	generate WiX directory/component/file tags.
 		///</summary>
+		[MethodImpl(MethodImplOptions.Synchronized)]
 		public XmlNode PreprocessDocument(XmlDocument document, XmlNode parentNode, XmlNode node, XmlAttributeCollection attributes) {
 			#region Check params
 			string directory				= (attributes[ATTR_DIRECTORY]			!= null ? attributes[ATTR_DIRECTORY].Value			: string.Empty);
 			string directoryRef				= (attributes[ATTR_DIRECTORY_REF]		!= null ? attributes[ATTR_DIRECTORY_REF].Value		: string.Empty);
-			string directoryFilter			= (attributes[ATTR_DIRECTORY_FILTER]	!= null ? attributes[ATTR_DIRECTORY_FILTER].Value	: "*");
-			string fileFilter				= (attributes[ATTR_FILE_FILTER]			!= null ? attributes[ATTR_FILE_FILTER].Value		: "*");
 			string componentGroup			= (attributes[ATTR_COMPONENT_GROUP]		!= null ? attributes[ATTR_COMPONENT_GROUP].Value	: string.Empty);
 			bool includeHiddenDirectories	= bool.Parse((attributes[ATTR_INCLUDE_HIDDEN_DIRECTORIES]	!= null ? attributes[ATTR_INCLUDE_HIDDEN_DIRECTORIES].Value.ToLower()	: "false"));
 			bool includeHiddenFiles			= bool.Parse((attributes[ATTR_INCLUDE_HIDDEN_FILES]			!= null ? attributes[ATTR_INCLUDE_HIDDEN_FILES].Value.ToLower()			: "false"));
@@ -208,16 +209,11 @@ namespace OSSBuild.WiX {
 
 			DirectoryInfo top = new DirectoryInfo(directory);
 
-			//Split filters
-			string[] fileFilters = fileFilter.Split(';');
-			string[] directoryFilters = directoryFilter.Split(';');
+			//Read inner XML and find filters
+			Filter[] filters = Filter.Parse(node);
 
-			//Trim each filter
-			for (int i = 0; i < fileFilters.Length; ++i)
-				fileFilters[i] = fileFilters[i].Trim();
-
-			for (int i = 0; i < directoryFilters.Length; ++i)
-				directoryFilters[i] = directoryFilters[i].Trim();
+			collectedFiles.Clear();
+			collectedDirectories.Clear();
 			#endregion
 
 			XmlNode topComponentGroupNode = null;
@@ -243,7 +239,7 @@ namespace OSSBuild.WiX {
 				appendDefaultWiXAttribute((topComponentGroupNode = createDefaultWiXNode(document, "ComponentGroup")), "Id", componentGroup);
 
 			int fileCount = 0;
-			populateForDirectory(topComponentGroupNode, topNode, top, directoryFilters, fileFilters, includeHiddenDirectories, includeHiddenFiles, collectedFiles, collectedDirectories, ref fileCount);
+			populateForDirectory(topComponentGroupNode, topNode, top, filters, includeHiddenDirectories, includeHiddenFiles, collectedFiles, collectedDirectories, ref fileCount);
 
 			//Find the top-level node where we can insert a <ComponentGroup />
 			XmlNode topLevelNode = findTopLevelDefaultWiXNode(node);

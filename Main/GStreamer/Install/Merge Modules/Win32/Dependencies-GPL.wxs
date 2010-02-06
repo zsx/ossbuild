@@ -8,33 +8,30 @@
 		
 		<Package Id="$(var.GUID_X86_MSM_DEPENDENCIES_GPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 		
-		<?define Files="
-			*avcodec$(var.GPL)*.dll;
-			*avdevice$(var.GPL)*.dll;
-			*avfilter$(var.GPL)*.dll;
-			*avformat$(var.GPL)*.dll;
-			*avutil$(var.GPL)*.dll;
-			*swscale$(var.GPL)*.dll;
-
-			*nice*.dll;
-			*xvidcore*.dll;
-			*a52*.dll;
-			*mpeg2*.dll;
-			*dca*.dll;
-			*faac*.dll;
-			*faad*.dll;
-			*dvdread*.dll;
-			*dvdnav*.dll;
-			*dvdcss*.dll
-		" ?>
-		
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.SharedBinDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.SharedBinDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avcodec$(var.GPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avdevice$(var.GPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avfilter$(var.GPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avformat$(var.GPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*avutil$(var.GPL).*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*swscale$(var.GPL).*\.dll" />
+
+					<OSSBuild:Filter Include=".*\\[^\\]*.*x264.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*nice.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*xvidcore.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*a52.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*mpeg2.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*dca.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*faac.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*faad.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*dvdread.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*dvdnav.*\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*dvdcss.*\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-		
-		<?undef Files ?>
 		
 		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
 		<ComponentGroupRef Id="LicenseIndependentDependencies"/>

@@ -8,21 +8,17 @@
 
 		<Package Id="$(var.GUID_X86_MSM_UGLY_GPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<?define Files="
-			*gsta52dec.dll;
-			*gstdvdread.dll;
-			*gstlame.dll;
-			*gstmpeg2dec.dll;
-			*gstx264.dll
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gsta52dec\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdvdread\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstlame\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpeg2dec\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstx264\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-
-		<?undef Files ?>
 
 		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
 		<ComponentGroupRef Id="PluginsUgly"/>

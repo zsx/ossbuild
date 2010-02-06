@@ -8,39 +8,35 @@
 
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_BASE_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<?define Files="
-			*gstadder.dll;
-			*gstappplugin.dll;
-			*gstaudioconvert.dll;
-			*gstaudiorate.dll;
-			*gstaudioresample.dll;
-			*gstaudiotestsrc.dll;
-			*gstcoreelements.dll;
-			*gstdecodebin.dll;
-			*gstdecodebin2.dll;
-			*gstffmpegcolorspace.dll;
-			*gstgdp.dll;
-			*gstgio.dll;
-			*gstogg.dll;
-			*gstpango.dll;
-			*gstplaybin.dll;
-			*gstqueue2.dll;
-			*gsttheora.dll;
-			*gsttypefindfunctions.dll;
-			*gstvideorate.dll;
-			*gstvideoscale.dll;
-			*gstvideotestsrc.dll;
-			*gstvolume.dll;
-			*gstvorbis.dll
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstadder\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstappplugin\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudioconvert\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudiorate\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudioresample\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudiotestsrc\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcoreelements\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdecodebin\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdecodebin2\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstffmpegcolorspace\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstgdp\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstgio\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstogg\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstpango\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstplaybin\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstqueue2\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gsttheora\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gsttypefindfunctions\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideorate\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideoscale\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideotestsrc\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvolume\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvorbis\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-
-		<?undef Files ?>
 
 	</Module>
 

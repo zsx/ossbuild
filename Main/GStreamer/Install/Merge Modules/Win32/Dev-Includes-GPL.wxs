@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
+	
+	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
+		
+		<Package Id="$(var.GUID_X86_MSM_DEV_GPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
+		
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="MergeRedirectFolder">
+				<Directory Id="MergeRedirectInclude" Name="include">
+					<OSSBuild:FillDirectory Directory="$(var.SharedIncludeDir)">
+						<OSSBuild:Filter Include=".*\\include\\a52dec.*\\.*" />
+						<OSSBuild:Filter Include=".*\\include\\nice.*\\.*" />
+						<OSSBuild:Filter Include=".*\\include\\mpeg2dec.*\\.*" />
+						<OSSBuild:Filter Include=".*\\include\\dvdcss.*\\.*" />
+						<OSSBuild:Filter Include=".*\\include\\dvdnav.*\\.*" />
+						<OSSBuild:Filter Include=".*\\include\\dvdread.*\\.*" />
+						
+						<OSSBuild:Filter Include=".*\\include\\[^\\]*dts\.h" />
+						<OSSBuild:Filter Include=".*\\include\\[^\\]*dca\.h" />
+						<OSSBuild:Filter Include=".*\\include\\[^\\]*x264\.h" />
+						<OSSBuild:Filter Include=".*\\include\\[^\\]*xvid\.h" />
+						<OSSBuild:Filter Include=".*\\include\\[^\\]*faad\.h" />
+						<OSSBuild:Filter Include=".*\\include\\[^\\]*faac.*\.h" />
+					</OSSBuild:FillDirectory>
+				</Directory>
+			</Directory>
+		</Directory>
+		
+		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
+		<ComponentGroupRef Id="LicenseIndependentIncludes"/>
+
+	</Module>
+	
+</Wix>

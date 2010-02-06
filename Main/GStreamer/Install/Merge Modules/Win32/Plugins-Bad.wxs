@@ -5,61 +5,57 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
 	<Fragment>
 
-		<?define Files="
-			*gstaacparse.dll;
-			*gstaiff.dll;
-			*gstamrparse.dll;
-			*gstautoconvert.dll;
-			*gstbayer.dll;
-			*gstcamerabin.dll;
-			*gstcdxaparse.dll;
-			*gstdirectdraw.dll;
-			*gstdshowdecwrapper.dll;
-			*gstdshowsrcwrapper.dll;
-			*gstdshowvideosink.dll;
-			*gstdtmf.dll;
-			*gstdvdspu.dll;
-			*gstfreeze.dll;
-			*gsth264parse.dll;
-			*gstlegacyresample.dll;
-			*gstlibmms.dll;
-			*gstliveadder.dll;
-			*gstmpeg4videoparse.dll;
-			*gstmpegdemux.dll;
-			*gstmpegtsmux.dll;
-			*gstmpegvideoparse.dll;
-			*gstmve.dll;
-			*gstmxf.dll;
-			*gstneon.dll;
-			*gstnuvdemux.dll;
-			*gstpcapparse.dll;
-			*gstqtmux.dll;
-			*gstrawparse.dll;
-			*gstreal.dll;
-			*gstrtpmux.dll;
-			*gstscaletempo.dll;
-			*gstsdl.dll;
-			*gstsdpplugin.dll;
-			*gstselector.dll;
-			*gstsiren.dll;
-			*gstspeed.dll;
-			*gststereo.dll;
-			*gstsubenc.dll;
-			*gsttta.dll;
-			*gstvalve.dll;
-			*gstvideosignal.dll;
-			*gstvmnc.dll;
-			*gstwasapi.dll;
-			*gstwininet.dll;
-			*gstwinks.dll;
-			*gstwinscreencap.dll
-		" ?>
-
 		<DirectoryRef Id="MergeRedirectFolder">
-			<OSSBuild:FillDirectory ComponentGroup="PluginsBad" Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
+			<OSSBuild:FillDirectory ComponentGroup="PluginsBad" Directory="$(var.GstPluginDir)">
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstaacparse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstaiff\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstamrparse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstautoconvert\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstbayer\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstcamerabin\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstcdxaparse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdirectdraw\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdshowdecwrapper\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdshowsrcwrapper\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdshowvideosink\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdtmf\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdvdspu\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstfreeze\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gsth264parse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstlegacyresample\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstlibmms\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstliveadder\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpeg4videoparse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegdemux\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegtsmux\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegvideoparse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmve\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmxf\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstneon\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstnuvdemux\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstpcapparse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstqtmux\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrawparse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstreal\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpmux\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstscaletempo\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsdl\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsdpplugin\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstselector\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsiren\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstspeed\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gststereo\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsubenc\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gsttta\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstvalve\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideosignal\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstvmnc\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstwasapi\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstwininet\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstwinks\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstwinscreencap\.dll" />
+			</OSSBuild:FillDirectory>
 		</DirectoryRef>
-
-		<?undef Files ?>
 		
 	</Fragment>
 </Wix>

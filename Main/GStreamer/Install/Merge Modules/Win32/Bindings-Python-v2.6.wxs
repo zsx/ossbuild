@@ -8,22 +8,18 @@
 
 		<Package Id="$(var.GUID_X86_MSM_BINDINGS_PYTHON_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<?define Files="
-			*_gst.pyd;
-			*audio.pyd;
-			*interfaces.pyd;
-			*pbutils.pyd;
-			*tag.pyd;
-			*video.pyd
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstPythonBinDir_v2_6)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.GstPythonBinDir_v2_6)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*_gst\.pyd" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*audio\.pyd" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*interfaces\.pyd" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*pbutils\.pyd" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*tag\.pyd" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*video\.pyd" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-
-		<?undef Files ?>
 
 	</Module>
 

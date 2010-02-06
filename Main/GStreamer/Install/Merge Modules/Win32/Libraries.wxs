@@ -8,37 +8,33 @@
 
 		<Package Id="$(var.GUID_X86_MSM_LIBRARIES_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<?define Files="
-			*gstapp-$(var.GST_VERSION).dll;
-			*gstaudio-$(var.GST_VERSION).dll;
-			*gstbase-$(var.GST_VERSION).dll;
-			*gstcdda-$(var.GST_VERSION).dll;
-			*gstcontroller-$(var.GST_VERSION).dll;
-			*gstdataprotocol-$(var.GST_VERSION).dll;
-			*gstfarsight-$(var.GST_VERSION).dll;
-			*gstfft-$(var.GST_VERSION).dll;
-			*gstgl-$(var.GST_VERSION).dll;
-			*gstinterfaces-$(var.GST_VERSION).dll;
-			*gstnet-$(var.GST_VERSION).dll;
-			*gstnetbuffer-$(var.GST_VERSION).dll;
-			*gstpbutils-$(var.GST_VERSION).dll;
-			*gstphotography-$(var.GST_VERSION).dll;
-			*gstreamer-$(var.GST_VERSION).dll;
-			*gstriff-$(var.GST_VERSION).dll;
-			*gstrtp-$(var.GST_VERSION).dll;
-			*gstrtsp-$(var.GST_VERSION).dll;
-			*gstsdp-$(var.GST_VERSION).dll;
-			*gsttag-$(var.GST_VERSION).dll;
-			*gstvideo-$(var.GST_VERSION).dll
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstBinDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.GstBinDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstapp-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudio-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstbase-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcdda-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcontroller-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdataprotocol-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstfarsight-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstfft-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstgl-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstinterfaces-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstnet-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstnetbuffer-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstpbutils-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstphotography-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstreamer-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstriff-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtp-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtsp-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsdp-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gsttag-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideo-$(var.GST_VERSION)\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-
-		<?undef Files ?>
 
 	</Module>
 

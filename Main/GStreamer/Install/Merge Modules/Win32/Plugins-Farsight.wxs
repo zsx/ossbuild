@@ -8,21 +8,17 @@
 
 		<Package Id="$(var.GUID_X86_MSM_PLUGINS_FARSIGHT_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
-		<?define Files="
-			*gstfsselector.dll;
-			*gstrtpjitterbuffer.dll;
-			*gstrtpnetsim.dll;
-			*gstrtppayloads.dll;
-			*gstrtprtpdemux.dll
-		" ?>
-
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)" FileFilter="$(var.Files)" />
+				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstfsselector\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpjitterbuffer\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpnetsim\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtppayloads\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtprtpdemux\.dll" />
+				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>
-
-		<?undef Files ?>
 
 	</Module>
 

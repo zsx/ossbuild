@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <?include $(var.InstallRoot)\Properties.wxi ?>
 
@@ -6,30 +6,21 @@
 	
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 		
-		<Package Id="$(var.GUID_X86_MSM_DEPENDENCIES_GPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
-		
-		<?define Directories="
-			a52dec;
-			nice;
-			mpeg2dec;
-			dvdcss;
-			dvdnav;
-			dvdread;
-		" ?>
+		<Package Id="$(var.GUID_X86_MSM_DEV_LGPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 		
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
 				<Directory Id="MergeRedirectInclude" Name="include">
-					<OSSBuild:FillDirectory Directory="$(var.SharedIncludeDir)" DirectoryFilter="$(var.Directories)" />
+					<OSSBuild:FillDirectory Directory="$(var.SharedIncludeDir)">
+						<OSSBuild:Filter Exclude=".*" />
+					</OSSBuild:FillDirectory>
 				</Directory>
 			</Directory>
 		</Directory>
-		
-		<?undef Directories ?>
-		
+
 		<!-- Pull in libraries/files that don't depend on a particular license (LGPL vs. GPL) -->
 		<ComponentGroupRef Id="LicenseIndependentIncludes"/>
-
+		
 	</Module>
 	
 </Wix>
