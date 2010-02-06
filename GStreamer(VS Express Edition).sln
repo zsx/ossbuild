@@ -306,7 +306,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvideofilterflip", "Main\
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstffmpeg", "Main\GStreamer\Plugins\FFmpeg\ext\libgstffmpeg.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92000}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstffmpeg-lgpl", "Main\GStreamer\Plugins\FFmpeg\ext\libgstffmpeg.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92000}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdirectsound", "Main\GStreamer\Plugins\Good\sys\libgstdirectsound.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92001}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -576,7 +576,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstxvid", "Main\GStreamer\P
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstwavpack", "Main\GStreamer\Plugins\Good\ext\libgstwavpack.vcproj", "{B9551C49-79E6-493B-8D1F-653FAEC7ADCD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstffmpeggpl", "Main\GStreamer\Plugins\FFmpeg\ext\libgstffmpeg_gpl.vcproj", "{FAD1A4E1-90AC-4A6D-AECE-755D6ADF7274}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstffmpeg-gpl", "Main\GStreamer\Plugins\FFmpeg\ext\libgstffmpeg_gpl.vcproj", "{FAD1A4E1-90AC-4A6D-AECE-755D6ADF7274}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdts", "Main\GStreamer\Plugins\Bad\ext\libgstdts.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1010}"
 EndProject
@@ -644,6 +644,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstcelt", "Main\GStreamer\Plugins\Bad\ext\libgstcelt.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-typefind", "Main\GStreamer\Applications\gst-typefind.vcproj", "{F987873B-2B88-0000-0000-000000000000}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdirectsoundsrc", "Main\GStreamer\Plugins\Bad\sys\libgstdirectsoundsrc.vcproj", "{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -3020,6 +3022,18 @@ Global
 		{F987873B-2B88-0000-0000-000000000000}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{F987873B-2B88-0000-0000-000000000000}.Release|Win32.ActiveCfg = Release|Win32
 		{F987873B-2B88-0000-0000-000000000000}.Release|Win32.Build.0 = Release|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Debug|Win32.Build.0 = Debug|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release (GPL)|Mixed Platforms.ActiveCfg = Release|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release (GPL)|Mixed Platforms.Build.0 = Release|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release|Win32.ActiveCfg = Release|Win32
+		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
