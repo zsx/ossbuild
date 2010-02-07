@@ -14,6 +14,7 @@
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstapp-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudio-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstbase-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstbasevideo-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcdda-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcontroller-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdataprotocol-$(var.GST_VERSION)\.dll" />
@@ -30,6 +31,7 @@
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtp-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtsp-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsdp-$(var.GST_VERSION)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsignalprocessor-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gsttag-$(var.GST_VERSION)\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideo-$(var.GST_VERSION)\.dll" />
 				</OSSBuild:FillDirectory>

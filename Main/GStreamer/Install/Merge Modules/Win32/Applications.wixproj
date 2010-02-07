@@ -67,6 +67,13 @@
       <Project>{f987873b-2b88-4b1b-b627-e70df4f91e56}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Applications\gst-typefind.vcproj">
+      <Name>gst-typefind</Name>
+      <Project>{f987873b-2b88-0000-0000-000000000000}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Applications\gst-xmlinspect.vcproj">
       <Name>gst-xmlinspect</Name>
       <Project>{f987873b-2b88-4b1b-b627-e70df4f91e57}</Project>

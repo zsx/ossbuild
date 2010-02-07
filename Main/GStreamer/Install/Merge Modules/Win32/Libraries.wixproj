@@ -82,10 +82,24 @@
       <Project>{f987873b-2b88-4b1b-b627-f70df4f91e49}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\gst-libs\libgstbasevideo.vcproj">
+      <Name>gstbasevideo</Name>
+      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0000}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Bad\gst-libs\libgstphotography.vcproj">
       <Name>gstphotography</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff2000}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\gst-libs\libgstsignalprocessor.vcproj">
+      <Name>gstsignalprocessor</Name>
+      <Project>{f3a7c701-0acc-0bb0-ce27-aa0affff2000}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Base\gst-libs\libgstapp.vcproj">
       <Name>gstapp</Name>

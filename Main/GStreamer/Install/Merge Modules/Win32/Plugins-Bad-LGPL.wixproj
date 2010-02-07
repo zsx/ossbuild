@@ -70,6 +70,13 @@
       <Project>{eca7c701-fb88-4bfe-ce27-f70df4f90001}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\ext\libgstschroedinger.vcproj">
+      <Name>gstschroedinger</Name>
+      <Project>{b11ea875-24c1-4ec0-ac19-296bf5541abf}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Bad\ext\libgstsdl.vcproj">
       <Name>gstsdl</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1028}</Project>
@@ -94,6 +101,13 @@
       <Name>gstamrparse</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0021}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstasfmux.vcproj">
+      <Name>gstasfmux</Name>
+      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffef0022}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstautoconvert.vcproj">
       <Name>gstautoconvert</Name>
@@ -130,6 +144,13 @@
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0032}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstfrei0r.vcproj">
+      <Name>gstfrei0r</Name>
+      <Project>{37063e8e-8e8c-4e2a-bcd4-c5ff5f8d883c}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgsth264parse.vcproj">
       <Name>gsth264parse</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0033}</Project>
@@ -154,6 +175,13 @@
       <Name>gstmpegdemux</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0037}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstmpegpsmux.vcproj">
+      <Name>gstmpegpsmux</Name>
+      <Project>{85a7fe47-25d6-46c4-9d89-9fc2628c2442}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstmpegtsmux.vcproj">
       <Name>gstmpegtsmux</Name>
@@ -184,6 +212,13 @@
       <Name>gstpcapparse</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0044}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstpnm.vcproj">
+      <Name>gstpnm</Name>
+      <Project>{64be7973-009f-4147-a19f-b3dc9603e6a7}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstqtmux.vcproj">
       <Name>gstqtmux</Name>
@@ -250,6 +285,13 @@
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0063}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstvideomeasure.vcproj">
+      <Name>gstvideomeasure</Name>
+      <Project>{1c20f11d-a43e-4b4b-a7cc-ac61b95cf4a7}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Bad\gst\libgstvideosignal.vcproj">
       <Name>gstvideosignal</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0056}</Project>
@@ -264,6 +306,13 @@
       <Name>gstdirectdraw</Name>
       <Project>{464a3d96-d0e5-4f79-8fe3-508f09153e62}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Plugins\Bad\sys\libgstdirectsoundsrc.vcproj">
+      <Name>gstdirectsoundsrc</Name>
+      <Project>{979fc1c3-047f-4586-af74-af05caaa1efa}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Plugins\Bad\sys\libgstdshowdecwrapper.vcproj">
       <Name>gstdshowdecwrapper</Name>
