@@ -42,6 +42,7 @@
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstqtmux\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrawparse\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstreal\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrsvg\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpmux\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstscaletempo\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstschroedinger\.dll" />

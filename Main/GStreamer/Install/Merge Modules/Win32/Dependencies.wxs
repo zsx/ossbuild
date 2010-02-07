@@ -14,11 +14,6 @@
 				<OSSBuild:Filter Exclude=".*\\[^\\]*.*avutil.*\.dll" />
 				<OSSBuild:Filter Exclude=".*\\[^\\]*.*swscale.*\.dll" />
 
-				<OSSBuild:Filter Exclude=".*\\[^\\]*.*atk.*\.dll" />
-				<OSSBuild:Filter Exclude=".*\\[^\\]*.*gtk.*\.dll" />
-				<OSSBuild:Filter Exclude=".*\\[^\\]*.*gdk.*\.dll" />
-				<OSSBuild:Filter Exclude=".*\\[^\\]*.*gail.*\.dll" />
-
 				<OSSBuild:Filter Exclude=".*\\[^\\]*.*x264.*\.dll" />
 				<OSSBuild:Filter Exclude=".*\\[^\\]*.*nice.*\.dll" />
 				<OSSBuild:Filter Exclude=".*\\[^\\]*.*xvidcore.*\.dll" />

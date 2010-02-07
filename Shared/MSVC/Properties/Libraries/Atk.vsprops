@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Atk"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\atk-$(LibAtkApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\atk-$(LibAtkApiVersionString)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="atk-$(LibAtkLibVersionString).lib"
+	/>
+	<UserMacro
+		Name="LibAtkApiVersionString"
+		Value="1.0"
+	/>
+	<UserMacro
+		Name="LibAtkLibVersionString"
+		Value="$(LibAtkApiVersionString)"
+	/>
+</VisualStudioPropertySheet>

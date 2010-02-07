@@ -54,6 +54,7 @@
 
 			<ComponentRef Id="Empty"/>
 			<ComponentRef Id="EnvironmentVariables" />
+			<ComponentGroupRef Id="Gtk" />
 			<ComponentGroupRef Id="Etc" />
 			<ComponentGroupRef Id="AllLicenses" />
 
@@ -105,6 +106,11 @@
 			<ComponentGroupRef Id="Licenses" />
 		</ComponentGroup>
 
+		<ComponentGroup Id="Gtk">
+			<ComponentGroupRef Id="GtkLib" />
+			<ComponentGroupRef Id="GtkShare" />
+		</ComponentGroup>
+
 		<Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
 			<Directory Id="ProgramFilesFolder" Name="PFiles">
 				<Directory Id="CompanyFolder" Name="$(var.COMPANY_DIR_NAME)">
@@ -137,6 +143,13 @@
 									<Directory Id="FarsightVersion" Name="farsight2-0.0">
 										<Merge Id="Plugins_Farsight2_Transmitters" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2-Transmitters.msm" Language="$(var.DEFAULT_LANGUAGE)" />
 									</Directory>
+
+									<Directory Id="Gtk" Name="gtk-2.0">
+										<OSSBuild:FillDirectory ComponentGroup="GtkLib" Directory="$(var.SharedLibDir)\gtk-2.0">
+											<OSSBuild:Filter Include=".*\.dll" />
+											<OSSBuild:Filter Exclude=".*" />
+										</OSSBuild:FillDirectory>
+									</Directory>
 								</Directory>
 
 								<!--
@@ -154,6 +167,11 @@
 								<Directory Id="Share" Name="share">
 									<OSSBuild:FillDirectory ComponentGroup="Licenses" Directory="$(var.LicenseDir)">
 										<OSSBuild:Filter Include=".*" />
+									</OSSBuild:FillDirectory>
+
+									<OSSBuild:FillDirectory ComponentGroup="GtkShare" Directory="$(var.SharedShareDir)">
+										<OSSBuild:Filter Include=".*\\locale\\.*" />
+										<OSSBuild:Filter Include=".*\\themes\\.*" />
 									</OSSBuild:FillDirectory>
 								</Directory>
 

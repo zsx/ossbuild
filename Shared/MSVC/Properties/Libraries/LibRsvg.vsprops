@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibRsvg"
+	InheritedPropertySheets=".\LibCroco.vsprops;.\LibGsf.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\librsvg-$(LibRsvgApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\librsvg-$(LibRsvgApiVersionString)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="rsvg-$(LibRsvgLibVersionString).lib"
+	/>
+	<UserMacro
+		Name="LibRsvgApiVersionString"
+		Value="2"
+	/>
+	<UserMacro
+		Name="LibRsvgLibVersionString"
+		Value="$(LibRsvgApiVersionString)"
+	/>
+</VisualStudioPropertySheet>

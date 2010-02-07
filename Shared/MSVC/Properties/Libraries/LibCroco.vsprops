@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibCroco"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\libcroco-$(LibCrocoApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\libcroco-$(LibCrocoApiVersionString)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="croco-$(LibCrocoLibVersionString).lib"
+	/>
+	<UserMacro
+		Name="LibCrocoApiVersionString"
+		Value="0.6"
+	/>
+	<UserMacro
+		Name="LibCrocoLibVersionString"
+		Value="$(LibCrocoApiVersionString)"
+	/>
+</VisualStudioPropertySheet>

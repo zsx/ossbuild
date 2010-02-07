@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Gtk+"
+	InheritedPropertySheets=".\Cairo.vsprops;.\Atk.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\gtk-$(LibGtkApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\gtk-$(LibGtkApiVersionString)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="gtk-win32-$(LibGtkLibVersionString).lib gdk-win32-$(LibGtkLibVersionString).lib gdk_pixbuf-$(LibGtkLibVersionString).lib"
+	/>
+	<UserMacro
+		Name="LibGtkApiVersionString"
+		Value="2.0"
+	/>
+	<UserMacro
+		Name="LibGtkLibVersionString"
+		Value="$(LibGtkApiVersionString)"
+	/>
+</VisualStudioPropertySheet>

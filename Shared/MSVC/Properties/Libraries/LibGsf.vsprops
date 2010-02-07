@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="LibGsf"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\libgsf-$(LibGsfApiVersionString)&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\libgsf-$(LibGsfApiVersionString)&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="gsf-$(LibGsfLibVersionString).lib"
+	/>
+	<UserMacro
+		Name="LibGsfApiVersionString"
+		Value="1"
+	/>
+	<UserMacro
+		Name="LibGsfLibVersionString"
+		Value="$(LibGsfApiVersionString)"
+	/>
+</VisualStudioPropertySheet>

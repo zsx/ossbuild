@@ -30,6 +30,7 @@
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstequalizer\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstflv\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstflx\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstgdkpixbuf\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gsticydemux\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstid3demux\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstinterleave\.dll" />
