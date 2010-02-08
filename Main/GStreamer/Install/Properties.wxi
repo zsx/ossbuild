@@ -37,10 +37,12 @@
 	<?define DeploymentDir="$(var.TOP)\Deployment" ?>
 	
 	<?if $(var.Platform) = "x86" ?>
+		<?define PLATFORM_NAME="Win32" ?>
 		<?define OutputBuildDir="$(var.BuildDir)\Windows\Win32\$(var.Configuration)" ?>
 		<?define SharedBuildDir="$(var.SharedDir)\Build\Windows\Win32" ?>
 		<?define MergeModuleDir="$(var.DeploymentDir)\GStreamer\Windows\x86\Merge Modules" ?>
 	<?elseif $(var.Platform) = "x64" ?>
+		<?define PLATFORM_NAME="x64" ?>
 		<?define OutputBuildDir="$(var.BuildDir)\Windows\x64\$(var.Configuration)" ?>
 		<?define SharedBuildDir="$(var.SharedDir)\Build\Windows\x64" ?>
 		<?define MergeModuleDir="$(var.DeploymentDir)\GStreamer\Windows\x64\Merge Modules" ?>
