@@ -14,9 +14,9 @@
     <Name>Plugins-Ugly-GPL</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\..\;InstallRoot=$(ProjectDir)..\..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
@@ -24,9 +24,9 @@
     <LeaveTemporaryFiles>False</LeaveTemporaryFiles>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\..\;InstallRoot=$(ProjectDir)..\..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressIces>
@@ -36,13 +36,13 @@
     <LeaveTemporaryFiles>False</LeaveTemporaryFiles>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\GUIDs.wxi">
+    <Content Include="..\..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
-    <Content Include="..\..\Properties.wxi">
+    <Content Include="..\..\..\Properties.wxi">
       <Link>Shared\Properties.wxi</Link>
     </Content>
-    <Content Include="..\..\Versions.wxi">
+    <Content Include="..\..\..\Versions.wxi">
       <Link>Shared\Versions.wxi</Link>
     </Content>
   </ItemGroup>
@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="OSSBuildExtensions">
-      <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
   </ItemGroup>
@@ -62,67 +62,67 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgsta52dec.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\ext\libgsta52dec.vcproj">
       <Name>gsta52dec</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0001}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgstdvdread.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\ext\libgstdvdread.vcproj">
       <Name>gstdvdread</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0015}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgstlame.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\ext\libgstlame.vcproj">
       <Name>gstlame</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0006}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgstmpeg2dec.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\ext\libgstmpeg2dec.vcproj">
       <Name>gstmpeg2dec</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0016}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\ext\libgstx264.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\ext\libgstx264.vcproj">
       <Name>gstx264</Name>
       <Project>{922dd35c-43fe-4097-91e0-3229f5a967ab}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstasfdemux.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\gst\libgstasfdemux.vcproj">
       <Name>gstasfdemux</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0002}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstdvdlpcmdec.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\gst\libgstdvdlpcmdec.vcproj">
       <Name>gstdvdlpcmdec</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0003}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstdvdsub.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\gst\libgstdvdsub.vcproj">
       <Name>gstdvdsub</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0004}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstiec958.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\gst\libgstiec958.vcproj">
       <Name>gstiec958</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0005}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstmpegaudioparse.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\gst\libgstmpegaudioparse.vcproj">
       <Name>gstmpegaudioparse</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0008}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstmpegstream.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\gst\libgstmpegstream.vcproj">
       <Name>gstmpegstream</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0009}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstrealmedia.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\gst\libgstrealmedia.vcproj">
       <Name>gstrealmedia</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0010}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Ugly\gst\libgstsynaesthesia.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Ugly\gst\libgstsynaesthesia.vcproj">
       <Name>gstsynaesthesia</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0011}</Project>
       <Private>True</Private>

@@ -14,18 +14,18 @@
     <Name>Bindings-Python-v2.5</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\..\;InstallRoot=$(ProjectDir)..\..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\..\;InstallRoot=$(ProjectDir)..\..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressIces>
@@ -34,13 +34,13 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\GUIDs.wxi">
+    <Content Include="..\..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
-    <Content Include="..\..\Properties.wxi">
+    <Content Include="..\..\..\Properties.wxi">
       <Link>Shared\Properties.wxi</Link>
     </Content>
-    <Content Include="..\..\Versions.wxi">
+    <Content Include="..\..\..\Versions.wxi">
       <Link>Shared\Versions.wxi</Link>
     </Content>
   </ItemGroup>
@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="OSSBuildExtensions">
-      <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
   </ItemGroup>
@@ -57,32 +57,32 @@
     <Compile Include="Bindings-Python-v2.6.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Bindings\Python\audio-2.6.vcproj">
+    <ProjectReference Include="..\..\..\..\Bindings\Python\audio-2.6.vcproj">
       <Name>audio _GStreamer\Bindings\Python\v2.6\audio_</Name>
       <Project>{13797bda-bc5f-4232-ac76-30e56e3c6648}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Bindings\Python\interfaces-2.6.vcproj">
+    <ProjectReference Include="..\..\..\..\Bindings\Python\interfaces-2.6.vcproj">
       <Name>interfaces _GStreamer\Bindings\Python\v2.6\interfaces_</Name>
       <Project>{81ca7f63-b184-4607-8582-b98d26ff710a}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Bindings\Python\pbutils-2.6.vcproj">
+    <ProjectReference Include="..\..\..\..\Bindings\Python\pbutils-2.6.vcproj">
       <Name>pbutils _GStreamer\Bindings\Python\v2.6\pbutils_</Name>
       <Project>{f36454e4-1a83-4c58-9cd3-80a863fa67c2}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Bindings\Python\tag-2.6.vcproj">
+    <ProjectReference Include="..\..\..\..\Bindings\Python\tag-2.6.vcproj">
       <Name>tag _GStreamer\Bindings\Python\v2.6\tag_</Name>
       <Project>{bc6669cc-428c-42c9-b2f0-73b4a27072b5}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Bindings\Python\video-2.6.vcproj">
+    <ProjectReference Include="..\..\..\..\Bindings\Python\video-2.6.vcproj">
       <Name>video _GStreamer\Bindings\Python\v2.6\video_</Name>
       <Project>{38722a6e-1106-4b14-b507-7c1d95d67f46}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Bindings\Python\_gst-2.6.vcproj">
+    <ProjectReference Include="..\..\..\..\Bindings\Python\_gst-2.6.vcproj">
       <Name>_gst _GStreamer\Bindings\Python\v2.6\_gst_</Name>
       <Project>{14a8c4c9-6b1e-4f8a-9fcb-fd010d06e4f4}</Project>
       <Private>True</Private>

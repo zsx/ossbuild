@@ -14,18 +14,18 @@
     <Name>Complete-GPL</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Install\</OutputPath>
+    <OutputPath>..\..\..\..\Deployment\GStreamer\Windows\x86\Install\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\;AppRoot=$(ProjectDir)..\..\;InstallRoot=$(ProjectDir)..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Install\</OutputPath>
+    <OutputPath>..\..\..\..\Deployment\GStreamer\Windows\x86\Install\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\;AppRoot=$(ProjectDir)..\..\;InstallRoot=$(ProjectDir)..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressIces>
@@ -34,13 +34,13 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\GUIDs.wxi">
+    <Content Include="..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
-    <Content Include="..\..\Properties.wxi">
+    <Content Include="..\Properties.wxi">
       <Link>Shared\Properties.wxi</Link>
     </Content>
-    <Content Include="..\..\Versions.wxi">
+    <Content Include="..\Versions.wxi">
       <Link>Shared\Versions.wxi</Link>
     </Content>
   </ItemGroup>
@@ -64,100 +64,100 @@
       <Name>WixNetFxExtension</Name>
     </WixExtension>
     <WixExtension Include="OSSBuildExtensions">
-      <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
+      <HintPath>..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Custom\UI\SimplifiedUI.wxs">
+    <Compile Include="..\Custom\UI\SimplifiedUI.wxs">
       <Link>Custom\UI\SimplifiedUI.wxs</Link>
     </Compile>
     <Compile Include="Complete-GPL.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\Custom\I18N\en-us.wxl">
+    <EmbeddedResource Include="..\Custom\I18N\en-us.wxl">
       <Link>en-us.wxl</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Applications.wixproj">
+    <ProjectReference Include="..\Merge Modules\Applications\Applications.wixproj">
       <Name>Applications _GStreamer\Installers\Merge Modules\x86\Applications\Applications_</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde702}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Bindings-DotNet.wixproj">
+    <ProjectReference Include="..\Merge Modules\Bindings\DotNet\Bindings-DotNet.wixproj">
       <Name>Bindings-DotNet</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae0}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Bindings-Python-v2.5.wixproj">
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Bindings-Python-v2.5.wixproj">
       <Name>Bindings-Python-v2.5</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae1}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Bindings-Python-v2.6.wixproj">
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Bindings-Python-v2.6.wixproj">
       <Name>Bindings-Python-v2.6</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b24f9fcdeae2}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Dependencies-GPL.wixproj">
+    <ProjectReference Include="..\Merge Modules\Dependencies\Dependencies-GPL.wixproj">
       <Name>Dependencies-GPL</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde700}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Libraries.wixproj">
+    <ProjectReference Include="..\Merge Modules\Libraries\Libraries.wixproj">
       <Name>Libraries _GStreamer\Installers\Merge Modules\x86\Libraries\Libraries_</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde703}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-Bad-GPL.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\Bad\Plugins-Bad-GPL.wixproj">
       <Name>Plugins-Bad-GPL</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a1}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-Base.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\Base\Plugins-Base.wixproj">
       <Name>Plugins-Base</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a0}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-Farsight.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\Farsight\Plugins-Farsight.wixproj">
       <Name>Plugins-Farsight</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a3}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-Farsight2-Transmitters.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\Farsight2\Plugins-Farsight2-Transmitters.wixproj">
       <Name>Plugins-Farsight2-Transmitters</Name>
       <Project>{2f5aa0bb-f9e7-4093-95a8-b28f94cdf7a4}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-Farsight2.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\Farsight2\Plugins-Farsight2.wixproj">
       <Name>Plugins-Farsight2</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a4}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-FFmpeg-GPL.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\FFmpeg\Plugins-FFmpeg-GPL.wixproj">
       <Name>Plugins-FFmpeg-GPL</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a5}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-GL.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\GL\Plugins-GL.wixproj">
       <Name>Plugins-GL</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a7}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-GNonLin.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\GNonLin\Plugins-GNonLin.wixproj">
       <Name>Plugins-GNonLin</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a8}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-Good.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\Good\Plugins-Good.wixproj">
       <Name>Plugins-Good</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a9}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Merge Modules\Win32\Plugins-Ugly-GPL.wixproj">
+    <ProjectReference Include="..\Merge Modules\Plugins\Ugly\Plugins-Ugly-GPL.wixproj">
       <Name>Plugins-Ugly-GPL</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7b0}</Project>
       <Private>True</Private>

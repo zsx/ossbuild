@@ -14,18 +14,18 @@
     <Name>Base</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\..\;InstallRoot=$(ProjectDir)..\..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\..\;InstallRoot=$(ProjectDir)..\..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressIces>
@@ -34,13 +34,13 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\GUIDs.wxi">
+    <Content Include="..\..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
-    <Content Include="..\..\Properties.wxi">
+    <Content Include="..\..\..\Properties.wxi">
       <Link>Shared\Properties.wxi</Link>
     </Content>
-    <Content Include="..\..\Versions.wxi">
+    <Content Include="..\..\..\Versions.wxi">
       <Link>Shared\Versions.wxi</Link>
     </Content>
   </ItemGroup>
@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="OSSBuildExtensions">
-      <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
   </ItemGroup>
@@ -57,117 +57,117 @@
     <Compile Include="Plugins-Base.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Plugins\Base\ext\libgstgio.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\ext\libgstgio.vcproj">
       <Name>gstgio</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f29}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\ext\libgstogg.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\ext\libgstogg.vcproj">
       <Name>gstogg</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f92a00}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\ext\libgstpango.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\ext\libgstpango.vcproj">
       <Name>gstpango</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f30}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\ext\libgsttheora.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\ext\libgsttheora.vcproj">
       <Name>gsttheora</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f92a01}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\ext\libgstvorbis.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\ext\libgstvorbis.vcproj">
       <Name>gstvorbis</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f92a02}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstadder.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstadder.vcproj">
       <Name>gstadder</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f00}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstappplugin.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstappplugin.vcproj">
       <Name>gstappplugin</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f14}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstaudioconvert.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstaudioconvert.vcproj">
       <Name>gstaudioconvert</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f15}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstaudiorate.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstaudiorate.vcproj">
       <Name>gstaudiorate</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f16}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstaudioresample.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstaudioresample.vcproj">
       <Name>gstaudioresample</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f21}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstaudiotestsrc.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstaudiotestsrc.vcproj">
       <Name>gstaudiotestsrc</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f17}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstdecodebin.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstdecodebin.vcproj">
       <Name>gstdecodebin</Name>
       <Project>{ab87873b-2b88-4b1b-b627-fe0a0bf91f82}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstdecodebin2.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstdecodebin2.vcproj">
       <Name>gstdecodebin2</Name>
       <Project>{ab87873b-2b88-4b1b-b627-fe0a0bf91f80}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstffmpegcolorspace.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstffmpegcolorspace.vcproj">
       <Name>gstffmpegcolorspace</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f18}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstgdp.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstgdp.vcproj">
       <Name>gstgdp</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f19}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstplaybin.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstplaybin.vcproj">
       <Name>gstplaybin</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f20}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstqueue2.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstqueue2.vcproj">
       <Name>gstqueue2</Name>
       <Project>{ab87873b-2b88-4b1b-b627-fe0a0bf91f81}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgsttypefindfunctions.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgsttypefindfunctions.vcproj">
       <Name>gsttypefindfunctions</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f24}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstvideorate.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstvideorate.vcproj">
       <Name>gstvideorate</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f25}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstvideoscale.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstvideoscale.vcproj">
       <Name>gstvideoscale</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f26}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstvideotestsrc.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstvideotestsrc.vcproj">
       <Name>gstvideotestsrc</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f27}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\Base\gst\libgstvolume.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\Base\gst\libgstvolume.vcproj">
       <Name>gstvolume</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f28}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Plugins\libgstcoreelements.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\libgstcoreelements.vcproj">
       <Name>gstcoreelements</Name>
       <Project>{f987873b-2b88-4b1b-b627-f70df4f91e51}</Project>
       <Private>True</Private>

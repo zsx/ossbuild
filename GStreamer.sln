@@ -709,19 +709,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-gapi-codegen", "Main\GStreamer\Bindings\DotNet\gst-gapi-codegen.csproj", "{A2192B96-98F4-486B-ACD6-C639BBCAE55C}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dependencies-GPL", "Main\GStreamer\Install\Merge Modules\Win32\Dependencies-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dependencies-GPL", "Main\GStreamer\Install\Merge Modules\Dependencies\Dependencies-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dependencies-LGPL", "Main\GStreamer\Install\Merge Modules\Win32\Dependencies-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dependencies-LGPL", "Main\GStreamer\Install\Merge Modules\Dependencies\Dependencies-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{0188CB7A-460D-41FF-B116-EF129E4FCC71}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Applications", "Main\GStreamer\Install\Merge Modules\Win32\Applications.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Applications", "Main\GStreamer\Install\Merge Modules\Applications\Applications.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Libraries", "Main\GStreamer\Install\Merge Modules\Win32\Libraries.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Libraries", "Main\GStreamer\Install\Merge Modules\Libraries\Libraries.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Base", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Base.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Base", "Main\GStreamer\Install\Merge Modules\Plugins\Base\Plugins-Base.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bad", "Bad", "{9AE30CF5-4B50-4D18-994D-64F927CF86B3}"
 EndProject
@@ -741,39 +741,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Good", "Good", "{7ADD8C79-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ugly", "Ugly", "{FE3AF338-522F-4802-AEA1-3066895B3E90}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Bad-GPL", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Bad-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Bad-GPL", "Main\GStreamer\Install\Merge Modules\Plugins\Bad\Plugins-Bad-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Bad-LGPL", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Bad-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Bad-LGPL", "Main\GStreamer\Install\Merge Modules\Plugins\Bad\Plugins-Bad-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Farsight.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight", "Main\GStreamer\Install\Merge Modules\Plugins\Farsight\Plugins-Farsight.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight2", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Farsight2.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight2", "Main\GStreamer\Install\Merge Modules\Plugins\Farsight2\Plugins-Farsight2.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-FFmpeg-GPL", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-FFmpeg-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-FFmpeg-GPL", "Main\GStreamer\Install\Merge Modules\Plugins\FFmpeg\Plugins-FFmpeg-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-FFmpeg-LGPL", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-FFmpeg-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-FFmpeg-LGPL", "Main\GStreamer\Install\Merge Modules\Plugins\FFmpeg\Plugins-FFmpeg-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-GL", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-GL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-GL", "Main\GStreamer\Install\Merge Modules\Plugins\GL\Plugins-GL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-GNonLin", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-GNonLin.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-GNonLin", "Main\GStreamer\Install\Merge Modules\Plugins\GNonLin\Plugins-GNonLin.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Good", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Good.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Good", "Main\GStreamer\Install\Merge Modules\Plugins\Good\Plugins-Good.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Ugly-GPL", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Ugly-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Ugly-GPL", "Main\GStreamer\Install\Merge Modules\Plugins\Ugly\Plugins-Ugly-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Ugly-LGPL", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Ugly-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Ugly-LGPL", "Main\GStreamer\Install\Merge Modules\Plugins\Ugly\Plugins-Ugly-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet", "DotNet", "{3B6C3178-2839-4E46-B6E8-338892654972}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python", "Python", "{10B0ED66-B321-4C8F-9361-E07D0C292A73}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-DotNet", "Main\GStreamer\Install\Merge Modules\Win32\Bindings-DotNet.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-DotNet", "Main\GStreamer\Install\Merge Modules\Bindings\DotNet\Bindings-DotNet.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-Python-v2.5", "Main\GStreamer\Install\Merge Modules\Win32\Bindings-Python-v2.5.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-Python-v2.5", "Main\GStreamer\Install\Merge Modules\Bindings\Python\Bindings-Python-v2.5.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Complete-LGPL", "Main\GStreamer\Install\Setup\Win32\Complete-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Complete-LGPL", "Main\GStreamer\Install\Setup\Complete-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Complete-GPL", "Main\GStreamer\Install\Setup\Win32\Complete-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Complete-GPL", "Main\GStreamer\Install\Setup\Complete-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2.5", "v2.5", "{2A6689ED-E007-47D1-B9A2-31FB74675D56}"
 EndProject
@@ -791,13 +791,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tag", "Main\GStreamer\Bindi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "video", "Main\GStreamer\Bindings\Python\video-2.6.vcproj", "{38722A6E-1106-4B14-B507-7C1D95D67F46}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-Python-v2.6", "Main\GStreamer\Install\Merge Modules\Win32\Bindings-Python-v2.6.wixproj", "{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-Python-v2.6", "Main\GStreamer\Install\Merge Modules\Bindings\Python\Bindings-Python-v2.6.wixproj", "{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dev", "Dev", "{34B18D5C-0789-4A6A-8C9A-D75247D6C6F0}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dev-Includes-GPL", "Main\GStreamer\Install\Merge Modules\Win32\Dev-Includes-GPL.wixproj", "{0E5FA0BB-99B7-4E9F-95C8-C28F9ACDE700}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dev-Includes-GPL", "Main\GStreamer\Install\Merge Modules\SDK\Dev-Includes-GPL.wixproj", "{0E5FA0BB-99B7-4E9F-95C8-C28F9ACDE700}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dev-Includes-LGPL", "Main\GStreamer\Install\Merge Modules\Win32\Dev-Includes-LGPL.wixproj", "{0E5FA0BB-99B7-CC43-92C8-B28F9DCDE701}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dev-Includes-LGPL", "Main\GStreamer\Install\Merge Modules\SDK\Dev-Includes-LGPL.wixproj", "{0E5FA0BB-99B7-CC43-92C8-B28F9DCDE701}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Includes", "Includes", "{D0ED3550-ADC6-49C8-A4EB-F298E094394B}"
 EndProject
@@ -805,7 +805,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Binaries", "Binaries", "{EEADBFB8-D869-432C-BE89-FDD2ECC369A1}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight2-Transmitters", "Main\GStreamer\Install\Merge Modules\Win32\Plugins-Farsight2-Transmitters.wixproj", "{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight2-Transmitters", "Main\GStreamer\Install\Merge Modules\Plugins\Farsight2\Plugins-Farsight2-Transmitters.wixproj", "{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstschroedinger", "Main\GStreamer\Plugins\Bad\ext\libgstschroedinger.vcproj", "{B11EA875-24C1-4EC0-AC19-296BF5541ABF}"
 EndProject

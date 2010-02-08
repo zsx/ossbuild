@@ -14,18 +14,18 @@
     <Name>FFmpeg-GPL</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\..\;InstallRoot=$(ProjectDir)..\..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\..\</DefineConstants>
+    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\..\;InstallRoot=$(ProjectDir)..\..\..\</DefineConstants>
     <WixVariables>
     </WixVariables>
     <SuppressIces>
@@ -34,13 +34,13 @@
     <SuppressPdbOutput>True</SuppressPdbOutput>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\GUIDs.wxi">
+    <Content Include="..\..\..\GUIDs.wxi">
       <Link>Shared\GUIDs.wxi</Link>
     </Content>
-    <Content Include="..\..\Properties.wxi">
+    <Content Include="..\..\..\Properties.wxi">
       <Link>Shared\Properties.wxi</Link>
     </Content>
-    <Content Include="..\..\Versions.wxi">
+    <Content Include="..\..\..\Versions.wxi">
       <Link>Shared\Versions.wxi</Link>
     </Content>
   </ItemGroup>
@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="OSSBuildExtensions">
-      <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
       <Name>OSSBuildExtensions</Name>
     </WixExtension>
   </ItemGroup>
@@ -57,7 +57,7 @@
     <Compile Include="Plugins-FFmpeg-GPL.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Plugins\FFmpeg\ext\libgstffmpeg_gpl.vcproj">
+    <ProjectReference Include="..\..\..\..\Plugins\FFmpeg\ext\libgstffmpeg_gpl.vcproj">
       <Name>gstffmpeggpl</Name>
       <Project>{fad1a4e1-90ac-4a6d-aece-755d6adf7274}</Project>
       <Private>True</Private>
