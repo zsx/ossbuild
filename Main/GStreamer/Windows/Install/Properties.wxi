@@ -7,7 +7,7 @@
 	
 
 	
-	<?define GST_ICON="$(var.AppRoot)\GStreamer.ico"?>
+	<?define GST_ICON="$(var.AppRoot)\Windows\GStreamer.ico"?>
 
 	<?define PRODUCT_NAME="OSSBuild" ?>
 	<?define COMPANY_NAME="OSSBuild" ?>
@@ -68,6 +68,8 @@
 
 	<?define PythonBinDir_v2_5="$(var.OutputLibDir)\python2.5\site-packages" ?>
 	<?define PythonBinDir_v2_6="$(var.OutputLibDir)\python2.6\site-packages" ?>
+	
+	<?define Farsight2TransmitterDir="$(var.OutputLibDir)\farsight2-$(var.FARSIGHT2_VERSION)" ?>
 	
 	
 	<?define GstBinDir="$(var.OutputGstBinDir)" ?>

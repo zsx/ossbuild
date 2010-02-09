@@ -82,15 +82,19 @@
       <Project>{e829cd43-81b4-42cd-ba4d-9676d485dd70}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\transmitters\libfsmulticast.vcproj">
-      <Name>multicast-transmitter</Name>
-      <Project>{07ce7a34-092e-47dd-a37d-5ee3de7508c0}</Project>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\gst\libgstnice.vcproj">
+      <Name>gstnice</Name>
+      <Project>{01fa3955-8f5d-4950-b81b-6839b5a826c3}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\transmitters\libfsrawudp.vcproj">
-      <Name>rawudp-transmitter</Name>
-      <Project>{9dd0d928-de01-4222-b8fa-d6acc2ef7314}</Project>
+    <ProjectReference Include="..\Farsight\Plugins-Farsight.wixproj">
+      <Name>Plugins-Farsight</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a3}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />

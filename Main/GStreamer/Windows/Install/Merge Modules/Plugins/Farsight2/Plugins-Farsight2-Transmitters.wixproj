@@ -54,40 +54,36 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\gst-libs\libgstfarsight.vcproj">
-      <Name>gstfarsight</Name>
-      <Project>{eb5d7598-7014-42d3-886c-9b9ec38167c3}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\gst\libfsfunel.vcproj">
-      <Name>fsfunnel</Name>
-      <Project>{6e8d09d7-99a2-4640-aeb5-80ee26fa745a}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\gst\libfsrtcpfilter.vcproj">
-      <Name>fsrtcpfilter</Name>
-      <Project>{77950f94-e30d-41af-9db5-dd913ce8c479}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\gst\libfsrtpconference.vcproj">
-      <Name>fsrtpconference</Name>
-      <Project>{3a2ff0cd-715b-43ac-bdf3-63d41a37ca12}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\gst\libfsvideoanyrate.vcproj">
-      <Name>fsvideoanyrate</Name>
-      <Project>{e829cd43-81b4-42cd-ba4d-9676d485dd70}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\transmitters\libfsmulticast.vcproj">
       <Name>multicast-transmitter</Name>
       <Project>{07ce7a34-092e-47dd-a37d-5ee3de7508c0}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\transmitters\libfsnice.vcproj">
+      <Name>gstnice-transmitter</Name>
+      <Project>{460b5301-2747-4e16-bc26-0d67f5a199ed}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight2\transmitters\libfsrawudp.vcproj">
       <Name>rawudp-transmitter</Name>
       <Project>{9dd0d928-de01-4222-b8fa-d6acc2ef7314}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Farsight2\Plugins-Farsight2.wixproj">
+      <Name>Plugins-Farsight2</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a4}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Farsight\Plugins-Farsight.wixproj">
+      <Name>Plugins-Farsight</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a3}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

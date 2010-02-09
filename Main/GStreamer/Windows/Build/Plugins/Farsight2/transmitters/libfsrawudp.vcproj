@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\farsight2-plugin.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibNice.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibNice.vsprops;..\..\..\..\Properties\farsight2-transmitter.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -156,7 +156,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\farsight2-plugin.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibNice.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibNice.vsprops;..\..\..\..\Properties\farsight2-transmitter.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>

@@ -60,6 +60,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstcelt.vcproj">
+      <Name>gstcelt</Name>
+      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1005}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstdts.vcproj">
       <Name>gstdts</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1010}</Project>

@@ -11,6 +11,8 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
 				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstnice\.dll" />
+
 					<OSSBuild:Filter Include=".*\\[^\\]*.*fsfunnel\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*fsrtcpfilter\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*fsrtpconference\.dll" />

@@ -6,7 +6,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="&quot;$(OutDir)\include\stun&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\stun&quot;"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\stun&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\stun&quot;;&quot;$(OutDir)\include\nice&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\nice&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"

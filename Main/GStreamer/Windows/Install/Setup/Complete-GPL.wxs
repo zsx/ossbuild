@@ -140,7 +140,7 @@
 										<Merge Id="Plugins_Farsight2" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2.msm" Language="$(var.DEFAULT_LANGUAGE)" />
 									</Directory>
 
-									<Directory Id="FarsightVersion" Name="farsight2-0.0">
+									<Directory Id="FarsightVersion" Name="farsight2-$(var.FARSIGHT2_VERSION)">
 										<Merge Id="Plugins_Farsight2_Transmitters" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2-Transmitters.msm" Language="$(var.DEFAULT_LANGUAGE)" />
 									</Directory>
 
@@ -165,9 +165,11 @@
 								</Directory>
 
 								<Directory Id="Share" Name="share">
-									<OSSBuild:FillDirectory ComponentGroup="Licenses" Directory="$(var.LicenseDir)">
-										<OSSBuild:Filter Include=".*" />
-									</OSSBuild:FillDirectory>
+									<Directory Id="license" Name="licenses">
+										<OSSBuild:FillDirectory ComponentGroup="Licenses" Directory="$(var.LicenseDir)">
+											<OSSBuild:Filter Include=".*" />
+										</OSSBuild:FillDirectory>
+									</Directory>
 
 									<OSSBuild:FillDirectory ComponentGroup="GtkShare" Directory="$(var.SharedShareDir)">
 										<OSSBuild:Filter Include=".*\\locale\\.*" />

@@ -19,7 +19,6 @@
 					<OSSBuild:Filter Include=".*\\[^\\]*.*swscale$(var.GPL).*\.dll" />
 
 					<OSSBuild:Filter Include=".*\\[^\\]*.*x264.*\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*nice.*\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*xvidcore.*\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*a52.*\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*mpeg2.*\.dll" />

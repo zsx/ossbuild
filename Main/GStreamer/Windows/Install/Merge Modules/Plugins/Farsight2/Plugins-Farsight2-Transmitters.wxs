@@ -10,7 +10,9 @@
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
+				<OSSBuild:FillDirectory Directory="$(var.Farsight2TransmitterDir)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstnice-transmitter\.dll" />
+					
 					<OSSBuild:Filter Include=".*\\[^\\]*.*multicast-transmitter\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*rawudp-transmitter\.dll" />
 				</OSSBuild:FillDirectory>
