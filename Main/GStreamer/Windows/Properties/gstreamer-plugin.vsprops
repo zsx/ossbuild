@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer Plugins"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\plugins\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Windows\Properties\gstreamer.vsprops"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="gstreamer-0.10.lib"
+		OutputFile="$(OutDir)\bin\plugins\lib$(Prefix)$(ProjectName).dll"
+		AdditionalLibraryDirectories="$(OutDir)\lib\plugins\"
+		ProgramDatabaseFile="$(OutDir)\pdb\plugins\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\plugins\$(ProjectName).lib"
+	/>
+</VisualStudioPropertySheet>

@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="gstphotography"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2000}"
+	RootNamespace="libgstphotography"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\..\..\..\..\..\Common.rules"
+		/>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad-lib.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="2"
+				ModuleName="gstreamer-$(ApiVersionString)\gst\interfaces"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="7"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="10"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="Yasm Tool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="23"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="24"
+				Optimization="0"
+				InlineFunctionExpansion="0"
+				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;&quot;..\..\..\..\..\Source\gst-plugins-bad\gst-libs\gst\interfaces&quot;"
+				PreprocessorDefinitions="GST_USE_UNSTABLE_API"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="27"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="28"
+				AdditionalDependencies="libgstaudio.lib Winmm.lib"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="libgstphotography.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="33"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+				ExecutionBucket="34"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad-lib.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+				ExecutionBucket="2"
+				ModuleName="gstreamer-$(ApiVersionString)\gst\interfaces"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+				ExecutionBucket="4"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+				ExecutionBucket="5"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+				ExecutionBucket="6"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+				ExecutionBucket="7"
+			/>
+			<Tool
+				Name="SED Tool"
+				ExecutionBucket="8"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+				ExecutionBucket="9"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+				ExecutionBucket="10"
+			/>
+			<Tool
+				Name="Bison Tool"
+				ExecutionBucket="11"
+			/>
+			<Tool
+				Name="CommandLineTool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Flex Tool"
+				ExecutionBucket="13"
+			/>
+			<Tool
+				Name="Perl Tool"
+				ExecutionBucket="14"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+				ExecutionBucket="15"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+				ExecutionBucket="16"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="Copy Tool"
+				ExecutionBucket="18"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+				ExecutionBucket="19"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+				ExecutionBucket="20"
+			/>
+			<Tool
+				Name="Yasm Tool"
+				ExecutionBucket="21"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="22"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				ExecutionBucket="23"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				ExecutionBucket="24"
+				Optimization="2"
+				AdditionalIncludeDirectories="&quot;$(IntDir)&quot;;&quot;..\..\..\..\..\Source\gst-plugins-bad\gst-libs\gst\interfaces&quot;"
+				PreprocessorDefinitions="GST_USE_UNSTABLE_API"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="25"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				ExecutionBucket="26"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+				ExecutionBucket="27"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="28"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="libgstphotography.def"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+				ExecutionBucket="29"
+			/>
+			<Tool
+				Name="VCManifestTool"
+				ExecutionBucket="30"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="31"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				ExecutionBucket="32"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+				ExecutionBucket="33"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+				ExecutionBucket="34"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstinterfaces.vcproj"
+		/>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			>
+			<Filter
+				Name="Generated"
+				>
+				<File
+					RelativePath="..\..\..\..\Generated\gst-plugins-bad\gst-libs\gst\interfaces\photography-enumtypes.c"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			>
+			<Filter
+				Name="Public"
+				>
+				<File
+					RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst-libs\gst\interfaces\photography.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+				</File>
+				<Filter
+					Name="Generated"
+					>
+					<File
+						RelativePath="..\..\..\..\Generated\gst-plugins-bad\gst-libs\gst\interfaces\photography-enumtypes.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="Header Installer Tool"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			>
+			<File
+				RelativePath=".\libgstphotography.def"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst-libs\gst\interfaces\photography.c"
+			>
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

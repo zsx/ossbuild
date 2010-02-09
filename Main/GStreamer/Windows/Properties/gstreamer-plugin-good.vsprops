@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer Good Plugins"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Windows\Properties\gstreamer-plugin.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="$(SolutionDir)Main\GStreamer\Source\gst-plugins-good\gst-libs\;&quot;..\..\..\..\..\Source\gst-plugins-good\win32\common\&quot;"
+	/>
+</VisualStudioPropertySheet>

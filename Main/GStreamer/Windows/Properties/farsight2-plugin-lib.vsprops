@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Farsight2 Plugin Libs"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\farsight2\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Windows\Properties\farsight2-plugin.vsprops"
+	>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="gstreamer-$(ApiMajorVersion).$(ApiMinorVersion).lib"
+		OutputFile="$(OutDir)\bin\lib$(Prefix)$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).dll"
+		ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).lib"
+	/>
+</VisualStudioPropertySheet>

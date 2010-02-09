@@ -1,0 +1,179 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.5</ProductVersion>
+    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-f28fadede1A0}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>x86-OSSBuild-GStreamer-Complete-LGPL</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
+    <IncludeSearchPaths>
+    </IncludeSearchPaths>
+    <Name>Complete-LGPL</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Install\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug;TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\</DefineConstants>
+    <WixVariables>
+    </WixVariables>
+    <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
+    <SuppressPdbOutput>True</SuppressPdbOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\..\..\..\Deployment\GStreamer\Windows\x86\Install\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>TOP=$(ProjectDir)..\..\..\..\..\;AppRoot=$(ProjectDir)..\..\..\;InstallRoot=$(ProjectDir)..\</DefineConstants>
+    <WixVariables>
+    </WixVariables>
+    <SuppressIces>
+    </SuppressIces>
+    <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
+    <SuppressPdbOutput>True</SuppressPdbOutput>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\GUIDs.wxi">
+      <Link>Shared\GUIDs.wxi</Link>
+    </Content>
+    <Content Include="..\Properties.wxi">
+      <Link>Shared\Properties.wxi</Link>
+    </Content>
+    <Content Include="..\Versions.wxi">
+      <Link>Shared\Versions.wxi</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Custom\I18N\" />
+    <Folder Include="Custom" />
+    <Folder Include="Custom\UI\" />
+    <Folder Include="Shared" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="OSSBuildExtensions">
+      <HintPath>..\..\..\..\..\Shared\WiX\OSSBuildExtensions.dll</HintPath>
+      <Name>OSSBuildExtensions</Name>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Custom\UI\SimplifiedUI.wxs">
+      <Link>Custom\UI\SimplifiedUI.wxs</Link>
+    </Compile>
+    <Compile Include="Complete-LGPL.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Custom\I18N\en-us.wxl">
+      <Link>en-us.wxl</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Merge Modules\Applications\Applications.wixproj">
+      <Name>Applications _GStreamer\Installers\Merge Modules\x86\Applications\Applications_</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde702}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\DotNet\Bindings-DotNet.wixproj">
+      <Name>Bindings-DotNet</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae0}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Bindings-Python-v2.5.wixproj">
+      <Name>Bindings-Python-v2.5</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Bindings-Python-v2.6.wixproj">
+      <Name>Bindings-Python-v2.6</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b24f9fcdeae2}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Dependencies\Dependencies-LGPL.wixproj">
+      <Name>Dependencies-LGPL</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde701}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Libraries\Libraries.wixproj">
+      <Name>Libraries _GStreamer\Installers\Merge Modules\x86\Libraries\Libraries_</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde703}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\Bad\Plugins-Bad-LGPL.wixproj">
+      <Name>Plugins-Bad-LGPL</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a2}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\Base\Plugins-Base.wixproj">
+      <Name>Plugins-Base</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a0}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\Farsight\Plugins-Farsight.wixproj">
+      <Name>Plugins-Farsight</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\Farsight2\Plugins-Farsight2-Transmitters.wixproj">
+      <Name>Plugins-Farsight2-Transmitters</Name>
+      <Project>{2f5aa0bb-f9e7-4093-95a8-b28f94cdf7a4}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\Farsight2\Plugins-Farsight2.wixproj">
+      <Name>Plugins-Farsight2</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a4}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\FFmpeg\Plugins-FFmpeg-LGPL.wixproj">
+      <Name>Plugins-FFmpeg-LGPL</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a6}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\GL\Plugins-GL.wixproj">
+      <Name>Plugins-GL</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a7}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\GNonLin\Plugins-GNonLin.wixproj">
+      <Name>Plugins-GNonLin</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a8}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\Good\Plugins-Good.wixproj">
+      <Name>Plugins-Good</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7a9}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Plugins\Ugly\Plugins-Ugly-LGPL.wixproj">
+      <Name>Plugins-Ugly-LGPL</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7b1}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+  <PropertyGroup>
+    <PostBuildEvent>move /Y "!(TargetPath)" "$(TargetDir)"
+rmdir /S /Q "$(TargetDir)en-us"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

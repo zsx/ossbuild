@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Shared\MSVC\Properties\Machine.vsprops;..\..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt.vsprops;$(SolutionDir)Shared\MSVC\Properties\Libraries\LibXml.vsprops;$(SolutionDir)Shared\MSVC\Properties\Libraries\GLib.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		InlineFunctionExpansion="2"
+		FavorSizeOrSpeed="1"
+		AdditionalIncludeDirectories="&quot;$(OutDir)\include\gstreamer-$(ApiVersionString)\&quot;;&quot;$(SolutionDir)Shared\Build\Windows\$(PlatformName)\include\gstreamer-$(ApiVersionString)\&quot;"
+		PreprocessorDefinitions="WIN32;_WINDOWS;_USRDLL;HAVE_CONFIG_H;HAVE_WIN32;YYFREE=free;YYMALLOC=malloc;YY_NO_UNISTD_H"
+	/>
+	<Tool
+		Name="VCLibrarianTool"
+		ModuleDefinitionFile="libpng\pngw32.def"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="ws2_32.lib wsock32.lib intl.lib"
+		Version="$(VersionString)"
+		AdditionalLibraryDirectories="&quot;$(OutDir)\lib\&quot;"
+		GenerateManifest="false"
+		IgnoreAllDefaultLibraries="true"
+		ModuleDefinitionFile=""
+		ProgramDatabaseFile="$(OutDir)\pdb\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\$(ProjectName).lib"
+	/>
+	<UserMacro
+		Name="MajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="MinorVersion"
+		Value="10"
+	/>
+	<UserMacro
+		Name="MicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="VersionString"
+		Value="$(MajorVersion).$(MinorVersion).$(MicroVersion)"
+	/>
+	<UserMacro
+		Name="VersionNumber"
+		Value="01000"
+	/>
+	<UserMacro
+		Name="ApiMajorVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="ApiMinorVersion"
+		Value="10"
+	/>
+	<UserMacro
+		Name="ApiMicroVersion"
+		Value="0"
+	/>
+	<UserMacro
+		Name="ApiVersionString"
+		Value="$(ApiMajorVersion).$(ApiMinorVersion)"
+	/>
+</VisualStudioPropertySheet>

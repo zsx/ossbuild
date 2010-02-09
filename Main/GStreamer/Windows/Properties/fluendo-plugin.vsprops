@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="Fluendo Plugins"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\fluendo\plugins\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Windows\Properties\gstreamer.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;..\..\..\..\Generated\fluendo\&quot;;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="gstbase.lib gstreamer.lib"
+		OutputFile="$(OutDir)\bin\gstreamer\plugins\lib$(ProjectName).dll"
+		AdditionalLibraryDirectories="$(OutDir)\lib\gstreamer\plugins\"
+		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\plugins\$(TargetName).pdb"
+		ImportLibrary="$(OutDir)\lib\gstreamer\plugins\$(ProjectName).lib"
+	/>
+</VisualStudioPropertySheet>

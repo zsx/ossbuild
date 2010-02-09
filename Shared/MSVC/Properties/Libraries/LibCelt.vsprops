@@ -5,8 +5,12 @@
 	Name="Celt"
 	>
 	<Tool
+		Name="VCCLCompilerTool"
+		PreprocessorDefinitions="HAVE_CELT_0_5;HAVE_CELT_0_6;HAVE_CELT_0_7"
+	/>
+	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="celt.lib"
+		AdditionalDependencies="celt$(LibCeltLibVersionString).lib"
 	/>
 	<UserMacro
 		Name="LibCeltMajorVersion"
@@ -34,6 +38,6 @@
 	/>
 	<UserMacro
 		Name="LibCeltLibVersionString"
-		Value="$(LibCeltApiVersionString)-$(LibCeltApiInterfaceAge)"
+		Value="$(LibCeltApiInterfaceAge)"
 	/>
 </VisualStudioPropertySheet>

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="gstmpegtsmux"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0038}"
+	RootNamespace="libgstmpegtsmux"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\..\..\..\..\..\Common.rules"
+		/>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Flex Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Bison Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+			/>
+			<Tool
+				Name="Yasm Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				InlineFunctionExpansion="0"
+				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+				DisableSpecificWarnings="4307"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libgstaudio.lib Winmm.lib"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Flex Tool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Bison Tool"
+			/>
+			<Tool
+				Name="CommandLineTool"
+			/>
+			<Tool
+				Name="Perl 3 Tool"
+			/>
+			<Tool
+				Name="Glib Make Enums Tool"
+			/>
+			<Tool
+				Name="DotIn Generator Tool"
+			/>
+			<Tool
+				Name="Perl 2 Tool"
+			/>
+			<Tool
+				Name="Perl Tool"
+			/>
+			<Tool
+				Name="C Preprocessor Tool"
+			/>
+			<Tool
+				Name="Copy Tool"
+			/>
+			<Tool
+				Name="SDK VSProps Generation Tool"
+			/>
+			<Tool
+				Name="GObject Enum Generation Tool"
+			/>
+			<Tool
+				Name="GObject Marshaller Generation Tool"
+			/>
+			<Tool
+				Name="Symbols Generator Tool"
+			/>
+			<Tool
+				Name="Pkg-Config OAH Dependencies Tool"
+			/>
+			<Tool
+				Name="Header Installer Tool"
+			/>
+			<Tool
+				Name="Yasm Tool"
+			/>
+			<Tool
+				Name="SED Tool"
+			/>
+			<Tool
+				Name="Pkg-Config Tool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4307"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine=""
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+		/>
+	</References>
+	<Files>
+		<Filter
+			Name="tsmux"
+			>
+			<File
+				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\tsmux\crc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\tsmux\tsmux.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\tsmux\tsmux.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\tsmux\tsmuxcommon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\tsmux\tsmuxstream.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\tsmux\tsmuxstream.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\mpegtsmux.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\mpegtsmux.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\mpegtsmux_aac.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\mpegtsmux_aac.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\mpegtsmux_h264.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\mpegtsmux\mpegtsmux_h264.h"
+			>
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
