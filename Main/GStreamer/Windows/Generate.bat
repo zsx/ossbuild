@@ -80,6 +80,7 @@ rem gst-plugins-farsight/gst/rtpjitterbuffer
 
 rem gst-plugins-base/gst/tcp
 %GEN_MARSHAL_BAT% gst_tcp_marshal "%SRC_GST_PLUGINS_BASE_DIR%\gst\tcp\gsttcp-marshal.list" "%GEN_GST_PLUGINS_BASE_DIR%\gst\tcp\gsttcp-marshal.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst\tcp\gsttcp-marshal.c"
+%MK_ENUMS_BAT% TCP "%SRC_GST_PLUGINS_BASE_DIR%\gst\tcp" "%BUILDDIR%\Plugins\Base\gst\tcp.mkenum.lst.txt" "%GEN_GST_PLUGINS_BASE_DIR%\gst\tcp\gsttcp-enumtypes.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst\tcp\gsttcp-enumtypes.c"
 
 rem gst-plugins-base/gst/playback
 %GEN_MARSHAL_BAT% gst_play_marshal "%SRC_GST_PLUGINS_BASE_DIR%\gst\playback\gstplay-marshal.list" "%GEN_GST_PLUGINS_BASE_DIR%\gst\playback\gstplay-marshal.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst\playback\gstplay-marshal.c"

@@ -27,6 +27,7 @@
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstpango\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstplaybin\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstqueue2\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsubparse\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gsttheora\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gsttypefindfunctions\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideorate\.dll" />

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gsttcp"
-	ProjectGUID="{C60A873B-FB88-FB4B-B327-F70DFEFE4CC1}"
-	RootNamespace="libgsttcp"
+	Name="gstsubparse"
+	ProjectGUID="{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}"
+	RootNamespace="libgstsubparse"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -101,8 +101,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="&quot;..\..\..\..\..\Source\gst-plugins-base\gst\tcp&quot;;&quot;..\..\..\..\Generated\gst-plugins-base\gst\tcp&quot;"
-				PreprocessorDefinitions="GST_ENABLE_NEW"
+				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst\app\"
+				PreprocessorDefinitions="LIBGSTADDER_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -235,8 +235,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="&quot;..\..\..\..\..\Source\gst-plugins-base\gst\tcp&quot;;&quot;..\..\..\..\Generated\gst-plugins-base\gst\tcp&quot;"
-				PreprocessorDefinitions="GST_ENABLE_NEW"
+				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst\app\"
+				PreprocessorDefinitions="LIBGSTADDER_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -315,72 +315,44 @@
 		/>
 	</References>
 	<Files>
-		<Filter
-			Name="Generated"
-			>
-			<File
-				RelativePath="..\..\..\..\Generated\gst-plugins-base\gst\tcp\gsttcp-marshal.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\Generated\gst-plugins-base\gst\tcp\gsttcp-marshal.h"
-				>
-			</File>
-		</Filter>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gstmultifdsink.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\gstssaparse.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gstmultifdsink.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\gstssaparse.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcp.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\gstsubparse.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcp.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\gstsubparse.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpclientsink.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\mpl2parse.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpclientsink.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\mpl2parse.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpclientsrc.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\samiparse.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpclientsrc.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\samiparse.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpplugin.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\tmplayerparse.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpplugin.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpserversink.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpserversink.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpserversrc.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\tcp\gsttcpserversrc.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\tmplayerparse.h"
 			>
 		</File>
 	</Files>
