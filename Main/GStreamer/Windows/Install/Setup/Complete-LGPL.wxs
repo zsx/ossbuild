@@ -10,6 +10,8 @@
 		<Package InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" Compressed="yes" />
 		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" CompressionLevel="high" />
 
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.CustomResourceDir)\Licenses\License-LGPL.rtf" />
+
 		<Feature 
 			Id="Full"
 			Title="Full Install"
@@ -71,7 +73,7 @@
 		</ComponentGroup>
 
 		<!-- C:\Program Files\OSSBuild\v<Version>\ -->
-		<DirectoryRef Id="GstBinInstallDir">
+		<DirectoryRef Id="GstInstallDir">
 			<Component Id="Copying" Guid="{D1C834B5-C892-4a84-AA8C-BCF3CF221BFA}">
 				<File Source="$(var.CustomResourceDir)\Licenses\COPYING" />
 			</Component>
@@ -109,10 +111,6 @@
 		<DirectoryRef Id="GstLibGTKInstallDir">
 			<OSSBuild:FillDirectory ComponentGroup="GtkLib" Directory="$(var.SharedLibDir)\gtk-$(var.GTK_VERSION)">
 				<OSSBuild:Filter Include=".*\.dll" />
-
-				<OSSBuild:Filter Exclude=".*\.h" />
-				<OSSBuild:Filter Exclude=".*\.la" />
-				<OSSBuild:Filter Exclude=".*\.dll\.a" />
 			</OSSBuild:FillDirectory>
 		</DirectoryRef>
 
@@ -128,14 +126,6 @@
 			<OSSBuild:FillDirectory ComponentGroup="GtkShare" Directory="$(var.SharedShareDir)">
 				<OSSBuild:Filter Include=".*\\locale\\.*" />
 				<OSSBuild:Filter Include=".*\\themes\\.*" />
-
-				<OSSBuild:Filter Exclude=".*\\aclocal\\.*" />
-				<OSSBuild:Filter Exclude=".*\\common-lisp\\.*" />
-				<OSSBuild:Filter Exclude=".*\\ffmpeg\\.*" />
-				<OSSBuild:Filter Exclude=".*\\gdb\\.*" />
-				<OSSBuild:Filter Exclude=".*\\glib.*\\.*" />
-				<OSSBuild:Filter Exclude=".*\\gtk.*\\.*" />
-				<OSSBuild:Filter Exclude=".*\\intltool\\.*" />
 			</OSSBuild:FillDirectory>
 
 			<Directory Id="license" Name="licenses">

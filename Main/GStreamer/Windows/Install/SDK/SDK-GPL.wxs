@@ -9,6 +9,8 @@
 		<Package InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" Compressed="yes" />
 		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" CompressionLevel="high" />
 
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.CustomResourceDir)\Licenses\License-GPL.rtf" />
+
 		<Feature
 			Id="Full"
 			Title="Full Install"

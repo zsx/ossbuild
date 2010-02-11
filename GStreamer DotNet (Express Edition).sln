@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "element-gen", "Main\GStreamer\Windows\Build\Bindings\DotNet\element-gen.csproj", "{A219EB96-98F4-486B-ACD6-C639BBCAE55F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-gapi-codegen", "Main\GStreamer\Windows\Build\Bindings\DotNet\gst-gapi-codegen.csproj", "{A2192B96-98F4-486B-ACD6-C639BBCAE55C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-gapi-fixup", "Main\GStreamer\Windows\Build\Bindings\DotNet\gst-gapi-fixup.csproj", "{D219EB46-98F4-486B-ACD6-C639BCCAE55A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-gapi-parser", "Main\GStreamer\Windows\Build\Bindings\DotNet\gst-gapi-parser.csproj", "{D219EB46-98F4-486B-ACD6-C639BCCAE55C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-generate-tags", "Main\GStreamer\Windows\Build\Bindings\DotNet\gst-generate-tags.csproj", "{D219EB46-98F4-486B-ACD6-C639BCCAE55B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gstreamer-sharp", "Main\GStreamer\Windows\Build\Bindings\DotNet\gstreamer-sharp.csproj", "{62192B96-98F4-486B-ACD6-C639BBCAE55B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release (All)|Win32 = Release (All)|Win32
+		Release (GPL)|Win32 = Release (GPL)|Win32
+		Release (LGPL)|Win32 = Release (LGPL)|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (All)|Win32.ActiveCfg = Release|Any CPU
+		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (All)|Win32.Build.0 = Release|Any CPU
+		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
+		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (GPL)|Win32.Build.0 = Release|Any CPU
+		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
+		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
+		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (All)|Win32.ActiveCfg = Release|Any CPU
+		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (All)|Win32.Build.0 = Release|Any CPU
+		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
+		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (GPL)|Win32.Build.0 = Release|Any CPU
+		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
+		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (All)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (All)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (GPL)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (All)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (All)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (GPL)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (All)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (All)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (GPL)|Win32.Build.0 = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
+		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
+		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (All)|Win32.ActiveCfg = Release|Any CPU
+		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (All)|Win32.Build.0 = Release|Any CPU
+		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
+		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (GPL)|Win32.Build.0 = Release|Any CPU
+		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
+		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

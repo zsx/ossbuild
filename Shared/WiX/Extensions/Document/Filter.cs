@@ -97,7 +97,7 @@ namespace OSSBuild.WiX {
 			XmlNamespaceManager nm = new XmlNamespaceManager(node.OwnerDocument.NameTable);
 			nm.AddNamespace("ob", Namespace.OSSBuild);
 
-			XmlNodeList filterNodes = node.SelectNodes("//ob:Filter", nm);
+			XmlNodeList filterNodes = node.SelectNodes("ob:Filter", nm);
 			List<Filter> filters = new List<Filter>(filterNodes.Count);
 
 			foreach(XmlNode filterNode in filterNodes) {

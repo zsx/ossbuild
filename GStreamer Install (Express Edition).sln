@@ -1,0 +1,195 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Applications", "Main\GStreamer\Windows\Install\Merge Modules\Applications\Applications.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-DotNet", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\DotNet\Bindings-DotNet.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-Python-v2.5", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\Python\Bindings-Python-v2.5.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-Python-v2.6", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\Python\Bindings-Python-v2.6.wixproj", "{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dependencies-GPL", "Main\GStreamer\Windows\Install\Merge Modules\Dependencies\Dependencies-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dependencies-LGPL", "Main\GStreamer\Windows\Install\Merge Modules\Dependencies\Dependencies-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Libraries", "Main\GStreamer\Windows\Install\Merge Modules\Libraries\Libraries.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Bad-GPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Bad\Plugins-Bad-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Bad-LGPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Bad\Plugins-Bad-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Base", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Base\Plugins-Base.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Farsight\Plugins-Farsight.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight2", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Farsight2\Plugins-Farsight2.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight2-Transmitters", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Farsight2\Plugins-Farsight2-Transmitters.wixproj", "{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-FFmpeg-GPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\FFmpeg\Plugins-FFmpeg-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-FFmpeg-LGPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\FFmpeg\Plugins-FFmpeg-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-GL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\GL\Plugins-GL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-GNonLin", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\GNonLin\Plugins-GNonLin.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Good", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Good\Plugins-Good.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Ugly-GPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Ugly\Plugins-Ugly-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Ugly-LGPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Ugly\Plugins-Ugly-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Complete-GPL", "Main\GStreamer\Windows\Install\Setup\Complete-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Complete-LGPL", "Main\GStreamer\Windows\Install\Setup\Complete-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SDK-GPL", "Main\GStreamer\Windows\Install\SDK\SDK-GPL.wixproj", "{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SDK-LGPL", "Main\GStreamer\Windows\Install\SDK\SDK-LGPL.wixproj", "{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release (All)|Win32 = Release (All)|Win32
+		Release (GPL)|Win32 = Release (GPL)|Win32
+		Release (LGPL)|Win32 = Release (LGPL)|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (All)|Win32.ActiveCfg = Release|x86
+		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (All)|Win32.Build.0 = Release|x86
+		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (GPL)|Win32.Build.0 = Release|x86
+		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (GPL)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (All)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (All)|Win32.Build.0 = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (All)|Win32.ActiveCfg = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (All)|Win32.Build.0 = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (GPL)|Win32.Build.0 = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (All)|Win32.ActiveCfg = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (All)|Win32.Build.0 = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (LGPL)|Win32.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

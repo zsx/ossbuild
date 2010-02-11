@@ -35,7 +35,6 @@
 
 		<WixVariable Id="WixUIBannerBmp" Value="$(var.CustomResourceDir)\Banners\Header.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="$(var.CustomResourceDir)\Banners\Welcome.bmp" />
-		<WixVariable Id="WixUILicenseRtf" Value="$(var.CustomResourceDir)\Licenses\License-GPL.rtf" />
 
 		<WixVariable Id="WixUIUpIco" Value="$(var.CustomResourceDir)\Icons\Up.ico" />
 		<WixVariable Id="WixUINewIco" Value="$(var.CustomResourceDir)\Icons\New.ico" />

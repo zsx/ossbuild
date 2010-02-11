@@ -1,20 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{9C442D52-5C3A-4139-9774-3E96A52061E9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{A0AE4328-2CEE-458D-9B32-5E1A18F82698}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{FB3C7DEF-FBD0-44D4-935E-532D539C5674}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Good", "Good", "{C0372440-7D47-45AF-8DD5-3BC235AE9467}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ugly", "Ugly", "{7E7853F8-06A3-4D7E-BBB4-66F7A7DED12A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bad", "Bad", "{303EB0A8-443F-4593-9EB9-F042E7945EBE}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstreamer", "Main\GStreamer\Windows\Build\Libraries\libgstreamer.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstbase", "Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj", "{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
@@ -53,11 +39,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-launch", "Main\GStreame
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-xmlinspect", "Main\GStreamer\Windows\Build\Applications\gst-xmlinspect.vcproj", "{F987873B-2B88-4B1B-B627-E70DF4F91E57}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{159F4FF4-7C87-4878-846C-56C347D40788}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstadder", "Main\GStreamer\Windows\Build\Plugins\Base\gst\libgstadder.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F00}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{651994CA-EA11-4F53-B9B5-91CCF4A4C46D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstaudio", "Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstaudio.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -157,8 +139,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvideotestsrc", "Main\GSt
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvolume", "Main\GStreamer\Windows\Build\Plugins\Base\gst\libgstvolume.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F28}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{D1BB4E59-5FD4-4B09-AD6A-28701A507050}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstgio", "Main\GStreamer\Windows\Build\Plugins\Base\ext\libgstgio.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F29}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstpango", "Main\GStreamer\Windows\Build\Plugins\Base\ext\libgstpango.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F30}"
@@ -182,12 +162,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvorbis", "Main\GStreamer
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {AB87873B-2B88-4B1B-B627-F70DF4F91F05}
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{605D951F-5D22-4AAF-99E7-F5F1AA429520}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{60091039-790A-4D1D-9566-314D62E3AE2A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sys", "sys", "{CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstalpha", "Main\GStreamer\Windows\Build\Plugins\Good\gst\libgstalpha.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F92A03}"
 EndProject
@@ -332,10 +306,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvideofilterflip", "Main\
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {AB87873B-2B88-4B1B-B627-F70DF4F91F13}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FFmpeg", "FFmpeg", "{4A3588FE-548D-4D01-8BF3-F8CD704AE953}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{257EBB00-F5E5-4296-A6C0-23BB8748639B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstffmpeg-lgpl", "Main\GStreamer\Windows\Build\Plugins\FFmpeg\ext\libgstffmpeg.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92000}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdirectsound", "Main\GStreamer\Windows\Build\Plugins\Good\sys\libgstdirectsound.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92001}"
@@ -354,21 +324,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstpng", "Main\GStreamer\Wi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsoup", "Main\GStreamer\Windows\Build\Plugins\Good\ext\libgstsoup.vcproj", "{BC97873B-2B88-4B1B-C627-F70DF4F92008}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GStreamer", "GStreamer", "{2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{E2273E8E-71C8-4604-AA37-355C47543E40}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{9FD26CEB-D029-4819-A438-AFF7AB591097}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sys", "sys", "{505E1481-6A3D-4189-B216-9FA83AA9742A}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstneon", "Main\GStreamer\Windows\Build\Plugins\Bad\ext\libgstneon.vcproj", "{ECA7C701-FB88-4BFE-CE27-F70DF4F90001}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{9A756397-7323-4566-98AF-9D55C9227FC1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{CDB27022-AD35-4D8F-99FE-B13AE3564346}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstasfdemux", "Main\GStreamer\Windows\Build\Plugins\Ugly\gst\libgstasfdemux.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0002}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -541,8 +497,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstappplugin", "Main\GStrea
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F03} = {AB87873B-2B88-4B1B-B627-F70DF4F91F03}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Farsight", "Farsight", "{D1845284-1A64-454F-A1B1-6CE297F2574D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtpnetsim", "Main\GStreamer\Windows\Build\Plugins\Farsight\gst\libgstrtnetsim.vcproj", "{313836D8-F6ED-4F08-AF71-4165FC86B2CC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtprtpdemux", "Main\GStreamer\Windows\Build\Plugins\Farsight\gst\libgstrtpdemux.vcproj", "{B805B3DB-7D69-490A-91E3-A89646E69F1F}"
@@ -551,12 +505,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtpjitterbuffer", "Main\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtppayloads", "Main\GStreamer\Windows\Build\Plugins\Farsight\gst\libgstrtppayloads.vcproj", "{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfsselector", "Main\GStreamer\Windows\Build\Plugins\Farsight\gst\libgstselector.vcproj", "{6D6E96B4-23EA-453E-9156-4F149871ACBB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Farsight2", "Farsight2", "{FFE0F9D0-2B38-4B5A-A375-D2C83FBB161F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{E91C6FAE-F637-4F8A-86B7-D25AFFF94E29}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfarsight", "Main\GStreamer\Windows\Build\Plugins\Farsight2\gst-libs\libgstfarsight.vcproj", "{EB5D7598-7014-42D3-886C-9B9EC38167C3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
@@ -564,12 +512,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfarsight", "Main\GStream
 		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {F987873B-2B88-4B1B-B627-F70DF4F91E53}
 		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {F987873B-2B88-4B1B-B627-F70DF4F91E54}
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{43DFE288-BB89-4C6B-8114-7675475C3DBB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{E33F9179-6CEE-48DA-9FD5-14D6F26A34FE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "transmitters", "transmitters", "{8598E004-C213-409C-B1CB-3DDF2D640B7A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fsfunnel", "Main\GStreamer\Windows\Build\Plugins\Farsight2\gst\libfsfunel.vcproj", "{6E8D09D7-99A2-4640-AEB5-80EE26FA745A}"
 EndProject
@@ -597,18 +539,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rawudp-transmitter", "Main\
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3} = {EB5D7598-7014-42D3-886C-9B9EC38167C3}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GNonLin", "GNonLin", "{E3E23CAF-3BA2-485B-887B-71C9CE8615E8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gnl", "gnl", "{71252AE1-E351-48A1-AAB1-02AC0A5D9971}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gnl", "Main\GStreamer\Windows\Build\Plugins\GNonLin\gnl\libgnl.vcproj", "{4288EE5A-D59E-44AE-A1F6-001D58DD708A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {F987873B-2B88-4B1B-B627-F70DF4F91E49}
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{426FBABE-16AD-4C2D-893D-8542FCEC28E5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python", "Python", "{78FE20E2-2242-4ADB-B492-1B592D1D58FB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "video", "Main\GStreamer\Windows\Build\Bindings\Python\video.vcproj", "{39C85775-F04E-415A-ADE9-89B10D85F5D0}"
 EndProject
@@ -626,13 +560,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tag", "Main\GStreamer\Windo
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3} = {EB5D7598-7014-42D3-886C-9B9EC38167C3}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL", "GL", "{79C181D0-9230-4CCF-A108-EB26C1D9377A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst-libs", "gst-libs", "{E025DAEC-46F6-4E0E-ADAE-0F51F60CA74D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstgl", "Main\GStreamer\Windows\Build\Plugins\GL\gst-libs\libgstgl.vcproj", "{09475780-CDE5-45AD-BF90-BE489DD12A23}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gst", "gst", "{E3D83F9F-F87A-4CA9-B8A6-0B11162F2A28}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstopengl", "Main\GStreamer\Windows\Build\Plugins\GL\gst\libgstgl-plg.vcproj", "{0597EA2B-A46C-4CF1-B534-011D6DB91B96}"
 EndProject
@@ -671,101 +599,33 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfaad", "Main\GStreamer\W
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfaac", "Main\GStreamer\Windows\Build\Plugins\Bad\ext\libgstfaac.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1011}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installers", "Installers", "{40965633-5859-4EE1-A066-ACC69B91FAB8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{258A6BEF-29FF-47D7-A0ED-27F05FADC2B0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{22A97583-2340-4D15-AEFD-B7CE505AE3D5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Merge Modules", "Merge Modules", "{7FF1C73F-530D-447A-BDC3-6EB73889B55C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{E6360C05-CCCD-4E61-AD61-F6F1922A577F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{EB396A7B-C60E-48E8-9D4C-613406514638}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdirectdraw", "Main\GStreamer\Windows\Build\Plugins\Bad\sys\libgstdirectdraw.vcproj", "{464A3D96-D0E5-4F79-8FE3-508F09153E62}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsiren", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstsiren.vcproj", "{03545116-2F4A-415F-B096-47BFC0C6AE82}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstnice", "Main\GStreamer\Windows\Build\Plugins\Farsight2\gst\libgstnice.vcproj", "{01FA3955-8F5D-4950-B81B-6839B5A826C3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstnice-transmitter", "Main\GStreamer\Windows\Build\Plugins\Farsight2\transmitters\libfsnice.vcproj", "{460B5301-2747-4E16-BC26-0D67F5A199ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstbasevideo", "Main\GStreamer\Windows\Build\Plugins\Bad\gst-libs\libgstbasevideo.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsignalprocessor", "Main\GStreamer\Windows\Build\Plugins\Bad\gst-libs\libgstsignalprocessor.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstasfmux", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstasfmux.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfrei0r", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstfrei0r.vcproj", "{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstschroedinger", "Main\GStreamer\Windows\Build\Plugins\Bad\ext\libgstschroedinger.vcproj", "{B11EA875-24C1-4EC0-AC19-296BF5541ABF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstmpegpsmux", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstmpegpsmux.vcproj", "{85A7FE47-25D6-46C4-9D89-9FC2628C2442}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstpnm", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstpnm.vcproj", "{64BE7973-009F-4147-A19F-B3DC9603E6A7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvideomeasure", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstvideomeasure.vcproj", "{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrtpmanager", "Main\GStreamer\Windows\Build\Plugins\Good\gst\libgstrtpmanager.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstaiff", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstaiff.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0020}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet", "DotNet", "{C03E3D60-7743-41CA-B837-66288DF7D329}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstreamersharpglue", "Main\GStreamer\Windows\Build\Bindings\DotNet\gstreamersharpglue.vcproj", "{056904B0-0226-40CB-88C0-6ED33D717861}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{A86FA233-70D4-4E74-A194-739DA3202F9A}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dependencies-GPL", "Main\GStreamer\Windows\Install\Merge Modules\Dependencies\Dependencies-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dependencies-LGPL", "Main\GStreamer\Windows\Install\Merge Modules\Dependencies\Dependencies-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{0188CB7A-460D-41FF-B116-EF129E4FCC71}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Applications", "Main\GStreamer\Windows\Install\Merge Modules\Applications\Applications.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Libraries", "Main\GStreamer\Windows\Install\Merge Modules\Libraries\Libraries.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Base", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Base\Plugins-Base.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bad", "Bad", "{9AE30CF5-4B50-4D18-994D-64F927CF86B3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{F1A31F48-F227-45C7-BF0B-C9894E6C272F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Farsight", "Farsight", "{33CEDD8B-0E53-44AF-A648-234EB49EA501}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Farsight2", "Farsight2", "{259C455C-0C51-4B9E-B554-30E4D49FA1DC}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FFmpeg", "FFmpeg", "{D6FD1278-F48E-49D2-82E8-D567EBB5E6E5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GL", "GL", "{691D0A74-824D-415D-A4A3-C9A8BFDE0E95}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GNonLin", "GNonLin", "{E97FD1D1-22CC-49D8-AA6A-9B60F9D681F5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Good", "Good", "{7ADD8C79-F576-4F9A-80AC-CAE70515718E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ugly", "Ugly", "{FE3AF338-522F-4802-AEA1-3066895B3E90}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Bad-GPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Bad\Plugins-Bad-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Bad-LGPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Bad\Plugins-Bad-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Farsight\Plugins-Farsight.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight2", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Farsight2\Plugins-Farsight2.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-FFmpeg-GPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\FFmpeg\Plugins-FFmpeg-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-FFmpeg-LGPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\FFmpeg\Plugins-FFmpeg-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-GL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\GL\Plugins-GL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-GNonLin", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\GNonLin\Plugins-GNonLin.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Good", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Good\Plugins-Good.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Ugly-GPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Ugly\Plugins-Ugly-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Ugly-LGPL", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Ugly\Plugins-Ugly-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet", "DotNet", "{3B6C3178-2839-4E46-B6E8-338892654972}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Python", "Python", "{10B0ED66-B321-4C8F-9361-E07D0C292A73}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-DotNet", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\DotNet\Bindings-DotNet.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-Python-v2.5", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\Python\Bindings-Python-v2.5.wixproj", "{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Complete-LGPL", "Main\GStreamer\Windows\Install\Setup\Complete-LGPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Complete-GPL", "Main\GStreamer\Windows\Install\Setup\Complete-GPL.wixproj", "{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2.5", "v2.5", "{2A6689ED-E007-47D1-B9A2-31FB74675D56}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2.6", "v2.6", "{8E9C5552-0501-4883-B800-E1F0838A1B8E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_gst", "Main\GStreamer\Windows\Build\Bindings\Python\_gst-2.6.vcproj", "{14A8C4C9-6B1E-4F8A-9FCB-FD010D06E4F4}"
 EndProject
@@ -779,27 +639,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tag", "Main\GStreamer\Windo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "video", "Main\GStreamer\Windows\Build\Bindings\Python\video-2.6.vcproj", "{38722A6E-1106-4B14-B507-7C1D95D67F46}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bindings-Python-v2.6", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\Python\Bindings-Python-v2.6.wixproj", "{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Farsight2-Transmitters", "Main\GStreamer\Windows\Install\Merge Modules\Plugins\Farsight2\Plugins-Farsight2-Transmitters.wixproj", "{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstschroedinger", "Main\GStreamer\Windows\Build\Plugins\Bad\ext\libgstschroedinger.vcproj", "{B11EA875-24C1-4EC0-AC19-296BF5541ABF}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstbasevideo", "Main\GStreamer\Windows\Build\Plugins\Bad\gst-libs\libgstbasevideo.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsignalprocessor", "Main\GStreamer\Windows\Build\Plugins\Bad\gst-libs\libgstsignalprocessor.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstfrei0r", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstfrei0r.vcproj", "{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstmpegpsmux", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstmpegpsmux.vcproj", "{85A7FE47-25D6-46C4-9D89-9FC2628C2442}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstpnm", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstpnm.vcproj", "{64BE7973-009F-4147-A19F-B3DC9603E6A7}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstvideomeasure", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstvideomeasure.vcproj", "{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstcelt", "Main\GStreamer\Windows\Build\Plugins\Bad\ext\libgstcelt.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gst-typefind", "Main\GStreamer\Windows\Build\Applications\gst-typefind.vcproj", "{F987873B-2B88-0000-0000-000000000000}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstasfmux", "Main\GStreamer\Windows\Build\Plugins\Bad\gst\libgstasfmux.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdirectsoundsrc", "Main\GStreamer\Windows\Build\Plugins\Bad\sys\libgstdirectsoundsrc.vcproj", "{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}"
 EndProject
@@ -807,31 +649,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstrsvg", "Main\GStreamer\W
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstgdkpixbuf", "Main\GStreamer\Windows\Build\Plugins\Good\ext\libgstgdkpixbuf.vcproj", "{7955FD29-79E6-49EB-FD1F-653F0EF70D40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-gapi-fixup", "Main\GStreamer\Windows\Build\Bindings\DotNet\gst-gapi-fixup.csproj", "{D219EB46-98F4-486B-ACD6-C639BCCAE55A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "element-gen", "Main\GStreamer\Windows\Build\Bindings\DotNet\element-gen.csproj", "{A219EB96-98F4-486B-ACD6-C639BBCAE55F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-gapi-codegen", "Main\GStreamer\Windows\Build\Bindings\DotNet\gst-gapi-codegen.csproj", "{A2192B96-98F4-486B-ACD6-C639BBCAE55C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-gapi-parser", "Main\GStreamer\Windows\Build\Bindings\DotNet\gst-gapi-parser.csproj", "{D219EB46-98F4-486B-ACD6-C639BCCAE55C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gst-generate-tags", "Main\GStreamer\Windows\Build\Bindings\DotNet\gst-generate-tags.csproj", "{D219EB46-98F4-486B-ACD6-C639BCCAE55B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gstreamer-sharp", "Main\GStreamer\Windows\Build\Bindings\DotNet\gstreamer-sharp.csproj", "{62192B96-98F4-486B-ACD6-C639BBCAE55B}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstcelt", "Main\GStreamer\Windows\Build\Plugins\Bad\ext\libgstcelt.vcproj", "{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstnice", "Main\GStreamer\Windows\Build\Plugins\Farsight2\gst\libgstnice.vcproj", "{01FA3955-8F5D-4950-B81B-6839B5A826C3}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstnice-transmitter", "Main\GStreamer\Windows\Build\Plugins\Farsight2\transmitters\libfsnice.vcproj", "{460B5301-2747-4E16-BC26-0D67F5A199ED}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstsubparse", "Main\GStreamer\Windows\Build\Plugins\Base\gst\libgstsubparse.vcproj", "{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{C5A039B6-59A5-470B-9FBF-284297551FAE}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SDK-GPL", "Main\GStreamer\Windows\Install\SDK\SDK-GPL.wixproj", "{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SDK-LGPL", "Main\GStreamer\Windows\Install\SDK\SDK-LGPL.wixproj", "{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstreamersharpglue", "Main\GStreamer\Windows\Build\Bindings\DotNet\gstreamersharpglue.vcproj", "{056904B0-0226-40CB-88C0-6ED33D717861}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1696,12 +1516,6 @@ Global
 		{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
 		{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (All)|Win32.Build.0 = Release|Win32
-		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{6D6E96B4-23EA-453E-9156-4F149871ACBB}.Release (LGPL)|Win32.Build.0 = Release|Win32
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3}.Release (All)|Win32.ActiveCfg = Release|Win32
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3}.Release (All)|Win32.Build.0 = Release|Win32
 		{EB5D7598-7014-42D3-886C-9B9EC38167C3}.Release (GPL)|Win32.ActiveCfg = Release|Win32
@@ -1896,6 +1710,66 @@ Global
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
 		{03545116-2F4A-415F-B096-47BFC0C6AE82}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (All)|Win32.Build.0 = Release|Win32
+		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (All)|Win32.Build.0 = Release|Win32
+		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (All)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (All)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (All)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (All)|Win32.Build.0 = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (All)|Win32.Build.0 = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (All)|Win32.Build.0 = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (All)|Win32.Build.0 = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (All)|Win32.Build.0 = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (LGPL)|Win32.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (All)|Win32.ActiveCfg = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (All)|Win32.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048}.Release (GPL)|Win32.ActiveCfg = Release|Win32
@@ -1908,122 +1782,6 @@ Global
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0020}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0020}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
 		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0020}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (All)|Win32.Build.0 = Release|Win32
-		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
 		{14A8C4C9-6B1E-4F8A-9FCB-FD010D06E4F4}.Release (All)|Win32.ActiveCfg = Release|Win32
 		{14A8C4C9-6B1E-4F8A-9FCB-FD010D06E4F4}.Release (All)|Win32.Build.0 = Release|Win32
 		{14A8C4C9-6B1E-4F8A-9FCB-FD010D06E4F4}.Release (GPL)|Win32.ActiveCfg = Release|Win32
@@ -2060,72 +1818,18 @@ Global
 		{38722A6E-1106-4B14-B507-7C1D95D67F46}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{38722A6E-1106-4B14-B507-7C1D95D67F46}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
 		{38722A6E-1106-4B14-B507-7C1D95D67F46}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (All)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (All)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (GPL)|Win32.Build.0 = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (All)|Win32.ActiveCfg = Release|x86
-		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (All)|Win32.Build.0 = Release|x86
-		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (GPL)|Win32.Build.0 = Release|x86
-		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4}.Release (LGPL)|Win32.Build.0 = Release|x86
-		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (All)|Win32.Build.0 = Release|Win32
-		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{B11EA875-24C1-4EC0-AC19-296BF5541ABF}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (All)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (All)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (All)|Win32.Build.0 = Release|Win32
-		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (All)|Win32.Build.0 = Release|Win32
-		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{85A7FE47-25D6-46C4-9D89-9FC2628C2442}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (All)|Win32.Build.0 = Release|Win32
-		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{64BE7973-009F-4147-A19F-B3DC9603E6A7}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (All)|Win32.Build.0 = Release|Win32
-		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7}.Release (LGPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (All)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (LGPL)|Win32.Build.0 = Release|Win32
 		{F987873B-2B88-0000-0000-000000000000}.Release (All)|Win32.ActiveCfg = Release|Win32
 		{F987873B-2B88-0000-0000-000000000000}.Release (All)|Win32.Build.0 = Release|Win32
 		{F987873B-2B88-0000-0000-000000000000}.Release (GPL)|Win32.ActiveCfg = Release|Win32
 		{F987873B-2B88-0000-0000-000000000000}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{F987873B-2B88-0000-0000-000000000000}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
 		{F987873B-2B88-0000-0000-000000000000}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (All)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022}.Release (LGPL)|Win32.Build.0 = Release|Win32
 		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release (All)|Win32.ActiveCfg = Release|Win32
 		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release (All)|Win32.Build.0 = Release|Win32
 		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA}.Release (GPL)|Win32.ActiveCfg = Release|Win32
@@ -2144,371 +1848,20 @@ Global
 		{7955FD29-79E6-49EB-FD1F-653F0EF70D40}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{7955FD29-79E6-49EB-FD1F-653F0EF70D40}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
 		{7955FD29-79E6-49EB-FD1F-653F0EF70D40}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (All)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (All)|Win32.Build.0 = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (GPL)|Win32.Build.0 = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55A}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
-		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (All)|Win32.ActiveCfg = Release|Any CPU
-		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (All)|Win32.Build.0 = Release|Any CPU
-		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
-		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (GPL)|Win32.Build.0 = Release|Any CPU
-		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
-		{A219EB96-98F4-486B-ACD6-C639BBCAE55F}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
-		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (All)|Win32.ActiveCfg = Release|Any CPU
-		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (All)|Win32.Build.0 = Release|Any CPU
-		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
-		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (GPL)|Win32.Build.0 = Release|Any CPU
-		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
-		{A2192B96-98F4-486B-ACD6-C639BBCAE55C}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (All)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (All)|Win32.Build.0 = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (GPL)|Win32.Build.0 = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55C}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (All)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (All)|Win32.Build.0 = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (GPL)|Win32.Build.0 = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55B}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
-		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (All)|Win32.ActiveCfg = Release|Any CPU
-		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (All)|Win32.Build.0 = Release|Any CPU
-		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (GPL)|Win32.ActiveCfg = Release|Any CPU
-		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (GPL)|Win32.Build.0 = Release|Any CPU
-		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (LGPL)|Win32.ActiveCfg = Release|Any CPU
-		{62192B96-98F4-486B-ACD6-C639BBCAE55B}.Release (LGPL)|Win32.Build.0 = Release|Any CPU
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (All)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (All)|Win32.Build.0 = Release|Win32
-		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{01FA3955-8F5D-4950-B81B-6839B5A826C3}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (All)|Win32.Build.0 = Release|Win32
-		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{460B5301-2747-4E16-BC26-0D67F5A199ED}.Release (LGPL)|Win32.Build.0 = Release|Win32
 		{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}.Release (All)|Win32.ActiveCfg = Release|Win32
 		{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}.Release (All)|Win32.Build.0 = Release|Win32
 		{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}.Release (GPL)|Win32.ActiveCfg = Release|Win32
 		{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
 		{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (All)|Win32.ActiveCfg = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (All)|Win32.Build.0 = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (GPL)|Win32.Build.0 = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (All)|Win32.ActiveCfg = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (All)|Win32.Build.0 = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (GPL)|Win32.ActiveCfg = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (All)|Win32.ActiveCfg = Release|Win32
+		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (All)|Win32.Build.0 = Release|Win32
+		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (GPL)|Win32.ActiveCfg = Release|Win32
+		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (GPL)|Win32.Build.0 = Release|Win32
+		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
+		{056904B0-0226-40CB-88C0-6ED33D717861}.Release (LGPL)|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{AEB96E9E-A85F-42CB-8B93-6B3B530BEA14} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
-		{A0AE4328-2CEE-458D-9B32-5E1A18F82698} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
-		{9C442D52-5C3A-4139-9774-3E96A52061E9} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
-		{426FBABE-16AD-4C2D-893D-8542FCEC28E5} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
-		{40965633-5859-4EE1-A066-ACC69B91FAB8} = {2D8C56BB-8744-48F7-8C5D-AFEB19BF048A}
-		{F987873B-2B88-4B1B-B627-F70DF4F91E49} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
-		{F987873B-2B88-4B1B-B627-F70DF4F91E50} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
-		{F987873B-2B88-4B1B-B627-F70DF4F91E52} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
-		{F987873B-2B88-4B1B-B627-F70DF4F91E53} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
-		{F987873B-2B88-4B1B-B627-F70DF4F91E54} = {AEB96E9E-A85F-42CB-8B93-6B3B530BEA14}
-		{FB3C7DEF-FBD0-44D4-935E-532D539C5674} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{C0372440-7D47-45AF-8DD5-3BC235AE9467} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{7E7853F8-06A3-4D7E-BBB4-66F7A7DED12A} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{303EB0A8-443F-4593-9EB9-F042E7945EBE} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{F987873B-2B88-4B1B-B627-F70DF4F91E51} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{4A3588FE-548D-4D01-8BF3-F8CD704AE953} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{D1845284-1A64-454F-A1B1-6CE297F2574D} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{FFE0F9D0-2B38-4B5A-A375-D2C83FBB161F} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{E3E23CAF-3BA2-485B-887B-71C9CE8615E8} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{79C181D0-9230-4CCF-A108-EB26C1D9377A} = {A0AE4328-2CEE-458D-9B32-5E1A18F82698}
-		{159F4FF4-7C87-4878-846C-56C347D40788} = {FB3C7DEF-FBD0-44D4-935E-532D539C5674}
-		{651994CA-EA11-4F53-B9B5-91CCF4A4C46D} = {FB3C7DEF-FBD0-44D4-935E-532D539C5674}
-		{D1BB4E59-5FD4-4B09-AD6A-28701A507050} = {FB3C7DEF-FBD0-44D4-935E-532D539C5674}
-		{605D951F-5D22-4AAF-99E7-F5F1AA429520} = {C0372440-7D47-45AF-8DD5-3BC235AE9467}
-		{60091039-790A-4D1D-9566-314D62E3AE2A} = {C0372440-7D47-45AF-8DD5-3BC235AE9467}
-		{CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF} = {C0372440-7D47-45AF-8DD5-3BC235AE9467}
-		{9A756397-7323-4566-98AF-9D55C9227FC1} = {7E7853F8-06A3-4D7E-BBB4-66F7A7DED12A}
-		{CDB27022-AD35-4D8F-99FE-B13AE3564346} = {7E7853F8-06A3-4D7E-BBB4-66F7A7DED12A}
-		{133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB} = {303EB0A8-443F-4593-9EB9-F042E7945EBE}
-		{E2273E8E-71C8-4604-AA37-355C47543E40} = {303EB0A8-443F-4593-9EB9-F042E7945EBE}
-		{9FD26CEB-D029-4819-A438-AFF7AB591097} = {303EB0A8-443F-4593-9EB9-F042E7945EBE}
-		{505E1481-6A3D-4189-B216-9FA83AA9742A} = {303EB0A8-443F-4593-9EB9-F042E7945EBE}
-		{F987873B-2B88-4B1B-B627-E70DF4F91E56} = {9C442D52-5C3A-4139-9774-3E96A52061E9}
-		{F987873B-2B88-4B1B-B627-E70DF4F91E57} = {9C442D52-5C3A-4139-9774-3E96A52061E9}
-		{F987873B-2B88-4B1B-B627-E70DF4F91E55} = {9C442D52-5C3A-4139-9774-3E96A52061E9}
-		{F987873B-2B88-0000-0000-000000000000} = {9C442D52-5C3A-4139-9774-3E96A52061E9}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F00} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F15} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F16} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F17} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F18} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F19} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F25} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F26} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F27} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F28} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F82} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F81} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F20} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F80} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F21} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F24} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F14} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0} = {159F4FF4-7C87-4878-846C-56C347D40788}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F01} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F02} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F03} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F04} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F05} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F06} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F07} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F08} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F09} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F10} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F11} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F12} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F13} = {651994CA-EA11-4F53-B9B5-91CCF4A4C46D}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F29} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
-		{AB87873B-2B88-4B1B-B627-F70DF4F91F30} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A00} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A01} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A02} = {D1BB4E59-5FD4-4B09-AD6A-28701A507050}
-		{BC97873B-2B88-4B1B-C627-F70DF4F92004} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
-		{BC97873B-2B88-4B1B-C627-F70DF4F92006} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
-		{BC97873B-2B88-4B1B-C627-F70DF4F92005} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
-		{BC97873B-2B88-4B1B-C627-F70DF4F92008} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
-		{B9551C49-79E6-493B-8D1F-653FAEC7ADCD} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
-		{7955FD29-79E6-49EB-FD1F-653F0EF70D40} = {605D951F-5D22-4AAF-99E7-F5F1AA429520}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A03} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A04} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A05} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A06} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A07} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A08} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A09} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A10} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A11} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A12} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A13} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A16} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A17} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A18} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A20} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A21} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A22} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A23} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A24} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A25} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A26} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A27} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A28} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A29} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A30} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A31} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A32} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A33} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A35} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A36} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A37} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A19} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A38} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A34} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A39} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{AB87873B-2B88-4B1B-B627-F70DF4F92A40} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0026} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0031} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0019} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0048} = {60091039-790A-4D1D-9566-314D62E3AE2A}
-		{BC97873B-2B88-4B1B-C627-F70DF4F92001} = {CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF}
-		{BC97873B-2B88-4B1B-C627-F70DF4F92003} = {CD8817B5-FA2A-45F5-9ABF-C84A8732B6AF}
-		{257EBB00-F5E5-4296-A6C0-23BB8748639B} = {4A3588FE-548D-4D01-8BF3-F8CD704AE953}
-		{BC97873B-2B88-4B1B-C627-F70DF4F92000} = {257EBB00-F5E5-4296-A6C0-23BB8748639B}
-		{FAD1A4E1-90AC-4A6D-AECE-755D6ADF7274} = {257EBB00-F5E5-4296-A6C0-23BB8748639B}
-		{ECA7C701-FB88-4BFE-CE27-F70DF4F90001} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1018} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1037} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1010} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1028} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1027} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1012} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1011} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{B11EA875-24C1-4EC0-AC19-296BF5541ABF} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{D1FEB87C-F4C1-4EC0-BC19-A96BFC5F14F0} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1005} = {133EB96C-DFCB-403D-A5EA-EB6ED9DA9CFB}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0018} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0021} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0023} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0024} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0028} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0032} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0033} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0036} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0037} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0038} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0039} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0040} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0041} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0043} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0044} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0045} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0046} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0047} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0049} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0050} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0051} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0052} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0053} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0054} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0055} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0056} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0057} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0022} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0059} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0060} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0061} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0062} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0063} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0058} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{03545116-2F4A-415F-B096-47BFC0C6AE82} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0020} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{37063E8E-8E8C-4E2A-BCD4-C5FF5F8D883C} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{85A7FE47-25D6-46C4-9D89-9FC2628C2442} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{64BE7973-009F-4147-A19F-B3DC9603E6A7} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{1C20F11D-A43E-4B4B-A7CC-AC61B95CF4A7} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFEF0022} = {E2273E8E-71C8-4604-AA37-355C47543E40}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2000} = {9FD26CEB-D029-4819-A438-AFF7AB591097}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000} = {9FD26CEB-D029-4819-A438-AFF7AB591097}
-		{F3A7C701-0ACC-0BB0-CE27-AA0AFFFF2000} = {9FD26CEB-D029-4819-A438-AFF7AB591097}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2004} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2005} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2006} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2012} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2013} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2014} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF2015} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{464A3D96-D0E5-4F79-8FE3-508F09153E62} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{979FC1C3-047F-4586-AF74-AF05CAAA1EFA} = {505E1481-6A3D-4189-B216-9FA83AA9742A}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0006} = {9A756397-7323-4566-98AF-9D55C9227FC1}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0001} = {9A756397-7323-4566-98AF-9D55C9227FC1}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0016} = {9A756397-7323-4566-98AF-9D55C9227FC1}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0015} = {9A756397-7323-4566-98AF-9D55C9227FC1}
-		{922DD35C-43FE-4097-91E0-3229F5A967AB} = {9A756397-7323-4566-98AF-9D55C9227FC1}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0002} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0003} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0004} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0005} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0008} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0009} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0010} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
-		{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0011} = {CDB27022-AD35-4D8F-99FE-B13AE3564346}
-		{43DFE288-BB89-4C6B-8114-7675475C3DBB} = {D1845284-1A64-454F-A1B1-6CE297F2574D}
-		{B805B3DB-7D69-490A-91E3-A89646E69F1F} = {43DFE288-BB89-4C6B-8114-7675475C3DBB}
-		{7C6B3AD8-CE9C-43E3-937A-29E423863C48} = {43DFE288-BB89-4C6B-8114-7675475C3DBB}
-		{711B23B5-7C17-4FA6-A5F8-7D37AEF0D803} = {43DFE288-BB89-4C6B-8114-7675475C3DBB}
-		{6D6E96B4-23EA-453E-9156-4F149871ACBB} = {43DFE288-BB89-4C6B-8114-7675475C3DBB}
-		{313836D8-F6ED-4F08-AF71-4165FC86B2CC} = {43DFE288-BB89-4C6B-8114-7675475C3DBB}
-		{E91C6FAE-F637-4F8A-86B7-D25AFFF94E29} = {FFE0F9D0-2B38-4B5A-A375-D2C83FBB161F}
-		{E33F9179-6CEE-48DA-9FD5-14D6F26A34FE} = {FFE0F9D0-2B38-4B5A-A375-D2C83FBB161F}
-		{8598E004-C213-409C-B1CB-3DDF2D640B7A} = {FFE0F9D0-2B38-4B5A-A375-D2C83FBB161F}
-		{EB5D7598-7014-42D3-886C-9B9EC38167C3} = {E91C6FAE-F637-4F8A-86B7-D25AFFF94E29}
-		{6E8D09D7-99A2-4640-AEB5-80EE26FA745A} = {E33F9179-6CEE-48DA-9FD5-14D6F26A34FE}
-		{77950F94-E30D-41AF-9DB5-DD913CE8C479} = {E33F9179-6CEE-48DA-9FD5-14D6F26A34FE}
-		{3A2FF0CD-715B-43AC-BDF3-63D41A37CA12} = {E33F9179-6CEE-48DA-9FD5-14D6F26A34FE}
-		{E829CD43-81B4-42CD-BA4D-9676D485DD70} = {E33F9179-6CEE-48DA-9FD5-14D6F26A34FE}
-		{01FA3955-8F5D-4950-B81B-6839B5A826C3} = {E33F9179-6CEE-48DA-9FD5-14D6F26A34FE}
-		{07CE7A34-092E-47DD-A37D-5EE3DE7508C0} = {8598E004-C213-409C-B1CB-3DDF2D640B7A}
-		{9DD0D928-DE01-4222-B8FA-D6ACC2EF7314} = {8598E004-C213-409C-B1CB-3DDF2D640B7A}
-		{460B5301-2747-4E16-BC26-0D67F5A199ED} = {8598E004-C213-409C-B1CB-3DDF2D640B7A}
-		{71252AE1-E351-48A1-AAB1-02AC0A5D9971} = {E3E23CAF-3BA2-485B-887B-71C9CE8615E8}
-		{4288EE5A-D59E-44AE-A1F6-001D58DD708A} = {71252AE1-E351-48A1-AAB1-02AC0A5D9971}
-		{78FE20E2-2242-4ADB-B492-1B592D1D58FB} = {426FBABE-16AD-4C2D-893D-8542FCEC28E5}
-		{C03E3D60-7743-41CA-B837-66288DF7D329} = {426FBABE-16AD-4C2D-893D-8542FCEC28E5}
-		{2A6689ED-E007-47D1-B9A2-31FB74675D56} = {78FE20E2-2242-4ADB-B492-1B592D1D58FB}
-		{8E9C5552-0501-4883-B800-E1F0838A1B8E} = {78FE20E2-2242-4ADB-B492-1B592D1D58FB}
-		{A01C663D-CFBB-4444-A4C1-7D8F91E76F59} = {2A6689ED-E007-47D1-B9A2-31FB74675D56}
-		{1D44FE71-606D-454B-8E84-3E98FDF6AE66} = {2A6689ED-E007-47D1-B9A2-31FB74675D56}
-		{ACC64E21-6C05-47FF-8D24-6A5945FC4727} = {2A6689ED-E007-47D1-B9A2-31FB74675D56}
-		{FA0CAF6D-12FD-494A-A552-5AC4529A7554} = {2A6689ED-E007-47D1-B9A2-31FB74675D56}
-		{5D58F4D2-A942-4346-B562-FC24512D9C54} = {2A6689ED-E007-47D1-B9A2-31FB74675D56}
-		{39C85775-F04E-415A-ADE9-89B10D85F5D0} = {2A6689ED-E007-47D1-B9A2-31FB74675D56}
-		{E025DAEC-46F6-4E0E-ADAE-0F51F60CA74D} = {79C181D0-9230-4CCF-A108-EB26C1D9377A}
-		{E3D83F9F-F87A-4CA9-B8A6-0B11162F2A28} = {79C181D0-9230-4CCF-A108-EB26C1D9377A}
-		{09475780-CDE5-45AD-BF90-BE489DD12A23} = {E025DAEC-46F6-4E0E-ADAE-0F51F60CA74D}
-		{0597EA2B-A46C-4CF1-B534-011D6DB91B96} = {E3D83F9F-F87A-4CA9-B8A6-0B11162F2A28}
-		{7FF1C73F-530D-447A-BDC3-6EB73889B55C} = {40965633-5859-4EE1-A066-ACC69B91FAB8}
-		{EB396A7B-C60E-48E8-9D4C-613406514638} = {40965633-5859-4EE1-A066-ACC69B91FAB8}
-		{C5A039B6-59A5-470B-9FBF-284297551FAE} = {40965633-5859-4EE1-A066-ACC69B91FAB8}
-		{22A97583-2340-4D15-AEFD-B7CE505AE3D5} = {7FF1C73F-530D-447A-BDC3-6EB73889B55C}
-		{258A6BEF-29FF-47D7-A0ED-27F05FADC2B0} = {7FF1C73F-530D-447A-BDC3-6EB73889B55C}
-		{E6360C05-CCCD-4E61-AD61-F6F1922A577F} = {7FF1C73F-530D-447A-BDC3-6EB73889B55C}
-		{0188CB7A-460D-41FF-B116-EF129E4FCC71} = {7FF1C73F-530D-447A-BDC3-6EB73889B55C}
-		{FEEF76FD-48E6-435C-AE40-DBED0CD3C49A} = {7FF1C73F-530D-447A-BDC3-6EB73889B55C}
-		{3B6C3178-2839-4E46-B6E8-338892654972} = {22A97583-2340-4D15-AEFD-B7CE505AE3D5}
-		{10B0ED66-B321-4C8F-9361-E07D0C292A73} = {22A97583-2340-4D15-AEFD-B7CE505AE3D5}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE703} = {258A6BEF-29FF-47D7-A0ED-27F05FADC2B0}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE702} = {E6360C05-CCCD-4E61-AD61-F6F1922A577F}
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A0} = {EB396A7B-C60E-48E8-9D4C-613406514638}
-		{0E5FA0BB-99B7-4093-95C8-F28FADEDE1A1} = {EB396A7B-C60E-48E8-9D4C-613406514638}
-		{056904B0-0226-40CB-88C0-6ED33D717861} = {C03E3D60-7743-41CA-B837-66288DF7D329}
-		{A86FA233-70D4-4E74-A194-739DA3202F9A} = {C03E3D60-7743-41CA-B837-66288DF7D329}
-		{62192B96-98F4-486B-ACD6-C639BBCAE55B} = {C03E3D60-7743-41CA-B837-66288DF7D329}
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55A} = {A86FA233-70D4-4E74-A194-739DA3202F9A}
-		{A219EB96-98F4-486B-ACD6-C639BBCAE55F} = {A86FA233-70D4-4E74-A194-739DA3202F9A}
-		{A2192B96-98F4-486B-ACD6-C639BBCAE55C} = {A86FA233-70D4-4E74-A194-739DA3202F9A}
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55C} = {A86FA233-70D4-4E74-A194-739DA3202F9A}
-		{D219EB46-98F4-486B-ACD6-C639BCCAE55B} = {A86FA233-70D4-4E74-A194-739DA3202F9A}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE701} = {0188CB7A-460D-41FF-B116-EF129E4FCC71}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE700} = {0188CB7A-460D-41FF-B116-EF129E4FCC71}
-		{F1A31F48-F227-45C7-BF0B-C9894E6C272F} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{9AE30CF5-4B50-4D18-994D-64F927CF86B3} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{33CEDD8B-0E53-44AF-A648-234EB49EA501} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{259C455C-0C51-4B9E-B554-30E4D49FA1DC} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{D6FD1278-F48E-49D2-82E8-D567EBB5E6E5} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{691D0A74-824D-415D-A4A3-C9A8BFDE0E95} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{E97FD1D1-22CC-49D8-AA6A-9B60F9D681F5} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{7ADD8C79-F576-4F9A-80AC-CAE70515718E} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{FE3AF338-522F-4802-AEA1-3066895B3E90} = {FEEF76FD-48E6-435C-AE40-DBED0CD3C49A}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A0} = {F1A31F48-F227-45C7-BF0B-C9894E6C272F}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A1} = {9AE30CF5-4B50-4D18-994D-64F927CF86B3}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A2} = {9AE30CF5-4B50-4D18-994D-64F927CF86B3}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A3} = {33CEDD8B-0E53-44AF-A648-234EB49EA501}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A4} = {259C455C-0C51-4B9E-B554-30E4D49FA1DC}
-		{2F5AA0BB-F9E7-4093-95A8-B28F94CDF7A4} = {259C455C-0C51-4B9E-B554-30E4D49FA1DC}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A5} = {D6FD1278-F48E-49D2-82E8-D567EBB5E6E5}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A6} = {D6FD1278-F48E-49D2-82E8-D567EBB5E6E5}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A7} = {691D0A74-824D-415D-A4A3-C9A8BFDE0E95}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A8} = {E97FD1D1-22CC-49D8-AA6A-9B60F9D681F5}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7A9} = {7ADD8C79-F576-4F9A-80AC-CAE70515718E}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B0} = {FE3AF338-522F-4802-AEA1-3066895B3E90}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDE7B1} = {FE3AF338-522F-4802-AEA1-3066895B3E90}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE0} = {3B6C3178-2839-4E46-B6E8-338892654972}
-		{0E5FA0BB-99B7-4093-95C8-B28F9DCDEAE1} = {10B0ED66-B321-4C8F-9361-E07D0C292A73}
-		{0E5FA0BB-99B7-4093-95C8-B24F9FCDEAE2} = {10B0ED66-B321-4C8F-9361-E07D0C292A73}
-		{14A8C4C9-6B1E-4F8A-9FCB-FD010D06E4F4} = {8E9C5552-0501-4883-B800-E1F0838A1B8E}
-		{13797BDA-BC5F-4232-AC76-30E56E3C6648} = {8E9C5552-0501-4883-B800-E1F0838A1B8E}
-		{81CA7F63-B184-4607-8582-B98D26FF710A} = {8E9C5552-0501-4883-B800-E1F0838A1B8E}
-		{F36454E4-1A83-4C58-9CD3-80A863FA67C2} = {8E9C5552-0501-4883-B800-E1F0838A1B8E}
-		{BC6669CC-428C-42C9-B2F0-73B4A27072B5} = {8E9C5552-0501-4883-B800-E1F0838A1B8E}
-		{38722A6E-1106-4B14-B507-7C1D95D67F46} = {8E9C5552-0501-4883-B800-E1F0838A1B8E}
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C1} = {C5A039B6-59A5-470B-9FBF-284297551FAE}
-		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0} = {C5A039B6-59A5-470B-9FBF-284297551FAE}
 	EndGlobalSection
 EndGlobal
