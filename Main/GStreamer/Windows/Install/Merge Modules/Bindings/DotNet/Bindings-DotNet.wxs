@@ -10,10 +10,15 @@
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
-				<OSSBuild:FillDirectory Directory="$(var.GstBinDir)">
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstreamersharpglue-$(var.GST_VERSION)\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstreamer-sharp\.dll" />
-				</OSSBuild:FillDirectory>
+				
+				<Component Id="DotNetGlue" Guid="{454F3BAA-F7D1-4F6C-8A2A-FE9F22F73563}">
+					<File Id="UnmanagedGlue" Name="libgstreamersharpglue-$(var.GST_VERSION).dll" Source="$(var.GstBinDir)\libgstreamersharpglue-$(var.GST_VERSION).dll" />
+				</Component>
+				
+				<Component Id="DotNet" Guid="$(var.GUID_X86_MSM_BINDINGS_DOTNET_ASSEMBLY_COMPONENT)">
+					<File Id="ManagedAssembly" Name="libgstreamer-sharp.dll" Source="$(var.GstBinDir)\libgstreamer-sharp.dll" KeyPath="yes" Checksum="yes" Assembly=".net" ProcessorArchitecture="$(var.Platform)" />
+				</Component>
+				
 			</Directory>
 		</Directory>
 

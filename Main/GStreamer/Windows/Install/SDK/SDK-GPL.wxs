@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<?define INSTALLED_PRODUCT_NAME="$(var.MANUFACTURER) GStreamer SDK $(var.OSSBUILD_VERSION) (GPL)" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
+	<Product Version="$(var.OSSBUILD_VERSION)" Name="$(var.INSTALLED_PRODUCT_NAME)" Manufacturer="$(var.MANUFACTURER)" Language="$(var.DEFAULT_LANGUAGE)" Id="$(var.GUID_X86_MSI_SDK_GPL_PACKAGE)" UpgradeCode="$(var.GUID_X86_MSI_SDK_GPL_UPGRADE_CODE)">
+		<Package InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" Compressed="yes" />
+		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" CompressionLevel="high" />
+
+		<Feature
+			Id="Full"
+			Title="Full Install"
+			Description="All headers, libraries, and bindings."
+			Level="1"
+			Display="expand"
+			AllowAdvertise="no"
+		>
+			
+			<ComponentGroupRef Id="GstSDK"/>
+
+			<Feature Id="Headers" Title="C/C++ Headers and Libraries" Description="Installs C/C++ headers and libraries for GStreamer and its dependencies." Level="1" AllowAdvertise="no">
+				<ComponentGroupRef Id="Bindings_C"/>
+				<ComponentGroupRef Id="GstSDK_Bindings_C" />
+			</Feature>
+
+			<Feature Id="Bindings" Title="Bindings" Description="All programming language bindings, headers, and libraries for C/C++, .NET (C#), and Python." Level="1" Display="expand" AllowAdvertise="no">
+				<Feature Id="DotNet" Title=".NET" Description="Language bindings for the .NET family (C#, Visual Basic.NET, etc.)." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Bindings_DotNet" />
+					<ComponentRef Id="Bindings_DotNetLocal"/>
+					<ComponentGroupRef Id="GstSDK_Bindings_DotNet" />
+				</Feature>
+
+				<Feature Id="Python" Title="Python" Description="Language bindings for Python." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Bindings_Python_v2_5_Local" />
+					<MergeRef Id="Bindings_Python_v2_6_Local" />
+					<ComponentRef Id="Bindings_Python_v2_6" />
+					<ComponentGroupRef Id="GstSDK_Bindings_Python" />
+				</Feature>
+			</Feature>
+			
+		</Feature>
+		
+		<ComponentGroup Id="Bindings_C">
+			<ComponentGroupRef Id="Bindings_C_Libs" />
+			<ComponentGroupRef Id="Bindings_C_Headers" />
+			<ComponentGroupRef Id="Bindings_GStreamer_Libs" />
+			<ComponentGroupRef Id="Bindings_GStreamer_Headers" />
+		</ComponentGroup>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\ -->
+		<DirectoryRef Id="GstInstallDir">
+			<!-- Do nothing... -->
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\include\ -->
+		<DirectoryRef Id="GstSDKIncludeInstallDir">
+			<OSSBuild:FillDirectory ComponentGroup="Bindings_C_Headers" Directory="$(var.SharedIncludeDir)">
+				<OSSBuild:Filter Include=".*" />
+			</OSSBuild:FillDirectory>
+
+			<Directory Id="GstSDKGStreamerHeaders" Name="gstreamer-$(var.GST_VERSION)">
+				<OSSBuild:FillDirectory ComponentGroup="Bindings_GStreamer_Headers" Directory="$(var.GstIncludeDir)">
+					<OSSBuild:Filter Include=".*" />
+				</OSSBuild:FillDirectory>
+			</Directory>
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\lib\ -->
+		<DirectoryRef Id="GstSDKLibInstallDir">
+			<OSSBuild:FillDirectory ComponentGroup="Bindings_C_Libs" Directory="$(var.SharedLibDir)">
+				<OSSBuild:Filter Include=".*\\lib\\[^\\]*.*\.lib" />
+				
+				<OSSBuild:Filter Exclude=".*\\lib\\[^\\]*.*avcodec$(var.LGPL)\.lib" />
+				<OSSBuild:Filter Exclude=".*\\lib\\[^\\]*.*avdevice$(var.LGPL)\.lib" />
+				<OSSBuild:Filter Exclude=".*\\lib\\[^\\]*.*avfilter$(var.LGPL)\.lib" />
+				<OSSBuild:Filter Exclude=".*\\lib\\[^\\]*.*avformat$(var.LGPL)\.lib" />
+				<OSSBuild:Filter Exclude=".*\\lib\\[^\\]*.*avutil$(var.LGPL)\.lib" />
+				<OSSBuild:Filter Exclude=".*\\lib\\[^\\]*.*swscale$(var.LGPL)\.lib" />
+			</OSSBuild:FillDirectory>
+
+			<OSSBuild:FillDirectory ComponentGroup="Bindings_GStreamer_Libs" Directory="$(var.GstLibDir)">
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gst.*-$(var.GST_VERSION)\.lib" />
+			</OSSBuild:FillDirectory>
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\bin\ -->
+		<DirectoryRef Id="GstSDKBinInstallDir">
+			<!-- This will install the .NET assembly to the GAC and the glue to bin\ -->
+			<Merge Id="Bindings_DotNet" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-DotNet.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\lib\site-packages\gst-0.10\gst\extend\ -->
+		<DirectoryRef Id="GstLibPythonGstSitePackageInstallDir">
+			<Component Id="Bindings_Python_v2_6" Guid="{4FC6CB1D-C19F-414E-9A0F-EB5F88E677E5}">
+				<File Name="_gst.pyd" Source="$(var.GstPythonBinDir_v2_6)\_gst.pyd" KeyPath="yes" />
+				<File Name="audio.pyd" Source="$(var.GstPythonBinDir_v2_6)\audio.pyd" />
+				<File Name="interfaces.pyd" Source="$(var.GstPythonBinDir_v2_6)\interfaces.pyd" />
+				<File Name="pbutils.pyd" Source="$(var.GstPythonBinDir_v2_6)\pbutils.pyd" />
+				<File Name="tag.pyd" Source="$(var.GstPythonBinDir_v2_6)\tag.pyd" />
+				<File Name="video.pyd" Source="$(var.GstPythonBinDir_v2_6)\video.pyd" />
+			</Component>
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\dotnet\ -->
+		<DirectoryRef Id="GstSDKBindingsDotNetInstallDir">
+			<!-- Creates a copy of the .net bindings locally -->
+			<!-- Note that this must be done in a separate directory from the GAC-installed version -->
+			<Component Id="Bindings_DotNetLocal" Guid="{2F38FD28-50A0-4133-9D66-AF85283AD39C}">
+				<File Id="UnmanagedGlue" Name="libgstreamersharpglue-$(var.GST_VERSION).dll" Source="$(var.GstBinDir)\libgstreamersharpglue-$(var.GST_VERSION).dll" />
+				<File Id="ManagedAssembly" Name="libgstreamer-sharp.dll" Source="$(var.GstBinDir)\libgstreamer-sharp.dll" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.5\ -->
+		<DirectoryRef Id="GstSDKBindingsPython_v2_5InstallDir">
+			<Merge Id="Bindings_Python_v2_5_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-Python-v2.5.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\ -->
+		<DirectoryRef Id="GstSDKBindingsPython_v2_6InstallDir">
+			<Merge Id="Bindings_Python_v2_6_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-Python-v2.6.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
+
+		<Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
+		<UIRef Id="WixUI_FeatureTree"/>
+
+		<CustomAction Id="NewerVersion" Error="!(loc.NewerVersionFound)" />
+		<Property Id="OLDER_VERSION_BEING_UPGRADED" Secure="yes" />
+		<Upgrade Id="$(var.GUID_X86_MSI_SDK_GPL_UPGRADE)">
+			<UpgradeVersion Minimum="$(var.OSSBUILD_VERSION)" OnlyDetect="yes" Property="NEWER_VERSION_DETECTED" />
+			<UpgradeVersion Minimum="0.0.0" Maximum="$(var.OSSBUILD_VERSION)" IncludeMinimum="yes" IncludeMaximum="no" Property="OLDER_VERSION_BEING_UPGRADED" />
+		</Upgrade>
+
+		<InstallExecuteSequence>
+			<Custom Action="NewerVersion" After="FindRelatedProducts">NEWER_VERSION_DETECTED</Custom>
+			<RemoveExistingProducts After="InstallInitialize" />
+		</InstallExecuteSequence>
+	</Product>
+</Wix>

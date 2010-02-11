@@ -6,7 +6,7 @@
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
-		<Package Id="$(var.GUID_X86_MSM_BINDINGS_PYTHON_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
+		<Package Id="$(var.GUID_X86_MSM_BINDINGS_PYTHON_V2_5_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">

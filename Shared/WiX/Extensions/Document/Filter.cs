@@ -68,49 +68,19 @@ namespace OSSBuild.WiX {
 		}
 		#endregion
 
-		public static bool AnyValidIncludes(Filter[] filters, string value) {
-			if (filters == null || filters.Length <= 0)
-				return true;
-			int includeCount = 0;
-			foreach (Filter filter in filters) {
-				if (filter.IncludeRegularExpression != null) {
-					++includeCount;
-					if (filter.ValidateInclude(value))
-						return true;
-				}
-			}
-			//True if there are no includes
-			return (includeCount == 0);
-		}
-
-		public static bool AnyValidExcludes(Filter[] filters, string value) {
-			if (filters == null || filters.Length <= 0)
-				return false;
-			int includeCount = 0;
-			int excludeCount = 0;
-			foreach (Filter filter in filters) {
-				if (filter.IncludeRegularExpression != null)
-					++includeCount;
-				if (filter.ExcludeRegularExpression != null) {
-					++excludeCount;
-					if (filter.ValidateExclude(value))
-						return true;
-				}
-			}
-			//False indicates that the value shouldn't be excluded
-			return (excludeCount != 0);
-		}
-
 		public static bool Validate(Filter[] filters, string value) {
 			if (filters == null || filters.Length <= 0)
 				return false;
+
 			int includeCount = 0;
 			int excludeCount = 0;
+			int validIncludeCount = 0;
+			
 			foreach (Filter filter in filters) {
 				if (filter.IncludeRegularExpression != null) {
 					++includeCount;
 					if (filter.ValidateInclude(value))
-						return true;
+						++validIncludeCount;
 				}
 				if (filter.ExcludeRegularExpression != null) {
 					++excludeCount;
@@ -118,11 +88,8 @@ namespace OSSBuild.WiX {
 						return false;
 				}
 			}
-			if (excludeCount == 0 && includeCount == filters.Length)
-				return false;
-			if (excludeCount > 0 && includeCount > 0)
-				return false;
-			return true;
+
+			return (includeCount <= 0 || validIncludeCount > 0);
 		}
 
 		public static Filter[] Parse(XmlNode node) {

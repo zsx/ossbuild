@@ -73,6 +73,9 @@
       <Link>Custom\UI\SimplifiedUI.wxs</Link>
     </Compile>
     <Compile Include="Complete-LGPL.wxs" />
+    <Compile Include="Complete.wxs">
+      <Link>Complete.wxs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Custom\I18N\en-us.wxl">
@@ -83,21 +86,6 @@
     <ProjectReference Include="..\Merge Modules\Applications\Applications.wixproj">
       <Name>Applications _GStreamer\Installers\Merge Modules\x86\Applications\Applications_</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde702}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Merge Modules\Bindings\DotNet\Bindings-DotNet.wixproj">
-      <Name>Bindings-DotNet</Name>
-      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae0}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Merge Modules\Bindings\Python\Bindings-Python-v2.5.wixproj">
-      <Name>Bindings-Python-v2.5</Name>
-      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae1}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Merge Modules\Bindings\Python\Bindings-Python-v2.6.wixproj">
-      <Name>Bindings-Python-v2.6</Name>
-      <Project>{0e5fa0bb-99b7-4093-95c8-b24f9fcdeae2}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Merge Modules\Dependencies\Dependencies-LGPL.wixproj">

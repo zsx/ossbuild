@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Registry.wxi ?>
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
+	<Fragment>
+		<ComponentGroup Id="Gst">
+			<ComponentRef Id="GstInstallRegistry" />
+			<ComponentRef Id="GstInstallDirCreate" />
+			<ComponentRef Id="GstEnvironmentVariables" />
+
+			<ComponentRef Id="GstBinInstallDirCreate" />
+			<ComponentRef Id="GstEtcInstallDirCreate" />
+			<ComponentRef Id="GstLibInstallDirCreate" />
+			<ComponentRef Id="GstShareInstallDirCreate" />
+			<ComponentRef Id="GstLibGTKInstallDirCreate" />
+			<ComponentRef Id="GstLibPluginsInstallDirCreate" />
+			<ComponentRef Id="GstLibFarsightInstallDirCreate" />
+		</ComponentGroup>
+
+		<Condition Message="This application is only supported on Windows XP, Windows Vista, Windows 7, or higher.">
+			<![CDATA[Installed OR (VersionNT >= 501) OR (VersionNT64 >= 501)]]>
+		</Condition>
+
+		<Condition Message="You must be an administrator to install this application.">
+			<![CDATA[Privileged]]>
+		</Condition>
+
+		<!-- Add/Remove Programs -->
+		<Property Id="ARPPRODUCTICON" Value="MainIcon" />
+		<Property Id="ARPCONTACT" Value="$(var.MANUFACTURER)" />
+		<Property Id="ARPURLINFOABOUT" Value="$(var.MANUFACTURER_URL)" />
+		<Property Id="ALLUSERS">1</Property>
+
+		<!-- Set application icon -->
+		<Icon Id="MainIcon" SourceFile="$(var.GST_ICON)"/>
+
+		<WixVariable Id="WixUIBannerBmp" Value="$(var.CustomResourceDir)\Banners\Header.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="$(var.CustomResourceDir)\Banners\Welcome.bmp" />
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.CustomResourceDir)\Licenses\License-GPL.rtf" />
+
+		<WixVariable Id="WixUIUpIco" Value="$(var.CustomResourceDir)\Icons\Up.ico" />
+		<WixVariable Id="WixUINewIco" Value="$(var.CustomResourceDir)\Icons\New.ico" />
+		<WixVariable Id="WixUIInfoIco" Value="$(var.CustomResourceDir)\Icons\Information.ico" />
+		<WixVariable Id="WixUIExclamationIco" Value="$(var.CustomResourceDir)\Icons\Warning.ico" />
+		
+		
+		
+
+		<!-- Attempt to find where our normal install is located -->
+		<Property Id="REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR">
+			<RegistrySearch Id="RegGstInstallDirSearch" Root="HKLM" Key="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_ROOT)" Name="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_INSTALL_DIR_KEY_NAME)" Type="raw" />
+		</Property>
+
+		<!-- Initialize w/ the typical install dir -->
+		<CustomAction Id="SetGstInstallDir" Property="INSTALLDIR" Execute="firstSequence" Value="[ProgramFilesFolder]$(var.COMPANY_DIR_NAME)\$(var.PRODUCT_DIR_NAME)\$(var.PRODUCT_VERSION_DIR_NAME)" />
+		<CustomAction Id="SetGstInstallDirFromRegistry" Property="INSTALLDIR" Execute="firstSequence" Value="[REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]" />
+
+		<CustomAction Id="SetWixUIInstallDir" Property="WIXUI_INSTALLDIR" Execute="firstSequence" Value="INSTALLDIR" />
+
+		<!--
+		TODO: Test that this works in a commandline install
+		<InstallExecuteSequence>
+			<Custom Action="SetGstInstallDirFromRegistry" Before="SetGstInstallDir"><![CDATA[REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]]></Custom>
+			<Custom Action="SetGstInstallDir" Before="CostFinalize"><![CDATA[NOT REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]]></Custom>
+		</InstallExecuteSequence>
+		-->
+		
+		<InstallUISequence>
+			<Custom Action="SetGstInstallDirFromRegistry" Before="SetGstInstallDir"><![CDATA[REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]]></Custom>
+			<Custom Action="SetGstInstallDir" Before="SetWixUIInstallDir"><![CDATA[NOT REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]]></Custom>
+			<Custom Action="SetWixUIInstallDir" Before="CostInitialize" />
+		</InstallUISequence>
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="INSTALLDIR" Name=".">
+					
+					<!-- Register environment variables for the bin\ directory and the plugin \lib\gstreamer-0.10\ directory -->
+					<Component Id="GstEnvironmentVariables" Guid="{6E9BF9CE-D2C1-4ABA-A25D-36FADD3255ED}">
+						<CreateFolder />
+						<RemoveFolder Id="InstallDirRemove" On="uninstall" />
+
+						<Environment Id="Path" Action="set" Part="first" Name="PATH" Permanent="no" System="yes" Value="[INSTALLDIR]bin" />
+						<Environment Id="GstPluginPath" Action="set" Part="first" Name="GST_PLUGIN_PATH" Permanent="no" System="yes" Value="[INSTALLDIR]lib\gstreamer-$(var.GST_VERSION)" />
+						<Environment Id="OSSBuildGstDir" Action="set" Part="first" Name="OSSBUILD_GSTREAMER_DIR" Permanent="no" System="yes" Value="[INSTALLDIR]" />
+					</Component>
+					
+					<!-- C:\Program Files\OSSBuild\v<Version>\ -->
+					<Directory Id="GstInstallDir" Name=".">
+						<Component Id="GstInstallRegistry" Guid="{2C3B60FE-BA45-4597-92AB-C57827FE564A}">
+							<RegistryKey Root="HKLM" Key="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_ROOT)" Action="createAndRemoveOnUninstall">
+								<RegistryValue Name="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_INSTALL_DIR_KEY_NAME)" Value="[INSTALLDIR]" Type="string" KeyPath="yes" />
+							</RegistryKey>
+						</Component>
+
+						<Component Id="GstInstallDirCreate" Guid="{AF485B67-93B2-41D2-A1F6-EC6DE09736CD}">
+							<CreateFolder />
+							<RemoveFolder Id="GstInstallDirRemove" On="uninstall" />
+						</Component>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\bin\ -->
+						<Directory Id="GstBinInstallDir" Name="bin">
+							<Component Id="GstBinInstallDirCreate" Guid="{CED74B9A-59D5-4540-9349-BD61D8FCEEA2}">
+								<CreateFolder />
+								<RemoveFolder Id="GstBinInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\etc\ -->
+						<Directory Id="GstEtcInstallDir" Name="etc">
+							<Component Id="GstEtcInstallDirCreate" Guid="{0603588D-B49D-426E-A3A6-9FE5FD100130}">
+								<CreateFolder />
+								<RemoveFolder Id="GstEtcInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\share\ -->
+						<Directory Id="GstShareInstallDir" Name="share">
+							<Component Id="GstShareInstallDirCreate" Guid="{EF9C149C-D062-40D1-9916-19B730E006B8}">
+								<CreateFolder />
+								<RemoveFolder Id="GstShareInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\lib\ -->
+						<Directory Id="GstLibInstallDir" Name="lib">
+							<Component Id="GstLibInstallDirCreate" Guid="{CF02F958-01CD-47A8-BF7C-71E7D95D8A9A}">
+								<CreateFolder />
+								<RemoveFolder Id="GstLibInstallDirRemove" On="uninstall" />
+							</Component>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\lib\gstreamer-0.10\ -->
+							<Directory Id="GstLibPluginsInstallDir" Name="gstreamer-$(var.GST_VERSION)">
+								<Component Id="GstLibPluginsInstallDirCreate" Guid="{AC3E7EAE-1232-459F-B175-B58E6F1304F3}">
+									<CreateFolder />
+									<RemoveFolder Id="GstLibPluginsInstallDirRemove" On="uninstall" />
+								</Component>
+							</Directory>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\lib\farsight2-0.0\ -->
+							<Directory Id="GstLibFarsightInstallDir" Name="farsight2-$(var.FARSIGHT2_VERSION)">
+								<Component Id="GstLibFarsightInstallDirCreate" Guid="{C7414DFA-29F8-4808-8109-D001CAD7F712}">
+									<CreateFolder />
+									<RemoveFolder Id="GstLibFarsightInstallDirRemove" On="uninstall" />
+								</Component>
+							</Directory>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\lib\gtk-2.0\ -->
+							<Directory Id="GstLibGTKInstallDir" Name="gtk-$(var.GTK_VERSION)">
+								<Component Id="GstLibGTKInstallDirCreate" Guid="{52B733BC-0AC6-4BCC-8F56-9A40C9E3067A}">
+									<CreateFolder />
+									<RemoveFolder Id="GstLibGTKInstallDirRemove" On="uninstall" />
+								</Component>
+							</Directory>
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+			
+			<Directory Id="ProgramMenuFolder" Name="Programs" />
+		</Directory>
+	</Fragment>
+</Wix>

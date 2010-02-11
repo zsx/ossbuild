@@ -5,55 +5,22 @@
 <?define INSTALLED_PRODUCT_NAME="$(var.MANUFACTURER) GStreamer $(var.OSSBUILD_VERSION) (LGPL)" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
+	
 	<Product Version="$(var.OSSBUILD_VERSION)" Name="$(var.INSTALLED_PRODUCT_NAME)" Manufacturer="$(var.MANUFACTURER)" Language="$(var.DEFAULT_LANGUAGE)" Id="$(var.GUID_X86_MSI_COMPLETE_LGPL_PACKAGE)" UpgradeCode="$(var.GUID_X86_MSI_COMPLETE_LGPL_UPGRADE_CODE)">
 		<Package InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" Compressed="yes" />
 		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" CompressionLevel="high" />
 
-		<PropertyRef Id="NETFRAMEWORK35"/>
-		<PropertyRef Id="NETFRAMEWORK35_SP_LEVEL"/>
+		<Feature 
+			Id="Full"
+			Title="Full Install"
+			Description="All libraries, plugins, and bindings."
+			Level="1"
+			Display="expand"
+			AllowAdvertise="no" 
+			ConfigurableDirectory="INSTALLDIR"
+		>
 
-		<Condition Message="This application is only supported on Windows XP, Windows Vista, or higher.">
-			<![CDATA[Installed OR (VersionNT >= 501) OR (VersionNT64 >= 501)]]>
-		</Condition>
-
-		<Condition Message="This application requires .NET Framework 3.5 SP1 or higher. Please install the .NET Framework and run this install again.">
-			<![CDATA[Installed OR (NETFRAMEWORK35_SP_LEVEL and NOT NETFRAMEWORK35_SP_LEVEL = "#0")]]>
-		</Condition>
-
-		<!--
-		<Condition Message="You must be an administrator to install this application.">
-			<![CDATA[Privileged]]>
-		</Condition>
-		-->
-
-		<!-- Add/Remove Programs -->
-		<Property Id="ARPPRODUCTICON" Value="MainIcon" />
-		<Property Id="ARPCONTACT" Value="$(var.MANUFACTURER)" />
-		<Property Id="ARPURLINFOABOUT" Value="$(var.MANUFACTURER_URL)" />
-		<Property Id="ALLUSERS">2</Property>
-
-		<!-- Set application icon -->
-		<Icon Id="MainIcon" SourceFile="$(var.GST_ICON)"/>
-
-		<WixVariable Id="WixUIBannerBmp" Value="$(var.CustomResourceDir)\Banners\Header.bmp" />
-		<WixVariable Id="WixUIDialogBmp" Value="$(var.CustomResourceDir)\Banners\Welcome.bmp" />
-		<WixVariable Id="WixUILicenseRtf" Value="$(var.CustomResourceDir)\Licenses\License-LGPL.rtf" />
-
-		<WixVariable Id="WixUIUpIco" Value="$(var.CustomResourceDir)\Icons\Up.ico" />
-		<WixVariable Id="WixUINewIco" Value="$(var.CustomResourceDir)\Icons\New.ico" />
-		<WixVariable Id="WixUIInfoIco" Value="$(var.CustomResourceDir)\Icons\Information.ico" />
-		<WixVariable Id="WixUIExclamationIco" Value="$(var.CustomResourceDir)\Icons\Warning.ico" />
-
-		<Feature Id="Full"
-		         Title="Full Install"
-		         Description="All applications, libraries, and plugins."
-		         Level="1"
-				 Display="expand"
-				 AllowAdvertise="no" 
-		         ConfigurableDirectory="INSTALLDIR">
-
-			<ComponentRef Id="Empty"/>
-			<ComponentRef Id="EnvironmentVariables" />
+			<ComponentGroupRef Id="Gst" />
 			<ComponentGroupRef Id="Gtk" />
 			<ComponentGroupRef Id="Etc" />
 			<ComponentGroupRef Id="AllLicenses" />
@@ -63,14 +30,6 @@
 			<MergeRef Id="Plugins_Base" />
 			<MergeRef Id="Plugins_Good" />
 			<MergeRef Id="Dependencies_LGPL" />
-
-			<!--
-			<Feature Id="Bindings" Title="Bindings" Description="All programming language bindings such as .NET (C#) and Python." Display="expand" Level="1" AllowAdvertise="no">
-				<Feature Id="DotNet" Title=".NET" Description="Language bindings for the .NET family (C#, Visual Basic.NET, etc.)." Level="1" AllowAdvertise="no">
-					<MergeRef Id="Bindings_DotNet" />
-				</Feature>
-			</Feature>
-			-->
 
 			<Feature Id="Plugins" Title="Plugins" Description="FFmpeg, bad, ugly, etc. plugins." Display="expand" Level="1" AllowAdvertise="no">
 				<Feature Id="Plugins_Bad" Title="Bad" Description="Plugins that aren't quite up to par with the standard plugins." Level="1" AllowAdvertise="no">
@@ -111,117 +70,108 @@
 			<ComponentGroupRef Id="GtkShare" />
 		</ComponentGroup>
 
-		<Directory Id="TARGETDIR" Name="SourceDir" DiskId="1">
-			<Directory Id="ProgramFilesFolder" Name="PFiles">
-				<Directory Id="CompanyFolder" Name="$(var.COMPANY_DIR_NAME)">
-					<Directory Id="ProductFolder" Name="$(var.PRODUCT_DIR_NAME)">
-						<Directory Id="ProductVersionFolder" Name="$(var.PRODUCT_VERSION_DIR_NAME)">
-							<Directory Id="INSTALLDIR" Name=".">
-								
-								<Directory Id="Bin" Name="bin">
-									<Merge Id="Libraries" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Libraries.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-									<Merge Id="Applications" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Applications.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-									
-									<Merge Id="Dependencies_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Dependencies-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-								</Directory>
+		<!-- C:\Program Files\OSSBuild\v<Version>\ -->
+		<DirectoryRef Id="GstBinInstallDir">
+			<Component Id="Copying" Guid="{D1C834B5-C892-4a84-AA8C-BCF3CF221BFA}">
+				<File Source="$(var.CustomResourceDir)\Licenses\COPYING" />
+			</Component>
+		</DirectoryRef>
 
-								<Directory Id="Lib" Name="lib">
-									<Directory Id="GStreamerPlugins" Name="gstreamer-$(var.GST_VERSION)">
-										<Merge Id="Plugins_GL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-GL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-										<Merge Id="Plugins_Base" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Base.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-										<Merge Id="Plugins_Good" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Good.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-										<Merge Id="Plugins_GNonLin" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-GNonLin.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-										<Merge Id="Plugins_Farsight" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+		<!-- C:\Program Files\OSSBuild\v<Version>\bin\ -->
+		<DirectoryRef Id="GstBinInstallDir">
+			<Merge Id="Libraries" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Libraries.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+			<Merge Id="Applications" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Applications.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
 
-										<Merge Id="Plugins_Bad_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Bad-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-										<Merge Id="Plugins_Ugly_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Ugly-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-										<Merge Id="Plugins_FFmpeg_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-FFmpeg-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" />
+			<Merge Id="Dependencies_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Dependencies-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
 
-										<Merge Id="Plugins_Farsight2" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-									</Directory>
+		<!-- C:\Program Files\OSSBuild\v<Version>\lib\gstreamer-0.10\ -->
+		<DirectoryRef Id="GstLibPluginsInstallDir">
+			<Merge Id="Plugins_GL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-GL.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+			<Merge Id="Plugins_Base" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Base.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+			<Merge Id="Plugins_Good" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Good.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+			<Merge Id="Plugins_GNonLin" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-GNonLin.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+			<Merge Id="Plugins_Farsight" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
 
-									<Directory Id="FarsightVersion" Name="farsight2-$(var.FARSIGHT2_VERSION)">
-										<Merge Id="Plugins_Farsight2_Transmitters" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2-Transmitters.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-									</Directory>
+			<Merge Id="Plugins_Bad_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Bad-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+			<Merge Id="Plugins_Ugly_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Ugly-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+			<Merge Id="Plugins_FFmpeg_LGPL" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-FFmpeg-LGPL.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
 
-									<Directory Id="Gtk" Name="gtk-2.0">
-										<OSSBuild:FillDirectory ComponentGroup="GtkLib" Directory="$(var.SharedLibDir)\gtk-2.0">
-											<OSSBuild:Filter Include=".*\.dll" />
-											<OSSBuild:Filter Exclude=".*" />
-										</OSSBuild:FillDirectory>
-									</Directory>
-								</Directory>
+			<Merge Id="Plugins_Farsight2" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
 
-								<!--
-								<Directory Id="Dotnet" Name="dotnet">
-									<Merge Id="Bindings_DotNet" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-DotNet.msm" Language="$(var.DEFAULT_LANGUAGE)" />
-								</Directory>
-								-->
+		<!-- C:\Program Files\OSSBuild\v<Version>\lib\farsight2-0.0\ -->
+		<DirectoryRef Id="GstLibFarsightInstallDir">
+			<Merge Id="Plugins_Farsight2_Transmitters" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Farsight2-Transmitters.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
 
-								<Directory Id="Etc" Name="etc">
-									<OSSBuild:FillDirectory ComponentGroup="Etc" Directory="$(var.SharedEtcDir)">
-										<OSSBuild:Filter Include=".*" />
-									</OSSBuild:FillDirectory>
-								</Directory>
+		<!-- C:\Program Files\OSSBuild\v<Version>\lib\gtk-2.0\ -->
+		<DirectoryRef Id="GstLibGTKInstallDir">
+			<OSSBuild:FillDirectory ComponentGroup="GtkLib" Directory="$(var.SharedLibDir)\gtk-$(var.GTK_VERSION)">
+				<OSSBuild:Filter Include=".*\.dll" />
 
-								<Directory Id="Share" Name="share">
-									<Directory Id="license" Name="licenses">
-										<OSSBuild:FillDirectory ComponentGroup="Licenses" Directory="$(var.LicenseDir)">
-											<OSSBuild:Filter Include=".*" />
-										</OSSBuild:FillDirectory>
-									</Directory>
-									
-									<OSSBuild:FillDirectory ComponentGroup="GtkShare" Directory="$(var.SharedShareDir)">
-										<OSSBuild:Filter Include=".*\\locale\\.*" />
-										<OSSBuild:Filter Include=".*\\themes\\.*" />
-									</OSSBuild:FillDirectory>
-								</Directory>
+				<OSSBuild:Filter Exclude=".*\.h" />
+				<OSSBuild:Filter Exclude=".*\.la" />
+				<OSSBuild:Filter Exclude=".*\.dll\.a" />
+			</OSSBuild:FillDirectory>
+		</DirectoryRef>
 
-								<Component Id="Copying" Guid="*">
-									<File Source="$(var.CustomResourceDir)\Licenses\COPYING" />
-								</Component>
+		<!-- C:\Program Files\OSSBuild\v<Version>\etc\ -->
+		<DirectoryRef Id="GstEtcInstallDir">
+			<OSSBuild:FillDirectory ComponentGroup="Etc" Directory="$(var.SharedEtcDir)">
+				<OSSBuild:Filter Include=".*" />
+			</OSSBuild:FillDirectory>
+		</DirectoryRef>
 
-								<!--
-								<Directory Id="Lib" Name="lib">
-									<Directory Id="SitePackages" Name="site-packages">
+		<!-- C:\Program Files\OSSBuild\v<Version>\share\ -->
+		<DirectoryRef Id="GstShareInstallDir">
+			<OSSBuild:FillDirectory ComponentGroup="GtkShare" Directory="$(var.SharedShareDir)">
+				<OSSBuild:Filter Include=".*\\locale\\.*" />
+				<OSSBuild:Filter Include=".*\\themes\\.*" />
 
-										<Directory Id="GstVersion" Name="gst-$(var.GST_VERSION)">
-											<Directory Id="Gst" Name="gst">
-												<Directory Id="Extend" Name="extend">
-													
-												</Directory>
-											</Directory>
-										</Directory>
-									</Directory>
-								</Directory>
+				<OSSBuild:Filter Exclude=".*\\aclocal\\.*" />
+				<OSSBuild:Filter Exclude=".*\\common-lisp\\.*" />
+				<OSSBuild:Filter Exclude=".*\\ffmpeg\\.*" />
+				<OSSBuild:Filter Exclude=".*\\gdb\\.*" />
+				<OSSBuild:Filter Exclude=".*\\glib.*\\.*" />
+				<OSSBuild:Filter Exclude=".*\\gtk.*\\.*" />
+				<OSSBuild:Filter Exclude=".*\\intltool\\.*" />
+			</OSSBuild:FillDirectory>
 
-								<Directory Id="Share" Name="share">
-									<Directory Id="GstPython" Name="gst-python">
-										<Directory Id="GstVersion" Name="$(var.GST_VERSION)">
-											<Directory Id="Examples" Name="examples">
-												
-											</Directory>
-											<Directory Id="Defs" Name="defs">
-												
-											</Directory>
-										</Directory>
-									</Directory>
-								</Directory>
-								-->
-							</Directory>
+			<Directory Id="license" Name="licenses">
+				<OSSBuild:FillDirectory ComponentGroup="Licenses" Directory="$(var.LicenseDir)">
+					<OSSBuild:Filter Include=".*" />
+				</OSSBuild:FillDirectory>
+			</Directory>
+		</DirectoryRef>
+
+		<!--
+		<Directory Id="Lib" Name="lib">
+			<Directory Id="SitePackages" Name="site-packages">
+
+				<Directory Id="GstVersion" Name="gst-$(var.GST_VERSION)">
+					<Directory Id="Gst" Name="gst">
+						<Directory Id="Extend" Name="extend">
+							
 						</Directory>
 					</Directory>
 				</Directory>
 			</Directory>
-			<Directory Id="ProgramMenuFolder" Name="Programs" />
-
-			<Component Id="Empty" Guid="" />
-
-			<Component Id="EnvironmentVariables" Guid="{A76449C9-9F39-411D-B707-947DDE5F55CF}">
-				<Environment Id="Path" Action="set" Part="first" Name="PATH" Permanent="no" System="no" Value="[INSTALLDIR]bin" />
-				<Environment Id="GstPluginPath" Action="set" Part="first" Name="GST_PLUGIN_PATH" Permanent="no" System="no" Value="[INSTALLDIR]lib\gstreamer-$(var.GST_VERSION)" />
-			</Component>
 		</Directory>
+
+		<Directory Id="Share" Name="share">
+			<Directory Id="GstPython" Name="gst-python">
+				<Directory Id="GstVersion" Name="$(var.GST_VERSION)">
+					<Directory Id="Examples" Name="examples">
+						
+					</Directory>
+					<Directory Id="Defs" Name="defs">
+						
+					</Directory>
+				</Directory>
+			</Directory>
+		</Directory>
+		-->
 
 		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
 		<UIRef Id="WixUI_FeatureTree"/>
@@ -237,5 +187,7 @@
 			<Custom Action="NewerVersion" After="FindRelatedProducts">NEWER_VERSION_DETECTED</Custom>
 			<RemoveExistingProducts After="InstallInitialize" />
 		</InstallExecuteSequence>
+	
 	</Product>
+	
 </Wix>

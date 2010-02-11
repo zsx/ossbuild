@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Registry.wxi ?>
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:OSSBuild="$(ossbuild.namespaceURI())">	
+	<Fragment>
+		
+		<PropertyRef Id="NETFRAMEWORK20"/>
+
+		<Condition Message="This SDK is only supported on Windows XP, Windows Vista, or higher.">
+			<![CDATA[Installed OR (VersionNT >= 501) OR (VersionNT64 >= 501)]]>
+		</Condition>
+
+		<Condition Message="This SDK requires .NET Framework 2.0 or higher. Please install the .NET Framework and run this install again.">
+			<![CDATA[Installed OR NETFRAMEWORK20]]>
+		</Condition>
+
+		<Condition Message="This SDK requires $(var.MANUFACTURER) GStreamer $(var.OSSBUILD_VERSION) or higher. Please install it and run this install again.">
+			<![CDATA[Installed OR REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]]>
+		</Condition>
+
+		<Condition Message="You must be an administrator to install this application.">
+			<![CDATA[Privileged]]>
+		</Condition>
+
+		<!-- Add/Remove Programs -->
+		<Property Id="ARPPRODUCTICON" Value="MainIcon" />
+		<Property Id="ARPCONTACT" Value="$(var.MANUFACTURER)" />
+		<Property Id="ARPURLINFOABOUT" Value="$(var.MANUFACTURER_URL)" />
+		<Property Id="ALLUSERS">1</Property>
+
+		<!-- Set application icon -->
+		<Icon Id="MainIcon" SourceFile="$(var.GST_ICON)"/>
+
+		<WixVariable Id="WixUIBannerBmp" Value="$(var.CustomResourceDir)\Banners\Header.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="$(var.CustomResourceDir)\Banners\Welcome.bmp" />
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.CustomResourceDir)\Licenses\License-GPL.rtf" />
+
+		<WixVariable Id="WixUIUpIco" Value="$(var.CustomResourceDir)\Icons\Up.ico" />
+		<WixVariable Id="WixUINewIco" Value="$(var.CustomResourceDir)\Icons\New.ico" />
+		<WixVariable Id="WixUIInfoIco" Value="$(var.CustomResourceDir)\Icons\Information.ico" />
+		<WixVariable Id="WixUIExclamationIco" Value="$(var.CustomResourceDir)\Icons\Warning.ico" />
+		
+		<ComponentGroup Id="GstSDK">
+			<ComponentRef Id="GstSDKInstallRegistry" />
+			<ComponentRef Id="GstSDKEnvironmentVariables" />
+
+			<ComponentRef Id="GstInstallDirCreate" />
+			<ComponentRef Id="GstBinInstallDirCreate" />
+			<ComponentRef Id="GstEtcInstallDirCreate" />
+			<ComponentRef Id="GstLibInstallDirCreate" />
+			<ComponentRef Id="GstShareInstallDirCreate" />
+			<ComponentRef Id="GstLibGTKInstallDirCreate" />
+			<ComponentRef Id="GstLibPluginsInstallDirCreate" />
+			<ComponentRef Id="GstLibFarsightInstallDirCreate" />
+
+			<ComponentRef Id="GstSDKInstallDirCreate" />
+			<ComponentRef Id="GstSDKBinInstallDirCreate" />
+			<ComponentRef Id="GstSDKBindingsInstallDirCreate" />
+		</ComponentGroup>
+
+		<ComponentGroup Id="GstSDK_Bindings_C">
+			<ComponentRef Id="GstSDKLibInstallDirCreate" />
+			<ComponentRef Id="GstSDKIncludeInstallDirCreate" />
+		</ComponentGroup>
+
+		<ComponentGroup Id="GstSDK_Bindings_DotNet">
+			<ComponentRef Id="GstSDKBindingsDotNetInstallDirCreate" />
+		</ComponentGroup>
+
+		<ComponentGroup Id="GstSDK_Bindings_Python">
+			<ComponentRef Id="GstLibSitePackagesInstallDirCreate" />
+			<ComponentRef Id="GstLibSitePackagesGstInstallDirCreate" />
+			<ComponentRef Id="GstLibSitePackagesGstGstInstallDirCreate" />
+			<ComponentRef Id="GstLibPythonGstSitePackageInstallDirCreate" />
+			
+			<ComponentRef Id="GstSDKBindingsPythonInstallDirCreate" />
+			<ComponentRef Id="GstSDKBindingsPython_v2_5InstallDirCreate" />
+			<ComponentRef Id="GstSDKBindingsPython_v2_6InstallDirCreate" />
+		</ComponentGroup>
+
+		<!-- Attempt to find where our normal install is located -->
+		<Property Id="REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR">
+			<RegistrySearch Id="RegGstInstallDirSearch" Root="HKLM" Key="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_ROOT)" Name="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_INSTALL_DIR_KEY_NAME)" Type="raw" />
+		</Property>
+
+		<!-- Attempt to find where the SDK is located -->
+		<Property Id="REGISTRY_OSSBUILD_GSTREAMER_SDK_INSTALL_DIR">
+			<RegistrySearch Id="RegGstSDKInstallDirSearch" Root="HKLM" Key="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_ROOT)" Name="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_SDK_INSTALL_DIR_KEY_NAME)" Type="raw" />
+		</Property>
+
+		<!-- Initialize w/ the typical install dir -->
+		<CustomAction Id="SetGstInstallDir" Property="INSTALLDIR" Value="[ProgramFilesFolder]$(var.COMPANY_DIR_NAME)\$(var.PRODUCT_DIR_NAME)\$(var.PRODUCT_VERSION_DIR_NAME)" />
+		<CustomAction Id="SetGstInstallDirFromRegistry" Property="INSTALLDIR" Value="[REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]" />
+		<CustomAction Id="SetGstSDKInstallDir" Property="SDKINSTALLDIR" Value="[INSTALLDIR]\sdk" />
+		<CustomAction Id="SetGstSDKInstallDirFromRegistry" Property="SDKINSTALLDIR" Value="[REGISTRY_OSSBUILD_GSTREAMER_SDK_INSTALL_DIR]" />
+
+		<InstallExecuteSequence>
+			<Custom Action="SetGstInstallDirFromRegistry" Before="SetGstInstallDir"><![CDATA[REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]]></Custom>
+			<Custom Action="SetGstInstallDir" Before="SetGstSDKInstallDirFromRegistry"><![CDATA[NOT REGISTRY_OSSBUILD_GSTREAMER_INSTALL_DIR]]></Custom>
+			<Custom Action="SetGstSDKInstallDirFromRegistry" Before="SetGstSDKInstallDir"><![CDATA[REGISTRY_OSSBUILD_GSTREAMER_SDK_INSTALL_DIR]]></Custom>
+			<Custom Action="SetGstSDKInstallDir" Before="CostFinalize"><![CDATA[NOT REGISTRY_OSSBUILD_GSTREAMER_SDK_INSTALL_DIR]]></Custom>
+		</InstallExecuteSequence>
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="INSTALLDIR" Name=".">
+					
+					<!-- C:\Program Files\OSSBuild\v<Version>\ -->
+					<Directory Id="GstInstallDir" Name=".">
+
+						<Component Id="GstInstallDirCreate" Guid="{782DAFB8-3C09-4EE8-963D-E7C275198739}">
+							<CreateFolder />
+							<RemoveFolder Id="GstInstallDirRemove" On="uninstall" />
+						</Component>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\bin\ -->
+						<Directory Id="GstBinInstallDir" Name="bin">
+							<Component Id="GstBinInstallDirCreate" Guid="{739BA2BB-D836-45F2-AF25-917626F5788B}">
+								<CreateFolder />
+								<RemoveFolder Id="GstBinInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\etc\ -->
+						<Directory Id="GstEtcInstallDir" Name="etc">
+							<Component Id="GstEtcInstallDirCreate" Guid="{8BE77597-72AB-4A84-9580-731548680775}">
+								<CreateFolder />
+								<RemoveFolder Id="GstEtcInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\share\ -->
+						<Directory Id="GstShareInstallDir" Name="share">
+							<Component Id="GstShareInstallDirCreate" Guid="{19E0DDA4-73A7-4716-A6B2-4B4B38B424B1}">
+								<CreateFolder />
+								<RemoveFolder Id="GstShareInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\lib\ -->
+						<Directory Id="GstLibInstallDir" Name="lib">
+							<Component Id="GstLibInstallDirCreate" Guid="{65562037-A167-4016-96C2-CDF34866A5FE}">
+								<CreateFolder />
+								<RemoveFolder Id="GstLibInstallDirRemove" On="uninstall" />
+							</Component>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\lib\gstreamer-0.10\ -->
+							<Directory Id="GstLibPluginsInstallDir" Name="gstreamer-$(var.GST_VERSION)">
+								<Component Id="GstLibPluginsInstallDirCreate" Guid="{21CC6531-C4BC-4160-88CA-A50EC547FB5E}">
+									<CreateFolder />
+									<RemoveFolder Id="GstLibPluginsInstallDirRemove" On="uninstall" />
+								</Component>
+							</Directory>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\lib\farsight2-0.0\ -->
+							<Directory Id="GstLibFarsightInstallDir" Name="farsight2-$(var.FARSIGHT2_VERSION)">
+								<Component Id="GstLibFarsightInstallDirCreate" Guid="{A8093E1F-B019-4EC6-A49C-5AAF7B2E2016}">
+									<CreateFolder />
+									<RemoveFolder Id="GstLibFarsightInstallDirRemove" On="uninstall" />
+								</Component>
+							</Directory>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\lib\gtk-2.0\ -->
+							<Directory Id="GstLibGTKInstallDir" Name="gtk-$(var.GTK_VERSION)">
+								<Component Id="GstLibGTKInstallDirCreate" Guid="{2732C941-786D-43F8-9368-4B217A6D80E3}">
+									<CreateFolder />
+									<RemoveFolder Id="GstLibGTKInstallDirRemove" On="uninstall" />
+								</Component>
+							</Directory>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\lib\site-packages\ -->
+							<Directory Id="GstLibSitePackagesInstallDir" Name="site-packages">
+								<Component Id="GstLibSitePackagesInstallDirCreate" Guid="{0FE4BE9F-F3BE-4AF9-9E9F-C211649F5801}">
+									<CreateFolder />
+									<RemoveFolder Id="GstLibSitePackagesInstallDirRemove" On="uninstall" />
+								</Component>
+
+								<!-- C:\Program Files\OSSBuild\v<Version>\lib\site-packages\gst-0.10\ -->
+								<Directory Id="GstLibSitePackagesGstInstallDir" Name="gst-$(var.GST_VERSION)">
+									<Component Id="GstLibSitePackagesGstInstallDirCreate" Guid="{193FBC82-0FF2-4FD7-8136-E7F07DF25EC9}">
+										<CreateFolder />
+										<RemoveFolder Id="GstLibSitePackagesGstInstallDirRemove" On="uninstall" />
+									</Component>
+
+									<!-- C:\Program Files\OSSBuild\v<Version>\lib\site-packages\gst-0.10\gst\ -->
+									<Directory Id="GstLibSitePackagesGstGstInstallDir" Name="gst">
+										<Component Id="GstLibSitePackagesGstGstInstallDirCreate" Guid="{801D0CFA-6C3F-459A-8D20-553A6F63FA63}">
+											<CreateFolder />
+											<RemoveFolder Id="GstLibSitePackagesGstGstInstallDirRemove" On="uninstall" />
+										</Component>
+
+										<!-- C:\Program Files\OSSBuild\v<Version>\lib\site-packages\gst-0.10\gst\extend\ -->
+										<Directory Id="GstLibPythonGstSitePackageInstallDir" Name="extend">
+											<Component Id="GstLibPythonGstSitePackageInstallDirCreate" Guid="{DEE1E88C-4F4D-4165-9C09-1F99607793BE}">
+												<CreateFolder />
+												<RemoveFolder Id="GstLibPythonGstSitePackageInstallDirRemove" On="uninstall" />
+											</Component>
+										</Directory>
+									</Directory>
+								</Directory>
+							</Directory>
+						</Directory>
+					</Directory>
+				</Directory>
+
+				<Directory Id="SDKINSTALLDIR" Name=".">
+					
+					<!-- Register environment variables for the bin\ directory and the plugin \lib\gstreamer-0.10\ directory -->
+					<Component Id="GstSDKEnvironmentVariables" Guid="{50745006-3B3B-4328-ACCC-48BA790CC65E}">
+						<CreateFolder />
+						<RemoveFolder Id="InstallDirRemove" On="uninstall" />
+
+						<Environment Id="Path" Action="set" Part="first" Name="PATH" Permanent="no" System="yes" Value="[SDKINSTALLDIR]bin" />
+						<Environment Id="OSSBuildSDKGstDir" Action="set" Part="first" Name="OSSBUILD_GSTREAMER_SDK_DIR" Permanent="no" System="yes" Value="[SDKINSTALLDIR]" />
+					</Component>
+					
+					<!-- C:\Program Files\OSSBuild\v<Version>\sdk\ -->
+					<Directory Id="GstSDKInstallDir" Name=".">
+						<Component Id="GstSDKInstallRegistry" Guid="{7AB6275F-E87F-48B0-89C7-21BD9CC080F0}">
+							<RegistryKey Root="HKLM" Key="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_ROOT)" Action="create">
+								<RegistryValue Name="$(var.REGISTRY_HKLM_OSSBUILD_GSTREAMER_SDK_INSTALL_DIR_KEY_NAME)" Value="[SDKINSTALLDIR]" Type="string" KeyPath="yes" />
+							</RegistryKey>
+						</Component>
+						
+						<Component Id="GstSDKInstallDirCreate" Guid="{49F6FFD8-0C99-4098-9BAA-9F14731311E4}">
+							<CreateFolder />
+							<RemoveFolder Id="GstSDKInstallDirRemove" On="uninstall" />
+						</Component>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bin\ -->
+						<Directory Id="GstSDKBinInstallDir" Name="bin">
+							<Component Id="GstSDKBinInstallDirCreate" Guid="{F01CD5CE-4BE5-4DC8-96EB-72B4A6023026}">
+								<CreateFolder />
+								<RemoveFolder Id="GstSDKBinInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\sdk\include\ -->
+						<Directory Id="GstSDKIncludeInstallDir" Name="include">
+							<Component Id="GstSDKIncludeInstallDirCreate" Guid="{9D2588C1-371C-43B8-9B1C-A8F3ECF743B4}">
+								<CreateFolder />
+								<RemoveFolder Id="GstSDKIncludeInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\sdk\lib\ -->
+						<Directory Id="GstSDKLibInstallDir" Name="lib">
+							<Component Id="GstSDKLibInstallDirCreate" Guid="{1CDED30D-278A-42DF-A8C2-F49E4E0F3CEA}">
+								<CreateFolder />
+								<RemoveFolder Id="GstSDKLibInstallDirRemove" On="uninstall" />
+							</Component>
+						</Directory>
+
+						<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\ -->
+						<Directory Id="GstSDKBindingsInstallDir" Name="bindings">
+							<Component Id="GstSDKBindingsInstallDirCreate" Guid="{6A8D29F8-BD15-4276-9745-58CF60217EA2}">
+								<CreateFolder />
+								<RemoveFolder Id="GstSDKBindingsInstallDirRemove" On="uninstall" />
+							</Component>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\dotnet\ -->
+							<Directory Id="GstSDKBindingsDotNetInstallDir" Name="dotnet">
+								<Component Id="GstSDKBindingsDotNetInstallDirCreate" Guid="{7C0A9B16-DD3F-46D6-913A-582227E43D68}">
+									<CreateFolder />
+									<RemoveFolder Id="GstSDKBindingsDotNetInstallDirRemove" On="uninstall" />
+								</Component>
+							</Directory>
+
+							<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\ -->
+							<Directory Id="GstSDKBindingsPythonInstallDir" Name="python">
+								<Component Id="GstSDKBindingsPythonInstallDirCreate" Guid="{78561712-0BD5-4237-8FA6-F1D7443B6529}">
+									<CreateFolder />
+									<RemoveFolder Id="GstSDKBindingsPythonInstallDirRemove" On="uninstall" />
+								</Component>
+
+								<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.5\ -->
+								<Directory Id="GstSDKBindingsPython_v2_5InstallDir" Name="v2.5">
+									<Component Id="GstSDKBindingsPython_v2_5InstallDirCreate" Guid="{E5E7B0B0-5AAD-42B8-B215-FA3FD4E20B81}">
+										<CreateFolder />
+										<RemoveFolder Id="GstSDKBindingsPython_v2_5InstallDirRemove" On="uninstall" />
+									</Component>
+								</Directory>
+
+								<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\ -->
+								<Directory Id="GstSDKBindingsPython_v2_6InstallDir" Name="v2.6">
+									<Component Id="GstSDKBindingsPython_v2_6InstallDirCreate" Guid="{733EB339-FCB4-4004-91EA-2B49D2246131}">
+										<CreateFolder />
+										<RemoveFolder Id="GstSDKBindingsPython_v2_6InstallDirRemove" On="uninstall" />
+									</Component>
+								</Directory>
+							</Directory>
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+
+			<Directory Id="ProgramMenuFolder" Name="Programs" />
+		</Directory>
+		
+	</Fragment>
+</Wix>
