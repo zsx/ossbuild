@@ -321,6 +321,15 @@
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstvideo.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F05}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgsttag.vcproj"
+		/>
 	</References>
 	<Files>
 		<File
