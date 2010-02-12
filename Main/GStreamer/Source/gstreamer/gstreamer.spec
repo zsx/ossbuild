@@ -1,11 +1,11 @@
 %define		gstreamer	gstreamer
 %define		majorminor	0.10
 
-%define 	_glib2		2.16
+%define 	_glib2		2.18
 %define 	_libxml2	2.4.9
 
 Name: 		%{gstreamer}
-Version: 	0.10.25
+Version: 	0.10.26
 Release: 	1
 Summary: 	GStreamer streaming media framework runtime
 
@@ -100,7 +100,8 @@ with different major/minor versions of GStreamer.
   --with-package-origin='http://gstreamer.freedesktop.org' \
   --enable-debug \
   --enable-gtk-doc \
-  --enable-docbook
+  --enable-docbook \
+  --enable-introspection=no
 
 #make %{?_smp_mflags}
 # FIXME: docs building doesn't work with smp yet
@@ -148,7 +149,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/gst-typefind-%{majorminor}
 %{_bindir}/gst-xmlinspect-%{majorminor}
 %{_bindir}/gst-xmllaunch-%{majorminor}
-
+%{_libexecdir}/gstreamer-%{majorminor}/gst-plugin-scanner
 %doc %{_mandir}/man1/gst-feedback-%{majorminor}.*
 %doc %{_mandir}/man1/gst-inspect-%{majorminor}.*
 %doc %{_mandir}/man1/gst-launch-%{majorminor}.*

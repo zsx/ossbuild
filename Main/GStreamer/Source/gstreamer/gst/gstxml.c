@@ -30,8 +30,8 @@
  * Additionally one can load saved pipelines into the gst-editor to inspect the
  * graph.
  *
- * #GstElement implementations need to override the save_thyself() and
- * restore_thyself() virtual functions of #GstObject.
+ * #GstElement implementations need to override the #GstObjectClass.save_thyself()
+ * and #GstObjectClass.restore_thyself() virtual functions of #GstObject.
  */
 
 #include "gst_private.h"
@@ -66,7 +66,7 @@ gst_xml_class_init (GstXMLClass * klass)
 
   parent_class = g_type_class_peek_parent (klass);
 
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_xml_dispose);
+  gobject_class->dispose = gst_xml_dispose;
 
   /* FIXME G_TYPE_POINTER should be GType of xmlNodePtr
    * (ensonic) can't be fixed, as libxml does not use GObject (unfortunately)
@@ -115,7 +115,7 @@ gst_xml_dispose (GObject * object)
 GstXML *
 gst_xml_new (void)
 {
-  return GST_XML (g_object_new (GST_TYPE_XML, NULL));
+  return GST_XML (g_object_newv (GST_TYPE_XML, 0, NULL));
 }
 
 /**
@@ -345,8 +345,7 @@ gst_xml_object_loaded (GstObject * private, GstObject * object, xmlNodePtr self,
   GstXML *xml = GST_XML (data);
 
   /* FIXME check that this element was created from the same xmlDocPtr... */
-  g_signal_emit (G_OBJECT (xml), gst_xml_signals[OBJECT_LOADED], 0, object,
-      self);
+  g_signal_emit (xml, gst_xml_signals[OBJECT_LOADED], 0, object, self);
 }
 
 /**

@@ -22,7 +22,7 @@
  * SECTION:gstminiobject
  * @short_description: Lightweight base class for the GStreamer object hierarchy
  *
- * #GstMiniObject is a baseclass like #GObject, but has been stripped down of 
+ * #GstMiniObject is a baseclass like #GObject, but has been stripped down of
  * features to be fast and small.
  * It offers sub-classing and ref-counting in the same way as #GObject does.
  * It has no properties and no signal-support though.
@@ -273,12 +273,12 @@ gst_mini_object_make_writable (GstMiniObject * mini_object)
   g_return_val_if_fail (mini_object != NULL, NULL);
 
   if (gst_mini_object_is_writable (mini_object)) {
-    ret = (GstMiniObject *) mini_object;
+    ret = mini_object;
   } else {
     GST_CAT_DEBUG (GST_CAT_PERFORMANCE, "copy %s miniobject",
         g_type_name (G_TYPE_FROM_INSTANCE (mini_object)));
     ret = gst_mini_object_copy (mini_object);
-    gst_mini_object_unref ((GstMiniObject *) mini_object);
+    gst_mini_object_unref (mini_object);
   }
 
   return ret;
@@ -291,7 +291,7 @@ gst_mini_object_make_writable (GstMiniObject * mini_object)
  * Increase the reference count of the mini-object.
  *
  * Note that the refcount affects the writeability
- * of @mini-object, see gst_mini_object_is_writable(). It is 
+ * of @mini-object, see gst_mini_object_is_writable(). It is
  * important to note that keeping additional references to
  * GstMiniObject instances can potentially increase the number
  * of memcpy operations in a pipeline, especially if the miniobject
@@ -303,8 +303,9 @@ GstMiniObject *
 gst_mini_object_ref (GstMiniObject * mini_object)
 {
   g_return_val_if_fail (mini_object != NULL, NULL);
-  /* we cannot assert that the refcount > 0 since a bufferalloc
-   * function might resurrect an object
+  /* we can't assert that the refcount > 0 since the _free functions
+   * increments the refcount from 0 to 1 again to allow resurecting
+   * the object
    g_return_val_if_fail (mini_object->refcount > 0, NULL);
    */
 #ifdef DEBUG_REFCOUNT
@@ -326,12 +327,17 @@ gst_mini_object_free (GstMiniObject * mini_object)
 {
   GstMiniObjectClass *mo_class;
 
+  /* At this point, the refcount of the object is 0. We increase the refcount
+   * here because if a subclass recycles the object and gives out a new
+   * reference we don't want to free the instance anymore. */
+  gst_mini_object_ref (mini_object);
+
   mo_class = GST_MINI_OBJECT_GET_CLASS (mini_object);
   mo_class->finalize (mini_object);
 
-  /* if the refcount is still 0 we can really free the
-   * object, else the finalize method recycled the object */
-  if (g_atomic_int_get (&mini_object->refcount) == 0) {
+  /* decrement the refcount again, if the subclass recycled the object we don't
+   * want to free the instance anymore */
+  if (G_LIKELY (g_atomic_int_dec_and_test (&mini_object->refcount))) {
 #ifndef GST_DISABLE_TRACE
     gst_alloc_trace_free (_gst_mini_object_trace, mini_object);
 #endif
@@ -424,8 +430,8 @@ gst_value_mini_object_copy (const GValue * src_value, GValue * dest_value)
 {
   if (src_value->data[0].v_pointer) {
     dest_value->data[0].v_pointer =
-        gst_mini_object_ref (GST_MINI_OBJECT_CAST (src_value->
-            data[0].v_pointer));
+        gst_mini_object_ref (GST_MINI_OBJECT_CAST (src_value->data[0].
+            v_pointer));
   } else {
     dest_value->data[0].v_pointer = NULL;
   }
@@ -441,7 +447,12 @@ static gchar *
 gst_value_mini_object_collect (GValue * value, guint n_collect_values,
     GTypeCValue * collect_values, guint collect_flags)
 {
-  gst_value_set_mini_object (value, collect_values[0].v_pointer);
+  if (collect_values[0].v_pointer) {
+    value->data[0].v_pointer =
+        gst_mini_object_ref (collect_values[0].v_pointer);
+  } else {
+    value->data[0].v_pointer = NULL;
+  }
 
   return NULL;
 }
@@ -623,7 +634,7 @@ gst_param_spec_mini_object_get_type (void)
  * @name: the canonical name of the property
  * @nick: the nickname of the property
  * @blurb: a short description of the property
- * @object_type: the #GstMiniObjectType for the property
+ * @object_type: the #GstMiniObject #GType for the property
  * @flags: a combination of #GParamFlags
  *
  * Creates a new #GParamSpec instance that hold #GstMiniObject references.

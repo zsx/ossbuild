@@ -60,8 +60,9 @@
 #  include "config.h"
 #endif
 
-#include "gsttypefindelement.h"
 #include "gst/gst_private.h"
+
+#include "gsttypefindelement.h"
 #include "gst/gst-i18n-lib.h"
 #include "gst/base/gsttypefindhelper.h"
 
@@ -192,13 +193,9 @@ gst_type_find_element_class_init (GstTypeFindElementClass * typefind_class)
   GObjectClass *gobject_class = G_OBJECT_CLASS (typefind_class);
   GstElementClass *gstelement_class = GST_ELEMENT_CLASS (typefind_class);
 
-  gobject_class->set_property =
-      GST_DEBUG_FUNCPTR (gst_type_find_element_set_property);
-  gobject_class->get_property =
-      GST_DEBUG_FUNCPTR (gst_type_find_element_get_property);
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_type_find_element_dispose);
-
-  typefind_class->have_type = gst_type_find_element_have_type;
+  gobject_class->set_property = gst_type_find_element_set_property;
+  gobject_class->get_property = gst_type_find_element_get_property;
+  gobject_class->dispose = gst_type_find_element_dispose;
 
   g_object_class_install_property (gobject_class, PROP_CAPS,
       g_param_spec_boxed ("caps", _("caps"),
@@ -232,6 +229,9 @@ gst_type_find_element_class_init (GstTypeFindElementClass * typefind_class)
       G_STRUCT_OFFSET (GstTypeFindElementClass, have_type), NULL, NULL,
       gst_marshal_VOID__UINT_BOXED, G_TYPE_NONE, 2,
       G_TYPE_UINT, GST_TYPE_CAPS | G_SIGNAL_TYPE_STATIC_SCOPE);
+
+  typefind_class->have_type =
+      GST_DEBUG_FUNCPTR (gst_type_find_element_have_type);
 
   gstelement_class->change_state =
       GST_DEBUG_FUNCPTR (gst_type_find_element_change_state);
@@ -614,15 +614,13 @@ gst_type_find_element_setcaps (GstPad * pad, GstCaps * caps)
   return TRUE;
 }
 
-static GstCaps *
-gst_type_find_guess_by_extension (GstTypeFindElement * typefind, GstPad * pad,
-    GstTypeFindProbability * probability)
+static gchar *
+gst_type_find_get_extension (GstTypeFindElement * typefind, GstPad * pad)
 {
   GstQuery *query;
-  gchar *uri;
+  gchar *uri, *result;
   size_t len;
   gint find;
-  GstCaps *caps;
 
   query = gst_query_new_uri ();
 
@@ -648,17 +646,13 @@ gst_type_find_guess_by_extension (GstTypeFindElement * typefind, GstPad * pad,
   if (find < 0)
     goto no_extension;
 
-  GST_DEBUG_OBJECT (typefind, "found extension %s", &uri[find + 1]);
+  result = g_strdup (&uri[find + 1]);
 
-  caps =
-      gst_type_find_helper_for_extension (GST_OBJECT_CAST (typefind),
-      &uri[find + 1]);
-  if (caps)
-    *probability = GST_TYPE_FIND_MAXIMUM;
-
+  GST_DEBUG_OBJECT (typefind, "found extension %s", result);
   gst_query_unref (query);
+  g_free (uri);
 
-  return caps;
+  return result;
 
   /* ERRORS */
 peer_query_failed:
@@ -677,8 +671,29 @@ no_extension:
   {
     GST_WARNING_OBJECT (typefind, "could not find uri extension in %s", uri);
     gst_query_unref (query);
+    g_free (uri);
     return NULL;
   }
+}
+
+static GstCaps *
+gst_type_find_guess_by_extension (GstTypeFindElement * typefind, GstPad * pad,
+    GstTypeFindProbability * probability)
+{
+  gchar *ext;
+  GstCaps *caps;
+
+  ext = gst_type_find_get_extension (typefind, pad);
+  if (!ext)
+    return NULL;
+
+  caps = gst_type_find_helper_for_extension (GST_OBJECT_CAST (typefind), ext);
+  if (caps)
+    *probability = GST_TYPE_FIND_MAXIMUM;
+
+  g_free (ext);
+
+  return caps;
 }
 
 static GstFlowReturn
@@ -849,6 +864,7 @@ gst_type_find_element_activate (GstPad * pad)
     if (peer) {
       gint64 size;
       GstFormat format = GST_FORMAT_BYTES;
+      gchar *ext;
 
       if (!gst_pad_query_duration (peer, &format, &size)) {
         GST_WARNING_OBJECT (typefind, "Could not query upstream length!");
@@ -864,10 +880,12 @@ gst_type_find_element_activate (GstPad * pad)
         gst_object_unref (peer);
         return FALSE;
       }
+      ext = gst_type_find_get_extension (typefind, pad);
 
-      found_caps = gst_type_find_helper_get_range (GST_OBJECT_CAST (peer),
+      found_caps = gst_type_find_helper_get_range_ext (GST_OBJECT_CAST (peer),
           (GstTypeFindHelperGetRangeFunction) (GST_PAD_GETRANGEFUNC (peer)),
-          (guint64) size, &probability);
+          (guint64) size, ext, &probability);
+      g_free (ext);
 
       gst_object_unref (peer);
     }

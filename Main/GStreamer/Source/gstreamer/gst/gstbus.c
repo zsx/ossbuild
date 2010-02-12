@@ -24,8 +24,9 @@
  * @short_description: Asynchronous message bus subsystem
  * @see_also: #GstMessage, #GstElement
  *
- * The #GstBus is an object responsible for delivering #GstMessages in
- * a first-in first-out way from the streaming threads to the application.
+ * The #GstBus is an object responsible for delivering #GstMessage packets in
+ * a first-in first-out way from the streaming threads (see #GstTask) to the
+ * application.
  *
  * Since the application typically only wants to deal with delivery of these
  * messages from one thread, the GstBus will marshall the messages between
@@ -44,12 +45,12 @@
  *
  * The bus can be polled with the gst_bus_poll() method. This methods blocks
  * up to the specified timeout value until one of the specified messages types
- * is posted on the bus. The application can then _pop() the messages from the
- * bus to handle them.
+ * is posted on the bus. The application can then gst_bus_pop() the messages
+ * from the bus to handle them.
  * Alternatively the application can register an asynchronous bus function
  * using gst_bus_add_watch_full() or gst_bus_add_watch(). This function will
- * install a #GSource in the default glib main loop and will deliver messages 
- * a short while after they have been posted. Note that the main loop should 
+ * install a #GSource in the default glib main loop and will deliver messages
+ * a short while after they have been posted. Note that the main loop should
  * be running for the asynchronous callbacks.
  *
  * It is also possible to get messages from the bus without any thread
@@ -141,7 +142,7 @@ gst_bus_class_init (GstBusClass * klass)
 
   parent_class = g_type_class_peek_parent (klass);
 
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_bus_dispose);
+  gobject_class->dispose = gst_bus_dispose;
 
   /**
    * GstBus::sync-message:
@@ -273,7 +274,7 @@ gst_bus_new (void)
 {
   GstBus *result;
 
-  result = g_object_new (gst_bus_get_type (), NULL);
+  result = g_object_newv (gst_bus_get_type (), 0, NULL);
   GST_DEBUG_OBJECT (result, "created new bus");
 
   return result;
@@ -402,7 +403,7 @@ is_flushing:
  * Check if there are pending messages on the bus that
  * should be handled.
  *
- * Returns: TRUE if there are messages on the bus to be handled, FALSE 
+ * Returns: TRUE if there are messages on the bus to be handled, FALSE
  * otherwise.
  *
  * MT safe.
@@ -1134,7 +1135,7 @@ gst_bus_sync_signal_handler (GstBus * bus, GstMessage * message, gpointer data)
  * Instructs GStreamer to emit the "sync-message" signal after running the bus's
  * sync handler. This function is here so that code can ensure that they can
  * synchronously receive messages without having to affect what the bin's sync
- * handler is. 
+ * handler is.
  *
  * This function may be called multiple times. To clean up, the caller is
  * responsible for calling gst_bus_disable_sync_message_emission() as many times

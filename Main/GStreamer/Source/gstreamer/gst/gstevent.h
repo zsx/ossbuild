@@ -84,6 +84,9 @@ typedef enum {
  * @GST_EVENT_NEWSEGMENT: A new media segment follows in the dataflow.
  * @GST_EVENT_TAG: A new set of metadata tags has been found in the stream.
  * @GST_EVENT_BUFFERSIZE: Notification of buffering requirements
+ * @GST_EVENT_SINK_MESSAGE: An event that sinks turn into a message. Used to
+ *                          send messages that should be emitted in sync with
+ *                          rendering.
  * @GST_EVENT_QOS: A quality message. Used to indicate to upstream elements
  *                 that the downstream elements are being starved of or
  *                 flooded with data.
@@ -120,6 +123,7 @@ typedef enum {
   GST_EVENT_NEWSEGMENT            = GST_EVENT_MAKE_TYPE (6, FLAG(DOWNSTREAM) | FLAG(SERIALIZED)),
   GST_EVENT_TAG                   = GST_EVENT_MAKE_TYPE (7, FLAG(DOWNSTREAM) | FLAG(SERIALIZED)),
   GST_EVENT_BUFFERSIZE            = GST_EVENT_MAKE_TYPE (8, FLAG(DOWNSTREAM) | FLAG(SERIALIZED)),
+  GST_EVENT_SINK_MESSAGE          = GST_EVENT_MAKE_TYPE (9, FLAG(DOWNSTREAM) | FLAG(SERIALIZED)),
   /* upstream events */
   GST_EVENT_QOS                   = GST_EVENT_MAKE_TYPE (15, FLAG(UPSTREAM)),
   GST_EVENT_SEEK                  = GST_EVENT_MAKE_TYPE (16, FLAG(UPSTREAM)),
@@ -225,7 +229,7 @@ typedef struct _GstEventClass GstEventClass;
  * Since: 0.10.3
  */
 #define         gst_event_replace(old_event,new_event) \
-    gst_mini_object_replace ((GstMiniObject **)(old_event), GST_MINI_OBJECT (new_event))
+    gst_mini_object_replace ((GstMiniObject **)(old_event), GST_MINI_OBJECT_CAST (new_event))
 
 /**
  * GstSeekType:
@@ -352,7 +356,7 @@ G_INLINE_FUNC GstEvent * gst_event_ref (GstEvent * event);
 static inline GstEvent *
 gst_event_ref (GstEvent * event)
 {
-  return (GstEvent *) gst_mini_object_ref (GST_MINI_OBJECT (event));
+  return (GstEvent *) gst_mini_object_ref (GST_MINI_OBJECT_CAST (event));
 }
 
 /**
@@ -368,7 +372,7 @@ G_INLINE_FUNC void gst_event_unref (GstEvent * event);
 static inline void
 gst_event_unref (GstEvent * event)
 {
-  gst_mini_object_unref (GST_MINI_OBJECT (event));
+  gst_mini_object_unref (GST_MINI_OBJECT_CAST (event));
 }
 
 /* copy event */
@@ -377,15 +381,17 @@ gst_event_unref (GstEvent * event)
  * @event: The event to copy
  *
  * Copy the event using the event specific copy function.
+ *
+ * Returns: the new event
  */
 #ifdef _FOOL_GTK_DOC_
-G_INLINE_FUNC void gst_event_copy (GstEvent * event);
+G_INLINE_FUNC GstEvent * gst_event_copy (const GstEvent * event);
 #endif
 
 static inline GstEvent *
 gst_event_copy (const GstEvent * event)
 {
-  return GST_EVENT_CAST (gst_mini_object_copy (GST_MINI_OBJECT (event)));
+  return GST_EVENT_CAST (gst_mini_object_copy (GST_MINI_OBJECT_CAST (event)));
 }
 
 

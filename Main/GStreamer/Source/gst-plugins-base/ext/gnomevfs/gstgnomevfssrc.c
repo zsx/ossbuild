@@ -71,6 +71,7 @@
 
 #include "gstgnomevfssrc.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -608,8 +609,8 @@ gst_gnome_vfs_src_create (GstBaseSrc * basesrc, guint64 offset, guint size,
 
   src = GST_GNOME_VFS_SRC (basesrc);
 
-  GST_DEBUG ("now at %llu, reading from %lld, size %u", src->curoffset, offset,
-      size);
+  GST_DEBUG ("now at %" G_GINT64_FORMAT ", reading from %" G_GUINT64_FORMAT
+      ", size %u", src->curoffset, offset, size);
 
   /* seek if required */
   if (G_UNLIKELY (src->curoffset != offset)) {

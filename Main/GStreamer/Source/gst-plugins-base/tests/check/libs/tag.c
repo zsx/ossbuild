@@ -2,7 +2,7 @@
  *
  * unit tests for the tag support library
  *
- * Copyright (C) 2006 Tim-Philipp Müller <tim centricular net>
+ * Copyright (C) 2006-2009 Tim-Philipp Müller <tim centricular net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -682,6 +682,73 @@ GST_START_TEST (test_id3v1_utf8_tag)
 
 GST_END_TEST;
 
+GST_START_TEST (test_language_utils)
+{
+  gchar **lang_codes, **c;
+
+#define ASSERT_STRINGS_EQUAL fail_unless_equals_string
+
+  lang_codes = gst_tag_get_language_codes ();
+  fail_unless (lang_codes != NULL);
+  fail_unless (*lang_codes != NULL);
+
+  for (c = lang_codes; c != NULL && *c != NULL; ++c) {
+    const gchar *lang_name, *c1, *c2t, *c2b;
+
+    lang_name = gst_tag_get_language_name (*c);
+    fail_unless (lang_name != NULL);
+    fail_unless (g_utf8_validate (lang_name, -1, NULL));
+
+    c1 = gst_tag_get_language_code_iso_639_1 (*c);
+    fail_unless (c1 != NULL);
+    fail_unless (g_utf8_validate (c1, -1, NULL));
+
+    c2t = gst_tag_get_language_code_iso_639_2T (*c);
+    fail_unless (c2t != NULL);
+    fail_unless (g_utf8_validate (c2t, -1, NULL));
+
+    c2b = gst_tag_get_language_code_iso_639_2B (*c);
+    fail_unless (c2b != NULL);
+    fail_unless (g_utf8_validate (c2b, -1, NULL));
+
+    ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_1 (*c), *c);
+    ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_1 (c2t), *c);
+    ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_1 (c2b), *c);
+
+    GST_DEBUG ("[%s] %s %s %s : %s\n", *c, c1, c2t, c2b, lang_name);
+
+  }
+  g_strfreev (lang_codes);
+
+  fail_unless (gst_tag_get_language_name ("de") != NULL);
+  fail_unless (gst_tag_get_language_name ("deu") != NULL);
+  fail_unless (gst_tag_get_language_name ("ger") != NULL);
+  fail_unless_equals_string (gst_tag_get_language_name ("deu"),
+      gst_tag_get_language_name ("ger"));
+  fail_unless_equals_string (gst_tag_get_language_name ("de"),
+      gst_tag_get_language_name ("ger"));
+  fail_unless (gst_tag_get_language_name ("de") !=
+      gst_tag_get_language_name ("fr"));
+
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code ("deu"), "de");
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code ("de"), "de");
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code ("ger"), "de");
+
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_1 ("deu"), "de");
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_1 ("de"), "de");
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_1 ("ger"), "de");
+
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_2T ("de"), "deu");
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_2T ("deu"), "deu");
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_2T ("ger"), "deu");
+
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_2B ("de"), "ger");
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_2B ("deu"), "ger");
+  ASSERT_STRINGS_EQUAL (gst_tag_get_language_code_iso_639_2B ("ger"), "ger");
+}
+
+GST_END_TEST;
+
 static Suite *
 tag_suite (void)
 {
@@ -694,6 +761,7 @@ tag_suite (void)
   tcase_add_test (tc_chain, test_vorbis_tags);
   tcase_add_test (tc_chain, test_id3_tags);
   tcase_add_test (tc_chain, test_id3v1_utf8_tag);
+  tcase_add_test (tc_chain, test_language_utils);
   return s;
 }
 

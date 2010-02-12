@@ -23,8 +23,9 @@
 #include "config.h"
 #endif
 
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <glib.h>
 
@@ -33,6 +34,7 @@
 #include "samiparse.h"
 #include "tmplayerparse.h"
 #include "mpl2parse.h"
+#include "qttextparse.h"
 
 GST_DEBUG_CATEGORY (sub_parse_debug);
 
@@ -41,7 +43,8 @@ GST_DEBUG_CATEGORY (sub_parse_debug);
 enum
 {
   PROP_0,
-  PROP_ENCODING
+  PROP_ENCODING,
+  PROP_VIDEOFPS
 };
 
 static void
@@ -64,13 +67,16 @@ static GstStaticPadTemplate sink_templ = GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_SINK,
     GST_PAD_ALWAYS,
     GST_STATIC_CAPS ("application/x-subtitle; application/x-subtitle-sami; "
-        "application/x-subtitle-tmplayer; application/x-subtitle-mpl2")
+        "application/x-subtitle-tmplayer; application/x-subtitle-mpl2; "
+        "application/x-subtitle-dks; application/x-subtitle-qttext")
     );
 #else
 static GstStaticPadTemplate sink_templ = GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_SINK,
     GST_PAD_ALWAYS,
-    GST_STATIC_CAPS ("application/x-subtitle")
+    GST_STATIC_CAPS ("application/x-subtitle; application/x-subtitle-dks; "
+        "application/x-subtitle-tmplayer; application/x-subtitle-mpl2; "
+        "application/x-subtitle-qttext")
     );
 #endif
 
@@ -139,6 +145,19 @@ gst_sub_parse_dispose (GObject * object)
 
   GST_DEBUG_OBJECT (subparse, "cleaning up subtitle parser");
 
+  switch (subparse->parser_type) {
+    case GST_SUB_PARSE_FORMAT_QTTEXT:
+      qttext_context_deinit (&subparse->state);
+      break;
+#ifndef GST_DISABLE_XML
+    case GST_SUB_PARSE_FORMAT_SAMI:
+      sami_context_deinit (&subparse->state);
+      break;
+#endif
+    default:
+      break;
+  }
+
   if (subparse->encoding) {
     g_free (subparse->encoding);
     subparse->encoding = NULL;
@@ -158,9 +177,6 @@ gst_sub_parse_dispose (GObject * object)
     g_string_free (subparse->textbuf, TRUE);
     subparse->textbuf = NULL;
   }
-#ifndef GST_DISABLE_XML
-  sami_context_deinit (&subparse->state);
-#endif
 
   GST_CALL_PARENT (G_OBJECT_CLASS, dispose, (object));
 }
@@ -186,6 +202,13 @@ gst_sub_parse_class_init (GstSubParseClass * klass)
           "variable will be checked for an encoding to use. If that is not set "
           "either, ISO-8859-15 will be assumed.", DEFAULT_ENCODING,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
+  g_object_class_install_property (object_class, PROP_VIDEOFPS,
+      gst_param_spec_fraction ("video-fps", "Video framerate",
+          "Framerate of the video stream. This is needed by some subtitle "
+          "formats to synchronize subtitles and video properly. If not set "
+          "and the subtitle format requires it subtitles may be out of sync.",
+          0, 1, G_MAXINT, 1, 24000, 1001, G_PARAM_READWRITE));
 }
 
 static void
@@ -213,6 +236,9 @@ gst_sub_parse_init (GstSubParse * subparse)
   subparse->encoding = g_strdup (DEFAULT_ENCODING);
   subparse->detected_encoding = NULL;
   subparse->adapter = gst_adapter_new ();
+
+  subparse->fps_n = 24000;
+  subparse->fps_d = 1001;
 }
 
 /*
@@ -346,6 +372,19 @@ gst_sub_parse_set_property (GObject * object, guint prop_id,
       GST_LOG_OBJECT (object, "subtitle encoding set to %s",
           GST_STR_NULL (subparse->encoding));
       break;
+    case PROP_VIDEOFPS:
+    {
+      subparse->fps_n = gst_value_get_fraction_numerator (value);
+      subparse->fps_d = gst_value_get_fraction_denominator (value);
+      GST_DEBUG_OBJECT (object, "video framerate set to %d/%d", subparse->fps_n,
+          subparse->fps_d);
+
+      if (!subparse->state.have_internal_fps) {
+        subparse->state.fps_n = subparse->fps_n;
+        subparse->state.fps_d = subparse->fps_d;
+      }
+      break;
+    }
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -363,6 +402,9 @@ gst_sub_parse_get_property (GObject * object, guint prop_id,
   switch (prop_id) {
     case PROP_ENCODING:
       g_value_set_string (value, subparse->encoding);
+      break;
+    case PROP_VIDEOFPS:
+      gst_value_set_fraction (value, subparse->fps_n, subparse->fps_d);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -389,6 +431,10 @@ gst_sub_parse_get_format_description (GstSubParseFormat format)
       return "MPL2";
     case GST_SUB_PARSE_FORMAT_SUBVIEWER:
       return "SubViewer";
+    case GST_SUB_PARSE_FORMAT_DKS:
+      return "DKS";
+    case GST_SUB_PARSE_FORMAT_QTTEXT:
+      return "QTtext";
     default:
     case GST_SUB_PARSE_FORMAT_UNKNOWN:
       break;
@@ -552,6 +598,7 @@ parse_mdvdsub (ParserState * state, const gchar * line)
   gboolean italic;
   gboolean bold;
   guint fontsize;
+  gdouble fps = 0.0;
 
   if (sscanf (line, "{%u}{%u}", &start_frame, &end_frame) != 2) {
     g_warning ("Parse of the following line, assumed to be in microdvd .sub"
@@ -564,27 +611,27 @@ parse_mdvdsub (ParserState * state, const gchar * line)
   line = strchr (line, '}') + 1;
 
   /* see if there's a first line with a framerate */
-  if (state->fps == 0.0 && start_frame == 1 && end_frame == 1) {
+  if (start_frame == 1 && end_frame == 1) {
     gchar *rest, *end = NULL;
 
     rest = g_strdup (line);
     g_strdelimit (rest, ",", '.');
-    state->fps = g_ascii_strtod (rest, &end);
-    if (end == rest)
-      state->fps = 0.0;
-    GST_INFO ("framerate from file: %f ('%s')", state->fps, rest);
+    fps = g_ascii_strtod (rest, &end);
+    if (end != rest) {
+      gst_util_double_to_fraction (fps, &state->fps_n, &state->fps_d);
+      GST_INFO ("framerate from file: %d/%d ('%s')", state->fps_n,
+          state->fps_d, rest);
+    }
     g_free (rest);
     return NULL;
   }
 
-  if (state->fps == 0.0) {
-    /* FIXME: hardcoded for now, is there a better way/assumption? */
-    state->fps = 24000.0 / 1001.0;
-    GST_INFO ("no framerate specified, assuming %f", state->fps);
-  }
-
-  state->start_time = start_frame / state->fps * GST_SECOND;
-  state->duration = (end_frame - start_frame) / state->fps * GST_SECOND;
+  state->start_time =
+      gst_util_uint64_scale (start_frame, GST_SECOND * state->fps_d,
+      state->fps_n);
+  state->duration =
+      gst_util_uint64_scale (end_frame - start_frame, GST_SECOND * state->fps_d,
+      state->fps_n);
 
   /* Check our segment start/stop */
   in_seg = gst_segment_clip (state->segment, GST_FORMAT_TIME,
@@ -932,7 +979,7 @@ parse_subrip (ParserState * state, const gchar * line)
 }
 
 static void
-subviewer_unescape_newlines (gchar * read)
+unescape_newlines_br (gchar * read)
 {
   gchar *write = read;
 
@@ -1006,7 +1053,7 @@ parse_subviewer (ParserState * state, const gchar * line)
       g_string_append (state->buf, line);
       if (strlen (line) == 0) {
         ret = g_strdup (state->buf->str);
-        subviewer_unescape_newlines (ret);
+        unescape_newlines_br (ret);
         strip_trailing_newlines (ret);
         g_string_truncate (state->buf, 0);
         state->state = 0;
@@ -1070,6 +1117,73 @@ parse_mpsub (ParserState * state, const gchar * line)
   }
 }
 
+static const gchar *
+dks_skip_timestamp (const gchar * line)
+{
+  while (*line && *line != ']')
+    line++;
+  if (*line == ']')
+    line++;
+  return line;
+}
+
+static gchar *
+parse_dks (ParserState * state, const gchar * line)
+{
+  guint h, m, s;
+
+  switch (state->state) {
+    case 0:
+      /* Looking for the start time and text */
+      if (sscanf (line, "[%u:%u:%u]", &h, &m, &s) == 3) {
+        const gchar *text;
+        state->start_time = (((guint64) h) * 3600 + m * 60 + s) * GST_SECOND;
+        text = dks_skip_timestamp (line);
+        if (*text) {
+          state->state = 1;
+          g_string_append (state->buf, text);
+        }
+      }
+      return NULL;
+    case 1:
+    {
+      gint64 clip_start = 0, clip_stop = 0;
+      gboolean in_seg;
+      gchar *ret;
+
+      /* Looking for the end time */
+      if (sscanf (line, "[%u:%u:%u]", &h, &m, &s) == 3) {
+        state->state = 0;
+        state->duration = (((guint64) h) * 3600 + m * 60 + s) * GST_SECOND -
+            state->start_time;
+      } else {
+        GST_WARNING ("Failed to parse subtitle end time");
+        return NULL;
+      }
+
+      /* Check if this subtitle is out of the current segment */
+      in_seg = gst_segment_clip (state->segment, GST_FORMAT_TIME,
+          state->start_time, state->start_time + state->duration,
+          &clip_start, &clip_stop);
+
+      if (!in_seg) {
+        return NULL;
+      }
+
+      state->start_time = clip_start;
+      state->duration = clip_stop - clip_start;
+
+      ret = g_strdup (state->buf->str);
+      g_string_truncate (state->buf, 0);
+      unescape_newlines_br (ret);
+      return ret;
+    }
+    default:
+      g_assert_not_reached ();
+      return NULL;
+  }
+}
+
 static void
 parser_state_init (ParserState * state)
 {
@@ -1089,17 +1203,23 @@ parser_state_init (ParserState * state)
 }
 
 static void
-parser_state_dispose (ParserState * state)
+parser_state_dispose (GstSubParse * self, ParserState * state)
 {
   if (state->buf) {
     g_string_free (state->buf, TRUE);
     state->buf = NULL;
   }
-#ifndef GST_DISABLE_XML
   if (state->user_data) {
-    sami_context_reset (state);
-  }
+    switch (self->parser_type) {
+#ifndef GST_DISABLE_XML
+      case GST_SUB_PARSE_FORMAT_SAMI:
+        sami_context_reset (state);
+        break;
 #endif
+      default:
+        break;
+    }
+  }
 }
 
 /* regex type enum */
@@ -1108,6 +1228,7 @@ typedef enum
   GST_SUB_PARSE_REGEX_UNKNOWN = 0,
   GST_SUB_PARSE_REGEX_MDVDSUB = 1,
   GST_SUB_PARSE_REGEX_SUBRIP = 2,
+  GST_SUB_PARSE_REGEX_DKS = 3,
 } GstSubParseRegex;
 
 static gpointer
@@ -1134,6 +1255,14 @@ gst_sub_parse_data_format_autodetect_regex_once (GstSubParseRegex regtype)
         g_error_free (gerr);
       }
       break;
+    case GST_SUB_PARSE_REGEX_DKS:
+      result = (gpointer) g_regex_new ("^\[[0-9]+:[0-9]+:[0-9]+].*",
+          0, 0, &gerr);
+      if (result == NULL) {
+        g_warning ("Compilation of dks regex failed: %s", gerr->message);
+        g_error_free (gerr);
+      }
+      break;
     default:
       GST_WARNING ("Trying to allocate regex of unknown type %u", regtype);
   }
@@ -1153,9 +1282,11 @@ gst_sub_parse_data_format_autodetect (gchar * match_str)
 
   static GOnce mdvd_rx_once = G_ONCE_INIT;
   static GOnce subrip_rx_once = G_ONCE_INIT;
+  static GOnce dks_rx_once = G_ONCE_INIT;
 
   GRegex *mdvd_grx;
   GRegex *subrip_grx;
+  GRegex *dks_grx;
 
   g_once (&mdvd_rx_once,
       (GThreadFunc) gst_sub_parse_data_format_autodetect_regex_once,
@@ -1163,9 +1294,13 @@ gst_sub_parse_data_format_autodetect (gchar * match_str)
   g_once (&subrip_rx_once,
       (GThreadFunc) gst_sub_parse_data_format_autodetect_regex_once,
       (gpointer) GST_SUB_PARSE_REGEX_SUBRIP);
+  g_once (&dks_rx_once,
+      (GThreadFunc) gst_sub_parse_data_format_autodetect_regex_once,
+      (gpointer) GST_SUB_PARSE_REGEX_DKS);
 
   mdvd_grx = (GRegex *) mdvd_rx_once.retval;
   subrip_grx = (GRegex *) subrip_rx_once.retval;
+  dks_grx = (GRegex *) dks_rx_once.retval;
 
   if (g_regex_match (mdvd_grx, match_str, 0, NULL) == TRUE) {
     GST_LOG ("MicroDVD (frame based) format detected");
@@ -1174,6 +1309,10 @@ gst_sub_parse_data_format_autodetect (gchar * match_str)
   if (g_regex_match (subrip_grx, match_str, 0, NULL) == TRUE) {
     GST_LOG ("SubRip (time based) format detected");
     return GST_SUB_PARSE_FORMAT_SUBRIP;
+  }
+  if (g_regex_match (dks_grx, match_str, 0, NULL) == TRUE) {
+    GST_LOG ("DKS (time based) format detected");
+    return GST_SUB_PARSE_FORMAT_DKS;
   }
 
   if (!strncmp (match_str, "FORMAT=TIME", 11)) {
@@ -1203,6 +1342,10 @@ gst_sub_parse_data_format_autodetect (gchar * match_str)
   if (strstr (match_str, "[INFORMATION]") != NULL) {
     GST_LOG ("SubViewer (time based) format detected");
     return GST_SUB_PARSE_FORMAT_SUBVIEWER;
+  }
+  if (strstr (match_str, "{QTtext}") != NULL) {
+    GST_LOG ("QTtext (time based) format detected");
+    return GST_SUB_PARSE_FORMAT_QTTEXT;
   }
 
   GST_DEBUG ("no subtitle format detected");
@@ -1251,9 +1394,16 @@ gst_sub_parse_format_autodetect (GstSubParse * self)
     case GST_SUB_PARSE_FORMAT_MPL2:
       self->parse_line = parse_mpl2;
       return gst_caps_new_simple ("text/x-pango-markup", NULL);
+    case GST_SUB_PARSE_FORMAT_DKS:
+      self->parse_line = parse_dks;
+      return gst_caps_new_simple ("text/plain", NULL);
     case GST_SUB_PARSE_FORMAT_SUBVIEWER:
       self->parse_line = parse_subviewer;
       return gst_caps_new_simple ("text/plain", NULL);
+    case GST_SUB_PARSE_FORMAT_QTTEXT:
+      self->parse_line = parse_qttext;
+      qttext_context_init (&self->state);
+      return gst_caps_new_simple ("text/x-pango-markup", NULL);
     case GST_SUB_PARSE_FORMAT_UNKNOWN:
     default:
       GST_DEBUG ("no subtitle format detected");
@@ -1285,7 +1435,8 @@ feed_textbuf (GstSubParse * self, GstBuffer * buf)
     g_string_truncate (self->textbuf, 0);
     gst_adapter_clear (self->adapter);
 #ifndef GST_DISABLE_XML
-    sami_context_reset (&self->state);
+    if (self->parser_type == GST_SUB_PARSE_FORMAT_SAMI)
+      sami_context_reset (&self->state);
 #endif
     /* we could set a flag to make sure that the next buffer we push out also
      * has the DISCONT flag set, but there's no point really given that it's
@@ -1322,6 +1473,8 @@ handle_buffer (GstSubParse * self, GstBuffer * buf)
         detect_encoding ((gchar *) GST_BUFFER_DATA (buf),
         GST_BUFFER_SIZE (buf));
     self->first_buffer = FALSE;
+    self->state.fps_n = self->fps_n;
+    self->state.fps_d = self->fps_d;
   }
 
   feed_textbuf (self, buf);
@@ -1448,7 +1601,8 @@ gst_sub_parse_sink_event (GstPad * pad, GstEvent * event)
        * if the file does not have an empty line at the end */
       if (self->parser_type == GST_SUB_PARSE_FORMAT_SUBRIP ||
           self->parser_type == GST_SUB_PARSE_FORMAT_TMPLAYER ||
-          self->parser_type == GST_SUB_PARSE_FORMAT_MPL2) {
+          self->parser_type == GST_SUB_PARSE_FORMAT_MPL2 ||
+          self->parser_type == GST_SUB_PARSE_FORMAT_QTTEXT) {
         GstBuffer *buf = gst_buffer_new_and_alloc (2 + 1);
 
         GST_DEBUG ("EOS. Pushing remaining text (if any)");
@@ -1546,7 +1700,7 @@ gst_sub_parse_change_state (GstElement * element, GstStateChange transition)
 
   switch (transition) {
     case GST_STATE_CHANGE_PAUSED_TO_READY:
-      parser_state_dispose (&self->state);
+      parser_state_dispose (self, &self->state);
       self->parser_type = GST_SUB_PARSE_FORMAT_UNKNOWN;
       break;
     default:
@@ -1577,6 +1731,13 @@ static GstStaticCaps sub_caps = GST_STATIC_CAPS ("application/x-subtitle");
 static GstStaticCaps smi_caps = GST_STATIC_CAPS ("application/x-subtitle-sami");
 #define SAMI_CAPS (gst_static_caps_get (&smi_caps))
 #endif
+
+static GstStaticCaps dks_caps = GST_STATIC_CAPS ("application/x-subtitle-dks");
+#define DKS_CAPS (gst_static_caps_get (&dks_caps))
+
+static GstStaticCaps qttext_caps =
+GST_STATIC_CAPS ("application/x-subtitle-qttext");
+#define QTTEXT_CAPS (gst_static_caps_get (&qttext_caps))
 
 static void
 gst_subparse_type_find (GstTypeFind * tf, gpointer private)
@@ -1679,6 +1840,14 @@ gst_subparse_type_find (GstTypeFind * tf, gpointer private)
       GST_DEBUG ("SubViewer format detected");
       caps = SUB_CAPS;
       break;
+    case GST_SUB_PARSE_FORMAT_DKS:
+      GST_DEBUG ("DKS format detected");
+      caps = DKS_CAPS;
+      break;
+    case GST_SUB_PARSE_FORMAT_QTTEXT:
+      GST_DEBUG ("QTtext format detected");
+      caps = QTTEXT_CAPS;
+      break;
     default:
     case GST_SUB_PARSE_FORMAT_UNKNOWN:
       GST_DEBUG ("no subtitle format detected");
@@ -1693,7 +1862,7 @@ static gboolean
 plugin_init (GstPlugin * plugin)
 {
   static gchar *sub_exts[] = { "srt", "sub", "mpsub", "mdvd", "smi", "txt",
-    NULL
+    "dks", NULL
   };
 
   GST_DEBUG_CATEGORY_INIT (sub_parse_debug, "subparse", 0, ".sub parser");

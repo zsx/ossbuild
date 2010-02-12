@@ -26,10 +26,11 @@
 #endif
 
 /* FIXME: hack alert */
-#ifdef WIN32
+#ifdef HAVE_WIN32
 #define DISABLE_FAULT_HANDLER
 #endif
 
+#include <stdio.h>
 #include <string.h>
 #include <signal.h>
 #ifdef HAVE_UNISTD_H
@@ -309,7 +310,7 @@ sigint_handler_sighandler (int signum)
   caught_intr = TRUE;
 }
 
-/* is called every 50 milliseconds (20 times a second), the interrupt handler
+/* is called every 250 milliseconds (4 times a second), the interrupt handler
  * will set a flag for us. We react to this by posting a message. */
 static gboolean
 check_intr (GstElement * pipeline)
@@ -394,7 +395,7 @@ event_loop (GstElement * pipeline, gboolean blocking, GstState target_state)
   bus = gst_element_get_bus (GST_ELEMENT (pipeline));
 
 #ifndef DISABLE_FAULT_HANDLER
-  g_timeout_add (50, (GSourceFunc) check_intr, pipeline);
+  g_timeout_add (250, (GSourceFunc) check_intr, pipeline);
 #endif
 
   while (TRUE) {
@@ -706,10 +707,9 @@ main (int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
 #endif
 
-  if (!g_thread_supported ())
-    g_thread_init (NULL);
+  g_thread_init (NULL);
 
-  gst_alloc_trace_set_flags_all (GST_ALLOC_TRACE_LIVE);
+  gst_tools_print_version ("gst-launch");
 
 #ifndef GST_DISABLE_OPTION_PARSING
   ctx = g_option_context_new ("PIPELINE-DESCRIPTION");
@@ -727,8 +727,6 @@ main (int argc, char *argv[])
   gst_init (&argc, &argv);
 #endif
 
-  gst_tools_print_version ("gst-launch");
-
 #ifndef DISABLE_FAULT_HANDLER
   if (!no_fault)
     fault_setup ();
@@ -741,6 +739,8 @@ main (int argc, char *argv[])
     if (!gst_alloc_trace_available ()) {
       g_warning ("Trace not available (recompile with trace enabled).");
     }
+    gst_alloc_trace_set_flags_all (GST_ALLOC_TRACE_LIVE |
+        GST_ALLOC_TRACE_MEM_LIVE);
     gst_alloc_trace_print_live ();
   }
 

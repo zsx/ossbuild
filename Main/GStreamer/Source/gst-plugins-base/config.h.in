@@ -74,6 +74,9 @@
 /* Define to enable ALSA (used by alsa). */
 #undef HAVE_ALSA
 
+/* Define to 1 if you have the `cbrt' function. */
+#undef HAVE_CBRT
+
 /* Define to enable CDParanoia (used by cdparanoia). */
 #undef HAVE_CDPARANOIA
 
@@ -179,6 +182,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* make use of iso-codes for ISO-639 */
+#undef HAVE_ISO_CODES
+
 /* Define to 1 if you have the `asound' library (-lasound). */
 #undef HAVE_LIBASOUND
 
@@ -214,9 +220,6 @@
 
 /* Define to enable Pango font rendering (used by pango). */
 #undef HAVE_PANGO
-
-/* Defined if pango can write vertically */
-#undef HAVE_PANGO_VERTICAL_WRITING
 
 /* defined if the compiler implements __PRETTY_FUNCTION__ */
 #undef HAVE_PRETTY_FUNCTION
@@ -281,6 +284,12 @@
 /* the host CPU */
 #undef HOST_CPU
 
+/* prefix */
+#undef ISO_CODES_PREFIX
+
+/* */
+#undef ISO_CODES_VERSION
+
 /* directory in which the detected libvisual's plugins are located */
 #undef LIBVISUAL_PLUGINSBASEDIR
 
@@ -311,6 +320,9 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION

@@ -165,8 +165,8 @@ gst_audioringbuffer_class_init (GstAudioRingBufferClass * klass)
 
   ring_parent_class = g_type_class_peek_parent (klass);
 
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_audioringbuffer_dispose);
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_audioringbuffer_finalize);
+  gobject_class->dispose = gst_audioringbuffer_dispose;
+  gobject_class->finalize = gst_audioringbuffer_finalize;
 
   gstringbuffer_class->open_device =
       GST_DEBUG_FUNCPTR (gst_audioringbuffer_open_device);
@@ -209,6 +209,7 @@ audioringbuffer_thread_func (GstRingBuffer * buf)
   if (readfunc == NULL)
     goto no_function;
 
+  /* FIXME: maybe we should at least use a custom pointer type here? */
   g_value_init (&val, G_TYPE_POINTER);
   g_value_set_pointer (&val, src->thread);
   message = gst_message_new_stream_status (GST_OBJECT_CAST (buf),

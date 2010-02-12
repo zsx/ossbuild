@@ -79,10 +79,6 @@
 #ifndef WINVER
 #define WINVER 0x0501
 #endif
-#ifdef _MSC_VER
-	#include <io.h>
-	#define close(x) _close(x)
-#endif
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #define EINPROGRESS WSAEINPROGRESS
@@ -118,9 +114,15 @@ typedef struct
   guint coutl;
 } DecodeCtx;
 
+#ifdef MSG_NOSIGNAL
+#define SEND_FLAGS MSG_NOSIGNAL
+#else
+#define SEND_FLAGS 0
+#endif
+
 #ifdef G_OS_WIN32
 #define READ_SOCKET(fd, buf, len) recv (fd, (char *)buf, len, 0)
-#define WRITE_SOCKET(fd, buf, len) send (fd, (const char *)buf, len, 0)
+#define WRITE_SOCKET(fd, buf, len) send (fd, (const char *)buf, len, SEND_FLAGS)
 #define SETSOCKOPT(sock, level, name, val, len) setsockopt (sock, level, name, (const char *)val, len)
 #define CLOSE_SOCKET(sock) closesocket (sock)
 #define ERRNO_IS_EAGAIN (WSAGetLastError () == WSAEWOULDBLOCK)
@@ -130,7 +132,7 @@ typedef struct
 #define ERRNO_IS_EINPROGRESS (WSAGetLastError () == WSAEWOULDBLOCK)
 #else
 #define READ_SOCKET(fd, buf, len) read (fd, buf, len)
-#define WRITE_SOCKET(fd, buf, len) write (fd, buf, len)
+#define WRITE_SOCKET(fd, buf, len) send (fd, buf, len, SEND_FLAGS)
 #define SETSOCKOPT(sock, level, name, val, len) setsockopt (sock, level, name, val, len)
 #define CLOSE_SOCKET(sock) close (sock)
 #define ERRNO_IS_EAGAIN (errno == EAGAIN)
@@ -450,7 +452,7 @@ accept_failed:
 getnameinfo_failed:
 wrong_family:
   {
-    close (fd);
+    CLOSE_SOCKET (fd);
     return GST_RTSP_ERROR;
   }
 }
@@ -921,12 +923,7 @@ auth_digest_compute_response (const gchar * method,
   memcpy (hex_a2, digest_string, strlen (digest_string));
 
   /* compute KD */
-#if GLIB_CHECK_VERSION (2, 18, 0)
   g_checksum_reset (md5_context);
-#else
-  g_checksum_free (md5_context);
-  md5_context = g_checksum_new (G_CHECKSUM_MD5);
-#endif
   g_checksum_update (md5_context, (const guchar *) hex_a1, strlen (hex_a1));
   g_checksum_update (md5_context, (const guchar *) ":", 1);
   g_checksum_update (md5_context, (const guchar *) nonce, strlen (nonce));
@@ -1346,6 +1343,10 @@ gst_rtsp_connection_write (GstRTSPConnection * conn, const guint8 * data,
       else
         goto select_error;
     }
+
+    /* could also be an error with read socket */
+    if (gst_poll_fd_has_error (conn->fdset, conn->readfd))
+      goto socket_error;
   }
   return GST_RTSP_OK;
 
@@ -1361,6 +1362,10 @@ select_error:
 stopped:
   {
     return GST_RTSP_EINTR;
+  }
+socket_error:
+  {
+    return GST_RTSP_ENET;
   }
 write_error:
   {
@@ -2059,6 +2064,11 @@ gst_rtsp_connection_read (GstRTSPConnection * conn, guint8 * data, guint size,
       else
         goto select_error;
     }
+
+    /* could also be an error with write socket */
+    if (gst_poll_fd_has_error (conn->fdset, conn->writefd))
+      goto socket_error;
+
     gst_poll_set_controllable (conn->fdset, FALSE);
   }
   return GST_RTSP_OK;
@@ -2079,6 +2089,10 @@ stopped:
 eof:
   {
     return GST_RTSP_EEOF;
+  }
+socket_error:
+  {
+    res = GST_RTSP_ENET;
   }
 read_error:
   {
@@ -2213,6 +2227,11 @@ gst_rtsp_connection_receive (GstRTSPConnection * conn, GstRTSPMessage * message,
       else
         goto select_error;
     }
+
+    /* could also be an error with write socket */
+    if (gst_poll_fd_has_error (conn->fdset, conn->writefd))
+      goto socket_error;
+
     gst_poll_set_controllable (conn->fdset, FALSE);
   }
 
@@ -2240,6 +2259,11 @@ stopped:
 eof:
   {
     res = GST_RTSP_EEOF;
+    goto cleanup;
+  }
+socket_error:
+  {
+    res = GST_RTSP_ENET;
     goto cleanup;
   }
 read_error:

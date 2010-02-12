@@ -352,16 +352,14 @@ gst_base_transform_class_init (GstBaseTransformClass * klass)
 
   parent_class = g_type_class_peek_parent (klass);
 
-  gobject_class->set_property =
-      GST_DEBUG_FUNCPTR (gst_base_transform_set_property);
-  gobject_class->get_property =
-      GST_DEBUG_FUNCPTR (gst_base_transform_get_property);
+  gobject_class->set_property = gst_base_transform_set_property;
+  gobject_class->get_property = gst_base_transform_get_property;
 
   g_object_class_install_property (gobject_class, PROP_QOS,
       g_param_spec_boolean ("qos", "QoS", "Handle Quality-of-Service events",
           DEFAULT_PROP_QOS, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_base_transform_finalize);
+  gobject_class->finalize = gst_base_transform_finalize;
 
   klass->passthrough_on_same_caps = FALSE;
   klass->event = GST_DEBUG_FUNCPTR (gst_base_transform_sink_eventfunc);
@@ -613,14 +611,14 @@ gst_base_transform_getcaps (GstPad * pad)
   otherpad = (pad == trans->srcpad) ? trans->sinkpad : trans->srcpad;
 
   /* we can do what the peer can */
-  caps = gst_pad_peer_get_caps (otherpad);
+  caps = gst_pad_peer_get_caps_reffed (otherpad);
   if (caps) {
     GstCaps *temp;
     const GstCaps *templ;
 
     GST_DEBUG_OBJECT (pad, "peer caps  %" GST_PTR_FORMAT, caps);
 
-    /* filtered against our padtemplate */
+    /* filtered against our padtemplate on the other side */
     templ = gst_pad_get_pad_template_caps (otherpad);
     GST_DEBUG_OBJECT (pad, "our template  %" GST_PTR_FORMAT, templ);
     temp = gst_caps_intersect (caps, templ);
@@ -635,7 +633,7 @@ gst_base_transform_getcaps (GstPad * pad)
     if (caps == NULL)
       goto done;
 
-    /* and filter against the template again */
+    /* and filter against the template of this pad */
     templ = gst_pad_get_pad_template_caps (pad);
     GST_DEBUG_OBJECT (pad, "our template  %" GST_PTR_FORMAT, templ);
     temp = gst_caps_intersect (caps, templ);
@@ -856,7 +854,7 @@ gst_base_transform_find_transform (GstBaseTransform * trans, GstPad * pad,
 
     GST_DEBUG_OBJECT (trans, "othercaps now %" GST_PTR_FORMAT, othercaps);
 
-    peercaps = gst_pad_get_caps (otherpeer);
+    peercaps = gst_pad_get_caps_reffed (otherpeer);
     intersect = gst_caps_intersect (peercaps, othercaps);
     gst_caps_unref (peercaps);
     gst_caps_unref (othercaps);
@@ -1002,7 +1000,7 @@ gst_base_transform_acceptcaps (GstPad * pad, GstCaps * caps)
     GST_DEBUG_OBJECT (pad, "non fixed accept caps %" GST_PTR_FORMAT, caps);
 
     /* get all the formats we can handle on this pad */
-    allowed = gst_pad_get_caps (pad);
+    allowed = gst_pad_get_caps_reffed (pad);
     if (!allowed) {
       GST_DEBUG_OBJECT (pad, "gst_pad_get_caps() failed");
       goto no_transform_possible;
@@ -1255,7 +1253,7 @@ gst_base_transform_prepare_output_buffer (GstBaseTransform * trans,
   /* check if we got different caps on this new output buffer */
   newcaps = GST_BUFFER_CAPS (*out_buf);
   newsize = GST_BUFFER_SIZE (*out_buf);
-  if (!gst_caps_is_equal (newcaps, oldcaps)) {
+  if (newcaps && !gst_caps_is_equal (newcaps, oldcaps)) {
     GstCaps *othercaps;
     gboolean can_convert;
 
@@ -1396,7 +1394,8 @@ gst_base_transform_prepare_output_buffer (GstBaseTransform * trans,
    * check. This is needed when we receive different pointers on the sinkpad
    * that mean the same caps. What we then want to do is prefer those caps over
    * the ones on the srcpad and set the srcpad caps to the buffer caps */
-  setcaps = (newcaps != outcaps) && (!gst_caps_is_equal (newcaps, outcaps));
+  setcaps = !newcaps || ((newcaps != outcaps)
+      && (!gst_caps_is_equal (newcaps, outcaps)));
   /* we need to modify the metadata when the element is not gap aware,
    * passthrough is not used and the gap flag is set */
   copymeta |= !trans->priv->gap_aware && !trans->passthrough
@@ -1551,7 +1550,8 @@ gst_base_transform_buffer_alloc (GstPad * pad, guint64 offset, guint size,
 
     /* if we have a suggestion, pretend we got these as input */
     GST_OBJECT_LOCK (pad);
-    if ((priv->sink_suggest && !gst_caps_is_equal (caps, priv->sink_suggest))) {
+    if ((priv->size_suggest && priv->sink_suggest
+            && !gst_caps_is_equal (caps, priv->sink_suggest))) {
       sink_suggest = gst_caps_ref (priv->sink_suggest);
       size_suggest = priv->size_suggest;
       GST_DEBUG_OBJECT (trans, "have suggestion %p %" GST_PTR_FORMAT " size %u",

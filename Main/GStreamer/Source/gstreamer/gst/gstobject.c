@@ -173,8 +173,8 @@ gst_object_class_init (GstObjectClass * klass)
   _gst_object_trace = gst_alloc_trace_register (g_type_name (GST_TYPE_OBJECT));
 #endif
 
-  gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_object_set_property);
-  gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_object_get_property);
+  gobject_class->set_property = gst_object_set_property;
+  gobject_class->get_property = gst_object_get_property;
 
   g_object_class_install_property (gobject_class, ARG_NAME,
       g_param_spec_string ("name", "Name", "The name of the object",
@@ -246,7 +246,7 @@ gst_object_class_init (GstObjectClass * klass)
   klass->lock = g_new0 (GStaticRecMutex, 1);
   g_static_rec_mutex_init (klass->lock);
 
-  klass->signal_object = g_object_new (gst_signal_object_get_type (), NULL);
+  klass->signal_object = g_object_newv (gst_signal_object_get_type (), 0, NULL);
 
   /* see the comments at gst_object_dispatch_properties_changed */
   gobject_class->dispatch_properties_changed
@@ -461,7 +461,7 @@ have_parent:
         GST_OBJECT_NAME (object), GST_OBJECT_NAME (parent));
     GST_OBJECT_UNLOCK (object);
     /* ref the object again to revive it in this error case */
-    object = gst_object_ref (object);
+    gst_object_ref (object);
     return;
   }
 }
@@ -470,7 +470,7 @@ have_parent:
 static void
 gst_object_finalize (GObject * object)
 {
-  GstObject *gstobject = GST_OBJECT (object);
+  GstObject *gstobject = GST_OBJECT_CAST (object);
 
   GST_CAT_LOG_OBJECT (GST_CAT_REFCOUNTING, object, "finalize");
 
@@ -486,7 +486,7 @@ gst_object_finalize (GObject * object)
   parent_class->finalize (object);
 }
 
-/* Changing a GObject property of a GstObject will result in "deep_notify"
+/* Changing a GObject property of a GstObject will result in "deep-notify"
  * signals being emitted by the object itself, as well as in each parent
  * object. This is so that an application can connect a listener to the
  * top-level bin to catch property-change notifications for all contained
@@ -595,7 +595,6 @@ gst_object_set_name_default (GstObject * object)
   const gchar *type_name;
   gint count;
   gchar *name, *tmp;
-  gboolean result;
   GQuark q;
 
   /* to ensure guaranteed uniqueness across threads, only one thread
@@ -620,10 +619,22 @@ gst_object_set_name_default (GstObject * object)
   name = g_ascii_strdown (tmp, -1);
   g_free (tmp);
 
-  result = gst_object_set_name (object, name);
-  g_free (name);
+  GST_OBJECT_LOCK (object);
+  if (G_UNLIKELY (object->parent != NULL))
+    goto had_parent;
+  g_free (object->name);
+  object->name = name;
 
-  return result;
+  GST_OBJECT_UNLOCK (object);
+
+  return TRUE;
+
+had_parent:
+  {
+    GST_WARNING ("parented objects can't be renamed");
+    GST_OBJECT_UNLOCK (object);
+    return FALSE;
+  }
 }
 
 /**
@@ -664,6 +675,10 @@ gst_object_set_name (GstObject * object, const gchar * name)
     GST_OBJECT_UNLOCK (object);
     result = gst_object_set_name_default (object);
   }
+  /* FIXME-0.11: this misses a g_object_notify (object, "name"); unless called
+   * from gst_object_set_property.
+   * Ideally remove such custom setters (or make it static).
+   */
   return result;
 
   /* error */
@@ -883,21 +898,24 @@ gst_object_unparent (GstObject * object)
 gboolean
 gst_object_has_ancestor (GstObject * object, GstObject * ancestor)
 {
-  GstObject *parent;
-  gboolean result = FALSE;
+  GstObject *parent, *tmp;
 
-  if (object == NULL)
+  if (!ancestor || !object)
     return FALSE;
 
-  if (object == ancestor)
-    return TRUE;
+  parent = gst_object_ref (object);
+  do {
+    if (parent == ancestor) {
+      gst_object_unref (parent);
+      return TRUE;
+    }
 
-  parent = gst_object_get_parent (object);
-  result = gst_object_has_ancestor (parent, ancestor);
-  if (parent)
+    tmp = gst_object_get_parent (parent);
     gst_object_unref (parent);
+    parent = tmp;
+  } while (parent);
 
-  return result;
+  return FALSE;
 }
 
 /**
@@ -927,7 +945,7 @@ gst_object_check_uniqueness (GList * list, const gchar * name)
     GstObject *child;
     gboolean eq;
 
-    child = GST_OBJECT (list->data);
+    child = GST_OBJECT_CAST (list->data);
 
     GST_OBJECT_LOCK (child);
     eq = strcmp (GST_OBJECT_NAME (child), name) == 0;
@@ -1007,7 +1025,7 @@ gst_object_set_property (GObject * object, guint prop_id,
 {
   GstObject *gstobject;
 
-  gstobject = GST_OBJECT (object);
+  gstobject = GST_OBJECT_CAST (object);
 
   switch (prop_id) {
     case ARG_NAME:
@@ -1025,7 +1043,7 @@ gst_object_get_property (GObject * object, guint prop_id,
 {
   GstObject *gstobject;
 
-  gstobject = GST_OBJECT (object);
+  gstobject = GST_OBJECT_CAST (object);
 
   switch (prop_id) {
     case ARG_NAME:

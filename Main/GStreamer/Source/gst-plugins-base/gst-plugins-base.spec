@@ -4,7 +4,7 @@
 %define gst_minver  0.10.0
 
 Name: 		%{gstreamer}-plugins-base
-Version: 	0.10.25
+Version: 	0.10.26
 Release: 	1.gst
 Summary: 	GStreamer streaming media framework plug-ins
 
@@ -55,7 +55,7 @@ plug-ins.
 export DOCS_ARE_INCOMPLETE_PLEASE_FIXME=0
 %build
 %configure \
-  --enable-gtk-doc
+  --enable-gtk-doc --enable-introspection=no
 
 make %{?_smp_mflags}
                                                                                 
@@ -117,7 +117,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gstreamer-%{majorminor}/libgstaudioresample.so
 %{_libdir}/gstreamer-%{majorminor}/libgstaudiotestsrc.so
 %{_libdir}/gstreamer-%{majorminor}/libgstgdp.so
-%{_libdir}/gstreamer-%{majorminor}/libgstqueue2.so
 %{_libdir}/gstreamer-%{majorminor}/libgstapp.so
 
 # Here are packages not in the base plugins package but not dependant

@@ -74,7 +74,7 @@
 {
    <insert a suppression name here>
    Memcheck:Cond
-   fun:_dl_relocate_object
+   fun:*
    fun:dl_open_worker
    fun:_dl_catch_error
    fun:_dl_open
@@ -82,7 +82,6 @@
    fun:_dl_catch_error
    fun:_dlerror_run
    fun:dlopen@@GLIBC_2.2.5
-   fun:g_module_open
 }
 
 # glibc does not deallocate thread-local storage
@@ -504,6 +503,44 @@
 }
 
 {
+   <suppression for glibc 2.7 on Ubunty Hardy 64-bit>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   fun:iconv_open
+}
+
+{
+   <suppression for glibc 2.7 on Ubunty Hardy 64-bit>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   fun:iconv_open
+}
+
+{
    <suppression for glibc 2.7 on debian>
    Memcheck:Addr4
    obj:/lib/ld-2.7.so
@@ -525,6 +562,21 @@
    obj:/lib/ld-2.7.so
    obj:/lib/i686/cmov/libdl-2.7.so
    fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on Ubunty Hardy 64-bit>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
 }
 
 {
@@ -925,6 +977,57 @@
    fun:g_type_register_fundamental
 }
 
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:type_data_make_W
+   fun:g_type_register_fundamental
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:g_type_class_ref
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:type_add_flags_W
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:type_add_flags_W
+}
+
 #pthread memleaks
 
 {
@@ -1143,26 +1246,15 @@
 {
    <alsa error>
    Memcheck:Cond
-   fun:snd_pcm_hw_param_set_near
-   fun:set_hwparams
+   fun:snd*_pcm_hw_param_set_near
 }
 
 {
    <alsa error>
    Memcheck:Cond
    fun:_snd_pcm_hw_param_set_min
-   fun:snd_pcm_hw_param_set_min
-   fun:snd_pcm_hw_param_set_near
-   fun:set_hwparams
-}
-
-{
-   <alsa error>
-   Memcheck:Cond
-   fun:_snd_pcm_hw_param_set_min
-   fun:snd_pcm_hw_param_set_min
-   fun:snd_pcm_hw_param_set_near
-   fun:set_hwparams
+   fun:snd*_pcm_hw_param_set_min
+   fun:snd*_pcm_hw_param_set_near
 }
 
 {
@@ -2514,6 +2606,124 @@
    fun:snd_ctl_open_noupdate
 }
 
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:malloc
+   fun:*
+   fun:snd1_dlobj_cache_add
+   fun:snd_ctl_open_noupdate
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+
 # The following are leaks of caps that need to be created dynamically
 # in the type registration of the plugin (used for pad templates).
 
@@ -2867,6 +3077,16 @@
    fun:gst_ffmpeg_cfg_init
    fun:gst_ffmpegenc_register
    fun:plugin_init
+}
+
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:gst_ffmpeg_cfg_init
+   fun:gst_ffmpegenc_register
 }
 
 ## Leak of GIO module through gnomevfs
@@ -3981,4 +4201,262 @@
    <insert a suppression name here>
    Memcheck:Value8
    fun:__pthread_initialize_minimal
+}
+
+# glibc 2.11 conditional
+{
+   <glibc-2.11 conditional>
+   Memcheck:Cond
+   fun:_dl_relocate_object
+   fun:dl_main
+   fun:_dl_sysdep_start
+   fun:_dl_start
+   obj:/lib64/ld-2.11.so
+}
+
+# glibc 2.11 Leak
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:_dl_*
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:_dl_*
+   fun:_dl_*
+   fun:_dl_*
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:_dl_*
+   fun:openaux
+   fun:_dl_catch_error
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:_dl_map_object
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:_dl_new_object
+   fun:_dl_map_object_from_fd
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_error
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:_dl_*
+   fun:_dl_*
+   fun:_dl_*
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.2.5
+}
+
+# glib 2.22 leaks
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:type_data_make_W
+   fun:g_type_register_static
+   fun:g_param_type_register_static
+}
+
+# new registry system
+# all of this will only be created once when loading registry.
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:_priv_gst_registry_chunks_load_plugin
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:_priv_gst_registry_chunks_load_plugin
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:_priv_gst_registry_chunks_load_plugin
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:_priv_gst_registry_chunks_load_plugin
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:_priv_gst_registry_chunks_load_plugin
+}
+
+# system-wide tags
+# these tags are registered once
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:gst_tag_register
+   fun:_gst_tag_initialize
+}
+
+# system-wide type classes that we keep referenced
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:g_type_class_ref
+   fun:init_post
+}
+
+
+# Leaking core elements plugin
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:g_type_class_ref
+   fun:g_object_newv
+   fun:gst_plugin_register_static
+   fun:init_post
+}
+
+# leaking cached queries which are only initialized once
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:_gst_query_initialize
+   fun:init_post
+}
+
+# macosx (leopard) library loader leak
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZNSs4_Rep9_S_createEmmRKSaIcE
+   fun:_ZNSs12_S_constructIPKcEEPcT_S3_RKSaIcESt20forward_iterator_tag
+   fun:_ZNSsC2EPKcRKSaIcE
+   fun:_Z41__static_initialization_and_destruction_0ii
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
 }

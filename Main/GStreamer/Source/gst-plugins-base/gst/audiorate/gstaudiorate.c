@@ -17,6 +17,46 @@
  * Boston, MA 02111-1307, USA.
  */
 
+/**
+ * SECTION:element-audiorate
+ * @see_also: #GstVideoRate
+ *
+ * This element takes an incoming stream of timestamped raw audio frames and
+ * produces a perfect stream by inserting or dropping samples as needed.
+ *
+ * This operation may be of use to link to elements that require or otherwise
+ * implicitly assume a perfect stream as they do not store timestamps,
+ * but derive this by some means (e.g. bitrate for some AVI cases).
+ *
+ * The properties #GstAudioRate:in, #GstAudioRate:out, #GstAudioRate:add
+ * and #GstAudioRate:drop can be read to obtain information about number of
+ * input samples, output samples, dropped samples (i.e. the number of unused
+ * input samples) and inserted samples (i.e. the number of samples added to
+ * stream).
+ *
+ * When the #GstAudioRate:silent property is set to FALSE, a GObject property
+ * notification will be emitted whenever one of the #GstAudioRate:add or
+ * #GstAudioRate:drop values changes.
+ * This can potentially cause performance degradation.
+ * Note that property notification will happen from the streaming thread, so
+ * applications should be prepared for this.
+ *
+ * If the #GstAudioRate:tolerance property is non-zero, and an incoming buffer's
+ * timestamp deviates less than the property indicates from what would make a
+ * 'perfect time', then no samples will be added or dropped.
+ * Note that the output is still guaranteed to be a perfect stream, which means
+ * that the incoming data is then simply shifted (by less than the indicated
+ * tolerance) to a perfect time.
+ *
+ * <refsect2>
+ * <title>Example pipelines</title>
+ * |[
+ * gst-launch -v alsasrc ! audiorate ! wavenc ! filesink location=alsa.wav
+ * ]| Capture audio from an ALSA device, and turn it into a perfect stream
+ * for saving in a raw audio file.
+ * </refsect2>
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -24,57 +64,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <gst/gst.h>
-#include <gst/audio/audio.h>
+#include "gstaudiorate.h"
 
 #define GST_CAT_DEFAULT audio_rate_debug
 GST_DEBUG_CATEGORY_STATIC (audio_rate_debug);
-
-#define GST_TYPE_AUDIO_RATE \
-  (gst_audio_rate_get_type())
-#define GST_AUDIO_RATE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_AUDIO_RATE,GstAudioRate))
-#define GST_AUDIO_RATE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_AUDIO_RATE,GstAudioRate))
-#define GST_IS_AUDIO_RATE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_AUDIO_RATE))
-#define GST_IS_AUDIO_RATE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_AUDIO_RATE))
-
-typedef struct _GstAudioRate GstAudioRate;
-typedef struct _GstAudioRateClass GstAudioRateClass;
-
-struct _GstAudioRate
-{
-  GstElement element;
-
-  GstPad *sinkpad, *srcpad;
-
-  /* audio format */
-  gint bytes_per_sample;
-  gint rate;
-
-  /* stats */
-  guint64 in, out, add, drop;
-  gboolean silent;
-
-  /* audio state */
-  guint64 next_offset;
-  guint64 next_ts;
-
-  gboolean discont;
-
-  gboolean new_segment;
-  /* we accept all formats on the sink */
-  GstSegment sink_segment;
-  /* we output TIME format on the src */
-  GstSegment src_segment;
-};
-
-struct _GstAudioRateClass
-{
-  GstElementClass parent_class;
-};
 
 /* elementfactory information */
 static const GstElementDetails audio_rate_details =
@@ -90,7 +83,8 @@ enum
   LAST_SIGNAL
 };
 
-#define DEFAULT_SILENT  TRUE
+#define DEFAULT_SILENT     TRUE
+#define DEFAULT_TOLERANCE  0
 
 enum
 {
@@ -100,6 +94,7 @@ enum
   ARG_ADD,
   ARG_DROP,
   ARG_SILENT,
+  ARG_TOLERANCE,
   /* FILL ME */
 };
 
@@ -175,6 +170,7 @@ gst_audio_rate_base_init (gpointer g_class)
   gst_element_class_add_pad_template (element_class,
       gst_static_pad_template_get (&gst_audio_rate_src_template));
 }
+
 static void
 gst_audio_rate_class_init (GstAudioRateClass * klass)
 {
@@ -202,6 +198,19 @@ gst_audio_rate_class_init (GstAudioRateClass * klass)
   g_object_class_install_property (object_class, ARG_SILENT,
       g_param_spec_boolean ("silent", "silent",
           "Don't emit notify for dropped and duplicated frames", DEFAULT_SILENT,
+          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+  /**
+   * GstAudioRate:tolerance
+   *
+   * The difference between incoming timestamp and next timestamp must exceed
+   * the given value for audiorate to add or drop samples.
+   *
+   * Since: 0.10.26
+   **/
+  g_object_class_install_property (object_class, ARG_TOLERANCE,
+      g_param_spec_uint64 ("tolerance", "tolerance",
+          "Only act if timestamp jitter/imperfection exceeds indicated tolerance (ns)",
+          0, G_MAXUINT64, DEFAULT_TOLERANCE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   element_class->change_state = gst_audio_rate_change_state;
@@ -291,6 +300,27 @@ gst_audio_rate_init (GstAudioRate * audiorate)
   audiorate->drop = 0;
   audiorate->add = 0;
   audiorate->silent = DEFAULT_SILENT;
+  audiorate->tolerance = DEFAULT_TOLERANCE;
+}
+
+static void
+gst_audio_rate_fill_to_time (GstAudioRate * audiorate, GstClockTime time)
+{
+  GstBuffer *buf;
+
+  GST_DEBUG_OBJECT (audiorate, "next_ts: %" GST_TIME_FORMAT
+      ", filling to %" GST_TIME_FORMAT, GST_TIME_ARGS (audiorate->next_ts),
+      GST_TIME_ARGS (time));
+
+  if (!GST_CLOCK_TIME_IS_VALID (time) ||
+      !GST_CLOCK_TIME_IS_VALID (audiorate->next_ts))
+    return;
+
+  /* feed an empty buffer to chain with the given timestamp,
+   * it will take care of filling */
+  buf = gst_buffer_new ();
+  GST_BUFFER_TIMESTAMP (buf) = time;
+  gst_audio_rate_chain (audiorate->sinkpad, buf);
 }
 
 static gboolean
@@ -318,21 +348,16 @@ gst_audio_rate_sink_event (GstPad * pad, GstEvent * event)
           &start, &stop, &time);
 
       GST_DEBUG_OBJECT (audiorate, "handle NEWSEGMENT");
-      /* FIXME:
-       * - sparse stream support. For this, the update flag is TRUE and the
-       *   start/time positions are updated, meaning that time progressed by
-       *   time - old_time amount and we need to fill that gap with empty
-       *   samples.
-       * - fill the current segment if it has a valid stop position. This
-       *   happens when the update flag is FALSE. With the segment helper we can
-       *   calculate the accumulated time and compare this to the next_offset.
-       */
+      /* FIXME: bad things will likely happen if rate < 0 ... */
       if (!update) {
         /* a new segment starts. We need to figure out what will be the next
          * sample offset. We mark the offsets as invalid so that the _chain
          * function will perform this calculation. */
+        gst_audio_rate_fill_to_time (audiorate, audiorate->src_segment.stop);
         audiorate->next_offset = -1;
         audiorate->next_ts = -1;
+      } else {
+        gst_audio_rate_fill_to_time (audiorate, audiorate->src_segment.start);
       }
 
       /* we accept all formats */
@@ -474,10 +499,11 @@ static GstFlowReturn
 gst_audio_rate_chain (GstPad * pad, GstBuffer * buf)
 {
   GstAudioRate *audiorate;
-  GstClockTime in_time, in_duration, in_stop, run_time;
+  GstClockTime in_time;
   guint64 in_offset, in_offset_end, in_samples;
   guint in_size;
   GstFlowReturn ret = GST_FLOW_OK;
+  GstClockTimeDiff diff;
 
   audiorate = GST_AUDIO_RATE (gst_pad_get_parent (pad));
 
@@ -503,6 +529,9 @@ gst_audio_rate_chain (GstPad * pad, GstBuffer * buf)
 
     GST_DEBUG_OBJECT (audiorate, "resync to offset %" G_GINT64_FORMAT, pos);
 
+    /* resyncing is a discont */
+    audiorate->discont = TRUE;
+
     audiorate->next_offset = pos;
     audiorate->next_ts = gst_util_uint64_scale_int (audiorate->next_offset,
         GST_SECOND, audiorate->rate);
@@ -518,25 +547,30 @@ gst_audio_rate_chain (GstPad * pad, GstBuffer * buf)
 
   in_size = GST_BUFFER_SIZE (buf);
   in_samples = in_size / audiorate->bytes_per_sample;
-  /* get duration from the size because we can and it's more accurate */
-  in_duration =
-      gst_util_uint64_scale_int (in_samples, GST_SECOND, audiorate->rate);
-  in_stop = in_time + in_duration;
-
-  /* Figure out the total accumulated segment time. */
-  run_time = in_time + audiorate->src_segment.accum;
 
   /* calculate the buffer offset */
-  in_offset = gst_util_uint64_scale_int (run_time, audiorate->rate, GST_SECOND);
+  in_offset = gst_util_uint64_scale_int_round (in_time, audiorate->rate,
+      GST_SECOND);
   in_offset_end = in_offset + in_samples;
 
   GST_LOG_OBJECT (audiorate,
-      "in_time:%" GST_TIME_FORMAT ", run_time:%" GST_TIME_FORMAT
-      ", in_duration:%" GST_TIME_FORMAT
-      ", in_size:%u, in_offset:%lld, in_offset_end:%lld" ", ->next_offset:%lld",
-      GST_TIME_ARGS (in_time), GST_TIME_ARGS (run_time),
-      GST_TIME_ARGS (in_duration), in_size, in_offset, in_offset_end,
-      audiorate->next_offset);
+      "in_time:%" GST_TIME_FORMAT ", in_duration:%" GST_TIME_FORMAT
+      ", in_size:%u, in_offset:%" G_GUINT64_FORMAT ", in_offset_end:%"
+      G_GUINT64_FORMAT ", ->next_offset:%" G_GUINT64_FORMAT,
+      GST_TIME_ARGS (in_time),
+      GST_TIME_ARGS (GST_FRAMES_TO_CLOCK_TIME (in_samples, audiorate->rate)),
+      in_size, in_offset, in_offset_end, audiorate->next_offset);
+
+  diff = in_time - audiorate->next_ts;
+  if (diff <= (GstClockTimeDiff) audiorate->tolerance &&
+      diff >= (GstClockTimeDiff) - audiorate->tolerance) {
+    /* buffer time close enough to expected time,
+     * so produce a perfect stream by simply 'shifting'
+     * it to next ts and offset and sending */
+    GST_LOG_OBJECT (audiorate, "within tolerance %" GST_TIME_FORMAT,
+        GST_TIME_ARGS (audiorate->tolerance));
+    goto send;
+  }
 
   /* do we need to insert samples */
   if (in_offset > audiorate->next_offset) {
@@ -559,7 +593,8 @@ gst_audio_rate_chain (GstPad * pad, GstBuffer * buf)
       /* FIXME, 0 might not be the silence byte for the negotiated format. */
       memset (GST_BUFFER_DATA (fill), 0, fillsize);
 
-      GST_DEBUG_OBJECT (audiorate, "inserting %lld samples", cursamples);
+      GST_DEBUG_OBJECT (audiorate, "inserting %" G_GUINT64_FORMAT " samples",
+          cursamples);
 
       GST_BUFFER_OFFSET (fill) = audiorate->next_offset;
       audiorate->next_offset += cursamples;
@@ -601,7 +636,8 @@ gst_audio_rate_chain (GstPad * pad, GstBuffer * buf)
 
       audiorate->drop += drop;
 
-      GST_DEBUG_OBJECT (audiorate, "dropping %lld samples", drop);
+      GST_DEBUG_OBJECT (audiorate, "dropping %" G_GUINT64_FORMAT " samples",
+          drop);
 
       /* we can drop the buffer completely */
       gst_buffer_unref (buf);
@@ -628,8 +664,17 @@ gst_audio_rate_chain (GstPad * pad, GstBuffer * buf)
       gst_buffer_set_caps (buf, GST_PAD_CAPS (audiorate->srcpad));
 
       audiorate->drop += truncsamples;
+      GST_DEBUG_OBJECT (audiorate, "truncating %" G_GUINT64_FORMAT " samples",
+          truncsamples);
+
+      if (!audiorate->silent)
+        g_object_notify (G_OBJECT (audiorate), "drop");
     }
   }
+
+send:
+  if (GST_BUFFER_SIZE (buf) == 0)
+    goto beach;
 
   /* Now calculate parameters for whichever buffer (either the original
    * or truncated one) we're pushing. */
@@ -688,6 +733,9 @@ gst_audio_rate_set_property (GObject * object,
     case ARG_SILENT:
       audiorate->silent = g_value_get_boolean (value);
       break;
+    case ARG_TOLERANCE:
+      audiorate->tolerance = g_value_get_uint64 (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -715,6 +763,9 @@ gst_audio_rate_get_property (GObject * object,
       break;
     case ARG_SILENT:
       g_value_set_boolean (value, audiorate->silent);
+      break;
+    case ARG_TOLERANCE:
+      g_value_set_uint64 (value, audiorate->tolerance);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);

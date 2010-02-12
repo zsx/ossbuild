@@ -106,13 +106,15 @@ EXTRA_HFILES = \
 	$(top_srcdir)/gst/gdp/gstgdpdepay.h \
 	$(top_srcdir)/gst/gdp/gstgdppay.h \
 	$(top_srcdir)/gst/playback/gstplay-enum.h \
+	$(top_srcdir)/gst/playback/gstsubtitleoverlay.h \
+	$(top_srcdir)/gst/audiorate/gstaudiorate.h \
 	$(top_srcdir)/gst/audioresample/gstaudioresample.h \
 	$(top_srcdir)/gst/tcp/gstmultifdsink.h \
 	$(top_srcdir)/gst/tcp/gsttcpclientsrc.h \
 	$(top_srcdir)/gst/tcp/gsttcpclientsink.h \
 	$(top_srcdir)/gst/tcp/gsttcpserversrc.h \
 	$(top_srcdir)/gst/tcp/gsttcpserversink.h \
-	$(top_srcdir)/gst/tcp/gsttcp-enumtypes.h \
+	$(top_builddir)/gst/tcp/gsttcp-enumtypes.h \
 	$(top_srcdir)/gst/tcp/gsttcp.h \
 	$(top_srcdir)/gst/videorate/gstvideorate.h \
 	$(top_srcdir)/gst/videoscale/gstvideoscale.h \

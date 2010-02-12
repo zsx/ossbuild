@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>textoverlay</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Base Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Base Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-tcpserversink.html" title="tcpserversink">
 <link rel="next" href="gst-plugins-base-plugins-textrender.html" title="textrender">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -25,15 +25,15 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-base-plugins-textoverlay.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-textoverlay.description" class="shortcut">Description</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-textoverlay.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-textoverlay.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-textoverlay.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-textoverlay.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-textoverlay.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="textoverlay">
 <a name="gst-plugins-base-plugins-textoverlay"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,81 +42,48 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-base-plugins-textoverlay.synopsis"></a><h2>Synopsis</h2>
-<a name="GstTextOverlay"></a><pre class="synopsis">
-                    <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay-struct" title="GstTextOverlay">GstTextOverlay</a>;
+<a name="GstTextOverlay"></a><pre class="synopsis">                    <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay-struct" title="GstTextOverlay">GstTextOverlay</a>;
 enum                <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayVAlign" title="enum GstTextOverlayVAlign">GstTextOverlayVAlign</a>;
 enum                <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayHAlign" title="enum GstTextOverlayHAlign">GstTextOverlayHAlign</a>;
 enum                <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayWrapMode" title="enum GstTextOverlayWrapMode">GstTextOverlayWrapMode</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-base-plugins-textoverlay.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
->GObject</a>
-   +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
->GstObject</a>
-         +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
->GstElement</a>
+  <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html">GstObject</a>
+         +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html">GstElement</a>
                +----GstTextOverlay
                      +----<a class="link" href="gst-plugins-base-plugins-timeoverlay.html#GstTimeOverlay">GstTimeOverlay</a>
                      +----<a class="link" href="gst-plugins-base-plugins-clockoverlay.html#GstClockOverlay">GstClockOverlay</a>
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-base-plugins-textoverlay.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--deltax" title='The "deltax" property'>deltax</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--deltay" title='The "deltay" property'>deltay</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--font-desc" title='The "font-desc" property'>font-desc</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--halign" title='The "halign" property'>halign</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--shaded-background" title='The "shaded-background" property'>shaded-background</a>"        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--text" title='The "text" property'>text</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--valign" title='The "valign" property'>valign</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--wrap-mode" title='The "wrap-mode" property'>wrap-mode</a>"                <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayWrapMode" title="enum GstTextOverlayWrapMode">GstTextOverlayWrapMode</a>  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--xpad" title='The "xpad" property'>xpad</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--ypad" title='The "ypad" property'>ypad</a>"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--halignment" title='The "halignment" property'>halignment</a>"               <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayHAlign" title="enum GstTextOverlayHAlign">GstTextOverlayHAlign</a>  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--valignment" title='The "valignment" property'>valignment</a>"               <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayVAlign" title="enum GstTextOverlayVAlign">GstTextOverlayVAlign</a>  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--line-alignment" title='The "line-alignment" property'>line-alignment</a>"           GstTextOverlayLineAlign  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--silent" title='The "silent" property'>silent</a>"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--wait-text" title='The "wait-text" property'>wait-text</a>"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--auto-resize" title='The "auto-resize" property'>auto-resize</a>"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--vertical-render" title='The "vertical-render" property'>vertical-render</a>"          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--deltax" title='The "deltax" property'>deltax</a>"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--deltay" title='The "deltay" property'>deltay</a>"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--font-desc" title='The "font-desc" property'>font-desc</a>"                <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--halign" title='The "halign" property'>halign</a>"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--shaded-background" title='The "shaded-background" property'>shaded-background</a>"        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--text" title='The "text" property'>text</a>"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--valign" title='The "valign" property'>valign</a>"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--wrap-mode" title='The "wrap-mode" property'>wrap-mode</a>"                <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayWrapMode" title="enum GstTextOverlayWrapMode"><span class="type">GstTextOverlayWrapMode</span></a>  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--xpad" title='The "xpad" property'>xpad</a>"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--ypad" title='The "ypad" property'>ypad</a>"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--halignment" title='The "halignment" property'>halignment</a>"               <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayHAlign" title="enum GstTextOverlayHAlign"><span class="type">GstTextOverlayHAlign</span></a>  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--valignment" title='The "valignment" property'>valignment</a>"               <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayVAlign" title="enum GstTextOverlayVAlign"><span class="type">GstTextOverlayVAlign</span></a>  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--line-alignment" title='The "line-alignment" property'>line-alignment</a>"           <span class="type">GstTextOverlayLineAlign</span>  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--silent" title='The "silent" property'>silent</a>"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--wait-text" title='The "wait-text" property'>wait-text</a>"                <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--auto-resize" title='The "auto-resize" property'>auto-resize</a>"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlay--vertical-render" title='The "vertical-render" property'>vertical-render</a>"          <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-base-plugins-textoverlay.description"></a><h2>Description</h2>
 <p>
 This plugin renders text on top of a video stream. This can be either
@@ -132,294 +99,86 @@ default.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2531447"></a><h3>Example launch lines</h3>
-<div class="informalexample"><pre class="programlisting">
-gst-launch -v videotestsrc ! textoverlay text="Room A" valign=top halign=left ! xvimagesink
-</pre></div> Here is a simple pipeline that displays a static text in the top left
+<div class="refsect2" title="Example launch lines">
+<a name="id458254"></a><h3>Example launch lines</h3>
+<div class="informalexample">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1</pre></td>
+        <td class="listing_code"><pre class="programlisting">gst<span class="symbol">-</span>launch <span class="symbol">-</span>v videotestsrc <span class="symbol">!</span> textoverlay text<span class="symbol">=</span><span class="string">&quot;Room A&quot;</span> valign<span class="symbol">=</span>top halign<span class="symbol">=</span>left <span class="symbol">!</span> xvimagesink</pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+ Here is a simple pipeline that displays a static text in the top left
 corner of the video picture 
-<div class="informalexample"><pre class="programlisting">
-gst-launch -v filesrc location=subtitles.srt ! subparse ! txt.   videotestsrc ! timeoverlay ! textoverlay name=txt shaded-background=yes ! xvimagesink
-</pre></div> Here is another pipeline that displays subtitles from an .srt subtitle
+<div class="informalexample">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1</pre></td>
+        <td class="listing_code"><pre class="programlisting">gst<span class="symbol">-</span>launch <span class="symbol">-</span>v filesrc location<span class="symbol">=</span>subtitles<span class="symbol">.</span>srt <span class="symbol">!</span> subparse <span class="symbol">!</span> txt<span class="symbol">.</span>   videotestsrc <span class="symbol">!</span> timeoverlay <span class="symbol">!</span> textoverlay name<span class="symbol">=</span>txt shaded<span class="symbol">-</span>background<span class="symbol">=</span>yes <span class="symbol">!</span> xvimagesink</pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+ Here is another pipeline that displays subtitles from an .srt subtitle
 file, centered at the bottom of the picture and with a rectangular shading
 around the text in the background:
 <p>
 If you do not have such a subtitle file, create one looking like this
 in a text editor:
 </p>
-<div class="informalexample"><pre class="programlisting">
-1
-00:00:03,000 --&gt; 00:00:05,000
-Hello? (3-5s)
- 
+<div class="informalexample">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
 2
-00:00:08,000 --&gt; 00:00:13,000
-Yes, this is a subtitle. Don't
-you like it? (8-13s)
- 
 3
-00:00:18,826 --&gt; 00:01:02,886
-Uh? What are you talking about?
-I don't understand  (18-62s)
-</pre></div>
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="number">1</span>
+<span class="number">00</span><span class="symbol">:</span><span class="number">00</span><span class="symbol">:</span><span class="number">03</span><span class="symbol">,</span><span class="number">000</span> <span class="symbol">--&gt;</span> <span class="number">00</span><span class="symbol">:</span><span class="number">00</span><span class="symbol">:</span><span class="number">05</span><span class="symbol">,</span><span class="number">000</span>
+Hello? <span class="symbol">(</span><span class="number">3</span><span class="symbol">-</span><span class="number">5</span>s<span class="symbol">)</span>
+
+<span class="number">2</span>
+<span class="number">00</span><span class="symbol">:</span><span class="number">00</span><span class="symbol">:</span><span class="number">08</span><span class="symbol">,</span><span class="number">000</span> <span class="symbol">--&gt;</span> <span class="number">00</span><span class="symbol">:</span><span class="number">00</span><span class="symbol">:</span><span class="number">13</span><span class="symbol">,</span><span class="number">000</span>
+Yes<span class="symbol">,</span> <span class="keyword">this</span> is a subtitle<span class="symbol">.</span> Don<span class="string">'t</span>
+<span class="string">you like it? (8-13s)</span>
+<span class="string"></span>
+<span class="string">3</span>
+<span class="string">00:00:18,826 --&gt; 00:01:02,886</span>
+<span class="string">Uh? What are you talking about?</span>
+<span class="string">I don'</span>t <span class="function">understand</span>  <span class="symbol">(</span><span class="number">18</span><span class="symbol">-</span><span class="number">62</span>s<span class="symbol">)</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <p>
 </p>
 </div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2588996"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-base-plugins-plugin-pango.html#plugin-pango">pango</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>David Schleef &lt;ds@schleef.org&gt;, Zeeshan Ali &lt;zeeshan.ali@nokia.com&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Filter/Editor/Video</td>
-</tr>
-</tbody>
-</table></div>
 </div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2638027"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>text_sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>text/x-pango-markup</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> text/plain</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>video_sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>video/x-raw-rgb, bpp=(int)32, depth=(int)24, endianness=(int)4321, red_mask=(int)65280, green_mask=(int)16711680, blue_mask=(int)-16777216, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-rgb, bpp=(int)32, depth=(int)24, endianness=(int)4321, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-yuv, format=(fourcc)I420, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-yuv, format=(fourcc)UYVY, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>video/x-raw-rgb, bpp=(int)32, depth=(int)24, endianness=(int)4321, red_mask=(int)65280, green_mask=(int)16711680, blue_mask=(int)-16777216, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-rgb, bpp=(int)32, depth=(int)24, endianness=(int)4321, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-yuv, format=(fourcc)I420, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-yuv, format=(fourcc)UYVY, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2638351"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-base-plugins-plugin-pango.html#plugin-pango">pango</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>David Schleef &lt;ds@schleef.org&gt;, Zeeshan Ali &lt;zeeshan.ali@nokia.com&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Filter/Editor/Video</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2638414"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>text_sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>text/x-pango-markup</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> text/plain</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>video_sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>video/x-raw-rgb, bpp=(int)32, depth=(int)24, endianness=(int)4321, red_mask=(int)65280, green_mask=(int)16711680, blue_mask=(int)-16777216, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-rgb, bpp=(int)32, depth=(int)24, endianness=(int)4321, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-yuv, format=(fourcc)I420, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-yuv, format=(fourcc)UYVY, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>video/x-raw-rgb, bpp=(int)32, depth=(int)24, endianness=(int)4321, red_mask=(int)65280, green_mask=(int)16711680, blue_mask=(int)-16777216, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-rgb, bpp=(int)32, depth=(int)24, endianness=(int)4321, red_mask=(int)16711680, green_mask=(int)65280, blue_mask=(int)255, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-yuv, format=(fourcc)I420, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> video/x-raw-yuv, format=(fourcc)UYVY, width=(int)[ 1, 2147483647 ], height=(int)[ 1, 2147483647 ], framerate=(fraction)[ 0/1, 2147483647/1 ]</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<p>
-</p>
-</div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-base-plugins-textoverlay.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstTextOverlay">
 <a name="GstTextOverlay-struct"></a><h3>GstTextOverlay</h3>
 <pre class="programlisting">typedef struct _GstTextOverlay GstTextOverlay;</pre>
 <p>
 Opaque textoverlay object structure</p>
-<p>
-</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstTextOverlayVAlign">
 <a name="GstTextOverlayVAlign"></a><h3>enum GstTextOverlayVAlign</h3>
 <pre class="programlisting">typedef enum {
     GST_TEXT_OVERLAY_VALIGN_BASELINE,
@@ -429,23 +188,21 @@ Opaque textoverlay object structure</p>
 </pre>
 <p>
 Vertical alignment of the text.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-VALIGN-BASELINE--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_VALIGN_BASELINE</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-VALIGN-BASELINE:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_VALIGN_BASELINE</code></span></p></td>
 <td> draw text on the baseline
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-VALIGN-BOTTOM--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_VALIGN_BOTTOM</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-VALIGN-BOTTOM:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_VALIGN_BOTTOM</code></span></p></td>
 <td> draw text on the bottom
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-VALIGN-TOP--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_VALIGN_TOP</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-VALIGN-TOP:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_VALIGN_TOP</code></span></p></td>
 <td> draw test on top
 </td>
 </tr>
@@ -453,7 +210,7 @@ Vertical alignment of the text.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstTextOverlayHAlign">
 <a name="GstTextOverlayHAlign"></a><h3>enum GstTextOverlayHAlign</h3>
 <pre class="programlisting">typedef enum {
     GST_TEXT_OVERLAY_HALIGN_LEFT,
@@ -463,23 +220,21 @@ Vertical alignment of the text.</p>
 </pre>
 <p>
 Horizontal alignment of the text.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-HALIGN-LEFT--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_HALIGN_LEFT</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-HALIGN-LEFT:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_HALIGN_LEFT</code></span></p></td>
 <td> align text left
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-HALIGN-CENTER--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_HALIGN_CENTER</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-HALIGN-CENTER:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_HALIGN_CENTER</code></span></p></td>
 <td> align text center
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-HALIGN-RIGHT--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_HALIGN_RIGHT</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-HALIGN-RIGHT:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_HALIGN_RIGHT</code></span></p></td>
 <td> align text right
 </td>
 </tr>
@@ -487,7 +242,7 @@ Horizontal alignment of the text.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstTextOverlayWrapMode">
 <a name="GstTextOverlayWrapMode"></a><h3>enum GstTextOverlayWrapMode</h3>
 <pre class="programlisting">typedef enum {
     GST_TEXT_OVERLAY_WRAP_MODE_NONE = -1,
@@ -498,28 +253,26 @@ Horizontal alignment of the text.</p>
 </pre>
 <p>
 Whether to wrap the text and if so how.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-WRAP-MODE-NONE--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_WRAP_MODE_NONE</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-WRAP-MODE-NONE:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_WRAP_MODE_NONE</code></span></p></td>
 <td> no wrapping
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-WRAP-MODE-WORD--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_WRAP_MODE_WORD</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-WRAP-MODE-WORD:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_WRAP_MODE_WORD</code></span></p></td>
 <td> do word wrapping
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-WRAP-MODE-CHAR--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_WRAP_MODE_CHAR</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-WRAP-MODE-CHAR:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_WRAP_MODE_CHAR</code></span></p></td>
 <td> do char wrapping
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-TEXT-OVERLAY-WRAP-MODE-WORD-CHAR--CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_WRAP_MODE_WORD_CHAR</code></span></p></td>
+<td><p><a name="GST-TEXT-OVERLAY-WRAP-MODE-WORD-CHAR:CAPS"></a><span class="term"><code class="literal">GST_TEXT_OVERLAY_WRAP_MODE_WORD_CHAR</code></span></p></td>
 <td> do word and char wrapping
 </td>
 </tr>
@@ -527,177 +280,145 @@ Whether to wrap the text and if so how.</p>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-base-plugins-textoverlay.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "deltax" property'>
 <a name="GstTextOverlay--deltax"></a><h3>The <code class="literal">"deltax"</code> property</h3>
-<pre class="programlisting">  "deltax"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write</pre>
+<pre class="programlisting">  "deltax"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
 <p>Shift X position to the left or to the right. Unit is pixels.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "deltay" property'>
 <a name="GstTextOverlay--deltay"></a><h3>The <code class="literal">"deltay"</code> property</h3>
-<pre class="programlisting">  "deltay"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write</pre>
+<pre class="programlisting">  "deltay"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
 <p>Shift Y position up or down. Unit is pixels.</p>
 <p>Default value: 0</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "font-desc" property'>
 <a name="GstTextOverlay--font-desc"></a><h3>The <code class="literal">"font-desc"</code> property</h3>
-<pre class="programlisting">  "font-desc"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Write</pre>
+<pre class="programlisting">  "font-desc"                <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Write</pre>
 <p>Pango font description of font to be used for rendering. See documentation of pango_font_description_from_string for syntax.</p>
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "halign" property'>
 <a name="GstTextOverlay--halign"></a><h3>The <code class="literal">"halign"</code> property</h3>
-<pre class="programlisting">  "halign"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Write</pre>
+<pre class="programlisting">  "halign"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Write</pre>
 <p>Horizontal alignment of the text (deprecated; use halignment).</p>
 <p>Default value: "center"</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "shaded-background" property'>
 <a name="GstTextOverlay--shaded-background"></a><h3>The <code class="literal">"shaded-background"</code> property</h3>
-<pre class="programlisting">  "shaded-background"        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write</pre>
+<pre class="programlisting">  "shaded-background"        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p>Whether to shade the background under the text area.</p>
 <p>Default value: FALSE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "text" property'>
 <a name="GstTextOverlay--text"></a><h3>The <code class="literal">"text"</code> property</h3>
-<pre class="programlisting">  "text"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Read / Write</pre>
+<pre class="programlisting">  "text"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>Text to be display.</p>
 <p>Default value: ""</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "valign" property'>
 <a name="GstTextOverlay--valign"></a><h3>The <code class="literal">"valign"</code> property</h3>
-<pre class="programlisting">  "valign"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Write</pre>
+<pre class="programlisting">  "valign"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Write</pre>
 <p>Vertical alignment of the text (deprecated; use valignment).</p>
 <p>Default value: "baseline"</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "wrap-mode" property'>
 <a name="GstTextOverlay--wrap-mode"></a><h3>The <code class="literal">"wrap-mode"</code> property</h3>
-<pre class="programlisting">  "wrap-mode"                <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayWrapMode" title="enum GstTextOverlayWrapMode">GstTextOverlayWrapMode</a>  : Read / Write</pre>
+<pre class="programlisting">  "wrap-mode"                <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayWrapMode" title="enum GstTextOverlayWrapMode"><span class="type">GstTextOverlayWrapMode</span></a>  : Read / Write</pre>
 <p>Whether to wrap the text and if so how.</p>
 <p>Default value: wordchar</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "xpad" property'>
 <a name="GstTextOverlay--xpad"></a><h3>The <code class="literal">"xpad"</code> property</h3>
-<pre class="programlisting">  "xpad"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write</pre>
+<pre class="programlisting">  "xpad"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
 <p>Horizontal paddding when using left/right alignment.</p>
 <p>Allowed values: &gt;= 0</p>
 <p>Default value: 25</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "ypad" property'>
 <a name="GstTextOverlay--ypad"></a><h3>The <code class="literal">"ypad"</code> property</h3>
-<pre class="programlisting">  "ypad"                     <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write</pre>
+<pre class="programlisting">  "ypad"                     <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
 <p>Vertical padding when using top/bottom alignment.</p>
 <p>Allowed values: &gt;= 0</p>
 <p>Default value: 25</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "halignment" property'>
 <a name="GstTextOverlay--halignment"></a><h3>The <code class="literal">"halignment"</code> property</h3>
-<pre class="programlisting">  "halignment"               <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayHAlign" title="enum GstTextOverlayHAlign">GstTextOverlayHAlign</a>  : Read / Write</pre>
+<pre class="programlisting">  "halignment"               <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayHAlign" title="enum GstTextOverlayHAlign"><span class="type">GstTextOverlayHAlign</span></a>  : Read / Write</pre>
 <p>Horizontal alignment of the text.</p>
 <p>Default value: center</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "valignment" property'>
 <a name="GstTextOverlay--valignment"></a><h3>The <code class="literal">"valignment"</code> property</h3>
-<pre class="programlisting">  "valignment"               <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayVAlign" title="enum GstTextOverlayVAlign">GstTextOverlayVAlign</a>  : Read / Write</pre>
+<pre class="programlisting">  "valignment"               <a class="link" href="gst-plugins-base-plugins-textoverlay.html#GstTextOverlayVAlign" title="enum GstTextOverlayVAlign"><span class="type">GstTextOverlayVAlign</span></a>  : Read / Write</pre>
 <p>Vertical alignment of the text.</p>
 <p>Default value: baseline</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "line-alignment" property'>
 <a name="GstTextOverlay--line-alignment"></a><h3>The <code class="literal">"line-alignment"</code> property</h3>
-<pre class="programlisting">  "line-alignment"           GstTextOverlayLineAlign  : Read / Write</pre>
+<pre class="programlisting">  "line-alignment"           <span class="type">GstTextOverlayLineAlign</span>  : Read / Write</pre>
 <p>
 Alignment of text lines relative to each other (for multi-line text)</p>
-<p>
-</p>
 <p>Default value: center</p>
-<p>Since 0.10.15</p>
+<p class="since">Since 0.10.15</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "silent" property'>
 <a name="GstTextOverlay--silent"></a><h3>The <code class="literal">"silent"</code> property</h3>
-<pre class="programlisting">  "silent"                   <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write</pre>
+<pre class="programlisting">  "silent"                   <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p>
 If set, no text is rendered. Useful to switch off text rendering
 temporarily without removing the textoverlay element from the pipeline.</p>
-<p>
-</p>
 <p>Default value: FALSE</p>
-<p>Since 0.10.15</p>
+<p class="since">Since 0.10.15</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "wait-text" property'>
 <a name="GstTextOverlay--wait-text"></a><h3>The <code class="literal">"wait-text"</code> property</h3>
-<pre class="programlisting">  "wait-text"                <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write</pre>
+<pre class="programlisting">  "wait-text"                <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p>
 If set, the video will block until a subtitle is received on the text pad.
 If video and subtitles are sent in sync, like from the same demuxer, this
 property should be set.</p>
-<p>
-</p>
 <p>Default value: TRUE</p>
-<p>Since 0.10.20</p>
+<p class="since">Since 0.10.20</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "auto-resize" property'>
 <a name="GstTextOverlay--auto-resize"></a><h3>The <code class="literal">"auto-resize"</code> property</h3>
-<pre class="programlisting">  "auto-resize"              <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write</pre>
+<pre class="programlisting">  "auto-resize"              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p>Automatically adjust font size to screen-size.</p>
 <p>Default value: TRUE</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "vertical-render" property'>
 <a name="GstTextOverlay--vertical-render"></a><h3>The <code class="literal">"vertical-render"</code> property</h3>
-<pre class="programlisting">  "vertical-render"          <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write</pre>
+<pre class="programlisting">  "vertical-render"          <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p>Vertical Render.</p>
 <p>Default value: FALSE</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-base-plugins-textoverlay.see-also"></a><h2>See Also</h2>
-#GstTextRender, <a class="link" href="gst-plugins-base-plugins-clockoverlay.html#GstClockOverlay"><span class="type">GstClockOverlay</span></a>, <a class="link" href="gst-plugins-base-plugins-timeoverlay.html#GstTimeOverlay"><span class="type">GstTimeOverlay</span></a>, <span class="type">GstSubParse</span>
+<a class="link" href="gst-plugins-base-plugins-textrender.html#GstTextRender"><span class="type">GstTextRender</span></a>, <a class="link" href="gst-plugins-base-plugins-clockoverlay.html#GstClockOverlay"><span class="type">GstClockOverlay</span></a>, <a class="link" href="gst-plugins-base-plugins-timeoverlay.html#GstTimeOverlay"><span class="type">GstTimeOverlay</span></a>, <span class="type">GstSubParse</span>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

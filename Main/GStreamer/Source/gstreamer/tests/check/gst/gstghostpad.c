@@ -26,9 +26,7 @@
 GST_START_TEST (test_remove1)
 {
   GstElement *b1, *b2, *src, *sink;
-
   GstPad *srcpad, *sinkpad;
-
   GstPadLinkReturn ret;
 
   b1 = gst_element_factory_make ("pipeline", NULL);
@@ -80,9 +78,7 @@ GST_END_TEST;
 GST_START_TEST (test_remove2)
 {
   GstElement *b1, *b2, *src, *sink;
-
   GstPad *srcpad, *sinkpad;
-
   GstPadLinkReturn ret;
 
   b1 = gst_element_factory_make ("pipeline", NULL);
@@ -157,15 +153,10 @@ GST_END_TEST;
 GST_START_TEST (test_ghost_pads_notarget)
 {
   GstElement *b1, *b2, *sink;
-
   GstPad *srcpad, *sinkpad, *peer;
-
   GstPadLinkReturn ret;
-
   gboolean bret;
-
   GstBus *bus;
-
   GstCaps *caps;
 
   b1 = gst_element_factory_make ("pipeline", NULL);
@@ -221,7 +212,6 @@ GST_END_TEST;
 GST_START_TEST (test_remove_target)
 {
   GstElement *b1, *b2, *src, *sink;
-
   GstPad *sinkpad, *ghost, *target;
 
   b1 = gst_element_factory_make ("pipeline", NULL);
@@ -265,9 +255,7 @@ GST_END_TEST;
 GST_START_TEST (test_link)
 {
   GstElement *b1, *b2, *src, *sink;
-
   GstPad *srcpad, *sinkpad, *gpad;
-
   GstPadLinkReturn ret;
 
   b1 = gst_element_factory_make ("pipeline", NULL);
@@ -322,9 +310,7 @@ GST_END_TEST;
 GST_START_TEST (test_ghost_pads)
 {
   GstElement *b1, *b2, *src, *i1, *sink;
-
   GstPad *gsink, *gsrc, *gisrc, *gisink, *isink, *isrc, *fsrc, *fsink;
-
   GstStateChangeReturn ret;
 
   b1 = gst_element_factory_make ("pipeline", NULL);
@@ -390,7 +376,7 @@ GST_START_TEST (test_ghost_pads)
    * all pads */
 
   /* wait for thread to settle down */
-  while (GST_OBJECT_REFCOUNT_VALUE (fsrc) > 2)
+  while (GST_OBJECT_REFCOUNT_VALUE (fsrc) > 1)
     THREAD_SWITCH ();
 
   ASSERT_OBJECT_REFCOUNT (fsrc, "fsrc", 1);
@@ -428,17 +414,11 @@ GST_END_TEST;
 GST_START_TEST (test_ghost_pads_bin)
 {
   GstBin *pipeline;
-
   GstBin *srcbin;
-
   GstBin *sinkbin;
-
   GstElement *src;
-
   GstElement *sink;
-
   GstPad *srcpad, *srcghost, *target;
-
   GstPad *sinkpad, *sinkghost;
 
   pipeline = GST_BIN (gst_pipeline_new ("pipe"));
@@ -504,15 +484,10 @@ block_callback (GstPad * pad, gboolean blocked, gpointer user_data)
 GST_START_TEST (test_ghost_pads_block)
 {
   GstBin *pipeline;
-
   GstBin *srcbin;
-
   GstElement *src;
-
   GstPad *srcpad;
-
   GstPad *srcghost;
-
   BlockData block_data;
 
   pipeline = GST_BIN (gst_pipeline_new ("pipeline"));
@@ -550,15 +525,10 @@ GST_END_TEST;
 GST_START_TEST (test_ghost_pads_probes)
 {
   GstBin *pipeline;
-
   GstBin *srcbin;
-
   GstElement *src;
-
   GstPad *srcpad;
-
   GstPad *srcghost;
-
   BlockData block_data;
 
   pipeline = GST_BIN (gst_pipeline_new ("pipeline"));
@@ -1005,6 +975,51 @@ GST_START_TEST (test_ghost_pads_src_link_unlink)
 
 GST_END_TEST;
 
+GST_START_TEST (test_ghost_pads_change_when_linked)
+{
+  GstElement *b1, *b2, *src, *fmt, *sink1, *sink2;
+  GstPad *sinkpad, *ghostpad;
+  GstCaps *caps;
+
+  b1 = gst_element_factory_make ("pipeline", NULL);
+  b2 = gst_element_factory_make ("bin", NULL);
+  src = gst_element_factory_make ("fakesrc", NULL);
+  fmt = gst_element_factory_make ("capsfilter", NULL);
+  sink1 = gst_element_factory_make ("fakesink", NULL);
+  sink2 = gst_element_factory_make ("fakesink", NULL);
+
+  gst_bin_add (GST_BIN (b2), sink1);
+  gst_bin_add (GST_BIN (b2), sink2);
+  gst_bin_add (GST_BIN (b1), src);
+  gst_bin_add (GST_BIN (b1), fmt);
+  gst_bin_add (GST_BIN (b1), b2);
+
+  caps = gst_caps_from_string ("audio/x-raw-int, width=16, channels=1");
+  g_object_set (fmt, "caps", caps, NULL);
+  gst_caps_unref (caps);
+
+  /* create the ghostpad as a sink-pad for bin 2 */
+  ghostpad = gst_ghost_pad_new_no_target ("sink", GST_PAD_SINK);
+  gst_element_add_pad (b2, ghostpad);
+
+  sinkpad = gst_element_get_static_pad (sink1, "sink");
+  fail_unless (gst_ghost_pad_set_target ((GstGhostPad *) ghostpad, sinkpad));
+  gst_object_unref (sinkpad);
+
+  fail_unless (gst_element_link_many (src, fmt, b2, NULL));
+
+  /* set different target after ghostpad is linked */
+  sinkpad = gst_element_get_static_pad (sink2, "sink");
+  fail_unless (gst_ghost_pad_set_target ((GstGhostPad *) ghostpad, sinkpad));
+  gst_object_unref (sinkpad);
+
+  /* clean up */
+  gst_object_unref (b1);
+}
+
+GST_END_TEST;
+
+
 static Suite *
 gst_ghost_pad_suite (void)
 {
@@ -1027,6 +1042,7 @@ gst_ghost_pad_suite (void)
   tcase_add_test (tc_chain, test_ghost_pads_forward_setcaps);
   tcase_add_test (tc_chain, test_ghost_pads_sink_link_unlink);
   tcase_add_test (tc_chain, test_ghost_pads_src_link_unlink);
+  tcase_add_test (tc_chain, test_ghost_pads_change_when_linked);
 
   return s;
 }

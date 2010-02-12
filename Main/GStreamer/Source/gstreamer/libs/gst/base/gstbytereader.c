@@ -28,8 +28,6 @@
 
 #include <string.h>
 
-/* FIXME 0.11: inline everything and get rid of non-inlined functions */
-
 /**
  * SECTION:gstbytereader
  * @short_description: Reads different integer, string and floating point
@@ -204,7 +202,26 @@ gst_byte_reader_get_remaining (const GstByteReader * reader)
   return _gst_byte_reader_get_remaining_inline (reader);
 }
 
+/**
+ * gst_byte_reader_get_size:
+ * @reader: a #GstByteReader instance
+ *
+ * Returns the total number of bytes of a #GstByteReader instance.
+ *
+ * Returns: The total number of bytes of @reader instance.
+ * 
+ * Since: 0.10.26
+ */
+guint
+gst_byte_reader_get_size (const GstByteReader * reader)
+{
+  g_return_val_if_fail (reader != NULL, 0);
+
+  return _gst_byte_reader_get_size_inline (reader);
+}
+
 #define gst_byte_reader_get_remaining _gst_byte_reader_get_remaining_inline
+#define gst_byte_reader_get_size _gst_byte_reader_get_size_inline
 
 /**
  * gst_byte_reader_skip:
@@ -222,12 +239,7 @@ gst_byte_reader_skip (GstByteReader * reader, guint nbytes)
 {
   g_return_val_if_fail (reader != NULL, FALSE);
 
-  if (gst_byte_reader_get_remaining (reader) < nbytes)
-    return FALSE;
-
-  reader->byte += nbytes;
-
-  return TRUE;
+  return _gst_byte_reader_skip_inline (reader, nbytes);
 }
 
 /**

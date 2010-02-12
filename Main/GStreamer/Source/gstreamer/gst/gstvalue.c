@@ -24,8 +24,8 @@
  *
  * GValue implementations specific to GStreamer.
  *
- * Note that operations on the same GstValue (or GValue) from multiple
- * threads may lead to undefined behaviour. 
+ * Note that operations on the same #GValue from multiple threads may lead to
+ * undefined behaviour.
  *
  * Last reviewed on 2008-03-11 (0.10.18)
  */
@@ -34,6 +34,7 @@
 #include "config.h"
 #endif
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -42,6 +43,7 @@
 #include "glib-compat-private.h"
 #include <gst/gst.h>
 #include <gobject/gvaluecollector.h>
+#include "gstutils.h"
 
 typedef struct _GstValueUnionInfo GstValueUnionInfo;
 struct _GstValueUnionInfo
@@ -72,6 +74,9 @@ struct _GstValueSubtractInfo
 #define FUNDAMENTAL_TYPE_ID(type) \
     ((type) >> G_TYPE_FUNDAMENTAL_SHIFT)
 
+#define VALUE_LIST_SIZE(v) (((GArray *) (v)->data[0].v_pointer)->len)
+#define VALUE_LIST_GET_VALUE(v, index) ((const GValue *) &g_array_index ((GArray *) (v)->data[0].v_pointer, GValue, (index)))
+
 static GArray *gst_value_table;
 static GHashTable *gst_value_hash;
 static GstValueTable *gst_value_tables_fundamental[FUNDAMENTAL_TYPE_ID_MAX + 1];
@@ -80,7 +85,6 @@ static GArray *gst_value_intersect_funcs;
 static GArray *gst_value_subtract_funcs;
 
 /* Forward declarations */
-static gint gst_greatest_common_divisor (gint a, gint b);
 static gchar *gst_value_serialize_fraction (const GValue * value);
 
 static GstValueCompareFunc gst_value_get_compare_func (const GValue * value1);
@@ -350,9 +354,9 @@ gst_value_list_concat (GValue * dest, const GValue * value1,
   g_return_if_fail (G_IS_VALUE (value2));
 
   value1_length =
-      (GST_VALUE_HOLDS_LIST (value1) ? gst_value_list_get_size (value1) : 1);
+      (GST_VALUE_HOLDS_LIST (value1) ? VALUE_LIST_SIZE (value1) : 1);
   value2_length =
-      (GST_VALUE_HOLDS_LIST (value2) ? gst_value_list_get_size (value2) : 1);
+      (GST_VALUE_HOLDS_LIST (value2) ? VALUE_LIST_SIZE (value2) : 1);
   g_value_init (dest, GST_TYPE_LIST);
   array = (GArray *) dest->data[0].v_pointer;
   g_array_set_size (array, value1_length + value2_length);
@@ -360,7 +364,7 @@ gst_value_list_concat (GValue * dest, const GValue * value1,
   if (GST_VALUE_HOLDS_LIST (value1)) {
     for (i = 0; i < value1_length; i++) {
       gst_value_init_and_copy (&g_array_index (array, GValue, i),
-          gst_value_list_get_value (value1, i));
+          VALUE_LIST_GET_VALUE (value1, i));
     }
   } else {
     gst_value_init_and_copy (&g_array_index (array, GValue, 0), value1);
@@ -369,7 +373,7 @@ gst_value_list_concat (GValue * dest, const GValue * value1,
   if (GST_VALUE_HOLDS_LIST (value2)) {
     for (i = 0; i < value2_length; i++) {
       gst_value_init_and_copy (&g_array_index (array, GValue,
-              i + value1_length), gst_value_list_get_value (value2, i));
+              i + value1_length), VALUE_LIST_GET_VALUE (value2, i));
     }
   } else {
     gst_value_init_and_copy (&g_array_index (array, GValue, value1_length),
@@ -407,7 +411,7 @@ const GValue *
 gst_value_list_get_value (const GValue * value, guint index)
 {
   g_return_val_if_fail (GST_VALUE_HOLDS_LIST (value), NULL);
-  g_return_val_if_fail (index < gst_value_list_get_size (value), NULL);
+  g_return_val_if_fail (index < VALUE_LIST_SIZE (value), NULL);
 
   return (const GValue *) &g_array_index ((GArray *) value->data[0].v_pointer,
       GValue, index);
@@ -2350,9 +2354,9 @@ gst_value_intersect_list (GValue * dest, const GValue * value1,
   GValue intersection = { 0, };
   gboolean ret = FALSE;
 
-  size = gst_value_list_get_size (value1);
+  size = VALUE_LIST_SIZE (value1);
   for (i = 0; i < size; i++) {
-    const GValue *cur = gst_value_list_get_value (value1, i);
+    const GValue *cur = VALUE_LIST_GET_VALUE (value1, i);
 
     if (gst_value_intersect (&intersection, cur, value2)) {
       /* append value */
@@ -2678,9 +2682,9 @@ gst_value_subtract_from_list (GValue * dest, const GValue * minuend,
 
   ltype = gst_value_list_get_type ();
 
-  size = gst_value_list_get_size (minuend);
+  size = VALUE_LIST_SIZE (minuend);
   for (i = 0; i < size; i++) {
-    const GValue *cur = gst_value_list_get_value (minuend, i);
+    const GValue *cur = VALUE_LIST_GET_VALUE (minuend, i);
 
     if (gst_value_subtract (&subtraction, cur, subtrahend)) {
       if (!ret) {
@@ -2712,9 +2716,9 @@ gst_value_subtract_list (GValue * dest, const GValue * minuend,
   GValue *subtraction = &data[0], *result = &data[1];
 
   gst_value_init_and_copy (result, minuend);
-  size = gst_value_list_get_size (subtrahend);
+  size = VALUE_LIST_SIZE (subtrahend);
   for (i = 0; i < size; i++) {
-    const GValue *cur = gst_value_list_get_value (subtrahend, i);
+    const GValue *cur = VALUE_LIST_GET_VALUE (subtrahend, i);
 
     if (gst_value_subtract (subtraction, result, cur)) {
       GValue *temp = result;
@@ -2903,7 +2907,7 @@ gst_value_can_compare (const GValue * value1, const GValue * value2)
  * If @value1 is less than @value2, GST_VALUE_LESS_THAN is returned.
  * If the values are equal, GST_VALUE_EQUAL is returned.
  *
- * Returns: A #GstValueCompareType value
+ * Returns: comparison result
  */
 gint
 gst_value_compare (const GValue * value1, const GValue * value2)
@@ -2933,7 +2937,7 @@ gst_value_compare (const GValue * value1, const GValue * value2)
  * gst_value_compare() but allows to save time determining the compare function
  * a multiple times. 
  *
- * Returns: A #GstValueCompareType value
+ * Returns: comparison result
  */
 static gint
 gst_value_compare_with_func (const GValue * value1, const GValue * value2,
@@ -3031,7 +3035,7 @@ gst_value_union (GValue * dest, const GValue * value1, const GValue * value2)
  * @type2: another type to union
  * @func: a function that implments creating a union between the two types
  *
- * Registers a union function that can create a union between GValues
+ * Registers a union function that can create a union between #GValue items
  * of the type @type1 and @type2.
  *
  * Union functions should be registered at startup before any pipelines are
@@ -3060,7 +3064,7 @@ gst_value_register_union_func (GType type1, GType type2, GstValueUnionFunc func)
  * Determines if intersecting two values will produce a valid result.
  * Two values will produce a valid intersection if they have the same
  * type, or if there is a method (registered by
- * gst_value_register_intersection_func()) to calculate the intersection.
+ * gst_value_register_intersect_func()) to calculate the intersection.
  *
  * Returns: TRUE if the values can intersect
  */
@@ -3309,7 +3313,7 @@ gst_value_register_subtract_func (GType minuend_type, GType subtrahend_type,
  * gst_value_register:
  * @table: structure containing functions to register
  *
- * Registers functions to perform calculations on #GValues of a given
+ * Registers functions to perform calculations on #GValue items of a given
  * type. Each type can only be added once.
  */
 void
@@ -3475,23 +3479,6 @@ gst_value_is_fixed (const GValue * value)
  ************/
 
 /* helper functions */
-
-/* Finds the greatest common divisor.
- * Returns 1 if none other found.
- * This is Euclid's algorithm. */
-static gint
-gst_greatest_common_divisor (gint a, gint b)
-{
-  while (b != 0) {
-    int temp = a;
-
-    a = b;
-    b = temp % b;
-  }
-
-  return ABS (a);
-}
-
 static void
 gst_value_init_fraction (GValue * value)
 {
@@ -3563,7 +3550,7 @@ gst_value_set_fraction (GValue * value, gint numerator, gint denominator)
   }
 
   /* check for reduction */
-  gcd = gst_greatest_common_divisor (numerator, denominator);
+  gcd = gst_util_greatest_common_divisor (numerator, denominator);
   if (gcd) {
     numerator /= gcd;
     denominator /= gcd;
@@ -3613,8 +3600,8 @@ gst_value_get_fraction_denominator (const GValue * value)
  * @factor1: a GValue initialized to #GST_TYPE_FRACTION
  * @factor2: a GValue initialized to #GST_TYPE_FRACTION
  *
- * Multiplies the two GValues containing a GstFraction and sets @product
- * to the product of the two fractions.
+ * Multiplies the two #GValue items containing a #GST_TYPE_FRACTION and sets
+ * @product to the product of the two fractions.
  *
  * Returns: FALSE in case of an error (like integer overflow), TRUE otherwise.
  */
@@ -3622,7 +3609,8 @@ gboolean
 gst_value_fraction_multiply (GValue * product, const GValue * factor1,
     const GValue * factor2)
 {
-  gint gcd, n1, n2, d1, d2;
+  gint n1, n2, d1, d2;
+  gint res_n, res_d;
 
   g_return_val_if_fail (GST_VALUE_HOLDS_FRACTION (factor1), FALSE);
   g_return_val_if_fail (GST_VALUE_HOLDS_FRACTION (factor2), FALSE);
@@ -3632,17 +3620,10 @@ gst_value_fraction_multiply (GValue * product, const GValue * factor1,
   d1 = factor1->data[1].v_int;
   d2 = factor2->data[1].v_int;
 
-  gcd = gst_greatest_common_divisor (n1, d2);
-  n1 /= gcd;
-  d2 /= gcd;
-  gcd = gst_greatest_common_divisor (n2, d1);
-  n2 /= gcd;
-  d1 /= gcd;
+  if (!gst_util_fraction_multiply (n1, d1, n2, d2, &res_n, &res_d))
+    return FALSE;
 
-  g_return_val_if_fail (n1 == 0 || G_MAXINT / ABS (n1) >= ABS (n2), FALSE);
-  g_return_val_if_fail (G_MAXINT / ABS (d1) >= ABS (d2), FALSE);
-
-  gst_value_set_fraction (product, n1 * n2, d1 * d2);
+  gst_value_set_fraction (product, res_n, res_d);
 
   return TRUE;
 }
@@ -3662,6 +3643,7 @@ gst_value_fraction_subtract (GValue * dest,
     const GValue * minuend, const GValue * subtrahend)
 {
   gint n1, n2, d1, d2;
+  gint res_n, res_d;
 
   g_return_val_if_fail (GST_VALUE_HOLDS_FRACTION (minuend), FALSE);
   g_return_val_if_fail (GST_VALUE_HOLDS_FRACTION (subtrahend), FALSE);
@@ -3671,20 +3653,9 @@ gst_value_fraction_subtract (GValue * dest,
   d1 = minuend->data[1].v_int;
   d2 = subtrahend->data[1].v_int;
 
-  if (n1 == 0) {
-    gst_value_set_fraction (dest, -n2, d2);
-    return TRUE;
-  }
-  if (n2 == 0) {
-    gst_value_set_fraction (dest, n1, d1);
-    return TRUE;
-  }
-
-  g_return_val_if_fail (n1 == 0 || G_MAXINT / ABS (n1) >= ABS (d2), FALSE);
-  g_return_val_if_fail (G_MAXINT / ABS (d1) >= ABS (n2), FALSE);
-  g_return_val_if_fail (G_MAXINT / ABS (d1) >= ABS (d2), FALSE);
-
-  gst_value_set_fraction (dest, (n1 * d2) - (n2 * d1), d1 * d2);
+  if (!gst_util_fraction_add (n1, d1, -n2, d2, &res_n, &res_d))
+    return FALSE;
+  gst_value_set_fraction (dest, res_n, res_d);
 
   return TRUE;
 }
@@ -3758,85 +3729,26 @@ gst_value_transform_string_fraction (const GValue * src_value,
     gst_value_set_fraction (dest_value, 0, 1);
 }
 
-#define MAX_TERMS       30
-#define MIN_DIVISOR     1.0e-10
-#define MAX_ERROR       1.0e-20
-
-/* use continued fractions to transform a double into a fraction,
- * see http://mathforum.org/dr.math/faq/faq.fractions.html#decfrac.
- * This algorithm takes care of overflows.
- */
 static void
 gst_value_transform_double_fraction (const GValue * src_value,
     GValue * dest_value)
 {
-  gdouble V, F;                 /* double being converted */
-  gint N, D;                    /* will contain the result */
-  gint A;                       /* current term in continued fraction */
-  gint64 N1, D1;                /* numerator, denominator of last approx */
-  gint64 N2, D2;                /* numerator, denominator of previous approx */
-  gint i;
-  gboolean negative = FALSE;
+  gdouble src = g_value_get_double (src_value);
+  gint n, d;
 
-  /* initialize fraction being converted */
-  F = src_value->data[0].v_double;
-  if (F < 0.0) {
-    F = -F;
-    negative = TRUE;
-  }
+  gst_util_double_to_fraction (src, &n, &d);
+  gst_value_set_fraction (dest_value, n, d);
+}
 
-  V = F;
-  /* initialize fractions with 1/0, 0/1 */
-  N1 = 1;
-  D1 = 0;
-  N2 = 0;
-  D2 = 1;
-  N = 1;
-  D = 1;
+static void
+gst_value_transform_float_fraction (const GValue * src_value,
+    GValue * dest_value)
+{
+  gfloat src = g_value_get_float (src_value);
+  gint n, d;
 
-  for (i = 0; i < MAX_TERMS; i++) {
-    /* get next term */
-    A = (gint) F;               /* no floor() needed, F is always >= 0 */
-    /* get new divisor */
-    F = F - A;
-
-    /* calculate new fraction in temp */
-    N2 = N1 * A + N2;
-    D2 = D1 * A + D2;
-
-    /* guard against overflow */
-    if (N2 > G_MAXINT || D2 > G_MAXINT) {
-      break;
-    }
-
-    N = N2;
-    D = D2;
-
-    /* save last two fractions */
-    N2 = N1;
-    D2 = D1;
-    N1 = N;
-    D1 = D;
-
-    /* quit if dividing by zero or close enough to target */
-    if (F < MIN_DIVISOR || fabs (V - ((gdouble) N) / D) < MAX_ERROR) {
-      break;
-    }
-
-    /* Take reciprocal */
-    F = 1 / F;
-  }
-  /* fix for overflow */
-  if (D == 0) {
-    N = G_MAXINT;
-    D = 1;
-  }
-  /* fix for negative */
-  if (negative)
-    N = -N;
-
-  /* will also simplify */
-  gst_value_set_fraction (dest_value, N, D);
+  gst_util_double_to_fraction (src, &n, &d);
+  gst_value_set_fraction (dest_value, n, d);
 }
 
 static void
@@ -3845,6 +3757,14 @@ gst_value_transform_fraction_double (const GValue * src_value,
 {
   dest_value->data[0].v_double = ((double) src_value->data[0].v_int) /
       ((double) src_value->data[1].v_int);
+}
+
+static void
+gst_value_transform_fraction_float (const GValue * src_value,
+    GValue * dest_value)
+{
+  dest_value->data[0].v_float = ((float) src_value->data[0].v_int) /
+      ((float) src_value->data[1].v_int);
 }
 
 static gint
@@ -4353,8 +4273,12 @@ _gst_value_initialize (void)
       gst_value_transform_string_fraction);
   g_value_register_transform_func (GST_TYPE_FRACTION, G_TYPE_DOUBLE,
       gst_value_transform_fraction_double);
+  g_value_register_transform_func (GST_TYPE_FRACTION, G_TYPE_FLOAT,
+      gst_value_transform_fraction_float);
   g_value_register_transform_func (G_TYPE_DOUBLE, GST_TYPE_FRACTION,
       gst_value_transform_double_fraction);
+  g_value_register_transform_func (G_TYPE_FLOAT, GST_TYPE_FRACTION,
+      gst_value_transform_float_fraction);
   g_value_register_transform_func (GST_TYPE_DATE, G_TYPE_STRING,
       gst_value_transform_date_string);
   g_value_register_transform_func (G_TYPE_STRING, GST_TYPE_DATE,

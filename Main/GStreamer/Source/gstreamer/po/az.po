@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer-0.8.0\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-10-05 12:38+0100\n"
+"POT-Creation-Date: 2010-02-09 00:56+0000\n"
 "PO-Revision-Date: 2004-03-19 18:40+0200\n"
 "Last-Translator: Metin Amiroff <metin@karegen.com>\n"
 "Language-Team: Azerbaijani <translation-team-az@lists.sourceforge.net>\n"
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Disable updating the registry"
 msgstr ""
 
-msgid "Disable the use of fork() while scanning the registry"
+msgid "Disable spawning a helper process while scanning the registry"
 msgstr ""
 
 msgid "GStreamer Options"
@@ -78,18 +78,6 @@ msgstr ""
 #, fuzzy
 msgid "Show GStreamer Options"
 msgstr "GStreamer buraxılışını göstər"
-
-#, c-format
-msgid "Error writing registry cache to %s: %s"
-msgstr ""
-
-#, c-format
-msgid "Error re-scanning registry %s: %s"
-msgstr ""
-
-#, c-format
-msgid "Error re-scanning registry %s"
-msgstr ""
 
 msgid "Unknown option"
 msgstr ""
@@ -609,6 +597,53 @@ msgid ""
 "according to WGS84 (zero is average sea level)"
 msgstr ""
 
+msgid "show name"
+msgstr ""
+
+msgid "Name of the tv/podcast/series show the media is from"
+msgstr ""
+
+msgid "show sortname"
+msgstr ""
+
+msgid ""
+"Name of the tv/podcast/series show the media is from, for sorting purposes"
+msgstr ""
+
+msgid "episode number"
+msgstr ""
+
+msgid "The episode number in the season the media is part of"
+msgstr ""
+
+msgid "season number"
+msgstr ""
+
+msgid "The season number of the show the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "lyrics"
+msgstr "lisenziya"
+
+msgid "The lyrics of the media, commonly used for songs"
+msgstr ""
+
+msgid "composer sortname"
+msgstr ""
+
+#, fuzzy
+msgid "person(s) who composed the recording, for sorting purposes"
+msgstr "ifa edən şəxs(lər)"
+
+msgid "grouping"
+msgstr ""
+
+msgid ""
+"Groups related media that spans multiple tracks, like the different pieces "
+"of a concerto. It is a higher level than a track, but lower than an album"
+msgstr ""
+
 msgid ", "
 msgstr ", "
 
@@ -729,6 +764,13 @@ msgstr ""
 msgid "Failed after iterations as requested."
 msgstr ""
 
+msgid "No Temp directory specified."
+msgstr ""
+
+#, c-format
+msgid "Could not create temp file \"%s\"."
+msgstr ""
+
 msgid "caps"
 msgstr ""
 
@@ -762,12 +804,27 @@ msgstr ""
 msgid "controllable"
 msgstr ""
 
+msgid "Blacklisted files:"
+msgstr ""
+
 msgid "Total count: "
 msgstr ""
 
 #, c-format
+msgid "%d blacklisted file"
+msgid_plural "%d blacklisted files"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
 msgid "%d plugin"
 msgid_plural "%d plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
+msgid "%d blacklist entry"
+msgid_plural "%d blacklist entries"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -780,8 +837,12 @@ msgstr[1] ""
 msgid "Print all elements"
 msgstr ""
 
+msgid "Print list of blacklisted files"
+msgstr ""
+
 msgid ""
-"Print a machine-parsable list of features the specified plugin provides.\n"
+"Print a machine-parsable list of features the specified plugin or all "
+"plugins provide.\n"
 "                                       Useful in connection with external "
 "automatic plugin installation mechanisms"
 msgstr ""

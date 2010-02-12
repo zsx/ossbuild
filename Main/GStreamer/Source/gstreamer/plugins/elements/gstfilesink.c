@@ -102,6 +102,44 @@ enum
   PROP_LAST
 };
 
+/* Copy of glib's g_fopen due to win32 libc/cross-DLL brokenness: we can't
+ * use the 'file pointer' opened in glib (and returned from this function)
+ * in this library, as they may have unrelated C runtimes. */
+FILE *
+gst_fopen (const gchar * filename, const gchar * mode)
+{
+#ifdef G_OS_WIN32
+  wchar_t *wfilename = g_utf8_to_utf16 (filename, -1, NULL, NULL, NULL);
+  wchar_t *wmode;
+  FILE *retval;
+  int save_errno;
+
+  if (wfilename == NULL) {
+    errno = EINVAL;
+    return NULL;
+  }
+
+  wmode = g_utf8_to_utf16 (mode, -1, NULL, NULL, NULL);
+
+  if (wmode == NULL) {
+    g_free (wfilename);
+    errno = EINVAL;
+    return NULL;
+  }
+
+  retval = _wfopen (wfilename, wmode);
+  save_errno = errno;
+
+  g_free (wfilename);
+  g_free (wmode);
+
+  errno = save_errno;
+  return retval;
+#else
+  return fopen (filename, mode);
+#endif
+}
+
 static void gst_file_sink_dispose (GObject * object);
 
 static void gst_file_sink_set_property (GObject * object, guint prop_id,
@@ -334,19 +372,16 @@ gst_file_sink_open_file (GstFileSink * sink)
   if (sink->filename == NULL || sink->filename[0] == '\0')
     goto no_filename;
 
-  /* FIXME, can we use g_fopen here? some people say that the FILE object is
-   * local to the .so that performed the fopen call, which would not be us when
-   * we use g_fopen. */
   if (sink->append)
-    sink->file = fopen (sink->filename, "ab");
+    sink->file = gst_fopen (sink->filename, "ab");
   else
-    sink->file = fopen (sink->filename, "wb");
+    sink->file = gst_fopen (sink->filename, "wb");
   if (sink->file == NULL)
     goto open_failed;
 
   /* see if we are asked to perform a specific kind of buffering */
   if ((mode = sink->buffer_mode) != -1) {
-    gsize buffer_size;
+    guint buffer_size;
 
     /* free previous buffer if any */
     g_free (sink->buffer);
@@ -361,10 +396,10 @@ gst_file_sink_open_file (GstFileSink * sink)
       buffer_size = sink->buffer_size;
     }
 #ifdef HAVE_STDIO_EXT_H
-    GST_DEBUG_OBJECT (sink, "change buffer size %d to %d, mode %d",
-        __fbufsize (sink->file), buffer_size, mode);
+    GST_DEBUG_OBJECT (sink, "change buffer size %u to %u, mode %d",
+        (guint) __fbufsize (sink->file), buffer_size, mode);
 #else
-    GST_DEBUG_OBJECT (sink, "change  buffer size to %d, mode %d",
+    GST_DEBUG_OBJECT (sink, "change  buffer size to %u, mode %d",
         sink->buffer_size, mode);
 #endif
     if (setvbuf (sink->file, sink->buffer, mode, buffer_size) != 0) {

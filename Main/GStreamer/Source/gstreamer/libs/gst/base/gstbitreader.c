@@ -26,8 +26,6 @@
 
 #include <string.h>
 
-/* FIXME 0.11: inline everything and get rid of non-inlined functions */
-
 /**
  * SECTION:gstbitreader
  * @short_description: Reads any number of bits from a memory buffer
@@ -197,6 +195,24 @@ gst_bit_reader_get_remaining (const GstBitReader * reader)
   g_return_val_if_fail (reader != NULL, 0);
 
   return reader->size * 8 - (reader->byte * 8 + reader->bit);
+}
+
+/**
+ * gst_bit_reader_get_size:
+ * @reader: a #GstBitReader instance
+ *
+ * Returns the total number of bits of a #GstBitReader instance.
+ *
+ * Returns: The total number of bits of @reader instance.
+ * 
+ * Since: 0.10.26
+ */
+guint
+gst_bit_reader_get_size (const GstBitReader * reader)
+{
+  g_return_val_if_fail (reader != NULL, 0);
+
+  return reader->size * 8;
 }
 
 /**

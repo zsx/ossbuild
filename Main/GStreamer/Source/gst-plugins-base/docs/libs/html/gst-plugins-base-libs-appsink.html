@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>appsink</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Base Plugins 0.10 Library Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Base Plugins 0.10 Library Reference Manual">
 <link rel="up" href="gstreamer-app.html" title="App Library">
 <link rel="prev" href="gst-plugins-base-libs-appsrc.html" title="appsrc">
 <link rel="next" href="gstreamer-audio.html" title="Audio Library">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="part" href="gstreamer-plugins-base.html" title="Part I. GStreamer Base Plugins Libraries">
 <link rel="chapter" href="gstreamer-app.html" title="App Library">
@@ -26,7 +26,8 @@
 <link rel="chapter" href="gstreamer-base-utils.html" title="Base Utils Library">
 <link rel="chapter" href="gstreamer-video.html" title="Video Library">
 <link rel="part" href="gstreamer-libs-hierarchy.html" title="Part II. Object Hierarchy">
-<link rel="index" href="api-index.html" title="Index">
+<link rel="index" href="api-index-full.html" title="Index">
+<link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -39,75 +40,49 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-base-libs-appsink.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gst-plugins-base-libs-appsink.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gst-plugins-base-libs-appsink.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="appsink">
 <a name="gst-plugins-base-libs-appsink"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
 <h2><span class="refentrytitle"><a name="gst-plugins-base-libs-appsink.top_of_page"></a>appsink</span></h2>
-<p>appsink</p>
+<p>appsink — Easy way for applications to extract buffers from a
+    pipeline</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-base-libs-appsink.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
 #include &lt;gst/app/gstappsink.h&gt;
 
                     <a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a>;
-void                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-caps" title="gst_app_sink_set_caps ()">gst_app_sink_set_caps</a>               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
->GstCaps</a> *caps);
-<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
->GstCaps</a> *           <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-get-caps" title="gst_app_sink_get_caps ()">gst_app_sink_get_caps</a>               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-is-eos" title="gst_app_sink_is_eos ()">gst_app_sink_is_eos</a>                 (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);
-void                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-emit-signals" title="gst_app_sink_set_emit_signals ()">gst_app_sink_set_emit_signals</a>       (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a> emit);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-get-emit-signals" title="gst_app_sink_get_emit_signals ()">gst_app_sink_get_emit_signals</a>       (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);
-void                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-max-buffers" title="gst_app_sink_set_max_buffers ()">gst_app_sink_set_max_buffers</a>        (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a> max);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-get-max-buffers" title="gst_app_sink_get_max_buffers ()">gst_app_sink_get_max_buffers</a>        (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);
-void                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-drop" title="gst_app_sink_set_drop ()">gst_app_sink_set_drop</a>               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a> drop);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-get-drop" title="gst_app_sink_get_drop ()">gst_app_sink_get_drop</a>               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);
-<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
->GstBuffer</a> *         <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-pull-preroll" title="gst_app_sink_pull_preroll ()">gst_app_sink_pull_preroll</a>           (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);
-<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
->GstBuffer</a> *         <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-pull-buffer" title="gst_app_sink_pull_buffer ()">gst_app_sink_pull_buffer</a>            (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);
+<span class="returnvalue">void</span>                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-caps" title="gst_app_sink_set_caps ()">gst_app_sink_set_caps</a>               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         const <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"><span class="returnvalue">GstCaps</span></a> *caps);
+<a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"><span class="returnvalue">GstCaps</span></a> *           <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-get-caps" title="gst_app_sink_get_caps ()">gst_app_sink_get_caps</a>               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-is-eos" title="gst_app_sink_is_eos ()">gst_app_sink_is_eos</a>                 (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);
+<span class="returnvalue">void</span>                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-emit-signals" title="gst_app_sink_set_emit_signals ()">gst_app_sink_set_emit_signals</a>       (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> emit);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-get-emit-signals" title="gst_app_sink_get_emit_signals ()">gst_app_sink_get_emit_signals</a>       (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);
+<span class="returnvalue">void</span>                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-max-buffers" title="gst_app_sink_set_max_buffers ()">gst_app_sink_set_max_buffers</a>        (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> max);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-get-max-buffers" title="gst_app_sink_get_max_buffers ()">gst_app_sink_get_max_buffers</a>        (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);
+<span class="returnvalue">void</span>                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-drop" title="gst_app_sink_set_drop ()">gst_app_sink_set_drop</a>               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> drop);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-get-drop" title="gst_app_sink_get_drop ()">gst_app_sink_get_drop</a>               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);
+<a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *         <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-pull-preroll" title="gst_app_sink_pull_preroll ()">gst_app_sink_pull_preroll</a>           (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);
+<a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *         <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-pull-buffer" title="gst_app_sink_pull_buffer ()">gst_app_sink_pull_buffer</a>            (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);
                     <a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSinkCallbacks" title="GstAppSinkCallbacks">GstAppSinkCallbacks</a>;
-void                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-callbacks" title="gst_app_sink_set_callbacks ()">gst_app_sink_set_callbacks</a>          (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         <a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSinkCallbacks" title="GstAppSinkCallbacks">GstAppSinkCallbacks</a> *callbacks,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
->GDestroyNotify</a> notify);
+<span class="returnvalue">void</span>                <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-callbacks" title="gst_app_sink_set_callbacks ()">gst_app_sink_set_callbacks</a>          (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         <a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSinkCallbacks" title="GstAppSinkCallbacks"><span class="returnvalue">GstAppSinkCallbacks</span></a> *callbacks,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"><span class="returnvalue">GDestroyNotify</span></a> notify);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-base-libs-appsink.description"></a><h2>Description</h2>
 <p>
 Appsink is a sink plugin that supports many different methods for making
@@ -135,9 +110,7 @@ affect real-time performance and should be avoided.
 </p>
 <p>
 If a blocking behaviour is not desirable, setting the "emit-signals" property
-to <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> will make appsink emit the "new-buffer" and "new-preroll" signals
+to <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> will make appsink emit the "new-buffer" and "new-preroll" signals
 when a buffer can be pulled without blocking.
 </p>
 <p>
@@ -146,9 +119,7 @@ appsink can receive. This property can contain non-fixed caps, the format of
 the pulled buffers can be obtained by getting the buffer caps.
 </p>
 <p>
-If one of the pull-preroll or pull-buffer methods return <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
-><code class="literal">NULL</code></a>, the appsink
+If one of the pull-preroll or pull-buffer methods return <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>, the appsink
 is stopped or in the EOS state. You can check for the EOS state with the
 "eos" property or with the <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-is-eos" title="gst_app_sink_is_eos ()"><code class="function">gst_app_sink_is_eos()</code></a> method.
 </p>
@@ -158,12 +129,10 @@ to avoid polling.
 </p>
 <p>
 Last reviewed on 2008-12-17 (0.10.22)</p>
-<p>
-</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-base-libs-appsink.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstAppSink">
 <a name="GstAppSink"></a><h3>GstAppSink</h3>
 <pre class="programlisting">typedef struct {
   GstBaseSink basesink;
@@ -173,19 +142,15 @@ Last reviewed on 2008-12-17 (0.10.22)</p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_set_caps ()">
 <a name="gst-app-sink-set-caps"></a><h3>gst_app_sink_set_caps ()</h3>
-<pre class="programlisting">void                gst_app_sink_set_caps               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         const <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
->GstCaps</a> *caps);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_app_sink_set_caps               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         const <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"><span class="returnvalue">GstCaps</span></a> *caps);</pre>
 <p>
 Set the capabilities on the appsink element.  This function takes
 a copy of the caps structure. After calling this method, the sink will only
 accept caps that match <em class="parameter"><code>caps</code></em>. If <em class="parameter"><code>caps</code></em> is non-fixed, you must check the caps
 on the buffers to get the actual used caps.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -204,15 +169,11 @@ on the buffers to get the actual used caps.</p>
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_get_caps ()">
 <a name="gst-app-sink-get-caps"></a><h3>gst_app_sink_get_caps ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
->GstCaps</a> *           gst_app_sink_get_caps               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"><span class="returnvalue">GstCaps</span></a> *           gst_app_sink_get_caps               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);</pre>
 <p>
 Get the configured caps on <em class="parameter"><code>appsink</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -223,11 +184,7 @@ Get the configured caps on <em class="parameter"><code>appsink</code></em>.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"
-><span class="type">GstCaps</span></a> accepted by the sink. <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-unref"
-><code class="function">gst_caps_unref()</code></a> after usage.
+<td> the <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#GstCaps"><span class="type">GstCaps</span></a> accepted by the sink. <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-unref"><code class="function">gst_caps_unref()</code></a> after usage.
 
 </td>
 </tr>
@@ -236,22 +193,16 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstCaps.html#gst-caps-unr
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_is_eos ()">
 <a name="gst-app-sink-is-eos"></a><h3>gst_app_sink_is_eos ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_app_sink_is_eos                 (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_app_sink_is_eos                 (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);</pre>
 <p>
 Check if <em class="parameter"><code>appsink</code></em> is EOS, which is when no more buffers can be pulled because
 an EOS event was received.
 </p>
 <p>
-This function also returns <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> when the appsink is not in the PAUSED or
+This function also returns <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> when the appsink is not in the PAUSED or
 PLAYING state.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -262,9 +213,7 @@ PLAYING state.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> if no more buffers can be pulled and the appsink is EOS.
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if no more buffers can be pulled and the appsink is EOS.
 
 </td>
 </tr>
@@ -273,18 +222,14 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_set_emit_signals ()">
 <a name="gst-app-sink-set-emit-signals"></a><h3>gst_app_sink_set_emit_signals ()</h3>
-<pre class="programlisting">void                gst_app_sink_set_emit_signals       (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a> emit);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_app_sink_set_emit_signals       (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> emit);</pre>
 <p>
 Make appsink emit the "new-preroll" and "new-buffer" signals. This option is
 by default disabled because signal emission is expensive and unneeded when
 the application prefers to operate in pull mode.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -303,15 +248,11 @@ the application prefers to operate in pull mode.</p>
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_get_emit_signals ()">
 <a name="gst-app-sink-get-emit-signals"></a><h3>gst_app_sink_get_emit_signals ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_app_sink_get_emit_signals       (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_app_sink_get_emit_signals       (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);</pre>
 <p>
 Check if appsink will emit the "new-preroll" and "new-buffer" signals.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -322,9 +263,7 @@ Check if appsink will emit the "new-preroll" and "new-buffer" signals.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> if <em class="parameter"><code>appsink</code></em> is emiting the "new-preroll" and "new-buffer"
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if <em class="parameter"><code>appsink</code></em> is emiting the "new-preroll" and "new-buffer"
 signals.
 
 </td>
@@ -334,18 +273,14 @@ signals.
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_set_max_buffers ()">
 <a name="gst-app-sink-set-max-buffers"></a><h3>gst_app_sink_set_max_buffers ()</h3>
-<pre class="programlisting">void                gst_app_sink_set_max_buffers        (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a> max);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_app_sink_set_max_buffers        (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> max);</pre>
 <p>
 Set the maximum amount of buffers that can be queued in <em class="parameter"><code>appsink</code></em>. After this
 amount of buffers are queued in appsink, any more buffers will block upstream
 elements until a buffer is pulled from <em class="parameter"><code>appsink</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -364,15 +299,11 @@ elements until a buffer is pulled from <em class="parameter"><code>appsink</code
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_get_max_buffers ()">
 <a name="gst-app-sink-get-max-buffers"></a><h3>gst_app_sink_get_max_buffers ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"
->guint</a>               gst_app_sink_get_max_buffers        (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               gst_app_sink_get_max_buffers        (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);</pre>
 <p>
 Get the maximum amount of buffers that can be queued in <em class="parameter"><code>appsink</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -392,17 +323,13 @@ Get the maximum amount of buffers that can be queued in <em class="parameter"><c
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_set_drop ()">
 <a name="gst-app-sink-set-drop"></a><h3>gst_app_sink_set_drop ()</h3>
-<pre class="programlisting">void                gst_app_sink_set_drop               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a> drop);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_app_sink_set_drop               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> drop);</pre>
 <p>
 Instruct <em class="parameter"><code>appsink</code></em> to drop old buffers when the maximum amount of queued
 buffers is reached.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -421,16 +348,12 @@ buffers is reached.</p>
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_get_drop ()">
 <a name="gst-app-sink-get-drop"></a><h3>gst_app_sink_get_drop ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_app_sink_get_drop               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_app_sink_get_drop               (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);</pre>
 <p>
 Check if <em class="parameter"><code>appsink</code></em> will drop old buffers when the maximum amount of queued
 buffers is reached.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -441,9 +364,7 @@ buffers is reached.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> if <em class="parameter"><code>appsink</code></em> is dropping old buffers when the queue is
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if <em class="parameter"><code>appsink</code></em> is dropping old buffers when the queue is
 filled.
 
 </td>
@@ -453,11 +374,9 @@ filled.
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_pull_preroll ()">
 <a name="gst-app-sink-pull-preroll"></a><h3>gst_app_sink_pull_preroll ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
->GstBuffer</a> *         gst_app_sink_pull_preroll           (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *         gst_app_sink_pull_preroll           (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);</pre>
 <p>
 Get the last preroll buffer in <em class="parameter"><code>appsink</code></em>. This was the buffer that caused the
 appsink to preroll in the PAUSED state. This buffer can be pulled many times
@@ -474,15 +393,11 @@ when calling <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-si
 </p>
 <p>
 If an EOS event was received before any buffers, this function returns
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
-><code class="literal">NULL</code></a>. Use <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-is-eos" title="gst_app_sink_is_eos ()"><code class="function">gst_app_sink_is_eos()</code></a> to check for the EOS condition. 
+<a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Use <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-is-eos" title="gst_app_sink_is_eos ()"><code class="function">gst_app_sink_is_eos()</code></a> to check for the EOS condition. 
 </p>
 <p>
 This function blocks until a preroll buffer or EOS is received or the appsink
 element is set to the READY/NULL state.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -493,9 +408,7 @@ element is set to the READY/NULL state.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
-><span class="type">GstBuffer</span></a> or NULL when the appsink is stopped or EOS.
+<td> a <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="type">GstBuffer</span></a> or NULL when the appsink is stopped or EOS.
 
 </td>
 </tr>
@@ -504,11 +417,9 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_pull_buffer ()">
 <a name="gst-app-sink-pull-buffer"></a><h3>gst_app_sink_pull_buffer ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
->GstBuffer</a> *         gst_app_sink_pull_buffer            (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *         gst_app_sink_pull_buffer            (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink);</pre>
 <p>
 This function blocks until a buffer or EOS becomes available or the appsink
 element is set to the READY/NULL state. 
@@ -522,11 +433,7 @@ especially when dealing with raw video frames.
 </p>
 <p>
 If an EOS event was received before any buffers, this function returns
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
-><code class="literal">NULL</code></a>. Use <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-is-eos" title="gst_app_sink_is_eos ()"><code class="function">gst_app_sink_is_eos()</code></a> to check for the EOS condition.</p>
-<p>
-</p>
+<a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. Use <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-is-eos" title="gst_app_sink_is_eos ()"><code class="function">gst_app_sink_is_eos()</code></a> to check for the EOS condition.</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -537,9 +444,7 @@ href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
-><span class="type">GstBuffer</span></a> or NULL when the appsink is stopped or EOS.
+<td> a <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="type">GstBuffer</span></a> or NULL when the appsink is stopped or EOS.
 
 </td>
 </tr>
@@ -548,7 +453,7 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstAppSinkCallbacks">
 <a name="GstAppSinkCallbacks"></a><h3>GstAppSinkCallbacks</h3>
 <pre class="programlisting">typedef struct {
   void          (*eos)              (GstAppSink *sink, gpointer user_data);
@@ -560,19 +465,17 @@ href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"
 <p>
 A set of callbacks that can be installed on the appsink with
 <a class="link" href="gst-plugins-base-libs-appsink.html#gst-app-sink-set-callbacks" title="gst_app_sink_set_callbacks ()"><code class="function">gst_app_sink_set_callbacks()</code></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><em class="structfield"><code>eos</code></em> ()</span></p></td>
+<td><p><span class="term"><em class="structfield"><code><a name="GstAppSinkCallbacks.eos"></a>eos</code></em> ()</span></p></td>
 <td> Called when the end-of-stream has been reached. This callback
       is called from the steaming thread.
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="structfield"><code>new_preroll</code></em> ()</span></p></td>
+<td><p><span class="term"><em class="structfield"><code><a name="GstAppSinkCallbacks.new-preroll"></a>new_preroll</code></em> ()</span></p></td>
 <td> Called when a new preroll buffer is available. 
       This callback is called from the steaming thread.
       The new preroll buffer can be retrieved with
@@ -581,7 +484,7 @@ A set of callbacks that can be installed on the appsink with
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="structfield"><code>new_buffer</code></em> ()</span></p></td>
+<td><p><span class="term"><em class="structfield"><code><a name="GstAppSinkCallbacks.new-buffer"></a>new_buffer</code></em> ()</span></p></td>
 <td> Called when a new buffer is available. 
       This callback is called from the steaming thread.
       The new buffer can be retrieved with
@@ -590,7 +493,7 @@ A set of callbacks that can be installed on the appsink with
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="structfield"><code>new_buffer_list</code></em> ()</span></p></td>
+<td><p><span class="term"><em class="structfield"><code><a name="GstAppSinkCallbacks.new-buffer-list"></a>new_buffer_list</code></em> ()</span></p></td>
 <td> Called when a new bufferlist is available. 
       This callback is called from the steaming thread.
       The new bufferlist can be retrieved with
@@ -603,16 +506,12 @@ A set of callbacks that can be installed on the appsink with
 <p class="since">Since 0.10.23</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_app_sink_set_callbacks ()">
 <a name="gst-app-sink-set-callbacks"></a><h3>gst_app_sink_set_callbacks ()</h3>
-<pre class="programlisting">void                gst_app_sink_set_callbacks          (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink">GstAppSink</a> *appsink,
-                                                         <a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSinkCallbacks" title="GstAppSinkCallbacks">GstAppSinkCallbacks</a> *callbacks,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"
->GDestroyNotify</a> notify);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_app_sink_set_callbacks          (<a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSink" title="GstAppSink"><span class="returnvalue">GstAppSink</span></a> *appsink,
+                                                         <a class="link" href="gst-plugins-base-libs-appsink.html#GstAppSinkCallbacks" title="GstAppSinkCallbacks"><span class="returnvalue">GstAppSinkCallbacks</span></a> *callbacks,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Datasets.html#GDestroyNotify"><span class="returnvalue">GDestroyNotify</span></a> notify);</pre>
 <p>
 Set callbacks which will be executed for each new preroll, new buffer and eos.
 This is an alternative to using the signals, it has lower overhead and is thus
@@ -621,8 +520,6 @@ less expensive, but also less flexible.
 <p>
 If callbacks are installed, no signals will be emited for performance
 reasons.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -651,13 +548,13 @@ reasons.</p>
 <p class="since">Since 0.10.23</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gst-plugins-base-libs-appsink.see-also"></a><h2>See Also</h2>
-#GstBaseSink, appsrc
+<a href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSink.html"><span class="type">GstBaseSink</span></a>, appsrc
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

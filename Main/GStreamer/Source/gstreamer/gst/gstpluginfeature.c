@@ -35,6 +35,7 @@
 #include "gstregistry.h"
 #include "gstinfo.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #define GST_CAT_DEFAULT GST_CAT_PLUGIN_LOADING
@@ -51,8 +52,7 @@ gst_plugin_feature_class_init (GstPluginFeatureClass * klass)
 {
   parent_class = g_type_class_peek_parent (klass);
 
-  G_OBJECT_CLASS (klass)->finalize =
-      GST_DEBUG_FUNCPTR (gst_plugin_feature_finalize);
+  G_OBJECT_CLASS (klass)->finalize = gst_plugin_feature_finalize;
 }
 
 static void
@@ -256,6 +256,43 @@ gst_plugin_feature_list_free (GList * list)
     gst_object_unref (feature);
   }
   g_list_free (list);
+}
+
+/**
+ * gst_plugin_feature_list_copy:
+ * @list: list of #GstPluginFeature
+ *
+ * Copies the list of features. Caller should call @gst_plugin_feature_list_free
+ * when done with the list.
+ *
+ * Returns: a copy of @list, with each feature's reference count incremented.
+ *
+ * Since: 0.10.26
+ */
+GList *
+gst_plugin_feature_list_copy (GList * list)
+{
+  GList *new_list = NULL;
+
+  if (G_LIKELY (list)) {
+    GList *last;
+
+    new_list = g_list_alloc ();
+    new_list->data = g_object_ref ((GObject *) list->data);
+    new_list->prev = NULL;
+    last = new_list;
+    list = list->next;
+    while (list) {
+      last->next = g_list_alloc ();
+      last->next->prev = last;
+      last = last->next;
+      last->data = g_object_ref ((GObject *) list->data);
+      list = list->next;
+    }
+    last->next = NULL;
+  }
+
+  return new_list;
 }
 
 /**

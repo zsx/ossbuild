@@ -13,55 +13,15 @@ GObject
           GstPlayBaseBin
             GstPlayBin
           GstPlayBin2
-        GstPlaySink
         GstDecodeBin2
         GstURIDecodeBin
         GstDecodeBin
-      GstBaseSink
-        GstGioBaseSink
-          GstGioSink
-          GstGioStreamSink
-        GstGnomeVFSSink
-        GstBaseAudioSink
-          GstAudioSink
-            GstAlsaSink
-        GstVideoSink
-          GstXvImageSink
-          GstXImageSink
-        GstTCPClientSink
-        GstMultiFdSink
-          GstTCPServerSink
-        GstAppSink
-      GstBaseSrc
-        GstGioBaseSrc
-          GstGioSrc
-          GstGioStreamSrc
-        GstPushSrc
-          GstCddaBaseSrc
-            GstCdParanoiaSrc
-          GstBaseAudioSrc
-            GstAudioSrc
-              GstAlsaSrc
-          GstV4lElement
-            GstV4lSrc
-          GstTCPClientSrc
-          GstTCPServerSrc
-          GstVideoTestSrc
-        GstGnomeVFSSrc
-        GstAppSrc
-        GstAudioTestSrc
+        GstPlaySink
+        GstSubtitleOverlay
       GstVorbisEnc
       GstVorbisDec
       GstVorbisParse
         GstVorbisTag
-      GstOggDemux
-      GstOggMux
-      GstOgmParse
-        GstOgmAudioParse
-        GstOgmVideoParse
-        GstOgmTextParse
-      GstOggParse
-      GstOggAviParse
       GstVisual
         GstVisualbumpscope
         GstVisualcorona
@@ -71,31 +31,71 @@ GObject
         GstVisuallv_analyzer
         GstVisuallv_scope
         GstVisualoinksie
-      GstTheoraDec
-      GstTheoraEnc
-      GstTheoraParse
+      GstBaseSrc
+        GstPushSrc
+          GstCddaBaseSrc
+            GstCdParanoiaSrc
+          GstBaseAudioSrc
+            GstAudioSrc
+              GstAlsaSrc
+          GstV4lElement
+            GstV4lSrc
+          GstVideoTestSrc
+          GstTCPClientSrc
+          GstTCPServerSrc
+        GstGioBaseSrc
+          GstGioSrc
+          GstGioStreamSrc
+        GstGnomeVFSSrc
+        GstAppSrc
+        GstAudioTestSrc
+      GstBaseSink
+        GstGioBaseSink
+          GstGioSink
+          GstGioStreamSink
+        GstBaseAudioSink
+          GstAudioSink
+            GstAlsaSink
+        GstGnomeVFSSink
+        GstVideoSink
+          GstXImageSink
+          GstXvImageSink
+        GstAppSink
+        GstTCPClientSink
+        GstMultiFdSink
+          GstTCPServerSink
       GstTextOverlay
         GstTimeOverlay
         GstClockOverlay
       GstTextRender
       GstAlsaMixerElement
-      GstGDPDepay
-      GstGDPPay
+      GstTheoraDec
+      GstTheoraEnc
+      GstTheoraParse
+      GstOggDemux
+      GstOggMux
+      GstOgmParse
+        GstOgmAudioParse
+        GstOgmVideoParse
+        GstOgmTextParse
+      GstOggParse
+      GstOggAviParse
+      GstAdder
       GstBaseTransform
-        GstFFMpegCsp
         GstVideoScale
         GstAudioFilter
           GstVolume
-        GstAudioResample
         GstAudioConvert
-      GstSubParse
-      GstSsaParse
-      GstAdder
+        GstAudioResample
+        GstFFMpegCsp
+      GstVideoRate
       GstStreamSelector
       GstPlaybin2InputSelector
-      GstQueue2
+      GstGDPDepay
+      GstGDPPay
+      GstSubParse
+      GstSsaParse
       GstAudioRate
-      GstVideoRate
     GstBus
     GstTask
     GstTaskPool
@@ -105,8 +105,8 @@ GObject
     GstPlugin
     GstRegistry
     GstRingBuffer
-      GstAudioSrcRingBuffer
       GstAudioSinkRingBuffer
+      GstAudioSrcRingBuffer
   GstSignalObject
   GstMixerTrack
     GstMixerOptions
@@ -118,8 +118,8 @@ GObject
     PangoFcFontMap
       PangoCairoFcFontMap
   PangoContext
-  GOutputStream
   GInputStream
+  GOutputStream
 GInterface
   GTypePlugin
   GstChildProxy

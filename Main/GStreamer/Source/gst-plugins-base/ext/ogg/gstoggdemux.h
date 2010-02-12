@@ -26,6 +26,8 @@
 
 #include <gst/gst.h>
 
+#include "gstoggstream.h"
+
 G_BEGIN_DECLS
 
 #define GST_TYPE_OGG_PAD (gst_ogg_pad_get_type())
@@ -43,7 +45,7 @@ typedef struct _GstOggPadClass GstOggPadClass;
 #define GST_IS_OGG_DEMUX(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_OGG_DEMUX))
 #define GST_IS_OGG_DEMUX_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_OGG_DEMUX))
 
-static GType gst_ogg_demux_get_type (void);
+GType gst_ogg_demux_get_type (void);
 
 typedef struct _GstOggDemux GstOggDemux;
 typedef struct _GstOggDemuxClass GstOggDemuxClass;
@@ -87,25 +89,14 @@ struct _GstOggPad
   gboolean have_type;
   GstOggPadMode mode;
 
-  GstPad *elem_pad;             /* sinkpad of internal element */
-  GstElement *element;          /* internal element */
-  GstPad *elem_out;             /* our sinkpad to receive buffers form the internal element */
-
   GstOggChain *chain;           /* the chain we are part of */
   GstOggDemux *ogg;             /* the ogg demuxer we are part of */
 
-  GList *headers;
+  GstOggStream map;
 
-  gboolean is_skeleton;
-  gboolean have_fisbone;
-  gint64 granulerate_n;
-  gint64 granulerate_d;
-  guint32 preroll;
-  guint granuleshift;
-
-  gint serialno;
   gint64 packetno;
   gint64 current_granule;
+  gint64 keyframe_granule;
 
   GstClockTime start_time;      /* the timestamp of the first sample */
 
@@ -116,14 +107,12 @@ struct _GstOggPad
   GstClockTime last_stop;       /* last_stop when last push occured; used to detect when we
                                  * need to send a newsegment update event for sparse streams */
 
-  ogg_stream_state stream;
   GList *continued;
 
   gboolean discont;
   GstFlowReturn last_ret;       /* last return of _pad_push() */
 
-  gboolean dynamic;             /* True if the internal element had dynamic pads */
-  guint padaddedid;             /* The signal id for element::pad-added */
+  gboolean added;
 };
 
 struct _GstOggPadClass
@@ -146,7 +135,7 @@ struct _GstOggDemux
   gint64 read_offset;
   gint64 offset;
 
-  gboolean seekable;
+  gboolean pullmode;
   gboolean running;
 
   gboolean need_chains;
@@ -167,8 +156,6 @@ struct _GstOggDemux
   GstEvent *event;
   GstEvent *newsegment;         /* pending newsegment to be sent from _loop */
 
-  gint64 current_granule;
-
   /* annodex stuff */
   gboolean have_fishead;
   gint64 basetime;
@@ -182,6 +169,7 @@ struct _GstOggDemuxClass
 {
   GstElementClass parent_class;
 };
+
 
 G_END_DECLS
 

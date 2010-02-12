@@ -1,7 +1,7 @@
 # Finnish translations for gstreamer package.
 # Copyright (C) 2005, 2007-2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gstreamer package.
-# Tommi Vainikainen <Tommi.Vainikainen@iki.fi>, 2005, 2007-2009.
+# Tommi Vainikainen <Tommi.Vainikainen@iki.fi>, 2005, 2007-2010.
 #
 # Words:
 #
@@ -10,10 +10,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gstreamer 0.10.24.2\n"
+"Project-Id-Version: gstreamer 0.10.25.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-10-05 12:38+0100\n"
-"PO-Revision-Date: 2009-09-17 10:58+0300\n"
+"POT-Creation-Date: 2010-02-09 00:56+0000\n"
+"PO-Revision-Date: 2010-01-27 17:50+0200\n"
 "Last-Translator: Tommi Vainikainen <Tommi.Vainikainen@iki.fi>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -80,26 +80,14 @@ msgstr "Ei muistialueen ylityksen tarkkailua liitännäisten latauksen aikana"
 msgid "Disable updating the registry"
 msgstr "Älä päivitä rekisteriä"
 
-msgid "Disable the use of fork() while scanning the registry"
-msgstr "Älä käytä fork()-kutsua rekisterin skannauksessa"
+msgid "Disable spawning a helper process while scanning the registry"
+msgstr "Älä käynnistä apuprosessia rekisterin skannauksessa"
 
 msgid "GStreamer Options"
 msgstr "GStreamerin valitsimet"
 
 msgid "Show GStreamer Options"
 msgstr "Näytä GStreamerin valitsimet"
-
-#, c-format
-msgid "Error writing registry cache to %s: %s"
-msgstr "Virhe kirjoitettaessa rekisterivälimuistia kohteeseen %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s: %s"
-msgstr "Virhe uudelleenskannatessa rekisteriä %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s"
-msgstr "Virhe uudelleenskannatessa rekisteriä %s"
 
 msgid "Unknown option"
 msgstr "Tuntematon valitsin"
@@ -639,6 +627,56 @@ msgstr ""
 "maantietellinen korkeustaso, jossa media on nauhoitettu tai tuotettu "
 "metreinä WGS84-koordinaateista (nolla on keskimääräinen merenpinta)"
 
+msgid "show name"
+msgstr "ohjelman nimi"
+
+msgid "Name of the tv/podcast/series show the media is from"
+msgstr "TV/podcast/sarjan ohjelman nimi, josta tämä media on lähtöisin"
+
+msgid "show sortname"
+msgstr "ohjelman lajittelunimi"
+
+msgid ""
+"Name of the tv/podcast/series show the media is from, for sorting purposes"
+msgstr ""
+"Lajitteluun käytettävä TV/podcast/sarjan ohjelman nimi, josta tämä media on "
+"lähtöisin"
+
+msgid "episode number"
+msgstr "episodin numero"
+
+msgid "The episode number in the season the media is part of"
+msgstr "Episodin numero kaudella, johon tämä media kuuluu"
+
+msgid "season number"
+msgstr "Kauden numero"
+
+msgid "The season number of the show the media is part of"
+msgstr "Kauden numero ohjelmalle, johon tämä media kuuluu"
+
+msgid "lyrics"
+msgstr "sanoitukset"
+
+msgid "The lyrics of the media, commonly used for songs"
+msgstr "Median sanoitukset, yleensä käytössä lauluille"
+
+msgid "composer sortname"
+msgstr "säveltäjän lajittelunimi"
+
+msgid "person(s) who composed the recording, for sorting purposes"
+msgstr "sävellyksestä vastuussa oleva(t) henkilö(t) lajittelua varten"
+
+msgid "grouping"
+msgstr "ryhmittely"
+
+msgid ""
+"Groups related media that spans multiple tracks, like the different pieces "
+"of a concerto. It is a higher level than a track, but lower than an album"
+msgstr ""
+"Ryhmittelee toisiinsa liittyvät media, jotka koostuvat useammasta raidasta, "
+"kuten konsertin eri osat. Tämä on korkeamman tason kuin raita, mutta "
+"matalamman tason kuin levy"
+
 msgid ", "
 msgstr ", "
 
@@ -762,6 +800,13 @@ msgstr "Tiedosto \"%s\" on pistoke."
 msgid "Failed after iterations as requested."
 msgstr "Epäonnistui, kuten pyydettiin, yritysten jälkeen."
 
+msgid "No Temp directory specified."
+msgstr "Tilapäishakemistoa ei ole määritetty."
+
+#, c-format
+msgid "Could not create temp file \"%s\"."
+msgstr "Ei voitu luoda tilapäistiedostoa ”%s”."
+
 msgid "caps"
 msgstr "kyvyt"
 
@@ -795,14 +840,29 @@ msgstr "kirjoitettavissa"
 msgid "controllable"
 msgstr "ohjattavissa"
 
+msgid "Blacklisted files:"
+msgstr "Mustalistatut tiedostot:"
+
 msgid "Total count: "
 msgstr "Yhteismäärä: "
+
+#, c-format
+msgid "%d blacklisted file"
+msgid_plural "%d blacklisted files"
+msgstr[0] "%d mustalistattu tiedosto"
+msgstr[1] "%d mustalistattua tiedostoa"
 
 #, c-format
 msgid "%d plugin"
 msgid_plural "%d plugins"
 msgstr[0] "%d liitännäinen"
 msgstr[1] "%d liitännäistä"
+
+#, c-format
+msgid "%d blacklist entry"
+msgid_plural "%d blacklist entries"
+msgstr[0] "%d mustalistaustietue"
+msgstr[1] "%d mustalistaustietuetta"
 
 #, c-format
 msgid "%d feature"
@@ -813,8 +873,12 @@ msgstr[1] "%d ominaisuutta"
 msgid "Print all elements"
 msgstr "Tulosta kaikki elementit"
 
+msgid "Print list of blacklisted files"
+msgstr "Tulista luettelo tiedostoista mustalla listalla"
+
 msgid ""
-"Print a machine-parsable list of features the specified plugin provides.\n"
+"Print a machine-parsable list of features the specified plugin or all "
+"plugins provide.\n"
 "                                       Useful in connection with external "
 "automatic plugin installation mechanisms"
 msgstr ""
@@ -1025,6 +1089,15 @@ msgstr "Asetetaan liukuhihna tilaan TYHJÄ...\n"
 
 msgid "Freeing pipeline ...\n"
 msgstr "Vapautetaan liukuhihna...\n"
+
+#~ msgid "Error writing registry cache to %s: %s"
+#~ msgstr "Virhe kirjoitettaessa rekisterivälimuistia kohteeseen %s: %s"
+
+#~ msgid "Error re-scanning registry %s: %s"
+#~ msgstr "Virhe uudelleenskannatessa rekisteriä %s: %s"
+
+#~ msgid "Error re-scanning registry %s"
+#~ msgstr "Virhe uudelleenskannatessa rekisteriä %s"
 
 #~ msgid "Internal GStreamer error: state change failed."
 #~ msgstr "Sisäinen GStreamer-virhe: tilasiirtymä epäonnistui."

@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GstStructure</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer 0.10 Core Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer 0.10 Core Reference Manual">
 <link rel="up" href="libgstreamer.html" title="GStreamer Core Library">
 <link rel="prev" href="gstreamer-GstSegment.html" title="GstSegment">
 <link rel="next" href="GstSystemClock.html" title="GstSystemClock">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="gstreamer.html" title="GStreamer Overview">
 <link rel="chapter" href="libgstreamer.html" title="GStreamer Core Library">
@@ -16,6 +16,7 @@
 <link rel="chapter" href="gstreamer-hierarchy.html" title="Object Hierarchy">
 <link rel="index" href="api-index-full.html" title="API Index">
 <link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
+<link rel="glossary" href="annotation-glossary.html" title="Annotation Glossary">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -28,11 +29,11 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gstreamer-GstStructure.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gstreamer-GstStructure.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gstreamer-GstStructure.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="GstStructure">
 <a name="gstreamer-GstStructure"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -41,346 +42,156 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gstreamer-GstStructure.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
 #include &lt;gst/gst.h&gt;
 
                     <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a>;
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructureForeachFunc" title="GstStructureForeachFunc ()">*GstStructureForeachFunc</a>)          (<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field_id,
-                                                         const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *value,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructureMapFunc" title="GstStructureMapFunc ()">*GstStructureMapFunc</a>)              (<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field_id,
-                                                         <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *value,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);
-<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-empty-new" title="gst_structure_empty_new ()">gst_structure_empty_new</a>             (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);
-<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-empty-new" title="gst_structure_id_empty_new ()">gst_structure_id_empty_new</a>          (<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> quark);
-<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-new" title="gst_structure_new ()">gst_structure_new</a>                   (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *firstfield,
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructureForeachFunc" title="GstStructureForeachFunc ()">*GstStructureForeachFunc</a>)          (<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field_id,
+                                                         const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *value,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructureMapFunc" title="GstStructureMapFunc ()">*GstStructureMapFunc</a>)              (<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field_id,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *value,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);
+<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-empty-new" title="gst_structure_empty_new ()">gst_structure_empty_new</a>             (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);
+<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-empty-new" title="gst_structure_id_empty_new ()">gst_structure_id_empty_new</a>          (<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> quark);
+<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-new" title="gst_structure_new ()">gst_structure_new</a>                   (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *firstfield,
                                                          ...);
-<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-new-valist" title="gst_structure_new_valist ()">gst_structure_new_valist</a>            (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *firstfield,
-                                                         va_list varargs);
-<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-new" title="gst_structure_id_new ()">gst_structure_id_new</a>                (<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> name_quark,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field_quark,
+<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-new-valist" title="gst_structure_new_valist ()">gst_structure_new_valist</a>            (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *firstfield,
+                                                         <span class="returnvalue">va_list</span> varargs);
+<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-new" title="gst_structure_id_new ()">gst_structure_id_new</a>                (<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> name_quark,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field_quark,
                                                          ...);
-<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-copy" title="gst_structure_copy ()">gst_structure_copy</a>                  (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-free" title="gst_structure_free ()">gst_structure_free</a>                  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *       <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-name" title="gst_structure_get_name ()">gst_structure_get_name</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-has-name" title="gst_structure_has_name ()">gst_structure_has_name</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-name" title="gst_structure_set_name ()">gst_structure_set_name</a>              (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);
-<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a>              <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-name-id" title="gst_structure_get_name_id ()">gst_structure_get_name_id</a>           (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get" title="gst_structure_id_get ()">gst_structure_id_get</a>                (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> first_field_id,
+<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-copy" title="gst_structure_copy ()">gst_structure_copy</a>                  (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-free" title="gst_structure_free ()">gst_structure_free</a>                  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-name" title="gst_structure_get_name ()">gst_structure_get_name</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-has-name" title="gst_structure_has_name ()">gst_structure_has_name</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-name" title="gst_structure_set_name ()">gst_structure_set_name</a>              (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);
+<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-name-id" title="gst_structure_get_name_id ()">gst_structure_get_name_id</a>           (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get" title="gst_structure_id_get ()">gst_structure_id_get</a>                (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> first_field_id,
                                                          ...);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get-valist" title="gst_structure_id_get_valist ()">gst_structure_id_get_valist</a>         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> first_field_id,
-                                                         va_list args);
-const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get-value" title="gst_structure_id_get_value ()">gst_structure_id_get_value</a>          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set-value" title="gst_structure_id_set_value ()">gst_structure_id_set_value</a>          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field,
-                                                         const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *value);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get" title="gst_structure_get ()">gst_structure_get</a>                   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *first_fieldname,
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get-valist" title="gst_structure_id_get_valist ()">gst_structure_id_get_valist</a>         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> first_field_id,
+                                                         <span class="returnvalue">va_list</span> args);
+const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get-value" title="gst_structure_id_get_value ()">gst_structure_id_get_value</a>          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set-value" title="gst_structure_id_set_value ()">gst_structure_id_set_value</a>          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field,
+                                                         const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *value);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get" title="gst_structure_get ()">gst_structure_get</a>                   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *first_fieldname,
                                                          ...);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-valist" title="gst_structure_get_valist ()">gst_structure_get_valist</a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *first_fieldname,
-                                                         va_list args);
-const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-value" title="gst_structure_get_value ()">gst_structure_get_value</a>             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-value" title="gst_structure_set_value ()">gst_structure_set_value</a>             (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *value);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set" title="gst_structure_set ()">gst_structure_set</a>                   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-valist" title="gst_structure_get_valist ()">gst_structure_get_valist</a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *first_fieldname,
+                                                         <span class="returnvalue">va_list</span> args);
+const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-value" title="gst_structure_get_value ()">gst_structure_get_value</a>             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-value" title="gst_structure_set_value ()">gst_structure_set_value</a>             (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *value);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set" title="gst_structure_set ()">gst_structure_set</a>                   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
                                                          ...);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-valist" title="gst_structure_set_valist ()">gst_structure_set_valist</a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         va_list varargs);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set" title="gst_structure_id_set ()">gst_structure_id_set</a>                (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> fieldname,
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-valist" title="gst_structure_set_valist ()">gst_structure_set_valist</a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <span class="returnvalue">va_list</span> varargs);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set" title="gst_structure_id_set ()">gst_structure_id_set</a>                (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> fieldname,
                                                          ...);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set-valist" title="gst_structure_id_set_valist ()">gst_structure_id_set_valist</a>         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> fieldname,
-                                                         va_list varargs);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-field" title="gst_structure_remove_field ()">gst_structure_remove_field</a>          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-fields" title="gst_structure_remove_fields ()">gst_structure_remove_fields</a>         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set-valist" title="gst_structure_id_set_valist ()">gst_structure_id_set_valist</a>         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> fieldname,
+                                                         <span class="returnvalue">va_list</span> varargs);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-field" title="gst_structure_remove_field ()">gst_structure_remove_field</a>          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-fields" title="gst_structure_remove_fields ()">gst_structure_remove_fields</a>         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
                                                          ...);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-fields-valist" title="gst_structure_remove_fields_valist ()">gst_structure_remove_fields_valist</a>  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         va_list varargs);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-all-fields" title="gst_structure_remove_all_fields ()">gst_structure_remove_all_fields</a>     (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-<a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a>               <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-field-type" title="gst_structure_get_field_type ()">gst_structure_get_field_type</a>        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-foreach" title="gst_structure_foreach ()">gst_structure_foreach</a>               (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructureForeachFunc" title="GstStructureForeachFunc ()">GstStructureForeachFunc</a> func,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);
-<a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-n-fields" title="gst_structure_n_fields ()">gst_structure_n_fields</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-has-field" title="gst_structure_has_field ()">gst_structure_has_field</a>             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-has-field-typed" title="gst_structure_has_field_typed ()">gst_structure_has_field_typed</a>       (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> type);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-boolean" title="gst_structure_get_boolean ()">gst_structure_get_boolean</a>           (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *value);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-int" title="gst_structure_get_int ()">gst_structure_get_int</a>               (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *value);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-uint" title="gst_structure_get_uint ()">gst_structure_get_uint</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> *value);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-fourcc" title="gst_structure_get_fourcc ()">gst_structure_get_fourcc</a>            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint32"
->guint32</a> *value);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-double" title="gst_structure_get_double ()">gst_structure_get_double</a>            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *value);
-const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *       <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-string" title="gst_structure_get_string ()">gst_structure_get_string</a>            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-date" title="gst_structure_get_date ()">gst_structure_get_date</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Date-and-Time-Functions.html#GDate"
->GDate</a> **value);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-clock-time" title="gst_structure_get_clock_time ()">gst_structure_get_clock_time</a>        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> *value);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-enum" title="gst_structure_get_enum ()">gst_structure_get_enum</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> enumtype,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *value);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-fraction" title="gst_structure_get_fraction ()">gst_structure_get_fraction</a>          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *value_numerator,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *value_denominator);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-map-in-place" title="gst_structure_map_in_place ()">gst_structure_map_in_place</a>          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructureMapFunc" title="GstStructureMapFunc ()">GstStructureMapFunc</a> func,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);
-const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *       <a class="link" href="gstreamer-GstStructure.html#gst-structure-nth-field-name" title="gst_structure_nth_field_name ()">gst_structure_nth_field_name</a>        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> index);
-void                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-parent-refcount" title="gst_structure_set_parent_refcount ()">gst_structure_set_parent_refcount</a>   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *refcount);
-<a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *             <a class="link" href="gstreamer-GstStructure.html#gst-structure-to-string" title="gst_structure_to_string ()">gst_structure_to_string</a>             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-from-string" title="gst_structure_from_string ()">gst_structure_from_string</a>           (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *string,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> **end);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-fixate-field-nearest-int" title="gst_structure_fixate_field_nearest_int ()">gst_structure_fixate_field_nearest_int</a>
-                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *field_name,
-                                                         int target);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-fixate-field-nearest-double" title="gst_structure_fixate_field_nearest_double ()">gst_structure_fixate_field_nearest_double</a>
-                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *field_name,
-                                                         double target);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-fixate-field-nearest-fraction" title="gst_structure_fixate_field_nearest_fraction ()">gst_structure_fixate_field_nearest_fraction</a>
-                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *field_name,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> target_numerator,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> target_denominator);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-fixate-field-boolean" title="gst_structure_fixate_field_boolean ()">gst_structure_fixate_field_boolean</a>  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *field_name,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> target);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-fields-valist" title="gst_structure_remove_fields_valist ()">gst_structure_remove_fields_valist</a>  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <span class="returnvalue">va_list</span> varargs);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-all-fields" title="gst_structure_remove_all_fields ()">gst_structure_remove_all_fields</a>     (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+<a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a>               <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-field-type" title="gst_structure_get_field_type ()">gst_structure_get_field_type</a>        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-foreach" title="gst_structure_foreach ()">gst_structure_foreach</a>               (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructureForeachFunc" title="GstStructureForeachFunc ()"><span class="returnvalue">GstStructureForeachFunc</span></a> func,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-n-fields" title="gst_structure_n_fields ()">gst_structure_n_fields</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-has-field" title="gst_structure_has_field ()">gst_structure_has_field</a>             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-has-field-typed" title="gst_structure_has_field_typed ()">gst_structure_has_field_typed</a>       (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> type);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-has-field" title="gst_structure_id_has_field ()">gst_structure_id_has_field</a>          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-has-field-typed" title="gst_structure_id_has_field_typed ()">gst_structure_id_has_field_typed</a>    (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> type);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-boolean" title="gst_structure_get_boolean ()">gst_structure_get_boolean</a>           (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *value);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-int" title="gst_structure_get_int ()">gst_structure_get_int</a>               (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *value);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-uint" title="gst_structure_get_uint ()">gst_structure_get_uint</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> *value);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-fourcc" title="gst_structure_get_fourcc ()">gst_structure_get_fourcc</a>            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> *value);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-double" title="gst_structure_get_double ()">gst_structure_get_double</a>            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *value);
+const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-string" title="gst_structure_get_string ()">gst_structure_get_string</a>            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-date" title="gst_structure_get_date ()">gst_structure_get_date</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> **value);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-clock-time" title="gst_structure_get_clock_time ()">gst_structure_get_clock_time</a>        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> *value);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-enum" title="gst_structure_get_enum ()">gst_structure_get_enum</a>              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> enumtype,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *value);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-fraction" title="gst_structure_get_fraction ()">gst_structure_get_fraction</a>          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *value_numerator,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *value_denominator);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-map-in-place" title="gst_structure_map_in_place ()">gst_structure_map_in_place</a>          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructureMapFunc" title="GstStructureMapFunc ()"><span class="returnvalue">GstStructureMapFunc</span></a> func,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);
+const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="gstreamer-GstStructure.html#gst-structure-nth-field-name" title="gst_structure_nth_field_name ()">gst_structure_nth_field_name</a>        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> index);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-parent-refcount" title="gst_structure_set_parent_refcount ()">gst_structure_set_parent_refcount</a>   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *refcount);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="gstreamer-GstStructure.html#gst-structure-to-string" title="gst_structure_to_string ()">gst_structure_to_string</a>             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      <a class="link" href="gstreamer-GstStructure.html#gst-structure-from-string" title="gst_structure_from_string ()">gst_structure_from_string</a>           (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *string,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **end);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-fixate-field-nearest-int" title="gst_structure_fixate_field_nearest_int ()">gst_structure_fixate_field_nearest_int</a>
+                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *field_name,
+                                                         <span class="returnvalue">int</span> target);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-fixate-field-nearest-double" title="gst_structure_fixate_field_nearest_double ()">gst_structure_fixate_field_nearest_double</a>
+                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *field_name,
+                                                         <span class="returnvalue">double</span> target);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-fixate-field-nearest-fraction" title="gst_structure_fixate_field_nearest_fraction ()">gst_structure_fixate_field_nearest_fraction</a>
+                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *field_name,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> target_numerator,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> target_denominator);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstStructure.html#gst-structure-fixate-field-boolean" title="gst_structure_fixate_field_boolean ()">gst_structure_fixate_field_boolean</a>  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *field_name,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> target);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gstreamer-GstStructure.description"></a><h2>Description</h2>
 <p>
 A <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> is a collection of key/value pairs. The keys are expressed
@@ -420,12 +231,10 @@ not allowed. Strings must not be empty either, but may be NULL.
 </p>
 <p>
 Last reviewed on 2009-06-08 (0.10.23)</p>
-<p>
-</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gstreamer-GstStructure.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstStructure">
 <a name="GstStructure"></a><h3>GstStructure</h3>
 <pre class="programlisting">typedef struct {
   GType type;
@@ -433,53 +242,35 @@ Last reviewed on 2009-06-08 (0.10.23)</p>
 </pre>
 <p>
 The GstStructure object. Most fields are private.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><span class="term"><a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> <em class="structfield"><code>type</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> <em class="structfield"><code><a name="GstStructure.type"></a>type</code></em>;</span></p></td>
 <td> the GType of a structure
 </td>
 </tr></tbody>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstStructureForeachFunc ()">
 <a name="GstStructureForeachFunc"></a><h3>GstStructureForeachFunc ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            (*GstStructureForeachFunc)          (<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field_id,
-                                                         const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *value,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (*GstStructureForeachFunc)          (<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field_id,
+                                                         const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *value,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);</pre>
 <p>
 A function that will be called in <a class="link" href="gstreamer-GstStructure.html#gst-structure-foreach" title="gst_structure_foreach ()"><code class="function">gst_structure_foreach()</code></a>. The function may
 not modify <em class="parameter"><code>value</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>field_id</code></em> :</span></p></td>
-<td> the <a
-href="../glib/glib-Quarks.html#GQuark"
-><span class="type">GQuark</span></a> of the field name
+<td> the <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="type">GQuark</span></a> of the field name
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td> the <a
-href="../gobject/gobject-Generic-values.html#GValue"
-><span class="type">GValue</span></a> of the field
+<td> the <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> of the field
 </td>
 </tr>
 <tr>
@@ -497,39 +288,25 @@ the foreach operation should stop with FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstStructureMapFunc ()">
 <a name="GstStructureMapFunc"></a><h3>GstStructureMapFunc ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            (*GstStructureMapFunc)              (<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field_id,
-                                                         <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *value,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (*GstStructureMapFunc)              (<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field_id,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *value,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);</pre>
 <p>
 A function that will be called in <a class="link" href="gstreamer-GstStructure.html#gst-structure-map-in-place" title="gst_structure_map_in_place ()"><code class="function">gst_structure_map_in_place()</code></a>. The function
 may modify <em class="parameter"><code>value</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>field_id</code></em> :</span></p></td>
-<td> the <a
-href="../glib/glib-Quarks.html#GQuark"
-><span class="type">GQuark</span></a> of the field name
+<td> the <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="type">GQuark</span></a> of the field name
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td> the <a
-href="../gobject/gobject-Generic-values.html#GValue"
-><span class="type">GValue</span></a> of the field
+<td> the <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> of the field
 </td>
 </tr>
 <tr>
@@ -547,18 +324,14 @@ the map operation should stop with FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_empty_new ()">
 <a name="gst-structure-empty-new"></a><h3>gst_structure_empty_new ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      gst_structure_empty_new             (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      gst_structure_empty_new             (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);</pre>
 <p>
 Creates a new, empty <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> with the given <em class="parameter"><code>name</code></em>.
 </p>
 <p>
 See <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-name" title="gst_structure_set_name ()"><code class="function">gst_structure_set_name()</code></a> for constraints on the <em class="parameter"><code>name</code></em> parameter.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -576,15 +349,11 @@ See <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-name" ti
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_empty_new ()">
 <a name="gst-structure-id-empty-new"></a><h3>gst_structure_id_empty_new ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      gst_structure_id_empty_new          (<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> quark);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      gst_structure_id_empty_new          (<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> quark);</pre>
 <p>
 Creates a new, empty <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> with the given name as a GQuark.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -602,22 +371,16 @@ Creates a new, empty <a class="link" href="gstreamer-GstStructure.html#GstStruct
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_new ()">
 <a name="gst-structure-new"></a><h3>gst_structure_new ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      gst_structure_new                   (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *firstfield,
+<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      gst_structure_new                   (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *firstfield,
                                                          ...);</pre>
 <p>
 Creates a new <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> with the given name.  Parses the
 list of variable arguments and sets fields to the values listed.
 Variable arguments should be passed as field name, field type,
 and value.  Last variable argument should be NULL.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -645,15 +408,11 @@ and value.  Last variable argument should be NULL.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_new_valist ()">
 <a name="gst-structure-new-valist"></a><h3>gst_structure_new_valist ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      gst_structure_new_valist            (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *firstfield,
-                                                         va_list varargs);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      gst_structure_new_valist            (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *firstfield,
+                                                         <span class="returnvalue">va_list</span> varargs);</pre>
 <p>
 Creates a new <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> with the given <em class="parameter"><code>name</code></em>.  Structure fields
 are set according to the varargs in a manner similar to
@@ -661,8 +420,6 @@ are set according to the varargs in a manner similar to
 </p>
 <p>
 See <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-name" title="gst_structure_set_name ()"><code class="function">gst_structure_set_name()</code></a> for constraints on the <em class="parameter"><code>name</code></em> parameter.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -690,14 +447,10 @@ See <a class="link" href="gstreamer-GstStructure.html#gst-structure-set-name" ti
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_new ()">
 <a name="gst-structure-id-new"></a><h3>gst_structure_id_new ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      gst_structure_id_new                (<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> name_quark,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field_quark,
+<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      gst_structure_id_new                (<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> name_quark,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field_quark,
                                                          ...);</pre>
 <p>
 Creates a new <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> with the given name as a GQuark, followed by
@@ -707,8 +460,6 @@ fieldname quark, GType, argument(s) "triplets" in the same format as
 </p>
 <p>
 The last variable argument must be NULL (or 0).</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -738,13 +489,11 @@ The last variable argument must be NULL (or 0).</p>
 <p class="since">Since 0.10.24</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_copy ()">
 <a name="gst-structure-copy"></a><h3>gst_structure_copy ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      gst_structure_copy                  (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      gst_structure_copy                  (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Duplicates a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> and all its fields and values.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -762,14 +511,12 @@ Duplicates a <a class="link" href="gstreamer-GstStructure.html#GstStructure" tit
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_free ()">
 <a name="gst-structure-free"></a><h3>gst_structure_free ()</h3>
-<pre class="programlisting">void                gst_structure_free                  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_free                  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Frees a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> and all its fields and values. The structure must not
 have a parent when this function is called.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -780,15 +527,11 @@ have a parent when this function is called.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_name ()">
 <a name="gst-structure-get-name"></a><h3>gst_structure_get_name ()</h3>
-<pre class="programlisting">const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *       gst_structure_get_name              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gst_structure_get_name              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Get the name of <em class="parameter"><code>structure</code></em> as a string.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -806,18 +549,12 @@ Get the name of <em class="parameter"><code>structure</code></em> as a string.</
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_has_name ()">
 <a name="gst-structure-has-name"></a><h3>gst_structure_has_name ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_has_name              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_has_name              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);</pre>
 <p>
 Checks if the structure has the given name</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -840,18 +577,14 @@ Checks if the structure has the given name</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_set_name ()">
 <a name="gst-structure-set-name"></a><h3>gst_structure_set_name ()</h3>
-<pre class="programlisting">void                gst_structure_set_name              (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_set_name              (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);</pre>
 <p>
 Sets the name of the structure to the given <em class="parameter"><code>name</code></em>.  The string
 provided is copied before being used. It must not be empty, start with a
 letter and can be followed by letters, numbers and any of "/-_.:".</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -869,15 +602,11 @@ letter and can be followed by letters, numbers and any of "/-_.:".</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_name_id ()">
 <a name="gst-structure-get-name-id"></a><h3>gst_structure_get_name_id ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a>              gst_structure_get_name_id           (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              gst_structure_get_name_id           (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Get the name of <em class="parameter"><code>structure</code></em> as a GQuark.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -895,14 +624,10 @@ Get the name of <em class="parameter"><code>structure</code></em> as a GQuark.</
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_get ()">
 <a name="gst-structure-id-get"></a><h3>gst_structure_id_get ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_id_get                (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> first_field_id,
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_id_get                (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> first_field_id,
                                                          ...);</pre>
 <p>
 Parses the variable arguments and reads fields from <em class="parameter"><code>structure</code></em> accordingly.
@@ -921,11 +646,7 @@ quark hashtable.
 For refcounted (mini)objects you will acquire your own reference which
 you must release with a suitable <code class="function">_unref()</code> when no longer needed. For
 strings and boxed types you will acquire a copy which you will need to
-release with either <a
-href="../glib/glib-Memory-Allocation.html#g-free"
-><code class="function">g_free()</code></a> or the suiteable function for the boxed type.</p>
-<p>
-</p>
+release with either <a href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a> or the suiteable function for the boxed type.</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -957,21 +678,15 @@ href="../glib/glib-Memory-Allocation.html#g-free"
 <p class="since">Since 0.10.24</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_get_valist ()">
 <a name="gst-structure-id-get-valist"></a><h3>gst_structure_id_get_valist ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_id_get_valist         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> first_field_id,
-                                                         va_list args);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_id_get_valist         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> first_field_id,
+                                                         <span class="returnvalue">va_list</span> args);</pre>
 <p>
 Parses the variable arguments and reads fields from <em class="parameter"><code>structure</code></em> accordingly.
 valist-variant of <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get" title="gst_structure_id_get ()"><code class="function">gst_structure_id_get()</code></a>. Look at the documentation of
 <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-get" title="gst_structure_id_get ()"><code class="function">gst_structure_id_get()</code></a> for more details.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1001,18 +716,12 @@ valist-variant of <a class="link" href="gstreamer-GstStructure.html#gst-structur
 <p class="since">Since 0.10.24</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_get_value ()">
 <a name="gst-structure-id-get-value"></a><h3>gst_structure_id_get_value ()</h3>
-<pre class="programlisting">const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *      gst_structure_id_get_value          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field);</pre>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *      gst_structure_id_get_value          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field);</pre>
 <p>
 Get the value of the field with GQuark <em class="parameter"><code>field</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1023,16 +732,12 @@ Get the value of the field with GQuark <em class="parameter"><code>field</code><
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>field</code></em> :</span></p></td>
-<td> the <a
-href="../glib/glib-Quarks.html#GQuark"
-><span class="type">GQuark</span></a> of the field to get
+<td> the <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="type">GQuark</span></a> of the field to get
 </td>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the <a
-href="../gobject/gobject-Generic-values.html#GValue"
-><span class="type">GValue</span></a> corresponding to the field with the given name
+<td> the <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> corresponding to the field with the given name
          identifier.
 </td>
 </tr>
@@ -1040,21 +745,15 @@ href="../gobject/gobject-Generic-values.html#GValue"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_set_value ()">
 <a name="gst-structure-id-set-value"></a><h3>gst_structure_id_set_value ()</h3>
-<pre class="programlisting">void                gst_structure_id_set_value          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> field,
-                                                         const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *value);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_id_set_value          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field,
+                                                         const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *value);</pre>
 <p>
 Sets the field with the given GQuark <em class="parameter"><code>field</code></em> to <em class="parameter"><code>value</code></em>.  If the field
 does not exist, it is created.  If the field exists, the previous
 value is replaced and freed.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1065,9 +764,7 @@ value is replaced and freed.</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>field</code></em> :</span></p></td>
-<td> a <a
-href="../glib/glib-Quarks.html#GQuark"
-><span class="type">GQuark</span></a> representing a field
+<td> a <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="type">GQuark</span></a> representing a field
 </td>
 </tr>
 <tr>
@@ -1079,12 +776,10 @@ href="../glib/glib-Quarks.html#GQuark"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get ()">
 <a name="gst-structure-get"></a><h3>gst_structure_get ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get                   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *first_fieldname,
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get                   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *first_fieldname,
                                                          ...);</pre>
 <p>
 Parses the variable arguments and reads fields from <em class="parameter"><code>structure</code></em> accordingly.
@@ -1096,11 +791,7 @@ The last variable argument should be NULL.
 For refcounted (mini)objects you will acquire your own reference which
 you must release with a suitable <code class="function">_unref()</code> when no longer needed. For
 strings and boxed types you will acquire a copy which you will need to
-release with either <a
-href="../glib/glib-Memory-Allocation.html#g-free"
-><code class="function">g_free()</code></a> or the suiteable function for the boxed type.</p>
-<p>
-</p>
+release with either <a href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a> or the suiteable function for the boxed type.</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1132,19 +823,15 @@ href="../glib/glib-Memory-Allocation.html#g-free"
 <p class="since">Since 0.10.24</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_valist ()">
 <a name="gst-structure-get-valist"></a><h3>gst_structure_get_valist ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_valist            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *first_fieldname,
-                                                         va_list args);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_valist            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *first_fieldname,
+                                                         <span class="returnvalue">va_list</span> args);</pre>
 <p>
 Parses the variable arguments and reads fields from <em class="parameter"><code>structure</code></em> accordingly.
 valist-variant of <a class="link" href="gstreamer-GstStructure.html#gst-structure-get" title="gst_structure_get ()"><code class="function">gst_structure_get()</code></a>. Look at the documentation of
 <a class="link" href="gstreamer-GstStructure.html#gst-structure-get" title="gst_structure_get ()"><code class="function">gst_structure_get()</code></a> for more details.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1174,18 +861,12 @@ valist-variant of <a class="link" href="gstreamer-GstStructure.html#gst-structur
 <p class="since">Since 0.10.24</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_value ()">
 <a name="gst-structure-get-value"></a><h3>gst_structure_get_value ()</h3>
-<pre class="programlisting">const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *      gst_structure_get_value             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);</pre>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *      gst_structure_get_value             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);</pre>
 <p>
 Get the value of the field with name <em class="parameter"><code>fieldname</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1201,30 +882,22 @@ Get the value of the field with name <em class="parameter"><code>fieldname</code
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the <a
-href="../gobject/gobject-Generic-values.html#GValue"
-><span class="type">GValue</span></a> corresponding to the field with the given name.
+<td> the <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> corresponding to the field with the given name.
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_set_value ()">
 <a name="gst-structure-set-value"></a><h3>gst_structure_set_value ()</h3>
-<pre class="programlisting">void                gst_structure_set_value             (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         const <a
-href="../gobject/gobject-Generic-values.html#GValue"
->GValue</a> *value);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_set_value             (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         const <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="returnvalue">GValue</span></a> *value);</pre>
 <p>
 Sets the field with the given name <em class="parameter"><code>field</code></em> to <em class="parameter"><code>value</code></em>.  If the field
 does not exist, it is created.  If the field exists, the previous
 value is replaced and freed.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1247,19 +920,15 @@ value is replaced and freed.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_set ()">
 <a name="gst-structure-set"></a><h3>gst_structure_set ()</h3>
-<pre class="programlisting">void                gst_structure_set                   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_set                   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
                                                          ...);</pre>
 <p>
 Parses the variable arguments and sets fields accordingly.
 Variable arguments should be in the form field name, field type
 (as a GType), value(s).  The last variable argument should be NULL.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1282,17 +951,13 @@ Variable arguments should be in the form field name, field type
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_set_valist ()">
 <a name="gst-structure-set-valist"></a><h3>gst_structure_set_valist ()</h3>
-<pre class="programlisting">void                gst_structure_set_valist            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         va_list varargs);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_set_valist            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <span class="returnvalue">va_list</span> varargs);</pre>
 <p>
 va_list form of <a class="link" href="gstreamer-GstStructure.html#gst-structure-set" title="gst_structure_set ()"><code class="function">gst_structure_set()</code></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1315,12 +980,10 @@ va_list form of <a class="link" href="gstreamer-GstStructure.html#gst-structure-
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_set ()">
 <a name="gst-structure-id-set"></a><h3>gst_structure_id_set ()</h3>
-<pre class="programlisting">void                gst_structure_id_set                (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> fieldname,
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_id_set                (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> fieldname,
                                                          ...);</pre>
 <p>
 Identical to gst_structure_set, except that field names are
@@ -1328,8 +991,6 @@ passed using the GQuark for the field name. This allows more efficient
 setting of the structure if the caller already knows the associated
 quark values.
 The last variable argument must be NULL.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1353,17 +1014,13 @@ The last variable argument must be NULL.</p>
 <p class="since">Since 0.10.10</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_set_valist ()">
 <a name="gst-structure-id-set-valist"></a><h3>gst_structure_id_set_valist ()</h3>
-<pre class="programlisting">void                gst_structure_id_set_valist         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a> fieldname,
-                                                         va_list varargs);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_id_set_valist         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> fieldname,
+                                                         <span class="returnvalue">va_list</span> varargs);</pre>
 <p>
 va_list form of <a class="link" href="gstreamer-GstStructure.html#gst-structure-id-set" title="gst_structure_id_set ()"><code class="function">gst_structure_id_set()</code></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1387,17 +1044,13 @@ va_list form of <a class="link" href="gstreamer-GstStructure.html#gst-structure-
 <p class="since">Since 0.10.10</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_remove_field ()">
 <a name="gst-structure-remove-field"></a><h3>gst_structure_remove_field ()</h3>
-<pre class="programlisting">void                gst_structure_remove_field          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_remove_field          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);</pre>
 <p>
 Removes the field with the given name.  If the field with the given
 name does not exist, the structure is unchanged.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1415,18 +1068,14 @@ name does not exist, the structure is unchanged.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_remove_fields ()">
 <a name="gst-structure-remove-fields"></a><h3>gst_structure_remove_fields ()</h3>
-<pre class="programlisting">void                gst_structure_remove_fields         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_remove_fields         (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
                                                          ...);</pre>
 <p>
 Removes the fields with the given names. If a field does not exist, the
 argument is ignored.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1449,17 +1098,13 @@ argument is ignored.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_remove_fields_valist ()">
 <a name="gst-structure-remove-fields-valist"></a><h3>gst_structure_remove_fields_valist ()</h3>
-<pre class="programlisting">void                gst_structure_remove_fields_valist  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         va_list varargs);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_remove_fields_valist  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <span class="returnvalue">va_list</span> varargs);</pre>
 <p>
 va_list form of <a class="link" href="gstreamer-GstStructure.html#gst-structure-remove-fields" title="gst_structure_remove_fields ()"><code class="function">gst_structure_remove_fields()</code></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1482,13 +1127,11 @@ va_list form of <a class="link" href="gstreamer-GstStructure.html#gst-structure-
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_remove_all_fields ()">
 <a name="gst-structure-remove-all-fields"></a><h3>gst_structure_remove_all_fields ()</h3>
-<pre class="programlisting">void                gst_structure_remove_all_fields     (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_remove_all_fields     (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Removes all fields in a GstStructure.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -1499,20 +1142,14 @@ Removes all fields in a GstStructure.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_field_type ()">
 <a name="gst-structure-get-field-type"></a><h3>gst_structure_get_field_type ()</h3>
-<pre class="programlisting"><a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a>               gst_structure_get_field_type        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a>               gst_structure_get_field_type        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);</pre>
 <p>
 Finds the field with the given name, and returns the type of the
 value it contains.  If the field is not found, G_TYPE_INVALID is
 returned.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1528,29 +1165,21 @@ returned.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the <a
-href="../gobject/gobject-Generic-values.html#GValue"
-><span class="type">GValue</span></a> of the field
+<td> the <a href="/usr/share/gtk-doc/html/gobject/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> of the field
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_foreach ()">
 <a name="gst-structure-foreach"></a><h3>gst_structure_foreach ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_foreach               (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructureForeachFunc" title="GstStructureForeachFunc ()">GstStructureForeachFunc</a> func,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_foreach               (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructureForeachFunc" title="GstStructureForeachFunc ()"><span class="returnvalue">GstStructureForeachFunc</span></a> func,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);</pre>
 <p>
 Calls the provided function once for each field in the <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a>. The
 function must not modify the fields. Also see <a class="link" href="gstreamer-GstStructure.html#gst-structure-map-in-place" title="gst_structure_map_in_place ()"><code class="function">gst_structure_map_in_place()</code></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1579,15 +1208,11 @@ FALSE otherwise.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_n_fields ()">
 <a name="gst-structure-n-fields"></a><h3>gst_structure_n_fields ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a>                gst_structure_n_fields              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                gst_structure_n_fields              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Get the number of fields in the structure.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1605,18 +1230,12 @@ Get the number of fields in the structure.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_has_field ()">
 <a name="gst-structure-has-field"></a><h3>gst_structure_has_field ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_has_field             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_has_field             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);</pre>
 <p>
 Check if <em class="parameter"><code>structure</code></em> contains a field named <em class="parameter"><code>fieldname</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1639,21 +1258,13 @@ Check if <em class="parameter"><code>structure</code></em> contains a field name
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_has_field_typed ()">
 <a name="gst-structure-has-field-typed"></a><h3>gst_structure_has_field_typed ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_has_field_typed       (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> type);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_has_field_typed       (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> type);</pre>
 <p>
 Check if <em class="parameter"><code>structure</code></em> contains a field named <em class="parameter"><code>fieldname</code></em> and with GType <em class="parameter"><code>type</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1681,23 +1292,81 @@ Check if <em class="parameter"><code>structure</code></em> contains a field name
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_id_has_field ()">
+<a name="gst-structure-id-has-field"></a><h3>gst_structure_id_has_field ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_id_has_field          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field);</pre>
+<p>
+Check if <em class="parameter"><code>structure</code></em> contains a field named <em class="parameter"><code>field</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>structure</code></em> :</span></p></td>
+<td> a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>field</code></em> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="type">GQuark</span></a> of the field name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if the structure contains a field with the given name
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_structure_id_has_field_typed ()">
+<a name="gst-structure-id-has-field-typed"></a><h3>gst_structure_id_has_field_typed ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_id_has_field_typed    (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a> field,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> type);</pre>
+<p>
+Check if <em class="parameter"><code>structure</code></em> contains a field named <em class="parameter"><code>field</code></em> and with GType <em class="parameter"><code>type</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>structure</code></em> :</span></p></td>
+<td> a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>field</code></em> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="type">GQuark</span></a> of the field name
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>type</code></em> :</span></p></td>
+<td> the type of a value
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> TRUE if the structure contains a field with the given name and type
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.16</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_structure_get_boolean ()">
 <a name="gst-structure-get-boolean"></a><h3>gst_structure_get_boolean ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_boolean           (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *value);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_boolean           (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *value);</pre>
 <p>
 Sets the boolean pointed to by <em class="parameter"><code>value</code></em> corresponding to the value of the
 given field.  Caller is responsible for making sure the field exists
 and has the correct type.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1713,9 +1382,7 @@ and has the correct type.</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td> a pointer to a <a
-href="../glib/glib-Basic-Types.html#gboolean"
-><span class="type">gboolean</span></a> to set
+<td> a pointer to a <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> to set
 </td>
 </tr>
 <tr>
@@ -1729,23 +1396,15 @@ function returns FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_int ()">
 <a name="gst-structure-get-int"></a><h3>gst_structure_get_int ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_int               (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *value);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_int               (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *value);</pre>
 <p>
 Sets the int pointed to by <em class="parameter"><code>value</code></em> corresponding to the value of the
 given field.  Caller is responsible for making sure the field exists
 and has the correct type.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1766,36 +1425,24 @@ and has the correct type.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> if the value could be set correctly. If there was no field
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be set correctly. If there was no field
 with <em class="parameter"><code>fieldname</code></em> or the existing field did not contain an int, this function
-returns <a
-href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
-><code class="literal">FALSE</code></a>.
+returns <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>.
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_uint ()">
 <a name="gst-structure-get-uint"></a><h3>gst_structure_get_uint ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_uint              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> *value);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_uint              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> *value);</pre>
 <p>
 Sets the uint pointed to by <em class="parameter"><code>value</code></em> corresponding to the value of the
 given field.  Caller is responsible for making sure the field exists
 and has the correct type.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1816,13 +1463,9 @@ and has the correct type.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> if the value could be set correctly. If there was no field
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be set correctly. If there was no field
 with <em class="parameter"><code>fieldname</code></em> or the existing field did not contain a uint, this function
-returns <a
-href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
-><code class="literal">FALSE</code></a>.
+returns <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>.
 
 </td>
 </tr>
@@ -1831,23 +1474,15 @@ href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
 <p class="since">Since 0.10.15</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_fourcc ()">
 <a name="gst-structure-get-fourcc"></a><h3>gst_structure_get_fourcc ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_fourcc            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint32"
->guint32</a> *value);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_fourcc            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> *value);</pre>
 <p>
-Sets the <span class="type">GstFourcc</span> pointed to by <em class="parameter"><code>value</code></em> corresponding to the value of the
+Sets the Fourcc pointed to by <em class="parameter"><code>value</code></em> corresponding to the value of the
 given field.  Caller is responsible for making sure the field exists
 and has the correct type.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1863,7 +1498,7 @@ and has the correct type.</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td> a pointer to a <span class="type">GstFourcc</span> to set
+<td> a pointer to a 32bit unsigned int to set
 </td>
 </tr>
 <tr>
@@ -1877,23 +1512,15 @@ returns FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_double ()">
 <a name="gst-structure-get-double"></a><h3>gst_structure_get_double ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_double            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *value);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_double            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *value);</pre>
 <p>
 Sets the double pointed to by <em class="parameter"><code>value</code></em> corresponding to the value of the
 given field.  Caller is responsible for making sure the field exists
 and has the correct type.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1909,7 +1536,7 @@ and has the correct type.</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td> a pointer to a <span class="type">GstFourcc</span> to set
+<td> a pointer to a gdouble to set
 </td>
 </tr>
 <tr>
@@ -1923,14 +1550,10 @@ function returns FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_string ()">
 <a name="gst-structure-get-string"></a><h3>gst_structure_get_string ()</h3>
-<pre class="programlisting">const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *       gst_structure_get_string            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname);</pre>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gst_structure_get_string            (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname);</pre>
 <p>
 Finds the field corresponding to <em class="parameter"><code>fieldname</code></em>, and returns the string
 contained in the field's value.  Caller is responsible for making
@@ -1939,8 +1562,6 @@ sure the field exists and has the correct type.
 <p>
 The string should not be modified, and remains valid until the next
 call to a gst_structure_*() function with the given structure.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1964,17 +1585,11 @@ or did not contain a string.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_date ()">
 <a name="gst-structure-get-date"></a><h3>gst_structure_get_date ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_date              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Date-and-Time-Functions.html#GDate"
->GDate</a> **value);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_date              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> **value);</pre>
 <p>
 Sets the date pointed to by <em class="parameter"><code>value</code></em> corresponding to the date of the
 given field.  Caller is responsible for making sure the field exists
@@ -1982,13 +1597,9 @@ and has the correct type.
 </p>
 <p>
 On success <em class="parameter"><code>value</code></em> will point to a newly-allocated copy of the date which
-should be freed with <a
-href="../glib/glib-Date-and-Time-Functions.html#g-date-free"
-><code class="function">g_date_free()</code></a> when no longer needed (note: this is
+should be freed with <a href="/usr/share/gtk-doc/html/glib/glib-Date-and-Time-Functions.html#g-date-free"><code class="function">g_date_free()</code></a> when no longer needed (note: this is
 inconsistent with e.g. <a class="link" href="gstreamer-GstStructure.html#gst-structure-get-string" title="gst_structure_get_string ()"><code class="function">gst_structure_get_string()</code></a> which doesn't return a
 copy of the string).</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2004,9 +1615,7 @@ copy of the string).</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td> a pointer to a <a
-href="../glib/glib-Date-and-Time-Functions.html#GDate"
-><span class="type">GDate</span></a> to set
+<td> a pointer to a <a href="/usr/share/gtk-doc/html/glib/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> to set
 </td>
 </tr>
 <tr>
@@ -2020,21 +1629,15 @@ returns FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_clock_time ()">
 <a name="gst-structure-get-clock-time"></a><h3>gst_structure_get_clock_time ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_clock_time        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> *value);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_clock_time        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> *value);</pre>
 <p>
 Sets the clock time pointed to by <em class="parameter"><code>value</code></em> corresponding to the clock time
 of the given field.  Caller is responsible for making sure the field exists
 and has the correct type.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2064,26 +1667,16 @@ function returns FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_enum ()">
 <a name="gst-structure-get-enum"></a><h3>gst_structure_get_enum ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_enum              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> enumtype,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *value);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_enum              (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> enumtype,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *value);</pre>
 <p>
 Sets the int pointed to by <em class="parameter"><code>value</code></em> corresponding to the value of the
 given field.  Caller is responsible for making sure the field exists,
 has the correct type and that the enumtype is correct.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2118,26 +1711,16 @@ type, this function returns FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_get_fraction ()">
 <a name="gst-structure-get-fraction"></a><h3>gst_structure_get_fraction ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_get_fraction          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *fieldname,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *value_numerator,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *value_denominator);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_get_fraction          (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *fieldname,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *value_numerator,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *value_denominator);</pre>
 <p>
 Sets the integers pointed to by <em class="parameter"><code>value_numerator</code></em> and <em class="parameter"><code>value_denominator</code></em> 
 corresponding to the value of the given field.  Caller is responsible 
 for making sure the field exists and has the correct type.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2172,21 +1755,15 @@ function returns FALSE.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_map_in_place ()">
 <a name="gst-structure-map-in-place"></a><h3>gst_structure_map_in_place ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_map_in_place          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructureMapFunc" title="GstStructureMapFunc ()">GstStructureMapFunc</a> func,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_map_in_place          (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructureMapFunc" title="GstStructureMapFunc ()"><span class="returnvalue">GstStructureMapFunc</span></a> func,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);</pre>
 <p>
 Calls the provided function once for each field in the <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a>. In
 contrast to <a class="link" href="gstreamer-GstStructure.html#gst-structure-foreach" title="gst_structure_foreach ()"><code class="function">gst_structure_foreach()</code></a>, the function may modify but not delete the
 fields. The structure must be mutable.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2215,18 +1792,12 @@ FALSE otherwise.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_nth_field_name ()">
 <a name="gst-structure-nth-field-name"></a><h3>gst_structure_nth_field_name ()</h3>
-<pre class="programlisting">const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *       gst_structure_nth_field_name        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> index);</pre>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gst_structure_nth_field_name        (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> index);</pre>
 <p>
 Get the name of the given field number, counting from 0 onwards.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2249,19 +1820,15 @@ Get the name of the given field number, counting from 0 onwards.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_set_parent_refcount ()">
 <a name="gst-structure-set-parent-refcount"></a><h3>gst_structure_set_parent_refcount ()</h3>
-<pre class="programlisting">void                gst_structure_set_parent_refcount   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> *refcount);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_structure_set_parent_refcount   (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> *refcount);</pre>
 <p>
 Sets the parent_refcount field of <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a>. This field is used to
 determine whether a structure is mutable or not. This function should only be
 called by code implementing parent objects of <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a>, as described in
 the MT Refcounting section of the design documents.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2279,24 +1846,28 @@ the MT Refcounting section of the design documents.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_to_string ()">
 <a name="gst-structure-to-string"></a><h3>gst_structure_to_string ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *             gst_structure_to_string             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gst_structure_to_string             (const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Converts <em class="parameter"><code>structure</code></em> to a human-readable string representation.
 </p>
 <p>
 For debugging purposes its easier to do something like this:
 </p>
-<div class="informalexample"><pre class="programlisting">
-GST_LOG ("structure is %" GST_PTR_FORMAT, structure);
-</pre></div>
+<div class="informalexample">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1</pre></td>
+        <td class="listing_code"><pre class="programlisting"><span class="function"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstInfo.html#GST-LOG:CAPS">GST_LOG</a></span> <span class="symbol">(</span><span class="string">&quot;structure is %&quot;</span> GST_PTR_FORMAT<span class="symbol">,</span> structure<span class="symbol">);</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <p>
 This prints the structure in human readble form.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2307,11 +1878,7 @@ This prints the structure in human readble form.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> a pointer to string allocated by <a
-href="../glib/glib-Memory-Allocation.html#g-malloc"
-><code class="function">g_malloc()</code></a>. <a
-href="../glib/glib-Memory-Allocation.html#g-free"
-><code class="function">g_free()</code></a> after
+<td> a pointer to string allocated by <a href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-malloc"><code class="function">g_malloc()</code></a>. <a href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a> after
 usage.
 </td>
 </tr>
@@ -2319,20 +1886,14 @@ usage.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_from_string ()">
 <a name="gst-structure-from-string"></a><h3>gst_structure_from_string ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *      gst_structure_from_string           (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *string,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> **end);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *      gst_structure_from_string           (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *string,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **end);</pre>
 <p>
 Creates a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> from a string representation.
 If end is not NULL, a pointer to the place inside the given string
 where parsing ended will be returned.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2356,19 +1917,15 @@ be parsed. Free with <a class="link" href="gstreamer-GstStructure.html#gst-struc
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_fixate_field_nearest_int ()">
 <a name="gst-structure-fixate-field-nearest-int"></a><h3>gst_structure_fixate_field_nearest_int ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_fixate_field_nearest_int
-                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *field_name,
-                                                         int target);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_fixate_field_nearest_int
+                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *field_name,
+                                                         <span class="returnvalue">int</span> target);</pre>
 <p>
 Fixates a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> by changing the given field to the nearest
 integer to <em class="parameter"><code>target</code></em> that is a subset of the existing field.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2396,19 +1953,15 @@ integer to <em class="parameter"><code>target</code></em> that is a subset of th
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_fixate_field_nearest_double ()">
 <a name="gst-structure-fixate-field-nearest-double"></a><h3>gst_structure_fixate_field_nearest_double ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_fixate_field_nearest_double
-                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *field_name,
-                                                         double target);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_fixate_field_nearest_double
+                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *field_name,
+                                                         <span class="returnvalue">double</span> target);</pre>
 <p>
 Fixates a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> by changing the given field to the nearest
 double to <em class="parameter"><code>target</code></em> that is a subset of the existing field.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2436,25 +1989,17 @@ double to <em class="parameter"><code>target</code></em> that is a subset of the
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_fixate_field_nearest_fraction ()">
 <a name="gst-structure-fixate-field-nearest-fraction"></a><h3>gst_structure_fixate_field_nearest_fraction ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_fixate_field_nearest_fraction
-                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *field_name,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> target_numerator,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> target_denominator);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_fixate_field_nearest_fraction
+                                                        (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *field_name,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> target_numerator,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> target_denominator);</pre>
 <p>
 Fixates a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> by changing the given field to the nearest
 fraction to <em class="parameter"><code>target_numerator</code></em>/<em class="parameter"><code>target_denominator</code></em> that is a subset 
 of the existing field.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2487,20 +2032,14 @@ of the existing field.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_structure_fixate_field_boolean ()">
 <a name="gst-structure-fixate-field-boolean"></a><h3>gst_structure_fixate_field_boolean ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_structure_fixate_field_boolean  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure,
-                                                         const char *field_name,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> target);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_structure_fixate_field_boolean  (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure,
+                                                         const <span class="returnvalue">char</span> *field_name,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> target);</pre>
 <p>
 Fixates a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> by changing the given <em class="parameter"><code>field_name</code></em> field to the given
 <em class="parameter"><code>target</code></em> boolean if that field is not fixed yet.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2528,13 +2067,13 @@ Fixates a <a class="link" href="gstreamer-GstStructure.html#GstStructure" title=
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="gstreamer-GstStructure.see-also"></a><h2>See Also</h2>
-#GstCaps, <a class="link" href="gstreamer-GstMessage.html#GstMessage" title="GstMessage"><span class="type">GstMessage</span></a>, <a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="type">GstEvent</span></a>, <a class="link" href="gstreamer-GstQuery.html#GstQuery" title="GstQuery"><span class="type">GstQuery</span></a>
+<a class="link" href="gstreamer-GstCaps.html#GstCaps" title="GstCaps"><span class="type">GstCaps</span></a>, <a class="link" href="gstreamer-GstMessage.html#GstMessage" title="GstMessage"><span class="type">GstMessage</span></a>, <a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="type">GstEvent</span></a>, <a class="link" href="gstreamer-GstQuery.html#GstQuery" title="GstQuery"><span class="type">GstQuery</span></a>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

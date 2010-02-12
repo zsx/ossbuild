@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 dnl initialize autoconf
 dnl when going to/from release please set the nano (fourth number) right !
 dnl releases only do Wall, git and prerelease does Werror too
-AC_INIT(GStreamer, 0.10.25,
+AC_INIT(GStreamer, 0.10.26,
     http://bugzilla.gnome.org/enter_bug.cgi?product=GStreamer,
     gstreamer)
 AG_GST_INIT
@@ -43,7 +43,7 @@ dnl - interfaces added/removed/changed -> increment CURRENT, REVISION = 0
 dnl - interfaces added -> increment AGE
 dnl - interfaces removed -> AGE = 0
 dnl sets GST_LT_LDFLAGS
-AS_LIBTOOL(GST, 22, 0, 22)
+AS_LIBTOOL(GST, 23, 0, 23)
 
 dnl FIXME: this macro doesn't actually work;
 dnl the generated libtool script has no support for the listed tags.
@@ -197,44 +197,7 @@ fi
 AC_SUBST(GST_HAVE_UNALIGNED_ACCESS_DEFINE)
 
 dnl check for platform specific settings
-case $host_os in
-     rhapsody*)
-	AC_DEFINE_UNQUOTED(GST_EXTRA_MODULE_SUFFIX, [".dylib"], [Extra platform specific plugin suffix])
-        ;;
-     darwin*)
-	AC_DEFINE_UNQUOTED(GST_EXTRA_MODULE_SUFFIX, [".dylib"], [Extra platform specific plugin suffix])
-        AC_DEFINE_UNQUOTED(GST_HAVE_UNSAFE_FORK, 1, [Defined when registry scanning through fork is unsafe])
-        AC_DEFINE_UNQUOTED(HAVE_OSX, 1, [Defined if compiling for OSX])
-	;;
-     cygwin*)
-	AC_DEFINE_UNQUOTED(GST_HAVE_UNSAFE_FORK, 1, [Defined when registry scanning through fork is unsafe])
-	;;
-     mingw* | msvc* | mks*)
-        dnl HAVE_WIN32 currently means "disable POSIXisms".
-        AC_DEFINE_UNQUOTED(HAVE_WIN32, 1, [Defined if compiling for Windows])
-
-        dnl define __MSVCRT_VERSION__ version if not set already by the
-        dnl compiler (ie. mostly for mingw). This is needed for things like
-        dnl __stat64 to be available. If set by the compiler, ensure it's
-        dnl new enough - we need at least WinXP SP2.
-        AC_TRY_COMPILE([ ], [ return __MSVCRT_VERSION__; ], [
-            AC_TRY_COMPILE([ ], [
-              #if __MSVCRT_VERSION__ < 0x0601
-              #error "MSVCRT too old"
-              #endif
-            ], [
-              AC_MSG_NOTICE([MSVCRT version looks ok])
-            ], [
-              AC_MSG_ERROR([MSVCRT version too old, need at least WinXP SP2])
-            ])
-        ], [
-          AC_MSG_NOTICE([Setting MSVCRT version to 0x0601])
-          AC_DEFINE_UNQUOTED(__MSVCRT_VERSION__, 0x0601, [We need at least WinXP SP2 for __stat64])
-        ])
-        ;;
-     *)
-	;;
-esac
+AG_GST_PLATFORM
 
 dnl * software *
 
@@ -327,18 +290,20 @@ if test "x$HAVE_WINSOCK2_H" = "xyes"; then
 fi
 
 dnl check for GMP/GSL, used by the gst_util_uint64_scale unit test only
-AG_GST_CHECK_LIBHEADER(GMP, gmp,
-                        __gmpz_init_set_d, ,
-                        gmp.h,
-                        GMP_LIBS="-lgmp"
-                        AC_SUBST(GMP_LIBS)
-			AC_DEFINE(HAVE_GMP, [1],[Have GMP library]))
-AG_GST_CHECK_LIBHEADER(GSL, gsl,
-                        gsl_rng_uniform_int, -lgslcblas,
-                        gsl/gsl_rng.h,
-                        GSL_LIBS="-lgsl -lgslcblas"
-                        AC_SUBST(GSL_LIBS)
-			AC_DEFINE(HAVE_GSL, [1],[Have GSL library]))
+if test "x$BUILD_TESTS" = "xyes"; then
+  AG_GST_CHECK_LIBHEADER(GMP, gmp,
+                         __gmpz_init_set_d, ,
+                         gmp.h,
+                         GMP_LIBS="-lgmp"
+                         AC_SUBST(GMP_LIBS)
+                         AC_DEFINE(HAVE_GMP, [1],[Have GMP library]))
+  AG_GST_CHECK_LIBHEADER(GSL, gsl,
+                         gsl_rng_uniform_int, -lgslcblas,
+                         gsl/gsl_rng.h,
+                         GSL_LIBS="-lgsl -lgslcblas"
+                         AC_SUBST(GSL_LIBS)
+                         AC_DEFINE(HAVE_GSL, [1],[Have GSL library]))
+fi
 
 dnl *** checks for types/defines ***
 
@@ -349,7 +314,9 @@ dnl *** checks for compiler characteristics ***
 dnl check if the compiler supports __uint128_t (gcc)
 AC_CACHE_CHECK(for __uint128_t, gst_cv_uint128_t,
     AC_TRY_COMPILE([ ], [
-      __uint128_t u = 0;
+      unsigned long long v1 = 1024ULL;
+      unsigned long long v2 = 0x8000000000000000ULL;
+      __uint128_t u = ((__uint128_t)v1)*((__uint128_t)v2);
 
       return 0;
     ], [
@@ -381,9 +348,6 @@ dnl *** checks for library functions ***
 
 AC_CHECK_FUNCS([sigaction])
 
-dnl we use fork in the registry code
-AC_CHECK_FUNCS([fork])
-
 dnl check for fseeko()
 AC_FUNC_FSEEKO
 dnl check for ftello()
@@ -396,6 +360,36 @@ dnl check for poll(), ppoll() and pselect()
 AC_CHECK_FUNCS([poll])
 AC_CHECK_FUNCS([ppoll])
 AC_CHECK_FUNCS([pselect])
+
+dnl ****************************************
+dnl *** GLib POLL* compatibility defines ***
+dnl ****************************************
+
+AC_MSG_CHECKING([for broken poll])
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
+	#include <stdlib.h>
+	#include <fcntl.h>
+	#include <poll.h>
+	#ifdef HAVE_SYS_POLL_H
+	#include <sys/poll.h>
+	#endif
+	int main(void) {
+	  struct pollfd fds[1];
+	  int fd;
+	  fd = open("/dev/null", 1);
+	  fds[0].fd = fd;
+	  fds[0].events = POLLIN;
+	  fds[0].revents = 0;
+	  if (poll(fds, 1, 0) < 0 || (fds[0].revents & POLLNVAL) != 0) {
+		exit(1);  /* Does not work for devices -- fail */
+	  }
+	  exit(0);
+	}]])],
+  [broken_poll=no],
+  [broken_poll=yes
+   AC_DEFINE(BROKEN_POLL,1,[poll doesn't work on devices])],
+  [broken_poll="no (cross compiling)"])
+AC_MSG_RESULT($broken_poll)
 
 dnl check for mmap()
 AC_FUNC_MMAP
@@ -510,7 +504,7 @@ LIBS="$save_libs"
 dnl *** checks for dependency libraries ***
 
 dnl GLib
-GLIB_REQ=2.16
+GLIB_REQ=2.18
 
 AG_GST_GLIB_CHECK([$GLIB_REQ])
 
@@ -625,7 +619,7 @@ dnl - src and build dirs need to be added because every piece that gets built
 dnl   will need the GStreamer source and generated headers
 dnl LIBS: XML doesn't need to be added because we don't explicitly use symbols
 dnl       from LibXML except for in the core library
-GST_ALL_CFLAGS="-I\$(top_srcdir)/libs -I\$(top_srcdir) -I\$(top_builddir)/libs -I\$(top_builddir) $GLIB_CFLAGS $XML_CFLAGS \$(GST_OPTION_CFLAGS)"
+GST_ALL_CFLAGS="-I\$(top_srcdir)/libs -I\$(top_srcdir) -I\$(top_builddir)/libs -I\$(top_builddir) $GLIB_CFLAGS $XML_CFLAGS \$(GST_OPTION_CFLAGS) -DG_THREADS_MANDATORY"
 
 dnl FIXME: check if LTLIBINTL is needed everywhere
 dnl I presume it is given that it contains the symbols that _() stuff maps to
@@ -658,12 +652,16 @@ dnl LDFLAGS for plugins; includes GST_ALL_LDFLAGS
 GST_PLUGIN_LDFLAGS="-module -avoid-version -export-symbols-regex '^[_]*gst_plugin_desc\$\$' $GST_ALL_LDFLAGS"
 AC_SUBST(GST_PLUGIN_LDFLAGS, "$GST_PLUGIN_LDFLAGS")
 
-SHAVE_INIT([common],[enable])
+dnl plugin scanner locations
+AS_AC_EXPAND(GST_PLUGIN_SCANNER_INSTALLED,${libexecdir}/gstreamer-$GST_MAJORMINOR/gst-plugin-scanner)
+AC_DEFINE_UNQUOTED(GST_PLUGIN_SCANNER_INSTALLED,
+    "$GST_PLUGIN_SCANNER_INSTALLED", [location of the installed gst-plugin-scanner])
 
-dnl things for our internal libcheck
-if test "x$BUILD_CHECK" = "xyes"; then
-  AG_GST_CHECK_CHECKS()
-fi
+dnl things for our internal libcheck (must be called even if building
+dnl libcheck is disabled because it defines conditionals)
+AG_GST_CHECK_CHECKS()
+
+SHAVE_INIT([common],[enable])
 
 AC_CONFIG_FILES(
 Makefile
@@ -681,6 +679,7 @@ libs/gst/check/libcheck/Makefile
 libs/gst/check/libcheck/check.h
 libs/gst/controller/Makefile
 libs/gst/dataprotocol/Makefile
+libs/gst/helpers/Makefile
 libs/gst/net/Makefile
 plugins/Makefile
 plugins/indexers/Makefile
@@ -767,6 +766,7 @@ sed \
     -e 's/.* PACKAGE_TARNAME$/#define PACKAGE_TARNAME "'$PACKAGE_TARNAME'"/' \
     -e 's/.* PACKAGE_VERSION$/#define PACKAGE_VERSION "'$PACKAGE_VERSION'"/' \
     -e 's/.* PLUGINDIR$/#ifdef _DEBUG\n#  define PLUGINDIR PREFIX "\\\\debug\\\\lib\\\\gstreamer-0.10"\n#else\n#  define PLUGINDIR PREFIX "\\\\lib\\\\gstreamer-0.10"\n#endif/' \
+    -e 's/.* GST_PLUGIN_SCANNER_INSTALLED$/#define GST_PLUGIN_SCANNER_INSTALLED LIBDIR "\\\\gst-plugin-scanner"/' \
     -e 's/.* VERSION$/#define VERSION "'$VERSION'"/' \
     config.h.in >win32/common/config.h-new
 

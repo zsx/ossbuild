@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GstFilter</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer 0.10 Core Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer 0.10 Core Reference Manual">
 <link rel="up" href="libgstreamer.html" title="GStreamer Core Library">
 <link rel="prev" href="gstreamer-GstEvent.html" title="GstEvent">
 <link rel="next" href="gstreamer-GstFormat.html" title="GstFormat">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="gstreamer.html" title="GStreamer Overview">
 <link rel="chapter" href="libgstreamer.html" title="GStreamer Core Library">
@@ -16,6 +16,7 @@
 <link rel="chapter" href="gstreamer-hierarchy.html" title="Object Hierarchy">
 <link rel="index" href="api-index-full.html" title="API Index">
 <link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
+<link rel="glossary" href="annotation-glossary.html" title="Annotation Glossary">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -28,11 +29,11 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gstreamer-GstFilter.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gstreamer-GstFilter.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gstreamer-GstFilter.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="GstFilter">
 <a name="gstreamer-GstFilter"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -41,74 +42,65 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gstreamer-GstFilter.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
 #include &lt;gst/gst.h&gt;
 
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            (<a class="link" href="gstreamer-GstFilter.html#GstFilterFunc" title="GstFilterFunc ()">*GstFilterFunc</a>)                    (<a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> obj,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);
-<a
-href="../glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a>*              <a class="link" href="gstreamer-GstFilter.html#gst-filter-run" title="gst_filter_run ()">gst_filter_run</a>                      (const <a
-href="../glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a> *list,
-                                                         <a class="link" href="gstreamer-GstFilter.html#GstFilterFunc" title="GstFilterFunc ()">GstFilterFunc</a> func,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> first,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (<a class="link" href="gstreamer-GstFilter.html#GstFilterFunc" title="GstFilterFunc ()">*GstFilterFunc</a>)                    (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> obj,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);
+<a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a>*              <a class="link" href="gstreamer-GstFilter.html#gst-filter-run" title="gst_filter_run ()">gst_filter_run</a>                      (const <a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *list,
+                                                         <a class="link" href="gstreamer-GstFilter.html#GstFilterFunc" title="GstFilterFunc ()"><span class="returnvalue">GstFilterFunc</span></a> func,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> first,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gstreamer-GstFilter.description"></a><h2>Description</h2>
 <p>
 </p>
 <div class="example">
-<a name="id2897196"></a><p class="title"><b>Example 12. Filtering a list</b></p>
-<div class="example-contents"><pre class="programlisting">
-    GList *node;
-    GstObject *result = NULL;
-    
-    node = gst_filter_run (list, (GstFilterFunc) my_filter, TRUE, NULL);
-    if (node) {
-      result = GST_OBJECT (node-&gt;data);
-      gst_object_ref (result);
-      gst_list_free (node);
-    }
-  </pre></div>
+<a name="id467704"></a><p class="title"><b>Example 12. Filtering a list</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></td>
+        <td class="listing_code"><pre class="programlisting">GList <span class="symbol">*</span>node<span class="symbol">;</span>
+GstObject <span class="symbol">*</span>result <span class="symbol">=</span> NULL<span class="symbol">;</span>
+
+node <span class="symbol">=</span> <span class="function"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstFilter.html#gst-filter-run">gst_filter_run</a></span> <span class="symbol">(</span>list<span class="symbol">, (</span>GstFilterFunc<span class="symbol">)</span> my_filter<span class="symbol">,</span> TRUE<span class="symbol">,</span> NULL<span class="symbol">);</span>
+<span class="keyword">if</span> <span class="symbol">(</span>node<span class="symbol">) {</span>
+  result <span class="symbol">=</span> <span class="function">GST_OBJECT</span> <span class="symbol">(</span>node<span class="symbol">-&gt;</span>data<span class="symbol">);</span>
+  <span class="function"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html#gst-object-ref">gst_object_ref</a></span> <span class="symbol">(</span>result<span class="symbol">);</span>
+  <span class="function"><a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#g-list-free">g_list_free</a></span> <span class="symbol">(</span>node<span class="symbol">);</span>
+<span class="symbol">}</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 </div>
 <p><br class="example-break"></p>
-<p>
-</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gstreamer-GstFilter.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstFilterFunc ()">
 <a name="GstFilterFunc"></a><h3>GstFilterFunc ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            (*GstFilterFunc)                    (<a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> obj,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (*GstFilterFunc)                    (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> obj,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);</pre>
 <p>
 Function prototype for a filter callback taht can be use in <a class="link" href="gstreamer-GstFilter.html#gst-filter-run" title="gst_filter_run ()"><code class="function">gst_filter_run()</code></a>.
 The function should apply its filtering to <em class="parameter"><code>obj</code></em>. Additional data passed to
 <a class="link" href="gstreamer-GstFilter.html#gst-filter-run" title="gst_filter_run ()"><code class="function">gst_filter_run()</code></a> are in <em class="parameter"><code>data</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -124,29 +116,19 @@ The function should apply its filtering to <em class="parameter"><code>obj</code
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> for success.
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for success.
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_filter_run ()">
 <a name="gst-filter-run"></a><h3>gst_filter_run ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a>*              gst_filter_run                      (const <a
-href="../glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a> *list,
-                                                         <a class="link" href="gstreamer-GstFilter.html#GstFilterFunc" title="GstFilterFunc ()">GstFilterFunc</a> func,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> first,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a>*              gst_filter_run                      (const <a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *list,
+                                                         <a class="link" href="gstreamer-GstFilter.html#GstFilterFunc" title="GstFilterFunc ()"><span class="returnvalue">GstFilterFunc</span></a> func,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> first,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);</pre>
 <p>
 Iterates over the elements in <em class="parameter"><code>list</code></em>, calling <em class="parameter"><code>func</code></em> with the
 list item data for each item.  If <em class="parameter"><code>func</code></em> returns TRUE, <em class="parameter"><code>data</code></em> is
@@ -158,8 +140,6 @@ Since <a class="link" href="gstreamer-GstFilter.html#gst-filter-run" title="gst_
 reference will be taken (if <em class="parameter"><code>data</code></em> refers to an object) and no copy of
 <em class="parameter"><code>data</code></em> wil be made in any other way when prepending <em class="parameter"><code>data</code></em> to the list of
 results.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -185,9 +165,7 @@ results.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> the list of results. Free with <a
-href="../glib/glib-Doubly-Linked-Lists.html#g-list-free"
-><code class="function">g_list_free()</code></a> when no longer needed
+<td> the list of results. Free with <a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#g-list-free"><code class="function">g_list_free()</code></a> when no longer needed
 (the data contained in the list is a flat copy and does need to be
 unreferenced or freed).
 </td>
@@ -199,6 +177,6 @@ unreferenced or freed).
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

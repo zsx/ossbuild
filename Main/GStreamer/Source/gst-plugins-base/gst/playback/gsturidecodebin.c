@@ -33,11 +33,10 @@
 #include <gst/gst.h>
 #include <gst/gst-i18n-plugin.h>
 
-#include <gst/pbutils/missing-plugins.h>
-
 #include "gstfactorylists.h"
 #include "gstplay-marshal.h"
 #include "gstplay-enum.h"
+#include "gstrawcaps.h"
 
 #define GST_TYPE_URI_DECODE_BIN \
   (gst_uri_decode_bin_get_type())
@@ -69,6 +68,8 @@ struct _GstURIDecodeBin
 
   GMutex *lock;                 /* lock for constructing */
 
+  GMutex *factories_lock;
+  guint32 factories_cookie;
   GValueArray *factories;       /* factories we can use for selecting elements */
 
   gchar *uri;
@@ -77,15 +78,19 @@ struct _GstURIDecodeBin
   gchar *encoding;
 
   gboolean is_stream;
+  gboolean is_download;
   gboolean need_queue;
-  guint64 buffer_duration;      /* When streaming, buffer duration (ns) */
-  guint buffer_size;            /* When streaming, buffer size (bytes) */
+  guint64 buffer_duration;      /* When buffering, buffer duration (ns) */
+  guint buffer_size;            /* When buffering, buffer size (bytes) */
   gboolean download;
+  gboolean use_buffering;
 
   GstElement *source;
+  GstElement *queue;
   GstElement *typefind;
   guint have_type_id;           /* have-type signal id from typefind */
   GSList *decodebins;
+  GSList *pending_decodebins;
   GSList *srcpads;
   gint numpads;
 
@@ -123,6 +128,8 @@ static GstStaticPadTemplate srctemplate = GST_STATIC_PAD_TEMPLATE ("src%d",
     GST_PAD_SOMETIMES,
     GST_STATIC_CAPS_ANY);
 
+static GstStaticCaps default_raw_caps = GST_STATIC_CAPS (DEFAULT_RAW_CAPS);
+
 GST_DEBUG_CATEGORY_STATIC (gst_uri_decode_bin_debug);
 #define GST_CAT_DEFAULT gst_uri_decode_bin_debug
 
@@ -147,11 +154,12 @@ enum
 #define DEFAULT_PROP_URI            NULL
 #define DEFAULT_PROP_SOURCE         NULL
 #define DEFAULT_CONNECTION_SPEED    0
-#define DEFAULT_CAPS                NULL
+#define DEFAULT_CAPS                (gst_static_caps_get (&default_raw_caps))
 #define DEFAULT_SUBTITLE_ENCODING   NULL
 #define DEFAULT_BUFFER_DURATION     -1
 #define DEFAULT_BUFFER_SIZE         -1
 #define DEFAULT_DOWNLOAD            FALSE
+#define DEFAULT_USE_BUFFERING       FALSE
 
 enum
 {
@@ -164,6 +172,7 @@ enum
   PROP_BUFFER_SIZE,
   PROP_BUFFER_DURATION,
   PROP_DOWNLOAD,
+  PROP_USE_BUFFERING,
   PROP_LAST
 };
 
@@ -171,6 +180,7 @@ static guint gst_uri_decode_bin_signals[LAST_SIGNAL] = { 0 };
 
 GST_BOILERPLATE (GstURIDecodeBin, gst_uri_decode_bin, GstBin, GST_TYPE_BIN);
 
+static void remove_decoders (GstURIDecodeBin * bin, gboolean force);
 static void gst_uri_decode_bin_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec);
 static void gst_uri_decode_bin_get_property (GObject * object, guint prop_id,
@@ -242,18 +252,34 @@ gst_uri_decode_bin_autoplug_continue (GstElement * element, GstPad * pad,
   return TRUE;
 }
 
+/* Must be called with factories lock! */
+static void
+gst_uri_decode_bin_update_factories_list (GstURIDecodeBin * dec)
+{
+  if (!dec->factories ||
+      dec->factories_cookie !=
+      gst_default_registry_get_feature_list_cookie ()) {
+    if (dec->factories)
+      g_value_array_free (dec->factories);
+    dec->factories = gst_factory_list_get_elements (GST_FACTORY_LIST_DECODER);
+    dec->factories_cookie = gst_default_registry_get_feature_list_cookie ();
+  }
+}
+
 static GValueArray *
 gst_uri_decode_bin_autoplug_factories (GstElement * element, GstPad * pad,
     GstCaps * caps)
 {
   GValueArray *result;
+  GstURIDecodeBin *dec = GST_URI_DECODE_BIN_CAST (element);
 
   GST_DEBUG_OBJECT (element, "finding factories");
 
   /* return all compatible factories for caps */
-  result =
-      gst_factory_list_filter (GST_URI_DECODE_BIN_CAST (element)->factories,
-      caps);
+  g_mutex_lock (dec->factories_lock);
+  gst_uri_decode_bin_update_factories_list (dec);
+  result = gst_factory_list_filter (dec->factories, caps);
+  g_mutex_unlock (dec->factories_lock);
 
   GST_DEBUG_OBJECT (element, "autoplug-factories returns %p", result);
 
@@ -305,19 +331,39 @@ gst_uri_decode_bin_class_init (GstURIDecodeBinClass * klass)
 
   g_object_class_install_property (gobject_class, PROP_BUFFER_SIZE,
       g_param_spec_int ("buffer-size", "Buffer size (bytes)",
-          "Buffer size when buffering network streams (-1 queue2 default value)",
+          "Buffer size when buffering streams (-1 default value)",
           -1, G_MAXINT, DEFAULT_BUFFER_SIZE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   g_object_class_install_property (gobject_class, PROP_BUFFER_DURATION,
       g_param_spec_int64 ("buffer-duration", "Buffer duration (ns)",
-          "Buffer duration when buffering network streams (-1 queue2 default value)",
+          "Buffer duration when buffering streams (-1 default value)",
           -1, G_MAXINT64, DEFAULT_BUFFER_DURATION,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
+  /**
+   * GstURIDecodeBin::download:
+   *
+   * For certain media type, enable download buffering.
+   */
   g_object_class_install_property (gobject_class, PROP_DOWNLOAD,
       g_param_spec_boolean ("download", "Download",
           "Attempt download buffering when buffering network streams",
           DEFAULT_DOWNLOAD, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+  /**
+   * GstURIDecodeBin::use-buffering:
+   *
+   * Emit BUFFERING messages based on low-/high-percent thresholds of the
+   * demuxed or parsed data.
+   * When download buffering is activated and used for the current media
+   * type, this property does nothing. Otherwise perform buffering on the
+   * demuxed or parsed media.
+   *
+   * Since: 0.10.26
+   */
+  g_object_class_install_property (gobject_class, PROP_USE_BUFFERING,
+      g_param_spec_boolean ("use-buffering", "Use Buffering",
+          "Perform buffering on demuxed/parsed media",
+          DEFAULT_USE_BUFFERING, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
   /**
    * GstURIDecodeBin::unknown-type:
@@ -443,7 +489,8 @@ static void
 gst_uri_decode_bin_init (GstURIDecodeBin * dec, GstURIDecodeBinClass * klass)
 {
   /* first filter out the interesting element factories */
-  dec->factories = gst_factory_list_get_elements (GST_FACTORY_LIST_DECODER);
+  dec->factories_lock = g_mutex_new ();
+  gst_uri_decode_bin_update_factories_list (dec);
 
   dec->lock = g_mutex_new ();
 
@@ -455,6 +502,7 @@ gst_uri_decode_bin_init (GstURIDecodeBin * dec, GstURIDecodeBinClass * klass)
   dec->buffer_duration = DEFAULT_BUFFER_DURATION;
   dec->buffer_size = DEFAULT_BUFFER_SIZE;
   dec->download = DEFAULT_DOWNLOAD;
+  dec->use_buffering = DEFAULT_USE_BUFFERING;
 }
 
 static void
@@ -462,7 +510,9 @@ gst_uri_decode_bin_finalize (GObject * obj)
 {
   GstURIDecodeBin *dec = GST_URI_DECODE_BIN (obj);
 
+  remove_decoders (dec, TRUE);
   g_mutex_free (dec->lock);
+  g_mutex_free (dec->factories_lock);
   g_free (dec->uri);
   g_free (dec->encoding);
   if (dec->factories)
@@ -532,6 +582,9 @@ gst_uri_decode_bin_set_property (GObject * object, guint prop_id,
     case PROP_DOWNLOAD:
       dec->download = g_value_get_boolean (value);
       break;
+    case PROP_USE_BUFFERING:
+      dec->use_buffering = g_value_get_boolean (value);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -583,6 +636,9 @@ gst_uri_decode_bin_get_property (GObject * object, guint prop_id,
     case PROP_DOWNLOAD:
       g_value_set_boolean (value, dec->download);
       break;
+    case PROP_USE_BUFFERING:
+      g_value_set_boolean (value, dec->use_buffering);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -622,11 +678,7 @@ static void
 unknown_type_cb (GstElement * element, GstPad * pad, GstCaps * caps,
     GstURIDecodeBin * decoder)
 {
-  GstMessage *msg;
   gchar *capsstr;
-
-  msg = gst_missing_decoder_message_new (GST_ELEMENT_CAST (decoder), caps);
-  gst_element_post_message (GST_ELEMENT_CAST (decoder), msg);
 
   capsstr = gst_caps_to_string (caps);
   GST_ELEMENT_WARNING (decoder, CORE, MISSING_PLUGIN,
@@ -729,6 +781,34 @@ new_decoded_pad_cb (GstElement * element, GstPad * pad, gboolean last,
   gst_element_add_pad (GST_ELEMENT_CAST (decoder), newpad);
 }
 
+
+static gboolean
+source_pad_event_probe (GstPad * pad, GstEvent * event,
+    GstURIDecodeBin * decoder)
+{
+  GST_LOG_OBJECT (pad, "%s, decoder %p", GST_EVENT_TYPE_NAME (event), decoder);
+
+  if (GST_EVENT_TYPE (event) == GST_EVENT_EOS) {
+    GST_DEBUG_OBJECT (pad, "we received EOS");
+
+    g_signal_emit (G_OBJECT (decoder),
+        gst_uri_decode_bin_signals[SIGNAL_DRAINED], 0, NULL);
+  }
+  /* never drop events */
+  return TRUE;
+}
+
+/* called when we found a raw pad on the source element. We need to set up a
+ * padprobe to detect EOS before exposing the pad. */
+static void
+expose_decoded_pad (GstElement * element, GstPad * pad,
+    GstURIDecodeBin * decoder)
+{
+  gst_pad_add_event_probe (pad, G_CALLBACK (source_pad_event_probe), decoder);
+
+  new_decoded_pad_cb (element, pad, FALSE, decoder);
+}
+
 static void
 pad_removed_cb (GstElement * element, GstPad * pad, GstURIDecodeBin * decoder)
 {
@@ -807,12 +887,6 @@ static const gchar *no_media_mimes[] = {
 };
 #endif
 
-/* media types we consider raw media */
-static const gchar *raw_media[] = {
-  "audio/x-raw", "video/x-raw", "text/plain", "text/x-pango-markup",
-  "video/x-dvd-subpicture", "subpicture/x-", NULL
-};
-
 /* media types we can download */
 static const gchar *download_media[] = {
   "video/quicktime", "video/x-flv", NULL
@@ -822,7 +896,6 @@ static const gchar *download_media[] = {
 #define IS_QUEUE_URI(uri)           (array_has_uri_value (queue_uris, uri))
 #define IS_BLACKLISTED_URI(uri)     (array_has_uri_value (blacklisted_uris, uri))
 #define IS_NO_MEDIA_MIME(mime)      (array_has_value (no_media_mimes, mime))
-#define IS_RAW_MEDIA(media)         (array_has_value (raw_media, media))
 #define IS_DOWNLOAD_MEDIA(media)    (array_has_value (download_media, media))
 
 /*
@@ -929,14 +1002,13 @@ no_source:
  * Returns: %FALSE @pad has no caps. Else TRUE and @all_raw set t the result.
  */
 static gboolean
-has_all_raw_caps (GstPad * pad, gboolean * all_raw)
+has_all_raw_caps (GstPad * pad, GstCaps * rawcaps, gboolean * all_raw)
 {
-  GstCaps *caps;
+  GstCaps *caps, *intersection;
   gint capssize;
-  guint i, num_raw = 0;
   gboolean res = FALSE;
 
-  caps = gst_pad_get_caps (pad);
+  caps = gst_pad_get_caps_reffed (pad);
   if (caps == NULL)
     return FALSE;
 
@@ -947,21 +1019,11 @@ has_all_raw_caps (GstPad * pad, gboolean * all_raw)
   if (capssize == 0 || gst_caps_is_empty (caps) || gst_caps_is_any (caps))
     goto done;
 
-  /* count the number of raw formats in the caps */
-  for (i = 0; i < capssize; ++i) {
-    GstStructure *s;
-    const gchar *media_type;
+  intersection = gst_caps_intersect (caps, rawcaps);
+  *all_raw = !gst_caps_is_empty (intersection)
+      && (gst_caps_get_size (intersection) == capssize);
+  gst_caps_unref (intersection);
 
-    s = gst_caps_get_structure (caps, i);
-    media_type = gst_structure_get_name (s);
-
-    GST_DEBUG_OBJECT (pad, "check media-type %s", media_type);
-
-    if (IS_RAW_MEDIA (media_type))
-      ++num_raw;
-  }
-
-  *all_raw = (num_raw == capssize);
   res = TRUE;
 
 done:
@@ -997,10 +1059,15 @@ analyse_source (GstURIDecodeBin * decoder, gboolean * is_raw,
   GstIterator *pads_iter;
   gboolean done = FALSE;
   gboolean res = TRUE;
+  GstCaps *rawcaps;
 
   *have_out = FALSE;
   *is_raw = FALSE;
   *is_dynamic = FALSE;
+
+  g_object_get (decoder, "caps", &rawcaps, NULL);
+  if (!rawcaps)
+    rawcaps = DEFAULT_CAPS;
 
   pads_iter = gst_element_iterate_src_pads (decoder->source);
   while (!done) {
@@ -1025,7 +1092,7 @@ analyse_source (GstURIDecodeBin * decoder, gboolean * is_raw,
         *have_out = TRUE;
 
         /* if FALSE, this pad has no caps and we continue with the next pad. */
-        if (!has_all_raw_caps (pad, is_raw)) {
+        if (!has_all_raw_caps (pad, rawcaps, is_raw)) {
           gst_object_unref (pad);
           break;
         }
@@ -1038,7 +1105,7 @@ analyse_source (GstURIDecodeBin * decoder, gboolean * is_raw,
             GstPad *sinkpad;
 
             /* insert a queue element right before the raw pad */
-            outelem = gst_element_factory_make ("queue2", "queue");
+            outelem = gst_element_factory_make ("queue2", NULL);
             gst_bin_add (GST_BIN_CAST (decoder), outelem);
 
             sinkpad = gst_element_get_static_pad (outelem, "sink");
@@ -1046,18 +1113,22 @@ analyse_source (GstURIDecodeBin * decoder, gboolean * is_raw,
             gst_object_unref (sinkpad);
             gst_object_unref (pad);
 
+            /* save queue pointer so we can remove it later */
+            decoder->queue = outelem;
+
             /* get the new raw srcpad */
             pad = gst_element_get_static_pad (outelem, "src");
           } else {
             outelem = decoder->source;
           }
-          new_decoded_pad_cb (outelem, pad, FALSE, decoder);
+          expose_decoded_pad (outelem, pad, decoder);
         }
         gst_object_unref (pad);
         break;
     }
   }
   gst_iterator_free (pads_iter);
+  gst_caps_unref (rawcaps);
 
   if (!*have_out) {
     GstElementClass *elemclass;
@@ -1084,8 +1155,13 @@ analyse_source (GstURIDecodeBin * decoder, gboolean * is_raw,
   return res;
 }
 
+/* Remove all decodebin2 from ourself 
+ * If force is FALSE, then the decodebin2 instances will be stored in
+ * pending_decodebins for re-use later on.
+ * If force is TRUE, then all decodebin2 instances will be unreferenced
+ * and cleared, including the pending ones. */
 static void
-remove_decoders (GstURIDecodeBin * bin)
+remove_decoders (GstURIDecodeBin * bin, gboolean force)
 {
   GSList *walk;
 
@@ -1093,11 +1169,39 @@ remove_decoders (GstURIDecodeBin * bin)
     GstElement *decoder = GST_ELEMENT_CAST (walk->data);
 
     GST_DEBUG_OBJECT (bin, "removing old decoder element");
-    gst_element_set_state (decoder, GST_STATE_NULL);
-    gst_bin_remove (GST_BIN_CAST (bin), decoder);
+    if (force) {
+      gst_element_set_state (decoder, GST_STATE_NULL);
+      gst_bin_remove (GST_BIN_CAST (bin), decoder);
+    } else {
+      GstCaps *caps;
+
+      gst_element_set_state (decoder, GST_STATE_READY);
+      /* add it to our list of pending decodebins */
+      g_object_ref (decoder);
+      gst_bin_remove (GST_BIN_CAST (bin), decoder);
+      /* restore some properties we might have changed */
+      g_object_set (G_OBJECT (decoder), "sink-caps", NULL, NULL);
+      caps = DEFAULT_CAPS;
+      g_object_set (G_OBJECT (decoder), "caps", caps, NULL);
+      gst_caps_unref (caps);
+
+      bin->pending_decodebins =
+          g_slist_prepend (bin->pending_decodebins, decoder);
+    }
   }
   g_slist_free (bin->decodebins);
   bin->decodebins = NULL;
+  if (force) {
+    GSList *tmp;
+
+    for (tmp = bin->pending_decodebins; tmp; tmp = tmp->next) {
+      gst_element_set_state ((GstElement *) tmp->data, GST_STATE_NULL);
+      gst_object_unref ((GstElement *) tmp->data);
+    }
+    g_slist_free (bin->pending_decodebins);
+    bin->pending_decodebins = NULL;
+
+  }
 }
 
 static void
@@ -1186,39 +1290,70 @@ make_decoder (GstURIDecodeBin * decoder)
 {
   GstElement *decodebin;
 
-  GST_LOG_OBJECT (decoder, "making new decodebin2");
+  /* re-use pending decodebin2 */
+  if (decoder->pending_decodebins) {
+    GSList *first = decoder->pending_decodebins;
+    GST_LOG_OBJECT (decoder, "re-using pending decodebin2");
+    decodebin = (GstElement *) first->data;
+    decoder->pending_decodebins =
+        g_slist_delete_link (decoder->pending_decodebins, first);
+  } else {
+    GST_LOG_OBJECT (decoder, "making new decodebin2");
 
-  /* now create the decoder element */
-  decodebin = gst_element_factory_make ("decodebin2", NULL);
-  if (!decodebin)
-    goto no_decodebin;
+    /* now create the decoder element */
+    decodebin = gst_element_factory_make ("decodebin2", NULL);
+
+    if (!decodebin)
+      goto no_decodebin;
+    /* connect signals to proxy */
+    g_signal_connect (G_OBJECT (decodebin), "unknown-type",
+        G_CALLBACK (proxy_unknown_type_signal), decoder);
+    g_signal_connect (G_OBJECT (decodebin), "autoplug-continue",
+        G_CALLBACK (proxy_autoplug_continue_signal), decoder);
+    g_signal_connect (G_OBJECT (decodebin), "autoplug-factories",
+        G_CALLBACK (proxy_autoplug_factories_signal), decoder);
+    g_signal_connect (G_OBJECT (decodebin), "autoplug-select",
+        G_CALLBACK (proxy_autoplug_select_signal), decoder);
+    g_signal_connect (G_OBJECT (decodebin), "drained",
+        G_CALLBACK (proxy_drained_signal), decoder);
+
+    /* set up callbacks to create the links between decoded data
+     * and video/audio/subtitle rendering/output. */
+    g_signal_connect (G_OBJECT (decodebin),
+        "new-decoded-pad", G_CALLBACK (new_decoded_pad_cb), decoder);
+    g_signal_connect (G_OBJECT (decodebin),
+        "pad-removed", G_CALLBACK (pad_removed_cb), decoder);
+    g_signal_connect (G_OBJECT (decodebin), "no-more-pads",
+        G_CALLBACK (no_more_pads), decoder);
+    g_signal_connect (G_OBJECT (decodebin),
+        "unknown-type", G_CALLBACK (unknown_type_cb), decoder);
+  }
 
   /* configure caps if we have any */
   if (decoder->caps)
     g_object_set (decodebin, "caps", decoder->caps, NULL);
 
-  /* connect signals to proxy */
-  g_signal_connect (G_OBJECT (decodebin), "unknown-type",
-      G_CALLBACK (proxy_unknown_type_signal), decoder);
-  g_signal_connect (G_OBJECT (decodebin), "autoplug-continue",
-      G_CALLBACK (proxy_autoplug_continue_signal), decoder);
-  g_signal_connect (G_OBJECT (decodebin), "autoplug-factories",
-      G_CALLBACK (proxy_autoplug_factories_signal), decoder);
-  g_signal_connect (G_OBJECT (decodebin), "autoplug-select",
-      G_CALLBACK (proxy_autoplug_select_signal), decoder);
-  g_signal_connect (G_OBJECT (decodebin), "drained",
-      G_CALLBACK (proxy_drained_signal), decoder);
+  if (!decoder->is_stream) {
+    /* propagate the use-buffering property but only when we are not already
+     * doing stream buffering with queue2. FIXME, we might want to do stream
+     * buffering with the multiqueue buffering instead of queue2. */
+    g_object_set (decodebin, "use-buffering", decoder->use_buffering, NULL);
 
-  /* set up callbacks to create the links between decoded data
-   * and video/audio/subtitle rendering/output. */
-  g_signal_connect (G_OBJECT (decodebin),
-      "new-decoded-pad", G_CALLBACK (new_decoded_pad_cb), decoder);
-  g_signal_connect (G_OBJECT (decodebin),
-      "pad-removed", G_CALLBACK (pad_removed_cb), decoder);
-  g_signal_connect (G_OBJECT (decodebin), "no-more-pads",
-      G_CALLBACK (no_more_pads), decoder);
-  g_signal_connect (G_OBJECT (decodebin),
-      "unknown-type", G_CALLBACK (unknown_type_cb), decoder);
+    if (decoder->use_buffering) {
+      guint max_bytes;
+      guint64 max_time;
+
+      /* configure sizes when buffering */
+      if ((max_bytes = decoder->buffer_size) == -1)
+        max_bytes = 2 * 1024 * 1024;
+      if ((max_time = decoder->buffer_duration) == -1)
+        max_time = 2 * GST_SECOND;
+
+      g_object_set (decodebin, "max-size-bytes", max_bytes, "max-size-buffers",
+          (guint) 0, "max-size-time", max_time, NULL);
+    }
+  }
+
   g_object_set_data (G_OBJECT (decodebin), "pending", "1");
   g_object_set (G_OBJECT (decodebin), "subtitle-encoding", decoder->encoding,
       NULL);
@@ -1240,6 +1375,8 @@ no_decodebin:
   }
 }
 
+/* signaled when we have a stream and we need to configure the download
+ * buffering or regular buffering */
 static void
 type_found (GstElement * typefind, guint probability,
     GstCaps * caps, GstURIDecodeBin * decoder)
@@ -1249,6 +1386,12 @@ type_found (GstElement * typefind, guint probability,
   const gchar *media_type;
 
   GST_DEBUG_OBJECT (decoder, "typefind found caps %" GST_PTR_FORMAT, caps);
+
+  s = gst_caps_get_structure (caps, 0);
+  media_type = gst_structure_get_name (s);
+
+  /* remember if we need download buffering */
+  decoder->is_download = IS_DOWNLOAD_MEDIA (media_type) && decoder->download;
 
   dec_elem = make_decoder (decoder);
   if (!dec_elem)
@@ -1260,13 +1403,10 @@ type_found (GstElement * typefind, guint probability,
 
   g_object_set (G_OBJECT (queue), "use-buffering", TRUE, NULL);
 
-  s = gst_caps_get_structure (caps, 0);
-  media_type = gst_structure_get_name (s);
-
   GST_DEBUG_OBJECT (decoder, "check media-type %s, %d", media_type,
       decoder->download);
 
-  if (IS_DOWNLOAD_MEDIA (media_type) && decoder->download) {
+  if (decoder->is_download) {
     gchar *temp_template, *filename;
     const gchar *tmp_dir, *prgname;
 
@@ -1356,7 +1496,7 @@ setup_streaming (GstURIDecodeBin * decoder)
 
   gst_bin_add (GST_BIN_CAST (decoder), typefind);
 
-  if (!gst_element_link (decoder->source, typefind))
+  if (!gst_element_link_pads (decoder->source, NULL, typefind, "sink"))
     goto could_not_link;
 
   decoder->typefind = typefind;
@@ -1382,10 +1522,12 @@ could_not_link:
   {
     GST_ELEMENT_ERROR (decoder, CORE, NEGOTIATION,
         (NULL), ("Can't link source to typefind element"));
+    gst_bin_remove (GST_BIN_CAST (decoder), typefind);
     return FALSE;
   }
 }
 
+/* remove source and all related elements */
 static void
 remove_source (GstURIDecodeBin * bin)
 {
@@ -1406,6 +1548,18 @@ remove_source (GstURIDecodeBin * bin)
     }
     bin->source = NULL;
   }
+  if (bin->queue) {
+    GST_DEBUG_OBJECT (bin, "removing old queue element");
+    gst_element_set_state (bin->queue, GST_STATE_NULL);
+    gst_bin_remove (GST_BIN_CAST (bin), bin->queue);
+    bin->queue = NULL;
+  }
+  if (bin->typefind) {
+    GST_DEBUG_OBJECT (bin, "removing old typefind element");
+    gst_element_set_state (bin->typefind, GST_STATE_NULL);
+    gst_bin_remove (GST_BIN_CAST (bin), bin->typefind);
+    bin->typefind = NULL;
+  }
 }
 
 /* is called when a dynamic source element created a new pad. */
@@ -1414,18 +1568,25 @@ source_new_pad (GstElement * element, GstPad * pad, GstURIDecodeBin * bin)
 {
   GstElement *decoder;
   gboolean is_raw;
+  GstCaps *rawcaps;
 
   GST_URI_DECODE_BIN_LOCK (bin);
   GST_DEBUG_OBJECT (bin, "Found new pad %s.%s in source element %s",
       GST_DEBUG_PAD_NAME (pad), GST_ELEMENT_NAME (element));
 
+  g_object_get (bin, "caps", &rawcaps, NULL);
+  if (!rawcaps)
+    rawcaps = DEFAULT_CAPS;
+
   /* if this is a pad with all raw caps, we can expose it */
-  if (has_all_raw_caps (pad, &is_raw) && is_raw) {
+  if (has_all_raw_caps (pad, rawcaps, &is_raw) && is_raw) {
     /* it's all raw, create output pads. */
     GST_URI_DECODE_BIN_UNLOCK (bin);
-    new_decoded_pad_cb (element, pad, FALSE, bin);
+    gst_caps_unref (rawcaps);
+    expose_decoded_pad (element, pad, bin);
     return;
   }
+  gst_caps_unref (rawcaps);
 
   /* not raw, create decoder */
   decoder = make_decoder (bin);
@@ -1433,7 +1594,7 @@ source_new_pad (GstElement * element, GstPad * pad, GstURIDecodeBin * bin)
     goto no_decodebin;
 
   /* and link to decoder */
-  if (!gst_element_link (bin->source, decoder))
+  if (!gst_element_link_pads (bin->source, NULL, decoder, "sink"))
     goto could_not_link;
 
   GST_DEBUG_OBJECT (bin, "linked decoder to new pad");
@@ -1486,7 +1647,7 @@ setup_source (GstURIDecodeBin * decoder)
   g_object_notify (G_OBJECT (decoder), "source");
 
   /* remove the old decoders now, if any */
-  remove_decoders (decoder);
+  remove_decoders (decoder, FALSE);
 
   /* see if the source element emits raw audio/video all by itself,
    * if so, we can create streams for the pads and be done with it.
@@ -1537,7 +1698,7 @@ setup_source (GstURIDecodeBin * decoder)
       if (!dec_elem)
         goto no_decoder;
 
-      if (!gst_element_link (decoder->source, dec_elem))
+      if (!gst_element_link_pads (decoder->source, NULL, dec_elem, "sink"))
         goto could_not_link;
     }
   }
@@ -1953,6 +2114,11 @@ gst_uri_decode_bin_change_state (GstElement * element,
   decoder = GST_URI_DECODE_BIN (element);
 
   switch (transition) {
+    case GST_STATE_CHANGE_NULL_TO_READY:
+      g_mutex_lock (decoder->factories_lock);
+      gst_uri_decode_bin_update_factories_list (decoder);
+      g_mutex_unlock (decoder->factories_lock);
+      break;
     case GST_STATE_CHANGE_READY_TO_PAUSED:
       if (!setup_source (decoder))
         goto source_failed;
@@ -1971,14 +2137,14 @@ gst_uri_decode_bin_change_state (GstElement * element,
       break;
     case GST_STATE_CHANGE_PAUSED_TO_READY:
       GST_DEBUG ("paused to ready");
-      remove_decoders (decoder);
+      remove_decoders (decoder, FALSE);
       remove_pads (decoder);
       remove_source (decoder);
       do_async_done (decoder);
       break;
     case GST_STATE_CHANGE_READY_TO_NULL:
       GST_DEBUG ("ready to null");
-      remove_decoders (decoder);
+      remove_decoders (decoder, TRUE);
       remove_pads (decoder);
       remove_source (decoder);
       break;

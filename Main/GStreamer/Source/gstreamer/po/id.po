@@ -1,13 +1,13 @@
 # Indonesian translations for gstreamer package.
 # This file is put in the public domain.
-# Andhika Padmawan <andhika.padmawan@gmail.com>, 2009.
+# Andhika Padmawan <andhika.padmawan@gmail.com>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gstreamer 0.10.24.2\n"
+"Project-Id-Version: gstreamer 0.10.25.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-10-05 12:38+0100\n"
-"PO-Revision-Date: 2009-09-17 12:26-0400\n"
+"POT-Creation-Date: 2010-02-09 00:56+0000\n"
+"PO-Revision-Date: 2010-01-28 10:04-0500\n"
 "Last-Translator: Andhika Padmawan <andhika.padmawan@gmail.com>\n"
 "Language-Team: Indonesian <translation-team-id@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -75,26 +75,14 @@ msgstr "Nonaktifkan penjebak galat segmentasi selama memuat plugin"
 msgid "Disable updating the registry"
 msgstr "Nonaktifkan pemutakhiran registry"
 
-msgid "Disable the use of fork() while scanning the registry"
-msgstr "Nonaktifkan penggunaan fork() ketika memindai registry"
+msgid "Disable spawning a helper process while scanning the registry"
+msgstr "Nonaktifkan memaksa penolong proses ketika memindai registry"
 
 msgid "GStreamer Options"
 msgstr "Opsi GStreamer"
 
 msgid "Show GStreamer Options"
 msgstr "Tampilkan Opsi GStreamer"
-
-#, c-format
-msgid "Error writing registry cache to %s: %s"
-msgstr "Galat menulis tembolok registry ke %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s: %s"
-msgstr "Galat memindai ulang registry %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s"
-msgstr "Galat memindai ulang registry %s"
 
 msgid "Unknown option"
 msgstr "Opsi tak diketahui"
@@ -634,6 +622,55 @@ msgstr ""
 "ketinggian geografis tempat media direkam atau dihasilkan dalam meter "
 "menurut WGS84 (nol adalah permukaan laut rata-rata)"
 
+msgid "show name"
+msgstr "tampilkan nama"
+
+msgid "Name of the tv/podcast/series show the media is from"
+msgstr "Nama dari acara tv/podcast/serial media berasal"
+
+msgid "show sortname"
+msgstr "tampilkan nama singkat"
+
+msgid ""
+"Name of the tv/podcast/series show the media is from, for sorting purposes"
+msgstr ""
+"Nama dari acara tv/podcast/serial media berasal, untuk tujuan pengurutan"
+
+msgid "episode number"
+msgstr "jumlah episode"
+
+msgid "The episode number in the season the media is part of"
+msgstr "Jumlah episode dalam semusim tempat media menjadi bagiannya"
+
+msgid "season number"
+msgstr "jumlah musim"
+
+msgid "The season number of the show the media is part of"
+msgstr "Jumlah musim dari acara tempat media menjadi bagiannya"
+
+msgid "lyrics"
+msgstr "lirik"
+
+msgid "The lyrics of the media, commonly used for songs"
+msgstr "Lirik dari media, umumnya digunakan untuk lagu"
+
+msgid "composer sortname"
+msgstr "nama singkat komposer"
+
+msgid "person(s) who composed the recording, for sorting purposes"
+msgstr "orang yang mengomposisi rekaman, untuk kepentingan pengurutan"
+
+msgid "grouping"
+msgstr "pengelompokkan"
+
+msgid ""
+"Groups related media that spans multiple tracks, like the different pieces "
+"of a concerto. It is a higher level than a track, but lower than an album"
+msgstr ""
+"Grup terkait media yang meliputi banyak jalur, seperti bagian yang berbeda "
+"dari sebuah konser. Ini adalah level yang lebih tinggi dari jalur, tapi "
+"lebih rendah dari album"
+
 msgid ", "
 msgstr ", "
 
@@ -756,6 +793,13 @@ msgstr "Berkas \"%s\" adalah soket."
 msgid "Failed after iterations as requested."
 msgstr "Gagal setelah pengulangan seperti yang diminta."
 
+msgid "No Temp directory specified."
+msgstr "Tak ada direktori Temp yang ditentukan."
+
+#, c-format
+msgid "Could not create temp file \"%s\"."
+msgstr "Tak bisa membuat berkas temp \"%s\"."
+
 msgid "caps"
 msgstr "huruf"
 
@@ -789,13 +833,26 @@ msgstr "dapat ditulis"
 msgid "controllable"
 msgstr "dapat dikendalikan"
 
+msgid "Blacklisted files:"
+msgstr "Berkas yang dilarang:"
+
 msgid "Total count: "
 msgstr "Jumlah total: "
+
+#, c-format
+msgid "%d blacklisted file"
+msgid_plural "%d blacklisted files"
+msgstr[0] "%d berkas terlarang"
 
 #, c-format
 msgid "%d plugin"
 msgid_plural "%d plugins"
 msgstr[0] "%d plugin"
+
+#, c-format
+msgid "%d blacklist entry"
+msgid_plural "%d blacklist entries"
+msgstr[0] "%d entri terlarang"
 
 #, c-format
 msgid "%d feature"
@@ -805,12 +862,17 @@ msgstr[0] "%d fitur"
 msgid "Print all elements"
 msgstr "Cetak semua elemen"
 
+msgid "Print list of blacklisted files"
+msgstr "Cetak senarai dari berkas yang dilarang"
+
 msgid ""
-"Print a machine-parsable list of features the specified plugin provides.\n"
+"Print a machine-parsable list of features the specified plugin or all "
+"plugins provide.\n"
 "                                       Useful in connection with external "
 "automatic plugin installation mechanisms"
 msgstr ""
-"Cetak senarai dapat dibaca mesin dari fitur yang plugin tersebut sediakan.\n"
+"Cetak senarai dapat dibaca mesin dari fitur plugin yang ditentukan atau "
+"semua plugin yang disediakan.\n"
 "                                       Berguna dalam koneksi dengan plugin "
 "otomatis eksternal dalam mekanisme instalasi"
 
@@ -1015,6 +1077,15 @@ msgstr "Mengatur baris pipa ke KOSONG ...\n"
 
 msgid "Freeing pipeline ...\n"
 msgstr "Membebaskan baris pipa ...\n"
+
+#~ msgid "Error writing registry cache to %s: %s"
+#~ msgstr "Galat menulis tembolok registry ke %s: %s"
+
+#~ msgid "Error re-scanning registry %s: %s"
+#~ msgstr "Galat memindai ulang registry %s: %s"
+
+#~ msgid "Error re-scanning registry %s"
+#~ msgstr "Galat memindai ulang registry %s"
 
 #~ msgid "Internal GStreamer error: state change failed."
 #~ msgstr "Galat GStreamer internal: mengubah kondisi gagal."

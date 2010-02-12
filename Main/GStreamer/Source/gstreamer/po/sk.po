@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.10.24.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-10-05 12:38+0100\n"
+"POT-Creation-Date: 2010-02-09 00:56+0000\n"
 "PO-Revision-Date: 2009-09-21 10:11+0100\n"
 "Last-Translator: Peter Tuhársky <tuharsky@misbb.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -81,7 +81,8 @@ msgstr "Zakázať zachytávanie chýb segmentácie počas načítania zásuvnéh
 msgid "Disable updating the registry"
 msgstr "Zakázať aktualizáciu registrov"
 
-msgid "Disable the use of fork() while scanning the registry"
+#, fuzzy
+msgid "Disable spawning a helper process while scanning the registry"
 msgstr "Zakázať používanie fork() počas skenovania registrov"
 
 msgid "GStreamer Options"
@@ -89,18 +90,6 @@ msgstr "Možnosti pre GStreamer"
 
 msgid "Show GStreamer Options"
 msgstr "Zobraziť možnosti pre GStreamer"
-
-#, c-format
-msgid "Error writing registry cache to %s: %s"
-msgstr "Chyba pri zápise vyrovnávacej pamäte registrov do %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s: %s"
-msgstr "Chyba pri opätovnom skenovaní registrov %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s"
-msgstr "Chyba pri opätovnom skenovaní registrov %s"
 
 msgid "Unknown option"
 msgstr "Neznáma možnosť"
@@ -649,6 +638,57 @@ msgstr ""
 "zemepisná nadmorská výška  miesta, kde boli tieto médiá nahraté alebo "
 "produkované, v metroch podľa WGS84 (0 je priemerná hladina mora)"
 
+msgid "show name"
+msgstr ""
+
+msgid "Name of the tv/podcast/series show the media is from"
+msgstr ""
+
+#, fuzzy
+msgid "show sortname"
+msgstr "umelec/triedenie"
+
+msgid ""
+"Name of the tv/podcast/series show the media is from, for sorting purposes"
+msgstr ""
+
+#, fuzzy
+msgid "episode number"
+msgstr "číslo disku"
+
+msgid "The episode number in the season the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "season number"
+msgstr "číslo disku"
+
+msgid "The season number of the show the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "lyrics"
+msgstr "licencia"
+
+msgid "The lyrics of the media, commonly used for songs"
+msgstr ""
+
+#, fuzzy
+msgid "composer sortname"
+msgstr "názov/triedenie"
+
+#, fuzzy
+msgid "person(s) who composed the recording, for sorting purposes"
+msgstr "osoby zodpovedné za nahrávku, na účely triedenia"
+
+msgid "grouping"
+msgstr ""
+
+msgid ""
+"Groups related media that spans multiple tracks, like the different pieces "
+"of a concerto. It is a higher level than a track, but lower than an album"
+msgstr ""
+
 msgid ", "
 msgstr ", "
 
@@ -771,6 +811,13 @@ msgstr "Súbor \"%s\" je zásuvka."
 msgid "Failed after iterations as requested."
 msgstr "Zlyhanie po vykonaní požadovaných iterácií."
 
+msgid "No Temp directory specified."
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Could not create temp file \"%s\"."
+msgstr "Nepodarilo sa získať informácie o \"%s\"."
+
 msgid "caps"
 msgstr "schopnosti"
 
@@ -804,8 +851,18 @@ msgstr "zapisovateľné"
 msgid "controllable"
 msgstr "ovládateľné"
 
+msgid "Blacklisted files:"
+msgstr ""
+
 msgid "Total count: "
 msgstr "Celkový počet:"
+
+#, c-format
+msgid "%d blacklisted file"
+msgid_plural "%d blacklisted files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "%d plugin"
@@ -813,6 +870,13 @@ msgid_plural "%d plugins"
 msgstr[0] "%d zásuvný modul"
 msgstr[1] "%d zásuvné moduly"
 msgstr[2] "%d zásuvných modulov"
+
+#, c-format
+msgid "%d blacklist entry"
+msgid_plural "%d blacklist entries"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "%d feature"
@@ -824,8 +888,13 @@ msgstr[2] "%d funkcií"
 msgid "Print all elements"
 msgstr "Vypísať všetky prvky"
 
+msgid "Print list of blacklisted files"
+msgstr ""
+
+#, fuzzy
 msgid ""
-"Print a machine-parsable list of features the specified plugin provides.\n"
+"Print a machine-parsable list of features the specified plugin or all "
+"plugins provide.\n"
 "                                       Useful in connection with external "
 "automatic plugin installation mechanisms"
 msgstr ""
@@ -1038,6 +1107,15 @@ msgstr "Nastavujem rúru na NULOVÚ ...\n"
 
 msgid "Freeing pipeline ...\n"
 msgstr "Uvoľňujem rúru ...\n"
+
+#~ msgid "Error writing registry cache to %s: %s"
+#~ msgstr "Chyba pri zápise vyrovnávacej pamäte registrov do %s: %s"
+
+#~ msgid "Error re-scanning registry %s: %s"
+#~ msgstr "Chyba pri opätovnom skenovaní registrov %s: %s"
+
+#~ msgid "Error re-scanning registry %s"
+#~ msgstr "Chyba pri opätovnom skenovaní registrov %s"
 
 #~ msgid "Internal GStreamer error: state change failed."
 #~ msgstr ""

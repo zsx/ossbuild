@@ -46,6 +46,9 @@ struct _GstBaseRTPPayloadPrivate
   gboolean ssrc_random;
   guint16 next_seqnum;
   gboolean perfect_rtptime;
+
+  gint64 prop_max_ptime;
+  gint64 caps_max_ptime;
 };
 
 /* BaseRTPPayload signals and args */
@@ -281,6 +284,9 @@ gst_basertppayload_init (GstBaseRTPPayload * basertppayload, gpointer g_class)
   basertppayload->encoding_name = NULL;
 
   basertppayload->clock_rate = 0;
+
+  basertppayload->priv->caps_max_ptime = DEFAULT_MAX_PTIME;
+  basertppayload->priv->prop_max_ptime = DEFAULT_MAX_PTIME;
 }
 
 static void
@@ -469,6 +475,21 @@ copy_fixed (GQuark field_id, const GValue * value, GstStructure * dest)
   return TRUE;
 }
 
+static void
+update_max_ptime (GstBaseRTPPayload * basertppayload)
+{
+  if (basertppayload->priv->caps_max_ptime != -1 &&
+      basertppayload->priv->prop_max_ptime != -1)
+    basertppayload->max_ptime = MIN (basertppayload->priv->caps_max_ptime,
+        basertppayload->priv->prop_max_ptime);
+  else if (basertppayload->priv->caps_max_ptime != -1)
+    basertppayload->max_ptime = basertppayload->priv->caps_max_ptime;
+  else if (basertppayload->priv->prop_max_ptime != -1)
+    basertppayload->max_ptime = basertppayload->priv->prop_max_ptime;
+  else
+    basertppayload->max_ptime = DEFAULT_MAX_PTIME;
+}
+
 /**
  * gst_basertppayload_set_outcaps:
  * @payload: a #GstBaseRTPPayload
@@ -508,6 +529,9 @@ gst_basertppayload_set_outcaps (GstBaseRTPPayload * payload, gchar * fieldname,
     GST_DEBUG_OBJECT (payload, "custom added: %" GST_PTR_FORMAT, srccaps);
   }
 
+  payload->priv->caps_max_ptime = DEFAULT_MAX_PTIME;
+  payload->abidata.ABI.ptime = 0;
+
   /* the peer caps can override some of the defaults */
   peercaps = gst_pad_peer_get_caps (payload->srcpad);
   if (peercaps == NULL) {
@@ -524,6 +548,7 @@ gst_basertppayload_set_outcaps (GstBaseRTPPayload * payload, gchar * fieldname,
     GstStructure *s, *d;
     const GValue *value;
     gint pt;
+    guint max_ptime, ptime;
 
     /* peer provides caps we can use to fixate, intersect. This always returns a
      * writable caps. */
@@ -531,11 +556,22 @@ gst_basertppayload_set_outcaps (GstBaseRTPPayload * payload, gchar * fieldname,
     gst_caps_unref (srccaps);
     gst_caps_unref (peercaps);
 
+    if (gst_caps_is_empty (temp)) {
+      gst_caps_unref (temp);
+      return FALSE;
+    }
+
     /* now fixate, start by taking the first caps */
     gst_caps_truncate (temp);
 
     /* get first structure */
     s = gst_caps_get_structure (temp, 0);
+
+    if (gst_structure_get_uint (s, "maxptime", &max_ptime))
+      payload->priv->caps_max_ptime = max_ptime * GST_MSECOND;
+
+    if (gst_structure_get_uint (s, "ptime", &ptime))
+      payload->abidata.ABI.ptime = ptime * GST_MSECOND;
 
     if (gst_structure_get_int (s, "payload", &pt)) {
       /* use peer pt */
@@ -602,6 +638,8 @@ gst_basertppayload_set_outcaps (GstBaseRTPPayload * payload, gchar * fieldname,
     GST_DEBUG_OBJECT (payload, "with peer caps: %" GST_PTR_FORMAT, srccaps);
   }
 
+  update_max_ptime (payload);
+
   res = gst_pad_set_caps (GST_BASE_RTP_PAYLOAD_SRCPAD (payload), srccaps);
   gst_caps_unref (srccaps);
 
@@ -651,8 +689,9 @@ find_timestamp (GstBuffer ** buffer, guint group, guint idx, HeaderData * data)
   data->timestamp = GST_BUFFER_TIMESTAMP (*buffer);
   data->offset = GST_BUFFER_OFFSET (*buffer);
 
-  /* stop when we find a timestamp and duration */
-  if (data->timestamp != -1 && data->offset != -1)
+  /* stop when we find a timestamp. We take whatever offset is associated with
+   * the timestamp (if any) to do perfect timestamps when we need to. */
+  if (data->timestamp != -1)
     return GST_BUFFER_LIST_END;
   else
     return GST_BUFFER_LIST_CONTINUE;
@@ -696,10 +735,11 @@ gst_basertppayload_prepare_push (GstBaseRTPPayload * payload,
   data.ssrc = payload->current_ssrc;
   data.pt = payload->pt;
   data.caps = GST_PAD_CAPS (payload->srcpad);
-  data.timestamp = -1;
 
   /* find the first buffer with a timestamp */
   if (is_list) {
+    data.timestamp = -1;
+    data.offset = GST_BUFFER_OFFSET_NONE;
     gst_buffer_list_foreach (GST_BUFFER_LIST_CAST (obj),
         (GstBufferListFunc) find_timestamp, &data);
   } else {
@@ -856,7 +896,8 @@ gst_basertppayload_set_property (GObject * object, guint prop_id,
           basertppayload->seqnum_offset, priv->seqnum_offset_random);
       break;
     case PROP_MAX_PTIME:
-      basertppayload->max_ptime = g_value_get_int64 (value);
+      basertppayload->priv->prop_max_ptime = g_value_get_int64 (value);
+      update_max_ptime (basertppayload);
       break;
     case PROP_MIN_PTIME:
       basertppayload->min_ptime = g_value_get_int64 (value);

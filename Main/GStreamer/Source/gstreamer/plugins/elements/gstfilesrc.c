@@ -291,7 +291,7 @@ gst_file_src_class_init (GstFileSrcClass * klass)
           DEFAULT_SEQUENTIAL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS |
           GST_PARAM_MUTABLE_PLAYING));
 
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_file_src_finalize);
+  gobject_class->finalize = gst_file_src_finalize;
 
   gstbasesrc_class->start = GST_DEBUG_FUNCPTR (gst_file_src_start);
   gstbasesrc_class->stop = GST_DEBUG_FUNCPTR (gst_file_src_stop);
@@ -373,7 +373,7 @@ gst_file_src_set_location (GstFileSrc * src, const gchar * location)
   /* ERROR */
 wrong_state:
   {
-    g_warning ("Changing the `location' property on filesink when a file is "
+    g_warning ("Changing the `location' property on filesrc when a file is "
         "open is not supported.");
     GST_OBJECT_UNLOCK (src);
     return FALSE;
@@ -585,8 +585,9 @@ gst_file_src_map_region (GstFileSrc * src, off_t offset, gsize size,
 
   g_return_val_if_fail (offset >= 0, NULL);
 
-  GST_LOG_OBJECT (src, "mapping region %08llx+%08lx from file into memory",
-      offset, (gulong) size);
+  /* FIXME ? use goffset and friends if we require glib >= 2.20 */
+  GST_LOG_OBJECT (src, "mapping region %08" G_GINT64_MODIFIER "x+%08lx "
+      "from file into memory", (gint64) offset, (gulong) size);
 
   mmapregion = mmap (NULL, size, PROT_READ, MAP_SHARED, src->fd, offset);
 
@@ -835,29 +836,31 @@ gst_file_src_create_read (GstFileSrc * src, guint64 offset, guint length,
     return GST_FLOW_ERROR;
   }
 
-  GST_LOG_OBJECT (src, "Reading %d bytes at offset 0x%" G_GINT64_MODIFIER "x",
-      length, offset);
-  ret = read (src->fd, GST_BUFFER_DATA (buf), length);
-  if (G_UNLIKELY (ret < 0))
-    goto could_not_read;
+  /* No need to read anything if length is 0 */
+  if (length > 0) {
+    GST_LOG_OBJECT (src, "Reading %d bytes at offset 0x%" G_GINT64_MODIFIER "x",
+        length, offset);
+    ret = read (src->fd, GST_BUFFER_DATA (buf), length);
+    if (G_UNLIKELY (ret < 0))
+      goto could_not_read;
 
-  /* seekable regular files should have given us what we expected */
-  if (G_UNLIKELY ((guint) ret < length && src->seekable))
-    goto unexpected_eos;
+    /* seekable regular files should have given us what we expected */
+    if (G_UNLIKELY ((guint) ret < length && src->seekable))
+      goto unexpected_eos;
 
-  /* other files should eos if they read 0 and more was requested */
-  if (G_UNLIKELY (ret == 0 && length > 0))
-    goto eos;
+    /* other files should eos if they read 0 and more was requested */
+    if (G_UNLIKELY (ret == 0 && length > 0))
+      goto eos;
 
-  length = ret;
+    length = ret;
+    GST_BUFFER_SIZE (buf) = length;
+    GST_BUFFER_OFFSET (buf) = offset;
+    GST_BUFFER_OFFSET_END (buf) = offset + length;
 
-  GST_BUFFER_SIZE (buf) = length;
-  GST_BUFFER_OFFSET (buf) = offset;
-  GST_BUFFER_OFFSET_END (buf) = offset + length;
+    src->read_position += length;
+  }
 
   *buffer = buf;
-
-  src->read_position += length;
 
   return GST_FLOW_OK;
 

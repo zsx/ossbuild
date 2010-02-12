@@ -115,10 +115,12 @@ static GstEventQuarks event_quarks[] = {
   {GST_EVENT_NEWSEGMENT, "newsegment", 0},
   {GST_EVENT_TAG, "tag", 0},
   {GST_EVENT_BUFFERSIZE, "buffersize", 0},
+  {GST_EVENT_SINK_MESSAGE, "sink-message", 0},
   {GST_EVENT_QOS, "qos", 0},
   {GST_EVENT_SEEK, "seek", 0},
   {GST_EVENT_NAVIGATION, "navigation", 0},
   {GST_EVENT_LATENCY, "latency", 0},
+  {GST_EVENT_STEP, "step", 0},
   {GST_EVENT_CUSTOM_UPSTREAM, "custom-upstream", 0},
   {GST_EVENT_CUSTOM_DOWNSTREAM, "custom-downstream", 0},
   {GST_EVENT_CUSTOM_DOWNSTREAM_OOB, "custom-downstream-oob", 0},
@@ -407,6 +409,10 @@ gst_event_set_seqnum (GstEvent * event, guint32 seqnum)
   GST_EVENT_SEQNUM (event) = seqnum;
 }
 
+/* FIXME 0.11: It would be nice to have flush events
+ * that don't reset the running time in the sinks
+ */
+
 /**
  * gst_event_new_flush_start:
  *
@@ -437,7 +443,7 @@ gst_event_new_flush_start (void)
  * gst_event_new_flush_stop:
  *
  * Allocate a new flush stop event. The flush stop event can be sent
- * upstream and downstream and travels out-of-bounds with the dataflow.
+ * upstream and downstream and travels serialized with the dataflow.
  * It is typically sent after sending a FLUSH_START event to make the
  * pads accept data again.
  *
@@ -1174,4 +1180,57 @@ gst_event_parse_step (GstEvent * event, GstFormat * format, guint64 * amount,
   if (intermediate)
     *intermediate = g_value_get_boolean (gst_structure_id_get_value (structure,
             GST_QUARK (INTERMEDIATE)));
+}
+
+/**
+ * gst_event_new_sink_message:
+ * @msg: The #GstMessage to be posted
+ *
+ * Create a new sink-message event. The purpose of the sink-message event is
+ * to instruct a sink to post the message contained in the event synchronized
+ * with the stream.
+ *
+ * Returns: a new #GstEvent
+ *
+ * Since: 0.10.26
+ */
+GstEvent *
+gst_event_new_sink_message (GstMessage * msg)
+{
+  GstEvent *event;
+  GstStructure *structure;
+
+  g_return_val_if_fail (msg != NULL, NULL);
+
+  GST_CAT_INFO (GST_CAT_EVENT, "creating sink-message event");
+
+  structure = gst_structure_id_new (GST_QUARK (EVENT_SINK_MESSAGE),
+      GST_QUARK (MESSAGE), GST_TYPE_MESSAGE, msg, NULL);
+  event = gst_event_new_custom (GST_EVENT_SINK_MESSAGE, structure);
+
+  return event;
+}
+
+/**
+ * gst_event_parse_sink_message:
+ * @event: The event to query
+ * @msg: A pointer to store the #GstMessage in.
+ *
+ * Parse the sink-message event. Unref @msg after usage.
+ *
+ * Since: 0.10.26
+ */
+void
+gst_event_parse_sink_message (GstEvent * event, GstMessage ** msg)
+{
+  const GstStructure *structure;
+
+  g_return_if_fail (GST_IS_EVENT (event));
+  g_return_if_fail (GST_EVENT_TYPE (event) == GST_EVENT_SINK_MESSAGE);
+
+  structure = gst_event_get_structure (event);
+  if (msg)
+    *msg =
+        GST_MESSAGE (gst_value_dup_mini_object (gst_structure_id_get_value
+            (structure, GST_QUARK (MESSAGE))));
 }

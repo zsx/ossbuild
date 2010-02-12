@@ -56,8 +56,8 @@
  *
  * Each element has a state (see #GstState).  You can get and set the state
  * of an element with gst_element_get_state() and gst_element_set_state().
- * To get a string representation of a #GstState, use
- * gst_element_state_get_name().
+ * Setting a state triggers a #GstStateChange. To get a string representation
+ * of a #GstState, use gst_element_state_get_name().
  *
  * You can get and set a #GstClock on an element using gst_element_get_clock()
  * and gst_element_set_clock().
@@ -223,8 +223,8 @@ gst_element_class_init (GstElementClass * klass)
       G_SIGNAL_RUN_LAST, G_STRUCT_OFFSET (GstElementClass, no_more_pads), NULL,
       NULL, gst_marshal_VOID__VOID, G_TYPE_NONE, 0);
 
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_element_dispose);
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_element_finalize);
+  gobject_class->dispose = gst_element_dispose;
+  gobject_class->finalize = gst_element_finalize;
 
 #ifndef GST_DISABLE_LOADSAVE
   gstobject_class->save_thyself = GST_DEBUG_FUNCPTR (gst_element_save_thyself);
@@ -1033,7 +1033,7 @@ gst_element_get_request_pad (GstElement * element, const gchar * name)
       templ_found = TRUE;
   } else {
     /* there is no % in the name, try to find a matching template */
-    list = gst_element_class_get_pad_template_list (class);
+    list = class->padtemplates;
     while (!templ_found && list) {
       templ = (GstPadTemplate *) list->data;
       if (templ->presence == GST_PAD_REQUEST) {
@@ -1322,7 +1322,7 @@ gst_element_class_get_pad_template (GstElementClass * element_class,
   g_return_val_if_fail (GST_IS_ELEMENT_CLASS (element_class), NULL);
   g_return_val_if_fail (name != NULL, NULL);
 
-  padlist = gst_element_class_get_pad_template_list (element_class);
+  padlist = element_class->padtemplates;
 
   while (padlist) {
     GstPadTemplate *padtempl = (GstPadTemplate *) padlist->data;
@@ -2063,8 +2063,8 @@ interrupted:
  *
  * This function returns %GST_STATE_CHANGE_NO_PREROLL if the element
  * successfully changed its state but is not able to provide data yet.
- * This mostly happens for live sources that only produce data in the PLAYING
- * state. While the state change return is equivalent to
+ * This mostly happens for live sources that only produce data in 
+ * %GST_STATE_PLAYING. While the state change return is equivalent to
  * %GST_STATE_CHANGE_SUCCESS, it is returned to the application to signal that
  * some sink elements might not be able to complete their state change because
  * an element is not producing data to complete the preroll. When setting the
@@ -2845,7 +2845,7 @@ gst_element_get_factory (GstElement * element)
 static void
 gst_element_dispose (GObject * object)
 {
-  GstElement *element = GST_ELEMENT (object);
+  GstElement *element = GST_ELEMENT_CAST (object);
   GstClock **clock_p;
   GstBus **bus_p;
 
@@ -2861,7 +2861,7 @@ gst_element_dispose (GObject * object)
     /* don't call _remove_pad with NULL */
     gst_element_remove_pad (element, GST_PAD_CAST (element->pads->data));
   }
-  if (G_UNLIKELY (element->pads != 0)) {
+  if (G_UNLIKELY (element->pads != NULL)) {
     g_critical ("could not remove pads from element %s",
         GST_STR_NULL (GST_OBJECT_NAME (object)));
   }
@@ -2902,7 +2902,7 @@ not_null:
 static void
 gst_element_finalize (GObject * object)
 {
-  GstElement *element = GST_ELEMENT (object);
+  GstElement *element = GST_ELEMENT_CAST (object);
 
   GST_CAT_INFO_OBJECT (GST_CAT_REFCOUNTING, element, "finalize");
 
@@ -2943,7 +2943,7 @@ gst_element_save_thyself (GstObject * object, xmlNodePtr parent)
 
   g_return_val_if_fail (GST_IS_ELEMENT (object), parent);
 
-  element = GST_ELEMENT (object);
+  element = GST_ELEMENT_CAST (object);
 
   oclass = GST_ELEMENT_GET_CLASS (element);
 
@@ -3003,7 +3003,7 @@ gst_element_save_thyself (GstObject * object, xmlNodePtr parent)
     GstPad *pad = GST_PAD_CAST (pads->data);
 
     /* figure out if it's a direct pad or a ghostpad */
-    if (GST_ELEMENT (GST_OBJECT_PARENT (pad)) == element) {
+    if (GST_ELEMENT_CAST (GST_OBJECT_PARENT (pad)) == element) {
       xmlNodePtr padtag = xmlNewChild (parent, NULL, (xmlChar *) "pad", NULL);
 
       gst_object_save_thyself (GST_OBJECT_CAST (pad), padtag);
@@ -3022,7 +3022,7 @@ gst_element_restore_thyself (GstObject * object, xmlNodePtr self)
   gchar *name = NULL;
   gchar *value = NULL;
 
-  element = GST_ELEMENT (object);
+  element = GST_ELEMENT_CAST (object);
   g_return_if_fail (element != NULL);
 
   /* parameters */

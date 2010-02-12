@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>audioconvert</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Base Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Base Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-alsasrc.html" title="alsasrc">
-<link rel="next" href="gst-plugins-base-plugins-audioresample.html" title="audioresample">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<link rel="next" href="gst-plugins-base-plugins-audiorate.html" title="audiorate">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -21,19 +21,19 @@
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
-<td><a accesskey="n" href="gst-plugins-base-plugins-audioresample.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="gst-plugins-base-plugins-audiorate.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-base-plugins-audioconvert.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-audioconvert.description" class="shortcut">Description</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-audioconvert.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-audioconvert.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-audioconvert.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-audioconvert.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-audioconvert.properties" class="shortcut">Properties</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="audioconvert">
 <a name="gst-plugins-base-plugins-audioconvert"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,40 +42,31 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-base-plugins-audioconvert.synopsis"></a><h2>Synopsis</h2>
-<a name="GstAudioConvert"></a><pre class="synopsis">
-                    <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvert-struct" title="GstAudioConvert">GstAudioConvert</a>;
+<a name="GstAudioConvert"></a><pre class="synopsis">                    <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvert-struct" title="GstAudioConvert">GstAudioConvert</a>;
 enum                <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertDithering" title="enum GstAudioConvertDithering">GstAudioConvertDithering</a>;
 enum                <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertNoiseShaping" title="enum GstAudioConvertNoiseShaping">GstAudioConvertNoiseShaping</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-base-plugins-audioconvert.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
->GObject</a>
-   +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
->GstObject</a>
-         +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
->GstElement</a>
-               +----<a
-href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html"
->GstBaseTransform</a>
+  <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html">GstObject</a>
+         +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html">GstElement</a>
+               +----<a href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseTransform.html">GstBaseTransform</a>
                      +----GstAudioConvert
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-base-plugins-audioconvert.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvert--dithering" title='The "dithering" property'>dithering</a>"                <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertDithering" title="enum GstAudioConvertDithering">GstAudioConvertDithering</a>  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvert--noise-shaping" title='The "noise-shaping" property'>noise-shaping</a>"            <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertNoiseShaping" title="enum GstAudioConvertNoiseShaping">GstAudioConvertNoiseShaping</a>  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvert--dithering" title='The "dithering" property'>dithering</a>"                <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertDithering" title="enum GstAudioConvertDithering"><span class="type">GstAudioConvertDithering</span></a>  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvert--noise-shaping" title='The "noise-shaping" property'>noise-shaping</a>"            <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertNoiseShaping" title="enum GstAudioConvertNoiseShaping"><span class="type">GstAudioConvertNoiseShaping</span></a>  : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-base-plugins-audioconvert.description"></a><h2>Description</h2>
 <p>
 Audioconvert converts raw audio buffers between various possible formats.
@@ -84,258 +75,48 @@ signedness and endianness conversion and channel transformations.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2587812"></a><h3>Example launch line</h3>
-<div class="informalexample"><pre class="programlisting">
-gst-launch -v -m audiotestsrc ! audioconvert ! audio/x-raw-int,channels=2,width=8,depth=8 ! level ! fakesink silent=TRUE
-</pre></div> This pipeline converts audio to 8-bit.  The level element shows that
+<div class="refsect2" title="Example launch line">
+<a name="id394485"></a><h3>Example launch line</h3>
+<div class="informalexample">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1</pre></td>
+        <td class="listing_code"><pre class="programlisting">gst<span class="symbol">-</span>launch <span class="symbol">-</span>v <span class="symbol">-</span>m audiotestsrc <span class="symbol">!</span> audioconvert <span class="symbol">!</span> audio<span class="symbol">/</span>x<span class="symbol">-</span>raw<span class="symbol">-</span><span class="gtkdoc kwb">int</span><span class="symbol">,</span>channels<span class="symbol">=</span><span class="number">2</span><span class="symbol">,</span>width<span class="symbol">=</span><span class="number">8</span><span class="symbol">,</span>depth<span class="symbol">=</span><span class="number">8</span> <span class="symbol">!</span> level <span class="symbol">!</span> fakesink silent<span class="symbol">=</span>TRUE</pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+ This pipeline converts audio to 8-bit.  The level element shows that
 the output levels still match the one for a sine wave.
-<div class="informalexample"><pre class="programlisting">
-gst-launch -v -m audiotestsrc ! audioconvert ! vorbisenc ! fakesink silent=TRUE
-</pre></div> The vorbis encoder takes float audio data instead of the integer data
+<div class="informalexample">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1</pre></td>
+        <td class="listing_code"><pre class="programlisting">gst<span class="symbol">-</span>launch <span class="symbol">-</span>v <span class="symbol">-</span>m audiotestsrc <span class="symbol">!</span> audioconvert <span class="symbol">!</span> vorbisenc <span class="symbol">!</span> fakesink silent<span class="symbol">=</span>TRUE</pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+ The vorbis encoder takes float audio data instead of the integer data
 generated by audiotestsrc.
 </div>
 <p>
 </p>
 <p>
 Last reviewed on 2006-03-02 (0.10.4)</p>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2591660"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-base-plugins-plugin-audioconvert.html#plugin-audioconvert">audioconvert</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Benjamin Otte &lt;in7y118@public.uni-hamburg.de&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Filter/Converter/Audio</td>
-</tr>
-</tbody>
-</table></div>
 </div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2591602"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)64</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)32</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)32, depth=(int)[ 1, 32 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)24, depth=(int)[ 1, 24 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)16, depth=(int)[ 1, 16 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)8, depth=(int)[ 1, 8 ], signed=(boolean){ true, false }</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)64</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)32</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)32, depth=(int)[ 1, 32 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)24, depth=(int)[ 1, 24 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)16, depth=(int)[ 1, 16 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)8, depth=(int)[ 1, 8 ], signed=(boolean){ true, false }</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2602917"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-base-plugins-plugin-audioconvert.html#plugin-audioconvert">audioconvert</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Benjamin Otte &lt;in7y118@public.uni-hamburg.de&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Filter/Converter/Audio</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2602971"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>sink</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)64</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)32</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)32, depth=(int)[ 1, 32 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)24, depth=(int)[ 1, 24 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)16, depth=(int)[ 1, 16 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)8, depth=(int)[ 1, 8 ], signed=(boolean){ true, false }</td>
-</tr>
-</tbody>
-</table></div>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)64</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-float, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)32</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)32, depth=(int)[ 1, 32 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)24, depth=(int)[ 1, 24 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)16, depth=(int)[ 1, 16 ], signed=(boolean){ true, false }</td>
-</tr>
-<tr>
-<td><p><span class="term"></span></p></td>
-<td> audio/x-raw-int, rate=(int)[ 1, 2147483647 ], channels=(int)[ 1, 2147483647 ], endianness=(int){ 1234, 4321 }, width=(int)8, depth=(int)[ 1, 8 ], signed=(boolean){ true, false }</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<p>
-</p>
-</div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-base-plugins-audioconvert.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstAudioConvert">
 <a name="GstAudioConvert-struct"></a><h3>GstAudioConvert</h3>
 <pre class="programlisting">typedef struct _GstAudioConvert GstAudioConvert;</pre>
 <p>
 The audioconvert object structure.</p>
-<p>
-</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstAudioConvertDithering">
 <a name="GstAudioConvertDithering"></a><h3>enum GstAudioConvertDithering</h3>
 <pre class="programlisting">typedef enum
 {
@@ -347,28 +128,26 @@ The audioconvert object structure.</p>
 </pre>
 <p>
 Set of available dithering methods when converting audio.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="DITHER-NONE--CAPS"></a><span class="term"><code class="literal">DITHER_NONE</code></span></p></td>
+<td><p><a name="DITHER-NONE:CAPS"></a><span class="term"><code class="literal">DITHER_NONE</code></span></p></td>
 <td> No dithering
 </td>
 </tr>
 <tr>
-<td><p><a name="DITHER-RPDF--CAPS"></a><span class="term"><code class="literal">DITHER_RPDF</code></span></p></td>
+<td><p><a name="DITHER-RPDF:CAPS"></a><span class="term"><code class="literal">DITHER_RPDF</code></span></p></td>
 <td> Rectangular dithering
 </td>
 </tr>
 <tr>
-<td><p><a name="DITHER-TPDF--CAPS"></a><span class="term"><code class="literal">DITHER_TPDF</code></span></p></td>
+<td><p><a name="DITHER-TPDF:CAPS"></a><span class="term"><code class="literal">DITHER_TPDF</code></span></p></td>
 <td> Triangular dithering (default)
 </td>
 </tr>
 <tr>
-<td><p><a name="DITHER-TPDF-HF--CAPS"></a><span class="term"><code class="literal">DITHER_TPDF_HF</code></span></p></td>
+<td><p><a name="DITHER-TPDF-HF:CAPS"></a><span class="term"><code class="literal">DITHER_TPDF_HF</code></span></p></td>
 <td> High frequency triangular dithering
 </td>
 </tr>
@@ -376,7 +155,7 @@ Set of available dithering methods when converting audio.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstAudioConvertNoiseShaping">
 <a name="GstAudioConvertNoiseShaping"></a><h3>enum GstAudioConvertNoiseShaping</h3>
 <pre class="programlisting">typedef enum
 {
@@ -389,33 +168,31 @@ Set of available dithering methods when converting audio.</p>
 </pre>
 <p>
 Set of available noise shaping methods</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="NOISE-SHAPING-NONE--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_NONE</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-NONE:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_NONE</code></span></p></td>
 <td> No noise shaping (default)
 </td>
 </tr>
 <tr>
-<td><p><a name="NOISE-SHAPING-ERROR-FEEDBACK--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_ERROR_FEEDBACK</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-ERROR-FEEDBACK:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_ERROR_FEEDBACK</code></span></p></td>
 <td> Error feedback
 </td>
 </tr>
 <tr>
-<td><p><a name="NOISE-SHAPING-SIMPLE--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_SIMPLE</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-SIMPLE:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_SIMPLE</code></span></p></td>
 <td> Simple 2-pole noise shaping
 </td>
 </tr>
 <tr>
-<td><p><a name="NOISE-SHAPING-MEDIUM--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_MEDIUM</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-MEDIUM:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_MEDIUM</code></span></p></td>
 <td> Medium 5-pole noise shaping
 </td>
 </tr>
 <tr>
-<td><p><a name="NOISE-SHAPING-HIGH--CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_HIGH</code></span></p></td>
+<td><p><a name="NOISE-SHAPING-HIGH:CAPS"></a><span class="term"><code class="literal">NOISE_SHAPING_HIGH</code></span></p></td>
 <td> High 8-pole noise shaping
 </td>
 </tr>
@@ -423,18 +200,18 @@ Set of available noise shaping methods</p>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-base-plugins-audioconvert.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "dithering" property'>
 <a name="GstAudioConvert--dithering"></a><h3>The <code class="literal">"dithering"</code> property</h3>
-<pre class="programlisting">  "dithering"                <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertDithering" title="enum GstAudioConvertDithering">GstAudioConvertDithering</a>  : Read / Write</pre>
+<pre class="programlisting">  "dithering"                <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertDithering" title="enum GstAudioConvertDithering"><span class="type">GstAudioConvertDithering</span></a>  : Read / Write</pre>
 <p>Selects between different dithering methods.</p>
 <p>Default value: Triangular dithering (default)</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "noise-shaping" property'>
 <a name="GstAudioConvert--noise-shaping"></a><h3>The <code class="literal">"noise-shaping"</code> property</h3>
-<pre class="programlisting">  "noise-shaping"            <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertNoiseShaping" title="enum GstAudioConvertNoiseShaping">GstAudioConvertNoiseShaping</a>  : Read / Write</pre>
+<pre class="programlisting">  "noise-shaping"            <a class="link" href="gst-plugins-base-plugins-audioconvert.html#GstAudioConvertNoiseShaping" title="enum GstAudioConvertNoiseShaping"><span class="type">GstAudioConvertNoiseShaping</span></a>  : Read / Write</pre>
 <p>Selects between different noise shaping methods.</p>
 <p>Default value: No noise shaping (default)</p>
 </div>
@@ -442,6 +219,6 @@ Set of available noise shaping methods</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

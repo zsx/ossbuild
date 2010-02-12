@@ -146,6 +146,9 @@ gst_type_find_factory_dispose (GObject * object)
  * Gets the list of all registered typefind factories. You must free the
  * list using gst_plugin_feature_list_free.
  *
+ * The returned factories are sorted by highest rank first, and then by
+ * factory name. (behaviour change since 0.10.26)
+ *
  * Returns: the list of all registered #GstTypeFindFactory.
  */
 GList *
@@ -177,7 +180,7 @@ gst_type_find_factory_get_caps (GstTypeFindFactory * factory)
  *
  * Gets the extensions associated with a #GstTypeFindFactory. The returned
  * array should not be changed. If you need to change stuff in it, you should
- * copy it using g_stdupv().  This function may return NULL to indicate
+ * copy it using g_strdupv().  This function may return NULL to indicate
  * a 0-length list.
  *
  * Returns: a NULL-terminated array of extensions associated with this factory

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gsttheora"
 	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A01}"
 	RootNamespace="libgsttheora"
@@ -307,10 +307,26 @@
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgsttag.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstvideo.vcproj"
+		/>
 	</References>
 	<Files>
 		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\gsttheora.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\gsttheoradec.c"
+			>
+		</File>
+		<File
 			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\gsttheoradec.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\gsttheoraenc.c"
 			>
 		</File>
 		<File
@@ -318,23 +334,11 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\gsttheoraparse.c"
+			>
+		</File>
+		<File
 			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\gsttheoraparse.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\theora.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\theoradec.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\theoraenc.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\theora\theoraparse.c"
 			>
 		</File>
 	</Files>

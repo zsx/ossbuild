@@ -122,9 +122,9 @@ gst_gdp_pay_class_init (GstGDPPayClass * klass)
   gobject_class = (GObjectClass *) klass;
   gstelement_class = (GstElementClass *) klass;
 
-  gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_gdp_pay_set_property);
-  gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_gdp_pay_get_property);
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_gdp_pay_finalize);
+  gobject_class->set_property = gst_gdp_pay_set_property;
+  gobject_class->get_property = gst_gdp_pay_get_property;
+  gobject_class->finalize = gst_gdp_pay_finalize;
 
   g_object_class_install_property (gobject_class, PROP_CRC_HEADER,
       g_param_spec_boolean ("crc-header", "CRC Header",
@@ -386,9 +386,11 @@ gst_gdp_pay_reset_streamheader (GstGDPPay * this)
 
     if (this->tag_buf) {
       gst_gdp_stamp_buffer (this, this->tag_buf);
-      GST_DEBUG_OBJECT (this, "1.0, appending copy of tag buffer %p",
+      GST_DEBUG_OBJECT (this, "1.0, appending current tags buffer %p",
           this->tag_buf);
-      tag_buf = gst_buffer_copy (this->tag_buf);
+      tag_buf = this->tag_buf;
+      this->tag_buf = NULL;
+
       gst_buffer_set_caps (tag_buf, NULL);
       g_value_init (&value, GST_TYPE_BUFFER);
       gst_value_set_buffer (&value, tag_buf);

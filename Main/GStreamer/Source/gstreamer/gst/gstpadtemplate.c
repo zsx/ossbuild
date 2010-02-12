@@ -41,7 +41,7 @@
  * GST_PAD_TEMPLATE_DIRECTION().
  *
  * The GST_PAD_TEMPLATE_NAME_TEMPLATE () is important for GST_PAD_REQUEST pads
- * because it has to be used as the name in the gst_element_request_pad_by_name()
+ * because it has to be used as the name in the gst_element_get_request_pad()
  * call to instantiate a pad from this template.
  *
  * Padtemplates can be created with gst_pad_template_new() or with 
@@ -417,8 +417,7 @@ gst_pad_template_get_caps (GstPadTemplate * templ)
 void
 gst_pad_template_pad_created (GstPadTemplate * templ, GstPad * pad)
 {
-  g_signal_emit (G_OBJECT (templ),
-      gst_pad_template_signals[TEMPL_PAD_CREATED], 0, pad);
+  g_signal_emit (templ, gst_pad_template_signals[TEMPL_PAD_CREATED], 0, pad);
 }
 
 static void

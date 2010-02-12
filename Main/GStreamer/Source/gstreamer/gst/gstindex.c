@@ -151,9 +151,9 @@ gst_index_class_init (GstIndexClass * klass)
       G_STRUCT_OFFSET (GstIndexClass, entry_added), NULL, NULL,
       gst_marshal_VOID__BOXED, G_TYPE_NONE, 1, GST_TYPE_INDEX_ENTRY);
 
-  gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_index_set_property);
-  gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_index_get_property);
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_index_finalize);
+  gobject_class->set_property = gst_index_set_property;
+  gobject_class->get_property = gst_index_get_property;
+  gobject_class->finalize = gst_index_finalize;
 
   g_object_class_install_property (gobject_class, ARG_RESOLVER,
       g_param_spec_enum ("resolver", "Resolver",
@@ -283,7 +283,7 @@ gst_index_new (void)
 {
   GstIndex *index;
 
-  index = g_object_new (gst_index_get_type (), NULL);
+  index = g_object_newv (gst_index_get_type (), 0, NULL);
 
   return index;
 }
@@ -616,6 +616,8 @@ static gboolean
 gst_index_gtype_resolver (GstIndex * index, GstObject * writer,
     gchar ** writer_string, gpointer data)
 {
+  g_return_val_if_fail (writer != NULL, FALSE);
+
   if (GST_IS_PAD (writer)) {
     GstElement *element =
         (GstElement *) gst_object_get_parent (GST_OBJECT (writer));
@@ -723,7 +725,7 @@ gst_index_add_entry (GstIndex * index, GstIndexEntry * entry)
     iclass->add_entry (index, entry);
   }
 
-  g_signal_emit (G_OBJECT (index), gst_index_signals[ENTRY_ADDED], 0, entry);
+  g_signal_emit (index, gst_index_signals[ENTRY_ADDED], 0, entry);
 }
 
 /**

@@ -13,6 +13,10 @@ FORMATS=html
 html: html-build.stamp
 include $(top_srcdir)/common/upload-doc.mak
 
+# Extra environment needed for Core only...
+INSPECT_EXTRA_ENVIRONMENT= \
+    GST_PLUGIN_SCANNER=$(top_builddir)/libs/gst/helpers/gst-plugin-scanner
+
 # generated basefiles
 #basefiles = \
 ##		$(DOC_MODULE).types \
@@ -84,6 +88,7 @@ EXTRA_HFILES = \
 	$(top_srcdir)/plugins/elements/gstidentity.h \
 	$(top_srcdir)/plugins/elements/gstmultiqueue.h \
 	$(top_srcdir)/plugins/elements/gstqueue.h \
+	$(top_srcdir)/plugins/elements/gstqueue2.h \
 	$(top_srcdir)/plugins/elements/gsttypefindelement.h \
 	$(top_srcdir)/plugins/elements/gsttee.h
 

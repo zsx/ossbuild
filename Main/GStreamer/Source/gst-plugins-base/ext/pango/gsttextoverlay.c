@@ -297,6 +297,8 @@ static gboolean gst_text_overlay_src_query (GstPad * pad, GstQuery * query);
 static gboolean gst_text_overlay_video_event (GstPad * pad, GstEvent * event);
 static GstFlowReturn gst_text_overlay_video_chain (GstPad * pad,
     GstBuffer * buffer);
+static GstFlowReturn gst_text_overlay_video_bufferalloc (GstPad * pad,
+    guint64 offset, guint size, GstCaps * caps, GstBuffer ** buffer);
 
 static gboolean gst_text_overlay_text_event (GstPad * pad, GstEvent * event);
 static GstFlowReturn gst_text_overlay_text_chain (GstPad * pad,
@@ -466,12 +468,10 @@ gst_text_overlay_class_init (GstTextOverlayClass * klass)
           DEFAULT_PROP_AUTO_ADJUST_SIZE,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
-#ifdef HAVE_PANGO_VERTICAL_WRITING
   g_object_class_install_property (G_OBJECT_CLASS (klass), PROP_VERTICAL_RENDER,
       g_param_spec_boolean ("vertical-render", "vertical render",
           "Vertical Render.", DEFAULT_PROP_VERTICAL_RENDER,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-#endif
 }
 
 static void
@@ -489,11 +489,6 @@ gst_text_overlay_finalize (GObject * object)
   if (overlay->layout) {
     g_object_unref (overlay->layout);
     overlay->layout = NULL;
-  }
-
-  if (overlay->segment) {
-    gst_segment_free (overlay->segment);
-    overlay->segment = NULL;
   }
 
   if (overlay->text_buffer) {
@@ -527,6 +522,8 @@ gst_text_overlay_init (GstTextOverlay * overlay, GstTextOverlayClass * klass)
       GST_DEBUG_FUNCPTR (gst_text_overlay_video_event));
   gst_pad_set_chain_function (overlay->video_sinkpad,
       GST_DEBUG_FUNCPTR (gst_text_overlay_video_chain));
+  gst_pad_set_bufferalloc_function (overlay->video_sinkpad,
+      GST_DEBUG_FUNCPTR (gst_text_overlay_video_bufferalloc));
   gst_element_add_pad (GST_ELEMENT (overlay), overlay->video_sinkpad);
 
   if (!GST_IS_TIME_OVERLAY_CLASS (klass) && !GST_IS_CLOCK_OVERLAY_CLASS (klass)) {
@@ -594,13 +591,7 @@ gst_text_overlay_init (GstTextOverlay * overlay, GstTextOverlayClass * klass)
   overlay->text_buffer = NULL;
   overlay->text_linked = FALSE;
   overlay->cond = g_cond_new ();
-  overlay->segment = gst_segment_new ();
-  if (overlay->segment) {
-    gst_segment_init (overlay->segment, GST_FORMAT_TIME);
-  } else {
-    GST_WARNING_OBJECT (overlay, "segment creation failed");
-    g_assert_not_reached ();
-  }
+  gst_segment_init (&overlay->segment, GST_FORMAT_TIME);
 }
 
 static void
@@ -633,7 +624,6 @@ gst_text_overlay_update_wrap_mode (GstTextOverlay * overlay)
 static void
 gst_text_overlay_update_render_mode (GstTextOverlay * overlay)
 {
-#if HAVE_PANGO_VERTICAL_WRITING
   PangoMatrix matrix = PANGO_MATRIX_INIT;
   PangoContext *context = pango_layout_get_context (overlay->layout);
 
@@ -645,11 +635,8 @@ gst_text_overlay_update_render_mode (GstTextOverlay * overlay)
   } else {
     pango_context_set_base_gravity (context, PANGO_GRAVITY_SOUTH);
     pango_context_set_matrix (context, &matrix);
-#endif
     pango_layout_set_alignment (overlay->layout, overlay->line_align);
-#if HAVE_PANGO_VERTICAL_WRITING
   }
-#endif
 }
 
 static gboolean
@@ -812,11 +799,9 @@ gst_text_overlay_set_property (GObject * object, guint prop_id,
       overlay->need_render = TRUE;
     }
     case PROP_VERTICAL_RENDER:
-#ifdef HAVE_PANGO_VERTICAL_WRITING
       overlay->use_vertical_render = g_value_get_boolean (value);
       gst_text_overlay_update_render_mode (overlay);
       overlay->need_render = TRUE;
-#endif
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -875,11 +860,7 @@ gst_text_overlay_get_property (GObject * object, guint prop_id,
       g_value_set_boolean (value, overlay->auto_adjust_size);
       break;
     case PROP_VERTICAL_RENDER:
-#ifdef HAVE_PANGO_VERTICAL_WRITING
       g_value_set_boolean (value, overlay->use_vertical_render);
-#else
-      g_value_set_boolean (value, FALSE);
-#endif
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -914,7 +895,9 @@ gst_text_overlay_src_event (GstPad * pad, GstEvent * event)
   overlay = GST_TEXT_OVERLAY (gst_pad_get_parent (pad));
 
   switch (GST_EVENT_TYPE (event)) {
-    case GST_EVENT_SEEK:
+    case GST_EVENT_SEEK:{
+      GstSeekFlags flags;
+
       /* We don't handle seek if we have not text pad */
       if (!overlay->text_linked) {
         GST_DEBUG_OBJECT (overlay, "seek received, pushing upstream");
@@ -924,8 +907,11 @@ gst_text_overlay_src_event (GstPad * pad, GstEvent * event)
 
       GST_DEBUG_OBJECT (overlay, "seek received, driving from here");
 
-      /* Flush downstream, FIXME, only for flushing seek */
-      gst_pad_push_event (overlay->srcpad, gst_event_new_flush_start ());
+      gst_event_parse_seek (event, NULL, NULL, &flags, NULL, NULL, NULL, NULL);
+
+      /* Flush downstream, only for flushing seek */
+      if (flags & GST_SEEK_FLAG_FLUSH)
+        gst_pad_push_event (overlay->srcpad, gst_event_new_flush_start ());
 
       /* Mark ourself as flushing, unblock chains */
       GST_OBJECT_LOCK (overlay);
@@ -943,6 +929,7 @@ gst_text_overlay_src_event (GstPad * pad, GstEvent * event)
         gst_event_unref (event);
       }
       break;
+    }
     default:
       if (overlay->text_linked) {
         gst_event_ref (event);
@@ -1170,8 +1157,6 @@ gst_text_overlay_render_pangocairo (GstTextOverlay * overlay,
 {
   cairo_t *cr;
   cairo_surface_t *surface;
-  cairo_t *cr_shadow;
-  cairo_surface_t *surface_shadow;
   PangoRectangle ink_rect, logical_rect;
   cairo_matrix_t cairo_matrix;
   int width, height;
@@ -1206,7 +1191,6 @@ gst_text_overlay_render_pangocairo (GstTextOverlay * overlay,
   if (height > overlay->height) {
     height = overlay->height;
   }
-#ifdef HAVE_PANGO_VERTICAL_WRITING
   if (overlay->use_vertical_render) {
     PangoRectangle rect;
     PangoContext *context;
@@ -1237,72 +1221,63 @@ gst_text_overlay_render_pangocairo (GstTextOverlay * overlay,
     tmp = height;
     height = width;
     width = tmp;
-  } else
-#endif
-  {
+  } else {
     cairo_matrix_init_scale (&cairo_matrix, scalef, scalef);
   }
-  /* clear shadow surface */
-  surface_shadow = cairo_image_surface_create (CAIRO_FORMAT_A8, width, height);
-  cr_shadow = cairo_create (surface_shadow);
 
-  cairo_set_operator (cr_shadow, CAIRO_OPERATOR_CLEAR);
-
-  cairo_paint (cr_shadow);
-  cairo_set_operator (cr_shadow, CAIRO_OPERATOR_OVER);
-
-  cairo_save (cr_shadow);
-  cairo_set_matrix (cr_shadow, &cairo_matrix);
-
-  cairo_save (cr_shadow);
-  /* draw shadow text */
-  cairo_set_source_rgba (cr_shadow, 0.0, 0.0, 0.0, 0.5);
-  cairo_translate (cr_shadow, overlay->shadow_offset, overlay->shadow_offset);
-  pango_cairo_show_layout (cr_shadow, overlay->layout);
-  cairo_restore (cr_shadow);
-
-  /* draw outline text */
-  cairo_save (cr_shadow);
-  cairo_set_source_rgb (cr_shadow, 0.0, 0.0, 0.0);
-  cairo_set_line_width (cr_shadow, overlay->outline_offset);
-  pango_cairo_layout_path (cr_shadow, overlay->layout);
-  cairo_stroke (cr_shadow);
-  cairo_restore (cr_shadow);
-
-  if (overlay->want_shading) {
-    cairo_paint_with_alpha (cr_shadow, overlay->shading_value);
-  }
-  cairo_restore (cr_shadow);
-  cairo_destroy (cr_shadow);
-
-  /* clear image surface */
+  /* reallocate surface */
   overlay->text_image = g_realloc (overlay->text_image, 4 * width * height);
 
   surface = cairo_image_surface_create_for_data (overlay->text_image,
       CAIRO_FORMAT_ARGB32, width, height, width * 4);
   cr = cairo_create (surface);
+
+  /* clear surface */
   cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
   cairo_paint (cr);
+
   cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-  /* set default color */
-  cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+  if (overlay->want_shading)
+    cairo_paint_with_alpha (cr, overlay->shading_value);
 
+  /* apply transformations */
+  cairo_set_matrix (cr, &cairo_matrix);
+
+  /* FIXME: We use show_layout everywhere except for the surface
+   * because it's really faster and internally does all kinds of
+   * caching. Unfortunately we have to paint to a cairo path for
+   * the outline and this is slow. Once Pango supports user fonts
+   * we should use them, see
+   * https://bugzilla.gnome.org/show_bug.cgi?id=598695
+   *
+   * Idea would the be, to create a cairo user font that
+   * does shadow, outline, text painting in the
+   * render_glyph function.
+   */
+
+  /* draw shadow text */
   cairo_save (cr);
-  cairo_set_matrix (cr, &cairo_matrix);
-  /* draw text */
-  cairo_set_matrix (cr, &cairo_matrix);
-  /* draw text */
+  cairo_translate (cr, overlay->shadow_offset, overlay->shadow_offset);
+  cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
   pango_cairo_show_layout (cr, overlay->layout);
   cairo_restore (cr);
 
-  /* composite outline, shadow, and text */
-  cairo_set_operator (cr, CAIRO_OPERATOR_DEST_OVER);
-  cairo_set_source_surface (cr, surface_shadow, 0.0, 0.0);
-  cairo_paint (cr);
+  /* draw outline text */
+  cairo_save (cr);
+  cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+  cairo_set_line_width (cr, overlay->outline_offset);
+  pango_cairo_layout_path (cr, overlay->layout);
+  cairo_stroke (cr);
+  cairo_restore (cr);
+
+  /* draw text */
+  cairo_save (cr);
+  cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+  pango_cairo_show_layout (cr, overlay->layout);
+  cairo_restore (cr);
 
   cairo_destroy (cr);
-  cairo_surface_destroy (surface_shadow);
   cairo_surface_destroy (surface);
   overlay->image_width = width;
   overlay->image_height = height;
@@ -1772,6 +1747,7 @@ gst_text_overlay_text_event (GstPad * pad, GstEvent * event)
       overlay->text_flushing = FALSE;
       overlay->text_eos = FALSE;
       gst_text_overlay_pop_text (overlay);
+      gst_segment_init (&overlay->text_segment, GST_FORMAT_TIME);
       GST_OBJECT_UNLOCK (overlay);
       gst_event_unref (event);
       ret = TRUE;
@@ -1831,9 +1807,9 @@ gst_text_overlay_video_event (GstPad * pad, GstEvent * event)
 
       if (format == GST_FORMAT_TIME) {
         GST_DEBUG_OBJECT (overlay, "VIDEO SEGMENT now: %" GST_SEGMENT_FORMAT,
-            overlay->segment);
+            &overlay->segment);
 
-        gst_segment_set_newsegment (overlay->segment, update, rate, format,
+        gst_segment_set_newsegment (&overlay->segment, update, rate, format,
             start, stop, time);
       } else {
         GST_ELEMENT_WARNING (overlay, STREAM, MUX, (NULL),
@@ -1863,6 +1839,7 @@ gst_text_overlay_video_event (GstPad * pad, GstEvent * event)
       GST_INFO_OBJECT (overlay, "video flush stop");
       overlay->video_flushing = FALSE;
       overlay->video_eos = FALSE;
+      gst_segment_init (&overlay->segment, GST_FORMAT_TIME);
       GST_OBJECT_UNLOCK (overlay);
       ret = gst_pad_event_default (pad, event);
       break;
@@ -1876,6 +1853,27 @@ gst_text_overlay_video_event (GstPad * pad, GstEvent * event)
   return ret;
 }
 
+static GstFlowReturn
+gst_text_overlay_video_bufferalloc (GstPad * pad, guint64 offset, guint size,
+    GstCaps * caps, GstBuffer ** buffer)
+{
+  GstTextOverlay *overlay = GST_TEXT_OVERLAY (gst_pad_get_parent (pad));
+  GstFlowReturn ret = GST_FLOW_WRONG_STATE;
+  GstPad *allocpad;
+
+  GST_OBJECT_LOCK (overlay);
+  allocpad = overlay->srcpad ? gst_object_ref (overlay->srcpad) : NULL;
+  GST_OBJECT_UNLOCK (overlay);
+
+  if (allocpad) {
+    ret = gst_pad_alloc_buffer (allocpad, offset, size, caps, buffer);
+    gst_object_unref (allocpad);
+  }
+
+  gst_object_unref (overlay);
+  return ret;
+}
+
 /* Called with lock held */
 static void
 gst_text_overlay_pop_text (GstTextOverlay * overlay)
@@ -1883,16 +1881,6 @@ gst_text_overlay_pop_text (GstTextOverlay * overlay)
   g_return_if_fail (GST_IS_TEXT_OVERLAY (overlay));
 
   if (overlay->text_buffer) {
-    /* update text_segment's last stop */
-    if (overlay->text_segment.format == GST_FORMAT_TIME &&
-        GST_BUFFER_TIMESTAMP_IS_VALID (overlay->text_buffer)) {
-      overlay->text_segment.last_stop =
-          GST_BUFFER_TIMESTAMP (overlay->text_buffer);
-      if (GST_BUFFER_DURATION_IS_VALID (overlay->text_buffer)) {
-        overlay->text_segment.last_stop +=
-            GST_BUFFER_DURATION (overlay->text_buffer);
-      }
-    }
     GST_DEBUG_OBJECT (overlay, "releasing text buffer %p",
         overlay->text_buffer);
     gst_buffer_unref (overlay->text_buffer);
@@ -1933,19 +1921,30 @@ gst_text_overlay_text_chain (GstPad * pad, GstBuffer * buffer)
   }
 
   GST_LOG_OBJECT (overlay, "%" GST_SEGMENT_FORMAT "  BUFFER: ts=%"
-      GST_TIME_FORMAT ", end=%" GST_TIME_FORMAT, overlay->segment,
+      GST_TIME_FORMAT ", end=%" GST_TIME_FORMAT, &overlay->segment,
       GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (buffer)),
       GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (buffer) +
           GST_BUFFER_DURATION (buffer)));
 
-  in_seg = gst_segment_clip (overlay->segment, GST_FORMAT_TIME,
-      GST_BUFFER_TIMESTAMP (buffer),
-      GST_BUFFER_TIMESTAMP (buffer) + GST_BUFFER_DURATION (buffer),
-      &clip_start, &clip_stop);
+  if (G_LIKELY (GST_BUFFER_TIMESTAMP_IS_VALID (buffer))) {
+    GstClockTime stop;
+
+    if (G_LIKELY (GST_BUFFER_DURATION_IS_VALID (buffer)))
+      stop = GST_BUFFER_TIMESTAMP (buffer) + GST_BUFFER_DURATION (buffer);
+    else
+      stop = GST_CLOCK_TIME_NONE;
+
+    in_seg = gst_segment_clip (&overlay->text_segment, GST_FORMAT_TIME,
+        GST_BUFFER_TIMESTAMP (buffer), stop, &clip_start, &clip_stop);
+  } else {
+    in_seg = TRUE;
+  }
 
   if (in_seg) {
-    GST_BUFFER_TIMESTAMP (buffer) = clip_start;
-    GST_BUFFER_DURATION (buffer) = clip_stop - clip_start;
+    if (GST_BUFFER_TIMESTAMP_IS_VALID (buffer))
+      GST_BUFFER_TIMESTAMP (buffer) = clip_start;
+    else if (GST_BUFFER_DURATION_IS_VALID (buffer))
+      GST_BUFFER_DURATION (buffer) = clip_stop - clip_start;
 
     /* Wait for the previous buffer to go away */
     while (overlay->text_buffer != NULL) {
@@ -1959,6 +1958,10 @@ gst_text_overlay_text_chain (GstPad * pad, GstBuffer * buffer)
         goto beach;
       }
     }
+
+    if (GST_BUFFER_TIMESTAMP_IS_VALID (buffer))
+      gst_segment_set_last_stop (&overlay->text_segment, GST_FORMAT_TIME,
+          clip_start);
 
     overlay->text_buffer = buffer;
     /* That's a new text buffer we need to render */
@@ -2001,15 +2004,15 @@ gst_text_overlay_video_chain (GstPad * pad, GstBuffer * buffer)
   }
 
   GST_LOG_OBJECT (overlay, "%" GST_SEGMENT_FORMAT "  BUFFER: ts=%"
-      GST_TIME_FORMAT ", end=%" GST_TIME_FORMAT, overlay->segment,
+      GST_TIME_FORMAT ", end=%" GST_TIME_FORMAT, &overlay->segment,
       GST_TIME_ARGS (start), GST_TIME_ARGS (stop));
 
   /* segment_clip() will adjust start unconditionally to segment_start if
    * no stop time is provided, so handle this ourselves */
-  if (stop == GST_CLOCK_TIME_NONE && start < overlay->segment->start)
+  if (stop == GST_CLOCK_TIME_NONE && start < overlay->segment.start)
     goto out_of_segment;
 
-  in_seg = gst_segment_clip (overlay->segment, GST_FORMAT_TIME, start, stop,
+  in_seg = gst_segment_clip (&overlay->segment, GST_FORMAT_TIME, start, stop,
       &clip_start, &clip_stop);
 
   if (!in_seg)
@@ -2032,7 +2035,8 @@ gst_text_overlay_video_chain (GstPad * pad, GstBuffer * buffer)
     gint fps_num, fps_denom;
 
     s = gst_caps_get_structure (GST_PAD_CAPS (pad), 0);
-    if (gst_structure_get_fraction (s, "framerate", &fps_num, &fps_denom)) {
+    if (gst_structure_get_fraction (s, "framerate", &fps_num, &fps_denom) &&
+        fps_num && fps_denom) {
       GST_DEBUG_OBJECT (overlay, "estimating duration based on framerate");
       stop = start + gst_util_uint64_scale_int (GST_SECOND, fps_denom, fps_num);
     } else {
@@ -2056,7 +2060,7 @@ wait_for_text_buf:
     ret = gst_pad_push (overlay->srcpad, buffer);
 
     /* Update last_stop */
-    gst_segment_set_last_stop (overlay->segment, GST_FORMAT_TIME, clip_start);
+    gst_segment_set_last_stop (&overlay->segment, GST_FORMAT_TIME, clip_start);
 
     return ret;
   }
@@ -2085,8 +2089,12 @@ wait_for_text_buf:
   } else {
     /* Text pad linked, check if we have a text buffer queued */
     if (overlay->text_buffer) {
-      gboolean pop_text = FALSE;
-      gint64 text_start, text_end;
+      gboolean pop_text = FALSE, valid_text_time = TRUE;
+      GstClockTime text_start = GST_CLOCK_TIME_NONE;
+      GstClockTime text_end = GST_CLOCK_TIME_NONE;
+      GstClockTime text_running_time = GST_CLOCK_TIME_NONE;
+      GstClockTime text_running_time_end = GST_CLOCK_TIME_NONE;
+      GstClockTime vid_running_time, vid_running_time_end;
 
       /* if the text buffer isn't stamped right, pop it off the
        * queue and display it for the current video frame only */
@@ -2094,28 +2102,46 @@ wait_for_text_buf:
           !GST_BUFFER_DURATION_IS_VALID (overlay->text_buffer)) {
         GST_WARNING_OBJECT (overlay,
             "Got text buffer with invalid timestamp or duration");
-        text_start = start;
-        text_end = stop;
         pop_text = TRUE;
+        valid_text_time = FALSE;
       } else {
         text_start = GST_BUFFER_TIMESTAMP (overlay->text_buffer);
         text_end = text_start + GST_BUFFER_DURATION (overlay->text_buffer);
       }
 
+      vid_running_time =
+          gst_segment_to_running_time (&overlay->segment, GST_FORMAT_TIME,
+          start);
+      vid_running_time_end =
+          gst_segment_to_running_time (&overlay->segment, GST_FORMAT_TIME,
+          stop);
+
+      /* If timestamp and duration are valid */
+      if (valid_text_time) {
+        text_running_time =
+            gst_segment_to_running_time (&overlay->segment, GST_FORMAT_TIME,
+            text_start);
+        text_running_time_end =
+            gst_segment_to_running_time (&overlay->segment, GST_FORMAT_TIME,
+            text_end);
+      }
+
       GST_LOG_OBJECT (overlay, "T: %" GST_TIME_FORMAT " - %" GST_TIME_FORMAT,
-          GST_TIME_ARGS (text_start), GST_TIME_ARGS (text_end));
+          GST_TIME_ARGS (text_running_time),
+          GST_TIME_ARGS (text_running_time_end));
       GST_LOG_OBJECT (overlay, "V: %" GST_TIME_FORMAT " - %" GST_TIME_FORMAT,
-          GST_TIME_ARGS (start), GST_TIME_ARGS (stop));
+          GST_TIME_ARGS (vid_running_time),
+          GST_TIME_ARGS (vid_running_time_end));
 
       /* Text too old or in the future */
-      if (text_end <= start) {
+      if (valid_text_time && text_running_time_end <= vid_running_time) {
         /* text buffer too old, get rid of it and do nothing  */
         GST_LOG_OBJECT (overlay, "text buffer too old, popping");
         pop_text = FALSE;
         gst_text_overlay_pop_text (overlay);
         GST_OBJECT_UNLOCK (overlay);
         goto wait_for_text_buf;
-      } else if (stop <= text_start) {
+      } else if (valid_text_time && vid_running_time_end <= text_running_time) {
         GST_LOG_OBJECT (overlay, "text in future, pushing video buf");
         GST_OBJECT_UNLOCK (overlay);
         /* Push the video frame */
@@ -2166,7 +2192,7 @@ wait_for_text_buf:
         GST_OBJECT_UNLOCK (overlay);
         ret = gst_text_overlay_push_frame (overlay, buffer);
 
-        if (text_end <= stop) {
+        if (valid_text_time && text_running_time_end <= vid_running_time_end) {
           GST_LOG_OBJECT (overlay, "text buffer not needed any longer");
           pop_text = TRUE;
         }
@@ -2187,8 +2213,23 @@ wait_for_text_buf:
 
       /* Text pad linked, but no text buffer available - what now? */
       if (overlay->text_segment.format == GST_FORMAT_TIME) {
-        if (GST_BUFFER_TIMESTAMP (buffer) < overlay->text_segment.start ||
-            GST_BUFFER_TIMESTAMP (buffer) < overlay->text_segment.last_stop) {
+        GstClockTime text_start_running_time, text_last_stop_running_time;
+        GstClockTime vid_running_time;
+
+        vid_running_time =
+            gst_segment_to_running_time (&overlay->segment, GST_FORMAT_TIME,
+            GST_BUFFER_TIMESTAMP (buffer));
+        text_start_running_time =
+            gst_segment_to_running_time (&overlay->text_segment,
+            GST_FORMAT_TIME, overlay->text_segment.start);
+        text_last_stop_running_time =
+            gst_segment_to_running_time (&overlay->text_segment,
+            GST_FORMAT_TIME, overlay->text_segment.last_stop);
+
+        if ((GST_CLOCK_TIME_IS_VALID (text_start_running_time) &&
+                vid_running_time < text_start_running_time) ||
+            (GST_CLOCK_TIME_IS_VALID (text_last_stop_running_time) &&
+                vid_running_time < text_last_stop_running_time)) {
           wait_for_text_buf = FALSE;
         }
       }
@@ -2210,7 +2251,7 @@ wait_for_text_buf:
   g_free (text);
 
   /* Update last_stop */
-  gst_segment_set_last_stop (overlay->segment, GST_FORMAT_TIME, clip_start);
+  gst_segment_set_last_stop (&overlay->segment, GST_FORMAT_TIME, clip_start);
 
   return ret;
 
@@ -2274,6 +2315,8 @@ gst_text_overlay_change_state (GstElement * element, GstStateChange transition)
       overlay->video_flushing = FALSE;
       overlay->video_eos = FALSE;
       overlay->text_eos = FALSE;
+      gst_segment_init (&overlay->segment, GST_FORMAT_TIME);
+      gst_segment_init (&overlay->text_segment, GST_FORMAT_TIME);
       GST_OBJECT_UNLOCK (overlay);
       break;
     default:

@@ -31,20 +31,16 @@ static gint
 compare_ranks (GValue * v1, GValue * v2)
 {
   gint diff;
-  const gchar *rname1, *rname2;
   GstPluginFeature *f1, *f2;
 
   f1 = g_value_get_object (v1);
   f2 = g_value_get_object (v2);
 
-  diff = gst_plugin_feature_get_rank (f2) - gst_plugin_feature_get_rank (f1);
+  diff = f2->rank - f1->rank;
   if (diff != 0)
     return diff;
 
-  rname1 = gst_plugin_feature_get_name (f1);
-  rname2 = gst_plugin_feature_get_name (f2);
-
-  diff = strcmp (rname2, rname1);
+  diff = strcmp (f2->name, f1->name);
 
   return diff;
 }
@@ -132,7 +128,8 @@ element_filter (GstPluginFeature * feature, FilterData * data)
   if (!GST_IS_ELEMENT_FACTORY (feature))
     return FALSE;
 
-  res = gst_factory_list_is_type (GST_ELEMENT_FACTORY (feature), data->type);
+  res =
+      gst_factory_list_is_type (GST_ELEMENT_FACTORY_CAST (feature), data->type);
 
   return res;
 }
@@ -164,7 +161,7 @@ gst_factory_list_get_elements (GstFactoryListType type)
 
   /* convert to an array */
   for (walk = list; walk; walk = g_list_next (walk)) {
-    GstElementFactory *factory = GST_ELEMENT_FACTORY (walk->data);
+    GstElementFactory *factory = GST_ELEMENT_FACTORY_CAST (walk->data);
     GValue val = { 0, };
 
     g_value_init (&val, G_TYPE_OBJECT);
@@ -189,6 +186,7 @@ gst_factory_list_get_elements (GstFactoryListType type)
 void
 gst_factory_list_debug (GValueArray * array)
 {
+#ifndef GST_DISABLE_GST_DEBUG
   gint i;
 
   for (i = 0; i < array->n_values; i++) {
@@ -200,6 +198,7 @@ gst_factory_list_debug (GValueArray * array)
 
     GST_DEBUG ("%s", gst_plugin_feature_get_name (feature));
   }
+#endif
 }
 
 /**
@@ -240,7 +239,6 @@ gst_factory_list_filter (GValueArray * array, const GstCaps * caps)
 
       /* we only care about the sink templates */
       if (templ->direction == GST_PAD_SINK) {
-        GstCaps *intersect;
         GstCaps *tmpl_caps;
 
         /* try to intersect the caps with the caps of the template */
@@ -248,21 +246,19 @@ gst_factory_list_filter (GValueArray * array, const GstCaps * caps)
 
         /* FIXME, intersect is not the right method, we ideally want to check
          * for a subset here */
-        intersect = gst_caps_intersect (caps, tmpl_caps);
-        gst_caps_unref (tmpl_caps);
 
         /* check if the intersection is empty */
-        if (!gst_caps_is_empty (intersect)) {
+        if (gst_caps_can_intersect (caps, tmpl_caps)) {
           /* non empty intersection, we can use this element */
           GValue resval = { 0, };
           g_value_init (&resval, G_TYPE_OBJECT);
           g_value_set_object (&resval, factory);
           g_value_array_append (result, &resval);
           g_value_unset (&resval);
-          gst_caps_unref (intersect);
+          gst_caps_unref (tmpl_caps);
           break;
         }
-        gst_caps_unref (intersect);
+        gst_caps_unref (tmpl_caps);
       }
     }
   }

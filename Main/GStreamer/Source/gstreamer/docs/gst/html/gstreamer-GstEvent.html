@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GstEvent</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer 0.10 Core Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer 0.10 Core Reference Manual">
 <link rel="up" href="libgstreamer.html" title="GStreamer Core Library">
 <link rel="prev" href="gstreamer-GstGError.html" title="GstGError">
 <link rel="next" href="gstreamer-GstFilter.html" title="GstFilter">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="gstreamer.html" title="GStreamer Overview">
 <link rel="chapter" href="libgstreamer.html" title="GStreamer Core Library">
@@ -16,6 +16,7 @@
 <link rel="chapter" href="gstreamer-hierarchy.html" title="Object Hierarchy">
 <link rel="index" href="api-index-full.html" title="API Index">
 <link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
+<link rel="glossary" href="annotation-glossary.html" title="Annotation Glossary">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -28,11 +29,11 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gstreamer-GstEvent.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gstreamer-GstEvent.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gstreamer-GstEvent.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="GstEvent">
 <a name="gstreamer-GstEvent"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -42,225 +43,127 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gstreamer-GstEvent.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
 #include &lt;gst/gst.h&gt;
 
                     <a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>;
 enum                <a class="link" href="gstreamer-GstEvent.html#GstEventTypeFlags" title="enum GstEventTypeFlags">GstEventTypeFlags</a>;
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE-BOTH--CAPS" title="GST_EVENT_TYPE_BOTH">GST_EVENT_TYPE_BOTH</a>
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-MAKE-TYPE--CAPS" title="GST_EVENT_MAKE_TYPE()">GST_EVENT_MAKE_TYPE</a>                 (num,flags)
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE-BOTH:CAPS" title="GST_EVENT_TYPE_BOTH">GST_EVENT_TYPE_BOTH</a>
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-MAKE-TYPE:CAPS" title="GST_EVENT_MAKE_TYPE()">GST_EVENT_MAKE_TYPE</a>                 (num,flags)
 enum                <a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a>;
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TRACE-NAME--CAPS" title="GST_EVENT_TRACE_NAME">GST_EVENT_TRACE_NAME</a>
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE--CAPS" title="GST_EVENT_TYPE()">GST_EVENT_TYPE</a>                      (event)
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE-NAME--CAPS" title="GST_EVENT_TYPE_NAME()">GST_EVENT_TYPE_NAME</a>                 (event)
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TIMESTAMP--CAPS" title="GST_EVENT_TIMESTAMP()">GST_EVENT_TIMESTAMP</a>                 (event)
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-SRC--CAPS" title="GST_EVENT_SRC()">GST_EVENT_SRC</a>                       (event)
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-IS-UPSTREAM--CAPS" title="GST_EVENT_IS_UPSTREAM()">GST_EVENT_IS_UPSTREAM</a>               (ev)
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-IS-DOWNSTREAM--CAPS" title="GST_EVENT_IS_DOWNSTREAM()">GST_EVENT_IS_DOWNSTREAM</a>             (ev)
-#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-IS-SERIALIZED--CAPS" title="GST_EVENT_IS_SERIALIZED()">GST_EVENT_IS_SERIALIZED</a>             (ev)
-<a class="link" href="gstreamer-GstEvent.html#GstEventTypeFlags" title="enum GstEventTypeFlags">GstEventTypeFlags</a>   <a class="link" href="gstreamer-GstEvent.html#gst-event-type-get-flags" title="gst_event_type_get_flags ()">gst_event_type_get_flags</a>            (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> type);
-const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a>*        <a class="link" href="gstreamer-GstEvent.html#gst-event-type-get-name" title="gst_event_type_get_name ()">gst_event_type_get_name</a>             (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> type);
-<a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a>              <a class="link" href="gstreamer-GstEvent.html#gst-event-type-to-quark" title="gst_event_type_to_quark ()">gst_event_type_to_quark</a>             (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> type);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-ref" title="gst_event_ref ()">gst_event_ref</a>                       (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-unref" title="gst_event_unref ()">gst_event_unref</a>                     (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TRACE-NAME:CAPS" title="GST_EVENT_TRACE_NAME">GST_EVENT_TRACE_NAME</a>
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE:CAPS" title="GST_EVENT_TYPE()">GST_EVENT_TYPE</a>                      (event)
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE-NAME:CAPS" title="GST_EVENT_TYPE_NAME()">GST_EVENT_TYPE_NAME</a>                 (event)
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TIMESTAMP:CAPS" title="GST_EVENT_TIMESTAMP()">GST_EVENT_TIMESTAMP</a>                 (event)
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-SRC:CAPS" title="GST_EVENT_SRC()">GST_EVENT_SRC</a>                       (event)
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-IS-UPSTREAM:CAPS" title="GST_EVENT_IS_UPSTREAM()">GST_EVENT_IS_UPSTREAM</a>               (ev)
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-IS-DOWNSTREAM:CAPS" title="GST_EVENT_IS_DOWNSTREAM()">GST_EVENT_IS_DOWNSTREAM</a>             (ev)
+#define             <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-IS-SERIALIZED:CAPS" title="GST_EVENT_IS_SERIALIZED()">GST_EVENT_IS_SERIALIZED</a>             (ev)
+<a class="link" href="gstreamer-GstEvent.html#GstEventTypeFlags" title="enum GstEventTypeFlags"><span class="returnvalue">GstEventTypeFlags</span></a>   <a class="link" href="gstreamer-GstEvent.html#gst-event-type-get-flags" title="gst_event_type_get_flags ()">gst_event_type_get_flags</a>            (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="returnvalue">GstEventType</span></a> type);
+const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a>*        <a class="link" href="gstreamer-GstEvent.html#gst-event-type-get-name" title="gst_event_type_get_name ()">gst_event_type_get_name</a>             (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="returnvalue">GstEventType</span></a> type);
+<a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              <a class="link" href="gstreamer-GstEvent.html#gst-event-type-to-quark" title="gst_event_type_to_quark ()">gst_event_type_to_quark</a>             (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="returnvalue">GstEventType</span></a> type);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-ref" title="gst_event_ref ()">gst_event_ref</a>                       (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-unref" title="gst_event_unref ()">gst_event_unref</a>                     (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);
 #define             <a class="link" href="gstreamer-GstEvent.html#gst-event-replace" title="gst_event_replace()">gst_event_replace</a>                   (old_event,new_event)
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-copy" title="gst_event_copy ()">gst_event_copy</a>                      (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-custom" title="gst_event_new_custom ()">gst_event_new_custom</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> type,
-                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> * <a class="link" href="gstreamer-GstEvent.html#gst-event-get-structure" title="gst_event_get_structure ()">gst_event_get_structure</a>            (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="gstreamer-GstEvent.html#gst-event-has-name" title="gst_event_has_name ()">gst_event_has_name</a>                  (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);
-<a
-href="../glib/glib-Basic-Types.html#guint32"
->guint32</a>             <a class="link" href="gstreamer-GstEvent.html#gst-event-get-seqnum" title="gst_event_get_seqnum ()">gst_event_get_seqnum</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-set-seqnum" title="gst_event_set_seqnum ()">gst_event_set_seqnum</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint32"
->guint32</a> seqnum);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-new-flush-start" title="gst_event_new_flush_start ()">gst_event_new_flush_start</a>           (void);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-new-flush-stop" title="gst_event_new_flush_stop ()">gst_event_new_flush_stop</a>            (void);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-new-eos" title="gst_event_new_eos ()">gst_event_new_eos</a>                   (void);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-new-segment" title="gst_event_new_new_segment ()">gst_event_new_new_segment</a>           (<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> update,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> start,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> stop,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> position);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-new-segment-full" title="gst_event_new_new_segment_full ()">gst_event_new_new_segment_full</a>      (<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> update,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> rate,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> applied_rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> start,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> stop,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> position);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-new-segment" title="gst_event_parse_new_segment ()">gst_event_parse_new_segment</a>         (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *update,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *start,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *stop,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *position);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-new-segment-full" title="gst_event_parse_new_segment_full ()">gst_event_parse_new_segment_full</a>    (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *update,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *rate,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *applied_rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *start,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *stop,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *position);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-tag" title="gst_event_new_tag ()">gst_event_new_tag</a>                   (<a class="link" href="gstreamer-GstTagList.html#GstTagList" title="GstTagList">GstTagList</a> *taglist);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-tag" title="gst_event_parse_tag ()">gst_event_parse_tag</a>                 (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a class="link" href="gstreamer-GstTagList.html#GstTagList" title="GstTagList">GstTagList</a> **taglist);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-new-buffer-size" title="gst_event_new_buffer_size ()">gst_event_new_buffer_size</a>           (<a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> minsize,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> maxsize,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> async);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-buffer-size" title="gst_event_parse_buffer_size ()">gst_event_parse_buffer_size</a>         (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *minsize,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *maxsize,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *async);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-qos" title="gst_event_new_qos ()">gst_event_new_qos</a>                   (<a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> proportion,
-                                                         <a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff">GstClockTimeDiff</a> diff,
-                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> timestamp);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-qos" title="gst_event_parse_qos ()">gst_event_parse_qos</a>                 (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *proportion,
-                                                         <a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff">GstClockTimeDiff</a> *diff,
-                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> *timestamp);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-copy" title="gst_event_copy ()">gst_event_copy</a>                      (const <a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-custom" title="gst_event_new_custom ()">gst_event_new_custom</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="returnvalue">GstEventType</span></a> type,
+                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> * <a class="link" href="gstreamer-GstEvent.html#gst-event-get-structure" title="gst_event_get_structure ()">gst_event_get_structure</a>            (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-GstEvent.html#gst-event-has-name" title="gst_event_has_name ()">gst_event_has_name</a>                  (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a>             <a class="link" href="gstreamer-GstEvent.html#gst-event-get-seqnum" title="gst_event_get_seqnum ()">gst_event_get_seqnum</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-set-seqnum" title="gst_event_set_seqnum ()">gst_event_set_seqnum</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> seqnum);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-new-flush-start" title="gst_event_new_flush_start ()">gst_event_new_flush_start</a>           (void);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-new-flush-stop" title="gst_event_new_flush_stop ()">gst_event_new_flush_stop</a>            (void);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-new-eos" title="gst_event_new_eos ()">gst_event_new_eos</a>                   (void);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-new-segment" title="gst_event_new_new_segment ()">gst_event_new_new_segment</a>           (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> update,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> start,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> stop,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> position);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-new-segment-full" title="gst_event_new_new_segment_full ()">gst_event_new_new_segment_full</a>      (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> update,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> rate,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> applied_rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> start,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> stop,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> position);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-new-segment" title="gst_event_parse_new_segment ()">gst_event_parse_new_segment</a>         (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *update,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *start,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *stop,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *position);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-new-segment-full" title="gst_event_parse_new_segment_full ()">gst_event_parse_new_segment_full</a>    (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *update,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *rate,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *applied_rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *start,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *stop,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *position);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-tag" title="gst_event_new_tag ()">gst_event_new_tag</a>                   (<a class="link" href="gstreamer-GstTagList.html#GstTagList" title="GstTagList"><span class="returnvalue">GstTagList</span></a> *taglist);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-tag" title="gst_event_parse_tag ()">gst_event_parse_tag</a>                 (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a class="link" href="gstreamer-GstTagList.html#GstTagList" title="GstTagList"><span class="returnvalue">GstTagList</span></a> **taglist);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          <a class="link" href="gstreamer-GstEvent.html#gst-event-new-buffer-size" title="gst_event_new_buffer_size ()">gst_event_new_buffer_size</a>           (<a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> minsize,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> maxsize,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> async);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-buffer-size" title="gst_event_parse_buffer_size ()">gst_event_parse_buffer_size</a>         (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *minsize,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *maxsize,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *async);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-qos" title="gst_event_new_qos ()">gst_event_new_qos</a>                   (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> proportion,
+                                                         <a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff"><span class="returnvalue">GstClockTimeDiff</span></a> diff,
+                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> timestamp);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-qos" title="gst_event_parse_qos ()">gst_event_parse_qos</a>                 (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *proportion,
+                                                         <a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff"><span class="returnvalue">GstClockTimeDiff</span></a> *diff,
+                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> *timestamp);
 enum                <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a>;
 enum                <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags">GstSeekFlags</a>;
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-seek" title="gst_event_new_seek ()">gst_event_new_seek</a>                  (<a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags">GstSeekFlags</a> flags,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a> start_type,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> start,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a> stop_type,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> stop);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-seek" title="gst_event_parse_seek ()">gst_event_parse_seek</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags">GstSeekFlags</a> *flags,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a> *start_type,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *start,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a> *stop_type,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *stop);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-navigation" title="gst_event_new_navigation ()">gst_event_new_navigation</a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-latency" title="gst_event_new_latency ()">gst_event_new_latency</a>               (<a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> latency);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-latency" title="gst_event_parse_latency ()">gst_event_parse_latency</a>             (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> *latency);
-<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-step" title="gst_event_new_step ()">gst_event_new_step</a>                  (<a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint64"
->guint64</a> amount,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> rate,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> flush,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> intermediate);
-void                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-step" title="gst_event_parse_step ()">gst_event_parse_step</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint64"
->guint64</a> *amount,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *rate,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *flush,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *intermediate);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-seek" title="gst_event_new_seek ()">gst_event_new_seek</a>                  (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags"><span class="returnvalue">GstSeekFlags</span></a> flags,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType"><span class="returnvalue">GstSeekType</span></a> start_type,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> start,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType"><span class="returnvalue">GstSeekType</span></a> stop_type,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> stop);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-seek" title="gst_event_parse_seek ()">gst_event_parse_seek</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags"><span class="returnvalue">GstSeekFlags</span></a> *flags,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType"><span class="returnvalue">GstSeekType</span></a> *start_type,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *start,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType"><span class="returnvalue">GstSeekType</span></a> *stop_type,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *stop);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-navigation" title="gst_event_new_navigation ()">gst_event_new_navigation</a>            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-latency" title="gst_event_new_latency ()">gst_event_new_latency</a>               (<a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> latency);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-latency" title="gst_event_parse_latency ()">gst_event_parse_latency</a>             (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> *latency);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-step" title="gst_event_new_step ()">gst_event_new_step</a>                  (<a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a> amount,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> rate,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> flush,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> intermediate);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-step" title="gst_event_parse_step ()">gst_event_parse_step</a>                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a> *amount,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *rate,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *flush,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *intermediate);
+<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           <a class="link" href="gstreamer-GstEvent.html#gst-event-new-sink-message" title="gst_event_new_sink_message ()">gst_event_new_sink_message</a>          (<span class="returnvalue">struct _GstMessage</span> *msg);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-sink-message" title="gst_event_parse_sink_message ()">gst_event_parse_sink_message</a>        (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <span class="returnvalue">struct _GstMessage</span> **msg);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gstreamer-GstEvent.description"></a><h2>Description</h2>
 <p>
 The event class provides factory methods to construct and functions query
@@ -275,9 +178,7 @@ The event should be unreffed with <a class="link" href="gstreamer-GstEvent.html#
 </p>
 <p>
 Events that have been received can be parsed with their respective 
-gst_event_parse_*() functions. It is valid to pass <a
-href="../glib/glib-Standard-Macros.html#NULL--CAPS"
-><code class="literal">NULL</code></a> for unwanted details.
+gst_event_parse_*() functions. It is valid to pass <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> for unwanted details.
 </p>
 <p>
 Events are passed between elements in parallel to the data stream. Some events
@@ -296,35 +197,55 @@ To do that <a class="link" href="gstreamer-GstEvent.html#gst-event-new-seek" tit
 the needed parameters to specity seeking time and mode.
 </p>
 <div class="example">
-<a name="id2978498"></a><p class="title"><b>Example 11. performing a seek on a pipeline</b></p>
-<div class="example-contents"><pre class="programlisting">
-  GstEvent *event;
-  gboolean result;
-  ...
-  // construct a seek event to play the media from second 2 to 5, flush
-  // the pipeline to decrease latency.
-  event = gst_event_new_seek (1.0, 
-     GST_FORMAT_TIME, 
-     GST_SEEK_FLAG_FLUSH,
-     GST_SEEK_TYPE_SET, 2 * GST_SECOND,
-     GST_SEEK_TYPE_SET, 5 * GST_SECOND);
-  ...
-  result = gst_element_send_event (pipeline, event);
-  if (!result)
-    g_warning ("seek failed");
-  ...
-  </pre></div>
+<a name="id496656"></a><p class="title"><b>Example 11. performing a seek on a pipeline</b></p>
+<div class="example-contents">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15</pre></td>
+        <td class="listing_code"><pre class="programlisting">GstEvent <span class="symbol">*</span>event<span class="symbol">;</span>
+gboolean result<span class="symbol">;</span>
+<span class="symbol">...</span>
+<span class="gtkdoc slc">// construct a seek event to play the media from second 2 to 5, flush</span>
+<span class="gtkdoc slc">// the pipeline to decrease latency.</span>
+event <span class="symbol">=</span> <span class="function"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstEvent.html#gst-event-new-seek">gst_event_new_seek</a></span> <span class="symbol">(</span><span class="number">1.0</span><span class="symbol">,</span>
+   GST_FORMAT_TIME<span class="symbol">,</span>
+   GST_SEEK_FLAG_FLUSH<span class="symbol">,</span>
+   GST_SEEK_TYPE_SET<span class="symbol">,</span> <span class="number">2</span> <span class="symbol">*</span> GST_SECOND<span class="symbol">,</span>
+   GST_SEEK_TYPE_SET<span class="symbol">,</span> <span class="number">5</span> <span class="symbol">*</span> GST_SECOND<span class="symbol">);</span>
+<span class="symbol">...</span>
+result <span class="symbol">=</span> <span class="function"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html#gst-element-send-event">gst_element_send_event</a></span> <span class="symbol">(</span>pipeline<span class="symbol">,</span> event<span class="symbol">);</span>
+<span class="keyword">if</span> <span class="symbol">(!</span>result<span class="symbol">)</span>
+  <span class="function"><a href="/usr/share/gtk-doc/html/glib/glib-Message-Logging.html#g-warning">g_warning</a></span> <span class="symbol">(</span><span class="string">&quot;seek failed&quot;</span><span class="symbol">);</span>
+<span class="symbol">...</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 </div>
 <p><br class="example-break">
 </p>
 <p>
 Last reviewed on 2006-09-6 (0.10.10)</p>
-<p>
-</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gstreamer-GstEvent.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstEvent">
 <a name="GstEvent"></a><h3>GstEvent</h3>
 <pre class="programlisting">typedef struct {
   GstMiniObject mini_object;
@@ -338,35 +259,31 @@ Last reviewed on 2006-09-6 (0.10.10)</p>
 </pre>
 <p>
 A <a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="type">GstEvent</span></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><a class="link" href="gstreamer-GstMiniObject.html#GstMiniObject" title="GstMiniObject">GstMiniObject</a> <em class="structfield"><code>mini_object</code></em>;</span></p></td>
+<td><p><span class="term"><a class="link" href="gstreamer-GstMiniObject.html#GstMiniObject" title="GstMiniObject"><span class="type">GstMiniObject</span></a> <em class="structfield"><code><a name="GstEvent.mini-object"></a>mini_object</code></em>;</span></p></td>
 <td> the parent structure
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> <em class="structfield"><code>type</code></em>;</span></p></td>
+<td><p><span class="term"><a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="type">GstEventType</span></a> <em class="structfield"><code><a name="GstEvent.type"></a>type</code></em>;</span></p></td>
 <td> the <a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="type">GstEventType</span></a> of the event
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#guint64"
->guint64</a> <em class="structfield"><code>timestamp</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="type">guint64</span></a> <em class="structfield"><code><a name="GstEvent.timestamp"></a>timestamp</code></em>;</span></p></td>
 <td> the timestamp of the event
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a class="link" href="GstObject.html" title="GstObject">GstObject</a> *<em class="structfield"><code>src</code></em>;</span></p></td>
+<td><p><span class="term"><a class="link" href="GstObject.html" title="GstObject"><span class="type">GstObject</span></a> *<em class="structfield"><code><a name="GstEvent.src"></a>src</code></em>;</span></p></td>
 <td> the src of the event
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *<em class="structfield"><code>structure</code></em>;</span></p></td>
+<td><p><span class="term"><a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> *<em class="structfield"><code><a name="GstEvent.structure"></a>structure</code></em>;</span></p></td>
 <td> the <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a> containing the event info.
 </td>
 </tr>
@@ -374,7 +291,7 @@ href="../glib/glib-Basic-Types.html#guint64"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstEventTypeFlags">
 <a name="GstEventTypeFlags"></a><h3>enum GstEventTypeFlags</h3>
 <pre class="programlisting">typedef enum {
   GST_EVENT_TYPE_UPSTREAM       = 1 &lt;&lt; 0,
@@ -386,23 +303,21 @@ href="../glib/glib-Basic-Types.html#guint64"
 <a class="link" href="gstreamer-GstEvent.html#GstEventTypeFlags" title="enum GstEventTypeFlags"><span class="type">GstEventTypeFlags</span></a> indicate the aspects of the different <a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="type">GstEventType</span></a>
 values. You can get the type flags of a <a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="type">GstEventType</span></a> with the
 <a class="link" href="gstreamer-GstEvent.html#gst-event-type-get-flags" title="gst_event_type_get_flags ()"><code class="function">gst_event_type_get_flags()</code></a> function.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-EVENT-TYPE-UPSTREAM--CAPS"></a><span class="term"><code class="literal">GST_EVENT_TYPE_UPSTREAM</code></span></p></td>
+<td><p><a name="GST-EVENT-TYPE-UPSTREAM:CAPS"></a><span class="term"><code class="literal">GST_EVENT_TYPE_UPSTREAM</code></span></p></td>
 <td>   Set if the event can travel upstream.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-TYPE-DOWNSTREAM--CAPS"></a><span class="term"><code class="literal">GST_EVENT_TYPE_DOWNSTREAM</code></span></p></td>
+<td><p><a name="GST-EVENT-TYPE-DOWNSTREAM:CAPS"></a><span class="term"><code class="literal">GST_EVENT_TYPE_DOWNSTREAM</code></span></p></td>
 <td> Set if the event can travel downstream.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-TYPE-SERIALIZED--CAPS"></a><span class="term"><code class="literal">GST_EVENT_TYPE_SERIALIZED</code></span></p></td>
+<td><p><a name="GST-EVENT-TYPE-SERIALIZED:CAPS"></a><span class="term"><code class="literal">GST_EVENT_TYPE_SERIALIZED</code></span></p></td>
 <td> Set if the event should be serialized with data
                             flow.
 </td>
@@ -411,23 +326,19 @@ values. You can get the type flags of a <a class="link" href="gstreamer-GstEvent
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-TYPE-BOTH--CAPS"></a><h3>GST_EVENT_TYPE_BOTH</h3>
+<div class="refsect2" title="GST_EVENT_TYPE_BOTH">
+<a name="GST-EVENT-TYPE-BOTH:CAPS"></a><h3>GST_EVENT_TYPE_BOTH</h3>
 <pre class="programlisting">#define             GST_EVENT_TYPE_BOTH</pre>
 <p>
-The same thing as <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE-UPSTREAM--CAPS"><span class="type">GST_EVENT_TYPE_UPSTREAM</span></a> | <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE-DOWNSTREAM--CAPS"><span class="type">GST_EVENT_TYPE_DOWNSTREAM</span></a>.</p>
-<p>
-</p>
+The same thing as <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE-UPSTREAM:CAPS"><span class="type">GST_EVENT_TYPE_UPSTREAM</span></a> | <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-TYPE-DOWNSTREAM:CAPS"><span class="type">GST_EVENT_TYPE_DOWNSTREAM</span></a>.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-MAKE-TYPE--CAPS"></a><h3>GST_EVENT_MAKE_TYPE()</h3>
+<div class="refsect2" title="GST_EVENT_MAKE_TYPE()">
+<a name="GST-EVENT-MAKE-TYPE:CAPS"></a><h3>GST_EVENT_MAKE_TYPE()</h3>
 <pre class="programlisting">#define             GST_EVENT_MAKE_TYPE(num,flags)</pre>
 <p>
 when making custom event types, use this macro with the num and
 the given flags</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -445,7 +356,7 @@ the given flags</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstEventType">
 <a name="GstEventType"></a><h3>enum GstEventType</h3>
 <pre class="programlisting">typedef enum {
   GST_EVENT_UNKNOWN               = GST_EVENT_MAKE_TYPE (0, 0),
@@ -457,6 +368,7 @@ the given flags</p>
   GST_EVENT_NEWSEGMENT            = GST_EVENT_MAKE_TYPE (6, FLAG(DOWNSTREAM) | FLAG(SERIALIZED)),
   GST_EVENT_TAG                   = GST_EVENT_MAKE_TYPE (7, FLAG(DOWNSTREAM) | FLAG(SERIALIZED)),
   GST_EVENT_BUFFERSIZE            = GST_EVENT_MAKE_TYPE (8, FLAG(DOWNSTREAM) | FLAG(SERIALIZED)),
+  GST_EVENT_SINK_MESSAGE          = GST_EVENT_MAKE_TYPE (9, FLAG(DOWNSTREAM) | FLAG(SERIALIZED)),
   /* upstream events */
   GST_EVENT_QOS                   = GST_EVENT_MAKE_TYPE (15, FLAG(UPSTREAM)),
   GST_EVENT_SEEK                  = GST_EVENT_MAKE_TYPE (16, FLAG(UPSTREAM)),
@@ -481,100 +393,105 @@ that can't be expressed using normal
 GStreamer buffer passing semantics. Custom events carry an arbitrary
 <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="type">GstStructure</span></a>.
 Specific custom events are distinguished by the name of the structure.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-EVENT-UNKNOWN--CAPS"></a><span class="term"><code class="literal">GST_EVENT_UNKNOWN</code></span></p></td>
+<td><p><a name="GST-EVENT-UNKNOWN:CAPS"></a><span class="term"><code class="literal">GST_EVENT_UNKNOWN</code></span></p></td>
 <td> unknown event.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-FLUSH-START--CAPS"></a><span class="term"><code class="literal">GST_EVENT_FLUSH_START</code></span></p></td>
+<td><p><a name="GST-EVENT-FLUSH-START:CAPS"></a><span class="term"><code class="literal">GST_EVENT_FLUSH_START</code></span></p></td>
 <td> Start a flush operation
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-FLUSH-STOP--CAPS"></a><span class="term"><code class="literal">GST_EVENT_FLUSH_STOP</code></span></p></td>
+<td><p><a name="GST-EVENT-FLUSH-STOP:CAPS"></a><span class="term"><code class="literal">GST_EVENT_FLUSH_STOP</code></span></p></td>
 <td> Stop a flush operation
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-EOS--CAPS"></a><span class="term"><code class="literal">GST_EVENT_EOS</code></span></p></td>
+<td><p><a name="GST-EVENT-EOS:CAPS"></a><span class="term"><code class="literal">GST_EVENT_EOS</code></span></p></td>
 <td> End-Of-Stream. No more data is to be expected to follow
                 without a NEWSEGMENT event.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-NEWSEGMENT--CAPS"></a><span class="term"><code class="literal">GST_EVENT_NEWSEGMENT</code></span></p></td>
+<td><p><a name="GST-EVENT-NEWSEGMENT:CAPS"></a><span class="term"><code class="literal">GST_EVENT_NEWSEGMENT</code></span></p></td>
 <td> A new media segment follows in the dataflow.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-TAG--CAPS"></a><span class="term"><code class="literal">GST_EVENT_TAG</code></span></p></td>
+<td><p><a name="GST-EVENT-TAG:CAPS"></a><span class="term"><code class="literal">GST_EVENT_TAG</code></span></p></td>
 <td> A new set of metadata tags has been found in the stream.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-BUFFERSIZE--CAPS"></a><span class="term"><code class="literal">GST_EVENT_BUFFERSIZE</code></span></p></td>
+<td><p><a name="GST-EVENT-BUFFERSIZE:CAPS"></a><span class="term"><code class="literal">GST_EVENT_BUFFERSIZE</code></span></p></td>
 <td> Notification of buffering requirements
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-QOS--CAPS"></a><span class="term"><code class="literal">GST_EVENT_QOS</code></span></p></td>
+<td><p><a name="GST-EVENT-SINK-MESSAGE:CAPS"></a><span class="term"><code class="literal">GST_EVENT_SINK_MESSAGE</code></span></p></td>
+<td> An event that sinks turn into a message. Used to
+                         send messages that should be emitted in sync with
+                         rendering.
+</td>
+</tr>
+<tr>
+<td><p><a name="GST-EVENT-QOS:CAPS"></a><span class="term"><code class="literal">GST_EVENT_QOS</code></span></p></td>
 <td> A quality message. Used to indicate to upstream elements
                 that the downstream elements are being starved of or
                 flooded with data.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-SEEK--CAPS"></a><span class="term"><code class="literal">GST_EVENT_SEEK</code></span></p></td>
+<td><p><a name="GST-EVENT-SEEK:CAPS"></a><span class="term"><code class="literal">GST_EVENT_SEEK</code></span></p></td>
 <td> A request for a new playback position and rate.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-NAVIGATION--CAPS"></a><span class="term"><code class="literal">GST_EVENT_NAVIGATION</code></span></p></td>
+<td><p><a name="GST-EVENT-NAVIGATION:CAPS"></a><span class="term"><code class="literal">GST_EVENT_NAVIGATION</code></span></p></td>
 <td> Navigation events are usually used for communicating
                        user requests, such as mouse or keyboard movements,
                        to upstream elements.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-LATENCY--CAPS"></a><span class="term"><code class="literal">GST_EVENT_LATENCY</code></span></p></td>
+<td><p><a name="GST-EVENT-LATENCY:CAPS"></a><span class="term"><code class="literal">GST_EVENT_LATENCY</code></span></p></td>
 <td> Notification of new latency adjustment. Since: 0.10.12
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-STEP--CAPS"></a><span class="term"><code class="literal">GST_EVENT_STEP</code></span></p></td>
+<td><p><a name="GST-EVENT-STEP:CAPS"></a><span class="term"><code class="literal">GST_EVENT_STEP</code></span></p></td>
 <td> A request for stepping through the media. Since: 0.10.24
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-CUSTOM-UPSTREAM--CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_UPSTREAM</code></span></p></td>
+<td><p><a name="GST-EVENT-CUSTOM-UPSTREAM:CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_UPSTREAM</code></span></p></td>
 <td> Upstream custom event
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-CUSTOM-DOWNSTREAM--CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_DOWNSTREAM</code></span></p></td>
+<td><p><a name="GST-EVENT-CUSTOM-DOWNSTREAM:CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_DOWNSTREAM</code></span></p></td>
 <td> Downstream custom event that travels in the
                        data flow.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-CUSTOM-DOWNSTREAM-OOB--CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_DOWNSTREAM_OOB</code></span></p></td>
+<td><p><a name="GST-EVENT-CUSTOM-DOWNSTREAM-OOB:CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_DOWNSTREAM_OOB</code></span></p></td>
 <td> Custom out-of-band downstream event.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-CUSTOM-BOTH--CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_BOTH</code></span></p></td>
+<td><p><a name="GST-EVENT-CUSTOM-BOTH:CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_BOTH</code></span></p></td>
 <td> Custom upstream or downstream event.
                         In-band when travelling downstream.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-EVENT-CUSTOM-BOTH-OOB--CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_BOTH_OOB</code></span></p></td>
+<td><p><a name="GST-EVENT-CUSTOM-BOTH-OOB:CAPS"></a><span class="term"><code class="literal">GST_EVENT_CUSTOM_BOTH_OOB</code></span></p></td>
 <td> Custom upstream or downstream out-of-band event.
 </td>
 </tr>
@@ -582,24 +499,20 @@ Specific custom events are distinguished by the name of the structure.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-TRACE-NAME--CAPS"></a><h3>GST_EVENT_TRACE_NAME</h3>
+<div class="refsect2" title="GST_EVENT_TRACE_NAME">
+<a name="GST-EVENT-TRACE-NAME:CAPS"></a><h3>GST_EVENT_TRACE_NAME</h3>
 <pre class="programlisting">#define GST_EVENT_TRACE_NAME    "GstEvent"
 </pre>
 <p>
 The name used for memory allocation tracing</p>
-<p>
-</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-TYPE--CAPS"></a><h3>GST_EVENT_TYPE()</h3>
+<div class="refsect2" title="GST_EVENT_TYPE()">
+<a name="GST-EVENT-TYPE:CAPS"></a><h3>GST_EVENT_TYPE()</h3>
 <pre class="programlisting">#define GST_EVENT_TYPE(event)           (GST_EVENT_CAST(event)-&gt;type)
 </pre>
 <p>
 Get the <a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="type">GstEventType</span></a> of the event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -610,14 +523,12 @@ Get the <a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum 
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-TYPE-NAME--CAPS"></a><h3>GST_EVENT_TYPE_NAME()</h3>
+<div class="refsect2" title="GST_EVENT_TYPE_NAME()">
+<a name="GST-EVENT-TYPE-NAME:CAPS"></a><h3>GST_EVENT_TYPE_NAME()</h3>
 <pre class="programlisting">#define GST_EVENT_TYPE_NAME(event)      (gst_event_type_get_name(GST_EVENT_TYPE(event)))
 </pre>
 <p>
 Get a constant string representation of the <a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="type">GstEventType</span></a> of the event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -628,15 +539,13 @@ Get a constant string representation of the <a class="link" href="gstreamer-GstE
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-TIMESTAMP--CAPS"></a><h3>GST_EVENT_TIMESTAMP()</h3>
+<div class="refsect2" title="GST_EVENT_TIMESTAMP()">
+<a name="GST-EVENT-TIMESTAMP:CAPS"></a><h3>GST_EVENT_TIMESTAMP()</h3>
 <pre class="programlisting">#define GST_EVENT_TIMESTAMP(event)      (GST_EVENT_CAST(event)-&gt;timestamp)
 </pre>
 <p>
 Get the <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="type">GstClockTime</span></a> timestamp of the event. This is the time when the event
 was created.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -647,14 +556,12 @@ was created.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-SRC--CAPS"></a><h3>GST_EVENT_SRC()</h3>
+<div class="refsect2" title="GST_EVENT_SRC()">
+<a name="GST-EVENT-SRC:CAPS"></a><h3>GST_EVENT_SRC()</h3>
 <pre class="programlisting">#define GST_EVENT_SRC(event)            (GST_EVENT_CAST(event)-&gt;src)
 </pre>
 <p>
 The source <a class="link" href="GstObject.html" title="GstObject"><span class="type">GstObject</span></a> that generated this event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -665,14 +572,12 @@ The source <a class="link" href="GstObject.html" title="GstObject"><span class="
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-IS-UPSTREAM--CAPS"></a><h3>GST_EVENT_IS_UPSTREAM()</h3>
+<div class="refsect2" title="GST_EVENT_IS_UPSTREAM()">
+<a name="GST-EVENT-IS-UPSTREAM:CAPS"></a><h3>GST_EVENT_IS_UPSTREAM()</h3>
 <pre class="programlisting">#define GST_EVENT_IS_UPSTREAM(ev)       !!(GST_EVENT_TYPE (ev) &amp; GST_EVENT_TYPE_UPSTREAM)
 </pre>
 <p>
 Check if an event can travel upstream.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -683,14 +588,12 @@ Check if an event can travel upstream.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-IS-DOWNSTREAM--CAPS"></a><h3>GST_EVENT_IS_DOWNSTREAM()</h3>
+<div class="refsect2" title="GST_EVENT_IS_DOWNSTREAM()">
+<a name="GST-EVENT-IS-DOWNSTREAM:CAPS"></a><h3>GST_EVENT_IS_DOWNSTREAM()</h3>
 <pre class="programlisting">#define GST_EVENT_IS_DOWNSTREAM(ev)     !!(GST_EVENT_TYPE (ev) &amp; GST_EVENT_TYPE_DOWNSTREAM)
 </pre>
 <p>
 Check if an event can travel downstream.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -701,14 +604,12 @@ Check if an event can travel downstream.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-EVENT-IS-SERIALIZED--CAPS"></a><h3>GST_EVENT_IS_SERIALIZED()</h3>
+<div class="refsect2" title="GST_EVENT_IS_SERIALIZED()">
+<a name="GST-EVENT-IS-SERIALIZED:CAPS"></a><h3>GST_EVENT_IS_SERIALIZED()</h3>
 <pre class="programlisting">#define GST_EVENT_IS_SERIALIZED(ev)     !!(GST_EVENT_TYPE (ev) &amp; GST_EVENT_TYPE_SERIALIZED)
 </pre>
 <p>
 Check if an event is serialized with the data stream.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -719,13 +620,11 @@ Check if an event is serialized with the data stream.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_type_get_flags ()">
 <a name="gst-event-type-get-flags"></a><h3>gst_event_type_get_flags ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEventTypeFlags" title="enum GstEventTypeFlags">GstEventTypeFlags</a>   gst_event_type_get_flags            (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> type);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEventTypeFlags" title="enum GstEventTypeFlags"><span class="returnvalue">GstEventTypeFlags</span></a>   gst_event_type_get_flags            (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="returnvalue">GstEventType</span></a> type);</pre>
 <p>
 Gets the <a class="link" href="gstreamer-GstEvent.html#GstEventTypeFlags" title="enum GstEventTypeFlags"><span class="type">GstEventTypeFlags</span></a> associated with <em class="parameter"><code>type</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -743,15 +642,11 @@ Gets the <a class="link" href="gstreamer-GstEvent.html#GstEventTypeFlags" title=
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_type_get_name ()">
 <a name="gst-event-type-get-name"></a><h3>gst_event_type_get_name ()</h3>
-<pre class="programlisting">const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a>*        gst_event_type_get_name             (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> type);</pre>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a>*        gst_event_type_get_name             (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="returnvalue">GstEventType</span></a> type);</pre>
 <p>
 Get a printable name for the given event type. Do not modify or free.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -769,15 +664,11 @@ Get a printable name for the given event type. Do not modify or free.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_type_to_quark ()">
 <a name="gst-event-type-to-quark"></a><h3>gst_event_type_to_quark ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Quarks.html#GQuark"
->GQuark</a>              gst_event_type_to_quark             (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> type);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>              gst_event_type_to_quark             (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="returnvalue">GstEventType</span></a> type);</pre>
 <p>
 Get the unique quark for the given event type.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -795,13 +686,11 @@ Get the unique quark for the given event type.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_ref ()">
 <a name="gst-event-ref"></a><h3>gst_event_ref ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          gst_event_ref                       (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          gst_event_ref                       (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);</pre>
 <p>
 Increase the refcount of this event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -819,13 +708,11 @@ Increase the refcount of this event.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_unref ()">
 <a name="gst-event-unref"></a><h3>gst_event_unref ()</h3>
-<pre class="programlisting">void                gst_event_unref                     (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_unref                     (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);</pre>
 <p>
 Decrease the refcount of an event, freeing it if the refcount reaches 0.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -836,7 +723,7 @@ Decrease the refcount of an event, freeing it if the refcount reaches 0.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_replace()">
 <a name="gst-event-replace"></a><h3>gst_event_replace()</h3>
 <pre class="programlisting">#define             gst_event_replace(old_event,new_event)</pre>
 <p>
@@ -847,8 +734,6 @@ event is unreffed, the new one is reffed).
 </p>
 <p>
 Either <em class="parameter"><code>new_event</code></em> or the <a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="type">GstEvent</span></a> pointed to by <em class="parameter"><code>old_event</code></em> may be NULL.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -868,42 +753,45 @@ Either <em class="parameter"><code>new_event</code></em> or the <a class="link" 
 <p class="since">Since 0.10.3</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_copy ()">
 <a name="gst-event-copy"></a><h3>gst_event_copy ()</h3>
-<pre class="programlisting">void                gst_event_copy                      (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          gst_event_copy                      (const <a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);</pre>
 <p>
 Copy the event using the event specific copy function.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody><tr>
+<tbody>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>event</code></em> :</span></p></td>
 <td> The event to copy
 </td>
-</tr></tbody>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the new event
+</td>
+</tr>
+</tbody>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_custom ()">
 <a name="gst-event-new-custom"></a><h3>gst_event_new_custom ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_custom                (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType">GstEventType</a> type,
-                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_custom                (<a class="link" href="gstreamer-GstEvent.html#GstEventType" title="enum GstEventType"><span class="returnvalue">GstEventType</span></a> type,
+                                                         <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Create a new custom-typed event. This can be used for anything not
 handled by other event-specific functions to pass an event to another
 element.
 </p>
 <p>
-Make sure to allocate an event type with the <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-MAKE-TYPE--CAPS" title="GST_EVENT_MAKE_TYPE()"><span class="type">GST_EVENT_MAKE_TYPE</span></a> macro,
+Make sure to allocate an event type with the <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-MAKE-TYPE:CAPS" title="GST_EVENT_MAKE_TYPE()"><span class="type">GST_EVENT_MAKE_TYPE</span></a> macro,
 assigning a free number and filling in the correct direction and
 serialization flags.
 </p>
 <p>
 New custom events can also be created by subclassing the event type if
 needed.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -927,13 +815,11 @@ the structure.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_get_structure ()">
 <a name="gst-event-get-structure"></a><h3>gst_event_get_structure ()</h3>
-<pre class="programlisting">const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> * gst_event_get_structure            (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);</pre>
+<pre class="programlisting">const <a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> * gst_event_get_structure            (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);</pre>
 <p>
 Access the structure of the event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -955,19 +841,13 @@ MT safe.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_has_name ()">
 <a name="gst-event-has-name"></a><h3>gst_event_has_name ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_event_has_name                  (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_event_has_name                  (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);</pre>
 <p>
 Checks if <em class="parameter"><code>event</code></em> has the given <em class="parameter"><code>name</code></em>. This function is usually used to
 check the name of a custom event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -983,9 +863,7 @@ check the name of a custom event.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> if <em class="parameter"><code>name</code></em> matches the name of the event structure.
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if <em class="parameter"><code>name</code></em> matches the name of the event structure.
 
 </td>
 </tr>
@@ -994,11 +872,9 @@ href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 <p class="since">Since 0.10.20</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_get_seqnum ()">
 <a name="gst-event-get-seqnum"></a><h3>gst_event_get_seqnum ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#guint32"
->guint32</a>             gst_event_get_seqnum                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a>             gst_event_get_seqnum                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event);</pre>
 <p>
 Retrieve the sequence number of a event.
 </p>
@@ -1014,8 +890,6 @@ required.
 Note that events and messages share the same sequence number incrementor;
 two events or messages will never not have the same sequence number unless
 that correspondence was made explicitly.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1037,12 +911,10 @@ MT safe.
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_set_seqnum ()">
 <a name="gst-event-set-seqnum"></a><h3>gst_event_set_seqnum ()</h3>
-<pre class="programlisting">void                gst_event_set_seqnum                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint32"
->guint32</a> seqnum);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_set_seqnum                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> seqnum);</pre>
 <p>
 Set the sequence number of a event.
 </p>
@@ -1053,8 +925,6 @@ more information.
 </p>
 <p>
 MT safe.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1073,21 +943,19 @@ MT safe.</p>
 <p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_flush_start ()">
 <a name="gst-event-new-flush-start"></a><h3>gst_event_new_flush_start ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          gst_event_new_flush_start           (void);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          gst_event_new_flush_start           (void);</pre>
 <p>
 Allocate a new flush start event. The flush start event can be sent
 upstream and downstream and travels out-of-bounds with the dataflow.
 </p>
 <p>
 It marks pads as being flushing and will make them return
-<a class="link" href="GstPad.html#GST-FLOW-WRONG-STATE--CAPS"><span class="type">GST_FLOW_WRONG_STATE</span></a> when used for data flow with <a class="link" href="GstPad.html#gst-pad-push" title="gst_pad_push ()"><code class="function">gst_pad_push()</code></a>,
+<a class="link" href="GstPad.html#GST-FLOW-WRONG-STATE:CAPS"><span class="type">GST_FLOW_WRONG_STATE</span></a> when used for data flow with <a class="link" href="GstPad.html#gst-pad-push" title="gst_pad_push ()"><code class="function">gst_pad_push()</code></a>,
 <a class="link" href="GstPad.html#gst-pad-chain" title="gst_pad_chain ()"><code class="function">gst_pad_chain()</code></a>, <a class="link" href="GstPad.html#gst-pad-alloc-buffer" title="gst_pad_alloc_buffer ()"><code class="function">gst_pad_alloc_buffer()</code></a>, <a class="link" href="GstPad.html#gst-pad-get-range" title="gst_pad_get_range ()"><code class="function">gst_pad_get_range()</code></a> and
-<a class="link" href="GstPad.html#gst-pad-pull-range" title="gst_pad_pull_range ()"><code class="function">gst_pad_pull_range()</code></a>. Any event (except a <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-FLUSH-STOP--CAPS"><span class="type">GST_EVENT_FLUSH_STOP</span></a>) received
-on a flushing pad will return <a
-href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
-><code class="literal">FALSE</code></a> immediately.
+<a class="link" href="GstPad.html#gst-pad-pull-range" title="gst_pad_pull_range ()"><code class="function">gst_pad_pull_range()</code></a>. Any event (except a <a class="link" href="gstreamer-GstEvent.html#GST-EVENT-FLUSH-STOP:CAPS"><span class="type">GST_EVENT_FLUSH_STOP</span></a>) received
+on a flushing pad will return <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> immediately.
 </p>
 <p>
 Elements should unlock any blocking functions and exit their streaming
@@ -1096,8 +964,6 @@ functions as fast as possible when this event is received.
 <p>
 This event is typically generated after a seek to flush out all queued data
 in the pipeline so that the new media is played as soon as possible.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -1108,12 +974,12 @@ in the pipeline so that the new media is played as soon as possible.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_flush_stop ()">
 <a name="gst-event-new-flush-stop"></a><h3>gst_event_new_flush_stop ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          gst_event_new_flush_stop            (void);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          gst_event_new_flush_stop            (void);</pre>
 <p>
 Allocate a new flush stop event. The flush stop event can be sent
-upstream and downstream and travels out-of-bounds with the dataflow.
+upstream and downstream and travels serialized with the dataflow.
 It is typically sent after sending a FLUSH_START event to make the
 pads accept data again.
 </p>
@@ -1124,8 +990,6 @@ the preceeding FLUSH_START event stopped the dataflow.
 <p>
 This event is typically generated to complete a seek and to resume
 dataflow.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -1136,25 +1000,23 @@ dataflow.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_eos ()">
 <a name="gst-event-new-eos"></a><h3>gst_event_new_eos ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          gst_event_new_eos                   (void);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          gst_event_new_eos                   (void);</pre>
 <p>
 Create a new EOS event. The eos event can only travel downstream
 synchronized with the buffer flow. Elements that receive the EOS
-event on a pad can return <a class="link" href="GstPad.html#GST-FLOW-UNEXPECTED--CAPS"><span class="type">GST_FLOW_UNEXPECTED</span></a> as a <a class="link" href="GstPad.html#GstFlowReturn" title="enum GstFlowReturn"><span class="type">GstFlowReturn</span></a>
+event on a pad can return <a class="link" href="GstPad.html#GST-FLOW-UNEXPECTED:CAPS"><span class="type">GST_FLOW_UNEXPECTED</span></a> as a <a class="link" href="GstPad.html#GstFlowReturn" title="enum GstFlowReturn"><span class="type">GstFlowReturn</span></a>
 when data after the EOS event arrives.
 </p>
 <p>
 The EOS event will travel down to the sink elements in the pipeline
-which will then post the <a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-EOS--CAPS"><span class="type">GST_MESSAGE_EOS</span></a> on the bus after they have
+which will then post the <a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-EOS:CAPS"><span class="type">GST_MESSAGE_EOS</span></a> on the bus after they have
 finished playing any buffered data.
 </p>
 <p>
 When all sinks have posted an EOS message, an EOS message is
 forwarded to the application.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -1165,32 +1027,20 @@ forwarded to the application.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_new_segment ()">
 <a name="gst-event-new-new-segment"></a><h3>gst_event_new_new_segment ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_new_segment           (<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> update,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> start,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> stop,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> position);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_new_segment           (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> update,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> start,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> stop,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> position);</pre>
 <p>
 Allocate a new newsegment event with the given format/values tripplets
 </p>
 <p>
 This method calls <a class="link" href="gstreamer-GstEvent.html#gst-event-new-new-segment-full" title="gst_event_new_new_segment_full ()"><code class="function">gst_event_new_new_segment_full()</code></a> passing a default
 value of 1.0 for applied_rate</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1233,27 +1083,15 @@ value of 1.0 for applied_rate</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_new_segment_full ()">
 <a name="gst-event-new-new-segment-full"></a><h3>gst_event_new_new_segment_full ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_new_segment_full      (<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> update,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> rate,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> applied_rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> start,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> stop,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> position);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_new_segment_full      (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> update,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> rate,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> applied_rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> start,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> stop,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> position);</pre>
 <p>
 Allocate a new newsegment event with the given format/values triplets.
 </p>
@@ -1290,8 +1128,6 @@ After a newsegment event, the buffer stream time is calculated with:
 </p>
 <p>
   position + (TIMESTAMP(buf) - start) * ABS (rate * applied_rate)</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1341,33 +1177,21 @@ After a newsegment event, the buffer stream time is calculated with:
 <p class="since">Since 0.10.6</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_parse_new_segment ()">
 <a name="gst-event-parse-new-segment"></a><h3>gst_event_parse_new_segment ()</h3>
-<pre class="programlisting">void                gst_event_parse_new_segment         (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *update,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *start,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *stop,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *position);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_new_segment         (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *update,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *start,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *stop,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *position);</pre>
 <p>
 Get the update flag, rate, format, start, stop and position in the 
 newsegment event. In general, <a class="link" href="gstreamer-GstEvent.html#gst-event-parse-new-segment-full" title="gst_event_parse_new_segment_full ()"><code class="function">gst_event_parse_new_segment_full()</code></a> should
 be used instead of this, to also retrieve the applied_rate value of the
 segment. See <a class="link" href="gstreamer-GstEvent.html#gst-event-new-new-segment-full" title="gst_event_new_new_segment_full ()"><code class="function">gst_event_new_new_segment_full()</code></a> for a full description 
 of the newsegment event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1410,34 +1234,20 @@ of the newsegment event.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_parse_new_segment_full ()">
 <a name="gst-event-parse-new-segment-full"></a><h3>gst_event_parse_new_segment_full ()</h3>
-<pre class="programlisting">void                gst_event_parse_new_segment_full    (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *update,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *rate,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *applied_rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *start,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *stop,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *position);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_new_segment_full    (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *update,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *rate,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *applied_rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *start,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *stop,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *position);</pre>
 <p>
 Get the update, rate, applied_rate, format, start, stop and 
 position in the newsegment event. See <a class="link" href="gstreamer-GstEvent.html#gst-event-new-new-segment-full" title="gst_event_new_new_segment_full ()"><code class="function">gst_event_new_new_segment_full()</code></a> 
 for a full description of the newsegment event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1486,13 +1296,11 @@ for a full description of the newsegment event.</p>
 <p class="since">Since 0.10.6</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_tag ()">
 <a name="gst-event-new-tag"></a><h3>gst_event_new_tag ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_tag                   (<a class="link" href="gstreamer-GstTagList.html#GstTagList" title="GstTagList">GstTagList</a> *taglist);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_tag                   (<a class="link" href="gstreamer-GstTagList.html#GstTagList" title="GstTagList"><span class="returnvalue">GstTagList</span></a> *taglist);</pre>
 <p>
 Generates a metadata tag event from the given <em class="parameter"><code>taglist</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1510,14 +1318,12 @@ Generates a metadata tag event from the given <em class="parameter"><code>taglis
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_parse_tag ()">
 <a name="gst-event-parse-tag"></a><h3>gst_event_parse_tag ()</h3>
-<pre class="programlisting">void                gst_event_parse_tag                 (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a class="link" href="gstreamer-GstTagList.html#GstTagList" title="GstTagList">GstTagList</a> **taglist);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_tag                 (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a class="link" href="gstreamer-GstTagList.html#GstTagList" title="GstTagList"><span class="returnvalue">GstTagList</span></a> **taglist);</pre>
 <p>
 Parses a tag <em class="parameter"><code>event</code></em> and stores the results in the given <em class="parameter"><code>taglist</code></em> location.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1535,26 +1341,18 @@ Parses a tag <em class="parameter"><code>event</code></em> and stores the result
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_buffer_size ()">
 <a name="gst-event-new-buffer-size"></a><h3>gst_event_new_buffer_size ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *          gst_event_new_buffer_size           (<a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> minsize,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> maxsize,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> async);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *          gst_event_new_buffer_size           (<a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> minsize,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> maxsize,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> async);</pre>
 <p>
 Create a new buffersize event. The event is sent downstream and notifies
 elements that they should provide a buffer of the specified dimensions.
 </p>
 <p>
 When the <em class="parameter"><code>async</code></em> flag is set, a thread boundary is prefered.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1587,23 +1385,15 @@ When the <em class="parameter"><code>async</code></em> flag is set, a thread bou
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_parse_buffer_size ()">
 <a name="gst-event-parse-buffer-size"></a><h3>gst_event_parse_buffer_size ()</h3>
-<pre class="programlisting">void                gst_event_parse_buffer_size         (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *minsize,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *maxsize,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *async);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_buffer_size         (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *minsize,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *maxsize,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *async);</pre>
 <p>
 Get the format, minsize, maxsize and async-flag in the buffersize event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1636,13 +1426,11 @@ Get the format, minsize, maxsize and async-flag in the buffersize event.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_qos ()">
 <a name="gst-event-new-qos"></a><h3>gst_event_new_qos ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_qos                   (<a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> proportion,
-                                                         <a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff">GstClockTimeDiff</a> diff,
-                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> timestamp);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_qos                   (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> proportion,
+                                                         <a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff"><span class="returnvalue">GstClockTimeDiff</span></a> diff,
+                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> timestamp);</pre>
 <p>
 Allocate a new qos event with the given values.
 The QOS event is generated in an element that wants an upstream
@@ -1682,8 +1470,6 @@ result smaller than 0 is not allowed.
 <p>
 The application can use general event probes to intercept the QoS
 event and implement custom application specific QoS handling.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1711,19 +1497,15 @@ event and implement custom application specific QoS handling.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_parse_qos ()">
 <a name="gst-event-parse-qos"></a><h3>gst_event_parse_qos ()</h3>
-<pre class="programlisting">void                gst_event_parse_qos                 (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *proportion,
-                                                         <a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff">GstClockTimeDiff</a> *diff,
-                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> *timestamp);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_qos                 (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *proportion,
+                                                         <a class="link" href="GstClock.html#GstClockTimeDiff" title="GstClockTimeDiff"><span class="returnvalue">GstClockTimeDiff</span></a> *diff,
+                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> *timestamp);</pre>
 <p>
 Get the proportion, diff and timestamp in the qos event. See
 <a class="link" href="gstreamer-GstEvent.html#gst-event-new-qos" title="gst_event_new_qos ()"><code class="function">gst_event_new_qos()</code></a> for more information about the different QoS values.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1751,7 +1533,7 @@ Get the proportion, diff and timestamp in the qos event. See
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstSeekType">
 <a name="GstSeekType"></a><h3>enum GstSeekType</h3>
 <pre class="programlisting">typedef enum {
   /* one of these */
@@ -1766,18 +1548,16 @@ The different types of seek events. When constructing a seek event with
 <a class="link" href="gstreamer-GstEvent.html#gst-event-new-seek" title="gst_event_new_seek ()"><code class="function">gst_event_new_seek()</code></a>, a format, a seek method and optional flags are to
 be provided. The seek event is then inserted into the graph with
 <a class="link" href="GstPad.html#gst-pad-send-event" title="gst_pad_send_event ()"><code class="function">gst_pad_send_event()</code></a> or <a class="link" href="GstElement.html#gst-element-send-event" title="gst_element_send_event ()"><code class="function">gst_element_send_event()</code></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-SEEK-TYPE-NONE--CAPS"></a><span class="term"><code class="literal">GST_SEEK_TYPE_NONE</code></span></p></td>
+<td><p><a name="GST-SEEK-TYPE-NONE:CAPS"></a><span class="term"><code class="literal">GST_SEEK_TYPE_NONE</code></span></p></td>
 <td> no change in position is required
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-SEEK-TYPE-CUR--CAPS"></a><span class="term"><code class="literal">GST_SEEK_TYPE_CUR</code></span></p></td>
+<td><p><a name="GST-SEEK-TYPE-CUR:CAPS"></a><span class="term"><code class="literal">GST_SEEK_TYPE_CUR</code></span></p></td>
 <td> change relative to currently configured segment. This
    can't be used to seek relative to the current playback position - do a
    position query, calculate the desired position and then do an absolute
@@ -1785,12 +1565,12 @@ be provided. The seek event is then inserted into the graph with
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-SEEK-TYPE-SET--CAPS"></a><span class="term"><code class="literal">GST_SEEK_TYPE_SET</code></span></p></td>
+<td><p><a name="GST-SEEK-TYPE-SET:CAPS"></a><span class="term"><code class="literal">GST_SEEK_TYPE_SET</code></span></p></td>
 <td> absolute position is requested
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-SEEK-TYPE-END--CAPS"></a><span class="term"><code class="literal">GST_SEEK_TYPE_END</code></span></p></td>
+<td><p><a name="GST-SEEK-TYPE-END:CAPS"></a><span class="term"><code class="literal">GST_SEEK_TYPE_END</code></span></p></td>
 <td> relative position to duration is requested
 </td>
 </tr>
@@ -1798,7 +1578,7 @@ be provided. The seek event is then inserted into the graph with
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstSeekFlags">
 <a name="GstSeekFlags"></a><h3>enum GstSeekFlags</h3>
 <pre class="programlisting">typedef enum {
   GST_SEEK_FLAG_NONE            = 0,
@@ -1825,7 +1605,7 @@ complete scan of the file in those cases.
 <p>
 When performing a segment seek: after the playback of the segment completes,
 no EOS will be emmited by the element that performed the seek, but a
-<a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-SEGMENT-DONE--CAPS"><span class="type">GST_MESSAGE_SEGMENT_DONE</span></a> message will be posted on the bus by the element.
+<a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-SEGMENT-DONE:CAPS"><span class="type">GST_MESSAGE_SEGMENT_DONE</span></a> message will be posted on the bus by the element.
 When this message is posted, it is possible to send a new seek event to
 continue playback. With this seek method it is possible to perform seemless
 looping or simple linear editing.
@@ -1835,40 +1615,38 @@ When doing fast forward (rate &gt; 1.0) or fast reverse (rate &lt; -1.0) trickmo
 playback, the <em class="parameter"><code>GST_SEEK_FLAG_SKIP</code></em> flag can be used to instruct decoders
 and demuxers to adjust the playback rate by skipping frames. This can improve
 performance and decrease CPU usage because not all frames need to be decoded.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-SEEK-FLAG-NONE--CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_NONE</code></span></p></td>
+<td><p><a name="GST-SEEK-FLAG-NONE:CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_NONE</code></span></p></td>
 <td> no flag
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-SEEK-FLAG-FLUSH--CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_FLUSH</code></span></p></td>
+<td><p><a name="GST-SEEK-FLAG-FLUSH:CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_FLUSH</code></span></p></td>
 <td> flush pipeline
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-SEEK-FLAG-ACCURATE--CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_ACCURATE</code></span></p></td>
+<td><p><a name="GST-SEEK-FLAG-ACCURATE:CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_ACCURATE</code></span></p></td>
 <td> accurate position is requested, this might
                     be considerably slower for some formats.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-SEEK-FLAG-KEY-UNIT--CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_KEY_UNIT</code></span></p></td>
+<td><p><a name="GST-SEEK-FLAG-KEY-UNIT:CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_KEY_UNIT</code></span></p></td>
 <td> seek to the nearest keyframe. This might be
                     faster but less accurate.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-SEEK-FLAG-SEGMENT--CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_SEGMENT</code></span></p></td>
+<td><p><a name="GST-SEEK-FLAG-SEGMENT:CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_SEGMENT</code></span></p></td>
 <td> perform a segment seek.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-SEEK-FLAG-SKIP--CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_SKIP</code></span></p></td>
+<td><p><a name="GST-SEEK-FLAG-SKIP:CAPS"></a><span class="term"><code class="literal">GST_SEEK_FLAG_SKIP</code></span></p></td>
 <td> when doing fast foward or fast reverse playback, allow
                     elements to skip frames instead of generating all
                     frames. Since 0.10.22.
@@ -1878,21 +1656,15 @@ performance and decrease CPU usage because not all frames need to be decoded.</p
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_seek ()">
 <a name="gst-event-new-seek"></a><h3>gst_event_new_seek ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_seek                  (<a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags">GstSeekFlags</a> flags,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a> start_type,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> start,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a> stop_type,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> stop);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_seek                  (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags"><span class="returnvalue">GstSeekFlags</span></a> flags,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType"><span class="returnvalue">GstSeekType</span></a> start_type,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> start,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType"><span class="returnvalue">GstSeekType</span></a> stop_type,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> stop);</pre>
 <p>
 Allocate a new seek event with the given parameters.
 </p>
@@ -1910,12 +1682,12 @@ pipeline.
 <p>
 A pipeline has a default playback segment configured with a start
 position of 0, a stop position of -1 and a rate of 1.0. The currently
-configured playback segment can be queried with <a class="link" href="gstreamer-GstQuery.html#GST-QUERY-SEGMENT--CAPS"><span class="type">GST_QUERY_SEGMENT</span></a>. 
+configured playback segment can be queried with <a class="link" href="gstreamer-GstQuery.html#GST-QUERY-SEGMENT:CAPS"><span class="type">GST_QUERY_SEGMENT</span></a>. 
 </p>
 <p>
 <em class="parameter"><code>start_type</code></em> and <em class="parameter"><code>stop_type</code></em> specify how to adjust the currently configured 
 start and stop fields in playback segment. Adjustments can be made relative
-or absolute to the last configured values. A type of <a class="link" href="gstreamer-GstEvent.html#GST-SEEK-TYPE-NONE--CAPS"><span class="type">GST_SEEK_TYPE_NONE</span></a>
+or absolute to the last configured values. A type of <a class="link" href="gstreamer-GstEvent.html#GST-SEEK-TYPE-NONE:CAPS"><span class="type">GST_SEEK_TYPE_NONE</span></a>
 means that the position should not be updated.
 </p>
 <p>
@@ -1930,10 +1702,8 @@ position (if any). If the stop position if updated, it must be different from
 <p>
 It is not possible to seek relative to the current playback position, to do
 this, PAUSE the pipeline, query the current playback position with
-<a class="link" href="gstreamer-GstQuery.html#GST-QUERY-POSITION--CAPS"><span class="type">GST_QUERY_POSITION</span></a> and update the playback segment current position with a
-<a class="link" href="gstreamer-GstEvent.html#GST-SEEK-TYPE-SET--CAPS"><span class="type">GST_SEEK_TYPE_SET</span></a> to the desired position.</p>
-<p>
-</p>
+<a class="link" href="gstreamer-GstQuery.html#GST-QUERY-POSITION:CAPS"><span class="type">GST_QUERY_POSITION</span></a> and update the playback segment current position with a
+<a class="link" href="gstreamer-GstEvent.html#GST-SEEK-TYPE-SET:CAPS"><span class="type">GST_SEEK_TYPE_SET</span></a> to the desired position.</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1981,26 +1751,18 @@ this, PAUSE the pipeline, query the current playback position with
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_parse_seek ()">
 <a name="gst-event-parse-seek"></a><h3>gst_event_parse_seek ()</h3>
-<pre class="programlisting">void                gst_event_parse_seek                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *rate,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags">GstSeekFlags</a> *flags,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a> *start_type,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *start,
-                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType">GstSeekType</a> *stop_type,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gint64"
->gint64</a> *stop);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_seek                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *rate,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekFlags" title="enum GstSeekFlags"><span class="returnvalue">GstSeekFlags</span></a> *flags,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType"><span class="returnvalue">GstSeekType</span></a> *start_type,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *start,
+                                                         <a class="link" href="gstreamer-GstEvent.html#GstSeekType" title="enum GstSeekType"><span class="returnvalue">GstSeekType</span></a> *stop_type,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> *stop);</pre>
 <p>
 Parses a seek <em class="parameter"><code>event</code></em> and stores the results in the given result locations.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2048,13 +1810,11 @@ Parses a seek <em class="parameter"><code>event</code></em> and stores the resul
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_navigation ()">
 <a name="gst-event-new-navigation"></a><h3>gst_event_new_navigation ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_navigation            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure">GstStructure</a> *structure);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_navigation            (<a class="link" href="gstreamer-GstStructure.html#GstStructure" title="GstStructure"><span class="returnvalue">GstStructure</span></a> *structure);</pre>
 <p>
 Create a new navigation event from the given description.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2073,9 +1833,9 @@ Create a new navigation event from the given description.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_latency ()">
 <a name="gst-event-new-latency"></a><h3>gst_event_new_latency ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_latency               (<a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> latency);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_latency               (<a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> latency);</pre>
 <p>
 Create a new latency event. The event is sent upstream from the sinks and
 notifies elements that they should add an additional <em class="parameter"><code>latency</code></em> to the
@@ -2084,8 +1844,6 @@ running time before synchronising against the clock.
 <p>
 The latency is mostly used in live sinks and is always expressed in
 the time format.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2105,14 +1863,12 @@ the time format.</p>
 <p class="since">Since 0.10.12</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_parse_latency ()">
 <a name="gst-event-parse-latency"></a><h3>gst_event_parse_latency ()</h3>
-<pre class="programlisting">void                gst_event_parse_latency             (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime">GstClockTime</a> *latency);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_latency             (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a class="link" href="GstClock.html#GstClockTime" title="GstClockTime"><span class="returnvalue">GstClockTime</span></a> *latency);</pre>
 <p>
 Get the latency in the latency event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2131,21 +1887,13 @@ Get the latency in the latency event.</p>
 <p class="since">Since 0.10.12</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_new_step ()">
 <a name="gst-event-new-step"></a><h3>gst_event_new_step ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a>*           gst_event_new_step                  (<a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint64"
->guint64</a> amount,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> rate,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> flush,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> intermediate);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_step                  (<a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a> amount,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> rate,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> flush,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> intermediate);</pre>
 <p>
 Create a new step event. The purpose of the step event is to instruct a sink
 to skip <em class="parameter"><code>amount</code></em> (expressed in <em class="parameter"><code>format</code></em>) of media. It can be used to implement
@@ -2162,8 +1910,6 @@ the step operation.
 <p>
 The <em class="parameter"><code>intermediate</code></em> flag instructs the pipeline that this step operation is
 part of a larger step operation.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2203,26 +1949,16 @@ part of a larger step operation.</p>
 <p class="since">Since 0.10.24</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_event_parse_step ()">
 <a name="gst-event-parse-step"></a><h3>gst_event_parse_step ()</h3>
-<pre class="programlisting">void                gst_event_parse_step                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent">GstEvent</a> *event,
-                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat">GstFormat</a> *format,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint64"
->guint64</a> *amount,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gdouble"
->gdouble</a> *rate,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *flush,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> *intermediate);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_step                (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <a class="link" href="gstreamer-GstFormat.html#GstFormat" title="enum GstFormat"><span class="returnvalue">GstFormat</span></a> *format,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a> *amount,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> *rate,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *flush,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> *intermediate);</pre>
 <p>
 Parse the step event.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -2260,14 +1996,64 @@ Parse the step event.</p>
 </table></div>
 <p class="since">Since 0.10.24</p>
 </div>
+<hr>
+<div class="refsect2" title="gst_event_new_sink_message ()">
+<a name="gst-event-new-sink-message"></a><h3>gst_event_new_sink_message ()</h3>
+<pre class="programlisting"><a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a>*           gst_event_new_sink_message          (<span class="returnvalue">struct _GstMessage</span> *msg);</pre>
+<p>
+Create a new sink-message event. The purpose of the sink-message event is
+to instruct a sink to post the message contained in the event synchronized
+with the stream.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>msg</code></em> :</span></p></td>
+<td> The <a class="link" href="gstreamer-GstMessage.html#GstMessage" title="GstMessage"><span class="type">GstMessage</span></a> to be posted
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="type">GstEvent</span></a>
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
 </div>
-<div class="refsect1" lang="en">
+<hr>
+<div class="refsect2" title="gst_event_parse_sink_message ()">
+<a name="gst-event-parse-sink-message"></a><h3>gst_event_parse_sink_message ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_event_parse_sink_message        (<a class="link" href="gstreamer-GstEvent.html#GstEvent" title="GstEvent"><span class="returnvalue">GstEvent</span></a> *event,
+                                                         <span class="returnvalue">struct _GstMessage</span> **msg);</pre>
+<p>
+Parse the sink-message event. Unref <em class="parameter"><code>msg</code></em> after usage.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>event</code></em> :</span></p></td>
+<td> The event to query
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>msg</code></em> :</span></p></td>
+<td> A pointer to store the <a class="link" href="gstreamer-GstMessage.html#GstMessage" title="GstMessage"><span class="type">GstMessage</span></a> in.
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+</div>
+<div class="refsect1" title="See Also">
 <a name="gstreamer-GstEvent.see-also"></a><h2>See Also</h2>
-#GstPad, <a class="link" href="GstElement.html" title="GstElement"><span class="type">GstElement</span></a>
+<a class="link" href="GstPad.html" title="GstPad"><span class="type">GstPad</span></a>, <a class="link" href="GstElement.html" title="GstElement"><span class="type">GstElement</span></a>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

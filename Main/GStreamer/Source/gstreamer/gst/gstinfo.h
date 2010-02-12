@@ -418,7 +418,7 @@ GstDebugCategory *_gst_debug_get_category (const gchar *name);
  * @name: log category name
  *
  * Lookup an exiting #GstDebugCategory by its @name and sets @cat. If category
- * is not found, but %GST_CAT_DEFAULT is defined, that is assigned to @cat.
+ * is not found, but GST_CAT_DEFAULT is defined, that is assigned to @cat.
  * Otherwise cat will be NULL.
  *
  * |[
@@ -427,7 +427,7 @@ GstDebugCategory *_gst_debug_get_category (const gchar *name);
  * GST_DEBUG_CATEGORY_STATIC (GST_CAT_PERFORMANCE);
  * ...
  * GST_DEBUG_CATEGORY_INIT (gst_myplugin_debug, "myplugin", 0, "nice element");
- * GST_DEBUG_CATEGORY_GET (GST_CAT_PERFORMANCE, "performance);
+ * GST_DEBUG_CATEGORY_GET (GST_CAT_PERFORMANCE, "performance");
  * ]|
  *
  * Since: 0.10.24
@@ -1101,11 +1101,26 @@ G_CONST_RETURN gchar *
 	_gst_debug_nameof_funcptr	(GstDebugFuncPtr	func);
 
 /**
+ * GST_DEBUG_REGISTER_FUNCPTR:
+ * @ptr: pointer to the function to register
+ *
+ * Register a pointer to a function with its name, so it can later be used by
+ * GST_DEBUG_FUNCPTR_NAME().
+ *
+ * Use this variant of #GST_DEBUG_FUNCPTR if you do not need to use @ptr.
+ *
+ * Since: 0.10.26
+ */
+#define GST_DEBUG_REGISTER_FUNCPTR(ptr) \
+  _gst_debug_register_funcptr((GstDebugFuncPtr)(ptr), #ptr)
+/**
  * GST_DEBUG_FUNCPTR:
  * @ptr: pointer to the function to register
  *
  * Register a pointer to a function with its name, so it can later be used by
  * GST_DEBUG_FUNCPTR_NAME().
+ *
+ * Returns: the value passed to @ptr.
  */
 #define GST_DEBUG_FUNCPTR(ptr) \
   (_gst_debug_register_funcptr((GstDebugFuncPtr)(ptr), #ptr) , ptr)
@@ -1379,6 +1394,7 @@ GST_FIXME (const char *format, ...)
 #endif /* G_HAVE_GNUC_VARARGS */
 #endif /* G_HAVE_ISO_VARARGS */
 
+#define GST_DEBUG_REGISTER_FUNCPTR(ptr) G_STMT_START{ }G_STMT_END
 #define GST_DEBUG_FUNCPTR(ptr) (ptr)
 #define GST_DEBUG_FUNCPTR_NAME(ptr) (g_strdup_printf ("%p", ptr))
 

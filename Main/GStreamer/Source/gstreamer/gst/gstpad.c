@@ -251,10 +251,10 @@ gst_pad_class_init (GstPadClass * klass)
 
   parent_class = g_type_class_peek_parent (klass);
 
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_pad_dispose);
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_pad_finalize);
-  gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_pad_set_property);
-  gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_pad_get_property);
+  gobject_class->dispose = gst_pad_dispose;
+  gobject_class->finalize = gst_pad_finalize;
+  gobject_class->set_property = gst_pad_set_property;
+  gobject_class->get_property = gst_pad_get_property;
 
   /**
    * GstPad::linked:
@@ -327,6 +327,17 @@ gst_pad_class_init (GstPadClass * klass)
 #endif
   gstobject_class->path_string_separator = ".";
 
+  /* Register common function pointer descriptions */
+  GST_DEBUG_REGISTER_FUNCPTR (gst_pad_activate_default);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_pad_event_default);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_pad_get_query_types_default);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_pad_query_default);
+#ifndef GST_REMOVE_DEPRECATED
+  GST_DEBUG_REGISTER_FUNCPTR (gst_pad_get_internal_links_default);
+#endif
+  GST_DEBUG_REGISTER_FUNCPTR (gst_pad_iterate_internal_links_default);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_pad_acceptcaps_default);
+
   klass->have_data = default_have_data;
 }
 
@@ -345,19 +356,16 @@ gst_pad_init (GstPad * pad)
   GST_PAD_CAPS (pad) = NULL;
   GST_PAD_GETCAPSFUNC (pad) = NULL;
 
-  GST_PAD_ACTIVATEFUNC (pad) = GST_DEBUG_FUNCPTR (gst_pad_activate_default);
-  GST_PAD_EVENTFUNC (pad) = GST_DEBUG_FUNCPTR (gst_pad_event_default);
-  GST_PAD_QUERYTYPEFUNC (pad) =
-      GST_DEBUG_FUNCPTR (gst_pad_get_query_types_default);
-  GST_PAD_QUERYFUNC (pad) = GST_DEBUG_FUNCPTR (gst_pad_query_default);
+  GST_PAD_ACTIVATEFUNC (pad) = gst_pad_activate_default;
+  GST_PAD_EVENTFUNC (pad) = gst_pad_event_default;
+  GST_PAD_QUERYTYPEFUNC (pad) = gst_pad_get_query_types_default;
+  GST_PAD_QUERYFUNC (pad) = gst_pad_query_default;
 #ifndef GST_REMOVE_DEPRECATED
-  GST_PAD_INTLINKFUNC (pad) =
-      GST_DEBUG_FUNCPTR (gst_pad_get_internal_links_default);
+  GST_PAD_INTLINKFUNC (pad) = gst_pad_get_internal_links_default;
 #endif
-  GST_PAD_ITERINTLINKFUNC (pad) =
-      GST_DEBUG_FUNCPTR (gst_pad_iterate_internal_links_default);
+  GST_PAD_ITERINTLINKFUNC (pad) = gst_pad_iterate_internal_links_default;
 
-  GST_PAD_ACCEPTCAPSFUNC (pad) = GST_DEBUG_FUNCPTR (gst_pad_acceptcaps_default);
+  GST_PAD_ACCEPTCAPSFUNC (pad) = gst_pad_acceptcaps_default;
 
   pad->do_buffer_signals = 0;
   pad->do_event_signals = 0;
@@ -376,7 +384,7 @@ gst_pad_init (GstPad * pad)
 static void
 gst_pad_dispose (GObject * object)
 {
-  GstPad *pad = GST_PAD (object);
+  GstPad *pad = GST_PAD_CAST (object);
   GstPad *peer;
 
   GST_CAT_DEBUG_OBJECT (GST_CAT_REFCOUNTING, pad, "dispose");
@@ -410,7 +418,7 @@ gst_pad_dispose (GObject * object)
 static void
 gst_pad_finalize (GObject * object)
 {
-  GstPad *pad = GST_PAD (object);
+  GstPad *pad = GST_PAD_CAST (object);
   GstTask *task;
 
   /* in case the task is still around, clean it up */
@@ -1022,8 +1030,7 @@ gst_pad_set_blocked_async_full (GstPad * pad, gboolean blocked,
 
     GST_OBJECT_FLAG_SET (pad, GST_PAD_BLOCKED);
 
-    if (pad->block_destroy_data && pad->block_data &&
-        pad->block_data != user_data)
+    if (pad->block_destroy_data && pad->block_data)
       pad->block_destroy_data (pad->block_data);
 
     pad->block_callback = callback;
@@ -1040,8 +1047,7 @@ gst_pad_set_blocked_async_full (GstPad * pad, gboolean blocked,
 
     GST_OBJECT_FLAG_UNSET (pad, GST_PAD_BLOCKED);
 
-    if (pad->block_destroy_data && pad->block_data &&
-        pad->block_data != user_data)
+    if (pad->block_destroy_data && pad->block_data)
       pad->block_destroy_data (pad->block_data);
 
     pad->block_callback = callback;
@@ -1704,8 +1710,8 @@ gst_pad_unlink (GstPad * srcpad, GstPad * sinkpad)
 
   /* fire off a signal to each of the pads telling them
    * that they've been unlinked */
-  g_signal_emit (G_OBJECT (srcpad), gst_pad_signals[PAD_UNLINKED], 0, sinkpad);
-  g_signal_emit (G_OBJECT (sinkpad), gst_pad_signals[PAD_UNLINKED], 0, srcpad);
+  g_signal_emit (srcpad, gst_pad_signals[PAD_UNLINKED], 0, sinkpad);
+  g_signal_emit (sinkpad, gst_pad_signals[PAD_UNLINKED], 0, srcpad);
 
   GST_CAT_INFO (GST_CAT_ELEMENT_PADS, "unlinked %s:%s and %s:%s",
       GST_DEBUG_PAD_NAME (srcpad), GST_DEBUG_PAD_NAME (sinkpad));
@@ -2040,8 +2046,8 @@ gst_pad_link (GstPad * srcpad, GstPad * sinkpad)
 
     /* fire off a signal to each of the pads telling them
      * that they've been linked */
-    g_signal_emit (G_OBJECT (srcpad), gst_pad_signals[PAD_LINKED], 0, sinkpad);
-    g_signal_emit (G_OBJECT (sinkpad), gst_pad_signals[PAD_LINKED], 0, srcpad);
+    g_signal_emit (srcpad, gst_pad_signals[PAD_LINKED], 0, sinkpad);
+    g_signal_emit (sinkpad, gst_pad_signals[PAD_LINKED], 0, srcpad);
 
     GST_CAT_INFO (GST_CAT_PADS, "linked %s:%s and %s:%s, successful",
         GST_DEBUG_PAD_NAME (srcpad), GST_DEBUG_PAD_NAME (sinkpad));
@@ -2170,10 +2176,43 @@ gst_pad_get_caps_unlocked (GstPad * pad)
     goto done;
   }
 
+  /* this almost never happens */
   GST_CAT_DEBUG_OBJECT (GST_CAT_CAPS, pad, "pad has no caps");
   result = gst_caps_new_empty ();
 
 done:
+  return result;
+}
+
+/* FIXME-0.11: what about making this the default and using
+ * gst_caps_make_writable() explicitely where needed
+ */
+/**
+ * gst_pad_get_caps_reffed:
+ * @pad: a  #GstPad to get the capabilities of.
+ *
+ * Gets the capabilities this pad can produce or consume. Preferred function if
+ * one only wants to read or intersect the caps.
+ *
+ * Returns: the caps of the pad with incremented ref-count.
+ *
+ * Since: 0.10.26
+ */
+GstCaps *
+gst_pad_get_caps_reffed (GstPad * pad)
+{
+  GstCaps *result = NULL;
+
+  g_return_val_if_fail (GST_IS_PAD (pad), NULL);
+
+  GST_OBJECT_LOCK (pad);
+
+  GST_CAT_DEBUG_OBJECT (GST_CAT_CAPS, pad, "get pad caps");
+
+  result = gst_pad_get_caps_unlocked (pad);
+
+  GST_OBJECT_UNLOCK (pad);
+
   return result;
 }
 
@@ -2195,33 +2234,70 @@ done:
 GstCaps *
 gst_pad_get_caps (GstPad * pad)
 {
+  GstCaps *result = gst_pad_get_caps_reffed (pad);
+
+  /* be sure that we have a copy */
+  if (G_LIKELY (result))
+    result = gst_caps_make_writable (result);
+
+  return result;
+}
+
+/* FIXME-0.11: what about making this the default and using
+ * gst_caps_make_writable() explicitely where needed
+ */
+/**
+ * gst_pad_peer_get_caps_reffed:
+ * @pad: a  #GstPad to get the capabilities of.
+ *
+ * Gets the capabilities of the peer connected to this pad. Preferred function
+ * if one only wants to read or intersect the caps.
+ *
+ * Returns: the caps of the pad with incremented ref-count.
+ *
+ * Since: 0.10.26
+ */
+GstCaps *
+gst_pad_peer_get_caps_reffed (GstPad * pad)
+{
+  GstPad *peerpad;
   GstCaps *result = NULL;
 
   g_return_val_if_fail (GST_IS_PAD (pad), NULL);
 
   GST_OBJECT_LOCK (pad);
 
-  GST_CAT_DEBUG_OBJECT (GST_CAT_CAPS, pad, "get pad caps");
+  GST_CAT_DEBUG_OBJECT (GST_CAT_CAPS, pad, "get peer caps");
 
-  result = gst_pad_get_caps_unlocked (pad);
+  peerpad = GST_PAD_PEER (pad);
+  if (G_UNLIKELY (peerpad == NULL))
+    goto no_peer;
 
-  /* be sure that we have a copy */
-  if (result)
-    result = gst_caps_make_writable (result);
-
+  gst_object_ref (peerpad);
   GST_OBJECT_UNLOCK (pad);
 
+  result = gst_pad_get_caps_reffed (peerpad);
+
+  gst_object_unref (peerpad);
+
   return result;
+
+no_peer:
+  {
+    GST_OBJECT_UNLOCK (pad);
+    return NULL;
+  }
 }
 
 /**
  * gst_pad_peer_get_caps:
  * @pad: a  #GstPad to get the peer capabilities of.
  *
- * Gets the capabilities of the peer connected to this pad.
+ * Gets the capabilities of the peer connected to this pad. Similar to
+ * gst_pad_get_caps().
  *
- * Returns: the #GstCaps of the peer pad. This function returns a new caps, so
- * use gst_caps_unref to get rid of it. this function returns NULL if there is
+ * Returns: a newly allocated copy of the #GstCaps of the peer pad. Use
+ * gst_caps_unref() to get rid of it. This function returns %NULL if there is
  * no peer pad.
  */
 GstCaps *
@@ -2334,7 +2410,7 @@ void
 gst_pad_fixate_caps (GstPad * pad, GstCaps * caps)
 {
   GstPadFixateCapsFunction fixatefunc;
-  guint n, len;
+  guint len;
 
   g_return_if_fail (GST_IS_PAD (pad));
   g_return_if_fail (caps != NULL);
@@ -2349,10 +2425,14 @@ gst_pad_fixate_caps (GstPad * pad, GstCaps * caps)
 
   /* default fixation */
   len = gst_caps_get_size (caps);
-  for (n = 0; n < len; n++) {
-    GstStructure *s = gst_caps_get_structure (caps, n);
+  if (len > 0) {
+    GstStructure *s = gst_caps_get_structure (caps, 0);
 
     gst_structure_foreach (s, gst_pad_default_fixate, s);
+  }
+
+  if (len > 1) {
+    gst_caps_truncate (caps);
   }
 }
 
@@ -2367,7 +2447,7 @@ gst_pad_acceptcaps_default (GstPad * pad, GstCaps * caps)
 
   GST_DEBUG_OBJECT (pad, "caps %" GST_PTR_FORMAT, caps);
 
-  allowed = gst_pad_get_caps (pad);
+  allowed = gst_pad_get_caps_reffed (pad);
   if (!allowed)
     goto nothing_allowed;
 
@@ -2703,9 +2783,9 @@ gst_pad_get_allowed_caps (GstPad * pad)
 
   gst_object_ref (peer);
   GST_OBJECT_UNLOCK (pad);
-  mycaps = gst_pad_get_caps (pad);
+  mycaps = gst_pad_get_caps_reffed (pad);
 
-  peercaps = gst_pad_get_caps (peer);
+  peercaps = gst_pad_get_caps_reffed (peer);
   gst_object_unref (peer);
 
   caps = gst_caps_intersect (mycaps, peercaps);
@@ -3344,7 +3424,7 @@ gst_pad_event_default_dispatch (GstPad * pad, GstEvent * event)
   while (!done) {
     switch (gst_iterator_next (iter, &item)) {
       case GST_ITERATOR_OK:
-        eventpad = GST_PAD (item);
+        eventpad = GST_PAD_CAST (item);
 
         /* if already pushed,  skip */
         if (g_list_find (pushed_pads, eventpad)) {
@@ -3448,7 +3528,7 @@ gst_pad_event_default (GstPad * pad, GstEvent * event)
 /**
  * gst_pad_dispatcher:
  * @pad: a #GstPad to dispatch.
- * @dispatch: the #GstDispatcherFunction to call.
+ * @dispatch: the #GstPadDispatcherFunction to call.
  * @data: gpointer user data passed to the dispatcher function.
  *
  * Invokes the given dispatcher function on each respective peer of
@@ -3728,7 +3808,7 @@ gst_pad_save_thyself (GstObject * object, xmlNodePtr parent)
 
   g_return_val_if_fail (GST_IS_PAD (object), NULL);
 
-  pad = GST_PAD (object);
+  pad = GST_PAD_CAST (object);
 
   xmlNewChild (parent, NULL, (xmlChar *) "name",
       (xmlChar *) GST_PAD_NAME (pad));
@@ -4264,7 +4344,7 @@ gst_pad_push_data (GstPad * pad, gboolean is_buffer, void *data)
     GST_DEBUG_OBJECT (pad,
         "caps changed from %" GST_PTR_FORMAT " to %p %" GST_PTR_FORMAT,
         GST_PAD_CAPS (pad), caps, caps);
-    if (G_UNLIKELY (!gst_pad_configure_src (pad, caps, TRUE)))
+    if (G_UNLIKELY (!gst_pad_set_caps (pad, caps)))
       goto not_negotiated;
   }
 

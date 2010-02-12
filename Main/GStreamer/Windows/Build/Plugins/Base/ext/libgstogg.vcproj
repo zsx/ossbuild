@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstogg"
 	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A00}"
 	RootNamespace="libgstogg"
@@ -321,6 +321,14 @@
 	</References>
 	<Files>
 		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\ogg\dirac_parse.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\ogg\dirac_parse.h"
+			>
+		</File>
+		<File
 			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\ogg\gstogg.c"
 			>
 		</File>
@@ -349,7 +357,19 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\ogg\gstoggstream.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\ogg\gstoggstream.h"
+			>
+		</File>
+		<File
 			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\ogg\gstogmparse.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\ext\ogg\vorbis_parse.c"
 			>
 		</File>
 	</Files>

@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>cdparanoiasrc</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Base Plugins 0.10 Plugins Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Base Plugins 0.10 Plugins Reference Manual">
 <link rel="up" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="prev" href="gst-plugins-base-plugins-audiotestsrc.html" title="audiotestsrc">
 <link rel="next" href="gst-plugins-base-plugins-clockoverlay.html" title="clockoverlay">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
 <link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
@@ -25,19 +25,19 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-base-plugins-cdparanoiasrc.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-cdparanoiasrc.description" class="shortcut">Description</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-cdparanoiasrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-cdparanoiasrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-cdparanoiasrc.properties" class="shortcut">Properties</a>
-                 | 
-                <a href="#gst-plugins-base-plugins-cdparanoiasrc.signals" class="shortcut">Signals</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-cdparanoiasrc.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-cdparanoiasrc.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-cdparanoiasrc.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-cdparanoiasrc.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-cdparanoiasrc.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="cdparanoiasrc">
 <a name="gst-plugins-base-plugins-cdparanoiasrc"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -46,75 +46,52 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.synopsis"></a><h2>Synopsis</h2>
-<a name="GstCdParanoiaSrc"></a><pre class="synopsis">
-                    <a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc-struct" title="GstCdParanoiaSrc">GstCdParanoiaSrc</a>;
+<a name="GstCdParanoiaSrc"></a><pre class="synopsis">                    <a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc-struct" title="GstCdParanoiaSrc">GstCdParanoiaSrc</a>;
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  <a
-href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject"
->GObject</a>
-   +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html"
->GstObject</a>
-         +----<a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
->GstElement</a>
-               +----<a
-href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSrc.html"
->GstBaseSrc</a>
-                     +----<a
-href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstPushSrc.html"
->GstPushSrc</a>
-                           +----<a
-href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstcddabasesrc.html#GstCddaBaseSrc"
->GstCddaBaseSrc</a>
+  <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html">GstObject</a>
+         +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html">GstElement</a>
+               +----<a href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstBaseSrc.html">GstBaseSrc</a>
+                     +----<a href="/usr/share/gtk-doc/html/gstreamer-libs-0.10/GstPushSrc.html">GstPushSrc</a>
+                           +----<a href="/usr/share/gtk-doc/html/gst-plugins-base-libs-0.10/gst-plugins-base-libs-gstcddabasesrc.html#GstCddaBaseSrc">GstCddaBaseSrc</a>
                                  +----GstCdParanoiaSrc
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstCdParanoiaSrc implements
- <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstUriHandler.html#GstURIHandler"
->GstURIHandler</a>.</p>
+ <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstUriHandler.html#GstURIHandler">GstURIHandler</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--generic-device" title='The "generic-device" property'>generic-device</a>"           <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--paranoia-mode" title='The "paranoia-mode" property'>paranoia-mode</a>"            GstCdParanoiaMode     : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--read-speed" title='The "read-speed" property'>read-speed</a>"               <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--search-overlap" title='The "search-overlap" property'>search-overlap</a>"           <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write
-  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--cache-size" title='The "cache-size" property'>cache-size</a>"               <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--generic-device" title='The "generic-device" property'>generic-device</a>"           <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--paranoia-mode" title='The "paranoia-mode" property'>paranoia-mode</a>"            <span class="type">GstCdParanoiaMode</span>     : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--read-speed" title='The "read-speed" property'>read-speed</a>"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--search-overlap" title='The "search-overlap" property'>search-overlap</a>"           <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc--cache-size" title='The "cache-size" property'>cache-size</a>"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc-transport-error" title='The "transport-error" signal'>transport-error</a>"                                : Run Last
   "<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc-uncorrected-error" title='The "uncorrected-error" signal'>uncorrected-error</a>"                              : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.description"></a><h2>Description</h2>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2605607"></a><h3>Element Information</h3>
+<div class="refsect2" title="Element Information">
+<a name="id436092"></a><h3>Element Information</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -136,58 +113,8 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="id2605669"></a><h3>Element Pads</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">name</span></p></td>
-<td>src</td>
-</tr>
-<tr>
-<td><p><span class="term">direction</span></p></td>
-<td>source</td>
-</tr>
-<tr>
-<td><p><span class="term">presence</span></p></td>
-<td>always</td>
-</tr>
-<tr>
-<td><p><span class="term">details</span></p></td>
-<td>audio/x-raw-int, endianness=(int)1234, signed=(boolean)true, width=(int)16, depth=(int)16, rate=(int)44100, channels=(int)2</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<div class="refsynopsisdiv">
-<h2>Synopsis</h2>
-<div class="refsect2" lang="en">
-<a name="id2604011"></a><h3>Element Information</h3>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term">plugin</span></p></td>
-<td>
-            <a class="link" href="gst-plugins-base-plugins-plugin-cdparanoia.html#plugin-cdparanoia">cdparanoia</a>
-          </td>
-</tr>
-<tr>
-<td><p><span class="term">author</span></p></td>
-<td>Erik Walthinsen &lt;omega@cse.ogi.edu&gt;, Wim Taymans &lt;wim@fluendo.com&gt;</td>
-</tr>
-<tr>
-<td><p><span class="term">class</span></p></td>
-<td>Source/File</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2" lang="en">
-<a name="id2604074"></a><h3>Element Pads</h3>
+<div class="refsect2" title="Element Pads">
+<a name="id436154"></a><h3>Element Pads</h3>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -214,85 +141,67 @@ href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
 <p>
 </p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstCdParanoiaSrc">
 <a name="GstCdParanoiaSrc-struct"></a><h3>GstCdParanoiaSrc</h3>
 <pre class="programlisting">typedef struct _GstCdParanoiaSrc GstCdParanoiaSrc;</pre>
 <p>
 The cdparanoia object structure.</p>
-<p>
-</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "generic-device" property'>
 <a name="GstCdParanoiaSrc--generic-device"></a><h3>The <code class="literal">"generic-device"</code> property</h3>
-<pre class="programlisting">  "generic-device"           <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a>*                : Read / Write</pre>
+<pre class="programlisting">  "generic-device"           <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
 <p>Use specified generic scsi device.</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "paranoia-mode" property'>
 <a name="GstCdParanoiaSrc--paranoia-mode"></a><h3>The <code class="literal">"paranoia-mode"</code> property</h3>
-<pre class="programlisting">  "paranoia-mode"            GstCdParanoiaMode     : Read / Write</pre>
+<pre class="programlisting">  "paranoia-mode"            <span class="type">GstCdParanoiaMode</span>     : Read / Write</pre>
 <p>Type of checking to perform.</p>
 <p>Default value: PARANOIA_MODE_FRAGMENT</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "read-speed" property'>
 <a name="GstCdParanoiaSrc--read-speed"></a><h3>The <code class="literal">"read-speed"</code> property</h3>
-<pre class="programlisting">  "read-speed"               <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write</pre>
+<pre class="programlisting">  "read-speed"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
 <p>Read from device at specified speed.</p>
-<p>Allowed values: &gt;= -1</p>
+<p>Allowed values: &gt;= G_MAXULONG</p>
 <p>Default value: -1</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "search-overlap" property'>
 <a name="GstCdParanoiaSrc--search-overlap"></a><h3>The <code class="literal">"search-overlap"</code> property</h3>
-<pre class="programlisting">  "search-overlap"           <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write</pre>
+<pre class="programlisting">  "search-overlap"           <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
 <p>Force minimum overlap search during verification to n sectors.</p>
-<p>Allowed values: [-1,75]</p>
+<p>Allowed values: [G_MAXULONG,75]</p>
 <p>Default value: -1</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "cache-size" property'>
 <a name="GstCdParanoiaSrc--cache-size"></a><h3>The <code class="literal">"cache-size"</code> property</h3>
-<pre class="programlisting">  "cache-size"               <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                  : Read / Write</pre>
+<pre class="programlisting">  "cache-size"               <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
 <p>
 Set CD cache size to n sectors (-1 = auto)</p>
-<p>
-</p>
-<p>Allowed values: &gt;= -1</p>
+<p>Allowed values: &gt;= G_MAXULONG</p>
 <p>Default value: -1</p>
-<p>Since 0.10.24</p>
+<p class="since">Since 0.10.24</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="gst-plugins-base-plugins-cdparanoiasrc.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "transport-error" signal'>
 <a name="GstCdParanoiaSrc-transport-error"></a><h3>The <code class="literal">"transport-error"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc">GstCdParanoiaSrc</a> *cdparanoia,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>              sector,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
->gpointer</a>          user_data)       : Run Last</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc"><span class="type">GstCdParanoiaSrc</span></a> *cdparanoia,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>              sector,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>          user_data)       : Run Last</pre>
 <p>
 This signal is emitted whenever an error occurs while reading.
 CdParanoia will attempt to recover the data.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -314,20 +223,14 @@ CdParanoia will attempt to recover the data.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "uncorrected-error" signal'>
 <a name="GstCdParanoiaSrc-uncorrected-error"></a><h3>The <code class="literal">"uncorrected-error"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc">GstCdParanoiaSrc</a> *cdparanoia,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>              sector,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
->gpointer</a>          user_data)       : Run Last</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gst-plugins-base-plugins-cdparanoiasrc.html#GstCdParanoiaSrc"><span class="type">GstCdParanoiaSrc</span></a> *cdparanoia,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>              sector,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>          user_data)       : Run Last</pre>
 <p>
 This signal is emitted whenever an uncorrectable error occurs while
 reading. The data could not be read.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -352,6 +255,6 @@ reading. The data could not be read.</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

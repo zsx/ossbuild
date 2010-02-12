@@ -33,6 +33,7 @@ EXTRA_DIST = \
 	gst-element-check.m4.in \
 	configure.ac autogen.sh depcomp \
 	MAINTAINERS ABOUT-NLS RELEASE gstreamer.doap \
+	scripts/gst-uninstalled \
 	$(win32)
 
 CLEANFILES = gst-element-check-@GST_MAJORMINOR@.m4
@@ -140,5 +141,16 @@ check-enum-gettypes: $(top_builddir)/gst/gstenumtypes.h
 
 include $(top_srcdir)/common/coverage/lcov.mak
 
-check: check-exports check-enum-gettypes
+# Do not run the check-exports test in case any option which causes the API to
+# change has been used
+if !GST_DISABLE_GST_DEBUG
+if !GST_DISABLE_LOADSAVE
+if !GST_DISABLE_REGISTRY
+if !GST_DISABLE_TRACE
+CHECK_EXPORTS = check-exports
+endif
+endif
+endif
+endif
 
+check: $(CHECK_EXPORTS) check-enum-gettypes

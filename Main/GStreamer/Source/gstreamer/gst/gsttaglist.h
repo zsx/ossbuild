@@ -790,6 +790,63 @@ gboolean     gst_tag_list_get_buffer_index  (const GstTagList * list,
  * Since: 0.10.21
  */
 #define GST_TAG_GEO_LOCATION_ELEVATION               "geo-location-elevation"
+/**
+ * GST_TAG_SHOW_NAME
+ *
+ * Name of the show, used for displaying (string)
+ *
+ * Since: 0.10.26
+ */
+#define GST_TAG_SHOW_NAME                         "show-name"
+/**
+ * GST_TAG_SHOW_SORTNAME
+ *
+ * Name of the show, used for sorting (string)
+ *
+ * Since: 0.10.26
+ */
+#define GST_TAG_SHOW_SORTNAME                     "show-sortname"
+/**
+ * GST_TAG_SHOW_EPISODE_NUMBER
+ *
+ * Number of the episode within a season/show (unsigned integer)
+ *
+ * Since: 0.10.26
+ */
+#define GST_TAG_SHOW_EPISODE_NUMBER               "show-episode-number"
+/**
+ * GST_TAG_SHOW_SEASON_NUMBER
+ *
+ * Number of the season of a show/series (unsigned integer)
+ *
+ * Since: 0.10.26
+ */
+#define GST_TAG_SHOW_SEASON_NUMBER                "show-season-number"
+/**
+ * GST_TAG_LYRICS
+ *
+ * The lyrics of the media (string)
+ *
+ * Since: 0.10.26
+ */
+#define GST_TAG_LYRICS                            "lyrics"
+/**
+ * GST_TAG_COMPOSER_SORTNAME
+ *
+ * The composer's name, used for sorting (string)
+ *
+ * Since: 0.10.26
+ */
+#define GST_TAG_COMPOSER_SORTNAME                 "composer-sortname"
+/**
+ * GST_TAG_GROUPING
+ *
+ * Groups together media that are related and spans multiple tracks. An
+ * example are multiple pieces of a concerto. (string)
+ *
+ * Since: 0.10.26
+ */
+#define GST_TAG_GROUPING                          "grouping"
 
 G_END_DECLS
 

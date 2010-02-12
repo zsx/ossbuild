@@ -249,8 +249,8 @@ gst_queue_class_init (GstQueueClass * klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
-  gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_queue_set_property);
-  gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_queue_get_property);
+  gobject_class->set_property = gst_queue_set_property;
+  gobject_class->get_property = gst_queue_get_property;
 
   /* signals */
   /**
@@ -351,8 +351,20 @@ gst_queue_class_init (GstQueueClass * klass)
           GST_TYPE_QUEUE_LEAKY, GST_QUEUE_NO_LEAK,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
-  /* set several parent class virtual functions */
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_queue_finalize);
+  gobject_class->finalize = gst_queue_finalize;
+
+  /* Registering debug symbols for function pointers */
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_chain);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_sink_activate_push);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_handle_sink_event);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_link_sink);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_getcaps);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_acceptcaps);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_bufferalloc);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_src_activate_push);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_link_src);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_handle_src_event);
+  GST_DEBUG_REGISTER_FUNCPTR (gst_queue_handle_src_query);
 }
 
 static void
@@ -360,36 +372,25 @@ gst_queue_init (GstQueue * queue, GstQueueClass * g_class)
 {
   queue->sinkpad = gst_pad_new_from_static_template (&sinktemplate, "sink");
 
-  gst_pad_set_chain_function (queue->sinkpad,
-      GST_DEBUG_FUNCPTR (gst_queue_chain));
+  gst_pad_set_chain_function (queue->sinkpad, gst_queue_chain);
   gst_pad_set_activatepush_function (queue->sinkpad,
-      GST_DEBUG_FUNCPTR (gst_queue_sink_activate_push));
-  gst_pad_set_event_function (queue->sinkpad,
-      GST_DEBUG_FUNCPTR (gst_queue_handle_sink_event));
-  gst_pad_set_link_function (queue->sinkpad,
-      GST_DEBUG_FUNCPTR (gst_queue_link_sink));
-  gst_pad_set_getcaps_function (queue->sinkpad,
-      GST_DEBUG_FUNCPTR (gst_queue_getcaps));
-  gst_pad_set_acceptcaps_function (queue->sinkpad,
-      GST_DEBUG_FUNCPTR (gst_queue_acceptcaps));
-  gst_pad_set_bufferalloc_function (queue->sinkpad,
-      GST_DEBUG_FUNCPTR (gst_queue_bufferalloc));
+      gst_queue_sink_activate_push);
+  gst_pad_set_event_function (queue->sinkpad, gst_queue_handle_sink_event);
+  gst_pad_set_link_function (queue->sinkpad, gst_queue_link_sink);
+  gst_pad_set_getcaps_function (queue->sinkpad, gst_queue_getcaps);
+  gst_pad_set_acceptcaps_function (queue->sinkpad, gst_queue_acceptcaps);
+  gst_pad_set_bufferalloc_function (queue->sinkpad, gst_queue_bufferalloc);
   gst_element_add_pad (GST_ELEMENT (queue), queue->sinkpad);
 
   queue->srcpad = gst_pad_new_from_static_template (&srctemplate, "src");
 
   gst_pad_set_activatepush_function (queue->srcpad,
-      GST_DEBUG_FUNCPTR (gst_queue_src_activate_push));
-  gst_pad_set_link_function (queue->srcpad,
-      GST_DEBUG_FUNCPTR (gst_queue_link_src));
-  gst_pad_set_acceptcaps_function (queue->srcpad,
-      GST_DEBUG_FUNCPTR (gst_queue_acceptcaps));
-  gst_pad_set_getcaps_function (queue->srcpad,
-      GST_DEBUG_FUNCPTR (gst_queue_getcaps));
-  gst_pad_set_event_function (queue->srcpad,
-      GST_DEBUG_FUNCPTR (gst_queue_handle_src_event));
-  gst_pad_set_query_function (queue->srcpad,
-      GST_DEBUG_FUNCPTR (gst_queue_handle_src_query));
+      gst_queue_src_activate_push);
+  gst_pad_set_link_function (queue->srcpad, gst_queue_link_src);
+  gst_pad_set_acceptcaps_function (queue->srcpad, gst_queue_acceptcaps);
+  gst_pad_set_getcaps_function (queue->srcpad, gst_queue_getcaps);
+  gst_pad_set_event_function (queue->srcpad, gst_queue_handle_src_event);
+  gst_pad_set_query_function (queue->srcpad, gst_queue_handle_src_query);
   gst_element_add_pad (GST_ELEMENT (queue), queue->srcpad);
 
   GST_QUEUE_CLEAR_LEVEL (queue->cur_level);
@@ -409,6 +410,12 @@ gst_queue_init (GstQueue * queue, GstQueueClass * g_class)
   queue->item_add = g_cond_new ();
   queue->item_del = g_cond_new ();
   queue->queue = g_queue_new ();
+
+  queue->sinktime = GST_CLOCK_TIME_NONE;
+  queue->srctime = GST_CLOCK_TIME_NONE;
+
+  queue->sink_tainted = TRUE;
+  queue->src_tainted = TRUE;
 
   GST_DEBUG_OBJECT (queue,
       "initialized queue's not_empty & not_full conditions");
@@ -525,12 +532,21 @@ update_time_level (GstQueue * queue)
 {
   gint64 sink_time, src_time;
 
-  sink_time =
-      gst_segment_to_running_time (&queue->sink_segment, GST_FORMAT_TIME,
-      queue->sink_segment.last_stop);
+  if (queue->sink_tainted) {
+    queue->sinktime =
+        gst_segment_to_running_time (&queue->sink_segment, GST_FORMAT_TIME,
+        queue->sink_segment.last_stop);
+    queue->sink_tainted = FALSE;
+  }
+  sink_time = queue->sinktime;
 
-  src_time = gst_segment_to_running_time (&queue->src_segment, GST_FORMAT_TIME,
-      queue->src_segment.last_stop);
+  if (queue->src_tainted) {
+    queue->srctime =
+        gst_segment_to_running_time (&queue->src_segment, GST_FORMAT_TIME,
+        queue->src_segment.last_stop);
+    queue->src_tainted = FALSE;
+  }
+  src_time = queue->srctime;
 
   GST_LOG_OBJECT (queue, "sink %" GST_TIME_FORMAT ", src %" GST_TIME_FORMAT,
       GST_TIME_ARGS (sink_time), GST_TIME_ARGS (src_time));
@@ -544,7 +560,8 @@ update_time_level (GstQueue * queue)
 /* take a NEWSEGMENT event and apply the values to segment, updating the time
  * level of queue. */
 static void
-apply_segment (GstQueue * queue, GstEvent * event, GstSegment * segment)
+apply_segment (GstQueue * queue, GstEvent * event, GstSegment * segment,
+    gboolean sink)
 {
   gboolean update;
   GstFormat format;
@@ -568,6 +585,11 @@ apply_segment (GstQueue * queue, GstEvent * event, GstSegment * segment)
   gst_segment_set_newsegment_full (segment, update,
       rate, arate, format, start, stop, time);
 
+  if (sink)
+    queue->sink_tainted = TRUE;
+  else
+    queue->src_tainted = TRUE;
+
   GST_DEBUG_OBJECT (queue,
       "configured NEWSEGMENT %" GST_SEGMENT_FORMAT, segment);
 
@@ -578,7 +600,7 @@ apply_segment (GstQueue * queue, GstEvent * event, GstSegment * segment)
 /* take a buffer and update segment, updating the time level of the queue. */
 static void
 apply_buffer (GstQueue * queue, GstBuffer * buffer, GstSegment * segment,
-    gboolean with_duration)
+    gboolean with_duration, gboolean sink)
 {
   GstClockTime duration, timestamp;
 
@@ -598,6 +620,11 @@ apply_buffer (GstQueue * queue, GstBuffer * buffer, GstSegment * segment,
       GST_TIME_ARGS (timestamp));
 
   gst_segment_set_last_stop (segment, GST_FORMAT_TIME, timestamp);
+  if (sink)
+    queue->sink_tainted = TRUE;
+  else
+    queue->src_tainted = TRUE;
+
 
   /* calc diff with other end */
   update_time_level (queue);
@@ -621,66 +648,68 @@ gst_queue_locked_flush (GstQueue * queue)
   gst_segment_init (&queue->src_segment, GST_FORMAT_TIME);
   queue->head_needs_discont = queue->tail_needs_discont = FALSE;
 
+  queue->sinktime = queue->srctime = GST_CLOCK_TIME_NONE;
+  queue->sink_tainted = queue->src_tainted = TRUE;
+
   /* we deleted a lot of something */
   GST_QUEUE_SIGNAL_DEL (queue);
 }
 
 /* enqueue an item an update the level stats, with QUEUE_LOCK */
-static void
-gst_queue_locked_enqueue (GstQueue * queue, gpointer item)
+static inline void
+gst_queue_locked_enqueue_buffer (GstQueue * queue, gpointer item)
 {
-  if (GST_IS_BUFFER (item)) {
-    GstBuffer *buffer = GST_BUFFER_CAST (item);
+  GstBuffer *buffer = GST_BUFFER_CAST (item);
 
-    /* add buffer to the statistics */
-    queue->cur_level.buffers++;
-    queue->cur_level.bytes += GST_BUFFER_SIZE (buffer);
-    apply_buffer (queue, buffer, &queue->sink_segment, TRUE);
+  /* add buffer to the statistics */
+  queue->cur_level.buffers++;
+  queue->cur_level.bytes += GST_BUFFER_SIZE (buffer);
+  apply_buffer (queue, buffer, &queue->sink_segment, TRUE, TRUE);
 
-    /* if this is the first buffer update the end side as well, but without the
-     * duration. */
-    /* FIXME : This will only be useful for current time level if the
-     * source task is running, which is not the case for ex in
-     * gstplaybasebin when pre-rolling.
-     * See #482147 */
-    /*     if (queue->cur_level.buffers == 1) */
-    /*       apply_buffer (queue, buffer, &queue->src_segment, FALSE); */
-  } else if (GST_IS_EVENT (item)) {
-    GstEvent *event = GST_EVENT_CAST (item);
+  /* if this is the first buffer update the end side as well, but without the
+   * duration. */
+  /* FIXME : This will only be useful for current time level if the
+   * source task is running, which is not the case for ex in
+   * gstplaybasebin when pre-rolling.
+   * See #482147 */
+  /*     if (queue->cur_level.buffers == 1) */
+  /*       apply_buffer (queue, buffer, &queue->src_segment, FALSE); */
 
-    switch (GST_EVENT_TYPE (event)) {
-      case GST_EVENT_EOS:
-        /* Zero the thresholds, this makes sure the queue is completely
-         * filled and we can read all data from the queue. */
-        GST_QUEUE_CLEAR_LEVEL (queue->min_threshold);
-        /* mark the queue as EOS. This prevents us from accepting more data. */
-        GST_CAT_LOG_OBJECT (queue_dataflow, queue, "got EOS from upstream");
-        queue->eos = TRUE;
-        break;
-      case GST_EVENT_NEWSEGMENT:
-        apply_segment (queue, event, &queue->sink_segment);
-        /* a new segment allows us to accept more buffers if we got UNEXPECTED
-         * from downstream */
-        queue->unexpected = FALSE;
-        break;
-      default:
-        break;
-    }
-  } else {
-    g_warning ("Unexpected item %p added in queue %s (refcounting problem?)",
-        item, GST_OBJECT_NAME (queue));
-    /* we can't really unref since we don't know what it is */
-    item = NULL;
+  g_queue_push_tail (queue->queue, item);
+  GST_QUEUE_SIGNAL_ADD (queue);
+}
+
+static inline void
+gst_queue_locked_enqueue_event (GstQueue * queue, gpointer item)
+{
+  GstEvent *event = GST_EVENT_CAST (item);
+
+  switch (GST_EVENT_TYPE (event)) {
+    case GST_EVENT_EOS:
+      /* Zero the thresholds, this makes sure the queue is completely
+       * filled and we can read all data from the queue. */
+      GST_QUEUE_CLEAR_LEVEL (queue->min_threshold);
+      /* mark the queue as EOS. This prevents us from accepting more data. */
+      GST_CAT_LOG_OBJECT (queue_dataflow, queue, "got EOS from upstream");
+      queue->eos = TRUE;
+      break;
+    case GST_EVENT_NEWSEGMENT:
+      apply_segment (queue, event, &queue->sink_segment, TRUE);
+      /* a new segment allows us to accept more buffers if we got UNEXPECTED
+       * from downstream */
+      queue->unexpected = FALSE;
+      break;
+    default:
+      break;
   }
 
-  if (item)
-    g_queue_push_tail (queue->queue, item);
+  g_queue_push_tail (queue->queue, item);
   GST_QUEUE_SIGNAL_ADD (queue);
 }
 
 /* dequeue an item from the queue and update level stats, with QUEUE_LOCK */
 static GstMiniObject *
-gst_queue_locked_dequeue (GstQueue * queue)
+gst_queue_locked_dequeue (GstQueue * queue, gboolean * is_buffer)
 {
   GstMiniObject *item;
 
@@ -696,11 +725,13 @@ gst_queue_locked_dequeue (GstQueue * queue)
 
     queue->cur_level.buffers--;
     queue->cur_level.bytes -= GST_BUFFER_SIZE (buffer);
-    apply_buffer (queue, buffer, &queue->src_segment, TRUE);
+    apply_buffer (queue, buffer, &queue->src_segment, TRUE, FALSE);
 
     /* if the queue is empty now, update the other side */
     if (queue->cur_level.buffers == 0)
       queue->cur_level.time = 0;
+
+    *is_buffer = TRUE;
   } else if (GST_IS_EVENT (item)) {
     GstEvent *event = GST_EVENT_CAST (item);
 
@@ -713,11 +744,13 @@ gst_queue_locked_dequeue (GstQueue * queue)
         GST_QUEUE_CLEAR_LEVEL (queue->cur_level);
         break;
       case GST_EVENT_NEWSEGMENT:
-        apply_segment (queue, event, &queue->src_segment);
+        apply_segment (queue, event, &queue->src_segment, FALSE);
         break;
       default:
         break;
     }
+
+    *is_buffer = FALSE;
   } else {
     g_warning
         ("Unexpected item %p dequeued from queue %s (refcounting problem?)",
@@ -793,7 +826,7 @@ gst_queue_handle_sink_event (GstPad * pad, GstEvent * event)
         /* refuse more events on EOS */
         if (queue->eos)
           goto out_eos;
-        gst_queue_locked_enqueue (queue, event);
+        gst_queue_locked_enqueue_event (queue, event);
         GST_QUEUE_MUTEX_UNLOCK (queue);
       } else {
         /* non-serialized events are passed upstream. */
@@ -856,8 +889,9 @@ gst_queue_leak_downstream (GstQueue * queue)
   /* for as long as the queue is filled, dequeue an item and discard it */
   while (gst_queue_is_filled (queue)) {
     GstMiniObject *leak;
+    gboolean is_buffer;
 
-    leak = gst_queue_locked_dequeue (queue);
+    leak = gst_queue_locked_dequeue (queue, &is_buffer);
     /* there is nothing to dequeue and the queue is still filled.. This should
      * not happen */
     g_assert (leak != NULL);
@@ -877,7 +911,7 @@ gst_queue_chain (GstPad * pad, GstBuffer * buffer)
   GstQueue *queue;
   GstClockTime duration, timestamp;
 
-  queue = GST_QUEUE (GST_OBJECT_PARENT (pad));
+  queue = (GstQueue *) GST_OBJECT_PARENT (pad);
 
   /* we have to lock the queue since we span threads */
   GST_QUEUE_MUTEX_LOCK_CHECK (queue, out_flushing);
@@ -900,7 +934,7 @@ gst_queue_chain (GstPad * pad, GstBuffer * buffer)
    * We always handle events and they don't count in our statistics. */
   while (gst_queue_is_filled (queue)) {
     GST_QUEUE_MUTEX_UNLOCK (queue);
-    g_signal_emit (G_OBJECT (queue), gst_queue_signals[SIGNAL_OVERRUN], 0);
+    g_signal_emit (queue, gst_queue_signals[SIGNAL_OVERRUN], 0);
     GST_QUEUE_MUTEX_LOCK_CHECK (queue, out_flushing);
 
     /* we recheck, the signal could have changed the thresholds */
@@ -937,7 +971,7 @@ gst_queue_chain (GstPad * pad, GstBuffer * buffer)
         GST_CAT_DEBUG_OBJECT (queue_dataflow, queue, "queue is not full");
 
         GST_QUEUE_MUTEX_UNLOCK (queue);
-        g_signal_emit (G_OBJECT (queue), gst_queue_signals[SIGNAL_RUNNING], 0);
+        g_signal_emit (queue, gst_queue_signals[SIGNAL_RUNNING], 0);
         GST_QUEUE_MUTEX_LOCK_CHECK (queue, out_flushing);
         break;
       }
@@ -957,7 +991,7 @@ gst_queue_chain (GstPad * pad, GstBuffer * buffer)
   }
 
   /* put buffer in queue now */
-  gst_queue_locked_enqueue (queue, buffer);
+  gst_queue_locked_enqueue_buffer (queue, buffer);
   GST_QUEUE_MUTEX_UNLOCK (queue);
 
   return GST_FLOW_OK;
@@ -1010,13 +1044,14 @@ gst_queue_push_one (GstQueue * queue)
 {
   GstFlowReturn result = GST_FLOW_OK;
   GstMiniObject *data;
+  gboolean is_buffer;
 
-  data = gst_queue_locked_dequeue (queue);
+  data = gst_queue_locked_dequeue (queue, &is_buffer);
   if (data == NULL)
     goto no_item;
 
 next:
-  if (GST_IS_BUFFER (data)) {
+  if (is_buffer) {
     GstBuffer *buffer;
     GstCaps *caps;
 
@@ -1057,12 +1092,12 @@ next:
        * can push again, which is EOS or NEWSEGMENT. If there is nothing in the
        * queue we can push, we set a flag to make the sinkpad refuse more
        * buffers with an UNEXPECTED return value. */
-      while ((data = gst_queue_locked_dequeue (queue))) {
-        if (GST_IS_BUFFER (data)) {
+      while ((data = gst_queue_locked_dequeue (queue, &is_buffer))) {
+        if (is_buffer) {
           GST_CAT_LOG_OBJECT (queue_dataflow, queue,
               "dropping UNEXPECTED buffer %p", data);
           gst_buffer_unref (GST_BUFFER_CAST (data));
-        } else if (GST_IS_EVENT (data)) {
+        } else {
           GstEvent *event = GST_EVENT_CAST (data);
           GstEventType type = GST_EVENT_TYPE (event);
 
@@ -1085,7 +1120,7 @@ next:
       queue->unexpected = TRUE;
       result = GST_FLOW_OK;
     }
-  } else if (GST_IS_EVENT (data)) {
+  } else {
     GstEvent *event = GST_EVENT_CAST (data);
     GstEventType type = GST_EVENT_TYPE (event);
 
@@ -1123,14 +1158,14 @@ gst_queue_loop (GstPad * pad)
   GstQueue *queue;
   GstFlowReturn ret;
 
-  queue = GST_QUEUE (GST_PAD_PARENT (pad));
+  queue = (GstQueue *) GST_PAD_PARENT (pad);
 
   /* have to lock for thread-safety */
   GST_QUEUE_MUTEX_LOCK_CHECK (queue, out_flushing);
 
   while (gst_queue_is_empty (queue)) {
     GST_QUEUE_MUTEX_UNLOCK (queue);
-    g_signal_emit (G_OBJECT (queue), gst_queue_signals[SIGNAL_UNDERRUN], 0);
+    g_signal_emit (queue, gst_queue_signals[SIGNAL_UNDERRUN], 0);
     GST_CAT_DEBUG_OBJECT (queue_dataflow, queue, "queue is empty");
     GST_QUEUE_MUTEX_LOCK_CHECK (queue, out_flushing);
 
@@ -1140,8 +1175,8 @@ gst_queue_loop (GstPad * pad)
     }
     GST_QUEUE_MUTEX_UNLOCK (queue);
 
-    g_signal_emit (G_OBJECT (queue), gst_queue_signals[SIGNAL_RUNNING], 0);
-    g_signal_emit (G_OBJECT (queue), gst_queue_signals[SIGNAL_PUSHING], 0);
+    g_signal_emit (queue, gst_queue_signals[SIGNAL_RUNNING], 0);
+    g_signal_emit (queue, gst_queue_signals[SIGNAL_PUSHING], 0);
     GST_CAT_DEBUG_OBJECT (queue_dataflow, queue, "queue is not empty");
 
     GST_QUEUE_MUTEX_LOCK_CHECK (queue, out_flushing);

@@ -77,6 +77,15 @@
 GST_DEBUG_CATEGORY_STATIC (collect_pads_debug);
 #define GST_CAT_DEFAULT collect_pads_debug
 
+#define GST_COLLECT_PADS_GET_PRIVATE(obj)  \
+  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GST_TYPE_COLLECT_PADS, GstCollectPadsPrivate))
+
+struct _GstCollectPadsPrivate
+{
+  GstCollectPadsClipFunction clipfunc;
+  gpointer clipfunc_user_data;
+};
+
 GST_BOILERPLATE (GstCollectPads, gst_collect_pads, GstObject, GST_TYPE_OBJECT);
 
 static void gst_collect_pads_clear (GstCollectPads * pads,
@@ -101,15 +110,19 @@ gst_collect_pads_class_init (GstCollectPadsClass * klass)
 {
   GObjectClass *gobject_class = (GObjectClass *) klass;
 
+  g_type_class_add_private (klass, sizeof (GstCollectPadsPrivate));
+
   GST_DEBUG_CATEGORY_INIT (collect_pads_debug, "collectpads", 0,
       "GstCollectPads");
 
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_collect_pads_finalize);
+  gobject_class->finalize = gst_collect_pads_finalize;
 }
 
 static void
 gst_collect_pads_init (GstCollectPads * pads, GstCollectPadsClass * g_class)
 {
+  pads->abidata.ABI.priv = GST_COLLECT_PADS_GET_PRIVATE (pads);
+
   pads->cond = g_cond_new ();
   pads->data = NULL;
   pads->cookie = 0;
@@ -153,7 +166,7 @@ gst_collect_pads_finalize (GObject * object)
 /**
  * gst_collect_pads_new:
  *
- * Create a new instance of #GstCollectsPads.
+ * Create a new instance of #GstCollectPads.
  *
  * Returns: a new #GstCollectPads, or NULL in case of an error.
  *
@@ -164,7 +177,7 @@ gst_collect_pads_new (void)
 {
   GstCollectPads *newcoll;
 
-  newcoll = g_object_new (GST_TYPE_COLLECT_PADS, NULL);
+  newcoll = g_object_newv (GST_TYPE_COLLECT_PADS, 0, NULL);
 
   return newcoll;
 }
@@ -237,6 +250,10 @@ unref_data (GstCollectData * data)
  * a sinkpad. The refcount of the pad is incremented. Use
  * gst_collect_pads_remove_pad() to remove the pad from the collection
  * again.
+ *
+ * This function will override the chain and event functions of the pad
+ * along with the element_private data, which is used to store private
+ * information for the collectpads.
  *
  * You specify a size for the returned #GstCollectData structure
  * so that you can use it to store additional information.
@@ -341,6 +358,32 @@ find_pad (GstCollectData * data, GstPad * pad)
   if (data->pad == pad)
     return 0;
   return 1;
+}
+
+/**
+ * gst_collect_pads_set_clip_function:
+ * @pads: the collectspads to use
+ * @clipfunc: clip function to install
+ * @user_data: user data to pass to @clip_func
+ *
+ * Install a clipping function that is called right after a buffer is received
+ * on a pad managed by @pads. See #GstCollectDataClipFunction for more info.
+ *
+ * Since: 0.10.26
+ */
+void
+gst_collect_pads_set_clip_function (GstCollectPads * pads,
+    GstCollectPadsClipFunction clipfunc, gpointer user_data)
+{
+  GstCollectPadsPrivate *priv;
+
+  g_return_if_fail (pads != NULL);
+  g_return_if_fail (GST_IS_COLLECT_PADS (pads));
+
+  priv = pads->abidata.ABI.priv;
+
+  priv->clipfunc = clipfunc;
+  priv->clipfunc_user_data = user_data;
 }
 
 /**
@@ -886,13 +929,13 @@ gst_collect_pads_read (GstCollectPads * pads, GstCollectData * data,
  * @data: the data to use
  * @size: the number of bytes to read
  *
- * Get a subbuffer of @size bytes from the given pad @data.
+ * Get a buffer of @size bytes from the given pad @data.
  *
  * This function should be called with @pads LOCK held, such as in the callback.
  *
  * Since: 0.10.18
  *
- * Returns: A sub buffer. The size of the buffer can be less that requested.
+ * Returns: A #GstBuffer. The size of the buffer can be less that requested.
  * A return of NULL signals that the pad is end-of-stream.
  * Unref the buffer after use.
  *
@@ -902,7 +945,7 @@ GstBuffer *
 gst_collect_pads_read_buffer (GstCollectPads * pads, GstCollectData * data,
     guint size)
 {
-  guint readsize;
+  guint readsize, bufsize;
   GstBuffer *buffer;
 
   g_return_val_if_fail (pads != NULL, NULL);
@@ -913,9 +956,14 @@ gst_collect_pads_read_buffer (GstCollectPads * pads, GstCollectData * data,
   if ((buffer = data->buffer) == NULL)
     return NULL;
 
-  readsize = MIN (size, GST_BUFFER_SIZE (buffer) - data->pos);
+  bufsize = GST_BUFFER_SIZE (buffer);
 
-  return gst_buffer_create_sub (buffer, data->pos, readsize);
+  readsize = MIN (size, bufsize - data->pos);
+
+  if (data->pos == 0 && readsize == bufsize)
+    return gst_buffer_ref (buffer);
+  else
+    return gst_buffer_create_sub (buffer, data->pos, readsize);
 }
 
 /**
@@ -924,14 +972,14 @@ gst_collect_pads_read_buffer (GstCollectPads * pads, GstCollectData * data,
  * @data: the data to use
  * @size: the number of bytes to read
  *
- * Get a subbuffer of @size bytes from the given pad @data. Flushes the amount
+ * Get a buffer of @size bytes from the given pad @data. Flushes the amount
  * of read bytes.
  *
  * This function should be called with @pads LOCK held, such as in the callback.
  *
  * Since: 0.10.18
  *
- * Returns: A sub buffer. The size of the buffer can be less that requested.
+ * Returns: A #GstBuffer. The size of the buffer can be less that requested.
  * A return of NULL signals that the pad is end-of-stream.
  * Unref the buffer after use.
  *
@@ -1257,8 +1305,8 @@ gst_collect_pads_chain (GstPad * pad, GstBuffer * buffer)
 {
   GstCollectData *data;
   GstCollectPads *pads;
+  GstCollectPadsPrivate *priv;
   GstFlowReturn ret;
-  GstBuffer **buffer_p;
 
   GST_DEBUG ("Got buffer for pad %s:%s", GST_DEBUG_PAD_NAME (pad));
 
@@ -1271,6 +1319,7 @@ gst_collect_pads_chain (GstPad * pad, GstBuffer * buffer)
   GST_OBJECT_UNLOCK (pad);
 
   pads = data->collect;
+  priv = pads->abidata.ABI.priv;
 
   GST_OBJECT_LOCK (pads);
   /* if not started, bail out */
@@ -1283,17 +1332,28 @@ gst_collect_pads_chain (GstPad * pad, GstBuffer * buffer)
   if (G_UNLIKELY (data->abidata.ABI.eos))
     goto unexpected;
 
+  /* see if we need to clip */
+  if (priv->clipfunc) {
+    buffer = priv->clipfunc (pads, data, buffer, priv->clipfunc_user_data);
+
+    if (G_UNLIKELY (buffer == NULL))
+      goto clipped;
+  }
+
   GST_DEBUG ("Queuing buffer %p for pad %s:%s", buffer,
       GST_DEBUG_PAD_NAME (pad));
 
   /* One more pad has data queued */
   pads->queuedpads++;
-  buffer_p = &data->buffer;
-  gst_buffer_replace (buffer_p, buffer);
+  /* take ownership of the buffer */
+  if (data->buffer)
+    gst_buffer_unref (data->buffer);
+  data->buffer = buffer;
+  buffer = NULL;
 
   /* update segment last position if in TIME */
   if (G_LIKELY (data->segment.format == GST_FORMAT_TIME)) {
-    GstClockTime timestamp = GST_BUFFER_TIMESTAMP (buffer);
+    GstClockTime timestamp = GST_BUFFER_TIMESTAMP (data->buffer);
 
     if (GST_CLOCK_TIME_IS_VALID (timestamp))
       gst_segment_set_last_stop (&data->segment, GST_FORMAT_TIME, timestamp);
@@ -1347,7 +1407,8 @@ unlock_done:
   GST_DEBUG ("Pad %s:%s done", GST_DEBUG_PAD_NAME (pad));
   GST_OBJECT_UNLOCK (pads);
   unref_data (data);
-  gst_buffer_unref (buffer);
+  if (buffer)
+    gst_buffer_unref (buffer);
   return ret;
 
 pad_removed:
@@ -1385,6 +1446,12 @@ unexpected:
      * we don't expect anything anymore */
     GST_DEBUG ("pad %s:%s is eos", GST_DEBUG_PAD_NAME (pad));
     ret = GST_FLOW_UNEXPECTED;
+    goto unlock_done;
+  }
+clipped:
+  {
+    GST_DEBUG ("clipped buffer on pad %s:%s", GST_DEBUG_PAD_NAME (pad));
+    ret = GST_FLOW_OK;
     goto unlock_done;
   }
 error:

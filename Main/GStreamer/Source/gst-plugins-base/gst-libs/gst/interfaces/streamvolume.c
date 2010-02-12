@@ -51,8 +51,9 @@
 
 #include "streamvolume.h"
 #include <math.h>
-#ifdef _MSC_VER
-	#define cbrt(x) pow(abs(x),1.0/3.0)
+
+#ifndef HAVE_CBRT
+#define cbrt(x) (pow(abs(x),1.0/3.0))
 #endif
 
 static void

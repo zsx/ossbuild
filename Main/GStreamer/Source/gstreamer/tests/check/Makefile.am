@@ -10,6 +10,7 @@ REGISTRY_ENVIRONMENT = \
 TESTS_ENVIRONMENT = \
         STATE_IGNORE_ELEMENTS="$(STATE_IGNORE_ELEMENTS)"	\
         $(REGISTRY_ENVIRONMENT)					\
+        GST_PLUGIN_SCANNER=$(top_builddir)/libs/gst/helpers/gst-plugin-scanner \
         GST_PLUGIN_SYSTEM_PATH=					\
         GST_PLUGIN_PATH=$(top_builddir)/plugins
 
@@ -46,6 +47,7 @@ else
 REGISTRY_CHECKS =				\
 	gst/gst					\
 	gst/gstbin				\
+	gst/gstchildproxy			\
 	gst/gstelement				\
 	gst/gstevent				\
 	gst/gstghostpad				\
@@ -104,6 +106,7 @@ check_PROGRAMS =				\
 	libs/adapter				\
 	libs/bitreader				\
 	libs/bytereader				\
+	libs/bytewriter				\
 	libs/gstnetclientclock			\
 	libs/gstnettimeprovider			\
 	libs/transform1				
@@ -140,6 +143,7 @@ EXTRA_DIST = \
 
 AM_CFLAGS = $(GST_OBJ_CFLAGS) $(CHECK_CFLAGS)
 LDADD = $(top_builddir)/libs/gst/check/libgstcheck-@GST_MAJORMINOR@.la \
+	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
 	$(GST_OBJ_LIBS) \
 	$(CHECK_LIBS)
 
@@ -155,25 +159,6 @@ libs_gdp_LDADD = \
 elements_fdsrc_CFLAGS=$(GST_OBJ_CFLAGS) $(CHECK_CFLAGS) -DTESTFILE=\"$(top_srcdir)/configure.ac\"
 elements_filesrc_CFLAGS=$(GST_OBJ_CFLAGS) $(CHECK_CFLAGS) -DTESTFILE=\"$(top_srcdir)/configure.ac\"
 
-elements_fakesink_LDADD = \
-	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
-	$(LDADD)
-
-libs_basesrc_LDADD = \
-	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
-	$(LDADD)
-libs_bitreader_LDADD = \
-	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
-	$(LDADD)
-libs_bytereader_LDADD = \
-	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
-	$(LDADD)
-libs_adapter_LDADD = \
-	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
-	$(LDADD)
-libs_collectpads_LDADD = \
-	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
-	$(LDADD)
 libs_controller_LDADD = \
 	$(top_builddir)/libs/gst/controller/libgstcontroller-@GST_MAJORMINOR@.la \
 	$(LDADD)
@@ -182,12 +167,6 @@ libs_gstnetclientclock_LDADD = \
 	$(LDADD)
 libs_gstnettimeprovider_LDADD = \
 	$(top_builddir)/libs/gst/net/libgstnet-@GST_MAJORMINOR@.la \
-	$(LDADD)
-libs_typefindhelper_LDADD = \
-	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
-	$(LDADD)
-libs_transform1_LDADD = \
-	$(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
 	$(LDADD)
 
 # valgrind testing
@@ -261,7 +240,7 @@ coverage-report:
 	      coverage/$$dir/index.xml > coverage/$$dir/index.html;	\
 	  fi; \
         done
-	
+
 	for file in $(COVERAGE_FILES_REL); do				\
 	  echo Generating coverage/$$file.html; 			\
 	  perl $(top_srcdir)/common/coverage/coverage-report-entry.pl   \

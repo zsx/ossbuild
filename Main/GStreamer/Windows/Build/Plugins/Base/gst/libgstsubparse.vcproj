@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstsubparse"
 	ProjectGUID="{C60A873B-FB88-FB4B-B327-F70DFEFE4CC0}"
 	RootNamespace="libgstsubparse"
@@ -337,6 +337,14 @@
 		</File>
 		<File
 			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\mpl2parse.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\qttextparse.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst\subparse\qttextparse.h"
 			>
 		</File>
 		<File

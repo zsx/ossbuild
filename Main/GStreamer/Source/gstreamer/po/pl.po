@@ -1,13 +1,13 @@
 # Polish translation for gstreamer.
 # This file is distributed under the same license as the gstreamer package.
-# Jakub Bogusz <qboosh@pld-linux.org>, 2007-2009.
+# Jakub Bogusz <qboosh@pld-linux.org>, 2007-2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gstreamer 0.10.24.2\n"
+"Project-Id-Version: gstreamer 0.10.25.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-10-05 12:38+0100\n"
-"PO-Revision-Date: 2009-09-17 18:34+0200\n"
+"POT-Creation-Date: 2010-02-09 00:56+0000\n"
+"PO-Revision-Date: 2010-01-27 17:31+0100\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -77,26 +77,15 @@ msgstr ""
 msgid "Disable updating the registry"
 msgstr "Wyłączenie uaktualniania rejestru"
 
-msgid "Disable the use of fork() while scanning the registry"
-msgstr "Wyłączenie użycia fork() przy przeszukiwaniu rejestru"
+msgid "Disable spawning a helper process while scanning the registry"
+msgstr ""
+"Wyłączenie uruchamiania procesu pomocniczego przy przeszukiwaniu rejestru"
 
 msgid "GStreamer Options"
 msgstr "Opcje GStreamera"
 
 msgid "Show GStreamer Options"
 msgstr "Pokazanie opcji GStreamera"
-
-#, c-format
-msgid "Error writing registry cache to %s: %s"
-msgstr "Błąd zapisu bufora rejestru do %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s: %s"
-msgstr "Błąd ponownego przeszukiwania rejestru %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s"
-msgstr "Błąd ponownego przeszukiwania rejestru %s"
 
 msgid "Unknown option"
 msgstr "Nieznana opcja"
@@ -634,6 +623,54 @@ msgstr ""
 "wysokość miejsca, gdzie utwór został nagrany lub wyprodukowany wyrażona w "
 "metrach zgodnie z WSG84 (0 to średni poziom morza)"
 
+msgid "show name"
+msgstr "nazwa widowiska"
+
+msgid "Name of the tv/podcast/series show the media is from"
+msgstr ""
+"Nazwa widowiska telewizyjnego/podcastu/serialu, z którego pochodzi utwór"
+
+msgid "show sortname"
+msgstr "nazwa widowiska do sortowania"
+
+msgid ""
+"Name of the tv/podcast/series show the media is from, for sorting purposes"
+msgstr "Nazwa widowiska telewizyjnego/podcastu/serialu na potrzeby sortowania"
+
+msgid "episode number"
+msgstr "numer odcinka"
+
+msgid "The episode number in the season the media is part of"
+msgstr "Numer odcinka w sezonie, z którego pochodzi utwór"
+
+msgid "season number"
+msgstr "numer sezonu"
+
+msgid "The season number of the show the media is part of"
+msgstr "Numer sezonu widowiska, z którego pochodzi utwór"
+
+msgid "lyrics"
+msgstr "tekst"
+
+msgid "The lyrics of the media, commonly used for songs"
+msgstr "Tekst utworu, używany najczęściej dla piosenek"
+
+msgid "composer sortname"
+msgstr "nazwa kompozytora do sortowania"
+
+msgid "person(s) who composed the recording, for sorting purposes"
+msgstr "osoba lub osoby, które skomponowały nagranie - na potrzeby sortowania"
+
+msgid "grouping"
+msgstr "grupowanie"
+
+msgid ""
+"Groups related media that spans multiple tracks, like the different pieces "
+"of a concerto. It is a higher level than a track, but lower than an album"
+msgstr ""
+"Grupowanie powiązanych utworów rozciągające się na wiele ścieżek, jak różne "
+"części koncertu; jest to poziom wyższy niż ścieżka, a niższy niż album"
+
 msgid ", "
 msgstr ", "
 
@@ -756,6 +793,13 @@ msgstr "Plik \"%s\" jest gniazdem."
 msgid "Failed after iterations as requested."
 msgstr "Niepowodzenie po iteracjach jak żądano."
 
+msgid "No Temp directory specified."
+msgstr "Nie podano katalogu tymczasowego."
+
+#, c-format
+msgid "Could not create temp file \"%s\"."
+msgstr "Nie udało się utworzyć pliku tymczasowego \"%s\"."
+
 msgid "caps"
 msgstr "możliwości"
 
@@ -789,8 +833,18 @@ msgstr "zapis"
 msgid "controllable"
 msgstr "sterowanie"
 
+msgid "Blacklisted files:"
+msgstr "Pliki wykluczone:"
+
 msgid "Total count: "
 msgstr "Całkowita liczba: "
+
+#, c-format
+msgid "%d blacklisted file"
+msgid_plural "%d blacklisted files"
+msgstr[0] "%d plik wykluczony"
+msgstr[1] "%d pliki wykluczone"
+msgstr[2] "%d plików wykluczonych"
 
 #, c-format
 msgid "%d plugin"
@@ -798,6 +852,13 @@ msgid_plural "%d plugins"
 msgstr[0] "%d wtyczka"
 msgstr[1] "%d wtyczki"
 msgstr[2] "%d wtyczek"
+
+#, c-format
+msgid "%d blacklist entry"
+msgid_plural "%d blacklist entries"
+msgstr[0] "%d wpis wykluczony"
+msgstr[1] "%d wpisy wykluczone"
+msgstr[2] "%d wpisów wykluczonych"
 
 #, c-format
 msgid "%d feature"
@@ -809,8 +870,12 @@ msgstr[2] "%d cech"
 msgid "Print all elements"
 msgstr "Wypisanie wszystkich elementów"
 
+msgid "Print list of blacklisted files"
+msgstr "Wypisanie listy plików wykluczonych"
+
 msgid ""
-"Print a machine-parsable list of features the specified plugin provides.\n"
+"Print a machine-parsable list of features the specified plugin or all "
+"plugins provide.\n"
 "                                       Useful in connection with external "
 "automatic plugin installation mechanisms"
 msgstr ""
@@ -1020,3 +1085,12 @@ msgstr "Ustawianie potoku na NULL...\n"
 
 msgid "Freeing pipeline ...\n"
 msgstr "Zwalnianie potoku...\n"
+
+#~ msgid "Error writing registry cache to %s: %s"
+#~ msgstr "Błąd zapisu bufora rejestru do %s: %s"
+
+#~ msgid "Error re-scanning registry %s: %s"
+#~ msgstr "Błąd ponownego przeszukiwania rejestru %s: %s"
+
+#~ msgid "Error re-scanning registry %s"
+#~ msgstr "Błąd ponownego przeszukiwania rejestru %s"

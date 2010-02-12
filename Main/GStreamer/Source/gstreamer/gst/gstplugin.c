@@ -49,6 +49,9 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "gst_private.h"
+
 #include <glib/gstdio.h>
 #include <sys/types.h>
 #ifdef HAVE_DIRENT_H
@@ -60,7 +63,6 @@
 #include <signal.h>
 #include <errno.h>
 
-#include "gst_private.h"
 #include "glib-compat-private.h"
 
 #include <gst/gst.h>
@@ -123,7 +125,7 @@ gst_plugin_finalize (GObject * object)
   GstRegistry *registry = gst_registry_get_default ();
   GList *g;
 
-  GST_DEBUG ("finalizing plugin %p", plugin);
+  GST_DEBUG ("finalizing plugin %" GST_PTR_FORMAT, plugin);
   for (g = registry->plugins; g; g = g->next) {
     if (g->data == (gpointer) plugin) {
       g_warning ("removing plugin that is still in registry");
@@ -147,7 +149,7 @@ gst_plugin_finalize (GObject * object)
 static void
 gst_plugin_class_init (GstPluginClass * klass)
 {
-  G_OBJECT_CLASS (klass)->finalize = GST_DEBUG_FUNCPTR (gst_plugin_finalize);
+  G_OBJECT_CLASS (klass)->finalize = gst_plugin_finalize;
 
   g_type_class_add_private (klass, sizeof (GstPluginPrivate));
 }
@@ -245,7 +247,7 @@ gst_plugin_register_static (gint major_version, gint minor_version,
   g_return_val_if_fail (_gst_plugin_inited != FALSE, FALSE);
 
   GST_LOG ("attempting to load static plugin \"%s\" now...", name);
-  plugin = g_object_new (GST_TYPE_PLUGIN, NULL);
+  plugin = g_object_newv (GST_TYPE_PLUGIN, 0, NULL);
   if (gst_plugin_register_func (plugin, &desc, NULL) != NULL) {
     GST_INFO ("registered static plugin \"%s\"", name);
     res = gst_default_registry_add_plugin (plugin);
@@ -314,7 +316,7 @@ gst_plugin_register_static_full (gint major_version, gint minor_version,
   g_return_val_if_fail (_gst_plugin_inited != FALSE, FALSE);
 
   GST_LOG ("attempting to load static plugin \"%s\" now...", name);
-  plugin = g_object_new (GST_TYPE_PLUGIN, NULL);
+  plugin = g_object_newv (GST_TYPE_PLUGIN, 0, NULL);
   if (gst_plugin_register_func (plugin, &desc, user_data) != NULL) {
     GST_INFO ("registered static plugin \"%s\"", name);
     res = gst_default_registry_add_plugin (plugin);
@@ -593,7 +595,7 @@ gst_plugin_load_file (const gchar * filename, GError ** error)
   }
 
   if (new_plugin) {
-    plugin = g_object_new (GST_TYPE_PLUGIN, NULL);
+    plugin = g_object_newv (GST_TYPE_PLUGIN, 0, NULL);
     plugin->file_mtime = file_status.st_mtime;
     plugin->file_size = file_status.st_size;
     plugin->filename = g_strdup (filename);
@@ -1605,7 +1607,13 @@ gst_plugin_add_dependency (GstPlugin * plugin, const gchar ** env_vars,
   GList *l;
 
   g_return_if_fail (GST_IS_PLUGIN (plugin));
-  g_return_if_fail (env_vars != NULL || paths != NULL);
+
+  if ((env_vars == NULL || env_vars[0] == NULL) &&
+      (paths == NULL || paths[0] == NULL)) {
+    GST_DEBUG_OBJECT (plugin,
+        "plugin registered empty dependency set. Ignoring");
+    return;
+  }
 
   for (l = plugin->priv->deps; l != NULL; l = l->next) {
     if (gst_plugin_ext_dep_equals (l->data, env_vars, paths, names, flags)) {

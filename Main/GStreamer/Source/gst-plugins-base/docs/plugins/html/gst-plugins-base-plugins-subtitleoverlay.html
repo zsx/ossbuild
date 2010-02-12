@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>subtitleoverlay</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Base Plugins 0.10 Plugins Reference Manual">
+<link rel="up" href="ch01.html" title="gst-plugins-base Elements">
+<link rel="prev" href="gst-plugins-base-plugins-playbin2.html" title="playbin2">
+<link rel="next" href="gst-plugins-base-plugins-tcpclientsrc.html" title="tcpclientsrc">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="chapter" href="ch01.html" title="gst-plugins-base Elements">
+<link rel="chapter" href="ch02.html" title="gst-plugins-base Plugins">
+<link rel="chapter" href="ch03.html" title="gst-plugins-base Classes">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gst-plugins-base-plugins-playbin2.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GStreamer Base Plugins 0.10 Plugins Reference Manual</th>
+<td><a accesskey="n" href="gst-plugins-base-plugins-tcpclientsrc.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gst-plugins-base-plugins-subtitleoverlay.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-subtitleoverlay.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-subtitleoverlay.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#gst-plugins-base-plugins-subtitleoverlay.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+</td></tr>
+</table>
+<div class="refentry" title="subtitleoverlay">
+<a name="gst-plugins-base-plugins-subtitleoverlay"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gst-plugins-base-plugins-subtitleoverlay.top_of_page"></a>subtitleoverlay</span></h2>
+<p>subtitleoverlay — Overlays a video stream with subtitles</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="gst-plugins-base-plugins-subtitleoverlay.synopsis"></a><h2>Synopsis</h2>
+<a name="GstSubtitleOverlay"></a><pre class="synopsis">                    <a class="link" href="gst-plugins-base-plugins-subtitleoverlay.html#GstSubtitleOverlay-struct" title="GstSubtitleOverlay">GstSubtitleOverlay</a>;
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="gst-plugins-base-plugins-subtitleoverlay.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html">GstObject</a>
+         +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html">GstElement</a>
+               +----<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstBin.html">GstBin</a>
+                     +----GstSubtitleOverlay
+</pre>
+</div>
+<div class="refsect1" title="Implemented Interfaces">
+<a name="gst-plugins-base-plugins-subtitleoverlay.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+GstSubtitleOverlay implements
+ <a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstChildProxy.html">GstChildProxy</a>.</p>
+</div>
+<div class="refsect1" title="Description">
+<a name="gst-plugins-base-plugins-subtitleoverlay.description"></a><h2>Description</h2>
+<p>
+<a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstBin.html"><span class="type">GstBin</span></a> that auto-magically overlays a video stream with subtitles by
+autoplugging the required elements.
+</p>
+<p>
+It supports raw, timestamped text, different textual subtitle formats and
+DVD subpicture subtitles.
+</p>
+<p>
+</p>
+<div class="refsect2" title="Examples">
+<a name="id451971"></a><h3>Examples</h3>
+<div class="informalexample">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1</pre></td>
+        <td class="listing_code"><pre class="programlisting">gst<span class="symbol">-</span>launch <span class="symbol">-</span>v filesrc location<span class="symbol">=</span>test<span class="symbol">.</span>mkv <span class="symbol">!</span> matroskademux name<span class="symbol">=</span>demux <span class="symbol">!</span> <span class="string">&quot;video/x-h264&quot;</span> <span class="symbol">!</span> queue2 <span class="symbol">!</span> decodebin2 <span class="symbol">!</span> subtitleoverlay name<span class="symbol">=</span>overlay <span class="symbol">!</span> ffmpegcolorspace <span class="symbol">!</span> autovideosink  demux<span class="symbol">. !</span> <span class="string">&quot;video/x-dvd-subpicture&quot;</span> <span class="symbol">!</span> queue2 <span class="symbol">!</span> overlay<span class="symbol">.</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+ This will play back the given Matroska file with h264 video and subpicture subtitles.
+</div>
+</div>
+<div class="refsect1" title="Details">
+<a name="gst-plugins-base-plugins-subtitleoverlay.details"></a><h2>Details</h2>
+<div class="refsect2" title="GstSubtitleOverlay">
+<a name="GstSubtitleOverlay-struct"></a><h3>GstSubtitleOverlay</h3>
+<pre class="programlisting">typedef struct _GstSubtitleOverlay GstSubtitleOverlay;</pre>
+<p>
+</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.13</div>
+</body>
+</html>

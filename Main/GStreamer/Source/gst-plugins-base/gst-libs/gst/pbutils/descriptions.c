@@ -62,12 +62,14 @@ typedef struct
 static const FormatInfo formats[] = {
   /* container/tag formats with static descriptions */
   {"application/ogg", "Ogg", FLAG_CONTAINER},
+  {"application/mxf", "MXF", FLAG_CONTAINER},
   {"application/vnd.rn-realmedia", "Realmedia", FLAG_CONTAINER},
   {"application/x-id3", N_("ID3 tag"), FLAG_CONTAINER},
   {"application/x-ape", N_("APE tag"), FLAG_CONTAINER},
   {"application/x-apetag", N_("APE tag"), FLAG_CONTAINER},
   {"application/x-icy", N_("ICY internet radio"), FLAG_CONTAINER},
   {"application/x-3gp", "3GP", FLAG_CONTAINER},
+  {"application/x-yuv4mpeg", "Y4M", FLAG_CONTAINER},
   {"multipart/x-mixed-replace", "Multipart", FLAG_CONTAINER},
   {"video/x-fli", "FLI/FLC/FLX Animation", FLAG_CONTAINER},
   {"video/x-flv", "Flash", FLAG_CONTAINER},
@@ -146,6 +148,7 @@ static const FormatInfo formats[] = {
   {"video/x-3ivx", "3ivx", 0},
   {"video/x-4xm", "4X Techologies Video", 0},
   {"video/x-apple-video", "Apple video", 0},
+  {"video/x-aasc", "Autodesk Animator", 0},
   {"video/x-camtasia", "TechSmith Camtasia", 0},
   {"video/x-cdxa", "RIFF/CDXA (VCD)", 0},
   {"video/x-cinepak", "Cinepak Video", 0},
@@ -161,6 +164,7 @@ static const FormatInfo formats[] = {
   {"video/x-intel-h263", "Intel H.263", 0},
   {"video/x-jpeg", "Motion JPEG", 0},
   /* { "video/x-jpeg-b", "", 0 }, does this actually exist? */
+  {"video/x-loco", "LOCO Lossless", 0},
   {"video/x-mjpeg", "Motion-JPEG", 0},
   {"video/x-mjpeg-b", "Motion-JPEG format B", 0},
   {"video/mpegts", "MPEG-2 Transport Stream", FLAG_CONTAINER},
@@ -187,6 +191,7 @@ static const FormatInfo formats[] = {
   {"video/x-vp7", "On2 VP7", 0},
   {"video/x-xvid", "XVID MPEG-4", 0},
   {"video/x-zlib", "Lossless zlib video", 0},
+  {"video/x-zmbv", "Zip Motion Block video", 0},
 
   /* image formats with static descriptions */
   {"image/bmp", "BMP", 0},

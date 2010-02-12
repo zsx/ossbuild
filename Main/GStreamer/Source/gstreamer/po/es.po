@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.10.24.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-10-05 12:38+0100\n"
+"POT-Creation-Date: 2010-02-09 00:56+0000\n"
 "PO-Revision-Date: 2009-09-29 20:32+0200\n"
 "Last-Translator: Jorge González González <aloriel@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -78,7 +78,8 @@ msgstr ""
 msgid "Disable updating the registry"
 msgstr "Desactivar la actualización del registro"
 
-msgid "Disable the use of fork() while scanning the registry"
+#, fuzzy
+msgid "Disable spawning a helper process while scanning the registry"
 msgstr "Deshabilitar el uso de fork() al escanear el registro"
 
 msgid "GStreamer Options"
@@ -86,18 +87,6 @@ msgstr "Opciones de GStreamer"
 
 msgid "Show GStreamer Options"
 msgstr "Mostrar las opciones de GStreamer"
-
-#, c-format
-msgid "Error writing registry cache to %s: %s"
-msgstr "Error al escribir la caché de registro a %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s: %s"
-msgstr "Error al volver a escanear el registro %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s"
-msgstr "Error al volver a escanear el registro %s"
 
 msgid "Unknown option"
 msgstr "Opción desconocida"
@@ -640,6 +629,58 @@ msgstr ""
 "elevación geográfica donde se ha grabado o producido el medio, en metros de "
 "acuerdo con WGS84 (cero es el nivel medio del mar)"
 
+msgid "show name"
+msgstr ""
+
+msgid "Name of the tv/podcast/series show the media is from"
+msgstr ""
+
+#, fuzzy
+msgid "show sortname"
+msgstr "nombre de ordenación del artista"
+
+msgid ""
+"Name of the tv/podcast/series show the media is from, for sorting purposes"
+msgstr ""
+
+#, fuzzy
+msgid "episode number"
+msgstr "número de disco"
+
+msgid "The episode number in the season the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "season number"
+msgstr "número de disco"
+
+msgid "The season number of the show the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "lyrics"
+msgstr "licencia"
+
+msgid "The lyrics of the media, commonly used for songs"
+msgstr ""
+
+#, fuzzy
+msgid "composer sortname"
+msgstr "nombre de ordenación del título"
+
+#, fuzzy
+msgid "person(s) who composed the recording, for sorting purposes"
+msgstr ""
+"persona(s) responsable(s) de la grabación para propósitos de ordenamiento"
+
+msgid "grouping"
+msgstr ""
+
+msgid ""
+"Groups related media that spans multiple tracks, like the different pieces "
+"of a concerto. It is a higher level than a track, but lower than an album"
+msgstr ""
+
 msgid ", "
 msgstr ", "
 
@@ -763,6 +804,13 @@ msgstr "El archivo «%s» es un socket."
 msgid "Failed after iterations as requested."
 msgstr "Falló después de las iteraciones, como se pidió."
 
+msgid "No Temp directory specified."
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Could not create temp file \"%s\"."
+msgstr "No se pudo obtener la información de «%s»."
+
 msgid "caps"
 msgstr "capacidades"
 
@@ -796,14 +844,29 @@ msgstr "escribible"
 msgid "controllable"
 msgstr "controlable"
 
+msgid "Blacklisted files:"
+msgstr ""
+
 msgid "Total count: "
 msgstr "Conteo total:"
+
+#, c-format
+msgid "%d blacklisted file"
+msgid_plural "%d blacklisted files"
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
 msgid "%d plugin"
 msgid_plural "%d plugins"
 msgstr[0] "%d complemento"
 msgstr[1] "%d complementos"
+
+#, c-format
+msgid "%d blacklist entry"
+msgid_plural "%d blacklist entries"
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
 msgid "%d feature"
@@ -814,8 +877,13 @@ msgstr[1] "%d características"
 msgid "Print all elements"
 msgstr "Imprimir todos los elementos"
 
+msgid "Print list of blacklisted files"
+msgstr ""
+
+#, fuzzy
 msgid ""
-"Print a machine-parsable list of features the specified plugin provides.\n"
+"Print a machine-parsable list of features the specified plugin or all "
+"plugins provide.\n"
 "                                       Useful in connection with external "
 "automatic plugin installation mechanisms"
 msgstr ""
@@ -1030,6 +1098,15 @@ msgstr "Estableciendo el conducto a NULL …\n"
 
 msgid "Freeing pipeline ...\n"
 msgstr "Liberando la tubería…\n"
+
+#~ msgid "Error writing registry cache to %s: %s"
+#~ msgstr "Error al escribir la caché de registro a %s: %s"
+
+#~ msgid "Error re-scanning registry %s: %s"
+#~ msgstr "Error al volver a escanear el registro %s: %s"
+
+#~ msgid "Error re-scanning registry %s"
+#~ msgstr "Error al volver a escanear el registro %s"
 
 #~ msgid "Internal GStreamer error: state change failed."
 #~ msgstr "Error interno de GStreamer: falló el cambio de estado."

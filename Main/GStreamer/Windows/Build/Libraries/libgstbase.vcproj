@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="gstbase"
 	ProjectGUID="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
 	RootNamespace="libgstbase"
@@ -297,7 +297,7 @@
 			UseInBuild="false"
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject="..\Libraries\libgstreamer.vcproj"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstreamer.vcproj"
 		/>
 	</References>
 	<Files>
@@ -328,6 +328,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Source\gstreamer\libs\gst\base\gstbytereader.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gstreamer\libs\gst\base\gstbytewriter.c"
 				>
 			</File>
 			<File
@@ -447,6 +451,24 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\gstreamer\libs\gst\base\gstbytereader.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="Header Installer Tool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\gstreamer\libs\gst\base\gstbytewriter.h"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

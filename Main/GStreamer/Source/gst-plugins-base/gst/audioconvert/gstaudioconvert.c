@@ -67,6 +67,7 @@
 #include "plugin.h"
 
 GST_DEBUG_CATEGORY (audio_convert_debug);
+GST_DEBUG_CATEGORY_STATIC (GST_CAT_PERFORMANCE);
 
 /*** DEFINITIONS **************************************************************/
 
@@ -114,7 +115,8 @@ enum
 };
 
 #define DEBUG_INIT(bla) \
-  GST_DEBUG_CATEGORY_INIT (audio_convert_debug, "audioconvert", 0, "audio conversion element");
+  GST_DEBUG_CATEGORY_INIT (audio_convert_debug, "audioconvert", 0, "audio conversion element"); \
+  GST_DEBUG_CATEGORY_GET (GST_CAT_PERFORMANCE, "GST_PERFORMANCE");
 
 GST_BOILERPLATE_FULL (GstAudioConvert, gst_audio_convert, GstBaseTransform,
     GST_TYPE_BASE_TRANSFORM, DEBUG_INIT);
@@ -161,8 +163,6 @@ GST_STATIC_CAPS ( \
     "depth = (int) [ 1, 8 ], " \
     "signed = (boolean) { true, false } " \
 )
-
-static GstAudioChannelPosition *supported_positions;
 
 static GstStaticPadTemplate gst_audio_convert_src_template =
 GST_STATIC_PAD_TEMPLATE ("src",
@@ -239,16 +239,10 @@ gst_audio_convert_class_init (GstAudioConvertClass * klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   GstBaseTransformClass *basetransform_class = GST_BASE_TRANSFORM_CLASS (klass);
-  gint i;
 
   gobject_class->dispose = gst_audio_convert_dispose;
   gobject_class->set_property = gst_audio_convert_set_property;
   gobject_class->get_property = gst_audio_convert_get_property;
-
-  supported_positions = g_new0 (GstAudioChannelPosition,
-      GST_AUDIO_CHANNEL_POSITION_NUM);
-  for (i = 0; i < GST_AUDIO_CHANNEL_POSITION_NUM; i++)
-    supported_positions[i] = i;
 
   g_object_class_install_property (gobject_class, ARG_DITHERING,
       g_param_spec_enum ("dithering", "Dithering",
@@ -1083,6 +1077,10 @@ gst_audio_convert_transform (GstBaseTransform * base, GstBuffer * inbuf,
   gint insize, outsize;
   gint samples;
   gpointer src, dst;
+
+  GST_CAT_LOG_OBJECT (GST_CAT_PERFORMANCE, base, "converting audio from %"
+      GST_PTR_FORMAT " to %" GST_PTR_FORMAT, GST_BUFFER_CAPS (inbuf),
+      GST_BUFFER_CAPS (outbuf));
 
   /* get amount of samples to convert. */
   samples = GST_BUFFER_SIZE (inbuf) / this->ctx.in.unit_size;

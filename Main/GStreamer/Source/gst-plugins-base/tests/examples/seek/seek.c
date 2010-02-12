@@ -57,7 +57,7 @@ GST_DEBUG_CATEGORY_STATIC (seek_debug);
 #define FILL_INTERVAL 100
 //#define UPDATE_INTERVAL 500
 //#define UPDATE_INTERVAL 100
-#define UPDATE_INTERVAL 10
+#define UPDATE_INTERVAL 40
 
 /* number of milliseconds to play for after a seek */
 #define SCRUB_TIME 100
@@ -112,7 +112,7 @@ static GtkWidget *video_combo, *audio_combo, *text_combo, *vis_combo;
 static GtkWidget *vis_checkbox, *video_checkbox, *audio_checkbox;
 static GtkWidget *text_checkbox, *mute_checkbox, *volume_spinbutton;
 static GtkWidget *skip_checkbox, *video_window, *download_checkbox;
-static GtkWidget *rate_spinbutton;
+static GtkWidget *buffer_checkbox, *rate_spinbutton;
 
 static GStaticMutex state_mutex = G_STATIC_MUTEX_INIT;
 
@@ -1412,8 +1412,9 @@ start_seek (GtkWidget * widget, GdkEventButton * event, gpointer user_data)
   }
 
   if (changed_id == 0 && flush_seek && scrub) {
-    changed_id = g_signal_connect (GTK_OBJECT (hscale),
-        "value_changed", G_CALLBACK (seek_cb), pipeline);
+    changed_id =
+        g_signal_connect (hscale, "value_changed", G_CALLBACK (seek_cb),
+        pipeline);
   }
 
   return FALSE;
@@ -1423,7 +1424,7 @@ static gboolean
 stop_seek (GtkWidget * widget, GdkEventButton * event, gpointer user_data)
 {
   if (changed_id) {
-    g_signal_handler_disconnect (GTK_OBJECT (hscale), changed_id);
+    g_signal_handler_disconnect (hscale, changed_id);
     changed_id = 0;
   }
 
@@ -1737,6 +1738,15 @@ download_toggle_cb (GtkToggleButton * button, GstPipeline * pipeline)
 
   state = gtk_toggle_button_get_active (button);
   update_flag (pipeline, 7, state);
+}
+
+static void
+buffer_toggle_cb (GtkToggleButton * button, GstPipeline * pipeline)
+{
+  gboolean state;
+
+  state = gtk_toggle_button_get_active (button);
+  update_flag (pipeline, 8, state);
 }
 
 static void
@@ -2381,8 +2391,13 @@ msg_clock_lost (GstBus * bus, GstMessage * message, GstPipeline * data)
 
 #ifdef HAVE_X
 
-static guint embed_xid = 0;
+static gulong embed_xid = 0;
 
+/* We set the xid here in response to the prepare-xwindow-id message via a
+ * bus sync handler because we don't know the actual videosink used from the
+ * start (as we don't know the pipeline, or bin elements such as autovideosink
+ * or gconfvideosink may be used which create the actual videosink only once
+ * the pipeline is started) */
 static GstBusSyncReply
 bus_sync_handler (GstBus * bus, GstMessage * message, GstPipeline * data)
 {
@@ -2390,18 +2405,21 @@ bus_sync_handler (GstBus * bus, GstMessage * message, GstPipeline * data)
       gst_structure_has_name (message->structure, "prepare-xwindow-id")) {
     GstElement *element = GST_ELEMENT (GST_MESSAGE_SRC (message));
 
-    g_print ("got prepare-xwindow-id\n");
-    if (!embed_xid) {
-      embed_xid = GDK_WINDOW_XID (GDK_WINDOW (video_window->window));
-    }
+    g_print ("got prepare-xwindow-id, setting XID %lu\n", embed_xid);
 
     if (g_object_class_find_property (G_OBJECT_GET_CLASS (element),
             "force-aspect-ratio")) {
       g_object_set (element, "force-aspect-ratio", TRUE, NULL);
     }
 
-    gst_x_overlay_set_xwindow_id (GST_X_OVERLAY (GST_MESSAGE_SRC (message)),
-        embed_xid);
+    /* Should have been initialised from main thread before (can't use
+     * GDK_WINDOW_XID here with Gtk+ >= 2.18, because the sync handler will
+     * be called from a streaming thread and GDK_WINDOW_XID maps to more than
+     * a simple structure lookup with Gtk+ >= 2.18, where 'more' is stuff that
+     * shouldn't be done from a non-GUI thread without explicit locking).  */
+    g_assert (embed_xid != 0);
+
+    gst_x_overlay_set_xwindow_id (GST_X_OVERLAY (element), embed_xid);
   }
   return GST_BUS_PASS;
 }
@@ -2417,6 +2435,21 @@ handle_expose_cb (GtkWidget * widget, GdkEventExpose * event, gpointer data)
   return FALSE;
 }
 
+static void
+realize_cb (GtkWidget * widget, gpointer data)
+{
+#if GTK_CHECK_VERSION(2,18,0)
+  /* This is here just for pedagogical purposes, GDK_WINDOW_XID will call it
+   * as well */
+  if (!gdk_window_ensure_native (widget->window))
+    g_error ("Couldn't create native window needed for GstXOverlay!");
+#endif
+
+#ifdef HAVE_X
+  embed_xid = GDK_WINDOW_XID (video_window->window);
+  g_print ("Window realize: video window XID = %lu\n", embed_xid);
+#endif
+}
 
 static void
 msg_eos (GstBus * bus, GstMessage * message, GstPipeline * data)
@@ -2613,9 +2646,11 @@ main (int argc, char **argv)
   /* initialize gui elements ... */
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   video_window = gtk_drawing_area_new ();
-  g_signal_connect (G_OBJECT (video_window), "expose-event",
+  g_signal_connect (video_window, "expose-event",
       G_CALLBACK (handle_expose_cb), NULL);
+  g_signal_connect (video_window, "realize", G_CALLBACK (realize_cb), NULL);
   gtk_widget_set_double_buffered (video_window, FALSE);
+
   statusbar = gtk_statusbar_new ();
   status_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "seek");
   gtk_statusbar_push (GTK_STATUSBAR (statusbar), status_id, "Stopped");
@@ -2694,8 +2729,8 @@ main (int argc, char **argv)
     shuttle_checkbox = gtk_check_button_new_with_label ("Shuttle");
     gtk_box_pack_start (GTK_BOX (hbox), shuttle_checkbox, FALSE, FALSE, 2);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (shuttle_checkbox), FALSE);
-    g_signal_connect (GTK_OBJECT (shuttle_checkbox),
-        "toggled", G_CALLBACK (shuttle_toggled), pipeline);
+    g_signal_connect (shuttle_checkbox, "toggled", G_CALLBACK (shuttle_toggled),
+        pipeline);
 
     shuttle_adjustment =
         GTK_ADJUSTMENT (gtk_adjustment_new (0.0, -3.00, 4.0, 0.1, 1.0, 1.0));
@@ -2704,9 +2739,9 @@ main (int argc, char **argv)
     gtk_scale_set_value_pos (GTK_SCALE (shuttle_hscale), GTK_POS_TOP);
     gtk_range_set_update_policy (GTK_RANGE (shuttle_hscale),
         GTK_UPDATE_CONTINUOUS);
-    g_signal_connect (GTK_OBJECT (shuttle_hscale), "value_changed",
+    g_signal_connect (shuttle_hscale, "value_changed",
         G_CALLBACK (shuttle_value_changed), pipeline);
-    g_signal_connect (GTK_OBJECT (shuttle_hscale), "format_value",
+    g_signal_connect (shuttle_hscale, "format_value",
         G_CALLBACK (shuttle_format_value), pipeline);
 
     gtk_box_pack_start (GTK_BOX (hbox), shuttle_hscale, TRUE, TRUE, 2);
@@ -2726,12 +2761,12 @@ main (int argc, char **argv)
 #endif
   gtk_range_set_update_policy (GTK_RANGE (hscale), GTK_UPDATE_CONTINUOUS);
 
-  g_signal_connect (GTK_OBJECT (hscale),
-      "button_press_event", G_CALLBACK (start_seek), pipeline);
-  g_signal_connect (GTK_OBJECT (hscale),
-      "button_release_event", G_CALLBACK (stop_seek), pipeline);
-  g_signal_connect (GTK_OBJECT (hscale),
-      "format_value", G_CALLBACK (format_value), pipeline);
+  g_signal_connect (hscale, "button_press_event", G_CALLBACK (start_seek),
+      pipeline);
+  g_signal_connect (hscale, "button_release_event", G_CALLBACK (stop_seek),
+      pipeline);
+  g_signal_connect (hscale, "format_value", G_CALLBACK (format_value),
+      pipeline);
 
   if (pipeline_type == 16) {
     /* the playbin2 panel controls for the video/audio/subtitle tracks */
@@ -2759,6 +2794,7 @@ main (int argc, char **argv)
     text_checkbox = gtk_check_button_new_with_label ("Text");
     mute_checkbox = gtk_check_button_new_with_label ("Mute");
     download_checkbox = gtk_check_button_new_with_label ("Download");
+    buffer_checkbox = gtk_check_button_new_with_label ("Buffer");
     volume_label = gtk_label_new ("Volume");
     volume_spinbutton = gtk_spin_button_new_with_range (0, 10.0, 0.1);
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (volume_spinbutton), 1.0);
@@ -2768,6 +2804,7 @@ main (int argc, char **argv)
     gtk_box_pack_start (GTK_BOX (boxes), vis_checkbox, TRUE, TRUE, 2);
     gtk_box_pack_start (GTK_BOX (boxes), mute_checkbox, TRUE, TRUE, 2);
     gtk_box_pack_start (GTK_BOX (boxes), download_checkbox, TRUE, TRUE, 2);
+    gtk_box_pack_start (GTK_BOX (boxes), buffer_checkbox, TRUE, TRUE, 2);
     gtk_box_pack_start (GTK_BOX (boxes), volume_label, TRUE, TRUE, 2);
     gtk_box_pack_start (GTK_BOX (boxes), volume_spinbutton, TRUE, TRUE, 2);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (vis_checkbox), FALSE);
@@ -2776,6 +2813,7 @@ main (int argc, char **argv)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (text_checkbox), TRUE);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (mute_checkbox), FALSE);
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (download_checkbox), FALSE);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (buffer_checkbox), FALSE);
     g_signal_connect (G_OBJECT (vis_checkbox), "toggled",
         G_CALLBACK (vis_toggle_cb), pipeline);
     g_signal_connect (G_OBJECT (audio_checkbox), "toggled",
@@ -2788,6 +2826,8 @@ main (int argc, char **argv)
         G_CALLBACK (mute_toggle_cb), pipeline);
     g_signal_connect (G_OBJECT (download_checkbox), "toggled",
         G_CALLBACK (download_toggle_cb), pipeline);
+    g_signal_connect (G_OBJECT (buffer_checkbox), "toggled",
+        G_CALLBACK (buffer_toggle_cb), pipeline);
     g_signal_connect (G_OBJECT (volume_spinbutton), "value_changed",
         G_CALLBACK (volume_spinbutton_changed_cb), pipeline);
     /* playbin2 panel for snapshot */
@@ -2875,6 +2915,14 @@ main (int argc, char **argv)
 
   /* show the gui. */
   gtk_widget_show_all (window);
+
+  /* realize window now so that the video window gets created and we can
+   * obtain its XID before the pipeline is started up and the videosink
+   * asks for the XID of the window to render onto */
+  gtk_widget_realize (window);
+
+  /* we should have the XID now */
+  g_assert (embed_xid != 0);
 
   if (verbose) {
     g_signal_connect (pipeline, "deep_notify",

@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GstPluginFeature</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer 0.10 Core Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer 0.10 Core Reference Manual">
 <link rel="up" href="libgstreamer.html" title="GStreamer Core Library">
 <link rel="prev" href="GstPlugin.html" title="GstPlugin">
 <link rel="next" href="gstreamer-GstPoll.html" title="GstPoll">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="gstreamer.html" title="GStreamer Overview">
 <link rel="chapter" href="libgstreamer.html" title="GStreamer Core Library">
@@ -16,6 +16,7 @@
 <link rel="chapter" href="gstreamer-hierarchy.html" title="Object Hierarchy">
 <link rel="index" href="api-index-full.html" title="API Index">
 <link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
+<link rel="glossary" href="annotation-glossary.html" title="Annotation Glossary">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -28,13 +29,13 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#GstPluginFeature.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#GstPluginFeature.description" class="shortcut">Description</a>
-                 | 
-                <a href="#GstPluginFeature.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#GstPluginFeature.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#GstPluginFeature.object-hierarchy" class="shortcut">Object Hierarchy</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="GstPluginFeature">
 <a name="GstPluginFeature"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -43,64 +44,38 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="GstPluginFeature.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
 #include &lt;gst/gst.h&gt;
 
                     <a class="link" href="GstPluginFeature.html#GstPluginFeature-struct" title="GstPluginFeature">GstPluginFeature</a>;
-#define             <a class="link" href="GstPluginFeature.html#GST-PLUGIN-FEATURE-NAME--CAPS" title="GST_PLUGIN_FEATURE_NAME()">GST_PLUGIN_FEATURE_NAME</a>             (feature)
+#define             <a class="link" href="GstPluginFeature.html#GST-PLUGIN-FEATURE-NAME:CAPS" title="GST_PLUGIN_FEATURE_NAME()">GST_PLUGIN_FEATURE_NAME</a>             (feature)
                     <a class="link" href="GstPluginFeature.html#GstTypeNameData" title="GstTypeNameData">GstTypeNameData</a>;
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            (<a class="link" href="GstPluginFeature.html#GstPluginFeatureFilter" title="GstPluginFeatureFilter ()">*GstPluginFeatureFilter</a>)           (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (<a class="link" href="GstPluginFeature.html#GstPluginFeatureFilter" title="GstPluginFeatureFilter ()">*GstPluginFeatureFilter</a>)           (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);
 enum                <a class="link" href="GstPluginFeature.html#GstRank" title="enum GstRank">GstRank</a>;
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="GstPluginFeature.html#gst-plugin-feature-type-name-filter" title="gst_plugin_feature_type_name_filter ()">gst_plugin_feature_type_name_filter</a> (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         <a class="link" href="GstPluginFeature.html#GstTypeNameData" title="GstTypeNameData">GstTypeNameData</a> *data);
-void                <a class="link" href="GstPluginFeature.html#gst-plugin-feature-set-rank" title="gst_plugin_feature_set_rank ()">gst_plugin_feature_set_rank</a>         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> rank);
-void                <a class="link" href="GstPluginFeature.html#gst-plugin-feature-set-name" title="gst_plugin_feature_set_name ()">gst_plugin_feature_set_name</a>         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);
-<a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a>               <a class="link" href="GstPluginFeature.html#gst-plugin-feature-get-rank" title="gst_plugin_feature_get_rank ()">gst_plugin_feature_get_rank</a>         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature);
-const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *       <a class="link" href="GstPluginFeature.html#gst-plugin-feature-get-name" title="gst_plugin_feature_get_name ()">gst_plugin_feature_get_name</a>         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature);
-<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *  <a class="link" href="GstPluginFeature.html#gst-plugin-feature-load" title="gst_plugin_feature_load ()">gst_plugin_feature_load</a>             (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature);
-void                <a class="link" href="GstPluginFeature.html#gst-plugin-feature-list-free" title="gst_plugin_feature_list_free ()">gst_plugin_feature_list_free</a>        (<a
-href="../glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a> *list);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="GstPluginFeature.html#gst-plugin-feature-check-version" title="gst_plugin_feature_check_version ()">gst_plugin_feature_check_version</a>    (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> min_major,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> min_minor,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> min_micro);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GstPluginFeature.html#gst-plugin-feature-type-name-filter" title="gst_plugin_feature_type_name_filter ()">gst_plugin_feature_type_name_filter</a> (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         <a class="link" href="GstPluginFeature.html#GstTypeNameData" title="GstTypeNameData"><span class="returnvalue">GstTypeNameData</span></a> *data);
+<span class="returnvalue">void</span>                <a class="link" href="GstPluginFeature.html#gst-plugin-feature-set-rank" title="gst_plugin_feature_set_rank ()">gst_plugin_feature_set_rank</a>         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> rank);
+<span class="returnvalue">void</span>                <a class="link" href="GstPluginFeature.html#gst-plugin-feature-set-name" title="gst_plugin_feature_set_name ()">gst_plugin_feature_set_name</a>         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="GstPluginFeature.html#gst-plugin-feature-get-rank" title="gst_plugin_feature_get_rank ()">gst_plugin_feature_get_rank</a>         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature);
+const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="GstPluginFeature.html#gst-plugin-feature-get-name" title="gst_plugin_feature_get_name ()">gst_plugin_feature_get_name</a>         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature);
+<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *  <a class="link" href="GstPluginFeature.html#gst-plugin-feature-load" title="gst_plugin_feature_load ()">gst_plugin_feature_load</a>             (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature);
+<a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="GstPluginFeature.html#gst-plugin-feature-list-copy" title="gst_plugin_feature_list_copy ()">gst_plugin_feature_list_copy</a>        (<a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *list);
+<span class="returnvalue">void</span>                <a class="link" href="GstPluginFeature.html#gst-plugin-feature-list-free" title="gst_plugin_feature_list_free ()">gst_plugin_feature_list_free</a>        (<a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *list);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GstPluginFeature.html#gst-plugin-feature-check-version" title="gst_plugin_feature_check_version ()">gst_plugin_feature_check_version</a>    (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> min_major,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> min_minor,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> min_micro);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="GstPluginFeature.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
->GObject</a>
+  <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----<a class="link" href="GstObject.html" title="GstObject">GstObject</a>
          +----GstPluginFeature
                +----<a class="link" href="GstElementFactory.html" title="GstElementFactory">GstElementFactory</a>
@@ -108,32 +83,26 @@ href="../gobject/gobject-The-Base-Object-Type.html#GObject"
                +----<a class="link" href="GstIndexFactory.html" title="GstIndexFactory">GstIndexFactory</a>
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="GstPluginFeature.description"></a><h2>Description</h2>
 <p>
 This is a base class for anything that can be added to a <a class="link" href="GstPlugin.html" title="GstPlugin"><span class="type">GstPlugin</span></a>.</p>
-<p>
-</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="GstPluginFeature.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstPluginFeature">
 <a name="GstPluginFeature-struct"></a><h3>GstPluginFeature</h3>
 <pre class="programlisting">typedef struct _GstPluginFeature GstPluginFeature;</pre>
 <p>
 Opaque <a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="type">GstPluginFeature</span></a> structure.</p>
-<p>
-</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-PLUGIN-FEATURE-NAME--CAPS"></a><h3>GST_PLUGIN_FEATURE_NAME()</h3>
+<div class="refsect2" title="GST_PLUGIN_FEATURE_NAME()">
+<a name="GST-PLUGIN-FEATURE-NAME:CAPS"></a><h3>GST_PLUGIN_FEATURE_NAME()</h3>
 <pre class="programlisting">#define GST_PLUGIN_FEATURE_NAME(feature)  (GST_PLUGIN_FEATURE (feature)-&gt;name)
 </pre>
 <p>
 Get the name of the feature</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -144,7 +113,7 @@ Get the name of the feature</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstTypeNameData">
 <a name="GstTypeNameData"></a><h3>GstTypeNameData</h3>
 <pre class="programlisting">typedef struct {
   const gchar   *name;
@@ -153,22 +122,16 @@ Get the name of the feature</p>
 </pre>
 <p>
 Structure used for filtering based on <em class="parameter"><code>name</code></em> and <em class="parameter"><code>type</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term">const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *<em class="structfield"><code>name</code></em>;</span></p></td>
+<td><p><span class="term">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *<em class="structfield"><code><a name="GstTypeNameData.name"></a>name</code></em>;</span></p></td>
 <td> a name
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> <em class="structfield"><code>type</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> <em class="structfield"><code><a name="GstTypeNameData.type"></a>type</code></em>;</span></p></td>
 <td> a GType
 </td>
 </tr>
@@ -176,19 +139,13 @@ href="../gobject/gobject-Type-Information.html#GType"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstPluginFeatureFilter ()">
 <a name="GstPluginFeatureFilter"></a><h3>GstPluginFeatureFilter ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            (*GstPluginFeatureFilter)           (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            (*GstPluginFeatureFilter)           (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a> user_data);</pre>
 <p>
 A function that can be used with e.g. <a class="link" href="GstRegistry.html#gst-registry-feature-filter" title="gst_registry_feature_filter ()"><code class="function">gst_registry_feature_filter()</code></a>
 to get a list of pluginfeature that match certain criteria.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -205,18 +162,14 @@ to get a list of pluginfeature that match certain criteria.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> for a positive match, <a
-href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
-><code class="literal">FALSE</code></a> otherwise
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> for a positive match, <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstRank">
 <a name="GstRank"></a><h3>enum GstRank</h3>
 <pre class="programlisting">typedef enum {
   GST_RANK_NONE                 = 0,
@@ -234,28 +187,26 @@ will choose this element over an alternative one with the same function.
 These constants serve as a rough guidance for defining the rank of a
 <a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="type">GstPluginFeature</span></a>. Any value is valid, including values bigger than
 <em class="parameter"><code>GST_RANK_PRIMARY</code></em>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-RANK-NONE--CAPS"></a><span class="term"><code class="literal">GST_RANK_NONE</code></span></p></td>
+<td><p><a name="GST-RANK-NONE:CAPS"></a><span class="term"><code class="literal">GST_RANK_NONE</code></span></p></td>
 <td> will be chosen last or not at all
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-RANK-MARGINAL--CAPS"></a><span class="term"><code class="literal">GST_RANK_MARGINAL</code></span></p></td>
+<td><p><a name="GST-RANK-MARGINAL:CAPS"></a><span class="term"><code class="literal">GST_RANK_MARGINAL</code></span></p></td>
 <td> unlikly to be chosen
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-RANK-SECONDARY--CAPS"></a><span class="term"><code class="literal">GST_RANK_SECONDARY</code></span></p></td>
+<td><p><a name="GST-RANK-SECONDARY:CAPS"></a><span class="term"><code class="literal">GST_RANK_SECONDARY</code></span></p></td>
 <td> likely to be chosen
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-RANK-PRIMARY--CAPS"></a><span class="term"><code class="literal">GST_RANK_PRIMARY</code></span></p></td>
+<td><p><a name="GST-RANK-PRIMARY:CAPS"></a><span class="term"><code class="literal">GST_RANK_PRIMARY</code></span></p></td>
 <td> will be chosen first
 </td>
 </tr>
@@ -263,16 +214,12 @@ These constants serve as a rough guidance for defining the rank of a
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_plugin_feature_type_name_filter ()">
 <a name="gst-plugin-feature-type-name-filter"></a><h3>gst_plugin_feature_type_name_filter ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_plugin_feature_type_name_filter (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         <a class="link" href="GstPluginFeature.html#GstTypeNameData" title="GstTypeNameData">GstTypeNameData</a> *data);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_plugin_feature_type_name_filter (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         <a class="link" href="GstPluginFeature.html#GstTypeNameData" title="GstTypeNameData"><span class="returnvalue">GstTypeNameData</span></a> *data);</pre>
 <p>
 Compares type and name of plugin feature. Can be used with <a class="link" href="gstreamer-GstFilter.html#gst-filter-run" title="gst_filter_run ()"><code class="function">gst_filter_run()</code></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -295,17 +242,13 @@ Compares type and name of plugin feature. Can be used with <a class="link" href=
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_plugin_feature_set_rank ()">
 <a name="gst-plugin-feature-set-rank"></a><h3>gst_plugin_feature_set_rank ()</h3>
-<pre class="programlisting">void                gst_plugin_feature_set_rank         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> rank);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_plugin_feature_set_rank         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> rank);</pre>
 <p>
 Specifies a rank for a plugin feature, so that autoplugging uses
 the most appropriate feature.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -323,19 +266,15 @@ the most appropriate feature.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_plugin_feature_set_name ()">
 <a name="gst-plugin-feature-set-name"></a><h3>gst_plugin_feature_set_name ()</h3>
-<pre class="programlisting">void                gst_plugin_feature_set_name         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_plugin_feature_set_name         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);</pre>
 <p>
 Sets the name of a plugin feature. The name uniquely identifies a feature
 within all features of the same type. Renaming a plugin feature is not
 allowed. A copy is made of the name so you should free the supplied <em class="parameter"><code>name</code></em>
 after calling this function.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -353,15 +292,11 @@ after calling this function.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_plugin_feature_get_rank ()">
 <a name="gst-plugin-feature-get-rank"></a><h3>gst_plugin_feature_get_rank ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a>               gst_plugin_feature_get_rank         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               gst_plugin_feature_get_rank         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature);</pre>
 <p>
 Gets the rank of a plugin feature.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -379,15 +314,11 @@ Gets the rank of a plugin feature.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_plugin_feature_get_name ()">
 <a name="gst-plugin-feature-get-name"></a><h3>gst_plugin_feature_get_name ()</h3>
-<pre class="programlisting">const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *       gst_plugin_feature_get_name         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature);</pre>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gst_plugin_feature_get_name         (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature);</pre>
 <p>
 Gets the name of a plugin feature.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -405,9 +336,9 @@ Gets the name of a plugin feature.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_plugin_feature_load ()">
 <a name="gst-plugin-feature-load"></a><h3>gst_plugin_feature_load ()</h3>
-<pre class="programlisting"><a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *  gst_plugin_feature_load             (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature);</pre>
+<pre class="programlisting"><a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *  gst_plugin_feature_load             (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature);</pre>
 <p>
 Loads the plugin containing <em class="parameter"><code>feature</code></em> if it's not already loaded. <em class="parameter"><code>feature</code></em> is
 unaffected; use the return value instead.
@@ -415,16 +346,27 @@ unaffected; use the return value instead.
 <p>
 Normally this function is used like this:
 </p>
-<div class="informalexample"><pre class="programlisting">
-GstPluginFeature *loaded_feature;
+<div class="informalexample">
+  <table class="listing_frame" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td class="listing_lines" align="right"><pre>1
+2
+3
+4
+5
+6</pre></td>
+        <td class="listing_code"><pre class="programlisting">GstPluginFeature <span class="symbol">*</span>loaded_feature<span class="symbol">;</span>
 
-loaded_feature = gst_plugin_feature_load (feature);
-// presumably, we're no longer interested in the potentially-unloaded feature
-gst_object_unref (feature);
-feature = loaded_feature;
-</pre></div>
-<p>
-</p>
+loaded_feature <span class="symbol">=</span> <span class="function"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstPluginFeature.html#gst-plugin-feature-load">gst_plugin_feature_load</a></span> <span class="symbol">(</span>feature<span class="symbol">);</span>
+<span class="gtkdoc slc">// presumably, we're no longer interested in the potentially-unloaded feature</span>
+<span class="function"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html#gst-object-unref">gst_object_unref</a></span> <span class="symbol">(</span>feature<span class="symbol">);</span>
+feature <span class="symbol">=</span> loaded_feature<span class="symbol">;</span></pre></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -442,15 +384,36 @@ feature = loaded_feature;
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_plugin_feature_list_copy ()">
+<a name="gst-plugin-feature-list-copy"></a><h3>gst_plugin_feature_list_copy ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             gst_plugin_feature_list_copy        (<a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *list);</pre>
+<p>
+Copies the list of features. Caller should call <em class="parameter"><code>gst_plugin_feature_list_free</code></em>
+when done with the list.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>list</code></em> :</span></p></td>
+<td> list of <a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="type">GstPluginFeature</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a copy of <em class="parameter"><code>list</code></em>, with each feature's reference count incremented.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_plugin_feature_list_free ()">
 <a name="gst-plugin-feature-list-free"></a><h3>gst_plugin_feature_list_free ()</h3>
-<pre class="programlisting">void                gst_plugin_feature_list_free        (<a
-href="../glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a> *list);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_plugin_feature_list_free        (<a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *list);</pre>
 <p>
 Unrefs each member of <em class="parameter"><code>list</code></em>, then frees the list.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -461,25 +424,15 @@ Unrefs each member of <em class="parameter"><code>list</code></em>, then frees t
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_plugin_feature_check_version ()">
 <a name="gst-plugin-feature-check-version"></a><h3>gst_plugin_feature_check_version ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_plugin_feature_check_version    (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature">GstPluginFeature</a> *feature,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> min_major,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> min_minor,
-                                                         <a
-href="../glib/glib-Basic-Types.html#guint"
->guint</a> min_micro);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_plugin_feature_check_version    (<a class="link" href="GstPluginFeature.html" title="GstPluginFeature"><span class="returnvalue">GstPluginFeature</span></a> *feature,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> min_major,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> min_minor,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> min_micro);</pre>
 <p>
 Checks whether the given plugin feature is at least
  the required version</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -505,25 +458,21 @@ Checks whether the given plugin feature is at least
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
-><span class="type">TRUE</span></a> if the plugin feature has at least
- the required version, otherwise <a
-href="../glib/glib-Standard-Macros.html#FALSE--CAPS"
-><span class="type">FALSE</span></a>.
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> if the plugin feature has at least
+ the required version, otherwise <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a>.
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="See Also">
 <a name="GstPluginFeature.see-also"></a><h2>See Also</h2>
-#GstPlugin
+<a class="link" href="GstPlugin.html" title="GstPlugin"><span class="type">GstPlugin</span></a>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

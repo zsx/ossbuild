@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>gstcolorbalance</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Base Plugins 0.10 Library Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Base Plugins 0.10 Library Reference Manual">
 <link rel="up" href="gstreamer-interfaces.html" title="Interfaces Library">
 <link rel="prev" href="gstreamer-interfaces.html" title="Interfaces Library">
 <link rel="next" href="gst-plugins-base-libs-gstcolorbalancechannel.html" title="gstcolorbalancechannel">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="part" href="gstreamer-plugins-base.html" title="Part I. GStreamer Base Plugins Libraries">
 <link rel="chapter" href="gstreamer-app.html" title="App Library">
@@ -26,7 +26,8 @@
 <link rel="chapter" href="gstreamer-base-utils.html" title="Base Utils Library">
 <link rel="chapter" href="gstreamer-video.html" title="Video Library">
 <link rel="part" href="gstreamer-libs-hierarchy.html" title="Part II. Object Hierarchy">
-<link rel="index" href="api-index.html" title="Index">
+<link rel="index" href="api-index-full.html" title="Index">
+<link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -39,17 +40,17 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-base-libs-gstcolorbalance.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gst-plugins-base-libs-gstcolorbalance.description" class="shortcut">Description</a>
-                 | 
-                <a href="#gst-plugins-base-libs-gstcolorbalance.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                 | 
-                <a href="#gst-plugins-base-libs-gstcolorbalance.prerequisites" class="shortcut">Prerequisites</a>
-                 | 
-                <a href="#gst-plugins-base-libs-gstcolorbalance.signals" class="shortcut">Signals</a>
+                   | 
+                  <a href="#gst-plugins-base-libs-gstcolorbalance.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gst-plugins-base-libs-gstcolorbalance.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#gst-plugins-base-libs-gstcolorbalance.prerequisites" class="shortcut">Prerequisites</a>
+                   | 
+                  <a href="#gst-plugins-base-libs-gstcolorbalance.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="gstcolorbalance">
 <a name="gst-plugins-base-libs-gstcolorbalance"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -58,64 +59,51 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-base-libs-gstcolorbalance.synopsis"></a><h2>Synopsis</h2>
 <a name="GstColorBalance"></a><pre class="synopsis">
-
 #include &lt;gst/interfaces/color.h&gt;
 
                     <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance-struct" title="GstColorBalance">GstColorBalance</a>;
                     <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceClass" title="GstColorBalanceClass">GstColorBalanceClass</a>;
 enum                <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceType" title="enum GstColorBalanceType">GstColorBalanceType</a>;
-const <a
-href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a> *       <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-list-channels" title="gst_color_balance_list_channels ()">gst_color_balance_list_channels</a>     (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance);
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-get-value" title="gst_color_balance_get_value ()">gst_color_balance_get_value</a>         (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance,
-                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel">GstColorBalanceChannel</a> *channel);
-void                <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-set-value" title="gst_color_balance_set_value ()">gst_color_balance_set_value</a>         (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance,
-                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel">GstColorBalanceChannel</a> *channel,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a> value);
-void                <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-value-changed" title="gst_color_balance_value_changed ()">gst_color_balance_value_changed</a>     (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance,
-                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel">GstColorBalanceChannel</a> *channel,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a> value);
-<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceType" title="enum GstColorBalanceType">GstColorBalanceType</a>  <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-get-balance-type" title="gst_color_balance_get_balance_type ()">gst_color_balance_get_balance_type</a> (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance);
+const <a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *       <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-list-channels" title="gst_color_balance_list_channels ()">gst_color_balance_list_channels</a>     (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-get-value" title="gst_color_balance_get_value ()">gst_color_balance_get_value</a>         (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance,
+                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="returnvalue">GstColorBalanceChannel</span></a> *channel);
+<span class="returnvalue">void</span>                <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-set-value" title="gst_color_balance_set_value ()">gst_color_balance_set_value</a>         (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance,
+                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="returnvalue">GstColorBalanceChannel</span></a> *channel,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> value);
+<span class="returnvalue">void</span>                <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-value-changed" title="gst_color_balance_value_changed ()">gst_color_balance_value_changed</a>     (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance,
+                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="returnvalue">GstColorBalanceChannel</span></a> *channel,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> value);
+<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceType" title="enum GstColorBalanceType"><span class="returnvalue">GstColorBalanceType</span></a>  <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#gst-color-balance-get-balance-type" title="gst_color_balance_get_balance_type ()">gst_color_balance_get_balance_type</a> (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="gst-plugins-base-libs-gstcolorbalance.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
   GInterface
    +----GstColorBalance
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Prerequisites">
 <a name="gst-plugins-base-libs-gstcolorbalance.prerequisites"></a><h2>Prerequisites</h2>
 <p>
 GstColorBalance requires
- <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstImplementsInterface.html"
->GstImplementsInterface</a> and  <a
-href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html"
->GstElement</a>.</p>
+ <a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstObject.html">GstObject</a>,  <a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstImplementsInterface.html">GstImplementsInterface</a> and  <a href="/usr/share/gtk-doc/html/gstreamer-0.10/GstElement.html">GstElement</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="gst-plugins-base-libs-gstcolorbalance.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance-value-changed" title='The "value-changed" signal'>value-changed</a>"                                  : Run Last
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-base-libs-gstcolorbalance.description"></a><h2>Description</h2>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2741926"></a><p>
+<div class="refsect2">
+<a name="id632884"></a><p>
 This interface is implemented by elements which can perform some color
 balance operation on video frames they process. For example, modifying
 the brightness, contrast, hue or saturation.
@@ -124,19 +112,17 @@ the brightness, contrast, hue or saturation.
 Example elements are 'xvimagesink' and 'colorbalance'
 </p>
 </div>
-<p>
-</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-base-libs-gstcolorbalance.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstColorBalance">
 <a name="GstColorBalance-struct"></a><h3>GstColorBalance</h3>
 <pre class="programlisting">typedef struct _GstColorBalance GstColorBalance;</pre>
 <p>
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstColorBalanceClass">
 <a name="GstColorBalanceClass"></a><h3>GstColorBalanceClass</h3>
 <pre class="programlisting">typedef struct {
   GTypeInterface klass;
@@ -164,7 +150,7 @@ Example elements are 'xvimagesink' and 'colorbalance'
 </p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstColorBalanceType">
 <a name="GstColorBalanceType"></a><h3>enum GstColorBalanceType</h3>
 <pre class="programlisting">typedef enum
 {
@@ -177,19 +163,17 @@ An enumeration indicating whether an element implements color balancing
 operations in software or in dedicated hardware. In general, dedicated
 hardware implementations (such as those provided by xvimagesink) are
 preferred.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><a name="GST-COLOR-BALANCE-HARDWARE--CAPS"></a><span class="term"><code class="literal">GST_COLOR_BALANCE_HARDWARE</code></span></p></td>
+<td><p><a name="GST-COLOR-BALANCE-HARDWARE:CAPS"></a><span class="term"><code class="literal">GST_COLOR_BALANCE_HARDWARE</code></span></p></td>
 <td> Color balance is implemented with dedicated
         hardware.
 </td>
 </tr>
 <tr>
-<td><p><a name="GST-COLOR-BALANCE-SOFTWARE--CAPS"></a><span class="term"><code class="literal">GST_COLOR_BALANCE_SOFTWARE</code></span></p></td>
+<td><p><a name="GST-COLOR-BALANCE-SOFTWARE:CAPS"></a><span class="term"><code class="literal">GST_COLOR_BALANCE_SOFTWARE</code></span></p></td>
 <td> Color balance is implemented via software
         processing.
 </td>
@@ -198,15 +182,11 @@ preferred.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_color_balance_list_channels ()">
 <a name="gst-color-balance-list-channels"></a><h3>gst_color_balance_list_channels ()</h3>
-<pre class="programlisting">const <a
-href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a> *       gst_color_balance_list_channels     (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance);</pre>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *       gst_color_balance_list_channels     (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance);</pre>
 <p>
 Retrieve a list of the available channels.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -226,12 +206,10 @@ Retrieve a list of the available channels.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_color_balance_get_value ()">
 <a name="gst-color-balance-get-value"></a><h3>gst_color_balance_get_value ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                gst_color_balance_get_value         (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance,
-                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel">GstColorBalanceChannel</a> *channel);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                gst_color_balance_get_value         (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance,
+                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="returnvalue">GstColorBalanceChannel</span></a> *channel);</pre>
 <p>
 Retrieve the current value of the indicated channel, between min_value
 and max_value.
@@ -240,8 +218,6 @@ and max_value.
 See Also: The <span class="type">"min_value"</span> and
         <span class="type">"max_value"</span> members of the
         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="type">GstColorBalanceChannel</span></a> object.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -264,13 +240,11 @@ See Also: The <span class="type">"min_value"</span> and
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_color_balance_set_value ()">
 <a name="gst-color-balance-set-value"></a><h3>gst_color_balance_set_value ()</h3>
-<pre class="programlisting">void                gst_color_balance_set_value         (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance,
-                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel">GstColorBalanceChannel</a> *channel,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a> value);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_color_balance_set_value         (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance,
+                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="returnvalue">GstColorBalanceChannel</span></a> *channel,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> value);</pre>
 <p>
 Sets the current value of the channel to the passed value, which must
 be between min_value and max_value.
@@ -279,8 +253,6 @@ be between min_value and max_value.
 See Also: The <span class="type">"min_value"</span> and
         <span class="type">"max_value"</span> members of the
         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="type">GstColorBalanceChannel</span></a> object.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -303,20 +275,16 @@ See Also: The <span class="type">"min_value"</span> and
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_color_balance_value_changed ()">
 <a name="gst-color-balance-value-changed"></a><h3>gst_color_balance_value_changed ()</h3>
-<pre class="programlisting">void                gst_color_balance_value_changed     (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance,
-                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel">GstColorBalanceChannel</a> *channel,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a> value);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_color_balance_value_changed     (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance,
+                                                         <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="returnvalue">GstColorBalanceChannel</span></a> *channel,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a> value);</pre>
 <p>
 A helper function called by implementations of the GstColorBalance
 interface. It fires the <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance-value-changed" title='The "value-changed" signal'><span class="type">"value-changed"</span></a> signal on the
 instance, and the <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel-value-changed" title='The "value-changed" signal'><span class="type">"value-changed"</span></a> signal on the
 channel object.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -339,13 +307,11 @@ channel object.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_color_balance_get_balance_type ()">
 <a name="gst-color-balance-get-balance-type"></a><h3>gst_color_balance_get_balance_type ()</h3>
-<pre class="programlisting"><a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceType" title="enum GstColorBalanceType">GstColorBalanceType</a>  gst_color_balance_get_balance_type (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a> *balance);</pre>
+<pre class="programlisting"><a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceType" title="enum GstColorBalanceType"><span class="returnvalue">GstColorBalanceType</span></a>  gst_color_balance_get_balance_type (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="returnvalue">GstColorBalance</span></a> *balance);</pre>
 <p>
 Get the <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalanceType" title="enum GstColorBalanceType"><span class="type">GstColorBalanceType</span></a> of this implementation.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -365,22 +331,16 @@ Get the <a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColo
 <p class="since">Since 0.10.24</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="gst-plugins-base-libs-gstcolorbalance.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "value-changed" signal'>
 <a name="GstColorBalance-value-changed"></a><h3>The <code class="literal">"value-changed"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance">GstColorBalance</a>        *colorbalance,
-                                                        <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel">GstColorBalanceChannel</a> *channel,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"
->gint</a>                    value,
-                                                        <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"
->gpointer</a>                user_data)         : Run Last</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="gst-plugins-base-libs-gstcolorbalance.html#GstColorBalance"><span class="type">GstColorBalance</span></a>        *colorbalance,
+                                                        <a class="link" href="gst-plugins-base-libs-gstcolorbalancechannel.html#GstColorBalanceChannel"><span class="type">GstColorBalanceChannel</span></a> *channel,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                    value,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>                user_data)         : Run Last</pre>
 <p>
 Fired when the value of the indicated channel has changed.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -410,6 +370,6 @@ Fired when the value of the indicated channel has changed.</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

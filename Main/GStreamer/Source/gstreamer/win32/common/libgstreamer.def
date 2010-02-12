@@ -42,8 +42,10 @@ EXPORTS
 	_gst_debug_get_category
 	_gst_debug_nameof_funcptr
 	_gst_debug_register_funcptr
+	_gst_disable_registry_cache DATA
 	_gst_element_error_printf
 	_gst_elementclass_factory DATA
+	_gst_plugin_loader_client_run
 	_gst_plugin_register_static
 	_gst_trace_add_entry
 	_gst_trace_mutex DATA
@@ -63,7 +65,6 @@ EXPORTS
 	gst_atomic_int_set
 	gst_bin_add
 	gst_bin_add_many
-	gst_bin_child_proxy_get_children_count
 	gst_bin_find_unconnected_pad
 	gst_bin_find_unlinked_pad
 	gst_bin_flags_get_type
@@ -176,6 +177,7 @@ EXPORTS
 	gst_caps_save_thyself
 	gst_caps_set_simple
 	gst_caps_set_simple_valist
+	gst_caps_set_value
 	gst_caps_subtract
 	gst_caps_to_string
 	gst_caps_truncate
@@ -362,6 +364,7 @@ EXPORTS
 	gst_event_new_new_segment_full
 	gst_event_new_qos
 	gst_event_new_seek
+	gst_event_new_sink_message
 	gst_event_new_step
 	gst_event_new_tag
 	gst_event_parse_buffer_size
@@ -370,6 +373,7 @@ EXPORTS
 	gst_event_parse_new_segment_full
 	gst_event_parse_qos
 	gst_event_parse_seek
+	gst_event_parse_sink_message
 	gst_event_parse_step
 	gst_event_parse_tag
 	gst_event_set_seqnum
@@ -584,6 +588,7 @@ EXPORTS
 	gst_pad_flags_get_type
 	gst_pad_get_allowed_caps
 	gst_pad_get_caps
+	gst_pad_get_caps_reffed
 	gst_pad_get_direction
 	gst_pad_get_element_private
 	gst_pad_get_fixed_caps_func
@@ -613,6 +618,7 @@ EXPORTS
 	gst_pad_pause_task
 	gst_pad_peer_accept_caps
 	gst_pad_peer_get_caps
+	gst_pad_peer_get_caps_reffed
 	gst_pad_peer_query
 	gst_pad_presence_get_type
 	gst_pad_proxy_getcaps
@@ -706,6 +712,7 @@ EXPORTS
 	gst_plugin_feature_get_name
 	gst_plugin_feature_get_rank
 	gst_plugin_feature_get_type
+	gst_plugin_feature_list_copy
 	gst_plugin_feature_list_free
 	gst_plugin_feature_load
 	gst_plugin_feature_set_name
@@ -821,6 +828,7 @@ EXPORTS
 	gst_registry_get_default
 	gst_registry_get_feature_list
 	gst_registry_get_feature_list_by_plugin
+	gst_registry_get_feature_list_cookie
 	gst_registry_get_path_list
 	gst_registry_get_plugin_list
 	gst_registry_get_type
@@ -899,6 +907,8 @@ EXPORTS
 	gst_structure_id_get
 	gst_structure_id_get_valist
 	gst_structure_id_get_value
+	gst_structure_id_has_field
+	gst_structure_id_has_field_typed
 	gst_structure_id_new
 	gst_structure_id_set
 	gst_structure_id_set_valist
@@ -1047,9 +1057,14 @@ EXPORTS
 	gst_uri_protocol_is_valid
 	gst_uri_type_get_type
 	gst_util_array_binary_search
+	gst_util_double_to_fraction
 	gst_util_dump_mem
+	gst_util_fraction_add
+	gst_util_fraction_multiply
+	gst_util_fraction_to_double
 	gst_util_gdouble_to_guint64
 	gst_util_get_timestamp
+	gst_util_greatest_common_divisor
 	gst_util_guint64_to_gdouble
 	gst_util_seqnum_compare
 	gst_util_seqnum_next

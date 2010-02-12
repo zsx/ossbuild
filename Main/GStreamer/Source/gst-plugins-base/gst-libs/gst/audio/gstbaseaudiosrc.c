@@ -162,11 +162,9 @@ gst_base_audio_src_class_init (GstBaseAudioSrcClass * klass)
 
   g_type_class_add_private (klass, sizeof (GstBaseAudioSrcPrivate));
 
-  gobject_class->set_property =
-      GST_DEBUG_FUNCPTR (gst_base_audio_src_set_property);
-  gobject_class->get_property =
-      GST_DEBUG_FUNCPTR (gst_base_audio_src_get_property);
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_base_audio_src_dispose);
+  gobject_class->set_property = gst_base_audio_src_set_property;
+  gobject_class->get_property = gst_base_audio_src_get_property;
+  gobject_class->dispose = gst_base_audio_src_dispose;
 
   g_object_class_install_property (gobject_class, PROP_BUFFER_TIME,
       g_param_spec_int64 ("buffer-time", "Buffer Time",
@@ -342,8 +340,9 @@ gst_base_audio_src_get_time (GstClock * clock, GstBaseAudioSrc * src)
       src->ringbuffer->spec.rate);
 
   GST_DEBUG_OBJECT (src,
-      "processed samples: raw %llu, delay %u, real %llu, time %"
-      GST_TIME_FORMAT, raw, delay, samples, GST_TIME_ARGS (result));
+      "processed samples: raw %" G_GUINT64_FORMAT ", delay %u, real %"
+      G_GUINT64_FORMAT ", time %" GST_TIME_FORMAT, raw, delay, samples,
+      GST_TIME_ARGS (result));
 
   return result;
 }
@@ -700,32 +699,40 @@ gst_base_audio_src_get_offset (GstBaseAudioSrc * src)
 
   /* assume we can append to the previous sample */
   sample = src->next_sample;
-  /* no previous sample, try to read from position 0 */
-  if (sample == -1)
-    sample = 0;
 
   sps = src->ringbuffer->samples_per_seg;
   segtotal = src->ringbuffer->spec.segtotal;
-
-  /* figure out the segment and the offset inside the segment where
-   * the sample should be read from. */
-  readseg = sample / sps;
 
   /* get the currently processed segment */
   segdone = g_atomic_int_get (&src->ringbuffer->segdone)
       - src->ringbuffer->segbase;
 
-  GST_DEBUG_OBJECT (src, "reading from %d, we are at %d", readseg, segdone);
+  if (sample != -1) {
+    GST_DEBUG_OBJECT (src, "at segment %d and sample %" G_GUINT64_FORMAT,
+        segdone, sample);
+    /* figure out the segment and the offset inside the segment where
+     * the sample should be read from. */
+    readseg = sample / sps;
 
-  /* see how far away it is from the read segment, normally segdone (where new
-   * data is written in the ringbuffer) is bigger than readseg (where we are
-   * reading). */
-  diff = segdone - readseg;
-  if (diff >= segtotal) {
-    GST_DEBUG_OBJECT (src, "dropped, align to segment %d", segdone);
-    /* sample would be dropped, position to next playable position */
+    /* see how far away it is from the read segment, normally segdone (where new
+     * data is written in the ringbuffer) is bigger than readseg (where we are
+     * reading). */
+    diff = segdone - readseg;
+    if (diff >= segtotal) {
+      GST_DEBUG_OBJECT (src, "dropped, align to segment %d", segdone);
+      /* sample would be dropped, position to next playable position */
+      sample = ((guint64) (segdone)) * sps;
+    }
+  } else {
+    /* no previous sample, go to the current position */
+    GST_DEBUG_OBJECT (src, "first sample, align to current %d", segdone);
     sample = ((guint64) (segdone)) * sps;
+    readseg = segdone;
   }
+
+  GST_DEBUG_OBJECT (src,
+      "reading from %d, we are at %d, sample %" G_GUINT64_FORMAT, readseg,
+      segdone, sample);
 
   return sample;
 }
@@ -946,7 +953,7 @@ gst_base_audio_src_create (GstBaseSrc * bsrc, guint64 offset, guint length,
         timestamp = gst_clock_get_time (clock);
         base_time = GST_ELEMENT_CAST (src)->base_time;
 
-        if (timestamp > base_time)
+        if (GST_CLOCK_DIFF (timestamp, base_time) < 0)
           timestamp -= base_time;
         else
           timestamp = 0;
@@ -971,7 +978,7 @@ gst_base_audio_src_create (GstBaseSrc * bsrc, guint64 offset, guint length,
     /* we are not slaved, subtract base_time */
     base_time = GST_ELEMENT_CAST (src)->base_time;
 
-    if (timestamp > base_time) {
+    if (GST_CLOCK_DIFF (timestamp, base_time) < 0) {
       timestamp -= base_time;
       GST_LOG_OBJECT (src,
           "buffer timestamp %" GST_TIME_FORMAT " (base_time %" GST_TIME_FORMAT

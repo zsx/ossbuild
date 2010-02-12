@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>GstBin</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer 0.10 Core Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer 0.10 Core Reference Manual">
 <link rel="up" href="libgstreamer.html" title="GStreamer Core Library">
 <link rel="prev" href="gstreamer-Gst.html" title="Gst">
 <link rel="next" href="gstreamer-GstBuffer.html" title="GstBuffer">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="chapter" href="gstreamer.html" title="GStreamer Overview">
 <link rel="chapter" href="libgstreamer.html" title="GStreamer Core Library">
@@ -16,6 +16,7 @@
 <link rel="chapter" href="gstreamer-hierarchy.html" title="Object Hierarchy">
 <link rel="index" href="api-index-full.html" title="API Index">
 <link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
+<link rel="glossary" href="annotation-glossary.html" title="Annotation Glossary">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -28,19 +29,19 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#GstBin.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#GstBin.description" class="shortcut">Description</a>
-                 | 
-                <a href="#GstBin.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                 | 
-                <a href="#GstBin.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
-                 | 
-                <a href="#GstBin.properties" class="shortcut">Properties</a>
-                 | 
-                <a href="#GstBin.signals" class="shortcut">Signals</a>
+                   | 
+                  <a href="#GstBin.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#GstBin.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#GstBin.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#GstBin.properties" class="shortcut">Properties</a>
+                   | 
+                  <a href="#GstBin.signals" class="shortcut">Signals</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="GstBin">
 <a name="GstBin"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -49,94 +50,73 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="GstBin.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
 #include &lt;gst/gst.h&gt;
 
                     <a class="link" href="GstBin.html#GstBin-struct" title="GstBin">GstBin</a>;
                     <a class="link" href="GstBin.html#GstBinClass" title="GstBinClass">GstBinClass</a>;
-<a class="link" href="GstElement.html" title="GstElement">GstElement</a>*         <a class="link" href="GstBin.html#gst-bin-new" title="gst_bin_new ()">gst_bin_new</a>                         (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="GstBin.html#gst-bin-add" title="gst_bin_add ()">gst_bin_add</a>                         (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="GstBin.html#gst-bin-remove" title="gst_bin_remove ()">gst_bin_remove</a>                      (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element);
-<a class="link" href="GstElement.html" title="GstElement">GstElement</a>*         <a class="link" href="GstBin.html#gst-bin-get-by-name" title="gst_bin_get_by_name ()">gst_bin_get_by_name</a>                 (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);
-<a class="link" href="GstElement.html" title="GstElement">GstElement</a>*         <a class="link" href="GstBin.html#gst-bin-get-by-name-recurse-up" title="gst_bin_get_by_name_recurse_up ()">gst_bin_get_by_name_recurse_up</a>      (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);
-<a class="link" href="GstElement.html" title="GstElement">GstElement</a>*         <a class="link" href="GstBin.html#gst-bin-get-by-interface" title="gst_bin_get_by_interface ()">gst_bin_get_by_interface</a>            (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> iface);
-<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        <a class="link" href="GstBin.html#gst-bin-iterate-elements" title="gst_bin_iterate_elements ()">gst_bin_iterate_elements</a>            (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);
-<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        <a class="link" href="GstBin.html#gst-bin-iterate-recurse" title="gst_bin_iterate_recurse ()">gst_bin_iterate_recurse</a>             (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);
-<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        <a class="link" href="GstBin.html#gst-bin-iterate-sinks" title="gst_bin_iterate_sinks ()">gst_bin_iterate_sinks</a>               (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);
-<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        <a class="link" href="GstBin.html#gst-bin-iterate-sorted" title="gst_bin_iterate_sorted ()">gst_bin_iterate_sorted</a>              (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);
-<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        <a class="link" href="GstBin.html#gst-bin-iterate-sources" title="gst_bin_iterate_sources ()">gst_bin_iterate_sources</a>             (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);
-<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        <a class="link" href="GstBin.html#gst-bin-iterate-all-by-interface" title="gst_bin_iterate_all_by_interface ()">gst_bin_iterate_all_by_interface</a>    (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> iface);
-<a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            <a class="link" href="GstBin.html#gst-bin-recalculate-latency" title="gst_bin_recalculate_latency ()">gst_bin_recalculate_latency</a>         (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);
+<a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a>*         <a class="link" href="GstBin.html#gst-bin-new" title="gst_bin_new ()">gst_bin_new</a>                         (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GstBin.html#gst-bin-add" title="gst_bin_add ()">gst_bin_add</a>                         (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a> *element);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GstBin.html#gst-bin-remove" title="gst_bin_remove ()">gst_bin_remove</a>                      (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a> *element);
+<a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a>*         <a class="link" href="GstBin.html#gst-bin-get-by-name" title="gst_bin_get_by_name ()">gst_bin_get_by_name</a>                 (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);
+<a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a>*         <a class="link" href="GstBin.html#gst-bin-get-by-name-recurse-up" title="gst_bin_get_by_name_recurse_up ()">gst_bin_get_by_name_recurse_up</a>      (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);
+<a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a>*         <a class="link" href="GstBin.html#gst-bin-get-by-interface" title="gst_bin_get_by_interface ()">gst_bin_get_by_interface</a>            (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> iface);
+<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        <a class="link" href="GstBin.html#gst-bin-iterate-elements" title="gst_bin_iterate_elements ()">gst_bin_iterate_elements</a>            (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);
+<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        <a class="link" href="GstBin.html#gst-bin-iterate-recurse" title="gst_bin_iterate_recurse ()">gst_bin_iterate_recurse</a>             (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);
+<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        <a class="link" href="GstBin.html#gst-bin-iterate-sinks" title="gst_bin_iterate_sinks ()">gst_bin_iterate_sinks</a>               (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);
+<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        <a class="link" href="GstBin.html#gst-bin-iterate-sorted" title="gst_bin_iterate_sorted ()">gst_bin_iterate_sorted</a>              (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);
+<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        <a class="link" href="GstBin.html#gst-bin-iterate-sources" title="gst_bin_iterate_sources ()">gst_bin_iterate_sources</a>             (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);
+<a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        <a class="link" href="GstBin.html#gst-bin-iterate-all-by-interface" title="gst_bin_iterate_all_by_interface ()">gst_bin_iterate_all_by_interface</a>    (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> iface);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="GstBin.html#gst-bin-recalculate-latency" title="gst_bin_recalculate_latency ()">gst_bin_recalculate_latency</a>         (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);
 
-void                <a class="link" href="GstBin.html#gst-bin-add-many" title="gst_bin_add_many ()">gst_bin_add_many</a>                    (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element_1,
+<span class="returnvalue">void</span>                <a class="link" href="GstBin.html#gst-bin-add-many" title="gst_bin_add_many ()">gst_bin_add_many</a>                    (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a> *element_1,
                                                          ...);
-void                <a class="link" href="GstBin.html#gst-bin-remove-many" title="gst_bin_remove_many ()">gst_bin_remove_many</a>                 (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element_1,
+<span class="returnvalue">void</span>                <a class="link" href="GstBin.html#gst-bin-remove-many" title="gst_bin_remove_many ()">gst_bin_remove_many</a>                 (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a> *element_1,
                                                          ...);
-<a class="link" href="GstPad.html" title="GstPad">GstPad</a> *            <a class="link" href="GstBin.html#gst-bin-find-unlinked-pad" title="gst_bin_find_unlinked_pad ()">gst_bin_find_unlinked_pad</a>           (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection">GstPadDirection</a> direction);
-<a class="link" href="GstPad.html" title="GstPad">GstPad</a> *            <a class="link" href="GstBin.html#gst-bin-find-unconnected-pad" title="gst_bin_find_unconnected_pad ()">gst_bin_find_unconnected_pad</a>        (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection">GstPadDirection</a> direction);
+<a class="link" href="GstPad.html" title="GstPad"><span class="returnvalue">GstPad</span></a> *            <a class="link" href="GstBin.html#gst-bin-find-unlinked-pad" title="gst_bin_find_unlinked_pad ()">gst_bin_find_unlinked_pad</a>           (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection"><span class="returnvalue">GstPadDirection</span></a> direction);
+<a class="link" href="GstPad.html" title="GstPad"><span class="returnvalue">GstPad</span></a> *            <a class="link" href="GstBin.html#gst-bin-find-unconnected-pad" title="gst_bin_find_unconnected_pad ()">gst_bin_find_unconnected_pad</a>        (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection"><span class="returnvalue">GstPadDirection</span></a> direction);
 
 enum                <a class="link" href="GstBin.html#GstBinFlags" title="enum GstBinFlags">GstBinFlags</a>;
-#define             <a class="link" href="GstBin.html#GST-BIN-CHILDREN--CAPS" title="GST_BIN_CHILDREN()">GST_BIN_CHILDREN</a>                    (bin)
-#define             <a class="link" href="GstBin.html#GST-BIN-CHILDREN-COOKIE--CAPS" title="GST_BIN_CHILDREN_COOKIE()">GST_BIN_CHILDREN_COOKIE</a>             (bin)
-#define             <a class="link" href="GstBin.html#GST-BIN-NUMCHILDREN--CAPS" title="GST_BIN_NUMCHILDREN()">GST_BIN_NUMCHILDREN</a>                 (bin)
+#define             <a class="link" href="GstBin.html#GST-BIN-CHILDREN:CAPS" title="GST_BIN_CHILDREN()">GST_BIN_CHILDREN</a>                    (bin)
+#define             <a class="link" href="GstBin.html#GST-BIN-CHILDREN-COOKIE:CAPS" title="GST_BIN_CHILDREN_COOKIE()">GST_BIN_CHILDREN_COOKIE</a>             (bin)
+#define             <a class="link" href="GstBin.html#GST-BIN-NUMCHILDREN:CAPS" title="GST_BIN_NUMCHILDREN()">GST_BIN_NUMCHILDREN</a>                 (bin)
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Object Hierarchy">
 <a name="GstBin.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="synopsis">
-  <a
-href="../gobject/gobject-The-Base-Object-Type.html#GObject"
->GObject</a>
+  <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
    +----<a class="link" href="GstObject.html" title="GstObject">GstObject</a>
          +----<a class="link" href="GstElement.html" title="GstElement">GstElement</a>
                +----GstBin
                      +----<a class="link" href="GstPipeline.html" title="GstPipeline">GstPipeline</a>
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Implemented Interfaces">
 <a name="GstBin.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
 <p>
 GstBin implements
  <a class="link" href="GstChildProxy.html" title="GstChildProxy">GstChildProxy</a>.</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Properties">
 <a name="GstBin.properties"></a><h2>Properties</h2>
 <pre class="synopsis">
-  "<a class="link" href="GstBin.html#GstBin--async-handling" title='The "async-handling" property'>async-handling</a>"           <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write
+  "<a class="link" href="GstBin.html#GstBin--async-handling" title='The "async-handling" property'>async-handling</a>"           <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signals">
 <a name="GstBin.signals"></a><h2>Signals</h2>
 <pre class="synopsis">
   "<a class="link" href="GstBin.html#GstBin-do-latency" title='The "do-latency" signal'>do-latency</a>"                                     : Run Last
@@ -144,7 +124,7 @@ href="../glib/glib-Basic-Types.html#gboolean"
   "<a class="link" href="GstBin.html#GstBin-element-removed" title='The "element-removed" signal'>element-removed</a>"                                : Run First
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="GstBin.description"></a><h2>Description</h2>
 <p>
 <a class="link" href="GstBin.html" title="GstBin"><span class="type">GstBin</span></a> is an element that can contain other <a class="link" href="GstElement.html" title="GstElement"><span class="type">GstElement</span></a>, allowing them to be
@@ -183,8 +163,8 @@ element is removed from the bin.
 </p>
 <p>
 </p>
-<div class="refsect2" lang="en">
-<a name="id2906551"></a><h3>Notes</h3>
+<div class="refsect2" title="Notes">
+<a name="id410345"></a><h3>Notes</h3>
 <p>
 A <a class="link" href="GstBin.html" title="GstBin"><span class="type">GstBin</span></a> internally intercepts every <a class="link" href="gstreamer-GstMessage.html#GstMessage" title="GstMessage"><span class="type">GstMessage</span></a> posted by its children and
 implements the following default behaviour for each of them:
@@ -253,7 +233,7 @@ implements the following default behaviour for each of them:
 </p>
 <p>
 A <a class="link" href="GstBin.html" title="GstBin"><span class="type">GstBin</span></a> implements the following default behaviour for answering to a
-<span class="type">""</span>
+<a class="link" href="gstreamer-GstQuery.html#GstQuery" title="GstQuery"><span class="type">GstQuery</span></a>:
 </p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
@@ -297,12 +277,10 @@ returned. If no sinks are in the bin, the event handler will return TRUE.
 </p>
 <p>
 Last reviewed on 2006-04-28 (0.10.6)</p>
-<p>
-</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="GstBin.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstBin">
 <a name="GstBin-struct"></a><h3>GstBin</h3>
 <pre class="programlisting">typedef struct {
   /* our children, subclass are supposed to update these
@@ -318,79 +296,63 @@ Last reviewed on 2006-04-28 (0.10.6)</p>
   gboolean       state_dirty;
 
   gboolean       clock_dirty;
-  GstClock	*provided_clock;
+  GstClock *provided_clock;
   GstElement    *clock_provider;
 } GstBin;
 </pre>
 <p>
 The GstBin base class. Subclasses can access these fields provided
 the LOCK is taken.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#gint"
->gint</a> <em class="structfield"><code>numchildren</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> <em class="structfield"><code><a name="GstBin-struct.numchildren"></a>numchildren</code></em>;</span></p></td>
 <td> the number of children in this bin
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a
-href="../glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a> *<em class="structfield"><code>children</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *<em class="structfield"><code><a name="GstBin-struct.children"></a>children</code></em>;</span></p></td>
 <td> the list of children in this bin
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#guint32"
->guint32</a> <em class="structfield"><code>children_cookie</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> <em class="structfield"><code><a name="GstBin-struct.children-cookie"></a>children_cookie</code></em>;</span></p></td>
 <td> updated whenever <em class="parameter"><code>children</code></em> changes
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a class="link" href="GstBus.html" title="GstBus">GstBus</a> *<em class="structfield"><code>child_bus</code></em>;</span></p></td>
+<td><p><span class="term"><a class="link" href="GstBus.html" title="GstBus"><span class="type">GstBus</span></a> *<em class="structfield"><code><a name="GstBin-struct.child-bus"></a>child_bus</code></em>;</span></p></td>
 <td> internal bus for handling child messages
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a
-href="../glib/glib-Doubly-Linked-Lists.html#GList"
->GList</a> *<em class="structfield"><code>messages</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *<em class="structfield"><code><a name="GstBin-struct.messages"></a>messages</code></em>;</span></p></td>
 <td> queued and cached messages
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> <em class="structfield"><code>polling</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> <em class="structfield"><code><a name="GstBin-struct.polling"></a>polling</code></em>;</span></p></td>
 <td> the bin is currently calculating its state
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> <em class="structfield"><code>state_dirty</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> <em class="structfield"><code><a name="GstBin-struct.state-dirty"></a>state_dirty</code></em>;</span></p></td>
 <td> the bin needs to recalculate its state (deprecated)
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a> <em class="structfield"><code>clock_dirty</code></em>;</span></p></td>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> <em class="structfield"><code><a name="GstBin-struct.clock-dirty"></a>clock_dirty</code></em>;</span></p></td>
 <td> the bin needs to select a new clock
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a class="link" href="GstClock.html" title="GstClock">GstClock</a> *<em class="structfield"><code>provided_clock</code></em>;</span></p></td>
+<td><p><span class="term"><a class="link" href="GstClock.html" title="GstClock"><span class="type">GstClock</span></a> *<em class="structfield"><code><a name="GstBin-struct.provided-clock"></a>provided_clock</code></em>;</span></p></td>
 <td> the last clock selected
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><a class="link" href="GstElement.html" title="GstElement">GstElement</a> *<em class="structfield"><code>clock_provider</code></em>;</span></p></td>
+<td><p><span class="term"><a class="link" href="GstElement.html" title="GstElement"><span class="type">GstElement</span></a> *<em class="structfield"><code><a name="GstBin-struct.clock-provider"></a>clock_provider</code></em>;</span></p></td>
 <td> the element that provided <em class="parameter"><code>provided_clock</code></em>
 </td>
 </tr>
@@ -398,16 +360,16 @@ href="../glib/glib-Basic-Types.html#gboolean"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="GstBinClass">
 <a name="GstBinClass"></a><h3>GstBinClass</h3>
 <pre class="programlisting">typedef struct {
   GstElementClass parent_class;
 
   /* virtual methods for subclasses */
-  gboolean	(*add_element)		(GstBin *bin, GstElement *element);
-  gboolean	(*remove_element)	(GstBin *bin, GstElement *element);
+  gboolean (*add_element)		(GstBin *bin, GstElement *element);
+  gboolean (*remove_element) (GstBin *bin, GstElement *element);
 
-  void		(*handle_message)	(GstBin *bin, GstMessage *message);
+  void		(*handle_message) (GstBin *bin, GstMessage *message);
 } GstBinClass;
 </pre>
 <p>
@@ -418,28 +380,26 @@ update the list of children in the bin.
 The <em class="parameter"><code>handle_message</code></em> method can be overridden to implement custom
 message handling.  <em class="parameter"><code>handle_message</code></em> takes ownership of the message, just like
 <a class="link" href="GstElement.html#gst-element-post-message" title="gst_element_post_message ()"><span class="type">gst_element_post_message</span></a>.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
 <tr>
-<td><p><span class="term"><a class="link" href="GstElement.html#GstElementClass" title="GstElementClass">GstElementClass</a> <em class="structfield"><code>parent_class</code></em>;</span></p></td>
+<td><p><span class="term"><a class="link" href="GstElement.html#GstElementClass" title="GstElementClass"><span class="type">GstElementClass</span></a> <em class="structfield"><code><a name="GstBinClass.parent-class"></a>parent_class</code></em>;</span></p></td>
 <td> bin parent class
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="structfield"><code>add_element</code></em> ()</span></p></td>
+<td><p><span class="term"><em class="structfield"><code><a name="GstBinClass.add-element"></a>add_element</code></em> ()</span></p></td>
 <td> method to add an element to a bin
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="structfield"><code>remove_element</code></em> ()</span></p></td>
+<td><p><span class="term"><em class="structfield"><code><a name="GstBinClass.remove-element"></a>remove_element</code></em> ()</span></p></td>
 <td> method to remove an element from a bin
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><em class="structfield"><code>handle_message</code></em> ()</span></p></td>
+<td><p><span class="term"><em class="structfield"><code><a name="GstBinClass.handle-message"></a>handle_message</code></em> ()</span></p></td>
 <td> method to handle a message from the children
 </td>
 </tr>
@@ -447,15 +407,11 @@ message handling.  <em class="parameter"><code>handle_message</code></em> takes 
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_new ()">
 <a name="gst-bin-new"></a><h3>gst_bin_new ()</h3>
-<pre class="programlisting"><a class="link" href="GstElement.html" title="GstElement">GstElement</a>*         gst_bin_new                         (const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);</pre>
+<pre class="programlisting"><a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a>*         gst_bin_new                         (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);</pre>
 <p>
 Creates a new bin with the given name.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -473,12 +429,10 @@ Creates a new bin with the given name.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_add ()">
 <a name="gst-bin-add"></a><h3>gst_bin_add ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_bin_add                         (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_bin_add                         (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a> *element);</pre>
 <p>
 Adds the given element to the bin.  Sets the element's parent, and thus
 takes ownership of the element. An element can only be added to one bin.
@@ -489,8 +443,6 @@ before the element is added to the bin.
 </p>
 <p>
 MT safe.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -514,12 +466,10 @@ the bin does not want to accept the element.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_remove ()">
 <a name="gst-bin-remove"></a><h3>gst_bin_remove ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_bin_remove                      (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_bin_remove                      (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a> *element);</pre>
 <p>
 Removes the element from the bin, unparenting it as well.
 Unparenting the element means that the element will be dereferenced,
@@ -534,8 +484,6 @@ before the element is removed from the bin.
 </p>
 <p>
 MT safe.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -559,12 +507,10 @@ the bin does not want to remove the element.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_get_by_name ()">
 <a name="gst-bin-get-by-name"></a><h3>gst_bin_get_by_name ()</h3>
-<pre class="programlisting"><a class="link" href="GstElement.html" title="GstElement">GstElement</a>*         gst_bin_get_by_name                 (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);</pre>
+<pre class="programlisting"><a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a>*         gst_bin_get_by_name                 (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);</pre>
 <p>
 Gets the element with the given name from a bin. This
 function recurses into child bins.
@@ -574,8 +520,6 @@ Returns NULL if no element with the given name is found in the bin.
 </p>
 <p>
 MT safe.  Caller owns returned reference.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -598,12 +542,10 @@ MT safe.  Caller owns returned reference.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_get_by_name_recurse_up ()">
 <a name="gst-bin-get-by-name-recurse-up"></a><h3>gst_bin_get_by_name_recurse_up ()</h3>
-<pre class="programlisting"><a class="link" href="GstElement.html" title="GstElement">GstElement</a>*         gst_bin_get_by_name_recurse_up      (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         const <a
-href="../glib/glib-Basic-Types.html#gchar"
->gchar</a> *name);</pre>
+<pre class="programlisting"><a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a>*         gst_bin_get_by_name_recurse_up      (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *name);</pre>
 <p>
 Gets the element with the given name from this bin. If the
 element is not found, a recursion is performed on the parent bin.
@@ -614,8 +556,6 @@ Returns NULL if:
 </p>
 <p>
 MT safe.  Caller owns returned reference.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -638,12 +578,10 @@ MT safe.  Caller owns returned reference.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_get_by_interface ()">
 <a name="gst-bin-get-by-interface"></a><h3>gst_bin_get_by_interface ()</h3>
-<pre class="programlisting"><a class="link" href="GstElement.html" title="GstElement">GstElement</a>*         gst_bin_get_by_interface            (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> iface);</pre>
+<pre class="programlisting"><a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a>*         gst_bin_get_by_interface            (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> iface);</pre>
 <p>
 Looks for an element inside the bin that implements the given
 interface. If such an element is found, it returns the element.
@@ -653,8 +591,6 @@ all elements that implement the interface, use
 </p>
 <p>
 MT safe.  Caller owns returned reference.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -665,9 +601,7 @@ MT safe.  Caller owns returned reference.</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>iface</code></em> :</span></p></td>
-<td> the <a
-href="../gobject/gobject-Type-Information.html#GType"
-><span class="type">GType</span></a> of an interface
+<td> the <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> of an interface
 </td>
 </tr>
 <tr>
@@ -679,9 +613,9 @@ href="../gobject/gobject-Type-Information.html#GType"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_iterate_elements ()">
 <a name="gst-bin-iterate-elements"></a><h3>gst_bin_iterate_elements ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        gst_bin_iterate_elements            (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        gst_bin_iterate_elements            (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);</pre>
 <p>
 Gets an iterator for the elements in this bin.
 </p>
@@ -691,8 +625,6 @@ unref after use.
 </p>
 <p>
 MT safe.  Caller owns returned value.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -710,9 +642,9 @@ MT safe.  Caller owns returned value.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_iterate_recurse ()">
 <a name="gst-bin-iterate-recurse"></a><h3>gst_bin_iterate_recurse ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        gst_bin_iterate_recurse             (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        gst_bin_iterate_recurse             (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);</pre>
 <p>
 Gets an iterator for the elements in this bin.
 This iterator recurses into GstBin children.
@@ -723,8 +655,6 @@ unref after use.
 </p>
 <p>
 MT safe.  Caller owns returned value.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -742,12 +672,12 @@ MT safe.  Caller owns returned value.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_iterate_sinks ()">
 <a name="gst-bin-iterate-sinks"></a><h3>gst_bin_iterate_sinks ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        gst_bin_iterate_sinks               (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        gst_bin_iterate_sinks               (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);</pre>
 <p>
 Gets an iterator for all elements in the bin that have the
-<a class="link" href="GstElement.html#GST-ELEMENT-IS-SINK--CAPS"><span class="type">GST_ELEMENT_IS_SINK</span></a> flag set.
+<a class="link" href="GstElement.html#GST-ELEMENT-IS-SINK:CAPS"><span class="type">GST_ELEMENT_IS_SINK</span></a> flag set.
 </p>
 <p>
 Each element yielded by the iterator will have its refcount increased, so
@@ -755,8 +685,6 @@ unref after use.
 </p>
 <p>
 MT safe.  Caller owns returned value.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -774,9 +702,9 @@ MT safe.  Caller owns returned value.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_iterate_sorted ()">
 <a name="gst-bin-iterate-sorted"></a><h3>gst_bin_iterate_sorted ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        gst_bin_iterate_sorted              (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        gst_bin_iterate_sorted              (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);</pre>
 <p>
 Gets an iterator for the elements in this bin in topologically
 sorted order. This means that the elements are returned from
@@ -792,8 +720,6 @@ unref after use.
 </p>
 <p>
 MT safe.  Caller owns returned value.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -811,12 +737,12 @@ MT safe.  Caller owns returned value.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_iterate_sources ()">
 <a name="gst-bin-iterate-sources"></a><h3>gst_bin_iterate_sources ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        gst_bin_iterate_sources             (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        gst_bin_iterate_sources             (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);</pre>
 <p>
 Gets an iterator for all elements in the bin that have no sinkpads and have
-the <a class="link" href="GstElement.html#GST-ELEMENT-IS-SINK--CAPS"><span class="type">GST_ELEMENT_IS_SINK</span></a> flag unset.
+the <a class="link" href="GstElement.html#GST-ELEMENT-IS-SINK:CAPS"><span class="type">GST_ELEMENT_IS_SINK</span></a> flag unset.
 </p>
 <p>
 Each element yielded by the iterator will have its refcount increased, so
@@ -824,8 +750,6 @@ unref after use.
 </p>
 <p>
 MT safe.  Caller owns returned value.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -843,12 +767,10 @@ MT safe.  Caller owns returned value.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_iterate_all_by_interface ()">
 <a name="gst-bin-iterate-all-by-interface"></a><h3>gst_bin_iterate_all_by_interface ()</h3>
-<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator">GstIterator</a>*        gst_bin_iterate_all_by_interface    (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a
-href="../gobject/gobject-Type-Information.html#GType"
->GType</a> iface);</pre>
+<pre class="programlisting"><a class="link" href="gstreamer-GstIterator.html#GstIterator" title="GstIterator"><span class="returnvalue">GstIterator</span></a>*        gst_bin_iterate_all_by_interface    (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a> iface);</pre>
 <p>
 Looks for all elements inside the bin that implements the given
 interface. You can safely cast all returned elements to the given interface.
@@ -861,8 +783,6 @@ unref after use.
 </p>
 <p>
 MT safe.  Caller owns returned value.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -873,9 +793,7 @@ MT safe.  Caller owns returned value.</p>
 </tr>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>iface</code></em> :</span></p></td>
-<td> the <a
-href="../gobject/gobject-Type-Information.html#GType"
-><span class="type">GType</span></a> of an interface
+<td> the <a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> of an interface
 </td>
 </tr>
 <tr>
@@ -888,24 +806,20 @@ href="../gobject/gobject-Type-Information.html#GType"
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_recalculate_latency ()">
 <a name="gst-bin-recalculate-latency"></a><h3>gst_bin_recalculate_latency ()</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            gst_bin_recalculate_latency         (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin);</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_bin_recalculate_latency         (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin);</pre>
 <p>
 Query <em class="parameter"><code>bin</code></em> for the current latency using and reconfigures this latency to all the
 elements with a LATENCY event.
 </p>
 <p>
-This method is typically called on the pipeline when a <a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-LATENCY--CAPS"><span class="type">GST_MESSAGE_LATENCY</span></a>
+This method is typically called on the pipeline when a <a class="link" href="gstreamer-GstMessage.html#GST-MESSAGE-LATENCY:CAPS"><span class="type">GST_MESSAGE_LATENCY</span></a>
 is posted on the bus.
 </p>
 <p>
 This function simply emits the 'do-latency' signal so any custom latency
 calculations will be performed.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -916,9 +830,7 @@ calculations will be performed.</p>
 </tr>
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td> <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
-><code class="literal">TRUE</code></a> if the latency could be queried and reconfigured.
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the latency could be queried and reconfigured.
 
 </td>
 </tr>
@@ -927,17 +839,15 @@ href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
 <p class="since">Since 0.10.22.</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_add_many ()">
 <a name="gst-bin-add-many"></a><h3>gst_bin_add_many ()</h3>
-<pre class="programlisting">void                gst_bin_add_many                    (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element_1,
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_bin_add_many                    (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a> *element_1,
                                                          ...);</pre>
 <p>
 Adds a NULL-terminated list of elements to a bin.  This function is
 equivalent to calling <a class="link" href="GstBin.html#gst-bin-add" title="gst_bin_add ()"><code class="function">gst_bin_add()</code></a> for each member of the list. The return
 value of each <a class="link" href="GstBin.html#gst-bin-add" title="gst_bin_add ()"><code class="function">gst_bin_add()</code></a> is ignored.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -960,16 +870,14 @@ value of each <a class="link" href="GstBin.html#gst-bin-add" title="gst_bin_add 
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_remove_many ()">
 <a name="gst-bin-remove-many"></a><h3>gst_bin_remove_many ()</h3>
-<pre class="programlisting">void                gst_bin_remove_many                 (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element_1,
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_bin_remove_many                 (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstElement.html" title="GstElement"><span class="returnvalue">GstElement</span></a> *element_1,
                                                          ...);</pre>
 <p>
 Remove a list of elements from a bin. This function is equivalent
 to calling <a class="link" href="GstBin.html#gst-bin-remove" title="gst_bin_remove ()"><code class="function">gst_bin_remove()</code></a> with each member of the list.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -992,18 +900,16 @@ to calling <a class="link" href="GstBin.html#gst-bin-remove" title="gst_bin_remo
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_find_unlinked_pad ()">
 <a name="gst-bin-find-unlinked-pad"></a><h3>gst_bin_find_unlinked_pad ()</h3>
-<pre class="programlisting"><a class="link" href="GstPad.html" title="GstPad">GstPad</a> *            gst_bin_find_unlinked_pad           (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection">GstPadDirection</a> direction);</pre>
+<pre class="programlisting"><a class="link" href="GstPad.html" title="GstPad"><span class="returnvalue">GstPad</span></a> *            gst_bin_find_unlinked_pad           (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection"><span class="returnvalue">GstPadDirection</span></a> direction);</pre>
 <p>
 Recursively looks for elements with an unlinked pad of the given
 direction within the specified bin and returns an unlinked pad
 if one is found, or NULL otherwise. If a pad is found, the caller
 owns a reference to it and should use <a class="link" href="GstObject.html#gst-object-unref" title="gst_object_unref ()"><code class="function">gst_object_unref()</code></a> on the
 pad when it is not needed any longer.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1028,11 +934,11 @@ pad when it is not needed any longer.</p>
 <p class="since">Since 0.10.20</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_bin_find_unconnected_pad ()">
 <a name="gst-bin-find-unconnected-pad"></a><h3>gst_bin_find_unconnected_pad ()</h3>
-<pre class="programlisting"><a class="link" href="GstPad.html" title="GstPad">GstPad</a> *            gst_bin_find_unconnected_pad        (<a class="link" href="GstBin.html" title="GstBin">GstBin</a> *bin,
-                                                         <a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection">GstPadDirection</a> direction);</pre>
-<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<pre class="programlisting"><a class="link" href="GstPad.html" title="GstPad"><span class="returnvalue">GstPad</span></a> *            gst_bin_find_unconnected_pad        (<a class="link" href="GstBin.html" title="GstBin"><span class="returnvalue">GstBin</span></a> *bin,
+                                                         <a class="link" href="GstPad.html#GstPadDirection" title="enum GstPadDirection"><span class="returnvalue">GstPadDirection</span></a> direction);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
 <h3 class="title">Warning</h3>
 <p><code class="literal">gst_bin_find_unconnected_pad</code> is deprecated and should not be used in newly-written code. use <a class="link" href="GstBin.html#gst-bin-find-unlinked-pad" title="gst_bin_find_unlinked_pad ()"><code class="function">gst_bin_find_unlinked_pad()</code></a> instead.</p>
 </div>
@@ -1042,8 +948,6 @@ direction within the specified bin and returns an unlinked pad
 if one is found, or NULL otherwise. If a pad is found, the caller
 owns a reference to it and should use <a class="link" href="GstObject.html#gst-object-unref" title="gst_object_unref ()"><code class="function">gst_object_unref()</code></a> on the
 pad when it is not needed any longer.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1068,7 +972,7 @@ pad when it is not needed any longer.</p>
 <p class="since">Since 0.10.3</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="enum GstBinFlags">
 <a name="GstBinFlags"></a><h3>enum GstBinFlags</h3>
 <pre class="programlisting">typedef enum {
   /* padding */
@@ -1077,14 +981,12 @@ pad when it is not needed any longer.</p>
 </pre>
 <p>
 GstBinFlags are a set of flags specific to bins. Most are set/used
-internally. They can be checked using the <a class="link" href="GstObject.html#GST-OBJECT-FLAG-IS-SET--CAPS" title="GST_OBJECT_FLAG_IS_SET()"><code class="function">GST_OBJECT_FLAG_IS_SET()</code></a> macro,
-and (un)set using <a class="link" href="GstObject.html#GST-OBJECT-FLAG-SET--CAPS" title="GST_OBJECT_FLAG_SET()"><code class="function">GST_OBJECT_FLAG_SET()</code></a> and <a class="link" href="GstObject.html#GST-OBJECT-FLAG-UNSET--CAPS" title="GST_OBJECT_FLAG_UNSET()"><code class="function">GST_OBJECT_FLAG_UNSET()</code></a>.</p>
-<p>
-</p>
+internally. They can be checked using the <a class="link" href="GstObject.html#GST-OBJECT-FLAG-IS-SET:CAPS" title="GST_OBJECT_FLAG_IS_SET()"><code class="function">GST_OBJECT_FLAG_IS_SET()</code></a> macro,
+and (un)set using <a class="link" href="GstObject.html#GST-OBJECT-FLAG-SET:CAPS" title="GST_OBJECT_FLAG_SET()"><code class="function">GST_OBJECT_FLAG_SET()</code></a> and <a class="link" href="GstObject.html#GST-OBJECT-FLAG-UNSET:CAPS" title="GST_OBJECT_FLAG_UNSET()"><code class="function">GST_OBJECT_FLAG_UNSET()</code></a>.</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
-<td><p><a name="GST-BIN-FLAG-LAST--CAPS"></a><span class="term"><code class="literal">GST_BIN_FLAG_LAST</code></span></p></td>
+<td><p><a name="GST-BIN-FLAG-LAST:CAPS"></a><span class="term"><code class="literal">GST_BIN_FLAG_LAST</code></span></p></td>
 <td> the last enum in the series of flags for bins.
 Derived classes can use this as first value in a list of flags.
 </td>
@@ -1092,14 +994,12 @@ Derived classes can use this as first value in a list of flags.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-BIN-CHILDREN--CAPS"></a><h3>GST_BIN_CHILDREN()</h3>
+<div class="refsect2" title="GST_BIN_CHILDREN()">
+<a name="GST-BIN-CHILDREN:CAPS"></a><h3>GST_BIN_CHILDREN()</h3>
 <pre class="programlisting">#define GST_BIN_CHILDREN(bin)		(GST_BIN_CAST(bin)-&gt;children)
 </pre>
 <p>
 Gets the list with children in a bin.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -1110,14 +1010,12 @@ Gets the list with children in a bin.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-BIN-CHILDREN-COOKIE--CAPS"></a><h3>GST_BIN_CHILDREN_COOKIE()</h3>
-<pre class="programlisting">#define GST_BIN_CHILDREN_COOKIE(bin)	(GST_BIN_CAST(bin)-&gt;children_cookie)
+<div class="refsect2" title="GST_BIN_CHILDREN_COOKIE()">
+<a name="GST-BIN-CHILDREN-COOKIE:CAPS"></a><h3>GST_BIN_CHILDREN_COOKIE()</h3>
+<pre class="programlisting">#define GST_BIN_CHILDREN_COOKIE(bin) (GST_BIN_CAST(bin)-&gt;children_cookie)
 </pre>
 <p>
 Gets the children cookie that watches the children list.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -1128,14 +1026,12 @@ Gets the children cookie that watches the children list.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
-<a name="GST-BIN-NUMCHILDREN--CAPS"></a><h3>GST_BIN_NUMCHILDREN()</h3>
-<pre class="programlisting">#define GST_BIN_NUMCHILDREN(bin)	(GST_BIN_CAST(bin)-&gt;numchildren)
+<div class="refsect2" title="GST_BIN_NUMCHILDREN()">
+<a name="GST-BIN-NUMCHILDREN:CAPS"></a><h3>GST_BIN_NUMCHILDREN()</h3>
+<pre class="programlisting">#define GST_BIN_NUMCHILDREN(bin) (GST_BIN_CAST(bin)-&gt;numchildren)
 </pre>
 <p>
 Gets the number of children in a bin.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -1146,35 +1042,25 @@ Gets the number of children in a bin.</p>
 </table></div>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Property Details">
 <a name="GstBin.property-details"></a><h2>Property Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "async-handling" property'>
 <a name="GstBin--async-handling"></a><h3>The <code class="literal">"async-handling"</code> property</h3>
-<pre class="programlisting">  "async-handling"           <a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>              : Read / Write</pre>
+<pre class="programlisting">  "async-handling"           <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
 <p>
-If set to <a
-href="../glib/glib-Standard-Macros.html#TRUE--CAPS"
-><span class="type">TRUE</span></a>, the bin will handle asynchronous state changes.
+If set to <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a>, the bin will handle asynchronous state changes.
 This should be used only if the bin subclass is modifying the state
 of its children on its own.</p>
-<p>
-</p>
 <p>Default value: FALSE</p>
-<p>Since 0.10.13</p>
+<p class="since">Since 0.10.13</p>
 </div>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Signal Details">
 <a name="GstBin.signal-details"></a><h2>Signal Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "do-latency" signal'>
 <a name="GstBin-do-latency"></a><h3>The <code class="literal">"do-latency"</code> signal</h3>
-<pre class="programlisting"><a
-href="../glib/glib-Basic-Types.html#gboolean"
->gboolean</a>            user_function                      (<a class="link" href="GstBin.html" title="GstBin">GstBin</a>  *bin,
-                                                        <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a> user_data)      : Run Last</pre>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            user_function                      (<a class="link" href="GstBin.html" title="GstBin"><span class="type">GstBin</span></a>  *bin,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data)      : Run Last</pre>
 <p>
 Will be emitted when the bin needs to perform latency calculations. This
 signal is only emited for toplevel bins or when async-handling is
@@ -1189,8 +1075,6 @@ possible latency to all sinks.
 Connect to this signal if the default latency calculations are not
 sufficient, like when you need different latencies for different sinks in
 the same pipeline.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1205,20 +1089,16 @@ the same pipeline.</p>
 </tr>
 </tbody>
 </table></div>
-<p>Since 0.10.22</p>
+<p class="since">Since 0.10.22</p>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "element-added" signal'>
 <a name="GstBin-element-added"></a><h3>The <code class="literal">"element-added"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="GstBin.html" title="GstBin">GstBin</a>     *bin,
-                                                        <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element,
-                                                        <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a>    user_data)      : Run First</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="GstBin.html" title="GstBin"><span class="type">GstBin</span></a>     *bin,
+                                                        <a class="link" href="GstElement.html" title="GstElement"><span class="type">GstElement</span></a> *element,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>    user_data)      : Run First</pre>
 <p>
 Will be emitted after the element was added to the bin.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1240,17 +1120,13 @@ Will be emitted after the element was added to the bin.</p>
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title='The "element-removed" signal'>
 <a name="GstBin-element-removed"></a><h3>The <code class="literal">"element-removed"</code> signal</h3>
-<pre class="programlisting">void                user_function                      (<a class="link" href="GstBin.html" title="GstBin">GstBin</a>     *bin,
-                                                        <a class="link" href="GstElement.html" title="GstElement">GstElement</a> *element,
-                                                        <a
-href="../glib/glib-Basic-Types.html#gpointer"
->gpointer</a>    user_data)      : Run First</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                user_function                      (<a class="link" href="GstBin.html" title="GstBin"><span class="type">GstBin</span></a>     *bin,
+                                                        <a class="link" href="GstElement.html" title="GstElement"><span class="type">GstElement</span></a> *element,
+                                                        <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>    user_data)      : Run First</pre>
 <p>
 Will be emitted after the element was removed from the bin.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -1275,6 +1151,6 @@ Will be emitted after the element was removed from the bin.</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

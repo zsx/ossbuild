@@ -98,8 +98,8 @@ gst_ring_buffer_class_init (GstRingBufferClass * klass)
 
   parent_class = g_type_class_peek_parent (klass);
 
-  gobject_class->dispose = GST_DEBUG_FUNCPTR (gst_ring_buffer_dispose);
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_ring_buffer_finalize);
+  gobject_class->dispose = gst_ring_buffer_dispose;
+  gobject_class->finalize = gst_ring_buffer_finalize;
 
   gstringbuffer_class->clear_all = GST_DEBUG_FUNCPTR (default_clear_all);
   gstringbuffer_class->commit = GST_DEBUG_FUNCPTR (default_commit);
@@ -1415,8 +1415,8 @@ gst_ring_buffer_set_sample (GstRingBuffer * buf, guint64 sample)
 
   gst_ring_buffer_clear_all (buf);
 
-  GST_DEBUG_OBJECT (buf, "set sample to %llu, segbase %d", sample,
-      buf->segbase);
+  GST_DEBUG_OBJECT (buf, "set sample to %" G_GUINT64_FORMAT ", segbase %d",
+      sample, buf->segbase);
 }
 
 static void
@@ -1888,7 +1888,8 @@ gst_ring_buffer_read (GstRingBuffer * buf, guint64 sample, guchar * data,
       diff = segdone - readseg;
 
       GST_DEBUG
-          ("pointer at %d, sample %llu, read from %d-%d, to_read %d, diff %d, segtotal %d, segsize %d",
+          ("pointer at %d, sample %" G_GUINT64_FORMAT
+          ", read from %d-%d, to_read %d, diff %d, segtotal %d, segsize %d",
           segdone, sample, readseg, sampleoff, to_read, diff, segtotal,
           segsize);
 

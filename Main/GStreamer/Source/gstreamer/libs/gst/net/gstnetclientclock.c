@@ -522,7 +522,7 @@ gst_net_client_clock_stop (GstNetClientClock * self)
  * @base_time: initial time of the clock
  *
  * Create a new #GstNetClientClock that will report the time
- * provided by the #GstNetClockProvider on @remote_address and 
+ * provided by the #GstNetTimeProvider on @remote_address and 
  * @remote_port.
  *
  * Returns: a new #GstClock that receives a time from the remote
@@ -557,8 +557,10 @@ gst_net_client_clock_new (gchar * name, const gchar * remote_address,
   {
     GstClockTime now = gst_clock_get_time (GST_CLOCK (ret));
 
-    if (now < base_time || now > base_time + GST_SECOND)
+    if (GST_CLOCK_DIFF (now, base_time) > 0 ||
+        GST_CLOCK_DIFF (now, base_time + GST_SECOND) < 0) {
       g_warning ("unable to set the base time, expect sync problems!");
+    }
   }
 
   if ((ret->priv->fdset = gst_poll_new (TRUE)) == NULL)

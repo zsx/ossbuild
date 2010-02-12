@@ -277,10 +277,10 @@ gst_fake_src_class_init (GstFakeSrcClass * klass)
   gobject_class = G_OBJECT_CLASS (klass);
   gstbase_src_class = GST_BASE_SRC_CLASS (klass);
 
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_fake_src_finalize);
+  gobject_class->finalize = gst_fake_src_finalize;
 
-  gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_fake_src_set_property);
-  gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_fake_src_get_property);
+  gobject_class->set_property = gst_fake_src_set_property;
+  gobject_class->get_property = gst_fake_src_get_property;
 
 /*
   FIXME: this is not implemented; would make sense once basesrc and fakesrc
@@ -856,8 +856,8 @@ gst_fake_src_create (GstBaseSrc * basesrc, guint64 offset, guint length,
 
   if (src->signal_handoffs) {
     GST_LOG_OBJECT (src, "pre handoff emit");
-    g_signal_emit (G_OBJECT (src), gst_fake_src_signals[SIGNAL_HANDOFF], 0,
-        buf, basesrc->srcpad);
+    g_signal_emit (src, gst_fake_src_signals[SIGNAL_HANDOFF], 0, buf,
+        basesrc->srcpad);
     GST_LOG_OBJECT (src, "post handoff emit");
   }
 

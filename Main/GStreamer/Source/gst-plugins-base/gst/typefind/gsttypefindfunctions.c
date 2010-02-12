@@ -39,6 +39,7 @@
 #include <gst/gstinfo.h>
 #include <gst/gstutils.h>
 
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -686,7 +687,8 @@ aac_type_find (GstTypeFind * tf, gpointer unused)
             G_GINT64_MODIFIER "x, framelen %u", mpegversion, c.offset, len);
         gst_type_find_suggest_simple (tf, GST_TYPE_FIND_LIKELY, "audio/mpeg",
             "framed", G_TYPE_BOOLEAN, FALSE,
-            "mpegversion", G_TYPE_INT, mpegversion, NULL);
+            "mpegversion", G_TYPE_INT, mpegversion,
+            "stream-type", G_TYPE_STRING, "adts", NULL);
         break;
       }
 
@@ -694,7 +696,8 @@ aac_type_find (GstTypeFind * tf, gpointer unused)
     } else if (!memcmp (c.data, "ADIF", 4)) {
       /* ADIF header */
       gst_type_find_suggest_simple (tf, GST_TYPE_FIND_LIKELY, "audio/mpeg",
-          "framed", G_TYPE_BOOLEAN, FALSE, "mpegversion", G_TYPE_INT, 4, NULL);
+          "framed", G_TYPE_BOOLEAN, FALSE, "mpegversion", G_TYPE_INT, 4,
+          "stream-format", G_TYPE_STRING, "adif", NULL);
       break;
     }
 
@@ -1087,7 +1090,7 @@ musepack_type_find (GstTypeFind * tf, gpointer unused)
 }
 
 /*** audio/x-ac3 ***/
-/* This should be audio/ac3, but isn't for backwards compatibility */
+/* FIXME 0.11: should be audio/ac3, but isn't for backwards compatibility */
 static GstStaticCaps ac3_caps = GST_STATIC_CAPS ("audio/x-ac3");
 
 #define AC3_CAPS (gst_static_caps_get(&ac3_caps))
@@ -1139,47 +1142,51 @@ static const struct ac3_frmsize ac3_frmsizecod_tbl[] = {
   {640, {1280, 1394, 1920}}
 };
 
-
 static void
 ac3_type_find (GstTypeFind * tf, gpointer unused)
 {
-  guint8 *data = gst_type_find_peek (tf, 0, 5);
-  gint offset = 0;
+  DataScanCtx c = { 0, NULL, 0 };
 
   /* Search for an ac3 frame; not neccesarily right at the start, but give it
    * a lower probability if not found right at the start. Check that the
    * frame is followed by a second frame at the expected offset.
    * We could also check the two ac3 CRCs, but we don't do that right now */
-  while (data && offset < 1024) {
-    if (data[0] == 0x0b && data[1] == 0x77) {
-      guint fscod = (data[4] >> 6) & 0x03;
-      guint frmsizecod = data[4] & 0x3f;
+  while (c.offset < 1024) {
+    if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 5)))
+      break;
+
+    if (c.data[0] == 0x0b && c.data[1] == 0x77) {
+      guint fscod = (c.data[4] >> 6) & 0x03;
+      guint frmsizecod = c.data[4] & 0x3f;
 
       if (fscod < 3 && frmsizecod < 38) {
-        guint frame_size = ac3_frmsizecod_tbl[frmsizecod].frm_size[fscod];
+        DataScanCtx c_next = c;
+        guint frame_size;
 
-        data = gst_type_find_peek (tf, offset + frame_size * 2, 5);
+        frame_size = ac3_frmsizecod_tbl[frmsizecod].frm_size[fscod];
+        if (data_scan_ctx_ensure_data (tf, &c_next, (frame_size * 2) + 5)) {
+          data_scan_ctx_advance (tf, &c, frame_size * 2);
 
-        if (data) {
-          if (data[0] == 0x0b && data[1] == 0x77) {
-            guint fscod2 = (data[4] >> 6) & 0x03;
-            guint frmsizecod2 = data[4] & 0x3f;
+          if (c_next.data[0] == 0x0b && c_next.data[1] == 0x77) {
+            guint fscod2 = (c_next.data[4] >> 6) & 0x03;
+            guint frmsizecod2 = c_next.data[4] & 0x3f;
 
             if (fscod == fscod2 && frmsizecod == frmsizecod2) {
-              int prob;
+              GstTypeFindProbability prob;
 
-              if (offset == 0)
+              if (c.offset == 0)
                 prob = GST_TYPE_FIND_MAXIMUM;
               else
                 prob = GST_TYPE_FIND_NEARLY_CERTAIN;
+
               gst_type_find_suggest (tf, prob, AC3_CAPS);
+              return;
             }
           }
         }
       }
     }
-    offset++;
-    data = gst_type_find_peek (tf, offset, 5);
+    data_scan_ctx_advance (tf, &c, 1);
   }
 }
 
@@ -1735,7 +1742,7 @@ mpeg_find_next_header (GstTypeFind * tf, DataScanCtx * c,
 /*** video/mpeg MPEG-4 elementary video stream ***/
 
 static GstStaticCaps mpeg4_video_caps = GST_STATIC_CAPS ("video/mpeg, "
-    "systemstream = (boolean) false, mpegversion = 4");
+    "systemstream=(boolean)false, mpegversion=4, parsed=(boolean)false");
 #define MPEG4_VIDEO_CAPS gst_static_caps_get(&mpeg4_video_caps)
 
 /*
@@ -1873,14 +1880,9 @@ h264_video_type_find (GstTypeFind * tf, gpointer unused)
   /* Stream consists of: a series of sync codes (00 00 00 01) followed 
    * by NALs
    */
-  int stat_slice = 0;
-  int stat_dpa = 0;
-  int stat_dpb = 0;
-  int stat_dpc = 0;
-  int stat_idr = 0;
-  int stat_sps = 0;
-  int stat_pps = 0;
   int nut, ref;
+  int good = 0;
+  int bad = 0;
 
   while (c.offset < H264_MAX_PROBE_LENGTH) {
     if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 4)))
@@ -1891,27 +1893,33 @@ h264_video_type_find (GstTypeFind * tf, gpointer unused)
       ref = c.data[3] & 0x60;   /* nal_ref_idc */
 
       /* if forbiden bit is different to 0 won't be h264 */
-      if (nut > 0x1f)
+      if (nut > 0x1f) {
+        bad++;
         break;
+      }
 
       /* collect statistics about the NAL types */
-      if (nut == 1)
-        stat_slice++;
-      else if (nut == 2)
-        stat_dpa++;
-      else if (nut == 3)
-        stat_dpb++;
-      else if (nut == 4)
-        stat_dpc++;
-      else if ((nut == 5) && (ref != 0))
-        stat_idr++;
-      else if ((nut == 7) && (ref != 0))
-        stat_sps++;
-      else if ((nut == 8) && (ref != 0))
-        stat_pps++;
+      if ((nut >= 1 && nut <= 13) || nut == 19) {
+        if ((nut == 5 && ref == 0) ||
+            ((nut == 6 || (nut >= 9 && nut <= 12)) && ref != 0)) {
+          bad++;
+        } else {
+          good++;
+        }
+      } else if (nut >= 14 && nut <= 33) {
+        /* reserved */
+        /* Theoretically these are good, since if they exist in the
+           stream it merely means that a newer backwards-compatible
+           h.264 stream.  But we should be identifying that separately. */
+        bad++;
+      } else {
+        /* unspecified, application specific */
+        /* don't consider these bad */
+      }
 
-      if ((stat_slice > 4 || (stat_dpa > 4 && stat_dpb > 4 && stat_dpc > 4)) &&
-          stat_idr >= 1 && stat_sps >= 1 && stat_pps >= 1) {
+      GST_DEBUG ("good %d bad %d", good, bad);
+
+      if (good >= 10 && bad < 4) {
         gst_type_find_suggest (tf, GST_TYPE_FIND_LIKELY, H264_VIDEO_CAPS);
         return;
       }
@@ -1919,6 +1927,11 @@ h264_video_type_find (GstTypeFind * tf, gpointer unused)
       data_scan_ctx_advance (tf, &c, 4);
     }
     data_scan_ctx_advance (tf, &c, 1);
+  }
+
+  if (good >= 2 && bad < 1) {
+    gst_type_find_suggest (tf, GST_TYPE_FIND_POSSIBLE, H264_VIDEO_CAPS);
+    return;
   }
 }
 
@@ -2217,9 +2230,21 @@ qt_type_find (GstTypeFind * tf, gpointer unused)
   guint tip = 0;
   guint64 offset = 0;
   guint64 size;
+  const gchar *variant = NULL;
 
-  while ((data = gst_type_find_peek (tf, offset, 8)) != NULL) {
+  while ((data = gst_type_find_peek (tf, offset, 12)) != NULL) {
     guint64 new_offset;
+
+    if (STRNCMP (&data[4], "ftypqt  ", 8) == 0) {
+      tip = GST_TYPE_FIND_MAXIMUM;
+      break;
+    }
+
+    if (STRNCMP (&data[4], "ftypisom", 8) == 0) {
+      tip = GST_TYPE_FIND_MAXIMUM;
+      variant = "iso";
+      break;
+    }
 
     /* box/atom types that are in common with ISO base media file format */
     if (STRNCMP (&data[4], "moov", 4) == 0 ||
@@ -2263,8 +2288,17 @@ qt_type_find (GstTypeFind * tf, gpointer unused)
       break;
     offset = new_offset;
   }
+
   if (tip > 0) {
-    gst_type_find_suggest (tf, tip, QT_CAPS);
+    if (variant) {
+      GstCaps *caps = gst_caps_copy (QT_CAPS);
+
+      gst_caps_set_simple (caps, "variant", G_TYPE_STRING, variant, NULL);
+      gst_type_find_suggest (tf, tip, caps);
+      gst_caps_unref (caps);
+    } else {
+      gst_type_find_suggest (tf, tip, QT_CAPS);
+    }
   }
 };
 
@@ -2569,6 +2603,104 @@ tiff_type_find (GstTypeFind * tf, gpointer ununsed)
   }
 }
 
+/*** PNM ***/
+
+static GstStaticCaps pnm_caps = GST_STATIC_CAPS ("image/x-portable-bitmap; "
+    "image/x-portable-graymap; image/x-portable-pixmap; "
+    "image/x-portable-anymap");
+
+#define PNM_CAPS (gst_static_caps_get(&pnm_caps))
+
+#define IS_PNM_WHITESPACE(c) \
+    ((c) == ' ' || (c) == '\r' || (c) == '\n' || (c) == 't')
+
+static void
+pnm_type_find (GstTypeFind * tf, gpointer ununsed)
+{
+  const gchar *media_type = NULL;
+  DataScanCtx c = { 0, NULL, 0 };
+  guint h = 0, w = 0;
+
+  if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 16)))
+    return;
+
+  /* see http://en.wikipedia.org/wiki/Netpbm_format */
+  if (c.data[0] != 'P' || c.data[1] < '1' || c.data[1] > '7' ||
+      !IS_PNM_WHITESPACE (c.data[2]) ||
+      (c.data[3] != '#' && c.data[3] < '0' && c.data[3] > '9'))
+    return;
+
+  switch (c.data[1]) {
+    case '1':
+      media_type = "image/x-portable-bitmap";   /* ASCII */
+      break;
+    case '2':
+      media_type = "image/x-portable-graymap";  /* ASCII */
+      break;
+    case '3':
+      media_type = "image/x-portable-pixmap";   /* ASCII */
+      break;
+    case '4':
+      media_type = "image/x-portable-bitmap";   /* Raw */
+      break;
+    case '5':
+      media_type = "image/x-portable-graymap";  /* Raw */
+      break;
+    case '6':
+      media_type = "image/x-portable-pixmap";   /* Raw */
+      break;
+    case '7':
+      media_type = "image/x-portable-anymap";
+      break;
+    default:
+      g_return_if_reached ();
+  }
+
+  /* try to extract width and height as well */
+  if (c.data[1] != '7') {
+    gchar s[64] = { 0, }
+    , sep1, sep2;
+
+    /* need to skip any comment lines first */
+    data_scan_ctx_advance (tf, &c, 3);
+    while (c.data[0] == '#') {  /* we know there's still data left */
+      data_scan_ctx_advance (tf, &c, 1);
+      while (c.data[0] != '\n' && c.data[0] != '\r') {
+        if (!data_scan_ctx_ensure_data (tf, &c, 4))
+          return;
+        data_scan_ctx_advance (tf, &c, 1);
+      }
+      data_scan_ctx_advance (tf, &c, 1);
+      GST_LOG ("skipped comment line in PNM header");
+    }
+
+    if (!data_scan_ctx_ensure_data (tf, &c, 32) &&
+        !data_scan_ctx_ensure_data (tf, &c, 4)) {
+      return;
+    }
+
+    /* need to NUL-terminate data for sscanf */
+    memcpy (s, c.data, MIN (sizeof (s) - 1, c.size));
+    if (sscanf (s, "%u%c%u%c", &w, &sep1, &h, &sep2) == 4 &&
+        IS_PNM_WHITESPACE (sep1) && IS_PNM_WHITESPACE (sep2) &&
+        w > 0 && w < G_MAXINT && h > 0 && h < G_MAXINT) {
+      GST_LOG ("extracted PNM width and height: %dx%d", w, h);
+    } else {
+      w = 0;
+      h = 0;
+    }
+  } else {
+    /* FIXME: extract width + height for anymaps too */
+  }
+
+  if (w > 0 && h > 0) {
+    gst_type_find_suggest_simple (tf, GST_TYPE_FIND_MAXIMUM, media_type,
+        "width", G_TYPE_INT, w, "height", G_TYPE_INT, h, NULL);
+  } else {
+    gst_type_find_suggest_simple (tf, GST_TYPE_FIND_LIKELY, media_type, NULL);
+  }
+}
+
 static GstStaticCaps sds_caps = GST_STATIC_CAPS ("audio/x-sds");
 
 #define SDS_CAPS (gst_static_caps_get(&sds_caps))
@@ -2693,28 +2825,35 @@ mxf_type_find (GstTypeFind * tf, gpointer ununsed)
   DataScanCtx c = { 0, NULL, 0 };
 
   while (c.offset <= MXF_MAX_PROBE_LENGTH) {
-    if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 16)))
+    guint i;
+    if (G_UNLIKELY (!data_scan_ctx_ensure_data (tf, &c, 1024)))
       break;
 
-    if (memcmp (c.data, partition_pack_key, 13) == 0) {
-      /* Header partition pack? */
-      if (c.data[13] != 0x02)
-        goto advance;
+    /* look over in chunks of 1kbytes to avoid too much overhead */
 
-      /* Partition status */
-      if (c.data[14] >= 0x05)
-        goto advance;
+    for (i = 0; i < 1024 - 16; i++) {
+      /* Check first byte before calling more expensive memcmp function */
+      if (G_UNLIKELY (c.data[i] == 0x06
+              && memcmp (c.data + i, partition_pack_key, 13) == 0)) {
+        /* Header partition pack? */
+        if (c.data[i + 13] != 0x02)
+          goto advance;
 
-      /* Reserved, must be 0x00 */
-      if (c.data[15] != 0x00)
-        goto advance;
+        /* Partition status */
+        if (c.data[i + 14] >= 0x05)
+          goto advance;
 
-      gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, MXF_CAPS);
-      return;
+        /* Reserved, must be 0x00 */
+        if (c.data[i + 15] != 0x00)
+          goto advance;
+
+        gst_type_find_suggest (tf, GST_TYPE_FIND_MAXIMUM, MXF_CAPS);
+        return;
+      }
     }
 
   advance:
-    data_scan_ctx_advance (tf, &c, 1);
+    data_scan_ctx_advance (tf, &c, 1024 - 16);
   }
 }
 
@@ -3468,6 +3607,7 @@ plugin_init (GstPlugin * plugin)
   static gchar *mng_exts[] = { "mng", NULL };
   static gchar *jng_exts[] = { "jng", NULL };
   static gchar *xpm_exts[] = { "xpm", NULL };
+  static gchar *pnm_exts[] = { "pnm", "ppm", "pgm", "pbm", NULL };
   static gchar *ras_exts[] = { "ras", NULL };
   static gchar *bz2_exts[] = { "bz2", NULL };
   static gchar *gz_exts[] = { "gz", NULL };
@@ -3641,6 +3781,8 @@ plugin_init (GstPlugin * plugin)
       bmp_exts, BMP_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "image/tiff", GST_RANK_PRIMARY, tiff_type_find,
       tiff_exts, TIFF_CAPS, NULL, NULL);
+  TYPE_FIND_REGISTER (plugin, "image/x-portable-pixmap", GST_RANK_SECONDARY,
+      pnm_type_find, pnm_exts, PNM_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "video/x-matroska", GST_RANK_PRIMARY,
       matroska_type_find, matroska_exts, MATROSKA_CAPS, NULL, NULL);
   TYPE_FIND_REGISTER (plugin, "application/mxf", GST_RANK_PRIMARY,

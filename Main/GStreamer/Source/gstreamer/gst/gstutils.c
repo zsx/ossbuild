@@ -39,6 +39,7 @@
 #include "gstparse.h"
 #include "gstvalue.h"
 #include "gst-i18n-lib.h"
+#include <math.h>
 
 /**
  * gst_util_dump_mem:
@@ -1297,7 +1298,7 @@ gst_element_state_change_return_get_name (GstStateChangeReturn state_ret)
 
 
 /**
- * gst_element_factory_can_src_caps :
+ * gst_element_factory_can_src_caps:
  * @factory: factory to query
  * @caps: the caps to check
  *
@@ -1331,7 +1332,7 @@ gst_element_factory_can_src_caps (GstElementFactory * factory,
 }
 
 /**
- * gst_element_factory_can_sink_caps :
+ * gst_element_factory_can_sink_caps:
  * @factory: factory to query
  * @caps: the caps to check
  *
@@ -1578,9 +1579,6 @@ gst_element_link_pads (GstElement * src, const gchar * srcpadname,
   g_return_val_if_fail (GST_IS_ELEMENT (src), FALSE);
   g_return_val_if_fail (GST_IS_ELEMENT (dest), FALSE);
 
-  srcclass = GST_ELEMENT_GET_CLASS (src);
-  destclass = GST_ELEMENT_GET_CLASS (dest);
-
   GST_CAT_INFO (GST_CAT_ELEMENT_PADS,
       "trying to link element %s:%s to element %s:%s", GST_ELEMENT_NAME (src),
       srcpadname ? srcpadname : "(any)", GST_ELEMENT_NAME (dest),
@@ -1763,6 +1761,9 @@ gst_element_link_pads (GstElement * src, const gchar * srcpadname,
     destpad = NULL;
   }
 
+  srcclass = GST_ELEMENT_GET_CLASS (src);
+  destclass = GST_ELEMENT_GET_CLASS (dest);
+
   GST_CAT_DEBUG (GST_CAT_ELEMENT_PADS,
       "we might have request pads on both sides, checking...");
   srctempls = gst_element_class_get_pad_template_list (srcclass);
@@ -1899,7 +1900,7 @@ gst_element_link_pads_filtered (GstElement * src, const gchar * srcpadname,
 gboolean
 gst_element_link (GstElement * src, GstElement * dest)
 {
-  return gst_element_link_pads_filtered (src, NULL, dest, NULL, NULL);
+  return gst_element_link_pads (src, NULL, dest, NULL);
 }
 
 /**
@@ -2149,9 +2150,9 @@ gst_element_query_position (GstElement * element, GstFormat * format,
 /**
  * gst_element_query_duration:
  * @element: a #GstElement to invoke the duration query on.
- * @format: a pointer to the #GstFormat asked for.
+ * @format: (inout): a pointer to the #GstFormat asked for.
  *          On return contains the #GstFormat used.
- * @duration: A location in which to store the total duration, or NULL.
+ * @duration: (out): A location in which to store the total duration, or NULL.
  *
  * Queries an element for the total stream duration.
  *
@@ -2268,7 +2269,7 @@ gst_element_seek_simple (GstElement * element, GstFormat format,
  * pad. This way the function will always return the negotiated caps
  * or in case the pad is not negotiated, the padtemplate caps.
  *
- * Use this function on a pad that, once _set_caps() has been called
+ * Use this function on a pad that, once gst_pad_set_caps() has been called
  * on it, cannot be renegotiated to something else.
  */
 void
@@ -2627,22 +2628,24 @@ gst_buffer_stamp (GstBuffer * dest, const GstBuffer * src)
 #endif /* GST_REMOVE_DEPRECATED */
 
 static gboolean
-intersect_caps_func (GstPad * pad, GValue * ret, GstPad * orig)
+getcaps_fold_func (GstPad * pad, GValue * ret, GstPad * orig)
 {
-  /* skip the pad, the request came from */
-  if (pad != orig) {
-    GstCaps *peercaps, *existing;
+  gboolean empty = FALSE;
+  GstCaps *peercaps, *existing;
 
-    existing = g_value_get_pointer (ret);
-    peercaps = gst_pad_peer_get_caps (pad);
-    if (peercaps == NULL)
-      peercaps = gst_caps_new_any ();
-    g_value_set_pointer (ret, gst_caps_intersect (existing, peercaps));
+  existing = g_value_get_pointer (ret);
+  peercaps = gst_pad_peer_get_caps_reffed (pad);
+  if (G_LIKELY (peercaps)) {
+    GstCaps *intersection = gst_caps_intersect (existing, peercaps);
+
+    empty = gst_caps_is_empty (intersection);
+
+    g_value_set_pointer (ret, intersection);
     gst_caps_unref (existing);
     gst_caps_unref (peercaps);
   }
   gst_object_unref (pad);
-  return TRUE;
+  return !empty;
 }
 
 /**
@@ -2654,7 +2657,7 @@ intersect_caps_func (GstPad * pad, GValue * ret, GstPad * orig)
  *
  * This function is useful as a default getcaps function for an element
  * that can handle any stream format, but requires all its pads to have
- * the same caps.  Two such elements are tee and aggregator.
+ * the same caps.  Two such elements are tee and adder.
  *
  * Returns: the intersection of the other pads' allowed caps.
  */
@@ -2674,17 +2677,22 @@ gst_pad_proxy_getcaps (GstPad * pad)
 
   element = gst_pad_get_parent_element (pad);
   if (element == NULL)
-    return NULL;
+    goto no_parent;
 
   /* value to hold the return, by default it holds ANY, the ref is taken by
    * the GValue. */
   g_value_init (&ret, G_TYPE_POINTER);
   g_value_set_pointer (&ret, gst_caps_new_any ());
 
-  iter = gst_element_iterate_pads (element);
+  /* only iterate the pads in the oposite direction */
+  if (GST_PAD_IS_SRC (pad))
+    iter = gst_element_iterate_sink_pads (element);
+  else
+    iter = gst_element_iterate_src_pads (element);
+
   while (1) {
     res =
-        gst_iterator_fold (iter, (GstIteratorFoldFunction) intersect_caps_func,
+        gst_iterator_fold (iter, (GstIteratorFoldFunction) getcaps_fold_func,
         &ret, pad);
     switch (res) {
       case GST_ITERATOR_RESYNC:
@@ -2715,19 +2723,29 @@ done:
   caps = g_value_get_pointer (&ret);
   g_value_unset (&ret);
 
-  intersected = gst_caps_intersect (caps, gst_pad_get_pad_template_caps (pad));
-  gst_caps_unref (caps);
+  if (caps) {
+    intersected =
+        gst_caps_intersect (caps, gst_pad_get_pad_template_caps (pad));
+    gst_caps_unref (caps);
+  } else {
+    intersected = gst_caps_copy (gst_pad_get_pad_template_caps (pad));
+  }
 
   return intersected;
 
   /* ERRORS */
+no_parent:
+  {
+    GST_DEBUG_OBJECT (pad, "no parent");
+    return gst_caps_copy (gst_pad_get_pad_template_caps (pad));
+  }
 error:
   {
     g_warning ("Pad list returned error on element %s",
         GST_ELEMENT_NAME (element));
     gst_iterator_free (iter);
     gst_object_unref (element);
-    return NULL;
+    return gst_caps_copy (gst_pad_get_pad_template_caps (pad));
   }
 }
 
@@ -2738,7 +2756,7 @@ typedef struct
 } LinkData;
 
 static gboolean
-link_fold_func (GstPad * pad, GValue * ret, LinkData * data)
+setcaps_fold_func (GstPad * pad, GValue * ret, LinkData * data)
 {
   gboolean success = TRUE;
 
@@ -2781,14 +2799,18 @@ gst_pad_proxy_setcaps (GstPad * pad, GstCaps * caps)
   if (element == NULL)
     return FALSE;
 
-  iter = gst_element_iterate_pads (element);
+  /* only iterate the pads in the oposite direction */
+  if (GST_PAD_IS_SRC (pad))
+    iter = gst_element_iterate_sink_pads (element);
+  else
+    iter = gst_element_iterate_src_pads (element);
 
   g_value_init (&ret, G_TYPE_BOOLEAN);
   g_value_set_boolean (&ret, TRUE);
   data.orig = pad;
   data.caps = caps;
 
-  res = gst_iterator_fold (iter, (GstIteratorFoldFunction) link_fold_func,
+  res = gst_iterator_fold (iter, (GstIteratorFoldFunction) setcaps_fold_func,
       &ret, &data);
   gst_iterator_free (iter);
 
@@ -2813,9 +2835,9 @@ pads_changed:
 /**
  * gst_pad_query_position:
  * @pad: a #GstPad to invoke the position query on.
- * @format: a pointer to the #GstFormat asked for.
+ * @format: (inout): a pointer to the #GstFormat asked for.
  *          On return contains the #GstFormat used.
- * @cur: A location in which to store the current position, or NULL.
+ * @cur: (out): A location in which to store the current position, or NULL.
  *
  * Queries a pad for the stream position.
  *
@@ -3648,7 +3670,7 @@ gst_parse_bin_from_description_full (const gchar * bin_description,
  * Registers type_name as the name of a new static type derived from
  * parent_type. The value of flags determines the nature (e.g. abstract or
  * not) of the type. It works by filling a GTypeInfo struct and calling
- * g_type_info_register_static().
+ * g_type_register_static().
  *
  * Returns: A #GType for the newly-registered type.
  *
@@ -3797,4 +3819,252 @@ gst_util_array_binary_search (gpointer array, guint num_elements,
       }
     }
   }
+}
+
+/* Finds the greatest common divisor.
+ * Returns 1 if none other found.
+ * This is Euclid's algorithm. */
+
+/**
+ * gst_util_greatest_common_divisor:
+ * @a: First value as #gint
+ * @b: Second value as #gint
+ *
+ * Calculates the greatest common divisor of @a
+ * and @b.
+ *
+ * Returns: Greatest common divisor of @a and @b
+ *
+ * Since: 0.10.26
+ */
+gint
+gst_util_greatest_common_divisor (gint a, gint b)
+{
+  while (b != 0) {
+    int temp = a;
+
+    a = b;
+    b = temp % b;
+  }
+
+  return ABS (a);
+}
+
+/**
+ * gst_util_fraction_to_double:
+ * @src_n: Fraction numerator as #gint
+ * @src_d: Fraction denominator #gint
+ * @dest: pointer to a #gdouble for the result
+ *
+ * Transforms a #gdouble to a fraction and simplifies the result.
+ *
+ * Since: 0.10.26
+ */
+void
+gst_util_fraction_to_double (gint src_n, gint src_d, gdouble * dest)
+{
+  g_return_if_fail (dest != NULL);
+  g_return_if_fail (src_d != 0);
+
+  *dest = ((gdouble) src_n) / ((gdouble) src_d);
+}
+
+#define MAX_TERMS       30
+#define MIN_DIVISOR     1.0e-10
+#define MAX_ERROR       1.0e-20
+
+/* use continued fractions to transform a double into a fraction,
+ * see http://mathforum.org/dr.math/faq/faq.fractions.html#decfrac.
+ * This algorithm takes care of overflows.
+ */
+
+/**
+ * gst_util_double_to_fraction:
+ * @src: #gdouble to transform
+ * @dest_n: pointer to a #gint to hold the result numerator
+ * @dest_d: pointer to a #gint to hold the result denominator
+ *
+ * Transforms a #gdouble to a fraction and simplifies
+ * the result.
+ *
+ * Since: 0.10.26
+ */
+void
+gst_util_double_to_fraction (gdouble src, gint * dest_n, gint * dest_d)
+{
+
+  gdouble V, F;                 /* double being converted */
+  gint N, D;                    /* will contain the result */
+  gint A;                       /* current term in continued fraction */
+  gint64 N1, D1;                /* numerator, denominator of last approx */
+  gint64 N2, D2;                /* numerator, denominator of previous approx */
+  gint i;
+  gint gcd;
+  gboolean negative = FALSE;
+
+  g_return_if_fail (dest_n != NULL);
+  g_return_if_fail (dest_d != NULL);
+
+  /* initialize fraction being converted */
+  F = src;
+  if (F < 0.0) {
+    F = -F;
+    negative = TRUE;
+  }
+
+  V = F;
+  /* initialize fractions with 1/0, 0/1 */
+  N1 = 1;
+  D1 = 0;
+  N2 = 0;
+  D2 = 1;
+  N = 1;
+  D = 1;
+
+  for (i = 0; i < MAX_TERMS; i++) {
+    /* get next term */
+    A = (gint) F;               /* no floor() needed, F is always >= 0 */
+    /* get new divisor */
+    F = F - A;
+
+    /* calculate new fraction in temp */
+    N2 = N1 * A + N2;
+    D2 = D1 * A + D2;
+
+    /* guard against overflow */
+    if (N2 > G_MAXINT || D2 > G_MAXINT) {
+      break;
+    }
+
+    N = N2;
+    D = D2;
+
+    /* save last two fractions */
+    N2 = N1;
+    D2 = D1;
+    N1 = N;
+    D1 = D;
+
+    /* quit if dividing by zero or close enough to target */
+    if (F < MIN_DIVISOR || fabs (V - ((gdouble) N) / D) < MAX_ERROR) {
+      break;
+    }
+
+    /* Take reciprocal */
+    F = 1 / F;
+  }
+  /* fix for overflow */
+  if (D == 0) {
+    N = G_MAXINT;
+    D = 1;
+  }
+  /* fix for negative */
+  if (negative)
+    N = -N;
+
+  /* simplify */
+  gcd = gst_util_greatest_common_divisor (N, D);
+  if (gcd) {
+    N /= gcd;
+    D /= gcd;
+  }
+
+  /* set results */
+  *dest_n = N;
+  *dest_d = D;
+}
+
+/**
+ * gst_util_fraction_multiply:
+ * @a_n: Numerator of first value
+ * @a_d: Denominator of first value
+ * @b_n: Numerator of second value
+ * @b_d: Denominator of second value
+ * @res_n: Pointer to #gint to hold the result numerator
+ * @res_d: Pointer to #gint to hold the result denominator
+ *
+ * Multiplies the fractions @a_n/@a_d and @b_n/@b_d and stores
+ * the result in @res_n and @res_d.
+ *
+ * Returns: %FALSE on overflow, %TRUE otherwise.
+ *
+ * Since: 0.10.26
+ */
+gboolean
+gst_util_fraction_multiply (gint a_n, gint a_d, gint b_n, gint b_d,
+    gint * res_n, gint * res_d)
+{
+  gint gcd;
+
+  g_return_val_if_fail (res_n != NULL, FALSE);
+  g_return_val_if_fail (res_d != NULL, FALSE);
+  g_return_val_if_fail (a_d != 0, FALSE);
+  g_return_val_if_fail (b_d != 0, FALSE);
+
+  gcd = gst_util_greatest_common_divisor (a_n, b_d);
+  a_n /= gcd;
+  b_d /= gcd;
+  gcd = gst_util_greatest_common_divisor (a_d, b_n);
+  a_d /= gcd;
+  b_n /= gcd;
+
+  g_return_val_if_fail (a_n == 0 || G_MAXINT / ABS (a_n) >= ABS (b_n), FALSE);
+  g_return_val_if_fail (G_MAXINT / ABS (a_d) >= ABS (b_d), FALSE);
+
+  *res_n = a_n * b_n;
+  *res_d = a_d * b_d;
+
+  return TRUE;
+}
+
+/**
+ * gst_util_fraction_add:
+ * @a_n: Numerator of first value
+ * @a_d: Denominator of first value
+ * @b_n: Numerator of second value
+ * @b_d: Denominator of second value
+ * @res_n: Pointer to #gint to hold the result numerator
+ * @res_d: Pointer to #gint to hold the result denominator
+ *
+ * Adds the fractions @a_n/@a_d and @b_n/@b_d and stores
+ * the result in @res_n and @res_d.
+ *
+ * Returns: %FALSE on overflow, %TRUE otherwise.
+ *
+ * Since: 0.10.26
+ */
+gboolean
+gst_util_fraction_add (gint a_n, gint a_d, gint b_n, gint b_d, gint * res_n,
+    gint * res_d)
+{
+  gint gcd;
+
+  g_return_val_if_fail (res_n != NULL, FALSE);
+  g_return_val_if_fail (res_d != NULL, FALSE);
+  g_return_val_if_fail (a_d != 0, FALSE);
+  g_return_val_if_fail (b_d != 0, FALSE);
+
+  if (a_n == 0) {
+    *res_n = b_n;
+    *res_d = b_d;
+    return TRUE;
+  }
+  if (b_n == 0) {
+    *res_n = a_n;
+    *res_d = a_d;
+    return TRUE;
+  }
+
+  g_return_val_if_fail (a_n == 0 || G_MAXINT / ABS (a_n) >= ABS (b_n), FALSE);
+  g_return_val_if_fail (G_MAXINT / ABS (a_d) >= ABS (b_d), FALSE);
+  g_return_val_if_fail (G_MAXINT / ABS (a_d) >= ABS (b_d), FALSE);
+
+  *res_n = (a_n * b_d) + (a_d * b_n);
+  *res_d = a_d * b_d;
+
+  gcd = gst_util_greatest_common_divisor (*res_n, *res_d);
+  *res_n /= gcd;
+  *res_d /= gcd;
+
+  return TRUE;
 }

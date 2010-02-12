@@ -1,7 +1,7 @@
 
 
 
-#include "rtsp-enumtypes.h"
+#include "gstrtsp-enumtypes.h"
 
 #include "gstrtspdefs.h"
 

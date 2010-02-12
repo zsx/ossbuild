@@ -51,6 +51,14 @@
 GST_DEBUG_CATEGORY_STATIC (gst_uri_handler_debug);
 #define GST_CAT_DEFAULT gst_uri_handler_debug
 
+enum
+{
+  NEW_URI,
+  LAST_SIGNAL
+};
+
+static guint gst_uri_handler_signals[LAST_SIGNAL] = { 0 };
+
 static void gst_uri_handler_base_init (gpointer g_class);
 
 GType
@@ -98,7 +106,8 @@ gst_uri_handler_base_init (gpointer g_class)
      * The URI of the given @handler has changed.
      */
 
-    g_signal_new ("new-uri", GST_TYPE_URI_HANDLER, G_SIGNAL_RUN_LAST,
+    gst_uri_handler_signals[NEW_URI] =
+        g_signal_new ("new-uri", GST_TYPE_URI_HANDLER, G_SIGNAL_RUN_LAST,
         G_STRUCT_OFFSET (GstURIHandlerInterface, new_uri), NULL, NULL,
         gst_marshal_VOID__STRING, G_TYPE_NONE, 1, G_TYPE_STRING);
     initialized = TRUE;
@@ -495,9 +504,9 @@ search_by_entry (GstPluginFeature * feature, gpointer search_entry)
 
   if (!GST_IS_ELEMENT_FACTORY (feature))
     return FALSE;
-  factory = GST_ELEMENT_FACTORY (feature);
+  factory = GST_ELEMENT_FACTORY_CAST (feature);
 
-  if (gst_element_factory_get_uri_type (factory) != entry->type)
+  if (factory->uri_type != entry->type)
     return FALSE;
 
   protocols = gst_element_factory_get_uri_protocols (factory);
@@ -517,11 +526,8 @@ search_by_entry (GstPluginFeature * feature, gpointer search_entry)
 }
 
 static gint
-sort_by_rank (gconstpointer a, gconstpointer b)
+sort_by_rank (GstPluginFeature * first, GstPluginFeature * second)
 {
-  GstPluginFeature *first = GST_PLUGIN_FEATURE (a);
-  GstPluginFeature *second = GST_PLUGIN_FEATURE (b);
-
   return gst_plugin_feature_get_rank (second) -
       gst_plugin_feature_get_rank (first);
 }
@@ -603,10 +609,11 @@ gst_element_make_from_uri (const GstURIType type, const gchar * uri,
     return NULL;
   }
 
-  possibilities = g_list_sort (possibilities, sort_by_rank);
+  possibilities = g_list_sort (possibilities, (GCompareFunc) sort_by_rank);
   walk = possibilities;
   while (walk) {
-    if ((ret = gst_element_factory_create (GST_ELEMENT_FACTORY (walk->data),
+    if ((ret =
+            gst_element_factory_create (GST_ELEMENT_FACTORY_CAST (walk->data),
                 elementname)) != NULL) {
       GstURIHandler *handler = GST_URI_HANDLER (ret);
 
@@ -769,5 +776,5 @@ gst_uri_handler_new_uri (GstURIHandler * handler, const gchar * uri)
 {
   g_return_if_fail (GST_IS_URI_HANDLER (handler));
 
-  g_signal_emit_by_name (handler, "new-uri", uri);
+  g_signal_emit (handler, gst_uri_handler_signals[NEW_URI], 0, uri);
 }

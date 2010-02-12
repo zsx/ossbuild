@@ -20,10 +20,10 @@
 #undef CDPARANOIA_HEADERS_IN_DIR
 
 /* Default audio sink */
-#define DEFAULT_AUDIOSINK "directsoundsink"
+#define DEFAULT_AUDIOSINK "directaudiosink"
 
 /* Default audio source */
-#define DEFAULT_AUDIOSRC "dshowaudiosrc"
+#define DEFAULT_AUDIOSRC "directsoundsrc"
 
 /* Default video sink */
 #define DEFAULT_VIDEOSINK "directdrawsink"
@@ -42,10 +42,10 @@
 #define GETTEXT_PACKAGE "gst-plugins-base-0.10"
 
 /* The GIO library directory. */
-#define GIO_LIBDIR "C:\\gstreamer\\bin"
+#define GIO_LIBDIR "./../lib/"
 
 /* The GIO modules directory. */
-#define GIO_MODULE_DIR "C:\\gstreamer\\bin"
+#define GIO_MODULE_DIR "./../lib/gio"
 
 /* The GnomeVFS modules directory. */
 #undef GNOME_VFS_MODULES_DIR
@@ -76,6 +76,9 @@
 
 /* Define to enable ALSA (used by alsa). */
 #undef HAVE_ALSA
+
+/* Define to 1 if you have the `cbrt' function. */
+#undef HAVE_CBRT
 
 /* Define to enable CDParanoia (used by cdparanoia). */
 #undef HAVE_CDPARANOIA
@@ -182,6 +185,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* make use of iso-codes for ISO-639 */
+#define HAVE_ISO_CODES 1
+
 /* Define to 1 if you have the `asound' library (-lasound). */
 #undef HAVE_LIBASOUND
 
@@ -226,9 +232,6 @@
 
 /* Define if RDTSC is available */
 #undef HAVE_RDTSC
-
-/* Define to 1 if you have the <regex.h> header file. */
-#undef HAVE_REGEX_H
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
@@ -284,6 +287,12 @@
 /* the host CPU */
 #define HOST_CPU "i686"
 
+/* prefix */
+#define ISO_CODES_PREFIX "./../"
+
+/* */
+#define ISO_CODES_VERSION "1.0"
+
 /* directory in which the detected libvisual's plugins are located */
 #undef LIBVISUAL_PLUGINSBASEDIR
 
@@ -310,13 +319,16 @@
 #define PACKAGE_NAME "GStreamer Base Plug-ins"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "GStreamer Base Plug-ins 0.10.25"
+#define PACKAGE_STRING "GStreamer Base Plug-ins 0.10.26"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "gst-plugins-base"
 
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.10.25"
+#define PACKAGE_VERSION "0.10.26"
 
 /* directory where plugins are located */
 #ifdef _DEBUG
@@ -344,7 +356,7 @@
 #undef STDC_HEADERS
 
 /* Version number of package */
-#define VERSION "0.10.25"
+#define VERSION "0.10.26"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */

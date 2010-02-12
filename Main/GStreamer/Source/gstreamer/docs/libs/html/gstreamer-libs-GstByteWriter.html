@@ -1,0 +1,1524 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GstByteWriter</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer 0.10 Library Reference Manual">
+<link rel="up" href="gstreamer-base.html" title="GStreamer Base and Utillity Classes">
+<link rel="prev" href="gstreamer-libs-GstByteReader.html" title="GstByteReader">
+<link rel="next" href="GstCollectPads.html" title="GstCollectPads">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="part" href="gstreamer-libs.html" title="Part I. GStreamer Libraries">
+<link rel="chapter" href="gstreamer-base.html" title="GStreamer Base and Utillity Classes">
+<link rel="chapter" href="gstreamer-control.html" title="GStreamer Dynamic Parameter Control">
+<link rel="chapter" href="gstreamer-dataprotocol.html" title="GStreamer Data Protocol">
+<link rel="chapter" href="gstreamer-net.html" title="GStreamer Network Classes">
+<link rel="chapter" href="gstreamer-check.html" title="GStreamer Check Unit Testing">
+<link rel="chapter" href="gstreamer-hierarchy.html" title="Object Hierarchy">
+<link rel="index" href="api-index-full.html" title="API Index">
+<link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gstreamer-libs-GstByteReader.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="gstreamer-base.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GStreamer 0.10 Library Reference Manual</th>
+<td><a accesskey="n" href="GstCollectPads.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gstreamer-libs-GstByteWriter.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gstreamer-libs-GstByteWriter.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry" title="GstByteWriter">
+<a name="gstreamer-libs-GstByteWriter"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gstreamer-libs-GstByteWriter.top_of_page"></a>GstByteWriter</span></h2>
+<p>GstByteWriter — Writes different integer, string and floating point
+    types to a memory buffer and allows reading</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="gstreamer-libs-GstByteWriter.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;gst/base/gstbytewriter.h&gt;
+
+                    <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter">GstByteWriter</a>;
+<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *     <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-new" title="gst_byte_writer_new ()">gst_byte_writer_new</a>                 (void);
+<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *     <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-new-with-buffer" title="gst_byte_writer_new_with_buffer ()">gst_byte_writer_new_with_buffer</a>     (<a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *buffer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> initialized);
+<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *     <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-new-with-data" title="gst_byte_writer_new_with_data ()">gst_byte_writer_new_with_data</a>       (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> initialized);
+<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *     <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-new-with-size" title="gst_byte_writer_new_with_size ()">gst_byte_writer_new_with_size</a>       (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> fixed);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-init" title="gst_byte_writer_init ()">gst_byte_writer_init</a>                (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-init-with-buffer" title="gst_byte_writer_init_with_buffer ()">gst_byte_writer_init_with_buffer</a>    (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *buffer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> initialized);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-init-with-data" title="gst_byte_writer_init_with_data ()">gst_byte_writer_init_with_data</a>      (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> initialized);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-init-with-size" title="gst_byte_writer_init_with_size ()">gst_byte_writer_init_with_size</a>      (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> fixed);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-free" title="gst_byte_writer_free ()">gst_byte_writer_free</a>                (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *         <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-free-and-get-buffer" title="gst_byte_writer_free_and_get_buffer ()">gst_byte_writer_free_and_get_buffer</a> (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-free-and-get-data" title="gst_byte_writer_free_and_get_data ()">gst_byte_writer_free_and_get_data</a>   (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<span class="returnvalue">void</span>                <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-reset" title="gst_byte_writer_reset ()">gst_byte_writer_reset</a>               (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-reset-and-get-data" title="gst_byte_writer_reset_and_get_data ()">gst_byte_writer_reset_and_get_data</a>  (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *         <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-reset-and-get-buffer" title="gst_byte_writer_reset_and_get_buffer ()">gst_byte_writer_reset_and_get_buffer</a>
+                                                        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-get-pos" title="gst_byte_writer_get_pos ()">gst_byte_writer_get_pos</a>             (const <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-set-pos" title="gst_byte_writer_set_pos ()">gst_byte_writer_set_pos</a>             (const <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> pos);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-get-remaining" title="gst_byte_writer_get_remaining ()">gst_byte_writer_get_remaining</a>       (const <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-get-size" title="gst_byte_writer_get_size ()">gst_byte_writer_get_size</a>            (const <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-ensure-free-space" title="gst_byte_writer_ensure_free_space ()">gst_byte_writer_ensure_free_space</a>   (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int8" title="gst_byte_writer_put_int8 ()">gst_byte_writer_put_int8</a>            (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint8"><span class="returnvalue">gint8</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int16-be" title="gst_byte_writer_put_int16_be ()">gst_byte_writer_put_int16_be</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint16"><span class="returnvalue">gint16</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int16-le" title="gst_byte_writer_put_int16_le ()">gst_byte_writer_put_int16_le</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint16"><span class="returnvalue">gint16</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int24-be" title="gst_byte_writer_put_int24_be ()">gst_byte_writer_put_int24_be</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint32"><span class="returnvalue">gint32</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int24-le" title="gst_byte_writer_put_int24_le ()">gst_byte_writer_put_int24_le</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint32"><span class="returnvalue">gint32</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int32-be" title="gst_byte_writer_put_int32_be ()">gst_byte_writer_put_int32_be</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint32"><span class="returnvalue">gint32</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int32-le" title="gst_byte_writer_put_int32_le ()">gst_byte_writer_put_int32_le</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint32"><span class="returnvalue">gint32</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int64-be" title="gst_byte_writer_put_int64_be ()">gst_byte_writer_put_int64_be</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-int64-le" title="gst_byte_writer_put_int64_le ()">gst_byte_writer_put_int64_le</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint8" title="gst_byte_writer_put_uint8 ()">gst_byte_writer_put_uint8</a>           (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint16-be" title="gst_byte_writer_put_uint16_be ()">gst_byte_writer_put_uint16_be</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint16"><span class="returnvalue">guint16</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint16-le" title="gst_byte_writer_put_uint16_le ()">gst_byte_writer_put_uint16_le</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint16"><span class="returnvalue">guint16</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint24-be" title="gst_byte_writer_put_uint24_be ()">gst_byte_writer_put_uint24_be</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint24-le" title="gst_byte_writer_put_uint24_le ()">gst_byte_writer_put_uint24_le</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint32-be" title="gst_byte_writer_put_uint32_be ()">gst_byte_writer_put_uint32_be</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint32-le" title="gst_byte_writer_put_uint32_le ()">gst_byte_writer_put_uint32_le</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint64-be" title="gst_byte_writer_put_uint64_be ()">gst_byte_writer_put_uint64_be</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-uint64-le" title="gst_byte_writer_put_uint64_le ()">gst_byte_writer_put_uint64_le</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-double-be" title="gst_byte_writer_put_double_be ()">gst_byte_writer_put_double_be</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-double-le" title="gst_byte_writer_put_double_le ()">gst_byte_writer_put_double_le</a>       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-float-be" title="gst_byte_writer_put_float_be ()">gst_byte_writer_put_float_be</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"><span class="returnvalue">gfloat</span></a> val);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-float-le" title="gst_byte_writer_put_float_le ()">gst_byte_writer_put_float_le</a>        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"><span class="returnvalue">gfloat</span></a> val);
+#define             <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-string" title="gst_byte_writer_put_string()">gst_byte_writer_put_string</a>          (writer, data)
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-string-utf16" title="gst_byte_writer_put_string_utf16 ()">gst_byte_writer_put_string_utf16</a>    (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint16"><span class="returnvalue">guint16</span></a> *data);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-string-utf32" title="gst_byte_writer_put_string_utf32 ()">gst_byte_writer_put_string_utf32</a>    (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> *data);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-string-utf8" title="gst_byte_writer_put_string_utf8 ()">gst_byte_writer_put_string_utf8</a>     (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *data);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gstreamer-libs-GstByteWriter.html#gst-byte-writer-put-data" title="gst_byte_writer_put_data ()">gst_byte_writer_put_data</a>            (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size);
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="gstreamer-libs-GstByteWriter.description"></a><h2>Description</h2>
+<p>
+<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> provides a byte writer and reader that can write/read different
+integer and floating point types to/from a memory buffer. It provides functions
+for writing/reading signed/unsigned, little/big endian integers of 8, 16, 24,
+32 and 64 bits and functions for reading little/big endian floating points numbers of
+32 and 64 bits. It also provides functions to write/read NUL-terminated strings
+in various character encodings.</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="gstreamer-libs-GstByteWriter.details"></a><h2>Details</h2>
+<div class="refsect2" title="GstByteWriter">
+<a name="GstByteWriter"></a><h3>GstByteWriter</h3>
+<pre class="programlisting">typedef struct {
+  GstByteReader parent;
+
+  guint alloc_size;
+
+  gboolean fixed;
+  gboolean owned;
+} GstByteWriter;
+</pre>
+<p>
+A byte writer instance.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a class="link" href="gstreamer-libs-GstByteReader.html#GstByteReader" title="GstByteReader"><span class="type">GstByteReader</span></a> <em class="structfield"><code><a name="GstByteWriter.parent"></a>parent</code></em>;</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteReader.html#GstByteReader" title="GstByteReader"><span class="type">GstByteReader</span></a> parent
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> <em class="structfield"><code><a name="GstByteWriter.alloc-size"></a>alloc_size</code></em>;</span></p></td>
+<td> Allocation size of the data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> <em class="structfield"><code><a name="GstByteWriter.fixed"></a>fixed</code></em>;</span></p></td>
+<td> If <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> no reallocations are allowed
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> <em class="structfield"><code><a name="GstByteWriter.owned"></a>owned</code></em>;</span></p></td>
+<td> If <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> no reallocations are allowed and copies of data are returned
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_new ()">
+<a name="gst-byte-writer-new"></a><h3>gst_byte_writer_new ()</h3>
+<pre class="programlisting"><a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *     gst_byte_writer_new                 (void);</pre>
+<p>
+Creates a new, empty <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new, empty <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_new_with_buffer ()">
+<a name="gst-byte-writer-new-with-buffer"></a><h3>gst_byte_writer_new_with_buffer ()</h3>
+<pre class="programlisting"><a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *     gst_byte_writer_new_with_buffer     (<a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *buffer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> initialized);</pre>
+<p>
+Creates a new <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance with the given
+buffer. If <em class="parameter"><code>initialized</code></em> is <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> it is possible to
+read the complete buffer from the <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> from the beginning.
+</p>
+<p>
+</p>
+<div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<em class="parameter"><code>buffer</code></em> must be writable</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td> Buffer used for writing
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>initialized</code></em> :</span></p></td>
+<td> If <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> the complete data can be read from the beginning
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_new_with_data ()">
+<a name="gst-byte-writer-new-with-data"></a><h3>gst_byte_writer_new_with_data ()</h3>
+<pre class="programlisting"><a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *     gst_byte_writer_new_with_data       (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> initialized);</pre>
+<p>
+Creates a new <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance with the given
+memory area. If <em class="parameter"><code>initialized</code></em> is <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> it is possible to
+read <em class="parameter"><code>size</code></em> bytes from the <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> from the beginning.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> Memory area for writing
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size</code></em> :</span></p></td>
+<td> Size of <em class="parameter"><code>data</code></em> in bytes
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>initialized</code></em> :</span></p></td>
+<td> If <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> the complete data can be read from the beginning
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_new_with_size ()">
+<a name="gst-byte-writer-new-with-size"></a><h3>gst_byte_writer_new_with_size ()</h3>
+<pre class="programlisting"><a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *     gst_byte_writer_new_with_size       (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> fixed);</pre>
+<p>
+Creates a new <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance with the given
+initial data size.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size</code></em> :</span></p></td>
+<td> Initial size of data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fixed</code></em> :</span></p></td>
+<td> If <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> the data can't be reallocated
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> a new <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_init ()">
+<a name="gst-byte-writer-init"></a><h3>gst_byte_writer_init ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_byte_writer_init                (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<p>
+Initializes <em class="parameter"><code>writer</code></em> to an empty instance</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_init_with_buffer ()">
+<a name="gst-byte-writer-init-with-buffer"></a><h3>gst_byte_writer_init_with_buffer ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_byte_writer_init_with_buffer    (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *buffer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> initialized);</pre>
+<p>
+Initializes <em class="parameter"><code>writer</code></em> with the given
+buffer. If <em class="parameter"><code>initialized</code></em> is <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> it is possible to
+read the complete buffer from the <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> from the beginning.
+</p>
+<p>
+</p>
+<div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<h3 class="title">Note</h3>
+<em class="parameter"><code>buffer</code></em> must be writable</div>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>buffer</code></em> :</span></p></td>
+<td> Buffer used for writing
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>initialized</code></em> :</span></p></td>
+<td> If <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> the complete data can be read from the beginning
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_init_with_data ()">
+<a name="gst-byte-writer-init-with-data"></a><h3>gst_byte_writer_init_with_data ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_byte_writer_init_with_data      (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> initialized);</pre>
+<p>
+Initializes <em class="parameter"><code>writer</code></em> with the given
+memory area. If <em class="parameter"><code>initialized</code></em> is <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> it is possible to
+read <em class="parameter"><code>size</code></em> bytes from the <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> from the beginning.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> Memory area for writing
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size</code></em> :</span></p></td>
+<td> Size of <em class="parameter"><code>data</code></em> in bytes
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>initialized</code></em> :</span></p></td>
+<td> If <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> the complete data can be read from the beginning
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_init_with_size ()">
+<a name="gst-byte-writer-init-with-size"></a><h3>gst_byte_writer_init_with_size ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_byte_writer_init_with_size      (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a> fixed);</pre>
+<p>
+Initializes <em class="parameter"><code>writer</code></em> with the given initial data size.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size</code></em> :</span></p></td>
+<td> Initial size of data
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>fixed</code></em> :</span></p></td>
+<td> If <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> the data can't be reallocated
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_free ()">
+<a name="gst-byte-writer-free"></a><h3>gst_byte_writer_free ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_byte_writer_free                (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<p>
+Frees <em class="parameter"><code>writer</code></em> and all memory allocated by it.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_free_and_get_buffer ()">
+<a name="gst-byte-writer-free-and-get-buffer"></a><h3>gst_byte_writer_free_and_get_buffer ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *         gst_byte_writer_free_and_get_buffer (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<p>
+Frees <em class="parameter"><code>writer</code></em> and all memory allocated by it except
+the current data, which is returned as <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="type">GstBuffer</span></a>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the current data as buffer. <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#gst-buffer-unref"><code class="function">gst_buffer_unref()</code></a> after usage.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_free_and_get_data ()">
+<a name="gst-byte-writer-free-and-get-data"></a><h3>gst_byte_writer_free_and_get_data ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *            gst_byte_writer_free_and_get_data   (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<p>
+Frees <em class="parameter"><code>writer</code></em> and all memory allocated by it except
+the current data, which is returned.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the current data. <a href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a> after usage.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_reset ()">
+<a name="gst-byte-writer-reset"></a><h3>gst_byte_writer_reset ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_byte_writer_reset               (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<p>
+Resets <em class="parameter"><code>writer</code></em> and frees the data if it's
+owned by <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr></tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_reset_and_get_data ()">
+<a name="gst-byte-writer-reset-and-get-data"></a><h3>gst_byte_writer_reset_and_get_data ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *            gst_byte_writer_reset_and_get_data  (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<p>
+Resets <em class="parameter"><code>writer</code></em> and returns the current data.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the current data. <a href="/usr/share/gtk-doc/html/glib/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a> after usage.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_reset_and_get_buffer ()">
+<a name="gst-byte-writer-reset-and-get-buffer"></a><h3>gst_byte_writer_reset_and_get_buffer ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#GstBuffer"><span class="returnvalue">GstBuffer</span></a> *         gst_byte_writer_reset_and_get_buffer
+                                                        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<p>
+Resets <em class="parameter"><code>writer</code></em> and returns the current data as buffer.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the current data as buffer. <a href="/usr/share/gtk-doc/html/gstreamer-0.10/gstreamer-GstBuffer.html#gst-buffer-unref"><code class="function">gst_buffer_unref()</code></a> after usage.
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_get_pos ()">
+<a name="gst-byte-writer-get-pos"></a><h3>gst_byte_writer_get_pos ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               gst_byte_writer_get_pos             (const <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The current position of the read/write cursor
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_set_pos ()">
+<a name="gst-byte-writer-set-pos"></a><h3>gst_byte_writer_set_pos ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_set_pos             (const <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> pos);</pre>
+<p>
+Sets the current read/write cursor of <em class="parameter"><code>writer</code></em>. The new position
+can only be between 0 and the current size.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pos</code></em> :</span></p></td>
+<td> new position
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the new position could be set
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_get_remaining ()">
+<a name="gst-byte-writer-get-remaining"></a><h3>gst_byte_writer_get_remaining ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               gst_byte_writer_get_remaining       (const <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<p>
+Returns the remaining size of data that can still be written. If
+-1 is returned the remaining size is only limited by system resources.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the remaining size of data that can still be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_get_size ()">
+<a name="gst-byte-writer-get-size"></a><h3>gst_byte_writer_get_size ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               gst_byte_writer_get_size            (const <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> The current, initialized size of the data
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_ensure_free_space ()">
+<a name="gst-byte-writer-ensure-free-space"></a><h3>gst_byte_writer_ensure_free_space ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_ensure_free_space   (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size);</pre>
+<p>
+Checks if enough free space from the current write cursor is
+available and reallocates if necessary.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size</code></em> :</span></p></td>
+<td> Number of bytes that should be available
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if at least <em class="parameter"><code>size</code></em> bytes are still available
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int8 ()">
+<a name="gst-byte-writer-put-int8"></a><h3>gst_byte_writer_put_int8 ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int8            (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint8"><span class="returnvalue">gint8</span></a> val);</pre>
+<p>
+Writes a signed 8 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int16_be ()">
+<a name="gst-byte-writer-put-int16-be"></a><h3>gst_byte_writer_put_int16_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int16_be        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint16"><span class="returnvalue">gint16</span></a> val);</pre>
+<p>
+Writes a signed big endian 16 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int16_le ()">
+<a name="gst-byte-writer-put-int16-le"></a><h3>gst_byte_writer_put_int16_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int16_le        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint16"><span class="returnvalue">gint16</span></a> val);</pre>
+<p>
+Writes a signed little endian 16 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int24_be ()">
+<a name="gst-byte-writer-put-int24-be"></a><h3>gst_byte_writer_put_int24_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int24_be        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint32"><span class="returnvalue">gint32</span></a> val);</pre>
+<p>
+Writes a signed big endian 24 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int24_le ()">
+<a name="gst-byte-writer-put-int24-le"></a><h3>gst_byte_writer_put_int24_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int24_le        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint32"><span class="returnvalue">gint32</span></a> val);</pre>
+<p>
+Writes a signed little endian 24 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int32_be ()">
+<a name="gst-byte-writer-put-int32-be"></a><h3>gst_byte_writer_put_int32_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int32_be        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint32"><span class="returnvalue">gint32</span></a> val);</pre>
+<p>
+Writes a signed big endian 32 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int32_le ()">
+<a name="gst-byte-writer-put-int32-le"></a><h3>gst_byte_writer_put_int32_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int32_le        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint32"><span class="returnvalue">gint32</span></a> val);</pre>
+<p>
+Writes a signed little endian 32 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int64_be ()">
+<a name="gst-byte-writer-put-int64-be"></a><h3>gst_byte_writer_put_int64_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int64_be        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> val);</pre>
+<p>
+Writes a signed big endian 64 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_int64_le ()">
+<a name="gst-byte-writer-put-int64-le"></a><h3>gst_byte_writer_put_int64_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_int64_le        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a> val);</pre>
+<p>
+Writes a signed little endian 64 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint8 ()">
+<a name="gst-byte-writer-put-uint8"></a><h3>gst_byte_writer_put_uint8 ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint8           (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> val);</pre>
+<p>
+Writes a unsigned 8 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint16_be ()">
+<a name="gst-byte-writer-put-uint16-be"></a><h3>gst_byte_writer_put_uint16_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint16_be       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint16"><span class="returnvalue">guint16</span></a> val);</pre>
+<p>
+Writes a unsigned big endian 16 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint16_le ()">
+<a name="gst-byte-writer-put-uint16-le"></a><h3>gst_byte_writer_put_uint16_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint16_le       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint16"><span class="returnvalue">guint16</span></a> val);</pre>
+<p>
+Writes a unsigned little endian 16 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint24_be ()">
+<a name="gst-byte-writer-put-uint24-be"></a><h3>gst_byte_writer_put_uint24_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint24_be       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> val);</pre>
+<p>
+Writes a unsigned big endian 24 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint24_le ()">
+<a name="gst-byte-writer-put-uint24-le"></a><h3>gst_byte_writer_put_uint24_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint24_le       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> val);</pre>
+<p>
+Writes a unsigned little endian 24 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint32_be ()">
+<a name="gst-byte-writer-put-uint32-be"></a><h3>gst_byte_writer_put_uint32_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint32_be       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> val);</pre>
+<p>
+Writes a unsigned big endian 32 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint32_le ()">
+<a name="gst-byte-writer-put-uint32-le"></a><h3>gst_byte_writer_put_uint32_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint32_le       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> val);</pre>
+<p>
+Writes a unsigned little endian 32 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint64_be ()">
+<a name="gst-byte-writer-put-uint64-be"></a><h3>gst_byte_writer_put_uint64_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint64_be       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a> val);</pre>
+<p>
+Writes a unsigned big endian 64 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_uint64_le ()">
+<a name="gst-byte-writer-put-uint64-le"></a><h3>gst_byte_writer_put_uint64_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_uint64_le       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint64"><span class="returnvalue">guint64</span></a> val);</pre>
+<p>
+Writes a unsigned little endian 64 bit integer to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_double_be ()">
+<a name="gst-byte-writer-put-double-be"></a><h3>gst_byte_writer_put_double_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_double_be       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> val);</pre>
+<p>
+Writes a big endian 64 bit float to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_double_le ()">
+<a name="gst-byte-writer-put-double-le"></a><h3>gst_byte_writer_put_double_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_double_le       (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gdouble"><span class="returnvalue">gdouble</span></a> val);</pre>
+<p>
+Writes a little endian 64 bit float to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_float_be ()">
+<a name="gst-byte-writer-put-float-be"></a><h3>gst_byte_writer_put_float_be ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_float_be        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"><span class="returnvalue">gfloat</span></a> val);</pre>
+<p>
+Writes a big endian 32 bit float to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_float_le ()">
+<a name="gst-byte-writer-put-float-le"></a><h3>gst_byte_writer_put_float_le ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_float_le        (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gfloat"><span class="returnvalue">gfloat</span></a> val);</pre>
+<p>
+Writes a little endian 32 bit float to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>val</code></em> :</span></p></td>
+<td> Value to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_string()">
+<a name="gst-byte-writer-put-string"></a><h3>gst_byte_writer_put_string()</h3>
+<pre class="programlisting">#define             gst_byte_writer_put_string(writer, data)</pre>
+<p>
+Write a null-terminated string to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> Null terminated string
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the string could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_string_utf16 ()">
+<a name="gst-byte-writer-put-string-utf16"></a><h3>gst_byte_writer_put_string_utf16 ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_string_utf16    (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint16"><span class="returnvalue">guint16</span></a> *data);</pre>
+<p>
+Writes a null-terminated UTF16 string to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> UTF16 string to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_string_utf32 ()">
+<a name="gst-byte-writer-put-string-utf32"></a><h3>gst_byte_writer_put_string_utf32 ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_string_utf32    (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint32"><span class="returnvalue">guint32</span></a> *data);</pre>
+<p>
+Writes a null-terminated UTF32 string to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> UTF32 string to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_string_utf8 ()">
+<a name="gst-byte-writer-put-string-utf8"></a><h3>gst_byte_writer_put_string_utf8 ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_string_utf8     (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *data);</pre>
+<p>
+Writes a null-terminated UTF8 string to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> UTF8 string to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+<hr>
+<div class="refsect2" title="gst_byte_writer_put_data ()">
+<a name="gst-byte-writer-put-data"></a><h3>gst_byte_writer_put_data ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gst_byte_writer_put_data            (<a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="returnvalue">GstByteWriter</span></a> *writer,
+                                                         const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint8"><span class="returnvalue">guint8</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a> size);</pre>
+<p>
+Writes <em class="parameter"><code>size</code></em> bytes of <em class="parameter"><code>data</code></em> to <em class="parameter"><code>writer</code></em>.</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>writer</code></em> :</span></p></td>
+<td> <a class="link" href="gstreamer-libs-GstByteWriter.html#GstByteWriter" title="GstByteWriter"><span class="type">GstByteWriter</span></a> instance
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>data</code></em> :</span></p></td>
+<td> Data to write
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size</code></em> :</span></p></td>
+<td> Size of <em class="parameter"><code>data</code></em> in bytes
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if the value could be written
+
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 0.10.26</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.13</div>
+</body>
+</html>

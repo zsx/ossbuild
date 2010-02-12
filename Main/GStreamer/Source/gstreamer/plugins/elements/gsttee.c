@@ -114,11 +114,13 @@ static void gst_tee_set_property (GObject * object, guint prop_id,
     const GValue * value, GParamSpec * pspec);
 static void gst_tee_get_property (GObject * object, guint prop_id,
     GValue * value, GParamSpec * pspec);
+static void gst_tee_dispose (GObject * object);
 
 static GstFlowReturn gst_tee_chain (GstPad * pad, GstBuffer * buffer);
 static GstFlowReturn gst_tee_chain_list (GstPad * pad, GstBufferList * list);
 static GstFlowReturn gst_tee_buffer_alloc (GstPad * pad, guint64 offset,
     guint size, GstCaps * caps, GstBuffer ** buf);
+static gboolean gst_tee_sink_acceptcaps (GstPad * pad, GstCaps * caps);
 static gboolean gst_tee_sink_activate_push (GstPad * pad, gboolean active);
 static gboolean gst_tee_src_check_get_range (GstPad * pad);
 static gboolean gst_tee_src_activate_pull (GstPad * pad, gboolean active);
@@ -145,6 +147,23 @@ gst_tee_base_init (gpointer g_class)
 }
 
 static void
+gst_tee_dispose (GObject * object)
+{
+  GList *item;
+
+restart:
+  for (item = GST_ELEMENT_PADS (object); item; item = g_list_next (item)) {
+    GstPad *pad = GST_PAD (item->data);
+    if (GST_PAD_IS_SRC (pad)) {
+      gst_element_release_request_pad (GST_ELEMENT (object), pad);
+      goto restart;
+    }
+  }
+
+  G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
 gst_tee_finalize (GObject * object)
 {
   GstTee *tee;
@@ -167,9 +186,10 @@ gst_tee_class_init (GstTeeClass * klass)
   gobject_class = G_OBJECT_CLASS (klass);
   gstelement_class = GST_ELEMENT_CLASS (klass);
 
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_tee_finalize);
-  gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_tee_set_property);
-  gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_tee_get_property);
+  gobject_class->finalize = gst_tee_finalize;
+  gobject_class->set_property = gst_tee_set_property;
+  gobject_class->get_property = gst_tee_get_property;
+  gobject_class->dispose = gst_tee_dispose;
 
   g_object_class_install_property (gobject_class, PROP_NUM_SRC_PADS,
       g_param_spec_int ("num-src-pads", "Num Src Pads",
@@ -219,6 +239,8 @@ gst_tee_init (GstTee * tee, GstTeeClass * g_class)
       GST_DEBUG_FUNCPTR (gst_pad_proxy_setcaps));
   gst_pad_set_getcaps_function (tee->sinkpad,
       GST_DEBUG_FUNCPTR (gst_pad_proxy_getcaps));
+  gst_pad_set_acceptcaps_function (tee->sinkpad,
+      GST_DEBUG_FUNCPTR (gst_tee_sink_acceptcaps));
   gst_pad_set_bufferalloc_function (tee->sinkpad,
       GST_DEBUG_FUNCPTR (gst_tee_buffer_alloc));
   gst_pad_set_activatepush_function (tee->sinkpad,
@@ -296,13 +318,19 @@ gst_tee_request_new_pad (GstElement * element, GstPadTemplate * templ,
   /* ERRORS */
 activate_failed:
   {
+    gboolean changed = FALSE;
+
     GST_OBJECT_LOCK (tee);
     GST_DEBUG_OBJECT (tee, "warning failed to activate request pad");
-    if (tee->allocpad == srcpad)
+    if (tee->allocpad == srcpad) {
       tee->allocpad = NULL;
-    gst_object_unref (srcpad);
+      changed = TRUE;
+    }
     GST_OBJECT_UNLOCK (tee);
-    g_object_notify (G_OBJECT (tee), "alloc-pad");
+    gst_object_unref (srcpad);
+    if (changed) {
+      g_object_notify (G_OBJECT (tee), "alloc-pad");
+    }
     return NULL;
   }
 }
@@ -312,27 +340,33 @@ gst_tee_release_pad (GstElement * element, GstPad * pad)
 {
   GstTee *tee;
   PushData *data;
+  gboolean changed = FALSE;
 
   tee = GST_TEE (element);
 
   GST_DEBUG_OBJECT (tee, "releasing pad");
 
-  GST_OBJECT_LOCK (tee);
-  if (tee->allocpad == pad)
-    tee->allocpad = NULL;
-  GST_OBJECT_UNLOCK (tee);
-  g_object_notify (G_OBJECT (tee), "alloc-pad");
-
   /* wait for pending pad_alloc to finish */
   GST_TEE_DYN_LOCK (tee);
-  /* mark the pad as removed so that future pad_alloc fails with NOT_LINKED. */
   data = g_object_get_qdata (G_OBJECT (pad), push_data);
+
+  GST_OBJECT_LOCK (tee);
+  /* mark the pad as removed so that future pad_alloc fails with NOT_LINKED. */
   data->removed = TRUE;
+  if (tee->allocpad == pad) {
+    tee->allocpad = NULL;
+    changed = TRUE;
+  }
+  GST_OBJECT_UNLOCK (tee);
 
   gst_pad_set_active (pad, FALSE);
 
   gst_element_remove_pad (GST_ELEMENT_CAST (tee), pad);
   GST_TEE_DYN_UNLOCK (tee);
+
+  if (changed) {
+    g_object_notify (G_OBJECT (tee), "alloc-pad");
+  }
 }
 
 static void
@@ -441,7 +475,7 @@ retry:
     GST_OBJECT_UNLOCK (tee);
 
     GST_TEE_DYN_LOCK (tee);
-    data = g_object_get_qdata (G_OBJECT (pad), push_data);
+    data = g_object_get_qdata ((GObject *) pad, push_data);
     if (!data->removed)
       res = gst_pad_alloc_buffer (pad, offset, size, caps, buf);
     else
@@ -462,13 +496,13 @@ retry:
       *buf = NULL;
       goto retry;
     }
-    if (res == GST_FLOW_OK) {
+    if (!data->removed && res == GST_FLOW_OK) {
       GST_DEBUG_OBJECT (tee, "we have a buffer on pad %s:%s",
           GST_DEBUG_PAD_NAME (pad));
       /* we have a buffer, keep the pad for later and exit the loop. */
       tee->allocpad = pad;
       GST_OBJECT_UNLOCK (tee);
-      g_object_notify (G_OBJECT (tee), "alloc-pad");
+      g_object_notify ((GObject *) tee, "alloc-pad");
       GST_OBJECT_LOCK (tee);
       break;
     }
@@ -487,7 +521,7 @@ gst_tee_buffer_alloc (GstPad * pad, guint64 offset, guint size,
   GstFlowReturn res;
   GstPad *allocpad;
 
-  tee = GST_TEE (GST_PAD_PARENT (pad));
+  tee = GST_TEE_CAST (GST_PAD_PARENT (pad));
 
   res = GST_FLOW_NOT_LINKED;
 
@@ -503,7 +537,7 @@ gst_tee_buffer_alloc (GstPad * pad, guint64 offset, guint size,
     GST_OBJECT_UNLOCK (tee);
 
     GST_TEE_DYN_LOCK (tee);
-    data = g_object_get_qdata (G_OBJECT (allocpad), push_data);
+    data = g_object_get_qdata ((GObject *) allocpad, push_data);
     if (!data->removed)
       res = gst_pad_alloc_buffer (allocpad, offset, size, caps, buf);
     else
@@ -526,27 +560,69 @@ gst_tee_buffer_alloc (GstPad * pad, guint64 offset, guint size,
   return res;
 }
 
+/* on the sink we accept caps that are acceptable to all srcpads */
+static gboolean
+gst_tee_sink_acceptcaps (GstPad * pad, GstCaps * caps)
+{
+  GstTee *tee;
+  gboolean res, done;
+  GstIterator *it;
+
+  tee = GST_TEE_CAST (GST_PAD_PARENT (pad));
+
+  it = gst_element_iterate_src_pads (GST_ELEMENT_CAST (tee));
+
+  res = TRUE;
+  done = FALSE;
+  while (!done && res) {
+    gpointer item;
+
+    switch (gst_iterator_next (it, &item)) {
+      case GST_ITERATOR_OK:
+        res &= gst_pad_peer_accept_caps (GST_PAD_CAST (item), caps);
+        gst_object_unref (item);
+        break;
+      case GST_ITERATOR_RESYNC:
+        res = TRUE;
+        gst_iterator_resync (it);
+        break;
+      case GST_ITERATOR_ERROR:
+        res = FALSE;
+        done = TRUE;
+        break;
+      case GST_ITERATOR_DONE:
+        done = TRUE;
+        break;
+    }
+  }
+  gst_iterator_free (it);
+
+  return res;
+}
+
+static void
+gst_tee_do_message (GstTee * tee, GstPad * pad, gpointer data, gboolean is_list)
+{
+  GST_OBJECT_LOCK (tee);
+  g_free (tee->last_message);
+  if (is_list) {
+    tee->last_message =
+        g_strdup_printf ("chain-list   ******* (%s:%s)t %p",
+        GST_DEBUG_PAD_NAME (pad), data);
+  } else {
+    tee->last_message =
+        g_strdup_printf ("chain        ******* (%s:%s)t (%d bytes, %"
+        G_GUINT64_FORMAT ") %p", GST_DEBUG_PAD_NAME (pad),
+        GST_BUFFER_SIZE (data), GST_BUFFER_TIMESTAMP (data), data);
+  }
+  GST_OBJECT_UNLOCK (tee);
+  g_object_notify (G_OBJECT (tee), "last_message");
+}
+
 static GstFlowReturn
 gst_tee_do_push (GstTee * tee, GstPad * pad, gpointer data, gboolean is_list)
 {
   GstFlowReturn res;
-
-  if (G_UNLIKELY (!tee->silent)) {
-    GST_OBJECT_LOCK (tee);
-    g_free (tee->last_message);
-    if (is_list) {
-      tee->last_message =
-          g_strdup_printf ("chain-list   ******* (%s:%s)t %p",
-          GST_DEBUG_PAD_NAME (pad), data);
-    } else {
-      tee->last_message =
-          g_strdup_printf ("chain        ******* (%s:%s)t (%d bytes, %"
-          G_GUINT64_FORMAT ") %p", GST_DEBUG_PAD_NAME (pad),
-          GST_BUFFER_SIZE (data), GST_BUFFER_TIMESTAMP (data), data);
-    }
-    GST_OBJECT_UNLOCK (tee);
-    g_object_notify (G_OBJECT (tee), "last_message");
-  }
 
   /* Push */
   if (pad == tee->pull_pad) {
@@ -567,7 +643,7 @@ clear_pads (GstPad * pad, GstTee * tee)
 {
   PushData *data;
 
-  data = g_object_get_qdata (G_OBJECT (pad), push_data);
+  data = g_object_get_qdata ((GObject *) pad, push_data);
 
   /* the data must be there or we have a screwed up internal state */
   g_assert (data != NULL);
@@ -583,13 +659,34 @@ gst_tee_handle_data (GstTee * tee, gpointer data, gboolean is_list)
   guint32 cookie;
   GstFlowReturn ret, cret;
 
-  if (!is_list) {
-    tee->offset += GST_BUFFER_SIZE (data);
-  }
+  if (G_UNLIKELY (!tee->silent))
+    gst_tee_do_message (tee, tee->sinkpad, data, is_list);
 
   GST_OBJECT_LOCK (tee);
+  pads = GST_ELEMENT_CAST (tee)->srcpads;
+
+  /* special case for zero pads */
+  if (G_UNLIKELY (!pads))
+    goto no_pads;
+
+  /* special case for just one pad that avoids reffing the buffer */
+  if (!pads->next) {
+    GstPad *pad = GST_PAD_CAST (pads->data);
+
+    GST_OBJECT_UNLOCK (tee);
+
+    if (pad == tee->pull_pad) {
+      ret = GST_FLOW_OK;
+    } else if (is_list) {
+      ret = gst_pad_push_list (pad, GST_BUFFER_LIST_CAST (data));
+    } else {
+      ret = gst_pad_push (pad, GST_BUFFER_CAST (data));
+    }
+    return ret;
+  }
+
   /* mark all pads as 'not pushed on yet' */
-  g_list_foreach (GST_ELEMENT_CAST (tee)->srcpads, (GFunc) clear_pads, tee);
+  g_list_foreach (pads, (GFunc) clear_pads, tee);
 
 restart:
   cret = GST_FLOW_NOT_LINKED;
@@ -604,10 +701,10 @@ restart:
 
     /* get the private data, something is really wrong with the internal state
      * when it is not there */
-    pdata = g_object_get_qdata (G_OBJECT (pad), push_data);
+    pdata = g_object_get_qdata ((GObject *) pad, push_data);
     g_assert (pdata != NULL);
 
-    if (!pdata->pushed) {
+    if (G_LIKELY (!pdata->pushed)) {
       /* not yet pushed, release lock and start pushing */
       gst_object_ref (pad);
       GST_OBJECT_UNLOCK (tee);
@@ -637,7 +734,7 @@ restart:
     /* before we go combining the return value, check if the pad list is still
      * the same. It could be possible that the pad we just pushed was removed
      * and the return value it not valid anymore */
-    if (GST_ELEMENT_CAST (tee)->pads_cookie != cookie) {
+    if (G_UNLIKELY (GST_ELEMENT_CAST (tee)->pads_cookie != cookie)) {
       GST_LOG_OBJECT (tee, "pad list changed");
       /* the list of pads changed, restart iteration. Pads that we already
        * pushed on and are still in the new list, will not be pushed on
@@ -646,11 +743,11 @@ restart:
     }
 
     /* stop pushing more buffers when we have a fatal error */
-    if (ret != GST_FLOW_OK && ret != GST_FLOW_NOT_LINKED)
+    if (G_UNLIKELY (ret != GST_FLOW_OK && ret != GST_FLOW_NOT_LINKED))
       goto error;
 
     /* keep all other return values, overwriting the previous one. */
-    if (ret != GST_FLOW_NOT_LINKED) {
+    if (G_LIKELY (ret != GST_FLOW_NOT_LINKED)) {
       GST_LOG_OBJECT (tee, "Replacing ret val %d with %d", cret, ret);
       cret = ret;
     }
@@ -664,11 +761,17 @@ restart:
   return cret;
 
   /* ERRORS */
+no_pads:
+  {
+    GST_DEBUG_OBJECT (tee, "there are no pads, return not-linked");
+    ret = GST_FLOW_NOT_LINKED;
+    goto error;
+  }
 error:
   {
     GST_DEBUG_OBJECT (tee, "received error %s", gst_flow_get_name (ret));
-    gst_mini_object_unref (GST_MINI_OBJECT_CAST (data));
     GST_OBJECT_UNLOCK (tee);
+    gst_mini_object_unref (GST_MINI_OBJECT_CAST (data));
     return ret;
   }
 }
@@ -679,15 +782,13 @@ gst_tee_chain (GstPad * pad, GstBuffer * buffer)
   GstFlowReturn res;
   GstTee *tee;
 
-  tee = GST_TEE (gst_pad_get_parent (pad));
+  tee = GST_TEE_CAST (GST_OBJECT_PARENT (pad));
 
   GST_DEBUG_OBJECT (tee, "received buffer %p", buffer);
 
   res = gst_tee_handle_data (tee, buffer, FALSE);
 
   GST_DEBUG_OBJECT (tee, "handled buffer %s", gst_flow_get_name (res));
-
-  gst_object_unref (tee);
 
   return res;
 }
@@ -698,7 +799,7 @@ gst_tee_chain_list (GstPad * pad, GstBufferList * list)
   GstFlowReturn res;
   GstTee *tee;
 
-  tee = GST_TEE (gst_pad_get_parent (pad));
+  tee = GST_TEE_CAST (gst_pad_get_parent (pad));
 
   GST_DEBUG_OBJECT (tee, "received list %p", list);
 

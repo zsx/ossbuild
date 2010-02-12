@@ -237,9 +237,9 @@ paint_setup_Y41B (paintinfo * p, unsigned char *dest)
   p->yp = dest;
   p->ystride = GST_ROUND_UP_4 (p->width);
   p->up = p->yp + p->ystride * p->height;
-  p->ustride = GST_ROUND_UP_8 (p->width) / 4;
+  p->ustride = GST_ROUND_UP_16 (p->width) / 4;
   p->vp = p->up + p->ustride * p->height;
-  p->vstride = GST_ROUND_UP_8 (p->width) / 4;
+  p->vstride = GST_ROUND_UP_16 (p->width) / 4;
   p->endptr = p->vp + p->vstride * p->height;
 }
 
@@ -554,6 +554,32 @@ GST_START_TEST (test_parse_caps_rgb)
 
 GST_END_TEST;
 
+GST_START_TEST (test_events)
+{
+  GstEvent *e;
+  gboolean in_still;
+
+  e = gst_video_event_new_still_frame (TRUE);
+  fail_if (e == NULL, "Failed to create still frame event");
+  fail_unless (gst_video_event_parse_still_frame (e, &in_still),
+      "Failed to parse still frame event");
+  fail_unless (gst_video_event_parse_still_frame (e, NULL),
+      "Failed to parse still frame event w/ in_still == NULL");
+  fail_unless (in_still == TRUE);
+  gst_event_unref (e);
+
+  e = gst_video_event_new_still_frame (FALSE);
+  fail_if (e == NULL, "Failed to create still frame event");
+  fail_unless (gst_video_event_parse_still_frame (e, &in_still),
+      "Failed to parse still frame event");
+  fail_unless (gst_video_event_parse_still_frame (e, NULL),
+      "Failed to parse still frame event w/ in_still == NULL");
+  fail_unless (in_still == FALSE);
+  gst_event_unref (e);
+}
+
+GST_END_TEST;
+
 static Suite *
 video_suite (void)
 {
@@ -564,6 +590,7 @@ video_suite (void)
   tcase_add_test (tc_chain, test_video_formats);
   tcase_add_test (tc_chain, test_dar_calc);
   tcase_add_test (tc_chain, test_parse_caps_rgb);
+  tcase_add_test (tc_chain, test_events);
 
   return s;
 }

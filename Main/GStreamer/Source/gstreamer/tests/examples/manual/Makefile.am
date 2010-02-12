@@ -10,7 +10,6 @@ else
 GST_LOADSAVE_SRC = xml-mp3
 endif
 
-INCLUDES = $(GST_OBJ_CFLAGS)
 
 # gnome_LDADD = $(GST_OBJ_LIBS) $(LIBGNOMEUI_LIBS)
 # gnome_CFLAGS = $(GST_OBJ_CFLAGS) $(LIBGNOMEUI_CFLAGS)
@@ -22,6 +21,7 @@ REGISTRY_ENVIRONMENT = \
 
 TESTS_ENVIRONMENT = \
         $(REGISTRY_ENVIRONMENT)                                 \
+        GST_PLUGIN_SCANNER=$(top_builddir)/libs/gst/helpers/gst-plugin-scanner \
         GST_PLUGIN_SYSTEM_PATH=                                 \
         GST_PLUGIN_PATH=$(top_builddir)/plugins
 
@@ -48,6 +48,10 @@ EXAMPLES = \
 	playbin \
 	decodebin \
 	$(GST_LOADSAVE_SRC)
+
+AM_CFLAGS = $(GST_OBJ_CFLAGS)
+LDADD = $(top_builddir)/libs/gst/base/libgstbase-@GST_MAJORMINOR@.la \
+	$(GST_OBJ_LIBS)
 
 elementmake.c elementcreate.c elementget.c elementlink.c elementfactory.c: $(top_srcdir)/docs/manual/basics-elements.xml
 	$(PERL_PATH) $(srcdir)/extract.pl $@ \
@@ -98,4 +102,3 @@ TESTS = bin \
 	ghostpad init
 
 noinst_PROGRAMS = $(EXAMPLES)
-LDADD = $(GST_OBJ_LIBS)

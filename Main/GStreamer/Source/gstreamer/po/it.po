@@ -108,7 +108,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.10.24.2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-10-05 12:38+0100\n"
+"POT-Creation-Date: 2010-02-09 00:56+0000\n"
 "PO-Revision-Date: 2009-09-17 23:20+0200\n"
 "Last-Translator: Luca Ferretti <elle.uca@infinito.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -190,7 +190,8 @@ msgid "Disable updating the registry"
 msgstr "Disabilita l'aggiornamento del registro"
 
 # --gst-disable-registry-fork
-msgid "Disable the use of fork() while scanning the registry"
+#, fuzzy
+msgid "Disable spawning a helper process while scanning the registry"
 msgstr "Disabilita l'uso di fork() durante la scansione del registro"
 
 # intestazione categoria opzioni precendenti
@@ -200,18 +201,6 @@ msgstr "Opzioni di GStreamer"
 # --help-gst
 msgid "Show GStreamer Options"
 msgstr "Mostra le opzioni di GStreamer"
-
-#, c-format
-msgid "Error writing registry cache to %s: %s"
-msgstr "Errore nello scrivere la cache di registro su %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s: %s"
-msgstr "Errore nel ri-scansionare il registro %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s"
-msgstr "Errore nel ri-scansionare il registro %s"
 
 msgid "Unknown option"
 msgstr "Opzione sconosciuta"
@@ -769,6 +758,58 @@ msgstr ""
 "stato registrato o prodotto, in metri secondo lo standard WGS84 (zero è il "
 "livello medio del mare)"
 
+msgid "show name"
+msgstr ""
+
+msgid "Name of the tv/podcast/series show the media is from"
+msgstr ""
+
+#, fuzzy
+msgid "show sortname"
+msgstr "nome ordinamento artista"
+
+msgid ""
+"Name of the tv/podcast/series show the media is from, for sorting purposes"
+msgstr ""
+
+#, fuzzy
+msgid "episode number"
+msgstr "numero del disco"
+
+msgid "The episode number in the season the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "season number"
+msgstr "numero del disco"
+
+msgid "The season number of the show the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "lyrics"
+msgstr "licenza"
+
+msgid "The lyrics of the media, commonly used for songs"
+msgstr ""
+
+#, fuzzy
+msgid "composer sortname"
+msgstr "nome ordinamento titolo"
+
+#, fuzzy
+msgid "person(s) who composed the recording, for sorting purposes"
+msgstr ""
+"la o le persone responsabili della registrazione a scopo di ordinamento"
+
+msgid "grouping"
+msgstr ""
+
+msgid ""
+"Groups related media that spans multiple tracks, like the different pieces "
+"of a concerto. It is a higher level than a track, but lower than an album"
+msgstr ""
+
 msgid ", "
 msgstr ", "
 
@@ -897,6 +938,13 @@ msgstr "Il file «%s» è un socket."
 msgid "Failed after iterations as requested."
 msgstr "Fallito dopo le iterazioni come richiesto."
 
+msgid "No Temp directory specified."
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Could not create temp file \"%s\"."
+msgstr "Impossibile ottenere informazioni su «%s»."
+
 msgid "caps"
 msgstr "caps"
 
@@ -930,16 +978,31 @@ msgstr "scrivibile"
 msgid "controllable"
 msgstr "controllabile"
 
+msgid "Blacklisted files:"
+msgstr ""
+
 # Esempio:
 #    Total count: 23 plugins, 34 feature
 msgid "Total count: "
 msgstr "In totale: "
 
 #, c-format
+msgid "%d blacklisted file"
+msgid_plural "%d blacklisted files"
+msgstr[0] ""
+msgstr[1] ""
+
+#, c-format
 msgid "%d plugin"
 msgid_plural "%d plugins"
 msgstr[0] "%d plugin"
 msgstr[1] "%d plugin"
+
+#, c-format
+msgid "%d blacklist entry"
+msgid_plural "%d blacklist entries"
+msgstr[0] ""
+msgstr[1] ""
 
 #, c-format
 msgid "%d feature"
@@ -951,9 +1014,14 @@ msgstr[1] "%d funzionalità"
 msgid "Print all elements"
 msgstr "Stampa tutti gli elementi"
 
+msgid "Print list of blacklisted files"
+msgstr ""
+
 # --print-plugin-auto-install-info
+#, fuzzy
 msgid ""
-"Print a machine-parsable list of features the specified plugin provides.\n"
+"Print a machine-parsable list of features the specified plugin or all "
+"plugins provide.\n"
 "                                       Useful in connection with external "
 "automatic plugin installation mechanisms"
 msgstr ""
@@ -1188,3 +1256,12 @@ msgstr "Impostazione della pipeline a NULL ...\n"
 
 msgid "Freeing pipeline ...\n"
 msgstr "Esecuzione di free sulla pipeline...\n"
+
+#~ msgid "Error writing registry cache to %s: %s"
+#~ msgstr "Errore nello scrivere la cache di registro su %s: %s"
+
+#~ msgid "Error re-scanning registry %s: %s"
+#~ msgstr "Errore nel ri-scansionare il registro %s: %s"
+
+#~ msgid "Error re-scanning registry %s"
+#~ msgstr "Errore nel ri-scansionare il registro %s"

@@ -65,6 +65,7 @@ scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	    GST_PLUGIN_SYSTEM_PATH=`cd $(top_builddir) && pwd`		\
 	    GST_PLUGIN_PATH=						\
 	    GST_REGISTRY=doc-registry.xml				\
+	    $(GTKDOC_EXTRA_ENVIRONMENT)					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
@@ -227,7 +228,7 @@ endif
 
 dist-hook: dist-check-gtkdoc dist-hook-local
 	mkdir $(distdir)/html
-	cp $(srcdir)/html/* $(distdir)/html
+	cp html/* $(distdir)/html
 	-cp $(srcdir)/$(DOC_MODULE).types $(distdir)/
 	-cp $(srcdir)/$(DOC_MODULE)-sections.txt $(distdir)/
 	cd $(distdir) && rm -f $(DISTCLEANFILES)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gstreamer 0.10.14\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/\n"
-"POT-Creation-Date: 2009-10-05 12:38+0100\n"
+"POT-Creation-Date: 2010-02-09 00:56+0000\n"
 "PO-Revision-Date: 2007-09-07 11:16+0300\n"
 "Last-Translator: Maxim V. Dziumanenko <dziumanenko@gmail.com>\n"
 "Language-Team: Ukrainian <translation-team-uk@lists.sourceforge.net>\n"
@@ -77,7 +77,8 @@ msgstr "Вимкнути перехоплення помилок сегмент�
 msgid "Disable updating the registry"
 msgstr "Вимкнути використання fork() при скануванні реєстру модулів"
 
-msgid "Disable the use of fork() while scanning the registry"
+#, fuzzy
+msgid "Disable spawning a helper process while scanning the registry"
 msgstr "Вимкнути використання fork() при скануванні реєстру модулів"
 
 msgid "GStreamer Options"
@@ -85,18 +86,6 @@ msgstr "Параметри GStreamer"
 
 msgid "Show GStreamer Options"
 msgstr "Показати параметри GStreamer"
-
-#, c-format
-msgid "Error writing registry cache to %s: %s"
-msgstr "Помилка при записі кешу реєстру у %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s: %s"
-msgstr "Помилка при повторному скануванні реєстру модулів %s: %s"
-
-#, c-format
-msgid "Error re-scanning registry %s"
-msgstr "Помилка при повторному скануванні реєстру %s"
 
 msgid "Unknown option"
 msgstr "Невідомий параметр"
@@ -629,6 +618,55 @@ msgid ""
 "according to WGS84 (zero is average sea level)"
 msgstr ""
 
+msgid "show name"
+msgstr ""
+
+msgid "Name of the tv/podcast/series show the media is from"
+msgstr ""
+
+msgid "show sortname"
+msgstr ""
+
+msgid ""
+"Name of the tv/podcast/series show the media is from, for sorting purposes"
+msgstr ""
+
+#, fuzzy
+msgid "episode number"
+msgstr "номер диску"
+
+msgid "The episode number in the season the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "season number"
+msgstr "номер диску"
+
+msgid "The season number of the show the media is part of"
+msgstr ""
+
+#, fuzzy
+msgid "lyrics"
+msgstr "ліцензія"
+
+msgid "The lyrics of the media, commonly used for songs"
+msgstr ""
+
+msgid "composer sortname"
+msgstr ""
+
+#, fuzzy
+msgid "person(s) who composed the recording, for sorting purposes"
+msgstr "особа, що відповідальна за запис"
+
+msgid "grouping"
+msgstr ""
+
+msgid ""
+"Groups related media that spans multiple tracks, like the different pieces "
+"of a concerto. It is a higher level than a track, but lower than an album"
+msgstr ""
+
 msgid ", "
 msgstr ", "
 
@@ -752,6 +790,13 @@ msgstr "Файл \"%s\" є сокетом."
 msgid "Failed after iterations as requested."
 msgstr "Помилка після ітерацій у запитаному порядку."
 
+msgid "No Temp directory specified."
+msgstr ""
+
+#, fuzzy, c-format
+msgid "Could not create temp file \"%s\"."
+msgstr "Не вдається отримати інформацію про \"%s\"."
+
 msgid "caps"
 msgstr "можливості"
 
@@ -786,8 +831,18 @@ msgstr "запис"
 msgid "controllable"
 msgstr "контроль"
 
+msgid "Blacklisted files:"
+msgstr ""
+
 msgid "Total count: "
 msgstr "Загальна кількість:"
+
+#, c-format
+msgid "%d blacklisted file"
+msgid_plural "%d blacklisted files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "%d plugin"
@@ -795,6 +850,13 @@ msgid_plural "%d plugins"
 msgstr[0] "%d модуль"
 msgstr[1] "%d модулі"
 msgstr[2] "%d модулів"
+
+#, c-format
+msgid "%d blacklist entry"
+msgid_plural "%d blacklist entries"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #, c-format
 msgid "%d feature"
@@ -806,8 +868,13 @@ msgstr[2] "%d функцій"
 msgid "Print all elements"
 msgstr "Вивести усі елементи"
 
+msgid "Print list of blacklisted files"
+msgstr ""
+
+#, fuzzy
 msgid ""
-"Print a machine-parsable list of features the specified plugin provides.\n"
+"Print a machine-parsable list of features the specified plugin or all "
+"plugins provide.\n"
 "                                       Useful in connection with external "
 "automatic plugin installation mechanisms"
 msgstr ""
@@ -1021,6 +1088,15 @@ msgstr "Канал переводиться у стан NULL ...\n"
 #, fuzzy
 msgid "Freeing pipeline ...\n"
 msgstr "Канал переводиться у стан NULL ...\n"
+
+#~ msgid "Error writing registry cache to %s: %s"
+#~ msgstr "Помилка при записі кешу реєстру у %s: %s"
+
+#~ msgid "Error re-scanning registry %s: %s"
+#~ msgstr "Помилка при повторному скануванні реєстру модулів %s: %s"
+
+#~ msgid "Error re-scanning registry %s"
+#~ msgstr "Помилка при повторному скануванні реєстру %s"
 
 #~ msgid "Internal GStreamer error: state change failed."
 #~ msgstr "Внутрішня помилка GStreamer: помилка зміни стану."

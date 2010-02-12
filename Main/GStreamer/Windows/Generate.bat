@@ -99,8 +99,8 @@ rem gst-plugins-base/gst-libs/gst/pbutils
 %MK_ENUMS_BAT% INSTALL "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\pbutils" "%BUILDDIR%\Plugins\Base\gst-libs\pbutils.mkenum.lst.txt" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\pbutils\pbutils-enumtypes.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\pbutils\pbutils-enumtypes.c"
 
 rem gst-plugins-base/gst-libs/gst/rtsp
-%MK_ENUMS_BAT% RTSP "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp" "%BUILDDIR%\Plugins\Base\gst-libs\rtsp.mkenum.lst.txt" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\rtsp-enumtypes.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\rtsp-enumtypes.c"
-%GEN_MARSHAL_BAT% gst_rtsp_marshal "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\rtsp-marshal.list" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\rtsp-marshal.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\rtsp-marshal.c"
+%MK_ENUMS_BAT% RTSP "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp" "%BUILDDIR%\Plugins\Base\gst-libs\rtsp.mkenum.lst.txt" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\gstrtsp-enumtypes.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\gstrtsp-enumtypes.c"
+%GEN_MARSHAL_BAT% gst_rtsp_marshal "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\gstrtsp-marshal.list" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\gstrtsp-marshal.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\rtsp\gstrtsp-marshal.c"
 
 rem gst-plugins-base/gst-libs/gst/video
 %MK_ENUMS_BAT% VIDEO "%SRC_GST_PLUGINS_BASE_DIR%\gst-libs\gst\video" "%BUILDDIR%\Plugins\Base\gst-libs\video.mkenum.lst.txt" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\video\video-enumtypes.h" "%GEN_GST_PLUGINS_BASE_DIR%\gst-libs\gst\video\video-enumtypes.c"

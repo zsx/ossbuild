@@ -1,11 +1,12 @@
 %{
+#include "../gst_private.h"
+
 #include <glib-object.h>
 #include <glib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-#include "../gst_private.h"
 #include "../gst-i18n-lib.h"
 
 #include "../gstconfig.h"
@@ -64,7 +65,7 @@ link_t *__gst_parse_link_new ()
 {
   link_t *ret;
   __links++;
-  ret = g_new0 (link_t, 1);
+  ret = g_slice_new0 (link_t);
   /* g_print ("ALLOCATED LINK  (%3u): %p\n", __links, ret); */
   return ret;
 }
@@ -73,7 +74,7 @@ __gst_parse_link_free (link_t *data)
 {
   if (data) {
     /* g_print ("FREEING LINK    (%3u): %p\n", __links - 1, data); */
-    g_free (data);
+    g_slice_free (link_t, data);
     g_return_if_fail (__links > 0);
     __links--;
   }
@@ -83,7 +84,7 @@ __gst_parse_chain_new ()
 {
   chain_t *ret;
   __chains++;
-  ret = g_new0 (chain_t, 1);
+  ret = g_slice_new0 (chain_t);
   /* g_print ("ALLOCATED CHAIN (%3u): %p\n", __chains, ret); */
   return ret;
 }
@@ -91,7 +92,7 @@ void
 __gst_parse_chain_free (chain_t *data)
 {
   /* g_print ("FREEING CHAIN   (%3u): %p\n", __chains - 1, data); */
-  g_free (data);
+  g_slice_free (chain_t, data);
   g_return_if_fail (__chains > 0);
   __chains--;
 }
@@ -104,8 +105,6 @@ typedef struct {
   GstElement *sink;
   GstCaps *caps;
   gulong signal_id;
-  /* FIXME: need to connect to "disposed" signal to clean up,
-   * but there is no such signal */
 } DelayedLink;
 
 typedef struct {
@@ -115,7 +114,7 @@ typedef struct {
   gulong signal_id;
 } DelayedSet;
 
-/*** define SET_ERROR and ERROR macros/functions */
+/*** define SET_ERROR macro/function */
 
 #ifdef G_HAVE_ISO_VARARGS
 
@@ -127,9 +126,6 @@ G_STMT_START { \
   } \
 } G_STMT_END
 
-#  define ERROR(type, ...) \
-  SET_ERROR (graph->error, (type), __VA_ARGS__ )
-
 #elif defined(G_HAVE_GNUC_VARARGS)
 
 #  define SET_ERROR(error, type, args...) \
@@ -139,9 +135,6 @@ G_STMT_START { \
     g_set_error ((error), GST_PARSE_ERROR, (type), args ); \
   } \
 } G_STMT_END
-
-#  define ERROR(type, args...) \
-  SET_ERROR (graph->error,(type) , args )
 
 #else
 
@@ -181,18 +174,14 @@ SET_ERROR (GError **error, gint type, const char *format, ...)
 /* #  define YYFPRINTF(a, ...) GST_CAT_DEBUG (GST_CAT_PIPELINE, __VA_ARGS__) */
 #    define YYFPRINTF(a, ...) \
 G_STMT_START { \
-     gchar *temp = g_strdup_printf (__VA_ARGS__); \
-     GST_CAT_LOG (GST_CAT_PIPELINE, temp); \
-     g_free (temp); \
+     GST_CAT_LOG (GST_CAT_PIPELINE, __VA_ARGS__); \
 } G_STMT_END
 
 #  elif defined(G_HAVE_GNUC_VARARGS)
 
 #    define YYFPRINTF(a, args...) \
 G_STMT_START { \
-     gchar *temp = g_strdup_printf ( args ); \
-     GST_CAT_LOG (GST_CAT_PIPELINE, temp); \
-     g_free (temp); \
+     GST_CAT_LOG (GST_CAT_PIPELINE, args); \
 } G_STMT_END
 
 #  else
@@ -309,9 +298,6 @@ static void gst_parse_new_child(GstChildProxy *child_proxy, GObject *object,
        }
     }
     g_signal_handler_disconnect (child_proxy, set->signal_id);
-    g_free(set->name);
-    g_free(set->value_str);
-    g_free(set);
     if (!got_value)
       goto error;
     g_object_set_property (G_OBJECT (target), pspec->name, &v);
@@ -330,6 +316,12 @@ error:
   goto out;
 }
 
+static void
+gst_parse_free_delayed_set (DelayedSet *set) {
+  g_free(set->name);
+  g_free(set->value_str);
+  g_slice_free(DelayedSet, set);
+}
 
 static void
 gst_parse_element_set (gchar *value, GstElement *element, graph_t *graph)
@@ -387,12 +379,14 @@ gst_parse_element_set (gchar *value, GstElement *element, graph_t *graph)
   } else { 
     /* do a delayed set */
     if (GST_IS_CHILD_PROXY (element)) {
-      DelayedSet *data = g_new (DelayedSet, 1);
+      DelayedSet *data = g_slice_new0 (DelayedSet);
       
       data->parent = element;
       data->name = g_strdup(value);
       data->value_str = g_strdup(pos);
-      data->signal_id = g_signal_connect(GST_OBJECT (element),"child-added", G_CALLBACK (gst_parse_new_child), data);
+      data->signal_id = g_signal_connect_data(element, "child-added",
+          G_CALLBACK (gst_parse_new_child), data, (GClosureNotify)
+          gst_parse_free_delayed_set, (GConnectFlags) 0);
     }
     else {
       SET_ERROR (graph->error, GST_PARSE_ERROR_NO_SUCH_PROPERTY, \
@@ -429,10 +423,19 @@ gst_parse_free_link (link_t *link)
 }
 
 static void
+gst_parse_free_delayed_link (DelayedLink *link)
+{
+  g_free (link->src_pad);
+  g_free (link->sink_pad);
+  if (link->caps) gst_caps_unref (link->caps);
+  g_slice_free (DelayedLink, link);
+}
+
+static void
 gst_parse_found_pad (GstElement *src, GstPad *pad, gpointer data)
 {
-  DelayedLink *link = (DelayedLink *) data;
-  
+  DelayedLink *link = data;
+
   GST_CAT_INFO (GST_CAT_PIPELINE, "trying delayed linking %s:%s to %s:%s", 
                 GST_STR_NULL (GST_ELEMENT_NAME (src)), GST_STR_NULL (link->src_pad),
                 GST_STR_NULL (GST_ELEMENT_NAME (link->sink)), GST_STR_NULL (link->sink_pad));
@@ -445,10 +448,6 @@ gst_parse_found_pad (GstElement *src, GstPad *pad, gpointer data)
                	   GST_STR_NULL (GST_ELEMENT_NAME (src)), GST_STR_NULL (link->src_pad),
                	   GST_STR_NULL (GST_ELEMENT_NAME (link->sink)), GST_STR_NULL (link->sink_pad));
     g_signal_handler_disconnect (src, link->signal_id);
-    g_free (link->src_pad);
-    g_free (link->sink_pad);
-    if (link->caps) gst_caps_unref (link->caps);
-    g_free (link);
   }
 }
 /* both padnames and the caps may be NULL */
@@ -465,7 +464,7 @@ gst_parse_perform_delayed_link (GstElement *src, const gchar *src_pad,
     if ((GST_PAD_TEMPLATE_DIRECTION (templ) == GST_PAD_SRC) &&
         (GST_PAD_TEMPLATE_PRESENCE(templ) == GST_PAD_SOMETIMES))
     {
-      DelayedLink *data = g_new (DelayedLink, 1); 
+      DelayedLink *data = g_slice_new (DelayedLink); 
       
       /* TODO: maybe we should check if src_pad matches this template's names */
 
@@ -481,8 +480,9 @@ gst_parse_perform_delayed_link (GstElement *src, const gchar *src_pad,
       } else {
       	data->caps = NULL;
       }
-      data->signal_id = g_signal_connect (G_OBJECT (src), "pad-added", 
-          G_CALLBACK (gst_parse_found_pad), data);
+      data->signal_id = g_signal_connect_data (src, "pad-added",
+          G_CALLBACK (gst_parse_found_pad), data,
+          (GClosureNotify) gst_parse_free_delayed_link, (GConnectFlags) 0);
       return TRUE;
     }
   }

@@ -216,9 +216,7 @@ gst_structure_new (const gchar * name, const gchar * firstfield, ...)
   g_return_val_if_fail (name != NULL, NULL);
 
   va_start (varargs, firstfield);
-
   structure = gst_structure_new_valist (name, firstfield, varargs);
-
   va_end (varargs);
 
   return structure;
@@ -296,11 +294,9 @@ gst_structure_copy (const GstStructure * structure)
 
   g_return_val_if_fail (structure != NULL, NULL);
 
-  new_structure =
-      gst_structure_id_empty_new_with_size (structure->name,
-      structure->fields->len);
-
   len = structure->fields->len;
+  new_structure = gst_structure_id_empty_new_with_size (structure->name, len);
+
   for (i = 0; i < len; i++) {
     GstStructureField new_field = { 0 };
 
@@ -488,9 +484,7 @@ gst_structure_set (GstStructure * structure, const gchar * field, ...)
   g_return_if_fail (structure != NULL);
 
   va_start (varargs, field);
-
   gst_structure_set_valist (structure, field, varargs);
-
   va_end (varargs);
 }
 
@@ -708,7 +702,6 @@ gst_structure_id_get_field (const GstStructure * structure, GQuark field_id)
   guint i, len;
 
   len = structure->fields->len;
-  g_return_val_if_fail (structure != NULL, NULL);
 
   for (i = 0; i < len; i++) {
     field = GST_STRUCTURE_FIELD (structure, i);
@@ -837,9 +830,7 @@ gst_structure_remove_fields (GstStructure * structure,
   /* mutability checked in remove_field */
 
   va_start (varargs, fieldname);
-
   gst_structure_remove_fields_valist (structure, fieldname, varargs);
-
   va_end (varargs);
 }
 
@@ -1031,6 +1022,30 @@ gst_structure_map_in_place (GstStructure * structure,
 }
 
 /**
+ * gst_structure_id_has_field:
+ * @structure: a #GstStructure
+ * @field: #GQuark of the field name
+ *
+ * Check if @structure contains a field named @field.
+ *
+ * Returns: TRUE if the structure contains a field with the given name
+ *
+ * Since: 0.10.26
+ */
+gboolean
+gst_structure_id_has_field (const GstStructure * structure, GQuark field)
+{
+  GstStructureField *f;
+
+  g_return_val_if_fail (structure != NULL, FALSE);
+  g_return_val_if_fail (field != 0, FALSE);
+
+  f = gst_structure_id_get_field (structure, field);
+
+  return (f != NULL);
+}
+
+/**
  * gst_structure_has_field:
  * @structure: a #GstStructure
  * @fieldname: the name of a field
@@ -1043,14 +1058,39 @@ gboolean
 gst_structure_has_field (const GstStructure * structure,
     const gchar * fieldname)
 {
-  GstStructureField *field;
+  g_return_val_if_fail (structure != NULL, FALSE);
+  g_return_val_if_fail (fieldname != NULL, FALSE);
 
-  g_return_val_if_fail (structure != NULL, 0);
-  g_return_val_if_fail (fieldname != NULL, 0);
+  return gst_structure_id_has_field (structure,
+      g_quark_from_string (fieldname));
+}
 
-  field = gst_structure_get_field (structure, fieldname);
+/**
+ * gst_structure_id_has_field_typed:
+ * @structure: a #GstStructure
+ * @field: #GQuark of the field name
+ * @type: the type of a value
+ *
+ * Check if @structure contains a field named @field and with GType @type.
+ *
+ * Returns: TRUE if the structure contains a field with the given name and type
+ *
+ * Since: 0.10.16
+ */
+gboolean
+gst_structure_id_has_field_typed (const GstStructure * structure,
+    GQuark field, GType type)
+{
+  GstStructureField *f;
 
-  return (field != NULL);
+  g_return_val_if_fail (structure != NULL, FALSE);
+  g_return_val_if_fail (field != 0, FALSE);
+
+  f = gst_structure_id_get_field (structure, field);
+  if (f == NULL)
+    return FALSE;
+
+  return (G_VALUE_TYPE (&f->value) == type);
 }
 
 /**
@@ -1067,18 +1107,12 @@ gboolean
 gst_structure_has_field_typed (const GstStructure * structure,
     const gchar * fieldname, GType type)
 {
-  GstStructureField *field;
+  g_return_val_if_fail (structure != NULL, FALSE);
+  g_return_val_if_fail (fieldname != NULL, FALSE);
 
-  g_return_val_if_fail (structure != NULL, 0);
-  g_return_val_if_fail (fieldname != NULL, 0);
-
-  field = gst_structure_get_field (structure, fieldname);
-  if (field == NULL)
-    return FALSE;
-
-  return (G_VALUE_TYPE (&field->value) == type);
+  return gst_structure_id_has_field_typed (structure,
+      g_quark_from_string (fieldname), type);
 }
-
 
 /* utility functions */
 
@@ -1112,7 +1146,7 @@ gst_structure_get_boolean (const GstStructure * structure,
   if (!G_VALUE_HOLDS_BOOLEAN (&field->value))
     return FALSE;
 
-  *value = g_value_get_boolean (&field->value);
+  *value = gst_g_value_get_boolean_unchecked (&field->value);
 
   return TRUE;
 }
@@ -1148,7 +1182,7 @@ gst_structure_get_int (const GstStructure * structure,
   if (!G_VALUE_HOLDS_INT (&field->value))
     return FALSE;
 
-  *value = g_value_get_int (&field->value);
+  *value = gst_g_value_get_int_unchecked (&field->value);
 
   return TRUE;
 }
@@ -1186,7 +1220,7 @@ gst_structure_get_uint (const GstStructure * structure,
   if (!G_VALUE_HOLDS_UINT (&field->value))
     return FALSE;
 
-  *value = g_value_get_uint (&field->value);
+  *value = gst_g_value_get_uint_unchecked (&field->value);
 
   return TRUE;
 }
@@ -1195,9 +1229,9 @@ gst_structure_get_uint (const GstStructure * structure,
  * gst_structure_get_fourcc:
  * @structure: a #GstStructure
  * @fieldname: the name of a field
- * @value: a pointer to a #GstFourcc to set
+ * @value: a pointer to a 32bit unsigned int to set
  *
- * Sets the #GstFourcc pointed to by @value corresponding to the value of the
+ * Sets the Fourcc pointed to by @value corresponding to the value of the
  * given field.  Caller is responsible for making sure the field exists
  * and has the correct type.
  *
@@ -1300,7 +1334,7 @@ gst_structure_get_clock_time (const GstStructure * structure,
   if (!G_VALUE_HOLDS_UINT64 (&field->value))
     return FALSE;
 
-  *value = g_value_get_uint64 (&field->value);
+  *value = gst_g_value_get_uint64_unchecked (&field->value);
 
   return TRUE;
 }
@@ -1309,7 +1343,7 @@ gst_structure_get_clock_time (const GstStructure * structure,
  * gst_structure_get_double:
  * @structure: a #GstStructure
  * @fieldname: the name of a field
- * @value: a pointer to a #GstFourcc to set
+ * @value: a pointer to a gdouble to set
  *
  * Sets the double pointed to by @value corresponding to the value of the
  * given field.  Caller is responsible for making sure the field exists
@@ -1336,7 +1370,7 @@ gst_structure_get_double (const GstStructure * structure,
   if (!G_VALUE_HOLDS_DOUBLE (&field->value))
     return FALSE;
 
-  *value = g_value_get_double (&field->value);
+  *value = gst_g_value_get_double_unchecked (&field->value);
 
   return TRUE;
 }
@@ -1372,7 +1406,7 @@ gst_structure_get_string (const GstStructure * structure,
   if (!G_VALUE_HOLDS_STRING (&field->value))
     return NULL;
 
-  return g_value_get_string (&field->value);
+  return gst_g_value_get_string_unchecked (&field->value);
 }
 
 /**
@@ -1404,8 +1438,6 @@ gst_structure_get_enum (const GstStructure * structure,
   field = gst_structure_get_field (structure, fieldname);
 
   if (field == NULL)
-    return FALSE;
-  if (!G_VALUE_HOLDS_ENUM (&field->value))
     return FALSE;
   if (!G_TYPE_CHECK_VALUE_TYPE (&field->value, enumtype))
     return FALSE;
@@ -1754,13 +1786,14 @@ gst_structure_parse_range (gchar * s, gchar ** after, GValue * value,
   if (G_VALUE_TYPE (&value1) == G_TYPE_DOUBLE) {
     range_type = GST_TYPE_DOUBLE_RANGE;
     g_value_init (value, range_type);
-    gst_value_set_double_range (value, g_value_get_double (&value1),
-        g_value_get_double (&value2));
+    gst_value_set_double_range (value,
+        gst_g_value_get_double_unchecked (&value1),
+        gst_g_value_get_double_unchecked (&value2));
   } else if (G_VALUE_TYPE (&value1) == G_TYPE_INT) {
     range_type = GST_TYPE_INT_RANGE;
     g_value_init (value, range_type);
-    gst_value_set_int_range (value, g_value_get_int (&value1),
-        g_value_get_int (&value2));
+    gst_value_set_int_range (value, gst_g_value_get_int_unchecked (&value1),
+        gst_g_value_get_int_unchecked (&value2));
   } else if (G_VALUE_TYPE (&value1) == GST_TYPE_FRACTION) {
     range_type = GST_TYPE_FRACTION_RANGE;
     g_value_init (value, range_type);
@@ -1872,25 +1905,32 @@ gst_structure_parse_field (gchar * str,
   while (g_ascii_isspace (*s) || (s[0] == '\\' && g_ascii_isspace (s[1])))
     s++;
   name = s;
-  if (G_UNLIKELY (!gst_structure_parse_simple_string (s, &name_end)))
+  if (G_UNLIKELY (!gst_structure_parse_simple_string (s, &name_end))) {
+    GST_WARNING ("failed to parse simple string, str=%s", str);
     return FALSE;
+  }
 
   s = name_end;
   while (g_ascii_isspace (*s) || (s[0] == '\\' && g_ascii_isspace (s[1])))
     s++;
 
-  if (G_UNLIKELY (*s != '='))
+  if (G_UNLIKELY (*s != '=')) {
+    GST_WARNING ("missing assignment operator in the field, str=%s", str);
     return FALSE;
+  }
   s++;
 
   c = *name_end;
   *name_end = '\0';
   field->name = g_quark_from_string (name);
+  GST_DEBUG ("trying field name '%s'", name);
   *name_end = c;
 
   if (G_UNLIKELY (!gst_structure_parse_value (s, &s, &field->value,
-              G_TYPE_INVALID)))
+              G_TYPE_INVALID))) {
+    GST_WARNING ("failed to parse value %s", str);
     return FALSE;
+  }
 
   *after = s;
   return TRUE;
@@ -1934,10 +1974,13 @@ gst_structure_parse_value (gchar * str,
     c = *type_end;
     *type_end = 0;
     type = gst_structure_gtype_from_abbr (type_name);
+    GST_DEBUG ("trying type name '%s'", type_name);
     *type_end = c;
 
-    if (G_UNLIKELY (type == G_TYPE_INVALID))
+    if (G_UNLIKELY (type == G_TYPE_INVALID)) {
+      GST_WARNING ("invalid type");
       return FALSE;
+    }
   }
 
   while (g_ascii_isspace (*s))
@@ -2063,8 +2106,10 @@ gst_structure_from_string (const gchar * string, gchar ** end)
       r++;
 
     memset (&field, 0, sizeof (field));
-    if (G_UNLIKELY (!gst_structure_parse_field (r, &r, &field)))
+    if (G_UNLIKELY (!gst_structure_parse_field (r, &r, &field))) {
+      GST_WARNING ("Failed to parse field, r=%s", r);
       goto error;
+    }
     gst_structure_set_field (structure, &field);
   } while (TRUE);
 
@@ -2151,7 +2196,7 @@ gst_structure_fixate_field_nearest_int (GstStructure * structure,
     for (i = 0; i < n; i++) {
       list_value = gst_value_list_get_value (value, i);
       if (G_VALUE_TYPE (list_value) == G_TYPE_INT) {
-        int x = g_value_get_int (list_value);
+        int x = gst_g_value_get_int_unchecked (list_value);
 
         if (best_index == -1 || (ABS (target - x) < ABS (target - best))) {
           best_index = i;
@@ -2215,7 +2260,7 @@ gst_structure_fixate_field_nearest_double (GstStructure * structure,
     for (i = 0; i < n; i++) {
       list_value = gst_value_list_get_value (value, i);
       if (G_VALUE_TYPE (list_value) == G_TYPE_DOUBLE) {
-        double x = g_value_get_double (list_value);
+        double x = gst_g_value_get_double_unchecked (list_value);
 
         if (best_index == -1 || (ABS (target - x) < ABS (target - best))) {
           best_index = i;
@@ -2269,7 +2314,7 @@ gst_structure_fixate_field_boolean (GstStructure * structure,
     for (i = 0; i < n; i++) {
       list_value = gst_value_list_get_value (value, i);
       if (G_VALUE_TYPE (list_value) == G_TYPE_BOOLEAN) {
-        gboolean x = g_value_get_boolean (list_value);
+        gboolean x = gst_g_value_get_boolean_unchecked (list_value);
 
         if (best_index == -1 || x == target) {
           best_index = i;

@@ -181,8 +181,8 @@ gst_fake_sink_class_init (GstFakeSinkClass * klass)
   gstelement_class = GST_ELEMENT_CLASS (klass);
   gstbase_sink_class = GST_BASE_SINK_CLASS (klass);
 
-  gobject_class->set_property = GST_DEBUG_FUNCPTR (gst_fake_sink_set_property);
-  gobject_class->get_property = GST_DEBUG_FUNCPTR (gst_fake_sink_get_property);
+  gobject_class->set_property = gst_fake_sink_set_property;
+  gobject_class->get_property = gst_fake_sink_get_property;
   gobject_class->finalize = gst_fake_sink_finalize;
 
   g_object_class_install_property (gobject_class, PROP_STATE_ERROR,
@@ -478,8 +478,8 @@ gst_fake_sink_render (GstBaseSink * bsink, GstBuffer * buf)
     gst_fake_sink_notify_last_message (sink);
   }
   if (sink->signal_handoffs)
-    g_signal_emit (G_OBJECT (sink), gst_fake_sink_signals[SIGNAL_HANDOFF], 0,
-        buf, bsink->sinkpad);
+    g_signal_emit (sink, gst_fake_sink_signals[SIGNAL_HANDOFF], 0, buf,
+        bsink->sinkpad);
 
   if (sink->dump) {
     gst_util_dump_mem (GST_BUFFER_DATA (buf), GST_BUFFER_SIZE (buf));

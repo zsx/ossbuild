@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>gstrtspbase64</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
-<link rel="start" href="index.html" title="GStreamer Base Plugins 0.10 Library Reference Manual">
+<meta name="generator" content="DocBook XSL Stylesheets V1.75.2">
+<link rel="home" href="index.html" title="GStreamer Base Plugins 0.10 Library Reference Manual">
 <link rel="up" href="gstreamer-rtsp.html" title="RTSP Library">
 <link rel="prev" href="gstreamer-rtsp.html" title="RTSP Library">
 <link rel="next" href="gst-plugins-base-libs-gstrtspconnection.html" title="gstrtspconnection">
-<meta name="generator" content="GTK-Doc V1.11 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.13 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 <link rel="part" href="gstreamer-plugins-base.html" title="Part I. GStreamer Base Plugins Libraries">
 <link rel="chapter" href="gstreamer-app.html" title="App Library">
@@ -26,7 +26,8 @@
 <link rel="chapter" href="gstreamer-base-utils.html" title="Base Utils Library">
 <link rel="chapter" href="gstreamer-video.html" title="Video Library">
 <link rel="part" href="gstreamer-libs-hierarchy.html" title="Part II. Object Hierarchy">
-<link rel="index" href="api-index.html" title="Index">
+<link rel="index" href="api-index-full.html" title="Index">
+<link rel="index" href="api-index-deprecated.html" title="Index of deprecated API">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
@@ -39,11 +40,11 @@
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#gst-plugins-base-libs-gstrtspbase64.synopsis" class="shortcut">Top</a>
-                 | 
-                <a href="#gst-plugins-base-libs-gstrtspbase64.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gst-plugins-base-libs-gstrtspbase64.description" class="shortcut">Description</a>
 </td></tr>
 </table>
-<div class="refentry" lang="en">
+<div class="refentry" title="gstrtspbase64">
 <a name="gst-plugins-base-libs-gstrtspbase64"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
@@ -52,57 +53,34 @@
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
+<div class="refsynopsisdiv" title="Synopsis">
 <a name="gst-plugins-base-libs-gstrtspbase64.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">
-
 #include &lt;gst/rtsp/gstrtspbase64.h&gt;
 
-<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a> *             <a class="link" href="gst-plugins-base-libs-gstrtspbase64.html#gst-rtsp-base64-encode" title="gst_rtsp_base64_encode ()">gst_rtsp_base64_encode</a>              (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a> *data,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
->gsize</a> len);
-void                <a class="link" href="gst-plugins-base-libs-gstrtspbase64.html#gst-rtsp-base64-decode-ip" title="gst_rtsp_base64_decode_ip ()">gst_rtsp_base64_decode_ip</a>           (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a> *data,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
->gsize</a> *len);
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="gst-plugins-base-libs-gstrtspbase64.html#gst-rtsp-base64-encode" title="gst_rtsp_base64_encode ()">gst_rtsp_base64_encode</a>              (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"><span class="returnvalue">gsize</span></a> len);
+<span class="returnvalue">void</span>                <a class="link" href="gst-plugins-base-libs-gstrtspbase64.html#gst-rtsp-base64-decode-ip" title="gst_rtsp_base64_decode_ip ()">gst_rtsp_base64_decode_ip</a>           (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"><span class="returnvalue">gsize</span></a> *len);
 </pre>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Description">
 <a name="gst-plugins-base-libs-gstrtspbase64.description"></a><h2>Description</h2>
 <p>
 Last reviewed on 2007-07-24 (0.10.14)</p>
-<p>
-</p>
 </div>
-<div class="refsect1" lang="en">
+<div class="refsect1" title="Details">
 <a name="gst-plugins-base-libs-gstrtspbase64.details"></a><h2>Details</h2>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_rtsp_base64_encode ()">
 <a name="gst-rtsp-base64-encode"></a><h3>gst_rtsp_base64_encode ()</h3>
-<pre class="programlisting"><a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a> *             gst_rtsp_base64_encode              (const <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a> *data,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
->gsize</a> len);</pre>
-<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;">
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             gst_rtsp_base64_encode              (const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"><span class="returnvalue">gsize</span></a> len);</pre>
+<div class="warning" title="Warning" style="margin-left: 0.5in; margin-right: 0.5in;">
 <h3 class="title">Warning</h3>
-<p><code class="literal">gst_rtsp_base64_encode</code> is deprecated and should not be used in newly-written code. Use <a
-href="/usr/share/gtk-doc/html/glib/glib-Base64-Encoding.html#g-base64-encode"
-><code class="function">g_base64_encode()</code></a></p>
+<p><code class="literal">gst_rtsp_base64_encode</code> is deprecated and should not be used in newly-written code. Use <a href="/usr/share/gtk-doc/html/glib/glib-Base64-Encoding.html#g-base64-encode"><code class="function">g_base64_encode()</code></a></p>
 </div>
 <p>
 Encode a sequence of binary data into its Base-64 stringified representation.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -126,21 +104,13 @@ representing <em class="parameter"><code>data</code></em>.
 </table></div>
 </div>
 <hr>
-<div class="refsect2" lang="en">
+<div class="refsect2" title="gst_rtsp_base64_decode_ip ()">
 <a name="gst-rtsp-base64-decode-ip"></a><h3>gst_rtsp_base64_decode_ip ()</h3>
-<pre class="programlisting">void                gst_rtsp_base64_decode_ip           (<a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"
->gchar</a> *data,
-                                                         <a
-href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"
->gsize</a> *len);</pre>
+<pre class="programlisting"><span class="returnvalue">void</span>                gst_rtsp_base64_decode_ip           (<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *data,
+                                                         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gsize"><span class="returnvalue">gsize</span></a> *len);</pre>
 <p>
-Decode the base64 string pointed to by <em class="parameter"><code>data</code></em> in-place. When <em class="parameter"><code>len</code></em> is not <a
-href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL--CAPS"
-><span class="type">NULL</span></a>
+Decode the base64 string pointed to by <em class="parameter"><code>data</code></em> in-place. When <em class="parameter"><code>len</code></em> is not <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><span class="type">NULL</span></a>
 it will contain the length of the decoded data.</p>
-<p>
-</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody>
@@ -161,6 +131,6 @@ it will contain the length of the decoded data.</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.11</div>
+          Generated by GTK-Doc V1.13</div>
 </body>
 </html>

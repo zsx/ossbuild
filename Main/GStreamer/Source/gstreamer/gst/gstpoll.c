@@ -82,7 +82,16 @@
 /* OS/X needs this because of bad headers */
 #include <string.h>
 
+/* The poll() emulation on OS/X doesn't handle fds=NULL, nfds=0,
+ * so we prefer our own poll emulation.
+ */
+#if defined(BROKEN_POLL)
+#undef HAVE_POLL
+#endif
+
 #include "gstpoll.h"
+
+#define GST_CAT_DEFAULT GST_CAT_POLL
 
 #ifndef G_OS_WIN32
 /* the poll/select call is also performed on a control socket, that way
@@ -266,13 +275,15 @@ choose_mode (const GstPoll * set, GstClockTime timeout)
 
 #ifndef G_OS_WIN32
 static gint
-pollfd_to_fd_set (GstPoll * set, fd_set * readfds, fd_set * writefds)
+pollfd_to_fd_set (GstPoll * set, fd_set * readfds, fd_set * writefds,
+    fd_set * errorfds)
 {
   gint max_fd = -1;
   guint i;
 
   FD_ZERO (readfds);
   FD_ZERO (writefds);
+  FD_ZERO (errorfds);
 
   g_mutex_lock (set->lock);
 
@@ -284,7 +295,9 @@ pollfd_to_fd_set (GstPoll * set, fd_set * readfds, fd_set * writefds)
         FD_SET (pfd->fd, readfds);
       if (pfd->events & POLLOUT)
         FD_SET (pfd->fd, writefds);
-      if (pfd->fd > max_fd)
+      if (pfd->events)
+        FD_SET (pfd->fd, errorfds);
+      if (pfd->fd > max_fd && (pfd->events & (POLLIN | POLLOUT)))
         max_fd = pfd->fd;
     }
   }
@@ -295,7 +308,8 @@ pollfd_to_fd_set (GstPoll * set, fd_set * readfds, fd_set * writefds)
 }
 
 static void
-fd_set_to_pollfd (GstPoll * set, fd_set * readfds, fd_set * writefds)
+fd_set_to_pollfd (GstPoll * set, fd_set * readfds, fd_set * writefds,
+    fd_set * errorfds)
 {
   guint i;
 
@@ -309,6 +323,8 @@ fd_set_to_pollfd (GstPoll * set, fd_set * readfds, fd_set * writefds)
         pfd->revents |= POLLIN;
       if (FD_ISSET (pfd->fd, writefds))
         pfd->revents |= POLLOUT;
+      if (FD_ISSET (pfd->fd, errorfds))
+        pfd->revents |= POLLERR;
     }
   }
 
@@ -470,6 +486,8 @@ gst_poll_new (gboolean controllable)
 {
   GstPoll *nset;
 
+  GST_DEBUG ("controllable : %d", controllable);
+
   nset = g_slice_new0 (GstPoll);
   nset->lock = g_mutex_new ();
 #ifndef G_OS_WIN32
@@ -545,6 +563,8 @@ gst_poll_free (GstPoll * set)
 {
   g_return_if_fail (set != NULL);
 
+  GST_DEBUG_OBJECT (set, "Freeing");
+
 #ifndef G_OS_WIN32
   if (set->control_write_fd.fd >= 0)
     close (set->control_write_fd.fd);
@@ -594,6 +614,8 @@ gst_poll_add_fd_unlocked (GstPoll * set, GstPollFD * fd)
 {
   gint idx;
 
+  GST_DEBUG_OBJECT (set, "fd (fd:%d, idx:%d)", fd->fd, fd->idx);
+
   idx = find_index (set->fds, fd);
   if (idx < 0) {
 #ifndef G_OS_WIN32
@@ -621,6 +643,8 @@ gst_poll_add_fd_unlocked (GstPoll * set, GstPollFD * fd)
 
     fd->idx = set->fds->len - 1;
 #endif
+  } else {
+    GST_WARNING_OBJECT (set, "Couldn't find fd !");
   }
 
   return TRUE;
@@ -675,6 +699,9 @@ gst_poll_remove_fd (GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
+
+  GST_DEBUG_OBJECT (set, "fd (fd:%d, idx:%d)", fd->fd, fd->idx);
+
   g_mutex_lock (set->lock);
 
   /* get the index, -1 is an fd that is not added */
@@ -691,6 +718,8 @@ gst_poll_remove_fd (GstPoll * set, GstPollFD * fd)
 
     /* mark fd as removed by setting the index to -1 */
     fd->idx = -1;
+  } else {
+    GST_WARNING_OBJECT (set, "Couldn't find fd !");
   }
 
   g_mutex_unlock (set->lock);
@@ -720,6 +749,9 @@ gst_poll_fd_ctl_write (GstPoll * set, GstPollFD * fd, gboolean active)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
+  GST_DEBUG_OBJECT (set, "fd (fd:%d, idx:%d), active : %d",
+      fd->fd, fd->idx, active);
+
   g_mutex_lock (set->lock);
 
   idx = find_index (set->fds, fd);
@@ -731,10 +763,14 @@ gst_poll_fd_ctl_write (GstPoll * set, GstPollFD * fd, gboolean active)
       pfd->events |= POLLOUT;
     else
       pfd->events &= ~POLLOUT;
+
+    GST_LOG ("pfd->events now %d (POLLOUT:%d)", pfd->events, POLLOUT);
 #else
     gst_poll_update_winsock_event_mask (set, idx, FD_WRITE | FD_CONNECT,
         active);
 #endif
+  } else {
+    GST_WARNING_OBJECT (set, "Couldn't find fd !");
   }
 
   g_mutex_unlock (set->lock);
@@ -746,6 +782,9 @@ static gboolean
 gst_poll_fd_ctl_read_unlocked (GstPoll * set, GstPollFD * fd, gboolean active)
 {
   gint idx;
+
+  GST_DEBUG_OBJECT (set, "fd (fd:%d, idx:%d), active : %d",
+      fd->fd, fd->idx, active);
 
   idx = find_index (set->fds, fd);
 
@@ -760,6 +799,8 @@ gst_poll_fd_ctl_read_unlocked (GstPoll * set, GstPollFD * fd, gboolean active)
 #else
     gst_poll_update_winsock_event_mask (set, idx, FD_READ | FD_ACCEPT, active);
 #endif
+  } else {
+    GST_WARNING_OBJECT (set, "Couldn't find fd !");
   }
 
   return idx >= 0;
@@ -856,6 +897,8 @@ gst_poll_fd_has_closed (const GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
+  GST_DEBUG_OBJECT (set, "fd (fd:%d, idx:%d)", fd->fd, fd->idx);
+
   g_mutex_lock (set->lock);
 
   idx = find_index (set->active_fds, fd);
@@ -869,6 +912,8 @@ gst_poll_fd_has_closed (const GstPoll * set, GstPollFD * fd)
 
     res = (wfd->events.lNetworkEvents & FD_CLOSE) != 0;
 #endif
+  } else {
+    GST_WARNING_OBJECT (set, "Couldn't find fd !");
   }
 
   g_mutex_unlock (set->lock);
@@ -897,6 +942,8 @@ gst_poll_fd_has_error (const GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
+  GST_DEBUG_OBJECT (set, "fd (fd:%d, idx:%d)", fd->fd, fd->idx);
+
   g_mutex_lock (set->lock);
 
   idx = find_index (set->active_fds, fd);
@@ -914,6 +961,8 @@ gst_poll_fd_has_error (const GstPoll * set, GstPollFD * fd)
         (wfd->events.iErrorCode[FD_ACCEPT_BIT] != 0) ||
         (wfd->events.iErrorCode[FD_CONNECT_BIT] != 0);
 #endif
+  } else {
+    GST_WARNING_OBJECT (set, "Couldn't find fd !");
   }
 
   g_mutex_unlock (set->lock);
@@ -927,6 +976,8 @@ gst_poll_fd_can_read_unlocked (const GstPoll * set, GstPollFD * fd)
   gboolean res = FALSE;
   gint idx;
 
+  GST_DEBUG_OBJECT (set, "fd (fd:%d, idx:%d)", fd->fd, fd->idx);
+
   idx = find_index (set->active_fds, fd);
   if (idx >= 0) {
 #ifndef G_OS_WIN32
@@ -938,6 +989,8 @@ gst_poll_fd_can_read_unlocked (const GstPoll * set, GstPollFD * fd)
 
     res = (wfd->events.lNetworkEvents & (FD_READ | FD_ACCEPT)) != 0;
 #endif
+  } else {
+    GST_WARNING_OBJECT (set, "Couldn't find fd !");
   }
 
   return res;
@@ -993,6 +1046,8 @@ gst_poll_fd_can_write (const GstPoll * set, GstPollFD * fd)
   g_return_val_if_fail (fd != NULL, FALSE);
   g_return_val_if_fail (fd->fd >= 0, FALSE);
 
+  GST_DEBUG_OBJECT (set, "fd (fd:%d, idx:%d)", fd->fd, fd->idx);
+
   g_mutex_lock (set->lock);
 
   idx = find_index (set->active_fds, fd);
@@ -1006,6 +1061,8 @@ gst_poll_fd_can_write (const GstPoll * set, GstPollFD * fd)
 
     res = (wfd->events.lNetworkEvents & FD_WRITE) != 0;
 #endif
+  } else {
+    GST_WARNING_OBJECT (set, "Couldn't find fd !");
   }
 
   g_mutex_unlock (set->lock);
@@ -1080,6 +1137,8 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
   g_return_val_if_fail (set != NULL, -1);
 
   g_mutex_lock (set->lock);
+
+  GST_DEBUG ("timeout :%" GST_TIME_FORMAT, GST_TIME_ARGS (timeout));
 
   /* we cannot wait from multiple threads unless we are a timer */
   if (G_UNLIKELY (set->waiting > 0 && !set->timer))
@@ -1170,9 +1229,10 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
 #ifndef G_OS_WIN32
         fd_set readfds;
         fd_set writefds;
+        fd_set errorfds;
         gint max_fd;
 
-        max_fd = pollfd_to_fd_set (set, &readfds, &writefds);
+        max_fd = pollfd_to_fd_set (set, &readfds, &writefds, &errorfds);
 
         if (mode == GST_POLL_MODE_SELECT) {
           struct timeval tv;
@@ -1185,7 +1245,9 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
             tvptr = NULL;
           }
 
-          res = select (max_fd + 1, &readfds, &writefds, NULL, tvptr);
+          GST_DEBUG ("Calling select");
+          res = select (max_fd + 1, &readfds, &writefds, &errorfds, tvptr);
+          GST_DEBUG ("After select, res:%d", res);
         } else {
 #ifdef HAVE_PSELECT
           struct timespec ts;
@@ -1198,12 +1260,15 @@ gst_poll_wait (GstPoll * set, GstClockTime timeout)
             tsptr = NULL;
           }
 
-          res = pselect (max_fd + 1, &readfds, &writefds, NULL, tsptr, NULL);
+          GST_DEBUG ("Calling pselect");
+          res =
+              pselect (max_fd + 1, &readfds, &writefds, &errorfds, tsptr, NULL);
+          GST_DEBUG ("After pselect, res:%d", res);
 #endif
         }
 
-        if (res > 0) {
-          fd_set_to_pollfd (set, &readfds, &writefds);
+        if (res >= 0) {
+          fd_set_to_pollfd (set, &readfds, &writefds, &errorfds);
         }
 #else /* G_OS_WIN32 */
         g_assert_not_reached ();
@@ -1314,6 +1379,8 @@ gst_poll_set_controllable (GstPoll * set, gboolean controllable)
 {
   g_return_val_if_fail (set != NULL, FALSE);
 
+  GST_LOG_OBJECT (set, "controllable : %d", controllable);
+
   g_mutex_lock (set->lock);
 
 #ifndef G_OS_WIN32
@@ -1349,6 +1416,7 @@ gst_poll_set_controllable (GstPoll * set, gboolean controllable)
 #ifndef G_OS_WIN32
 no_socket_pair:
   {
+    GST_WARNING_OBJECT (set, "Can't create socket pair !");
     g_mutex_unlock (set->lock);
     return FALSE;
   }

@@ -1119,6 +1119,9 @@ gst_rtcp_packet_fb_set_media_ssrc
 gst_rtcp_ntp_to_unix
 gst_rtcp_unix_to_ntp
 
+gst_rtcp_sdes_name_to_type
+gst_rtcp_sdes_type_to_name
+
 <SUBSECTION Standard>
 </SECTION>
 
@@ -1562,6 +1565,18 @@ gst_tag_to_id3_tag
 GstTagDemux
 GstTagDemuxClass
 GstTagDemuxResult
+</SECTION>
+
+<SECTION>
+<FILE>gsttaglanguagecodes</FILE>
+<INCLUDE>gst/tag/tag.h</INCLUDE>
+<SUBSECTION>
+gst_tag_get_language_codes
+gst_tag_get_language_name
+gst_tag_get_language_code
+gst_tag_get_language_code_iso_639_1
+gst_tag_get_language_code_iso_639_2B
+gst_tag_get_language_code_iso_639_2T
 </SECTION>
 
 # base utils

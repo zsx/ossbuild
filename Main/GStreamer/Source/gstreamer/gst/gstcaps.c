@@ -71,6 +71,7 @@
 
 #include "gst_private.h"
 #include <gst/gst.h>
+#include <gobject/gvaluecollector.h>
 
 #define DEBUG_REFCOUNT
 
@@ -90,6 +91,17 @@
 } G_STMT_END
 #define IS_WRITABLE(caps) \
   (g_atomic_int_get (&(caps)->refcount) == 1)
+
+/* same as gst_caps_is_any () */
+#define CAPS_IS_ANY(caps)				\
+  ((caps)->flags & GST_CAPS_FLAGS_ANY)
+
+/* same as gst_caps_is_empty () */
+#define CAPS_IS_EMPTY(caps)				\
+  (!CAPS_IS_ANY(caps) && CAPS_IS_EMPTY_SIMPLE(caps))
+
+#define CAPS_IS_EMPTY_SIMPLE(caps)					\
+  (((caps)->structs == NULL) || ((caps)->structs->len == 0))
 
 /* quick way to get a caps structure at an index without doing a type or array
  * length check */
@@ -365,8 +377,8 @@ gst_caps_make_writable (GstCaps * caps)
  * gst_caps_make_writable(), it is guaranteed that the caps object will not
  * change. This means its structures won't change, etc. To use a #GstCaps
  * object, you must always have a refcount on it -- either the one made
- * implicitly by gst_caps_new(), or via taking one explicitly with this
- * function.
+ * implicitly by e.g. gst_caps_new_simple(), or via taking one explicitly with
+ * this function.
  *
  * Returns: the same #GstCaps object.
  */
@@ -609,7 +621,7 @@ gst_caps_append (GstCaps * caps1, GstCaps * caps2)
 #ifdef USE_POISONING
   CAPS_POISON (caps2);
 #endif
-  if (G_UNLIKELY (gst_caps_is_any (caps1) || gst_caps_is_any (caps2))) {
+  if (G_UNLIKELY (CAPS_IS_ANY (caps1) || CAPS_IS_ANY (caps2))) {
     /* FIXME: this leaks */
     caps1->flags |= GST_CAPS_FLAGS_ANY;
     for (i = caps2->structs->len - 1; i >= 0; i--) {
@@ -651,12 +663,12 @@ gst_caps_merge (GstCaps * caps1, GstCaps * caps2)
 #ifdef USE_POISONING
   CAPS_POISON (caps2);
 #endif
-  if (G_UNLIKELY (gst_caps_is_any (caps1))) {
+  if (G_UNLIKELY (CAPS_IS_ANY (caps1))) {
     for (i = caps2->structs->len - 1; i >= 0; i--) {
       structure = gst_caps_remove_and_get_structure (caps2, i);
       gst_structure_free (structure);
     }
-  } else if (G_UNLIKELY (gst_caps_is_any (caps2))) {
+  } else if (G_UNLIKELY (CAPS_IS_ANY (caps2))) {
     caps1->flags |= GST_CAPS_FLAGS_ANY;
     for (i = caps1->structs->len - 1; i >= 0; i--) {
       structure = gst_caps_remove_and_get_structure (caps1, i);
@@ -802,7 +814,7 @@ gst_caps_get_size (const GstCaps * caps)
  * are writable, either because you have just copied them or made
  * them writable with gst_caps_make_writable(), you may modify the
  * structure returned in the usual way, e.g. with functions like
- * gst_structure_set_simple().
+ * gst_structure_set().
  *
  * You do not need to free or unref the structure returned, it
  * belongs to the #GstCaps.
@@ -869,54 +881,105 @@ gst_caps_truncate (GstCaps * caps)
 }
 
 /**
+ * gst_caps_set_value:
+ * @caps: a writable caps
+ * @field: name of the field to set
+ * @value: value to set the field to
+ *
+ * Sets the given @field on all structures of @caps to the given @value.
+ * This is a convenience function for calling gst_structure_set_value() on
+ * all structures of @caps.
+ *
+ * Since: 0.10.26
+ **/
+void
+gst_caps_set_value (GstCaps * caps, const char *field, const GValue * value)
+{
+  guint i, len;
+
+  g_return_if_fail (GST_IS_CAPS (caps));
+  g_return_if_fail (IS_WRITABLE (caps));
+  g_return_if_fail (field != NULL);
+  g_return_if_fail (G_IS_VALUE (value));
+
+  len = caps->structs->len;
+  for (i = 0; i < len; i++) {
+    GstStructure *structure = gst_caps_get_structure_unchecked (caps, i);
+    gst_structure_set_value (structure, field, value);
+  }
+}
+
+/**
+ * gst_caps_set_simple_valist:
+ * @caps: the #GstCaps to set
+ * @field: first field to set
+ * @varargs: additional parameters
+ *
+ * Sets fields in a #GstCaps.  The arguments must be passed in the same
+ * manner as gst_structure_set(), and be NULL-terminated.
+ * <note>Prior to GStreamer version 0.10.26, this function failed when
+ * @caps was not simple. If your code needs to work with those versions 
+ * of GStreamer, you may only call this function when GST_CAPS_IS_SIMPLE()
+ * is %TRUE for @caps.</note>
+ */
+void
+gst_caps_set_simple_valist (GstCaps * caps, const char *field, va_list varargs)
+{
+  GValue value = { 0, };
+
+  g_return_if_fail (GST_IS_CAPS (caps));
+  g_return_if_fail (IS_WRITABLE (caps));
+
+  while (field) {
+    GType type;
+    char *err;
+
+    type = va_arg (varargs, GType);
+
+    if (G_UNLIKELY (type == G_TYPE_DATE)) {
+      g_warning ("Don't use G_TYPE_DATE, use GST_TYPE_DATE instead\n");
+      type = GST_TYPE_DATE;
+    }
+
+    g_value_init (&value, type);
+    G_VALUE_COLLECT (&value, varargs, 0, &err);
+    if (G_UNLIKELY (err)) {
+      g_critical ("%s", err);
+      return;
+    }
+
+    gst_caps_set_value (caps, field, &value);
+
+    g_value_unset (&value);
+
+    field = va_arg (varargs, const gchar *);
+  }
+}
+
+/**
  * gst_caps_set_simple:
  * @caps: the #GstCaps to set
  * @field: first field to set
  * @...: additional parameters
  *
- * Sets fields in a simple #GstCaps.  A simple #GstCaps is one that
- * only has one structure.  The arguments must be passed in the same
+ * Sets fields in a #GstCaps.  The arguments must be passed in the same
  * manner as gst_structure_set(), and be NULL-terminated.
+ * <note>Prior to GStreamer version 0.10.26, this function failed when
+ * @caps was not simple. If your code needs to work with those versions
+ * of GStreamer, you may only call this function when GST_CAPS_IS_SIMPLE()
+ * is %TRUE for @caps.</note>
  */
 void
 gst_caps_set_simple (GstCaps * caps, const char *field, ...)
 {
-  GstStructure *structure;
   va_list var_args;
 
   g_return_if_fail (GST_IS_CAPS (caps));
-  g_return_if_fail (caps->structs->len == 1);
   g_return_if_fail (IS_WRITABLE (caps));
-
-  structure = gst_caps_get_structure_unchecked (caps, 0);
 
   va_start (var_args, field);
-  gst_structure_set_valist (structure, field, var_args);
+  gst_caps_set_simple_valist (caps, field, var_args);
   va_end (var_args);
-}
-
-/**
- * gst_caps_set_simple_valist:
- * @caps: the #GstCaps to copy
- * @field: first field to set
- * @varargs: additional parameters
- *
- * Sets fields in a simple #GstCaps.  A simple #GstCaps is one that
- * only has one structure.  The arguments must be passed in the same
- * manner as gst_structure_set(), and be NULL-terminated.
- */
-void
-gst_caps_set_simple_valist (GstCaps * caps, const char *field, va_list varargs)
-{
-  GstStructure *structure;
-
-  g_return_if_fail (GST_IS_CAPS (caps));
-  g_return_if_fail (caps->structs->len == 1);
-  g_return_if_fail (IS_WRITABLE (caps));
-
-  structure = gst_caps_get_structure_unchecked (caps, 0);
-
-  gst_structure_set_valist (structure, field, varargs);
 }
 
 /* tests */
@@ -1060,13 +1123,13 @@ gst_caps_is_subset (const GstCaps * subset, const GstCaps * superset)
   g_return_val_if_fail (subset != NULL, FALSE);
   g_return_val_if_fail (superset != NULL, FALSE);
 
-  if (gst_caps_is_empty (subset) || gst_caps_is_any (superset))
+  if (CAPS_IS_EMPTY (subset) || CAPS_IS_ANY (superset))
     return TRUE;
-  if (gst_caps_is_any (subset) || gst_caps_is_empty (superset))
+  if (CAPS_IS_ANY (subset) || CAPS_IS_EMPTY (superset))
     return FALSE;
 
   caps = gst_caps_subtract (subset, superset);
-  ret = gst_caps_is_empty (caps);
+  ret = CAPS_IS_EMPTY_SIMPLE (caps);
   gst_caps_unref (caps);
   return ret;
 }
@@ -1254,11 +1317,11 @@ gst_caps_can_intersect (const GstCaps * caps1, const GstCaps * caps2)
     return TRUE;
 
   /* empty caps on either side, return empty */
-  if (G_UNLIKELY (gst_caps_is_empty (caps1) || gst_caps_is_empty (caps2)))
+  if (G_UNLIKELY (CAPS_IS_EMPTY (caps1) || CAPS_IS_EMPTY (caps2)))
     return FALSE;
 
   /* one of the caps is any */
-  if (G_UNLIKELY (gst_caps_is_any (caps1) || gst_caps_is_any (caps2)))
+  if (G_UNLIKELY (CAPS_IS_ANY (caps1) || CAPS_IS_ANY (caps2)))
     return TRUE;
 
   /* run zigzag on top line then right line, this preserves the caps order
@@ -1376,13 +1439,13 @@ gst_caps_intersect (const GstCaps * caps1, const GstCaps * caps2)
     return gst_caps_copy (caps1);
 
   /* empty caps on either side, return empty */
-  if (G_UNLIKELY (gst_caps_is_empty (caps1) || gst_caps_is_empty (caps2)))
+  if (G_UNLIKELY (CAPS_IS_EMPTY (caps1) || CAPS_IS_EMPTY (caps2)))
     return gst_caps_new_empty ();
 
   /* one of the caps is any, just copy the other caps */
-  if (G_UNLIKELY (gst_caps_is_any (caps1)))
+  if (G_UNLIKELY (CAPS_IS_ANY (caps1)))
     return gst_caps_copy (caps2);
-  if (G_UNLIKELY (gst_caps_is_any (caps2)))
+  if (G_UNLIKELY (CAPS_IS_ANY (caps2)))
     return gst_caps_copy (caps1);
 
   dest = gst_caps_new_empty ();
@@ -1513,10 +1576,10 @@ gst_caps_subtract (const GstCaps * minuend, const GstCaps * subtrahend)
   g_return_val_if_fail (minuend != NULL, NULL);
   g_return_val_if_fail (subtrahend != NULL, NULL);
 
-  if (gst_caps_is_empty (minuend) || gst_caps_is_any (subtrahend)) {
+  if (CAPS_IS_EMPTY (minuend) || CAPS_IS_ANY (subtrahend)) {
     return gst_caps_new_empty ();
   }
-  if (gst_caps_is_empty (subtrahend))
+  if (CAPS_IS_EMPTY_SIMPLE (subtrahend))
     return gst_caps_copy (minuend);
 
   /* FIXME: Do we want this here or above?
@@ -1524,7 +1587,7 @@ gst_caps_subtract (const GstCaps * minuend, const GstCaps * subtrahend)
      ANY means for specific types, so it's not possible to reduce ANY partially
      You can only remove everything or nothing and that is done above.
      Note: there's a test that checks this behaviour. */
-  g_return_val_if_fail (!gst_caps_is_any (minuend), NULL);
+  g_return_val_if_fail (!CAPS_IS_ANY (minuend), NULL);
   sublen = subtrahend->structs->len;
   g_assert (sublen > 0);
 
@@ -1558,7 +1621,7 @@ gst_caps_subtract (const GstCaps * minuend, const GstCaps * subtrahend)
         gst_caps_append_structure (dest, gst_structure_copy (min));
       }
     }
-    if (gst_caps_is_empty (dest)) {
+    if (CAPS_IS_EMPTY_SIMPLE (dest)) {
       gst_caps_unref (src);
       return dest;
     }
@@ -1589,13 +1652,13 @@ gst_caps_union (const GstCaps * caps1, const GstCaps * caps2)
   g_return_val_if_fail (caps1 != NULL, NULL);
   g_return_val_if_fail (caps2 != NULL, NULL);
 
-  if (gst_caps_is_empty (caps1))
+  if (CAPS_IS_EMPTY (caps1))
     return gst_caps_copy (caps2);
 
-  if (gst_caps_is_empty (caps2))
+  if (CAPS_IS_EMPTY (caps2))
     return gst_caps_copy (caps1);
 
-  if (gst_caps_is_any (caps1) || gst_caps_is_any (caps2))
+  if (CAPS_IS_ANY (caps1) || CAPS_IS_ANY (caps2))
     return gst_caps_new_any ();
 
   dest1 = gst_caps_copy (caps1);
@@ -1963,10 +2026,10 @@ gst_caps_to_string (const GstCaps * caps)
   if (caps == NULL) {
     return g_strdup ("NULL");
   }
-  if (gst_caps_is_any (caps)) {
+  if (CAPS_IS_ANY (caps)) {
     return g_strdup ("ANY");
   }
-  if (gst_caps_is_empty (caps)) {
+  if (CAPS_IS_EMPTY_SIMPLE (caps)) {
     return g_strdup ("EMPTY");
   }
 

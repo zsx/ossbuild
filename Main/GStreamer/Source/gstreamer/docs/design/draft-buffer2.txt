@@ -292,7 +292,7 @@ Memory management
   NONE in the MetaTiming structures.
 
   The init/free functions can also be used to implement refcounting for a metadata
-  structure. This can be useful is a structure is shared between buffers.
+  structure. This can be useful when a structure is shared between buffers.
 
   When the free_size of the GstBuffer is exhausted, we will allocate new memory
   for each newly added BufferMeta and use the next pointers to point to this. It
@@ -377,6 +377,29 @@ clearly defined.
 We would like to think of the GstCaps containing the information needed to
 functionally negotiate the format between two elements. The Metadata should then
 only contain variables that can change between each buffer.
+
+For example, for video we would have width/height/framerate in the caps but then
+have the more technical details, such as stride, data pointers, pan/crop/zoom
+etc in the metadata.
+
+A scheme like this would still allow us to functionally specify the desired
+video resolution while the implementation details would be inside the metadata.
+
+
+Notes:
+------
+
+Some structures that we need to be able to add to buffers.
+
+  Clean Aperture
+  Abitrary Matrix Transform
+  Aspect ratio
+  Pan/crop/zoom
+  Video strides
+
+Some of these overlap, we need to find a minimal set of metadata structures that
+allows us to define all use cases.
+
 
 
 

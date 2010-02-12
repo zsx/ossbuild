@@ -25,7 +25,7 @@
 /**
  * SECTION:gstinfo
  * @short_description: Debugging and logging facilities
- * @see_also: #GstConfig, #Gst for command line parameters
+ * @see_also: #gstreamer-gstconfig, #gstreamer-Gst for command line parameters
  * and environment variables that affect the debugging output.
  *
  * GStreamer's debugging subsystem is an easy way to get information about what
@@ -165,6 +165,8 @@ GstDebugCategory *GST_CAT_SIGNAL = NULL;
 GstDebugCategory *GST_CAT_PROBE = NULL;
 GstDebugCategory *GST_CAT_REGISTRY = NULL;
 GstDebugCategory *GST_CAT_QOS = NULL;
+GstDebugCategory *_priv_GST_CAT_POLL = NULL;
+
 
 #endif /* !defined(GST_DISABLE_GST_DEBUG) || !defined(GST_REMOVE_DISABLED) */
 
@@ -395,6 +397,7 @@ _gst_debug_init (void)
       GST_DEBUG_BOLD | GST_DEBUG_FG_GREEN, "pad probes");
   GST_CAT_REGISTRY = _gst_debug_category_new ("GST_REGISTRY", 0, "registry");
   GST_CAT_QOS = _gst_debug_category_new ("GST_QOS", 0, "QoS");
+  _priv_GST_CAT_POLL = _gst_debug_category_new ("GST_POLL", 0, "poll");
 
 
   /* print out the valgrind message if we're in valgrind */
@@ -1649,7 +1652,7 @@ _gst_debug_dump_mem (GstDebugCategory * cat, const gchar * file,
       "-------------------------------------------------------------------");
 
   if (msg != NULL && *msg != '\0') {
-    gst_debug_log ((cat), GST_LEVEL_MEMDUMP, file, func, line, obj, msg);
+    gst_debug_log ((cat), GST_LEVEL_MEMDUMP, file, func, line, obj, "%s", msg);
   }
 
   while (off < length) {

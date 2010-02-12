@@ -1,5 +1,5 @@
 
-#line 3 "D:\\OSSBuild\\Main\\GStreamer\\Windows\\.\\..\\Windows\\Generated\\gstreamer\\gst\\parse\\parse.c"
+#line 3 "C:\\ossbuild\\Main\\GStreamer\\Windows\\.\\..\\Windows\\Generated\\gstreamer\\gst\\parse\\parse.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -788,12 +788,12 @@ static yyconst flex_int16_t yy_chk[1354] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
+#include "../gst_private.h"
+
 #include <math.h>
 #include <string.h>
 
 #include <glib/gprintf.h>
-
-#include "../gst_private.h"
 
 #include "types.h"
 #include "../gstinfo.h"

@@ -42,13 +42,12 @@ static void
 n_print (const char *format, ...)
 {
   va_list args;
-  gint retval;
 
   if (_name)
     g_print ("%s", _name);
 
   va_start (args, format);
-  retval = g_vprintf (format, args);
+  g_vprintf (format, args);
   va_end (args);
 }
 
@@ -943,9 +942,34 @@ print_children_info (GstElement * element)
 }
 
 static void
+print_blacklist ()
+{
+  GList *plugins, *cur;
+  gint count = 0;
+
+  g_print ("%s\n", _("Blacklisted files:"));
+
+  plugins = gst_default_registry_get_plugin_list ();
+  for (cur = plugins; cur != NULL; cur = g_list_next (cur)) {
+    GstPlugin *plugin = (GstPlugin *) (cur->data);
+    if (plugin->flags & GST_PLUGIN_FLAG_BLACKLISTED) {
+      g_print ("  %s\n", plugin->desc.name);
+      count++;
+    }
+  }
+
+  g_print ("\n");
+  g_print (_("Total count: "));
+  g_print (ngettext ("%d blacklisted file", "%d blacklisted files", count),
+      count);
+  g_print ("\n");
+  gst_plugin_list_free (plugins);
+}
+
+static void
 print_element_list (gboolean print_all)
 {
-  int plugincount = 0, featurecount = 0;
+  int plugincount = 0, featurecount = 0, blacklistcount = 0;
   GList *plugins, *orig_plugins;
 
   orig_plugins = plugins = gst_default_registry_get_plugin_list ();
@@ -957,12 +981,19 @@ print_element_list (gboolean print_all)
     plugins = g_list_next (plugins);
     plugincount++;
 
+    if (plugin->flags & GST_PLUGIN_FLAG_BLACKLISTED) {
+      blacklistcount++;
+      continue;
+    }
+
     orig_features = features =
         gst_registry_get_feature_list_by_plugin (gst_registry_get_default (),
         plugin->desc.name);
     while (features) {
       GstPluginFeature *feature;
 
+      if (G_UNLIKELY (features->data == NULL))
+        goto next;
       feature = GST_PLUGIN_FEATURE (features->data);
       featurecount++;
 
@@ -1011,6 +1042,7 @@ print_element_list (gboolean print_all)
               g_type_name (G_OBJECT_TYPE (feature)));
       }
 
+    next:
       features = g_list_next (features);
     }
 
@@ -1022,6 +1054,12 @@ print_element_list (gboolean print_all)
   g_print ("\n");
   g_print (_("Total count: "));
   g_print (ngettext ("%d plugin", "%d plugins", plugincount), plugincount);
+  if (blacklistcount) {
+    g_print (" (");
+    g_print (ngettext ("%d blacklist entry", "%d blacklist entries",
+            blacklistcount), blacklistcount);
+    g_print (" not shown)");
+  }
   g_print (", ");
   g_print (ngettext ("%d feature", "%d features", featurecount), featurecount);
   g_print ("\n");
@@ -1168,7 +1206,7 @@ print_plugin_features (GstPlugin * plugin)
             gst_plugin_feature_get_name (feature));
 
       num_typefinders++;
-    } else {
+    } else if (feature) {
       n_print ("  %s (%s)\n", gst_object_get_name (GST_OBJECT (feature)),
           g_type_name (G_OBJECT_TYPE (feature)));
       num_other++;
@@ -1396,10 +1434,28 @@ print_plugin_automatic_install_info (GstPlugin * plugin)
   g_list_free (features);
 }
 
+static void
+print_all_plugin_automatic_install_info (void)
+{
+  GList *plugins, *orig_plugins;
+
+  orig_plugins = plugins = gst_default_registry_get_plugin_list ();
+  while (plugins) {
+    GstPlugin *plugin;
+
+    plugin = (GstPlugin *) (plugins->data);
+    plugins = g_list_next (plugins);
+
+    print_plugin_automatic_install_info (plugin);
+  }
+  gst_plugin_list_free (orig_plugins);
+}
+
 int
 main (int argc, char *argv[])
 {
   gboolean print_all = FALSE;
+  gboolean do_print_blacklist = FALSE;
   gboolean plugin_name = FALSE;
   gboolean print_aii = FALSE;
   gboolean uri_handlers = FALSE;
@@ -1407,9 +1463,11 @@ main (int argc, char *argv[])
   GOptionEntry options[] = {
     {"print-all", 'a', 0, G_OPTION_ARG_NONE, &print_all,
         N_("Print all elements"), NULL},
+    {"print-blacklist", 'b', 0, G_OPTION_ARG_NONE, &do_print_blacklist,
+        N_("Print list of blacklisted files"), NULL},
     {"print-plugin-auto-install-info", '\0', 0, G_OPTION_ARG_NONE, &print_aii,
         N_("Print a machine-parsable list of features the specified plugin "
-              "provides.\n                                       "
+              "or all plugins provide.\n                                       "
               "Useful in connection with external automatic plugin "
               "installation mechanisms"), NULL},
     {"plugin", '\0', 0, G_OPTION_ARG_NONE, &plugin_name,
@@ -1431,8 +1489,9 @@ main (int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
 #endif
 
-  if (!g_thread_supported ())
-    g_thread_init (NULL);
+  g_thread_init (NULL);
+
+  gst_tools_print_version ("gst-inspect");
 
 #ifndef GST_DISABLE_OPTION_PARSING
   ctx = g_option_context_new ("[ELEMENT-NAME | PLUGIN-NAME]");
@@ -1446,8 +1505,6 @@ main (int argc, char *argv[])
 #else
   gst_init (&argc, &argv);
 #endif
-
-  gst_tools_print_version ("gst-inspect");
 
   if (print_all && argc > 1) {
     g_print ("-a requires no extra arguments\n");
@@ -1463,7 +1520,14 @@ main (int argc, char *argv[])
   if (uri_handlers) {
     print_all_uri_handlers ();
   } else if (argc == 1 || print_all) {
-    print_element_list (print_all);
+    if (do_print_blacklist)
+      print_blacklist ();
+    else {
+      if (print_aii)
+        print_all_plugin_automatic_install_info ();
+      else
+        print_element_list (print_all);
+    }
   } else {
     /* else we try to get a factory */
     GstElementFactory *factory;

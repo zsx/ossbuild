@@ -56,6 +56,10 @@
  * After creating a #GstTask, use gst_object_unref() to free its resources. This can
  * only be done it the task is not running anymore.
  *
+ * Task functions can send a #GstMessage to send out-of-band data to the
+ * application. The application can receive messages from the #GstBus in its
+ * mainloop.
+ *
  * Last reviewed on 2006-02-13 (0.10.4)
  */
 
@@ -125,7 +129,7 @@ gst_task_class_init (GstTaskClass * klass)
 
   g_type_class_add_private (klass, sizeof (GstTaskPrivate));
 
-  gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_task_finalize);
+  gobject_class->finalize = gst_task_finalize;
 
   init_klass_pool (klass);
 }
@@ -323,7 +327,7 @@ gst_task_create (GstTaskFunction func, gpointer data)
 {
   GstTask *task;
 
-  task = g_object_new (GST_TYPE_TASK, NULL);
+  task = g_object_newv (GST_TYPE_TASK, 0, NULL);
   task->func = func;
   task->data = data;
 

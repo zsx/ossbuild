@@ -99,13 +99,13 @@ void  _gst_value_initialize (void);
 /* Private registry functions */
 gboolean _priv_gst_registry_remove_cache_plugins (GstRegistry *registry);
 void _priv_gst_registry_cleanup (void);
+gboolean _gst_plugin_loader_client_run (void);
 
 /* used in both gststructure.c and gstcaps.c; numbers are completely made up */
 #define STRUCTURE_ESTIMATED_STRING_LEN(s) (16 + (s)->fields->len * 22)
 
 gboolean  priv_gst_structure_append_to_gstring (const GstStructure * structure,
                                                 GString            * s);
-
 /* registry cache backends */
 /* FIXME 0.11: use priv_ prefix */
 gboolean 		gst_registry_binary_read_cache 	(GstRegistry * registry, const char *location);
@@ -116,6 +116,29 @@ gboolean 		gst_registry_binary_write_cache	(GstRegistry * registry, const char *
 #define GST_ASCII_IS_STRING(c) (g_ascii_isalnum((c)) || ((c) == '_') || \
     ((c) == '-') || ((c) == '+') || ((c) == '/') || ((c) == ':') || \
     ((c) == '.'))
+
+#ifndef GST_DISABLE_REGISTRY
+/* Secret variable to initialise gst without registry cache */
+extern gboolean _gst_disable_registry_cache;
+#endif
+
+/* provide inline gst_g_value_get_foo_unchecked(), used in gststructure.c */
+#define DEFINE_INLINE_G_VALUE_GET_UNCHECKED(ret_type,name_type,v_field) \
+static inline ret_type                                                  \
+gst_g_value_get_##name_type##_unchecked (const GValue *value)           \
+{                                                                       \
+  return value->data[0].v_field;                                        \
+}
+
+DEFINE_INLINE_G_VALUE_GET_UNCHECKED(gboolean,boolean,v_int)
+DEFINE_INLINE_G_VALUE_GET_UNCHECKED(gint,int,v_int)
+DEFINE_INLINE_G_VALUE_GET_UNCHECKED(guint,uint,v_uint)
+DEFINE_INLINE_G_VALUE_GET_UNCHECKED(gint64,int64,v_int64)
+DEFINE_INLINE_G_VALUE_GET_UNCHECKED(guint64,uint64,v_uint64)
+DEFINE_INLINE_G_VALUE_GET_UNCHECKED(gfloat,float,v_float)
+DEFINE_INLINE_G_VALUE_GET_UNCHECKED(gdouble,double,v_double)
+DEFINE_INLINE_G_VALUE_GET_UNCHECKED(const gchar *,string,v_pointer)
+
 
 /*** debugging categories *****************************************************/
 
@@ -153,6 +176,11 @@ GST_EXPORT GstDebugCategory *GST_CAT_REGISTRY;
 GST_EXPORT GstDebugCategory *GST_CAT_QOS;
 GST_EXPORT GstDebugCategory *GST_CAT_TYPES; /* FIXME 0.11: remove? */
 
+/* Categories that should be completely private to
+ * libgstreamer should be done like this: */
+#define GST_CAT_POLL _priv_GST_CAT_POLL
+extern GstDebugCategory *_priv_GST_CAT_POLL;
+
 #else
 
 #define GST_CAT_GST_INIT         NULL
@@ -187,6 +215,7 @@ GST_EXPORT GstDebugCategory *GST_CAT_TYPES; /* FIXME 0.11: remove? */
 #define GST_CAT_REGISTRY         NULL
 #define GST_CAT_QOS              NULL
 #define GST_CAT_TYPES            NULL
+#define GST_CAT_POLL             NULL
 
 #endif
 

@@ -68,6 +68,8 @@ cb_newpad (GstElement *decodebin,
 
   /* link'n'play */
   gst_pad_link (pad, audiopad);
+
+  g_object_unref (audiopad);
 }
 
 gint

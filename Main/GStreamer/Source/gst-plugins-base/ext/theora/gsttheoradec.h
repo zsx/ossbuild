@@ -25,7 +25,7 @@
 #endif
 
 #include <gst/gst.h>
-#include <theora/theora.h>
+#include <theora/theoradec.h>
 #include <string.h>
 
 G_BEGIN_DECLS
@@ -58,14 +58,13 @@ struct _GstTheoraDec
   GstPad *srcpad;
 
   /* theora decoder state */
-  theora_state state;
-  theora_info info;
-  theora_comment comment;
+  th_dec_ctx *decoder;
+  //theora_state state;
+  th_setup_info *setup;
+  th_info info;
+  th_comment comment;
 
   gboolean have_header;
-  gboolean is_old_bitstream;
-  guint64 granulepos;
-  guint64 granule_shift;
 
   GstClockTime last_timestamp;
   guint64 frame_nr; /* unused */
