@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ossbuild.extract;
 
@@ -10,7 +6,11 @@ package ossbuild.extract;
  *
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
-public interface IFilter {
+public interface IResourceFilter {
+	//<editor-fold defaultstate="collapsed" desc="Constants">
+	public static final IResourceFilter None = null;
+	//</editor-fold>
+
 	boolean filterForExtraction(String name);
 	boolean filterForLibraryLoad(String name);
 }
