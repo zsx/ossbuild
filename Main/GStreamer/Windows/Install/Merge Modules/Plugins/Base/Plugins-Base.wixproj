@@ -137,11 +137,6 @@
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f20}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\libgstqueue2.vcproj">
-      <Name>gstqueue2</Name>
-      <Project>{ab87873b-2b88-4b1b-b627-fe0a0bf91f81}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\libgstsubparse.vcproj">
       <Name>gstsubparse</Name>
       <Project>{c60a873b-fb88-fb4b-b327-f70dfefe4cc0}</Project>

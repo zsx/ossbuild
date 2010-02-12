@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="gsttag"
 	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F91F05}"
 	RootNamespace="libgsttag"
@@ -460,10 +460,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\tag\mklangtables.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\tag\tags.c"
 				>
 			</File>
@@ -471,6 +467,26 @@
 		<Filter
 			Name="Resource Files"
 			>
+			<File
+				RelativePath="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\tag\lang-tables.dat"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
 			<File
 				RelativePath="..\..\..\..\..\Source\gst-plugins-base\win32\common\libgsttag.def"
 				>

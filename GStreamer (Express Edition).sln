@@ -468,8 +468,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdecodebin", "Main\GStrea
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F08} = {AB87873B-2B88-4B1B-B627-F70DF4F91F08}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstqueue2", "Main\GStreamer\Windows\Build\Plugins\Base\gst\libgstqueue2.vcproj", "{AB87873B-2B88-4B1B-B627-FE0A0BF91F81}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstplaybin", "Main\GStreamer\Windows\Build\Plugins\Base\gst\libgstplaybin.vcproj", "{AB87873B-2B88-4B1B-B627-F70DF4F91F20}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gstdecodebin2", "Main\GStreamer\Windows\Build\Plugins\Base\gst\libgstdecodebin2.vcproj", "{AB87873B-2B88-4B1B-B627-FE0A0BF91F80}"
@@ -1432,12 +1430,6 @@ Global
 		{AB87873B-2B88-4B1B-B627-FE0A0BF91F82}.Release (GPL)|Win32.Build.0 = Release|Win32
 		{AB87873B-2B88-4B1B-B627-FE0A0BF91F82}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
 		{AB87873B-2B88-4B1B-B627-FE0A0BF91F82}.Release (LGPL)|Win32.Build.0 = Release|Win32
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F81}.Release (All)|Win32.ActiveCfg = Release|Win32
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F81}.Release (All)|Win32.Build.0 = Release|Win32
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F81}.Release (GPL)|Win32.ActiveCfg = Release|Win32
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F81}.Release (GPL)|Win32.Build.0 = Release|Win32
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F81}.Release (LGPL)|Win32.ActiveCfg = Release|Win32
-		{AB87873B-2B88-4B1B-B627-FE0A0BF91F81}.Release (LGPL)|Win32.Build.0 = Release|Win32
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F20}.Release (All)|Win32.ActiveCfg = Release|Win32
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F20}.Release (All)|Win32.Build.0 = Release|Win32
 		{AB87873B-2B88-4B1B-B627-F70DF4F91F20}.Release (GPL)|Win32.ActiveCfg = Release|Win32
