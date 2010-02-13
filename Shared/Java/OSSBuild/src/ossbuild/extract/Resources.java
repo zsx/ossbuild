@@ -5,19 +5,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -32,6 +28,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import ossbuild.StringUtil;
+import static ossbuild.extract.Utils.*;
 
 /**
  * Reads a simple XML file that describes files to be extracted.
@@ -47,14 +44,34 @@ public class Resources {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Variables">
+	protected long totalResourceSize;
+	protected int totalResourceCount;
+	protected IResourcePackage[] packages;
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Initialization">
-	public Resources(InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
-		init(XMLData);
+	public Resources(IResourcePackage... Packages) {
+		initFromPackages(Packages);
+	}
+	
+	public Resources(final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
+		initFromXML(ResourceProcessorFactory.DEFAULT_INSTANCE, XMLData);
 	}
 
-	protected void init(InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
+	public Resources(final ResourceProcessorFactory ProcessorFactory, final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
+		initFromXML(ProcessorFactory, XMLData);
+	}
+
+	protected void initFromPackages(IResourcePackage[] Packages) {
+		if (Packages == null)
+			throw new NullPointerException("Processors cannot be null");
+		
+		this.packages = Packages;
+		
+		initAfter();
+	}
+
+	protected void initFromXML(final ResourceProcessorFactory ProcessorFactory, final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		final DocumentBuilder builder = factory.newDocumentBuilder();
 		final XPathFactory xpathFactory = XPathFactory.newInstance();
@@ -90,52 +107,72 @@ public class Resources {
 			}
 		});
 
-		read(xpath, builder.parse(XMLData));
+		this.packages = read(ProcessorFactory, xpath, builder.parse(XMLData));
+
+		initAfter();
+	}
+
+	protected void initAfter() {
+		//Calculate total size and resource count
+		for(IResourcePackage pkg : packages) {
+			if (pkg == null)
+				continue;
+			
+			totalResourceCount += pkg.getTotalResourceCount();
+			totalResourceSize += pkg.getTotalSize();
+		}
 	}
 	//</editor-fold>
 
-	//<editor-fold defaultstate="collapsed" desc="Helper">
-	public ExecutorService createPrivilegedExecutorService() {
-		return Executors.newSingleThreadExecutor(createPrivilegedThreadFactory());
+	//<editor-fold defaultstate="collapsed" desc="Helper Methods">
+	//</editor-fold>
+
+	//<editor-fold defaultstate="collapsed" desc="Getters">
+	public int getTotalPackageCount() {
+		return packages.length;
+	}
+	
+	public int getTotalResourceCount() {
+		return totalResourceCount;
 	}
 
-	public ThreadFactory createPrivilegedThreadFactory() {
-		return AccessController.doPrivileged(new PrivilegedAction<ThreadFactory>() {
-			public ThreadFactory run() {
-				return Executors.privilegedThreadFactory();
-			}
-		});
+	public long getTotalResourceSize() {
+		return totalResourceSize;
+	}
+	
+	public IResourcePackage[] getPackages() {
+		return packages;
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Public Methods">
 	//<editor-fold defaultstate="collapsed" desc="Overloads">
-	public Future Load(final IResourceCallback callback) {
-		return Load(createPrivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
+	public Future extract(final IResourceCallback callback) {
+		return extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
 	}
 
-	public Future Load(final IResourceProgressListener progress) {
-		return Load(createPrivilegedExecutorService(), IResourceFilter.None, progress, IResourceCallback.None);
+	public Future extract(final IResourceProgressListener progress) {
+		return extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, progress, IResourceCallback.None);
 	}
 
-	public Future Load(final IResourceFilter filter) {
-		return Load(createPrivilegedExecutorService(), filter, IResourceProgressListener.None, IResourceCallback.None);
+	public Future extract(final IResourceFilter filter) {
+		return extract(packages, createPrivilegedExecutorService(), filter, IResourceProgressListener.None, IResourceCallback.None);
 	}
 
-	public Future Load(final IResourceFilter filter, final IResourceCallback callback) {
-		return Load(createPrivilegedExecutorService(), filter, IResourceProgressListener.None, callback);
+	public Future extract(final IResourceFilter filter, final IResourceCallback callback) {
+		return extract(packages, createPrivilegedExecutorService(), filter, IResourceProgressListener.None, callback);
 	}
 
-	public Future Load(final IResourceProgressListener progress, final IResourceCallback callback) {
-		return Load(createPrivilegedExecutorService(), IResourceFilter.None, progress, callback);
+	public Future extract(final IResourceProgressListener progress, final IResourceCallback callback) {
+		return extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, progress, callback);
 	}
 
-	public Future Load(final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback) {
-		return Load(createPrivilegedExecutorService(), filter, progress, callback);
+	public Future extract(final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback) {
+		return extract(packages, createPrivilegedExecutorService(), filter, progress, callback);
 	}
 	//</editor-fold>
 
-	public Future Load(final ExecutorService executor, final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback) {
+	public Future extract(final IResourcePackage[] pkgs, final ExecutorService executor, final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback) {
 		return executor.submit(new Runnable() {
 			public void run() {
 				try {
@@ -150,7 +187,7 @@ public class Resources {
 					//</editor-fold>
 
 					//Do the real work
-					load(filter, progress);
+					extractResources(pkgs, filter, progress);
 
 					//<editor-fold defaultstate="collapsed" desc="Completed">
 					if (callback != null)
@@ -183,14 +220,53 @@ public class Resources {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Public Static Methods">
-	public static final Resources ReadFrom(String ResourceName) {
-		return ReadFrom(Resources.class.getResourceAsStream(ResourceName));
+	//<editor-fold defaultstate="collapsed" desc="extractAll">
+	public static final Future extractAll(final IResourcePackage... packages) {
+		return newInstance(packages).extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, IResourceCallback.None);
 	}
 
-	public static final Resources ReadFrom(File XMLFile) {
+	public static final Future extractAll(final IResourceCallback callback, final IResourcePackage... packages) {
+		return newInstance(packages).extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
+	}
+
+	public static final Future extractAll(final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {
+		return newInstance(packages).extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, progress, callback);
+	}
+
+	public static final Future extractAll(final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {
+		return newInstance(packages).extract(packages, createPrivilegedExecutorService(), filter, progress, callback);
+	}
+
+	public static final Future extractAll(final ExecutorService executor, final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {
+		return newInstance(packages).extract(packages, executor, filter, progress, callback);
+	}
+	//</editor-fold>
+
+	//<editor-fold defaultstate="collapsed" desc="newInstance">
+	public static final Resources newInstance(final IResourcePackage... Packages) {
+		return new Resources(Packages);
+	}
+
+	public static final Resources newInstance(final String ResourceName) {
+		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, ResourceName);
+	}
+
+	public static final Resources newInstance(final File XMLFile) {
+		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, XMLFile);
+	}
+
+	public static final Resources newInstance(final InputStream XMLData) {
+		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, XMLData);
+	}
+
+	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final String ResourceName) {
+		return newInstance(ProcessorFactory, Resources.class.getResourceAsStream(ResourceName));
+	}
+
+	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final File XMLFile) {
 		FileInputStream fis = null;
 		try {
-			return ReadFrom((fis = new FileInputStream(XMLFile)));
+			return newInstance(ProcessorFactory, (fis = new FileInputStream(XMLFile)));
 		} catch(Throwable t) {
 			return null;
 		} finally {
@@ -202,7 +278,7 @@ public class Resources {
 		}
 	}
 
-	public static final Resources ReadFrom(InputStream XMLData) {
+	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final InputStream XMLData) {
 		try {
 			return new Resources(XMLData);
 		} catch(Throwable t) {
@@ -210,19 +286,21 @@ public class Resources {
 		}
 	}
 	//</editor-fold>
+	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="The Meat">
-	protected void load(final IResourceFilter filter, final IResourceProgressListener progress) throws Exception {
+	protected void extractResources(final IResourcePackage[] pkgs, final IResourceFilter filter, final IResourceProgressListener progress) throws Exception {
 		//Please note that this is executed in a separate thread.
 		//It can be cancelled or interrupted at any time.
 
 		
 	}
 
-	protected void read(XPath xpath, Document document) throws XPathException  {
+	protected IResourcePackage[] read(final ResourceProcessorFactory processorFactory, final XPath xpath, final Document document) throws XPathException  {
 		Node node;
 		NodeList lst;
-		String nodeName;
+		IResourcePackage pkg;
+		List<IResourcePackage> pkgs = new ArrayList<IResourcePackage>(1);
 
 		//Collapse whitespace nodes
 		document.normalize();
@@ -232,16 +310,18 @@ public class Resources {
 
 		//Locate <Extract /> tags
 		if ((lst = (NodeList)xpath.evaluate("//Resources/Extract", top, XPathConstants.NODESET)) == null || lst.getLength() <= 0)
-			return;
+			return IResourcePackage.EMPTY;
 
 		//Iterate over every <Extract /> tag
 		for(int i = 0; i < lst.getLength() && (node = lst.item(i)) != null; ++i) {
-			//Get the name and ensure that it's not empty
-			if (StringUtil.isNullOrEmpty(nodeName = node.getNodeName()))
-				continue;
 
-			//Load an instance from our load manager
+			//Ask the package to read it
+			if ((pkg = Package.newInstance(processorFactory, node, xpath, document)) != null)
+				pkgs.add(pkg);
 		}
+
+		//Create an array and return it
+		return pkgs.toArray(new IResourcePackage[pkgs.size()]);
 	}
 	//</editor-fold>
 }

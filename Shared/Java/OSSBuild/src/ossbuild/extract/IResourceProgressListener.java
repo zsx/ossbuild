@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ossbuild.extract;
 
 /**
- *
- * @author hoyt6
+ * Allows interested parties to be notified of resource extraction progress.
+ * 
+ * @author David Hoyt <dhoyt@hoytsoft.org>
  */
 public interface IResourceProgressListener {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
