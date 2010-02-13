@@ -2,6 +2,8 @@
 package ossbuild.extract;
 
 import java.io.File;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathException;
 import org.w3c.dom.Node;
 import ossbuild.StringUtil;
 
@@ -31,11 +33,23 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 	//<editor-fold defaultstate="collapsed" desc="Initialization">
 	public DefaultResourceProcessor() {
 	}
+
+	public DefaultResourceProcessor(boolean IsTransient, String ResourceName, String SubDirectory, String DestName, String Title, String Description) {
+		if (StringUtil.isNullOrEmpty(ResourceName))
+			throw new NullPointerException("Missing ResourceName");
+
+		this.shouldBeTransient = IsTransient;
+		this.resourceName = ResourceName;
+		this.subDirectory = SubDirectory;
+		this.destName = !StringUtil.isNullOrEmpty(DestName) ? DestName : ResourceName;
+		this.title = !StringUtil.isNullOrEmpty(Title) ? Title : DestName;
+		this.description = Description;
+	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Getters">
 	public boolean supportsSize() {
-		return Utils.supportsSize(getClass());
+		return ResourceUtils.supportsSize(getClass());
 	}
 
 	public long getSize() {
@@ -65,31 +79,35 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 	public String getDescription() {
 		return description;
 	}
+
+	public String getName() {
+		return resourceName;
+	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Helper Methods">
 	protected String expandVariables(String value) {
-		return Utils.expandVariables(value);
+		return ResourceUtils.expandVariables(value);
 	}
 	
 	protected String valueForAttribute(Node node, String name) {
-		return Utils.valueForAttribute(node, name);
+		return ResourceUtils.valueForAttribute(node, name);
 	}
 
 	protected String stringAttributeValue(String defaultValue, Node node, String name) {
-		return Utils.stringAttributeValue(defaultValue, node, name);
+		return ResourceUtils.stringAttributeValue(defaultValue, node, name);
 	}
 
 	protected boolean boolAttributeValue(boolean defaultValue, Node node, String name) {
-		return Utils.boolAttributeValue(defaultValue, node, name);
+		return ResourceUtils.boolAttributeValue(defaultValue, node, name);
 	}
 
 	protected File fileAttributeValue(String defaultValue, Node node, String name) {
-		return Utils.fileAttributeValue(defaultValue, node, name);
+		return ResourceUtils.fileAttributeValue(defaultValue, node, name);
 	}
 
 	protected File fileAttributeValue(File defaultValue, Node node, String name) {
-		return Utils.fileAttributeValue(defaultValue, node, name);
+		return ResourceUtils.fileAttributeValue(defaultValue, node, name);
 	}
 	//</editor-fold>
 
@@ -109,21 +127,21 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="IResourceProcessor Methods">
-	public boolean load(final Node node) {
+	public boolean load(final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException {
 		if (node != null) {
 			//Read attribute values in
 			this.resourceName = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_RESOURCE_NAME);
 			this.description = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_DESCRIPTION);
 			this.subDirectory = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_SUBDIRECTORY);
-			this.destName = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_DEST_NAME);
 			this.shouldBeTransient = boolAttributeValue(true, node, ATTRIBUTE_TRANSIENT);
 
-			//Default this to be the resource name if no title is found
-			this.title = stringAttributeValue(this.resourceName, node, ATTRIBUTE_TITLE);
+			//Default this to be the destName/resource name if no title/destName is found
+			this.destName = stringAttributeValue(this.resourceName, node, ATTRIBUTE_DEST_NAME);
+			this.title = stringAttributeValue(this.destName, node, ATTRIBUTE_TITLE);
 		}
 
 		//Let subclasses parse any add'l settings they need
-		if (loadSettings(node)) {
+		if (loadSettings(pkg.resourcePath(resourceName), pkg, xpath, node)) {
 			//Ask for the size if settings were successfully loaded
 			size = requestSize();
 			return true;
@@ -132,12 +150,12 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 		return false;
 	}
 
-	public boolean process() {
-		return processResource();
+	public boolean process(final String fullResourceName, final IResourcePackage pkg, final IResourceProgressListener progress) {
+		return processResource(fullResourceName, pkg, progress);
 	}
 	//</editor-fold>
 
 	protected long requestSize() { return size; }
-	protected abstract boolean loadSettings(final Node node);
-	protected abstract boolean processResource();
+	protected abstract boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException;
+	protected abstract boolean processResource(final String fullResourceName, final IResourcePackage pkg, final IResourceProgressListener progress);
 }

@@ -1,6 +1,8 @@
 
 package ossbuild.extract;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathException;
 import org.w3c.dom.Node;
 
 /**
@@ -23,7 +25,8 @@ public interface IResourceProcessor {
 
 	boolean supportsSize();
 	long getSize();
+	String getName();
 	
-	boolean load(Node node);
-	boolean process();
+	boolean load(final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException;
+	boolean process(final String fullResourceName, final IResourcePackage pkg, final IResourceProgressListener progress);
 }

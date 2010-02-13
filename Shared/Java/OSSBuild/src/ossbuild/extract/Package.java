@@ -12,8 +12,10 @@ import javax.xml.xpath.XPathException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import ossbuild.Path;
 import ossbuild.StringUtil;
-import static ossbuild.extract.Utils.*;
+import ossbuild.Sys;
+import static ossbuild.extract.ResourceUtils.*;
 
 /**
  *
@@ -30,6 +32,8 @@ public class Package implements IResourcePackage {
 	//<editor-fold defaultstate="collapsed" desc="Variables">
 	protected long totalSize = 0L;
 	protected String name, directory;
+	protected String resourcePrefix;
+	protected File destDirectory;
 	protected List<IResourceProcessor> processors;
 	//</editor-fold>
 
@@ -43,8 +47,7 @@ public class Package implements IResourcePackage {
 	}
 
 	public Package(final String Name, final String Directory, final IResourceProcessor... Processors) {
-		initVars(Name, Directory);
-		initProcessors(Processors);
+		initVars(Name, Directory, Processors);
 	}
 
 	private void initProcessors(final IResourceProcessor... Processors) {
@@ -53,25 +56,31 @@ public class Package implements IResourcePackage {
 		for(IResourceProcessor p : Processors) {
 			if (p == null)
 				continue;
-			if (p.supportsSize())
-				totalSize += p.getSize();
 			addResourceProcessor(p);
 		}
 	}
 
-	private void initVars(final String Name, final String Directory) {
+	private void initVars(final String Name, final String Directory, final IResourceProcessor... Processors) {
 		init();
 		this.name = expandVariables(Name);
 		this.directory = expandVariables(Directory);
+		configure();
+		initProcessors(Processors);
+		initAfter();
 	}
 
 	private void initForXML(final ResourceProcessorFactory processorFactory, final Node node, final XPath xpath, final Document document) throws XPathException {
 		init();
 		read(processorFactory, node, xpath, document);
+		initAfter();
 	}
 
 	private void init() {
 		this.processors = new ArrayList(10);
+	}
+
+	private void initAfter() {
+		calculateTotals();
 	}
 	//</editor-fold>
 
@@ -113,11 +122,35 @@ public class Package implements IResourcePackage {
 	}
 	//</editor-fold>
 
+	//<editor-fold defaultstate="collapsed" desc="Helper Methods">
+	public void calculateTotals() {
+		totalSize = 0L;
+		
+		//Calculate total size (in bytes) of all the resources
+		for(IResourceProcessor p : processors) {
+			if (p == null)
+				continue;
+			if (p.supportsSize())
+				totalSize += p.getSize();
+		}
+	}
+
+	protected void configure() {
+		//Produce resource path
+		//Takes "resources.extraction" and turns it into "/resources/extraction/"
+		//for use in appending resource names later on.
+		resourcePrefix = Sys.createPackageResourcePrefix(name);
+		destDirectory = new File(directory);
+	}
+	//</editor-fold>
+
 	//<editor-fold defaultstate="collapsed" desc="Public Methods">
 	public boolean addResourceProcessor(final IResourceProcessor Processor) {
 		if (Processor == null)
 			return false;
 		processors.add(Processor);
+		if (Processor.supportsSize())
+			totalSize += Processor.getSize();
 		return true;
 	}
 
@@ -125,12 +158,29 @@ public class Package implements IResourcePackage {
 		if (Processor == null || processors.isEmpty() || !processors.contains(Processor))
 			return false;
 		processors.remove(Processor);
+		if (Processor.supportsSize())
+			totalSize -= Processor.getSize();
 		return true;
 	}
 
 	public boolean clearResourceProcessors() {
 		processors.clear();
+		totalSize = 0L;
 		return true;
+	}
+
+	public String resourcePath(final String ResourceName) {
+		if (StringUtil.isNullOrEmpty(ResourceName))
+			return StringUtil.empty;
+		return resourcePrefix + ResourceName;
+	}
+
+	public File filePath(final String FileName) {
+		return Path.combine(destDirectory, FileName);
+	}
+
+	public File filePath(final String SubDirectory, final String FileName) {
+		return Path.combine(Path.combine(destDirectory, SubDirectory), FileName);
 	}
 	//</editor-fold>
 
@@ -172,6 +222,8 @@ public class Package implements IResourcePackage {
 		this.name = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_PACKAGE);
 		this.directory = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_DIRECTORY);
 
+		configure();
+
 		NodeList lst;
 		Node childNode;
 		IResourceProcessor processor;
@@ -183,11 +235,8 @@ public class Package implements IResourcePackage {
 		//create a resource processor, and then add it to our list.
 		for(int i = 0; i < lst.getLength() && (childNode = lst.item(i)) != null; ++i) {
 			if ((processor = processorFactory.createProcessor(childNode.getNodeName())) != null) {
-				if (processor.load(childNode)) {
-					if (processor.supportsSize())
-						totalSize += processor.getSize();
+				if (processor.load(this, xpath, childNode))
 					processors.add(processor);
-				}
 			}
 		}
 	}

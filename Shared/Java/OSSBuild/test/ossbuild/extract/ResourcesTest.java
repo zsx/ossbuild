@@ -1,11 +1,15 @@
 package ossbuild.extract;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ossbuild.OS;
 import ossbuild.Path;
+import ossbuild.Sys;
 import ossbuild.extract.processors.FileProcessor;
 import ossbuild.extract.processors.LibraryProcessor;
 import static org.junit.Assert.*;
@@ -61,11 +65,15 @@ public class ResourcesTest {
 
 	@Test
 	public void testRead() {
-		Resources r1 = Resources.newInstance("/resources/extraction/test.xml");
+		assertTrue("This unit test requires Windows to complete", Sys.isOS(OS.Windows));
+		
+		Resources r1 = Resources.newInstance(
+			Sys.createPlatformPackageResourcePrefix("resources.extraction") + "test.xml"
+		);
 		assertNotNull(r1);
 
 		assertEquals(1, r1.getTotalPackageCount());
-		assertEquals(2, r1.getTotalResourceCount());
+		assertEquals(5, r1.getTotalResourceCount());
 
 		Resources r2 = Resources.newInstance(
 			Package.newInstance("test", ".")
@@ -96,5 +104,54 @@ public class ResourcesTest {
 		);
 		assertEquals(2, r4.getTotalPackageCount());
 		assertEquals(4, r4.getTotalResourceCount());
+	}
+
+	@Test
+	public void testExtract() throws InterruptedException, ExecutionException {
+		assertNotNull(Sys.getPlatformName());
+
+		final Resources r = Resources.newInstance(
+			Sys.createPlatformPackageResourceName("resources.extraction", "test.xml")
+		);
+		assertNotNull(r);
+
+		Future f = r.extract(new ResourceProgressListenerAdapter() {
+			@Override
+			public void begin(int totalNumberOfResources, int totalNumberOfPackages, long totalNumberOfBytes, long startTime) {
+				System.out.println("Extraction beginning...");
+			}
+
+			@Override
+			public void report(int totalNumberOfResources, int totalNumberOfPackages, long totalNumberOfBytes, long numberOfBytesCompleted, int numberOfResourcesCompleted, int numberOfPackagesCompleted, long startTime, long duration, String message) {
+				System.out.println(numberOfPackagesCompleted + "/" + totalNumberOfPackages + " packages completed");
+				System.out.println(numberOfResourcesCompleted + "/" + totalNumberOfResources + " resources completed");
+				System.out.println(numberOfBytesCompleted + "/" + totalNumberOfBytes + " bytes completed");
+				System.out.println();
+			}
+
+			@Override
+			public void end(boolean success, int totalNumberOfResources, int totalNumberOfPackages, long totalNumberOfBytes, long numberOfBytesCompleted, int numberOfResourcesCompleted, int numberOfPackagesCompleted, long startTime, long endTime) {
+				if (success)
+					System.out.println("Operation success");
+				else
+					System.out.println("Operation failed");
+				System.out.println(numberOfPackagesCompleted + "/" + totalNumberOfPackages + " packages completed");
+				System.out.println(numberOfResourcesCompleted + "/" + totalNumberOfResources + " resources completed");
+				System.out.println(numberOfBytesCompleted + "/" + totalNumberOfBytes + " bytes completed");
+				System.out.println();
+			}
+
+			@Override
+			public void error(Throwable exception, String message) {
+				assertTrue(false);
+			}
+		});
+
+		//Wait for operation to complete
+		Object o = f.get();
+		assertTrue(f.isDone() && !f.isCancelled());
+
+		assertTrue(Path.combine(Path.tempDirectory, "ossbuild/test/test/test.dll").exists());
+		assertTrue(Path.combine(Path.tempDirectory, "ossbuild/test/test/test2.txt").exists());
 	}
 }

@@ -11,6 +11,5 @@ public interface IResourceFilter {
 	public static final IResourceFilter None = null;
 	//</editor-fold>
 
-	boolean filterForExtraction(String name);
-	boolean filterForLibraryLoad(String name);
+	boolean filter(final IResourcePackage pkg, final IResourceProcessor processor, final String resourceName);
 }

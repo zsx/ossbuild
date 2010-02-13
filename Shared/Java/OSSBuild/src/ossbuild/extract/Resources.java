@@ -28,7 +28,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import ossbuild.StringUtil;
-import static ossbuild.extract.Utils.*;
+import static ossbuild.extract.ResourceUtils.*;
 
 /**
  * Reads a simple XML file that describes files to be extracted.
@@ -113,18 +113,41 @@ public class Resources {
 	}
 
 	protected void initAfter() {
-		//Calculate total size and resource count
-		for(IResourcePackage pkg : packages) {
-			if (pkg == null)
-				continue;
-			
-			totalResourceCount += pkg.getTotalResourceCount();
-			totalResourceSize += pkg.getTotalSize();
-		}
+		calculateTotals();
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Helper Methods">
+	protected void calculateTotals() {
+		//Calculate total size and resource count
+		for(IResourcePackage pkg : packages) {
+			if (pkg == null)
+				continue;
+
+			totalResourceCount += pkg.getTotalResourceCount();
+			totalResourceSize += pkg.getTotalSize();
+		}
+	}
+
+	protected void notifyProgressBegin(IResourceProgressListener progress, long startTime) {
+		if (progress != null)
+			progress.begin(getTotalResourceCount(), getTotalPackageCount(), getTotalResourceSize(), startTime);
+	}
+
+	protected void notifyProgressReport(IResourceProgressListener progress, long totalBytes, int totalResources, int totalPkgs, long startTime, String message) {
+		if (progress != null)
+			progress.report(getTotalResourceCount(), getTotalPackageCount(), getTotalResourceSize(), totalBytes, totalResources, totalPkgs, startTime, Math.abs(System.currentTimeMillis() - startTime), message);
+	}
+
+	protected void notifyProgressError(IResourceProgressListener progress, Throwable exception, String message) {
+		if (progress != null)
+			progress.error(exception, message);
+	}
+
+	protected void notifyProgressEnd(IResourceProgressListener progress, boolean success, long totalBytes, int totalResources, int totalPkgs, long startTime, long endTime) {
+		if (progress != null)
+			progress.end(success, getTotalResourceCount(), getTotalPackageCount(), getTotalResourceSize(), totalBytes, totalResources, totalPkgs, startTime, endTime);
+	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Getters">
@@ -148,27 +171,27 @@ public class Resources {
 	//<editor-fold defaultstate="collapsed" desc="Public Methods">
 	//<editor-fold defaultstate="collapsed" desc="Overloads">
 	public Future extract(final IResourceCallback callback) {
-		return extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
+		return extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
 	}
 
 	public Future extract(final IResourceProgressListener progress) {
-		return extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, progress, IResourceCallback.None);
+		return extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, progress, IResourceCallback.None);
 	}
 
 	public Future extract(final IResourceFilter filter) {
-		return extract(packages, createPrivilegedExecutorService(), filter, IResourceProgressListener.None, IResourceCallback.None);
+		return extract(packages, createUnprivilegedExecutorService(), filter, IResourceProgressListener.None, IResourceCallback.None);
 	}
 
 	public Future extract(final IResourceFilter filter, final IResourceCallback callback) {
-		return extract(packages, createPrivilegedExecutorService(), filter, IResourceProgressListener.None, callback);
+		return extract(packages, createUnprivilegedExecutorService(), filter, IResourceProgressListener.None, callback);
 	}
 
 	public Future extract(final IResourceProgressListener progress, final IResourceCallback callback) {
-		return extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, progress, callback);
+		return extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, progress, callback);
 	}
 
 	public Future extract(final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback) {
-		return extract(packages, createPrivilegedExecutorService(), filter, progress, callback);
+		return extract(packages, createUnprivilegedExecutorService(), filter, progress, callback);
 	}
 	//</editor-fold>
 
@@ -222,19 +245,19 @@ public class Resources {
 	//<editor-fold defaultstate="collapsed" desc="Public Static Methods">
 	//<editor-fold defaultstate="collapsed" desc="extractAll">
 	public static final Future extractAll(final IResourcePackage... packages) {
-		return newInstance(packages).extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, IResourceCallback.None);
+		return newInstance(packages).extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, IResourceCallback.None);
 	}
 
 	public static final Future extractAll(final IResourceCallback callback, final IResourcePackage... packages) {
-		return newInstance(packages).extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
+		return newInstance(packages).extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
 	}
 
 	public static final Future extractAll(final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {
-		return newInstance(packages).extract(packages, createPrivilegedExecutorService(), IResourceFilter.None, progress, callback);
+		return newInstance(packages).extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, progress, callback);
 	}
 
 	public static final Future extractAll(final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {
-		return newInstance(packages).extract(packages, createPrivilegedExecutorService(), filter, progress, callback);
+		return newInstance(packages).extract(packages, createUnprivilegedExecutorService(), filter, progress, callback);
 	}
 
 	public static final Future extractAll(final ExecutorService executor, final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {
@@ -289,13 +312,6 @@ public class Resources {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="The Meat">
-	protected void extractResources(final IResourcePackage[] pkgs, final IResourceFilter filter, final IResourceProgressListener progress) throws Exception {
-		//Please note that this is executed in a separate thread.
-		//It can be cancelled or interrupted at any time.
-
-		
-	}
-
 	protected IResourcePackage[] read(final ResourceProcessorFactory processorFactory, final XPath xpath, final Document document) throws XPathException  {
 		Node node;
 		NodeList lst;
@@ -322,6 +338,64 @@ public class Resources {
 
 		//Create an array and return it
 		return pkgs.toArray(new IResourcePackage[pkgs.size()]);
+	}
+
+	protected void extractResources(final IResourcePackage[] pkgs, final IResourceFilter filter, final IResourceProgressListener progress) throws Exception {
+		//Please note that this is executed in a separate thread.
+		//It can be cancelled or interrupted at any time.
+
+		int totalPkgs = 0;
+		int totalResources = 0;
+		long totalBytes = 0;
+		String resourceName;
+		long endTime;
+		boolean success = true;
+		Throwable exception = null;
+		long startTime = System.currentTimeMillis();
+
+		try {
+			//Notify begin
+			notifyProgressBegin(progress, startTime);
+
+			for(IResourcePackage pkg : pkgs) {
+				if (pkg == null) {
+					notifyProgressReport(progress, totalBytes, totalResources, ++totalPkgs, startTime, "Skipped package");
+					continue;
+				}
+
+				for(IResourceProcessor p : pkg) {
+					if (p == null) {
+						notifyProgressReport(progress, totalBytes, ++totalResources, totalPkgs, startTime, "Skipped resource");
+						continue;
+					}
+
+					//Double check that we're allowed to process this resource
+					resourceName = pkg.resourcePath(p.getName());
+					if (filter != null && !filter.filter(pkg, p, resourceName)) {
+						notifyProgressReport(progress, totalBytes, ++totalResources, totalPkgs, startTime, "Skipped resource");
+						continue;
+					}
+
+					//Here we go!
+					if (p.process(resourceName, pkg, progress)) {
+						totalBytes += p.getSize();
+						notifyProgressReport(progress, totalBytes, ++totalResources, totalPkgs, startTime, p.getName());
+					}
+				}
+
+				notifyProgressReport(progress, totalBytes, totalResources, ++totalPkgs, startTime, "Completed package");
+			}
+			success = true;
+		} catch(Throwable t) {
+			success = false;
+			exception = t;
+		} finally {
+			endTime = System.currentTimeMillis();
+		}
+
+		if (exception != null)
+			notifyProgressError(progress, exception, !StringUtil.isNullOrEmpty(exception.getMessage()) ? exception.getMessage() : "Error loading resources");
+		notifyProgressEnd(progress, success, totalBytes, totalResources, totalPkgs, startTime, endTime);
 	}
 	//</editor-fold>
 }

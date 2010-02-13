@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	/resources/extraction/ossbuild.extract.xml
+
+	transient: if the resources already exists at the destination, replace it if the resource is newer.
+	
+	Variables:
+		${home}   user's home directory
+		${tmp}    temp directory
+-->
+<Resources>
+
+	<Extract package="resources.extraction.windows.x86_64" directory="${tmp}/ossbuild/">
+
+		<Library>
+			<SystemAttempt>kernel32</SystemAttempt>
+		</Library>
+
+		<Library resource="fake.dll" transient="true" subDirectory="." destName="fake2.dll" title="Fake library" description="Fake description">
+			<SystemAttempt>fake.dll</SystemAttempt>
+			<SystemAttempt>fake2.dll</SystemAttempt>
+		</Library>
+
+		<File resource="fake.png" subDirectory="." destName="fake2.png" title="" description="" />
+
+		<Library resource="jnidispatch.dll" transient="true" subDirectory="test/test/" destName="test.dll" title="Test library" description="Test description">
+			<SystemAttempt>jnidispatch.dll</SystemAttempt>
+		</Library>
+
+		<File resource="test.txt" subDirectory="test/test" destName="test2.txt" />
+
+	</Extract>
+
+</Resources>

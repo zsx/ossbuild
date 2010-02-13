@@ -41,7 +41,7 @@ public class ResourceProcessorFactory {
 		//Load every class under
 		final Class[] classes;
 		try {
-			classes = Utils.getClasses(DEFAULT_PROCESSOR_PACKAGE);
+			classes = ResourceUtils.getClasses(DEFAULT_PROCESSOR_PACKAGE);
 			if (classes == null || classes.length <= 0)
 				return;
 		} catch(ClassNotFoundException ce) {
@@ -79,11 +79,11 @@ public class ResourceProcessorFactory {
 
 	//<editor-fold defaultstate="collapsed" desc="Helper Methods">
 	public static ResourceProcessor resourceAnnotationForClass(final Class Cls) {
-		return Utils.resourceAnnotationForClass(Cls);
+		return ResourceUtils.resourceAnnotationForClass(Cls);
 	}
 
 	public static boolean validateProcessor(final Class Cls) {
-		return Utils.validateProcessor(Cls);
+		return ResourceUtils.validateProcessor(Cls);
 	}
 	
 	private static boolean addProcessorToMap(final Map<String, Class> Map, Class Cls) {

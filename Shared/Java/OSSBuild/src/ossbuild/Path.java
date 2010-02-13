@@ -47,5 +47,9 @@ public class Path {
 	public static File combine(final File parent, final String child) {
 		return new File(parent, child);
 	}
+
+	public static File combine(final String parent, final String child) {
+		return new File(parent, child);
+	}
 	//</editor-fold>
 }
