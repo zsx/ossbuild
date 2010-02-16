@@ -75,6 +75,7 @@ public class Package implements IResourcePackage {
 		initAfter();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void init() {
 		this.processors = new ArrayList(10);
 	}

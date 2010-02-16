@@ -89,6 +89,7 @@ public class ResourceUtils {
 		return info.supportsSize();
 	}
 
+	@SuppressWarnings("unchecked")
 	public static ResourceProcessor resourceAnnotationForClass(final Class Cls) {
 		if (Cls == null)
 			return null;

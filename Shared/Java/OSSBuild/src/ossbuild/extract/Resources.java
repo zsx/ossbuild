@@ -6,15 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,6 +23,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import ossbuild.Namespaces;
 import ossbuild.StringUtil;
 import static ossbuild.extract.ResourceUtils.*;
 
@@ -36,13 +33,6 @@ import static ossbuild.extract.ResourceUtils.*;
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
 public class Resources {
-	//<editor-fold defaultstate="collapsed" desc="Constants">
-	public static final String
-		  NAMESPACE_PREFIX	= "OSSBuild"
-		, NAMESPACE_URI		= "http://code.google.com/p/ossbuild/"
-	;
-	//</editor-fold>
-
 	//<editor-fold defaultstate="collapsed" desc="Variables">
 	protected long totalResourceSize;
 	protected int totalResourceCount;
@@ -78,34 +68,7 @@ public class Resources {
 		final XPath xpath = xpathFactory.newXPath();
 
 		//Creates a context that always has "ossbuild" as a prefix -- useful for xpath evaluations
-		xpath.setNamespaceContext(new NamespaceContext() {
-			private HashMap<String, String> namespaces = new HashMap<String, String>(1);
-
-			{
-				namespaces.put(NAMESPACE_PREFIX, NAMESPACE_URI);
-			}
-
-			public String getNamespaceURI(String prefix) {
-				if (namespaces.isEmpty() || StringUtil.isNullOrEmpty(prefix) || !namespaces.containsKey(prefix))
-					return StringUtil.empty;
-				return namespaces.get(prefix);
-			}
-
-			public Iterator getPrefixes(String namespaceURI) {
-				return namespaces.values().iterator();
-			}
-
-			public String getPrefix(String namespaceURI) {
-				if (StringUtil.isNullOrEmpty(namespaceURI))
-					return StringUtil.empty;
-
-				for(Entry<String, String> entry : namespaces.entrySet())
-					if (namespaceURI.equals(entry.getValue()))
-						return entry.getKey();
-				
-				return StringUtil.empty;
-			}
-		});
+		xpath.setNamespaceContext(Namespaces.createNamespaceContext());
 
 		this.packages = read(ProcessorFactory, xpath, builder.parse(XMLData));
 

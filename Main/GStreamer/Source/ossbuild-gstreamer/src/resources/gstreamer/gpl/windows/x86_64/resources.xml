@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Resources>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86_64" directory="${tmp}/ossbuild/gstreamer/bin/">
+
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86_64.farsight2" directory="${tmp}/ossbuild/gstreamer/lib/farsight2-0.0/">
+
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86_64.plugins" directory="${tmp}/ossbuild/gstreamer/lib/gstreamer-0.10/">
+
+	</Extract>
+
+</Resources>

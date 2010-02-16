@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="OSSBuild_GStreamer" default="default" basedir=".">
+    <description>Builds, tests, and runs the project OSSBuild GStreamer.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+	<target name="-post-init">
+		<property name="top.dir" location="../../../.." />
+		<property name="top.build.dir" location="${top.dir}/Build" />
+		<property name="top.shared.dir" location="${top.dir}/Shared/Build" />
+		<property name="top.deployment.dir" location="${top.dir}/Deployment/GStreamer" />
+
+		<mkdir dir="${top.build.dir}" />
+		<mkdir dir="${top.shared.dir}" />
+		<mkdir dir="${top.deployment.dir}" />
+	</target>
+
+	<target name="-post-jar">
+		<antcall target="-build-platform-jar">
+			<param name="os" value="windows" />
+			<param name="arch" value="x86" />
+			<param name="build.os" value="Windows" />
+			<param name="build.arch" value="Win32" />
+		</antcall>
+		<!--
+		<antcall target="-build-platform-jar">
+			<param name="os" value="windows" />
+			<param name="arch" value="x86_64" />
+			<param name="build.os" value="Windows" />
+			<param name="build.arch" value="x64" />
+		</antcall>
+		-->
+	</target>
+
+	<target name="-build-platform-jar">
+		<property name="build.platform.dir" location="${top.build.dir}/${build.os}/${build.arch}/Release" />
+		<property name="build.include.dir" location="${build.platform.dir}/include" />
+		<property name="build.share.dir" location="${build.platform.dir}/share" />
+		<property name="build.java.dir" location="${build.platform.dir}/java" />
+		<property name="build.bin.dir" location="${build.platform.dir}/bin" />
+		<property name="build.lib.dir" location="${build.platform.dir}/lib" />
+		<property name="build.etc.dir" location="${build.platform.dir}/etc" />
+
+		<property name="shared.platform.dir" location="${top.shared.dir}/${build.os}/${build.arch}" />
+		<property name="shared.include.dir" location="${shared.platform.dir}/include" />
+		<property name="shared.share.dir" location="${shared.platform.dir}/share" />
+		<property name="shared.bin.dir" location="${shared.platform.dir}/bin" />
+		<property name="shared.lib.dir" location="${shared.platform.dir}/lib" />
+		<property name="shared.etc.dir" location="${shared.platform.dir}/etc" />
+
+		<property name="src.java.gpl.platform.dir" location="${build.classes.dir}/resources/gstreamer/gpl/${os}/${arch}" />
+		<property name="src.java.gpl.platform.plugins.dir" location="${src.java.gpl.platform.dir}/plugins" />
+		<property name="src.java.gpl.platform.farsight2.dir" location="${src.java.gpl.platform.dir}/farsight2" />
+		<property name="src.java.lgpl.platform.dir" location="${build.classes.dir}/resources/gstreamer/lgpl/${os}/${arch}" />
+		<property name="src.java.lgpl.platform.plugins.dir" location="${src.java.lgpl.platform.dir}/plugins" />
+		<property name="src.java.lgpl.platform.farsight2.dir" location="${src.java.lgpl.platform.dir}/farsight2" />
+
+		<property name="build.java.gpl.dir" location="${build.platform.dir}/java/gpl" />
+		<property name="build.java.lgpl.dir" location="${build.platform.dir}/java/lgpl" />
+
+		<property name="build.java.gpl.platform.dir" location="${build.java.gpl.dir}/resources/gstreamer/gpl/${os}/${arch}" />
+		<property name="build.java.gpl.platform.plugins.dir" location="${build.java.gpl.platform.dir}/plugins" />
+		<property name="build.java.gpl.platform.farsight2.dir" location="${build.java.gpl.platform.dir}/farsight2" />
+		<property name="build.java.lgpl.platform.dir" location="${build.java.lgpl.dir}/resources/gstreamer/lgpl/${os}/${arch}" />
+		<property name="build.java.lgpl.platform.plugins.dir" location="${build.java.lgpl.platform.dir}/plugins" />
+		<property name="build.java.lgpl.platform.farsight2.dir" location="${build.java.lgpl.platform.dir}/farsight2" />
+
+		<delete failonerror="false" quiet="true" dir="${build.java.gpl.dir}" />
+		<delete failonerror="false" quiet="true" dir="${build.java.lgpl.dir}" />
+
+		<mkdir dir="${build.java.gpl.platform.dir}" />
+		<mkdir dir="${build.java.gpl.platform.plugins.dir}" />
+		<mkdir dir="${build.java.gpl.platform.farsight2.dir}" />
+		<mkdir dir="${build.java.lgpl.platform.dir}" />
+		<mkdir dir="${build.java.lgpl.platform.plugins.dir}" />
+		<mkdir dir="${build.java.lgpl.platform.farsight2.dir}" />
+
+		<property name="platform.dir" location="${top.deployment.dir}/${os}/${arch}/Java/" />
+		<property name="platform.gpl.jar.name" value="ossbuild-gstreamer-${os}-${arch}-gpl.jar" />
+		<property name="platform.lgpl.jar.name" value="ossbuild-gstreamer-${os}-${arch}-lgpl.jar" />
+		<property name="platform.lgpl.jar" location="${platform.dir}/${platform.lgpl.jar.name}" />
+		<property name="platform.gpl.jar" location="${platform.dir}/${platform.gpl.jar.name}" />
+
+		<mkdir dir="${platform.dir}" />
+
+		<copy file="${file.reference.jna.jar}" todir="${platform.dir}" />
+		<copy file="${file.reference.ossbuild.jar}" todir="${platform.dir}" />
+		<copy file="${file.reference.gstreamer-java.jar}" todir="${platform.dir}" />
+
+		<jar compress="true" destfile="${platform.dir}/ossbuild-gstreamer.jar">
+			<fileset dir="${build.classes.dir}" excludes="resources/gstreamer/" />
+		</jar>
+
+		<antcall target="-platform-jar" />
+	</target>
+
+	<target name="-platform-jar">
+		
+		<!-- Create GPL jar -->
+		<copy todir="${build.java.gpl.platform.dir}">
+			<fileset dir="${src.java.gpl.platform.dir}">
+				<include name="**/*.xml" />
+			</fileset>
+			<fileset dir="${shared.bin.dir}">
+				<include name="**/*.dll" />
+				<exclude name="**/*-lgpl*" />
+			</fileset>
+			<fileset dir="${build.bin.dir}">
+				<include name="**/*.dll" />
+				<exclude name="**/*-lgpl*" />
+				<exclude name="**/*sharp*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${build.java.gpl.platform.plugins.dir}">
+			<fileset dir="${build.bin.dir}/plugins/">
+				<include name="**/*.dll" />
+				<exclude name="**/*-lgpl*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${build.java.gpl.platform.farsight2.dir}">
+			<fileset dir="${build.lib.dir}/farsight2-0.0/">
+				<include name="**/*.dll" />
+			</fileset>
+		</copy>
+		
+		<jar compress="true" destfile="${platform.gpl.jar}" basedir="${build.java.gpl.dir}" />
+
+		<!-- Create LGPL jar -->
+		<copy todir="${build.java.lgpl.platform.dir}">
+			<fileset dir="${src.java.lgpl.platform.dir}">
+				<include name="**/*.xml" />
+			</fileset>
+			<fileset dir="${shared.bin.dir}">
+				<include name="**/*.dll" />
+				<exclude name="**/*-gpl*" />
+				<exclude name="**/*x264*" />
+				<exclude name="**/*xvidcore*" />
+				<exclude name="**/*a52*" />
+				<exclude name="**/*mpeg2*" />
+				<exclude name="**/*dca*" />
+				<exclude name="**/*faac*" />
+				<exclude name="**/*faad*" />
+				<exclude name="**/*dvdread*" />
+				<exclude name="**/*dvdnav*" />
+				<exclude name="**/*dvdcss*" />
+			</fileset>
+			<fileset dir="${build.bin.dir}">
+				<include name="**/*.dll" />
+				<exclude name="**/*-gpl*" />
+				<exclude name="**/*sharp*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${build.java.lgpl.platform.plugins.dir}">
+			<fileset dir="${build.bin.dir}/plugins/">
+				<include name="**/*.dll" />
+				<exclude name="**/*-lgpl*" />
+				<exclude name="**/*gstdts*" />
+				<exclude name="**/*gstfaac*" />
+				<exclude name="**/*gstfaad*" />
+				<exclude name="**/*gstresindvd*" />
+				<exclude name="**/*gstxvid*" />
+				<exclude name="**/*gsta52dec*" />
+				<exclude name="**/*gstdvdread*" />
+				<exclude name="**/*gstlame*" />
+				<exclude name="**/*gstmpeg2dec*" />
+				<exclude name="**/*gstx264*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${build.java.lgpl.platform.farsight2.dir}">
+			<fileset dir="${build.lib.dir}/farsight2-0.0/">
+				<include name="**/*.dll" />
+			</fileset>
+		</copy>
+
+		<jar compress="true" destfile="${platform.lgpl.jar}" basedir="${build.java.lgpl.dir}" />
+
+	</target>
+
+    <!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting an obfuscator after compilation could look like this:
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
+
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar-with-manifest:    JAR building (if you are using a manifest)
+      -do-jar-without-manifest: JAR building (if you are not using a manifest)
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
+
+    An example of overriding the target for project execution could look like this:
+
+        <target name="run" depends="OSSBuild_GStreamer-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
+    -->
+</project>
