@@ -1,0 +1,70 @@
+Index: plugins/elements/gstelements.c
+===================================================================
+--- plugins/elements/gstelements.c	(revision 433)
++++ plugins/elements/gstelements.c	(working copy)
+@@ -53,10 +53,14 @@
+   {"capsfilter", GST_RANK_NONE, gst_capsfilter_get_type},
+   {"fakesrc", GST_RANK_NONE, gst_fake_src_get_type},
+   {"fakesink", GST_RANK_NONE, gst_fake_sink_get_type},
+-#ifdef HAVE_SYS_SOCKET_H
++#ifdef HAVE_SYS_SOCKET_H 
+   {"fdsrc", GST_RANK_NONE, gst_fd_src_get_type},
+   {"fdsink", GST_RANK_NONE, gst_fd_sink_get_type},
+ #endif
++#ifdef _MSC_VER 
++  {"fdsrc", GST_RANK_NONE, gst_fd_src_get_type},
++  {"fdsink", GST_RANK_NONE, gst_fd_sink_get_type},
++#endif
+   {"filesrc", GST_RANK_PRIMARY, gst_file_src_get_type},
+   {"identity", GST_RANK_NONE, gst_identity_get_type},
+   {"queue", GST_RANK_NONE, gst_queue_get_type},
+Index: plugins/elements/gstfdsink.c
+===================================================================
+--- plugins/elements/gstfdsink.c	(revision 433)
++++ plugins/elements/gstfdsink.c	(working copy)
+@@ -50,14 +50,19 @@
+ #endif
+ 
+ #include <sys/stat.h>
++#ifdef HAVE_SYS_SOCKET_H
+ #include <sys/socket.h>
++#endif
+ #include <fcntl.h>
+ #include <stdio.h>
+ #ifdef HAVE_UNISTD_H
+ #include <unistd.h>
+ #endif
+ #ifdef _MSC_VER
+-#include <io.h>
++#undef stat
++#define stat _stat
++#define fstat _fstat
++#define S_ISREG(m)	(((m)&S_IFREG)==S_IFREG)
+ #endif
+ #include <errno.h>
+ #include <string.h>
+Index: plugins/elements/gstfdsrc.c
+===================================================================
+--- plugins/elements/gstfdsrc.c	(revision 433)
++++ plugins/elements/gstfdsrc.c	(working copy)
+@@ -71,14 +71,19 @@
+ #endif
+ 
+ #include <sys/stat.h>
++#ifdef HAVE_SYS_SOCKET_H
+ #include <sys/socket.h>
++#endif
+ #include <fcntl.h>
+ #include <stdio.h>
+ #ifdef HAVE_UNISTD_H
+ #include <unistd.h>
+ #endif
+ #ifdef _MSC_VER
+-#include <io.h>
++#undef stat
++#define stat _stat
++#define fstat _fstat
++#define S_ISREG(m)	(((m)&S_IFREG)==S_IFREG)
+ #endif
+ #include <stdlib.h>
+ #include <errno.h>

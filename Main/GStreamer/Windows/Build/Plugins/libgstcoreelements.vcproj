@@ -321,6 +321,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Source\gstreamer\plugins\elements\gstfdsink.c"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions="G_OS_WIN32"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gstreamer\plugins\elements\gstfdsrc.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Source\gstreamer\plugins\elements\gstfilesink.c"
 				>
 			</File>
@@ -368,6 +384,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Source\gstreamer\plugins\elements\gstfakesrc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gstreamer\plugins\elements\gstfdsink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Source\gstreamer\plugins\elements\gstfdsrc.h"
 				>
 			</File>
 			<File
