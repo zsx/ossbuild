@@ -56,8 +56,8 @@ static GstStaticPadTemplate sink_template = GST_STATIC_PAD_TEMPLATE ("sink",
 
 static void gst_dshowvideosink_init_interfaces (GType type);
 
-GST_BOILERPLATE_FULL (GstDshowVideoSink, gst_dshowvideosink, GstBaseSink,
-    GST_TYPE_BASE_SINK, gst_dshowvideosink_init_interfaces);
+GST_BOILERPLATE_FULL (GstDshowVideoSink, gst_dshowvideosink, GstVideoSink,
+    GST_TYPE_VIDEO_SINK, gst_dshowvideosink_init_interfaces);
 
 enum
 {
@@ -84,7 +84,9 @@ static gboolean gst_dshowvideosink_unlock (GstBaseSink * bsink);
 static gboolean gst_dshowvideosink_unlock_stop (GstBaseSink * bsink);
 static gboolean gst_dshowvideosink_set_caps (GstBaseSink * bsink, GstCaps * caps);
 static GstCaps *gst_dshowvideosink_get_caps (GstBaseSink * bsink);
-static GstFlowReturn gst_dshowvideosink_render (GstBaseSink *sink, GstBuffer *buffer);
+static GstFlowReturn gst_dshowvideosink_show_frame (GstVideoSink *sink, GstBuffer *buffer);
+
+
 
 /* GstXOverlay methods */
 static void gst_dshowvideosink_set_window_id (GstXOverlay * overlay, ULONG window_id);
@@ -154,10 +156,12 @@ gst_dshowvideosink_class_init (GstDshowVideoSinkClass * klass)
   GObjectClass *gobject_class;
   GstElementClass *gstelement_class;
   GstBaseSinkClass *gstbasesink_class;
+  GstVideoSinkClass *gstvideosink_class;
 
   gobject_class = (GObjectClass *) klass;
   gstelement_class = (GstElementClass *) klass;
   gstbasesink_class = (GstBaseSinkClass *) klass;
+  gstvideosink_class = (GstVideoSinkClass *) klass;
 
   gobject_class->finalize = GST_DEBUG_FUNCPTR (gst_dshowvideosink_finalize);
   gobject_class->set_property =
@@ -174,7 +178,8 @@ gst_dshowvideosink_class_init (GstDshowVideoSinkClass * klass)
   gstbasesink_class->unlock = GST_DEBUG_FUNCPTR (gst_dshowvideosink_unlock);
   gstbasesink_class->unlock_stop =
       GST_DEBUG_FUNCPTR (gst_dshowvideosink_unlock_stop);
-  gstbasesink_class->render = GST_DEBUG_FUNCPTR (gst_dshowvideosink_render);
+
+  gstvideosink_class->show_frame = GST_DEBUG_FUNCPTR (gst_dshowvideosink_show_frame);
 
   /* Add properties */
   g_object_class_install_property (G_OBJECT_CLASS (klass),
@@ -209,6 +214,7 @@ gst_dshowvideosink_clear (GstDshowVideoSink *sink)
   sink->window_id = NULL;
 
   sink->connected = FALSE;
+  sink->graph_running = FALSE;
 }
 
 static void
@@ -746,19 +752,6 @@ gst_dshowvideosink_start_graph (GstDshowVideoSink *sink)
 
   GST_DEBUG_OBJECT (sink, "Connecting and starting DirectShow graph");
 
-  if (!sink->connected) {
-    /* This is fine; this just means we haven't connected yet.
-     * That's normal for the first time this is called. 
-     * So, create a window (or start using an application-supplied
-     * one, then connect the graph */
-    gst_dshowvideosink_prepare_window (sink);
-    if (!gst_dshowvideosink_connect_graph (sink)) {
-      ret = GST_STATE_CHANGE_FAILURE;
-      goto done;
-    }
-    sink->connected = TRUE;
-  }
-
   hres = sink->filter_graph->QueryInterface(
           IID_IMediaControl, (void **) &control);
 
@@ -886,6 +879,7 @@ gst_dshowvideosink_change_state (GstElement * element, GstStateChange transition
       ret = gst_dshowvideosink_start_graph (sink);
       if (ret == GST_STATE_CHANGE_FAILURE)
         return ret;
+      sink->graph_running = TRUE;
       break;
   }
 
@@ -896,11 +890,13 @@ gst_dshowvideosink_change_state (GstElement * element, GstStateChange transition
       rettmp = gst_dshowvideosink_pause_graph (sink);
       if (rettmp == GST_STATE_CHANGE_FAILURE)
         ret = rettmp;
+      sink->graph_running = FALSE;
       break;
     case GST_STATE_CHANGE_PAUSED_TO_READY:
       rettmp = gst_dshowvideosink_stop_graph (sink);
       if (rettmp == GST_STATE_CHANGE_FAILURE)
         ret = rettmp;
+      sink->graph_running = FALSE;
       break;
     case GST_STATE_CHANGE_READY_TO_NULL:
       gst_dshowvideosink_clear (sink);
@@ -1324,6 +1320,17 @@ gst_dshowvideosink_set_caps (GstBaseSink * bsink, GstCaps * caps)
   sink->fakesrc->GetOutputPin()->SetMediaType (&sink->mediatype);
   GST_DEBUG_OBJECT (sink, "Configured output pin media type");
 
+  /* We have configured the ouput pin media tipe.
+  * So, create a window (or start using an application-supplied
+  * one, then connect the graph */
+  gst_dshowvideosink_prepare_window (sink);
+  if (!gst_dshowvideosink_connect_graph (sink)) {
+    GST_ELEMENT_ERROR (sink, CORE, NEGOTIATION,
+          ("Failed to initialize DirecShow graph with the input caps"), (NULL));
+    return FALSE;
+  }
+  sink->connected = TRUE;
+
   return TRUE;
 }
 
@@ -1357,22 +1364,38 @@ gst_dshowvideosink_stop (GstBaseSink * bsink)
     sink->filter_graph = NULL;
   }
 
+  if (sink->filter_media_event) {
+    sink->filter_media_event->Release();
+    sink->filter_media_event = NULL;
+  }
+
   return TRUE;
 }
 
-static GstFlowReturn 
-gst_dshowvideosink_render (GstBaseSink *bsink, GstBuffer *buffer)
+static GstFlowReturn
+gst_dshowvideosink_show_frame (GstVideoSink *vsink, GstBuffer *buffer)
 {
-  GstDshowVideoSink *sink = GST_DSHOWVIDEOSINK (bsink);
+  GstDshowVideoSink *sink = GST_DSHOWVIDEOSINK (vsink);
   GstFlowReturn ret;
+  GstStateChangeReturn retst;
 
   if (sink->window_closed) {
-	GST_ELEMENT_ERROR (sink, RESOURCE, NOT_FOUND, ("Output window was closed"), (NULL));
+    GST_WARNING_OBJECT (sink, "Window has been closed, stopping");
     return GST_FLOW_ERROR;
   }
 
   GST_DEBUG_OBJECT (sink, "Pushing buffer through fakesrc->renderer");
+  if (!sink->graph_running){
+    retst = gst_dshowvideosink_start_graph(sink);
+    if (retst == GST_STATE_CHANGE_FAILURE)
+      return GST_FLOW_WRONG_STATE;
+  }
   ret = sink->fakesrc->GetOutputPin()->PushBuffer (buffer);
+  if (!sink->graph_running){
+    retst = gst_dshowvideosink_pause_graph(sink);
+    if (retst == GST_STATE_CHANGE_FAILURE)
+      return GST_FLOW_WRONG_STATE;
+  }
   GST_DEBUG_OBJECT (sink, "Done pushing buffer through fakesrc->renderer: %s", gst_flow_get_name(ret));
 
   return ret;
