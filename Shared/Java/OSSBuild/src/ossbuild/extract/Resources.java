@@ -134,32 +134,64 @@ public class Resources {
 	//<editor-fold defaultstate="collapsed" desc="Public Methods">
 	//<editor-fold defaultstate="collapsed" desc="Overloads">
 	public Future extract(final IResourceCallback callback) {
-		return extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return extract(packages, svc, IResourceFilter.None, IResourceProgressListener.None, callback);
+		} finally {
+			svc.shutdown();
+		}
 	}
 
 	public Future extract(final IResourceProgressListener progress) {
-		return extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, progress, IResourceCallback.None);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+
+		} finally {
+			svc.shutdown();
+		}
+		return extract(packages, svc, IResourceFilter.None, progress, IResourceCallback.None);
 	}
 
 	public Future extract(final IResourceFilter filter) {
-		return extract(packages, createUnprivilegedExecutorService(), filter, IResourceProgressListener.None, IResourceCallback.None);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return extract(packages, svc, filter, IResourceProgressListener.None, IResourceCallback.None);
+		} finally {
+			svc.shutdown();
+		}
 	}
 
 	public Future extract(final IResourceFilter filter, final IResourceCallback callback) {
-		return extract(packages, createUnprivilegedExecutorService(), filter, IResourceProgressListener.None, callback);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return extract(packages, svc, filter, IResourceProgressListener.None, callback);
+		} finally {
+			svc.shutdown();
+		}
 	}
 
 	public Future extract(final IResourceProgressListener progress, final IResourceCallback callback) {
-		return extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, progress, callback);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return extract(packages, svc, IResourceFilter.None, progress, callback);
+		} finally {
+			svc.shutdown();
+		}
 	}
 
 	public Future extract(final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback) {
-		return extract(packages, createUnprivilegedExecutorService(), filter, progress, callback);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return extract(packages, svc, filter, progress, callback);
+		} finally {
+			svc.shutdown();
+		}
 	}
 	//</editor-fold>
 
 	public Future extract(final IResourcePackage[] pkgs, final ExecutorService executor, final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback) {
 		return executor.submit(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					//<editor-fold defaultstate="collapsed" desc="Make compiler happy">
@@ -208,19 +240,39 @@ public class Resources {
 	//<editor-fold defaultstate="collapsed" desc="Public Static Methods">
 	//<editor-fold defaultstate="collapsed" desc="extractAll">
 	public static final Future extractAll(final IResourcePackage... packages) {
-		return newInstance(packages).extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, IResourceCallback.None);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return newInstance(packages).extract(packages, svc, IResourceFilter.None, IResourceProgressListener.None, IResourceCallback.None);
+		} finally {
+			svc.shutdown();
+		}
 	}
 
 	public static final Future extractAll(final IResourceCallback callback, final IResourcePackage... packages) {
-		return newInstance(packages).extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, IResourceProgressListener.None, callback);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return newInstance(packages).extract(packages, svc, IResourceFilter.None, IResourceProgressListener.None, callback);
+		} finally {
+			svc.shutdown();
+		}
 	}
 
 	public static final Future extractAll(final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {
-		return newInstance(packages).extract(packages, createUnprivilegedExecutorService(), IResourceFilter.None, progress, callback);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return newInstance(packages).extract(packages, svc, IResourceFilter.None, progress, callback);
+		} finally {
+			svc.shutdown();
+		}
 	}
 
 	public static final Future extractAll(final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {
-		return newInstance(packages).extract(packages, createUnprivilegedExecutorService(), filter, progress, callback);
+		final ExecutorService svc = createUnprivilegedExecutorService();
+		try {
+			return newInstance(packages).extract(packages, svc, filter, progress, callback);
+		} finally {
+			svc.shutdown();
+		}
 	}
 
 	public static final Future extractAll(final ExecutorService executor, final IResourceFilter filter, final IResourceProgressListener progress, final IResourceCallback callback, final IResourcePackage... packages) {

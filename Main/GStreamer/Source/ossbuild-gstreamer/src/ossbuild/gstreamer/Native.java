@@ -8,6 +8,7 @@ import ossbuild.Sys;
 import ossbuild.extract.IResourceCallback;
 import ossbuild.extract.IResourceProgressListener;
 import ossbuild.extract.MissingResourceException;
+import ossbuild.extract.ResourceCallbackChain;
 import ossbuild.extract.Resources;
 
 /**
@@ -79,7 +80,17 @@ public class Native {
 			//Extracts on a separate thread - this allows you to display the progress as
 			//the libraries are extracted and loaded.
 			final Resources resources = createResourceExtractor();
-			return resources.extract(progress, callback);
+			return resources.extract(progress, new ResourceCallbackChain(callback) {
+				@Override
+				protected void completed(final Resources res, final Object param) {
+					System.setProperty("apple.awt.graphics.UseQuartz", "false");
+					org.gstreamer.Gst.init(
+						"OSSBuild Application",
+						new String[] {
+						}
+					);
+				}
+			});
 		}
 	}
 

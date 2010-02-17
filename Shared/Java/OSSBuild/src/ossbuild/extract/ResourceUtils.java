@@ -43,6 +43,7 @@ public class ResourceUtils {
 	}
 
 	//Thank you http://forums.sun.com/thread.jspa?threadID=341935
+	@Deprecated
 	public static Class[] getClasses(String pckgname) throws ClassNotFoundException {
 		ArrayList<Class> classes = new ArrayList<Class>(3);
 		

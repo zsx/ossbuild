@@ -11,6 +11,7 @@ public class Path {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
 	public static final String
 		  directorySeparator = System.getProperty("file.separator")
+		, pathSeparator = File.pathSeparator
 	;
 
 	public static final String

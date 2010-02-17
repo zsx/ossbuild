@@ -7,7 +7,7 @@ package ossbuild.extract;
  * 
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
-public interface IResourceCallback<T> {
+public interface IResourceCallback {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
 	public static final IResourceCallback None = null;
 	//</editor-fold>

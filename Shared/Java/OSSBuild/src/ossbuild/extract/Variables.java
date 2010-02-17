@@ -15,8 +15,9 @@ import ossbuild.StringUtil;
 public class Variables {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
 	public static final String
-		  VAR_TMP = "tmp"
-		, VAR_HOME = "home"
+		  VAR_TMP		= "tmp"
+		, VAR_HOME		= "home"
+		, VAR_PATH_SEP	= "pathSep"
 	;
 
 	private static final Pattern
@@ -32,8 +33,9 @@ public class Variables {
 	static {
 		vars = new HashMap<String, String>(3, 0.5f);
 
-		saveVariable("tmp", Path.tempDirectory);
-		saveVariable("home", Path.homeDirectory);
+		saveVariable(VAR_TMP, Path.tempDirectory);
+		saveVariable(VAR_HOME, Path.homeDirectory);
+		saveVariable(VAR_PATH_SEP, Path.pathSeparator);
 	}
 	//</editor-fold>
 

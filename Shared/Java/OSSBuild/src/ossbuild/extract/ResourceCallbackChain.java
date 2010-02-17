@@ -7,22 +7,24 @@ package ossbuild.extract;
  *
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
-public abstract class ResourceCallback<T> implements IResourceCallback {
+public abstract class ResourceCallbackChain<T> implements IResourceCallback {
 	//<editor-fold defaultstate="collapsed" desc="Variables">
 	private T param;
+	private IResourceCallback chainedCallback;
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Initialization">
-	public ResourceCallback() {
-		init(null);
+	public ResourceCallbackChain(final IResourceCallback ChainedCallback) {
+		init(ChainedCallback, null);
 	}
 
-	public ResourceCallback(final T Parameter) {
-		init(Parameter);
+	public ResourceCallbackChain(final IResourceCallback ChainedCallback, T Parameter) {
+		init(ChainedCallback, Parameter);
 	}
 
-	private void init(final T Parameter) {
+	private void init(final IResourceCallback ChainedCallback, final T Parameter) {
 		this.param = Parameter;
+		this.chainedCallback = ChainedCallback;
 	}
 	//</editor-fold>
 
@@ -30,27 +32,39 @@ public abstract class ResourceCallback<T> implements IResourceCallback {
 	public T getParameter() {
 		return param;
 	}
+	
+	public IResourceCallback getChainedCallback() {
+		return chainedCallback;
+	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="IResourceCallback Methods">
 	@Override
 	public void error(Resources resources) {
 		error(resources, param);
+		if (chainedCallback != null)
+			chainedCallback.error(resources);
 	}
 
 	@Override
 	public void prepare(Resources resources) {
 		prepare(resources, param);
+		if (chainedCallback != null)
+			chainedCallback.prepare(resources);
 	}
 
 	@Override
 	public void cancelled(Resources resources) {
 		cancelled(resources, param);
+		if (chainedCallback != null)
+			chainedCallback.cancelled(resources);
 	}
 
 	@Override
 	public void completed(Resources resources) {
 		completed(resources, param);
+		if (chainedCallback != null)
+			chainedCallback.completed(resources);
 	}
 	//</editor-fold>
 

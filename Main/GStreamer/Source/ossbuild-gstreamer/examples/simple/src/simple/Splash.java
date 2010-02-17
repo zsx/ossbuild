@@ -11,14 +11,18 @@
 
 package simple;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import ossbuild.extract.IResourceCallback;
-import ossbuild.extract.IResourceProgressListener;
-import ossbuild.extract.MissingResourceException;
+import org.gstreamer.swing.VideoPlayer;
 import ossbuild.extract.ResourceCallback;
 import ossbuild.extract.ResourceProgressListenerAdapter;
 import ossbuild.extract.Resources;
@@ -47,12 +51,14 @@ public class Splash extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        border = new javax.swing.JPanel();
         lbl = new javax.swing.JLabel();
         progress = new javax.swing.JProgressBar();
+        title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Loading...");
-        setMinimumSize(new java.awt.Dimension(300, 150));
+        setMinimumSize(new java.awt.Dimension(306, 100));
         setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         setResizable(false);
         setUndecorated(true);
@@ -61,21 +67,34 @@ public class Splash extends javax.swing.JDialog {
                 formWindowOpened(evt);
             }
         });
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        border.setBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("controlShadow")));
+        border.setLayout(new java.awt.GridBagLayout());
 
         lbl.setText("Loading...");
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
-        getContentPane().add(lbl, gridBagConstraints);
+        border.add(lbl, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(2, 3, 2, 3);
-        getContentPane().add(progress, gridBagConstraints);
+        border.add(progress, gridBagConstraints);
+
+        title.setFont(title.getFont().deriveFont(title.getFont().getSize()+8f));
+        title.setText("OSSBuild GStreamer Example");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 0, 12, 0);
+        border.add(title, gridBagConstraints);
+
+        getContentPane().add(border, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -102,8 +121,10 @@ public class Splash extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel border;
     private javax.swing.JLabel lbl;
     private javax.swing.JProgressBar progress;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 	//</editor-fold>
 	
@@ -113,11 +134,21 @@ public class Splash extends javax.swing.JDialog {
 			Native.initialize(
 				new ResourceProgressListenerAdapter() {
 					@Override
-					public void report(int totalNumberOfResources, int totalNumberOfPackages, long totalNumberOfBytes, long numberOfBytesCompleted, int numberOfResourcesCompleted, int numberOfPackagesCompleted, long startTime, long duration, String message) {
-						lbl.setText(message);
+					public void report(final int totalNumberOfResources, final int totalNumberOfPackages, final long totalNumberOfBytes, final long numberOfBytesCompleted, final int numberOfResourcesCompleted, final int numberOfPackagesCompleted, final long startTime, final long duration, final String message) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								double percent = ((double)numberOfResourcesCompleted / (double)totalNumberOfResources);
+								progress.setValue(progress.getMinimum() + (int)(Math.abs(progress.getMaximum() - progress.getMinimum()) * percent));
 
-						double percent = (((double)numberOfResourcesCompleted / (double)totalNumberOfResources) * 100.0D);
-						progress.setValue((int)percent);
+								if (numberOfResourcesCompleted != totalNumberOfResources) {
+									lbl.setText(message);
+								} else {
+									lbl.setText("Initializing GStreamer...");
+									progress.setIndeterminate(true);
+								}
+							}
+						});
 					}
 				},
 
@@ -126,18 +157,42 @@ public class Splash extends javax.swing.JDialog {
 					protected void completed(Resources rsrcs, Object t) {
 						try {
 							Thread.currentThread().sleep(2000);
-							
-							SwingUtilities.invokeAndWait(new Runnable() {
-								@Override
-								public void run() {
-									Player dlg = new Player();
-									dlg.setVisible(true);
-								}
-							});
 
 							Splash.this.setVisible(false);
+							Splash.this.dispose();
+
+							final JFileChooser choose = new JFileChooser();
+							choose.setDialogTitle("Select Media File");
+							choose.setMultiSelectionEnabled(true);
+							final int result = choose.showOpenDialog(Splash.this);
+
+							if (result == JFileChooser.CANCEL_OPTION)
+								System.exit(0);
+
+							for(int i = 0; i < 2; ++i) {
+								SwingUtilities.invokeLater(new Runnable() {
+									@Override
+									public void run() {
+										final List<URI> playList = new LinkedList<URI>();
+										for (File f : choose.getSelectedFiles())
+											playList.add(f.toURI());
+
+										JFrame frame = new JFrame("Swing Test");
+
+										final VideoPlayer player = new VideoPlayer(playList.get(0));
+										player.setPreferredSize(new Dimension(640, 480));
+										player.setControlsVisible(true);
+										player.getMediaPlayer().setPlaylist(playList);
+										frame.add(player, BorderLayout.CENTER);
+
+										player.getMediaPlayer().play();
+										frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+										frame.pack();
+										frame.setVisible(true);
+									}
+								});
+							}
 						} catch (InterruptedException ex) {
-						} catch (InvocationTargetException ex) {
 						}
 					}
 				}

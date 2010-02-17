@@ -127,6 +127,7 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="IResourceProcessor Methods">
+	@Override
 	public boolean load(final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException {
 		if (node != null) {
 			//Read attribute values in
@@ -150,6 +151,7 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 		return false;
 	}
 
+	@Override
 	public boolean process(final String fullResourceName, final IResourcePackage pkg, final IResourceProgressListener progress) {
 		return processResource(fullResourceName, pkg, progress);
 	}

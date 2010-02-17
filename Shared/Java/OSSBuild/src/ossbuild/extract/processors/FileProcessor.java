@@ -19,7 +19,6 @@ import ossbuild.extract.ResourceUtils;
 	supportsSize = true
 )
 public class FileProcessor extends DefaultResourceProcessor {
-
 	//<editor-fold defaultstate="collapsed" desc="Initialization">
 	public FileProcessor() {
 	}
@@ -43,5 +42,4 @@ public class FileProcessor extends DefaultResourceProcessor {
 			shouldBeTransient
 		);
 	}
-
 }

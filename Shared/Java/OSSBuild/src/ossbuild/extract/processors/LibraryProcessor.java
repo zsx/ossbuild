@@ -79,5 +79,4 @@ public class LibraryProcessor extends DefaultResourceProcessor {
 			return ResourceUtils.attemptLibraryLoad(dest.getAbsolutePath());
 		return false;
 	}
-
 }

@@ -39,6 +39,18 @@ public final class Sys {
 		return (Thread.currentThread().getContextClassLoader().getResource(res) != null);
 	}
 
+	public static String getEnvironmentVariable(final String name) {
+		return Env.getEnvironmentVariable(name);
+	}
+
+	public static boolean setEnvironmentVariable(final String name, final String value) {
+		return Env.setEnvironmentVariable(name, value);
+	}
+
+	public static boolean unsetEnvironmentVariable(final String name) {
+		return Env.unsetEnvironmentVariable(name);
+	}
+
 	public static String createPackageResourcePrefix(final String PackagePrefix, final String PackageSuffix) {
 		final String prefix = PackagePrefix.trim();
 		final String suffix = PackageSuffix.trim();
