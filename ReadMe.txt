@@ -24,7 +24,7 @@ Requirements
 
   Linux Build
 
-    1. (sudo) apt-get install perl sed pkg-config build-essential bison flex libtool tofrodos vim gettext yasm nasm
+    1. (sudo) apt-get install openjdk-6-jdk git-core subversion perl sed pkg-config build-essential autoconf bison flex libtool tofrodos vim gettext yasm nasm zlib1g-dev mesa-common-dev libglu1-mesa-dev libxmu-dev libx11-dev libxi-dev libcurl4-gnutls-dev
 
 
 Setup Visual Studio 2008+

@@ -65,5 +65,5 @@ flac		-	1.2.1		-	http://sourceforge.net/projects/flac/files/flac-src/flac-1.2.1-
 iconv		-	20090213	-	http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/win-iconv-dev_tml-20090213_win32.zip
 
 #libglade 	- 	2.6.4 		- 	http://ftp.gnome.org/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2
-#libffi 		- 	3.0.9 		- 	http://github.com/atgreen/libffi/tree/v3.0.9
+#libffi 	- 	3.0.9 		- 	http://github.com/atgreen/libffi/tree/v3.0.9
 #pygobject 	- 	2.21.1 		- 	http://ftp.gnome.org/pub/GNOME/sources/pygobject/2.21/pygobject-2.21.1.tar.bz2
