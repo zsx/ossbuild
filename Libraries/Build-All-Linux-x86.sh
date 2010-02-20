@@ -1,6 +1,23 @@
 #!/bin/sh
 
+###############################################################################
+#                                                                             #
+#                             Linux x86 Build                                 #
+#                                                                             #
+# Builds all dependencies for this platform.                                  #
+#                                                                             #
+###############################################################################
+
 TOP=$(dirname $0)/..
+
+#Global directories
+PERL_BIN_DIR=/usr/bin
+
+#Global flags
+CFLAGS="$CFLAGS"
+CPPFLAGS="$CPPFLAGS"
+LDFLAGS=""
+CXXFLAGS="$CXXFLAGS"
 
 #Call common startup routines to load a bunch of variables we'll need
 . $TOP/Shared/Scripts/Common.sh
@@ -9,10 +26,15 @@ common_startup "Linux" "x86" "Release"
 #Setup library versions
 . $ROOT/Shared/Scripts/Version.sh
 
+save_prefix ${DefaultPrefix}
+
 #Move to intermediate directory
 #cd "$IntDir"
 
 #clear_flags
+
+#No prefix from here out
+clear_prefix
 
 #Causes us to now always include the bin dir to look for libraries, even after calling reset_flags
 export ORIG_LDFLAGS="$ORIG_LDFLAGS -L$BinDir -L$SharedBinDir"
@@ -20,9 +42,11 @@ reset_flags
 
 #Here's where the magic really happens
 
+export PATH="$BinDir:$PATH"
+export LD_LIBRARY_PATH="$BinDir:$LD_LIBRARY_PATH"
 
 #liboil
-if [ ! -f "$BinDir/liboil-0.3.so" ]; then 
+if [ ! -f "$BinDir/liboil-0.3.so.0" ]; then 
 	unpack_gzip_and_move "liboil.tar.gz" "$PKG_DIR_LIBOIL"
 	mkdir_and_move "$IntDir/liboil"
 
@@ -33,8 +57,9 @@ if [ ! -f "$BinDir/liboil-0.3.so" ]; then
 fi
 
 #zlib
+#Don't actually use this one - use the sys-supplied one.
 #Can't use separate build dir
-if [ ! -f "$BinDir/libz.so" ]; then 
+if [ ! -f "$BinDir/libz.so.1" ]; then 
 	unpack_zip_and_move_linux "zlib.zip" "zlib" "zlib"
 	mkdir_and_move "$IntDir/zlib"
 	cd "$PKG_DIR"
@@ -56,7 +81,7 @@ if [ ! -f "$BinDir/libz.so" ]; then
 fi
 
 #bzip2
-if [ ! -f "$BinDir/libbz2.so" ]; then 
+if [ ! -f "$BinDir/libbz2.so.1" ]; then 
 	unpack_gzip_and_move "bzip2.tar.gz" "$PKG_DIR_BZIP2"
 	cd "$PKG_DIR"
 
@@ -74,8 +99,33 @@ fi
 
 #Skip pthreads
 
+#glew
+if [ ! -f "$BinDir/libGLEW.so.1.5" ]; then
+	unpack_gzip_and_move "glew.tar.gz" "$PKG_DIR_GLEW"
+	mkdir_and_move "$IntDir/glew"
+
+	cd "$PKG_DIR"
+	make
+	make install GLEW_DEST=$InstallDir
+	
+	arrange_shared "$LibDir" "libGLEW.so" "1.5" "1.5.2"
+	move_files_to_dir "$LibDir/lib*GLEW*.so*" "$BinDir"
+	chmod uag+x "$BinDir/libGLEW.so.1.5"
+fi
+
+#expat
+if [ ! -f "$BinDir/libexpat.so.1" ]; then
+	unpack_gzip_and_move "expat.tar.gz" "$PKG_DIR_EXPAT"
+	mkdir_and_move "$IntDir/expat"
+
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libexpat.so" "1" "1.5.2" "libexpat.la" "" "$LibDir"
+fi
+
 #libxml2
-if [ ! -f "$BinDir/libxml2.so" ]; then 
+if [ ! -f "$BinDir/libxml2.so.2" ]; then 
 	unpack_gzip_and_move "libxml2.tar.gz" "$PKG_DIR_LIBXML2"
 	mkdir_and_move "$IntDir/libxml2"
 	
@@ -84,11 +134,11 @@ if [ ! -f "$BinDir/libxml2.so" ]; then
 	make && make install
 	reset_flags
 
-	arrange_shared "$BinDir" "libxml2.so" "2" "2.7.3" "libxml2.la" "libxml-2.0.pc" "$LibDir"
+	arrange_shared "$BinDir" "libxml2.so" "2" "2.7.6" "libxml2.la" "libxml-2.0.pc" "$LibDir"
 fi
 
 #libjpeg
-if [ ! -f "$BinDir/libjpeg.so" ]; then 
+if [ ! -f "$BinDir/libjpeg.so.8" ]; then 
 	unpack_gzip_and_move "jpegsrc.tar.gz" "$PKG_DIR_LIBJPEG"
 	mkdir_and_move "$IntDir/libjpeg"
 	
@@ -96,44 +146,91 @@ if [ ! -f "$BinDir/libjpeg.so" ]; then
 	make && make install
 	
 	move_files_to_dir "$LibDir/libjpeg*" "$BinDir"
-	arrange_shared "$BinDir" "libjpeg.so" "62" "62.0.0" "libjpeg.la" "" "$LibDir"
+	arrange_shared "$BinDir" "libjpeg.so" "8" "8.0.0" "libjpeg.la" "" "$LibDir"
 	move_files_to_dir "$BinDir/libjpeg.a" "$LibDir"
 fi
 
+#openjpeg
+if [ ! -f "$BinDir/libopenjpeg.so.2" ]; then 
+	unpack_gzip_and_move "openjpeg.tar.gz" "$PKG_DIR_OPENJPEG"
+	mkdir_and_move "$IntDir/openjpeg"
+
+	cd "$PKG_DIR"
+	cp -f "$LIBRARIES_PATCH_DIR/openjpeg/Makefile.linux" ./Makefile
+
+	make install PREFIX=$InstallDir
+	mv "$LibDir/libopenjpeg-2.1.3.0.so" "$BinDir/libopenjpeg.so.2"
+	rm -f "$LibDir/libopenjpeg.so.2"
+	cd "$BinDir/"
+	ln -s libopenjpeg.so.2 libopenjpeg.so
+fi
+
 #libpng
-if [ ! -f "$BinDir/libpng12.so" ]; then 
+if [ ! -f "$BinDir/libpng14.so.14" ]; then 
 	unpack_gzip_and_move "libpng.tar.gz" "$PKG_DIR_LIBPNG"
 	mkdir_and_move "$IntDir/libpng"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libpng12.so" "0" "0.35.0" "libpng12.la" "libpng12.pc" "$LibDir"
+	arrange_shared "$BinDir" "libpng14.so" "14" "14.0.0" "libpng14.la" "libpng14.pc" "$LibDir"
 
 	cd "$BinDir"
-	move_files_to_dir "libpng12.a" "$LibDir"
 	move_files_to_dir "pkgconfig/libpng.pc" "$LibDir/pkgconfig/"
-	remove_files_from_dir "libpng.a libpng.la libpng.so*"
+	mv libpng.la "$LibDir"
+	ln -s libpng14.so libpng.so
+	ln -s libpng14.so libpng12.so
+	cd "$LibDir"
+	ln -s libpng14.la libpng12.la
+	cd "$LibDir/pkgconfig/"
+	ln -s libpng14.pc libpng12.pc
+fi
+
+#libtiff
+if [ ! -f "$BinDir/libtiff.so.3" ]; then 
+	unpack_gzip_and_move "tiff.tar.gz" "$PKG_DIR_LIBTIFF"
+	mkdir_and_move "$IntDir/tiff"
+	
+	#Configure, compile, and install
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libtiff.so" "3" "3.9.2" "libtiff.la" "" "$LibDir"
+	arrange_shared "$BinDir" "libtiffxx.so" "3" "3.9.2" "libtiffxx.la" "" "$LibDir"
 fi
 
 #glib
-if [ ! -f "$BinDir/libglib-2.0.so" ]; then 
-	unpack_gzip_and_move "glib.tar.gz" "$PKG_DIR_GLIB"
+if [ ! -f "$BinDir/libglib-2.0.so.0" ]; then 
+	unpack_bzip2_and_move "glib.tar.bz2" "$PKG_DIR_GLIB"
+	#patch -u -N -i "$LIBRARIES_PATCH_DIR/glib/run-markup-tests.sh.patch"
+
 	mkdir_and_move "$IntDir/glib"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	
-	arrange_shared "$BinDir" "libgio-2.0.so" "0" "0.2000.1" "libgio-2.0.la" "gio-2.0.pc gio-unix-2.0.pc" "$LibDir"
-	arrange_shared "$BinDir" "libglib-2.0.so" "0" "0.2000.1" "libglib-2.0.la" "glib-2.0.pc" "$LibDir"
-	arrange_shared "$BinDir" "libgmodule-2.0.so" "0" "0.2000.1" "libgmodule-2.0.la" "gmodule-2.0.pc gmodule-export-2.0.pc gmodule-no-export-2.0.pc" "$LibDir"
-	arrange_shared "$BinDir" "libgobject-2.0.so" "0" "0.2000.1" "libgobject-2.0.la" "gobject-2.0.pc" "$LibDir"
-	arrange_shared "$BinDir" "libgthread-2.0.so" "0" "0.2000.1" "libgthread-2.0.la" "gthread-2.0.pc" "$LibDir"
+
+	arrange_shared "$BinDir" "libgio-2.0.so" "0" "0.2200.4" "libgio-2.0.la" "gio-2.0.pc gio-unix-2.0.pc" "$LibDir"
+	arrange_shared "$BinDir" "libglib-2.0.so" "0" "0.2200.4" "libglib-2.0.la" "glib-2.0.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgmodule-2.0.so" "0" "0.2200.4" "libgmodule-2.0.la" "gmodule-2.0.pc gmodule-export-2.0.pc gmodule-no-export-2.0.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgobject-2.0.so" "0" "0.2200.4" "libgobject-2.0.la" "gobject-2.0.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgthread-2.0.so" "0" "0.2200.4" "libgthread-2.0.la" "gthread-2.0.pc" "$LibDir"
 	test -d "$LibDir/gio" && rm -rf "$LibDir/gio"
 	test -d "$LibDir/glib-2.0" && rm -rf "$LibDir/glib-2.0"
 	mv "$BinDir/gio" "$LibDir"
 	mv "$BinDir/glib-2.0" "$LibDir"
 	cp -p "$LibDir/glib-2.0/include/glibconfig.h" "$IncludeDir/glib-2.0/"
+fi
+
+#atk
+if [ ! -f "$BinDir/libatk-1.0.so.0" ]; then 
+	unpack_bzip2_and_move "atk.tar.bz2" "$PKG_DIR_ATK"
+	mkdir_and_move "$IntDir/atk"
+	
+	#Configure, compile, and install
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libatk-1.0.so" "0" "0.2913.1" "libatk-1.0.la" "" "$LibDir"
 fi
 
 #openssl
@@ -160,8 +257,8 @@ fi
 #fi
 
 #libgpg-error
-if [ ! -f "$BinDir/libgpg-error.so" ]; then 
-	unpack_gzip_and_move "libgpg-error.tar.gz" "$PKG_DIR_LIBGPG_ERROR"
+if [ ! -f "$BinDir/libgpg-error.so.0" ]; then 
+	unpack_bzip2_and_move "libgpg-error.tar.bz2" "$PKG_DIR_LIBGPG_ERROR"
 	mkdir_and_move "$IntDir/libgpg-error"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$LibDir --includedir=$IncludeDir
@@ -172,30 +269,41 @@ if [ ! -f "$BinDir/libgpg-error.so" ]; then
 fi
 
 #libgcrypt
-if [ ! -f "$BinDir/libgcrypt.so" ]; then 
-	unpack_gzip_and_move "libgcrypt.tar.gz" "$PKG_DIR_LIBGCRYPT"
+if [ ! -f "$BinDir/libgcrypt.so.11" ]; then 
+	unpack_bzip2_and_move "libgcrypt.tar.bz2" "$PKG_DIR_LIBGCRYPT"
 	mkdir_and_move "$IntDir/libgcrypt"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libgcrypt.so" "11" "11.5.2" "libgcrypt.la" "" "$LibDir"
+	arrange_shared "$BinDir" "libgcrypt.so" "11" "11.5.3" "libgcrypt.la" "" "$LibDir"
+fi
+
+#libtasn1
+if [ ! -f "$BinDir/libtasn1.so.3" ]; then 
+	unpack_gzip_and_move "libtasn1.tar.gz" "$PKG_DIR_LIBTASN1"
+	mkdir_and_move "$IntDir/libtasn1"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libtasn1.so" "3" "3.1.7" "libtasn1.la" "" "$LibDir"
 fi
 
 #gnutls
-if [ ! -f "$BinDir/libgnutls.so" ]; then 
+if [ ! -f "$BinDir/libgnutls.so.26" ]; then 
 	unpack_bzip2_and_move "gnutls.tar.bz2" "$PKG_DIR_GNUTLS"
 	mkdir_and_move "$IntDir/gnutls"
 	
-	$PKG_DIR/configure --with-included-libtasn1 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	$PKG_DIR/configure --disable-cxx --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libgnutls.so" "26" "26.11.6" "libgnutls.la" "gnutls.pc" "$LibDir"
-	arrange_shared "$BinDir" "libgnutls-extra.so" "26" "26.11.6" "libgnutls-extra.la" "gnutls-extra.pc" "$LibDir"
-	arrange_shared "$BinDir" "libgnutlsxx.so" "26" "26.11.6" "libgnutlsxx.la" "" "$LibDir"
-	arrange_shared "$BinDir" "libgnutls-openssl.so" "26" "26.11.6" "libgnutls-openssl.la" "" "$LibDir"
+	arrange_shared "$BinDir" "libgnutls.so" "26" "26.14.12" "libgnutls.la" "gnutls.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgnutls-extra.so" "26" "26.14.12" "libgnutls-extra.la" "gnutls-extra.pc" "$LibDir"
+	#arrange_shared "$BinDir" "libgnutlsxx.so" "26" "26.14.12" "libgnutlsxx.la" "" "$LibDir"
+	arrange_shared "$BinDir" "libgnutls-openssl.so" "26" "26.14.12" "libgnutls-openssl.la" "" "$LibDir"
 fi
-
+exit 0
 #soup
 if [ ! -f "$BinDir/libsoup-2.4.so" ]; then 
 	unpack_bzip2_and_move "libsoup.tar.bz2" "$PKG_DIR_LIBSOUP"
