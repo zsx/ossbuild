@@ -1,0 +1,12 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: FreeType 2
+Description: A free, high-quality, and portable font engine.
+Version: 10.0.4
+Requires:
+Libs: -L${libdir} -lfreetype
+Libs.private: -lz 
+Cflags: -I${includedir}/freetype2 -I${includedir}

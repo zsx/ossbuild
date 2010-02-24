@@ -1,0 +1,10 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libmpeg2
+Description: MPEG-1 and MPEG-2 stream decoding library
+Version: 0.5.1
+Libs: -L${libdir} -lmpeg2
+Cflags: -I${includedir}/mpeg2dec

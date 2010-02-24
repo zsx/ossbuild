@@ -1,0 +1,14 @@
+# libvorbisenc pkg-config source file
+
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: vorbisenc
+Description: vorbisenc is a library that provides a convenient API for setting up an encoding environment using libvorbis
+Version: 1.2.3
+Requires: vorbis
+Conflicts:
+Libs: -L${libdir} -lvorbisenc
+Cflags: -I${includedir}

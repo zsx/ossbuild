@@ -1,0 +1,12 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libdvdnav
+Description: DVD Navigation library
+Version: 4.1.3
+
+Requires.private: dvdread >= 4.1.2
+Cflags: -I${includedir} 
+Libs: -L${libdir} -ldvdnav -lpthread

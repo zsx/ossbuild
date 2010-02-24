@@ -1,0 +1,11 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libdvdnavmini
+Description: DVD Navigation mini library
+Version: 4.1.3
+
+Cflags: -I${includedir} -I@SHARED_BUILD_DIR@/include 
+Libs: -L${libdir} -ldvdnav -lpthread

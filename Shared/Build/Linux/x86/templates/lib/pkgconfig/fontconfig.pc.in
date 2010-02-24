@@ -1,0 +1,11 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: Fontconfig
+Description: Font configuration and customization library
+Version: 2.8.0
+Libs: -L${libdir} -lfontconfig
+Libs.private:  -lexpat -L@SHARED_BUILD_DIR@/bin -lfreetype -lz 
+Cflags: -I${includedir}

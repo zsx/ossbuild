@@ -1,0 +1,14 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libavutil
+Description: FFmpeg utility library
+Version: 50.9.0
+Requires: 
+Requires.private: 
+Conflicts:
+Libs: -L${libdir} -lavutil-lgpl 
+Libs.private: 
+Cflags: -I${includedir}

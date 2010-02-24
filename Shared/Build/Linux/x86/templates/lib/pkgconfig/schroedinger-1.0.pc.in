@@ -1,0 +1,15 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include/schroedinger-1.0
+toolsdir=${exec_prefix}/bin
+
+
+Name: schroedinger-1.0
+Description: Dirac codec library
+Requires: liboil-0.3 >= 0.3.16
+Version: 1.0.8
+Libs: -L${libdir} -lschroedinger-1.0 -lpthread -lm
+Cflags: -I${includedir}
+
+

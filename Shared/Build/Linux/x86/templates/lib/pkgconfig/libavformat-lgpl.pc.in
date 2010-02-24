@@ -1,0 +1,14 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 52.54.0
+Requires: 
+Requires.private: libavcodec = 52.55.0
+Conflicts:
+Libs: -L${libdir} -lavformat-lgpl 
+Libs.private: -lz -lm
+Cflags: -I${includedir}

@@ -1,0 +1,10 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libmpeg2convert
+Description: Image conversion library helper for libmpeg2
+Version: 0.5.1
+Libs: -L${libdir} -lmpeg2convert
+Cflags: -I${includedir}/mpeg2dec

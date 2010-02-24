@@ -1,0 +1,14 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include/liboil-0.3
+toolsdir=${exec_prefix}/bin
+
+
+Name: liboil-0.3
+Description: Library of Optimized Inner Loops
+Version: 0.3.17
+Libs: -L${libdir} -loil-0.3 -lm -lrt
+Cflags: -I${includedir}
+
+

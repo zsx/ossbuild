@@ -1,0 +1,11 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: neon
+Description: HTTP/WebDAV client library
+Version: 0.29.3
+Libs.private:  -lz -L@SHARED_BUILD_DIR@/bin -lgnutls   -I@SHARED_BUILD_DIR@/include -I/home/sysadmin/ossbuild/Shared/Build/Linux/x86/include -Wl,-Bsymbolic-functions -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lexpat
+Libs: -L${libdir} -lneon 
+Cflags: -I${includedir}/neon  -D_LARGEFILE64_SOURCE -DNE_LFS
