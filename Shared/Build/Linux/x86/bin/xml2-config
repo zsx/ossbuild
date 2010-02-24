@@ -1,9 +1,9 @@
 #! /bin/sh
 
-prefix=/Work/OSSBuild/Build/Linux/x86/Release
+prefix=/home/sysadmin/ossbuild/Build/Linux/x86/Release
 exec_prefix=${prefix}
-includedir=/Work/OSSBuild/Build/Linux/x86/Release/include
-libdir=/Work/OSSBuild/Build/Linux/x86/Release/bin
+includedir=/home/sysadmin/ossbuild/Build/Linux/x86/Release/include
+libdir=/home/sysadmin/ossbuild/Build/Linux/x86/Release/bin
 
 usage()
 {
@@ -58,7 +58,7 @@ while test $# -gt 0; do
       ;;
 
     --version)
-	echo 2.7.3
+	echo 2.7.6
 	exit 0
 	;;
 

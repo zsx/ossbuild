@@ -10,10 +10,10 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 
-prefix=/Work/OSSBuild/Build/Linux/x86/Release
+prefix=/home/sysadmin/ossbuild/Build/Linux/x86/Release
 exec_prefix=${prefix}
-includedir=/Work/OSSBuild/Build/Linux/x86/Release/include
-libdir=/Work/OSSBuild/Build/Linux/x86/Release/lib
+includedir=/home/sysadmin/ossbuild/Build/Linux/x86/Release/include
+libdir=/home/sysadmin/ossbuild/Build/Linux/x86/Release/lib
 
 output=""
 

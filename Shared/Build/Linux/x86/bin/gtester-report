@@ -19,7 +19,7 @@
 # Boston, MA 02111-1307, USA.
 import sys, re, xml.dom.minidom
 pkginstall_configvars = {
-  "bindir"    	: "/Work/OSSBuild/Build/Linux/x86/Release/bin", "glib-version"  : "2.20.0" # configvars are substituted upon script installation
+  "bindir"    	: "/home/sysadmin/ossbuild/Build/Linux/x86/Release/bin", "glib-version"  : "2.22.4" # configvars are substituted upon script installation
 }
 
 # xml utilities
@@ -241,7 +241,7 @@ class ReportWriter (TreeProcess):
         txt = node_as_text (perf)
         txt = re.sub (r'&', r'&amp;', txt)
         txt = re.sub (r'<', r'&gt;', txt)
-        txt = '<strong>Performace(' + (pmin and '<em>minimized</em>' or '<em>maximized</em>') + '):</strong> ' + txt.strip() + '<br />\n'
+        txt = '<strong>Performance(' + (pmin and '<em>minimized</em>' or '<em>maximized</em>') + '):</strong> ' + txt.strip() + '<br />\n'
         txt = re.sub (r'"', r'\\"', txt)
         txt = re.sub (r'\n', r'\\n', txt)
         presults += [ (pval, txt) ]

@@ -2,10 +2,10 @@
 # Originally from libxml, Copyright (C) Daniel Veillard
 # Modifications for neon Copyright (C) 2000-2006 Joe Orton.
 
-prefix=/Work/OSSBuild/Build/Linux/x86/Release
+prefix=/home/sysadmin/ossbuild/Build/Linux/x86/Release
 exec_prefix=${prefix}
-includedir=/Work/OSSBuild/Build/Linux/x86/Release/include
-libdir=/Work/OSSBuild/Build/Linux/x86/Release/bin
+includedir=/home/sysadmin/ossbuild/Build/Linux/x86/Release/include
+libdir=/home/sysadmin/ossbuild/Build/Linux/x86/Release/bin
 
 usage()
 {
@@ -23,7 +23,7 @@ Known values for OPTION are:
   --support FEATURE     exit with success if feature is supported
 
  Known features: 
-    dav [no], ssl [yes], zlib [yes], ipv6 [yes], lfs [yes],
+    dav [yes], ssl [yes], zlib [yes], ipv6 [yes], lfs [yes],
     i18n [yes], ts_ssl [no]
 
 EOF
@@ -60,7 +60,7 @@ while test $# -gt 0; do
 	;;
 
     --version)
-	echo neon 0.28.4
+	echo neon 0.29.3
 	exit 0
 	;;
 
@@ -73,12 +73,12 @@ while test $# -gt 0; do
        	;;
 
     --libs)
-        LIBS="-lneon  -lz -L/Work/OSSBuild/Build/Linux/x86/Release/bin -lgnutls  "
+        LIBS="-lneon  -lz -L/home/sysadmin/ossbuild/Build/Linux/x86/Release/bin -lgnutls   -I/home/sysadmin/ossbuild/Build/Linux/x86/Release/include -I/home/sysadmin/ossbuild/Shared/Build/Linux/x86/include -Wl,-Bsymbolic-functions -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err -lexpat"
 	# Don't add standard library paths
         if test "$prefix" != "/usr"; then
            LIBS="-L${libdir} ${LIBS}"
         fi
-	echo  -L/Work/OSSBuild/Build/Linux/x86/Release/bin -L/Work/OSSBuild/Shared/Build/Linux/x86/bin -L/Work/OSSBuild/Build/Linux/x86/Release/lib -L/Work/OSSBuild/Shared/Build/Linux/x86/lib ${LIBS}
+	echo  -L/home/sysadmin/ossbuild/Build/Linux/x86/Release/bin -L/home/sysadmin/ossbuild/Shared/Build/Linux/x86/bin -L/home/sysadmin/ossbuild/Build/Linux/x86/Release/lib -L/home/sysadmin/ossbuild/Shared/Build/Linux/x86/lib ${LIBS}
 	;;
 
     --la-file)
@@ -92,7 +92,7 @@ while test $# -gt 0; do
 	ssl|SSL) support yes ;;
 	zlib|ZLIB) support yes ;;
 	ipv6|IPV6) support yes ;;
-	dav|DAV) support no ;;
+	dav|DAV) support yes ;;
 	lfs|LFS) support yes ;;
 	i18n|I18N) support yes ;;
 	ts_ssl|TS_SSL) support no ;;

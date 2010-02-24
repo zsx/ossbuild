@@ -12,13 +12,13 @@
 # File: src/libgcrypt-config.  Generated from libgcrypt-config.in by configure.
 
 # General.
-prefix="/Work/OSSBuild/Build/Linux/x86/Release"
+prefix="/home/sysadmin/ossbuild/Build/Linux/x86/Release"
 exec_prefix="${prefix}"
-version="1.4.4"
-includedir="/Work/OSSBuild/Build/Linux/x86/Release/include"
-libdir="/Work/OSSBuild/Build/Linux/x86/Release/bin"
-gpg_error_libs="-L/Work/OSSBuild/Build/Linux/x86/Release/lib -lgpg-error"
-gpg_error_cflags="-I/Work/OSSBuild/Build/Linux/x86/Release/include"
+version="1.4.5"
+includedir="/home/sysadmin/ossbuild/Build/Linux/x86/Release/include"
+libdir="/home/sysadmin/ossbuild/Build/Linux/x86/Release/bin"
+gpg_error_libs="-L/home/sysadmin/ossbuild/Build/Linux/x86/Release/lib -lgpg-error"
+gpg_error_cflags="-I/home/sysadmin/ossbuild/Build/Linux/x86/Release/include"
 
 # libgcrypt values.
 libs="-lgcrypt"
