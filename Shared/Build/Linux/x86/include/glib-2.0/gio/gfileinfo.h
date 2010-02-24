@@ -192,14 +192,15 @@ typedef struct _GFileInfoClass   GFileInfoClass;
 #define G_FILE_ATTRIBUTE_STANDARD_SIZE "standard::size"                     /* uint64 */
 
 /**
- * G_FILE_ATTRIBUTE_ALLOCATED_SIZE:
+ * G_FILE_ATTRIBUTE_STANDARD_ALLOCATED_SIZE:
  *
  * A key in the "standard" namespace for getting the amount of disk space
  * that is consumed by the file (in bytes).  This will generally be larger
  * than the file size (due to block size overhead) but can occasionally be
  * smaller (for example, for sparse files).
- *
  * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_UINT64.
+ *
+ * Since: 2.20.
  **/
 #define G_FILE_ATTRIBUTE_STANDARD_ALLOCATED_SIZE "standard::allocated-size" /* uint64 */
 
@@ -363,12 +364,84 @@ typedef struct _GFileInfoClass   GFileInfoClass;
 #define G_FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE "mountable::unix-device" /* uint32 */
 
 /**
+ * G_FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE_FILE:
+ *
+ * A key in the "mountable" namespace for getting the unix device file.
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_STRING.
+ *
+ * Since: 2.22.
+ **/
+#define G_FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE_FILE "mountable::unix-device-file" /* string */
+
+/**
  * G_FILE_ATTRIBUTE_MOUNTABLE_HAL_UDI:
  *
  * A key in the "mountable" namespace for getting the HAL UDI for the mountable
  * file. Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_STRING.
  **/
 #define G_FILE_ATTRIBUTE_MOUNTABLE_HAL_UDI "mountable::hal-udi"         /* string */
+
+/**
+ * G_FILE_ATTRIBUTE_MOUNTABLE_CAN_START:
+ *
+ * A key in the "mountable" namespace for checking if a file (of type G_FILE_TYPE_MOUNTABLE) can be started.
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_BOOLEAN.
+ *
+ * Since: 2.22
+ */
+#define G_FILE_ATTRIBUTE_MOUNTABLE_CAN_START "mountable::can-start"     /* boolean */
+
+/**
+ * G_FILE_ATTRIBUTE_MOUNTABLE_CAN_START_DEGRADED:
+ *
+ * A key in the "mountable" namespace for checking if a file (of type G_FILE_TYPE_MOUNTABLE) can be started
+ * degraded.
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_BOOLEAN.
+ *
+ * Since: 2.22
+ */
+#define G_FILE_ATTRIBUTE_MOUNTABLE_CAN_START_DEGRADED "mountable::can-start-degraded"     /* boolean */
+
+/**
+ * G_FILE_ATTRIBUTE_MOUNTABLE_CAN_STOP:
+ *
+ * A key in the "mountable" namespace for checking if a file (of type G_FILE_TYPE_MOUNTABLE) can be stopped.
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_BOOLEAN.
+ *
+ * Since: 2.22
+ */
+#define G_FILE_ATTRIBUTE_MOUNTABLE_CAN_STOP "mountable::can-stop"      /* boolean */
+
+/**
+ * G_FILE_ATTRIBUTE_MOUNTABLE_START_STOP_TYPE:
+ *
+ * A key in the "mountable" namespace for getting the #GDriveStartStopType.
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_UINT32.
+ *
+ * Since: 2.22
+ */
+#define G_FILE_ATTRIBUTE_MOUNTABLE_START_STOP_TYPE "mountable::start-stop-type" /* uint32 (GDriveStartStopType) */
+
+/**
+ * G_FILE_ATTRIBUTE_MOUNTABLE_CAN_POLL:
+ *
+ * A key in the "mountable" namespace for checking if a file (of type G_FILE_TYPE_MOUNTABLE) can be polled.
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_BOOLEAN.
+ *
+ * Since: 2.22
+ */
+#define G_FILE_ATTRIBUTE_MOUNTABLE_CAN_POLL "mountable::can-poll"      /* boolean */
+
+/**
+ * G_FILE_ATTRIBUTE_MOUNTABLE_IS_MEDIA_CHECK_AUTOMATIC:
+ *
+ * A key in the "mountable" namespace for checking if a file (of type G_FILE_TYPE_MOUNTABLE)
+ * is automatically polled for media.
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_BOOLEAN.
+ *
+ * Since: 2.22
+ */
+#define G_FILE_ATTRIBUTE_MOUNTABLE_IS_MEDIA_CHECK_AUTOMATIC "mountable::is-media-check-automatic"      /* boolean */
 
 /* Time attributes */
 
@@ -718,6 +791,8 @@ void               g_file_info_copy_into                 (GFileInfo  *src_info,
 							  GFileInfo  *dest_info);
 gboolean           g_file_info_has_attribute             (GFileInfo  *info,
 							  const char *attribute);
+gboolean           g_file_info_has_namespace             (GFileInfo  *info,
+							  const char *name_space);
 char **            g_file_info_list_attributes           (GFileInfo  *info,
 							  const char *name_space);
 gboolean           g_file_info_get_attribute_data        (GFileInfo  *info,
@@ -731,6 +806,9 @@ void               g_file_info_remove_attribute          (GFileInfo  *info,
 							  const char *attribute);
 GFileAttributeStatus g_file_info_get_attribute_status    (GFileInfo  *info,
 							  const char *attribute);
+gboolean           g_file_info_set_attribute_status      (GFileInfo  *info,
+							  const char *attribute,
+							  GFileAttributeStatus status);
 char *             g_file_info_get_attribute_as_string   (GFileInfo  *info,
 							  const char *attribute);
 const char *       g_file_info_get_attribute_string      (GFileInfo  *info,
@@ -748,6 +826,8 @@ guint64            g_file_info_get_attribute_uint64      (GFileInfo  *info,
 gint64             g_file_info_get_attribute_int64       (GFileInfo  *info,
 							  const char *attribute);
 GObject *          g_file_info_get_attribute_object      (GFileInfo  *info,
+							  const char *attribute);
+char **            g_file_info_get_attribute_stringv     (GFileInfo  *info,
 							  const char *attribute);
 
 void               g_file_info_set_attribute             (GFileInfo  *info,
@@ -778,6 +858,9 @@ void               g_file_info_set_attribute_int64       (GFileInfo  *info,
 void               g_file_info_set_attribute_object      (GFileInfo  *info,
 							  const char *attribute,
 							  GObject    *attr_value);
+void               g_file_info_set_attribute_stringv     (GFileInfo  *info,
+							  const char *attribute,
+							  char      **attr_value);
 
 void               g_file_info_clear_status              (GFileInfo  *info);
 

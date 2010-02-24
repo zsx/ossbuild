@@ -189,6 +189,7 @@ struct _SchroEncoderFrame {
   double scene_change_score;
   double average_luma;
 
+  int hard_limit_bits;
   int allocated_residual_bits;
   int allocated_mc_bits;
   double base_lambda;
@@ -268,6 +269,7 @@ struct _SchroEncoder {
   schro_bool enable_global_motion;
   int horiz_slices;
   int vert_slices;
+  int codeblock_size;
 
   double magic_dc_metric_offset;
   double magic_subband0_lambda_scale;
@@ -287,6 +289,7 @@ struct _SchroEncoder {
   double magic_badblock_multiplier_nonref;
   double magic_badblock_multiplier_ref;
   double magic_block_search_threshold;
+  double magic_scan_distance;
 
   /* hooks */
 

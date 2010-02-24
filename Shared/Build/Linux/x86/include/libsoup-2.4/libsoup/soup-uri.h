@@ -9,6 +9,7 @@
 #define  SOUP_URI_H 1
 
 #include <libsoup/soup-types.h>
+#include <libsoup/soup-misc.h>
 
 G_BEGIN_DECLS
 
@@ -30,9 +31,14 @@ struct _SoupURI {
 GType     soup_uri_get_type          (void);
 #define SOUP_TYPE_URI (soup_uri_get_type ())
 
-#define SOUP_URI_SCHEME_HTTP  (_SOUP_URI_SCHEME_HTTP ? _SOUP_URI_SCHEME_HTTP : (_SOUP_URI_SCHEME_HTTP = g_intern_static_string ("http")))
-#define SOUP_URI_SCHEME_HTTPS (_SOUP_URI_SCHEME_HTTPS ? _SOUP_URI_SCHEME_HTTPS : (_SOUP_URI_SCHEME_HTTPS = g_intern_static_string ("https")))
-extern const char *_SOUP_URI_SCHEME_HTTP, *_SOUP_URI_SCHEME_HTTPS;
+#define SOUP_URI_SCHEME_HTTP  _SOUP_ATOMIC_INTERN_STRING (_SOUP_URI_SCHEME_HTTP, "http")
+#define SOUP_URI_SCHEME_HTTPS _SOUP_ATOMIC_INTERN_STRING (_SOUP_URI_SCHEME_HTTPS, "https")
+#define SOUP_URI_SCHEME_FTP   _SOUP_ATOMIC_INTERN_STRING (_SOUP_URI_SCHEME_FTP, "ftp")
+#define SOUP_URI_SCHEME_FILE  _SOUP_ATOMIC_INTERN_STRING (_SOUP_URI_SCHEME_FILE, "file")
+#define SOUP_URI_SCHEME_DATA  _SOUP_ATOMIC_INTERN_STRING (_SOUP_URI_SCHEME_DATA, "data")
+extern gpointer _SOUP_URI_SCHEME_HTTP, _SOUP_URI_SCHEME_HTTPS;
+extern gpointer _SOUP_URI_SCHEME_FTP;
+extern gpointer _SOUP_URI_SCHEME_FILE, _SOUP_URI_SCHEME_DATA;
 
 SoupURI  *soup_uri_new_with_base         (SoupURI    *base,
 					  const char *uri_string);
@@ -74,11 +80,16 @@ void      soup_uri_set_query_from_form   (SoupURI    *uri,
 					  GHashTable *form);
 void      soup_uri_set_query_from_fields (SoupURI    *uri,
 					  const char *first_field,
-					  ...);
+					  ...) G_GNUC_NULL_TERMINATED;
 void      soup_uri_set_fragment          (SoupURI    *uri,
 					  const char *fragment);
 
-#define   SOUP_URI_VALID_FOR_HTTP(uri) ((uri) && ((uri)->scheme == SOUP_URI_SCHEME_HTTP || (uri)->scheme == SOUP_URI_SCHEME_HTTPS) && (uri)->host)
+SoupURI  *soup_uri_copy_host             (SoupURI    *uri);
+guint     soup_uri_host_hash             (gconstpointer key);
+gboolean  soup_uri_host_equal            (gconstpointer v1,
+					  gconstpointer v2);
+
+#define   SOUP_URI_VALID_FOR_HTTP(uri) ((uri) && ((uri)->scheme == SOUP_URI_SCHEME_HTTP || (uri)->scheme == SOUP_URI_SCHEME_HTTPS) && (uri)->host && (uri)->path)
 
 G_END_DECLS
 

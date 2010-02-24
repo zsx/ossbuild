@@ -33,6 +33,8 @@ guint              soup_str_case_hash        (gconstpointer key);
 gboolean           soup_str_case_equal       (gconstpointer v1,
 					      gconstpointer v2);
 
+#define _SOUP_ATOMIC_INTERN_STRING(variable, value) ((const char *)(g_atomic_pointer_get (&(variable)) ? (variable) : (g_atomic_pointer_set (&(variable), (gpointer)g_intern_static_string (value)), (variable))))
+
 /* SSL stuff */
 
 extern const gboolean soup_ssl_supported;
@@ -46,6 +48,15 @@ typedef enum {
 	SOUP_SSL_ERROR_HANDSHAKE_NEEDS_WRITE,
 	SOUP_SSL_ERROR_CERTIFICATE
 } SoupSSLError;
+
+typedef enum {
+	SOUP_CONNECTION_NEW,
+	SOUP_CONNECTION_CONNECTING,
+	SOUP_CONNECTION_IDLE,
+	SOUP_CONNECTION_IN_USE,
+	SOUP_CONNECTION_REMOTE_DISCONNECTED,
+	SOUP_CONNECTION_DISCONNECTED
+} SoupConnectionState;
 
 G_END_DECLS
 

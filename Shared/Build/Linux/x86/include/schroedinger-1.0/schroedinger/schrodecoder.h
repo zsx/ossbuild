@@ -42,6 +42,7 @@ struct _SchroDecoder {
 
   double skip_value;
   double skip_ratio;
+  int earliest_frame;
 
   /* output pictures in coded order */
   int coded_order;
@@ -79,13 +80,17 @@ struct _SchroDecoderInstance {
   /* xxx: maybe this belongs in Decoder and not per instance */
   SchroQueue *output_queue;
 
-  SchroPictureNumber next_frame_number;
+  /* the last picture number to be emitted by decoder_pull().
+   * used to determine if a stream jumps backwards */
+  SchroPictureNumber last_picture_number;
+  int last_picture_number_valid;
 
   int major_version;
   int minor_version;
   int profile;
   int level;
   SchroVideoFormat video_format;
+  int compat_quant_offset;
 
   SchroQueue *reorder_queue;
   int reorder_queue_size;

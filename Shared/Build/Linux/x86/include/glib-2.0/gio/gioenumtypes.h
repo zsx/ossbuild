@@ -29,6 +29,10 @@ GType g_mount_mount_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_MOUNT_MOUNT_FLAGS (g_mount_mount_flags_get_type ())
 GType g_mount_unmount_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_MOUNT_UNMOUNT_FLAGS (g_mount_unmount_flags_get_type ())
+GType g_drive_start_flags_get_type (void) G_GNUC_CONST;
+#define G_TYPE_DRIVE_START_FLAGS (g_drive_start_flags_get_type ())
+GType g_drive_start_stop_type_get_type (void) G_GNUC_CONST;
+#define G_TYPE_DRIVE_START_STOP_TYPE (g_drive_start_stop_type_get_type ())
 GType g_file_copy_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_FILE_COPY_FLAGS (g_file_copy_flags_get_type ())
 GType g_file_monitor_flags_get_type (void) G_GNUC_CONST;
@@ -51,6 +55,16 @@ GType g_output_stream_splice_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_OUTPUT_STREAM_SPLICE_FLAGS (g_output_stream_splice_flags_get_type ())
 GType g_emblem_origin_get_type (void) G_GNUC_CONST;
 #define G_TYPE_EMBLEM_ORIGIN (g_emblem_origin_get_type ())
+GType g_resolver_error_get_type (void) G_GNUC_CONST;
+#define G_TYPE_RESOLVER_ERROR (g_resolver_error_get_type ())
+GType g_socket_family_get_type (void) G_GNUC_CONST;
+#define G_TYPE_SOCKET_FAMILY (g_socket_family_get_type ())
+GType g_socket_type_get_type (void) G_GNUC_CONST;
+#define G_TYPE_SOCKET_TYPE (g_socket_type_get_type ())
+GType g_socket_msg_flags_get_type (void) G_GNUC_CONST;
+#define G_TYPE_SOCKET_MSG_FLAGS (g_socket_msg_flags_get_type ())
+GType g_socket_protocol_get_type (void) G_GNUC_CONST;
+#define G_TYPE_SOCKET_PROTOCOL (g_socket_protocol_get_type ())
 G_END_DECLS
 
 #endif /* __GIO_ENUM_TYPES_H__ */

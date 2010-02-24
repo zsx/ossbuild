@@ -74,6 +74,27 @@ struct _GVfsClass
                                                        const char *parse_name);
 
   /*< private >*/
+  void                  (* local_file_add_info)       (GVfs       *vfs,
+						       const char *filename,
+						       guint64     device,
+						       GFileAttributeMatcher *attribute_matcher,
+						       GFileInfo  *info,
+						       GCancellable *cancellable,
+						       gpointer   *extra_data,
+						       GDestroyNotify *free_extra_data);
+  void                  (* add_writable_namespaces)   (GVfs       *vfs,
+						       GFileAttributeInfoList *list);
+  gboolean              (* local_file_set_attributes) (GVfs       *vfs,
+						       const char *filename,
+						       GFileInfo  *info,
+                                                       GFileQueryInfoFlags flags,
+                                                       GCancellable *cancellable,
+						       GError    **error);
+  void                  (* local_file_removed)        (GVfs       *vfs,
+						       const char *filename);
+  void                  (* local_file_moved)          (GVfs       *vfs,
+						       const char *source,
+						       const char *dest);
   /* Padding for future expansion */
   void (*_g_reserved1) (void);
   void (*_g_reserved2) (void);
@@ -82,11 +103,6 @@ struct _GVfsClass
   void (*_g_reserved5) (void);
   void (*_g_reserved6) (void);
   void (*_g_reserved7) (void);
-  void (*_g_reserved8) (void);
-  void (*_g_reserved9) (void);
-  void (*_g_reserved10) (void);
-  void (*_g_reserved11) (void);
-  void (*_g_reserved12) (void);
 };
 
 GType                 g_vfs_get_type                  (void) G_GNUC_CONST;

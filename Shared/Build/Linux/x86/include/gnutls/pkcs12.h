@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003, 2004, 2005, 2007, 2008 Free Software Foundation
+ * Copyright (C) 2003, 2004, 2005, 2007, 2008, 2009 Free Software Foundation
  *
  * Author: Nikos Mavrogiannopoulos
  *
@@ -25,15 +25,15 @@
 #ifndef GNUTLS_PKCS12_H
 # define GNUTLS_PKCS12_H
 
-#ifdef __cplusplus
+# include <gnutls/x509.h>
+
+# ifdef __cplusplus
 extern "C"
 {
-#endif
+# endif
 
-#include <gnutls/x509.h>
-
-/* PKCS12 structures handling 
- */
+  /* PKCS12 structures handling
+   */
   struct gnutls_pkcs12_int;
   typedef struct gnutls_pkcs12_int *gnutls_pkcs12_t;
 
@@ -44,12 +44,10 @@ extern "C"
   void gnutls_pkcs12_deinit (gnutls_pkcs12_t pkcs12);
   int gnutls_pkcs12_import (gnutls_pkcs12_t pkcs12,
 			    const gnutls_datum_t * data,
-			    gnutls_x509_crt_fmt_t format,
-			    unsigned int flags);
+			    gnutls_x509_crt_fmt_t format, unsigned int flags);
   int gnutls_pkcs12_export (gnutls_pkcs12_t pkcs12,
 			    gnutls_x509_crt_fmt_t format,
-			    void *output_data,
-			    size_t * output_data_size);
+			    void *output_data, size_t * output_data_size);
 
   int gnutls_pkcs12_get_bag (gnutls_pkcs12_t pkcs12,
 			     int indx, gnutls_pkcs12_bag_t bag);
@@ -74,8 +72,9 @@ extern "C"
     GNUTLS_BAG_UNKNOWN = 20
   } gnutls_pkcs12_bag_type_t;
 
-  gnutls_pkcs12_bag_type_t gnutls_pkcs12_bag_get_type (gnutls_pkcs12_bag_t
-						       bag, int indx);
+  gnutls_pkcs12_bag_type_t
+  gnutls_pkcs12_bag_get_type (gnutls_pkcs12_bag_t bag,
+			      int indx);
   int gnutls_pkcs12_bag_get_data (gnutls_pkcs12_bag_t bag, int indx,
 				  gnutls_datum_t * data);
   int gnutls_pkcs12_bag_set_data (gnutls_pkcs12_bag_t bag,
@@ -100,7 +99,8 @@ extern "C"
   int gnutls_pkcs12_bag_set_friendly_name (gnutls_pkcs12_bag_t bag, int indx,
 					   const char *name);
 
-#ifdef __cplusplus
+# ifdef __cplusplus
 }
-#endif
+# endif
+
 #endif				/* GNUTLS_PKCS12_H */

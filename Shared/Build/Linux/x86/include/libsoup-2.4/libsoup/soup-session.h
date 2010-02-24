@@ -46,8 +46,11 @@ typedef struct {
 	void  (*cancel_message)  (SoupSession *session, SoupMessage *msg,
 				  guint status_code);
 
+	void  (*auth_required)   (SoupSession *session, SoupMessage *msg,
+				  SoupAuth *auth, gboolean retrying);
+
+
 	/* Padding for future expansion */
-	void (*_libsoup_reserved1) (void);
 	void (*_libsoup_reserved2) (void);
 	void (*_libsoup_reserved3) (void);
 	void (*_libsoup_reserved4) (void);
@@ -55,15 +58,18 @@ typedef struct {
 
 GType soup_session_get_type (void);
 
-#define SOUP_SESSION_PROXY_URI          "proxy-uri"
-#define SOUP_SESSION_MAX_CONNS          "max-conns"
-#define SOUP_SESSION_MAX_CONNS_PER_HOST "max-conns-per-host"
-#define SOUP_SESSION_USE_NTLM           "use-ntlm"
-#define SOUP_SESSION_SSL_CA_FILE        "ssl-ca-file"
-#define SOUP_SESSION_ASYNC_CONTEXT      "async-context"
-#define SOUP_SESSION_TIMEOUT            "timeout"
-#define SOUP_SESSION_USER_AGENT         "user-agent"
-#define SOUP_SESSION_IDLE_TIMEOUT       "idle-timeout"
+#define SOUP_SESSION_PROXY_URI              "proxy-uri"
+#define SOUP_SESSION_MAX_CONNS              "max-conns"
+#define SOUP_SESSION_MAX_CONNS_PER_HOST     "max-conns-per-host"
+#define SOUP_SESSION_USE_NTLM               "use-ntlm"
+#define SOUP_SESSION_SSL_CA_FILE            "ssl-ca-file"
+#define SOUP_SESSION_SSL_STRICT             "ssl-strict"
+#define SOUP_SESSION_ASYNC_CONTEXT          "async-context"
+#define SOUP_SESSION_TIMEOUT                "timeout"
+#define SOUP_SESSION_USER_AGENT             "user-agent"
+#define SOUP_SESSION_ACCEPT_LANGUAGE        "accept-language"
+#define SOUP_SESSION_ACCEPT_LANGUAGE_AUTO   "accept-language-auto"
+#define SOUP_SESSION_IDLE_TIMEOUT           "idle-timeout"
 #define SOUP_SESSION_ADD_FEATURE            "add-feature"
 #define SOUP_SESSION_ADD_FEATURE_BY_TYPE    "add-feature-by-type"
 #define SOUP_SESSION_REMOVE_FEATURE_BY_TYPE "remove-feature-by-type"
@@ -90,6 +96,8 @@ void            soup_session_cancel_message   (SoupSession           *session,
 					       guint                  status_code);
 void            soup_session_abort            (SoupSession           *session);
 
+void            soup_session_prepare_for_uri  (SoupSession           *session,
+					       SoupURI               *uri);
 
 void                soup_session_add_feature            (SoupSession        *session,
 							 SoupSessionFeature *feature);
@@ -103,6 +111,9 @@ GSList             *soup_session_get_features           (SoupSession        *ses
 							 GType               feature_type);
 SoupSessionFeature *soup_session_get_feature            (SoupSession        *session,
 							 GType               feature_type);
+SoupSessionFeature *soup_session_get_feature_for_message(SoupSession        *session,
+							 GType               feature_type,
+							 SoupMessage        *msg);
 
 G_END_DECLS
 

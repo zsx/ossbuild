@@ -44,6 +44,7 @@ typedef struct _GMountIface    GMountIface;
  * @g_iface: The parent interface.
  * @changed: Changed signal that is emitted when the mount's state has changed.
  * @unmounted: The unmounted signal that is emitted when the #GMount have been unmounted. If the recipient is holding references to the object they should release them so the object can be finalized.
+ * @pre_unmount: The pre_unmout signal that is emitted when the #GMount will soon be emitted. If the recipient is somehow holding the mount open by keeping an open file on it it should close the file.
  * @get_root: Gets a #GFile to the root directory of the #GMount.
  * @get_name: Gets a string containing the name of the #GMount.
  * @get_icon: Gets a #GIcon for the #GMount.
@@ -63,6 +64,10 @@ typedef struct _GMountIface    GMountIface;
  *     type guessing. This operation was added in 2.18.
  * @guess_content_type_finish: Finishes a contenet type guessing operation. Added in 2.18.
  * @guess_content_type_sync: Synchronous variant of @guess_content_type. Added in 2.18
+ * @unmount_with_operation: Starts unmounting a #GMount using a #GMountOperation. Since 2.22.
+ * @unmount_with_operation_finish: Finishes an unmounting operation using a #GMountOperation. Since 2.22.
+ * @eject_with_operation: Starts ejecting a #GMount using a #GMountOperation. Since 2.22.
+ * @eject_with_operation_finish: Finishes an eject operation using a #GMountOperation. Since 2.22.
  *
  * Interface for implementing operations for mounts.
  **/
@@ -126,6 +131,29 @@ struct _GMountIface
                                              gboolean             force_rescan,
                                              GCancellable        *cancellable,
                                              GError             **error);
+
+  /* Signal, not VFunc */
+  void        (* pre_unmount)               (GMount              *mount);
+
+  void        (* unmount_with_operation)    (GMount              *mount,
+                                             GMountUnmountFlags   flags,
+                                             GMountOperation     *mount_operation,
+                                             GCancellable        *cancellable,
+                                             GAsyncReadyCallback  callback,
+                                             gpointer             user_data);
+  gboolean    (* unmount_with_operation_finish) (GMount          *mount,
+                                             GAsyncResult        *result,
+                                             GError             **error);
+
+  void        (* eject_with_operation)      (GMount              *mount,
+                                             GMountUnmountFlags   flags,
+                                             GMountOperation     *mount_operation,
+                                             GCancellable        *cancellable,
+                                             GAsyncReadyCallback  callback,
+                                             gpointer             user_data);
+  gboolean    (* eject_with_operation_finish) (GMount            *mount,
+                                             GAsyncResult        *result,
+                                             GError             **error);
 };
 
 GType       g_mount_get_type                  (void) G_GNUC_CONST;
@@ -139,6 +167,7 @@ GDrive    * g_mount_get_drive                 (GMount              *mount);
 gboolean    g_mount_can_unmount               (GMount              *mount);
 gboolean    g_mount_can_eject                 (GMount              *mount);
 
+#ifndef G_DISABLE_DEPRECATED
 void        g_mount_unmount                   (GMount              *mount,
                                                GMountUnmountFlags   flags,
                                                GCancellable        *cancellable,
@@ -156,6 +185,7 @@ void        g_mount_eject                     (GMount              *mount,
 gboolean    g_mount_eject_finish              (GMount              *mount,
                                                GAsyncResult        *result,
                                                GError             **error);
+#endif
 
 void        g_mount_remount                   (GMount              *mount,
                                                GMountMountFlags     flags,
@@ -183,6 +213,26 @@ gchar    ** g_mount_guess_content_type_sync   (GMount              *mount,
 gboolean    g_mount_is_shadowed               (GMount              *mount);
 void        g_mount_shadow                    (GMount              *mount);
 void        g_mount_unshadow                  (GMount              *mount);
+
+void        g_mount_unmount_with_operation    (GMount              *mount,
+                                               GMountUnmountFlags   flags,
+                                               GMountOperation     *mount_operation,
+                                               GCancellable        *cancellable,
+                                               GAsyncReadyCallback  callback,
+                                               gpointer             user_data);
+gboolean    g_mount_unmount_with_operation_finish (GMount          *mount,
+                                               GAsyncResult        *result,
+                                               GError             **error);
+
+void        g_mount_eject_with_operation      (GMount              *mount,
+                                               GMountUnmountFlags   flags,
+                                               GMountOperation     *mount_operation,
+                                               GCancellable        *cancellable,
+                                               GAsyncReadyCallback  callback,
+                                               gpointer             user_data);
+gboolean    g_mount_eject_with_operation_finish (GMount            *mount,
+                                               GAsyncResult        *result,
+                                               GError             **error);
 
 G_END_DECLS
 

@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    FreeType convenience functions to handle glyphs (specification).     */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2006, 2008 by                         */
+/*  Copyright 1996-2001, 2002, 2003, 2006, 2008, 2009 by                   */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -194,7 +194,7 @@ FT_BEGIN_HEADER
   /*    outline :: A descriptor for the outline.                           */
   /*                                                                       */
   /* <Note>                                                                */
-  /*    You can typecast a @FT_Glyph to @FT_OutlineGlyph if you have       */
+  /*    You can typecast an @FT_Glyph to @FT_OutlineGlyph if you have      */
   /*    `glyph->format == FT_GLYPH_FORMAT_OUTLINE'.  This lets you access  */
   /*    the outline's content easily.                                      */
   /*                                                                       */
@@ -468,7 +468,7 @@ FT_BEGIN_HEADER
   /*        // convert to a bitmap (default render mode + destroying old)  */
   /*        if ( glyph->format != FT_GLYPH_FORMAT_BITMAP )                 */
   /*        {                                                              */
-  /*          error = FT_Glyph_To_Bitmap( &glyph, FT_RENDER_MODE_DEFAULT,  */
+  /*          error = FT_Glyph_To_Bitmap( &glyph, FT_RENDER_MODE_NORMAL,   */
   /*                                      0, 1 );                          */
   /*          if ( error ) // `glyph' unchanged                            */
   /*            ...                                                        */

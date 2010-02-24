@@ -61,15 +61,16 @@ typedef enum
 #define PANGO_OT_TAG_DEFAULT_SCRIPT		PANGO_OT_TAG_MAKE ('D', 'F', 'L', 'T')
 #define PANGO_OT_TAG_DEFAULT_LANGUAGE		PANGO_OT_TAG_MAKE ('d', 'f', 'l', 't')
 
-/* Note that this must match HB_GlyphItem */
+/* Note that this must match hb_glyph_info_t */
 struct _PangoOTGlyph
 {
-  guint    glyph;
+  guint32  glyph;
   guint    properties;
   guint    cluster;
   gushort  component;
   gushort  ligID;
-  gushort  property_cache;    /* Internal */
+
+  guint    internal;
 };
 
 struct _PangoOTFeatureMap

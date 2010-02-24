@@ -12,7 +12,7 @@ SCHRO_BEGIN_DECLS
 extern const uint32_t schro_table_offset_3_8[61];
 extern const uint32_t schro_table_offset_1_2[61];
 extern const uint32_t schro_table_quant[61];
-extern const uint32_t schro_table_inverse_quant[61];
+extern const uint16_t schro_table_inverse_quant[61];
 extern const uint16_t schro_table_division_factor[257];
 extern const double schro_table_error_hist_shift3_1_2[60][104];
 extern const double schro_table_onebits_hist_shift3_1_2[60][104];
@@ -24,7 +24,7 @@ extern const double schro_tables_wavelet_gain[SCHRO_N_WAVELETS][2];
 extern const int schro_table_unpack_sint[256][17];
 
 void schro_tables_init (void);
-int16_t *schro_tables_get_quantise_table (int quant_index);
+int16_t *schro_tables_get_quantise_table (int quant_index, schro_bool is_intra);
 int16_t *schro_tables_get_dequantise_table (int quant_index, schro_bool is_intra);
 
 #endif
