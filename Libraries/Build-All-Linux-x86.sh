@@ -78,6 +78,8 @@ if [ ! -f "$BinDir/libz.so.1" ]; then
 	rm -f match.S
 	
 	arrange_shared "$BinDir" "libz.so" "1" "1.2.3"
+	
+	rm -rf "$LibDir/libz.a"
 fi
 
 #bzip2
@@ -95,6 +97,8 @@ if [ ! -f "$BinDir/libbz2.so.1" ]; then
 	
 	make clean
 	remove_files_from_dir "*.so.* bzip2-shared"
+	
+	rm -rf "$LibDir/libbz2.a"
 fi
 
 #Skip pthreads
@@ -111,6 +115,8 @@ if [ ! -f "$BinDir/libGLEW.so.1.5" ]; then
 	arrange_shared "$LibDir" "libGLEW.so" "1.5" "1.5.2"
 	move_files_to_dir "$LibDir/lib*GLEW*.so*" "$BinDir"
 	chmod uag+x "$BinDir/libGLEW.so.1.5"
+	
+	rm -rf "$LibDir/libGLEW.a"
 fi
 
 #expat
@@ -135,6 +141,8 @@ if [ ! -f "$BinDir/libxml2.so.2" ]; then
 	reset_flags
 
 	arrange_shared "$BinDir" "libxml2.so" "2" "2.7.6" "libxml2.la" "libxml-2.0.pc" "$LibDir"
+	
+	chmod aug+x "$BinDir/xml2Conf.sh"
 fi
 
 #libjpeg
@@ -148,6 +156,8 @@ if [ ! -f "$BinDir/libjpeg.so.8" ]; then
 	move_files_to_dir "$LibDir/libjpeg*" "$BinDir"
 	arrange_shared "$BinDir" "libjpeg.so" "8" "8.0.0" "libjpeg.la" "" "$LibDir"
 	move_files_to_dir "$BinDir/libjpeg.a" "$LibDir"
+	
+	rm -rf "$LibDir/libjpeg.a"
 fi
 
 #openjpeg
@@ -163,6 +173,8 @@ if [ ! -f "$BinDir/libopenjpeg.so.2" ]; then
 	rm -f "$LibDir/libopenjpeg.so.2"
 	cd "$BinDir/"
 	ln -s libopenjpeg.so.2 libopenjpeg.so
+	
+	rm -rf "$LibDir/libopenjpeg.a"
 fi
 
 #libpng
@@ -219,6 +231,9 @@ if [ ! -f "$BinDir/libglib-2.0.so.0" ]; then
 	mv "$BinDir/gio" "$LibDir"
 	mv "$BinDir/glib-2.0" "$LibDir"
 	cp -p "$LibDir/glib-2.0/include/glibconfig.h" "$IncludeDir/glib-2.0/"
+	rm -rf "$LibDir/glib-2.0/"
+	rm -rf "$LibDir/gio/"
+	chmod aug+x "$BinDir/gtester-report"
 fi
 
 #atk
@@ -230,7 +245,7 @@ if [ ! -f "$BinDir/libatk-1.0.so.0" ]; then
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libatk-1.0.so" "0" "0.2913.1" "libatk-1.0.la" "" "$LibDir"
+	arrange_shared "$BinDir" "libatk-1.0.so" "0" "0.2913.1" "libatk-1.0.la" "atk.pc" "$LibDir"
 fi
 
 #openssl
@@ -287,7 +302,7 @@ if [ ! -f "$BinDir/libtasn1.so.3" ]; then
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libtasn1.so" "3" "3.1.7" "libtasn1.la" "" "$LibDir"
+	arrange_shared "$BinDir" "libtasn1.so" "3" "3.1.7" "libtasn1.la" "libtasn1.pc" "$LibDir"
 fi
 
 #gnutls
@@ -303,238 +318,352 @@ if [ ! -f "$BinDir/libgnutls.so.26" ]; then
 	#arrange_shared "$BinDir" "libgnutlsxx.so" "26" "26.14.12" "libgnutlsxx.la" "" "$LibDir"
 	arrange_shared "$BinDir" "libgnutls-openssl.so" "26" "26.14.12" "libgnutls-openssl.la" "" "$LibDir"
 fi
-exit 0
+
 #soup
-if [ ! -f "$BinDir/libsoup-2.4.so" ]; then 
+if [ ! -f "$BinDir/libsoup-2.4.so.1" ]; then 
 	unpack_bzip2_and_move "libsoup.tar.bz2" "$PKG_DIR_LIBSOUP"
 	mkdir_and_move "$IntDir/libsoup"
 	
 	$PKG_DIR/configure --without-gnome --disable-glibtest --enable-ssl --enable-debug=no --disable-more-warnings --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	arrange_shared "$BinDir" "libsoup-2.4.so" "1" "1.2.0" "libsoup-2.4.la" "libsoup-2.4.pc" "$LibDir"
+	
+	arrange_shared "$BinDir" "libsoup-2.4.so" "1" "1.3.0" "libsoup-2.4.la" "libsoup-2.4.pc" "$LibDir"
 fi
 
 #neon
-if [ ! -f "$BinDir/libneon.so" ]; then 
+if [ ! -f "$BinDir/libneon.so.27" ]; then 
 	unpack_gzip_and_move "neon.tar.gz" "$PKG_DIR_NEON"
 	mkdir_and_move "$IntDir/neon"
 	
-	$PKG_DIR/configure --with-libxml2 --with-ssl=gnutls --disable-webdav --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	$PKG_DIR/configure --with-ssl=gnutls --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	
-	arrange_shared "$BinDir" "libneon.so" "27" "27.1.4" "libneon.la" "neon.pc" "$LibDir"
+
+	arrange_shared "$BinDir" "libneon.so" "27" "27.2.3" "libneon.la" "neon.pc" "$LibDir"
 fi
 
 #freetype
-if [ ! -f "$BinDir/libfreetype.so" ]; then 
+if [ ! -f "$BinDir/libfreetype.so.6" ]; then 
 	unpack_bzip2_and_move "freetype.tar.bz2" "$PKG_DIR_FREETYPE"
 	mkdir_and_move "$IntDir/freetype"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libfreetype.so" "6" "6.3.20" "libfreetype.la" "freetype2.pc" "$LibDir"
+	arrange_shared "$BinDir" "libfreetype.so" "6" "6.4.0" "libfreetype.la" "freetype2.pc" "$LibDir"
 fi
 
 #fontconfig
-if [ ! -f "$BinDir/libfontconfig.so" ]; then 
+if [ ! -f "$BinDir/libfontconfig.so.1" ]; then 
 	unpack_gzip_and_move "fontconfig.tar.gz" "$PKG_DIR_FONTCONFIG"
 	mkdir_and_move "$IntDir/fontconfig"
 	
-	$PKG_DIR/configure --enable-libxml2 --disable-debug --disable-static --disable-docs --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-
+	$PKG_DIR/configure --disable-debug --disable-static --disable-docs --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libfontconfig.so" "1" "1.3.0" "libfontconfig.la" "fontconfig.pc" "$LibDir"
+	arrange_shared "$BinDir" "libfontconfig.so" "1" "1.4.4" "libfontconfig.la" "fontconfig.pc" "$LibDir"
 fi
 
 #pixman
-if [ ! -f "$BinDir/libpixman-1.so" ]; then 
+if [ ! -f "$BinDir/libpixman-1.so.0" ]; then 
 	unpack_gzip_and_move "pixman.tar.gz" "$PKG_DIR_PIXMAN"
 	mkdir_and_move "$IntDir/pixman"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libpixman-1.so" "0" "0.15.2" "libpixman-1.la" "pixman-1.pc" "$LibDir"
+	arrange_shared "$BinDir" "libpixman-1.so" "0" "0.17.6" "libpixman-1.la" "pixman-1.pc" "$LibDir"
 fi
 
 #cairo
-if [ ! -f "$BinDir/libcairo.so" ]; then 
+if [ ! -f "$BinDir/libcairo.so.2" ]; then 
 	unpack_gzip_and_move "cairo.tar.gz" "$PKG_DIR_CAIRO"
 	mkdir_and_move "$IntDir/cairo"
 	
-	$PKG_DIR/configure --enable-xlib=auto --enable-xlib-xrender=auto --enable-png=yes --enable-ft=yes --enable-pdf=yes --enable-svg=yes --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	$PKG_DIR/configure --enable-xlib=yes --enable-xlib-xrender=no --enable-png=yes --enable-ft=yes --enable-pdf=yes --enable-svg=yes --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	cp -p "$IntDir/cairo/src/cairo-features.h" "$PKG_DIR/src/"
 	make && make install
-	
-	arrange_shared "$BinDir" "libcairo.so" "2" "2.10800.6" "libcairo.la" "cairo*.pc" "$LibDir"
+
+	arrange_shared "$BinDir" "libcairo.so" "2" "2.10800.10" "libcairo.la" "cairo*.pc" "$LibDir"
 fi
 
 #pango
-if [ ! -f "$BinDir/libpango-1.0.so" ]; then 
-	unpack_gzip_and_move "pango.tar.gz" "$PKG_DIR_PANGO"
+if [ ! -f "$BinDir/libpango-1.0.so.0" ]; then 
+	unpack_bzip2_and_move "pango.tar.bz2" "$PKG_DIR_PANGO"
 	mkdir_and_move "$IntDir/pango"
 	
-	LDFLAGS="$LDFLAGS -lxml2"
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	$PKG_DIR/configure --with-included-modules --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 	reset_flags
 
-	arrange_shared "$BinDir" "libpango-1.0.so" "0" "0.2400.1" "libpango-1.0.la" "pango.pc" "$LibDir"
-	arrange_shared "$BinDir" "libpangoft2-1.0.so" "0" "0.2400.1" "libpangoft2-1.0.la" "pangoft2.pc" "$LibDir"
-	arrange_shared "$BinDir" "libpangocairo-1.0.so" "0" "0.2400.1" "libpangocairo-1.0.la" "pangocairo.pc" "$LibDir"
-	mkdir -p "$LibDir/pango/1.6.0/modules"
-	move_files_to_dir "$BinDir/pango/1.6.0/modules/*.la" "$LibDir/pango/1.6.0/modules"
+	arrange_shared "$BinDir" "libpango-1.0.so" "0" "0.2701.0" "libpango-1.0.la" "pango.pc" "$LibDir"
+	arrange_shared "$BinDir" "libpangox-1.0.so" "0" "0.2701.0" "libpangox-1.0.la" "pangox.pc" "$LibDir"
+	arrange_shared "$BinDir" "libpangoft2-1.0.so" "0" "0.2701.0" "libpangoft2-1.0.la" "pangoft2.pc" "$LibDir"
+	arrange_shared "$BinDir" "libpangocairo-1.0.so" "0" "0.2701.0" "libpangocairo-1.0.la" "pangocairo.pc" "$LibDir"
+	rm -rf "$BinDir/pango/"
+	chmod uag+x "$LibDir/libpangox-1.0.la"
+	chmod uag+x "$LibDir/libpangoft2-1.0.la"
 fi
 
-#libogg
-if [ ! -f "$BinDir/libogg.so" ]; then 
-	unpack_gzip_and_move "libogg.tar.gz" "$PKG_DIR_LIBOGG"
-	mkdir_and_move "$IntDir/libogg"
+#gtk+
+if [ ! -f "$BinDir/libgdk_pixbuf-2.0.so.0" ]; then 
+	unpack_bzip2_and_move "gtk+.tar.bz2" "$PKG_DIR_GTKPLUS"
+	mkdir_and_move "$IntDir/gtkplus"
+	
+	$PKG_DIR/configure --with-included-loaders --with-included-immodules --without-libjasper --disable-debug --enable-explicit-deps=no --disable-gtk-doc --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libgailutil.so" "18" "18.0.1" "libgailutil.la" "gailutil.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgdk_pixbuf-2.0.so" "0" "0.1800.7" "libgdk_pixbuf-2.0.la" "gdk-pixbuf-2.0.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgdk_pixbuf_xlib-2.0.so" "0" "0.1800.7" "libgdk_pixbuf_xlib-2.0.la" "gdk-pixbuf-xlib-2.0.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgdk-x11-2.0.so" "0" "0.1800.7" "libgdk-x11-2.0.la" "gdk-x11-2.0.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgtk-x11-2.0.so" "0" "0.1800.7" "libgtk-x11-2.0.la" "gtk+-x11-2.0.pc" "$LibDir"
+	move_files_to_dir "$BinDir/pkgconfig/*gail*.pc" "$LibDir/pkgconfig/"
+	move_files_to_dir "$BinDir/pkgconfig/*gdk*.pc" "$LibDir/pkgconfig/"
+	move_files_to_dir "$BinDir/pkgconfig/*gtk*.pc" "$LibDir/pkgconfig/"
+	chmod uag+x "$LibDir/libgdk-x11-2.0.la"
+	chmod uag+x "$LibDir/libgtk-x11-2.0.la"
+	mv "$BinDir/gtk-2.0" "$LibDir/"
+	mv "$LibDir/gtk-2.0/include/gdkconfig.h" "$IncludeDir/gtk-2.0/"
+	rm -rf "$LibDir/gtk-2.0/include/"
+	rm -rf "$BinDir/gtk-2.0"
+fi
+
+#gtkglarea
+if [ ! -f "$BinDir/libgtkgl-2.0.so.1" ]; then 
+	unpack_bzip2_and_move "gtkglarea.tar.bz2" "$PKG_DIR_GTKGLAREA"
+	mkdir_and_move "$IntDir/gtkglarea"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
 
-	arrange_shared "$BinDir" "libogg.so" "0" "0.5.3" "libogg.la" "ogg.pc" "$LibDir"
+	arrange_shared "$BinDir" "libgtkgl-2.0.so" "1" "1.0.1" "libgtkgl-2.0.la" "gtkgl-2.0.pc" "$LibDir"
 fi
 
-#libvorbis
-if [ ! -f "$BinDir/libvorbis.so" ]; then 
-	unpack_bzip2_and_move "libvorbis.tar.bz2" "$PKG_DIR_LIBVORBIS"
-	mkdir_and_move "$IntDir/libvorbis"
-	
-	$PKG_DIR/configure --disable-oggtest --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-	make && make install
-	
-	arrange_shared "$BinDir" "libvorbis.so" "0" "0.4.0" "libvorbis.la" "vorbis.pc" "$LibDir"
-	arrange_shared "$BinDir" "libvorbisenc.so" "2" "2.0.3" "libvorbisenc.la" "vorbisenc.pc" "$LibDir"
-	arrange_shared "$BinDir" "libvorbisfile.so" "3" "3.2.0" "libvorbisfile.la" "vorbisfile.pc" "$LibDir"
-fi
-
-#libtheora
-if [ ! -f "$BinDir/libtheora.so" ]; then 
-	unpack_bzip2_and_move "libtheora.tar.bz2" "$PKG_DIR_LIBTHEORA"
-	mkdir_and_move "$IntDir/libtheora"
-	
-	$PKG_DIR/configure --disable-examples --disable-oggtest --disable-vorbistest --disable-sdltest --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-	make && make install
-	
-	arrange_shared "$BinDir" "libtheora.so" "0" "0.3.4" "libtheora.la" "theora.pc" "$LibDir"
-	arrange_shared "$BinDir" "libtheoradec.so" "1" "1.0.1" "libtheoradec.la" "theoradec.pc" "$LibDir"
-	arrange_shared "$BinDir" "libtheoraenc.so" "1" "1.0.1" "libtheoraenc.la" "theoraenc.pc" "$LibDir"
-fi
-
-#libmms
-if [ ! -f "$BinDir/libmms.so" ]; then 
-	unpack_bzip2_and_move "libmms.tar.bz2" "$PKG_DIR_LIBMMS"
-	./autogen.sh
-	mkdir_and_move "$IntDir/libmms"
+#libcroco
+if [ ! -f "$BinDir/libcroco-0.6.so.3" ]; then 
+	unpack_bzip2_and_move "libcroco.tar.bz2" "$PKG_DIR_LIBCROCO"
+	mkdir_and_move "$IntDir/libcroco"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	
-	arrange_shared "$BinDir" "libmms.so" "0" "0.0.2" "libmms.la" "libmms.pc" "$LibDir"
+
+	arrange_shared "$BinDir" "libcroco-0.6.so" "3" "3.0.1" "libcroco-0.6.la" "libcroco-0.6.pc" "$LibDir"
 fi
 
-#x264
-#For now, it can only decode H.264 (--disable-mp4-output)
-#To encode, you'll need gpac and a proper license
-if [ ! -f "$BinDir/libx264.so" ]; then 
-	unpack_bzip2_and_move "x264.tar.bz2" "$PKG_DIR_X264"
-	mkdir_and_move "$IntDir/x264"
+#intltool
+if [ ! -f "$BinDir/intltool-merge" ]; then 
+	unpack_bzip2_and_move "intltool.tar.bz2" "$PKG_DIR_INTLTOOL"
+	mkdir_and_move "$IntDir/intltool"
 	
-	cd "$PKG_DIR/"
-	CFLAGS="$CFLAGS -D X264_CPU_SHUFFLE_IS_FAST=0x000800"
-	./configure --disable-mp4-output --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	make clean && make distclean
-	reset_flags
-	
-	arrange_shared "$BinDir" "libx264.so" "67" "67.0.0" "" "x264.pc" "$LibDir"
-	move_files_to_dir "$BinDir/libx264.a" "$LibDir"
 fi
 
-#libspeex
-if [ ! -f "$BinDir/libspeex.so" ]; then 
-	unpack_gzip_and_move "speex.tar.gz" "$PKG_DIR_LIBSPEEX"
-	mkdir_and_move "$IntDir/libspeex"
+#libgsf
+if [ ! -f "$BinDir/libgsf-1.so.114" ]; then 
+	unpack_bzip2_and_move "libgsf.tar.bz2" "$PKG_DIR_LIBGSF"
+	mkdir_and_move "$IntDir/libgsf"
 	
-	$PKG_DIR/configure --disable-oggtest --enable-sse --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	$PKG_DIR/configure --without-python --disable-gtk-doc --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	
-	arrange_shared "$BinDir" "libspeex.so" "1" "1.5.0" "libspeex.la" "speex.pc" "$LibDir"
-	arrange_shared "$BinDir" "libspeexdsp.so" "1" "1.5.0" "libspeexdsp.la" "speexdsp.pc" "$LibDir"
+
+	arrange_shared "$BinDir" "libgsf-1.so" "114" "114.0.17" "libgsf-1.la" "libgsf-1.pc" "$LibDir"
 fi
 
-#libschrodinger (dirac support)
-if [ ! -f "$BinDir/libschroedinger-1.0.so" ]; then 
-	unpack_gzip_and_move "schroedinger.tar.gz" "$PKG_DIR_LIBSCHROEDINGER"
-	mkdir_and_move "$IntDir/libschroedinger"
+#librsvg
+if [ ! -f "$BinDir/librsvg-2.so.2" ]; then 
+	unpack_bzip2_and_move "librsvg.tar.bz2" "$PKG_DIR_LIBRSVG"
+	mkdir_and_move "$IntDir/librsvg"
 	
-	$PKG_DIR/configure --with-thread=auto --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	
-	arrange_shared "$BinDir" "libschroedinger-1.0.so" "0" "0.2.0" "libschroedinger-1.0.la" "schroedinger-1.0.pc" "$LibDir"
-fi
 
-#openjpeg
-if [ ! -f "$BinDir/libopenjpeg.so" ]; then 
-	unpack_gzip_and_move "openjpeg.tar.gz" "$PKG_DIR_OPENJPEG"
-	mkdir_and_move "$IntDir/openjpeg"
+	arrange_shared "$BinDir" "librsvg-2.so" "2" "2.26.0" "librsvg-2.la" "librsvg-2.0.pc" "$LibDir"
 	
-	cd "$PKG_DIR"
-	cp -f "$LIBRARIES_PATCH_DIR/openjpeg/Makefile.linux" ./Makefile
-	make install PREFIX=$InstallDir
-	make clean
-	
-	cd "$BinDir"
-	mv "$LibDir/libopenjpeg-2.1.3.0.so" "./libopenjpeg.so.2"
-	rm -f "$LibDir/libopenjpeg.so.2"
-	ln -s "libopenjpeg.so.2" "libopenjpeg.so"
-	move_files_to_dir "$BinDir/libopenjpeg.a" "$LibDir"
-fi
-
-#mp3lame
-if [ ! -f "$BinDir/libmp3lame.so" ]; then 
-	unpack_gzip_and_move "lame.tar.gz" "$PKG_DIR_MP3LAME"
-	mkdir_and_move "$IntDir/mp3lame"
-	
-	$PKG_DIR/configure --enable-expopt=no --enable-debug=no --disable-brhist -disable-frontend --enable-nasm --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-	make && make install
-	
-	arrange_shared "$BinDir" "libmp3lame.so" "0" "0.0.0" "libmp3lame.la" "" "$LibDir"
-fi
-
-#ffmpeg
-if [ ! -f "$BinDir/libavcodec.so" ]; then 
-	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
-	mkdir_and_move "$IntDir/ffmpeg"
-	
-	#LGPL-compatible version
-	$PKG_DIR/configure --extra-ldflags="-no-undefined" --extra-cflags="-fno-common" --disable-avisynth --enable-avfilter-lavf --enable-avfilter --arch=i686 --cpu=i686 --disable-vhook --enable-zlib --enable-bzlib --enable-pthreads --enable-ipv6 --enable-libmp3lame --enable-libvorbis --enable-libopenjpeg --enable-libtheora --enable-libspeex --enable-libschroedinger --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$BinDir --shlibdir=$BinDir --incdir=$IncludeDir
-	make && make install
-	
-	arrange_shared "$BinDir" "libavutil.so" "49" "49.15.0" "" "libavutil.pc" "$LibDir"
-	arrange_shared "$BinDir" "libavfilter.so" "0" "0.4.0" "" "libavfilter.pc" "$LibDir"
-	arrange_shared "$BinDir" "libavcodec.so" "52" "52.20.0" "" "libavcodec.pc" "$LibDir"
-	arrange_shared "$BinDir" "libavdevice.so" "52" "52.1.0" "" "libavdevice.pc" "$LibDir"
-	arrange_shared "$BinDir" "libavformat.so" "52" "52.31.0" "" "libavformat.pc" "$LibDir"
+	move_files_to_dir "$BinDir/gtk-2.0/2.10.0/engines/*" "$LibDir/gtk-2.0/2.10.0/engines/"
+	move_files_to_dir "$BinDir/gtk-2.0/2.10.0/loaders/*" "$LibDir/gtk-2.0/2.10.0/loaders/"
+	rm -rf "$BinDir/gtk-2.0/"
 fi
 
 #sdl
-if [ ! -f "$BinDir/libSDL.so" ]; then 
+if [ ! -f "$BinDir/libSDL-1.2.so.0" ]; then 
 	unpack_gzip_and_move "sdl.tar.gz" "$PKG_DIR_SDL"
 	mkdir_and_move "$IntDir/sdl"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$BinDir --libexecdir=$BinDir --includedir=$IncludeDir 
 	make && make install
 
-	arrange_shared "$BinDir" "libSDL-1.2.so" "0" "0.11.2" "libSDL.la" "sdl.pc" "$LibDir"
+	arrange_shared "$BinDir" "libSDL-1.2.so" "0" "0.11.3" "libSDL.la" "sdl.pc" "$LibDir"
 	move_files_to_dir "$BinDir/libSDLmain.a" "$LibDir"
 	rm -f "$BinDir/libSDL.so"
 	
 	cd "$BinDir"
 	ln -s "libSDL-1.2.so.0" "libSDL.so"
+fi
+
+#libogg
+if [ ! -f "$BinDir/libogg.so.0" ]; then 
+	unpack_gzip_and_move "libogg.tar.gz" "$PKG_DIR_LIBOGG"
+	mkdir_and_move "$IntDir/libogg"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libogg.so" "0" "0.6.0" "libogg.la" "ogg.pc" "$LibDir"
+fi
+
+#libvorbis
+if [ ! -f "$BinDir/libvorbis.so.0" ]; then 
+	unpack_bzip2_and_move "libvorbis.tar.bz2" "$PKG_DIR_LIBVORBIS"
+	mkdir_and_move "$IntDir/libvorbis"
+	
+	$PKG_DIR/configure --disable-oggtest --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libvorbis.so" "0" "0.4.3" "libvorbis.la" "vorbis.pc" "$LibDir"
+	arrange_shared "$BinDir" "libvorbisenc.so" "2" "2.0.6" "libvorbisenc.la" "vorbisenc.pc" "$LibDir"
+	arrange_shared "$BinDir" "libvorbisfile.so" "3" "3.3.2" "libvorbisfile.la" "vorbisfile.pc" "$LibDir"
+fi
+
+#libcelt
+if [ ! -f "$BinDir/libcelt0.so.0" ]; then 
+	unpack_gzip_and_move "libcelt.tar.gz" "$PKG_DIR_LIBCELT"
+	mkdir_and_move "$IntDir/libcelt"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libcelt0.so" "0" "0.0.0" "libcelt0.la" "celt.pc" "$LibDir"
+fi
+
+#libtheora
+if [ ! -f "$BinDir/libtheora.so.0" ]; then 
+	unpack_bzip2_and_move "libtheora.tar.bz2" "$PKG_DIR_LIBTHEORA"
+	mkdir_and_move "$IntDir/libtheora"
+	
+	$PKG_DIR/configure --disable-examples --disable-oggtest --disable-vorbistest --disable-sdltest --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libtheora.so" "0" "0.3.10" "libtheora.la" "theora.pc" "$LibDir"
+	arrange_shared "$BinDir" "libtheoradec.so" "1" "1.1.4" "libtheoradec.la" "theoradec.pc" "$LibDir"
+	arrange_shared "$BinDir" "libtheoraenc.so" "1" "1.1.2" "libtheoraenc.la" "theoraenc.pc" "$LibDir"
+fi
+
+#libmms
+if [ ! -f "$BinDir/libmms.so.0" ]; then 
+	unpack_bzip2_and_move "libmms.tar.bz2" "$PKG_DIR_LIBMMS"
+	./autogen.sh
+	mkdir_and_move "$IntDir/libmms"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libmms.so" "0" "0.0.2" "libmms.la" "libmms.pc" "$LibDir"
+fi
+
+#x264
+if [ ! -f "$BinDir/libx264.so.88" ]; then 
+	unpack_bzip2_and_move "x264.tar.bz2" "$PKG_DIR_X264"
+	mkdir_and_move "$IntDir/x264"
+	
+	cd "$PKG_DIR/"
+	
+	./configure --disable-mp4-output --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	
+	#Download example y4m for use in profiling and selecting the best CPU instruction set
+	wget http://samples.mplayerhq.hu/yuv4mpeg2/example.y4m.bz2
+	bzip2 -d -f "example.y4m.bz2"
+	
+	make fprofiled VIDS="example.y4m"
+	make install
+	
+	reset_flags
+
+	mv "$BinDir/pkgconfig/x264.pc" "$LibDir/pkgconfig/"
+	rm -f "$BinDir/libx264.a"
+fi
+
+#libspeex
+if [ ! -f "$BinDir/libspeex.so.1" ]; then 
+	unpack_gzip_and_move "speex.tar.gz" "$PKG_DIR_LIBSPEEX"
+	mkdir_and_move "$IntDir/libspeex"
+	
+	$PKG_DIR/configure --enable-sse --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libspeex.so" "1" "1.5.0" "libspeex.la" "speex.pc" "$LibDir"
+	arrange_shared "$BinDir" "libspeexdsp.so" "1" "1.5.0" "libspeexdsp.la" "speexdsp.pc" "$LibDir"
+fi
+
+#libschroedinger (dirac support)
+if [ ! -f "$BinDir/libschroedinger-1.0.so.0" ]; then 
+	unpack_gzip_and_move "schroedinger.tar.gz" "$PKG_DIR_LIBSCHROEDINGER"
+	mkdir_and_move "$IntDir/libschroedinger"
+	
+	$PKG_DIR/configure --with-thread=auto --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libschroedinger-1.0.so" "0" "0.2.0" "libschroedinger-1.0.la" "schroedinger-1.0.pc" "$LibDir"
+fi
+
+#mp3lame
+if [ ! -f "$BinDir/libmp3lame.so.0" ]; then 
+	unpack_gzip_and_move "lame.tar.gz" "$PKG_DIR_MP3LAME"
+	mkdir_and_move "$IntDir/mp3lame"
+	
+	$PKG_DIR/configure --enable-expopt=no --enable-debug=no --disable-brhist -disable-frontend --enable-nasm --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "libmp3lame.so" "0" "0.0.0" "libmp3lame.la" "" "$LibDir"
+fi
+
+#ffmpeg
+FFmpegSuffix=-lgpl
+if [ ! -f "$BinDir/libavcodec${FFmpegSuffix}.so.52" ]; then 
+	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
+	mkdir_and_move "$IntDir/ffmpeg"
+	
+	#LGPL-compatible version
+	CFLAGS=""
+	CPPFLAGS=""
+	LDFLAGS=""
+	$PKG_DIR/configure --cc=$gcc --ld=$gcc --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir 
+
+	change_key "." "config.mak" "BUILDSUF" "${FFmpegSuffix}"
+	#Adds $(SLIBPREF) to lib names when linking
+	change_key "." "common.mak" "FFEXTRALIBS\ \\:" "\$\(addprefix\ -l,\$\(addsuffix\ \$\(BUILDSUF\),\$\(FFLIBS\)\)\)\ \$\(EXTRALIBS\)"
+
+	make && make install
+	
+	reset_flags
+	
+	arrange_shared "$BinDir" "libavutil${FFmpegSuffix}.so" "50" "50.9.0" "" "libavutil.pc" "$LibDir"
+	arrange_shared "$BinDir" "libavfilter${FFmpegSuffix}.so" "1" "1.17.0" "" "libavfilter.pc" "$LibDir"
+	arrange_shared "$BinDir" "libavcodec${FFmpegSuffix}.so" "52" "52.55.0" "" "libavcodec.pc" "$LibDir"
+	arrange_shared "$BinDir" "libavdevice${FFmpegSuffix}.so" "52" "52.2.0" "" "libavdevice.pc" "$LibDir"
+	arrange_shared "$BinDir" "libavformat${FFmpegSuffix}.so" "52" "52.54.0" "" "libavformat.pc" "$LibDir"
+	arrange_shared "$BinDir" "libswscale${FFmpegSuffix}.so" "0" "0.10.0" "" "libswscale.pc" "$LibDir"
+	
+	cd "$BinDir/"
+	mv ffmpeg ffmpeg${FFmpegSuffix}
+	mv ffplay ffplay${FFmpegSuffix}
+	ln -fs ffmpeg${FFmpegSuffix} ffmpeg
+	ln -fs ffplay${FFmpegSuffix} ffplay
+	
+	cd "$LibDir/pkgconfig/"
+	sed -e "s/-lavcodec/-lavcodec${FFmpegSuffix}/g" libavcodec.pc > libavcodec${FFmpegSuffix}.pc
+	sed -e "s/-lavdevice/-lavdevice${FFmpegSuffix}/g" libavdevice.pc > libavdevice${FFmpegSuffix}.pc
+	sed -e "s/-lavfilter/-lavfilter${FFmpegSuffix}/g" libavfilter.pc > libavfilter${FFmpegSuffix}.pc
+	sed -e "s/-lavformat/-lavformat${FFmpegSuffix}/g" libavformat.pc > libavformat${FFmpegSuffix}.pc
+	sed -e "s/-lavutil/-lavutil${FFmpegSuffix}/g" libavutil.pc > libavutil${FFmpegSuffix}.pc
+	sed -e "s/-lswscale/-lswscale${FFmpegSuffix}/g" libswscale.pc > libswscale${FFmpegSuffix}.pc
+	
+	ln -fs libavcodec${FFmpegSuffix}.pc libavcodec.pc
+	ln -fs libavdevice${FFmpegSuffix}.pc libavdevice.pc
+	ln -fs libavfilter${FFmpegSuffix}.pc libavfilter.pc
+	ln -fs libavformat${FFmpegSuffix}.pc libavformat.pc
+	ln -fs libavutil${FFmpegSuffix}.pc libavutil.pc
+	ln -fs libswscale${FFmpegSuffix}.pc libswscale.pc
 fi
 
 
@@ -548,247 +677,216 @@ fi
 
 
 #libnice
-if [ ! -f "$BinDir/libnice.so" ]; then 
+if [ ! -f "$BinDir/libnice.so.0" ]; then 
 	unpack_gzip_and_move "libnice.tar.gz" "$PKG_DIR_LIBNICE"
 	mkdir_and_move "$IntDir/libnice"
 	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-	make
-	make install
-	
-	arrange_shared "$BinDir" "libnice.so" "0" "0.4.0" "libnice.la" "nice.pc" "$LibDir"
+	make && make install
+
+	arrange_shared "$BinDir" "libnice.so" "0" "0.6.0" "libnice.la" "nice.pc" "$LibDir"
 fi
 
 #xvid
-if [ ! -f "$BinDir/libxvidcore.so" ]; then
-	unpack_gzip_and_move "xvidcore-1.2.2.tar.gz" "$PKG_DIR_XVIDCORE"
+if [ ! -f "$BinDir/libxvidcore.so.4" ]; then
+	unpack_gzip_and_move "xvidcore.tar.gz" "$PKG_DIR_XVIDCORE"
 	mkdir_and_move "$IntDir/xvidcore"
 
 	cd $PKG_DIR/build/generic/
 	./configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-	
-	make 
-	make install
-	make clean
-	
-	arrange_shared "$BinDir" "libxvidcore.so" "4" "4.2" "" "" "$LibDir"
-	move_files_to_dir "$BinDir/libxvidcore.a" "$LibDir"
-	chmod a+x "$BinDir/libxvidcore.so.4"
-fi
-
-#ffmpeg GPL version
-if [ ! -f "$BinDir/libavcodec-gpl.so" ]; then 
-	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
-	mkdir_and_move "$IntDir/ffmpeg-gpl"
-	
-	#LGPL-compatible version
-	$PKG_DIR/configure --enable-gpl --extra-ldflags="-no-undefined" --extra-cflags="-fno-common" --disable-avisynth --arch=i686 --cpu=i686 --disable-vhook --enable-libxvid --enable-zlib --enable-bzlib --enable-pthreads --enable-ipv6 --disable-ffmpeg --disable-ffplay --disable-ffserver --disable-static --enable-shared --prefix=$InstallDir --bindir=$BinDir/gpl --libdir=$BinDir/gpl --shlibdir=$BinDir/gpl --incdir=$IncludeDir/gpl
 	make && make install
-	
-	arrange_shared "$BinDir/gpl" "libavutil.so" "49" "49.15.0" "" "libavutil.pc" "$LibDir/gpl"
-	arrange_shared "$BinDir/gpl" "libavformat.so" "52" "52.31.0" "" "libavformat.pc" "$LibDir/gpl"
-	arrange_shared "$BinDir/gpl" "libavcodec.so" "52" "52.20.0" "" "libavcodec.pc" "$LibDir/gpl"
-	
-	cd "$BinDir"
-	
-	cd "gpl"
-	rm -f libavdevice*
-	mv "libavutil.so.49" "../libavutil-gpl.so.49"
-	mv "libavcodec.so.52" "../libavcodec-gpl.so.52"
-	mv "libavformat.so.52" "../libavformat-gpl.so.52"
-	rm -f "libavutil.so"
-	rm -f "libavcodec.so"
-	rm -f "libavformat.so"
-	
-	cd ".."
-	ln -s "libavutil-gpl.so.49" "libavutil-gpl.so"
-	ln -s "libavcodec-gpl.so.52" "libavcodec-gpl.so"
-	ln -s "libavformat-gpl.so.52" "libavformat-gpl.so"
-	
-	rm -rf "gpl"
-	
-	#We have to update the pkg-config file to point to this GPL version
-	cd "$LibDir/gpl/pkgconfig"
-	
-	#Need to escape the forward slashes so sed can pick them up later
-	sedBinDir=$( echo $BinDir | sed 's/\//\\\//g' )
-	sedGplBinDir=$( echo $BinDir/gpl | sed 's/\//\\\//g' )
-	sedIncludeDir=$( echo $IncludeDir | sed 's/\//\\\//g' )
-	sedGplIncludeDir=$( echo $IncludeDir/gpl | sed 's/\//\\\//g' )
-	arrange_shared "$BinDir" "libwavpack.so" "1" "1.0.3" "libwavpack.la" "wavpack.pc" "$LibDir"
-	sed "s/$sedGplBinDir/$sedBinDir/g" 										libavutil.pc > tmp.1.txt
-	sed "s/$sedGplIncludeDir/$sedIncludeDir/g" 								tmp.1.txt > tmp.2.txt
-	sed "s/Name: libavutil/Name: libavutil-gpl/g" 							tmp.2.txt > tmp.3.txt
-	sed "s/-lavutil/-lavutil-gpl/g" 										tmp.3.txt > tmp.4.txt
-	mv tmp.4.txt libavutil.pc
-	rm -f tmp.*.txt
-	
-	sed "s/$sedGplBinDir/$sedBinDir/g" 										libavcodec.pc > tmp.1.txt
-	sed "s/$sedGplIncludeDir/$sedIncludeDir/g" 								tmp.1.txt > tmp.2.txt
-	sed "s/Name: libavcodec/Name: libavcodec-gpl/g" 						tmp.2.txt > tmp.3.txt
-	sed "s/Requires.private: libavutil/Requires.private: libavutil-gpl/g" 	tmp.3.txt > tmp.4.txt
-	sed "s/-lavcodec/-lavcodec-gpl/g" 										tmp.4.txt > tmp.5.txt
-	mv tmp.5.txt libavcodec.pc
-	rm -f tmp.*.txt
-	
-	sed "s/$sedGplBinDir/$sedBinDir/g" 										libavformat.pc > tmp.1.txt
-	sed "s/$sedGplIncludeDir/$sedIncludeDir/g" 								tmp.1.txt > tmp.2.txt
-	sed "s/Name: libavformat/Name: libavformat-gpl/g" 						tmp.2.txt > tmp.3.txt
-	sed "s/Requires.private: libavcodec/Requires.private: libavcodec-gpl/g" tmp.3.txt > tmp.4.txt
-	sed "s/-lavformat/-lavformat-gpl/g" 									tmp.4.txt > tmp.5.txt
-	mv tmp.5.txt libavformat.pc
-	rm -f tmp.*.txt
-	
-	mv "libavutil.pc" "../../pkgconfig/libavutil-gpl.pc"
-	mv "libavcodec.pc" "../../pkgconfig/libavcodec-gpl.pc"
-	mv "libavformat.pc" "../../pkgconfig/libavformat-gpl.pc"
-	
-	cd "../../"
-	rm -rf "gpl"
-	
-	#Get rid of the include gpl directory as well
-	rm -rf "$IncludeDir/gpl"
+
+	arrange_shared "$BinDir" "libxvidcore.so" "4" "4.2" "" "" "$LibDir"
+	rm -f "$BinDir/libxvidcore.a"
+	chmod uag+x "$BinDir/libxvidcore.so.4"
 fi
 
 #wavpack
-if [ ! -f "$BinDir/libwavpack.so" ]; then 
-	unpack_bzip2_and_move "wavpack-4.50.1.tar.bz2" "$PKG_DIR_WAVPACK"
+if [ ! -f "$BinDir/libwavpack.so.1" ]; then
+	unpack_bzip2_and_move "wavpack.tar.bz2" "$PKG_DIR_WAVPACK"
 	mkdir_and_move "$IntDir/wavpack"
 	
-	cp -f "$LIBRARIES_PATCH_DIR/wavpack/Makefile.in" "$PKG_DIR"
+	cp -p -f "$LIBRARIES_PATCH_DIR/wavpack/Makefile.in" "$PKG_DIR"
+	dos2unix "$PKG_DIR/Makefile.in"
 	
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-	
-	make 
-	make install
-
-	arrange_shared "$BinDir" "libwavpack.so" "1" "1.0.3" "libwavpack.la" "wavpack.pc" "$LibDir"
-fi
-
-#a52dec
-if [ ! -f "$BinDir/liba52.so" ]; then 
-	unpack_gzip_and_move "a52.tar.gz" "$PKG_DIR_A52DEC"
-	
-	./bootstrap
-	
-	mkdir_and_move "$IntDir/a52dec"
-	 
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	
 
-	arrange_shared "$BinDir" "liba52.so" "0" "0.0.0" "" "" "$LibDir"
+	arrange_shared "$BinDir" "libwavpack.so" "1" "1.1.4" "libwavpack.la" "wavpack.pc" "$LibDir"
+fi
+
+#a52
+if [ ! -f "$BinDir/liba52.so.0" ]; then
+	unpack_gzip_and_move "a52.tar.gz" "$PKG_DIR_A52DEC"
+	./bootstrap
+	mkdir_and_move "$IntDir/a52dec"
+	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
+	arrange_shared "$BinDir" "liba52.so" "0" "0.0.0" "liba52.la" "" "$LibDir"
 fi
 
 #mpeg2
-if [ ! -f "$BinDir/libmpeg2.so" ]; then 
+if [ ! -f "$BinDir/libmpeg2.so.0" ]; then
 	unpack_gzip_and_move "libmpeg2.tar.gz" "$PKG_DIR_LIBMPEG2"
 	mkdir_and_move "$IntDir/libmpeg2"
-	 
-	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-	make && make install
 	
+	$PKG_DIR/configure --disable-sdl --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
 	arrange_shared "$BinDir" "libmpeg2.so" "0" "0.1.0" "libmpeg2.la" "libmpeg2.pc" "$LibDir"
 	arrange_shared "$BinDir" "libmpeg2convert.so" "0" "0.0.0" "libmpeg2convert.la" "libmpeg2convert.pc" "$LibDir"
 fi
 
 #libdca
-if [ ! -f "$BinDir/libdca.so" ]; then 
+if [ ! -f "$BinDir/libdca.so.0" ]; then
 	unpack_bzip2_and_move "libdca.tar.bz2" "$PKG_DIR_LIBDCA"
 	mkdir_and_move "$IntDir/libdca"
-	 
-	$PKG_DIR/configure --enable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
-	make && make install
 	
+	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
+	make && make install
+
 	arrange_shared "$BinDir" "libdca.so" "0" "0.0.0" "libdca.la" "libdca.pc" "$LibDir"
-	move_files_to_dir "$BinDir/pkgconfig/libdts.pc" "$LibDir/pkgconfig/"
-	move_files_to_dir "$BinDir/libdca.a" "$LibDir"
 	rm -f "$BinDir/libdts.a"
-	cd "$LibDir"
-	ln -s "libdca.a" "libdts.a"
+	rm -f "$BinDir/pkgconfig/libdts.pc"
+	cd "$BinDir/"
+	ln -s libdca.so libdts.so
+	ln -s libdca.so.0 libdts.so.0
+	cd "$LibDir/"
+	ln -s libdca.la libdts.la
+	cd "$LibDir/pkgconfig/"
+	ln -s libdca.pc libdts.pc
 fi
 
-#libfaac
-if [ ! -f "$BinDir/libfaac.so" ]; then 
-	unpack_gzip_and_move "faac.tar.gz" "$PKG_DIR_FAAC"
+#faac
+if [ ! -f "$BinDir/libfaac.so.0" ]; then
+	unpack_bzip2_and_move "faac.tar.bz2" "$PKG_DIR_FAAC"
 	mkdir_and_move "$IntDir/faac"
-	 
-	$PKG_DIR/configure --with-drm --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+
+	$PKG_DIR/configure --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	
+
 	arrange_shared "$BinDir" "libfaac.so" "0" "0.0.0" "libfaac.la" "" "$LibDir"
-	
-	reset_flags	
 fi
 
-#libfaad
-if [ ! -f "$BinDir/libfaad.so" ]; then 
-	unpack_gzip_and_move "faad2.tar.gz" "$PKG_DIR_FAAD2"
+#faad
+if [ ! -f "$BinDir/libfaad.so.2" ]; then
+	unpack_bzip2_and_move "faad2.tar.bz2" "$PKG_DIR_FAAD2"
 	mkdir_and_move "$IntDir/faad2"
-	 
+	
 	cp "$LIBRARIES_PATCH_DIR/faad2/Makefile.in" .
 	
-	$PKG_DIR/configure --with-drm --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -no-undefined" 
+	$PKG_DIR/configure --without-mp4v2 --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	make && make install
-	
-	arrange_shared "$BinDir" "libfaad.so" "2" "2.0.0" "libfaad.la" "" "$LibDir"
-	move_files_to_dir "$BinDir/libmp4ff.a" "$LibDir"
 
-	reset_flags	
+	arrange_shared "$BinDir" "libfaad.so" "2" "2.0.0" "libfaad.la" "" "$LibDir"
 fi
 
 #dvdread
-if [ ! -f "$BinDir/libdvdread.so" ]; then 
+if [ ! -f "$BinDir/libdvdread.so.4" ]; then
 	unpack_bzip2_and_move "libdvdread.tar.bz2" "$PKG_DIR_LIBDVDREAD"
 	mkdir_and_move "$IntDir/libdvdread"
-	 
-	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl"
+	
+	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS"
 	make && make install
-
-	cp "$LIBRARIES_PATCH_DIR/dvdread/dvd_reader.h" "$IncludeDir/dvdread" 
+	
+	cp -f "$LIBRARIES_PATCH_DIR/dvdread/dvd_reader.h" "$IncludeDir/dvdread/"	
 
 	arrange_shared "$BinDir" "libdvdread.so" "4" "4.1.2" "libdvdread.la" "dvdread.pc" "$LibDir"
-
-	reset_flags
 fi
 
 #dvdnav
-if [ ! -f "$BinDir/libdvdnav.so" ]; then 
+if [ ! -f "$BinDir/libdvdnav.so.4" ]; then
 	unpack_bzip2_and_move "libdvdnav.tar.bz2" "$PKG_DIR_LIBDVDNAV"
 	mkdir_and_move "$IntDir/libdvdnav"
-	 
-	$PKG_DIR/configure2 --disable-debug --disable-static --enable-shared --shlibdir=$BinDir --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldl -ldvdread"
+	
+	sh $PKG_DIR/autogen.sh --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir LDFLAGS="$LDFLAGS -ldvdread"
 	make && make install
-	
-	#This will throw an error b/c the install script is bad - doesn't work when building outside the source directory
-	
-	cd "$PKG_DIR"
-	install -m 644 src/dvd_types.h src/dvdnav.h src/dvdnav_events.h "$IncludeDir/dvdnav"
-	
-	arrange_shared "$BinDir" "libdvdnav.so" "4" "4.1.3" "" "dvdnav.pc" "$LibDir"
-	arrange_shared "$BinDir" "libdvdnavmini.so" "4" "4.1.3" "" "dvdnavmini.pc" "$LibDir"
-	
-	reset_flags
+
+	arrange_shared "$BinDir" "libdvdnav.so" "4" "4.1.2" "libdvdnav.la" "dvdnav.pc" "$LibDir"
+	arrange_shared "$BinDir" "libdvdnavmini.so" "4" "4.1.2" "libdvdnavmini.la" "dvdnavmini.pc" "$LibDir"
 fi
 
 #dvdcss
-if [ ! -f "$BinDir/libdvdcss.so" ]; then 
+if [ ! -f "$BinDir/libdvdcss.so.2" ]; then
 	unpack_bzip2_and_move "libdvdcss.tar.bz2" "$PKG_DIR_LIBDVDCSS"
 	mkdir_and_move "$IntDir/libdvdcss"
-	 
+	
 	$PKG_DIR/configure --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir 
 	make && make install
-	
-	arrange_shared "$BinDir" "libdvdcss.so" "2" "2.0.8" "libdvdcss.la" "" "$LibDir"
 
-	reset_flags
+	arrange_shared "$BinDir" "libdvdcss.so" "2" "2.0.8" "libdvdcss.la" "" "$LibDir"
 fi
 
+FFmpegSuffix=-gpl
+if [ ! -f "$BinDir/libavcodec${FFmpegSuffix}.so.52" ]; then 
+	unpack_bzip2_and_move "ffmpeg.tar.bz2" "$PKG_DIR_FFMPEG"
+	mkdir_and_move "$IntDir/ffmpeg${FFmpegSuffix}"
+	
+	#GPL-compatible version
+	CFLAGS=""
+	CPPFLAGS=""
+	LDFLAGS=""
+	$PKG_DIR/configure --cc=$gcc --ld=$gcc --enable-runtime-cpudetect --enable-avfilter-lavf --enable-avfilter --enable-ffmpeg --enable-ffplay --disable-ffserver --disable-debug --disable-static --enable-shared --enable-gpl --prefix=$InstallDir --bindir=$BinDir --libdir=$LibDir --shlibdir=$BinDir --incdir=$IncludeDir 
+
+	change_key "." "config.mak" "BUILDSUF" "${FFmpegSuffix}"
+	#Adds $(SLIBPREF) to lib names when linking
+	change_key "." "common.mak" "FFEXTRALIBS\ \\:" "\$\(addprefix\ -l,\$\(addsuffix\ \$\(BUILDSUF\),\$\(FFLIBS\)\)\)\ \$\(EXTRALIBS\)"
+
+	make && make install
+	
+	reset_flags
+	
+	arrange_shared "$BinDir" "libavutil${FFmpegSuffix}.so" "50" "50.9.0" "" "libavutil.pc" "$LibDir"
+	arrange_shared "$BinDir" "libavfilter${FFmpegSuffix}.so" "1" "1.17.0" "" "libavfilter.pc" "$LibDir"
+	arrange_shared "$BinDir" "libavcodec${FFmpegSuffix}.so" "52" "52.55.0" "" "libavcodec.pc" "$LibDir"
+	arrange_shared "$BinDir" "libavdevice${FFmpegSuffix}.so" "52" "52.2.0" "" "libavdevice.pc" "$LibDir"
+	arrange_shared "$BinDir" "libavformat${FFmpegSuffix}.so" "52" "52.54.0" "" "libavformat.pc" "$LibDir"
+	arrange_shared "$BinDir" "libswscale${FFmpegSuffix}.so" "0" "0.10.0" "" "libswscale.pc" "$LibDir"
+	
+	cd "$BinDir/"
+	mv ffmpeg ffmpeg${FFmpegSuffix}
+	mv ffplay ffplay${FFmpegSuffix}
+	ln -fs ffmpeg${FFmpegSuffix} ffmpeg
+	ln -fs ffplay${FFmpegSuffix} ffplay
+	
+	cd "$LibDir/pkgconfig/"
+	sed -e "s/-lavcodec/-lavcodec${FFmpegSuffix}/g" libavcodec.pc > libavcodec${FFmpegSuffix}.pc
+	sed -e "s/-lavdevice/-lavdevice${FFmpegSuffix}/g" libavdevice.pc > libavdevice${FFmpegSuffix}.pc
+	sed -e "s/-lavfilter/-lavfilter${FFmpegSuffix}/g" libavfilter.pc > libavfilter${FFmpegSuffix}.pc
+	sed -e "s/-lavformat/-lavformat${FFmpegSuffix}/g" libavformat.pc > libavformat${FFmpegSuffix}.pc
+	sed -e "s/-lavutil/-lavutil${FFmpegSuffix}/g" libavutil.pc > libavutil${FFmpegSuffix}.pc
+	sed -e "s/-lswscale/-lswscale${FFmpegSuffix}/g" libswscale.pc > libswscale${FFmpegSuffix}.pc
+	
+	#Reset to LGPL version
+	cd "$BinDir/"
+	ln -fs ffmpeg-lgpl ffmpeg
+	ln -fs ffplay-lgpl ffplay
+fi
+
+#Cleanup
+rm -f "$BinDir/libmp4ff.a"
+rm -rf "$BinDir/pkgconfig"
+rm -rf "$BinDir/mozilla"
+
+#Fix GTK paths
+cd "$EtcDir/gtk-2.0/"
+sed -e "s:$BinDir:../../lib:g" gdk-pixbuf.loaders > gdk-pixbuf.loaders.temp
+mv gdk-pixbuf.loaders.temp gdk-pixbuf.loaders
+grep -v -E 'Automatically generated|Created by|ModulesPath =' < gtk.immodules > gtk.immodules.temp 
+mv gtk.immodules.temp gtk.immodules
+
+#Fix Pango paths
+cd "$EtcDir/pango/"
+grep -v -E 'Automatically generated|Created by|ModulesPath =' < pango.modules > pango.modules.temp 
+mv pango.modules.temp pango.modules
 
 reset_flags
 
 #Make sure the shared directory has all our updates
 create_shared
+rm -rf "$SharedShareDir/gdb/"
 
 #Call common shutdown routines
 common_shutdown
