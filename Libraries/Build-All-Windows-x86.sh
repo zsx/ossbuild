@@ -16,6 +16,9 @@ TOP=$(dirname $0)/..
 
 #Global directories
 PERL_BIN_DIR=/C/Perl/bin
+if [ ! -d "$PERL_BIN_DIR" ]; then 
+	PERL_BIN_DIR=/C/Perl64/bin
+fi
 
 #Global flags
 CFLAGS="$CFLAGS -mms-bitfields -pipe -D_WIN32_WINNT=0x0501 -Dsocklen_t=int "
@@ -653,8 +656,7 @@ if [ ! -f "$BinDir/lib${Prefix}soup-2.4-1.dll" ]; then
 	#		-export-symbols-regex '^(soup|_soup|soup_|_SOUP_METHOD_|SOUP_METHOD_).*' \
 	#		-version-info $(SOUP_CURRENT):$(SOUP_REVISION):$(SOUP_AGE) -no-undefined
 	cd "$PKG_DIR/"
-	change_key "libsoup" "Makefile.am" "libsoup_2_4_la_LDFLAGS" "-export-symbols-regex\ \'\^\(soup\|_soup\|soup_\|_SOUP_METHOD\|SOUP_METHOD_\)\.\*\'\ \\\\"
-	automake
+	change_key "libsoup" "Makefile.in" "libsoup_2_4_la_LDFLAGS" "-export-symbols-regex\ \'\^\(soup\|_soup\|soup_\|_SOUP_METHOD\|SOUP_METHOD_\)\.\*\'\ \\\\"
 
 	#Proceed normally
 	
@@ -695,7 +697,7 @@ if [ ! -f "$BinDir/lib${Prefix}neon-27.dll" ]; then
 		copy_files_to_dir "/mingw/lib/libws2_32.la" "test"
 	fi
 	make && make install
-	
+
 	cd "src/.libs"
 	pexports "$BinDir/lib${Prefix}neon-27.dll" | sed "s/^_//" > in.def
 	sed -e '/LIBRARY lib${Prefix}neon-27.dll/d' in.def > in-mod.def
@@ -1751,7 +1753,7 @@ fi
 reset_flags
 
 #Make sure the shared directory has all our updates
-#create_shared
+create_shared
 
 #Cleanup CRT
 crt_shutdown
