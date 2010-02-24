@@ -86,7 +86,7 @@ output_startup() {
 	mkdir -p "$InstallDir"
 	
 	#Create templates if we must
-	if [ ! -f "$SharedLibDir/libpng.la" ]; then
+	if [ ! -f "$SharedLibDir/libjpeg.la" ]; then
 		expand_templates
 	fi
 }
@@ -231,21 +231,16 @@ create_templates() {
 create_template_libtool_la() {
 	myla=$1
 	echo "Creating libtool template for $myla"
-	sedInstallDir=${InstallDir//\//\\\/}
-	sedSharedLibDir=${SharedLibDir//\//\\\/}
 	
-	sed "s/$sedInstallDir/@SHARED_BUILD_DIR@/g" "$myla" > "$TemplateLibDir/tmp.la"
-	sed "s/ -L$sedSharedLibDir//g" "$TemplateLibDir/tmp.la" > "$TemplateLibDir/$myla.in"
-	rm -f "$TemplateLibDir/tmp.la"
+	sed -e "s:$InstallDir:@SHARED_BUILD_DIR@:g" -e "s:-L$SharedBinDir::g" -e "s:-L$SharedLibDir::g" "$myla" > "$TemplateLibDir/$myla.in"
 	cp -p "$TemplateLibDir/$myla.in" "$SharedTemplateLibDir"
 }
 
 create_template_pkgconfig_pc() {
 	mypc=$1
 	echo "Creating pkg-config template for $mypc"
-	sedInstallDir=${InstallDir//\//\\\/}
 	
-	sed "s/$sedInstallDir/@SHARED_BUILD_DIR@/g" "$mypc" > "$TemplatePkgConfigDir/$mypc.in"
+	sed "s:$InstallDir:@SHARED_BUILD_DIR@:g" "$mypc" > "$TemplatePkgConfigDir/$mypc.in"
 	cp -p "$TemplatePkgConfigDir/$mypc.in" "$SharedTemplatePkgConfigDir"
 }
 
@@ -266,17 +261,15 @@ expand_templates() {
 expand_template_libtool_la() {
 	myla=$1
 	mydestla=${myla%.*}
-	sedSharedInstallDir=${SharedInstallDir//\//\\\/}
 	
-	sed "s/@SHARED_BUILD_DIR@/$sedSharedInstallDir/g" "$myla" > "$SharedLibDir/$mydestla"
+	sed -e "s:@SHARED_BUILD_DIR@:$SharedInstallDir:g" "$myla" > "$SharedLibDir/$mydestla"
 }
 
 expand_template_pkgconfig_pc() {
 	mypc=$1
 	mydestpc=${mypc%.*}
-	sedSharedInstallDir=${SharedInstallDir//\//\\\/}
 	
-	sed "s/@SHARED_BUILD_DIR@/$sedSharedInstallDir/g" "$mypc" > "$SharedPkgConfigDir/$mydestpc"
+	sed -e "s:@SHARED_BUILD_DIR@:$SharedInstallDir:g" "$mypc" > "$SharedPkgConfigDir/$mydestpc"
 }
 
 create_shared() {
@@ -288,6 +281,14 @@ create_shared() {
 	echo "Copying to shared directory..."
 	
 	#Share
+	mkdir -p "$SharedShareDir/aclocal/"
+	mkdir -p "$SharedShareDir/common-lisp/"
+	mkdir -p "$SharedShareDir/ffmpeg/"
+	mkdir -p "$SharedShareDir/gdb/"
+	mkdir -p "$SharedShareDir/glib-2.0/"
+	mkdir -p "$SharedShareDir/gtk-2.0/"
+	mkdir -p "$SharedShareDir/locale/"
+	mkdir -p "$SharedShareDir/themes/"
 	test -d "$ShareDir/aclocal/" && cd "$ShareDir/aclocal/" && cp -ru * "$SharedShareDir/aclocal/"
 	test -d "$ShareDir/common-lisp/" && cd "$ShareDir/common-lisp/" && cp -ru * "$SharedShareDir/common-lisp/"
 	test -d "$ShareDir/ffmpeg/" && cd "$ShareDir/ffmpeg/" && cp -ru * "$SharedShareDir/ffmpeg/"
@@ -309,11 +310,16 @@ create_shared() {
 	#Include
 	cd "$IncludeDir" && cp -ru * "$SharedIncludeDir"
 	
+	#Etc
+	mkdir -p "$SharedEtcDir/fonts"
+	mkdir -p "$SharedEtcDir/gtk-2.0"
+	mkdir -p "$SharedEtcDir/pango"
+	test -d "$EtcDir/fonts/" && cd "$EtcDir/fonts/" && cp -ru * "$SharedEtcDir/fonts"
+	test -d "$EtcDir/gtk-2.0/" && cd "$EtcDir/gtk-2.0/" && cp -ru * "$SharedEtcDir/gtk-2.0"
+	test -d "$EtcDir/pango/" && cd "$EtcDir/pango/" && cp -ru * "$SharedEtcDir/pango"
+	
 	#Create pkgconfig/libtool templates
 	create_templates
-	
-	#Etc
-	cd "$EtcDir/fonts" && cp -ru * "$SharedEtcDir/fonts"
 }
 
 create_cross_compiler_path_windows() {
