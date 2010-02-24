@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="GStreamer Python-2.6 Bindings"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\bindings\python-2.6\$(ProjectName)"
+	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Windows\Properties\gstreamer.vsprops;..\..\..\..\Shared\MSVC\Properties\SDKs\Python26.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="gstreamer-0.10.lib"
+		OutputFile="$(OutDir)\lib\python2.6\site-packages\farsight\$(ProjectName).pyd"
+		AdditionalLibraryDirectories="$(OutDir)\lib\plugins\"
+		ProgramDatabaseFile="$(OutDir)\pdb\gstreamer\bindings\python-2.6\$(TargetName).pdb"
+	/>
+</VisualStudioPropertySheet>

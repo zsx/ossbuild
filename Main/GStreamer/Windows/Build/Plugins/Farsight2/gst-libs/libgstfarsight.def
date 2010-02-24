@@ -2,6 +2,7 @@ EXPORTS
 	fs_base_conference_get_type
 
  
+    fs_candidate_type_get_type
 	fs_candidate_get_type
 	fs_candidate_list_get_type
 	fs_candidate_destroy
@@ -30,22 +31,32 @@ EXPORTS
 	fs_conference_get_type
 	fs_conference_new_session
 	fs_conference_new_participant
+	
+	fs_component_type_get_type
+	
+	fs_dtmf_event_get_type
+	fs_dtmf_method_get_type
 
 	fs_element_added_notifier_get_type
 	fs_element_added_notifier_new
 	fs_element_added_notifier_add
 	fs_element_added_notifier_remove
 	fs_element_added_notifier_set_properties_from_keyfile
+	fs_element_added_notifier_set_properties_from_file
 
+	fs_media_type_get_type
+	fs_network_protocol_get_type
 	fs_participant_get_type
 
 	fs_session_get_type
+	fs_session_get_stream_transmitter_type
 	fs_session_new_stream
 	fs_session_start_telephony_event
 	fs_session_stop_telephony_event
 	fs_session_set_send_codec
 	fs_session_set_codec_preferences
 	fs_session_emit_error
+	fs_session_list_transmitters
 
 	fs_stream_transmitter_get_type
 	fs_stream_transmitter_set_remote_candidates
@@ -54,6 +65,8 @@ EXPORTS
 	fs_stream_transmitter_emit_error
 	fs_stream_transmitter_stop
 
+	fs_stream_add_id
+	fs_stream_direction_get_type
 	fs_stream_get_type
 	fs_stream_set_remote_candidates
 	fs_stream_force_remote_candidates

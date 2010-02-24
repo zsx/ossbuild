@@ -33,6 +33,7 @@ set GEN_MARSHAL_BAT=call "%GENERATEDDIR%\genmarshal.bat"
 set MK_ENUMS_FS_PREFIX_BAT=call "%GENERATEDDIR%\mkenum-fs-prefix.bat"
 set MK_ENUMS_CUSTOM_BAT=call "%GENERATEDDIR%\mkenum-custom.bat"
 set GEN_PYTHON_BAT=call "%GENERATEDDIR%\genpython.bat"
+set GEN_PYTHON_FS_BAT=call "%GENERATEDDIR%\genpythonfs.bat"
 
 set SRC_GSTREAMER_DIR=%SOURCEDIR%\gstreamer
 set SRC_GST_PLUGINS_BAD_DIR=%SOURCEDIR%\gst-plugins-bad
@@ -50,6 +51,7 @@ set GEN_GST_PLUGINS_BASE_DIR=%GENERATEDDIR%\gst-plugins-base
 set GEN_GST_PLUGINS_GOOD_DIR=%GENERATEDDIR%\gst-plugins-good
 set GEN_GST_PLUGINS_FARSIGHT_DIR=%GENERATEDDIR%\gst-plugins-farsight
 set GEN_FARSIGHT2_DIR=%GENERATEDDIR%\farsight2
+set GEN_FS_PYTHON_DIR=%GENERATEDDIR%\farsight2\python
 set GEN_GST_PYTHON_DIR=%GENERATEDDIR%\gst-python
 
 
@@ -164,6 +166,9 @@ rem gst-python/gst/interfaces
 
 rem gst-python/gst/gst
 %GEN_PYTHON_BAT% "%SRC_GST_PYTHON_DIR%" "%GEN_GST_PYTHON_DIR%" pbutils
+
+rem farsight2/python
+%GEN_PYTHON_FS_BAT% "%SRC_GST_PYTHON_DIR%" "%GEN_FS_PYTHON_DIR%"
 
 
 
