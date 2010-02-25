@@ -27,6 +27,7 @@ output_startup() {
 	export strip=${HostTripletDash}strip
 	export windmc=${HostTripletDash}windmc
 	export windres=${HostTripletDash}windres
+	export rm=`which rm`
 	
 	echo "Setting up output and shared directories..."
 
@@ -289,14 +290,14 @@ create_shared() {
 	mkdir -p "$SharedShareDir/gtk-2.0/"
 	mkdir -p "$SharedShareDir/locale/"
 	mkdir -p "$SharedShareDir/themes/"
-	test -d "$ShareDir/aclocal/" && cd "$ShareDir/aclocal/" && cp -ru * "$SharedShareDir/aclocal/"
-	test -d "$ShareDir/common-lisp/" && cd "$ShareDir/common-lisp/" && cp -ru * "$SharedShareDir/common-lisp/"
-	test -d "$ShareDir/ffmpeg/" && cd "$ShareDir/ffmpeg/" && cp -ru * "$SharedShareDir/ffmpeg/"
-	test -d "$ShareDir/gdb/" && cd "$ShareDir/gdb/" && cp -ru * "$SharedShareDir/gdb/"
-	test -d "$ShareDir/glib-2.0/" && cd "$ShareDir/glib-2.0/" && cp -ru * "$SharedShareDir/glib-2.0/"
-	test -d "$ShareDir/gtk-2.0/" && cd "$ShareDir/gtk-2.0/" && cp -ru * "$SharedShareDir/gtk-2.0/"
-	test -d "$ShareDir/locale/" && cd "$ShareDir/locale/" && cp -ru * "$SharedShareDir/locale/"
-	test -d "$ShareDir/themes/" && cd "$ShareDir/themes/" && cp -ru * "$SharedShareDir/themes/"
+	test -d "$ShareDir/aclocal/" && cd "$ShareDir/aclocal/" && cp -rupd * "$SharedShareDir/aclocal/"
+	test -d "$ShareDir/common-lisp/" && cd "$ShareDir/common-lisp/" && cp -rupd * "$SharedShareDir/common-lisp/"
+	test -d "$ShareDir/ffmpeg/" && cd "$ShareDir/ffmpeg/" && cp -rupd * "$SharedShareDir/ffmpeg/"
+	test -d "$ShareDir/gdb/" && cd "$ShareDir/gdb/" && cp -rupd * "$SharedShareDir/gdb/"
+	test -d "$ShareDir/glib-2.0/" && cd "$ShareDir/glib-2.0/" && cp -rupd * "$SharedShareDir/glib-2.0/"
+	test -d "$ShareDir/gtk-2.0/" && cd "$ShareDir/gtk-2.0/" && cp -rupd * "$SharedShareDir/gtk-2.0/"
+	test -d "$ShareDir/locale/" && cd "$ShareDir/locale/" && cp -rupd * "$SharedShareDir/locale/"
+	test -d "$ShareDir/themes/" && cd "$ShareDir/themes/" && cp -rupd * "$SharedShareDir/themes/"
 	
 	#Bin
 	cd "$BinDir" && copy_files_to_dir "*" "$SharedBinDir"
@@ -304,19 +305,19 @@ create_shared() {
 	
 	#Lib
 	cd "$LibDir" && copy_files_to_dir "*.a *.lib *.sh" "$SharedLibDir"
-	test -d "glib-2.0" && cp -ru "glib-2.0" "$SharedLibDir"
-	test -d "gtk-2.0" && cp -ru "gtk-2.0" "$SharedLibDir"
+	test -d "glib-2.0" && cp -rupd "glib-2.0" "$SharedLibDir"
+	test -d "gtk-2.0" && cp -rupd "gtk-2.0" "$SharedLibDir"
 	
 	#Include
-	cd "$IncludeDir" && cp -ru * "$SharedIncludeDir"
+	cd "$IncludeDir" && cp -rupd * "$SharedIncludeDir"
 	
 	#Etc
 	mkdir -p "$SharedEtcDir/fonts"
 	mkdir -p "$SharedEtcDir/gtk-2.0"
 	mkdir -p "$SharedEtcDir/pango"
-	test -d "$EtcDir/fonts/" && cd "$EtcDir/fonts/" && cp -ru * "$SharedEtcDir/fonts"
-	test -d "$EtcDir/gtk-2.0/" && cd "$EtcDir/gtk-2.0/" && cp -ru * "$SharedEtcDir/gtk-2.0"
-	test -d "$EtcDir/pango/" && cd "$EtcDir/pango/" && cp -ru * "$SharedEtcDir/pango"
+	test -d "$EtcDir/fonts/" && cd "$EtcDir/fonts/" && cp -rupd * "$SharedEtcDir/fonts"
+	test -d "$EtcDir/gtk-2.0/" && cd "$EtcDir/gtk-2.0/" && cp -rupd * "$SharedEtcDir/gtk-2.0"
+	test -d "$EtcDir/pango/" && cd "$EtcDir/pango/" && cp -rupd * "$SharedEtcDir/pango"
 	
 	#Create pkgconfig/libtool templates
 	create_templates

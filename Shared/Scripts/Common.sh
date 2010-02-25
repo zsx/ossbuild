@@ -142,7 +142,7 @@ mkdir_and_move() {
 copy_files_to_dir() {
 	myfiles=$1
 	mydir=$2
-	for f in `find $myfiles`; do cp "$f" "$mydir"; done
+	for f in `find $myfiles`; do cp -upd "$f" "$mydir"; done
 }
 
 move_files_to_dir() {
