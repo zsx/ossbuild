@@ -876,6 +876,9 @@ if [ ! -f "$BinDir/lib${Prefix}gtk-win32-2.0-0.dll" ]; then
 	update_library_names_windows "lib${Prefix}gtk-win32-2.0.dll.a" "libgtk-win32-2.0.la"
 	
 	reset_flags
+	
+	cp -p "$LibDir/gtk-2.0/include/gdkconfig.h" "$IncludeDir/gtk-2.0/"
+	$rm -rf "$LibDir/gtk-2.0/include/"
 fi
 
 #gtkglarea
@@ -1749,6 +1752,24 @@ if [ ! -f "$BinDir/${FFmpegPrefix}avcodec-gpl-52.dll" ]; then
 	#Copy some other dlls for testing
 	copy_files_to_dir "$BinDir/*.dll" "."
 fi
+
+#Cleanup
+$rm -rf "$LibDir/gio/"
+$rm -rf "$LibDir/glib-2.0/"
+$rm -rf "$LibDir/mozilla/"
+$rm -rf "$LibDir/pango/"
+
+#Fix GTK paths
+cd "$EtcDir/gtk-2.0/"
+sed -e "s:$BinDir:../../lib:g" gdk-pixbuf.loaders > gdk-pixbuf.loaders.temp
+mv gdk-pixbuf.loaders.temp gdk-pixbuf.loaders
+grep -v -E 'Automatically generated|Created by|ModulesPath =' < gtk.immodules > gtk.immodules.temp 
+mv gtk.immodules.temp gtk.immodules
+
+#Fix Pango paths
+cd "$EtcDir/pango/"
+grep -v -E 'Automatically generated|Created by|ModulesPath =' < pango.modules > pango.modules.temp 
+mv pango.modules.temp pango.modules
 
 reset_flags
 
