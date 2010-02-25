@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -R@SHARED_BUILD_DIR@/lib -L@SHARED_BUILD_DIR@/lib @SHARED_BUILD_DIR@/lib/libgnutls.la @SHARED_BUILD_DIR@/lib/libtasn1.la @SHARED_BUILD_DIR@/lib/libz.la @SHARED_BUILD_DIR@/lib/libgcrypt.la @SHARED_BUILD_DIR@/lib/libgpg-error.la /mingw/i686-pc-mingw32/lib/./libws2_32.la'
+dependency_libs=' -R@SHARED_BUILD_DIR@/lib -L@SHARED_BUILD_DIR@/lib  @SHARED_BUILD_DIR@/lib/libgnutls.la @SHARED_BUILD_DIR@/lib/libtasn1.la @SHARED_BUILD_DIR@/lib/libz.la @SHARED_BUILD_DIR@/lib/libgcrypt.la @SHARED_BUILD_DIR@/lib/libgpg-error.la /mingw/i686-pc-mingw32/lib/./libws2_32.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

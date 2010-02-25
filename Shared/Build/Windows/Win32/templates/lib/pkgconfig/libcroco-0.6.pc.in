@@ -1,0 +1,12 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+Name: libcroco
+Version: 0.6.2
+Description: a CSS2 Parsing and manipulation Library in C.
+Requires: glib-2.0 libxml-2.0
+Libs: -L@SHARED_BUILD_DIR@/lib -lcroco-0.6
+Cflags: -I@SHARED_BUILD_DIR@/include/libcroco-0.6
+

@@ -30,7 +30,7 @@
 #include "libavutil/avutil.h"
 
 #define LIBAVCODEC_VERSION_MAJOR 52
-#define LIBAVCODEC_VERSION_MINOR 49
+#define LIBAVCODEC_VERSION_MINOR 55
 #define LIBAVCODEC_VERSION_MICRO  0
 
 #define LIBAVCODEC_VERSION_INT  AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, \
@@ -203,6 +203,9 @@ enum CodecID {
     CODEC_ID_CDGRAPHICS,
     CODEC_ID_R210,
     CODEC_ID_ANM,
+    CODEC_ID_BINKVIDEO,
+    CODEC_ID_IFF_ILBM,
+    CODEC_ID_IFF_BYTERUN1,
 
     /* various PCM "codecs" */
     CODEC_ID_PCM_S16LE= 0x10000,
@@ -326,6 +329,8 @@ enum CodecID {
     CODEC_ID_TRUEHD,
     CODEC_ID_MP4ALS,
     CODEC_ID_ATRAC1,
+    CODEC_ID_BINKAUDIO_RDFT,
+    CODEC_ID_BINKAUDIO_DCT,
 
     /* subtitle codecs */
     CODEC_ID_DVD_SUBTITLE= 0x17000,
@@ -1303,6 +1308,7 @@ typedef struct AVCodecContext {
 #define FF_BUG_HPEL_CHROMA      2048
 #define FF_BUG_DC_CLIP          4096
 #define FF_BUG_MS               8192 ///< Work around various bugs in Microsoft's broken decoders.
+#define FF_BUG_TRUNCATED       16384
 //#define FF_BUG_FAKE_SCALABILITY 16 //Autodetection should work 100%.
 
     /**
@@ -1569,6 +1575,7 @@ typedef struct AVCodecContext {
 #define FF_IDCT_EA            21
 #define FF_IDCT_SIMPLENEON    22
 #define FF_IDCT_SIMPLEALPHA   23
+#define FF_IDCT_BINK          24
 
     /**
      * slice count
@@ -2992,6 +2999,7 @@ void avcodec_get_chroma_sub_sample(enum PixelFormat pix_fmt, int *h_shift, int *
 const char *avcodec_get_pix_fmt_name(enum PixelFormat pix_fmt);
 void avcodec_set_dimensions(AVCodecContext *s, int width, int height);
 
+#if LIBAVCODEC_VERSION_MAJOR < 53
 /**
  * Returns the pixel format corresponding to the name name.
  *
@@ -3002,8 +3010,11 @@ void avcodec_set_dimensions(AVCodecContext *s, int width, int height);
  * then for "gray16le".
  *
  * Finally if no pixel format has been found, returns PIX_FMT_NONE.
+ *
+ * @deprecated Deprecated in favor of av_get_pix_fmt().
  */
-enum PixelFormat avcodec_get_pix_fmt(const char* name);
+attribute_deprecated enum PixelFormat avcodec_get_pix_fmt(const char* name);
+#endif
 
 /**
  * Returns a value representing the fourCC code associated to the

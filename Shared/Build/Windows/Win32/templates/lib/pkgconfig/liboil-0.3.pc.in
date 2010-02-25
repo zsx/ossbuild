@@ -7,7 +7,7 @@ toolsdir=${exec_prefix}/bin
 
 Name: liboil-0.3
 Description: Library of Optimized Inner Loops
-Version: 0.3.16
+Version: 0.3.17
 Libs: -L${libdir} -loil-0.3 -lm 
 Cflags: -I${includedir}
 

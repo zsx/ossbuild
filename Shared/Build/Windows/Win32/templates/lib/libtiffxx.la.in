@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib @SHARED_BUILD_DIR@/lib/libtiff.la @SHARED_BUILD_DIR@/lib/libjpeg.la @SHARED_BUILD_DIR@/lib/libz.la /mingw/i686-pc-mingw32/lib/./libuser32.la /mingw/i686-pc-mingw32/lib/./libkernel32.la /mingw/i686-pc-mingw32/lib/./libadvapi32.la /mingw/i686-pc-mingw32/lib/./libshell32.la /mingw/i686-pc-mingw32/lib/./libmsvcrt.la'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib  @SHARED_BUILD_DIR@/lib/libtiff.la @SHARED_BUILD_DIR@/lib/libjpeg.la @SHARED_BUILD_DIR@/lib/libz.la /mingw/i686-pc-mingw32/lib/./libuser32.la /mingw/i686-pc-mingw32/lib/./libkernel32.la /mingw/i686-pc-mingw32/lib/./libadvapi32.la /mingw/i686-pc-mingw32/lib/./libshell32.la /mingw/i686-pc-mingw32/lib/./libmsvcrt.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

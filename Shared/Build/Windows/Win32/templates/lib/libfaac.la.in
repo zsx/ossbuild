@@ -14,7 +14,7 @@ library_names='libfaac.dll.a'
 old_library=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib '
 
 # Version information for libfaac.
 current=0

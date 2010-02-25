@@ -12,10 +12,10 @@
 # Modeled after libxml-config.
 
 version="1.4.0"
-prefix="/E/Work/OSSBuild/Build/Windows/Win32/Release"
+prefix="/D/OSSBuild/Build/Windows/Win32/Release"
 exec_prefix="${prefix}"
-libdir="/E/Work/OSSBuild/Build/Windows/Win32/Release/lib"
-includedir="/E/Work/OSSBuild/Build/Windows/Win32/Release/include/libpng14"
+libdir="/D/OSSBuild/Build/Windows/Win32/Release/lib"
+includedir="/D/OSSBuild/Build/Windows/Win32/Release/include/libpng14"
 libs="-lpng14"
 all_libs="-lpng14 -lz "
 I_opts="-I${includedir}"

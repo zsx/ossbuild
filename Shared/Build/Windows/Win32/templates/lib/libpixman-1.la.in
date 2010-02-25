@@ -14,12 +14,12 @@ library_names='libpixman-1.dll.a'
 old_library=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib '
 
 # Version information for libpixman-1.
 current=17
 age=17
-revision=4
+revision=6
 
 # Is this an already installed library?
 installed=yes

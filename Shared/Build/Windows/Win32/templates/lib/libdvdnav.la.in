@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib @SHARED_BUILD_DIR@/lib/libdvdread.la'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib  @SHARED_BUILD_DIR@/lib/libdvdread.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

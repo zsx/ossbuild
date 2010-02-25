@@ -5,10 +5,10 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: libavformat
 Description: FFmpeg container format library
-Version: 52.48.0
+Version: 52.54.0
 Requires: 
-Requires.private: libavcodec = 52.49.0
+Requires.private: libavcodec = 52.55.0
 Conflicts:
-Libs: -L${libdir} -lavformat-lgpl 
-Libs.private: -lz -lbz2 -lm -lavifil32 -lm -lws2_32 -lavicap32
+Libs: -L${libdir} -lavformat 
+Libs.private: -lpsapi -lz -lbz2 -lm -lavifil32 -lws2_32 -lavicap32
 Cflags: -I${includedir}

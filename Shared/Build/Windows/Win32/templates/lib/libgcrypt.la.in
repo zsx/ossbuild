@@ -14,7 +14,7 @@ library_names='libgcrypt.dll.a'
 old_library=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib @SHARED_BUILD_DIR@/lib/libgpg-error.la'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib  @SHARED_BUILD_DIR@/lib/libgpg-error.la'
 
 # Version information for libgcrypt.
 current=16

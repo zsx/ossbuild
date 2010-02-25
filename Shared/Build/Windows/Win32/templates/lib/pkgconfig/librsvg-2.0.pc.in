@@ -1,0 +1,15 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/lib
+includedir=@SHARED_BUILD_DIR@/include
+
+svgz_supported=true
+css_supported=true
+
+Name: librsvg
+Description: library that renders svg files
+Version: 2.26.0
+Requires: glib-2.0 gdk-pixbuf-2.0 cairo
+Requires.private
+Libs: -L${libdir} -lrsvg-2
+Cflags: -I${includedir}/librsvg-2

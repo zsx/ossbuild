@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=' -mthreads'
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib /mingw/i686-pc-mingw32/lib/./libuuid.la /mingw/i686-pc-mingw32/lib/./libstrmiids.la -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgio-2.0.la /mingw/i686-pc-mingw32/lib/./libshlwapi.la /mingw/i686-pc-mingw32/lib/./libdnsapi.la @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgmodule-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libole32.la @SHARED_BUILD_DIR@/lib/libpng14.la @SHARED_BUILD_DIR@/lib/libz.la /mingw/i686-pc-mingw32/lib/./libole32.la @SHARED_BUILD_DIR@/lib/libintl.la'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib  /mingw/i686-pc-mingw32/lib/./libuuid.la /mingw/i686-pc-mingw32/lib/./libstrmiids.la -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgio-2.0.la /mingw/i686-pc-mingw32/lib/./libshlwapi.la /mingw/i686-pc-mingw32/lib/./libdnsapi.la @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgmodule-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libole32.la @SHARED_BUILD_DIR@/lib/libpng14.la @SHARED_BUILD_DIR@/lib/libz.la /mingw/i686-pc-mingw32/lib/./libole32.la @SHARED_BUILD_DIR@/lib/libintl.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
@@ -25,7 +25,7 @@ weak_library_names=''
 # Version information for libgdk_pixbuf-2.0.
 current=1800
 age=1800
-revision=6
+revision=7
 
 # Is this an already installed library?
 installed=yes

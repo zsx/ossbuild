@@ -5,10 +5,10 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: libswscale
 Description: FFmpeg image rescaling library
-Version: 0.9.0
+Version: 0.10.0
 Requires: 
-Requires.private: libavutil = 50.7.0
+Requires.private: libavutil = 50.9.0
 Conflicts:
-Libs: -L${libdir} -lswscale-lgpl 
+Libs: -L${libdir} -lswscale 
 Libs.private: 
 Cflags: -I${includedir}

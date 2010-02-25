@@ -14,7 +14,7 @@ library_names='libdca.dll.a'
 old_library='libdca.a'
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib '
 
 # Version information for libdca.
 current=0

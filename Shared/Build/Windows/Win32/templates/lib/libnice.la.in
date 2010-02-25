@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib /mingw/i686-pc-mingw32/lib/./libwsock32.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libiphlpapi.la -Le:/Work/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgthread-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libole32.la @SHARED_BUILD_DIR@/lib/libintl.la /mingw/i686-pc-mingw32/lib/./libwsock32.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libiphlpapi.la'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib  /mingw/i686-pc-mingw32/lib/./libwsock32.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libiphlpapi.la -Ld:/OSSBuild/Build/Windows/Win32/Release/lib @SHARED_BUILD_DIR@/lib/libgobject-2.0.la @SHARED_BUILD_DIR@/lib/libgthread-2.0.la @SHARED_BUILD_DIR@/lib/libglib-2.0.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libole32.la @SHARED_BUILD_DIR@/lib/libintl.la /mingw/i686-pc-mingw32/lib/./libwsock32.la /mingw/i686-pc-mingw32/lib/./libws2_32.la /mingw/i686-pc-mingw32/lib/./libiphlpapi.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

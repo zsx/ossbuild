@@ -68,11 +68,11 @@ while test $# -gt 0; do
 	;;
 
     --cflags)
-	echo -I/D/OSSBuild/Build/Windows/Win32/Release/include/libcroco-0.6 -mms-bitfields -Id:/OSSBuild/Shared/Build/Windows/Win32/include/glib-2.0 -Id:/OSSBuild/Shared/Build/Windows/Win32/lib/glib-2.0/include   -Id:/OSSBuild/Shared/Build/Windows/Win32/include/libxml2  
+	echo -I/D/OSSBuild/Build/Windows/Win32/Release/include/libcroco-0.6 -mms-bitfields -Id:/OSSBuild/Build/Windows/Win32/Release/include/glib-2.0 -Id:/OSSBuild/Build/Windows/Win32/Release/lib/glib-2.0/include   -Id:/OSSBuild/Build/Windows/Win32/Release/include/libxml2  
        	;;
 
     --libs)
-	echo -L/D/OSSBuild/Build/Windows/Win32/Release/lib -lcroco-0.6 -Ld:/OSSBuild/Shared/Build/Windows/Win32/lib -lglib-2.0 -lintl   -Ld:/OSSBuild/Shared/Build/Windows/Win32/lib -lxml2  
+	echo -L/D/OSSBuild/Build/Windows/Win32/Release/lib -lcroco-0.6 -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lglib-2.0 -lintl   -Ld:/OSSBuild/Build/Windows/Win32/Release/lib -lxml2  
        	;;
 
     *)

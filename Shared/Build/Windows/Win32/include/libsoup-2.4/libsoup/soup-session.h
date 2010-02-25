@@ -58,15 +58,18 @@ typedef struct {
 
 GType soup_session_get_type (void);
 
-#define SOUP_SESSION_PROXY_URI          "proxy-uri"
-#define SOUP_SESSION_MAX_CONNS          "max-conns"
-#define SOUP_SESSION_MAX_CONNS_PER_HOST "max-conns-per-host"
-#define SOUP_SESSION_USE_NTLM           "use-ntlm"
-#define SOUP_SESSION_SSL_CA_FILE        "ssl-ca-file"
-#define SOUP_SESSION_ASYNC_CONTEXT      "async-context"
-#define SOUP_SESSION_TIMEOUT            "timeout"
-#define SOUP_SESSION_USER_AGENT         "user-agent"
-#define SOUP_SESSION_IDLE_TIMEOUT       "idle-timeout"
+#define SOUP_SESSION_PROXY_URI              "proxy-uri"
+#define SOUP_SESSION_MAX_CONNS              "max-conns"
+#define SOUP_SESSION_MAX_CONNS_PER_HOST     "max-conns-per-host"
+#define SOUP_SESSION_USE_NTLM               "use-ntlm"
+#define SOUP_SESSION_SSL_CA_FILE            "ssl-ca-file"
+#define SOUP_SESSION_SSL_STRICT             "ssl-strict"
+#define SOUP_SESSION_ASYNC_CONTEXT          "async-context"
+#define SOUP_SESSION_TIMEOUT                "timeout"
+#define SOUP_SESSION_USER_AGENT             "user-agent"
+#define SOUP_SESSION_ACCEPT_LANGUAGE        "accept-language"
+#define SOUP_SESSION_ACCEPT_LANGUAGE_AUTO   "accept-language-auto"
+#define SOUP_SESSION_IDLE_TIMEOUT           "idle-timeout"
 #define SOUP_SESSION_ADD_FEATURE            "add-feature"
 #define SOUP_SESSION_ADD_FEATURE_BY_TYPE    "add-feature-by-type"
 #define SOUP_SESSION_REMOVE_FEATURE_BY_TYPE "remove-feature-by-type"
@@ -93,6 +96,8 @@ void            soup_session_cancel_message   (SoupSession           *session,
 					       guint                  status_code);
 void            soup_session_abort            (SoupSession           *session);
 
+void            soup_session_prepare_for_uri  (SoupSession           *session,
+					       SoupURI               *uri);
 
 void                soup_session_add_feature            (SoupSession        *session,
 							 SoupSessionFeature *feature);

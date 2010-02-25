@@ -14,7 +14,7 @@ library_names='libmpeg2.dll.a'
 old_library=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L@SHARED_BUILD_DIR@/lib'
+dependency_libs=' -L@SHARED_BUILD_DIR@/lib '
 
 # Version information for libmpeg2.
 current=1

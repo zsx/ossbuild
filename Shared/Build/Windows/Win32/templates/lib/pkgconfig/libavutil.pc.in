@@ -5,10 +5,10 @@ includedir=@SHARED_BUILD_DIR@/include
 
 Name: libavutil
 Description: FFmpeg utility library
-Version: 50.7.0
+Version: 50.9.0
 Requires: 
 Requires.private: 
 Conflicts:
-Libs: -L${libdir} -lavutil-lgpl 
+Libs: -L${libdir} -lavutil 
 Libs.private: 
 Cflags: -I${includedir}

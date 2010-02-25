@@ -12,6 +12,10 @@ G_BEGIN_DECLS
 GType soup_address_family_get_type (void) G_GNUC_CONST;
 #define SOUP_TYPE_ADDRESS_FAMILY (soup_address_family_get_type ())
 
+/* enumerations from "soup-cookie-jar.h" */
+GType soup_cookie_jar_accept_policy_get_type (void) G_GNUC_CONST;
+#define SOUP_TYPE_COOKIE_JAR_ACCEPT_POLICY (soup_cookie_jar_accept_policy_get_type ())
+
 /* enumerations from "soup-date.h" */
 GType soup_date_format_get_type (void) G_GNUC_CONST;
 #define SOUP_TYPE_DATE_FORMAT (soup_date_format_get_type ())
@@ -41,6 +45,8 @@ GType soup_expectation_get_type (void) G_GNUC_CONST;
 /* enumerations from "soup-misc.h" */
 GType soup_ssl_error_get_type (void) G_GNUC_CONST;
 #define SOUP_TYPE_SSL_ERROR (soup_ssl_error_get_type ())
+GType soup_connection_state_get_type (void) G_GNUC_CONST;
+#define SOUP_TYPE_CONNECTION_STATE (soup_connection_state_get_type ())
 
 /* enumerations from "soup-socket.h" */
 GType soup_socket_io_status_get_type (void) G_GNUC_CONST;

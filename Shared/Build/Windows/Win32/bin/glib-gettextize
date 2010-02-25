@@ -42,7 +42,7 @@ version=2.22.4
 try_ln_s=:
 
 # Directory where the sources are stored.
-prefix=/E/Work/OSSBuild/Build/Windows/Win32/Release
+prefix=/D/OSSBuild/Build/Windows/Win32/Release
 case `uname` in
 MINGW32*)
     prefix="`dirname $0`/.."
