@@ -66,10 +66,11 @@ if [ ! -f "$BinDir/libz.so.1" ]; then
 
 	chmod u+x ./configure
 	dos2unix ./configure
+	cp -p "$LIBRARIES_PATCH_DIR/zlib/zlib.map" .
 	"$PKG_DIR/configure" -s --shared --prefix=$InstallDir --exec_prefix=$BinDir --libdir=$BinDir --includedir=$IncludeDir
 	
 	cp contrib/asm686/match.S ./match.S
-	make LOC=-DASMV OBJA=match.o
+	make LOC=-DASMV OBJA=match.o LDSHARED="gcc -shared -Wl,-soname,libz.so.1 -Wl,--version-script zlib.map"
 	make libz.a
 	make install
 	cp libz.a "$LibDir/libz.a"
