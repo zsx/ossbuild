@@ -1,1 +1,1 @@
-SUBDIRS = ffmpeg libpostproc libswscale
+SUBDIRS = ffmpeg libswscale

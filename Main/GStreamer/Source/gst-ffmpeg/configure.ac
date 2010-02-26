@@ -216,7 +216,6 @@ AC_ARG_WITH(system-ffmpeg,
 
 if test "x$with_system_ffmpeg" = "xyes"; then
   PKG_CHECK_MODULES(FFMPEG, libavformat libavcodec libavutil) 
-  PKG_CHECK_MODULES(POSTPROC, libpostproc libavcodec libavutil)
   PKG_CHECK_MODULES(SWSCALE, libswscale libavutil)
   saved_CPPFLAGS="$CPPFLAGS"
   CPPFLAGS="$CPPFLAGS $FFMPEG_CFLAGS"
@@ -400,7 +399,6 @@ common/shave-libtool
 gst-ffmpeg.spec
 ext/Makefile
 ext/ffmpeg/Makefile
-ext/libpostproc/Makefile
 ext/libswscale/Makefile
 gst-libs/Makefile
 gst-libs/ext/Makefile
