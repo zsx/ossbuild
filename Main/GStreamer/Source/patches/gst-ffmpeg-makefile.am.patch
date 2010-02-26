@@ -1,0 +1,7 @@
+Index: ext/Makefile.am
+===================================================================
+--- ext/Makefile.am
++++ ext/Makefile.am
+@@ -1 +1 @@
+-SUBDIRS = ffmpeg libpostproc libswscale
++SUBDIRS = ffmpeg libswscale
