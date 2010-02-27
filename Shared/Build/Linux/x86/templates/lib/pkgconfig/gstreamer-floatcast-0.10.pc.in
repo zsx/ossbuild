@@ -1,0 +1,12 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include/gstreamer-0.10
+
+Name: GStreamer Floatcast Library
+Description: Platform independent floating point macros
+Requires: glib-2.0
+Version: 0.10.26
+Cflags: -I${includedir}
+Libs: -lm
+

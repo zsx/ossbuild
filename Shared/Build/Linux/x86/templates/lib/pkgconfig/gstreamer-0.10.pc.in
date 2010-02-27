@@ -1,0 +1,13 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include/gstreamer-0.10
+toolsdir=${exec_prefix}/bin
+pluginsdir=@SHARED_BUILD_DIR@/bin/gstreamer-0.10
+
+Name: GStreamer
+Description: Streaming media framework
+Requires: glib-2.0, gobject-2.0, gmodule-no-export-2.0, gthread-2.0, libxml-2.0
+Version: 0.10.26
+Libs: -L${libdir} -lgstreamer-0.10
+Cflags: -I${includedir}

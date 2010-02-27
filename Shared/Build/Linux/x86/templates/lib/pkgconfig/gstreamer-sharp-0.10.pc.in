@@ -1,0 +1,9 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+
+
+Name: Gst#
+Description: Gst# - GStreamer .NET Binding
+Version: 0.9.2
+Libs: -r:${libdir}/mono/gstreamer-sharp-0.10/gstreamer-sharp.dll

@@ -1,0 +1,13 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include/gstreamer-0.10
+pluginsdir=@SHARED_BUILD_DIR@/bin/gstreamer-0.10
+
+Name: GStreamer OpenGL Plugins Libraries
+Description: Streaming media framework, OpenGL plugins libraries
+Requires: gstreamer-0.10 gstreamer-base-0.10
+Version: 0.10.1
+Libs: -L${libdir} -lgstgl-0.10
+Cflags: -I${includedir}
+

@@ -1,0 +1,11 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include/gstreamer-0.10
+
+Name: GStreamer data protocol library
+Description: Data protocol for plug-ins
+Requires: gstreamer-0.10
+Version: 0.10.26
+Libs: -L${libdir} -lgstdataprotocol-0.10
+Cflags: -I${includedir}

@@ -8,43 +8,16 @@
 #                                                                             #
 ###############################################################################
 
-export GstApiVersion=0.10
-export PKG_URI="http://code.google.com/p/ossbuild/"
-
 TOP=$(dirname $0)/../../..
 
 #Call common startup routines to load a bunch of variables we'll need
 . $TOP/Shared/Scripts/Common.sh
 common_startup "Linux" "x86" "Release"
 
-#Causes us to now always include the bin dir to look for libraries, even after calling reset_flags
-export ORIG_LDFLAGS="$ORIG_LDFLAGS -L$BinDir -L$SharedBinDir"
-reset_flags
+#Load in our own common variables
+. $CURR_DIR/Common.sh
 
-#Setup possible license suffixes
-license_suffixes='-lgpl -gpl'
 
-#Setup GStreamer paths
-export GstDir=$MAIN_DIR/GStreamer
-export GstSrcDir=$GstDir/Source
-export GstPatchDir=$GstSrcDir/patches
-export GstIntDir=$IntDir
-
-export GstPluginBinDir=$BinDir/gstreamer-$GstApiVersion
-export GstPluginLibDir=$LibDir/gstreamer-$GstApiVersion
-export GST_PLUGIN_PATH=$GstPluginBinDir
-
-mkdir -p $GstPluginBinDir
-mkdir -p $GstPluginLibDir
-
-#Augment paths to find our uninstalled binaries
-export PATH="$BinDir:$SharedBinDir:$GstPluginBinDir:$PATH"
-export LD_LIBRARY_PATH="$BinDir:$SharedBinDir:$GstPluginBinDir:$LD_LIBRARY_PATH"
-
-#Default configure options
-export GstConfigureDefault=" --with-package-origin=$PKG_URI --disable-debug --disable-static --enable-shared --prefix=$InstallDir --libexecdir=$BinDir --bindir=$BinDir --libdir=$BinDir --includedir=$IncludeDir "
-
-#arrange_shared "$BinDir" "-$GstApiVersion.so" "0" "0.19.0" "-$GstApiVersion.la" "gstreamer--$GstApiVersion.pc" "$LibDir"
 
 
 #Core
@@ -103,7 +76,7 @@ if [ ! -f "$BinDir/libgstapp-$GstApiVersion.so.0" ]; then
 fi
 
 #Good plugins
-if [ ! -f "$GstPluginBinDir/libgstmatroska.so" ]; then 
+if [ ! -f "$GstPluginBinDir/libgstmatroska.so" -a ! -f "$GstPluginLibDir/libgstmatroska.so" ]; then 
 	mkdir_and_move "$GstIntDir/gst-plugins-good"
 	$GstSrcDir/gst-plugins-good/configure --with-package-name='OSSBuild GStreamer Good Plugins' $GstConfigureDefault
 
@@ -113,7 +86,7 @@ if [ ! -f "$GstPluginBinDir/libgstmatroska.so" ]; then
 fi
 
 #Ugly plugins
-if [ ! -f "$GstPluginBinDir/libgstx264.so" ]; then 
+if [ ! -f "$GstPluginBinDir/libgstx264.so" -a ! -f "$GstPluginLibDir/libgstx264.so" ]; then 
 	mkdir_and_move "$GstIntDir/gst-plugins-ugly"
 	$GstSrcDir/gst-plugins-ugly/configure --with-package-name='OSSBuild GStreamer Ugly Plugins' $GstConfigureDefault
 
@@ -123,7 +96,7 @@ if [ ! -f "$GstPluginBinDir/libgstx264.so" ]; then
 fi
 
 #Bad plugins
-if [ ! -f "$GstPluginBinDir/libgstsdl.so" ]; then 
+if [ ! -f "$GstPluginBinDir/libgstsdl.so" -a ! -f "$GstPluginLibDir/libgstsdl.so" ]; then 
 	mkdir_and_move "$GstIntDir/gst-plugins-bad"
 	
 	CFLAGS="$CFLAGS -I$IncludeDir/SDL -I$SharedIncludeDir/SDL"
@@ -157,9 +130,9 @@ if [ ! -f "$BinDir/libgstgl-$GstApiVersion.so.0" ]; then
 fi
 
 #FFmpeg plugins (GPL and LGPL)
-for FFmpegSuffix in $license_suffixes
+for FFmpegSuffix in $LicenseSuffixes
 do
-	if [ ! -f "$GstPluginBinDir/libgstffmpeg${FFmpegSuffix}.sod" ]; then 
+	if [ ! -f "$GstPluginBinDir/libgstffmpeg${FFmpegSuffix}.so" -a ! -f "$GstPluginLibDir/libgstffmpeg${FFmpegSuffix}.so" ]; then 
 		mkdir_and_move "$GstIntDir/gst-ffmpeg${FFmpegSuffix}"
 	
 		PKG_CONFIG_PATH="$GstIntDir/gst-ffmpeg${FFmpegSuffix}:$PKG_CONFIG_PATH"
@@ -191,7 +164,134 @@ do
 		reset_pkgconfig_path
 	fi
 done
-exit 0
+
+#GStreamer GNonlin plugins
+if [ ! -f "$GstPluginBinDir/libgnl.so" -a ! -f "$GstPluginLibDir/libgnl.so" ]; then 
+	mkdir_and_move "$GstIntDir/gnonlin"
+	$GstSrcDir/gnonlin/configure --with-package-name='OSSBuild GStreamer Nonlinear Bindings' $GstConfigureDefault
+
+	make && make install
+
+	move_files_to_dir "$GstPluginBinDir/*.la" "$GstPluginLibDir/"
+fi
+
+#GStreamer Python bindings
+if [ ! -f "$LibDir/python2.6/site-packages/gst-$GstApiVersion/gst/_gst.so" ]; then 
+	mkdir_and_move "$GstIntDir/gst-python"
+	$GstSrcDir/gst-python/configure --with-package-name='OSSBuild GStreamer Python Bindings' $GstConfigureDefault
+	
+	make && make install
+	
+	move_files_to_dir "$GstPluginBinDir/*.la" "$GstPluginLibDir/"
+	
+	remove_files_from_dir "$LibDir/python2.6/site-packages/*.la"
+	remove_files_from_dir "$LibDir/python2.6/site-packages/gst-$GstApiVersion/gst/*.la"
+	remove_files_from_dir "$LibDir/python2.6/site-packages/gst-$GstApiVersion/gst/*.pyc"
+	remove_files_from_dir "$LibDir/python2.6/site-packages/gst-$GstApiVersion/gst/*.pyo"
+	remove_files_from_dir "$LibDir/python2.6/site-packages/gst-$GstApiVersion/gst/extend/*.pyc"
+	remove_files_from_dir "$LibDir/python2.6/site-packages/gst-$GstApiVersion/gst/extend/*.pyo"
+	
+	mv "$BinDir/pkgconfig/gst-python-$GstApiVersion.pc" "$LibDir/pkgconfig/"
+fi
+
+#Farsight2
+if [ ! -f "$BinDir/libgstfarsight-$GstApiVersion.so.0" ]; then 
+	mkdir_and_move "$GstIntDir/farsight2"
+	$GstSrcDir/farsight2/configure --with-package-name='OSSBuild Farsight2' $GstConfigureDefault
+
+	make && make install
+
+	arrange_shared "$BinDir" "libgstfarsight-$GstApiVersion.so" "0" "0.3.1" "libgstfarsight-$GstApiVersion.la" "farsight2-$GstApiVersion.pc" "$LibDir"
+
+	remove_files_from_dir "$LibDir/python2.6/site-packages/farsight.la"
+	remove_files_from_dir "$Farsight2BinDir/*.la"
+	move_files_to_dir "$Farsight2BinDir/*.so" "$Farsight2LibDir/"
+	move_files_to_dir "$GstPluginBinDir/*.la" "$GstPluginLibDir/"
+fi
+
+#GStreamer Farsight2 plugins
+if [ ! -f "$GstPluginBinDir/libgstnetsim.so" -a ! -f "$GstPluginLibDir/libgstnetsim.so" ]; then 
+	mkdir_and_move "$GstIntDir/gst-plugins-farsight"
+	$GstSrcDir/gst-plugins-farsight/configure --with-package-name='OSSBuild GStreamer Farsight2 Plugins' $GstConfigureDefault
+	
+	make && make install
+	
+	move_files_to_dir "$GstPluginBinDir/*.la" "$GstPluginLibDir/"
+fi
+
+#GStreamer Sharp (.NET) bindings
+if [ ! -f "$BinDir/libgstreamersharpglue-$GstApiVersion.so" ]; then 
+	mkdir_and_move "$GstIntDir/gstreamer-sharp"
+	
+	cd "$GstSrcDir/gstreamer-sharp/"
+	NOCONFIGURE=yes ./autogen.sh
+
+	cd "$GstIntDir/gstreamer-sharp/"
+	$GstSrcDir/gstreamer-sharp/configure --with-package-name='OSSBuild GStreamer-Sharp .NET Bindings' $GstConfigureDefault
+	
+	#Technically this is not the GStreamer API version. At the time of writing, it was 0.9.2
+	sed -e "s:@API_VERSION@:$GstApiVersion:g" "$GstSrcDir/gstreamer-sharp/gstreamer-sharp/AssemblyInfo.cs.in" > "$GstSrcDir/gstreamer-sharp/gstreamer-sharp/AssemblyInfo.cs"
+	
+	make && make install
+
+	move_files_to_dir "$BinDir/pkgconfig/gstreamer-sharp-$GstApiVersion.pc" "$LibDir/pkgconfig/"
+	move_files_to_dir "$BinDir/libgstreamersharpglue-$GstApiVersion.la" "$LibDir/"
+	
+	mv "$BinDir/mono" "$LibDir/"
+fi
+
+#Move plugins to the lib directory
+move_files_to_dir "$GstPluginBinDir/*" "$GstPluginLibDir/"
+
+#Get rid of files/directories we don't need
+rm -rf "$BinDir/pkgconfig/"
+rm -rf "$Farsight2BinDir/"
+rm -rf "$GstPluginBinDir/"
+remove_files_from_dir "$GstPluginLibDir/*.la"
+
+
+#Merge everything into Shared/
+
+#Shared/share/
+mkdir -p "$SharedShareDir/gapi/"
+mkdir -p "$SharedShareDir/locale/"
+mkdir -p "$SharedShareDir/aclocal/"
+mkdir -p "$SharedShareDir/gst-python/"
+mkdir -p "$SharedShareDir/gstreamer-$GstApiVersion/"
+
+cd "$ShareDir/gapi/" && cp -rupd * "$SharedShareDir/gapi/"
+cd "$ShareDir/locale/" && cp -rupd * "$SharedShareDir/locale/"
+cd "$ShareDir/aclocal/" && cp -rupd * "$SharedShareDir/aclocal/"
+cd "$ShareDir/gst-python/" && cp -rupd * "$SharedShareDir/gst-python/"
+cd "$ShareDir/gstreamer-$GstApiVersion/" && cp -rupd * "$SharedShareDir/gstreamer-$GstApiVersion/"
+
+#Shared/bin/
+cd "$BinDir" && copy_files_to_dir "*" "$SharedBinDir"
+
+#Shared/include/
+cd "$IncludeDir" && cp -rupd * "$SharedIncludeDir"
+
+#Shared/etc/
+mkdir -p "$SharedEtcDir/gconf"
+cd "$EtcDir/gconf/" && cp -rupd * "$SharedEtcDir/gconf"
+
+#Shared/lib/
+mkdir -p "$SharedLibDir/mono"
+mkdir -p "$SharedLibDir/python2.6"
+mkdir -p "$SharedLibDir/gstreamer-$GstApiVersion"
+mkdir -p "$SharedLibDir/farsight2-$Farsight2ApiVersion"
+cd "$LibDir" 
+cp -rupd "mono" "$SharedLibDir"
+cp -rupd "python2.6" "$SharedLibDir"
+cp -rupd "gstreamer-$GstApiVersion" "$SharedLibDir"
+cp -rupd "farsight2-$Farsight2ApiVersion" "$SharedLibDir"
+
+#Create pkgconfig/libtool templates
+create_templates
+
+
+
 
 #Call common shutdown routines
 common_shutdown
+

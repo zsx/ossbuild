@@ -1,0 +1,13 @@
+prefix=@SHARED_BUILD_DIR@
+exec_prefix=${prefix}
+libdir=@SHARED_BUILD_DIR@/bin
+includedir=@SHARED_BUILD_DIR@/include/gstreamer-0.10
+pluginsdir=@SHARED_BUILD_DIR@/bin/farsight2-0.0
+
+Name: Farsight2
+Description: Farsight2 base classes and utilities
+Requires: gstreamer-0.10 gstreamer-base-0.10
+Version: 0.0.16
+Libs: -L${libdir} -lgstfarsight-0.10
+Cflags: -I${includedir}
+
