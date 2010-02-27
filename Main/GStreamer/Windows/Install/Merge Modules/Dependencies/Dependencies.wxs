@@ -25,6 +25,9 @@
 				<OSSBuild:Filter Exclude=".*\\[^\\]*.*dvdnav.*\.dll" />
 				<OSSBuild:Filter Exclude=".*\\[^\\]*.*dvdcss.*\.dll" />
 
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*curl.*\.dll" />
+				<OSSBuild:Filter Exclude=".*\\[^\\]*.*tiffxx.*\.dll" />
+
 				<OSSBuild:Filter Include=".*\.dll" />
 			</OSSBuild:FillDirectory>
 		</DirectoryRef>
