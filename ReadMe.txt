@@ -24,7 +24,7 @@ Requirements
 
   Linux Build
 
-    1. (sudo) apt-get install openjdk-6-jdk git-core subversion perl sed pkg-config build-essential autoconf bison flex libtool tofrodos vim gettext yasm nasm zlib1g-dev mesa-common-dev libglu1-mesa-dev libxmu-dev libx11-dev libxi-dev libcurl4-gnutls-dev libxrender-dev autoconf
+    1. See directions for your individual distribution below.
 
 
 Setup Visual Studio 2008+
@@ -34,15 +34,15 @@ Setup Visual Studio 2008+
 
     1. Select the Tools > Options... menu.
     2. Expand "Projects and Solutions" and select "VC++ Project Settings"
-    3. In "Rule File Search Paths", add the top-level directory for this code (e.g. C:\Work\Dependencies)
+    3. In "Rule File Search Paths", add the top-level directory for this code (e.g. C:\OSSBuild\)
        a. If needed, separate other search paths with a semicolon (;).
 
 Setup Linux
 -------------------------------------
 
-  Ubuntu
+  Ubuntu 9.10
 
-    1. sudo apt-get install build-essential perl sed pkg-config subversion rapidsvn autoconf libtool bison flex gettext yasm xorg-dev?
+    1. sudo apt-get install openjdk-6-jdk git-core subversion perl sed pkg-config build-essential autoconf bison flex libtool tofrodos vim gettext yasm nasm zlib1g-dev mesa-common-dev libglu1-mesa-dev libxmu-dev libx11-dev libxi-dev libcurl4-gnutls-dev libxrender-dev autoconf libxv-dev libasound2-dev libv4l-dev libpulse-dev python2.6-dev python-gobject-dev mono-devel
 
 
 Acknowledgments
@@ -57,33 +57,6 @@ http://www.gstreamer-winbuild.ylatuya.es/doku.php?id=start
 GStreamer
 http://gstreamer.freedesktop.org/
 
-libxml2
-http://www.xmlsoft.org/index.html
-
-zlib
-http://www.zlib.net/
-
-openssl
-http://www.openssl.org/
-
-libneon
-http://www.webdav.org/neon/
-
-pthreads-win32
-http://sourceware.org/pthreads-win32/
-
-glib (+proxy-libintl)
-http://www.gtk.org/
-
-libjpeg
-http://www.ijg.org/
-
-libpng
-http://www.libpng.org/pub/png/libpng.html
-
-ffmpeg
-http://ffmpeg.org/
-
 7-Zip
 http://www.7-zip.org/
 
@@ -93,11 +66,14 @@ http://www.mingw.org/
 Yasm
 http://www.tortall.net/projects/yasm/
 
+For all the dependencies, please see ./Libraries/Packages/ReadMe.txt
+
 
 Licenses
 -------------------------------------
 
-Please see the licenses in the Licenses/ folder for details on each library/application used.
+Please see the licenses in the Licenses/ folder for details on each library/application used 
+or in the ./Libraries/Packages/ folder in each individual package.
 
 For copyright information, please see COPYING.
 
