@@ -81,6 +81,9 @@
 
 	<?define GstPythonBinDir_v2_5="$(var.PythonBinDir_v2_5)\gst-$(var.GST_VERSION)\gst" ?>
 	<?define GstPythonBinDir_v2_6="$(var.PythonBinDir_v2_6)\gst-$(var.GST_VERSION)\gst" ?>
+
+	<?define FarsightPythonBinDir_v2_5="$(var.PythonBinDir_v2_5)\farsight" ?>
+	<?define FarsightPythonBinDir_v2_6="$(var.PythonBinDir_v2_6)\farsight" ?>
 	
 	<?define CustomResourceDir="$(var.InstallRoot)\Custom\Resources" ?>
 	

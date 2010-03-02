@@ -112,6 +112,20 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Farsight-Python-v2.5.wixproj">
+      <Name>Farsight-Python-v2.5</Name>
+      <Project>{ad2f533e-1f31-4ae6-9c01-76bdfcf55962}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Farsight-Python-v2.6.wixproj">
+      <Name>Farsight-Python-v2.6</Name>
+      <Project>{1e88e7c9-16ea-424f-8ef3-c4e0902f22c6}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\Merge Modules\Bindings\Python\Plugins-Python-v2.5.wixproj">
       <Name>Plugins-Python-v2.5</Name>
       <Project>{1068ad6c-eea4-4cb4-baee-7d6977ee8d93}</Project>

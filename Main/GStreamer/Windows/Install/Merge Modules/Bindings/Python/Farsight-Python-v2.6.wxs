@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?include $(var.InstallRoot)\Properties.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:OSSBuild="$(ossbuild.namespaceURI())">
+
+	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
+
+		<Package Id="$(var.GUID_X86_MSM_FARSIGHT_PYTHON_V2_6_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="MergeRedirectFolder">
+				<OSSBuild:FillDirectory Directory="$(var.FarsightPythonBinDir_v2_6)">
+					<OSSBuild:Filter Include=".*\\[^\\]*.*farsight\.pyd" />
+				</OSSBuild:FillDirectory>
+			</Directory>
+		</Directory>
+
+	</Module>
+
+</Wix>

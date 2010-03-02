@@ -13,7 +13,7 @@
 
 		<Feature
 			Id="Full"
-			Title="Full Install"
+			Title="GStreamer SDK"
 			Description="All headers, libraries, and bindings."
 			Level="1"
 			Display="expand"
@@ -36,12 +36,15 @@
 
 				<Feature Id="Python" Title="Python" Description="Language bindings for Python." Level="1" AllowAdvertise="no">
 					<MergeRef Id="Plugins_Python_v2_5_Local" />
+					<MergeRef Id="Farsight_Python_v2_5_Local" />
 					<MergeRef Id="Bindings_Python_v2_5_Local" />
 
 					<MergeRef Id="Plugins_Python_v2_6_Local" />
+					<MergeRef Id="Farsight_Python_v2_6_Local" />
 					<MergeRef Id="Bindings_Python_v2_6_Local" />
 
 					<ComponentRef Id="Plugins_Python_v2_6" />
+					<ComponentRef Id="Farsight_Python_v2_6" />
 					<ComponentRef Id="Bindings_Python_v2_6" />
 					<ComponentGroupRef Id="GstSDK_Bindings_Python" />
 				</Feature>
@@ -118,6 +121,13 @@
 			<Merge Id="Bindings_DotNet" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-DotNet.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
 		</DirectoryRef>
 
+		<!-- C:\Program Files\OSSBuild\v<Version>\lib\site-packages\farsight\ -->
+		<DirectoryRef Id="GstLibPythonFarsightSitePackageInstallDir">
+			<Component Id="Farsight_Python_v2_6" Guid="{B23374D2-009D-4797-9A93-42CBEC00EBCB}">
+				<File Name="farsight.pyd" Source="$(var.FarsightPythonBinDir_v2_6)\farsight.pyd" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
 		<!-- C:\Program Files\OSSBuild\v<Version>\lib\site-packages\gst-0.10\gst\extend\ -->
 		<DirectoryRef Id="GstLibPythonGstSitePackageInstallDir">
 			<Component Id="Bindings_Python_v2_6" Guid="{4FC6CB1D-C19F-414E-9A0F-EB5F88E677E5}">
@@ -152,6 +162,11 @@
 			<Merge Id="Bindings_Python_v2_5_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-Python-v2.5.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
 		</DirectoryRef>
 
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.5\farsight\ -->
+		<DirectoryRef Id="GstSDKBindingsPython_v2_5FarsightInstallDir">
+			<Merge Id="Farsight_Python_v2_5_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Farsight-Python-v2.5.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
+
 		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.5\plugins\ -->
 		<DirectoryRef Id="GstSDKBindingsPython_v2_5PluginInstallDir">
 			<Merge Id="Plugins_Python_v2_5_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Python-v2.5.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
@@ -160,6 +175,11 @@
 		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\ -->
 		<DirectoryRef Id="GstSDKBindingsPython_v2_6InstallDir">
 			<Merge Id="Bindings_Python_v2_6_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-Python-v2.6.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\farsight\ -->
+		<DirectoryRef Id="GstSDKBindingsPython_v2_6FarsightInstallDir">
+			<Merge Id="Farsight_Python_v2_6_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Farsight-Python-v2.6.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
 		</DirectoryRef>
 
 		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\plugins\ -->

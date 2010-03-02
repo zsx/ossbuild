@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="farsight"
 	ProjectGUID="{B6DE0D66-8DE9-4AD8-A9BA-C025B01ABEC2}"
 	RootNamespace="farsight"
@@ -288,34 +288,36 @@
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstreamer.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{EB5D7598-7014-42D3-886C-9B9EC38167C3}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Farsight2\gst-libs\libgstfarsight.vcproj"
 		/>
 	</References>
 	<Files>
 		<Filter
-			Name="Headers Files"
-			>
-		</Filter>
-		<Filter
-			Name="Sources Files"
+			Name="Generated"
 			>
 			<File
-				RelativePath="..\..\..\..\Source\farsight2\python\pyfarsightmodule.c"
+				RelativePath="..\..\..\Generated\farsight2\python\pyfarsight.c"
 				>
 			</File>
-			<Filter
-				Name="Generated"
-				>
-				<File
-					RelativePath="..\..\..\Generated\farsight2\python\pyfarsight.c"
-					>
-				</File>
-			</Filter>
 		</Filter>
+		<File
+			RelativePath="..\..\..\..\Source\farsight2\python\pyfarsightmodule.c"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

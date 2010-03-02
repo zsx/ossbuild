@@ -49,6 +49,14 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SDK-GPL", "Main\GStreamer\W
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SDK-LGPL", "Main\GStreamer\Windows\Install\SDK\SDK-LGPL.wixproj", "{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Python-v2.5", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\Python\Plugins-Python-v2.5.wixproj", "{1068AD6C-EEA4-4CB4-BAEE-7D6977EE8D93}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Plugins-Python-v2.6", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\Python\Plugins-Python-v2.6.wixproj", "{109D5FE2-5553-4EA1-9A12-2E247848D1E2}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Farsight-Python-v2.5", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\Python\Farsight-Python-v2.5.wixproj", "{AD2F533E-1F31-4AE6-9C01-76BDFCF55962}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Farsight-Python-v2.6", "Main\GStreamer\Windows\Install\Merge Modules\Bindings\Python\Farsight-Python-v2.6.wixproj", "{1E88E7C9-16EA-424F-8EF3-C4E0902F22C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release (All)|Win32 = Release (All)|Win32
@@ -188,6 +196,30 @@ Global
 		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (GPL)|Win32.ActiveCfg = Release|x86
 		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (LGPL)|Win32.ActiveCfg = Release|x86
 		{DEFFA04B-9B87-4093-45E0-C28FADEDE1C0}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{1068AD6C-EEA4-4CB4-BAEE-7D6977EE8D93}.Release (All)|Win32.ActiveCfg = Release|x86
+		{1068AD6C-EEA4-4CB4-BAEE-7D6977EE8D93}.Release (All)|Win32.Build.0 = Release|x86
+		{1068AD6C-EEA4-4CB4-BAEE-7D6977EE8D93}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{1068AD6C-EEA4-4CB4-BAEE-7D6977EE8D93}.Release (GPL)|Win32.Build.0 = Release|x86
+		{1068AD6C-EEA4-4CB4-BAEE-7D6977EE8D93}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{1068AD6C-EEA4-4CB4-BAEE-7D6977EE8D93}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{109D5FE2-5553-4EA1-9A12-2E247848D1E2}.Release (All)|Win32.ActiveCfg = Release|x86
+		{109D5FE2-5553-4EA1-9A12-2E247848D1E2}.Release (All)|Win32.Build.0 = Release|x86
+		{109D5FE2-5553-4EA1-9A12-2E247848D1E2}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{109D5FE2-5553-4EA1-9A12-2E247848D1E2}.Release (GPL)|Win32.Build.0 = Release|x86
+		{109D5FE2-5553-4EA1-9A12-2E247848D1E2}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{109D5FE2-5553-4EA1-9A12-2E247848D1E2}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{AD2F533E-1F31-4AE6-9C01-76BDFCF55962}.Release (All)|Win32.ActiveCfg = Release|x86
+		{AD2F533E-1F31-4AE6-9C01-76BDFCF55962}.Release (All)|Win32.Build.0 = Release|x86
+		{AD2F533E-1F31-4AE6-9C01-76BDFCF55962}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{AD2F533E-1F31-4AE6-9C01-76BDFCF55962}.Release (GPL)|Win32.Build.0 = Release|x86
+		{AD2F533E-1F31-4AE6-9C01-76BDFCF55962}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{AD2F533E-1F31-4AE6-9C01-76BDFCF55962}.Release (LGPL)|Win32.Build.0 = Release|x86
+		{1E88E7C9-16EA-424F-8EF3-C4E0902F22C6}.Release (All)|Win32.ActiveCfg = Release|x86
+		{1E88E7C9-16EA-424F-8EF3-C4E0902F22C6}.Release (All)|Win32.Build.0 = Release|x86
+		{1E88E7C9-16EA-424F-8EF3-C4E0902F22C6}.Release (GPL)|Win32.ActiveCfg = Release|x86
+		{1E88E7C9-16EA-424F-8EF3-C4E0902F22C6}.Release (GPL)|Win32.Build.0 = Release|x86
+		{1E88E7C9-16EA-424F-8EF3-C4E0902F22C6}.Release (LGPL)|Win32.ActiveCfg = Release|x86
+		{1E88E7C9-16EA-424F-8EF3-C4E0902F22C6}.Release (LGPL)|Win32.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
