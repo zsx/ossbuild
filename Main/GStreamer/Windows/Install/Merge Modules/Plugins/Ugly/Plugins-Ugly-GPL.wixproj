@@ -87,10 +87,12 @@
       <Project>{922dd35c-43fe-4097-91e0-3229f5a967ab}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Ugly\gst\libgstasfdemux.vcproj">
-      <Name>gstasfdemux</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Ugly\gst\libgstasf.vcproj">
+      <Name>gstasf</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0002}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Ugly\gst\libgstdvdlpcmdec.vcproj">
       <Name>gstdvdlpcmdec</Name>
@@ -117,10 +119,12 @@
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0009}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Ugly\gst\libgstrealmedia.vcproj">
-      <Name>gstrealmedia</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Ugly\gst\libgstrmdemux.vcproj">
+      <Name>gstrmdemux</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0010}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Ugly\gst\libgstsynaesthesia.vcproj">
       <Name>gstsynaesthesia</Name>

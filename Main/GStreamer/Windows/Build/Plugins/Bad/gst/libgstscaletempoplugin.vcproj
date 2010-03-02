@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
-	Name="gstdts"
-	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1010}"
-	RootNamespace="libgstdts"
+	Version="9.00"
+	Name="gstscaletempoplugin"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0049}"
+	RootNamespace="libgstscaletempoplugin"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibDca.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibDca.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -287,21 +287,26 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstaudio.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
-			RelativePathToProject=".\Main\GStreamer\Libraries\libgstreamer.vcproj"
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\dts\gstdtsdec.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\scaletempo\gstscaletempo.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\dts\gstdtsdec.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\scaletempo\gstscaletempo.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\gst\scaletempo\gstscaletempoplugin.c"
 			>
 		</File>
 	</Files>

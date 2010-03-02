@@ -6,13 +6,12 @@
 
 	<Module Id="Dependencies" Language="$(var.DEFAULT_LANGUAGE)" Version="$(var.OSSBUILD_VERSION)">
 
-		<Package Id="$(var.GUID_X86_MSM_PLUGINS_FFMPEG_GPL_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
+		<Package Id="$(var.GUID_X86_MSM_PLUGINS_PYTHON_V2_6_PACKAGE)" Manufacturer="$(var.MANUFACTURER)" InstallerVersion="$(var.MINIMAL_INSTALLER_VERSION)" />
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
 				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstffmpeg$(var.GPL)\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstffmpegscale$(var.GPL)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstpython-v2.6\.dll" />
 				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>

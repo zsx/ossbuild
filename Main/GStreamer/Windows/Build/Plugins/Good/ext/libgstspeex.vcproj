@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gstrtsp_good"
-	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A28}"
-	RootNamespace="libgstrtsp_good"
+	Name="gstspeex"
+	ProjectGUID="{1D38F5C6-A7AF-4BC2-A776-AF91AE1F7CF9}"
+	RootNamespace="libgstspeex"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibSpeex.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="&quot;..\..\..\..\..\Source\gst-plugins-good\ext\gdk_pixbuf&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -120,9 +120,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstrtp.lib gstrtsp.lib gstsdp.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -155,7 +154,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibSpeex.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -234,7 +233,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="&quot;..\..\..\..\..\Source\gst-plugins-good\ext\gdk_pixbuf&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -252,6 +251,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -286,40 +286,13 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F12}"
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
 			CopyLocal="false"
 			CopyLocalDependencies="false"
 			UseInBuild="false"
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstsdp.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F11}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstrtsp.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F10}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstrtp.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstreamer.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F05}"
@@ -330,38 +303,35 @@
 			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgsttag.vcproj"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
+		/>
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\rtsp\gstrtpdec.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\ext\speex\gstspeex.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\rtsp\gstrtpdec.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\ext\speex\gstspeexdec.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\rtsp\gstrtsp.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\ext\speex\gstspeexdec.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\rtsp\gstrtsp.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\ext\speex\gstspeexenc.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\rtsp\gstrtspext.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\rtsp\gstrtspext.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\rtsp\gstrtspsrc.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\rtsp\gstrtspsrc.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\ext\speex\gstspeexenc.h"
 			>
 		</File>
 	</Files>

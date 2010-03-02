@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
-	Name="gstvideofiltergamma"
-	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A34}"
-	RootNamespace="libgstvideofiltergamma"
+	Version="9.00"
+	Name="gstcoreindexers"
+	ProjectGUID="{398A8D3F-2B88-E469-B627-17A044F91EF1}"
+	RootNamespace="libgstcoreindexers"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -15,14 +15,14 @@
 	</Platforms>
 	<ToolFiles>
 		<ToolFile
-			RelativePath="..\..\..\..\..\..\..\Common.rules"
+			RelativePath="..\..\..\..\..\Common.rules"
 		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\Properties\gstreamer-plugin.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -78,6 +78,7 @@
 			/>
 			<Tool
 				Name="Header Installer Tool"
+				ModuleName="gstreamer-$(ApiVersionString)\gst\base"
 			/>
 			<Tool
 				Name="Yasm Tool"
@@ -101,8 +102,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
-				PreprocessorDefinitions="HAVE_LIBOIL"
+				AdditionalIncludeDirectories="..\..\..\Source\gstreamer\win32\common;..\..\..\Source\gstreamer\plugins\elements\;..\Libraries\Source\"
+				PreprocessorDefinitions="GST_DISABLE_LOADSAVE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -121,7 +122,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstvideo.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
@@ -156,7 +156,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\Shared\MSVC\Properties\SDKs\Msvcrt-Compat.vsprops;..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\Properties\gstreamer-plugin.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -213,6 +213,7 @@
 			/>
 			<Tool
 				Name="Header Installer Tool"
+				ModuleName="gstreamer-$(ApiVersionString)\gst\base"
 			/>
 			<Tool
 				Name="Yasm Tool"
@@ -235,8 +236,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
-				PreprocessorDefinitions="HAVE_LIBOIL"
+				AdditionalIncludeDirectories="..\..\..\Source\gstreamer\win32\common;..\..\..\Source\gstreamer\plugins\elements\;..\Libraries\Source\"
+				PreprocessorDefinitions="GST_DISABLE_LOADSAVE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -288,21 +289,22 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstvideo.vcproj"
-		/>
-		<ProjectReference
 			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
-			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
 		/>
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\videofilter\gstgamma.c"
+			RelativePath="..\..\..\Source\gstreamer\plugins\indexers\gstindexers.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\videofilter\gstgamma.h"
+			RelativePath="..\..\..\Source\gstreamer\plugins\indexers\gstmemindex.c"
 			>
 		</File>
 	</Files>

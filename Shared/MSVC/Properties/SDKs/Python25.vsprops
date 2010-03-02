@@ -2,11 +2,12 @@
 <VisualStudioPropertySheet
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="Python25"
+	Name="Python v2.5"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="&quot;$(SolutionDir)\Shared\SDKs\Python\include&quot;;&quot;$(SolutionDir)\Shared\SDKs\Python\include\pygtk-2.0&quot;"
+		PreprocessorDefinitions="PYTHON_VERSION=&quot;\&quot;$(PythonApiVersion)\&quot;&quot;;PY_LIB_LOC=&quot;\&quot;$(PythonLibDirectory)\&quot;&quot;"
 	/>
 	<Tool
 		Name="VCLibrarianTool"
@@ -32,5 +33,13 @@
 	<UserMacro
 		Name="PythonVersionString"
 		Value="$(PythonApiMajorVersion).$(PythonApiMinorVersion).$(PythonApiMicroVersion)"
+	/>
+	<UserMacro
+		Name="PythonApiVersion"
+		Value="$(PythonApiMajorVersion).$(PythonApiMinorVersion)"
+	/>
+	<UserMacro
+		Name="PythonLibDirectory"
+		Value="$(SolutionDir)Shared\SDKs\Python\lib\$(PlatformName)"
 	/>
 </VisualStudioPropertySheet>

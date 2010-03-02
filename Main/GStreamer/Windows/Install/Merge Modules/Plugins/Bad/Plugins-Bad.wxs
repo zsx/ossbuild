@@ -13,6 +13,7 @@
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstasfmux\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstautoconvert\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstbayer\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstbz2\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstcamerabin\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstcdxaparse\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstcelt\.dll" />
@@ -26,9 +27,10 @@
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstfreeze\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstfrei0r\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gsth264parse\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gsthdvparse\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstlegacyresample\.dll" />
-				<OSSBuild:Filter Include=".*\\[^\\]*.*gstlibmms\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstliveadder\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmms\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpeg4videoparse\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegdemux\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegpsmux\.dll" />
@@ -36,7 +38,7 @@
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegvideoparse\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmve\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmxf\.dll" />
-				<OSSBuild:Filter Include=".*\\[^\\]*.*gstneon\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstneonhttpsrc\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstnuvdemux\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstpcapparse\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstpnm\.dll" />
@@ -45,11 +47,12 @@
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstreal\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrsvg\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpmux\.dll" />
-				<OSSBuild:Filter Include=".*\\[^\\]*.*gstscaletempo\.dll" />
-				<OSSBuild:Filter Include=".*\\[^\\]*.*gstschroedinger\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstscaletempoplugin\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstschro\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsdl\.dll" />
-				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsdpplugin\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsdpelem\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstselector\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstshapewipe\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsiren\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstspeed\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gststereo\.dll" />

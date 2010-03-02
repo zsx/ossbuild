@@ -11,11 +11,11 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
 				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstfsselector\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*fsselector\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstnetsim\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpdemux\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpjitterbuffer\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpnetsim\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtppayloads\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtprtpdemux\.dll" />
 				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>

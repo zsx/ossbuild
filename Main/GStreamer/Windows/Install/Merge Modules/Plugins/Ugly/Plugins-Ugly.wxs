@@ -7,13 +7,13 @@
 
 		<DirectoryRef Id="MergeRedirectFolder">
 			<OSSBuild:FillDirectory ComponentGroup="PluginsUgly" Directory="$(var.GstPluginDir)">
-				<OSSBuild:Filter Include=".*\\[^\\]*.*gstasfdemux\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstasf\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdvdlpcmdec\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstdvdsub\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstiec958\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegaudioparse\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstmpegstream\.dll" />
-				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrealmedia\.dll" />
+				<OSSBuild:Filter Include=".*\\[^\\]*.*gstrmdemux\.dll" />
 				<OSSBuild:Filter Include=".*\\[^\\]*.*gstsynaesthesia\.dll" />
 			</OSSBuild:FillDirectory>
 		</DirectoryRef>

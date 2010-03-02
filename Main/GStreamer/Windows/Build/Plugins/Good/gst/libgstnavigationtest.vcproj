@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gsty4m"
-	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0019}"
-	RootNamespace="libgsty4m"
+	Name="gstnavigationtest"
+	ProjectGUID="{67F3DA88-063E-4211-A851-5A05B638AE4D}"
+	RootNamespace="libgstnavigationtest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -120,9 +120,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstaudio.lib Winmm.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -252,7 +251,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -287,22 +285,40 @@
 	</Configurations>
 	<References>
 		<ProjectReference
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstreamer.vcproj"
+		/>
+		<ProjectReference
 			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
 			CopyLocal="false"
 			CopyLocalDependencies="false"
 			UseInBuild="false"
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
+		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstvideo.vcproj"
 		/>
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\y4m\gsty4mencode.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\debugutils\gstnavigationtest.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\y4m\gsty4mencode.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\debugutils\gstnavigationtest.h"
 			>
 		</File>
 	</Files>

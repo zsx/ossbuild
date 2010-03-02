@@ -35,8 +35,13 @@
 				</Feature>
 
 				<Feature Id="Python" Title="Python" Description="Language bindings for Python." Level="1" AllowAdvertise="no">
+					<MergeRef Id="Plugins_Python_v2_5_Local" />
 					<MergeRef Id="Bindings_Python_v2_5_Local" />
+
+					<MergeRef Id="Plugins_Python_v2_6_Local" />
 					<MergeRef Id="Bindings_Python_v2_6_Local" />
+
+					<ComponentRef Id="Plugins_Python_v2_6" />
 					<ComponentRef Id="Bindings_Python_v2_6" />
 					<ComponentGroupRef Id="GstSDK_Bindings_Python" />
 				</Feature>
@@ -125,6 +130,13 @@
 			</Component>
 		</DirectoryRef>
 
+		<!-- C:\Program Files\OSSBuild\v<Version>\lib\gstreamer-0.10\ -->
+		<DirectoryRef Id="GstLibPluginsInstallDir">
+			<Component Id="Plugins_Python_v2_6" Guid="{C8F2C988-FEAE-44c3-8351-2E38E7826084}">
+				<File Name="libgstpython-v2.6.dll" Source="$(var.GstPluginDir)\libgstpython-v2.6.dll" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
 		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\dotnet\ -->
 		<DirectoryRef Id="GstSDKBindingsDotNetInstallDir">
 			<!-- Creates a copy of the .net bindings locally -->
@@ -140,9 +152,19 @@
 			<Merge Id="Bindings_Python_v2_5_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-Python-v2.5.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
 		</DirectoryRef>
 
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.5\plugins\ -->
+		<DirectoryRef Id="GstSDKBindingsPython_v2_5PluginInstallDir">
+			<Merge Id="Plugins_Python_v2_5_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Python-v2.5.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
+
 		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\ -->
 		<DirectoryRef Id="GstSDKBindingsPython_v2_6InstallDir">
 			<Merge Id="Bindings_Python_v2_6_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Bindings-Python-v2.6.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
+		</DirectoryRef>
+
+		<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\plugins\ -->
+		<DirectoryRef Id="GstSDKBindingsPython_v2_6PluginInstallDir">
+			<Merge Id="Plugins_Python_v2_6_Local" SourceFile="$(var.MergeModuleDir)\$(var.x86_MergeModulePrefix)-Plugins-Python-v2.6.msm" Language="$(var.DEFAULT_LANGUAGE)" DiskId="1" />
 		</DirectoryRef>
 
 		<Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />

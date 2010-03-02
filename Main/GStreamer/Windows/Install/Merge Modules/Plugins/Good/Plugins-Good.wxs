@@ -11,11 +11,9 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="MergeRedirectFolder">
 				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtp_good\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtsp_good\.dll" />
-					
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstalaw\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstalpha\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstalphacolor\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstapetag\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudiofx\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstauparse\.dll" />
@@ -29,7 +27,8 @@
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gsteffectv\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstequalizer\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstflv\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstflx\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstflxdec\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstgamma\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstgdkpixbuf\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gsticydemux\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstid3demux\.dll" />
@@ -41,25 +40,28 @@
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmulaw\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmultifile\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstmultipart\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstnavigationtest\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstpng\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstqtdemux\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstreplaygain\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtp\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtpmanager\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstrtsp\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsmpte\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsoup\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstsouphttpsrc\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstspectrum\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstspeex\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstudp\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideobalance\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideobox\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideocrop\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideofilterbalance\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideofilterflip\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideofiltergamma\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideoflip\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstvideomixer\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwaveenc\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwaveform\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwaveformsink\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwavpack\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstwavparse\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gsty4m\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gsty4menc\.dll" />
 				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>

@@ -91,6 +91,41 @@
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde702}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\DotNet\Bindings-DotNet.wixproj">
+      <Name>Bindings-DotNet</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae0}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Bindings-Python-v2.5.wixproj">
+      <Name>Bindings-Python-v2.5</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae1}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Bindings-Python-v2.6.wixproj">
+      <Name>Bindings-Python-v2.6</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b24f9fcdeae2}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Plugins-Python-v2.5.wixproj">
+      <Name>Plugins-Python-v2.5</Name>
+      <Project>{1068ad6c-eea4-4cb4-baee-7d6977ee8d93}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\Merge Modules\Bindings\Python\Plugins-Python-v2.6.wixproj">
+      <Name>Plugins-Python-v2.6</Name>
+      <Project>{109d5fe2-5553-4ea1-9a12-2e247848d1e2}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\Merge Modules\Dependencies\Dependencies-GPL.wixproj">
       <Name>Dependencies-GPL</Name>
       <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcde700}</Project>

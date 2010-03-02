@@ -60,6 +60,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstbz2.vcproj">
+      <Name>gstbz2</Name>
+      <Project>{c347c701-1acc-abef-ce27-aa0dff401cfa}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstcelt.vcproj">
       <Name>gstcelt</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1005}</Project>
@@ -67,10 +74,12 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstdts.vcproj">
-      <Name>gstdts</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstdtsdec.vcproj">
+      <Name>gstdtsdec</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1010}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstfaac.vcproj">
       <Name>gstfaac</Name>
@@ -82,23 +91,22 @@
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1012}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstlibmms.vcproj">
-      <Name>gstlibmms</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstmms.vcproj">
+      <Name>gstmms</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1018}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstneon.vcproj">
-      <Name>gstneon</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstneonhttpsrc.vcproj">
+      <Name>gstneonhttpsrc</Name>
       <Project>{eca7c701-fb88-4bfe-ce27-f70df4f90001}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstresindvd.vcproj">
-      <Name>gstresindvd</Name>
-      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1027}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstschroedinger.vcproj">
-      <Name>gstschroedinger</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libgstschro.vcproj">
+      <Name>gstschro</Name>
       <Project>{b11ea875-24c1-4ec0-ac19-296bf5541abf}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
@@ -113,6 +121,13 @@
       <Name>gstxvid</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1037}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\libresindvd.vcproj">
+      <Name>resindvd</Name>
+      <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff1027}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst-libs\libgstphotography.vcproj">
       <Name>gstphotography</Name>
@@ -272,20 +287,31 @@
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0062}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\libgstscaletempo.vcproj">
-      <Name>gstscaletempo</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\libgstscaletempoplugin.vcproj">
+      <Name>gstscaletempoplugin</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0049}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\libgstsdpplugin.vcproj">
-      <Name>gstsdpplugin</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\libgstsdpelem.vcproj">
+      <Name>gstsdpelem</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0050}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\libgstselector.vcproj">
       <Name>gstselector</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0051}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\libgstshapewipe.vcproj">
+      <Name>gstshapewipe</Name>
+      <Project>{0bb26e1d-c0b4-469c-8097-91ab95b909f4}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\libgstsiren.vcproj">
       <Name>gstsiren</Name>

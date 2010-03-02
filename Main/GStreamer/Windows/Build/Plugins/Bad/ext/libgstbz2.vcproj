@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="fsmsnconference"
-	ProjectGUID="{19ED028E-4BC4-4996-9615-C724987C33E3}"
-	RootNamespace="libgstfsmsnconference"
+	Name="gstbz2"
+	ProjectGUID="{C347C701-1ACC-ABEF-CE27-AA0DFF401CFA}"
+	RootNamespace="libgstbz2"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\farsight2-plugin.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -101,7 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\..\..\Generated\farsight2\gst\fsmsnconference"
+				AdditionalIncludeDirectories=""
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -120,9 +120,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib gstrtp.lib"
+				AdditionalDependencies="bz2.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -155,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\farsight2-plugin.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -234,7 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\Generated\farsight2\gst\fsmsnconference"
+				AdditionalIncludeDirectories=""
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -251,8 +251,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstfarsight.lib gstrtp.lib"
+				AdditionalDependencies="bz2.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -287,79 +288,45 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstreamer.vcproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{EB5D7598-7014-42D3-886C-9B9EC38167C3}"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Farsight2\gst-libs\libgstfarsight.vcproj"
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
 		/>
 	</References>
 	<Files>
-		<Filter
-			Name="Headers Files"
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\bz2\gstbz2.c"
 			>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-cam-recv-conference.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-cam-send-conference.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-conference.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-connection.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-participant.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-session.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-stream.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Sources Files"
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\bz2\gstbz2dec.c"
 			>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-cam-recv-conference.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-cam-send-conference.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-conference.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-connection.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-participant.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-session.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\farsight2\gst\fsmsnconference\fs-msn-stream.c"
-				>
-			</File>
-		</Filter>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\bz2\gstbz2dec.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\bz2\gstbz2enc.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\bz2\gstbz2enc.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

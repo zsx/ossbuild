@@ -3,15 +3,15 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{0e5fa0bb-99b7-4093-95c8-b28f9dcde7A6}</ProjectGuid>
+    <ProjectGuid>{1068AD6C-EEA4-4cb4-BAEE-7D6977EE8D93}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>x86-OSSBuild-GStreamer-Plugins-FFmpeg-LGPL</OutputName>
+    <OutputName>x86-OSSBuild-GStreamer-Plugins-Python-v2.5</OutputName>
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.5\Wix.targets</WixTargetsPath>
     <IncludeSearchPaths>
     </IncludeSearchPaths>
-    <Name>FFmpeg-LGPL</Name>
+    <Name>Plugins-Python-v2.5</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\..\..\..\..\..\..\Deployment\GStreamer\Windows\x86\Merge Modules\</OutputPath>
@@ -32,8 +32,6 @@
     </SuppressIces>
     <SuppressSpecificWarnings>1101;1102</SuppressSpecificWarnings>
     <SuppressPdbOutput>True</SuppressPdbOutput>
-    <CompilerAdditionalOptions>
-    </CompilerAdditionalOptions>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\..\..\GUIDs.wxi">
@@ -56,19 +54,19 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Plugins-FFmpeg-LGPL.wxs" />
+    <Compile Include="Plugins-Python-v2.5.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\FFmpeg\ext\libgstffmpeg-lgpl.vcproj">
-      <Name>gstffmpeg-lgpl</Name>
-      <Project>{bc97873b-2b88-4b1b-c627-f70df4f92000}</Project>
+    <ProjectReference Include="..\..\..\..\Build\Bindings\Python\Plugins\gstpython-2.5.vcproj">
+      <Name>Plugin-gstpython-v2.5</Name>
+      <Project>{a6c1e046-94f2-45fc-a82b-2b2cba96686a}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\FFmpeg\ext\libgstffmpegscale-lgpl.vcproj">
-      <Name>gstffmpegscale-lgpl</Name>
-      <Project>{65692af9-cb27-417a-a4d5-d4967ac39ab0}</Project>
+    <ProjectReference Include="..\Python\Bindings-Python-v2.5.wixproj">
+      <Name>Bindings-Python-v2.5</Name>
+      <Project>{0e5fa0bb-99b7-4093-95c8-b28f9dcdeae1}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>

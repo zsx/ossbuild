@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
-	Name="gstvideofilterbalance"
-	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A39}"
-	RootNamespace="libgstvideofilterbalance"
+	Version="9,00"
+	Name="gstrmdemux"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0010}"
+	RootNamespace="libgstrmdemux"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-ugly.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -101,8 +101,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
-				PreprocessorDefinitions="HAVE_LIBOIL"
+				AdditionalIncludeDirectories=""
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -121,9 +120,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstvideo.lib gstinterfaces.lib"
+				AdditionalDependencies="gstrtsp.lib gstsdp.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -156,7 +155,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-ugly.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -235,8 +234,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
-				PreprocessorDefinitions="HAVE_LIBOIL"
+				AdditionalIncludeDirectories=""
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -254,6 +252,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -288,40 +287,102 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F11}"
 			CopyLocal="false"
 			CopyLocalDependencies="false"
 			UseInBuild="false"
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstvideo.vcproj"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstrtsp.vcproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstinterfaces.vcproj"
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F12}"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstsdp.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\videofilter\gstvideobalance.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\asmrules.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\videofilter\gstvideobalance.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\asmrules.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\gstrdtbuffer.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\gstrdtbuffer.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rademux.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rademux.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rdtdepay.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rdtdepay.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rdtjitterbuffer.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rdtjitterbuffer.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rdtmanager.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rdtmanager.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\realhash.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\realhash.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rmdemux.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rmdemux.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rmutils.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rmutils.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rtspreal.c"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-ugly\gst\realmedia\rtspreal.h"
 			>
 		</File>
 	</Files>

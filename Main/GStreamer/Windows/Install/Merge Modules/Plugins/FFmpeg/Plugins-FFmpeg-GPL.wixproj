@@ -57,10 +57,19 @@
     <Compile Include="Plugins-FFmpeg-GPL.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\FFmpeg\ext\libgstffmpeg_gpl.vcproj">
-      <Name>gstffmpeggpl</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\FFmpeg\ext\libgstffmpeg-gpl.vcproj">
+      <Name>gstffmpeg-gpl</Name>
       <Project>{fad1a4e1-90ac-4a6d-aece-755d6adf7274}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\FFmpeg\ext\libgstffmpegscale-gpl.vcproj">
+      <Name>gstffmpegscale-gpl</Name>
+      <Project>{80d1a4e1-90ac-4a6d-fece-c55d6adf72a0}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />

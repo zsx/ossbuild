@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gstresindvd"
-	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF1027}"
-	RootNamespace="libgstresindvd"
+	Name="gstvideobalance"
+	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A39}"
+	RootNamespace="libgstvideobalance"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibDvdNav.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -101,7 +101,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
+				PreprocessorDefinitions="HAVE_LIBOIL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -120,9 +121,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstaudio.lib Winmm.lib"
+				AdditionalDependencies="gstvideo.lib gstinterfaces.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -155,7 +156,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibDvdNav.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -234,7 +235,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
+				PreprocessorDefinitions="HAVE_LIBOIL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -252,7 +254,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -287,135 +288,42 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
-			RelativePathToProject=".\Main\GStreamer\Libraries\libgstreamer.vcproj"
-		/>
-		<ProjectReference
 			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstvideo.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F02}"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
 			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstinterfaces.vcproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F08}"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstpbutils.vcproj"
-		/>
-		<ProjectReference
 			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
-			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+			CopyLocal="false"
+			CopyLocalDependencies="false"
+			UseInBuild="false"
+			UseDependenciesInBuild="false"
+			CopyLocalSatelliteAssemblies="false"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Libraries\libgstbase.vcproj"
 		/>
 	</References>
 	<Files>
-		<Filter
-			Name="Headers"
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\videofilter\gstvideobalance.c"
 			>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdefs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdemux.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdesc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\gstpesfilter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\resindvdbin.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\resindvdsrc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnaudiomunge.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnbasesrc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsndec.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnparsetter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnstreamselector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnwrappedbuffer.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Sources"
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\videofilter\gstvideobalance.h"
 			>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdemux.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\gstmpegdesc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\gstpesfilter.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\plugin.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\resindvdbin.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\resindvdsrc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnaudiomunge.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnbasesrc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsndec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnparsetter.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnstreamselector.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\resindvd\rsnwrappedbuffer.c"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			>
-		</Filter>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

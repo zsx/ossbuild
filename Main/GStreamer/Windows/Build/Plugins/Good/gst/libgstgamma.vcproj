@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
-	Name="gstsoup"
-	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92008}"
-	RootNamespace="libgstsoup"
+	Version="9,00"
+	Name="gstgamma"
+	ProjectGUID="{AB87873B-2B88-4B1B-B627-F70DF4F92A34}"
+	RootNamespace="libgstgamma"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibSoup.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -101,15 +101,14 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="SOUP_METHOD_GET=\&quot;GET\&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
+				PreprocessorDefinitions="HAVE_LIBOIL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4133;4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -122,9 +121,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gsttag.lib"
+				AdditionalDependencies="gstvideo.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\crt\src\intel\dll_lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -157,7 +156,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibSoup.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -236,13 +235,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="SOUP_METHOD_GET=\&quot;GET\&quot;"
+				AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-base\gst-libs\gst\video"
+				PreprocessorDefinitions="HAVE_LIBOIL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4133;4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -256,7 +254,6 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -291,22 +288,8 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Libraries\libgstreamer.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F05}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgsttag.vcproj"
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstvideo.vcproj"
 		/>
 		<ProjectReference
 			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
@@ -315,29 +298,11 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\ext\soup\gstsouphttpsrc.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\videofilter\gstgamma.c"
 			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					PreprocessorDefinitions="SOUP_METHOD_GET=\&quot;GET\&quot;"
-					ForcedIncludeFiles=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					PreprocessorDefinitions="SOUP_METHOD_GET=\&quot;GET\&quot;"
-					ForcedIncludeFiles=""
-				/>
-			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\ext\soup\gstsouphttpsrc.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\videofilter\gstgamma.h"
 			>
 		</File>
 	</Files>

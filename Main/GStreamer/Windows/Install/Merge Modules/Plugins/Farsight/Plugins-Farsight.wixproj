@@ -57,15 +57,26 @@
     <Compile Include="Plugins-Farsight.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight\gst\libgstrtnetsim.vcproj">
-      <Name>gstrtpnetsim</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight\gst\libfsselector.vcproj">
+      <Name>fsselector</Name>
+      <Project>{6d6e96b4-23ea-453e-9156-4f149871acbb}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight\gst\libgstnetsim.vcproj">
+      <Name>gstnetsim</Name>
       <Project>{313836d8-f6ed-4f08-af71-4165fc86b2cc}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight\gst\libgstrtpdemux.vcproj">
-      <Name>gstrtprtpdemux</Name>
+      <Name>gstrtpdemux</Name>
       <Project>{b805b3db-7d69-490a-91e3-a89646e69f1f}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight\gst\libgstrtpjitterbuffer.vcproj">
       <Name>gstrtpjitterbuffer</Name>
@@ -75,11 +86,6 @@
     <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight\gst\libgstrtppayloads.vcproj">
       <Name>gstrtppayloads</Name>
       <Project>{711b23b5-7c17-4fa6-a5f8-7d37aef0d803}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Farsight\gst\libgstselector.vcproj">
-      <Name>gstfsselector</Name>
-      <Project>{6d6e96b4-23ea-453e-9156-4f149871acbb}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

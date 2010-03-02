@@ -12,6 +12,7 @@
 			<Directory Id="MergeRedirectFolder">
 				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstffmpeg$(var.LGPL)\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstffmpegscale$(var.LGPL)\.dll" />
 				</OSSBuild:FillDirectory>
 			</Directory>
 		</Directory>

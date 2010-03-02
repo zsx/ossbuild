@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gstwaveform"
-	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92003}"
-	RootNamespace="libgstwaveform"
+	Name="gsty4menc"
+	ProjectGUID="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0019}"
+	RootNamespace="libgsty4menc"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -108,7 +108,6 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -121,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="gstaudio.lib Winmm.lib"
+				AdditionalDependencies="libgstaudio.lib Winmm.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -240,7 +239,6 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -253,7 +251,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -290,35 +287,22 @@
 	</Configurations>
 	<References>
 		<ProjectReference
-			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E49}"
+			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
 			CopyLocal="false"
 			CopyLocalDependencies="false"
 			UseInBuild="false"
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Libraries\libgstreamer.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstaudio.vcproj"
+			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
 		/>
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\sys\waveform\gstwaveformplugin.c"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\y4m\gsty4mencode.c"
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\sys\waveform\gstwaveformsink.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\..\..\..\Source\gst-plugins-good\sys\waveform\gstwaveformsink.h"
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\gst\y4m\gsty4mencode.h"
 			>
 		</File>
 	</Files>

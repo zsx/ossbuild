@@ -87,10 +87,12 @@
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f00}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\libgstappplugin.vcproj">
-      <Name>gstappplugin</Name>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\libgstapp.vcproj">
+      <Name>Plugin - gstapp</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f14}</Project>
       <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\libgstaudioconvert.vcproj">
       <Name>gstaudioconvert</Name>
@@ -173,6 +175,13 @@
       <Name>gstcoreelements</Name>
       <Project>{f987873b-2b88-4b1b-b627-f70df4f91e51}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\libgstcoreindexers.vcproj">
+      <Name>gstcoreindexers</Name>
+      <Project>{398a8d3f-2b88-e469-b627-17a044f91ef1}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />

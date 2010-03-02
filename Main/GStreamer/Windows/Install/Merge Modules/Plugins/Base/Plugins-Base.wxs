@@ -12,12 +12,13 @@
 			<Directory Id="MergeRedirectFolder">
 				<OSSBuild:FillDirectory Directory="$(var.GstPluginDir)">
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstadder\.dll" />
-					<OSSBuild:Filter Include=".*\\[^\\]*.*gstappplugin\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstapp\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudioconvert\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudiorate\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudioresample\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstaudiotestsrc\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcoreelements\.dll" />
+					<OSSBuild:Filter Include=".*\\[^\\]*.*gstcoreindexers\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdecodebin\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstdecodebin2\.dll" />
 					<OSSBuild:Filter Include=".*\\[^\\]*.*gstffmpegcolorspace\.dll" />

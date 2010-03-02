@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="gstschroedinger"
-	ProjectGUID="{B11EA875-24C1-4EC0-AC19-296BF5541ABF}"
-	RootNamespace="libgstschroedinger"
+	Name="gstwaveformsink"
+	ProjectGUID="{BC97873B-2B88-4B1B-C627-F70DF4F92003}"
+	RootNamespace="libgstwaveformsink"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -22,7 +22,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Debug.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -108,6 +108,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -120,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgstaudio.lib Winmm.lib"
+				AdditionalDependencies="gstaudio.lib Winmm.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -155,7 +156,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-bad.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibSchroedinger.vsprops;..\..\..\..\..\..\..\Shared\MSVC\Properties\Libraries\LibOil.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\..\Shared\MSVC\Properties\Platforms\x86-Release.vsprops;..\..\..\..\Properties\gstreamer-plugin-good.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -235,11 +236,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="GST_USE_UNSTABLE_API"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4005"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -252,6 +253,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -297,66 +299,28 @@
 			RelativePathToProject=".\Main\GStreamer\Libraries\libgstreamer.vcproj"
 		/>
 		<ProjectReference
-			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F13}"
+			ReferencedProjectIdentifier="{AB87873B-2B88-4B1B-B627-F70DF4F91F01}"
 			CopyLocal="false"
 			CopyLocalDependencies="false"
 			UseInBuild="false"
 			UseDependenciesInBuild="false"
 			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstvideo.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{F3A7C701-0ACC-0BB0-CE27-AA0DFFFF0000}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Bad\gst-libs\libgstbasevideo.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{F987873B-2B88-4B1B-B627-F70DF4F91E50}"
-			CopyLocal="false"
-			CopyLocalDependencies="false"
-			UseInBuild="false"
-			UseDependenciesInBuild="false"
-			CopyLocalSatelliteAssemblies="false"
-			RelativePathToProject=".\Main\GStreamer\Libraries\libgstbase.vcproj"
+			RelativePathToProject=".\Main\GStreamer\Windows\Build\Plugins\Base\gst-libs\libgstaudio.vcproj"
 		/>
 	</References>
 	<Files>
-		<Filter
-			Name="Header Files"
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\sys\waveform\gstwaveformplugin.c"
 			>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\schroedinger\gstschroutils.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Source Files"
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\sys\waveform\gstwaveformsink.c"
 			>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\schroedinger\gstschro.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\schroedinger\gstschrodec.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\schroedinger\gstschroenc.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\schroedinger\gstschroparse.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\..\Source\gst-plugins-bad\ext\schroedinger\gstschroutils.c"
-				>
-			</File>
-		</Filter>
+		</File>
+		<File
+			RelativePath="..\..\..\..\..\Source\gst-plugins-good\sys\waveform\gstwaveformsink.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

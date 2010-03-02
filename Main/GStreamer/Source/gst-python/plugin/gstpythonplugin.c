@@ -141,7 +141,7 @@ gst_python_plugin_load_file (GstPlugin * plugin, const char *name)
 static gboolean
 gst_python_load_directory (GstPlugin * plugin, gchar * path)
 {
-  GST_LOG ("Checking for python plugins in %s", path);
+  //GST_LOG ("Checking for python plugins in %s", path);
   GDir *dir;
   const gchar *file;
   GError *error = NULL;

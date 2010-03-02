@@ -75,8 +75,12 @@
 			<ComponentRef Id="GstLibPythonGstSitePackageInstallDirCreate" />
 			
 			<ComponentRef Id="GstSDKBindingsPythonInstallDirCreate" />
+			
 			<ComponentRef Id="GstSDKBindingsPython_v2_5InstallDirCreate" />
+			<ComponentRef Id="GstSDKBindingsPython_v2_5PluginInstallDirCreate" />
+
 			<ComponentRef Id="GstSDKBindingsPython_v2_6InstallDirCreate" />
+			<ComponentRef Id="GstSDKBindingsPython_v2_6PluginInstallDirCreate" />
 		</ComponentGroup>
 
 		<!-- Attempt to find where our normal install is located -->
@@ -280,6 +284,14 @@
 										<CreateFolder />
 										<RemoveFolder Id="GstSDKBindingsPython_v2_5InstallDirRemove" On="uninstall" />
 									</Component>
+
+									<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.5\plugins -->
+									<Directory Id="GstSDKBindingsPython_v2_5PluginInstallDir" Name="plugins">
+										<Component Id="GstSDKBindingsPython_v2_5PluginInstallDirCreate" Guid="{E815B87C-D37E-4a3e-A32B-F241126A39AE}">
+											<CreateFolder />
+											<RemoveFolder Id="GstSDKBindingsPython_v2_5PluginInstallDirRemove" On="uninstall" />
+										</Component>
+									</Directory>
 								</Directory>
 
 								<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\ -->
@@ -288,6 +300,14 @@
 										<CreateFolder />
 										<RemoveFolder Id="GstSDKBindingsPython_v2_6InstallDirRemove" On="uninstall" />
 									</Component>
+
+									<!-- C:\Program Files\OSSBuild\v<Version>\sdk\bindings\python\v2.6\plugins -->
+									<Directory Id="GstSDKBindingsPython_v2_6PluginInstallDir" Name="plugins">
+										<Component Id="GstSDKBindingsPython_v2_6PluginInstallDirCreate" Guid="{9A02B0A1-2E84-40b5-A0CE-4250A36F02CF}">
+											<CreateFolder />
+											<RemoveFolder Id="GstSDKBindingsPython_v2_6PluginInstallDirRemove" On="uninstall" />
+										</Component>
+									</Directory>
 								</Directory>
 							</Directory>
 						</Directory>
