@@ -57,8 +57,8 @@
     <Compile Include="Plugins-Python-v2.5.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Build\Bindings\Python\Plugins\gstpython-2.5.vcproj">
-      <Name>Plugin-gstpython-v2.5</Name>
+    <ProjectReference Include="..\..\..\..\Build\Bindings\Python\Plugins\python-2.5.vcproj">
+      <Name>gstpython _GStreamer\Bindings\Python\v2.5\Plugins\gstpython_</Name>
       <Project>{a6c1e046-94f2-45fc-a82b-2b2cba96686a}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

@@ -7,6 +7,10 @@
 	InheritedPropertySheets="$(SolutionDir)Main\GStreamer\Windows\Properties\gstreamer-plugin-base.vsprops"
 	>
 	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-base\gst-libs\&quot;;&quot;..\..\..\Source\gst-plugins-base\win32\common\&quot;"
+	/>
+	<Tool
 		Name="VCLinkerTool"
 		OutputFile="$(OutDir)\bin\lib$(Prefix)$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).dll"
 		ImportLibrary="$(OutDir)\lib\$(ProjectName)-$(ApiMajorVersion).$(ApiMinorVersion).lib"

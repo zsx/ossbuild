@@ -241,24 +241,10 @@
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f92a26}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Good\gst\libgstrtp.vcproj">
-      <Name>Plugin-gstrtp</Name>
-      <Project>{ab87873b-2b88-4b1b-b627-f70df4f92a27}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Good\gst\libgstrtpmanager.vcproj">
       <Name>gstrtpmanager</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0048}</Project>
       <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Good\gst\libgstrtsp.vcproj">
-      <Name>Plugin-gstrtsp</Name>
-      <Project>{ab87873b-2b88-4b1b-b627-f70df4f92a28}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Good\gst\libgstsmpte.vcproj">
       <Name>gstsmpte</Name>
@@ -317,6 +303,20 @@
     <ProjectReference Include="..\..\..\..\Build\Plugins\Good\gst\libgsty4menc.vcproj">
       <Name>gsty4menc</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff0019}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Good\gst\rtp.vcproj">
+      <Name>gstrtp _GStreamer\Plugins\Good\gst\gstrtp_</Name>
+      <Project>{f456161a-e627-43c7-b372-a82fdf9845be}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Good\gst\rtsp.vcproj">
+      <Name>gstrtsp _GStreamer\Plugins\Good\gst\gstrtsp_</Name>
+      <Project>{d0cd9705-8ca2-40db-a50c-fc7001756dd7}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>

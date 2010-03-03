@@ -8,7 +8,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="..\..\..\..\..\Source\gst-plugins-bad\gst-libs"
+		AdditionalIncludeDirectories="&quot;..\..\..\Source\gst-plugins-bad\gst-libs&quot;;&quot;..\..\..\Source\gst-plugins-bad\win32\common&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"

@@ -1,5 +1,5 @@
 
-Modified synaescope.c in libgstsynaesthesia (starting from line 28):
+Modified synaescope.c in synaesthesia (starting from line 28):
 
 #include <pthread.h>
 #include <dirent.h>

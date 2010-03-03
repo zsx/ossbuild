@@ -82,17 +82,17 @@
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f92a02}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\app.vcproj">
+      <Name>gstapp _GStreamer\Plugins\Base\gst\gstapp_</Name>
+      <Project>{84325bda-81fc-4cee-b771-612eecb9acdb}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\libgstadder.vcproj">
       <Name>gstadder</Name>
       <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f00}</Project>
       <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\libgstapp.vcproj">
-      <Name>Plugin - gstapp</Name>
-      <Project>{ab87873b-2b88-4b1b-b627-f70df4f91f14}</Project>
-      <Private>True</Private>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Base\gst\libgstaudioconvert.vcproj">
       <Name>gstaudioconvert</Name>

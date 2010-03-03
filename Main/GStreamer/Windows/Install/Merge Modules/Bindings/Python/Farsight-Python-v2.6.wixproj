@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Build\Bindings\Python\farsight-2.6.vcproj">
-      <Name>Python-farsight-v2.6</Name>
+      <Name>farsight _GStreamer\Bindings\Python\v2.6\Farsight\farsight_</Name>
       <Project>{b6de0d66-8de9-4ad8-a9ba-c025b01abec2}</Project>
       <Private>True</Private>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

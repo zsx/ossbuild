@@ -129,10 +129,24 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\ext\rsvg.vcproj">
+      <Name>gstrsvg</Name>
+      <Project>{d1feb87c-f4c1-4ec0-bc19-a96bfc5f14f0}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst-libs\libgstphotography.vcproj">
       <Name>gstphotography</Name>
       <Project>{f3a7c701-0acc-0bb0-ce27-aa0dffff2000}</Project>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\hdvparse.vcproj">
+      <Name>gsthdvparse</Name>
+      <Project>{57a86dcf-b7c9-419b-af1c-96f08d34de85}</Project>
+      <Private>True</Private>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Build\Plugins\Bad\gst\libgstaacparse.vcproj">
       <Name>gstaacparse</Name>

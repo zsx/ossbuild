@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="GStreamer Python v2.5 Plugins"
+	IntermediateDirectory="$(SolutionDir)Build\Windows\$(PlatformName)\$(ConfigurationName)\obj\gstreamer\plugins\python-2.5-$(ProjectName)"
 	InheritedPropertySheets="..\..\..\..\Shared\MSVC\Properties\SDKs\Python25.vsprops;.\gstreamer-plugin.vsprops"
 	>
 	<Tool
