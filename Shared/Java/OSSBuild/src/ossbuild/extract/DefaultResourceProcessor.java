@@ -48,10 +48,12 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Getters">
+	@Override
 	public boolean supportsSize() {
 		return ResourceUtils.supportsSize(getClass());
 	}
 
+	@Override
 	public long getSize() {
 		return size;
 	}
@@ -80,34 +82,35 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 		return description;
 	}
 
+	@Override
 	public String getName() {
 		return resourceName;
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Helper Methods">
-	protected String expandVariables(String value) {
-		return ResourceUtils.expandVariables(value);
+	protected String expandVariables(final IVariableProcessor varproc, final String value) {
+		return ResourceUtils.expandVariables(varproc, value);
 	}
 	
-	protected String valueForAttribute(Node node, String name) {
-		return ResourceUtils.valueForAttribute(node, name);
+	protected String valueForAttribute(final IVariableProcessor varproc, final Node node, final String name) {
+		return ResourceUtils.valueForAttribute(varproc, node, name);
 	}
 
-	protected String stringAttributeValue(String defaultValue, Node node, String name) {
-		return ResourceUtils.stringAttributeValue(defaultValue, node, name);
+	protected String stringAttributeValue(final IVariableProcessor varproc, final String defaultValue, final Node node, final String name) {
+		return ResourceUtils.stringAttributeValue(varproc, defaultValue, node, name);
 	}
 
-	protected boolean boolAttributeValue(boolean defaultValue, Node node, String name) {
-		return ResourceUtils.boolAttributeValue(defaultValue, node, name);
+	protected boolean boolAttributeValue(final IVariableProcessor varproc, final boolean defaultValue, final Node node, final String name) {
+		return ResourceUtils.boolAttributeValue(varproc, defaultValue, node, name);
 	}
 
-	protected File fileAttributeValue(String defaultValue, Node node, String name) {
-		return ResourceUtils.fileAttributeValue(defaultValue, node, name);
+	protected File fileAttributeValue(final IVariableProcessor varproc, final String defaultValue, final Node node, final String name) {
+		return ResourceUtils.fileAttributeValue(varproc, defaultValue, node, name);
 	}
 
-	protected File fileAttributeValue(File defaultValue, Node node, String name) {
-		return ResourceUtils.fileAttributeValue(defaultValue, node, name);
+	protected File fileAttributeValue(final IVariableProcessor varproc, final File defaultValue, final Node node, final String name) {
+		return ResourceUtils.fileAttributeValue(varproc, defaultValue, node, name);
 	}
 	//</editor-fold>
 
@@ -128,21 +131,21 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 
 	//<editor-fold defaultstate="collapsed" desc="IResourceProcessor Methods">
 	@Override
-	public boolean load(final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException {
+	public boolean load(final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
 		if (node != null) {
 			//Read attribute values in
-			this.resourceName = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_RESOURCE_NAME);
-			this.description = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_DESCRIPTION);
-			this.subDirectory = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_SUBDIRECTORY);
-			this.shouldBeTransient = boolAttributeValue(true, node, ATTRIBUTE_TRANSIENT);
+			this.resourceName = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_RESOURCE_NAME);
+			this.description = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_DESCRIPTION);
+			this.subDirectory = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_SUBDIRECTORY);
+			this.shouldBeTransient = boolAttributeValue(varproc, true, node, ATTRIBUTE_TRANSIENT);
 
 			//Default this to be the destName/resource name if no title/destName is found
-			this.destName = stringAttributeValue(this.resourceName, node, ATTRIBUTE_DEST_NAME);
-			this.title = stringAttributeValue(this.destName, node, ATTRIBUTE_TITLE);
+			this.destName = stringAttributeValue(varproc, this.resourceName, node, ATTRIBUTE_DEST_NAME);
+			this.title = stringAttributeValue(varproc, this.destName, node, ATTRIBUTE_TITLE);
 		}
 
 		//Let subclasses parse any add'l settings they need
-		if (loadSettings(pkg.resourcePath(resourceName), pkg, xpath, node)) {
+		if (loadSettings(pkg.resourcePath(resourceName), pkg, xpath, node, varproc)) {
 			//Ask for the size if settings were successfully loaded
 			size = requestSize();
 			return true;
@@ -158,6 +161,6 @@ public abstract class DefaultResourceProcessor implements IResourceProcessor {
 	//</editor-fold>
 
 	protected long requestSize() { return size; }
-	protected abstract boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException;
+	protected abstract boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException;
 	protected abstract boolean processResource(final String fullResourceName, final IResourcePackage pkg, final IResourceProgressListener progress);
 }

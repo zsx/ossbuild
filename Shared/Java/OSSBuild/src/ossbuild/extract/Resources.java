@@ -44,12 +44,12 @@ public class Resources {
 		initFromPackages(Packages);
 	}
 	
-	public Resources(final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
-		initFromXML(ResourceProcessorFactory.DEFAULT_INSTANCE, XMLData);
+	public Resources(final IVariableProcessor VariableProcessor, final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
+		initFromXML(ResourceProcessorFactory.DEFAULT_INSTANCE, VariableProcessor, XMLData);
 	}
 
-	public Resources(final ResourceProcessorFactory ProcessorFactory, final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
-		initFromXML(ProcessorFactory, XMLData);
+	public Resources(final ResourceProcessorFactory ProcessorFactory, final IVariableProcessor VariableProcessor, final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
+		initFromXML(ProcessorFactory, VariableProcessor, XMLData);
 	}
 
 	protected void initFromPackages(IResourcePackage[] Packages) {
@@ -61,7 +61,7 @@ public class Resources {
 		initAfter();
 	}
 
-	protected void initFromXML(final ResourceProcessorFactory ProcessorFactory, final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
+	protected void initFromXML(final ResourceProcessorFactory ProcessorFactory, final IVariableProcessor VariableProcessor, final InputStream XMLData) throws XPathException, ParserConfigurationException, SAXException, IOException {
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		final DocumentBuilder builder = factory.newDocumentBuilder();
 		final XPathFactory xpathFactory = XPathFactory.newInstance();
@@ -70,7 +70,7 @@ public class Resources {
 		//Creates a context that always has "ossbuild" as a prefix -- useful for xpath evaluations
 		xpath.setNamespaceContext(Namespaces.createNamespaceContext());
 
-		this.packages = read(ProcessorFactory, xpath, builder.parse(XMLData));
+		this.packages = read(ProcessorFactory, VariableProcessor, xpath, builder.parse(XMLData));
 
 		initAfter();
 	}
@@ -97,9 +97,14 @@ public class Resources {
 			progress.begin(getTotalResourceCount(), getTotalPackageCount(), getTotalResourceSize(), startTime);
 	}
 
-	protected void notifyProgressReport(IResourceProgressListener progress, long totalBytes, int totalResources, int totalPkgs, long startTime, String message) {
+	protected void notifyProgressReportResourceCompleted(IResourceProgressListener progress, IResourceProcessor resource, IResourcePackage pkg, long totalBytes, int totalResources, int totalPkgs, long startTime, String message) {
 		if (progress != null)
-			progress.report(getTotalResourceCount(), getTotalPackageCount(), getTotalResourceSize(), totalBytes, totalResources, totalPkgs, startTime, Math.abs(System.currentTimeMillis() - startTime), message);
+			progress.reportResourceComplete(resource, pkg, getTotalResourceCount(), getTotalPackageCount(), getTotalResourceSize(), totalBytes, totalResources, totalPkgs, startTime, Math.abs(System.currentTimeMillis() - startTime), message);
+	}
+
+	protected void notifyProgressReportPackageCompleted(IResourceProgressListener progress, IResourcePackage pkg, long totalBytes, int totalResources, int totalPkgs, long startTime, String message) {
+		if (progress != null)
+			progress.reportPackageComplete(pkg, getTotalResourceCount(), getTotalPackageCount(), getTotalResourceSize(), totalBytes, totalResources, totalPkgs, startTime, Math.abs(System.currentTimeMillis() - startTime), message);
 	}
 
 	protected void notifyProgressError(IResourceProgressListener progress, Throwable exception, String message) {
@@ -285,25 +290,49 @@ public class Resources {
 	}
 
 	public static final Resources newInstance(final String ResourceName) {
-		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, ResourceName);
+		return newInstance(VariableProcessorFactory.newInstance(), ResourceName);
 	}
 
 	public static final Resources newInstance(final File XMLFile) {
-		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, XMLFile);
+		return newInstance(VariableProcessorFactory.newInstance(), XMLFile);
 	}
 
 	public static final Resources newInstance(final InputStream XMLData) {
-		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, XMLData);
+		return newInstance(VariableProcessorFactory.newInstance(), XMLData);
 	}
 
 	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final String ResourceName) {
-		return newInstance(ProcessorFactory, Resources.class.getResourceAsStream(ResourceName));
+		return newInstance(ProcessorFactory, VariableProcessorFactory.newInstance(), ResourceName);
 	}
 
 	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final File XMLFile) {
+		return newInstance(ProcessorFactory, VariableProcessorFactory.newInstance(), XMLFile);
+	}
+
+	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final InputStream XMLData) {
+		return newInstance(ProcessorFactory, VariableProcessorFactory.newInstance(), XMLData);
+	}
+
+	public static final Resources newInstance(final IVariableProcessor VariableProcessor, final String ResourceName) {
+		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, VariableProcessor, ResourceName);
+	}
+
+	public static final Resources newInstance(final IVariableProcessor VariableProcessor, final File XMLFile) {
+		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, VariableProcessor, XMLFile);
+	}
+
+	public static final Resources newInstance(final IVariableProcessor VariableProcessor, final InputStream XMLData) {
+		return newInstance(ResourceProcessorFactory.DEFAULT_INSTANCE, VariableProcessor, XMLData);
+	}
+
+	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final IVariableProcessor VariableProcessor, final String ResourceName) {
+		return newInstance(ProcessorFactory, VariableProcessor, Resources.class.getResourceAsStream(ResourceName));
+	}
+
+	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final IVariableProcessor VariableProcessor, final File XMLFile) {
 		FileInputStream fis = null;
 		try {
-			return newInstance(ProcessorFactory, (fis = new FileInputStream(XMLFile)));
+			return newInstance(ProcessorFactory, VariableProcessor, (fis = new FileInputStream(XMLFile)));
 		} catch(Throwable t) {
 			return null;
 		} finally {
@@ -315,9 +344,9 @@ public class Resources {
 		}
 	}
 
-	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final InputStream XMLData) {
+	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final IVariableProcessor VariableProcessor, final InputStream XMLData) {
 		try {
-			return new Resources(XMLData);
+			return new Resources(VariableProcessor, XMLData);
 		} catch(Throwable t) {
 			return null;
 		}
@@ -326,7 +355,7 @@ public class Resources {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="The Meat">
-	protected IResourcePackage[] read(final ResourceProcessorFactory processorFactory, final XPath xpath, final Document document) throws XPathException  {
+	protected IResourcePackage[] read(final ResourceProcessorFactory processorFactory, final IVariableProcessor variableProcessor, final XPath xpath, final Document document) throws XPathException  {
 		Node node;
 		NodeList lst;
 		IResourcePackage pkg;
@@ -346,7 +375,7 @@ public class Resources {
 		for(int i = 0; i < lst.getLength() && (node = lst.item(i)) != null; ++i) {
 
 			//Ask the package to read it
-			if ((pkg = Package.newInstance(processorFactory, node, xpath, document)) != null)
+			if ((pkg = Package.newInstance(processorFactory, variableProcessor, node, xpath, document)) != null)
 				pkgs.add(pkg);
 		}
 
@@ -374,20 +403,20 @@ public class Resources {
 
 			for(IResourcePackage pkg : pkgs) {
 				if (pkg == null) {
-					notifyProgressReport(progress, totalBytes, totalResources, ++totalPkgs, startTime, "Skipped package");
+					notifyProgressReportPackageCompleted(progress, pkg, totalBytes, totalResources, ++totalPkgs, startTime, "Skipped package");
 					continue;
 				}
 
 				for(IResourceProcessor p : pkg) {
 					if (p == null) {
-						notifyProgressReport(progress, totalBytes, ++totalResources, totalPkgs, startTime, "Skipped resource");
+						notifyProgressReportResourceCompleted(progress, p, pkg, totalBytes, ++totalResources, totalPkgs, startTime, "Skipped resource");
 						continue;
 					}
 
 					//Double check that we're allowed to process this resource
 					resourceName = pkg.resourcePath(p.getName());
 					if (filter != null && !filter.filter(pkg, p, resourceName)) {
-						notifyProgressReport(progress, totalBytes, ++totalResources, totalPkgs, startTime, "Skipped resource");
+						notifyProgressReportResourceCompleted(progress, p, pkg, totalBytes, ++totalResources, totalPkgs, startTime, "Skipped resource");
 						continue;
 					}
 
@@ -397,11 +426,11 @@ public class Resources {
 						title = (p instanceof DefaultResourceProcessor ? ((DefaultResourceProcessor)p).getTitle() : p.getName());
 						if (StringUtil.isNullOrEmpty(title))
 							title = p.getName();
-						notifyProgressReport(progress, totalBytes, ++totalResources, totalPkgs, startTime, title);
+						notifyProgressReportResourceCompleted(progress, p, pkg, totalBytes, ++totalResources, totalPkgs, startTime, title);
 					}
 				}
 
-				notifyProgressReport(progress, totalBytes, totalResources, ++totalPkgs, startTime, "Completed package");
+				notifyProgressReportPackageCompleted(progress, pkg, totalBytes, totalResources, ++totalPkgs, startTime, "Completed package");
 			}
 			success = true;
 		} catch(Throwable t) {

@@ -58,6 +58,7 @@ public class Native {
 	}
 	//</editor-fold>
 
+	//<editor-fold defaultstate="collapsed" desc="Public Static Methods">
 	public static Resources createResourceExtractor() {
 		return Resources.newInstance(RESOURCE_DEFINITION_PREFIX + "resources.xml");
 	}
@@ -106,5 +107,5 @@ public class Native {
 				return;
 		}
 	}
-
+	//</editor-fold>
 }

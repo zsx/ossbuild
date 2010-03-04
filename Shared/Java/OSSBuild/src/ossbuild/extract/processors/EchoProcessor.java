@@ -1,7 +1,6 @@
 
 package ossbuild.extract.processors;
 
-import java.io.File;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathException;
 import org.w3c.dom.Node;
@@ -13,65 +12,57 @@ import ossbuild.extract.IVariableProcessor;
 import ossbuild.extract.ResourceProcessor;
 
 /**
- * Changes the process' working directory (cwd).
+ * Deletes every file/subdirectory from the provided directory.
  * 
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
 @ResourceProcessor(
-	tagName = "WorkingDirectory",
+	tagName = "Echo",
 	supportsSize = false
 )
-public class WorkingDirectoryProcessor extends DefaultResourceProcessor {
+public class EchoProcessor extends DefaultResourceProcessor {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
 	public static final String
-		  ATTRIBUTE_PATH	= "path"
+		  ATTRIBUTE_MESSAGE     = "msg"
+		, ATTRIBUTE_KEY         = "key"
 	;
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Variables">
-	private String path = StringUtil.empty;
+	private String msg = StringUtil.empty;
+	private String key = StringUtil.empty;
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Initialization">
-	public WorkingDirectoryProcessor() {
+	public EchoProcessor() {
 	}
 
-	public WorkingDirectoryProcessor(File path) {
-		this(path.getAbsolutePath(), StringUtil.empty, StringUtil.empty);
+	public EchoProcessor(String message) {
+		this(StringUtil.empty, message, StringUtil.empty, StringUtil.empty);
 	}
 
-	public WorkingDirectoryProcessor(String path) {
-		this(path, StringUtil.empty, StringUtil.empty);
+	public EchoProcessor(String message, String Title, String Description) {
+		this(StringUtil.empty, message, Title, Description);
 	}
 
-	public WorkingDirectoryProcessor(String path, String Title, String Description) {
+	public EchoProcessor(String i18nKey, String message, String Title, String Description) {
 		super(false, StringUtil.empty, StringUtil.empty, StringUtil.empty, Title, Description);
 
-		this.path = path;
+		this.msg = message;
 	}
 	//</editor-fold>
 	
 	@Override
 	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
-		this.path = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_PATH);
+		this.msg = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_MESSAGE);
+		this.key = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_KEY);
 		
 		return true;
 	}
 
 	@Override
 	protected boolean processResource(final String fullResourceName, final IResourcePackage pkg, final IResourceProgressListener progress) {
-		final String dir = StringUtil.isNullOrEmpty(path) || ".".equalsIgnoreCase(path) ? ossbuild.Process.getWorkingDirectory() : path;
-		if (StringUtil.isNullOrEmpty(dir))
-			return true;
-
-		final File d = new File(dir);
-		if (!d.exists())
-			return false;
-
-		try {
-			return ossbuild.Process.setWorkingDirectory(d);
-		} catch(Throwable t) {
-			return false;
-		}
+		progress.reportMessage(this, pkg, StringUtil.isNullOrEmpty(key) ? StringUtil.empty : key, !StringUtil.isNullOrEmpty(msg) ? msg : StringUtil.empty);
+		return true;
 	}
 }

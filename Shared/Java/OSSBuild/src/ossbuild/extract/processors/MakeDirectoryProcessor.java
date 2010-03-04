@@ -9,6 +9,7 @@ import ossbuild.StringUtil;
 import ossbuild.extract.DefaultResourceProcessor;
 import ossbuild.extract.IResourcePackage;
 import ossbuild.extract.IResourceProgressListener;
+import ossbuild.extract.IVariableProcessor;
 import ossbuild.extract.ResourceProcessor;
 
 /**
@@ -51,8 +52,8 @@ public class MakeDirectoryProcessor extends DefaultResourceProcessor {
 	//</editor-fold>
 	
 	@Override
-	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException {
-		this.path = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_PATH);
+	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
+		this.path = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_PATH);
 		
 		return true;
 	}

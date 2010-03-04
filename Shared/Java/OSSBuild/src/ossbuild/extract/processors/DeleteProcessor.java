@@ -11,65 +11,66 @@ import ossbuild.extract.IResourcePackage;
 import ossbuild.extract.IResourceProgressListener;
 import ossbuild.extract.IVariableProcessor;
 import ossbuild.extract.ResourceProcessor;
+import ossbuild.extract.ResourceUtils;
 
 /**
- * Changes the process' working directory (cwd).
+ * Deletes every file/subdirectory from the provided directory.
  * 
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
 @ResourceProcessor(
-	tagName = "WorkingDirectory",
+	tagName = "Delete",
 	supportsSize = false
 )
-public class WorkingDirectoryProcessor extends DefaultResourceProcessor {
+public class DeleteProcessor extends DefaultResourceProcessor {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
 	public static final String
-		  ATTRIBUTE_PATH	= "path"
+		  ATTRIBUTE_DIRECTORY	= "directory"
 	;
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Variables">
-	private String path = StringUtil.empty;
+	private String directory = StringUtil.empty;
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Initialization">
-	public WorkingDirectoryProcessor() {
+	public DeleteProcessor() {
 	}
 
-	public WorkingDirectoryProcessor(File path) {
-		this(path.getAbsolutePath(), StringUtil.empty, StringUtil.empty);
+	public DeleteProcessor(File directory) {
+		this(directory.getAbsolutePath(), StringUtil.empty, StringUtil.empty);
 	}
 
-	public WorkingDirectoryProcessor(String path) {
-		this(path, StringUtil.empty, StringUtil.empty);
+	public DeleteProcessor(String directory) {
+		this(directory, StringUtil.empty, StringUtil.empty);
 	}
 
-	public WorkingDirectoryProcessor(String path, String Title, String Description) {
+	public DeleteProcessor(String directory, String Title, String Description) {
 		super(false, StringUtil.empty, StringUtil.empty, StringUtil.empty, Title, Description);
 
-		this.path = path;
+		this.directory = directory;
 	}
 	//</editor-fold>
 	
 	@Override
 	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
-		this.path = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_PATH);
+		this.directory = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_DIRECTORY);
 		
 		return true;
 	}
 
 	@Override
 	protected boolean processResource(final String fullResourceName, final IResourcePackage pkg, final IResourceProgressListener progress) {
-		final String dir = StringUtil.isNullOrEmpty(path) || ".".equalsIgnoreCase(path) ? ossbuild.Process.getWorkingDirectory() : path;
+		final String dir = StringUtil.isNullOrEmpty(directory) || ".".equalsIgnoreCase(directory) ? pkg.getDirectory() : directory;
 		if (StringUtil.isNullOrEmpty(dir))
 			return true;
 
 		final File d = new File(dir);
 		if (!d.exists())
-			return false;
+			return true;
 
 		try {
-			return ossbuild.Process.setWorkingDirectory(d);
+			return ResourceUtils.deleteDirectory(d);
 		} catch(Throwable t) {
 			return false;
 		}

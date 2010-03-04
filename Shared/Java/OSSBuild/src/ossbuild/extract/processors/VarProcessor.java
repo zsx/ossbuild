@@ -1,7 +1,6 @@
 
 package ossbuild.extract.processors;
 
-import java.io.File;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathException;
 import org.w3c.dom.Node;
@@ -13,65 +12,61 @@ import ossbuild.extract.IVariableProcessor;
 import ossbuild.extract.ResourceProcessor;
 
 /**
- * Changes the process' working directory (cwd).
- * 
+ *
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
 @ResourceProcessor(
-	tagName = "WorkingDirectory",
-	supportsSize = false
+	tagName = "Var",
+	supportsSize = true
 )
-public class WorkingDirectoryProcessor extends DefaultResourceProcessor {
+public class VarProcessor extends DefaultResourceProcessor {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
 	public static final String
-		  ATTRIBUTE_PATH	= "path"
+		  ATTRIBUTE_NAME    = "name"
+		, ATTRIBUTE_VALUE   = "value"
 	;
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Variables">
-	private String path = StringUtil.empty;
+	private String name = StringUtil.empty;
+	private String value = StringUtil.empty;
+	private IVariableProcessor varproc = null;
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Initialization">
-	public WorkingDirectoryProcessor() {
+	public VarProcessor() {
 	}
 
-	public WorkingDirectoryProcessor(File path) {
-		this(path.getAbsolutePath(), StringUtil.empty, StringUtil.empty);
+	public VarProcessor(String Name, String Value) {
+		super(false, StringUtil.empty, StringUtil.empty, StringUtil.empty, StringUtil.empty, StringUtil.empty);
+		this.name = Name;
+		this.value = Value;
 	}
 
-	public WorkingDirectoryProcessor(String path) {
-		this(path, StringUtil.empty, StringUtil.empty);
-	}
-
-	public WorkingDirectoryProcessor(String path, String Title, String Description) {
+	public VarProcessor(String Name, String Value, String Title, String Description) {
 		super(false, StringUtil.empty, StringUtil.empty, StringUtil.empty, Title, Description);
-
-		this.path = path;
+		this.name = Name;
+		this.value = Value;
 	}
 	//</editor-fold>
 	
 	@Override
 	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
-		this.path = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_PATH);
-		
-		return true;
+		this.name = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_NAME);
+		this.value = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_VALUE);
+		this.varproc = varproc;
+
+		if (varproc == null || StringUtil.isNullOrEmpty(name))
+			return true;
+
+		if (value != null)
+			return varproc.saveVariable(name, value);
+		else
+			return varproc.removeVariable(name);
 	}
 
 	@Override
 	protected boolean processResource(final String fullResourceName, final IResourcePackage pkg, final IResourceProgressListener progress) {
-		final String dir = StringUtil.isNullOrEmpty(path) || ".".equalsIgnoreCase(path) ? ossbuild.Process.getWorkingDirectory() : path;
-		if (StringUtil.isNullOrEmpty(dir))
-			return true;
-
-		final File d = new File(dir);
-		if (!d.exists())
-			return false;
-
-		try {
-			return ossbuild.Process.setWorkingDirectory(d);
-		} catch(Throwable t) {
-			return false;
-		}
+		return true;
 	}
 }

@@ -11,8 +11,8 @@ import ossbuild.Sys;
 import ossbuild.extract.DefaultResourceProcessor;
 import ossbuild.extract.IResourcePackage;
 import ossbuild.extract.IResourceProgressListener;
+import ossbuild.extract.IVariableProcessor;
 import ossbuild.extract.ResourceProcessor;
-import ossbuild.extract.ResourceUtils;
 
 /**
  * Sets or unsets a local process' environment variables.
@@ -64,15 +64,15 @@ public class EnvVarProcessor extends DefaultResourceProcessor {
 	//</editor-fold>
 	
 	@Override
-	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException {
-		this.name = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_NAME);
-		this.value = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_VALUE);
-		this.separator = stringAttributeValue(Path.pathSeparator, node, ATTRIBUTE_SEPARATOR);
+	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
+		this.name = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_NAME);
+		this.value = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_VALUE);
+		this.separator = stringAttributeValue(varproc, Path.pathSeparator, node, ATTRIBUTE_SEPARATOR);
 		
-		this.unset = boolAttributeValue(false, node, ATTRIBUTE_UNSET);
-		this.asFile = boolAttributeValue(false, node, ATTRIBUTE_ASFILE);
-		this.prepend = boolAttributeValue(false, node, ATTRIBUTE_PREPEND);
-		this.append = boolAttributeValue(false, node, ATTRIBUTE_APPEND);
+		this.unset = boolAttributeValue(varproc, false, node, ATTRIBUTE_UNSET);
+		this.asFile = boolAttributeValue(varproc, false, node, ATTRIBUTE_ASFILE);
+		this.prepend = boolAttributeValue(varproc, false, node, ATTRIBUTE_PREPEND);
+		this.append = boolAttributeValue(varproc, false, node, ATTRIBUTE_APPEND);
 
 		return true;
 	}

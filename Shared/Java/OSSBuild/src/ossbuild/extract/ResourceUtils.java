@@ -44,7 +44,7 @@ public class ResourceUtils {
 
 	//Thank you http://forums.sun.com/thread.jspa?threadID=341935
 	@Deprecated
-	public static Class[] getClasses(String pckgname) throws ClassNotFoundException {
+	public static Class[] getClasses(final String pckgname) throws ClassNotFoundException {
 		ArrayList<Class> classes = new ArrayList<Class>(3);
 		
 		// Get a File object for the package
@@ -83,7 +83,26 @@ public class ResourceUtils {
 		return classesA;
 	}
 
-	public static final boolean deleteDirectory(File path) {
+	public static final boolean cleanDirectory(final File path) {
+		if (path == null)
+			return false;
+		if (!path.exists())
+			return true;
+
+		boolean ret = true;
+		final File[] files = path.listFiles();
+		for(int i = 0; i < files.length; ++i) {
+			try {
+				ret = ret && files[i].delete();
+			} catch(Throwable t) {
+				//Catches any security issues, but continues w/ cleaning anyway
+				ret = false;
+			}
+		}
+		return ret;
+	}
+
+	public static final boolean deleteDirectory(final File path) {
 		if (path == null)
 			return false;
 		if (path.exists()) {
@@ -131,50 +150,50 @@ public class ResourceUtils {
 		return true;
 	}
 
-	public static String expandVariables(String value) {
-		return Variables.process(value);
+	public static String expandVariables(final IVariableProcessor varproc, final String value) {
+		return varproc.process(value);
 	}
 
-	public static String valueForAttribute(Node node, String name) {
+	public static String valueForAttribute(final IVariableProcessor varproc, final Node node, final String name) {
 		final Node attrib = node.getAttributes().getNamedItem(name);
 		if (attrib == null || attrib.getNodeValue() == null)
 			return StringUtil.empty;
-		return expandVariables(attrib.getNodeValue());
+		return expandVariables(varproc, attrib.getNodeValue());
 	}
 
-	public static String stringAttributeValue(String defaultValue, Node node, String name) {
-		final String value = valueForAttribute(node, name);
+	public static String stringAttributeValue(final IVariableProcessor varproc, final String defaultValue, final Node node, final String name) {
+		final String value = valueForAttribute(varproc, node, name);
 		if (StringUtil.isNullOrEmpty(value))
 			return defaultValue;
 		return value;
 	}
 
-	public static boolean boolAttributeValue(boolean defaultValue, Node node, String name) {
-		final String value = valueForAttribute(node, name);
+	public static boolean boolAttributeValue(final IVariableProcessor varproc, final boolean defaultValue, final Node node, final String name) {
+		final String value = valueForAttribute(varproc, node, name);
 		if (StringUtil.isNullOrEmpty(value))
 			return defaultValue;
 		return Boolean.parseBoolean(value);
 	}
 
-	public static File fileAttributeValue(String defaultValue, Node node, String name) {
-		final String value = valueForAttribute(node, name);
+	public static File fileAttributeValue(final IVariableProcessor varproc, final String defaultValue, final Node node, final String name) {
+		final String value = valueForAttribute(varproc, node, name);
 		if (StringUtil.isNullOrEmpty(value))
 			return new File(defaultValue);
 		return new File(value);
 	}
 
-	public static File fileAttributeValue(File defaultValue, Node node, String name) {
-		final String value = valueForAttribute(node, name);
+	public static File fileAttributeValue(final IVariableProcessor varproc, final File defaultValue, final Node node, final String name) {
+		final String value = valueForAttribute(varproc, node, name);
 		if (StringUtil.isNullOrEmpty(value))
 			return defaultValue;
 		return new File(value);
 	}
 
-	public static boolean attemptLibraryLoad(String libraryPath) {
+	public static boolean attemptLibraryLoad(final String libraryPath) {
 		return (com.sun.jna.NativeLibrary.getInstance(libraryPath) != null);
 	}
 
-	public static boolean attemptSystemLibraryLoad(String libraryName) {
+	public static boolean attemptSystemLibraryLoad(final String libraryName) {
 		try {
 			return (com.sun.jna.NativeLibrary.getInstance(libraryName) != null);
 		} catch(Throwable t) {
@@ -182,7 +201,7 @@ public class ResourceUtils {
 		}
 	}
 
-	public static long sizeFromResource(String fullResourceName) {
+	public static long sizeFromResource(final String fullResourceName) {
 		if (StringUtil.isNullOrEmpty(fullResourceName))
 			return 0L;
 		final URL url = ResourceUtils.class.getResource(fullResourceName);
@@ -195,7 +214,7 @@ public class ResourceUtils {
 		}
 	}
 
-	public static long lastModifiedFromResource(String fullResourceName) {
+	public static long lastModifiedFromResource(final String fullResourceName) {
 		if (StringUtil.isNullOrEmpty(fullResourceName))
 			return 0L;
 		final URL url = ResourceUtils.class.getResource(fullResourceName);
@@ -208,7 +227,7 @@ public class ResourceUtils {
 		}
 	}
 
-	public static boolean saveLastModified(File destination, long lastModified) {
+	public static boolean saveLastModified(final File destination, final long lastModified) {
 		try {
 			if (lastModified > 0L)
 				destination.setLastModified(lastModified);
@@ -218,7 +237,7 @@ public class ResourceUtils {
 		}
 	}
 
-	public static boolean extractResource(String fullResourceName, File destination, boolean isTransient) {
+	public static boolean extractResource(final String fullResourceName, final File destination, final boolean isTransient) {
 		//If the destination exists and it's last modified date/time is older than now,
 		//then we can safely skip it. Otherwise, it must be replaced or created.
 		long lastModified = ResourceUtils.lastModifiedFromResource(fullResourceName);

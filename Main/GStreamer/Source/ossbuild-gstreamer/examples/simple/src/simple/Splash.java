@@ -23,6 +23,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.gstreamer.swing.VideoPlayer;
+import ossbuild.StringUtil;
+import ossbuild.extract.IResourcePackage;
+import ossbuild.extract.IResourceProcessor;
 import ossbuild.extract.ResourceCallback;
 import ossbuild.extract.ResourceProgressListenerAdapter;
 import ossbuild.extract.Resources;
@@ -133,17 +136,37 @@ public class Splash extends javax.swing.JDialog {
 		try {
 			Native.initialize(
 				new ResourceProgressListenerAdapter() {
+
 					@Override
-					public void report(final int totalNumberOfResources, final int totalNumberOfPackages, final long totalNumberOfBytes, final long numberOfBytesCompleted, final int numberOfResourcesCompleted, final int numberOfPackagesCompleted, final long startTime, final long duration, final String message) {
+					public void begin(int totalNumberOfResources, int totalNumberOfPackages, long totalNumberOfBytes, long startTime) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								progress.setIndeterminate(false);
+							}
+						});
+					}
+
+					@Override
+					public void reportMessage(IResourceProcessor resource, IResourcePackage pkg, final String key, final String message) {
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								if (!StringUtil.isNullOrEmpty(message))
+									lbl.setText(message);
+								else
+									lbl.setText(" ");
+							}
+						});
+					}
+
+					@Override
+					public void reportResourceComplete(IResourceProcessor resource, IResourcePackage pkg, final int totalNumberOfResources, final int totalNumberOfPackages, final long totalNumberOfBytes, final long numberOfBytesCompleted, final int numberOfResourcesCompleted, final int numberOfPackagesCompleted, final long startTime, final long duration, final String message) {
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
 								double percent = ((double)numberOfResourcesCompleted / (double)totalNumberOfResources);
 								progress.setValue(progress.getMinimum() + (int)(Math.abs(progress.getMaximum() - progress.getMinimum()) * percent));
-
-								if (numberOfResourcesCompleted != totalNumberOfResources) {
-									lbl.setText(message);
-								}
 							}
 						});
 					}
@@ -154,7 +177,7 @@ public class Splash extends javax.swing.JDialog {
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
-									lbl.setText("Initializing GStreamer...");
+									lbl.setText("Loading GStreamer...");
 									progress.setIndeterminate(true);
 								}
 							});
@@ -166,7 +189,7 @@ public class Splash extends javax.swing.JDialog {
 					@Override
 					protected void completed(Resources rsrcs, Object t) {
 						try {
-							Thread.currentThread().sleep(2000);
+							//Thread.currentThread().sleep(2000);
 
 							Splash.this.setVisible(false);
 							Splash.this.dispose();
@@ -179,7 +202,7 @@ public class Splash extends javax.swing.JDialog {
 							if (result == JFileChooser.CANCEL_OPTION)
 								System.exit(0);
 
-							for(int i = 0; i < 2; ++i) {
+							for(int i = 0; i < 1; ++i) {
 								SwingUtilities.invokeLater(new Runnable() {
 									@Override
 									public void run() {
@@ -202,7 +225,7 @@ public class Splash extends javax.swing.JDialog {
 									}
 								});
 							}
-						} catch (InterruptedException ex) {
+						} catch (Throwable tr) {
 						}
 					}
 				}

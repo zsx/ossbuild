@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ossbuild.OS;
 import ossbuild.OSFamily;
 import ossbuild.Path;
 import ossbuild.Sys;
@@ -20,7 +19,7 @@ import static org.junit.Assert.*;
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
 public class ResourcesTest {
-
+	//<editor-fold defaultstate="collapsed" desc="Setup">
 	public ResourcesTest() {
 	}
 
@@ -34,24 +33,27 @@ public class ResourcesTest {
 
 	@Before
 	public void setUp() {
+		assertTrue("These unit tests require Windows to complete", Sys.isOSFamily(OSFamily.Windows));
 	}
 
 	@After
 	public void tearDown() {
 	}
+	//</editor-fold>
 
 	@Test
 	public void testVariables() {
 		String tmpDir = Path.tempDirectory;
 		String homeDir = Path.homeDirectory;
 
-		assertEquals("/" + tmpDir + "/tmp/" + tmpDir + "/" + homeDir + "/tmp", Variables.process("/${tmp}/tmp/${tmp}/${home}/tmp"));
+		IVariableProcessor varproc = VariableProcessorFactory.newInstance();
+		assertEquals("/" + tmpDir + "/tmp/" + tmpDir + "/" + homeDir + "/tmp", varproc.process("/${tmp}/tmp/${tmp}/${home}/tmp"));
 
-		assertEquals("/home/", Variables.process("/home/"));
-		assertEquals(tmpDir + "/", Variables.process("${tmp}/"));
-		assertEquals("/" + tmpDir + "/", Variables.process("/${tmp}/"));
-		assertEquals(homeDir + "/", Variables.process("${home}/"));
-		assertEquals("/" + homeDir + "/", Variables.process("/${home}/"));
+		assertEquals("/home/", varproc.process("/home/"));
+		assertEquals(tmpDir + "/", varproc.process("${tmp}/"));
+		assertEquals("/" + tmpDir + "/", varproc.process("/${tmp}/"));
+		assertEquals(homeDir + "/", varproc.process("${home}/"));
+		assertEquals("/" + homeDir + "/", varproc.process("/${home}/"));
 	}
 
 	@Test
@@ -66,15 +68,13 @@ public class ResourcesTest {
 
 	@Test
 	public void testRead() {
-		assertTrue("This unit test requires Windows to complete", Sys.isOSFamily(OSFamily.Windows));
-		
 		Resources r1 = Resources.newInstance(
 			Sys.createPlatformPackageResourcePrefix("resources.extraction") + "test.xml"
 		);
 		assertNotNull(r1);
 
 		assertEquals(1, r1.getTotalPackageCount());
-		assertEquals(5, r1.getTotalResourceCount());
+		assertEquals(7, r1.getTotalResourceCount());
 
 		Resources r2 = Resources.newInstance(
 			Package.newInstance("test", ".")
@@ -111,10 +111,15 @@ public class ResourcesTest {
 	public void testExtract() throws InterruptedException, ExecutionException {
 		assertNotNull(Sys.createPlatformName());
 
+		final IVariableProcessor varproc = VariableProcessorFactory.newInstance();
 		final Resources r = Resources.newInstance(
+			varproc,
 			Sys.createPlatformPackageResourceName("resources.extraction", "test.xml")
 		);
 		assertNotNull(r);
+
+		assertEquals("test", varproc.findValue(VariableProcessorFactory.VAR_PKG));
+		assertEquals("resources.extraction.windows.x86", varproc.findValue("saved_pkg"));
 
 		Future f = r.extract(new ResourceProgressListenerAdapter() {
 			@Override
@@ -123,7 +128,15 @@ public class ResourcesTest {
 			}
 
 			@Override
-			public void report(int totalNumberOfResources, int totalNumberOfPackages, long totalNumberOfBytes, long numberOfBytesCompleted, int numberOfResourcesCompleted, int numberOfPackagesCompleted, long startTime, long duration, String message) {
+			public void reportResourceComplete(final IResourceProcessor resource, final IResourcePackage pkg, final int totalNumberOfResources, final int totalNumberOfPackages, final long totalNumberOfBytes, final long numberOfBytesCompleted, final int numberOfResourcesCompleted, final int numberOfPackagesCompleted, final long startTime, final long duration, final String message) {
+				System.out.println(numberOfPackagesCompleted + "/" + totalNumberOfPackages + " packages completed");
+				System.out.println(numberOfResourcesCompleted + "/" + totalNumberOfResources + " resources completed");
+				System.out.println(numberOfBytesCompleted + "/" + totalNumberOfBytes + " bytes completed");
+				System.out.println();
+			}
+
+			@Override
+			public void reportPackageComplete(final IResourcePackage pkg, final int totalNumberOfResources, final int totalNumberOfPackages, final long totalNumberOfBytes, final long numberOfBytesCompleted, final int numberOfResourcesCompleted, final int numberOfPackagesCompleted, final long startTime, final long duration, final String message) {
 				System.out.println(numberOfPackagesCompleted + "/" + totalNumberOfPackages + " packages completed");
 				System.out.println(numberOfResourcesCompleted + "/" + totalNumberOfResources + " resources completed");
 				System.out.println(numberOfBytesCompleted + "/" + totalNumberOfBytes + " bytes completed");

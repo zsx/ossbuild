@@ -3,17 +3,39 @@
 <Resources>
 
 	<Extract package="resources.gstreamer.gpl.windows.x86" directory="${tmp}/ossbuild/gstreamer/">
-		<!-- Delete the directory if it exists -->
-		<Clean directory="${tmp}/ossbuild/gstreamer/" title="Cleaning resource directory..." />
+		<Echo key="res.gst.init" msg="Initializing GStreamer..." />
+
+		<!-- Set variables to hold the platform's base package name and the base directory -->
+		<Var name="pkgPlatform" value="${pkg}" />
+		<Var name="dirPlatform" value="${dir}" />
+
+		<Var name="GstApiVersion" value="0.10" />
+
+		<Var name="dirGstApiVersion" value="0.10" />
+		<Var name="pkgGstApiVersion" value="0_10" />
+
+		<Var name="dirGtkApiVersion" value="2.0" />
+		<Var name="pkgGtkApiVersion" value="2_0" />
+
+		<Var name="dirFarsightApiVersion" value="0.0" />
+		<Var name="pkgFarsightApiVersion" value="0_0" />
+
+		<Clean />
+
+		<Echo key="res.gst.dependency.config" msg="Loading dependency configurations..." />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.etc.fonts" directory="${tmp}/ossbuild/gstreamer/etc/fonts/">
+	<Extract package="${pkgPlatform}.etc.fonts" directory="${dirPlatform}/etc/fonts/">
+		<Clean />
+
 		<!-- Fontconfig configuration -->
 		<File resource="fonts.conf" />
 		<File resource="fonts.dtd" />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.etc.fonts.conf_avail" directory="${tmp}/ossbuild/gstreamer/etc/fonts/conf.avail/">
+	<Extract package="${pkgPlatform}.etc.fonts.conf_avail" directory="${dirPlatform}/etc/fonts/conf.avail/">
+		<Clean />
+
 		<!-- Fontconfig configuration -->
 		<File resource="10-autohint.conf" />
 		<File resource="10-no-sub-pixel.conf" />
@@ -43,7 +65,9 @@
 		<File resource="90-synthetic.conf" />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.etc.fonts.conf_d" directory="${tmp}/ossbuild/gstreamer/etc/fonts/conf.d/">
+	<Extract package="${pkgPlatform}.etc.fonts.conf_d" directory="${dirPlatform}/etc/fonts/conf.d/">
+		<Clean />
+
 		<!-- Fontconfig configuration -->
 		<File resource="20-fix-globaladvance.conf" />
 		<File resource="20-unhint-small-vera.conf" />
@@ -62,40 +86,53 @@
 		<File resource="90-synthetic.conf" />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.etc.gtk_2_0" directory="${tmp}/ossbuild/gstreamer/etc/gtk-2.0/">
+	<Extract package="${pkgPlatform}.etc.gtk_${pkgGtkApiVersion}" directory="${dirPlatform}/etc/gtk-${dirGtkApiVersion}/">
+		<Clean />
+
 		<!-- GTK keyboard configuration -->
 		<File resource="im-multipress.conf" />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.lib.farsight2_0_0" directory="${tmp}/ossbuild/gstreamer/lib/farsight2-0.0/">
+	<Extract package="${pkgPlatform}.lib.farsight2_${pkgFarsightApiVersion}" directory="${dirPlatform}/lib/farsight2-${dirFarsightApiVersion}/">
+		<Clean />
+
 		<!-- Farsight/Farsight2 Transmitters -->
 		<File resource="libnice-transmitter.dll" />
 		<File resource="libmulticast-transmitter.dll" />
 		<File resource="librawudp-transmitter.dll" />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.lib.gtk_2_0.modules" directory="${tmp}/ossbuild/gstreamer/lib/gtk-2.0/modules/">
+	<Extract package="${pkgPlatform}.lib.gtk_${pkgGtkApiVersion}.modules" directory="${dirPlatform}/lib/gtk-${dirGtkApiVersion}/modules/">
+		<Clean />
+
 		<!-- GTK modules -->
 		<File resource="libgail.dll" />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.lib.gtk_2_0._2_10_0.engines" directory="${tmp}/ossbuild/gstreamer/lib/gtk-2.0/2.10.0/engines/">
+	<Extract package="${pkgPlatform}.lib.gtk_${pkgGtkApiVersion}._2_10_0.engines" directory="${dirPlatform}/lib/gtk-${dirGtkApiVersion}/2.10.0/engines/">
+		<Clean />
+
 		<!-- GTK engines -->
 		<File resource="libpixmap.dll" />
 		<File resource="libsvg.dll" />
 		<File resource="libwimp.dll" />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.lib.gtk_2_0._2_10_0.loaders" directory="${tmp}/ossbuild/gstreamer/lib/gtk-2.0/2.10.0/loaders/">
+	<Extract package="${pkgPlatform}.lib.gtk_${pkgGtkApiVersion}._2_10_0.loaders" directory="${dirPlatform}/lib/gtk-${dirGtkApiVersion}/2.10.0/loaders/">
+		<Clean />
+		
 		<!-- GTK loaders -->
 		<File resource="svg_loader.dll" />
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.lib.gstreamer_0_10" directory="${tmp}/ossbuild/gstreamer/lib/gstreamer-0.10/">
+	<Extract package="${pkgPlatform}.lib.gstreamer_${pkgGstApiVersion}" directory="${dirPlatform}/lib/gstreamer-${dirGstApiVersion}/">
+		<Echo key="res.gst.extract.plugins" msg="Extracting GStreamer plugins..." />
+
+		<Clean />
 
 		<!-- Environment Variables -->
 
-		<EnvVar name="GST_PLUGIN_PATH" value="${tmp}/ossbuild/gstreamer/lib/gstreamer-0.10/" asFile="true" />
+		<EnvVar name="GST_PLUGIN_PATH" value="${dirPlatform}/lib/gstreamer-${dirGstApiVersion}/" asFile="true" />
 
 		<!-- LGPL Plugins -->
 
@@ -275,16 +312,19 @@
 
 	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.bin" directory="${tmp}/ossbuild/gstreamer/bin/">
+	<Extract package="${pkgPlatform}.bin" directory="${dirPlatform}/bin/">
+		<Echo key="res.gst.load.native.libraries" msg="Loading native libraries..." />
+
+		<Clean />
 
 		<!-- Ensure this directory exists -->
-		<MakeDirectory path="${tmp}/ossbuild/gstreamer/bin/" />
+		<MakeDirectory path="${dirPlatform}/bin/" />
 
 		<!-- Change the working directory while we load native libraries -->
-		<WorkingDirectory path="${tmp}/ossbuild/gstreamer/bin/" />
+		<WorkingDirectory path="${dirPlatform}/bin/" />
 
 		<!-- Change path so that our native libraries are found first -->
-		<EnvVar name="PATH" prepend="true" value="${tmp}/ossbuild/gstreamer/bin/" asFile="true" />
+		<EnvVar name="PATH" prepend="true" value="${dirPlatform}/bin/" asFile="true" />
 
 		<!-- LGPL Dependencies -->
 
@@ -372,36 +412,39 @@
 
 		<!-- GStreamer -->
 
-		<Library resource="libgstreamer-0.10.dll" />
-		<Library resource="libgstinterfaces-0.10.dll" />
-		<Library resource="libgstcontroller-0.10.dll" />
-		<Library resource="libgstdataprotocol-0.10.dll" />
-		<Library resource="libgstsdp-0.10.dll" />
-		<Library resource="libgstnet-0.10.dll" />
-		<Library resource="libgstnetbuffer-0.10.dll" />
-		<Library resource="libgstpbutils-0.10.dll" />
-		<Library resource="libgstfft-0.10.dll" />
-		<Library resource="libgstbase-0.10.dll" />
-		<Library resource="libgstapp-0.10.dll" />
-		<Library resource="libgstvideo-0.10.dll" />
-		<Library resource="libgstbasevideo-0.10.dll" />
-		<Library resource="libgstaudio-0.10.dll" />
-		<Library resource="libgsttag-0.10.dll" />
-		<Library resource="libgstriff-0.10.dll" />
-		<Library resource="libgstrtp-0.10.dll" />
-		<Library resource="libgstrtsp-0.10.dll" />
-		<Library resource="libgstcdda-0.10.dll" />
-		<Library resource="libgstsignalprocessor-0.10.dll" />
-		<Library resource="libgstphotography-0.10.dll" />
-		<Library resource="libgstgl-0.10.dll" />
-		<Library resource="libgstfarsight-0.10.dll" />
+		<Echo key="res.gst.load.gst.libraries" msg="Loading GStreamer libraries..." />
+
+		<Library resource="libgstreamer-${GstApiVersion}.dll" />
+		<Library resource="libgstinterfaces-${GstApiVersion}.dll" />
+		<Library resource="libgstcontroller-${GstApiVersion}.dll" />
+		<Library resource="libgstdataprotocol-${GstApiVersion}.dll" />
+		<Library resource="libgstsdp-${GstApiVersion}.dll" />
+		<Library resource="libgstnet-${GstApiVersion}.dll" />
+		<Library resource="libgstnetbuffer-${GstApiVersion}.dll" />
+		<Library resource="libgstpbutils-${GstApiVersion}.dll" />
+		<Library resource="libgstfft-${GstApiVersion}.dll" />
+		<Library resource="libgstbase-${GstApiVersion}.dll" />
+		<Library resource="libgstapp-${GstApiVersion}.dll" />
+		<Library resource="libgstvideo-${GstApiVersion}.dll" />
+		<Library resource="libgstbasevideo-${GstApiVersion}0.dll" />
+		<Library resource="libgstaudio-${GstApiVersion}.dll" />
+		<Library resource="libgsttag-${GstApiVersion}.dll" />
+		<Library resource="libgstriff-${GstApiVersion}.dll" />
+		<Library resource="libgstrtp-${GstApiVersion}.dll" />
+		<Library resource="libgstrtsp-${GstApiVersion}.dll" />
+		<Library resource="libgstcdda-${GstApiVersion}.dll" />
+		<Library resource="libgstsignalprocessor-${GstApiVersion}.dll" />
+		<Library resource="libgstphotography-${GstApiVersion}.dll" />
+		<Library resource="libgstgl-${GstApiVersion}.dll" />
+		<Library resource="libgstfarsight-${GstApiVersion}.dll" />
 
 		<!-- Reset the working directory -->
 		<WorkingDirectory path="${cwd}" />
 
 		<!-- Reset Environment Variables -->
 		<EnvVar name="PATH" value="${env_PATH}" />
-		
+
+		<Echo key="res.gst.complete" msg="GStreamer initialization complete" />
 	</Extract>
 
 </Resources>

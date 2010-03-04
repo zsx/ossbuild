@@ -13,6 +13,7 @@ import ossbuild.StringUtil;
 import ossbuild.extract.DefaultResourceProcessor;
 import ossbuild.extract.IResourcePackage;
 import ossbuild.extract.IResourceProgressListener;
+import ossbuild.extract.IVariableProcessor;
 import ossbuild.extract.ResourceProcessor;
 import ossbuild.extract.ResourceUtils;
 
@@ -52,7 +53,7 @@ public class LibraryProcessor extends DefaultResourceProcessor {
 	//</editor-fold>
 
 	@Override
-	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException {
+	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
 		this.size = ResourceUtils.sizeFromResource(fullResourceName);
 		
 		NodeList lst;
@@ -64,7 +65,7 @@ public class LibraryProcessor extends DefaultResourceProcessor {
 		//Iterate over every <SystemAttempt /> tag, extract its value, and
 		//then add it to our list.
 		for(int i = 0; i < lst.getLength() && (childNode = lst.item(i)) != null; ++i)
-			addSystemAttempt(childNode.getTextContent().trim());
+			addSystemAttempt(expandVariables(varproc, childNode.getTextContent().trim()));
 		return true;
 	}
 

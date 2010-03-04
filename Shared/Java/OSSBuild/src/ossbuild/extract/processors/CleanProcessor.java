@@ -9,11 +9,12 @@ import ossbuild.StringUtil;
 import ossbuild.extract.DefaultResourceProcessor;
 import ossbuild.extract.IResourcePackage;
 import ossbuild.extract.IResourceProgressListener;
+import ossbuild.extract.IVariableProcessor;
 import ossbuild.extract.ResourceProcessor;
 import ossbuild.extract.ResourceUtils;
 
 /**
- * Deletes every file/subdirectory from the provided directory.
+ * Removes all files in the current package or provided directory.
  * 
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
@@ -52,8 +53,8 @@ public class CleanProcessor extends DefaultResourceProcessor {
 	//</editor-fold>
 	
 	@Override
-	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException {
-		this.directory = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_DIRECTORY);
+	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
+		this.directory = stringAttributeValue(varproc, StringUtil.empty, node, ATTRIBUTE_DIRECTORY);
 		
 		return true;
 	}
@@ -69,7 +70,7 @@ public class CleanProcessor extends DefaultResourceProcessor {
 			return true;
 
 		try {
-			return ResourceUtils.deleteDirectory(d);
+			return ResourceUtils.cleanDirectory(d);
 		} catch(Throwable t) {
 			return false;
 		}

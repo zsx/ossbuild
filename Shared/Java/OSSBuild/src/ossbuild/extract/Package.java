@@ -38,8 +38,8 @@ public class Package implements IResourcePackage {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Initialization">
-	public Package(final ResourceProcessorFactory processorFactory, final Node node, final XPath xpath, final Document document) throws XPathException {
-		initForXML(processorFactory, node, xpath, document);
+	public Package(final ResourceProcessorFactory processorFactory, final IVariableProcessor variableProcessor, final Node node, final XPath xpath, final Document document) throws XPathException {
+		initForXML(processorFactory, variableProcessor, node, xpath, document);
 	}
 	
 	public Package(final String Name, final String Directory) {
@@ -62,16 +62,16 @@ public class Package implements IResourcePackage {
 
 	private void initVars(final String Name, final String Directory, final IResourceProcessor... Processors) {
 		init();
-		this.name = expandVariables(Name);
-		this.directory = expandVariables(Directory);
+		this.name = Name;
+		this.directory = Directory;
 		configure();
 		initProcessors(Processors);
 		initAfter();
 	}
 
-	private void initForXML(final ResourceProcessorFactory processorFactory, final Node node, final XPath xpath, final Document document) throws XPathException {
+	private void initForXML(final ResourceProcessorFactory processorFactory, final IVariableProcessor variableProcessor, final Node node, final XPath xpath, final Document document) throws XPathException {
 		init();
-		read(processorFactory, node, xpath, document);
+		read(processorFactory, variableProcessor, node, xpath, document);
 		initAfter();
 	}
 
@@ -86,34 +86,41 @@ public class Package implements IResourcePackage {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Getters">
+	@Override
 	public int getTotalResourceCount() {
 		return processors.size();
 	}
 	
+	@Override
 	public long getTotalSize() {
 		return totalSize;
 	}
 	
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String getDirectory() {
 		return directory;
 	}
 
+	@Override
 	public IResourceProcessor[] getResourceProcessors() {
 		return processors.toArray(new IResourceProcessor[processors.size()]);
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Iterable Methods">
+	@Override
 	public Iterator<IResourceProcessor> iterator() {
 		return processors.iterator();
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Visit">
+	@Override
 	public void visit(IVisitor visitor) {
 		if (visitor == null)
 			return;
@@ -124,6 +131,7 @@ public class Package implements IResourcePackage {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Helper Methods">
+	@Override
 	public void calculateTotals() {
 		totalSize = 0L;
 		
@@ -170,16 +178,19 @@ public class Package implements IResourcePackage {
 		return true;
 	}
 
+	@Override
 	public String resourcePath(final String ResourceName) {
 		if (StringUtil.isNullOrEmpty(ResourceName))
 			return StringUtil.empty;
 		return resourcePrefix + ResourceName;
 	}
 
+	@Override
 	public File filePath(final String FileName) {
 		return Path.combine(destDirectory, FileName);
 	}
 
+	@Override
 	public File filePath(final String SubDirectory, final String FileName) {
 		return Path.combine(Path.combine(destDirectory, SubDirectory), FileName);
 	}
@@ -187,8 +198,8 @@ public class Package implements IResourcePackage {
 
 	//<editor-fold defaultstate="collapsed" desc="Public Static Methods">
 	//<editor-fold defaultstate="collapsed" desc="newInstance">
-	public static Package newInstance(final ResourceProcessorFactory ProcessorFactory, final Node Node, final XPath XPath, final Document Document) throws XPathException {
-		return new Package(ProcessorFactory, Node, XPath, Document);
+	public static Package newInstance(final ResourceProcessorFactory ProcessorFactory, final IVariableProcessor VariableProcessor, final Node Node, final XPath XPath, final Document Document) throws XPathException {
+		return new Package(ProcessorFactory, VariableProcessor, Node, XPath, Document);
 	}
 
 	public static Package newInstance(final String PackageName, final File Directory) {
@@ -218,10 +229,14 @@ public class Package implements IResourcePackage {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="The Meat">
-	protected void read(final ResourceProcessorFactory processorFactory, final Node node, final XPath xpath, final Document document) throws XPathException  {
+	protected void read(final ResourceProcessorFactory processorFactory, final IVariableProcessor variableProcessor, final Node node, final XPath xpath, final Document document) throws XPathException  {
 		//Read attribute values in
-		this.name = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_PACKAGE);
-		this.directory = stringAttributeValue(StringUtil.empty, node, ATTRIBUTE_DIRECTORY);
+		this.name = stringAttributeValue(variableProcessor, StringUtil.empty, node, ATTRIBUTE_PACKAGE);
+		this.directory = stringAttributeValue(variableProcessor, StringUtil.empty, node, ATTRIBUTE_DIRECTORY);
+
+		//Set variables on a per-package basis
+		variableProcessor.saveVariable(VariableProcessorFactory.VAR_PKG, name);
+		variableProcessor.saveVariable(VariableProcessorFactory.VAR_DIR, new File(directory).getAbsolutePath());
 
 		configure();
 
@@ -236,7 +251,7 @@ public class Package implements IResourcePackage {
 		//create a resource processor, and then add it to our list.
 		for(int i = 0; i < lst.getLength() && (childNode = lst.item(i)) != null; ++i) {
 			if ((processor = processorFactory.createProcessor(childNode.getNodeName())) != null) {
-				if (processor.load(this, xpath, childNode))
+				if (processor.load(this, xpath, childNode, variableProcessor))
 					processors.add(processor);
 			}
 		}

@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 import ossbuild.extract.DefaultResourceProcessor;
 import ossbuild.extract.IResourcePackage;
 import ossbuild.extract.IResourceProgressListener;
+import ossbuild.extract.IVariableProcessor;
 import ossbuild.extract.ResourceProcessor;
 import ossbuild.extract.ResourceUtils;
 
@@ -29,7 +30,7 @@ public class FileProcessor extends DefaultResourceProcessor {
 	//</editor-fold>
 	
 	@Override
-	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node) throws XPathException {
+	protected boolean loadSettings(final String fullResourceName, final IResourcePackage pkg, final XPath xpath, final Node node, final IVariableProcessor varproc) throws XPathException {
 		this.size = ResourceUtils.sizeFromResource(fullResourceName);
 		return true;
 	}
