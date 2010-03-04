@@ -6,6 +6,9 @@
 
 <ResourceProcessors>
 	<Load class="ossbuild.extract.processors.FileProcessor" />
+	<Load class="ossbuild.extract.processors.CleanProcessor" />
 	<Load class="ossbuild.extract.processors.EnvVarProcessor" />
 	<Load class="ossbuild.extract.processors.LibraryProcessor" />
+	<Load class="ossbuild.extract.processors.MakeDirectoryProcessor" />
+	<Load class="ossbuild.extract.processors.WorkingDirectoryProcessor" />
 </ResourceProcessors>

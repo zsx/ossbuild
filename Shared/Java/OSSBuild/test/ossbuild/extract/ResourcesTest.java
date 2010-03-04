@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ossbuild.OS;
+import ossbuild.OSFamily;
 import ossbuild.Path;
 import ossbuild.Sys;
 import ossbuild.extract.processors.FileProcessor;
@@ -65,7 +66,7 @@ public class ResourcesTest {
 
 	@Test
 	public void testRead() {
-		assertTrue("This unit test requires Windows to complete", Sys.isOS(OS.Windows));
+		assertTrue("This unit test requires Windows to complete", Sys.isOSFamily(OSFamily.Windows));
 		
 		Resources r1 = Resources.newInstance(
 			Sys.createPlatformPackageResourcePrefix("resources.extraction") + "test.xml"
@@ -108,7 +109,7 @@ public class ResourcesTest {
 
 	@Test
 	public void testExtract() throws InterruptedException, ExecutionException {
-		assertNotNull(Sys.getPlatformName());
+		assertNotNull(Sys.createPlatformName());
 
 		final Resources r = Resources.newInstance(
 			Sys.createPlatformPackageResourceName("resources.extraction", "test.xml")

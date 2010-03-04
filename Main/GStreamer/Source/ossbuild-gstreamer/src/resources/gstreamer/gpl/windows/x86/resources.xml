@@ -2,10 +2,288 @@
 
 <Resources>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86" directory="${tmp}/ossbuild/gstreamer/bin/">
+	<Extract package="resources.gstreamer.gpl.windows.x86" directory="${tmp}/ossbuild/gstreamer/">
+		<!-- Delete the directory if it exists -->
+		<Clean directory="${tmp}/ossbuild/gstreamer/" title="Cleaning resource directory..." />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.etc.fonts" directory="${tmp}/ossbuild/gstreamer/etc/fonts/">
+		<!-- Fontconfig configuration -->
+		<File resource="fonts.conf" />
+		<File resource="fonts.dtd" />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.etc.fonts.conf_avail" directory="${tmp}/ossbuild/gstreamer/etc/fonts/conf.avail/">
+		<!-- Fontconfig configuration -->
+		<File resource="10-autohint.conf" />
+		<File resource="10-no-sub-pixel.conf" />
+		<File resource="10-sub-pixel-bgr.conf" />
+		<File resource="10-sub-pixel-rgb.conf" />
+		<File resource="10-sub-pixel-vbgr.conf" />
+		<File resource="10-sub-pixel-vrgb.conf" />
+		<File resource="10-unhinted.conf" />
+		<File resource="20-fix-globaladvance.conf" />
+		<File resource="20-unhint-small-vera.conf" />
+		<File resource="25-unhint-nonlatin.conf" />
+		<File resource="30-metric-aliases.conf" />
+		<File resource="30-urw-aliases.conf" />
+		<File resource="40-nonlatin.conf" />
+		<File resource="45-latin.conf" />
+		<File resource="49-sansserif.conf" />
+		<File resource="50-user.conf" />
+		<File resource="51-local.conf" />
+		<File resource="60-latin.conf" />
+		<File resource="65-fonts-persian.conf" />
+		<File resource="65-khmer.conf" />
+		<File resource="65-nonlatin.conf" />
+		<File resource="69-unifont.conf" />
+		<File resource="70-no-bitmaps.conf" />
+		<File resource="70-yes-bitmaps.conf" />
+		<File resource="80-delicious.conf" />
+		<File resource="90-synthetic.conf" />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.etc.fonts.conf_d" directory="${tmp}/ossbuild/gstreamer/etc/fonts/conf.d/">
+		<!-- Fontconfig configuration -->
+		<File resource="20-fix-globaladvance.conf" />
+		<File resource="20-unhint-small-vera.conf" />
+		<File resource="30-metric-aliases.conf" />
+		<File resource="30-urw-aliases.conf" />
+		<File resource="40-nonlatin.conf" />
+		<File resource="45-latin.conf" />
+		<File resource="49-sansserif.conf" />
+		<File resource="50-user.conf" />
+		<File resource="51-local.conf" />
+		<File resource="60-latin.conf" />
+		<File resource="65-fonts-persian.conf" />
+		<File resource="65-nonlatin.conf" />
+		<File resource="69-unifont.conf" />
+		<File resource="80-delicious.conf" />
+		<File resource="90-synthetic.conf" />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.etc.gtk_2_0" directory="${tmp}/ossbuild/gstreamer/etc/gtk-2.0/">
+		<!-- GTK keyboard configuration -->
+		<File resource="im-multipress.conf" />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.lib.farsight2_0_0" directory="${tmp}/ossbuild/gstreamer/lib/farsight2-0.0/">
+		<!-- Farsight/Farsight2 Transmitters -->
+		<File resource="libnice-transmitter.dll" />
+		<File resource="libmulticast-transmitter.dll" />
+		<File resource="librawudp-transmitter.dll" />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.lib.gtk_2_0.modules" directory="${tmp}/ossbuild/gstreamer/lib/gtk-2.0/modules/">
+		<!-- GTK modules -->
+		<File resource="libgail.dll" />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.lib.gtk_2_0._2_10_0.engines" directory="${tmp}/ossbuild/gstreamer/lib/gtk-2.0/2.10.0/engines/">
+		<!-- GTK engines -->
+		<File resource="libpixmap.dll" />
+		<File resource="libsvg.dll" />
+		<File resource="libwimp.dll" />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.lib.gtk_2_0._2_10_0.loaders" directory="${tmp}/ossbuild/gstreamer/lib/gtk-2.0/2.10.0/loaders/">
+		<!-- GTK loaders -->
+		<File resource="svg_loader.dll" />
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.lib.gstreamer_0_10" directory="${tmp}/ossbuild/gstreamer/lib/gstreamer-0.10/">
 
 		<!-- Environment Variables -->
 
+		<EnvVar name="GST_PLUGIN_PATH" value="${tmp}/ossbuild/gstreamer/lib/gstreamer-0.10/" asFile="true" />
+
+		<!-- LGPL Plugins -->
+
+		<File resource="libfsfunnel.dll" />
+		<File resource="libfsrtcpfilter.dll" />
+		<File resource="libfsrtpconference.dll" />
+		<File resource="libfsselector.dll" />
+		<File resource="libfsvideoanyrate.dll" />
+		<File resource="libgnl.dll" />
+		<File resource="libgstaacparse.dll" />
+		<File resource="libgstadder.dll" />
+		<File resource="libgstaiff.dll" />
+		<File resource="libgstalaw.dll" />
+		<File resource="libgstalpha.dll" />
+		<File resource="libgstalphacolor.dll" />
+		<File resource="libgstamrparse.dll" />
+		<File resource="libgstapetag.dll" />
+		<File resource="libgstapp.dll" />
+		<File resource="libgstasf.dll" />
+		<File resource="libgstasfmux.dll" />
+		<File resource="libgstaudioconvert.dll" />
+		<File resource="libgstaudiofx.dll" />
+		<File resource="libgstaudiorate.dll" />
+		<File resource="libgstaudioresample.dll" />
+		<File resource="libgstaudiotestsrc.dll" />
+		<File resource="libgstauparse.dll" />
+		<File resource="libgstautoconvert.dll" />
+		<File resource="libgstautodetect.dll" />
+		<File resource="libgstavi.dll" />
+		<File resource="libgstbayer.dll" />
+		<File resource="libgstbz2.dll" />
+		<File resource="libgstcairo.dll" />
+		<File resource="libgstcamerabin.dll" />
+		<File resource="libgstcdxaparse.dll" />
+		<File resource="libgstcelt.dll" />
+		<File resource="libgstcoreelements.dll" />
+		<File resource="libgstcoreindexers.dll" />
+		<File resource="libgstcutter.dll" />
+		<File resource="libgstdebug.dll" />
+		<File resource="libgstdecodebin.dll" />
+		<File resource="libgstdecodebin2.dll" />
+		<File resource="libgstdeinterlace.dll" />
+		<File resource="libgstdirectdraw.dll" />
+		<File resource="libgstdirectsound.dll" />
+		<File resource="libgstdirectsoundsrc.dll" />
+		<File resource="libgstdshowdecwrapper.dll" />
+		<File resource="libgstdshowsrcwrapper.dll" />
+		<File resource="libgstdshowvideosink.dll" />
+		<File resource="libgstdtmf.dll" />
+		<File resource="libgstdvdlpcmdec.dll" />
+		<File resource="libgstdvdspu.dll" />
+		<File resource="libgstdvdsub.dll" />
+		<File resource="libgsteffectv.dll" />
+		<File resource="libgstequalizer.dll" />
+		<File resource="libgstffmpegcolorspace.dll" />
+		<File resource="libgstflv.dll" />
+		<File resource="libgstflxdec.dll" />
+		<File resource="libgstfreeze.dll" />
+		<File resource="libgstfrei0r.dll" />
+		<File resource="libgstgamma.dll" />
+		<File resource="libgstgdkpixbuf.dll" />
+		<File resource="libgstgdp.dll" />
+		<File resource="libgstgio.dll" />
+		<File resource="libgsth264parse.dll" />
+		<File resource="libgsthdvparse.dll" />
+		<File resource="libgsticydemux.dll" />
+		<File resource="libgstid3demux.dll" />
+		<File resource="libgstiec958.dll" />
+		<File resource="libgstinterleave.dll" />
+		<File resource="libgstjpeg.dll" />
+		<File resource="libgstlegacyresample.dll" />
+		<File resource="libgstlevel.dll" />
+		<File resource="libgstliveadder.dll" />
+		<File resource="libgstmatroska.dll" />
+		<File resource="libgstmms.dll" />
+		<File resource="libgstmonoscope.dll" />
+		<File resource="libgstmpeg4videoparse.dll" />
+		<File resource="libgstmpegaudioparse.dll" />
+		<File resource="libgstmpegdemux.dll" />
+		<File resource="libgstmpegpsmux.dll" />
+		<File resource="libgstmpegstream.dll" />
+		<File resource="libgstmpegtsmux.dll" />
+		<File resource="libgstmpegvideoparse.dll" />
+		<File resource="libgstmulaw.dll" />
+		<File resource="libgstmultifile.dll" />
+		<File resource="libgstmultipart.dll" />
+		<File resource="libgstmve.dll" />
+		<File resource="libgstmxf.dll" />
+		<File resource="libgstnavigationtest.dll" />
+		<File resource="libgstneonhttpsrc.dll" />
+		<File resource="libgstnetsim.dll" />
+		<File resource="libgstnice.dll" />
+		<File resource="libgstnuvdemux.dll" />
+		<File resource="libgstogg.dll" />
+		<File resource="libgstopengl.dll" />
+		<File resource="libgstpango.dll" />
+		<File resource="libgstpcapparse.dll" />
+		<File resource="libgstplaybin.dll" />
+		<File resource="libgstpng.dll" />
+		<File resource="libgstpnm.dll" />
+		<File resource="libgstpython-v2.5.dll" />
+		<File resource="libgstpython-v2.6.dll" />
+		<File resource="libgstqtdemux.dll" />
+		<File resource="libgstqtmux.dll" />
+		<File resource="libgstrawparse.dll" />
+		<File resource="libgstreal.dll" />
+		<File resource="libgstreplaygain.dll" />
+		<File resource="libgstrmdemux.dll" />
+		<File resource="libgstrsvg.dll" />
+		<File resource="libgstrtp.dll" />
+		<File resource="libgstrtpdemux.dll" />
+		<File resource="libgstrtpjitterbuffer.dll" />
+		<File resource="libgstrtpmanager.dll" />
+		<File resource="libgstrtpmux.dll" />
+		<File resource="libgstrtppayloads.dll" />
+		<File resource="libgstrtsp.dll" />
+		<File resource="libgstscaletempoplugin.dll" />
+		<File resource="libgstschro.dll" />
+		<File resource="libgstsdl.dll" />
+		<File resource="libgstsdpelem.dll" />
+		<File resource="libgstselector.dll" />
+		<File resource="libgstshapewipe.dll" />
+		<File resource="libgstsiren.dll" />
+		<File resource="libgstsmpte.dll" />
+		<File resource="libgstsouphttpsrc.dll" />
+		<File resource="libgstspectrum.dll" />
+		<File resource="libgstspeed.dll" />
+		<File resource="libgstspeex.dll" />
+		<File resource="libgststereo.dll" />
+		<File resource="libgstsubenc.dll" />
+		<File resource="libgstsubparse.dll" />
+		<File resource="libgstsynaesthesia.dll" />
+		<File resource="libgsttheora.dll" />
+		<File resource="libgsttta.dll" />
+		<File resource="libgsttypefindfunctions.dll" />
+		<File resource="libgstudp.dll" />
+		<File resource="libgstvalve.dll" />
+		<File resource="libgstvideobalance.dll" />
+		<File resource="libgstvideobox.dll" />
+		<File resource="libgstvideocrop.dll" />
+		<File resource="libgstvideoflip.dll" />
+		<File resource="libgstvideomeasure.dll" />
+		<File resource="libgstvideomixer.dll" />
+		<File resource="libgstvideorate.dll" />
+		<File resource="libgstvideoscale.dll" />
+		<File resource="libgstvideosignal.dll" />
+		<File resource="libgstvideotestsrc.dll" />
+		<File resource="libgstvmnc.dll" />
+		<File resource="libgstvolume.dll" />
+		<File resource="libgstvorbis.dll" />
+		<File resource="libgstwasapi.dll" />
+		<File resource="libgstwaveenc.dll" />
+		<File resource="libgstwaveformsink.dll" />
+		<File resource="libgstwavpack.dll" />
+		<File resource="libgstwavparse.dll" />
+		<File resource="libgstwininet.dll" />
+		<File resource="libgstwinks.dll" />
+		<File resource="libgstwinscreencap.dll" />
+		<File resource="libgsty4menc.dll" />
+		<!-- File resource="libgstffmpeg-lgpl.dll" />
+		<File resource="libgstffmpegscale-lgpl.dll" / -->
+
+		<!-- GPL Plugins -->
+
+		<File resource="libgstdtsdec.dll" />
+		<File resource="libgstfaac.dll" />
+		<File resource="libgstfaad.dll" />
+		<File resource="libresindvd.dll" />
+		<File resource="libgstxvid.dll" />
+		<File resource="libgsta52dec.dll" />
+		<File resource="libgstdvdread.dll" />
+		<File resource="libgstlame.dll" />
+		<File resource="libgstmpeg2dec.dll" />
+		<File resource="libgstx264.dll" />
+		<File resource="libgstffmpeg-gpl.dll" />
+		<File resource="libgstffmpegscale-gpl.dll" />
+
+	</Extract>
+
+	<Extract package="resources.gstreamer.gpl.windows.x86.bin" directory="${tmp}/ossbuild/gstreamer/bin/">
+
+		<!-- Ensure this directory exists -->
+		<MakeDirectory path="${tmp}/ossbuild/gstreamer/bin/" />
+
+		<!-- Change the working directory while we load native libraries -->
+		<WorkingDirectory path="${tmp}/ossbuild/gstreamer/bin/" />
+
+		<!-- Change path so that our native libraries are found first -->
 		<EnvVar name="PATH" prepend="true" value="${tmp}/ossbuild/gstreamer/bin/" asFile="true" />
 
 		<!-- LGPL Dependencies -->
@@ -77,7 +355,6 @@
 		<Library resource="avdevice-gpl-52.dll" />
 		<Library resource="swscale-gpl-0.dll" />
 		<Library resource="avfilter-gpl-1.dll" />
-		
 		<Library resource="libmp3lame-0.dll" />
 		<Library resource="libx264-67.dll" />
 		<Library resource="xvidcore.dll" />
@@ -92,193 +369,7 @@
 		<Library resource="libdvdnav-4.dll" />
 		<Library resource="libdvdnavmini-4.dll" />
 		<Library resource="libdvdcss-2.dll" />
-		
-	</Extract>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86.farsight2" directory="${tmp}/ossbuild/gstreamer/lib/farsight2-0.0/">
-
-		<!-- Farsight/Farsight2 Transmitters -->
-
-		<File resource="libgstnice-transmitter.dll" />
-		<File resource="libmulticast-transmitter.dll" />
-		<File resource="librawudp-transmitter.dll" />
-		
-	</Extract>
-
-	<Extract package="resources.gstreamer.gpl.windows.x86.plugins" directory="${tmp}/ossbuild/gstreamer/lib/gstreamer-0.10/">
-
-		<!-- Environment Variables -->
-
-		<EnvVar name="GST_PLUGIN_PATH" value="${tmp}/ossbuild/gstreamer/lib/gstreamer-0.10/" asFile="true" />
-
-		<!-- LGPL Plugins -->
-		
-		<File resource="libfsfunnel.dll" />
-		<File resource="libfsrtcpfilter.dll" />
-		<File resource="libfsrtpconference.dll" />
-		<File resource="libfsvideoanyrate.dll" />
-		<File resource="libgnl.dll" />
-		<File resource="libgstaacparse.dll" />
-		<File resource="libgstadder.dll" />
-		<File resource="libgstaiff.dll" />
-		<File resource="libgstalaw.dll" />
-		<File resource="libgstalpha.dll" />
-		<File resource="libgstamrparse.dll" />
-		<File resource="libgstapetag.dll" />
-		<File resource="libgstappplugin.dll" />
-		<File resource="libgstasfdemux.dll" />
-		<File resource="libgstasfmux.dll" />
-		<File resource="libgstaudioconvert.dll" />
-		<File resource="libgstaudiofx.dll" />
-		<File resource="libgstaudiorate.dll" />
-		<File resource="libgstaudioresample.dll" />
-		<File resource="libgstaudiotestsrc.dll" />
-		<File resource="libgstauparse.dll" />
-		<File resource="libgstautoconvert.dll" />
-		<File resource="libgstautodetect.dll" />
-		<File resource="libgstavi.dll" />
-		<File resource="libgstbayer.dll" />
-		<File resource="libgstcairo.dll" />
-		<File resource="libgstcamerabin.dll" />
-		<File resource="libgstcdxaparse.dll" />
-		<File resource="libgstcelt.dll" />
-		<File resource="libgstcoreelements.dll" />
-		<File resource="libgstcutter.dll" />
-		<File resource="libgstdebug.dll" />
-		<File resource="libgstdecodebin.dll" />
-		<File resource="libgstdecodebin2.dll" />
-		<File resource="libgstdeinterlace.dll" />
-		<File resource="libgstdirectdraw.dll" />
-		<File resource="libgstdirectsound.dll" />
-		<File resource="libgstdirectsoundsrc.dll" />
-		<File resource="libgstdshowdecwrapper.dll" />
-		<File resource="libgstdshowsrcwrapper.dll" />
-		<File resource="libgstdshowvideosink.dll" />
-		<File resource="libgstdtmf.dll" />
-		<File resource="libgstdvdlpcmdec.dll" />
-		<File resource="libgstdvdspu.dll" />
-		<File resource="libgstdvdsub.dll" />
-		<File resource="libgsteffectv.dll" />
-		<File resource="libgstequalizer.dll" />
-		<File resource="libgstffmpeg-gpl.dll" />
-		<File resource="libgstffmpegcolorspace.dll" />
-		<File resource="libgstflv.dll" />
-		<File resource="libgstflx.dll" />
-		<File resource="libgstfreeze.dll" />
-		<File resource="libgstfrei0r.dll" />
-		<File resource="libgstfsselector.dll" />
-		<File resource="libgstgdkpixbuf.dll" />
-		<File resource="libgstgdp.dll" />
-		<File resource="libgstgio.dll" />
-		<File resource="libgsth264parse.dll" />
-		<File resource="libgsticydemux.dll" />
-		<File resource="libgstid3demux.dll" />
-		<File resource="libgstiec958.dll" />
-		<File resource="libgstinterleave.dll" />
-		<File resource="libgstjpeg.dll" />
-		<File resource="libgstlegacyresample.dll" />
-		<File resource="libgstlevel.dll" />
-		<File resource="libgstlibmms.dll" />
-		<File resource="libgstliveadder.dll" />
-		<File resource="libgstmatroska.dll" />
-		<File resource="libgstmonoscope.dll" />
-		<File resource="libgstmpeg4videoparse.dll" />
-		<File resource="libgstmpegaudioparse.dll" />
-		<File resource="libgstmpegdemux.dll" />
-		<File resource="libgstmpegpsmux.dll" />
-		<File resource="libgstmpegstream.dll" />
-		<File resource="libgstmpegtsmux.dll" />
-		<File resource="libgstmpegvideoparse.dll" />
-		<File resource="libgstmulaw.dll" />
-		<File resource="libgstmultifile.dll" />
-		<File resource="libgstmultipart.dll" />
-		<File resource="libgstmve.dll" />
-		<File resource="libgstmxf.dll" />
-		<File resource="libgstneon.dll" />
-		<File resource="libgstnice.dll" />
-		<File resource="libgstnuvdemux.dll" />
-		<File resource="libgstogg.dll" />
-		<File resource="libgstopengl.dll" />
-		<File resource="libgstpango.dll" />
-		<File resource="libgstpcapparse.dll" />
-		<File resource="libgstplaybin.dll" />
-		<File resource="libgstpng.dll" />
-		<File resource="libgstpnm.dll" />
-		<File resource="libgstqtdemux.dll" />
-		<File resource="libgstqtmux.dll" />
-		<File resource="libgstrawparse.dll" />
-		<File resource="libgstreal.dll" />
-		<File resource="libgstrealmedia.dll" />
-		<File resource="libgstreplaygain.dll" />
-		<File resource="libgstrsvg.dll" />
-		<File resource="libgstrtpjitterbuffer.dll" />
-		<File resource="libgstrtpmanager.dll" />
-		<File resource="libgstrtpmux.dll" />
-		<File resource="libgstrtpnetsim.dll" />
-		<File resource="libgstrtppayloads.dll" />
-		<File resource="libgstrtprtpdemux.dll" />
-		<File resource="libgstrtp_good.dll" />
-		<File resource="libgstrtsp_good.dll" />
-		<File resource="libgstscaletempo.dll" />
-		<File resource="libgstschroedinger.dll" />
-		<File resource="libgstsdl.dll" />
-		<File resource="libgstsdpplugin.dll" />
-		<File resource="libgstselector.dll" />
-		<File resource="libgstsiren.dll" />
-		<File resource="libgstsmpte.dll" />
-		<File resource="libgstsoup.dll" />
-		<File resource="libgstspectrum.dll" />
-		<File resource="libgstspeed.dll" />
-		<File resource="libgststereo.dll" />
-		<File resource="libgstsubenc.dll" />
-		<File resource="libgstsubparse.dll" />
-		<File resource="libgstsynaesthesia.dll" />
-		<File resource="libgsttheora.dll" />
-		<File resource="libgsttta.dll" />
-		<File resource="libgsttypefindfunctions.dll" />
-		<File resource="libgstudp.dll" />
-		<File resource="libgstvalve.dll" />
-		<File resource="libgstvideobox.dll" />
-		<File resource="libgstvideocrop.dll" />
-		<File resource="libgstvideofilterbalance.dll" />
-		<File resource="libgstvideofilterflip.dll" />
-		<File resource="libgstvideofiltergamma.dll" />
-		<File resource="libgstvideomeasure.dll" />
-		<File resource="libgstvideomixer.dll" />
-		<File resource="libgstvideorate.dll" />
-		<File resource="libgstvideoscale.dll" />
-		<File resource="libgstvideosignal.dll" />
-		<File resource="libgstvideotestsrc.dll" />
-		<File resource="libgstvmnc.dll" />
-		<File resource="libgstvolume.dll" />
-		<File resource="libgstvorbis.dll" />
-		<File resource="libgstwasapi.dll" />
-		<File resource="libgstwaveenc.dll" />
-		<File resource="libgstwaveform.dll" />
-		<File resource="libgstwavpack.dll" />
-		<File resource="libgstwavparse.dll" />
-		<File resource="libgstwininet.dll" />
-		<File resource="libgstwinks.dll" />
-		<File resource="libgstwinscreencap.dll" />
-		<File resource="libgsty4m.dll" />
-
-		<!-- GPL Plugins -->
-
-		<File resource="libgstdts.dll" />
-		<File resource="libgstfaac.dll" />
-		<File resource="libgstfaad.dll" />
-		<File resource="libgstresindvd.dll" />
-		<File resource="libgstxvid.dll" />
-		<File resource="libgsta52dec.dll" />
-		<File resource="libgstdvdread.dll" />
-		<File resource="libgstlame.dll" />
-		<File resource="libgstmpeg2dec.dll" />
-		<File resource="libgstx264.dll" />
-
-	</Extract>
-
-	<Extract package="resources.gstreamer.gpl.windows.x86" directory="${tmp}/ossbuild/gstreamer/bin/">
-		
 		<!-- GStreamer -->
 
 		<Library resource="libgstreamer-0.10.dll" />
@@ -305,6 +396,12 @@
 		<Library resource="libgstgl-0.10.dll" />
 		<Library resource="libgstfarsight-0.10.dll" />
 
+		<!-- Reset the working directory -->
+		<WorkingDirectory path="${cwd}" />
+
+		<!-- Reset Environment Variables -->
+		<EnvVar name="PATH" value="${env_PATH}" />
+		
 	</Extract>
 
 </Resources>

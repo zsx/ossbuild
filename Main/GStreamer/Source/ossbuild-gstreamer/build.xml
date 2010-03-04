@@ -12,6 +12,14 @@
     <import file="nbproject/build-impl.xml"/>
 
 	<target name="-post-init">
+		<property name="gst-api-version" value="0.10" />
+		<property name="gtk-api-version" value="2.0" />
+		<property name="fs-api-version" value="0.0" />
+
+		<property name="pkg-gst-api-version" value="0_10" />
+		<property name="pkg-gtk-api-version" value="2_0" />
+		<property name="pkg-fs-api-version" value="0_0" />
+		
 		<property name="top.dir" location="../../../.." />
 		<property name="top.build.dir" location="${top.dir}/Build" />
 		<property name="top.shared.dir" location="${top.dir}/Shared/Build" />
@@ -56,31 +64,46 @@
 		<property name="shared.etc.dir" location="${shared.platform.dir}/etc" />
 
 		<property name="src.java.gpl.platform.dir" location="${build.classes.dir}/resources/gstreamer/gpl/${os}/${arch}" />
-		<property name="src.java.gpl.platform.plugins.dir" location="${src.java.gpl.platform.dir}/plugins" />
-		<property name="src.java.gpl.platform.farsight2.dir" location="${src.java.gpl.platform.dir}/farsight2" />
+		<property name="src.java.gpl.platform.bin.dir" location="${src.java.gpl.platform.dir}/bin" />
+		<property name="src.java.gpl.platform.lib.dir" location="${src.java.gpl.platform.dir}/lib" />
+		<property name="src.java.gpl.platform.etc.dir" location="${src.java.gpl.platform.dir}/etc" />
+		<property name="src.java.gpl.platform.share.dir" location="${src.java.gpl.platform.dir}/share" />
+
 		<property name="src.java.lgpl.platform.dir" location="${build.classes.dir}/resources/gstreamer/lgpl/${os}/${arch}" />
-		<property name="src.java.lgpl.platform.plugins.dir" location="${src.java.lgpl.platform.dir}/plugins" />
-		<property name="src.java.lgpl.platform.farsight2.dir" location="${src.java.lgpl.platform.dir}/farsight2" />
+		<property name="src.java.lgpl.platform.bin.dir" location="${src.java.lgpl.platform.dir}/bin" />
+		<property name="src.java.lgpl.platform.lib.dir" location="${src.java.lgpl.platform.dir}/lib" />
+		<property name="src.java.lgpl.platform.etc.dir" location="${src.java.lgpl.platform.dir}/etc" />
+		<property name="src.java.lgpl.platform.share.dir" location="${src.java.lgpl.platform.dir}/share" />
 
 		<property name="build.java.gpl.dir" location="${build.platform.dir}/java/gpl" />
 		<property name="build.java.lgpl.dir" location="${build.platform.dir}/java/lgpl" />
 
 		<property name="build.java.gpl.platform.dir" location="${build.java.gpl.dir}/resources/gstreamer/gpl/${os}/${arch}" />
-		<property name="build.java.gpl.platform.plugins.dir" location="${build.java.gpl.platform.dir}/plugins" />
-		<property name="build.java.gpl.platform.farsight2.dir" location="${build.java.gpl.platform.dir}/farsight2" />
+		<property name="build.java.gpl.platform.bin.dir" location="${build.java.gpl.platform.dir}/bin" />
+		<property name="build.java.gpl.platform.lib.dir" location="${build.java.gpl.platform.dir}/lib" />
+		<property name="build.java.gpl.platform.etc.dir" location="${build.java.gpl.platform.dir}/etc" />
+		<property name="build.java.gpl.platform.share.dir" location="${build.java.gpl.platform.dir}/share" />
+
 		<property name="build.java.lgpl.platform.dir" location="${build.java.lgpl.dir}/resources/gstreamer/lgpl/${os}/${arch}" />
-		<property name="build.java.lgpl.platform.plugins.dir" location="${build.java.lgpl.platform.dir}/plugins" />
-		<property name="build.java.lgpl.platform.farsight2.dir" location="${build.java.lgpl.platform.dir}/farsight2" />
+		<property name="build.java.lgpl.platform.bin.dir" location="${build.java.lgpl.platform.dir}/bin" />
+		<property name="build.java.lgpl.platform.lib.dir" location="${build.java.lgpl.platform.dir}/lib" />
+		<property name="build.java.lgpl.platform.etc.dir" location="${build.java.lgpl.platform.dir}/etc" />
+		<property name="build.java.lgpl.platform.share.dir" location="${build.java.lgpl.platform.dir}/share" />
 
 		<delete failonerror="false" quiet="true" dir="${build.java.gpl.dir}" />
 		<delete failonerror="false" quiet="true" dir="${build.java.lgpl.dir}" />
 
 		<mkdir dir="${build.java.gpl.platform.dir}" />
-		<mkdir dir="${build.java.gpl.platform.plugins.dir}" />
-		<mkdir dir="${build.java.gpl.platform.farsight2.dir}" />
+		<mkdir dir="${build.java.gpl.platform.bin.dir}" />
+		<mkdir dir="${build.java.gpl.platform.lib.dir}" />
+		<mkdir dir="${build.java.gpl.platform.etc.dir}" />
+		<mkdir dir="${build.java.gpl.platform.share.dir}" />
+		
 		<mkdir dir="${build.java.lgpl.platform.dir}" />
-		<mkdir dir="${build.java.lgpl.platform.plugins.dir}" />
-		<mkdir dir="${build.java.lgpl.platform.farsight2.dir}" />
+		<mkdir dir="${build.java.lgpl.platform.bin.dir}" />
+		<mkdir dir="${build.java.lgpl.platform.lib.dir}" />
+		<mkdir dir="${build.java.lgpl.platform.etc.dir}" />
+		<mkdir dir="${build.java.lgpl.platform.shared.dir}" />
 
 		<property name="platform.dir" location="${top.deployment.dir}/${os}/${arch}/Java/" />
 		<property name="platform.gpl.jar.name" value="ossbuild-gstreamer-${os}-${arch}-gpl.jar" />
@@ -105,86 +128,237 @@
 		
 		<!-- Create GPL jar -->
 		<copy todir="${build.java.gpl.platform.dir}">
-			<fileset dir="${src.java.gpl.platform.dir}">
+			<fileset dir="${src.java.gpl.platform.dir}" erroronmissingdir="false">
 				<include name="**/*.xml" />
 			</fileset>
-			<fileset dir="${shared.bin.dir}">
-				<include name="**/*.dll" />
-				<exclude name="**/*-lgpl*" />
+		</copy>
+
+		<copy todir="${build.java.gpl.platform.bin.dir}">
+			<fileset dir="${shared.bin.dir}" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+				<exclude name="*-lgpl*" />
+				<exclude name="*sharp*" />
 			</fileset>
-			<fileset dir="${build.bin.dir}">
-				<include name="**/*.dll" />
-				<exclude name="**/*-lgpl*" />
-				<exclude name="**/*sharp*" />
+			<fileset dir="${build.bin.dir}" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+				<exclude name="*-lgpl*" />
+				<exclude name="*sharp*" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build.java.gpl.platform.plugins.dir}">
-			<fileset dir="${build.bin.dir}/plugins/">
-				<include name="**/*.dll" />
-				<exclude name="**/*-lgpl*" />
+		<mkdir dir="${build.java.gpl.platform.lib.dir}/gstreamer_${pkg-gst-api-version}/" />
+		<copy todir="${build.java.gpl.platform.lib.dir}/gstreamer_${pkg-gst-api-version}/">
+			<fileset dir="${shared.lib.dir}/gstreamer-${gst-api-version}/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+				<exclude name="*-lgpl*" />
+			</fileset>
+			<fileset dir="${build.bin.dir}/plugins/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+				<exclude name="*-lgpl*" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build.java.gpl.platform.farsight2.dir}">
-			<fileset dir="${build.lib.dir}/farsight2-0.0/">
-				<include name="**/*.dll" />
+		<mkdir dir="${build.java.gpl.platform.lib.dir}/farsight2_${pkg-fs-api-version}/" />
+		<copy todir="${build.java.gpl.platform.lib.dir}/farsight2_${pkg-fs-api-version}/">
+			<fileset dir="${shared.lib.dir}/farsight2-${fs-api-version}/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+			<fileset dir="${build.lib.dir}/farsight2-${fs-api-version}/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.etc.dir}/fonts/" />
+		<copy todir="${build.java.gpl.platform.etc.dir}/fonts/">
+			<fileset dir="${shared.etc.dir}/fonts/">
+				<include name="*.conf" />
+				<include name="*.dtd" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.etc.dir}/fonts/conf_avail/" />
+		<copy todir="${build.java.gpl.platform.etc.dir}/fonts/conf_avail/">
+			<fileset dir="${shared.etc.dir}/fonts/conf.avail/">
+				<include name="*.conf" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.etc.dir}/fonts/conf_d/" />
+		<copy todir="${build.java.gpl.platform.etc.dir}/fonts/conf_d/">
+			<fileset dir="${shared.etc.dir}/fonts/conf.d/">
+				<include name="*.conf" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.etc.dir}/gtk_${pkg-gtk-api-version}/" />
+		<copy todir="${build.java.gpl.platform.etc.dir}/gtk_${pkg-gtk-api-version}/">
+			<fileset dir="${shared.etc.dir}/gtk-${gtk-api-version}/">
+				<include name="im-multipress.conf" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/modules/" />
+		<copy todir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/modules/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/modules/">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/engines/" />
+		<copy todir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/engines/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/engines/">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/loaders/" />
+		<copy todir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/loaders/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/loaders/">
+				<include name="*.dll" />
+				<include name="*.so" />
 			</fileset>
 		</copy>
 		
 		<jar compress="true" destfile="${platform.gpl.jar}" basedir="${build.java.gpl.dir}" />
 
+
 		<!-- Create LGPL jar -->
+		
 		<copy todir="${build.java.lgpl.platform.dir}">
 			<fileset dir="${src.java.lgpl.platform.dir}">
 				<include name="**/*.xml" />
 			</fileset>
-			<fileset dir="${shared.bin.dir}">
-				<include name="**/*.dll" />
-				<exclude name="**/*-gpl*" />
-				<exclude name="**/*x264*" />
-				<exclude name="**/*xvidcore*" />
-				<exclude name="**/*a52*" />
-				<exclude name="**/*mpeg2*" />
-				<exclude name="**/*dca*" />
-				<exclude name="**/*faac*" />
-				<exclude name="**/*faad*" />
-				<exclude name="**/*dvdread*" />
-				<exclude name="**/*dvdnav*" />
-				<exclude name="**/*dvdcss*" />
+		</copy>
+
+		<copy todir="${build.java.lgpl.platform.bin.dir}">
+			<fileset dir="${shared.bin.dir}" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+				<exclude name="*-gpl*" />
+				<exclude name="*sharp*" />
+				<exclude name="*x264*" />
+				<exclude name="*xvidcore*" />
+				<exclude name="*a52*" />
+				<exclude name="*mpeg2*" />
+				<exclude name="*dca*" />
+				<exclude name="*faac*" />
+				<exclude name="*faad*" />
+				<exclude name="*dvdread*" />
+				<exclude name="*dvdnav*" />
+				<exclude name="*dvdcss*" />
 			</fileset>
-			<fileset dir="${build.bin.dir}">
-				<include name="**/*.dll" />
-				<exclude name="**/*-gpl*" />
-				<exclude name="**/*sharp*" />
+			<fileset dir="${build.bin.dir}" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+				<exclude name="*-gpl*" />
+				<exclude name="*sharp*" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build.java.lgpl.platform.plugins.dir}">
-			<fileset dir="${build.bin.dir}/plugins/">
-				<include name="**/*.dll" />
-				<exclude name="**/*-lgpl*" />
-				<exclude name="**/*gstdts*" />
-				<exclude name="**/*gstfaac*" />
-				<exclude name="**/*gstfaad*" />
-				<exclude name="**/*gstresindvd*" />
-				<exclude name="**/*gstxvid*" />
-				<exclude name="**/*gsta52dec*" />
-				<exclude name="**/*gstdvdread*" />
-				<exclude name="**/*gstlame*" />
-				<exclude name="**/*gstmpeg2dec*" />
-				<exclude name="**/*gstx264*" />
+		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gstreamer_${pkg-gst-api-version}/" />
+		<copy todir="${build.java.lgpl.platform.lib.dir}/gstreamer_${pkg-gst-api-version}/">
+			<fileset dir="${shared.lib.dir}/gstreamer-${gst-api-version}/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+				<exclude name="*-gpl*" />
+				<exclude name="*gstdts*" />
+				<exclude name="*gstfaac*" />
+				<exclude name="*gstfaad*" />
+				<exclude name="*gstresindvd*" />
+				<exclude name="*gstxvid*" />
+				<exclude name="*gsta52dec*" />
+				<exclude name="*gstdvdread*" />
+				<exclude name="*gstlame*" />
+				<exclude name="*gstmpeg2dec*" />
+				<exclude name="*gstx264*" />
+			</fileset>
+			<fileset dir="${build.bin.dir}/plugins/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+				<exclude name="*-gpl*" />
+				<exclude name="*gstdts*" />
+				<exclude name="*gstfaac*" />
+				<exclude name="*gstfaad*" />
+				<exclude name="*gstresindvd*" />
+				<exclude name="*gstxvid*" />
+				<exclude name="*gsta52dec*" />
+				<exclude name="*gstdvdread*" />
+				<exclude name="*gstlame*" />
+				<exclude name="*gstmpeg2dec*" />
+				<exclude name="*gstx264*" />
 			</fileset>
 		</copy>
 
-		<copy todir="${build.java.lgpl.platform.farsight2.dir}">
-			<fileset dir="${build.lib.dir}/farsight2-0.0/">
-				<include name="**/*.dll" />
+		<mkdir dir="${build.java.lgpl.platform.lib.dir}/farsight2_${pkg-fs-api-version}/" />
+		<copy todir="${build.java.lgpl.platform.lib.dir}/farsight2_${pkg-fs-api-version}/">
+			<fileset dir="${build.lib.dir}/farsight2-${fs-api-version}/">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.etc.dir}/fonts/" />
+		<copy todir="${build.java.lgpl.platform.etc.dir}/fonts/">
+			<fileset dir="${shared.etc.dir}/fonts/">
+				<include name="*.conf" />
+				<include name="*.dtd" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.etc.dir}/fonts/conf_avail/" />
+		<copy todir="${build.java.lgpl.platform.etc.dir}/fonts/conf_avail/">
+			<fileset dir="${shared.etc.dir}/fonts/conf.avail/">
+				<include name="*.conf" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.etc.dir}/fonts/conf_d/" />
+		<copy todir="${build.java.lgpl.platform.etc.dir}/fonts/conf_d/">
+			<fileset dir="${shared.etc.dir}/fonts/conf.d/">
+				<include name="*.conf" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.etc.dir}/gtk_${pkg-gtk-api-version}/" />
+		<copy todir="${build.java.lgpl.platform.etc.dir}/gtk_${pkg-gtk-api-version}/">
+			<fileset dir="${shared.etc.dir}/gtk-${gtk-api-version}/">
+				<include name="im-multipress.conf" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/modules/" />
+		<copy todir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/modules/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/modules/">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/engines/" />
+		<copy todir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/engines/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/engines/">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/loaders/" />
+		<copy todir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/loaders/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/loaders/">
+				<include name="*.dll" />
+				<include name="*.so" />
 			</fileset>
 		</copy>
 
 		<jar compress="true" destfile="${platform.lgpl.jar}" basedir="${build.java.lgpl.dir}" />
-
 	</target>
 
     <!--

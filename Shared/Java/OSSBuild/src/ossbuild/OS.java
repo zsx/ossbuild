@@ -7,51 +7,50 @@ package ossbuild;
  * @author David Hoyt <dhoyt@hoytsoft.org>
  */
 public enum OS {
-	   Unknown(
-		  StringUtil.empty
-	), Windows(
-		  "windows"
+	  Unknown        (OSFamily.Unknown, StringUtil.empty)
 
-		, "Windows 95"
-		, "Windows 98"
-		, "Windows Me"
-		, "Windows NT"
-		, "Windows 2000"
-		, "Windows XP"
-		, "Windows 2003"
-		, "Windows 2008"
-		, "Windows Vista"
-		, "Windows 7"
-		, "Windows CE"
-		, "OS/2"
-	), Mac(
-		  "osx"
+	, Windows95      (OSFamily.Windows, "windows_95",    "Windows 95")
+	, Windows98      (OSFamily.Windows, "windows_98",    "Windows 98")
+	, WindowsMe      (OSFamily.Windows, "windows_me",    "Windows Me")
+	, WindowsNT      (OSFamily.Windows, "windows_nt",    "Windows NT")
+	, Windows2000    (OSFamily.Windows, "windows_2000",  "Windows 2000")
+	, WindowsXP      (OSFamily.Windows, "windows_xp",    "Windows XP")
+	, Windows2003    (OSFamily.Windows, "windows_2003",  "Windows 2003")
+	, Windows2008    (OSFamily.Windows, "windows_2008",  "Windows 2008")
+	, WindowsVista   (OSFamily.Windows, "windows_vista", "Windows Vista")
+	, Windows7       (OSFamily.Windows, "windows_7",     "Windows 7")
+	, Windows8       (OSFamily.Windows, "windows_8",     "Windows 8")
+	, Windows9       (OSFamily.Windows, "windows_9",     "Windows 9")
+	, WindowsCE      (OSFamily.Windows, "windows_ce",    "Windows CE")
+	, OS2            (OSFamily.Windows, "os_2",          "OS/2")
+	, WindowsUnknown (OSFamily.Windows, OSFamily.Windows.getPlatformPartName())
 
-		, "Mac OS"
-		, "Mac OS X"
-	), Unix(
-		  "unix"
+	
+	, MacOSX         (OSFamily.Mac,     "osx",           "Mac OS", "Mac OS X")
+	, MacUnknown     (OSFamily.Mac,     OSFamily.Mac.getPlatformPartName())
 
-		, "Linux"
-		, "MPE/iX"
-		, "HP-UX"
-		, "AIX"
-		, "FreeBSD"
-		, "Irix"
-		, "OS/390"
-		, "Digital Unix"
-		, "NetWare 4.11"
-		, "OSF1"
-		, "SunOS"
-	), Solaris(
-		  "solaris"
 
-		, "Solaris"
-	), VMS(
-		  "vms"
-		
-		, "OpenVMS"
-	)
+	, Linux          (OSFamily.Unix,    "linux",         "Linux")
+	, MPE_iX         (OSFamily.Unix,    "mpe_ix",        "MPE/iX")
+	, HP_UX          (OSFamily.Unix,    "hp_ux",         "HP-UX")
+	, AIX            (OSFamily.Unix,    "aix",           "AIX")
+	, FreeBSD        (OSFamily.Unix,    "freebsd",       "FreeBSD")
+	, Irix           (OSFamily.Unix,    "irix",          "Irix")
+	, OS_390         (OSFamily.Unix,    "os390",         "OS/390")
+	, DigitalUnix    (OSFamily.Unix,    "digital_unix",  "Digital Unix")
+	, Netware_4_11   (OSFamily.Unix,    "netware_4_11",  "NetWare 4.11")
+	, OSF1           (OSFamily.Unix,    "osf1",          "OSF1")
+	, SunOS          (OSFamily.Unix,    "sunos",         "SunOS")
+	, UnixUnknown    (OSFamily.Unix,    OSFamily.Unix.getPlatformPartName())
+
+
+	, Solaris        (OSFamily.Solaris, "solaris",       "Solaris")
+	, SolarisUnknown (OSFamily.Solaris, OSFamily.Solaris.getPlatformPartName())
+
+
+	, VMS            (OSFamily.VMS,     "openvms",       "OpenVMS")
+	, VMSUnknown     (OSFamily.VMS,     OSFamily.VMS.getPlatformPartName())
+
 	;
 
 	//<editor-fold defaultstate="collapsed" desc="Constants">
@@ -62,6 +61,7 @@ public enum OS {
 
 	//<editor-fold defaultstate="collapsed" desc="Variables">
 	private static OS systemOS;
+	private OSFamily family;
 	private String[] variants;
 	private String platformPartName;
 	//</editor-fold>
@@ -71,7 +71,8 @@ public enum OS {
 		systemOS = fromName(NAME);
 	}
 
-	OS(final String PlatformPartName, final String...Variations) {
+	OS(final OSFamily OSFamily, final String PlatformPartName, final String...Variations) {
+		this.family = OSFamily;
 		this.variants = Variations;
 		this.platformPartName = PlatformPartName;
 	}
@@ -84,6 +85,14 @@ public enum OS {
 
 	public static OS getSystemOS() {
 		return systemOS;
+	}
+
+	public static OSFamily getSystemOSFamily() {
+		return systemOS.getFamily();
+	}
+
+	public OSFamily getFamily() {
+		return family;
 	}
 
 	public String[] getVariants() {
@@ -100,6 +109,10 @@ public enum OS {
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Public Static Methods">
+	public static boolean isPOSIX(final OS OS) {
+		return OSFamily.isPOSIX(OS);
+	}
+
 	public static OS fromName(final String Name) {
 		if (StringUtil.isNullOrEmpty(Name))
 			return OS.Unknown;
@@ -112,28 +125,17 @@ public enum OS {
 
 		final String lower = Name.toLowerCase();
 		if (lower.contains("win"))
-			return OS.Windows;
+			return OS.WindowsUnknown;
 		else if (lower.contains("mac"))
-			return OS.Mac;
+			return OS.MacUnknown;
 		else if (lower.contains("nix") || lower.contains("nux"))
-			return OS.Unix;
+			return OS.UnixUnknown;
 		else if (lower.contains("vms"))
-			return OS.VMS;
+			return OS.VMSUnknown;
 		else if (lower.contains("solaris"))
-			return OS.Solaris;
+			return OS.SolarisUnknown;
 		else
 			return OS.Unknown;
-	}
-
-	public static boolean isPOSIX(final OS OS) {
-		switch(OS) {
-			case Unix:
-			case Mac:
-			case Solaris:
-				return true;
-			default:
-				return false;
-		}
 	}
 	//</editor-fold>
 }

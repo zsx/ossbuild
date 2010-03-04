@@ -145,11 +145,10 @@ public class Resources {
 	public Future extract(final IResourceProgressListener progress) {
 		final ExecutorService svc = createUnprivilegedExecutorService();
 		try {
-
+			return extract(packages, svc, IResourceFilter.None, progress, IResourceCallback.None);
 		} finally {
 			svc.shutdown();
 		}
-		return extract(packages, svc, IResourceFilter.None, progress, IResourceCallback.None);
 	}
 
 	public Future extract(final IResourceFilter filter) {
@@ -366,6 +365,7 @@ public class Resources {
 		long endTime;
 		boolean success = true;
 		Throwable exception = null;
+		String title = null;
 		long startTime = System.currentTimeMillis();
 
 		try {
@@ -394,7 +394,10 @@ public class Resources {
 					//Here we go!
 					if (p.process(resourceName, pkg, progress)) {
 						totalBytes += p.getSize();
-						notifyProgressReport(progress, totalBytes, ++totalResources, totalPkgs, startTime, p.getName());
+						title = (p instanceof DefaultResourceProcessor ? ((DefaultResourceProcessor)p).getTitle() : p.getName());
+						if (StringUtil.isNullOrEmpty(title))
+							title = p.getName();
+						notifyProgressReport(progress, totalBytes, ++totalResources, totalPkgs, startTime, title);
 					}
 				}
 

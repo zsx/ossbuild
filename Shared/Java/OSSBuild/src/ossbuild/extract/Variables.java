@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import ossbuild.Path;
 import ossbuild.StringUtil;
+import ossbuild.Sys;
 
 /**
  * Holds variables and their values.
@@ -15,9 +16,14 @@ import ossbuild.StringUtil;
 public class Variables {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
 	public static final String
-		  VAR_TMP		= "tmp"
-		, VAR_HOME		= "home"
-		, VAR_PATH_SEP	= "pathSep"
+		  VAR_PID               = "pid"
+		, VAR_CWD               = "cwd"
+		, VAR_TMP               = "tmp"
+		, VAR_HOME              = "home"
+		, VAR_PATH				= "env_PATH"
+		, VAR_PATH_SEP          = "pathSep"
+		, VAR_ORIG_CWD          = "origcwd"
+		, VAR_ORIG_ENV_PATH		= "origenv_PATH"
 	;
 
 	private static final Pattern
@@ -33,14 +39,22 @@ public class Variables {
 	static {
 		vars = new HashMap<String, String>(3, 0.5f);
 
+		saveVariable(VAR_ORIG_CWD, Path.workingDirectory);
+		saveVariable(VAR_ORIG_ENV_PATH, Sys.getPath());
+
+		saveVariable(VAR_PID, Sys.getPID() + "");
+		saveVariable(VAR_CWD, Path.workingDirectory);
 		saveVariable(VAR_TMP, Path.tempDirectory);
 		saveVariable(VAR_HOME, Path.homeDirectory);
+		saveVariable(VAR_PATH, Sys.getPath());
 		saveVariable(VAR_PATH_SEP, Path.pathSeparator);
 	}
 	//</editor-fold>
 
 	//<editor-fold defaultstate="collapsed" desc="Public Static Methods">
 	public static boolean saveVariable(String Name, String Value) {
+		if (Value == null)
+			Value = StringUtil.empty;
 		vars.put(Name, Matcher.quoteReplacement(Value));
 		return true;
 	}

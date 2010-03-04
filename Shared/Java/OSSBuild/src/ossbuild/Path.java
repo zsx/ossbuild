@@ -17,6 +17,7 @@ public class Path {
 	public static final String
 		  tempDirectory = clean(System.getProperty("java.io.tmpdir"))
 		, homeDirectory = clean(System.getProperty("user.home"))
+		, workingDirectory = clean(new File(".").getAbsolutePath())
 	;
 	//</editor-fold>
 

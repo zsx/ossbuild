@@ -3,6 +3,7 @@ package ossbuild.gstreamer;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import ossbuild.OS;
 import ossbuild.StringUtil;
 import ossbuild.Sys;
 import ossbuild.extract.IResourceCallback;
@@ -32,13 +33,18 @@ public class Native {
 	static {
 		//Determine the prefix to use based off of what's available
 		//Check if GPL is available first.
-		final String gpl = Sys.createPlatformPackageResourcePrefix("resources.gstreamer.gpl");
-		final String lgpl = Sys.createPlatformPackageResourcePrefix("resources.gstreamer.lgpl");
+		final String os_gpl = Sys.createPlatformPackageResourcePrefix("resources.gstreamer.gpl", Sys.getOS());
+		final String osfamily_gpl = Sys.createPlatformPackageResourcePrefix("resources.gstreamer.gpl", Sys.getOSFamily());
+
+		final String os_lgpl = Sys.createPlatformPackageResourcePrefix("resources.gstreamer.lgpl", Sys.getOS());
+		final String osfamily_lgpl = Sys.createPlatformPackageResourcePrefix("resources.gstreamer.lgpl", Sys.getOSFamily());
 
 		RESOURCE_DEFINITION_PREFIX = (
-			Sys.isResourceAvailable(gpl + "resources.xml") ? gpl :
-				Sys.isResourceAvailable(lgpl + "resources.xml") ? lgpl :
-					StringUtil.empty
+			Sys.isResourceAvailable(os_gpl + "resources.xml") ? os_gpl :
+				Sys.isResourceAvailable(osfamily_gpl + "resources.xml") ? osfamily_gpl :
+					Sys.isResourceAvailable(os_lgpl + "resources.xml") ? os_lgpl :
+						Sys.isResourceAvailable(osfamily_lgpl + "resources.xml") ? osfamily_lgpl :
+							StringUtil.empty
 		);
 
 		if (StringUtil.isNullOrEmpty(RESOURCE_DEFINITION_PREFIX))

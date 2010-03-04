@@ -143,12 +143,22 @@ public class Splash extends javax.swing.JDialog {
 
 								if (numberOfResourcesCompleted != totalNumberOfResources) {
 									lbl.setText(message);
-								} else {
-									lbl.setText("Initializing GStreamer...");
-									progress.setIndeterminate(true);
 								}
 							}
 						});
+					}
+
+					@Override
+					public void end(boolean success, int totalNumberOfResources, int totalNumberOfPackages, long totalNumberOfBytes, long numberOfBytesCompleted, int numberOfResourcesCompleted, int numberOfPackagesCompleted, long startTime, long endTime) {
+						if (success) {
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									lbl.setText("Initializing GStreamer...");
+									progress.setIndeterminate(true);
+								}
+							});
+						}
 					}
 				},
 
