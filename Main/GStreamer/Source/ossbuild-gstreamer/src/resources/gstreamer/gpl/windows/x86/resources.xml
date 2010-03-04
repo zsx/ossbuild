@@ -2,12 +2,14 @@
 
 <Resources>
 
-	<Extract package="resources.gstreamer.gpl.windows.x86" directory="${tmp}/ossbuild/gstreamer/">
+	<Extract package="resources.gstreamer.gpl.windows.x86" directory="${tmp}/ossbuild/gstreamer/gpl/">
 		<Echo key="res.gst.init" msg="Initializing GStreamer..." />
 
 		<!-- Set variables to hold the platform's base package name and the base directory -->
 		<Var name="pkgPlatform" value="${pkg}" />
 		<Var name="dirPlatform" value="${dir}" />
+
+		<Var name="LicenseSuffix" value="-gpl" />
 
 		<Var name="GstApiVersion" value="0.10" />
 
@@ -19,8 +21,6 @@
 
 		<Var name="dirFarsightApiVersion" value="0.0" />
 		<Var name="pkgFarsightApiVersion" value="0_0" />
-
-		<Clean />
 
 		<Echo key="res.gst.dependency.config" msg="Loading dependency configurations..." />
 	</Extract>
@@ -132,6 +132,7 @@
 
 		<!-- Environment Variables -->
 
+		<EnvVar name="GST_REGISTRY" value="${dirPlatform}/gst-registry.bin" asFile="true" />
 		<EnvVar name="GST_PLUGIN_PATH" value="${dirPlatform}/lib/gstreamer-${dirGstApiVersion}/" asFile="true" />
 
 		<!-- LGPL Plugins -->
@@ -292,8 +293,11 @@
 		<File resource="libgstwinks.dll" />
 		<File resource="libgstwinscreencap.dll" />
 		<File resource="libgsty4menc.dll" />
-		<!-- File resource="libgstffmpeg-lgpl.dll" />
-		<File resource="libgstffmpegscale-lgpl.dll" / -->
+		
+		<!-- License-Specific Plugins -->
+		
+		<File resource="libgstffmpeg${LicenseSuffix}.dll" />
+		<File resource="libgstffmpegscale${LicenseSuffix}.dll" />
 
 		<!-- GPL Plugins -->
 
@@ -307,8 +311,6 @@
 		<File resource="libgstlame.dll" />
 		<File resource="libgstmpeg2dec.dll" />
 		<File resource="libgstx264.dll" />
-		<File resource="libgstffmpeg-gpl.dll" />
-		<File resource="libgstffmpegscale-gpl.dll" />
 
 	</Extract>
 
@@ -389,12 +391,6 @@
 
 		<!-- GPL Dependencies -->
 		
-		<Library resource="avutil-gpl-50.dll" />
-		<Library resource="avcodec-gpl-52.dll" />
-		<Library resource="avformat-gpl-52.dll" />
-		<Library resource="avdevice-gpl-52.dll" />
-		<Library resource="swscale-gpl-0.dll" />
-		<Library resource="avfilter-gpl-1.dll" />
 		<Library resource="libmp3lame-0.dll" />
 		<Library resource="libx264-67.dll" />
 		<Library resource="xvidcore.dll" />
@@ -409,6 +405,15 @@
 		<Library resource="libdvdnav-4.dll" />
 		<Library resource="libdvdnavmini-4.dll" />
 		<Library resource="libdvdcss-2.dll" />
+
+		<!-- License-Specific Dependencies -->
+
+		<Library resource="avutil${LicenseSuffix}-50.dll" />
+		<Library resource="avcodec${LicenseSuffix}-52.dll" />
+		<Library resource="avformat${LicenseSuffix}-52.dll" />
+		<Library resource="avdevice${LicenseSuffix}-52.dll" />
+		<Library resource="swscale${LicenseSuffix}-0.dll" />
+		<Library resource="avfilter${LicenseSuffix}-1.dll" />
 
 		<!-- GStreamer -->
 
@@ -440,9 +445,6 @@
 
 		<!-- Reset the working directory -->
 		<WorkingDirectory path="${cwd}" />
-
-		<!-- Reset Environment Variables -->
-		<EnvVar name="PATH" value="${env_PATH}" />
 
 		<Echo key="res.gst.complete" msg="GStreamer initialization complete" />
 	</Extract>

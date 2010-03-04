@@ -103,9 +103,9 @@
 		<mkdir dir="${build.java.lgpl.platform.bin.dir}" />
 		<mkdir dir="${build.java.lgpl.platform.lib.dir}" />
 		<mkdir dir="${build.java.lgpl.platform.etc.dir}" />
-		<mkdir dir="${build.java.lgpl.platform.shared.dir}" />
+		<mkdir dir="${build.java.lgpl.platform.share.dir}" />
 
-		<property name="platform.dir" location="${top.deployment.dir}/${os}/${arch}/Java/" />
+		<property name="platform.dir" location="${top.deployment.dir}/Java/" />
 		<property name="platform.gpl.jar.name" value="ossbuild-gstreamer-${os}-${arch}-gpl.jar" />
 		<property name="platform.lgpl.jar.name" value="ossbuild-gstreamer-${os}-${arch}-lgpl.jar" />
 		<property name="platform.lgpl.jar" location="${platform.dir}/${platform.lgpl.jar.name}" />

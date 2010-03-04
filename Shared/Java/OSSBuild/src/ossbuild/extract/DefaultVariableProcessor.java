@@ -86,7 +86,9 @@ public class DefaultVariableProcessor implements IVariableProcessor {
 
 			String varName = m.group(1);
 			String varValue = vars.get(varName);
-
+			if (varValue == null)
+				throw new MissingVariableException("Unable to locate variable: " + varName + ". Variable names are case-sensitive.");
+			
 			m.appendReplacement(sb, varValue);
 		} while(m.find());
 		m.appendTail(sb);

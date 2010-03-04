@@ -2,16 +2,455 @@
 
 <Resources>
 
-	<Extract package="resources.gstreamer.lgpl.windows.x86" directory="${tmp}/ossbuild/gstreamer/bin/">
+	<Extract package="resources.gstreamer.lgpl.windows.x86" directory="${tmp}/ossbuild/gstreamer/lgpl/">
+		<Echo key="res.gst.init" msg="Initializing GStreamer..." />
+
+		<!-- Set variables to hold the platform's base package name and the base directory -->
+		<Var name="pkgPlatform" value="${pkg}" />
+		<Var name="dirPlatform" value="${dir}" />
+
+		<Var name="LicenseSuffix" value="-lgpl" />
+
+		<Var name="GstApiVersion" value="0.10" />
+
+		<Var name="dirGstApiVersion" value="0.10" />
+		<Var name="pkgGstApiVersion" value="0_10" />
+
+		<Var name="dirGtkApiVersion" value="2.0" />
+		<Var name="pkgGtkApiVersion" value="2_0" />
+
+		<Var name="dirFarsightApiVersion" value="0.0" />
+		<Var name="pkgFarsightApiVersion" value="0_0" />
+
+		<Echo key="res.gst.dependency.config" msg="Loading dependency configurations..." />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.etc.fonts" directory="${dirPlatform}/etc/fonts/">
+		<Clean />
+
+		<!-- Fontconfig configuration -->
+		<File resource="fonts.conf" />
+		<File resource="fonts.dtd" />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.etc.fonts.conf_avail" directory="${dirPlatform}/etc/fonts/conf.avail/">
+		<Clean />
+
+		<!-- Fontconfig configuration -->
+		<File resource="10-autohint.conf" />
+		<File resource="10-no-sub-pixel.conf" />
+		<File resource="10-sub-pixel-bgr.conf" />
+		<File resource="10-sub-pixel-rgb.conf" />
+		<File resource="10-sub-pixel-vbgr.conf" />
+		<File resource="10-sub-pixel-vrgb.conf" />
+		<File resource="10-unhinted.conf" />
+		<File resource="20-fix-globaladvance.conf" />
+		<File resource="20-unhint-small-vera.conf" />
+		<File resource="25-unhint-nonlatin.conf" />
+		<File resource="30-metric-aliases.conf" />
+		<File resource="30-urw-aliases.conf" />
+		<File resource="40-nonlatin.conf" />
+		<File resource="45-latin.conf" />
+		<File resource="49-sansserif.conf" />
+		<File resource="50-user.conf" />
+		<File resource="51-local.conf" />
+		<File resource="60-latin.conf" />
+		<File resource="65-fonts-persian.conf" />
+		<File resource="65-khmer.conf" />
+		<File resource="65-nonlatin.conf" />
+		<File resource="69-unifont.conf" />
+		<File resource="70-no-bitmaps.conf" />
+		<File resource="70-yes-bitmaps.conf" />
+		<File resource="80-delicious.conf" />
+		<File resource="90-synthetic.conf" />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.etc.fonts.conf_d" directory="${dirPlatform}/etc/fonts/conf.d/">
+		<Clean />
+
+		<!-- Fontconfig configuration -->
+		<File resource="20-fix-globaladvance.conf" />
+		<File resource="20-unhint-small-vera.conf" />
+		<File resource="30-metric-aliases.conf" />
+		<File resource="30-urw-aliases.conf" />
+		<File resource="40-nonlatin.conf" />
+		<File resource="45-latin.conf" />
+		<File resource="49-sansserif.conf" />
+		<File resource="50-user.conf" />
+		<File resource="51-local.conf" />
+		<File resource="60-latin.conf" />
+		<File resource="65-fonts-persian.conf" />
+		<File resource="65-nonlatin.conf" />
+		<File resource="69-unifont.conf" />
+		<File resource="80-delicious.conf" />
+		<File resource="90-synthetic.conf" />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.etc.gtk_${pkgGtkApiVersion}" directory="${dirPlatform}/etc/gtk-${dirGtkApiVersion}/">
+		<Clean />
+
+		<!-- GTK keyboard configuration -->
+		<File resource="im-multipress.conf" />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.lib.farsight2_${pkgFarsightApiVersion}" directory="${dirPlatform}/lib/farsight2-${dirFarsightApiVersion}/">
+		<Clean />
+
+		<!-- Farsight/Farsight2 Transmitters -->
+		<File resource="libnice-transmitter.dll" />
+		<File resource="libmulticast-transmitter.dll" />
+		<File resource="librawudp-transmitter.dll" />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.lib.gtk_${pkgGtkApiVersion}.modules" directory="${dirPlatform}/lib/gtk-${dirGtkApiVersion}/modules/">
+		<Clean />
+
+		<!-- GTK modules -->
+		<File resource="libgail.dll" />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.lib.gtk_${pkgGtkApiVersion}._2_10_0.engines" directory="${dirPlatform}/lib/gtk-${dirGtkApiVersion}/2.10.0/engines/">
+		<Clean />
+
+		<!-- GTK engines -->
+		<File resource="libpixmap.dll" />
+		<File resource="libsvg.dll" />
+		<File resource="libwimp.dll" />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.lib.gtk_${pkgGtkApiVersion}._2_10_0.loaders" directory="${dirPlatform}/lib/gtk-${dirGtkApiVersion}/2.10.0/loaders/">
+		<Clean />
+
+		<!-- GTK loaders -->
+		<File resource="svg_loader.dll" />
+	</Extract>
+
+	<Extract package="${pkgPlatform}.lib.gstreamer_${pkgGstApiVersion}" directory="${dirPlatform}/lib/gstreamer-${dirGstApiVersion}/">
+		<Echo key="res.gst.extract.plugins" msg="Extracting GStreamer plugins..." />
+
+		<Clean />
+
+		<!-- Environment Variables -->
+
+		<EnvVar name="GST_REGISTRY" value="${dirPlatform}/gst-registry.bin" asFile="true" />
+		<EnvVar name="GST_PLUGIN_PATH" value="${dirPlatform}/lib/gstreamer-${dirGstApiVersion}/" asFile="true" />
+
+		<!-- LGPL Plugins -->
+
+		<File resource="libfsfunnel.dll" />
+		<File resource="libfsrtcpfilter.dll" />
+		<File resource="libfsrtpconference.dll" />
+		<File resource="libfsselector.dll" />
+		<File resource="libfsvideoanyrate.dll" />
+		<File resource="libgnl.dll" />
+		<File resource="libgstaacparse.dll" />
+		<File resource="libgstadder.dll" />
+		<File resource="libgstaiff.dll" />
+		<File resource="libgstalaw.dll" />
+		<File resource="libgstalpha.dll" />
+		<File resource="libgstalphacolor.dll" />
+		<File resource="libgstamrparse.dll" />
+		<File resource="libgstapetag.dll" />
+		<File resource="libgstapp.dll" />
+		<File resource="libgstasf.dll" />
+		<File resource="libgstasfmux.dll" />
+		<File resource="libgstaudioconvert.dll" />
+		<File resource="libgstaudiofx.dll" />
+		<File resource="libgstaudiorate.dll" />
+		<File resource="libgstaudioresample.dll" />
+		<File resource="libgstaudiotestsrc.dll" />
+		<File resource="libgstauparse.dll" />
+		<File resource="libgstautoconvert.dll" />
+		<File resource="libgstautodetect.dll" />
+		<File resource="libgstavi.dll" />
+		<File resource="libgstbayer.dll" />
+		<File resource="libgstbz2.dll" />
+		<File resource="libgstcairo.dll" />
+		<File resource="libgstcamerabin.dll" />
+		<File resource="libgstcdxaparse.dll" />
+		<File resource="libgstcelt.dll" />
+		<File resource="libgstcoreelements.dll" />
+		<File resource="libgstcoreindexers.dll" />
+		<File resource="libgstcutter.dll" />
+		<File resource="libgstdebug.dll" />
+		<File resource="libgstdecodebin.dll" />
+		<File resource="libgstdecodebin2.dll" />
+		<File resource="libgstdeinterlace.dll" />
+		<File resource="libgstdirectdraw.dll" />
+		<File resource="libgstdirectsound.dll" />
+		<File resource="libgstdirectsoundsrc.dll" />
+		<File resource="libgstdshowdecwrapper.dll" />
+		<File resource="libgstdshowsrcwrapper.dll" />
+		<File resource="libgstdshowvideosink.dll" />
+		<File resource="libgstdtmf.dll" />
+		<File resource="libgstdvdlpcmdec.dll" />
+		<File resource="libgstdvdspu.dll" />
+		<File resource="libgstdvdsub.dll" />
+		<File resource="libgsteffectv.dll" />
+		<File resource="libgstequalizer.dll" />
+		<File resource="libgstffmpegcolorspace.dll" />
+		<File resource="libgstflv.dll" />
+		<File resource="libgstflxdec.dll" />
+		<File resource="libgstfreeze.dll" />
+		<File resource="libgstfrei0r.dll" />
+		<File resource="libgstgamma.dll" />
+		<File resource="libgstgdkpixbuf.dll" />
+		<File resource="libgstgdp.dll" />
+		<File resource="libgstgio.dll" />
+		<File resource="libgsth264parse.dll" />
+		<File resource="libgsthdvparse.dll" />
+		<File resource="libgsticydemux.dll" />
+		<File resource="libgstid3demux.dll" />
+		<File resource="libgstiec958.dll" />
+		<File resource="libgstinterleave.dll" />
+		<File resource="libgstjpeg.dll" />
+		<File resource="libgstlegacyresample.dll" />
+		<File resource="libgstlevel.dll" />
+		<File resource="libgstliveadder.dll" />
+		<File resource="libgstmatroska.dll" />
+		<File resource="libgstmms.dll" />
+		<File resource="libgstmonoscope.dll" />
+		<File resource="libgstmpeg4videoparse.dll" />
+		<File resource="libgstmpegaudioparse.dll" />
+		<File resource="libgstmpegdemux.dll" />
+		<File resource="libgstmpegpsmux.dll" />
+		<File resource="libgstmpegstream.dll" />
+		<File resource="libgstmpegtsmux.dll" />
+		<File resource="libgstmpegvideoparse.dll" />
+		<File resource="libgstmulaw.dll" />
+		<File resource="libgstmultifile.dll" />
+		<File resource="libgstmultipart.dll" />
+		<File resource="libgstmve.dll" />
+		<File resource="libgstmxf.dll" />
+		<File resource="libgstnavigationtest.dll" />
+		<File resource="libgstneonhttpsrc.dll" />
+		<File resource="libgstnetsim.dll" />
+		<File resource="libgstnice.dll" />
+		<File resource="libgstnuvdemux.dll" />
+		<File resource="libgstogg.dll" />
+		<File resource="libgstopengl.dll" />
+		<File resource="libgstpango.dll" />
+		<File resource="libgstpcapparse.dll" />
+		<File resource="libgstplaybin.dll" />
+		<File resource="libgstpng.dll" />
+		<File resource="libgstpnm.dll" />
+		<File resource="libgstpython-v2.5.dll" />
+		<File resource="libgstpython-v2.6.dll" />
+		<File resource="libgstqtdemux.dll" />
+		<File resource="libgstqtmux.dll" />
+		<File resource="libgstrawparse.dll" />
+		<File resource="libgstreal.dll" />
+		<File resource="libgstreplaygain.dll" />
+		<File resource="libgstrmdemux.dll" />
+		<File resource="libgstrsvg.dll" />
+		<File resource="libgstrtp.dll" />
+		<File resource="libgstrtpdemux.dll" />
+		<File resource="libgstrtpjitterbuffer.dll" />
+		<File resource="libgstrtpmanager.dll" />
+		<File resource="libgstrtpmux.dll" />
+		<File resource="libgstrtppayloads.dll" />
+		<File resource="libgstrtsp.dll" />
+		<File resource="libgstscaletempoplugin.dll" />
+		<File resource="libgstschro.dll" />
+		<File resource="libgstsdl.dll" />
+		<File resource="libgstsdpelem.dll" />
+		<File resource="libgstselector.dll" />
+		<File resource="libgstshapewipe.dll" />
+		<File resource="libgstsiren.dll" />
+		<File resource="libgstsmpte.dll" />
+		<File resource="libgstsouphttpsrc.dll" />
+		<File resource="libgstspectrum.dll" />
+		<File resource="libgstspeed.dll" />
+		<File resource="libgstspeex.dll" />
+		<File resource="libgststereo.dll" />
+		<File resource="libgstsubenc.dll" />
+		<File resource="libgstsubparse.dll" />
+		<File resource="libgstsynaesthesia.dll" />
+		<File resource="libgsttheora.dll" />
+		<File resource="libgsttta.dll" />
+		<File resource="libgsttypefindfunctions.dll" />
+		<File resource="libgstudp.dll" />
+		<File resource="libgstvalve.dll" />
+		<File resource="libgstvideobalance.dll" />
+		<File resource="libgstvideobox.dll" />
+		<File resource="libgstvideocrop.dll" />
+		<File resource="libgstvideoflip.dll" />
+		<File resource="libgstvideomeasure.dll" />
+		<File resource="libgstvideomixer.dll" />
+		<File resource="libgstvideorate.dll" />
+		<File resource="libgstvideoscale.dll" />
+		<File resource="libgstvideosignal.dll" />
+		<File resource="libgstvideotestsrc.dll" />
+		<File resource="libgstvmnc.dll" />
+		<File resource="libgstvolume.dll" />
+		<File resource="libgstvorbis.dll" />
+		<File resource="libgstwasapi.dll" />
+		<File resource="libgstwaveenc.dll" />
+		<File resource="libgstwaveformsink.dll" />
+		<File resource="libgstwavpack.dll" />
+		<File resource="libgstwavparse.dll" />
+		<File resource="libgstwininet.dll" />
+		<File resource="libgstwinks.dll" />
+		<File resource="libgstwinscreencap.dll" />
+		<File resource="libgsty4menc.dll" />
+
+		<!-- License-Specific Plugins -->
+
+		<File resource="libgstffmpeg${LicenseSuffix}.dll" />
+		<File resource="libgstffmpegscale${LicenseSuffix}.dll" />
+
+		<!-- GPL Plugins -->
+
+		<!--
+		<File resource="libgstdtsdec.dll" />
+		<File resource="libgstfaac.dll" />
+		<File resource="libgstfaad.dll" />
+		<File resource="libresindvd.dll" />
+		<File resource="libgstxvid.dll" />
+		<File resource="libgsta52dec.dll" />
+		<File resource="libgstdvdread.dll" />
+		<File resource="libgstlame.dll" />
+		<File resource="libgstmpeg2dec.dll" />
+		<File resource="libgstx264.dll" />
+		-->
+
+	</Extract>
+
+	<Extract package="${pkgPlatform}.bin" directory="${dirPlatform}/bin/">
+		<Echo key="res.gst.load.native.libraries" msg="Loading native libraries..." />
+
+		<Clean />
+
+		<!-- Ensure this directory exists -->
+		<MakeDirectory path="${dirPlatform}/bin/" />
+
+		<!-- Change the working directory while we load native libraries -->
+		<WorkingDirectory path="${dirPlatform}/bin/" />
+
+		<!-- Change path so that our native libraries are found first -->
+		<EnvVar name="PATH" prepend="true" value="${dirPlatform}/bin/" asFile="true" />
+
+		<!-- LGPL Dependencies -->
+
+		<Library resource="liboil-0.3-0.dll" />
+		<Library resource="pthreadGC2.dll" />
+		<Library resource="iconv.dll" />
 		<Library resource="z.dll" />
-	</Extract>
+		<Library resource="libbz2.dll" />
+		<Library resource="glew32.dll" />
+		<Library resource="libexpat-1.dll" />
+		<Library resource="libxml2-2.dll" />
+		<Library resource="libjpeg-8.dll" />
+		<Library resource="libopenjpeg-2.dll" />
+		<Library resource="libpng14-14.dll" />
+		<Library resource="libtiff-3.dll" />
+		<Library resource="libtiffxx-3.dll" />
+		<Library resource="libglib-2.0-0.dll" />
+		<Library resource="libgobject-2.0-0.dll" />
+		<Library resource="libgmodule-2.0-0.dll" />
+		<Library resource="libgthread-2.0-0.dll" />
+		<Library resource="libgio-2.0-0.dll" />
+		<Library resource="libatk-1.0-0.dll" />
+		<Library resource="libgpg-error-0.dll" />
+		<Library resource="libgcrypt-11.dll" />
+		<Library resource="libtasn1-3.dll" />
+		<Library resource="libgnutls-26.dll" />
+		<Library resource="libgnutls-extra-26.dll" />
+		<Library resource="libgnutls-openssl-26.dll" />
+		<Library resource="libsoup-2.4-1.dll" />
+		<Library resource="libneon-27.dll" />
+		<Library resource="libfreetype-6.dll" />
+		<Library resource="libfontconfig-1.dll" />
+		<Library resource="libpixman-1-0.dll" />
+		<Library resource="libcairo-2.dll" />
+		<Library resource="libpango-1.0-0.dll" />
+		<Library resource="libgdk_pixbuf-2.0-0.dll" />
+		<Library resource="libpangoft2-1.0-0.dll" />
+		<Library resource="libpangowin32-1.0-0.dll" />
+		<Library resource="libpangocairo-1.0-0.dll" />
+		<Library resource="libgdk-win32-2.0-0.dll" />
+		<Library resource="libgtk-win32-2.0-0.dll" />
+		<Library resource="libgailutil-18.dll" />
+		<Library resource="libgtkgl-2.0-1.dll" />
+		<Library resource="libcroco-0.6-3.dll" />
+		<Library resource="libgsf-1-114.dll" />
+		<Library resource="libgsf-win32-1-114.dll" />
+		<Library resource="librsvg-2-2.dll" />
+		<Library resource="SDL.dll" />
+		<Library resource="libogg-0.dll" />
+		<Library resource="libvorbis-0.dll" />
+		<Library resource="libvorbisenc-2.dll" />
+		<Library resource="libvorbisfile-3.dll" />
+		<Library resource="libcelt-0.dll" />
+		<Library resource="libtheora-0.dll" />
+		<Library resource="libtheoradec-1.dll" />
+		<Library resource="libtheoraenc-1.dll" />
+		<Library resource="libmms-0.dll" />
+		<Library resource="libspeex-1.dll" />
+		<Library resource="libspeexdsp-1.dll" />
+		<Library resource="libschroedinger-1.0-0.dll" />
+		<Library resource="libnice-0.dll" />
 
-	<Extract package="resources.gstreamer.lgpl.windows.x86.farsight2" directory="${tmp}/ossbuild/gstreamer/lib/farsight2-0.0/">
+		<!-- GPL Dependencies -->
 
-	</Extract>
+		<!--
+		<Library resource="libmp3lame-0.dll" />
+		<Library resource="libx264-67.dll" />
+		<Library resource="xvidcore.dll" />
+		<Library resource="libwavpack-1.dll" />
+		<Library resource="liba52-0.dll" />
+		<Library resource="libmpeg2-0.dll" />
+		<Library resource="libmpeg2convert-0.dll" />
+		<Library resource="libdca-0.dll" />
+		<Library resource="libfaac-0.dll" />
+		<Library resource="libfaad-2.dll" />
+		<Library resource="libdvdread-4.dll" />
+		<Library resource="libdvdnav-4.dll" />
+		<Library resource="libdvdnavmini-4.dll" />
+		<Library resource="libdvdcss-2.dll" />
+		-->
 
-	<Extract package="resources.gstreamer.lgpl.windows.x86.plugins" directory="${tmp}/ossbuild/gstreamer/lib/gstreamer-0.10/">
+		<!-- License-Specific Dependencies -->
 
+		<Library resource="avutil${LicenseSuffix}-50.dll" />
+		<Library resource="avcodec${LicenseSuffix}-52.dll" />
+		<Library resource="avformat${LicenseSuffix}-52.dll" />
+		<Library resource="avdevice${LicenseSuffix}-52.dll" />
+		<Library resource="swscale${LicenseSuffix}-0.dll" />
+		<Library resource="avfilter${LicenseSuffix}-1.dll" />
+
+		<!-- GStreamer -->
+
+		<Echo key="res.gst.load.gst.libraries" msg="Loading GStreamer libraries..." />
+
+		<Library resource="libgstreamer-${GstApiVersion}.dll" />
+		<Library resource="libgstinterfaces-${GstApiVersion}.dll" />
+		<Library resource="libgstcontroller-${GstApiVersion}.dll" />
+		<Library resource="libgstdataprotocol-${GstApiVersion}.dll" />
+		<Library resource="libgstsdp-${GstApiVersion}.dll" />
+		<Library resource="libgstnet-${GstApiVersion}.dll" />
+		<Library resource="libgstnetbuffer-${GstApiVersion}.dll" />
+		<Library resource="libgstpbutils-${GstApiVersion}.dll" />
+		<Library resource="libgstfft-${GstApiVersion}.dll" />
+		<Library resource="libgstbase-${GstApiVersion}.dll" />
+		<Library resource="libgstapp-${GstApiVersion}.dll" />
+		<Library resource="libgstvideo-${GstApiVersion}.dll" />
+		<Library resource="libgstbasevideo-${GstApiVersion}0.dll" />
+		<Library resource="libgstaudio-${GstApiVersion}.dll" />
+		<Library resource="libgsttag-${GstApiVersion}.dll" />
+		<Library resource="libgstriff-${GstApiVersion}.dll" />
+		<Library resource="libgstrtp-${GstApiVersion}.dll" />
+		<Library resource="libgstrtsp-${GstApiVersion}.dll" />
+		<Library resource="libgstcdda-${GstApiVersion}.dll" />
+		<Library resource="libgstsignalprocessor-${GstApiVersion}.dll" />
+		<Library resource="libgstphotography-${GstApiVersion}.dll" />
+		<Library resource="libgstgl-${GstApiVersion}.dll" />
+		<Library resource="libgstfarsight-${GstApiVersion}.dll" />
+
+		<!-- Reset the working directory -->
+		<WorkingDirectory path="${cwd}" />
+
+		<Echo key="res.gst.complete" msg="GStreamer initialization complete" />
 	</Extract>
 
 </Resources>

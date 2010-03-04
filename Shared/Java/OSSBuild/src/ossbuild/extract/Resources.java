@@ -333,8 +333,10 @@ public class Resources {
 		FileInputStream fis = null;
 		try {
 			return newInstance(ProcessorFactory, VariableProcessor, (fis = new FileInputStream(XMLFile)));
+		} catch(ResourceException t) {
+			throw t;
 		} catch(Throwable t) {
-			return null;
+			throw new ResourceException("Unable to preprocess resource file", t);
 		} finally {
 			try {
 				if (fis != null)
@@ -347,8 +349,10 @@ public class Resources {
 	public static final Resources newInstance(final ResourceProcessorFactory ProcessorFactory, final IVariableProcessor VariableProcessor, final InputStream XMLData) {
 		try {
 			return new Resources(VariableProcessor, XMLData);
+		} catch(ResourceException t) {
+			throw t;
 		} catch(Throwable t) {
-			return null;
+			throw new ResourceException("Unable to preprocess resource file", t);
 		}
 	}
 	//</editor-fold>
