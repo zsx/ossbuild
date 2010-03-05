@@ -45,6 +45,12 @@
 			<param name="build.arch" value="x64" />
 		</antcall>
 		-->
+		<antcall target="-build-platform-jar">
+			<param name="os" value="unix" />
+			<param name="arch" value="x86" />
+			<param name="build.os" value="Linux" />
+			<param name="build.arch" value="x86" />
+		</antcall>
 	</target>
 
 	<target name="-build-platform-jar">
@@ -136,13 +142,13 @@
 		<copy todir="${build.java.gpl.platform.bin.dir}">
 			<fileset dir="${shared.bin.dir}" erroronmissingdir="false">
 				<include name="*.dll" />
-				<include name="*.so" />
+				<include name="*.so.*" />
 				<exclude name="*-lgpl*" />
 				<exclude name="*sharp*" />
 			</fileset>
 			<fileset dir="${build.bin.dir}" erroronmissingdir="false">
 				<include name="*.dll" />
-				<include name="*.so" />
+				<include name="*.so.*" />
 				<exclude name="*-lgpl*" />
 				<exclude name="*sharp*" />
 			</fileset>
@@ -154,11 +160,15 @@
 				<include name="*.dll" />
 				<include name="*.so" />
 				<exclude name="*-lgpl*" />
+				<exclude name="libgstffmpeg.so" />
+				<exclude name="libgstffmpegscale.so" />
 			</fileset>
 			<fileset dir="${build.bin.dir}/plugins/" erroronmissingdir="false">
 				<include name="*.dll" />
 				<include name="*.so" />
 				<exclude name="*-lgpl*" />
+				<exclude name="libgstffmpeg.so" />
+				<exclude name="libgstffmpegscale.so" />
 			</fileset>
 		</copy>
 
@@ -196,6 +206,13 @@
 			</fileset>
 		</copy>
 
+		<mkdir dir="${build.java.gpl.platform.etc.dir}/gconf/schemas/" />
+		<copy todir="${build.java.gpl.platform.etc.dir}/gconf/schemas/">
+			<fileset dir="${shared.etc.dir}/gconf/schemas/" erroronmissingdir="false">
+				<include name="*.schemas" />
+			</fileset>
+		</copy>
+
 		<mkdir dir="${build.java.gpl.platform.etc.dir}/gtk_${pkg-gtk-api-version}/" />
 		<copy todir="${build.java.gpl.platform.etc.dir}/gtk_${pkg-gtk-api-version}/">
 			<fileset dir="${shared.etc.dir}/gtk-${gtk-api-version}/">
@@ -205,7 +222,7 @@
 
 		<mkdir dir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/modules/" />
 		<copy todir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/modules/">
-			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/modules/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/modules/" erroronmissingdir="false">
 				<include name="*.dll" />
 				<include name="*.so" />
 			</fileset>
@@ -213,7 +230,15 @@
 
 		<mkdir dir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/engines/" />
 		<copy todir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/engines/">
-			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/engines/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/engines/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/immodules/" />
+		<copy todir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/immodules/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/immodules/" erroronmissingdir="false">
 				<include name="*.dll" />
 				<include name="*.so" />
 			</fileset>
@@ -221,7 +246,15 @@
 
 		<mkdir dir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/loaders/" />
 		<copy todir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/loaders/">
-			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/loaders/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/loaders/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/printbackends/" />
+		<copy todir="${build.java.gpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/printbackends/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/printbackends/" erroronmissingdir="false">
 				<include name="*.dll" />
 				<include name="*.so" />
 			</fileset>
@@ -241,7 +274,7 @@
 		<copy todir="${build.java.lgpl.platform.bin.dir}">
 			<fileset dir="${shared.bin.dir}" erroronmissingdir="false">
 				<include name="*.dll" />
-				<include name="*.so" />
+				<include name="*.so.*" />
 				<exclude name="*-gpl*" />
 				<exclude name="*sharp*" />
 				<exclude name="*x264*" />
@@ -257,7 +290,7 @@
 			</fileset>
 			<fileset dir="${build.bin.dir}" erroronmissingdir="false">
 				<include name="*.dll" />
-				<include name="*.so" />
+				<include name="*.so.*" />
 				<exclude name="*-gpl*" />
 				<exclude name="*sharp*" />
 			</fileset>
@@ -269,10 +302,12 @@
 				<include name="*.dll" />
 				<include name="*.so" />
 				<exclude name="*-gpl*" />
+				<exclude name="libgstffmpeg.so" />
+				<exclude name="libgstffmpegscale.so" />
+				<exclude name="*resindvd*" />
 				<exclude name="*gstdts*" />
 				<exclude name="*gstfaac*" />
 				<exclude name="*gstfaad*" />
-				<exclude name="*gstresindvd*" />
 				<exclude name="*gstxvid*" />
 				<exclude name="*gsta52dec*" />
 				<exclude name="*gstdvdread*" />
@@ -284,10 +319,12 @@
 				<include name="*.dll" />
 				<include name="*.so" />
 				<exclude name="*-gpl*" />
+				<exclude name="libgstffmpeg.so" />
+				<exclude name="libgstffmpegscale.so" />
+				<exclude name="*resindvd*" />
 				<exclude name="*gstdts*" />
 				<exclude name="*gstfaac*" />
 				<exclude name="*gstfaad*" />
-				<exclude name="*gstresindvd*" />
 				<exclude name="*gstxvid*" />
 				<exclude name="*gsta52dec*" />
 				<exclude name="*gstdvdread*" />
@@ -299,7 +336,11 @@
 
 		<mkdir dir="${build.java.lgpl.platform.lib.dir}/farsight2_${pkg-fs-api-version}/" />
 		<copy todir="${build.java.lgpl.platform.lib.dir}/farsight2_${pkg-fs-api-version}/">
-			<fileset dir="${build.lib.dir}/farsight2-${fs-api-version}/">
+			<fileset dir="${build.lib.dir}/farsight2-${fs-api-version}/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+			<fileset dir="${shared.lib.dir}/farsight2-${fs-api-version}/" erroronmissingdir="false">
 				<include name="*.dll" />
 				<include name="*.so" />
 			</fileset>
@@ -327,6 +368,13 @@
 			</fileset>
 		</copy>
 
+		<mkdir dir="${build.java.lgpl.platform.etc.dir}/gconf/schemas/" />
+		<copy todir="${build.java.lgpl.platform.etc.dir}/gconf/schemas/">
+			<fileset dir="${shared.etc.dir}/gconf/schemas/" erroronmissingdir="false">
+				<include name="*.schemas" />
+			</fileset>
+		</copy>
+
 		<mkdir dir="${build.java.lgpl.platform.etc.dir}/gtk_${pkg-gtk-api-version}/" />
 		<copy todir="${build.java.lgpl.platform.etc.dir}/gtk_${pkg-gtk-api-version}/">
 			<fileset dir="${shared.etc.dir}/gtk-${gtk-api-version}/">
@@ -336,7 +384,7 @@
 
 		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/modules/" />
 		<copy todir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/modules/">
-			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/modules/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/modules/" erroronmissingdir="false">
 				<include name="*.dll" />
 				<include name="*.so" />
 			</fileset>
@@ -344,7 +392,15 @@
 
 		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/engines/" />
 		<copy todir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/engines/">
-			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/engines/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/engines/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/immodules/" />
+		<copy todir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/immodules/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/immodules/" erroronmissingdir="false">
 				<include name="*.dll" />
 				<include name="*.so" />
 			</fileset>
@@ -352,7 +408,15 @@
 
 		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/loaders/" />
 		<copy todir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/loaders/">
-			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/loaders/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/loaders/" erroronmissingdir="false">
+				<include name="*.dll" />
+				<include name="*.so" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/printbackends/" />
+		<copy todir="${build.java.lgpl.platform.lib.dir}/gtk_${pkg-gtk-api-version}/_2_10_0/printbackends/">
+			<fileset dir="${shared.lib.dir}/gtk-${gtk-api-version}/2.10.0/printbackends/" erroronmissingdir="false">
 				<include name="*.dll" />
 				<include name="*.so" />
 			</fileset>

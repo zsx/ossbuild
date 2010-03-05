@@ -431,7 +431,7 @@
 		<Library resource="libgstbase-${GstApiVersion}.dll" />
 		<Library resource="libgstapp-${GstApiVersion}.dll" />
 		<Library resource="libgstvideo-${GstApiVersion}.dll" />
-		<Library resource="libgstbasevideo-${GstApiVersion}0.dll" />
+		<Library resource="libgstbasevideo-${GstApiVersion}.dll" />
 		<Library resource="libgstaudio-${GstApiVersion}.dll" />
 		<Library resource="libgsttag-${GstApiVersion}.dll" />
 		<Library resource="libgstriff-${GstApiVersion}.dll" />
